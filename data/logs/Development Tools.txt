@@ -1,0 +1,19 @@
+================================
+Windows
+================================
+Development 	: Netbeans
+UML Modeler		: ArgoUML
+Server Stack 	: Wamp Server
+Design App		: Gimp
+Documentation	: Open Office
+Text Editor		: Notepad++
+
+================================
+Linux
+================================
+Development 	: Netbeans
+UML Modeler		: ArgoUML
+Server Stack 	: XAMPP For Linux
+Design App		: Gimp
+Documentation	: Open Office
+Text Editor		: gEdit	
