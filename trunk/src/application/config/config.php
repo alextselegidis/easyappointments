@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/Web%20Applications/Easy!Appointments/Trunk/Src/';
+$config['base_url']	= 'http://localhost/dev/external/Easy!Appointments/trunk/src/';
 
 /*
 |--------------------------------------------------------------------------
