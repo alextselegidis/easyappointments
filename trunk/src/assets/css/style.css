@@ -5,3 +5,79 @@ root {
     display: block;
 }
 
+body {  
+    background-color: #CAEDF3;
+}
+
+
+/* REGISTER APPOINTMENT
+ ------------------------------------------------------------------------------ */
+#book-appointment {
+    width: 660px;
+    margin: 150px auto;
+    background: #FFF;
+    box-shadow: 0px 1px 1px #B6B6B6;
+}
+
+#book-appointment #top-bar {
+    padding: 5px;
+    height: 70px;
+    background: #3DD481;
+    border-bottom: 2px solid #1A865F;
+}
+
+#book-appointment #business-name { 
+    font-weight: bold;
+    color: #FFF;
+    font-size: 27px;
+    margin: 27px 10px 0 14px;
+    display: inline-block;
+    text-shadow: 0px 1px 1px #8F8888;
+    float: left;
+}
+
+#book-appointment #book-steps {
+    width: 252px;
+    display: inline-block;
+    float: right;
+    margin-top: 12px;
+}
+
+#book-appointment .book-appoinment-step {
+    padding: 10px 20px;
+}
+
+#book-appointment .book-step {
+    display: inline-block;
+    height: 28px;
+    width: 28px;
+    float: left;
+    background: #E1FFCF;
+    padding: 10px;
+    margin-right: 15px;
+    border-radius: 50px;
+    box-shadow: inset 1px 1px 3px #2B2B2B;
+}
+
+#book-appointment .book-step strong {
+    font-size: 29px;
+    display: block;
+    text-align: center;
+    margin-top: 4px;
+    color: #B6DFC6;
+}
+
+#book-appointment .active-step {
+    background: #FAFA99;
+}
+
+#book-appointment .active-step strong {
+    color: #696439;
+}
+
+#book-appointment #frame-footer {
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #EEE;
+    background: #FAFAFA;
+}
