@@ -10,10 +10,8 @@ class Services extends CI_Model {
      * @return array Returns an object array with all the 
      * database services.
      */
-    function getAllServices() {
-        $query = $this->db->query('SELECT *');
-        
-        return $this->db->get('ea_services');
+    function getAvailableServices() {
+        return $this->db->get('ea_services')->result_array();
     }
 }
 ?>

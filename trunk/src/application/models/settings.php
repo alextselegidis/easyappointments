@@ -27,7 +27,6 @@ class Settings extends CI_Model {
      * 
      * @param string $name The setting name.
      * @param type $value The setting value.
-     * 
      * @return bool Returns the operation success - failure 
      * result.
      */
