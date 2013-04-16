@@ -14,9 +14,10 @@ body {
  ------------------------------------------------------------------------------ */
 #book-appointment {
     width: 660px;
-    margin: 150px auto;
+    margin: 150px auto 0 auto;
     background: #FFF;
     box-shadow: 0px 1px 1px #B6B6B6;
+    min-height: 480px;
 }
 
 #book-appointment #top-bar {
@@ -40,39 +41,34 @@ body {
     width: 252px;
     display: inline-block;
     float: right;
-    margin-top: 12px;
+    margin-top: 15px;
 }
 
 #book-appointment .book-appoinment-step {
     padding: 10px 20px;
+    height: 363px;
 }
 
 #book-appointment .book-step {
     display: inline-block;
-    height: 28px;
-    width: 28px;
+    height: 20px;
+    width: 20px;
     float: left;
-    background: #E1FFCF;
+    background: #FFF;
     padding: 10px;
     margin-right: 15px;
-    border-radius: 50px;
-    box-shadow: inset 1px 1px 3px #2B2B2B;
+    border: 3px solid #38A07A;
 }
 
 #book-appointment .book-step strong {
-    font-size: 29px;
+    font-size: 25px;
     display: block;
     text-align: center;
-    margin-top: 4px;
     color: #B6DFC6;
 }
 
-#book-appointment .active-step {
-    background: #FAFA99;
-}
-
 #book-appointment .active-step strong {
-    color: #696439;
+    color: #396946;
 }
 
 #book-appointment #frame-footer {
@@ -80,4 +76,20 @@ body {
     text-align: center;
     border-top: 1px solid #EEE;
     background: #FAFAFA;
+}
+
+.custom-qtip {
+    border-width: 2px;
+}
+
+#available-hours .available-hour:hover {
+    font-weight: bold;
+    background-color: #CAEDF3;
+    cursor: pointer;
+}
+
+#available-hours .selected-hour {
+    color: #0088cc;
+    font-weight: bold;
+    text-decoration: underline;
 }
