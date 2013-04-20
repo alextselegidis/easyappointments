@@ -1,7 +1,6 @@
 <?php
-class Settings extends CI_Model {
-    function __construct() 
-    {
+class Settings_Model extends CI_Model {
+    function __construct() {
         parent::__construct();
     }
     
@@ -13,8 +12,7 @@ class Settings extends CI_Model {
      * @return string Returns the database value for 
      * the selected setting.
      */
-    function getSetting($name) 
-    {
+    function getSetting($name) {
         $query = $this->db->get_where('ea_settings', array('name' => $name));
         $setting = ($query->num_rows() > 0) ? $query->row() : '';
         return $setting->value;
@@ -30,8 +28,7 @@ class Settings extends CI_Model {
      * @return bool Returns the operation success - failure 
      * result.
      */
-    function setSetting($name, $value)
-    {
+    function setSetting($name, $value) {
         $query = $this->db->get_where('ea_settings', array('name' => $name));
         if ($query->num_rows() > 0) {
             // Update setting

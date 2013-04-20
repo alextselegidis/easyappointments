@@ -1,5 +1,5 @@
 <?php
-class Providers extends CI_Model {
+class Providers_Model extends CI_Model {
     public function __construct() {
         parent::__construct();
     }
@@ -12,22 +12,21 @@ class Providers extends CI_Model {
      * data.
      */
     public function getAvailableProviders() {
-        $sql = '
-            SELECT ea_users.* 
-            FROM ea_users 
-            INNER JOIN ea_roles 
-                ON ea_users.id_roles = ea_roles.id 
-            WHERE ea_roles.slug = "provider"';
+        $this->db
+            ->select('ea_users.*')
+            ->from('ea_users')  
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_roles.slug', 'provider');
         
-        $providers = $this->db->query($sql)->result_array();
+        $providers = $this->db->get()->result_array();
         
         foreach($providers as &$provider) {
-            $sql = '
-                SELECT id_services
-                FROM ea_services_providers
-                WHERE id_users = ' . $this->db->escape($provider['id']);
+            $this->db
+                ->select('id_services')
+                ->from('ea_services_providers')
+                ->where('id_users', $provider['id']);
             
-            $providerServices = $this->db->query($sql)->result_array();
+            $providerServices = $this->db->get()->result_array();
             
             if (!isset($provider['services'])) {
                 $provider['services'] = array();

@@ -38,7 +38,7 @@ body {
 }
 
 #book-appointment #book-steps {
-    width: 252px;
+    width: 204px;
     display: inline-block;
     float: right;
     margin-top: 15px;
@@ -46,7 +46,21 @@ body {
 
 #book-appointment .book-appoinment-step {
     padding: 10px 20px;
-    height: 363px;
+    height: 434px;
+}
+
+#book-appointment .book-appoinment-step .book-step-content {
+    height: 370px;
+    margin-bottom: 10px;
+}
+
+#book-appointment .command-buttons {
+    float: right;
+}
+
+#book-appointment .command-buttons .btn {
+    min-width: 80px;
+    margin-right: 10px;
 }
 
 #book-appointment .book-step {
@@ -55,20 +69,34 @@ body {
     width: 20px;
     float: left;
     background: #FFF;
-    padding: 10px;
+    padding: 3px;
     margin-right: 15px;
+    margin-top: 10px;
     border: 3px solid #38A07A;
 }
 
 #book-appointment .book-step strong {
-    font-size: 25px;
+    font-size: 18px;
     display: block;
     text-align: center;
     color: #B6DFC6;
 }
 
+#book-appointment .active-step {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    float: left;
+    background: #FFF;
+    padding: 10px;
+    margin-right: 15px;
+    margin-top: 0px;
+    border: 3px solid #38A07A;
+}
+
 #book-appointment .active-step strong {
     color: #396946;
+    font-size: 25px;
 }
 
 #book-appointment #frame-footer {
@@ -82,6 +110,12 @@ body {
     border-width: 2px;
 }
 
+#available-hours .available-hour {
+    font-size: 15px;
+    padding: 1px;
+    display: inline-block;
+}
+
 #available-hours .available-hour:hover {
     font-weight: bold;
     background-color: #CAEDF3;
@@ -92,4 +126,8 @@ body {
     color: #0088cc;
     font-weight: bold;
     text-decoration: underline;
+}
+
+#book-appointment .span3 {
+    min-width: 270px; /* This is especially needed for ie8 */
 }

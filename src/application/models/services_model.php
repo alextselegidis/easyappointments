@@ -1,5 +1,5 @@
 <?php
-class Services extends CI_Model {
+class Services_Model extends CI_Model {
     function __construct() {
         parent::__construct();
     }
