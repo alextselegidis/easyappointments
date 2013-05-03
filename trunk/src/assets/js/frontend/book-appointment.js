@@ -89,7 +89,6 @@ var bookAppointment = {
                 } else {
                     bookAppointment.updateConfirmData();
                 }
-
             }
 
             var nextTabIndex = parseInt($(this).attr('data-step_index')) + 1;
@@ -142,23 +141,23 @@ var bookAppointment = {
         })
 
         var postData = {
-            'serviceId'         : $('#select-service').val(),
-            'providerId'        : $('#select-provider').val(),
-            'selectedDate'      : selDate,
-            'serviceDuration'   : selServiceDuration
+            'service_id'         : $('#select-service').val(),
+            'provider_id'        : $('#select-provider').val(),
+            'selected_date'      : selDate,
+            'service_duration'   : selServiceDuration
         };
 
         // Make ajax post request and get the available hours.
-        var ajaxurl = GlobalVariables.baseUrl + 'index.php/appointments/getAvailableHours';
+        var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(postResponse) {
             ////////////////////////////////////////////////////////////////////////////////
-            //console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
+            console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
             ////////////////////////////////////////////////////////////////////////////////
 
             try {
                 var jsonResponse = jQuery.parseJSON(postResponse);
                 ////////////////////////////////////////////////////////////////////////////////
-                //console.log('\n\n Get Available Hours JSON Response :', jsonResponse, '\n\n');
+                console.log('\n\n Get Available Hours JSON Response :', jsonResponse, '\n\n');
                 ////////////////////////////////////////////////////////////////////////////////
 
                 // Fill the available time div
@@ -232,22 +231,28 @@ var bookAppointment = {
             'Zip Code: ' + $('#zip-code').val()
         );
             
-        /*** UPDATE HIDDEN FIELD VALUES ***/
-        $('input[name="lastName"]').val($('#last-name').val());
-        $('input[name="firstName"]').val($('#first-name').val());
-        $('input[name="email"]').val($('#email').val());
-        $('input[name="phoneNumber"]').val($('#phone-number').val());
-        $('input[name="address"]').val($('#address').val());
-        $('input[name="city"]').val($('#city').val());
-        $('input[name="zipCode"]').val($('#zip-code').val());
+        /*** UPDATE FORM POST DATA ***/
+        var postData = new Object();
         
-        var startDatetime   = $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') + ' ' + $('.selected-hour').text();
-        var endDatetime     = bookAppointment.getEndDatetime();        
-        $('input[name="startDatetime"]').val(startDatetime);
-        $('input[name="endDatetime"]').val(endDatetime);
-        $('input[name="notes"]').val($('#notes').val());
-        $('input[name="providerId"]').val($('#select-provider').val());
-        $('input[name="serviceId"]').val($('#select-service').val());        
+        postData['customer'] = {
+            'last_name'      : $('#last-name').val(),
+            'first_name'     : $('#first-name').val(),
+            'email'          : $('#email').val(),
+            'phone_number'   : $('#phone-number').val(),
+            'address'        : $('#address').val(),
+            'city'           : $('#city').val(),
+            'zip_code'       : $('#zip-code').val()
+        };
+        
+        postData['appointment'] = {
+            'start_datetime'    : $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') + ' ' + $('.selected-hour').text(),
+            'end_datetime'      : bookAppointment.getEndDatetime(),
+            'notes'             : $('#notes').val(),
+            'id_users_provider' : $('#select-provider').val(),
+            'id_services'       : $('#select-service').val()
+        };
+        
+        $('input[name="post_data"]').val(JSON.stringify(postData));
     },
     
     /** 

@@ -14,7 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/dev/external/Easy!Appointments/trunk/src/';
+require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+$config['base_url']	= SystemConfiguration::$base_url; //'http://localhost/dev/external/Easy!Appointments/trunk/src/WRONG';
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +92,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = TRUE;
 
 
 /*

@@ -37,5 +37,19 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+/*
+|--------------------------------------------------------------------------
+| Application Data
+|--------------------------------------------------------------------------
+|
+| These constants are used globally from the application when handling data.
+|
+*/
+define('DB_SLUG_CUSTOMER', 'customer');
+define('DB_SLUG_PROVIDER', 'provider');
+define('DB_SLUG_ADMIN', 'admin');
+define('DB_SLUG_SECRETARY', 'secretary');
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
