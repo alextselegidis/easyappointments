@@ -10,57 +10,36 @@ class Appointments extends CI_Controller {
             // Display the appointment booking page to the customer.
             // Get business name.
             $this->load->model('Settings_Model');
-            $viewData['businessName'] = $this->Settings_Model->getSetting('business_name');
+            $view_data['business_name'] = $this->Settings_Model->get_setting('business_name');
 
             // Get the available services and providers.
             $this->load->model('Services_Model');
-            $viewData['availableServices'] = $this->Services_Model->getAvailableServices();
+            $view_data['available_services'] = $this->Services_Model->get_available_services();
 
             $this->load->model('Providers_Model');
-            $viewData['availableProviders'] = $this->Providers_Model->getAvailableProviders(); // Provider rows contain an array of which services they can provide.
+            $view_data['available_providers'] = $this->Providers_Model->get_available_providers(); // Provider rows contain an array of which services they can provide.
 
             // Load the book appointment view.
-            $this->load->view('appointments/book', $viewData);
+            $this->load->view('appointments/book', $view_data);
         } else { 
-            // Add the appointment to the database and display the success
-            // page to the customer.
-            $customerData = array(
-                'first_name'    => $_POST['firstName'],
-                'last_name'     => $_POST['lastName'],
-                'email'         => $_POST['email'],
-                'phone_number'  => $_POST['phoneNumber'],
-                'address'       => $_POST['address'],
-                'city'          => $_POST['city'],
-                'zip_code'      => $_POST['zipCode']
-            );
+            $post_data = json_decode($_POST['post_data'], true);
             
+            // Add customer 
             $this->load->model('Customers_Model');
-            $customerId = $this->Customers_Model->add($customerData);
+            $customer_id = $this->Customers_Model->add($post_data['customer']);
             
-            $appointmentData = array(
-                'start_datetime'    => $_POST['startDatetime'],
-                'end_datetime'      => $_POST['endDatetime'],
-                'notes'             => $_POST['notes'],
-                'id_users_provider' => $_POST['providerId'],
-                'id_users_customer' => $customerId,
-                'id_services'       => $_POST['serviceId'],
-            );
-            
+            // Add appointment
+            $post_data['appointment']['id_users_customer'] = $customer_id;
             $this->load->model('Appointments_Model');
-            $this->Appointments_Model->add($appointmentData);
+            $view_data['appointment_id'] = $this->Appointments_Model->add($post_data['appointment']);
             
             // Send an email to the customer with the appointment info.
-            $to      = $customerData['email'];
-            $subject = 'Appointment Book Success';
-            $message = 'Hi there! Your appointment has been successfully booked.';
-            $headers = 'From: alextselegidis@gmail.com' . "\r\n" .
-                'Reply-To: alextselegidis@gmail.com' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
-
-            mail($to, $subject, $message, $headers);
+            $this->load->library('Notifications');
+            $this->notifications->send_book_success($post_data['customer'], $post_data['appointment']);
+            $this->notifications->send_new_appointment($post_data['customer'], $post_data['appointment']);
             
             // Load the book appointment view.
-            $this->load->view('appointments/book-success');
+            $this->load->view('appointments/book_success', $view_data);
         }
 	}
     
@@ -68,10 +47,10 @@ class Appointments extends CI_Controller {
      * This method answers to an AJAX request. It calculates the 
      * available hours for the given service, provider and date.
      * 
-     * @param array $_POST['postData'] An associative array that 
+     * @param array $_POST['post_data'] An associative array that 
      * contains the user selected service, provider and date.
      */
-    public function getAvailableHours() {
+    public function ajax_get_available_hours() {
         /*** CHECK BUSINESS WORKING HOURS ***/
         /*** CHECK PROVIDERS WORKING HOURS ***/
         /*** CHECK ALREADY BOOKED APPOINTMENTS ***/
@@ -80,27 +59,56 @@ class Appointments extends CI_Controller {
         // ------------------------------------------------------------------
         // For now we just need to return a sample array. Dynamic calculation
         // will be adding in future development.
-        $startTime  = strtotime($_POST['selectedDate'] . ' 08:00') / 60; // Convert to minutes
-        $endTime    = strtotime($_POST['selectedDate'] . ' 19:00') / 60; // Convert to minutes
+        $start_time  = strtotime($_POST['selected_date'] . ' 08:00') / 60; // Convert to minutes
+        $end_time    = strtotime($_POST['selected_date'] . ' 19:00') / 60; // Convert to minutes
         
-        for ($i=0; ($startTime*60 + $i*60)<=($endTime*60); $i+=intval($_POST['serviceDuration'])) {
-            $availableHours[] = date('H:i', $startTime * 60 + $i * 60);
+        for ($i=0; ($start_time*60 + $i*60)<=($end_time*60); $i+=intval($_POST['service_duration'])) {
+            $available_hours[] = date('H:i', $start_time * 60 + $i * 60);
         }
         
         // If the selected date is today, remove past hours.
-        if (date('m/d/Y', strtotime($_POST['selectedDate'])) == date('m/d/Y')) {
-            foreach($availableHours as $index=>$value) {
-                $availableHour = date('m/d/Y H:i', strtotime($value));
-                $currentHour = date('m/d/Y H:i');
+        if (date('m/d/Y', strtotime($_POST['selected_date'])) == date('m/d/Y')) {
+            foreach($available_hours as $index=>$value) {
+                $available_hour = date('m/d/Y H:i', strtotime($value));
+                $current_hour   = date('m/d/Y H:i');
 
-                if ($availableHour < $currentHour) {
-                    unset($availableHours[$index]);
+                if ($available_hour < $current_hour) {
+                    unset($available_hours[$index]);
                 }
             }
         }
         
-        $availableHours = array_values($availableHours);
+        $available_hours = array_values($available_hours);
         
-        echo json_encode($availableHours);
+        echo json_encode($available_hours);
+    }
+    
+    /**
+     * Synchronize appointment with its' providers google calendar.
+     * 
+     * This method syncs the registered appointment with the
+     * google calendar of the user.
+     * 
+     * @task This method needs to be changed. Everytime a customer 
+     * books a new appointment the synchronization process must be
+     * executed.
+     */
+    public function google_sync($appointment_id) {
+        try {
+            $this->load->library('Google_Sync');
+            $this->google_sync->sync_appointment($appointment_id);
+            $view_data['message'] = 'Your appointment has been successfully added to Google Calendar!';
+            $view_data['image'] = 'success.png';
+        } catch (Exception $exc) {
+            $view_data['message'] = 'An unexpected error occured during the sync operation: <br/><pre>' . $exc->getMessage() 
+                    . '<br/>' . $exc->getTraceAsString() . '</pre>';
+            $view_data['image'] = 'error.png';
+        }
+        
+        $this->load->view('appointments/google_sync', $view_data);
     }
 }
+
+
+/* End of file appointments.php */
+/* Location: ./application/controllers/appointments.php */

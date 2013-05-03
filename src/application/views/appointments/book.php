@@ -25,9 +25,9 @@
     <script type="text/javascript">
         // Define some global variables. 
         GlobalVariables = {
-            services    : <?php echo json_encode($availableServices); ?>,
-            providers   : <?php echo json_encode($availableProviders); ?>,
-            baseUrl     : '<?php echo $this->config->base_url(); ?>'
+            services    : <?php echo json_encode($available_services); ?>,
+            providers   : <?php echo json_encode($available_providers); ?>,
+            baseUrl     : <?php echo '"' . $this->config->base_url() . '"'; ?>
         }
     </script>
     
@@ -43,7 +43,7 @@
     <div id="main" class="container">
         <div id="book-appointment">
             <div id="top-bar">
-                <span id="business-name"><?php echo $businessName; ?></span>
+                <span id="business-name"><?php echo $business_name; ?></span>
                 <div id="book-steps">
                     <div id="step-1" class="book-step active-step" title="Select Service & Provider">
                         <strong>1</strong>
@@ -69,7 +69,7 @@
                         <label for="select-service">Select Service</label>
                         <select id="select-service">
                             <?php 
-                                foreach($availableServices as $service) {
+                                foreach($available_services as $service) {
                                     echo '<option value="' . $service['id'] . '">' . $service['name'] . '</option>';
                                 }
                             ?>
@@ -161,22 +161,8 @@
                 <div class="command-buttons">
                     <button type="button" id="button-back-4" class="btn button-back" data-step_index="4"><i class="icon-backward"></i> Back</button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
-                        <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Confirm!</button>
-                        
-                        <input type="hidden" name="lastName" />
-                        <input type="hidden" name="firstName" />
-                        <input type="hidden" name="email" />
-                        <input type="hidden" name="phoneNumber" />
-                        <input type="hidden" name="address" />
-                        <input type="hidden" name="city" />
-                        <input type="hidden" name="zipCode" />
-                        
-                        <input type="hidden" name="startDatetime" />
-                        <input type="hidden" name="endDatetime" />
-                        <input type="hidden" name="notes" />
-                        <input type="hidden" name="providerId" />
-                        <input type="hidden" name="serviceId" />
-                        
+                        <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Confirm</button>
+                        <input type="hidden" name="post_data" />
                     </form>
                 </div>
             </div>

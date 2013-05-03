@@ -1,10 +1,15 @@
 <?php
 class Settings_Model extends CI_Model {
+    /**
+     * Class Constructor
+     */
     function __construct() {
         parent::__construct();
     }
     
     /**
+     * Get setting value from database.
+     * 
      * This method returns a system setting from the 
      * database.
      * 
@@ -12,7 +17,7 @@ class Settings_Model extends CI_Model {
      * @return string Returns the database value for 
      * the selected setting.
      */
-    function getSetting($name) {
+    function get_setting($name) {
         $query = $this->db->get_where('ea_settings', array('name' => $name));
         $setting = ($query->num_rows() > 0) ? $query->row() : '';
         return $setting->value;
@@ -28,23 +33,26 @@ class Settings_Model extends CI_Model {
      * @return bool Returns the operation success - failure 
      * result.
      */
-    function setSetting($name, $value) {
+    function set_setting($name, $value) {
         $query = $this->db->get_where('ea_settings', array('name' => $name));
         if ($query->num_rows() > 0) {
             // Update setting
-            $updateData = array('value' => $value);
+            $update_data = array('value' => $value);
             $this->db->where('name', $name);
-            $result = $this->db->update('ea_settings', $updateData);
+            $result = $this->db->update('ea_settings', $update_data);
         } else {
             // Insert setting
-            $insertData = array(
-                'name' => $name,
+            $insert_data = array(
+                'name'  => $name,
                 'value' => $value
             );
-            $result = $this->db->insert('ea_settings', $insertData);
+            $result = $this->db->insert('ea_settings', $insert_data);
         }
         
         return $result;
     }
 }
-?>
+
+
+/* End of file settings_model.php */
+/* Location: ./application/models/settings_model.php */
