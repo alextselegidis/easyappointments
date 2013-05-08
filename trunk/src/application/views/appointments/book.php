@@ -16,7 +16,8 @@
     <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.qtip.min.js"></script>
     <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/frontend/book-appointment.js"></script>
+    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/frontend/book_appointment.js"></script>
+    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
     
     <?php // SET FAVICON FOR PAGE ?>
     <link rel="icon" type="image/x-icon" href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
@@ -34,7 +35,8 @@
     <?php // JQUERY PAGE STUFF ?>
     <script type="text/javascript">
         $(document).ready(function() {
-            bookAppointment.initialize(); // Begin jquery magic :P
+            bookAppointment.initialize(); 
+            GeneralFunctions.centerElementOnPage($('#book-appointment'));
         });
     </script>
 </head>
