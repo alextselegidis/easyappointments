@@ -157,7 +157,7 @@ class Customers_Model extends CI_Model {
         
         $this->db->where('id_roles', $customers_role_id);
         
-        return $this->db->get('ea_users')->results_array();
+        return $this->db->get('ea_users')->result_array();
     }
     
     /**

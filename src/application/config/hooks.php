@@ -9,7 +9,14 @@
 |	http://codeigniter.com/user_guide/general/hooks.html
 |
 */
-
+// This hook is necessary to make the phpunit work with 
+// the codeigniter framework.
+$hook['display_override'] = array(
+	'class' => 'DisplayHook',
+	'function' => 'captureOutput',
+	'filename' => 'DisplayHook.php',
+	'filepath' => 'hooks'
+);
 
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

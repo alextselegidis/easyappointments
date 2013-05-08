@@ -151,13 +151,13 @@ var bookAppointment = {
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(postResponse) {
             ////////////////////////////////////////////////////////////////////////////////
-            console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
+            //console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
             ////////////////////////////////////////////////////////////////////////////////
 
             try {
                 var jsonResponse = jQuery.parseJSON(postResponse);
                 ////////////////////////////////////////////////////////////////////////////////
-                console.log('\n\n Get Available Hours JSON Response :', jsonResponse, '\n\n');
+                //console.log('\n\n Get Available Hours JSON Response :', jsonResponse, '\n\n');
                 ////////////////////////////////////////////////////////////////////////////////
 
                 // Fill the available time div
@@ -176,10 +176,10 @@ var bookAppointment = {
                 // Set the first item as selected.
                 $('.available-hour:eq(0)').addClass('selected-hour');
                 bookAppointment.updateConfirmData();
-
             } catch(exception) {
-                // @task Display message to the user.
-            };
+                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected error occured during ' 
+                    + 'the available hours calculation. Please refresh the page and try again.');
+            }
         });
     },
 

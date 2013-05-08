@@ -109,6 +109,5 @@ class Appointments extends CI_Controller {
     }
 }
 
-
 /* End of file appointments.php */
 /* Location: ./application/controllers/appointments.php */

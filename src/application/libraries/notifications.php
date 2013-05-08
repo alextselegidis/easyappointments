@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');  
 
+define('EMAIL_HEADER_MIME_VERSION', 'MIME-Version: 1.0' . "\r\n");
+define('EMAIL_HEADER_CONTENT_TYPE', 'Content-type: text/html; charset=utf-8' . "\r\n");
+
 /**
  * This library handles all the notification email deliveries 
  * on the system.
@@ -8,11 +11,11 @@
  * during the execution of the class methods.
  */
 class Notifications {
+    
     /**
      * Class Constructor
      */
-    public function __construct() {
-        // @task Define some vars and constants
+    public function __construct() {        
     }
     
     /**
@@ -87,13 +90,29 @@ class Notifications {
         $from_name   = $CI->Settings_Model->get_setting('business_name'); 
         
         $subject = 'Appointment Book Success!';
-        
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-        $headers .= 'To: ' . $customer_data['last_name'] . ' ' . $customer_data['first_name'] . ' <' . $customer_data['email'] . '>' . "\r\n";
-        $headers .= 'From: ' . $from_name . ' <' . $from_email . '>' . "\r\n";
+        $headers = $this->get_email_headers($customer_data['last_name'] . ' ' . $customer_data['first_name'], $customer_data['email'], $from_name, $from_email);
         
         return mail($to, $subject, $html, $headers);
+    }
+    
+    /**
+     * Create the email headers.
+     * 
+     * This method cretes the email header depending the sender and 
+     * the receiver.
+     * 
+     * @param type $to_name Receiver's name
+     * @param type $to_email Receiver's email address
+     * @param type $from_name Sender's name
+     * @param type $from_email Sender's email
+     * @return string Returns the email headers.
+     */
+    private function get_email_headers($to_name, $to_email, $from_name, $from_email) {
+        $headers  = EMAIL_HEADER_MIME_VERSION;
+        $headers .= EMAIL_HEADER_CONTENT_TYPE;
+        $headers .= 'To: ' . $to_name . ' <' . $to_email . '>' . "\r\n";
+        $headers .= 'From: ' . $from_name . ' <' . $from_email . '>' . "\r\n";
+        return $headers;
     }
     
     /**
@@ -161,21 +180,17 @@ class Notifications {
             </html>';
         
         // Send email to the customer
-        $to = $CI->Providers_Model->get_value('email', $appointment_data['id_users_provider']);
-        $providerNicename = $CI->Providers_Model->get_value('last_name', $appointment_data['id_users_provider']) . ' ' . $CI->Providers_Model->get_value('first_name', $appointment_data['id_users_provider']);
+        $provider_email = $CI->Providers_Model->get_value('email', $appointment_data['id_users_provider']);
+        $provider_nicename = $CI->Providers_Model->get_value('last_name', $appointment_data['id_users_provider']) . ' ' . $CI->Providers_Model->get_value('first_name', $appointment_data['id_users_provider']);
         
         $CI->load->model('Settings_Model');
-        $fromEmail  = $CI->Settings_Model->get_setting('business_email');
-        $fromName   = $CI->Settings_Model->get_setting('business_name'); 
+        $from_email  = $CI->Settings_Model->get_setting('business_email');
+        $from_name   = $CI->Settings_Model->get_setting('business_name'); 
         
         $subject = 'A new appointment has been added to your plan.';
+        $headers = $this->get_email_headers($provider_nicename, $provider_email, $from_name, $from_email);
         
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-        $headers .= 'To: ' . $providerNicename . '<' . $to . '>' . "\r\n";
-        $headers .= 'From: ' . $fromName . ' <' . $fromEmail . '>' . "\r\n";
-        
-        return mail($to, $subject, $html, $headers);
+        return mail($provider_email, $subject, $html, $headers);
     }
 }
 

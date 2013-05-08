@@ -1,4 +1,5 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+
 class Providers_Model extends CI_Model {
     /**
      * Class Constructor
@@ -29,6 +30,27 @@ class Providers_Model extends CI_Model {
      */
     public function get_value($field_name, $provider_id) {
         return $this->db->get_where('ea_users', array('id' => $provider_id))->row_array()[$field_name];
+    }
+    
+    /**
+     * Get all, or specific records from provider's table.
+     * 
+     * @example $this->Model->getBatch('id = ' . $recordId);
+     * 
+     * @param string $whereClause (OPTIONAL) The WHERE clause of  
+     * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
+     * @return array Returns the rows from the database.
+     */
+    public function get_batch($where_clause = '') {
+        $providers_role_id = $this->get_providers_role_id();
+        
+        if ($where_clause != '') {
+            $this->db->where($where_clause);
+        }
+        
+        $this->db->where('id_roles', $providers_role_id);
+        
+        return $this->db->get('ea_users')->result_array();
     }
     
     /**
@@ -66,8 +88,16 @@ class Providers_Model extends CI_Model {
         
         return $providers;
     }
+    
+    /**
+     * Get the providers role id from the database.
+     * 
+     * @return int Returns the role id for the customer records.
+     */
+    public function get_providers_role_id() {
+        return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_PROVIDER))->row()->id;
+    }
 }
-
 
 /* End of file providers_model.php */
 /* Location: ./application/models/providers_model.php */

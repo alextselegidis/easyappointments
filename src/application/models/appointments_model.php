@@ -33,7 +33,7 @@ class Appointments_Model extends CI_Model {
             return $appointment_id;
             
         } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+            echo $exc->getMessage() . '<br/><pre>' . $exc->getTraceAsString() . '</pre>';
         }
     }
     
@@ -142,7 +142,7 @@ class Appointments_Model extends CI_Model {
             $this->db->where($where_clause);
         }
         
-        return $this->db->get('ea_appointments')->results_array();
+        return $this->db->get('ea_appointments')->result_array();
     }
 }
 

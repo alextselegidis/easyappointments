@@ -32,6 +32,23 @@ class Services_Model extends CI_Model {
     }
     
     /**
+     * Get all, or specific records from service's table.
+     * 
+     * @example $this->Model->getBatch('id = ' . $recordId);
+     * 
+     * @param string $whereClause (OPTIONAL) The WHERE clause of  
+     * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
+     * @return array Returns the rows from the database.
+     */
+    public function get_batch($where_clause = NULL) {
+        if ($where_clause != NULL) {
+            $this->db->where($where_clause);
+        }
+        
+        return $this->db->get('ea_services')->result_array();
+    }
+    
+    /**
      * This method returns all the services from the database.
      * 
      * @return array Returns an object array with all the 

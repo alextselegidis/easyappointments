@@ -38,7 +38,8 @@ class CI_Utf8 {
 	{
 		log_message('debug', "Utf8 Class Initialized");
 
-		global $CFG;
+		//global $CFG;
+		$CFG =& load_class('Config', 'core'); // This is changed due to php unit conflict : http://www.jamesfairhurst.co.uk/posts/view/codeigniter_phpunit_and_netbeans
 
 		if (
 			preg_match('/./u', 'é') === 1					// PCRE must support UTF-8
