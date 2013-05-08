@@ -61,3 +61,25 @@ GeneralFunctions.displayMessageBox = function(title, message, messageButtons) {
     jQuery("#message_box .ui-dialog-titlebar-close").hide();
 }
 
+/**
+ * This method centers a DOM element vertically and horizontally
+ * on the page.
+ * 
+ * @param {object} elementHandle The object that is going to be 
+ * centered.
+ */
+GeneralFunctions.centerElementOnPage = function(elementHandle) {
+    // Center main frame vertical middle
+    $(window).resize(function() {
+        var elementLeft = ($(window).width() - elementHandle.outerWidth()) / 2;
+        var elementTop = ($(window).height() - elementHandle.outerHeight()) / 2;
+        elementTop = (elementTop > 0 ) ? elementTop : 20;
+        
+        elementHandle.css({
+            position    : 'absolute',
+            left        : elementLeft,
+            top         : elementTop
+        }); 
+    });
+    $(window).resize();
+}
