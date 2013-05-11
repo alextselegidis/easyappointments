@@ -1,7 +1,7 @@
 <?php
 class SystemConfiguration {
     // General Settings
-    public static $base_url    = 'http://localhost/dev/external/Easy!Appointments/trunk/src/';
+    public static $base_url    = 'http://localhost/dev/external/easy_appointments/trunk/src/';
     
     // Database Settings
     public static $db_host     = 'localhost';

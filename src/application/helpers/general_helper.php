@@ -25,5 +25,5 @@ function date3339($timestamp=0) {
     return $date;
 }
 
-/* End of file general.php */
-/* Location: ./application/helpers/general.php */
+/* End of file general_helper.php */
+/* Location: ./application/helpers/general_helper.php */
