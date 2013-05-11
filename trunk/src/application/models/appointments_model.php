@@ -6,6 +6,7 @@ class Appointments_Model extends CI_Model {
      */
     public function __construct() {
         parent::__construct();
+        $this->load->helper('custom_exceptions');
     }
     
     /**
@@ -15,26 +16,27 @@ class Appointments_Model extends CI_Model {
      * appointment doesn't exists it is going to be inserted, otherwise 
      * the record is going to be updated.
      * 
+     * @expectedException ValidationException
+     * @expectedException DatabaseException
+     * 
      * @param array $appointment_data Associative array with the appointmet's 
      * data. Each key has the same name with the database fields.
      * @return int Returns the appointments id.
      */
     public function add($appointment_data) {
-        try {
-            $appointment_id = $this->exists($appointment_data);
-            
-            if (!$appointment_id) {
-                $appointment_id = $this->insert($appointment_data);
-            } else {
-                $appointment_data['id'] = $appointment_id;
-                $this->update($appointment_data);
-            }
-            
-            return $appointment_id;
-            
-        } catch (Exception $exc) {
-            echo $exc->getMessage() . '<br/><pre>' . $exc->getTraceAsString() . '</pre>';
+        // Validate the appointment data before doing anything.
+        if (!$this->validate_data($appointment_data)) {
+            throw new ValidationException('Appointment data are not valid');
         }
+
+        // Insert or update the appointment data.
+        if (!$this->exists($appointment_data)) {
+            $appointment_data['id'] = $this->insert($appointment_data);
+        } else {
+            $appointment_data['id'] = $this->update($appointment_data);
+        }
+
+        return $appointment_data['id'];
     }
     
     /**
@@ -44,26 +46,25 @@ class Appointments_Model extends CI_Model {
      * the database. This method does not search with the id, but with a
      * combination of the appointments field values.
      * 
+     * @uses find_record_id() 
+     * 
      * @param array $appointment_data Associative array with the appointment's
      * data. Each key has the same name with the database fields.
-     * @return int|bool Returns the record id or FALSE if it doesn't exist.
+     * @return bool Returns wether the record exists or not.
      */
-    public function exists($appointment_data) {
-        $this->db->where(array(
-            'start_datetime'    => $appointment_data['start_datetime'],
-            'end_datetime'      => $appointment_data['end_datetime'],
-            'id_users_provider' => $appointment_data['id_users_provider'],
-            'id_users_customer' => $appointment_data['id_users_customer'],
-            'id_services'       => $appointment_data['id_services']
-        ));
-        
-        $result = $this->db->get('ea_appointments');
-        
-        return ($result->num_rows() > 0) ? $result->row()->id : FALSE;
+    public function exists($appointment_data) {   
+        try {
+            $this->find_record_id($appointment_data);
+            return TRUE;
+        } catch(DatabaseException $dbExc) {
+            return FALSE;
+        }
     }
     
     /**
      * Insert a new appointment record to the database.
+     * 
+     * @expectedException DatabaseException
      * 
      * @param array $appointment_data Associative array with the appointment's
      * data. Each key has the same name with the database fields.
@@ -71,9 +72,9 @@ class Appointments_Model extends CI_Model {
      */
     private function insert($appointment_data) {
         if (!$this->db->insert('ea_appointments', $appointment_data)) {
-            throw new Exception('Could not insert new appointment record.');
+            throw new DatabaseException('Could not insert appointment record.');
         }
-        return $this->db->insert_id();
+        return intval($this->db->insert_id());
     }
     
     /**
@@ -84,12 +85,77 @@ class Appointments_Model extends CI_Model {
      * 
      * @param array $appointment_data Associative array with the appointment's
      * data. Each key has the same name with the database fields.
-     * @return @return int Returns the id of the updated record.
+     * @return int Returns the id of the updated record.
      */
     private function update($appointment_data) {
+        if (!isset($appointment_data['id'])) {
+            $appointment_data['id'] = $this->find_record_id($appointment_data);
+        }
+        
         $this->db->where('id', $appointment_data['id']);
         if (!$this->db->update('ea_appointments', $appointment_data)) {
-            throw new Exception('Could not update appointment record.');
+            throw new DatabaseException('Could not update appointment record.');
+        }
+        
+        return $appointment_data['id'];
+    }
+    
+    /**
+     * Find the database id of an appointment record. 
+     * 
+     * The appointment data should include the following fields in order to 
+     * get the unique id from the database: start_datetime, end_datetime, 
+     * id_users_provider, id_users_customer, id_services.
+     * 
+     * @expectedException DatabaseException
+     * 
+     * @param array $appointment_data Array with the appointment data. The 
+     * keys of the array should have the same names as the db fields.
+     * @return int Returns the id.
+     */
+    public function find_record_id($appointment_data) {
+        $this->db->where(array(
+            'start_datetime'    => $appointment_data['start_datetime'],
+            'end_datetime'      => $appointment_data['end_datetime'],
+            'id_users_provider' => $appointment_data['id_users_provider'],
+            'id_users_customer' => $appointment_data['id_users_customer'],
+            'id_services'       => $appointment_data['id_services']
+        ));
+        
+        $result = $this->db->get('ea_appointments');
+
+        if ($result->num_rows() == 0) {
+            throw new DatabaseException('Could not find appointment record id.');
+        }
+        
+        return $result->row()->id;
+    }
+    
+    /**
+     * Validate appointment data before the insert or 
+     * update operation is executed.
+     * 
+     * @param array $appointment_data Contains the appointment data.
+     * @return boolean Returns the validation result.
+     */
+    public function validate_data($appointment_data) {
+        $this->load->helper('data_validation');
+        
+        try {
+            // Check if appointment dates are valid.
+            if (!validate_mysql_datetime($appointment_data['start_datetime'])) {
+                throw new Exception('Appointment start datetime is invalid.');    
+            }
+            
+            if (!validate_mysql_datetime($appointment_data['end_datetime'])) {
+                throw new Exception('Appointment end datetime is invalid.');
+            }
+
+            // @task Check if appointment foreign keys are valid.
+            
+            return TRUE;
+        } catch (Exception $exc) {
+            return FALSE;
         }
     }
     
