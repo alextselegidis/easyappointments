@@ -19,7 +19,8 @@ class Unit_tests extends CI_Driver_Library {
         // Add more subclasses to the following array to expand
         // the unit testing classes.
         $this->valid_drivers = array(
-            'Unit_tests_appointments_model'
+            'Unit_tests_appointments_model',
+            'Unit_tests_customers_model'
         );
     }
     
@@ -31,8 +32,9 @@ class Unit_tests extends CI_Driver_Library {
      * be run.
      */
     public function run_all_tests() {
-        $this->run_model_tests();
-        $this->run_library_tests();
+        $this->run_model_tests(false);
+        $this->run_library_tests(false);
+        $this->CI->output->append_output($this->CI->unit->report());
     }
     
     ///////////////////////////////////////////////////////////////////////////
@@ -40,15 +42,30 @@ class Unit_tests extends CI_Driver_Library {
     ///////////////////////////////////////////////////////////////////////////
     /**
      * Run all the models tests.
+     * 
+     * @param bool $output_report Determines wether the test 
+     * report will be outputted.
      */
-    public function run_model_tests() {
+    public function run_model_tests($output_report = true) {
         $this->appointments_model->run_all();
+        $this->customers_model->run_all();
+        
+        if ($output_report) {
+            $this->CI->output->append_output($this->CI->unit->report());
+        }
     }
     
     /**
      * Run all the library tests.
+     * 
+     * @param bool $output_report Determines wether the test 
+     * report will be outputted.
      */
-    public function run_library_tests() {
+    public function run_library_tests($output_report = true) {
+        // @task Implement unit tests for the libraries.
         
+        if ($output_report) {
+            $this->CI->output->append_output($this->CI->unit->report());
+        }
     }   
 }
