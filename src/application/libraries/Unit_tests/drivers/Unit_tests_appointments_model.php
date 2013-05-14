@@ -47,13 +47,10 @@ class Unit_tests_appointments_model extends CI_Driver {
         // "test" keyword from the beginning.
         $class_methods = get_class_methods('Unit_tests_appointments_model');
         foreach ($class_methods as $method_name) {
-            if (strpos($method_name, 'test_') !== FALSE) {
+            if (substr($method_name, 0, 5) === 'test_') {
                 call_user_func(array($this, $method_name));
             }
         }
-        
-        // Create a report on the browser.
-        $this->CI->output->append_output($this->CI->unit->report());
     }
     
     /////////////////////////////////////////////////////////////////////////
@@ -191,10 +188,414 @@ class Unit_tests_appointments_model extends CI_Driver {
         $this->CI->unit->run($this->CI->Appointments_Model->exists($appointment_data), FALSE, 'Test exists() method with wrong appointment data.');
     }
     
-    // @task Test find_record_id
-    // @task Test delete 
-    // @task Test get_batch
-    // @task Test get_row
-    // @task Test get_value
-    // @task Test validate_data
+    /**
+     * Test the find record id method with a record that already 
+     * exists in the databse.
+     */
+    private function test_find_record_id() {
+        // Create a new appointmnet record.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $this->CI->db->insert('ea_appointments', $appointment_data);
+        $appointment_data['id'] = $this->CI->db->insert_id();
+        
+        // Find record id of the new appointment record.
+        $method_result_id = $this->CI->Appointments_Model->find_record_id($appointment_data);
+        
+        $this->CI->unit->run($method_result_id, $appointment_data['id'], 'Test find_record_id() successfully returned the correct record id.');
+        
+        // Delete appointment record.
+        $this->CI->db->delete('ea_appointments', array('id' => $method_result_id));
+    }
+    
+    /**
+     * Try to find the record id of an appointment that doesn't
+     * exist in the database.
+     * 
+     * A database exception is expected to be raised.
+     */
+    private function test_find_record_id_appointment_does_not_exist() {
+        // Define appointment data. These data shouldn't exist in the database.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        
+        // Load the appointments model and execute the find record id method.
+        $hasThrownException = FALSE;
+        
+        try {
+            $this->CI->Appointments_Model->find_record_id($appointment_data);
+        } catch(DatabaseException $dbExc) {
+            $hasThrownException = TRUE;
+        }
+        
+        $this->CI->unit->run($hasThrownException, TRUE, 'Test find_record_id() with appointment ' 
+                . 'data that does not exist in the database.', 'A database exception is expected '
+                . 'to be raised.');
+    }
+    
+    /**
+     * Test the find_record_id() method by providing wrong
+     * appointment data.
+     * 
+     * A database exception is expected to be raised.
+     */
+    private function test_find_record_id_wrong_data() {
+        // Define appointment data array with wrong values.
+        $appointment_data = array(
+                               'start_datetime' => '2013WRONG-05-0WRONG1 12:WRONG30:00',
+                               'end_datetime' => '2013-05-01 13:00:00WRONG',
+                               'notes' => 'Some notes righWRONGt here...',
+                               'id_users_provider' => 'WRONG',
+                               'id_users_customer' => 'WRONG',
+                               'id_services' => 'WRONG'
+                           );
+        
+        // Try to find the appointmet's record id. A database 
+        // exception should be raised.
+        $hasThrownException = FALSE;
+        
+        try {
+            $this->CI->Appointments_Model->find_record_id($appointment_data);
+        } catch(DatabaseException $dbExc) {
+            $hasThrownException = TRUE;
+        }
+        
+        $this->CI->unit->run($hasThrownException, TRUE, 'Test find_record_id() with appointment ' 
+                . 'data array with wrong values.', 'A database exception is expected to be raised.');
+    } 
+    
+    /**
+     * Test the normal flow of deleting an appointment record.
+     */
+    private function test_delete() {
+        // Create a new appointmnet record.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $this->CI->db->insert('ea_appointments', $appointment_data);
+        $appointment_data['id'] = $this->CI->db->insert_id();
+        
+        // Delete new record
+        $delete_result = $this->CI->Appointments_Model->delete($appointment_data['id']);
+        $this->CI->unit->run($delete_result, TRUE, 'Test delete() method result (should be TRUE).');
+        
+        // Check if the record has been successfully deleted.
+        $num_rows = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->num_rows();
+        $this->CI->unit->run($num_rows, 0, 'Test if the record was successfully deleted.');
+    }
+    
+    /**
+     * Test the delete method with a record that doesn't exist
+     * in the database.
+     */
+    private function test_delete_record_does_not_exist() {
+        $random_record_id = 1233265;
+        
+        $delete_result = $this->CI->Appointments_Model->delete($random_record_id);
+        echo $delete_result;
+        $this->CI->unit->run($delete_result, FALSE, 'Test delete() method with a record id' 
+                . ' that does not exist');
+    }
+    
+    /**
+     * Test the delete method by providing a wrong argument 
+     * (string and not integer).
+     */
+    private function test_delete_record_wrong_parameter_given() {
+        $wrong_record_id = 'not_an_integer';
+        
+        $delete_result = $this->CI->Appointments_Model->delete($wrong_record_id);
+        echo $delete_result;
+        $this->CI->unit->run($delete_result, FALSE, 'Test delete() method with a record id' 
+                . ' that is not an integer');
+    }
+    
+    /**
+     * Test the get_batch() method of the appointments model.
+     */
+    private function test_get_batch() {
+        // Get all the appointment records (without using the model).
+        $db_data = $this->CI->db->get('ea_appointments')->result_array();
+        
+        // Get all the appointment records (by using the model).
+        $model_data = $this->CI->Appointments_Model->get_batch();
+        
+        // Check that the two arrays are the same.
+        $this->CI->unit->run($model_data, $db_data, 'Test get_batch() method.');
+    }
+    
+    /**
+     * Test the get_batch() method of the appointments model
+     * with a where clause.
+     */
+    private function test_get_batch_where_clause() {
+        // Insert new appointment.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $this->CI->db->insert('ea_appointments', $appointment_data);
+        $appointment_data['id'] = $this->CI->db->insert_id();
+        
+        // Get filtered appointment records without using the model.
+        $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->result_array();
+        
+        // Get filtered appointment records by using the model.
+        $model_data = $this->CI->Appointments_Model->get_batch(array('id' => $appointment_data['id']));
+        
+        // Check that the two arrays are the same.
+        $this->CI->unit->run($model_data, $db_data, 'Test get_batch() method.');
+        
+        // Delete appointment record.
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+    }
+    
+    /**
+     * Test the get_batch() method of the appointments model
+     * with a wrong where clause. 
+     * 
+     * A database exception is expected to be raised.
+     * 
+     * <strong>IMPORTANT!</strong> This test is unabled because code
+     * igniter handles itself wrong queries.
+     */
+    private function unabled_test_get_batch_wrong_where_clause() {
+        $hasThrownException = FALSE;
+        
+        try {
+            $this->CI->Appointments_Model->get_batch('WRONG QUERY HERE');
+        } catch(DatabaseException $dbExc) {
+            $hasThrownException = TRUE;
+        }
+        
+        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_batch() with wrong where clause.',
+                'A database excpetion is expected to be thrown.');
+    }
+    
+    /**
+     * Test get_row() method.
+     */
+    private function test_get_row() {
+        // Insert new appointment record.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $this->CI->db->insert('ea_appointments', $appointment_data);
+        $appointment_data['id'] = $this->CI->db->insert_id();
+        
+        // Get the appointment row from the database.
+        $db_data = $this->CI->Appointments_Model->get_row($appointment_data['id']);
+                
+        // Check if this is the record we seek.
+        $this->CI->unit->run($db_data, $appointment_data, 'Test get_row() method.');
+        
+        // Delete appointment record.
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+    }
+    
+    /**
+     * Test get_row() with a record that doesn't exist in the db.
+     */
+    private function test_get_row_that_does_not_exist() {
+        $random_record_id = 789453486;
+        
+        $row_data = $this->CI->Appointments_Model->get_row($random_record_id);
+        
+        $this->CI->unit->run($row_data, NULL, 'Test get_row() with record id that does ' 
+                . 'not exist in the database.');
+    }
+    
+    /**
+     * Test get_row() method with wrong argument.
+     * 
+     * A database exception is expected.
+     */
+    private function test_get_row_wrong_argument_given() {
+        $wrong_arguement_id = 'THIS IS NOT AN INTEGER';
+        
+        $hasThrownException = FALSE;
+        try {
+            $this->CI->Appointments_Model->get_row($wrong_arguement_id);        
+        } catch (DatabaseException $dbExc) {
+            $hasThrownException = TRUE;
+        }
+        
+        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_row() with wrong arguement.');
+    }
+    
+    /**
+     * Test the get field value method.
+     */
+    private function test_get_value() {
+        // Insert new appointment record.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $this->CI->db->insert('ea_appointments', $appointment_data);
+        $appointment_data['id'] = $this->CI->db->insert_id();
+        
+        // Get a specific value from the database.
+        
+        $db_value = $this->CI->Appointments_Model->get_value('start_datetime', $appointment_data['id']);
+        
+        // Check if the value was correctly fetched from the database.
+        $this->CI->unit->run($db_value, $appointment_data['start_datetime'], 'Test get_value() method.');
+        
+        // Delete inserted appointment record.
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+    }
+    
+    /**
+     * Test the get field value method with a record id that
+     * doesn't exist in the db.
+     * 
+     * A database exception is expected.
+     */
+    private function test_get_value_record_does_not_exist() {
+        $random_record_id = 843521368768;
+        
+        $hasThrownException = FALSE;
+        
+        try {
+            $this->CI->Appointments_Model->get_value('start_datetime', $random_record_id);
+        } catch (DatabaseException $dbExc) {
+            $hasThrownException = TRUE;
+        }
+        
+        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_value() with record id that does not exist.');
+    }
+    
+    /**
+     * Test the get_value() method with a field that does 
+     * not exist in the db.
+     * 
+     * A database exception is expected.
+     */
+    private function test_get_value_field_does_not_exist() {
+        // Insert new appointment record.
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $this->CI->db->insert('ea_appointments', $appointment_data);
+        $appointment_data['id'] = $this->CI->db->insert_id();
+        
+        // Try to get record value with wrong field name.
+        $wrong_field_name = 'THIS IS WRONG';
+        $hasThrownException = FALSE;
+        
+        try {
+            $this->CI->Appointments_Model->get_value($wrong_field_name, $appointment_data['id']);
+        } catch (DatabaseException $dbExc) {
+            $hasThrownException = TRUE;
+        }
+        
+        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_value() with record id that does not exist.');
+        
+        // Delete inserted record.
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+    }
+    
+    private function test_validate_data() {
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
+        $this->CI->unit->run($validation_result, TRUE, 'Test validate_data() method.');
+    }
+    
+    private function test_validate_data_wrong_date_format() {
+        $appointment_data = array(
+                               'start_datetime' => '20WRONG13-05-01 12WRONG:30:00',
+                               'end_datetime' => '2013-05WRONG-01 13:00WRONG:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with wrong date formats.');
+    }
+    
+    private function test_validate_data_invalid_provider_id() {
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => 'THIS IS WRONG',
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => $this->service_id
+                           );
+        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with invalid provider id.');
+    }
+    
+    private function test_validate_data_invalid_customer_id() {
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => 'THIS IS WRONG',
+                               'id_services' => $this->service_id
+                           );
+        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with invalid customer id.');
+    }
+    
+    private function test_validate_data_invalid_service_id() {
+        $appointment_data = array(
+                               'start_datetime' => '2013-05-01 12:30:00',
+                               'end_datetime' => '2013-05-01 13:00:00',
+                               'notes' => 'Some notes right here...',
+                               'id_users_provider' => $this->provider_id,
+                               'id_users_customer' => $this->customer_id,
+                               'id_services' => 'THIS IS WRONG'
+                           );
+        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with invalid service id.');
+    }
 }
+
+/* End of file Unit_tests_appointments_model.php */
+/* Location: ./application/libraries/Unit_tests/drivers/Unit_tests_appointments_model.php */

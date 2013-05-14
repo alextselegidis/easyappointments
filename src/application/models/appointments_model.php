@@ -6,7 +6,6 @@ class Appointments_Model extends CI_Model {
      */
     public function __construct() {
         parent::__construct();
-        $this->load->helper('custom_exceptions');
     }
     
     /**
@@ -97,7 +96,7 @@ class Appointments_Model extends CI_Model {
             throw new DatabaseException('Could not update appointment record.');
         }
         
-        return $appointment_data['id'];
+        return intval($appointment_data['id']);
     }
     
     /**
@@ -106,6 +105,9 @@ class Appointments_Model extends CI_Model {
      * The appointment data should include the following fields in order to 
      * get the unique id from the database: start_datetime, end_datetime, 
      * id_users_provider, id_users_customer, id_services.
+     * 
+     * <strong>IMPORTANT!</strong> The record must already exists in the 
+     * database, otherwise an exception is raised.
      * 
      * @expectedException DatabaseException
      * 
@@ -136,7 +138,7 @@ class Appointments_Model extends CI_Model {
      * update operation is executed.
      * 
      * @param array $appointment_data Contains the appointment data.
-     * @return boolean Returns the validation result.
+     * @return bool Returns the validation result.
      */
     public function validate_data($appointment_data) {
         $this->load->helper('data_validation');
@@ -151,7 +153,35 @@ class Appointments_Model extends CI_Model {
                 throw new Exception('Appointment end datetime is invalid.');
             }
 
-            // @task Check if appointment foreign keys are valid.
+            // Check if the provider's id is valid. 
+            $num_rows = $this->db
+                                ->select('*')
+                                ->from('ea_users')
+                                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                                ->where('ea_users.id', $appointment_data['id_users_provider'])
+                                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                                ->get()->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Appointment provider id is invalid.');
+            }
+            
+            // Check if the customer's id is valid.
+            $num_rows = $this->db
+                                ->select('*')
+                                ->from('ea_users')
+                                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                                ->where('ea_users.id', $appointment_data['id_users_customer'])
+                                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+                                ->get()->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Appointment customer id is invalid.');
+            }
+            
+            // Check if the service id is valid.
+            $num_rows = $this->db->get_where('ea_services', array('id' => $appointment_data['id_services']))->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Appointment customer id is invalid.');
+            }
             
             return TRUE;
         } catch (Exception $exc) {
@@ -166,6 +196,16 @@ class Appointments_Model extends CI_Model {
      * @return bool Returns the delete operation result.
      */
     public function delete($appointment_id) {
+        if (!is_int($appointment_id)) { 
+            return FALSE; // Invalid parameter given.
+        }
+        
+        $num_rows = $this->db->get_where('ea_appointments', array('id' => $appointment_id))->num_rows();
+        
+        if ($num_rows == 0) {
+            return FALSE; // Record does not exist.
+        }
+        
         $this->db->where('id', $appointment_id);
         return $this->db->delete('ea_appointments');
     }
@@ -179,6 +219,9 @@ class Appointments_Model extends CI_Model {
      * field names.
      */
     public function get_row($appointment_id) {
+        if (!is_int($appointment_id)) {
+            throw new DatabaseException('Invalid argument given. Expected integer for the $appointment_id.');
+        }
         return $this->db->get_where('ea_appointments', array('id' => $appointment_id))->row_array();
     }
     
@@ -191,7 +234,25 @@ class Appointments_Model extends CI_Model {
      * @return string Returns the records value from the database.
      */
     public function get_value($field_name, $appointment_id) {
-        return $this->db->get_where('ea_appointments', array('id' => $appointment_id))->row_array()[$field_name];
+        if (!is_int($appointment_id)) {
+            throw new DatabaseException('Invalid argument given, expected integer for the $appointment_id.');
+        }
+        
+        if (!is_string($field_name)) {
+            throw new DatabaseException('Invalid argument given, expected string for the $field_name.');
+        }
+        
+        if ($this->db->get_where('ea_appointments', array('id' => $appointment_id))->num_rows() == 0) {
+            throw new DatabaseException('The record with the provided id does not exist in the datbase.');
+        }
+        
+        $row_data = $this->db->get_where('ea_appointments', array('id' => $appointment_id))->row_array();
+        
+        if (!isset($row_data[$field_name])) {
+            throw new DatabaseException('The given field name does not exist in the database.');
+        }
+        
+        return $row_data[$field_name];
     }
     
     /**
