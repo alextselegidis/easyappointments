@@ -41,23 +41,36 @@ class Appointments_Model extends CI_Model {
     /**
      * Check if a particular appointment record already exists.
      * 
-     * This method checks wether the given appointment already exists in 
-     * the database. This method does not search with the id, but with a
-     * combination of the appointments field values.
+     * This method checks wether the given appointment already exists  
+     * in the database. It doesn't search with the id, but by using the 
+     * following fields: "start_datetime", "end_datetime", "id_users_provider",
+     * "id_users_customer", "id_services".
      * 
-     * @uses find_record_id() 
+     * @expectedException InvalidArgumentException When the $appointment_data
+     * array does not contain the necessary field.
      * 
      * @param array $appointment_data Associative array with the appointment's
      * data. Each key has the same name with the database fields.
      * @return bool Returns wether the record exists or not.
      */
     public function exists($appointment_data) {   
-        try {
-            $this->find_record_id($appointment_data);
-            return TRUE;
-        } catch(DatabaseException $dbExc) {
-            return FALSE;
+        if (!isset($appointment_data['start_datetime'])
+                || !isset($appointment_data['end_datetime'])
+                || !isset($appointment_data['id_users_provider'])
+                || !isset($appointment_data['id_users_customer'])
+                || !isset($appointment_data['id_services'])) {
+            throw new InvalidArgumentException('Not all appointment field values are provided : ' . print_r($appointment_data, TRUE));
         }
+        
+        $num_rows = $this->db->get_where('ea_appointments', array(
+                            'start_datetime' => $appointment_data['start_datetime'],
+                            'end_datetime' => $appointment_data['end_datetime'],
+                            'id_users_provider' => $appointment_data['id_users_provider'],
+                            'id_users_customer' => $appointment_data['id_users_customer'],
+                            'id_services' => $appointment_data['id_services'],
+                        ))->num_rows();
+        
+        return ($num_rows > 0) ? TRUE : FALSE;
     }
     
     /**
@@ -192,12 +205,15 @@ class Appointments_Model extends CI_Model {
     /**
      * Delete an existing appointment record from the database.
      * 
+     * @expectedException InvalidArgumentException Raises when the $appointment_id
+     * is not an integer.
+     * 
      * @param int $appointment_id The record id to be deleted.
      * @return bool Returns the delete operation result.
      */
     public function delete($appointment_id) {
         if (!is_int($appointment_id)) { 
-            return FALSE; // Invalid parameter given.
+            throw new InvalidArgumentException('Invalid argument type $appointment_id : ' . $appointment_id);
         }
         
         $num_rows = $this->db->get_where('ea_appointments', array('id' => $appointment_id))->num_rows();
@@ -220,7 +236,7 @@ class Appointments_Model extends CI_Model {
      */
     public function get_row($appointment_id) {
         if (!is_int($appointment_id)) {
-            throw new DatabaseException('Invalid argument given. Expected integer for the $appointment_id.');
+            throw new InvalidArgumentException('Invalid argument given. Expected integer for the $appointment_id : ' . $appointment_id);
         }
         return $this->db->get_where('ea_appointments', array('id' => $appointment_id))->row_array();
     }
@@ -235,21 +251,21 @@ class Appointments_Model extends CI_Model {
      */
     public function get_value($field_name, $appointment_id) {
         if (!is_int($appointment_id)) {
-            throw new DatabaseException('Invalid argument given, expected integer for the $appointment_id.');
+            throw new InvalidArgumentException('Invalid argument given, expected integer for the $appointment_id : ' . $appointment_id);
         }
         
         if (!is_string($field_name)) {
-            throw new DatabaseException('Invalid argument given, expected string for the $field_name.');
+            throw new InvalidArgumentException('Invalid argument given, expected string for the $field_name : ' . $field_name);
         }
         
         if ($this->db->get_where('ea_appointments', array('id' => $appointment_id))->num_rows() == 0) {
-            throw new DatabaseException('The record with the provided id does not exist in the datbase.');
+            throw new InvalidArgumentException('The record with the provided id does not exist in the database : ' . $appointment_id);
         }
         
         $row_data = $this->db->get_where('ea_appointments', array('id' => $appointment_id))->row_array();
         
         if (!isset($row_data[$field_name])) {
-            throw new DatabaseException('The given field name does not exist in the database.');
+            throw new InvalidArgumentException('The given field name does not exist in the database : ' . $field_name);
         }
         
         return $row_data[$field_name];

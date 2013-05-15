@@ -125,14 +125,14 @@ class Unit_tests_appointments_model extends CI_Driver {
                                 'id_services' => $this->service_id
                              );
         
-        $hasThrownException = FALSE; // This method must throw a validation exception.
+        $has_thrown_exception = FALSE; // This method must throw a validation exception.
         try {
             $this->CI->Appointments_Model->add($appointment_data);
         } catch(ValidationException $valExc) {
-            $hasThrownException = TRUE;
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test add() appointment with wrong date format.', 'A validation exception must be thrown.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test add() appointment with wrong date format.', 'A validation exception must be thrown.');
     }
     
     /**
@@ -140,7 +140,7 @@ class Unit_tests_appointments_model extends CI_Driver {
      * 
      * Insert a new appointment and test if it exists.
      */
-    private function test_appointment_exists() {
+    private function test_exists() {
         // Insert new appointment (this row will be checked later).
         $appointment_data = array(
                                'start_datetime' => '2013-05-01 12:30:00',
@@ -160,7 +160,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
     }
     
-    private function test_appointment_does_not_exist() {
+    private function test_exists_record_does_not_exist() {
         // Create random appointmnet data that doesn't exist in the database.
         $appointment_data = array(
                                'start_datetime' => '2013-05-01 08:33:45',
@@ -174,7 +174,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $this->CI->unit->run($this->CI->Appointments_Model->exists($appointment_data), FALSE, 'Test exists() method with an appointment that does not exist');
     }
     
-    private function test_appointment_exists_wrong_data() {
+    private function test_exists_with_wrong_data() {
         // Create random appointmnet data that doesn't exist in the database.
         $appointment_data = array(
                                'start_datetime' => '2WRONG013-05-01 0WRONG8:33:45',
@@ -232,15 +232,15 @@ class Unit_tests_appointments_model extends CI_Driver {
                            );
         
         // Load the appointments model and execute the find record id method.
-        $hasThrownException = FALSE;
+        $has_thrown_exception = FALSE;
         
         try {
             $this->CI->Appointments_Model->find_record_id($appointment_data);
-        } catch(DatabaseException $dbExc) {
-            $hasThrownException = TRUE;
+        } catch(DatabaseException $db_exc) {
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test find_record_id() with appointment ' 
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test find_record_id() with appointment ' 
                 . 'data that does not exist in the database.', 'A database exception is expected '
                 . 'to be raised.');
     }
@@ -264,15 +264,15 @@ class Unit_tests_appointments_model extends CI_Driver {
         
         // Try to find the appointmet's record id. A database 
         // exception should be raised.
-        $hasThrownException = FALSE;
+        $has_thrown_exception = FALSE;
         
         try {
             $this->CI->Appointments_Model->find_record_id($appointment_data);
-        } catch(DatabaseException $dbExc) {
-            $hasThrownException = TRUE;
+        } catch(DatabaseException $db_exc) {
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test find_record_id() with appointment ' 
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test find_record_id() with appointment ' 
                 . 'data array with wrong values.', 'A database exception is expected to be raised.');
     } 
     
@@ -321,10 +321,15 @@ class Unit_tests_appointments_model extends CI_Driver {
     private function test_delete_record_wrong_parameter_given() {
         $wrong_record_id = 'not_an_integer';
         
-        $delete_result = $this->CI->Appointments_Model->delete($wrong_record_id);
-        echo $delete_result;
-        $this->CI->unit->run($delete_result, FALSE, 'Test delete() method with a record id' 
-                . ' that is not an integer');
+        $has_thrown_exception = FALSE;
+        
+        try {
+            $this->CI->Appointments_Model->delete($wrong_record_id);
+        } catch (InvalidArgumentException $ia_exc) {
+            $has_thrown_exception = TRUE;
+        }
+
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test delete() method with argument that is not an integer.');
     }
     
     /**
@@ -381,15 +386,15 @@ class Unit_tests_appointments_model extends CI_Driver {
      * igniter handles itself wrong queries.
      */
     private function unabled_test_get_batch_wrong_where_clause() {
-        $hasThrownException = FALSE;
+        $has_thrown_exception = FALSE;
         
         try {
             $this->CI->Appointments_Model->get_batch('WRONG QUERY HERE');
-        } catch(DatabaseException $dbExc) {
-            $hasThrownException = TRUE;
+        } catch(DatabaseException $db_exc) {
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_batch() with wrong where clause.',
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_batch() with wrong where clause.',
                 'A database excpetion is expected to be thrown.');
     }
     
@@ -436,17 +441,17 @@ class Unit_tests_appointments_model extends CI_Driver {
      * 
      * A database exception is expected.
      */
-    private function test_get_row_wrong_argument_given() {
-        $wrong_arguement_id = 'THIS IS NOT AN INTEGER';
+    private function test_get_row_with_invalid_argument() {
+        $invalid_id = 'THIS IS NOT AN INTEGER';
         
-        $hasThrownException = FALSE;
+        $has_thrown_exception = FALSE;
         try {
-            $this->CI->Appointments_Model->get_row($wrong_arguement_id);        
-        } catch (DatabaseException $dbExc) {
-            $hasThrownException = TRUE;
+            $this->CI->Appointments_Model->get_row($invalid_id);        
+        } catch (InvalidArgumentException $db_exc) {
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_row() with wrong arguement.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_row() with wrong argument.');
     }
     
     /**
@@ -466,7 +471,6 @@ class Unit_tests_appointments_model extends CI_Driver {
         $appointment_data['id'] = $this->CI->db->insert_id();
         
         // Get a specific value from the database.
-        
         $db_value = $this->CI->Appointments_Model->get_value('start_datetime', $appointment_data['id']);
         
         // Check if the value was correctly fetched from the database.
@@ -485,15 +489,15 @@ class Unit_tests_appointments_model extends CI_Driver {
     private function test_get_value_record_does_not_exist() {
         $random_record_id = 843521368768;
         
-        $hasThrownException = FALSE;
+        $has_thrown_exception = FALSE;
         
         try {
             $this->CI->Appointments_Model->get_value('start_datetime', $random_record_id);
-        } catch (DatabaseException $dbExc) {
-            $hasThrownException = TRUE;
+        } catch (InvalidArgumentException $db_exc) {
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_value() with record id that does not exist.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that does not exist.');
     }
     
     /**
@@ -517,15 +521,15 @@ class Unit_tests_appointments_model extends CI_Driver {
         
         // Try to get record value with wrong field name.
         $wrong_field_name = 'THIS IS WRONG';
-        $hasThrownException = FALSE;
+        $has_thrown_exception = FALSE;
         
         try {
             $this->CI->Appointments_Model->get_value($wrong_field_name, $appointment_data['id']);
-        } catch (DatabaseException $dbExc) {
-            $hasThrownException = TRUE;
+        } catch (InvalidArgumentException $db_exc) {
+            $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($hasThrownException, TRUE, 'Test get_value() with record id that does not exist.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that does not exist.');
         
         // Delete inserted record.
         $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));

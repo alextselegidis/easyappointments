@@ -20,7 +20,10 @@ class Unit_tests extends CI_Driver_Library {
         // the unit testing classes.
         $this->valid_drivers = array(
             'Unit_tests_appointments_model',
-            'Unit_tests_customers_model'
+            'Unit_tests_customers_model',
+            'Unit_tests_providers_model',
+            'Unit_tests_services_model',
+            'Unit_tests_settings_model'
         );
     }
     
@@ -49,6 +52,9 @@ class Unit_tests extends CI_Driver_Library {
     public function run_model_tests($output_report = true) {
         $this->appointments_model->run_all();
         $this->customers_model->run_all();
+        $this->settings_model->run_all();
+        $this->providers_model->run_all();
+        $this->services_model->run_all();
         
         if ($output_report) {
             $this->CI->output->append_output($this->CI->unit->report());
