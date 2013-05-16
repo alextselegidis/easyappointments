@@ -161,7 +161,7 @@ class Unit_tests_appointments_model extends CI_Driver {
     }
     
     private function test_exists_record_does_not_exist() {
-        // Create random appointmnet data that doesn't exist in the database.
+        // Create random appointment data that doesn't exist in the database.
         $appointment_data = array(
                                'start_datetime' => '2013-05-01 08:33:45',
                                'end_datetime' => '2013-05-02 13:13:13',
@@ -175,7 +175,7 @@ class Unit_tests_appointments_model extends CI_Driver {
     }
     
     private function test_exists_with_wrong_data() {
-        // Create random appointmnet data that doesn't exist in the database.
+        // Create random appointment data that doesn't exist in the database.
         $appointment_data = array(
                                'start_datetime' => '2WRONG013-05-01 0WRONG8:33:45',
                                'end_datetime' => '2013-0WRONG5-02 13:13:WRONG13',
@@ -190,10 +190,10 @@ class Unit_tests_appointments_model extends CI_Driver {
     
     /**
      * Test the find record id method with a record that already 
-     * exists in the databse.
+     * exists in the database.
      */
     private function test_find_record_id() {
-        // Create a new appointmnet record.
+        // Create a new appointment record.
         $appointment_data = array(
                                'start_datetime' => '2013-05-01 12:30:00',
                                'end_datetime' => '2013-05-01 13:00:00',
@@ -262,7 +262,7 @@ class Unit_tests_appointments_model extends CI_Driver {
                                'id_services' => 'WRONG'
                            );
         
-        // Try to find the appointmet's record id. A database 
+        // Try to find the appointment's record id. A database 
         // exception should be raised.
         $has_thrown_exception = FALSE;
         
@@ -280,7 +280,7 @@ class Unit_tests_appointments_model extends CI_Driver {
      * Test the normal flow of deleting an appointment record.
      */
     private function test_delete() {
-        // Create a new appointmnet record.
+        // Create a new appointment record.
         $appointment_data = array(
                                'start_datetime' => '2013-05-01 12:30:00',
                                'end_datetime' => '2013-05-01 13:00:00',
@@ -395,7 +395,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         }
         
         $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_batch() with wrong where clause.',
-                'A database excpetion is expected to be thrown.');
+                'A database exception is expected to be thrown.');
     }
     
     /**
