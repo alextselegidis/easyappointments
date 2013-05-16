@@ -1,0 +1,5 @@
+Vesrion 0.1
+===========
+Includes an implementation of the basic flow for 
+the appointment reservation use case and unit testing
+for the model classes of the system.
