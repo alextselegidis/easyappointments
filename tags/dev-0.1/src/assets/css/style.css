@@ -1,0 +1,132 @@
+/**
+ * MAIN CSS FILE FOR EASY!APPOINTMENTS
+ */
+root { 
+    display: block;
+}
+
+body {  
+    background-color: #CAEDF3;
+}
+
+
+/* REGISTER APPOINTMENT
+ ------------------------------------------------------------------------------ */
+#book-appointment {
+    width: 660px;
+    background: #FFF;
+    box-shadow: 0px 1px 1px #B6B6B6;
+    min-height: 480px;
+}
+
+#book-appointment #top-bar {
+    padding: 5px;
+    height: 70px;
+    background: #3DD481;
+    border-bottom: 4px solid #1A865F;
+}
+
+#book-appointment #business-name { 
+    font-weight: bold;
+    color: #FFF;
+    font-size: 27px;
+    margin: 27px 10px 0 14px;
+    display: inline-block;
+    text-shadow: 0px 1px 1px #8F8888;
+    float: left;
+}
+
+#book-appointment #book-steps {
+    width: 204px;
+    display: inline-block;
+    float: right;
+    margin-top: 15px;
+}
+
+#book-appointment .book-appoinment-step {
+    padding: 10px 20px;
+    height: 434px;
+}
+
+#book-appointment .book-appoinment-step .book-step-content {
+    height: 370px;
+    margin-bottom: 10px;
+}
+
+#book-appointment .command-buttons {
+    float: right;
+}
+
+#book-appointment .command-buttons .btn {
+    min-width: 80px;
+    margin-right: 10px;
+}
+
+#book-appointment .book-step {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    float: left;
+    background: #FFF;
+    padding: 3px;
+    margin-right: 15px;
+    margin-top: 10px;
+    border: 3px solid #38A07A;
+}
+
+#book-appointment .book-step strong {
+    font-size: 18px;
+    display: block;
+    text-align: center;
+    color: #B6DFC6;
+}
+
+#book-appointment .active-step {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    float: left;
+    background: #FFF;
+    padding: 10px;
+    margin-right: 15px;
+    margin-top: 0px;
+    border: 3px solid #38A07A;
+}
+
+#book-appointment .active-step strong {
+    color: #396946;
+    font-size: 25px;
+}
+
+#book-appointment #frame-footer {
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #EEE;
+    background: #FAFAFA;
+}
+
+.custom-qtip {
+    border-width: 2px;
+}
+
+#available-hours .available-hour {
+    font-size: 15px;
+    padding: 1px;
+    display: inline-block;
+}
+
+#available-hours .available-hour:hover {
+    font-weight: bold;
+    background-color: #CAEDF3;
+    cursor: pointer;
+}
+
+#available-hours .selected-hour {
+    color: #0088cc;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#book-appointment .span3 {
+    min-width: 270px; /* This is especially needed for ie8 */
+}
