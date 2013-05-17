@@ -4,23 +4,62 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE CSS FILES ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/libs/jquery/jquery-ui.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/libs/jquery/jquery.qtip.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/style.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/libs/jquery/jquery-ui.min.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/libs/jquery/jquery.qtip.min.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/style.css">
 
     <?php // INCLUDE JS FILES ?>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.qtip.min.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/frontend/book_appointment.js"></script>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery-ui.min.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.qtip.min.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/frontend/book_appointment.js">
+    </script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js">
+    </script>
     
     <?php // SET FAVICON FOR PAGE ?>
-    <link rel="icon" type="image/x-icon" href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
+    <link 
+        rel="icon" 
+        type="image/x-icon" 
+        href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
     
     <?php // JS GLOBAL VARIABLE DECLARATION ?>
     <script type="text/javascript">
@@ -45,7 +84,7 @@
     <div id="main" class="container">
         <div id="book-appointment">
             <div id="top-bar">
-                <span id="business-name"><?php echo $business_name; ?></span>
+                <span id="business-name"><?php echo $company_name; ?></span>
                 <div id="book-steps">
                     <div id="step-1" class="book-step active-step" title="Select Service & Provider">
                         <strong>1</strong>
@@ -72,7 +111,8 @@
                         <select id="select-service">
                             <?php 
                                 foreach($available_services as $service) {
-                                    echo '<option value="' . $service['id'] . '">' . $service['name'] . '</option>';
+                                    echo '<option value="' . $service['id'] . '">' 
+                                            . $service['name'] . '</option>';
                                 }
                             ?>
                         </select>
@@ -83,7 +123,8 @@
                 </div>
                 
                 <div class="command-buttons">
-                    <button type="button" id="button-next-1" class="btn button-next btn-primary" data-step_index="1">Next <i class="icon-forward icon-white"></i></button>
+                    <button type="button" id="button-next-1" class="btn button-next btn-primary" 
+                            data-step_index="1">Next <i class="icon-forward icon-white"></i></button>
                 </div>
             </div>
 
@@ -102,8 +143,10 @@
                 </div>
                 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-2" class="btn button-back" data-step_index="2"><i class="icon-backward"></i> Back</button>
-                    <button type="button" id="button-next-2" class="btn button-next btn-primary" data-step_index="2">Next <i class="icon-forward icon-white"></i></button>
+                    <button type="button" id="button-back-2" class="btn button-back" 
+                            data-step_index="2"><i class="icon-backward"></i> Back</button>
+                    <button type="button" id="button-next-2" class="btn button-next btn-primary" 
+                            data-step_index="2">Next <i class="icon-forward icon-white"></i></button>
                 </div>
             </div>
 
@@ -146,8 +189,10 @@
                 </div>
                 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-3" class="btn button-back" data-step_index="3"><i class="icon-backward"></i> Back</button>
-                    <button type="button" id="button-next-3" class="btn button-next btn-primary" data-step_index="3">Next <i class="icon-forward icon-white"></i></button>
+                    <button type="button" id="button-back-3" class="btn button-back" 
+                            data-step_index="3"><i class="icon-backward"></i> Back</button>
+                    <button type="button" id="button-next-3" class="btn button-next btn-primary" 
+                            data-step_index="3">Next <i class="icon-forward icon-white"></i></button>
                 </div>
             </div>
 
@@ -161,16 +206,18 @@
                 </div>
                 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-4" class="btn button-back" data-step_index="4"><i class="icon-backward"></i> Back</button>
+                    <button type="button" id="button-back-4" class="btn button-back" 
+                            data-step_index="4"><i class="icon-backward"></i> Back</button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
-                        <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Confirm</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="icon-ok icon-white"></i>Confirm</button>
                         <input type="hidden" name="post_data" />
                     </form>
                 </div>
             </div>
             
             <div id="frame-footer">
-                <em>Powered By <a href="https://code.google.com/p/easy-appointments/">Easy!Appointments</a></em>
+                Powered By <a href="https://code.google.com/p/easy-appointments/">Easy!Appointments</a>
             </div>
         </div>
     </div>

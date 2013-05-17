@@ -4,14 +4,26 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
-    <script type="text/javascript" src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js">
+    </script>
     
     <?php // INCLUDE CSS FILES ?>
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
     
     <?php // SET FAVICON FOR PAGE ?>
-    <link rel="icon" type="image/x-icon" href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
+    <link 
+        rel="icon" 
+        type="image/x-icon" 
+        href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
     
     <style>
         body {
@@ -37,9 +49,21 @@
 <body>
     <div id="success-frame" class="container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
+        
         <h2>Your appointment has been successfully registered.</h2>
         <p>An email with the appointment details has been sented to you.</p>
-        <a id="google-sync" href="<?php echo $this->config->base_url() . 'appointments/google_sync/' . $appointment_id; ?>">Sync with Google Calendar</a>
+        
+        <a id="google-sync" 
+           href="<?php echo $this->config->base_url() . 'appointments/google_sync/' . $appointment_id; ?>">
+            Sync with Google Calendar
+        </a>
+        
+        <?php 
+            // Display exception message (if any).
+            if (isset($notification_error)) {
+                echo $notification_error;
+            }
+        ?>
     </div>
 </body>
 </html>

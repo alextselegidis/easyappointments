@@ -10,5 +10,10 @@ class DatabaseException extends Exception {}
  */
 class ValidationException extends Exception {}
 
+/**
+ * Notification Exception Class
+ */
+class NotificationException extends Exception {}
+
 /* End of file exception_types_helper.php */
 /* Location: ./application/helpers/exception_types_helper.php */

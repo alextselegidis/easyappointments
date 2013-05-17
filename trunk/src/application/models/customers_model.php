@@ -193,7 +193,7 @@ class Customers_Model extends CI_Model {
      * @return bool Returns the delete operation result.
      */
     public function delete($customer_id) {
-        if (!is_int($customer_id)) {
+        if (!is_numeric($customer_id)) {
             throw new InvalidArgumentException('Invalid argument type $customer_id : ' . $customer_id);
         }
         
@@ -215,7 +215,7 @@ class Customers_Model extends CI_Model {
      * field names.
      */
     public function get_row($customer_id) {
-        if (!is_int($customer_id)) {
+        if (!is_numeric($customer_id)) {
             throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' . $customer_id);
         }
         return $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();
@@ -230,7 +230,7 @@ class Customers_Model extends CI_Model {
      * @return string Returns the records value from the database.
      */
     public function get_value($field_name, $customer_id) {
-        if (!is_int($customer_id)) {
+        if (!is_numeric($customer_id)) {
             throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' . $customer_id);
         }
         
