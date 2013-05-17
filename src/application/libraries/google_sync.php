@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 // Google API PHP Client is necessary to perform sync operations.
-require_once dirname(__FILE__) . '/google-api-php-client/Google_Client.php';
-require_once dirname(__FILE__) . '/google-api-php-client/contrib/Google_CalendarService.php';
+require_once dirname(__FILE__) . '/external/google-api-php-client/Google_Client.php';
+require_once dirname(__FILE__) . '/external/google-api-php-client/contrib/Google_CalendarService.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 
 class Google_Sync {
@@ -55,7 +55,8 @@ class Google_Sync {
         if (isset($_GET['code'])) { 
             $this->client->authenticate($_GET['code']);
             $_SESSION['google_api_token'] = $this->client->getAccessToken();
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']); // refreshes current url
+            header('Location: http://' . $_SERVER['HTTP_HOST'] 
+                    . $_SERVER['PHP_SELF']); // refreshes current url
         }
         
         // If there is an active token then assign it to the client object.
@@ -109,7 +110,7 @@ class Google_Sync {
         
         $event = new Google_Event();
         $event->setSummary($service['name']);
-        $event->setLocation($CI->Settings_Model->get_setting('business_name'));
+        $event->setLocation($CI->Settings_Model->get_setting('company_name'));
         
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));

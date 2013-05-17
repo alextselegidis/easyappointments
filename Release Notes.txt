@@ -1,5 +1,8 @@
-Vesrion 0.1
+VERSION 0.2
 ===========
-Includes an implementation of the basic flow for 
-the appointment reservation use case and unit testing
-for the model classes of the system.
+- Use the PHPMailer class for sending HTML emails.
+- Includes complete Google Sync protocol.
+- Customers can book appointments only for the available hours.
+- Generation of code documentation. 
+- Unit test the controller classes.
+- Minor Fixes

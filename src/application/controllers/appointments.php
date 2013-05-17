@@ -10,14 +10,14 @@ class Appointments extends CI_Controller {
             // Display the appointment booking page to the customer.
             // Get business name.
             $this->load->model('Settings_Model');
-            $view_data['business_name'] = $this->Settings_Model->get_setting('business_name');
+            $view_data['company_name'] = $this->Settings_Model->get_setting('company_name');
 
             // Get the available services and providers.
             $this->load->model('Services_Model');
             $view_data['available_services'] = $this->Services_Model->get_available_services();
 
             $this->load->model('Providers_Model');
-            $view_data['available_providers'] = $this->Providers_Model->get_available_providers(); // Provider rows contain an array of which services they can provide.
+            $view_data['available_providers'] = $this->Providers_Model->get_available_providers();
 
             // Load the book appointment view.
             $this->load->view('appointments/book', $view_data);
@@ -35,8 +35,15 @@ class Appointments extends CI_Controller {
             
             // Send an email to the customer with the appointment info.
             $this->load->library('Notifications');
-            $this->notifications->send_book_success($post_data['customer'], $post_data['appointment']);
-            $this->notifications->send_new_appointment($post_data['customer'], $post_data['appointment']);
+            try {
+                $this->notifications->send_book_success($post_data['customer'], $post_data['appointment']);
+                $this->notifications->send_new_appointment($post_data['customer'], $post_data['appointment']);
+            } catch (NotificationException $not_exc) {
+                $view_data['notification_error'] = '<br><br><pre>An unexpected error occured while sending  ' 
+                        . 'you an email. Please backup the appointment details so that you can restore them '
+                        . 'later. <br><br>Error:<br>' . $not_exc->getMessage() . '</pre>';
+            }
+                
             
             // Load the book appointment view.
             $this->load->view('appointments/book_success', $view_data);
@@ -100,8 +107,9 @@ class Appointments extends CI_Controller {
             $view_data['message'] = 'Your appointment has been successfully added to Google Calendar!';
             $view_data['image'] = 'success.png';
         } catch (Exception $exc) {
-            $view_data['message'] = 'An unexpected error occured during the sync operation: <br/><pre>' . $exc->getMessage() 
-                    . '<br/>' . $exc->getTraceAsString() . '</pre>';
+            $view_data['message'] = 'An unexpected error occured during the sync '
+                    . 'operation: <br/><pre>' . $exc->getMessage() . '<br/>' 
+                    . $exc->getTraceAsString() . '</pre>';
             $view_data['image'] = 'error.png';
         }
         

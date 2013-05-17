@@ -63,11 +63,12 @@ var bookAppointment = {
 
             $.each(GlobalVariables.providers, function(indexProvider, provider) {
                 $.each(provider['services'], function(indexService, serviceId) {
-                    if (serviceId == currServiceId) { 
+                    if (serviceId === currServiceId) { 
                         // This provider can provide the selected service.
                         // Add him to the list box.
-                        var optionHtml = '<option value="' + provider['id'] + '">' + provider['last_name'] 
-                            + ' ' + provider['first_name'] + '</option>';
+                        var optionHtml = '<option value="' + provider['id'] + '">' 
+                            + provider['last_name']  + ' ' + provider['first_name'] 
+                            + '</option>';
                         $('#select-provider').append(optionHtml);
                     }
                 });
@@ -83,7 +84,7 @@ var bookAppointment = {
         $('.button-next').click(function() {
             // If we are on the 3rd tab then we will need to validate the user's 
             // input.
-            if ($(this).attr('data-step_index') == 3) {
+            if ($(this).attr('data-step_index') === 3) {
                 if (!bookAppointment.validateCustomerDataForm()) {
                     return; // Do not continue.
                 } else {
@@ -135,7 +136,7 @@ var bookAppointment = {
         // for the chosen service and provider.
         var selServiceDuration = 15; // Default duration.
         $.each(GlobalVariables.services, function(index, service) {
-            if (service['id'] == $('#select-service').val()) {
+            if (service['id'] === $('#select-service').val()) {
                 selServiceDuration = service['duration'];
             }
         })
@@ -177,8 +178,8 @@ var bookAppointment = {
                 $('.available-hour:eq(0)').addClass('selected-hour');
                 bookAppointment.updateConfirmData();
             } catch(exception) {
-                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected error occured during ' 
-                    + 'the available hours calculation. Please refresh the page and try again.');
+                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected error occured ' 
+                    + 'during the available hours calculation. Please refresh the page and try again.');
             }
         });
     },
@@ -194,7 +195,7 @@ var bookAppointment = {
         $('.required').css('border', '');
 
         $('.required').each(function() {
-            if ($(this).val() == '') {
+            if ($(this).val() === '') {
                 validationResult = false; 
                 $(this).css('border', '2px solid red');
             }
@@ -211,14 +212,15 @@ var bookAppointment = {
     updateConfirmData : function() {
         /*** SET APPOINTMENT INFO ***/
         var selectedDate = $('#select-date').datepicker('getDate');
-        if (selectedDate != null) {
+        if (selectedDate !== null) {
             selectedDate = Date.parse(selectedDate).toString('dd/MM/yyyy');
         }
 
         $('#appointment-info').html(
             '<h4>' + $('#select-service option:selected').text() + '</h4>' +
             $('#select-provider option:selected').text() + '<br/>' + 
-            '<strong class="text-info">' + selectedDate + ' ' + $('.selected-hour').text() + '</strong>'
+            '<strong class="text-info">' + selectedDate + ' ' 
+                    + $('.selected-hour').text() + '</strong>'
         );
 
         /*** SET CUSTOMER'S INFO ***/
@@ -245,7 +247,8 @@ var bookAppointment = {
         };
         
         postData['appointment'] = {
-            'start_datetime'    : $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') + ' ' + $('.selected-hour').text(),
+            'start_datetime'    : $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
+                                        + ' ' + $('.selected-hour').text() + ':00',
             'end_datetime'      : bookAppointment.getEndDatetime(),
             'notes'             : $('#notes').val(),
             'id_users_provider' : $('#select-provider').val(),
@@ -266,23 +269,24 @@ var bookAppointment = {
         var selServiceDuration = undefined;
         
         $.each(GlobalVariables.services, function(index, service) {
-            if (service.id == $('#select-service').val()) {
+            if (service.id === $('#select-service').val()) {
                 selServiceDuration = service.duration;
                 return; // Stop searching ... 
             }
         });
         
         // Add the duration to the start datetime.
-        var startDatetime = $('#select-date').datepicker('getDate').toString('MM/dd/yyyy') + ' ' + $('.selected-hour').text();
+        var startDatetime = $('#select-date').datepicker('getDate').toString('MM/dd/yyyy') 
+                + ' ' + $('.selected-hour').text();
         startDatetime = Date.parseExact(startDatetime, 'MM/dd/yyyy HH:mm');
         var endDatetime = undefined;
         
-        if (selServiceDuration != undefined && startDatetime != null) {
-            endDatetime = startDatetime.add({ minutstartDatetimees : parseInt(selServiceDuration) });
+        if (selServiceDuration !== undefined && startDatetime !== null) {
+            endDatetime = startDatetime.add({ 'minutes' : parseInt(selServiceDuration) });
         } else {
             endDatetime = new Date();
         }
         
-        return endDatetime.toString('yyyy-MM-dd HH:mm');
+        return endDatetime.toString('yyyy-MM-dd HH:mm:ss');
     }
 }

@@ -212,7 +212,7 @@ class Appointments_Model extends CI_Model {
      * @return bool Returns the delete operation result.
      */
     public function delete($appointment_id) {
-        if (!is_int($appointment_id)) { 
+        if (!is_numeric($appointment_id)) { 
             throw new InvalidArgumentException('Invalid argument type $appointment_id : ' . $appointment_id);
         }
         
@@ -235,7 +235,7 @@ class Appointments_Model extends CI_Model {
      * field names.
      */
     public function get_row($appointment_id) {
-        if (!is_int($appointment_id)) {
+        if (!is_numeric($appointment_id)) {
             throw new InvalidArgumentException('Invalid argument given. Expected integer for the $appointment_id : ' . $appointment_id);
         }
         return $this->db->get_where('ea_appointments', array('id' => $appointment_id))->row_array();
@@ -250,7 +250,7 @@ class Appointments_Model extends CI_Model {
      * @return string Returns the records value from the database.
      */
     public function get_value($field_name, $appointment_id) {
-        if (!is_int($appointment_id)) {
+        if (!is_numeric($appointment_id)) {
             throw new InvalidArgumentException('Invalid argument given, expected integer for the $appointment_id : ' . $appointment_id);
         }
         

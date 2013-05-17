@@ -17,7 +17,7 @@ class Providers_Model extends CI_Model {
      * field names.
      */
     public function get_row($provider_id) {
-        if (!is_int($provider_id)) {
+        if (!is_numeric($provider_id)) {
             throw new InvalidArgumentException('$provider_id argument is not an integer : ' . $provider_id);
         }
         return $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
@@ -32,7 +32,7 @@ class Providers_Model extends CI_Model {
      * @return string Returns the records value from the database.
      */
     public function get_value($field_name, $provider_id) {
-        if (!is_int($provider_id)) {
+        if (!is_numeric($provider_id)) {
             throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' . $provider_id);
         }
         
