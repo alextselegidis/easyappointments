@@ -74,7 +74,7 @@
     <?php // JQUERY PAGE STUFF ?>
     <script type="text/javascript">
         $(document).ready(function() {
-            bookAppointment.initialize(); 
+            bookAppointment.initialize(true); 
             GeneralFunctions.centerElementOnPage($('#book-appointment'));
         });
     </script>
@@ -104,10 +104,10 @@
 
             <?php // SELECT SERVICE AND PROVIDER ?>
             <div id="book-appointment-1" class="book-appoinment-step">
-                <div class="book-step-content">
-                    <h2>Select Service & Provider</h2>
-                    <div class="span5">
-                        <label for="select-service">Select Service</label>
+                <div class="step-frame">
+                    <h2 class="step-title">Select Service & Provider</h2>
+                    <div class="step-content"  style="width:270px">
+                        <label for="select-service"><strong>Select Service</strong></label>
                         <select id="select-service">
                             <?php 
                                 foreach($available_services as $service) {
@@ -117,7 +117,7 @@
                             ?>
                         </select>
 
-                        <label for="select-provider">Select Provider</label>
+                        <label for="select-provider"><strong>Select Provider</strong></label>
                         <select id="select-provider"></select>
                     </div>
                 </div>
@@ -130,15 +130,17 @@
 
             <?php // APPOINTMENT DATE ?>
             <div id="book-appointment-2" class="book-appoinment-step" style="display:none;">
-                <div class="book-step-content">
-                    <h2>Select Appointment Date And Time</h2>
-                    <div class="span3">
-                        <div id="select-date"></div>
-                    </div>
+                <div class="step-frame">
+                    <h2 class="step-title">Select Appointment Date And Time</h2>
+                    <div class="step-content" style="width:600px">
+                        <div class="span3">
+                            <div id="select-date"></div>
+                        </div>
 
-                    <div class="span3">
-                        <?php // Available hours are going to be fetched via ajax call. ?>
-                        <div id="available-hours"></div>
+                        <div class="span3">
+                            <?php // Available hours are going to be fetched via ajax call. ?>
+                            <div id="available-hours"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -152,40 +154,40 @@
 
             <?php // CUSTOMER'S INFO ?>
             <div id="book-appointment-3" class="book-appoinment-step" style="display:none;">
-                <div class="book-step-content">
-                    <h2>Fill In Your Information</h2>
+                <div class="step-frame">
+                    <h2 class="step-title">Fill In Your Information</h2>
+                    <div class="step-content" style="width:600px">
+                        <div class="span3">
+                            <label for="last-name">Last Name *</label>
+                            <input type="text" id="last-name" class="required" maxlength="250" />
 
-                    <div class="span3">
-                        <label for="last-name">Last Name *</label>
-                        <input type="text" id="last-name" class="required" maxlength="250" />
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" maxlength="100" />
 
-                        <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" maxlength="100" />
+                            <label for="email">Email *</label>
+                            <input type="text" id="email" class="required" maxlength="250" />
 
-                        <label for="email">Email *</label>
-                        <input type="text" id="email" class="required" maxlength="250" />
+                            <label for="phone-number">Phone Number *</label>
+                            <input type="text" id="phone-number" class="required" maxlength="60" />
 
-                        <label for="phone-number">Phone Number *</label>
-                        <input type="text" id="phone-number" class="required" maxlength="60" />
-                        
-                        <br/><br/>
-                        <em class="text-error">Fields with * are mandatory.</em>
+                            <br/><br/>
+                            <em class="text-error">Fields with * are mandatory.</em>
+                        </div>
+
+                        <div class="span3">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" maxlength="250" />
+
+                            <label for="city">City</label>
+                            <input type="text" id="city" maxlength="120" />
+
+                            <label for="zip-code">Zip Code</label>
+                            <input type="text" id="zip-code" maxlength="120" />
+
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" maxlength="500" rows="4"></textarea>
+                        </div>
                     </div>
-
-                    <div class="span3">
-                        <label for="address">Address</label>
-                        <input type="text" id="address" maxlength="250" />
-
-                        <label for="city">City</label>
-                        <input type="text" id="city" maxlength="120" />
-
-                        <label for="zip-code">Zip Code</label>
-                        <input type="text" id="zip-code" maxlength="120" />
-
-                        <label for="notes">Notes</label>
-                        <textarea id="notes" maxlength="500" rows="4"></textarea>
-                    </div>
-                    
                 </div>
                 
                 <div class="command-buttons">
@@ -198,11 +200,12 @@
 
             <?php // CONFIRMATION STEP ?>
             <div id="book-appointment-4" class="book-appoinment-step" style="display:none;">
-                <div class="book-step-content">
-                    <h2>Confirm Appointment</h2>
-
-                    <div id="appointment-info" class="span3"></div>
-                    <div id="customer-info" class="span3"></div>
+                <div class="step-frame">
+                    <h2 class="step-title">Confirm Appointment</h2>
+                    <div class="step-content" style="width:600px">
+                        <div id="appointment-info" class="span3"></div>
+                        <div id="customer-info" class="span3"></div>
+                    </div>
                 </div>
                 
                 <div class="command-buttons">
