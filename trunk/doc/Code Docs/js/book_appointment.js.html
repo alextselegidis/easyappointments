@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/book_appointment.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: frontend/book_appointment.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * This class implements the book appointment page functionality. 
+ * Once the initialize() method is called the page is fully functional 
+ * and can serve the appointment booking process.
+ * 
+ * @class Implelements the js part of the appointment booking page.
+ */
+var bookAppointment = {
+    /**
+     * This method initializes the book appointment page.
+     * 
+     * @param {bool} bindEventHandlers (OPTIONAL) Determines wether 
+     * the default event handlers will be binded to the dom elements.
+     */
+    initialize : function(bindEventHandlers) {
+        if (bindEventHandlers == undefined) {
+            bindEventHandlers = true; // Default value
+        }
+        
+        // Initialize page's components (tooltips, datepickers etc).
+        $('.book-step').qtip({
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
+        
+        $('#select-date').datepicker({
+            dateFormat  : 'dd-mm-yy',
+            minDate     : 0,
+            defaultDate : Date.today(),
+            onSelect    : function(dateText, instance) {
+                bookAppointment.getAvailableHours(dateText);
+                bookAppointment.updateConfirmData();
+            }
+        });
+       
+        // Bind the event handlers (might not be necessary every time
+        // we use this class).
+        if (bindEventHandlers) {
+            bookAppointment.bindEventHandlers();
+        }
+       
+        // Execute other necessary operations on startup.
+        $('#select-service').trigger('change');
+    },
+    
+    /**
+     * This method binds the necessary event handlers 
+     * for the book appointments page.
+     */
+    bindEventHandlers : function() {
+        /**
+         * Event : Selected Provider "Changed"
+         */
+        $('#select-provider').change(function() {
+            bookAppointment.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            bookAppointment.updateConfirmData();
+        });
+        
+        /**
+         * Event : Selected Service "Changed"
+         * 
+         * When the user clicks on a service, its available providers should 
+         * become visible. 
+         */
+        $('#select-service').change(function() {
+            var currServiceId = $('#select-service').val();
+            $('#select-provider').empty();
+
+            $.each(GlobalVariables.providers, function(indexProvider, provider) {
+                $.each(provider['services'], function(indexService, serviceId) {
+                    // If the current provider is able to provide the selected 
+                    // service, add him to the listbox. 
+                    if (serviceId == currServiceId) { 
+                        var optionHtml = '&lt;option value="' + provider['id'] + '">' 
+                            + provider['last_name']  + ' ' + provider['first_name'] 
+                            + '&lt;/option>';
+                        $('#select-provider').append(optionHtml);
+                    }
+                });
+            });
+
+            bookAppointment.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            bookAppointment.updateConfirmData();
+        });
+        
+        /**
+         * Event : Next Step Button "Clicked"
+         * 
+         * This handler is triggered every time the user pressed the 
+         * "next" button on the book wizard. Some special tasks might 
+         * be perfomed, depending the current wizard step.
+         */
+        $('.button-next').click(function() {
+            // If we are on the 3rd tab then we will need to validate the user's 
+            // input before proceeding to the next step.
+            if ($(this).attr('data-step_index') == '3') {
+                if (!bookAppointment.validateCustomerDataForm()) {
+                    return; // Validation failed, do not continue.
+                } else {
+                    bookAppointment.updateConfirmData();
+                }
+            }
+            
+            // Display the next step tab (uses jquery animation effect).
+            var nextTabIndex = parseInt($(this).attr('data-step_index')) + 1;
+
+            $(this).parents().eq(1).hide('fade', function() {    
+                $('.active-step').removeClass('active-step');
+                $('#step-' + nextTabIndex).addClass('active-step');
+                $('#book-appointment-' + nextTabIndex).show('fade');
+            });
+        });
+
+        /**
+         * Event : Back Step Button "Clicked"
+         * 
+         * This handler is triggered every time the user pressed the 
+         * "back" button on the book wizard.
+         */
+        $('.button-back').click(function() {
+            var prevTabIndex = parseInt($(this).attr('data-step_index')) - 1;
+
+            $(this).parents().eq(1).hide('fade', function() {    
+                $('.active-step').removeClass('active-step');
+                $('#step-' + prevTabIndex).addClass('active-step');
+                $('#book-appointment-' + prevTabIndex).show('fade');
+            });
+        });
+
+        /**
+         * Event : Available Hour "Click"
+         * 
+         * Triggered whenever the user clicks on an available hour
+         * for his appointment.
+         */
+        $('#available-hours').on('click', '.available-hour', function() {
+            $('.selected-hour').removeClass('selected-hour');
+            $(this).addClass('selected-hour');
+            bookAppointment.updateConfirmData();
+        });
+    },
+    
+    /**
+     * This function makes an ajax call and returns the available 
+     * hours for the selected service, provider and date.
+     * 
+     * @param {string} selDate The selected date of which the available
+     * hours we need to receive.
+     */
+    getAvailableHours : function(selDate) {
+        // Find the selected service duration (it is going to 
+        // be send within the "postData" object.
+        var selServiceDuration = 15; // Default value of duration (in minutes).
+        $.each(GlobalVariables.services, function(index, service) {
+            if (service['id'] == $('#select-service').val()) {
+                selServiceDuration = service['duration']; 
+            }
+        });
+
+        var postData = {
+            'service_id'         : $('#select-service').val(),
+            'provider_id'        : $('#select-provider').val(),
+            'selected_date'      : selDate,
+            'service_duration'   : selServiceDuration
+        };
+
+        // Make ajax post request and get the available hours.
+        var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
+        jQuery.post(ajaxurl, postData, function(postResponse) {
+            ////////////////////////////////////////////////////////////////////////////////
+            console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
+            ////////////////////////////////////////////////////////////////////////////////
+
+            try {
+                var jsonResponse = jQuery.parseJSON(postResponse);
+                ////////////////////////////////////////////////////////////////////////////////
+                //console.log('\n\n Get Available Hours JSON Response :', jsonResponse, '\n\n');
+                ////////////////////////////////////////////////////////////////////////////////
+
+                // Fill the available time div
+                var currColumn = 1;
+                $('#available-hours').html('&lt;div style="width:50px; float:left;">&lt;/div>');
+                $.each(jsonResponse, function(index, availableHour) {
+                    if ((currColumn * 10) &lt; (index + 1)) {
+                        currColumn++;
+                        $('#available-hours').append('&lt;div style="width:50px; float:left;">&lt;/div>');
+                    }
+
+                    $('#available-hours div:eq(' + (currColumn - 1) + ')')
+                        .append('&lt;span class="available-hour">' + availableHour + '&lt;/span>&lt;br/>');
+                });
+
+                // Set the first item as selected.
+                $('.available-hour:eq(0)').addClass('selected-hour');
+                bookAppointment.updateConfirmData();
+            } catch(exception) {
+                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected error occured ' 
+                    + 'during the available hours calculation. Please refresh the page and try again.');
+            }
+        });
+    },
+
+    /**
+     * This function validates the customer's data input.
+     * It only checks for empty fields by the time.
+     * 
+     * @return {bool} Returns the validation result.
+     */
+    validateCustomerDataForm : function() {
+        var validationResult = true;
+        $('.required').css('border', '');
+
+        $('.required').each(function() {
+            if ($(this).val() == '') {
+                validationResult = false; 
+                $(this).css('border', '2px solid red');
+            }
+        });
+
+        return validationResult;
+    },
+
+    /**
+     * Every time this function is executed, it updates the confirmation
+     * page with the latest customer settigns and input for the appointment 
+     * booking.
+     */
+    updateConfirmData : function() {
+        /*** SET APPOINTMENT INFO ***/
+        var selectedDate = $('#select-date').datepicker('getDate');
+        if (selectedDate !== null) {
+            selectedDate = Date.parse(selectedDate).toString('dd-MM-yyyy');
+        }
+
+        $('#appointment-info').html(
+            '&lt;h4>' + $('#select-service option:selected').text() + '&lt;/h4>' +
+            $('#select-provider option:selected').text() + '&lt;br/>' + 
+            '&lt;strong class="text-info">' + selectedDate + ' ' 
+                    + $('.selected-hour').text() + '&lt;/strong>'
+        );
+
+        /*** SET CUSTOMER'S INFO ***/
+        $('#customer-info').html(
+            '&lt;h4>' + $('#last-name').val() + ' ' + $('#first-name').val() + '&lt;/h4>' + 
+            'Phone: ' + $('#phone-number').val() + '&lt;br/>' + 
+            'Email: ' + $('#email').val() + '&lt;br/>' + 
+            'Address: ' + $('#address').val() + '&lt;br/>' + 
+            'City: ' + $('#city').val() + '&lt;br/>' + 
+            'Zip Code: ' + $('#zip-code').val()
+        );
+            
+        /*** UPDATE FORM POST DATA ***/
+        var postData = new Object();
+        
+        postData['customer'] = {
+            'last_name'      : $('#last-name').val(),
+            'first_name'     : $('#first-name').val(),
+            'email'          : $('#email').val(),
+            'phone_number'   : $('#phone-number').val(),
+            'address'        : $('#address').val(),
+            'city'           : $('#city').val(),
+            'zip_code'       : $('#zip-code').val()
+        };
+        
+        postData['appointment'] = {
+            'start_datetime'    : $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
+                                        + ' ' + $('.selected-hour').text() + ':00',
+            'end_datetime'      : bookAppointment.calcEndDatetime(),
+            'notes'             : $('#notes').val(),
+            'id_users_provider' : $('#select-provider').val(),
+            'id_services'       : $('#select-service').val()
+        };
+        
+        $('input[name="post_data"]').val(JSON.stringify(postData));
+    },
+    
+    /** 
+     * This method calculates the end datetime of the current appointment. 
+     * End datetime is depending on the service and start datetime fieldss.
+     * 
+     * @return {string} Returns the end datetime in string format.
+     */
+    calcEndDatetime : function() {
+        // Find selected service duration. 
+        var selServiceDuration = undefined;
+        
+        $.each(GlobalVariables.services, function(index, service) {
+            if (service.id == $('#select-service').val()) {
+                selServiceDuration = service.duration;
+                return; // Stop searching ... 
+            }
+        });
+        
+        // Add the duration to the start datetime.
+        var startDatetime = $('#select-date').datepicker('getDate').toString('dd-MM-yyyy') 
+                + ' ' + $('.selected-hour').text();
+        startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
+        var endDatetime = undefined;
+        
+        if (selServiceDuration !== undefined && startDatetime !== null) {
+            endDatetime = startDatetime.add({ 'minutes' : parseInt(selServiceDuration) });
+        } else {
+            endDatetime = new Date();
+        }
+        
+        return endDatetime.toString('yyyy-MM-dd HH:mm:ss');
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="bookAppointment.html">bookAppointment</a></li></ul><h3>Namespaces</h3><ul><li><a href="functions..html">General javascript functions.</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Mon May 20 2013 18:38:05 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

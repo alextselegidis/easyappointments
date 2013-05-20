@@ -48,9 +48,19 @@ body {
     height: 434px;
 }
 
-#book-appointment .book-appoinment-step .book-step-content {
+#book-appointment .book-appoinment-step .step-frame {
     height: 370px;
     margin-bottom: 10px;
+}
+
+#book-appointment .step-frame .step-title {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+#book-appointment .step-frame .step-content {
+    margin: auto;
+    float: none;
 }
 
 #book-appointment .command-buttons {
