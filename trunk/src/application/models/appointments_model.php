@@ -83,6 +83,7 @@ class Appointments_Model extends CI_Model {
      * @return int Returns the id of the new record.
      */
     private function insert($appointment_data) {
+        $appointment_data['hash'] = $this->generate_hash();
         if (!$this->db->insert('ea_appointments', $appointment_data)) {
             throw new DatabaseException('Could not insert appointment record.');
         }
@@ -286,6 +287,21 @@ class Appointments_Model extends CI_Model {
         }
         
         return $this->db->get('ea_appointments')->result_array();
+    }
+    
+    /**
+     * Generate a unique hash for the given appointment data.
+     * 
+     * This method uses the current date-time to generate a unique 
+     * hash string that is later used to identify this appointment. 
+     * Hash is needed when the email is send to the user with an 
+     * edit link.
+     * 
+     * @return string Returns the unique appointment hash.
+     */
+    public function generate_hash() {
+        $current_date = new DateTime();
+        return md5($current_date->getTimestamp());
     }
 }
 

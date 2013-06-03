@@ -3,7 +3,10 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
-    <?php // INCLUDE CSS FILES ?>
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE CSS FILES 
+        // ------------------------------------------------------------ ?>
     <link 
         rel="stylesheet" 
         type="text/css" 
@@ -25,7 +28,10 @@
         type="text/css" 
         href="<?php echo $this->config->base_url(); ?>assets/css/style.css">
 
-    <?php // INCLUDE JS FILES ?>
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE JAVASCRIPT FILES 
+        // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js">
@@ -55,37 +61,50 @@
         src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js">
     </script>
     
-    <?php // SET FAVICON FOR PAGE ?>
+    <?php
+        // ------------------------------------------------------------
+        // WEBPAGE FAVICON
+        // ------------------------------------------------------------ ?>
     <link 
         rel="icon" 
         type="image/x-icon" 
         href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
     
-    <?php // JS GLOBAL VARIABLE DECLARATION ?>
+    <?php
+        // ------------------------------------------------------------
+        // VIEW FILE JAVASCRIPT CODE
+        // ------------------------------------------------------------ ?>
     <script type="text/javascript">
-        // Define some global variables. 
         GlobalVariables = {
-            services    : <?php echo json_encode($available_services); ?>,
-            providers   : <?php echo json_encode($available_providers); ?>,
-            baseUrl     : <?php echo '"' . $this->config->base_url() . '"'; ?>
-        }
-    </script>
-    
-    <?php // JQUERY PAGE STUFF ?>
-    <script type="text/javascript">
+            availableServices   : <?php echo json_encode($available_services); ?>,
+            availableProviders  : <?php echo json_encode($available_providers); ?>,
+            baseUrl             : <?php echo '"' . $this->config->base_url() . '"'; ?>,
+            manageMode          : <?php echo ($manage_mode) ? 'true' : 'false'; ?>,
+            appointmentData     : <?php echo json_encode($appointment_data); ?>,
+            providerData        : <?php echo json_encode($provider_data); ?>,
+            customerData        : <?php echo json_encode($customer_data); ?>
+        };
+        
         $(document).ready(function() {
-            bookAppointment.initialize(true); 
-            GeneralFunctions.centerElementOnPage($('#book-appointment'));
+            bookAppointment.initialize(true, GlobalVariables.manageMode); 
+            GeneralFunctions.centerElementOnPage($('#book-appointment-wizard'));
         });
     </script>
 </head>
 
 <body>
     <div id="main" class="container">
-        <div id="book-appointment">
-            <div id="top-bar">
-                <span id="business-name"><?php echo $company_name; ?></span>
-                <div id="book-steps">
+        
+        <div id="book-appointment-wizard">
+            
+            <?php 
+                // ------------------------------------------------------
+                // FRAME TOP BAR 
+                // ------------------------------------------------------ ?>
+            <div id="header">
+                <span id="company-name"><?php echo $company_name; ?></span>
+                
+                <div id="steps">
                     <div id="step-1" class="book-step active-step" title="Select Service & Provider">
                         <strong>1</strong>
                     </div>
@@ -101,13 +120,36 @@
                     </div>
                 </div>
             </div>
-
-            <?php // SELECT SERVICE AND PROVIDER ?>
-            <div id="book-appointment-1" class="book-appoinment-step">
-                <div class="step-frame">
-                    <h2 class="step-title">Select Service & Provider</h2>
-                    <div class="step-content"  style="width:270px">
-                        <label for="select-service"><strong>Select Service</strong></label>
+            
+            <?php
+                // ------------------------------------------------------
+                // CANCEL APPOINTMENT BUTTON
+                // ------------------------------------------------------
+                if ($manage_mode === TRUE) {
+                    echo '
+                        <div id="cancel-appointment-frame">
+                            <p>
+                                Press the "Cancel" button to remove the appointment
+                                from the company schedule.
+                            </p>
+                            <button id="cancel-appointment" class="button">Cancel</button>
+                        </div>';
+                }   
+            ?>
+            
+            <?php 
+                // ------------------------------------------------------
+                // SELECT SERVICE AND PROVIDER 
+                // ------------------------------------------------------ ?>
+            <div id="wizard-frame-1" class="wizard-frame">                
+                <div class="frame-container">
+                    <h2 class="frame-title">Select Service & Provider</h2>
+                    
+                    <div class="frame-content" style="width:270px">
+                        <label for="select-service">
+                            <strong>Select Service</strong>
+                        </label>
+                        
                         <select id="select-service">
                             <?php 
                                 foreach($available_services as $service) {
@@ -117,7 +159,10 @@
                             ?>
                         </select>
 
-                        <label for="select-provider"><strong>Select Provider</strong></label>
+                        <label for="select-provider">
+                            <strong>Select Provider</strong>
+                        </label>
+                        
                         <select id="select-provider"></select>
                     </div>
                 </div>
@@ -128,11 +173,16 @@
                 </div>
             </div>
 
-            <?php // APPOINTMENT DATE ?>
-            <div id="book-appointment-2" class="book-appoinment-step" style="display:none;">
-                <div class="step-frame">
-                    <h2 class="step-title">Select Appointment Date And Time</h2>
-                    <div class="step-content" style="width:600px">
+            <?php 
+                // ------------------------------------------------------
+                // SELECT APPOINTMENT DATE
+                // ------------------------------------------------------ ?>
+            <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
+                <div class="frame-container">
+                    
+                    <h2 class="frame-title">Select Appointment Date And Time</h2>
+                    
+                    <div class="frame-content" style="width:600px">
                         <div class="span3">
                             <div id="select-date"></div>
                         </div>
@@ -152,11 +202,16 @@
                 </div>
             </div>
 
-            <?php // CUSTOMER'S INFO ?>
-            <div id="book-appointment-3" class="book-appoinment-step" style="display:none;">
-                <div class="step-frame">
-                    <h2 class="step-title">Fill In Your Information</h2>
-                    <div class="step-content" style="width:600px">
+            <?php 
+                // ------------------------------------------------------
+                // ENTER CUSTOMER DATA
+                // ------------------------------------------------------ ?>
+            <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
+                <div class="frame-container">
+                    
+                    <h2 class="frame-title">Fill In Your Information</h2>
+                    
+                    <div class="frame-content" style="width:600px">
                         <div class="span3">
                             <label for="last-name">Last Name *</label>
                             <input type="text" id="last-name" class="required" maxlength="250" />
@@ -198,11 +253,14 @@
                 </div>
             </div>
 
-            <?php // CONFIRMATION STEP ?>
-            <div id="book-appointment-4" class="book-appoinment-step" style="display:none;">
-                <div class="step-frame">
-                    <h2 class="step-title">Confirm Appointment</h2>
-                    <div class="step-content" style="width:600px">
+            <?php 
+                // ------------------------------------------------------
+                // APPOINTMENT DATA CONFIRMATION 
+                // ------------------------------------------------------ ?>
+            <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
+                <div class="frame-container">
+                    <h2 class="frame-title">Confirm Appointment</h2>
+                    <div class="frame-content" style="width:600px">
                         <div id="appointment-info" class="span3"></div>
                         <div id="customer-info" class="span3"></div>
                     </div>
@@ -213,14 +271,25 @@
                             data-step_index="4"><i class="icon-backward"></i> Back</button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button type="submit" class="btn btn-success">
-                            <i class="icon-ok icon-white"></i>Confirm</button>
+                            <i class="icon-ok icon-white"></i>
+                            <?php
+                                echo (!$manage_mode) ? "Confirm" : "Update";
+                            ?>
+                        </button>
                         <input type="hidden" name="post_data" />
                     </form>
                 </div>
             </div>
             
+            <?php 
+                // ------------------------------------------------------
+                // FRAME FOOTER 
+                // ------------------------------------------------------ ?>
             <div id="frame-footer">
-                Powered By <a href="https://code.google.com/p/easy-appointments/">Easy!Appointments</a>
+                Powered By 
+                <a href="https://code.google.com/p/easy-appointments/">
+                    Easy!Appointments
+                </a>
             </div>
         </div>
     </div>

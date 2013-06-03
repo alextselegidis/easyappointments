@@ -41,7 +41,7 @@
     </style>
 </head>
 <body>
-    <div id="message-frame" class="container">
+    <div id="message-frame" class="frame-container">
         <img 
             id="message-icon" 
             src="<?php echo $this->config->base_url(); ?>assets/images/<?php echo $image; ?>" />

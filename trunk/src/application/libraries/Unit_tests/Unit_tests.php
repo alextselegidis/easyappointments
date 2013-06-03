@@ -69,7 +69,7 @@ class Unit_tests extends CI_Driver_Library {
      */
     public function run_library_tests($output_report = true) {
         // @task Implement unit tests for the libraries.
-        
+
         if ($output_report) {
             $this->CI->output->append_output($this->CI->unit->report());
         }

@@ -83,3 +83,23 @@ GeneralFunctions.centerElementOnPage = function(elementHandle) {
     });
     $(window).resize();
 }
+
+/**
+ * This function retrieves a parameter from a "GET" formed url. 
+ * 
+ * @link http://www.netlobo.com/url_query_string_javascript.html
+ * 
+ * @param {string} url The selected url.
+ * @param {string} name The parameter name.
+ * @returns {String} Returns the parameter value.         
+ */
+GeneralFunctions.getUrlParameter = function(url, parameterName) {
+   parameterName = parameterName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+   var regexS = "[\\#&]"+parameterName+"=([^&#]*)";
+   var regex = new RegExp( regexS );
+   var results = regex.exec( url );
+   if( results == null )
+       return "";
+   else
+       return results[1];
+}

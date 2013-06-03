@@ -120,7 +120,7 @@ class Unit_tests_customers_model extends CI_Driver {
             $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test add() customer with invalid email address');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test add() customer with invalid email address.');
     }
     
     private function test_add_missing_no_last_name() {
