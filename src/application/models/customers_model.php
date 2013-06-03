@@ -179,7 +179,6 @@ class Customers_Model extends CI_Model {
             
             return TRUE;
         } catch (Exception $exc) {
-            echo $exc->getMessage();
             return FALSE;
         }
     }

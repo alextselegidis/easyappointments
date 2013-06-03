@@ -47,7 +47,7 @@
     </style>
 </head>
 <body>
-    <div id="success-frame" class="container">
+    <div id="success-frame" class="frame-container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
         
         <h2>Your appointment has been successfully registered.</h2>

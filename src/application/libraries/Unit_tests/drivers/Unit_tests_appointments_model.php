@@ -74,8 +74,9 @@ class Unit_tests_appointments_model extends CI_Driver {
         
         // Check if the record is the one that was inserted.
         $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->row_array();
+        unset($db_data['hash']); // This should not be included because is generate when the record is inserted.
         $this->CI->unit->run($appointment_data, $db_data, 'Test if add() appointment (insert operation) has successfully inserted a record.');
-
+        
         // Delete inserted record.
         $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
     }
@@ -355,7 +356,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $appointment_data = array(
                                'start_datetime' => '2013-05-01 12:30:00',
                                'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
+                               'notes' => 'Some notes right here...',  
                                'id_users_provider' => $this->provider_id,
                                'id_users_customer' => $this->customer_id,
                                'id_services' => $this->service_id
@@ -407,6 +408,7 @@ class Unit_tests_appointments_model extends CI_Driver {
                                'start_datetime' => '2013-05-01 12:30:00',
                                'end_datetime' => '2013-05-01 13:00:00',
                                'notes' => 'Some notes right here...',
+                               'hash' => '91de2d31f5cbb6d26a5b1b3e710d38d1',
                                'id_users_provider' => $this->provider_id,
                                'id_users_customer' => $this->customer_id,
                                'id_services' => $this->service_id

@@ -1,20 +1,34 @@
 /**
- * This class implements the book appointment page functionality. 
- * Once the initialize() method is called the page is fully functional 
- * and can serve the appointment booking process.
+ * This class implements the book appointment page functionality. Once 
+ * the initialize() method is called the page is fully functional and 
+ * can serve the appointment booking process.
  * 
- * @class Implelements the js part of the appointment booking page.
+ * @class Implements the js part of the appointment booking page.
  */
 var bookAppointment = {
     /**
+     * Determines the functionality of the page.
+     * 
+     * @type Boolean
+     */
+    manageMode      : false,  
+    
+    /**
      * This method initializes the book appointment page.
      * 
-     * @param {bool} bindEventHandlers (OPTIONAL) Determines wether 
+     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether 
      * the default event handlers will be binded to the dom elements.
+     * @param {bool} manageMode (OPTIONAL) Determines whether the customer
+     * is going to make changes to an existing appointment rather than
+     * booking a new one.
      */
-    initialize : function(bindEventHandlers) {
-        if (bindEventHandlers == undefined) {
-            bindEventHandlers = true; // Default value
+    initialize : function(bindEventHandlers, manageMode) {
+        if (bindEventHandlers === undefined) {
+            bindEventHandlers = true; // Default Value
+        }
+        
+        if (manageMode === undefined) {
+            bookAppointment.manageMode = false; // Default Value
         }
         
         // Initialize page's components (tooltips, datepickers etc).
@@ -34,7 +48,7 @@ var bookAppointment = {
             defaultDate : Date.today(),
             onSelect    : function(dateText, instance) {
                 bookAppointment.getAvailableHours(dateText);
-                bookAppointment.updateConfirmData();
+                bookAppointment.updateConfirmFrame();
             }
         });
        
@@ -43,22 +57,31 @@ var bookAppointment = {
         if (bindEventHandlers) {
             bookAppointment.bindEventHandlers();
         }
-       
-        // Execute other necessary operations on startup.
-        $('#select-service').trigger('change');
+        
+        // If the manage mode is true, the appointments data should be
+        // loaded by default.
+        if (bookAppointment.manageMode) {
+            bookAppointment.applyAppointmentData(GlobalVariables.appointmentData,
+                    GlobalVariables.providerData, GlobalVariables.customerData);
+        } else {
+            $('#select-service').trigger('change'); // Load the available hours.
+        }
     },
     
     /**
-     * This method binds the necessary event handlers 
-     * for the book appointments page.
+     * This method binds the necessary event handlers for the book 
+     * appointments page.
      */
     bindEventHandlers : function() {
         /**
          * Event : Selected Provider "Changed"
+         * 
+         * Whenever the provider changes the available appointment
+         * date - time periods must be updated.
          */
         $('#select-provider').change(function() {
             bookAppointment.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
-            bookAppointment.updateConfirmData();
+            bookAppointment.updateConfirmFrame();
         });
         
         /**
@@ -71,21 +94,21 @@ var bookAppointment = {
             var currServiceId = $('#select-service').val();
             $('#select-provider').empty();
 
-            $.each(GlobalVariables.providers, function(indexProvider, provider) {
+            $.each(GlobalVariables.availableProviders, function(indexProvider, provider) {
                 $.each(provider['services'], function(indexService, serviceId) {
-                    // If the current provider is able to provide the selected 
-                    // service, add him to the listbox. 
+                    // If the current provider is able to provide the selected service,
+                    // add him to the listbox. 
                     if (serviceId == currServiceId) { 
                         var optionHtml = '<option value="' + provider['id'] + '">' 
-                            + provider['last_name']  + ' ' + provider['first_name'] 
-                            + '</option>';
+                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + '</option>';
                         $('#select-provider').append(optionHtml);
                     }
                 });
             });
 
             bookAppointment.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
-            bookAppointment.updateConfirmData();
+            bookAppointment.updateConfirmFrame();
         });
         
         /**
@@ -101,9 +124,10 @@ var bookAppointment = {
             if ($(this).attr('data-step_index') === '2') {
                 if ($('.selected-hour').length == 0) {
                     if ($('#select-hour-prompt').length == 0) {
-                        $('#available-hours').append('<br><br><strong id="select-hour-prompt"' 
-                                + ' class="text-error">Please select an appointment hour before ' 
-                                + 'continuing!</strong>');
+                        $('#available-hours').append('<br><br>'
+                                + '<strong id="select-hour-prompt" class="text-error">'
+                                + 'Please select an appointment hour before continuing!' 
+                                + '</strong>');
                     }
                     return;
                 }
@@ -112,10 +136,10 @@ var bookAppointment = {
             // If we are on the 3rd tab then we will need to validate the user's 
             // input before proceeding to the next step.
             if ($(this).attr('data-step_index') === '3') {
-                if (!bookAppointment.validateCustomerDataForm()) {
+                if (!bookAppointment.validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
-                    bookAppointment.updateConfirmData();
+                    bookAppointment.updateConfirmFrame();
                 }
             }
             
@@ -125,7 +149,7 @@ var bookAppointment = {
             $(this).parents().eq(1).hide('fade', function() {    
                 $('.active-step').removeClass('active-step');
                 $('#step-' + nextTabIndex).addClass('active-step');
-                $('#book-appointment-' + nextTabIndex).show('fade');
+                $('#wizard-frame-' + nextTabIndex).show('fade');
             });
         });
 
@@ -141,7 +165,7 @@ var bookAppointment = {
             $(this).parents().eq(1).hide('fade', function() {    
                 $('.active-step').removeClass('active-step');
                 $('#step-' + prevTabIndex).addClass('active-step');
-                $('#book-appointment-' + prevTabIndex).show('fade');
+                $('#wizard-frame-' + prevTabIndex).show('fade');
             });
         });
 
@@ -154,7 +178,7 @@ var bookAppointment = {
         $('#available-hours').on('click', '.available-hour', function() {
             $('.selected-hour').removeClass('selected-hour');
             $(this).addClass('selected-hour');
-            bookAppointment.updateConfirmData();
+            bookAppointment.updateConfirmFrame();
         });
     },
     
@@ -169,24 +193,31 @@ var bookAppointment = {
         // Find the selected service duration (it is going to 
         // be send within the "postData" object.
         var selServiceDuration = 15; // Default value of duration (in minutes).
-        $.each(GlobalVariables.services, function(index, service) {
+        $.each(GlobalVariables.availableServices, function(index, service) {
             if (service['id'] == $('#select-service').val()) {
                 selServiceDuration = service['duration']; 
             }
         });
+        
+        // If the manage mode is true then the appointment's start 
+        // date should return as available too.
+        var appointmentId = (bookAppointment.manageMode) 
+                ? GlobalVariables.appointmentData['id'] : undefined;
 
         var postData = {
-            'service_id'         : $('#select-service').val(),
-            'provider_id'        : $('#select-provider').val(),
-            'selected_date'      : selDate,
-            'service_duration'   : selServiceDuration
+            'service_id'        : $('#select-service').val(),
+            'provider_id'       : $('#select-provider').val(),
+            'selected_date'     : selDate,
+            'service_duration'  : selServiceDuration,
+            'manage_mode'       : bookAppointment.manageMode,
+            'appointment_id'    : appointmentId
         };
 
         // Make ajax post request and get the available hours.
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(postResponse) {
             ////////////////////////////////////////////////////////////////////////////////
-            console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
+            //console.log('\n\n Get Available Hours Post Response :', postResponse, '\n\n');
             ////////////////////////////////////////////////////////////////////////////////
 
             try {
@@ -199,27 +230,32 @@ var bookAppointment = {
                     // Fill the available time div
                     var currColumn = 1;
                     $('#available-hours').html('<div style="width:50px; float:left;"></div>');
+                    
                     $.each(jsonResponse, function(index, availableHour) {
                         if ((currColumn * 10) < (index + 1)) {
                             currColumn++;
-                            $('#available-hours').append('<div style="width:50px; float:left;"></div>');
+                            $('#available-hours')
+                                    .append('<div style="width:50px; float:left;"></div>');
                         }
 
                         $('#available-hours div:eq(' + (currColumn - 1) + ')')
-                            .append('<span class="available-hour">' + availableHour + '</span><br/>');
+                                .append('<span class="available-hour">' + availableHour 
+                                + '</span><br/>');
                     });
 
                     // Set the first item as selected.
                     $('.available-hour:eq(0)').addClass('selected-hour');
-                    bookAppointment.updateConfirmData();
+                    bookAppointment.updateConfirmFrame();
                 } else {
-                    $('#available-hours').text('There are not available appointment hours for '
-                            + 'the selected date. Please choose another date.');
+                    $('#available-hours').text('There are no available appointment'
+                            + 'hours for the selected date. Please choose another '
+                            + 'date.');
                 }
                 
             } catch(exception) {
-                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected error occured ' 
-                    + 'during the available hours calculation. Please refresh the page and try again.');
+                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected'
+                        + 'error occured during the available hours calculation. Please'
+                        + 'refresh the page and try again.');
             }
         });
     },
@@ -230,7 +266,7 @@ var bookAppointment = {
      * 
      * @return {bool} Returns the validation result.
      */
-    validateCustomerDataForm : function() {
+    validateCustomerForm : function() {
         var validationResult = true;
         $('.required').css('border', '');
 
@@ -249,7 +285,7 @@ var bookAppointment = {
      * page with the latest customer settigns and input for the appointment 
      * booking.
      */
-    updateConfirmData : function() {
+    updateConfirmFrame : function() {
         /*** SET APPOINTMENT INFO ***/
         var selectedDate = $('#select-date').datepicker('getDate');
         if (selectedDate !== null) {
@@ -308,7 +344,7 @@ var bookAppointment = {
         // Find selected service duration. 
         var selServiceDuration = undefined;
         
-        $.each(GlobalVariables.services, function(index, service) {
+        $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == $('#select-service').val()) {
                 selServiceDuration = service.duration;
                 return; // Stop searching ... 
@@ -328,5 +364,47 @@ var bookAppointment = {
         }
         
         return endDatetime.toString('yyyy-MM-dd HH:mm:ss');
+    },
+    
+    /**
+     * This method applies the appointment's data to the wizard so 
+     * that the user can start making changes on an existing record.
+     * 
+     * @param {object} appointmentData Selected appointment's data.
+     * @param {object} providerData Selected provider's data.
+     * @param {object} customerData Selected customer's data.
+     * @returns {bool} Returns the operation result.
+     */
+    applyAppointmentData : function(appointmentData, providerData, customerData) {
+        try {
+            // Select Service & Provider
+            $('#select-service').val(appointmentData['id_services']);
+            $('#select-provider').val(appointmentData['id_users_provider']);
+            
+            // Set Appointment Date
+            $('.available-hour').removeClass('selected-hour');
+            $('.available-hour').filter(function() {
+                return $(this).text() === Date.parseExact(appointmentData['start_datetime'],
+                        'yyyy-MM-dd HH:mm').toString('HH:mm');
+            }).addClass('selected-hour');
+            
+            // Apply Customer's Data
+            $('last-name').val(customerData['last_name']);
+            $('first-name').val(customerData['first_name']);
+            $('email').val(customerData['email']);
+            $('phone-number').val(customerData['phone_number']);
+            
+            $('address').val(customerData['address']);
+            $('city').val(customerData['city']);
+            $('zip-code').val(customerData['zip_code']);
+            $('notes').text(customerData['notes']);
+            
+            bookAppointment.updateConfirmFrame();
+            
+            return true;
+        } catch(exc) {
+            console.log(exc);
+            return false;
+        }
     }
 }
