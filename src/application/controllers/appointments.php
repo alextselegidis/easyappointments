@@ -80,8 +80,8 @@ class Appointments extends CI_Controller {
                     $customer_title = 'Your appointment has been successfully booked!';
                     $provider_title = 'A new appointment has been added to your plan.';
                 } else {
-                    $customer_title = 'Appointment changes saved successfully!';
-                    $provider_title = 'Appointment details have changed.';
+                    $customer_title = 'Appointment Changes Saved Successfully!';
+                    $provider_title = 'Appointment Details Have Changed';
                 }
                 
                 $this->notifications->send_book_success(
