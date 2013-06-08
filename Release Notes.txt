@@ -1,9 +1,9 @@
 VERSION 0.2
 ===========
 - Use the PHPMailer class for sending HTML emails.
+- Display error message to users.
 - Includes complete Google Sync protocol document.
 - Customers can book appointments only for the available hours.
-- Generation of code documentation. 
-- Unit test the controller classes.
+- Generation of code documentation.
 - Customers can edit the application through unique links (from their emails).
 - Minor Fixes

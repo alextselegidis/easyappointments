@@ -105,7 +105,7 @@ CI_Controller
 		
 		
 
-		<b>Located at</b> <a href="source-class-Appointments.html#3-217" title="Go to source code">appointments.php</a><br />
+		<b>Located at</b> <a href="source-class-Appointments.html#3-369" title="Go to source code">appointments.php</a><br />
 	</div>
 
 
@@ -123,20 +123,71 @@ CI_Controller
 
 		<td class="name"><div>
 		<a class="anchor" href="#_index">#</a>
-		<code><a href="source-class-Appointments.html#4-50" title="Go to source code">index</a>( )</code>
+		<code><a href="source-class-Appointments.html#4-104" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
-<p>This page displays the book appointment wizard for the customers.</p>
+<p>Default callback method of the application.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>This page displays the book appointment wizard for the customers.</p>
+<p>Default callback method of the application.</p>
+
+<p>This method creates the appointment book wizard. If an appointment hash is
+provided then it means that the customer followed the appointment manage link
+that was send with the book success email.</p>
 
 
 
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$appointment_hash</var></dt>
+					<dd><code>string</code><br>$appointment_hash The db appointment hash of an existing record.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="cancel" id="_cancel">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_cancel">#</a>
+		<code><a href="source-class-Appointments.html#106-152" title="Go to source code">cancel</a>( <span>string <var>$appointment_hash</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Cancel an existing appointment.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Cancel an existing appointment.</p>
+
+<p>This method removes an appointment from the company's schedule. In order for
+the appointment to be deleted, the hash string must be provided. The customer
+can only cancel the appointment if the edit time period is not over yet.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$appointment_hash</var></dt>
+					<dd><code>string</code><br>$appointment_hash This is used to distinguish the appointment record.</dd>
+				</dl></div>
 
 
 
@@ -156,7 +207,7 @@ CI_Controller
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_get_available_hours">#</a>
-		<code><a href="source-class-Appointments.html#52-190" title="Go to source code">ajax_get_available_hours</a>( )</code>
+		<code><a href="source-class-Appointments.html#154-341" title="Go to source code">ajax_get_available_hours</a>( )</code>
 
 		<div class="description short">
 			
@@ -196,7 +247,7 @@ the given service, provider and date.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_google_sync">#</a>
-		<code><a href="source-class-Appointments.html#192-216" title="Go to source code">google_sync</a>( <span>mixed <var>$appointment_id</var></span> )</code>
+		<code><a href="source-class-Appointments.html#343-368" title="Go to source code">google_sync</a>( <span>mixed <var>$appointment_id</var></span> )</code>
 
 		<div class="description short">
 			

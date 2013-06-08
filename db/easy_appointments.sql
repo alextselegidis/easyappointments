@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Φιλοξενητής: localhost
--- Χρόνος δημιουργίας: 08 Μάη 2013 στις 17:29:41
+-- Χρόνος δημιουργίας: 08 Ιουν 2013 στις 12:49:21
 -- Έκδοση διακομιστή: 5.5.24-log
 -- Έκδοση PHP: 5.4.3
 
@@ -28,9 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `book_datetime` datetime DEFAULT NULL,
   `start_datetime` datetime DEFAULT NULL,
   `end_datetime` datetime DEFAULT NULL,
   `notes` text,
+  `hash` text,
   `id_users_provider` bigint(20) unsigned NOT NULL,
   `id_users_customer` bigint(20) unsigned NOT NULL,
   `id_services` bigint(20) unsigned NOT NULL,
@@ -38,48 +40,14 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   KEY `id_users_customer` (`id_users_customer`),
   KEY `id_services` (`id_services`),
   KEY `id_users_provider` (`id_users_provider`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_appointments`
 --
 
-INSERT INTO `ea_appointments` (`id`, `start_datetime`, `end_datetime`, `notes`, `id_users_provider`, `id_users_customer`, `id_services`) VALUES
-(14, '2013-04-26 12:40:00', '2013-04-26 12:40:00', '', 2, 1, 1),
-(15, '2013-04-26 16:00:00', '2013-04-26 16:00:00', '', 2, 1, 1),
-(16, '2013-04-26 13:00:00', '2013-04-26 13:00:00', 'Something else here ...', 2, 19, 1),
-(17, '2013-04-26 14:00:00', '2013-04-26 14:00:00', '', 2, 20, 1),
-(18, '2013-04-26 14:20:00', '2013-04-26 14:20:00', '', 2, 19, 1),
-(19, '2013-04-26 14:20:00', '2013-04-26 14:20:00', 'Some notes ...', 2, 20, 1),
-(20, '2013-04-26 14:30:00', '2013-04-26 14:30:00', 'ooo', 3, 20, 2),
-(21, '2013-04-26 15:40:00', '2013-04-26 15:40:00', '', 2, 21, 1),
-(22, '2013-04-26 16:40:00', '2013-04-26 16:40:00', '', 2, 21, 1),
-(23, '2013-04-26 14:40:00', '2013-04-26 14:40:00', '', 2, 21, 1),
-(24, '2013-05-01 18:00:00', '2013-05-01 18:00:00', '', 2, 19, 1),
-(25, '2013-05-01 18:20:00', '2013-05-01 18:20:00', '', 2, 19, 1),
-(26, '2013-05-01 18:40:00', '2013-05-01 18:40:00', '', 2, 19, 1),
-(27, '2013-05-02 00:00:00', '2013-05-02 19:01:00', '', 2, 19, 1),
-(28, '2013-05-03 13:00:00', '2013-05-03 13:00:00', '', 2, 19, 1),
-(29, '2013-05-03 13:40:00', '2013-05-03 13:40:00', '', 2, 19, 1),
-(30, '2013-05-03 14:20:00', '2013-05-03 14:20:00', '', 2, 19, 1),
-(31, '2013-05-04 08:00:00', '2013-05-04 08:00:00', '', 3, 19, 3),
-(32, '2013-05-03 00:00:00', '2013-05-03 20:45:00', '', 3, 19, 2),
-(33, '2013-05-04 08:20:00', '2013-05-04 08:20:00', '', 2, 19, 1),
-(34, '2013-05-04 09:20:00', '2013-05-04 09:20:00', '', 2, 19, 1),
-(35, '2013-05-04 12:40:00', '2013-05-04 12:40:00', '', 2, 19, 1),
-(36, '2013-05-04 13:20:00', '2013-05-04 13:20:00', '', 2, 19, 1),
-(37, '2013-05-04 08:00:00', '2013-05-04 08:00:00', '', 2, 19, 1),
-(38, '2013-05-03 00:00:00', '2013-05-03 23:18:00', '', 2, 19, 1),
-(40, '2013-05-04 11:20:00', '2013-05-04 11:20:00', '', 2, 19, 1),
-(41, '2013-05-04 12:00:00', '2013-05-04 12:00:00', '', 2, 19, 1),
-(42, '2013-05-04 17:30:00', '2013-05-04 17:30:00', '', 3, 19, 2),
-(43, '2013-05-04 19:00:00', '2013-05-04 19:00:00', '', 3, 19, 3),
-(44, '2013-05-04 18:30:00', '2013-05-04 18:30:00', '', 4, 20, 2),
-(45, '2013-05-07 11:00:00', '2013-05-07 11:00:00', 'Some notes ...', 2, 19, 1),
-(46, '2013-05-07 11:20:00', '2013-05-07 11:20:00', '', 2, 19, 1),
-(47, '2013-05-07 14:40:00', '2013-05-07 14:40:00', '', 2, 19, 1),
-(48, '2013-05-07 15:00:00', '2013-05-07 15:00:00', '', 2, 20, 1),
-(49, '2013-05-07 11:40:00', '2013-05-07 11:40:00', '', 2, 19, 1);
+INSERT INTO `ea_appointments` (`id`, `book_datetime`, `start_datetime`, `end_datetime`, `notes`, `hash`, `id_users_provider`, `id_users_customer`, `id_services`) VALUES
+(10, NULL, '2013-06-07 15:30:00', '2013-06-07 15:50:00', '', 'c4baf9ea27dcd0fdc5449eb91b0ee2c5', 2, 20, 1);
 
 -- --------------------------------------------------------
 
@@ -125,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   `id_service_categories` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_service_categories` (`id_service_categories`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_services`
@@ -134,7 +102,8 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
 INSERT INTO `ea_services` (`id`, `name`, `duration`, `price`, `currency`, `description`, `id_service_categories`) VALUES
 (1, 'Γενική Εξέταση', 20, '50.00', 'euro', 'Γενική εξέταση του ασθενή.', NULL),
 (2, 'Εξέταση Καρδιάς', 30, '40.00', 'euro', 'Εξέταση του ασθενή για νοσήματα καρδιάς.', NULL),
-(3, 'Νευρολογική Εξέταση', 20, '35.00', 'euro', 'Νευρολογική εξέταση του ασθενή.', NULL);
+(3, 'Νευρολογική Εξέταση', 20, '35.00', 'euro', 'Νευρολογική εξέταση του ασθενή.', NULL),
+(9, 'General Examination', 30, '50.00', 'euro', 'This is some service description.', NULL);
 
 -- --------------------------------------------------------
 
@@ -187,16 +156,18 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
   `name` varchar(512) DEFAULT NULL,
   `value` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_settings`
 --
 
 INSERT INTO `ea_settings` (`id`, `name`, `value`) VALUES
-(1, 'business_name', 'Javation & Co'),
-(2, 'business_working_hours', '{}'),
-(3, 'business_email', 'alextselegidis@gmail.com');
+(1, 'company_name', 'Javation & Co'),
+(2, 'company_working_plan', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'),
+(3, 'company_email', 'alextselegidis@gmail.com'),
+(8, 'company_link', 'http://google.gr'),
+(9, 'book_advance_timeout', '30');
 
 -- --------------------------------------------------------
 
@@ -206,8 +177,6 @@ INSERT INTO `ea_settings` (`id`, `name`, `value`) VALUES
 
 CREATE TABLE IF NOT EXISTS `ea_users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(256) DEFAULT NULL,
-  `password` varchar(512) DEFAULT NULL,
   `first_name` varchar(256) DEFAULT NULL,
   `last_name` varchar(512) DEFAULT NULL,
   `email` varchar(512) DEFAULT NULL,
@@ -221,20 +190,44 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   `id_roles` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_roles` (`id_roles`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=116 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_users`
 --
 
-INSERT INTO `ea_users` (`id`, `username`, `password`, `first_name`, `last_name`, `email`, `mobile_number`, `phone_number`, `address`, `city`, `state`, `zip_code`, `notes`, `id_roles`) VALUES
-(1, 'admin', 'admin', '', '1', 'alextselegidis@gmail.com', '123456789', '1', '', '', NULL, '', 'This is me making Easy!Appointments', 1),
-(2, 'provider_1', 'provider_1', 'Γεώργιος', 'Παπαδόπουλος', 'alextselegidis@gmail.com', '1212121212', '1', '', '', NULL, '', 'This is a test provider', 2),
-(3, 'provider_2', 'provider_2', 'Νίκος', 'Αναστασίου', 'prov2@test.gr', '1313133113131', '32132165146', 'Some Street 3', NULL, NULL, NULL, NULL, 2),
-(4, 'provider_3', 'provider_3', 'Ηρώ', 'Καριοφύλη', 'prov3@test.gr', '239203490', '029340923', 'John Doe 3 ', NULL, NULL, NULL, NULL, 2),
-(19, NULL, NULL, '', 'a', 'alextselegidis@gmail.com', NULL, 'a', '', '', NULL, '', NULL, 3),
-(20, NULL, NULL, 'Alex', 'Tselegidis', 'alextselegidis@yahoo.gr', NULL, '6988589365', '', '', NULL, '', NULL, 3),
-(21, NULL, NULL, '', '1', 'black-sabbath1967@hotmail.com', NULL, '1', '', '', NULL, '', NULL, 3);
+INSERT INTO `ea_users` (`id`, `first_name`, `last_name`, `email`, `mobile_number`, `phone_number`, `address`, `city`, `state`, `zip_code`, `notes`, `id_roles`) VALUES
+(1, '', '1', 'alextselegidis@gmail.com', '123456789', '1', '', '', NULL, '', 'This is me making Easy!Appointments', 1),
+(2, 'Γεώργιος', 'Παπαδόπουλος', 'alextselegidis@gmail.com', '1212121212', '1', '', '', NULL, '', 'This is a test provider', 2),
+(3, 'Νίκος', 'Αναστασίου', 'prov2@test.gr', '1313133113131', '32132165146', 'Some Street 3', NULL, NULL, NULL, NULL, 2),
+(4, 'Ηρώ', 'Καριοφύλη', 'prov3@test.gr', '239203490', '029340923', 'John Doe 3 ', NULL, NULL, NULL, NULL, 2),
+(20, 'Alex', 'Tselegidis', 'alextselegidis@yahoo.gr', NULL, '123456789', 'Some Str', 'Some City', NULL, '12345', NULL, 3),
+(76, '', 'a', 'alextselegidis@yahoo.gr', NULL, 'a', '', '', NULL, '', NULL, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Δομή πίνακα για τον πίνακα `ea_user_settings`
+--
+
+CREATE TABLE IF NOT EXISTS `ea_user_settings` (
+  `id_users` bigint(20) unsigned NOT NULL,
+  `username` varchar(256) DEFAULT NULL,
+  `password` varchar(512) DEFAULT NULL,
+  `working_plan` text,
+  `notifications` text,
+  `google_sync` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id_users`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Άδειασμα δεδομένων του πίνακα `ea_user_settings`
+--
+
+INSERT INTO `ea_user_settings` (`id_users`, `username`, `password`, `working_plan`, `notifications`, `google_sync`) VALUES
+(2, 'provider_1', 'provider_1', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0),
+(3, 'provider_2', 'provider_2', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0),
+(4, 'provider_3', 'provider_3', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0);
 
 --
 -- Περιορισμοί για άχρηστους πίνακες
@@ -266,6 +259,12 @@ ALTER TABLE `ea_services_providers`
 --
 ALTER TABLE `ea_users`
   ADD CONSTRAINT `ea_users_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Περιορισμοί για πίνακα `ea_user_settings`
+--
+ALTER TABLE `ea_user_settings`
+  ADD CONSTRAINT `ea_user_settings_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

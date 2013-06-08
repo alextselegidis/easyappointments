@@ -30,7 +30,7 @@
     bookAppointment
     </h2>
     
-        <div class="class-description">Implelements the js part of the appointment booking page.</div>
+        <div class="class-description">Implements the js part of the appointment booking page.</div>
     
 </header>  
 
@@ -49,9 +49,9 @@
     
     
     <div class="description">
-        This class implements the book appointment page functionality. 
-Once the initialize() method is called the page is fully functional 
-and can serve the appointment booking process.
+        This class implements the book appointment page functionality. Once 
+the initialize() method is called the page is fully functional and 
+can serve the appointment booking process.
     </div>
     
 
@@ -123,11 +123,265 @@ and can serve the appointment booking process.
     
     
     
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="manageMode"><span class="type-signature">&lt;static> </span>manageMode<span class="type-signature"> :Boolean</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Determines the functionality of the page.
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Boolean</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
     
     
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
+            
+<dt>
+    <h4 class="name" id="applyAppointmentData"><span class="type-signature">&lt;static> </span>applyAppointmentData<span class="signature">(appointmentData, providerData, customerData)</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method applies the appointment's data to the wizard so 
+that the user can start making changes on an existing record.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>appointmentData</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Selected appointment's data.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>providerData</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Selected provider's data.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>customerData</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Selected customer's data.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line398">line 398</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns the operation result.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">bool</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
             
 <dt>
     <h4 class="name" id="bindEventHandlers"><span class="type-signature">&lt;static> </span>bindEventHandlers<span class="signature">()</span><span class="type-signature"></span></h4>
@@ -138,8 +392,8 @@ and can serve the appointment booking process.
     
     
     <div class="description">
-        This method binds the necessary event handlers 
-for the book appointments page.
+        This method binds the necessary event handlers for the book 
+appointments page.
     </div>
     
 
@@ -172,7 +426,7 @@ for the book appointments page.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line55">line 55</a>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line77">line 77</a>
     </li></ul></dd>
     
     
@@ -242,7 +496,7 @@ End datetime is depending on the service and start datetime fieldss.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line288">line 288</a>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line363">line 363</a>
     </li></ul></dd>
     
     
@@ -383,7 +637,7 @@ hours we need to receive.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line155">line 155</a>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line194">line 194</a>
     </li></ul></dd>
     
     
@@ -411,7 +665,7 @@ hours we need to receive.</td>
         
             
 <dt>
-    <h4 class="name" id="initialize"><span class="type-signature">&lt;static> </span>initialize<span class="signature">(bindEventHandlers)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="initialize"><span class="type-signature">&lt;static> </span>initialize<span class="signature">(bindEventHandlers, manageMode)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -469,8 +723,33 @@ hours we need to receive.</td>
             
             
             
-            <td class="description last">(OPTIONAL) Determines wether 
+            <td class="description last">(OPTIONAL) Determines whether 
 the default event handlers will be binded to the dom elements.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>manageMode</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL) Determines whether the customer
+is going to make changes to an existing appointment rather than
+booking a new one.</td>
         </tr>
 	
 	
@@ -501,7 +780,7 @@ the default event handlers will be binded to the dom elements.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line15">line 15</a>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line25">line 25</a>
     </li></ul></dd>
     
     
@@ -529,7 +808,7 @@ the default event handlers will be binded to the dom elements.</td>
         
             
 <dt>
-    <h4 class="name" id="updateConfirmData"><span class="type-signature">&lt;static> </span>updateConfirmData<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="updateConfirmFrame"><span class="type-signature">&lt;static> </span>updateConfirmFrame<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -572,7 +851,7 @@ booking.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line233">line 233</a>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line301">line 301</a>
     </li></ul></dd>
     
     
@@ -600,7 +879,7 @@ booking.
         
             
 <dt>
-    <h4 class="name" id="validateCustomerDataForm"><span class="type-signature">&lt;static> </span>validateCustomerDataForm<span class="signature">()</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    <h4 class="name" id="validateCustomerForm"><span class="type-signature">&lt;static> </span>validateCustomerForm<span class="signature">()</span><span class="type-signature"> &rarr; {bool}</span></h4>
     
     
 </dt>
@@ -642,7 +921,7 @@ It only checks for empty fields by the time.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line214">line 214</a>
+        <a href="book_appointment.js.html">frontend/book_appointment.js</a>, <a href="book_appointment.js.html#line282">line 282</a>
     </li></ul></dd>
     
     
@@ -711,7 +990,7 @@ It only checks for empty fields by the time.
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Mon May 20 2013 18:38:06 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Jun 08 2013 12:49:54 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -51,9 +51,11 @@ class Notifications {
      * data. Each key has the same name as the corresponding field in db.
      * @param array $appointment_data Associative array with the appointment's
      * data. Each key has the same name as the corresponding field in db.
+     * @param string $email_title The email title is going to inform the customer
+     * for the action that was taken.
      * @return bool Returns the operation result.
      */
-    public function send_book_success($customer_data, $appointment_data) {
+    public function send_book_success($customer_data, $appointment_data, $email_title) {
         $this->CI->load->model('Providers_Model');
         $this->CI->load->model('Services_Model');
         $this->CI->load->model('Settings_Model');
@@ -64,11 +66,12 @@ class Notifications {
                 ->get_row($appointment_data['id_services']);
         
         $replace_array = array(
+            '$email_title'          => $email_title,
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
             '$appointment_duration' => $service_data['duration'] . ' minutes',
-            '$appointment_link'     => $this->CI->config->item('base_url') . $appointment_data['hash'],  
+            '$appointment_link'     => $this->CI->config->item('base_url') . 'appointments/index/' . $appointment_data['hash'],  
             '$company_link'         => $this->CI->Settings_Model->get_setting('company_link'),
             '$company_name'         => $this->CI->Settings_Model->get_setting('company_name'),
             '$customer_name'        => $customer_data['first_name'] . ' ' . $customer_data['last_name']
@@ -83,7 +86,7 @@ class Notifications {
         $mail->AddAddress($customer_data['email']); // Do not use the name argument, phpmailer crushes.
         $mail->IsHTML(true);
         $mail->CharSet = 'UTF-8';
-        $mail->Subject = 'Appointment Book Success!';
+        $mail->Subject = $email_title;
         $mail->Body    = $email_html;
 
         if(!$mail->Send()) {
@@ -105,9 +108,11 @@ class Notifications {
      * data. Each key has the same name as the corresponding field in db.
      * @param array $appointment_data Associative array with the appointment's
      * data. Each key has the same name as the corresponding field in db.
+     * @param string $email_title The email title is going to inform the provider
+     * for the action that was taken.
      * @return bool Returns the operation result.
      */
-    public function send_new_appointment($customer_data, $appointment_data) {
+    public function send_new_appointment($customer_data, $appointment_data, $email_title) {
         $this->CI->load->model('Providers_Model');
         $this->CI->load->model('Services_Model');
         $this->CI->load->model('Settings_Model');
@@ -116,6 +121,7 @@ class Notifications {
         $service_data = $this->CI->Services_Model->get_row($appointment_data['id_services']);
                 
         $replace_array = array(
+            '$email_title'          => $email_title,
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
@@ -135,12 +141,58 @@ class Notifications {
         
         $mail = new PHPMailer();
         $mail->From = $this->CI->Settings_Model->get_setting('company_email');
-        $mail->FromName = $this->CI->Settings_Model->get_setting('company_name');;
+        $mail->FromName = $this->CI->Settings_Model->get_setting('company_name');
         $mail->AddAddress($provider_data['email']); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet = 'UTF-8';
-        $mail->Subject = 'New Appointment';
+        $mail->Subject = $email_title;
         $mail->Body    = $email_html;
+
+        if (!$mail->Send()) {
+            throw new NotificationException('Email could not been sent. ' 
+                    . 'Mailer Error (Line ' . __LINE__ . '): ' . $mail->ErrorInfo);
+        }
+        
+        return TRUE;
+    }
+    
+    /**
+     * Send an email notification to a user when an appointment is cancelled.
+     * 
+     * @param array $appointment_data The record data of the cancelled appointment.
+     * @param string $user_email The user email where the email notification is going
+     * to be send.
+     */
+    public function send_cancel_appointment($appointment_data, $user_email) {
+        $this->CI->load->model('Providers_Model');
+        $this->CI->load->model('Services_Model');
+        $this->CI->load->model('Settings_Model');
+        
+        $provider_data = $this->CI->Providers_Model->get_row($appointment_data['id_users_provider']);
+        $service_data = $this->CI->Services_Model->get_row($appointment_data['id_services']);
+        
+        $replace_array = array(
+            '$email_title'          => 'Appointment Cancelled',
+            '$appointment_service'  => $service_data['name'],
+            '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
+            '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
+            '$appointment_duration' => $service_data['duration'] . ' minutes',
+            '$company_link'         => $this->CI->Settings_Model->get_setting('company_link'),
+            '$company_name'         => $this->CI->Settings_Model->get_setting('company_name')
+        );
+        
+        $email_html = file_get_contents(dirname(dirname(__FILE__)) 
+                . '/views/emails/cancel_appointment.php');
+        $email_html = $this->replace_template_variables($replace_array, $email_html);
+        
+        $mail = new PHPMailer();
+        $mail->From         = $this->CI->Settings_Model->get_setting('company_email');
+        $mail->FromName     = $this->CI->Settings_Model->get_setting('company_name');
+        $mail->AddAddress($user_email); // "Name" argument crushes the phpmailer class.
+        $mail->IsHTML(true);
+        $mail->CharSet      = 'UTF-8';
+        $mail->Subject      = 'Appointment Cancelled';
+        $mail->Body         = $email_html;
 
         if (!$mail->Send()) {
             throw new NotificationException('Email could not been sent. ' 

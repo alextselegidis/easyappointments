@@ -11,7 +11,7 @@
         </div>
 
         <div id="content" style="padding: 10px 15px;">
-            <h2>Your appointment has been successfully booked!</h2>
+            <h2>$email_title</h2>
             <p>
                 Thank you $customer_name for arranging an appointment with us. 
                 Below you can see the appointment details. Click on the edit 
@@ -44,7 +44,7 @@
                 You are able to change the appointment details three hours before 
                 the appointment.
             </p>
-            <a href="$appointment_link">$appointment_link</a>
+            <a href="$appointment_link" style="width: 600px;">$appointment_link</a>
         </div>
 
         <div id="footer" style="padding: 10px; text-align: center; 

@@ -105,7 +105,7 @@ CI_Model
 		
 		
 
-		<b>Located at</b> <a href="source-class-Appointments_Model.html#3-290" title="Go to source code">appointments_model.php</a><br />
+		<b>Located at</b> <a href="source-class-Appointments_Model.html#3-332" title="Go to source code">appointments_model.php</a><br />
 	</div>
 
 
@@ -156,7 +156,7 @@ CI_Model
 
 		<td class="name"><div>
 		<a class="anchor" href="#_add">#</a>
-		<code><a href="source-class-Appointments_Model.html#11-39" title="Go to source code">add</a>( <span>array <var>$appointment_data</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#11-41" title="Go to source code">add</a>( <span>array <var>$appointment_data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -177,7 +177,7 @@ updated.</p>
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$appointment_data</var></dt>
-					<dd><code>array</code><br>$appointment_data Associative array with the appointmet's data. Each key has the
+					<dd><code>array</code><br>$appointment_data Associative array with the appointment data. Each key has the
 same name with the database fields.</dd>
 				</dl></div>
 
@@ -189,8 +189,9 @@ same name with the database fields.</dd>
 
 				<h4>ExpectedException</h4>
 				<div class="list">
-						ValidationException<br />
-						DatabaseException<br />
+						ValidationException Raises when the appointment data are invalid.<br />
+						DatabaseException Raises when the insert or update operation fail to complete
+successfully.<br />
 				</div>
 
 
@@ -208,7 +209,7 @@ same name with the database fields.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_exists">#</a>
-		<code><a href="source-class-Appointments_Model.html#41-74" title="Go to source code">exists</a>( <span>array <var>$appointment_data</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#43-77" title="Go to source code">exists</a>( <span>array <var>$appointment_data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -261,7 +262,7 @@ necessary field.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_find_record_id">#</a>
-		<code><a href="source-class-Appointments_Model.html#115-147" title="Go to source code">find_record_id</a>( <span>array <var>$appointment_data</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#119-153" title="Go to source code">find_record_id</a>( <span>array <var>$appointment_data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -274,8 +275,8 @@ necessary field.<br />
 <p>Find the database id of an appointment record.</p>
 
 <p>The appointment data should include the following fields in order to get the
-unique id from the database: start_datetime, end_datetime, id_users_provider,
-id_users_customer, id_services.</p>
+unique id from the database: "start_datetime", "end_datetime",
+"id_users_provider", "id_users_customer", "id_services".</p>
 
 <p>&lt;strong&gt;IMPORTANT!&lt;/strong&gt; The record must already exists in the
 database, otherwise an exception is raised.</p>
@@ -291,13 +292,14 @@ have the same names as the db fields.</dd>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code>integer</code><br>Returns the id.<br />
+					<code>integer</code><br>Returns the db id of the record that matches the apppointment data.<br />
 				</div>
 
 
 				<h4>ExpectedException</h4>
 				<div class="list">
-						DatabaseException<br />
+						DatabaseException Raises when this method cannot find any record that matches
+the given data.<br />
 				</div>
 
 
@@ -315,18 +317,18 @@ have the same names as the db fields.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_validate_data">#</a>
-		<code><a href="source-class-Appointments_Model.html#149-203" title="Go to source code">validate_data</a>( <span>array <var>$appointment_data</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#155-221" title="Go to source code">validate_data</a>( <span>array <var>$appointment_data</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Validate appointment data before the insert or update operation is
+<p>Validate appointment data before the insert or update operations are
 executed.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Validate appointment data before the insert or update operation is
+<p>Validate appointment data before the insert or update operations are
 executed.</p>
 
 
@@ -359,7 +361,7 @@ executed.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_delete">#</a>
-		<code><a href="source-class-Appointments_Model.html#205-227" title="Go to source code">delete</a>( <span>integer <var>$appointment_id</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#223-247" title="Go to source code">delete</a>( <span>integer <var>$appointment_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -405,7 +407,7 @@ executed.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_row">#</a>
-		<code><a href="source-class-Appointments_Model.html#229-242" title="Go to source code">get_row</a>( <span>integer <var>$appointment_id</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#249-264" title="Go to source code">get_row</a>( <span>integer <var>$appointment_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -448,7 +450,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_value">#</a>
-		<code><a href="source-class-Appointments_Model.html#244-272" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$appointment_id</var></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#266-299" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$appointment_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -492,7 +494,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_batch">#</a>
-		<code><a href="source-class-Appointments_Model.html#274-289" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-Appointments_Model.html#301-316" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -523,6 +525,47 @@ INCLUDE 'WHERE' KEYWORD.</dd>
 				<div class="list">
 						$this-&gt;Model-&gt;getBatch('id = ' . $recordId);<br />
 				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="generate_hash" id="_generate_hash">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_generate_hash">#</a>
+		<code><a href="source-class-Appointments_Model.html#318-331" title="Go to source code">generate_hash</a>( )</code>
+
+		<div class="description short">
+			
+<p>Generate a unique hash for the given appointment data.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Generate a unique hash for the given appointment data.</p>
+
+<p>This method uses the current date-time to generate a unique hash string that
+is later used to identify this appointment. Hash is needed when the email is
+send to the user with an edit link.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the unique appointment hash.<br />
+				</div>
+
+
 
 
 		</div>

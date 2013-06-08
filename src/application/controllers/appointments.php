@@ -34,12 +34,12 @@ class Appointments extends CI_Controller {
                         ->get_batch(array('hash' => $appointment_hash))[0];
                 $provider_data = $this->Providers_Model
                         ->get_row($appointment_data['id_users_provider']);
-                $customer_data = $this->Customer_Model
+                $customer_data = $this->Customers_Model
                         ->get_row($appointment_data['id_users_customer']);
             } else {
                 // The customer is going to book an appointment so there is no 
                 // need for the manage functionality to be initialized.
-                $manage_mode        = false;
+                $manage_mode        = FALSE;
                 $appointment_data   = array();
                 $provider_data      = array();
                 $customer_data      = array();
@@ -76,8 +76,19 @@ class Appointments extends CI_Controller {
             // Send an email to the customer with the appointment info.
             $this->load->library('Notifications');
             try {
-                $this->notifications->send_book_success($customer_data, $appointment_data);
-                $this->notifications->send_new_appointment($customer_data, $appointment_data);
+                if (!$post_data['manage_mode']) {
+                    $customer_title = 'Your appointment has been successfully booked!';
+                    $provider_title = 'A new appointment has been added to your plan.';
+                } else {
+                    $customer_title = 'Appointment changes saved successfully!';
+                    $provider_title = 'Appointment details have changed.';
+                }
+                
+                $this->notifications->send_book_success(
+                        $customer_data, $appointment_data, $customer_title);
+                $this->notifications->send_new_appointment(
+                        $customer_data, $appointment_data, $provider_title);
+                
             } catch (NotificationException $not_exc) {
                 $view_data['notification_error'] = '<br><br>' 
                         . '<pre>An unexpected error occured while sending you an ' 
@@ -93,53 +104,51 @@ class Appointments extends CI_Controller {
     }
     
     /**
-     * Display the view - manage screen of an external 
-     * appointment link. 
+     * Cancel an existing appointment. 
      * 
-     * This method loads the page that is going to be displayed
-     * whenever a customer, or a provider clicks on the email link
-     * that enables him to preview and make changes to the selected
-     * appointment.
+     * This method removes an appointment from the company's schedule.
+     * In order for the appointment to be deleted, the hash string must
+     * be provided. The customer can only cancel the appointment if the
+     * edit time period is not over yet.
      * 
-     * @param string $user_type Link user type (one of the 
-     * DB_SLUG_CUSTOMER, ... constants).
-     * @param string $appointment_hash the appointment db hash. This 
-     * is used to identify the appointment record.
-     * 
+     * @param string $appointment_hash This is used to distinguish the 
+     * appointment record.
      */
-    public function external_link($user_type, $appointment_hash) {
-        if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') { 
-            // Prepare and display the external manage view page.
+    public function cancel($appointment_hash) {
+        try {
             $this->load->model('Appointments_Model');
             $this->load->model('Providers_Model');
             $this->load->model('Customers_Model');
-            $this->load->model('Services_Model');
             
-            $appointment_data = $this->Appointments_Model
-                    ->get_batch(array('hash' => $appointment_hash))[0];
-            $provider_data = $this->Providers_Model
-                    ->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->Customers_Model
-                    ->get_row($appointment_data['id_users_customer']);
+            // Check whether the appointment hash exists in the database.
+            $records = $this->Appointments_Model->get_batch(array('hash' => $appointment_hash));
+            if (count($records) == 0) {
+                throw new Exception('No record matches the provided hash.');
+            }
             
-            $available_providers = $this->Providers_Model->get_available_providers();
-            $available_services = $this->Services_Model->get_available_services();
+            $appointment_data = $records[0];
             
-            $view_data = array(
-                            'appointment_data' => $appointment_data,
-                            'customer_data' => $customer_data,
-                            'provider_data' => $provider_data,
-                            'user_type' => $user_type, 
-                            'available_providers' => $available_providers,
-                            'available_services' => $available_services
-                        ); 
-            $this->load->view('appointments/external_manage', $view_data);
-        } else {
-            // The external manage page was posted back. Save the 
-            // changes of the user.
+            // Delete the appointment from the database.
+            if (!$this->Appointments_Model->delete($appointment_data['id'])) {
+                throw new Exception('Appointment could not be deleted from the database.');
+            }
             
-            // @task Save user changes.
+            // Send notification emails to the customer and provider.
+            $provider_email = $this->Providers_Model->get_value('email', 
+                    $appointment_data['id_users_provider']);
+            $customer_email = $this->Customers_Model->get_value('email', 
+                    $appointment_data['id_users_customer']);
+            
+            $this->load->library('Notifications');
+            $this->notifications->send_cancel_appointment($appointment_data, $provider_email);
+            $this->notifications->send_cancel_appointment($appointment_data, $customer_email);
+            
+        } catch(Exception $exc) {
+            // Display the error message to the customer.
+            $view_data['error_message'] = $exc->getMessage();
         }
+        
+        $this->load->view('appointments/cancel');
     }
     
     /**
@@ -160,22 +169,24 @@ class Appointments extends CI_Controller {
         
         // Get the provider's working plan and reserved appointments.        
         $working_plan = json_decode($this->Providers_Model
-                ->get_value('working_plan', $_POST['provider_id']), true);
+                ->get_setting('working_plan', $_POST['provider_id']), true);
         
         $where_clause = array(
             'DATE(start_datetime)'  => date('Y-m-d', strtotime($_POST['selected_date'])),
-            'id_users_provider'     => $_POST['provider_id'],
-            'id_services'           => $_POST['service_id']
+            'id_users_provider'     => $_POST['provider_id']
         );
+       
+        $reserved_appointments = $this->Appointments_Model->get_batch($where_clause);
         
-        if ($_POST['manage_mode']) {
+        if ($_POST['manage_mode'] === 'true') {
             // Current record id shouldn't be included as reserved time,
             // whent the manage mode is true.
-            $where_clause['id !='] = $_POST['appointment_id'];
+            foreach($reserved_appointments as $index=>$appointment) {
+                if ($appointment['id'] == $_POST['appointment_id']) {
+                    unset($reserved_appointments[$index]);
+                }
+            }
         }
-        
-        $reserved_appointments = $this->Appointments_Model->get_batch($where_clause);
-                
 
         // Find the empty spaces on the plan. The first split between 
         // the plan is due to a break (if exist). After that every reserved 
@@ -272,8 +283,25 @@ class Appointments extends CI_Controller {
         
         foreach($empty_spaces as $space) {
             $start_hour = new DateTime($_POST['selected_date'] . ' ' . $space['start']);
-            $end_hour = new DateTime($_POST['selected_date'] . ' ' . $space['end']);
-            $curr_hour = $start_hour;
+            $end_hour   = new DateTime($_POST['selected_date'] . ' ' . $space['end']);
+            
+            $minutes = $start_hour->format('i');
+            
+            if ($minutes % 15 != 0) {
+                // Change the start hour of the current space in order to be
+                // on of the following: 00, 15, 30, 45.
+                if ($minutes < 15) {
+                    $start_hour->setTime($start_hour->format('H'), 15);
+                } else if ($minutes < 30) {
+                    $start_hour->setTime($start_hour->format('H'), 30);
+                } else if ($minutes < 45) {
+                    $start_hour->setTime($start_hour->format('H'), 45);
+                } else {
+                    $start_hour->setTime($start_hour->format('H') + 1, 00);
+                }
+            }
+            
+            $curr_hour  = $start_hour;
             
             $diff = $curr_hour->diff($end_hour);
             while(($diff->h * 60 + $diff->i) > intval($_POST['service_duration'])) {
@@ -289,7 +317,12 @@ class Appointments extends CI_Controller {
         // that is at least half or one hour from now. The setting is stored in 
         // minutes.
         if (date('m/d/Y', strtotime($_POST['selected_date'])) == date('m/d/Y')) {
-            $book_advance_timeout = $this->Settings_Model->get_setting('book_advance_timeout');
+            if ($_POST['manage_mode'] === 'true') {
+                $book_advance_timeout = 0;
+            } else {
+                $book_advance_timeout = $this->Settings_Model
+                        ->get_setting('book_advance_timeout');
+            }
             
             foreach($available_hours as $index=>$value) {
                 $available_hour = strtotime($value);
@@ -321,7 +354,8 @@ class Appointments extends CI_Controller {
         try {
             $this->load->library('Google_Sync');
             $this->google_sync->sync_appointment($appointment_id);
-            $view_data['message'] = 'Your appointment has been successfully added to Google Calendar!';
+            $view_data['message'] = 'Your appointment has been successfully added'
+                    . 'to Google Calendar!';
             $view_data['image'] = 'success.png';
         } catch (Exception $exc) {
             $view_data['message'] = 'An unexpected error occured during the sync '

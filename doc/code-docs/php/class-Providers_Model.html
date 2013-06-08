@@ -105,7 +105,7 @@ CI_Model
 		
 		
 
-		<b>Located at</b> <a href="source-class-Providers_Model.html#3-120" title="Go to source code">providers_model.php</a><br />
+		<b>Located at</b> <a href="source-class-Providers_Model.html#3-138" title="Go to source code">providers_model.php</a><br />
 	</div>
 
 
@@ -199,7 +199,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_value">#</a>
-		<code><a href="source-class-Providers_Model.html#26-53" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$provider_id</var></span> )</code>
+		<code><a href="source-class-Providers_Model.html#26-58" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$provider_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -243,7 +243,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_batch">#</a>
-		<code><a href="source-class-Providers_Model.html#55-74" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-Providers_Model.html#60-79" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -290,7 +290,7 @@ INCLUDE 'WHERE' KEYWORD.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_available_providers">#</a>
-		<code><a href="source-class-Providers_Model.html#76-110" title="Go to source code">get_available_providers</a>( )</code>
+		<code><a href="source-class-Providers_Model.html#81-115" title="Go to source code">get_available_providers</a>( )</code>
 
 		<div class="description short">
 			
@@ -329,7 +329,7 @@ provide.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_providers_role_id">#</a>
-		<code><a href="source-class-Providers_Model.html#112-119" title="Go to source code">get_providers_role_id</a>( )</code>
+		<code><a href="source-class-Providers_Model.html#117-124" title="Go to source code">get_providers_role_id</a>( )</code>
 
 		<div class="description short">
 			
@@ -347,6 +347,50 @@ provide.</p>
 				<h4>Returns</h4>
 				<div class="list">
 					<code>integer</code><br>Returns the role id for the customer records.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_setting" id="_get_setting">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_setting">#</a>
+		<code><a href="source-class-Providers_Model.html#126-137" title="Go to source code">get_setting</a>( <span>string <var>$setting_name</var></span>, <span>integer <var>$provider_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get a providers setting from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get a providers setting from the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$setting_name</var></dt>
+					<dd><code>string</code><br>$setting_name The setting name that is going to be returned.</dd>
+					<dt><var>$provider_id</var></dt>
+					<dd><code>integer</code><br>$provider_id The selected provider id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returs the value of the selected user setting.<br />
 				</div>
 
 
