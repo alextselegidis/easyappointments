@@ -33,23 +33,28 @@ class Providers_Model extends CI_Model {
      */
     public function get_value($field_name, $provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' . $provider_id);
+            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' 
+                    . $provider_id);
         }
         
         if (!is_string($field_name)) {
-            throw new InvalidArgumentException('$field_name argument is not a string : ' . $field_name);
+            throw new InvalidArgumentException('$field_name argument is not a string : ' 
+                    . $field_name);
         }
         
         if ($this->db->get_where('ea_users', array('id' => $provider_id))->num_rows() == 0) {
-            throw new InvalidArgumentException('The record with the $provider_id argument does not exist in the database : ' . $provider_id);
+            throw new InvalidArgumentException('The record with the $provider_id argument'
+                    . 'does not exist in the database : ' . $provider_id);
         }
         
         $row_data = $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
         if (!isset($row_data[$field_name])) {
-            throw new InvalidArgumentException('The given $field_name argument does not exist in the database : ' . $field_name);
+            throw new InvalidArgumentException('The given $field_name argument does not'
+                    . 'exist in the database : ' . $field_name);
         }
         
-        return $this->db->get_where('ea_users', array('id' => $provider_id))->row_array()[$field_name];
+        return $this->db->get_where('ea_users', array('id' => $provider_id))
+                ->row_array()[$field_name];
     }
     
     /**
@@ -116,6 +121,19 @@ class Providers_Model extends CI_Model {
      */
     public function get_providers_role_id() {
         return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_PROVIDER))->row()->id;
+    }
+    
+    /**
+     * Get a providers setting from the database.
+     * 
+     * @param string $setting_name The setting name that is going to be
+     * returned.
+     * @param int $provider_id The selected provider id.
+     * @return string Returs the value of the selected user setting.
+     */
+    public function get_setting($setting_name, $provider_id) {
+        return $this->db->get_where('ea_user_settings', array('id_users' => $provider_id))
+                ->row_array()[$setting_name];
     }
 }
 

@@ -74,7 +74,12 @@ class Unit_tests_appointments_model extends CI_Driver {
         
         // Check if the record is the one that was inserted.
         $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->row_array();
-        unset($db_data['hash']); // This should not be included because is generate when the record is inserted.
+        
+        // These should not be included because they are generated when the 
+        // record is inserted.
+        unset($db_data['hash']); 
+        unset($db_data['book_datetime']);
+        
         $this->CI->unit->run($appointment_data, $db_data, 'Test if add() appointment (insert operation) has successfully inserted a record.');
         
         // Delete inserted record.
@@ -418,7 +423,8 @@ class Unit_tests_appointments_model extends CI_Driver {
         
         // Get the appointment row from the database.
         $db_data = $this->CI->Appointments_Model->get_row($appointment_data['id']);
-                
+        unset($db_data['book_datetime']);
+        
         // Check if this is the record we seek.
         $this->CI->unit->run($db_data, $appointment_data, 'Test get_row() method.');
         

@@ -142,9 +142,20 @@ body {
 }
 
 #cancel-appointment-frame {
-    
+    padding: 12px 17px;
+    background: #F5F5F5;
+    border-bottom: 1px solid #E2E2E2;
 }
 
+#cancel-appointment-frame p {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+#cancel-appointment-frame form {
+    display: inline;
+}
 
 
 

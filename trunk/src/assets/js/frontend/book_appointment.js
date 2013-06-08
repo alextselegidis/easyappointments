@@ -28,8 +28,10 @@ var bookAppointment = {
         }
         
         if (manageMode === undefined) {
-            bookAppointment.manageMode = false; // Default Value
+            manageMode = false; // Default Value
         }
+        
+        bookAppointment.manageMode = manageMode;
         
         // Initialize page's components (tooltips, datepickers etc).
         $('.book-step').qtip({
@@ -243,8 +245,19 @@ var bookAppointment = {
                                 + '</span><br/>');
                     });
 
-                    // Set the first item as selected.
-                    $('.available-hour:eq(0)').addClass('selected-hour');
+                    if (bookAppointment.manageMode) {
+                        // Set the appointment start time as selected.
+                        $('.available-hour').removeClass('selected-hour');
+                        $('.available-hour').filter(function() {
+                            return $(this).text() === Date.parseExact(
+                                    GlobalVariables.appointmentData['start_datetime'],
+                                    'yyyy-MM-dd HH:mm:ss').toString('HH:mm');
+                        }).addClass('selected-hour');
+                    } else {
+                        // Set the first item as selected.
+                        $('.available-hour:eq(0)').addClass('selected-hour');
+                    }
+                    
                     bookAppointment.updateConfirmFrame();
                 } else {
                     $('#available-hours').text('There are no available appointment'
@@ -253,8 +266,8 @@ var bookAppointment = {
                 }
                 
             } catch(exception) {
-                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected'
-                        + 'error occured during the available hours calculation. Please'
+                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected '
+                        + 'error occured during the available hours calculation. Please '
                         + 'refresh the page and try again.');
             }
         });
@@ -331,6 +344,13 @@ var bookAppointment = {
             'id_services'       : $('#select-service').val()
         };
         
+        postData['manage_mode'] = bookAppointment.manageMode;
+        
+        if (bookAppointment.manageMode) {
+            postData['appointment']['id'] = GlobalVariables.appointmentData['id'];
+            postData['customer']['id'] = GlobalVariables.customerData['id'];
+        }
+        
         $('input[name="post_data"]').val(JSON.stringify(postData));
     },
     
@@ -378,26 +398,25 @@ var bookAppointment = {
     applyAppointmentData : function(appointmentData, providerData, customerData) {
         try {
             // Select Service & Provider
-            $('#select-service').val(appointmentData['id_services']);
+            $('#select-service').val(appointmentData['id_services']).trigger('change');
             $('#select-provider').val(appointmentData['id_users_provider']);
             
             // Set Appointment Date
-            $('.available-hour').removeClass('selected-hour');
-            $('.available-hour').filter(function() {
-                return $(this).text() === Date.parseExact(appointmentData['start_datetime'],
-                        'yyyy-MM-dd HH:mm').toString('HH:mm');
-            }).addClass('selected-hour');
+            $('#select-date').datepicker('setDate', Date.parseExact(
+                    appointmentData['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
+            bookAppointment.getAvailableHours($('#select-date').val());
             
             // Apply Customer's Data
-            $('last-name').val(customerData['last_name']);
-            $('first-name').val(customerData['first_name']);
-            $('email').val(customerData['email']);
-            $('phone-number').val(customerData['phone_number']);
+            $('#last-name').val(customerData['last_name']);
+            $('#first-name').val(customerData['first_name']);
+            $('#email').val(customerData['email']);
+            $('#phone-number').val(customerData['phone_number']);
             
-            $('address').val(customerData['address']);
-            $('city').val(customerData['city']);
-            $('zip-code').val(customerData['zip_code']);
-            $('notes').text(customerData['notes']);
+            $('#address').val(customerData['address']);
+            $('#city').val(customerData['city']);
+            $('#zip-code').val(customerData['zip_code']);
+            var appointmentNotes = (appointmentData['notes'] !== null) ? appointmentData['notes'] : '';
+            $('#notes').val(appointmentNotes);
             
             bookAppointment.updateConfirmFrame();
             

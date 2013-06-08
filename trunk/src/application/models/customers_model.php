@@ -23,15 +23,15 @@ class Customers_Model extends CI_Model {
      * @return int Returns the customer id.
      */
     public function add($customer_data) {
-        // Validate the appointment data before doing anything.
+        // Validate the customer data before doing anything.
         if (!$this->validate_data($customer_data)) {
             throw new ValidationException('Customer data are not valid.');
         }
 
-        if (!$this->exists($customer_data)) {
+        if (!isset($customer_data['id'])) {
             $customer_data['id'] = $this->insert($customer_data);
         } else {
-            $customer_data['id'] = $this->update($customer_data);
+            $this->update($customer_data);
         }
 
         return $customer_data['id'];
@@ -103,11 +103,7 @@ class Customers_Model extends CI_Model {
      * data. Each key has the same name with the database fields.
      * @return int Returns the updated record id.
      */
-    private function update($customer_data) {
-        if (!isset($customer_data['id'])) {
-            $customer_data['id'] = $this->find_record_id($customer_data);
-        }
-        
+    private function update($customer_data) {        
         $this->db->where('id', $customer_data['id']);
         if (!$this->db->update('ea_users', $customer_data)) {
             throw new DatabaseException('Could not update customer to the database.');
@@ -164,6 +160,16 @@ class Customers_Model extends CI_Model {
         $this->load->helper('data_validation');
         
         try {
+            // If a customer id is provided, check whether the record
+            // exist in the database.
+            if (isset($customer_data['id'])) {
+                $num_rows = $this->db->get_where('ea_users', 
+                        array('id' => $customer_data['id']))->num_rows();
+                if ($num_rows == 0) {
+                    throw new Exception('Provided customer id does not ' 
+                            . 'exist in the database.');
+                }
+            }
             // Validate required fields
             if (!isset($customer_data['last_name'])
                     || !isset($customer_data['email'])
@@ -174,7 +180,8 @@ class Customers_Model extends CI_Model {
             
             // Validate email address
             if (!filter_var($customer_data['email'], FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('Invalid email address provided : ' . $customer_data['email']);
+                throw new Exception('Invalid email address provided : ' 
+                        . $customer_data['email']);
             }
             
             return TRUE;
@@ -194,7 +201,8 @@ class Customers_Model extends CI_Model {
      */
     public function delete($customer_id) {
         if (!is_numeric($customer_id)) {
-            throw new InvalidArgumentException('Invalid argument type $customer_id : ' . $customer_id);
+            throw new InvalidArgumentException('Invalid argument type $customer_id : ' 
+                    . $customer_id);
         }
         
         $num_rows = $this->db->get_where('ea_users', array('id' => $customer_id))->num_rows();
@@ -216,7 +224,8 @@ class Customers_Model extends CI_Model {
      */
     public function get_row($customer_id) {
         if (!is_numeric($customer_id)) {
-            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' . $customer_id);
+            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' 
+                    . $customer_id);
         }
         return $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();
     }
@@ -231,23 +240,29 @@ class Customers_Model extends CI_Model {
      */
     public function get_value($field_name, $customer_id) {
         if (!is_numeric($customer_id)) {
-            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' . $customer_id);
+            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' 
+                    . $customer_id);
         }
         
         if (!is_string($field_name)) {
-            throw new InvalidArgumentException('$field_name argument is not a string : ' . $field_name);
+            throw new InvalidArgumentException('$field_name argument is not a string : ' 
+                    . $field_name);
         }
         
         if ($this->db->get_where('ea_users', array('id' => $customer_id))->num_rows() == 0) {
-            throw new InvalidArgumentException('The record with the $customer_id argument does not exist in the database : ' . $customer_id);
+            throw new InvalidArgumentException('The record with the $customer_id argument ' 
+                    . 'does not exist in the database : ' . $customer_id);
         }
         
-        $row_data = $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();
+        $row_data = $this->db->get_where('ea_users', array('id' => $customer_id)
+                )->row_array();
         if (!isset($row_data[$field_name])) {
-            throw new InvalidArgumentException('The given $field_name argument does not exist in the database : ' . $field_name);
+            throw new InvalidArgumentException('The given $field_name argument does not'
+                    . 'exist in the database : ' . $field_name);
         }
         
-        return $this->db->get_where('ea_users', array('id' => $customer_id))->row_array()[$field_name];
+        return $this->db->get_where('ea_users', array('id' => $customer_id))
+                ->row_array()[$field_name];
     }
     
     /**
