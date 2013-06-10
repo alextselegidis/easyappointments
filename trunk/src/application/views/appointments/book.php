@@ -132,7 +132,8 @@
                                 Press the "Cancel" button to remove the appointment
                                 from the company schedule.
                             </p>
-                            <form method="get" action="' . $this->config->item('base_url') 
+                            <form id="cancel-appointment-form" method="get" 
+                                    action="' . $this->config->item('base_url') 
                                     . 'appointments/cancel/' . $appointment_data['hash'] . '">
                                 <button id="cancel-appointment" class="btn btn-inverse">
                                         Cancel</button>

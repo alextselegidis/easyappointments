@@ -66,6 +66,9 @@ class Appointments extends CI_Controller {
 
             $this->load->model('Customers_Model');
             $this->load->model('Appointments_Model');
+            $this->load->model('Services_Model');
+            $this->load->model('Providers_Model');
+            $this->load->model('Settings_Model');
 
             $customer_id = $this->Customers_Model->add($customer_data);
             $appointment_data['id_users_customer'] = $customer_id; 
@@ -96,9 +99,41 @@ class Appointments extends CI_Controller {
                         . 'you can restore them later. <br><br>Error: <br>' 
                         . $not_exc->getMessage() . '</pre>';
             }
+            
+            // Synchronize the appointment with the providers plan, if the 
+            // google sync option is enabled.
+            $this->load->library('google_sync');
+            $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                    $appointment_data['id_users_provider']);
+            
+            if ($google_sync == TRUE) {
+                $google_token = $this->Providers_Model->get_setting('google_token',
+                        $appointment_data['id_users_provider']);
+                // Validate the token. If it isn't valid, the sync operation cannot
+                // be completed.
+                if ($this->google_sync->validate_token($google_token) === TRUE) {
+                    if ($manage_mode === FALSE) { 
+                        // Add appointment to Google Calendar.
+                        $this->google_sync->add_appointment($appointment_data['id']);
+                    } else {
+                        // Update appointment to Google Calendar.
+                        $this->google_sync->update_appointment($appointment_data['id']);
+                    }
+                }
+            }  
 
             // Load the book appointment view.
-            $view_data['appointment_id'] = $appointment_data['id'];
+            $service_data   = $this->Services_Model->get_row($appointment_data['id_services']);
+            $provider_data  = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $company_name   = $this->Settings_Model->get_setting('company_name');
+            
+            $view_data = array(
+                'appointment_data'  => $appointment_data,
+                'service_data'      => $service_data,
+                'provider_data'     => $provider_data,
+                'company_name'      => $company_name
+            );
+            
             $this->load->view('appointments/book_success', $view_data);
         }   
     }
@@ -143,6 +178,12 @@ class Appointments extends CI_Controller {
             $this->notifications->send_cancel_appointment($appointment_data, $provider_email);
             $this->notifications->send_cancel_appointment($appointment_data, $customer_email);
             
+            // Delete the appointment from Google Calendar, if it is synced.
+            if ($appointment_data['id_google_calendar'] != NULL) {
+                $this->load->library('google_sync');
+                $this->google_sync->delete_appointment($appointment_data['id']);
+            } 
+            
         } catch(Exception $exc) {
             // Display the error message to the customer.
             $view_data['error_message'] = $exc->getMessage();
@@ -179,8 +220,8 @@ class Appointments extends CI_Controller {
         $reserved_appointments = $this->Appointments_Model->get_batch($where_clause);
         
         if ($_POST['manage_mode'] === 'true') {
-            // Current record id shouldn't be included as reserved time,
-            // whent the manage mode is true.
+            // Current record id shouldn't be included as reserved time, when the
+            // manage mode is true.
             foreach($reserved_appointments as $index=>$appointment) {
                 if ($appointment['id'] == $_POST['appointment_id']) {
                     unset($reserved_appointments[$index]);
@@ -338,33 +379,6 @@ class Appointments extends CI_Controller {
         $available_hours = array_values($available_hours);
         
         echo json_encode($available_hours);
-    }
-    
-    /**
-     * Synchronize appointment with its' providers google calendar.
-     * 
-     * This method syncs the registered appointment with the
-     * google calendar of the user.
-     * 
-     * @task This method needs to be changed. Everytime a customer 
-     * books a new appointment the synchronization process must be
-     * executed.
-     */
-    public function google_sync($appointment_id) {
-        try {
-            $this->load->library('Google_Sync');
-            $this->google_sync->sync_appointment($appointment_id);
-            $view_data['message'] = 'Your appointment has been successfully added'
-                    . 'to Google Calendar!';
-            $view_data['image'] = 'success.png';
-        } catch (Exception $exc) {
-            $view_data['message'] = 'An unexpected error occured during the sync '
-                    . 'operation: <br/><pre>' . $exc->getMessage() . '<br/>' 
-                    . $exc->getTraceAsString() . '</pre>';
-            $view_data['image'] = 'error.png';
-        }
-        
-        $this->load->view('appointments/google_sync', $view_data);
     }
 }
 
