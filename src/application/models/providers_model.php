@@ -18,7 +18,8 @@ class Providers_Model extends CI_Model {
      */
     public function get_row($provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new InvalidArgumentException('$provider_id argument is not an integer : ' . $provider_id);
+            throw new InvalidArgumentException('$provider_id argument is not an integer : ' 
+                    . $provider_id);
         }
         return $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
     }
@@ -134,6 +135,18 @@ class Providers_Model extends CI_Model {
     public function get_setting($setting_name, $provider_id) {
         return $this->db->get_where('ea_user_settings', array('id_users' => $provider_id))
                 ->row_array()[$setting_name];
+    }
+    
+    /**
+     * Set a provider's setting value in the database. 
+     * 
+     * @param string $setting_name The setting's name.
+     * @param string $value The setting's value.
+     * @param numeric $provider_id The selected provider id.
+     */
+    public function set_setting($setting_name, $value, $provider_id) {
+        $this->db->where(array('id_users' => $provider_id));
+        return $this->db->update('ea_user_settings', array($setting_name => $value));
     }
 }
 

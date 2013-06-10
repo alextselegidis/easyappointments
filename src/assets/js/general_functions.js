@@ -103,3 +103,21 @@ GeneralFunctions.getUrlParameter = function(url, parameterName) {
    else
        return results[1];
 }
+
+/**
+ * This function creates a RFC 3339 date string. This string is needed
+ * by the Google Calendar API in order to pass dates as parameters.
+ * 
+ * @param {date} dt The given date that will be transformed
+ * @returns {String} Returns the transformed string.
+ */
+GeneralFunctions.ISODateString = function(dt){
+    function pad(n){return n<10 ? '0'+n : n}
+    
+    return dt.getUTCFullYear()+'-'
+         + pad(dt.getUTCMonth()+1)+'-'
+         + pad(dt.getUTCDate())+'T'
+         + pad(dt.getUTCHours())+':'
+         + pad(dt.getUTCMinutes())+':'
+         + pad(dt.getUTCSeconds())+'Z'
+}

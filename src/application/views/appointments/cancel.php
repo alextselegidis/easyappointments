@@ -31,17 +31,16 @@
         }
         
         #success-frame {
-            width: 660px;
+            width: 650px;
             margin: 150px auto 0 auto;
             background: #FFF;
             border: 1px solid #DDDADA;
-            min-height: 197px;
-            padding: 108px 10px;
+            padding: 70px;
         }
         
         #success-icon {
-            float: left;
-            margin: 10px 25px 100px 50px;
+            float: right;
+            margin-top: 10px;
         }
             
     </style>
@@ -50,7 +49,7 @@
     <div id="success-frame" class="frame-container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
         
-        <h2>Your appointment has been successfully cancelled</h2>
+        <h3>Your appointment has been successfully cancelled!</h3>
         
         <?php 
             // Display exception message (if any).

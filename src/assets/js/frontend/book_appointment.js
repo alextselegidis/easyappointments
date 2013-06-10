@@ -182,6 +182,33 @@ var bookAppointment = {
             $(this).addClass('selected-hour');
             bookAppointment.updateConfirmFrame();
         });
+        
+        if (bookAppointment.manageMode) {
+            /**
+             * Event: Cancel Appointment Button "Click"
+             * 
+             * When the user clicks the "Cancel" button this form is going to
+             * be submitted. We need the user to confirm this action because
+             * once the appointment is cancelled, it will be delete from the 
+             * database.
+             */
+            $('#cancel-appointment').click(function() {
+                event.preventDefault();
+                
+                var dialogButtons = {
+                    'Yes'   : function() {
+                        $('#cancel-appointment-form').submit();
+                    },
+                    'No'    : function() {
+                        $('#message_box').dialog('close');
+                    }
+                };
+                
+                GeneralFunctions.displayMessageBox('Cancel Appointment', 'Are you sure ' 
+                        + 'that you want to cancel this appointment? This action can\'t ' 
+                        + 'be undone.', dialogButtons);
+            });
+        }
     },
     
     /**

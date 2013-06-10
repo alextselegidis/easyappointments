@@ -5,6 +5,12 @@ require_once dirname(__FILE__) . '/external/google-api-php-client/Google_Client.
 require_once dirname(__FILE__) . '/external/google-api-php-client/contrib/Google_CalendarService.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 
+/**
+ * Google Synchronization Class
+ * 
+ * This class implements all the core synchronization between the Google Calendar
+ * and the Easy!Appointments system. 
+ */
 class Google_Sync {
     private $client; 
     private $service;
@@ -12,8 +18,8 @@ class Google_Sync {
     /**
      * Class Constructor
      * 
-     * This method initializes the google client and the calendar service
-     * so that they can be used by the other methods.
+     * This method initializes the Google client class and the Calendar service
+     * class so that they can be used by the other methods. 
      */
     public function __construct() {
         session_start();
@@ -26,116 +32,112 @@ class Google_Sync {
         $this->client->setClientId(SystemConfiguration::$google_client_id);
         $this->client->setClientSecret(SystemConfiguration::$google_client_secret);
         $this->client->setDeveloperKey(SystemConfiguration::$google_api_key);
-        $this->client->setRedirectUri($CI->config->item('base_url') . 'google/api_auth');
+        $this->client->setRedirectUri('http://localhost/oauth_callback');
         $this->service = new Google_CalendarService($this->client);
     }
     
     /**
-     * Authorize google calendar api.
+     * Validate the Google API access token of a provider.
      * 
-     * Before the system is able to use the google calendar api
-     * it must be authorized to access the users appointment. This
-     * method checks where an authorization token exists in the 
-     * session cookie and handles the necessary actions.
+     * In order to manage a Google user's data, one need a valid access token. 
+     * This token is provided when the user grants the permission to a system
+     * to access his Google account data. So before making any action we need 
+     * to make sure that the available token is still valid.
      * 
-     * <strong>IMPORTANT</strong> This method must be called every
-     * time before the usage of the google api.
+     * <strong>IMPORTANT!</strong> Always use this method before anything else
+     * in order to make sure that the token is being set and still valid.
+     * 
+     * @param string $access_token This token is normally stored in the database.
+     * @return bool Returns the validation result.
      */
-    public function authorize_api() {
-        // USE ONLY FOR RESETTING THE TOKEN - DEBUGGING
-        //unset($_SESSION['google_api_token']); 
-        
-        // If the user is logged out there shouldn't be a token 
-        // entry to the session array.
-        if (isset($_GET['logout'])) { 
-            unset($_SESSION['google_api_token']);
-        }
-        
-        // If there is a 'code' entry available, authenticate the api. 
-        if (isset($_GET['code'])) { 
-            $this->client->authenticate($_GET['code']);
-            $_SESSION['google_api_token'] = $this->client->getAccessToken();
-            header('Location: http://' . $_SERVER['HTTP_HOST'] 
-                    . $_SERVER['PHP_SELF']); // refreshes current url
-        }
-        
-        // If there is an active token then assign it to the client object.
-        if (isset($_SESSION['google_api_token'])) { 
-            $this->client->setAccessToken($_SESSION['google_api_token']); 
-        }
-        
-        if (!$this->client->getAccessToken()) {
-            $authUrl = $this->client->createAuthUrl();
-            header('Location: ' . $authUrl);
-        }
+    public function validate_token($access_token) {
+         $this->client->setAccessToken($access_token);
+         return $this->client->isAccessTokenExpired();
     }
     
     /**
-     * Synchronize a sigle appointment with Google Calendar.
+     * Add an appointment record to its providers Google Calendar account.
      * 
-     * This method syncs an existing appointment with its' providers
-     * google calendar account.
+     * This method checks whether the appointment's provider has enabled the Google
+     * Sync utility of Easy!Appointments and the stored access token is still valid. 
+     * If yes, the selected appointment record is going to be added to the Google 
+     * Calendar account. 
      * 
-     * @expectedException Exception An error has occured during 
-     * the sync operation.
+     * <strong>IMPORTANT!</strong> If the access token is not valid anymore the 
+     * appointment cannot be added to the Google Calendar. A notification warning
+     * must be sent to the provider in order to authorize the E!A again, and store
+     * the new access token to the database.
      * 
-     * @param int $appointment_id The appointments database id.
+     * @param int $appointment_id The record id of the appointment that is going to
+     * be added to the database.
      * @return Google_Event Returns the Google_Event class object.
      */
-    public function sync_appointment($appointment_id) {
-        // Store the appointment id in the session cookies in case that 
-        // we need to redirect to the authorization page of google.
-        $_SESSION['sync_appointment_id'] = $appointment_id; 
-        
-        // Before procceeding to the sync operation we must authorize
-        // the user must authorize the application.
-        $this->authorize_api();
-        
-        // Load the models and retrieve the necessary data from db.
+    public function add_appointment($appointment_id) {
         $CI =& get_instance();
         
         $CI->load->model('Appointments_Model');
+        $CI->load->model('Service_Model');
+        $CI->load->model('Provider_Model');
         $CI->load->model('Customers_Model');
-        $CI->load->model('Providers_Model');
-        $CI->load->model('Services_Model');
         $CI->load->model('Settings_Model');
         
-        $appointment    = $CI->Appointments_Model->get_row($appointment_id);
-        $customer       = $CI->Customers_Model->get_row($appointment['id_users_customer']);
-        $provider       = $CI->Providers_Model->get_row($appointment['id_users_provider']);
-        $service        = $CI->Services_Model->get_row($appointment['id_services']);
+        $appointment_data   = $CI->Appointments_Model->get_row($appointment_id);
+        $provider_data      = $CI->Providers_Model->get_row($appointment_data['id_users_provider']);
+        $customer_data      = $CI->Customers_Model->get_row($appointment_data['id_users_customer']);
+        $service_data       = $CI->Services_Model->get_row($appointment_data['id_services']);
+        $company_name       = $CI->Settings_Model->get_setting('company_name');
         
-        // Add a new event to the user's google calendar.
         $CI->load->helper('general');
         
         $event = new Google_Event();
-        $event->setSummary($service['name']);
-        $event->setLocation($CI->Settings_Model->get_setting('company_name'));
+        $event->setSummary($service_data['name']);
+        $event->setLocation($company_name);
         
         $start = new Google_EventDateTime();
-        $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
+        $start->setDateTime(date3339(strtotime($appointment_data['start_datetime'])));
         $event->setStart($start);
         
         $end = new Google_EventDateTime();
-        $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
+        $end->setDateTime(date3339(strtotime($appointment_data['end_datetime'])));
         $event->setEnd($end);
         
         $eventProvider = new Google_EventAttendee();
-        $eventProvider->setDisplayName($provider['first_name'] . ' ' . $provider['last_name']);
-        //$eventProvider->setSelf(true);
-        $eventProvider->setEmail($provider['email']);
+        $eventProvider->setDisplayName($provider_data['first_name'] . ' ' 
+                . $provider_data['last_name']);
+        $eventProvider->setEmail($provider_data['email']);
         
         $eventCustomer = new Google_EventAttendee();
-        $eventCustomer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
-        $eventCustomer->setEmail($customer['email']);
+        $eventCustomer->setDisplayName($customer_data['first_name'] . ' ' 
+                . $customer_data['last_name']);
+        $eventCustomer->setEmail($customer_data['email']);
         
-        $event->attendees = array ($eventProvider, $eventCustomer);
+        $event->attendees = array(
+            $eventProvider, 
+            $eventCustomer
+        );
         
+        // Add the new event to the "primary" calendar.
         $created_event = $this->service->events->insert('primary', $event);
         
-        unset($_SESSION['sync_appointment_id']);
-        
         return $created_event;
+    }
+    
+    /**
+     * Update an existing appointment that is already synced with Google Calendar.
+     * 
+     * @param int $appointment_id
+     */
+    public function update_appointment($appointment_id) {
+        
+    }
+    
+    /**
+     * Delete an existing appointment from Google Calendar.
+     * 
+     * @param type $appointment_id
+     */
+    public function delete_appointment($appointment_id) {
+        
     }
 }
 
