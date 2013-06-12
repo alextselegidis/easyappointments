@@ -1,0 +1,57 @@
+/**
+ * BACKEND CSS FILE FOR EASY!APPOINTMENTS
+ */
+
+root { 
+    display: block;
+}
+
+/* BACKEND GENERAL ELEMENTS
+   -------------------------------------------------------------------- */
+#header {
+    height: 70px;
+    background-color: #35B66F;
+    border-bottom: 6px solid #247A4B;
+}
+#header #header-logo { display: inline-block; height: 60px; margin: 10px 15px 0px 15px; }
+#header #header-logo img { float: left; width: 50px; height: 50px; margin-right: 6px; }
+#header #header-logo span { float: left; font-size: 20px; color: white; margin-top: 16px; }
+
+#header #header-menu { display: inline-block; float: right; height: 100%; }
+#header #header-menu .menu-item { float: left; margin-right: 8px; margin-top: 10px;  
+                                  padding: 15px 12px; min-width: 68px; text-align: center; 
+                                  font-weight: bold; color: #FFF; text-decoration: none;
+                                  font-size: 16px; }
+#header #header-menu .menu-item:hover { background-color: #247A4B; }
+
+#footer {
+    background-color: #F7F7F7;
+    border-top: 1px solid #DDD;
+}
+#footer #footer-content { padding: 15px; }
+
+/* BACKEND CALENDAR PAGE
+   -------------------------------------------------------------------- */
+#calendar-page #calendar-toolbar { margin: 15px 10px 20px 10px; padding-bottom: 10px; 
+                                   overflow: auto; border-bottom: 1px solid #D6D6D6; }
+#calendar-page #calendar-filter { display: inline-block;  float: left; }
+#calendar-page #calendar-filter label { display: inline-block; margin-right: 7px; 
+                                        font-weight: bold; font-size: 18px; width: 180px; }
+#calendar-page #calendar-filter select { margin-top: 5px; }
+#calendar-page #calendar-actions { display: inline-block; float: right; margin-top: 16px; }
+#calendar-page #calendar { margin: 12px; }
+
+/* BACKEND CUSTOMERS PAGE
+   -------------------------------------------------------------------- */
+
+
+/* BACKEND SERVICES PAGE
+   -------------------------------------------------------------------- */
+
+
+/* BACKEND PROVIDERS PAGE
+   -------------------------------------------------------------------- */
+
+
+/* BACKEND SETTINGS PAGE
+   -------------------------------------------------------------------- */

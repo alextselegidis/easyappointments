@@ -5,7 +5,7 @@
  * 
  * @class Implements the js part of the appointment booking page.
  */
-var bookAppointment = {
+var FrontendBook = {
     /**
      * Determines the functionality of the page.
      * 
@@ -31,7 +31,7 @@ var bookAppointment = {
             manageMode = false; // Default Value
         }
         
-        bookAppointment.manageMode = manageMode;
+        FrontendBook.manageMode = manageMode;
         
         // Initialize page's components (tooltips, datepickers etc).
         $('.book-step').qtip({
@@ -49,21 +49,21 @@ var bookAppointment = {
             minDate     : 0,
             defaultDate : Date.today(),
             onSelect    : function(dateText, instance) {
-                bookAppointment.getAvailableHours(dateText);
-                bookAppointment.updateConfirmFrame();
+                FrontendBook.getAvailableHours(dateText);
+                FrontendBook.updateConfirmFrame();
             }
         });
        
         // Bind the event handlers (might not be necessary every time
         // we use this class).
         if (bindEventHandlers) {
-            bookAppointment.bindEventHandlers();
+            FrontendBook.bindEventHandlers();
         }
         
         // If the manage mode is true, the appointments data should be
         // loaded by default.
-        if (bookAppointment.manageMode) {
-            bookAppointment.applyAppointmentData(GlobalVariables.appointmentData,
+        if (FrontendBook.manageMode) {
+            FrontendBook.applyAppointmentData(GlobalVariables.appointmentData,
                     GlobalVariables.providerData, GlobalVariables.customerData);
         } else {
             $('#select-service').trigger('change'); // Load the available hours.
@@ -82,8 +82,8 @@ var bookAppointment = {
          * date - time periods must be updated.
          */
         $('#select-provider').change(function() {
-            bookAppointment.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
-            bookAppointment.updateConfirmFrame();
+            FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            FrontendBook.updateConfirmFrame();
         });
         
         /**
@@ -109,8 +109,8 @@ var bookAppointment = {
                 });
             });
 
-            bookAppointment.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
-            bookAppointment.updateConfirmFrame();
+            FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            FrontendBook.updateConfirmFrame();
         });
         
         /**
@@ -138,10 +138,10 @@ var bookAppointment = {
             // If we are on the 3rd tab then we will need to validate the user's 
             // input before proceeding to the next step.
             if ($(this).attr('data-step_index') === '3') {
-                if (!bookAppointment.validateCustomerForm()) {
+                if (!FrontendBook.validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
-                    bookAppointment.updateConfirmFrame();
+                    FrontendBook.updateConfirmFrame();
                 }
             }
             
@@ -180,10 +180,10 @@ var bookAppointment = {
         $('#available-hours').on('click', '.available-hour', function() {
             $('.selected-hour').removeClass('selected-hour');
             $(this).addClass('selected-hour');
-            bookAppointment.updateConfirmFrame();
+            FrontendBook.updateConfirmFrame();
         });
         
-        if (bookAppointment.manageMode) {
+        if (FrontendBook.manageMode) {
             /**
              * Event: Cancel Appointment Button "Click"
              * 
@@ -230,7 +230,7 @@ var bookAppointment = {
         
         // If the manage mode is true then the appointment's start 
         // date should return as available too.
-        var appointmentId = (bookAppointment.manageMode) 
+        var appointmentId = (FrontendBook.manageMode) 
                 ? GlobalVariables.appointmentData['id'] : undefined;
 
         var postData = {
@@ -238,7 +238,7 @@ var bookAppointment = {
             'provider_id'       : $('#select-provider').val(),
             'selected_date'     : selDate,
             'service_duration'  : selServiceDuration,
-            'manage_mode'       : bookAppointment.manageMode,
+            'manage_mode'       : FrontendBook.manageMode,
             'appointment_id'    : appointmentId
         };
 
@@ -272,7 +272,7 @@ var bookAppointment = {
                                 + '</span><br/>');
                     });
 
-                    if (bookAppointment.manageMode) {
+                    if (FrontendBook.manageMode) {
                         // Set the appointment start time as selected.
                         $('.available-hour').removeClass('selected-hour');
                         $('.available-hour').filter(function() {
@@ -285,7 +285,7 @@ var bookAppointment = {
                         $('.available-hour:eq(0)').addClass('selected-hour');
                     }
                     
-                    bookAppointment.updateConfirmFrame();
+                    FrontendBook.updateConfirmFrame();
                 } else {
                     $('#available-hours').text('There are no available appointment'
                             + 'hours for the selected date. Please choose another '
@@ -365,15 +365,15 @@ var bookAppointment = {
         postData['appointment'] = {
             'start_datetime'    : $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
                                         + ' ' + $('.selected-hour').text() + ':00',
-            'end_datetime'      : bookAppointment.calcEndDatetime(),
+            'end_datetime'      : FrontendBook.calcEndDatetime(),
             'notes'             : $('#notes').val(),
             'id_users_provider' : $('#select-provider').val(),
             'id_services'       : $('#select-service').val()
         };
         
-        postData['manage_mode'] = bookAppointment.manageMode;
+        postData['manage_mode'] = FrontendBook.manageMode;
         
-        if (bookAppointment.manageMode) {
+        if (FrontendBook.manageMode) {
             postData['appointment']['id'] = GlobalVariables.appointmentData['id'];
             postData['customer']['id'] = GlobalVariables.customerData['id'];
         }
@@ -431,7 +431,7 @@ var bookAppointment = {
             // Set Appointment Date
             $('#select-date').datepicker('setDate', Date.parseExact(
                     appointmentData['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
-            bookAppointment.getAvailableHours($('#select-date').val());
+            FrontendBook.getAvailableHours($('#select-date').val());
             
             // Apply Customer's Data
             $('#last-name').val(customerData['last_name']);
@@ -445,7 +445,7 @@ var bookAppointment = {
             var appointmentNotes = (appointmentData['notes'] !== null) ? appointmentData['notes'] : '';
             $('#notes').val(appointmentNotes);
             
-            bookAppointment.updateConfirmFrame();
+            FrontendBook.updateConfirmFrame();
             
             return true;
         } catch(exc) {

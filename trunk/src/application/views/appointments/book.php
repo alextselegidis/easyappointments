@@ -26,7 +26,7 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/style.css">
+        href="<?php echo $this->config->base_url(); ?>assets/css/frontend.css">
 
     <?php
         // ------------------------------------------------------------
@@ -34,32 +34,25 @@
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery-ui.min.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery-ui.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.qtip.min.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.qtip.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/frontend/book_appointment.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/frontend_book.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
     
     <?php
         // ------------------------------------------------------------
@@ -86,7 +79,7 @@
         };
         
         $(document).ready(function() {
-            bookAppointment.initialize(true, GlobalVariables.manageMode); 
+            FrontendBook.initialize(true, GlobalVariables.manageMode); 
             GeneralFunctions.centerElementOnPage($('#book-appointment-wizard'));
         });
     </script>

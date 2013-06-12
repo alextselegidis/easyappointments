@@ -102,16 +102,18 @@ class Appointments extends CI_Controller {
             
             // Synchronize the appointment with the providers plan, if the 
             // google sync option is enabled.
-            $this->load->library('google_sync');
             $google_sync = $this->Providers_Model->get_setting('google_sync', 
                     $appointment_data['id_users_provider']);
             
             if ($google_sync == TRUE) {
                 $google_token = $this->Providers_Model->get_setting('google_token',
                         $appointment_data['id_users_provider']);
-                // Validate the token. If it isn't valid, the sync operation cannot
+
+                // Authenticate the token. If it isn't valid, the sync operation cannot
                 // be completed.
-                if ($this->google_sync->validate_token($google_token) === TRUE) {
+                $this->load->library('google_sync');
+                
+                if ($this->google_sync->authenticate($google_token) === TRUE) {
                     if ($manage_mode === FALSE) { 
                         // Add appointment to Google Calendar.
                         $this->google_sync->add_appointment($appointment_data['id']);
@@ -122,7 +124,7 @@ class Appointments extends CI_Controller {
                 }
             }  
 
-            // Load the book appointment view.
+            // Load the book success view.
             $service_data   = $this->Services_Model->get_row($appointment_data['id_services']);
             $provider_data  = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
             $company_name   = $this->Settings_Model->get_setting('company_name');
@@ -180,10 +182,22 @@ class Appointments extends CI_Controller {
             
             // Delete the appointment from Google Calendar, if it is synced.
             if ($appointment_data['id_google_calendar'] != NULL) {
-                $this->load->library('google_sync');
-                $this->google_sync->delete_appointment($appointment_data['id']);
+                $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                        $appointment_data['id_users_provider']);
+                
+                if ($google_sync == TRUE) {
+                    $this->load->library('google_sync');
+                    
+                    // Get the provider's refresh token and try to authenticate the 
+                    // Google Calendar API usage. 
+                    $google_token = $this->Providers_Model->get_setting('google_token',
+                            $appointment_data['id_users_provider']);
+                    
+                    if ($this->google_sync->authendicate($google_token) === TRUE) {
+                        $this->google_sync->delete_appointment($appointment_data['id']);
+                    }
+                }
             } 
-            
         } catch(Exception $exc) {
             // Display the error message to the customer.
             $view_data['error_message'] = $exc->getMessage();

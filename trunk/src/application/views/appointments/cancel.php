@@ -6,8 +6,7 @@
     <?php // INCLUDE JS FILES ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js">
-    </script>
+        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
     
     <?php // INCLUDE CSS FILES ?>
     <link 

@@ -37,22 +37,21 @@ class Google_Sync {
     }
     
     /**
-     * Validate the Google API access token of a provider.
+     * Authenticate the Google API usage.
      * 
-     * In order to manage a Google user's data, one need a valid access token. 
-     * This token is provided when the user grants the permission to a system
-     * to access his Google account data. So before making any action we need 
-     * to make sure that the available token is still valid.
+     * This method must be executed every time we need to make actions on a 
+     * provider's Google Calendar account. A new token is necessary and the 
+     * only way to get it is to use the stored refresh token that was provided
+     * when the provider granted consent to Easy!Appointments for use his 
+     * Google Calendar account.
      * 
-     * <strong>IMPORTANT!</strong> Always use this method before anything else
-     * in order to make sure that the token is being set and still valid.
-     * 
-     * @param string $access_token This token is normally stored in the database.
-     * @return bool Returns the validation result.
+     * @param string $refresh_token The provider's refresh token. This value is
+     * stored in the database and used every time we need to make actions to his
+     * Google Caledar account.
+     * @return bool Returns the authenticate operation result.
      */
-    public function validate_token($access_token) {
-         $this->client->setAccessToken($access_token);
-         return $this->client->isAccessTokenExpired();
+    public function authenticate($refresh_token) {
+        
     }
     
     /**
