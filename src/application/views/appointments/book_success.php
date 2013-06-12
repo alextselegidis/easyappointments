@@ -149,16 +149,16 @@
                                             'Your appointment has successfully been added to ' +
                                             'your Google Calendar account. <br>' + 
                                             '<a href="' + response.htmlLink + '">' + 
-                                                'Appointment Link' + 
+                                                'Click here to view your appoinmtent on Google ' +
+                                                'Calendar.' +
                                             '</a>' + 
                                         '</p>' +
                                     '</div>'
                                 );
+                                $('#add-to-google-calendar').hide();
                             } else {
                                 throw 'Could not add the event to Google Calendar.';
                             }
-                            
-                            
                         });
                     });
                 } catch(exc) {
