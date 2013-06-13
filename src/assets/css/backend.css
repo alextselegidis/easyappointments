@@ -36,9 +36,9 @@ root {
                                    overflow: auto; border-bottom: 1px solid #D6D6D6; }
 #calendar-page #calendar-filter { display: inline-block;  float: left; }
 #calendar-page #calendar-filter label { display: inline-block; margin-right: 7px; 
-                                        font-weight: bold; font-size: 18px; width: 180px; }
+                                        font-weight: bold; font-size: 18px; }
 #calendar-page #calendar-filter select { margin-top: 5px; }
-#calendar-page #calendar-actions { display: inline-block; float: right; margin-top: 16px; }
+#calendar-page #calendar-actions { display: inline-block; float: right; }
 #calendar-page #calendar { margin: 12px; }
 
 /* BACKEND CUSTOMERS PAGE
