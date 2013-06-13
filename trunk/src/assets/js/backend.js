@@ -3,25 +3,34 @@
  */
 $(document).ready(function() {
     $(window).resize(function() {
-        placeFooterToBottom();
+        Backend.placeFooterToBottom();
     }).trigger('resize');
 });
 
+
 /**
- * Place the backend footer always on the bottom of the page.
+ * This namespace contains functions that are used in the backend section of
+ * the applications.
+ * 
+ * @namespace Backend
  */
-function placeFooterToBottom() {
-    var footerHandle = $('#footer');
-    
-    if (window.innerHeight > $('body').height()) {
-        footerHandle.css({
-            'position'  : 'absolute',
-            'width'     : '100%',
-            'bottom'    : '0px'
-        });
-    } else {
-        footerHandle.css({
-            'position'  : 'static'
-        });
+var Backend = {
+    /**
+     * Place the backend footer always on the bottom of the page.
+     */
+    placeFooterToBottom: function() {
+        var footerHandle = $('#footer');
+
+        if (window.innerHeight > $('body').height()) {
+            footerHandle.css({
+                'position'  : 'absolute',
+                'width'     : '100%',
+                'bottom'    : '0px'
+            });
+        } else {
+            footerHandle.css({
+                'position'  : 'static'
+            });
+        }
     }
 }

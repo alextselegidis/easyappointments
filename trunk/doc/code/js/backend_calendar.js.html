@@ -1,4 +1,31 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: backend_calendar.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: backend_calendar.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
  * This namespace contains functions that are used by the backend calendar page.
  * 
  * @namespace BackendCalendar
@@ -54,31 +81,31 @@ var BackendCalendar = {
             eventClick          : function(event, jsEvent, view) {
                 // Display a popover with the event details.
                 var html = 
-                        '<style type="text/css">' 
+                        '&lt;style type="text/css">' 
                             + '.popover-content strong {min-width: 80px; display:inline-block;}' 
                             + '.popover-content button {margin-right: 10px;}'
-                            + '</style>' +
-                        '<strong>Start</strong> ' 
+                            + '&lt;/style>' +
+                        '&lt;strong>Start&lt;/strong> ' 
                             + event.start.toString('dd-MM-yyyy HH:mm') 
-                            + '<br>' + 
-                        '<strong>End</strong> ' 
+                            + '&lt;br>' + 
+                        '&lt;strong>End&lt;/strong> ' 
                             + event.end.toString('dd-MM-yyyy HH:mm') 
-                            + '<br>' + 
-                        '<strong>Service</strong> ' 
+                            + '&lt;br>' + 
+                        '&lt;strong>Service&lt;/strong> ' 
                             + event.title 
-                            + '<br>' +  
-                        '<strong>Provider</strong> ' 
+                            + '&lt;br>' +  
+                        '&lt;strong>Provider&lt;/strong> ' 
                             + event.data['provider']['first_name'] + ' ' 
                             + event.data['provider']['last_name'] 
-                            + '<br>' +
-                        '<strong>Customer</strong> ' 
+                            + '&lt;br>' +
+                        '&lt;strong>Customer&lt;/strong> ' 
                             + event.data['customer']['first_name'] + ' ' 
                             + event.data['customer']['last_name'] 
-                            + '<hr>' +
-                        '<center>' + 
-                        '<button class="edit-popover btn btn-primary">Edit</button>' +
-                        '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
-                        '</center>';
+                            + '&lt;hr>' +
+                        '&lt;center>' + 
+                        '&lt;button class="edit-popover btn btn-primary">Edit&lt;/button>' +
+                        '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>Close&lt;/button>' +
+                        '&lt;/center>';
                 
                 $(jsEvent.target).popover({
                     placement       : 'top',
@@ -119,22 +146,22 @@ var BackendCalendar = {
         });
         
         // :: FILL THE SELECT ELEMENTS OF THE PAGE
-        var optgroupHtml = '<optgroup label="Providers">';
+        var optgroupHtml = '&lt;optgroup label="Providers">';
         $.each(GlobalVariables.availableProviders, function(index, provider) {
-            optgroupHtml += '<option value="' + provider['id'] + '" ' + 
+            optgroupHtml += '&lt;option value="' + provider['id'] + '" ' + 
                     'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '">' + 
-                    provider['first_name'] + ' ' + provider['last_name'] + '</option>';
+                    provider['first_name'] + ' ' + provider['last_name'] + '&lt;/option>';
         });
-        optgroupHtml += '</optgroup>';
+        optgroupHtml += '&lt;/optgroup>';
         $('#select-filter-item').append(optgroupHtml)
         
-        optgroupHtml = '<optgroup label="Services">';
+        optgroupHtml = '&lt;optgroup label="Services">';
         $.each(GlobalVariables.availableServices, function(index, service) {
-            optgroupHtml += '<option value="' + service['id'] + '" ' + 
+            optgroupHtml += '&lt;option value="' + service['id'] + '" ' + 
                     'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' 
-                    + service['name'] + '</option>';
+                    + service['name'] + '&lt;/option>';
         });
-        optgroupHtml += '</optgroup>';
+        optgroupHtml += '&lt;/optgroup>';
         $('#select-filter-item').append(optgroupHtml)
         
         // :: BIND THE DEFAULT EVENT HANDLERS
@@ -173,7 +200,7 @@ var BackendCalendar = {
          * Hides the open popover element.
          */
         $(document).on('click', '.close-popover', function() {
-            $(this).parents().eq(2).remove(); 
+            $(this).parents().eq(2).remove();
         });
         
         /**
@@ -182,75 +209,50 @@ var BackendCalendar = {
          * Enables the edit dialog of the selected calendar event.
          */
         $(document).on('click', '.edit-popover', function() {
-            $(this).parents().eq(2).remove(); // Hide the popover
-            
-            var appointmentData = BackendCalendar.lastFocusedEvent.data;
-            var modalHandle = $('#manage-appointment');
+            $(this).parents().eq(2).remove();
             
             // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
-            modalHandle.find('input, textarea').val('');
+            $('.manage-appointment').find('input, textarea').val('');
             
             // Fill the services listbox and select the appointment service.
             $.each(GlobalVariables.availableServices, function(index, service) {
                 var option = new Option(service['name'], service['id']);
-                modalHandle.find('#select-service').append(option);
+                $('.manage-appointment #select-service').append(option);
             });
             
-            $('#manage-appointment #select-service').val(
-                    appointmentData['id_services']);
+            $('.manage-appointment #select-service').val(
+                    BackendCalendar.lastFocusedEvent.data['id_services']);
             
             // Fill the providers listbox with providers that can serve the appointment's 
             // service and then select the user's provider.
             $.each(GlobalVariables.availableProviders, function(index, provider) {
-                var canProvideService = false; 
+                var canProvide = false; 
                 
                 $.each(provider['services'], function(index, service) {
-                    if (service === appointmentData['id_services']) {
-                        canProvideService = true;
+                    if (service['id'] == BackendCalendar.lastFocusedEvent['id_services']) {
+                        canProvide = true;
                         return;
                     }
                 });
                 
-                if (canProvideService) {
+                if (canProvide) {
                     var option = new Option(provider['first_name'] + ' ' 
                             + provider['last_name'], provider['id']);
-                    modalHandle.find('#select-provider').append(option);
+                    $('#manage-appointments #select-provider').append(option);
                 }
             });
             
-            modalHandle.find('#select-provider').val(appointmentData['id_users_provider']);
-            
-            var customerData = appointmentData['customer'];
-            modalHandle.find('#first-name').val(customerData['first_name']);
-            modalHandle.find('#last-name').val(customerData['last_name']);
-            modalHandle.find('#email').val(customerData['email']);
-            modalHandle.find('#phone-number').val(customerData['phone_number']);
-            modalHandle.find('#address').val(customerData['address']);
-            modalHandle.find('#city').val(customerData['city']);
-            modalHandle.find('#zip-code').val(customerData['zip_code']);
-            modalHandle.find('#notes').val(customerData['notes']);
-            
+            // .... more stuff here 
             
         
-            // :: DISPLAY THE MANAGE APPOINTMENTS MODAL DIALOG
-            $('#manage-appointment').modal('show');
+            
         });
         
-        /**
-         * Event: Manage Appointments Dialog Cancel Button "Clicked"
-         * 
-         * Closes the dialog without making any actions.
-         */
-        $('#manage-appointment #cancel-button').click(function() {
-            $('#manage-appointment').modal('hide');
+        $('#manage-appointments #cancel-button').click(function() {
+            $('#manage-appointments').modal('hide');
         });
         
-        /**
-         * Event: Manage Appointments Dialog Save Button "Clicked"
-         * 
-         * Stores the appointment changes.
-         */
-        $('#manage-appointment #save-button').click(function() {
+        $('#manage-appointments #save-button').click(function() {
             // :: PREPARE APPOINTMENT DATA FOR AJAX CALL
             var appointmentData = {};
             
@@ -325,10 +327,31 @@ var BackendCalendar = {
      * into the database, via an ajax call.
      * 
      * @param {object} appointmentData Contain the new appointment data. The 
-     * id of the appointment MUST be already included. The rest values must 
-     * follow the database structure.
+     * id of the appointment MUST be already included.
      */
     updateAppointment: function(appointmentData) {
-        // @task Save the appointment changes (ajax call).
+        
     }
-};
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:47 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

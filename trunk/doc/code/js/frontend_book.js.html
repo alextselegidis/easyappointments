@@ -1,4 +1,31 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend_book.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: frontend_book.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
  * This namespace contains functions that implement the book appointment 
  * page functionality. Once the initialize() method is called the page is 
  * fully functional and can serve the appointment booking process.
@@ -101,9 +128,9 @@ var FrontendBook = {
                     // If the current provider is able to provide the selected service,
                     // add him to the listbox. 
                     if (serviceId == currServiceId) { 
-                        var optionHtml = '<option value="' + provider['id'] + '">' 
+                        var optionHtml = '&lt;option value="' + provider['id'] + '">' 
                                 + provider['last_name']  + ' ' + provider['first_name'] 
-                                + '</option>';
+                                + '&lt;/option>';
                         $('#select-provider').append(optionHtml);
                     }
                 });
@@ -126,10 +153,10 @@ var FrontendBook = {
             if ($(this).attr('data-step_index') === '2') {
                 if ($('.selected-hour').length == 0) {
                     if ($('#select-hour-prompt').length == 0) {
-                        $('#available-hours').append('<br><br>'
-                                + '<strong id="select-hour-prompt" class="text-error">'
+                        $('#available-hours').append('&lt;br>&lt;br>'
+                                + '&lt;strong id="select-hour-prompt" class="text-error">'
                                 + 'Please select an appointment hour before continuing!' 
-                                + '</strong>');
+                                + '&lt;/strong>');
                     }
                     return;
                 }
@@ -258,18 +285,18 @@ var FrontendBook = {
                 if (jsonResponse.length > 0) {
                     // Fill the available time div
                     var currColumn = 1;
-                    $('#available-hours').html('<div style="width:50px; float:left;"></div>');
+                    $('#available-hours').html('&lt;div style="width:50px; float:left;">&lt;/div>');
                     
                     $.each(jsonResponse, function(index, availableHour) {
-                        if ((currColumn * 10) < (index + 1)) {
+                        if ((currColumn * 10) &lt; (index + 1)) {
                             currColumn++;
                             $('#available-hours')
-                                    .append('<div style="width:50px; float:left;"></div>');
+                                    .append('&lt;div style="width:50px; float:left;">&lt;/div>');
                         }
 
                         $('#available-hours div:eq(' + (currColumn - 1) + ')')
-                                .append('<span class="available-hour">' + availableHour 
-                                + '</span><br/>');
+                                .append('&lt;span class="available-hour">' + availableHour 
+                                + '&lt;/span>&lt;br/>');
                     });
 
                     if (FrontendBook.manageMode) {
@@ -333,19 +360,19 @@ var FrontendBook = {
         }
 
         $('#appointment-info').html(
-            '<h4>' + $('#select-service option:selected').text() + '</h4>' +
-            $('#select-provider option:selected').text() + '<br/>' + 
-            '<strong class="text-info">' + selectedDate + ' ' 
-                    + $('.selected-hour').text() + '</strong>'
+            '&lt;h4>' + $('#select-service option:selected').text() + '&lt;/h4>' +
+            $('#select-provider option:selected').text() + '&lt;br/>' + 
+            '&lt;strong class="text-info">' + selectedDate + ' ' 
+                    + $('.selected-hour').text() + '&lt;/strong>'
         );
 
         /*** SET CUSTOMER'S INFO ***/
         $('#customer-info').html(
-            '<h4>' + $('#last-name').val() + ' ' + $('#first-name').val() + '</h4>' + 
-            'Phone: ' + $('#phone-number').val() + '<br/>' + 
-            'Email: ' + $('#email').val() + '<br/>' + 
-            'Address: ' + $('#address').val() + '<br/>' + 
-            'City: ' + $('#city').val() + '<br/>' + 
+            '&lt;h4>' + $('#last-name').val() + ' ' + $('#first-name').val() + '&lt;/h4>' + 
+            'Phone: ' + $('#phone-number').val() + '&lt;br/>' + 
+            'Email: ' + $('#email').val() + '&lt;br/>' + 
+            'Address: ' + $('#address').val() + '&lt;br/>' + 
+            'City: ' + $('#city').val() + '&lt;br/>' + 
             'Zip Code: ' + $('#zip-code').val()
         );
             
@@ -453,4 +480,26 @@ var FrontendBook = {
             return false;
         }
     }
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:47 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
