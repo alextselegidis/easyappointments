@@ -119,5 +119,49 @@ var GeneralFunctions = {
              + pad(dt.getUTCHours())+':'
              + pad(dt.getUTCMinutes())+':'
              + pad(dt.getUTCSeconds())+'Z'
+    },
+    
+    /**
+     * This method creates and returns an exact copy of the provided object. 
+     * It is very usefull whenever changes need to be made to an object without
+     * modyfing the original data.
+     * 
+     * @link http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
+     * 
+     * @param {object} originalObject Object to be copied.
+     * @returns {object} Returns an exact copy of the provided element.
+     */
+    clone: function(originalObject) {
+        // Handle the 3 simple types, and null or undefined
+        if (null == originalObject || "object" != typeof originalObject) 
+            return originalObject;
+
+        // Handle Date
+        if (originalObject instanceof Date) {
+            var copy = new Date();
+            copy.setTime(originalObject.getTime());
+            return copy;
+        }
+
+        // Handle Array
+        if (originalObject instanceof Array) {
+            var copy = [];
+            for (var i = 0, len = originalObject.length; i < len; i++) {
+                copy[i] = GeneralFunctions.clone(originalObject[i]);
+            }
+            return copy;
+        }
+
+        // Handle Object
+        if (originalObject instanceof Object) {
+            var copy = {};
+            for (var attr in originalObject) {
+                if (originalObject.hasOwnProperty(attr)) 
+                    copy[attr] = GeneralFunctions.clone(originalObject[attr]);
+            }
+            return copy;
+        }
+
+        throw new Error("Unable to copy obj! Its type isn't supported.");
     }
-}
+};
