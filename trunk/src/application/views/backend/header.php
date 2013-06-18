@@ -30,6 +30,10 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $base_url; ?>assets/css/backend.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $base_url; ?>assets/css/general.css">
     
     <?php
         // ------------------------------------------------------------
@@ -104,3 +108,4 @@
         
     </div>
 </div>
+<div id="notification" style="display: none;"></div>

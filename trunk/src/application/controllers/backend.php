@@ -28,19 +28,19 @@ class Backend extends CI_Controller {
     }
     
     public function customers() {
-        
+        echo '<h1>Not implemented yet.</h1>';
     }
     
     public function services() {
-        
+        echo '<h1>Not implemented yet.</h1>';
     }
     
     public function providers() {
-        
+        echo '<h1>Not implemented yet.</h1>';
     }
     
     public function settings() {
-        
+        echo '<h1>Not implemented yet.</h1>';
     }
     
     /**
@@ -50,8 +50,8 @@ class Backend extends CI_Controller {
      * period and record type (provider or service). 
      * 
      * @param {numeric} $_POST['record_id'] Selected record id. 
-     * @param {string} $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER or
-     * FILTER_TYPE_SERVICE.
+     * @param {string} $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER 
+     * or FILTER_TYPE_SERVICE.
      * @param {string} $_POST['start_date'] The user selected start date.
      * @param {string} $_POST['end_date'] The user selected end date.
      */
@@ -85,6 +85,40 @@ class Backend extends CI_Controller {
         }
         
         echo json_encode($appointments);
+    }
+    
+    /**
+     * [AJAX] Save appointment changes that are made from the backend calendar
+     * page.
+     * 
+     * @param array $_POST['appointment_data'] (OPTIONAL) Array with the 
+     * appointment data.
+     * @param array $_POST['customer_data'] (OPTIONAL) Array with the customer 
+     * data.
+     */
+    public function ajax_save_appointment_changes() {
+        try {
+            if (isset($_POST['appointment_data'])) {
+                $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
+                $this->load->model('Appointments_Model');
+                $this->Appointments_Model->add($appointment_data);
+            }
+            
+            if (isset($_POST['customer_data'])) {
+                $customer_data = json_decode(stripcslashes($_POST['customer_data']), true);
+                $this->load->model('Customers_Model');
+                $this->Customers_Model->add($customer_data);
+            }
+            
+            echo json_encode('SUCCESS');
+       
+        } catch(Exception $exc) {
+            $js_error = array(
+                'error' => $exc->getMessage()
+            );
+            
+            echo json_encode($js_error);
+        }
     }
 }
 

@@ -30,6 +30,8 @@ root {
 }
 #footer #footer-content { padding: 15px; }
 
+#notification strong { margin-right: 15px; }
+
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar { margin: 15px 10px 20px 10px; padding-bottom: 10px; 
@@ -38,7 +40,7 @@ root {
 #calendar-page #calendar-filter label { display: inline-block; margin-right: 7px; 
                                         font-weight: bold; font-size: 18px; }
 #calendar-page #calendar-filter select { margin-top: 5px; }
-#calendar-page #calendar-actions { display: inline-block; float: right; }
+#calendar-page #calendar-actions { display: inline-block; float: right; margin-top: 4px; }
 #calendar-page #calendar { margin: 12px; }
 
 /* BACKEND CUSTOMERS PAGE

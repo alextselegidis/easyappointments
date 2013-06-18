@@ -3,6 +3,9 @@
 
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/fullcalendar.min.js"></script>
+
+        <script type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
         
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/backend_calendar.js"></script>
@@ -39,9 +42,15 @@
                 Enable Sync
             </button>
             
+            <button id="insert-new-appointment" class="btn" 
+                    title="Create a new appointment and store it into the database.">
+                <i class="icon-plus"></i>
+                New Appointment
+            </button>
+            
             <button id="insert-unavailable-period" class="btn" 
                     title="During unavailalbe period the provider won't accept new appointments.">
-                <i class="icon-plus"></i>
+                <i class="icon-ban-circle"></i>
                 Unavailable
             </button>
         </div>
@@ -62,6 +71,8 @@
             <fieldset>
                 <legend>Appointment Details</legend>
                 
+                <input id="appointment-id" type="hidden" />
+                
                 <div class="control-group">
                     <label for="select-service" class="control-label">Service</label>
                     <div class="controls">
@@ -77,9 +88,16 @@
                 </div>
                 
                 <div class="control-group">
-                    <label for="select-date" class="control-label"></label>
+                    <label for="start-datetime" class="control-label">Start Date/Time</label>
                     <div class="controls">
-                        <span id="select-date"></span>
+                        <input type="text" id="start-datetime" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="end-datetime" class="control-label">End Date/Time</label>
+                    <div class="controls">
+                        <input type="text" id="end-datetime" />
                     </div>
                 </div>
             </fieldset>
@@ -87,6 +105,8 @@
             <fieldset>
                 <legend>Customer Details</legend>
 
+                <input id="customer-id" type="hidden" />
+                
                 <div class="control-group">
                     <label for="first-name" class="control-label">First Name</label>
                     <div class="controls">
