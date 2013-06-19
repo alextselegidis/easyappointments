@@ -30,8 +30,11 @@ class Appointments extends CI_Controller {
                 
                 $manage_mode = TRUE;
                 
-                $appointment_data = $this->Appointments_Model
-                        ->get_batch(array('hash' => $appointment_hash))[0];
+                $results = $this->Appointments_Model
+                        ->get_batch(array('hash' => $appointment_hash));
+                
+                $appointment_data = $results[0]; // Php 5.3 does not support treating a function as an array. 
+                
                 $provider_data = $this->Providers_Model
                         ->get_row($appointment_data['id_users_provider']);
                 $customer_data = $this->Customers_Model
@@ -106,22 +109,22 @@ class Appointments extends CI_Controller {
                     $appointment_data['id_users_provider']);
             
             if ($google_sync == TRUE) {
-                $google_token = $this->Providers_Model->get_setting('google_token',
-                        $appointment_data['id_users_provider']);
+                $google_token = json_decode($this->Providers_Model->get_setting('google_token',
+                        $appointment_data['id_users_provider']));
 
                 // Authenticate the token. If it isn't valid, the sync operation cannot
                 // be completed.
                 $this->load->library('google_sync');
+                $this->google_sync->refresh_token($google_token->refresh_token);
                 
-                if ($this->google_sync->authenticate($google_token) === TRUE) {
-                    if ($manage_mode === FALSE) { 
-                        // Add appointment to Google Calendar.
-                        $this->google_sync->add_appointment($appointment_data['id']);
-                    } else {
-                        // Update appointment to Google Calendar.
-                        $this->google_sync->update_appointment($appointment_data['id']);
-                    }
+                if ($post_data['manage_mode'] === FALSE) {
+                	// Add appointment to Google Calendar.
+                	$this->google_sync->add_appointment($appointment_data['id']);
+                } else {
+                	// Update appointment to Google Calendar.
+                	$this->google_sync->update_appointment($appointment_data['id']);
                 }
+                
             }  
 
             // Load the book success view.

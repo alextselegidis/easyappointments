@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.'); 
 
 class Providers_Model extends CI_Model {
     /**
@@ -96,6 +96,7 @@ class Providers_Model extends CI_Model {
         
         $providers = $this->db->get()->result_array();
         
+        // :: GET PROVIDER SERVICES
         // Return also an array with the services that each provider can provide
         // to the customers.
         foreach($providers as &$provider) {
@@ -113,6 +114,16 @@ class Providers_Model extends CI_Model {
             foreach($provider_services as $service) {
                 $provider['services'][] = $service['id_services'];
             }
+        }
+        
+        // :: GET PROVIDER SETTINGS
+        foreach($providers as &$provider) {
+            $this->db  
+                    ->select('*')
+                    ->from('ea_user_settings')
+                    ->where('id_users', $provider['id']);
+            $provider['settings'] = $this->db->get()->row_array();
+            unset($provider['settings']['id_users']); // Do not need it.
         }
         
         return $providers;

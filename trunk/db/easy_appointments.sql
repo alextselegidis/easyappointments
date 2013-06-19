@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Φιλοξενητής: localhost
--- Χρόνος δημιουργίας: 08 Ιουν 2013 στις 12:49:21
+-- Χρόνος δημιουργίας: 19 Ιουν 2013 στις 22:27:32
 -- Έκδοση διακομιστή: 5.5.24-log
 -- Έκδοση PHP: 5.4.3
 
@@ -36,18 +36,12 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `id_users_provider` bigint(20) unsigned NOT NULL,
   `id_users_customer` bigint(20) unsigned NOT NULL,
   `id_services` bigint(20) unsigned NOT NULL,
+  `id_google_calendar` text,
   PRIMARY KEY (`id`),
   KEY `id_users_customer` (`id_users_customer`),
   KEY `id_services` (`id_services`),
   KEY `id_users_provider` (`id_users_provider`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
-
---
--- Άδειασμα δεδομένων του πίνακα `ea_appointments`
---
-
-INSERT INTO `ea_appointments` (`id`, `book_datetime`, `start_datetime`, `end_datetime`, `notes`, `hash`, `id_users_provider`, `id_users_customer`, `id_services`) VALUES
-(10, NULL, '2013-06-07 15:30:00', '2013-06-07 15:50:00', '', 'c4baf9ea27dcd0fdc5449eb91b0ee2c5', 2, 20, 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=88 ;
 
 -- --------------------------------------------------------
 
@@ -93,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   `id_service_categories` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_service_categories` (`id_service_categories`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_services`
@@ -156,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
   `name` varchar(512) DEFAULT NULL,
   `value` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_settings`
@@ -190,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   `id_roles` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_roles` (`id_roles`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=116 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=154 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_users`
@@ -200,9 +194,7 @@ INSERT INTO `ea_users` (`id`, `first_name`, `last_name`, `email`, `mobile_number
 (1, '', '1', 'alextselegidis@gmail.com', '123456789', '1', '', '', NULL, '', 'This is me making Easy!Appointments', 1),
 (2, 'Γεώργιος', 'Παπαδόπουλος', 'alextselegidis@gmail.com', '1212121212', '1', '', '', NULL, '', 'This is a test provider', 2),
 (3, 'Νίκος', 'Αναστασίου', 'prov2@test.gr', '1313133113131', '32132165146', 'Some Street 3', NULL, NULL, NULL, NULL, 2),
-(4, 'Ηρώ', 'Καριοφύλη', 'prov3@test.gr', '239203490', '029340923', 'John Doe 3 ', NULL, NULL, NULL, NULL, 2),
-(20, 'Alex', 'Tselegidis', 'alextselegidis@yahoo.gr', NULL, '123456789', 'Some Str', 'Some City', NULL, '12345', NULL, 3),
-(76, '', 'a', 'alextselegidis@yahoo.gr', NULL, 'a', '', '', NULL, '', NULL, 3);
+(4, 'Ηρώ', 'Καριοφύλη', 'prov3@test.gr', '239203490', '029340923', 'John Doe 3 ', NULL, NULL, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -216,7 +208,8 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `password` varchar(512) DEFAULT NULL,
   `working_plan` text,
   `notifications` text,
-  `google_sync` tinyint(4) DEFAULT NULL,
+  `google_sync` tinyint(4) DEFAULT '0',
+  `google_token` text,
   PRIMARY KEY (`id_users`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -224,10 +217,10 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
 -- Άδειασμα δεδομένων του πίνακα `ea_user_settings`
 --
 
-INSERT INTO `ea_user_settings` (`id_users`, `username`, `password`, `working_plan`, `notifications`, `google_sync`) VALUES
-(2, 'provider_1', 'provider_1', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0),
-(3, 'provider_2', 'provider_2', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0),
-(4, 'provider_3', 'provider_3', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0);
+INSERT INTO `ea_user_settings` (`id_users`, `username`, `password`, `working_plan`, `notifications`, `google_sync`, `google_token`) VALUES
+(2, 'provider_1', 'provider_1', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 1, '{"access_token":"ya29.AHES6ZRsDBInIFSW1vdMEUt9N_teDoKPk6IVLS-mM41J7P0","token_type":"Bearer","expires_in":3600,"refresh_token":"1\\/9KusWyDci21Fv-PpgeZr3Yik56WnNQ7LDTcmeUhNTN8","created":1371639646}'),
+(3, 'provider_2', 'provider_2', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 0, NULL),
+(4, 'provider_3', 'provider_3', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', NULL, 1, '{"access_token":"ya29.AHES6ZQLXwNinpRgyZ30VP4aNy2MctNkj3fc6oJid8-Gc-TEifJ6WA","token_type":"Bearer","expires_in":3600,"refresh_token":"1\\/bBPokd195S2UX2so9-jclC3E3gpzxgyDjGhJkJxmkHU","created":1371639504}');
 
 --
 -- Περιορισμοί για άχρηστους πίνακες
