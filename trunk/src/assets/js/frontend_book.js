@@ -326,30 +326,40 @@ var FrontendBook = {
      * booking.
      */
     updateConfirmFrame : function() {
-        /*** SET APPOINTMENT INFO ***/
+        // :: UPDATE APPOINTMENT DETAILS DIV
         var selectedDate = $('#select-date').datepicker('getDate');
         if (selectedDate !== null) {
-            selectedDate = Date.parse(selectedDate).toString('dd-MM-yyyy');
+            selectedDate = Date.parse(selectedDate).toString('dd/MM/yyyy');
         }
 
-        $('#appointment-info').html(
-            '<h4>' + $('#select-service option:selected').text() + '</h4>' +
-            $('#select-provider option:selected').text() + '<br/>' + 
-            '<strong class="text-info">' + selectedDate + ' ' 
-                    + $('.selected-hour').text() + '</strong>'
+        $('#appointment-details').html(
+            '<h3>' + $('#select-service option:selected').text() + '</h3>' +  
+            '<p>' 
+        		+ $('#select-provider option:selected').text()
+        		+ '<br/>'
+        		+ '<strong class="text-info">' 
+        			+ selectedDate + ' ' +  $('.selected-hour').text() 
+    			+ '</strong>' + 
+            '</p>'
         );
 
-        /*** SET CUSTOMER'S INFO ***/
-        $('#customer-info').html(
-            '<h4>' + $('#last-name').val() + ' ' + $('#first-name').val() + '</h4>' + 
-            'Phone: ' + $('#phone-number').val() + '<br/>' + 
-            'Email: ' + $('#email').val() + '<br/>' + 
-            'Address: ' + $('#address').val() + '<br/>' + 
-            'City: ' + $('#city').val() + '<br/>' + 
-            'Zip Code: ' + $('#zip-code').val()
+        // :: UPDATE CUSTOMER'S DETAILS DIV
+        $('#customer-details').html(
+            '<h3>' + $('#first-name').val() + ' ' + $('#last-name').val() + '</h3>' + 
+            '<p>' + 
+            	'Phone: ' + $('#phone-number').val() + 
+            	'<br/>' + 
+            	'Email: ' + $('#email').val() + 
+            	'<br/>' + 
+            	'Address: ' + $('#address').val() + 
+            	'<br/>' + 
+            	'City: ' + $('#city').val() + 
+            	'<br/>' + 
+            	'Zip Code: ' + $('#zip-code').val() + 
+        	'</p>'
         );
             
-        /*** UPDATE FORM POST DATA ***/
+        // :: UPDATE APPOINTMENT DATA FORM 
         var postData = new Object();
         
         postData['customer'] = {
