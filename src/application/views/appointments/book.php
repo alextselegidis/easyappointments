@@ -212,11 +212,11 @@
                     
                     <div class="frame-content" style="width:600px">
                         <div class="span3">
-                            <label for="last-name">Last Name *</label>
-                            <input type="text" id="last-name" class="required" maxlength="250" />
-
                             <label for="first-name">First Name</label>
                             <input type="text" id="first-name" maxlength="100" />
+                            
+                            <label for="last-name">Last Name *</label>
+                            <input type="text" id="last-name" class="required" maxlength="250" />
 
                             <label for="email">Email *</label>
                             <input type="text" id="email" class="required" maxlength="250" />
@@ -260,8 +260,8 @@
                 <div class="frame-container">
                     <h2 class="frame-title">Confirm Appointment</h2>
                     <div class="frame-content" style="width:600px">
-                        <div id="appointment-info" class="span3"></div>
-                        <div id="customer-info" class="span3"></div>
+                        <div id="appointment-details" class="span3"></div>
+                        <div id="customer-details" class="span3"></div>
                     </div>
                 </div>
                 

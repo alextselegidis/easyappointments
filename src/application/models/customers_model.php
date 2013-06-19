@@ -27,7 +27,15 @@ class Customers_Model extends CI_Model {
         if (!$this->validate_data($customer_data)) {
             throw new ValidationException('Customer data are not valid.');
         }
+        
+        // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).	
+        if ($this->exists($customer_data) && !isset($customer_data['id'])) {
+        	// Find the customer id from the database.
+        	$customer_data['id'] = $this->get_batch(
+        			array('email' => $customer_data['email']))[0]['id'];
+        }
 
+        // :: INSERT OR UPDATE CUSTOMER RECORD
         if (!isset($customer_data['id'])) {
             $customer_data['id'] = $this->insert($customer_data);
         } else {
