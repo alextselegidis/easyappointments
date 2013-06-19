@@ -15,7 +15,7 @@
 |
 */
 require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
-$config['base_url']	= SystemConfiguration::$base_url; //'http://localhost/dev/external/Easy!Appointments/trunk/src/WRONG';
+$config['base_url']	= SystemConfiguration::$base_url; 
 
 /*
 |--------------------------------------------------------------------------

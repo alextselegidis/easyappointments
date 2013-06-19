@@ -29,30 +29,34 @@
             <select id="select-filter-item"></select>
         </div>
         
-        <div id="calendar-actions" class="btn-group">
-            <button id="google-sync" class="btn btn-primary" 
-                    title="Trigger the Google Calendar synchronization process.">
-                <i class="icon-refresh icon-white"></i>
-                Synchronize
-            </button>
+        <div id="calendar-actions">
+            <div class="btn-group">
+                <button id="google-sync" class="btn btn-primary" 
+                        title="Trigger the Google Calendar synchronization process.">
+                    <i class="icon-refresh icon-white"></i>
+                    <span>Synchronize</span>
+                </button>
+
+                <button id="enable-sync" class="btn" data-toggle="button" 
+                        title="Enable appointment synchronization with provider's Google Calendar account.">
+                    <i class="icon-calendar"></i>
+                    <span>Enable Sync</span>
+                </button>
+            </div>
             
-            <button id="enable-sync" class="btn" data-toggle="button" 
-                    title="Enable appointment synchronization with provider's Google Calendar account.">
-                <i class="icon-calendar"></i>
-                Enable Sync
-            </button>
-            
-            <button id="insert-new-appointment" class="btn" 
-                    title="Create a new appointment and store it into the database.">
-                <i class="icon-plus"></i>
-                New Appointment
-            </button>
-            
-            <button id="insert-unavailable-period" class="btn" 
-                    title="During unavailalbe period the provider won't accept new appointments.">
-                <i class="icon-ban-circle"></i>
-                Unavailable
-            </button>
+            <div class="btn-group">
+                <button id="insert-appointment" class="btn" 
+                        title="Create a new appointment and store it into the database.">
+                    <i class="icon-plus"></i>
+                    <span>Appointment</span>
+                </button>
+
+                <button id="insert-unavailable" class="btn" 
+                        title="During unavailalbe period the provider won't accept new appointments.">
+                    <i class="icon-ban-circle"></i>
+                    <span>Unavailable</span>
+                </button>
+            </div>
         </div>
     </div>
     

@@ -201,6 +201,19 @@ class Notifications {
         
         return TRUE;
     }
+    
+    /**
+     * Send delete appointment notification.
+     * 
+     * This method should be called after the appointment has been deleted.
+     * 
+     * <strong>IMPORTANT!</strong> This method's arguments should be taken 
+     * from database before the appointment record is deleted.
+     */
+    public function send_delete_appointment($appointment_data, $provider_data, 
+            $service_data, $customer_data) {
+        // @task Implement sending delete appointment notification.
+    }
 }
 
 

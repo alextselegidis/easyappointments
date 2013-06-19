@@ -6,10 +6,11 @@ Main
 - Javascript Google API usage from the customer's perspective.
 - Backend google calendar authentication Process.
 - Sync every appointment change made from E!A to Google Calendar.
-- Display user friendly error messages.
+
 
 
 Minor
 
+- Display user friendly error messages.
 - Added sync exception to Google Sync library.
  

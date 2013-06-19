@@ -60,8 +60,12 @@ var BackendCalendar = {
         // :: FILL THE SELECT ELEMENTS OF THE PAGE
         var optgroupHtml = '<optgroup label="Providers">';
         $.each(GlobalVariables.availableProviders, function(index, provider) {
+            var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
+                ? 'true' : 'false';
+                
             optgroupHtml += '<option value="' + provider['id'] + '" ' + 
-                    'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '">' + 
+                    'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" ' + 
+                    'google-sync="' + hasGoogleSync + '">' + 
                     provider['first_name'] + ' ' + provider['last_name'] + '</option>';
         });
         optgroupHtml += '</optgroup>';
@@ -112,6 +116,20 @@ var BackendCalendar = {
             } else {
                 $('#google-sync, #enable-sync, #insert-unavailable-period')
                         .prop('disabled', false);
+                // If the user has already the sync enabled then apply the proper
+                // style changes.
+                if ($('#select-filter-item option:selected').attr('google-sync') 
+                        === 'true') {
+                    $('#enable-sync').addClass('btn-success enabled');
+                    $('#enable-sync i').addClass('icon-white');
+                    $('#enable-sync span').text('Disable Sync');
+                    $('#google-sync').prop('disabled', false);
+                } else {
+                    $('#enable-sync').removeClass('btn-success enabled');
+                    $('#enable-sync i').removeClass('icon-white');
+                    $('#enable-sync span').text('Enable Sync');
+                    $('#google-sync').prop('disabled', true);
+                }
             }
         });
         
@@ -202,6 +220,52 @@ var BackendCalendar = {
         });
         
         /**
+         * Event: Delete Popover Button "Click"
+         * 
+         * Displays a prompt on whether the user wants the appoinmtent to be
+         * deleted. If he confirms the deletion then an ajax call is made to 
+         * the server and deletes the appointment from the database.
+         */
+        $(document).on('click', '.delete-popover', function() {
+            $(this).parents().eq(2).remove(); // Hide the popover
+            
+            var messageButtons = {
+                'Delete'    : function() {
+                    var postUrl = GlobalVariables.baseUrl + 'backend/ajax_delete_appointment';
+                    
+                    var postData = { 
+                        'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'] 
+                    };
+                    
+                    $.post(postUrl, postData, function(response) {
+                        /////////////////////////////////////////////////////////
+                        console.log('Delete Appointment Response :', response);
+                        /////////////////////////////////////////////////////////
+                        
+                        if (response.error) {
+                            GeneralFunctions.displayMessageBox('Delete Appointment Error',
+                                'An unexpected error occured during the deletion of the ' 
+                                + 'appointment. Please try again.');
+                            return;
+                        }
+                        
+                        // Close dialog and refresh calendar events.
+                        $('#message_box').dialog('close');
+                        $('#select-filter-item').trigger('change');
+                        
+                    }, 'json');
+                },
+                'Cancel'    : function() {
+                    $('#message_box').dialog('close');
+                }
+            };
+            
+            GeneralFunctions.displayMessageBox('Delete Appointment', 'Are you sure ' 
+                    + 'that you want to delete this appointment? This action cannot ' 
+                    + 'be undone.', messageButtons);
+        });
+        
+        /**
          * Event: Manage Appointments Dialog Cancel Button "Click"
          * 
          * Closes the dialog without making any actions.
@@ -289,30 +353,60 @@ var BackendCalendar = {
         }); 
         
         /**
-         * Event: Enable Synchronization Button "Click"
+         * Event: Enable - Disable Synchronization Button "Click"
          * 
          * When the user clicks on the "Enable Sync" button, a popup should appear
          * that is going to follow the web server authorization flow of OAuth. 
-         * 
-         * @task Check whether the selected provider has already enabled the sync 
-         * or not.
          */
         $('#enable-sync').click(function() {
-            var authUrl = GlobalVariables.baseUrl + 'google/oauth/' 
-                    + $('#select-filter-item').val();
-            var redirectUrl = GlobalVariables.baseUrl + 'google/oauth_callback';
-            
-            var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments',
-                    'width=800, height=600');
-            
-            var authInterval = window.setInterval(function() {
-                if (windowHandle.document.URL.indexOf(redirectUrl) !== -1) {
-                    // The user has granted access to his data.
-                    windowHandle.close();
-                    window.clearInterval(authInterval);
-                    $('#enable-sync').addClass('btn-success');
-                }
-            }, 100);
+            if ($('#enable-sync').hasClass('enabled') === false) {
+                // :: ENABLE SYNCHRONIZATION FOR SELECTED PROVIDER
+                var authUrl = GlobalVariables.baseUrl + 'google/oauth/' 
+                        + $('#select-filter-item').val();
+                
+                var redirectUrl = GlobalVariables.baseUrl + 'google/oauth_callback';
+
+                var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments',
+                        'width=800, height=600');
+
+                var authInterval = window.setInterval(function() {
+                    // When the browser redirects to the google user consent page the 
+                    // "window.document" variable becomes "undefined" and when it comes 
+                    // back to the redirect url it changes back. So check whether the 
+                    // variable is undefined to avoid javascript errors.
+                    if (windowHandle.document !== undefined) {
+                        if (windowHandle.document.URL.indexOf(redirectUrl) !== -1) {
+                            // The user has granted access to his data.
+                            windowHandle.close();
+                            window.clearInterval(authInterval);
+                            $('#enable-sync').addClass('btn-success enabled');
+                            $('#enable-sync i').addClass('icon-white');
+                            $('#enable-sync span').text('Disable Sync');
+                            $('#google-sync').prop('disabled', false);
+                        }
+                    }
+                }, 100);
+                
+            } else {
+                // :: DISABLE SYNCHRONIZATION FOR SELECTED PROVIDER
+                // Update page elements and make an ajax call to remove the google 
+                // sync setting of the selected provider.
+                $.each(GlobalVariables.availableProviders, function(index, provider) {
+                    if (provider['id'] == $('#select-filter-item').val()) {
+                        provider['settings']['google_sync'] = '0';
+                        provider['settings']['google_token'] = null;
+                        
+                        BackendCalendar.disableProviderSync(provider['id']);
+                        
+                        $('#enable-sync').removeClass('btn-success enabled');
+                        $('#enable-sync i').removeClass('icon-white');
+                        $('#enable-sync span').text('Enable Sync');
+                        $('#google-sync').prop('disabled', true);
+                        
+                        return;
+                    }
+                });
+            }
         });
     },
             
@@ -556,6 +650,7 @@ var BackendCalendar = {
                     + '<hr>' +
                 '<center>' + 
                 '<button class="edit-popover btn btn-primary">Edit</button>' +
+                '<button class="delete-popover btn btn-danger">Delete</button>' +
                 '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
                 '</center>';
 
@@ -674,5 +769,33 @@ var BackendCalendar = {
         $('.fv-events').each(function(index, eventHandle) {
             $(eventHandle).popover();
         });
+    },
+
+    /**
+     * This method disables the google synchronization for a specific provider.
+     * 
+     * @param {int} providerId The selected provider record id.
+     */
+    disableProviderSync: function(providerId) {
+        // Make an ajax call to the server in order to disable the setting
+        // from the database.
+        var postUrl = GlobalVariables.baseUrl + 'backend/ajax_disable_provider_sync';
+        
+        var postData = {
+            'provider_id' : providerId
+        };
+        
+        $.post(postUrl, postData, function(response) {
+            ////////////////////////////////////////////////////////////
+            //console.log('Disable Provider Sync Response :', response);
+            ////////////////////////////////////////////////////////////
+            
+            if (response.error) {
+                GeneralFunctions.displayMessageBox('Disable Sync Error', 'An unexpected ' +
+                        'error occured during the disable provider sync operation : ' + 
+                        response.error);
+            }
+            
+        }, 'json');
     }
 };
