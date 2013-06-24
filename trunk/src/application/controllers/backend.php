@@ -112,18 +112,6 @@ class Backend extends CI_Controller {
             if (isset($_POST['appointment_data'])) {
                 $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
                 $this->Appointments_Model->add($appointment_data);
-                
-                if ($appointment_data['id_google_calendar'] != NULL) {
-                    $this->load->model('Providers_Model');
-                    $provider_settings = json_decode($this->Providers_Model
-                            ->get_setting('google_token', $appointment_data['id_users_provider']));
-                    
-                    if ($provider_settings->google_sync == TRUE) {
-                        $this->load->library('Google_Sync');
-                        $this->google_sync->refresh_token($provider_settings->refresh_token);
-                        $this->google_sync->update_appointment($appointment_data['id']);
-                    }
-                }
             }
             
             // :: SAVE CUSTOMER CHANGES TO DATABASE
@@ -132,35 +120,38 @@ class Backend extends CI_Controller {
                 $this->Customers_Model->add($customer_data);
             }
             
+            $appointment_data = $this->Appointments_Model->get_row($appointment_data['id']);
+            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $company_settings = array(
+            	'company_name'  => $this->Settings_Model->get_setting('company_name')
+            );
+            
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
             if ($appointment_data['id_google_calendar'] != NULL) {
             	$google_sync = $this->Providers_Model
             			->get_setting('google_sync', $appointment_data['id_users_provider']);
             	if ($google_sync == TRUE) {
-            		$google_token = $this->Providers_Model
-            				->get_setting('google_token', $appointment_data['id_users_provider']);
+            		$google_token = json_decode($this->Providers_Model
+            				->get_setting('google_token', $appointment_data['id_users_provider']));
             		$this->load->library('Google_Sync');
             		$this->google_sync->refresh_token($google_token->refresh_token);
             		$this->google_sync->update_appointment($appointment_data, $provider_data, 
-            				$service_data, $customer_data);
+            				$service_data, $customer_data, $company_settings);
             	}
             }
             
             // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
             $this->load->library('Notifications');
-            try {
-            	$customer_title = 'Appointment Changes Saved Successfully!';
-                $provider_title = 'Appointment Details Have Changed';
-                
-                $this->notifications->send_book_success(
-                		$customer_data, $appointment_data, $customer_title);
-                $this->notifications->send_new_appointment(
-                		$customer_data, $appointment_data, $provider_title);
-                
-            } catch(NotificationException $nt_exc) {
-            	// @task Display message to the user that the notification messages could 
-            	// not be sent.
-            }
+            
+            $customer_title = 'Appointment Changes Saved Successfully!';
+            $provider_title = 'Appointment Details Have Changed';
+
+            $this->notifications->send_book_success(
+                    $customer_data, $appointment_data, $customer_title);
+            $this->notifications->send_new_appointment(
+                    $customer_data, $appointment_data, $provider_title);
             
             echo json_encode('SUCCESS');
        
@@ -207,23 +198,27 @@ class Backend extends CI_Controller {
             // :: DELETE APPOINTMENT RECORD FROM DATABASE.
             $this->Appointments_Model->delete($_POST['appointment_id']);
             
-            // :: SYNC CHANGE TO GOOGLE CALENDAR
-            $google_sync = $this->Providers_Model->get_setting('google_sync', 
-                    $provider_data['id']);
-            
-            if ($google_sync == TRUE) {
-                $google_token = json_decode($this->Providers_Model->get_setting('google_token', 
-                        $provider_data['id']));
-                
-                $this->load->library('Google_Sync');
-                $this->google_sync->refresh_token($google_token->refresh_token);
-                $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+            // :: SYNC DELETE WITH GOOGLE CALENDAR
+            if ($appointment_data['id_google_calendar'] != NULL) {
+                $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                        $provider_data['id']);
+
+                if ($google_sync == TRUE) {
+                    $google_token = json_decode($this->Providers_Model->get_setting('google_token', 
+                            $provider_data['id']));
+
+                    $this->load->library('Google_Sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
+                    $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                }
             }
             
             // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER.
             $this->load->library('Notifications');
-            $this->notification->send_remove_appointment($appointment_data, $provider_data, 
-                    $service_data, $customer_data, $company_settings);
+            $this->notifications->send_remove_appointment($appointment_data, $provider_data, 
+            		$service_data, $customer_data, $company_settings, $provider_data['email']);
+            $this->notifications->send_remove_appointment($appointment_data, $provider_data,
+            		$service_data, $customer_data, $company_settings, $customer_data['email']);
             
             echo json_encode('SUCCESS');
             

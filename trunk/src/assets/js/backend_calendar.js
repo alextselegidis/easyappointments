@@ -134,6 +134,16 @@ var BackendCalendar = {
         });
         
         /**
+         * Event: Reload Button "Click"
+         * 
+         * When the user clicks the reload button an the calendar items need to 
+         * be refreshed.
+         */
+        $('#reload-appointments').click(function() {
+            $('#select-filter-item').trigger('change'); 
+        });
+        
+        /**
          * Event: Popover Close Button "Click"
          * 
          * Hides the open popover element.
@@ -513,8 +523,8 @@ var BackendCalendar = {
             },
             error       : function(jqXHR, textStatus, errorThrown) {
                 //////////////////////////////////////////////////////////////////
-                //console.log('Update Appointment Data Error:', jqXHR, textStatus, 
-                //        errorThrown);
+                console.log('Update Appointment Data Error:', jqXHR, textStatus, 
+                        errorThrown);
                 //////////////////////////////////////////////////////////////////
                 
                 if (errorCallback !== undefined) {

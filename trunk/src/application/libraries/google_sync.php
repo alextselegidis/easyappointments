@@ -31,11 +31,14 @@ class Google_Sync {
         
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
+        $this->client->setUseObjects(true);                
+        
         $this->client->setApplicationName(SystemConfiguration::$google_product_name);
         $this->client->setClientId(SystemConfiguration::$google_client_id);
         $this->client->setClientSecret(SystemConfiguration::$google_client_secret);
         $this->client->setDeveloperKey(SystemConfiguration::$google_api_key);
         $this->client->setRedirectUri($this->CI->config->item('base_url') . 'google/oauth_callback');
+        
         $this->service = new Google_CalendarService($this->client);
     }
     
@@ -165,11 +168,49 @@ class Google_Sync {
      * @param array $provider_data Contains the provider record data.
      * @param array $service_data Contains the service record data.
      * @param array $customer_data Contains the customer recod data.
+     * @parma array $company_settings Contains some company settings that are used
+     * by this method. By the time the following values must be in the array: 
+     * 'company_name'.
+     * 
+     * @return Google_Event Returns the Google_Event class object.
      */
     public function update_appointment($appointment_data, $provider_data, 
-            $service_data, $customer_data) {
+            $service_data, $customer_data, $company_settings) {
         $this->CI->load->helper('general');
         
+        $event = $this->service->events->get('primary', $appointment_data['id_google_calendar']);
+        
+        // Convert event to object
+        
+        $event->setSummary($service_data['name']);
+        $event->setLocation($company_settings['company_name']);
+        
+        $start = new Google_EventDateTime();
+        $start->setDateTime(date3339(strtotime($appointment_data['start_datetime'])));
+        $event->setStart($start);
+        
+        $end = new Google_EventDateTime();
+        $end->setDateTime(date3339(strtotime($appointment_data['end_datetime'])));
+        $event->setEnd($end);
+        
+        $event_provider = new Google_EventAttendee();
+        $event_provider->setDisplayName($provider_data['first_name'] . ' ' 
+                . $provider_data['last_name']);
+        $event_provider->setEmail($provider_data['email']);
+        
+        $event_customer = new Google_EventAttendee();
+        $event_customer->setDisplayName($customer_data['first_name'] . ' ' 
+                . $customer_data['last_name']);
+        $event_customer->setEmail($customer_data['email']);
+        
+        $event->attendees = array(
+            $event_provider, 
+            $event_customer
+        );
+        
+        $updated_event = $this->service->events->update('primary', $event->getId(), $event);
+        
+        return $updated_event;
     }
     
     /**

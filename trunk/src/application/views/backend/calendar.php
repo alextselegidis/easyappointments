@@ -42,6 +42,11 @@
                     <i class="icon-calendar"></i>
                     <span>Enable Sync</span>
                 </button>
+                
+                <button id="reload-appointments" class="btn" title="Reload calendar appointments.">
+                    <i class="icon-repeat"></i>
+                    <span>Reload</span>
+                </button>
             </div>
             
             <div class="btn-group">

@@ -183,18 +183,18 @@ class Notifications {
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
             '$appointment_duration' => $service_data['duration'] . ' minutes',
-            '$company_link'         => $company_settings('company_link'),
-            '$company_name'         => $company_settings('company_name')
+            '$company_link'         => $company_settings['company_link'],
+            '$company_name'         => $company_settings['company_name']
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
-                . '/views/emails/cancel_appointment.php');
+                . '/views/emails/remove_appointment.php');
         $email_html = $this->replace_template_variables($replace_array, $email_html);
         
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
         $mail = new PHPMailer();
         $mail->From         = $company_settings['company_email'];
-        $mail->FromName     = $company_settings['$company_name'];
+        $mail->FromName     = $company_settings['company_name'];
         $mail->AddAddress($to_address); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet      = 'UTF-8';
