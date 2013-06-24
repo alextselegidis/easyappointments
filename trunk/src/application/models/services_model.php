@@ -75,7 +75,13 @@ class Services_Model extends CI_Model {
      * database services.
      */
     function get_available_services() {
-        return $this->db->get('ea_services')->result_array();
+    	$this->db->distinct();
+        return $this->db
+        		->select('ea_services.*')
+        		->from('ea_services')
+        		->join('ea_services_providers', 
+        				'ea_services_providers.id_services = ea_services.id', 'inner')
+        		->get()->result_array();
     }
 }
 

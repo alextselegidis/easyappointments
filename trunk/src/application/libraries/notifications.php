@@ -157,38 +157,45 @@ class Notifications {
     }
     
     /**
-     * Send an email notification to a user when an appointment is cancelled.
+     * Send an email notification to both provider and customer on appointment removal.
      * 
-     * @param array $appointment_data The record data of the cancelled appointment.
-     * @param string $user_email The user email where the email notification is going
-     * to be send.
+     * Whenever an appointment is cancelled or removed, both the provider and customer
+     * need to be informed. This method sends the same email twice.
+     * 
+     * <strong>IMPORTANT!</strong> This method's arguments should be taken 
+     * from database before the appointment record is deleted.
+     * 
+     * @param array $appointment_data The record data of the removed appointment.
+     * @param array $provider_data The record data of the appointment provider.
+     * @param array $service_data The record data of the appointment service.
+     * @param array $customer_data The record data of the appointment customer.
+     * @param array $company_settings Some settings that are required for this function. 
+     * By now this array must contain the following values: "company_link", 
+     * "company_name", "company_email". 
+     * @param string $to_address The email address of the email receiver.
      */
-    public function send_cancel_appointment($appointment_data, $user_email) {
-        $this->CI->load->model('Providers_Model');
-        $this->CI->load->model('Services_Model');
-        $this->CI->load->model('Settings_Model');
-        
-        $provider_data = $this->CI->Providers_Model->get_row($appointment_data['id_users_provider']);
-        $service_data = $this->CI->Services_Model->get_row($appointment_data['id_services']);
-        
+    public function send_remove_appointment($appointment_data, $provider_data, 
+            $service_data, $customer_data, $company_settings, $to_address) {
+      	// :: PREPARE EMAIL REPLACE ARRAY
         $replace_array = array(
             '$email_title'          => 'Appointment Cancelled',
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
             '$appointment_duration' => $service_data['duration'] . ' minutes',
-            '$company_link'         => $this->CI->Settings_Model->get_setting('company_link'),
-            '$company_name'         => $this->CI->Settings_Model->get_setting('company_name')
+            '$company_link'         => $company_settings('company_link'),
+            '$company_name'         => $company_settings('company_name')
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
                 . '/views/emails/cancel_appointment.php');
         $email_html = $this->replace_template_variables($replace_array, $email_html);
         
+        // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
         $mail = new PHPMailer();
-        $mail->From         = $this->CI->Settings_Model->get_setting('company_email');
-        $mail->FromName     = $this->CI->Settings_Model->get_setting('company_name');
-        $mail->AddAddress($user_email); // "Name" argument crushes the phpmailer class.
+        $mail->From         = $company_settings['company_email'];
+        $mail->FromName     = $company_settings['$company_name'];
+        $mail->AddAddress($to_address); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet      = 'UTF-8';
         $mail->Subject      = 'Appointment Cancelled';
@@ -201,21 +208,7 @@ class Notifications {
         
         return TRUE;
     }
-    
-    /**
-     * Send delete appointment notification.
-     * 
-     * This method should be called after the appointment has been deleted.
-     * 
-     * <strong>IMPORTANT!</strong> This method's arguments should be taken 
-     * from database before the appointment record is deleted.
-     */
-    public function send_delete_appointment($appointment_data, $provider_data, 
-            $service_data, $customer_data) {
-        // @task Implement sending delete appointment notification.
-    }
 }
-
 
 /* End of file notifications.php */
 /* Location: ./application/libraries/notifications.php */

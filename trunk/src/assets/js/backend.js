@@ -66,8 +66,6 @@ var Backend = {
         
         notificationHtml += '</div>';
         
-        var leftValue = window.innerWidth / 2 - $('body .notification').width() - 200;
-        
         $('#notification').html(notificationHtml);
         $('#notification').show('blind');
     }

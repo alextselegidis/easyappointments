@@ -159,6 +159,8 @@ class Appointments extends CI_Controller {
             $this->load->model('Appointments_Model');
             $this->load->model('Providers_Model');
             $this->load->model('Customers_Model');
+            $this->load->model('Services_Model');
+            $this->load->model('Settings_Model');
             
             // Check whether the appointment hash exists in the database.
             $records = $this->Appointments_Model->get_batch(array('hash' => $appointment_hash));
@@ -167,40 +169,42 @@ class Appointments extends CI_Controller {
             }
             
             $appointment_data = $records[0];
+            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $company_settings = array(
+            		'company_name'  => $this->Settings_Model->get_setting('company_name'),
+            		'company_email' => $this->Settings_Model->get_setting('company_email'),
+            		'company_link'  => $this->Settings_Model->get_setting('company_link')
+            );
             
-            // Delete the appointment from the database.
+            // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
             if (!$this->Appointments_Model->delete($appointment_data['id'])) {
                 throw new Exception('Appointment could not be deleted from the database.');
             }
             
-            // Send notification emails to the customer and provider.
-            $provider_email = $this->Providers_Model->get_value('email', 
-                    $appointment_data['id_users_provider']);
-            $customer_email = $this->Customers_Model->get_value('email', 
-                    $appointment_data['id_users_customer']);
-            
-            $this->load->library('Notifications');
-            $this->notifications->send_cancel_appointment($appointment_data, $provider_email);
-            $this->notifications->send_cancel_appointment($appointment_data, $customer_email);
-            
-            // Delete the appointment from Google Calendar, if it is synced.
-            if ($appointment_data['id_google_calendar'] != NULL) {
+            // :: SYNC APPOINTMENT REMOVAL WITH GOOGLE CALENDAR
+        	if ($appointment_data['id_google_calendar'] != NULL) {
                 $google_sync = $this->Providers_Model->get_setting('google_sync', 
                         $appointment_data['id_users_provider']);
                 
                 if ($google_sync == TRUE) {
-                    $this->load->library('google_sync');
-                    
-                    // Get the provider's refresh token and try to authenticate the 
-                    // Google Calendar API usage. 
-                    $google_token = $this->Providers_Model->get_setting('google_token',
-                            $appointment_data['id_users_provider']);
-                    
-                    if ($this->google_sync->authendicate($google_token) === TRUE) {
-                        $this->google_sync->delete_appointment($appointment_data['id']);
-                    }
+                	$google_token = json_decode($this->Providers_Model
+                			->get_setting('google_token', $provider_data['id']));
+                	
+                	$this->load->library('Google_Sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
+                    $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
                 }
-            } 
+            }
+            
+            // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER            
+            $this->load->library('Notifications');
+            $this->notifications->send_remove_appointment($appointment_data, $provider_data, 
+            		$service_data, $customer_data, $company_settings, $provider_data['email']);
+            $this->notifications->send_remove_appointment($appointment_data, $provider_data,
+            		$service_data, $customer_data, $company_settings, $customer_data['email']);
+             
         } catch(Exception $exc) {
             // Display the error message to the customer.
             $view_data['error_message'] = $exc->getMessage();

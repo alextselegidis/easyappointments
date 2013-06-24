@@ -158,22 +158,16 @@ class Google_Sync {
     /**
      * Update an existing appointment that is already synced with Google Calendar.
      * 
-     * @param int $appointment_id The appointment record id.
+     * This method updates the google calendar event item that is connected with the
+     * provided appointment record of Easy!Appointments. 
+     * 
+     * @param array $appointment_data Contains the appointment record data.
+     * @param array $provider_data Contains the provider record data.
+     * @param array $service_data Contains the service record data.
+     * @param array $customer_data Contains the customer recod data.
      */
     public function update_appointment($appointment_data, $provider_data, 
             $service_data, $customer_data) {
-        $this->CI->load->model('Appointments_Model');
-        $this->CI->load->model('Services_Model');
-        $this->CI->load->model('Providers_Model');
-        $this->CI->load->model('Customers_Model');
-        $this->CI->load->model('Settings_Model');
-        
-        $appointment_data   = $this->CI->Appointments_Model->get_row($appointment_id);
-        $provider_data      = $this->CI->Providers_Model->get_row($appointment_data['id_users_provider']);
-        $customer_data      = $this->CI->Customers_Model->get_row($appointment_data['id_users_customer']);
-        $service_data       = $this->CI->Services_Model->get_row($appointment_data['id_services']);
-        $company_name       = $this->CI->Settings_Model->get_setting('company_name');
-        
         $this->CI->load->helper('general');
         
     }
