@@ -111,14 +111,14 @@ var GeneralFunctions = {
      * @returns {String} Returns the transformed string.
      */
     ISODateString: function(dt){
-        function pad(n){return n<10 ? '0'+n : n}
+        function pad(n){return n<10 ? '0'+n : n;}
 
         return dt.getUTCFullYear()+'-'
              + pad(dt.getUTCMonth()+1)+'-'
              + pad(dt.getUTCDate())+'T'
              + pad(dt.getUTCHours())+':'
              + pad(dt.getUTCMinutes())+':'
-             + pad(dt.getUTCSeconds())+'Z'
+             + pad(dt.getUTCSeconds())+'Z';
     },
     
     /**

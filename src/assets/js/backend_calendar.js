@@ -69,7 +69,7 @@ var BackendCalendar = {
                     provider['first_name'] + ' ' + provider['last_name'] + '</option>';
         });
         optgroupHtml += '</optgroup>';
-        $('#select-filter-item').append(optgroupHtml)
+        $('#select-filter-item').append(optgroupHtml);
         
         optgroupHtml = '<optgroup label="Services">';
         $.each(GlobalVariables.availableServices, function(index, service) {
@@ -78,7 +78,7 @@ var BackendCalendar = {
                     service['name'] + '</option>';
         });
         optgroupHtml += '</optgroup>';
-        $('#select-filter-item').append(optgroupHtml)
+        $('#select-filter-item').append(optgroupHtml);
         
         // :: BIND THE DEFAULT EVENT HANDLERS
         if (defaultEventHandlers === true) {
@@ -239,18 +239,19 @@ var BackendCalendar = {
                     
                     $.post(postUrl, postData, function(response) {
                         /////////////////////////////////////////////////////////
-                        console.log('Delete Appointment Response :', response);
+                        //console.log('Delete Appointment Response :', response);
                         /////////////////////////////////////////////////////////
+                        
+                        $('#message_box').dialog('close');
                         
                         if (response.error) {
                             GeneralFunctions.displayMessageBox('Delete Appointment Error',
-                                'An unexpected error occured during the deletion of the ' 
-                                + 'appointment. Please try again.');
+                                'An unexpected error occured during the deletion of the ' + 
+                                'appointment. Please try again.');
                             return;
                         }
                         
-                        // Close dialog and refresh calendar events.
-                        $('#message_box').dialog('close');
+                        // Refresh calendar event items.                        
                         $('#select-filter-item').trigger('change');
                         
                     }, 'json');

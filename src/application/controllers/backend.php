@@ -102,9 +102,15 @@ class Backend extends CI_Controller {
      */
     public function ajax_save_appointment_changes() {
         try {
+        	$this->load->model('Appointments_Model');
+        	$this->load->model('Providers_Model');
+        	$this->load->model('Services_Model');
+        	$this->load->model('Customers_Model');
+        	$this->load->model('Settings_Model');
+        	
+        	// :: SAVE APPOINTMENT CHANGES TO DATABASE
             if (isset($_POST['appointment_data'])) {
                 $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
-                $this->load->model('Appointments_Model');
                 $this->Appointments_Model->add($appointment_data);
                 
                 if ($appointment_data['id_google_calendar'] != NULL) {
@@ -120,10 +126,40 @@ class Backend extends CI_Controller {
                 }
             }
             
+            // :: SAVE CUSTOMER CHANGES TO DATABASE
             if (isset($_POST['customer_data'])) {
                 $customer_data = json_decode(stripcslashes($_POST['customer_data']), true);
-                $this->load->model('Customers_Model');
                 $this->Customers_Model->add($customer_data);
+            }
+            
+            // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
+            if ($appointment_data['id_google_calendar'] != NULL) {
+            	$google_sync = $this->Providers_Model
+            			->get_setting('google_sync', $appointment_data['id_users_provider']);
+            	if ($google_sync == TRUE) {
+            		$google_token = $this->Providers_Model
+            				->get_setting('google_token', $appointment_data['id_users_provider']);
+            		$this->load->library('Google_Sync');
+            		$this->google_sync->refresh_token($google_token->refresh_token);
+            		$this->google_sync->update_appointment($appointment_data, $provider_data, 
+            				$service_data, $customer_data);
+            	}
+            }
+            
+            // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
+            $this->load->library('Notifications');
+            try {
+            	$customer_title = 'Appointment Changes Saved Successfully!';
+                $provider_title = 'Appointment Details Have Changed';
+                
+                $this->notifications->send_book_success(
+                		$customer_data, $appointment_data, $customer_title);
+                $this->notifications->send_new_appointment(
+                		$customer_data, $appointment_data, $provider_title);
+                
+            } catch(NotificationException $nt_exc) {
+            	// @task Display message to the user that the notification messages could 
+            	// not be sent.
             }
             
             echo json_encode('SUCCESS');
@@ -144,9 +180,6 @@ class Backend extends CI_Controller {
      * account of the provider, if the "google_sync" setting is enabled.
      * 
      * @param int $_POST['appointment_id'] The appointment id to be deleted.
-     * 
-     * @task Sync action with GCal.
-     * @task Send email notifications to provider and customer.
      */
     public function ajax_delete_appointment() {
         try {
@@ -159,11 +192,17 @@ class Backend extends CI_Controller {
             $this->load->model('Providers_Model');
             $this->load->model('Customers_Model');
             $this->load->model('Services_Model');
+            $this->load->model('Settings_Model');
             
             $appointment_data = $this->Appointments_Model->get_row($_POST['appointment_id']);
-            $provider_data  = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data  = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data   = $this->services_Model->get_row($appointment_data['id_services']);
+            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $company_settings = array(
+            	'company_name'  => $this->Settings_Model->get_setting('company_name'),
+            	'company_email' => $this->Settings_Model->get_setting('company_email'),
+            	'company_link'  => $this->Settings_Model->get_setting('company_link')
+            );
             
             // :: DELETE APPOINTMENT RECORD FROM DATABASE.
             $this->Appointments_Model->delete($_POST['appointment_id']);
@@ -183,8 +222,8 @@ class Backend extends CI_Controller {
             
             // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER.
             $this->load->library('Notifications');
-            $this->notification->send_delete_appointment($appointment_data, $provider_data, 
-                    $service_data, $customer_data);
+            $this->notification->send_remove_appointment($appointment_data, $provider_data, 
+                    $service_data, $customer_data, $company_settings);
             
             echo json_encode('SUCCESS');
             
