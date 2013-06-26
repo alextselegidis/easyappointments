@@ -1,0 +1,16 @@
+VERSION 0.3
+===========
+Main
+
+- First backend-calendar page implementation (not complete, admin's perspective).
+- Javascript Google API usage from the customer's perspective.
+- Backend google calendar authentication Process.
+- Sync every appointment change made from E!A to Google Calendar.
+
+
+
+Minor
+
+- Display user friendly error messages.
+- Added sync exception to Google Sync library.
+ 

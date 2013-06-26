@@ -1,0 +1,450 @@
+%                             ΤΕΙ Σερρών
+%                             Σχολή Τεχνολογικών Εφαρμογών
+%                             Τμήμα Πληροφορικής και Επικοινωνιών
+%                                Πτυχιακή εργασία
+%
+%                  Nicholaos Petalidis, 15/08/1998
+% icdthesis.sty Style file for TEI of SERRES, ICD, final year
+% dissertation thesis
+% Copyright (C) yyyy  name of author
+
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU General Public License
+% as published by the Free Software Foundation; either version 2
+% of the License, or (at your option) any later version.
+
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program; if not, write to the Free Software
+% Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+%---------------------------Identification Part--------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{icdthesisUTF}
+
+%--------------------------Initial Code----------------------------------------
+
+% This part is empty
+
+%--------------------------Declaration of Options------------------------------
+\DeclareOption{a4paper}{\setlength{\paperheight}{297mm}%
+                          \setlength{\paperwidth}{210mm}}
+
+\ExecuteOptions{a4paper,12pt}
+\ProcessOptions
+
+%-------------------------Package Loading--------------------------------------
+\RequirePackage{polyglossia}
+\RequirePackage{fontspec}     % necessary of XeTeX
+\RequirePackage{xunicode}     % Unicode from accented glyphs
+\RequirePackage{xltxtra}      % loads fixltx2e, etex, xunicode, fontspec
+%\RequirePackage{xgreek}      % for greek documents
+\RequirePackage[backend=biber,bibencoding=utf8,natbib=false,bibstyle=authoryear,citestyle=authoryear,babel=hyphen]{biblatex}
+\RequirePackage{ifthen}
+\RequirePackage{url}
+\RequirePackage{csquotes}
+\RequirePackage[font=small,format=plain,labelfont=bf]{caption}
+\setdefaultlanguage{greek}
+\setotherlanguage{english}
+
+%set fonts required by the guidelines
+\setmainfont[Mapping=tex-text]{Times New Roman}
+\setmonofont[Mapping=tex-text]{Courier New}
+
+%\setmonofont[Script=Latin,Mapping=tex-text]{Courier New}
+%\newfontfamily\greekfont[Script=Greek,Mapping=tex-text]{Times New Roman}
+%Redefine greek font family because some fonts although they have greek glyphs they
+%do not explicitly support the Greek script 
+\newfontfamily\greekfont[Mapping=tex-text]{Times New Roman}
+\newfontfamily\greekfonttt[Mapping=tex-text]{Courier New}
+\newfontfamily\greekfontsf[Mapping=tex-text]{Arial}
+
+\gappto\captionsgreek{\renewcommand{\figurename}{Διάγραμμα}}
+\gappto\captionsgreek{\renewcommand{\listfigurename}{Κατάλογος διαγραμμάτων}}
+%--------------------------- Main Code-----------------------------------------
+
+\typeout{----------------------------------------------------------------------}
+\typeout{-       Τμήμα Πληροφορικής και Επικοινωνιών            }
+\typeout{-       ΤΕΙ Σερρών, version 0.3, 27/11/2011                   }
+\typeout{-       Nicholaos Petalidis, nikos <at> petalidis.gr         }
+\typeout{-----------------------------------------------------------------------}
+
+%\tracingmacros=1
+%\tracingcommands=1
+
+%-----------------------Set up margins-----------------------------------------
+
+  % Define hoffset to be -1in. This way calculations start from 0in
+  % from the left side of the paper instead of 1in.
+
+    \setlength{\hoffset}{-1in}
+
+  % Define the left margin to be 40mm
+  % No need to set evensidemargin for one-sided printing
+  % 40mm = 114pt
+  \setlength{\oddsidemargin}{114pt}
+
+  % Define the right margin to be 15mm
+  % Leave the marginparsep unchanged
+  % Set the maginparwidth to be the remaining space from marginparsep
+  % 25mm = 71pt
+    \setlength{\marginparwidth}{71pt}
+                \addtolength{\marginparwidth}{-\marginparsep}
+    \setlength{\marginparpush}{0mm}
+  % Calculate the textwidth: 
+  % This is a bit difficult. The standard says there must be around 60-70
+  % characters per line...  I reckon that a textwidth of around 120mm
+  % should give 60-70 characters of 11pt size.
+  % On the other hand I don't like the output, (lines look too short)
+  % so I have put it to the maximum: 14.5mm = 413pt
+
+    \setlength{\textwidth}{413pt}
+
+    % An update:
+    % The width of the a4          : 210mm
+    % The width of the left margin :  40mm
+    % The width of the right margin:  25mm
+    % The width of the text: 145mm
+
+  % The standard says ``all other margins should be at least 15mm''
+  % This includes the top and bottom margin
+
+  % Define voffset to be -1in. This way calculations start from 0in
+  % from the top side of the paper instead of 1in.
+
+  \setlength{\voffset}{-1in}
+
+  % Define the topmargin to be 15mm
+  % This is the minimum recommended top margin
+
+  \setlength{\topmargin}{43pt} 
+
+  % Define the distance between the heading (page number) and the text
+  % to be 8mm = 23pt
+
+  \setlength{\headsep}{23pt}
+
+  % Define the height of a heading to be 12pt
+  
+  \setlength{\headheight}{12pt}
+
+  % Define the distance between the bottom of a footnote and
+  % the bottom of the text to be 10.5mm=30pt
+
+  \setlength{\footskip}{30pt}
+
+  % Change the textheight so that the bottom margin is 15mm=43pt
+  \setlength{\textheight}{695pt}
+
+
+%------------------Typography--------------------------------------------------
+
+  %Paragraphs should be indented 5-10mm with no additional space between 
+  %paragraphs. I set the indent to be 7.5 mm
+    \setlength{\parindent}{7.5mm}
+ 
+  %Set the spacing between lines to one and a half
+  \renewcommand{\baselinestretch }{1.5}
+
+%----------Set up commands----------------------------------------------------
+\newcommand{\thesistitle}{A title}
+\newcommand{\thesisauthorsex}{male}
+\newcommand{\thesisauthor}{Ένας Σπουδαστής}
+\newcommand{\thesisauthorabbrv}{Ε. Σπουδαστής}
+\newcommand{\thesisauthorinitials}{ΕΑ}
+\newcommand{\thesisSecondAuthor}{}
+\newcommand{\thesisSecondAuthorabbrv}{Ε. Σπουδαστής}
+\newcommand{\thesisSecondAuthorInitials}{}
+\newcommand{\thesissupervisor}{Ν. Πεταλίδης}
+\newcommand{\thesismonth}{August}
+\newcommand{\thesistype}{Thesis}
+\newcommand{\degreetitle}{Πτυχίο}
+\newcommand{\degreetitleabbr}{Πτυχίο}
+\newcommand{\thesisyear}{1900}
+\newcommand{\thesisschool}{Σχολή Τεχνολογικών Εφαρμογών}
+\newcommand{\thesisuniversity}{ΤΕΧΝΟΛΟΓΙΚΟ ΕΚΠΑΙΔΕΥΤΙΚΟ ΙΔΡΥΜΑ ΣΕΡΡΩΝ}
+\newcommand{\thesisdepartment}{Τμήμα Πληροφορικής \& Επικοινωνιών}
+
+%--------------------Format the page style-------------------------------------
+  %According to BS 4821 page numbers should appear at the top outer corner
+  % First define a heading that has a page number on the top outer corner
+ 
+ \renewcommand{\ps@myheadings}{%
+     \renewcommand{\@oddhead}{\hfil\thepage}%
+     \renewcommand{\@evenhead}{\@oddhead}%
+     \renewcommand{\@evenfoot}{}% empty
+     \renewcommand{\@oddfoot}{}% empty
+  }
+
+  % The standard wants page numbers to appear in the top outer corner.
+  % To overcome the problems with the \chapter, \tableofcontents
+  % pagestyles I redefine the plain page style to be that of myheadings
+
+  \let\ps@plain=\ps@myheadings 
+  % Apparently most definitions use @mkboth instead of markboth.
+  % This command does nothing in myheadings so I have to redefine it
+  \renewcommand{\@mkboth}{\markboth}
+% **************************TITLE PAGE**********************************
+
+% A specimen is provided in the handbook for a title page.
+% Apparenrtly the specimen is wrong and everything should be centered
+% instead of being flushed-left. In that specimen the title and author
+% name appears in upper case. I have it in upper case here as well.
+\newcommand{\Titlepage}{
+  \thispagestyle{empty}
+  \begin{center}
+    %\fontsize{12pt}{\baselineskip}\selectfont
+    \MakeUppercase{\textbf{\thesisuniversity}}\\
+    \MakeUppercase{\textbf{\thesisschool}}\\
+    \MakeUppercase{\textbf{\thesisdepartment}}\\
+    \vfill
+    %\fontsize{16}{\baselineskip}\selectfont % The standard requires 16pt 
+                                % for the title page
+    \Large{\MakeUppercase{\textbf{\thesistitle}}}
+    %\fontsize{14}{\baselineskip}\selectfont % The standard requires 14pt 
+                                % for the title page
+    \vfill
+    \large{
+    \ifthenelse{\equal{\thesisSecondAuthor}{}}{
+      \ifthenelse{\equal{\thesisauthorsex}{male}}
+      {\textbf{Πτυχιακή εργασία του}\\\thesisauthor}
+      {\textbf{Πτυχιακή εργασία της}\\\thesisauthor}}
+    {\textbf{Πτυχιακή εργασία των}\\\thesisauthor\\\thesisSecondAuthor}
+    \\Επιβλέπων: \thesissupervisor}
+    \vfill
+    %\fontsize{12}{\baselineskip}\selectfont % The standard requires
+    \MakeUppercase{\textbf{ΣΕΡΡΕΣ, \thesismonth\ \thesisyear}}
+  \end{center}
+                                % Make the default to be myheadings
+  \pagestyle{myheadings}    
+} 
+%**********************************************************************
+
+% *****************************ABSTRACT********************************
+% Not much information is provided about the abstract so I took 
+% the liberty of creating my own:-)
+\newcommand{\thesisabstract}{Σύνοψη}
+\newcommand{\@thesisabstract}{\thesisabstract}
+
+\newenvironment{Abstract}
+{   
+  \chapter*{\@thesisabstract
+    \@mkboth{}
+    {}}
+  \addcontentsline{toc}{chapter}{\@thesisabstract}
+  } 
+{}
+%**********************************************************************
+
+% *************************ACKNOWLEDGEMENTS****************************
+\newcommand{\thesisacknowledgementhead}{Ευχαριστίες}
+\newcommand{\@thesisacknowledgementhead}{\thesisacknowledgementhead}
+
+\newenvironment{Acknowledgement}
+{ 
+  \chapter*{\@thesisacknowledgementhead
+    \@mkboth{}{}}
+  
+  \addcontentsline{toc}{chapter}{\@thesisacknowledgementhead}
+  }
+{}
+%********************************************************************
+
+% ******************************PREFACE******************************
+\newcommand{\thesispreface}{Πρόλογος}
+\newcommand{\@thesispreface}{\thesispreface}
+
+\newenvironment{Preface}
+{ 
+  \chapter*{\@thesispreface
+    \@mkboth{}{}}
+  
+  \addcontentsline{toc}{chapter}{\@thesispreface}
+  }
+{ }
+%**********************************************************************
+
+% ******************************AUTHORS DECLARATION********************
+\newcommand{\thesisdeclaration}{Υπεύθυνη δήλωση}
+\newcommand{\@thesisdeclaration}{\thesisdeclaration}
+
+\newenvironment{Declaration}
+{ 
+  \chapter*{\@thesisdeclaration
+    \@mkboth{}{}}
+  
+  \addcontentsline{toc}{chapter}{\@thesisdeclaration}
+  }
+{ }
+\newcommand{\Declarationpage}{
+  \vfill
+  \begin{Declaration}
+    \textbf{\underline{Υπεύθυνη Δήλωση}}: 
+        \ifthenelse{\equal{\thesisSecondAuthor}{}}{
+          Βεβαιώνω ότι είμαι συγγραφέας αυτής της πτυχιακής εργασίας και ότι κάθε βοήθεια 
+          την οποία είχα για την προετοιμασία της, είναι πλήρως
+          αναγνωρισμένη και αναφέρεται στην πτυχιακή εργασία. Επίσης έχω
+          αναφέρει τις όποιες πηγές από τις οποίες έκανα χρήση δεδομένων,
+          ιδεών ή λέξεων, είτε αυτές αναφέρονται ακριβώς είτε
+          παραφρασμένες. Επίσης βεβαιώνω ότι αυτή η πτυχιακή εργασία
+          προετοιμάστηκε από εμένα προσωπικά ειδικά για τις απαιτήσεις του
+          προγράμματος σπουδών του Τμήματος Πληροφορικής \& Επικοινωνιών
+          του Τ.Ε.Ι. Σερρών. 
+        }
+    {Βεβαιώνουμε ότι είμαστε συγγραφείς αυτής της πτυχιακής εργασίας και ότι κάθε βοήθεια 
+          την οποία είχαμε για την προετοιμασία της, είναι πλήρως
+          αναγνωρισμένη και αναφέρεται στην πτυχιακή εργασία. Επίσης έχουμε
+          αναφέρει τις όποιες πηγές από τις οποίες κάναμε χρήση δεδομένων,
+          ιδεών ή λέξεων, είτε αυτές αναφέρονται ακριβώς είτε
+          παραφρασμένες. Επίσης βεβαιώνουμε ότι αυτή η πτυχιακή εργασία
+          προετοιμάστηκε από εμάς προσωπικά ειδικά για τις απαιτήσεις του
+          προγράμματος σπουδών του Τμήματος Πληροφορικής \& Επικοινωνιών
+          του Τ.Ε.Ι. Σερρών. }
+   
+  \end{Declaration}
+}
+%**********************************************************************
+
+
+% ******************************DEFINITIONS****************************
+\newcommand{\thesisdefinitions}{Ορισμοί}
+\newcommand{\@thesisdefinitions}{\thesisdefinitions}
+
+\newenvironment{Definitions}
+{ 
+  \chapter*{\@thesisdefinitions
+    \@mkboth{}{}}
+  
+  \addcontentsline{toc}{chapter}{\@thesisdefinitions}
+  }
+{}
+
+%**********************************************************************
+%****************************Starting the main text!*******************
+% The following code tries to fix ``running heads''
+% Running heads are not necessary but if they exist they should
+% give the author's name with initials, year of submission and 
+% chapter number or heading
+% First make it show the chapter number and heading 
+\renewcommand{\chaptermark}[1]{\markboth{\
+    \thechapter. #1}{\
+    \thechapter. #1}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection. #1}}
+
+% Now redefine myheadings to include all the relevant information
+\newcommand{\Startpage}{\renewcommand{\ps@myheadings}{%
+    \renewcommand{\@oddhead}{\leftmark,\
+      ~\thesisauthorabbrv,\thesisSecondAuthorabbrv\
+      ~\thesisyear\hfil\thepage}%
+    \renewcommand{\@evenhead}{\@oddhead}%
+    \renewcommand{\@evenfoot}{}% empty
+    \renewcommand{\@oddfoot}{}% empty
+    }
+  \pagestyle{myheadings}}
+%**************************************************************************
+
+%*******************************GLOSSARY*******************************
+\newcommand{\thesisglossary}{Γλωσσάρι}
+\newcommand{\@thesisglossary}{\thesisglossary}
+
+\newenvironment{Glossary}
+{ 
+  \chapter*{\@thesisglossary
+    \@mkboth{\thesisglossary}{\thesisglossary}}
+  
+  \addcontentsline{toc}{chapter}{\@thesisglossary}
+  }
+{ }
+%**************************************************************************
+
+%**********************************************************************
+% Code shamelessly stolen follows now!
+
+% ******************************APPENDIX*******************************
+
+%% The following is taken from: csthesis.cls (Edinburgh University)
+%% I changed the numbering to be arabic.
+%% Redefine the appendix command to ensure that it does a pagebreak
+%% (sorts problem of Appendix appearing in header of last page before
+%% the first apppendix). 
+%%
+%\renewcommand{\appendixname}{Παράρτημα}
+\renewcommand{\appendix}{\vfill\pagebreak
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \renewcommand\@chapapp{\appendixname}%
+  \renewcommand\chaptername{\appendixname}%
+  \renewcommand\thechapter{\@arabic\c@chapter}
+}
+
+%
+% ************************Table of contents****************************
+%
+% The following code is taken from report.cls (c) LaTeX 3 Project
+% I changed a little bit the definitions in order to produce running
+% heads according to the BS standard
+\renewcommand\tableofcontents{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\contentsname
+        \@mkboth{%
+           \hfil\thepage}{\hfil\thepage}}%
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi
+    }
+\renewcommand\listoffigures{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listfigurename
+      \@mkboth{\hfil\thepage}%
+              {\hfil\thepage}}%
+    \@starttoc{lof}%
+    \if@restonecol\twocolumn\fi
+    }
+\renewcommand\listoftables{%
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \chapter*{\listtablename
+      \@mkboth{%
+          \hfil\thepage}{\hfil\thepage}}%
+    \@starttoc{lot}%
+    \if@restonecol\twocolumn\fi
+    }
+% ******************************REFERENCES*****************************
+
+%%%
+%%% Command from report.cls, (c) LaTeX3 Project.
+%%%
+% \renewenvironment{thebibliography}[1]
+%      {\chapter*{\bibname
+%         \@mkboth{\bibname}{\bibname}}%
+%    \addcontentsline{toc}{chapter}{\bibname}
+%       \list{\@biblabel{\@arabic\c@enumiv}}%
+%            {\settowidth\labelwidth{\@biblabel{#1}}%
+%             \leftmargin\labelwidth
+%             \advance\leftmargin\labelsep
+%             \@openbib@code
+%             \usecounter{enumiv}%
+%             \let\p@enumiv\@empty
+%             \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+%       \sloppy
+%       \clubpenalty4000
+%       \@clubpenalty \clubpenalty
+%       \widowpenalty4000%
+%       \sfcode`\.\@m}
+%      {\def\@noitemerr
+%        {\@latex@warning{Empty `thebibliography' environment}}%
+%       \endlist}
+\newcommand{\citep}[1]{\parencite{#1}}
