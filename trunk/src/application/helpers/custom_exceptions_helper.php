@@ -15,5 +15,10 @@ class ValidationException extends Exception {}
  */
 class NotificationException extends Exception {}
 
+/**
+ * Sync Exception Class
+ */
+class SyncException extends Exception {}
+
 /* End of file exception_types_helper.php */
 /* Location: ./application/helpers/exception_types_helper.php */

@@ -12,28 +12,42 @@ class Appointments extends CI_Controller {
      * record.
      */
     public function index($appointment_hash = '') {
+        $this->load->model('Appointments_Model');
+        $this->load->model('Providers_Model');
+        $this->load->model('Services_Model');
+        $this->load->model('Customers_Model');
+        $this->load->model('Settings_Model');
+                
         if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST') { 
-            $this->load->model('Settings_Model');
-            $this->load->model('Services_Model');
-            $this->load->model('Providers_Model');
-
-            $company_name        = $this->Settings_Model->get_setting('company_name');
             $available_services  = $this->Services_Model->get_available_services();
             $available_providers = $this->Providers_Model->get_available_providers();
+            $company_name        = $this->Settings_Model->get_setting('company_name');
 
             // If an appointment hash is provided then it means that the customer 
             // is trying to edit a registered record.
             if ($appointment_hash !== ''){ 
                 // Load the appointments data and set the manage mode of the page.
-                $this->load->model('Appointments_Model');
-                $this->load->model('Customers_Model');
-                
                 $manage_mode = TRUE;
                 
                 $results = $this->Appointments_Model
                         ->get_batch(array('hash' => $appointment_hash));
                 
-                $appointment_data = $results[0]; // Php 5.3 does not support treating a function as an array. 
+                if (count($results) === 0) {
+                    // The requested appointment doesn't exist in the database. Display
+                    // a message to the customer.
+                    $view_data = array(
+                        'message_title' => 'Appointment Not Found!',
+                        'message_text'  => 'The appointment you requested does not exist in the '
+                                . 'database anymore.',
+                        'message_icon'  => $this->config->item('base_url') . 'assets/images/error.png'
+                    );
+                    
+                    $this->load->view('appointments/message', $view_data);
+                    return;
+                }
+                
+                // Php 5.3 does not support treating a function result as an array. 
+                $appointment_data = $results[0]; 
                 
                 $provider_data = $this->Providers_Model
                         ->get_row($appointment_data['id_users_provider']);
@@ -58,87 +72,111 @@ class Appointments extends CI_Controller {
                 'provider_data'         => $provider_data,
                 'customer_data'         => $customer_data
             );
+            
             $this->load->view('appointments/book', $view_data);
+            
         } else { 
-            // The page is a post-back. Register the appointment and send
-            // notification emails to the provider and the customer that are
-            // related to the appointment.
-            $post_data          = json_decode($_POST['post_data'], true);
-            $appointment_data   = $post_data['appointment'];
-            $customer_data      = $post_data['customer'];
-
-            $this->load->model('Customers_Model');
-            $this->load->model('Appointments_Model');
-            $this->load->model('Services_Model');
-            $this->load->model('Providers_Model');
-            $this->load->model('Settings_Model');
-
-            $customer_id = $this->Customers_Model->add($customer_data);
-            $appointment_data['id_users_customer'] = $customer_id; 
-            $appointment_data['id']     = $this->Appointments_Model->add($appointment_data);
-            $appointment_data['hash']   = $this->Appointments_Model
-                    ->get_value('hash', $appointment_data['id']);
-
-            // Send an email to the customer with the appointment info.
-            $this->load->library('Notifications');
+            // The page is a post-back. Register the appointment and send notification emails
+            // to the provider and the customer that are related to the appointment. If google 
+            // sync is enabled then add the appointment to the provider's account.
             try {
+                $post_data          = json_decode($_POST['post_data'], true);
+                $appointment_data   = $post_data['appointment'];
+                $customer_data      = $post_data['customer'];
+
+                $customer_id = $this->Customers_Model->add($customer_data);
+                $appointment_data['id_users_customer'] = $customer_id; 
+                
+                $appointment_data['id'] = $this->Appointments_Model->add($appointment_data);
+                $appointment_data['hash'] = $this->Appointments_Model
+                        ->get_value('hash', $appointment_data['id']);
+
+                // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
+                $this->load->library('Notifications');
+                
+                $provider_data = $this->Providers_Model
+                        ->get_row($appointment_data['id_users_provider']);
+                $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+                $company_settings = array( 
+                    'company_name' => $this->Settings_Model->get_setting('company_name'),
+                    'company_link' => $this->Settings_Model->get_setting('company_link'),
+                    'company_email' => $this->Settings_Model->get_setting('company_email')
+                );
+                
                 if (!$post_data['manage_mode']) {
                     $customer_title = 'Your appointment has been successfully booked!';
+                    $customer_message = 'Thank you for arranging an appointment with us. ' .  
+                            'Below you can see the appointment details. Make changes ' . 
+                            'by clicking the appointment link.';
+                    $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                            . $appointment_data['hash'];
+                    
                     $provider_title = 'A new appointment has been added to your plan.';
+                    $provider_message = 'You can make changes by clicking the appointment ' . 
+                            'link below';
+                    $provider_link = $this->config->item('base_url') . 'backend/' 
+                            . $appointment_data['hash'];
                 } else {
-                    $customer_title = 'Appointment Changes Saved Successfully!';
-                    $provider_title = 'Appointment Details Have Changed';
+                    $customer_title = 'Appointment changes have been successfully saved!';
+                    $customer_message = '';
+                    $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                            . $appointment_data['hash'];
+                    
+                    $provider_title = 'Appointment details have changed.';
+                    $provider_message = '';
+                    $provider_link = $this->config->item('base_url') . 'backend/' 
+                            . $appointment_data['hash'];
                 }
-                
-                $this->notifications->send_book_success(
-                        $customer_data, $appointment_data, $customer_title);
-                $this->notifications->send_new_appointment(
-                        $customer_data, $appointment_data, $provider_title);
-                
-            } catch (NotificationException $not_exc) {
-                $view_data['notification_error'] = '<br><br>' 
-                        . '<pre>An unexpected error occured while sending you an ' 
-                        . 'email. Please backup the appointment details so that ' 
-                        . 'you can restore them later. <br><br>Error: <br>' 
-                        . $not_exc->getMessage() . '</pre>';
+
+                $this->notifications->send_appointment_details(
+                        $appointment_data, $provider_data, $service_data, $customer_data,
+                        $company_settings, $customer_title, $customer_message, $customer_link,
+                        $customer_data['email']);
+                        
+                $this->notifications->send_appointment_details(
+                        $appointment_data, $provider_data, $service_data, $customer_data,
+                        $company_settings, $provider_title, $provider_message, $provider_link,
+                        $provider_data['email']);
+
+                // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
+                // The provider must have previously granted access to his google calendar account  
+                // in order to sync the appointment.
+                $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                        $appointment_data['id_users_provider']);
+
+                if ($google_sync == TRUE) {
+                    $google_token = json_decode($this->Providers_Model
+                            ->get_setting('google_token', $appointment_data['id_users_provider']));
+                    
+                    $this->load->library('google_sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
+
+                    if ($post_data['manage_mode'] === FALSE) {
+                        // Add appointment to Google Calendar.
+                        $this->google_sync->add_appointment($appointment_data['id']);
+                    } else {
+                        // Update appointment to Google Calendar.
+                        $appointment_data['id_google_calendar'] = $this->Appointments_Model
+                                ->get_value('id_google_calendar', $appointment_data['id']);
+                        $this->google_sync->update_appointment($appointment_data, $provider_data,
+                                $service_data, $customer_data, $company_settings);
+                    }
+                }  
+
+                // :: LOAD THE BOOK SUCCESS VIEW
+                $view_data = array(
+                    'appointment_data'  => $appointment_data,
+                    'provider_data'     => $provider_data,
+                    'service_data'      => $service_data,
+                    'company_name'      => $company_settings['company_name']
+                );
+
+            } catch(Exception $exc) {
+                $view_data['error'] = array(
+                    'message' => $exc->getMessage(),
+                    'technical' => $exc->getTraceAsString()
+                );
             }
-            
-            // Synchronize the appointment with the providers plan, if the 
-            // google sync option is enabled.
-            $google_sync = $this->Providers_Model->get_setting('google_sync', 
-                    $appointment_data['id_users_provider']);
-            
-            if ($google_sync == TRUE) {
-                $google_token = json_decode($this->Providers_Model->get_setting('google_token',
-                        $appointment_data['id_users_provider']));
-
-                // Authenticate the token. If it isn't valid, the sync operation cannot
-                // be completed.
-                $this->load->library('google_sync');
-                $this->google_sync->refresh_token($google_token->refresh_token);
-                
-                if ($post_data['manage_mode'] === FALSE) {
-                	// Add appointment to Google Calendar.
-                	$this->google_sync->add_appointment($appointment_data['id']);
-                } else {
-                	// Update appointment to Google Calendar.
-                	$this->google_sync->update_appointment($appointment_data['id']);
-                }
-                
-            }  
-
-            // Load the book success view.
-            $service_data   = $this->Services_Model->get_row($appointment_data['id_services']);
-            $provider_data  = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $company_name   = $this->Settings_Model->get_setting('company_name');
-            
-            $view_data = array(
-                'appointment_data'  => $appointment_data,
-                'service_data'      => $service_data,
-                'provider_data'     => $provider_data,
-                'company_name'      => $company_name
-            );
-            
             $this->load->view('appointments/book_success', $view_data);
         }   
     }
@@ -200,9 +238,9 @@ class Appointments extends CI_Controller {
             
             // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER            
             $this->load->library('Notifications');
-            $this->notifications->send_remove_appointment($appointment_data, $provider_data, 
+            $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
             		$service_data, $customer_data, $company_settings, $provider_data['email']);
-            $this->notifications->send_remove_appointment($appointment_data, $provider_data,
+            $this->notifications->send_delete_appointment($appointment_data, $provider_data,
             		$service_data, $customer_data, $company_settings, $customer_data['email']);
              
         } catch(Exception $exc) {
@@ -216,12 +254,11 @@ class Appointments extends CI_Controller {
     /**
      * [AJAX] Get the available appointment hours for the given date.
      * 
-     * This method answers to an AJAX request. It calculates the 
-     * available hours for the given service, provider and date.
+     * This method answers to an AJAX request. It calculates the available hours for the 
+     * given service, provider and date.
      * 
-     * @param array $_POST['post_data'] An associative array that 
-     * contains the user selected 'service_id', 'provider_id', 
-     * 'selected_date' and 'service_duration' in minutes.
+     * @param array $_POST['post_data'] An associative array that contains the user selected 
+     * 'service_id', 'provider_id', 'selected_date' and 'service_duration' in minutes.
      * @return Returns a json object with the available hours.
      */
     public function ajax_get_available_hours() {
@@ -236,8 +273,7 @@ class Appointments extends CI_Controller {
         $where_clause = array(
             'DATE(start_datetime)'  => date('Y-m-d', strtotime($_POST['selected_date'])),
             'id_users_provider'     => $_POST['provider_id']
-        );
-       
+        );       
         $reserved_appointments = $this->Appointments_Model->get_batch($where_clause);
         
         if ($_POST['manage_mode'] === 'true') {
@@ -283,7 +319,7 @@ class Appointments extends CI_Controller {
                 'end'   => $sel_date_working_plan['end']
             );
         }
-        // PROBLEM
+        
         // Break the empty spaces with the reserved appointments.
         $empty_spaces_with_appointments = array();
         if (count($reserved_appointments) > 0) {
@@ -295,22 +331,49 @@ class Appointments extends CI_Controller {
                     $space_end          = date('H:i', strtotime($space['end']));
                     
                     if ($space_start < $appointment_start && $space_end > $appointment_end) {
+                        // We need to check whether another appointment fits in the current 
+                        // space. If this happens, then we need to consider the whole appointment
+                        // time as one, because the provider will not be available.
+                        foreach ($reserved_appointments as $appt) {
+                            $appt_start  = date('H:i', strtotime($appt['start_datetime']));
+                            $appt_end    = date('H:i', strtotime($appt['end_datetime']));
+                            
+                            if ($space_start < $appt_start && $space_end > $appt_end) {
+                                if ($appointment_start > $appt_start) {
+                                    $appointment_start = $appt_start;
+                                }
+                                
+                                if ($appointment_end < $appt_end) { 
+                                    $appointment_end = $appt_end;
+                                }
+                            }
+                        }
+
                         // Current appointment is within the current empty space. So 
                         // we need to break the empty space into two other spaces that 
                         // don't include the appointment.
-                        $empty_spaces_with_appointments[] = array(
-                                                    'start' => $space_start,
-                                                    'end'   => $appointment_start
-                                                );
-                        $empty_spaces_with_appointments[] = array(
-                                                    'start' => $appointment_end,
-                                                    'end'   => $space_end
-                                                );
+                        $new_space = array(
+                            'start' => $space_start,
+                            'end'   => $appointment_start
+                        );
+                        
+                        if (!in_array($new_space, $empty_spaces_with_appointments)) {
+                            $empty_spaces_with_appointments[] = $new_space;
+                        }
+                            
+                        $new_space = array(
+                            'start' => $appointment_end,
+                            'end'   => $space_end
+                        );
+                        if (!in_array($new_space, $empty_spaces_with_appointments)) {
+                            $empty_spaces_with_appointments[] = $new_space;
+                        }
+                        
                     } else {
                         // Check if there are any other appointments between this 
                         // time space. If not, it is going to be added as it is.
                         $found = FALSE;
-                        foreach($reserved_appointments as $appt) {
+                        foreach ($reserved_appointments as $appt) {
                             $appt_start  = date('H:i', strtotime($appt['start_datetime']));
                             $appt_end    = date('H:i', strtotime($appt['end_datetime']));
                             if ($space_start < $appt_start && $space_end > $appt_end) {

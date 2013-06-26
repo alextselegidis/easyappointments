@@ -95,10 +95,6 @@ class Backend extends CI_Controller {
      * appointment data.
      * @param array $_POST['customer_data'] (OPTIONAL) Array with the customer 
      * data.
-     * 
-     * @task Send email notifications to both provider and customer that changes
-     * have been made to the appointment.
-     * @task Sync changes with google calendar.
      */
     public function ajax_save_appointment_changes() {
         try {
@@ -215,9 +211,9 @@ class Backend extends CI_Controller {
             
             // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER.
             $this->load->library('Notifications');
-            $this->notifications->send_remove_appointment($appointment_data, $provider_data, 
+            $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
             		$service_data, $customer_data, $company_settings, $provider_data['email']);
-            $this->notifications->send_remove_appointment($appointment_data, $provider_data,
+            $this->notifications->send_delete_appointment($appointment_data, $provider_data,
             		$service_data, $customer_data, $company_settings, $customer_data['email']);
             
             echo json_encode('SUCCESS');

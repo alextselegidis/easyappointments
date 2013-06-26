@@ -190,12 +190,28 @@
             <i class="icon-plus icon-white"></i>
             Add to Google Calendar
         </button>
-
+        
         <?php 
-            // Display exception message (if any).
-            // @task Special display of exceptions within the app.
-            if (isset($notification_error)) {
-                echo $notification_error;
+            // Display error message (if any).
+            if (isset($error)) {
+                echo '
+                    <hr>
+                    <h4>An Unexpected Error Occured</h4>
+                    <div class="accordion" id="error-accordion">
+                        <div class="accordion-group">
+                            <div class="accordion-heading">
+                                <a class="accordion-toggle" data-toggle="collapse" 
+                                        data-parent="#error-accordion" href="#error-technical">' . 
+                                    $error['message'] . '
+                                </a>
+                            </div>
+                            <div id="error-technical" class="accordion-body collapse">
+                                <div class="accordion-inner">
+                                    <pre>' . $error['technical'] . '</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';    
             }
         ?>
     </div>
