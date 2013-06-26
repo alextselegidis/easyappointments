@@ -41,94 +41,43 @@ class Notifications {
     }
     
     /**
-     * Send a success email to the customer that booked 
-     * a new appointment.
+     * Send an email with the appointment details. 
      * 
-     * @expectedException NotificationException Raises when an unexpected 
-     * error has occured when the email is send.
+     * This email template also needs an email title and an email text in order to complete
+     * the appointment details.
      * 
-     * @param array $customer_data Associative array with the customer's
-     * data. Each key has the same name as the corresponding field in db.
-     * @param array $appointment_data Associative array with the appointment's
-     * data. Each key has the same name as the corresponding field in db.
-     * @param string $email_title The email title is going to inform the customer
-     * for the action that was taken.
+     * @expectedException NotificationException Raises when an unexpected error occures.
+     * 
+     * @param array $appointment_data Contains the appointment data.
+     * @param array $provider_data Contains the provider data.
+     * @param array $service_data Contains the service data.    
+     * @param array $company_settings Contains settings of the company. By the time the 
+     * "company_name", "company_link" and "company_email" values are required in the array.
+     * @param string $title The email title may vary depending the receiver.
+     * @param string $message The email message may vary depending the receiver.
+     * @param string $appointment_link This link is going to enable the receiver to make changes
+     * to the appointment record.
+     * @param string $receiver_address The receiver email address.
      * @return bool Returns the operation result.
      */
-    public function send_book_success($customer_data, $appointment_data, $email_title) {
-        $this->CI->load->model('Providers_Model');
-        $this->CI->load->model('Services_Model');
-        $this->CI->load->model('Settings_Model');
+    public function send_appointment_details($appointment_data, $provider_data, $service_data, 
+            $customer_data, $company_settings, $title, $message, $appointment_link, 
+            $receiver_address) {
         
-        $provider_data = $this->CI->Providers_Model
-                ->get_row($appointment_data['id_users_provider']);
-        $service_data = $this->CI->Services_Model
-                ->get_row($appointment_data['id_services']);
-        
+        // :: PREPARE THE EMAIL TEMPLATE REPLACE ARRAY
         $replace_array = array(
-            '$email_title'          => $email_title,
+            '$email_title'          => $title,
+            '$email_message'        => $message,
+            
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
-            '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
-            '$appointment_duration' => $service_data['duration'] . ' minutes',
-            '$appointment_link'     => $this->CI->config->item('base_url') . 'appointments/index/' . $appointment_data['hash'],  
-            '$company_link'         => $this->CI->Settings_Model->get_setting('company_link'),
-            '$company_name'         => $this->CI->Settings_Model->get_setting('company_name'),
-            '$customer_name'        => $customer_data['first_name'] . ' ' . $customer_data['last_name']
-        );
-        
-        $email_html = file_get_contents(dirname(dirname(__FILE__)) . '/views/emails/book_success.php');
-        $email_html = $this->replace_template_variables($replace_array, $email_html);
-        
-        $mail = new PHPMailer();
-        $mail->From = $this->CI->Settings_Model->get_setting('company_email');
-        $mail->FromName = $this->CI->Settings_Model->get_setting('company_name');
-        $mail->AddAddress($customer_data['email']); // Do not use the name argument, phpmailer crushes.
-        $mail->IsHTML(true);
-        $mail->CharSet = 'UTF-8';
-        $mail->Subject = $email_title;
-        $mail->Body    = $email_html;
-
-        if(!$mail->Send()) {
-           throw new NotificationException('Email could not been sent. ' 
-                    . 'Mailer Error (' . __LINE__ . '): ' . $mail->ErrorInfo);
-        }
-        
-        return TRUE;
-    }
-    
-    /**
-     * Send an email notification to a provider that 
-     * a new appointment has been added to his plan.
-     * 
-     * @expectedException NotificationException Raises when an unexpected 
-     * error has occured when the email is send.
-     * 
-     * @param array $customer_data Associative array with the customer's
-     * data. Each key has the same name as the corresponding field in db.
-     * @param array $appointment_data Associative array with the appointment's
-     * data. Each key has the same name as the corresponding field in db.
-     * @param string $email_title The email title is going to inform the provider
-     * for the action that was taken.
-     * @return bool Returns the operation result.
-     */
-    public function send_new_appointment($customer_data, $appointment_data, $email_title) {
-        $this->CI->load->model('Providers_Model');
-        $this->CI->load->model('Services_Model');
-        $this->CI->load->model('Settings_Model');
-        
-        $provider_data = $this->CI->Providers_Model->get_row($appointment_data['id_users_provider']);
-        $service_data = $this->CI->Services_Model->get_row($appointment_data['id_services']);
-                
-        $replace_array = array(
-            '$email_title'          => $email_title,
-            '$appointment_service'  => $service_data['name'],
-            '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
-            '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
-            '$appointment_duration' => $service_data['duration'] . ' minutes',
-            '$appointment_link'     => $this->CI->config->item('base_url') . 'appointments/admin/' . $appointment_data['hash'],
-            '$company_link'         => $this->CI->Settings_Model->get_setting('company_link'),
-            '$company_name'         => $this->CI->Settings_Model->get_setting('company_name'),
+            '$appointment_start_date' => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
+            '$appointment_end_date'   => date('d/m/Y H:i', strtotime($appointment_data['end_datetime'])),
+            '$appointment_link'     => $appointment_link, 
+            
+            '$company_link'         => $company_settings['company_link'],
+            '$company_name'         => $company_settings['company_name'],
+            
             '$customer_name'        => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
             '$customer_email'       => $customer_data['email'],
             '$customer_phone'       => $customer_data['phone_number'],
@@ -136,16 +85,17 @@ class Notifications {
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
-                . '/views/emails/new_appointment.php');
+                . '/views/emails/appointment_details.php');
         $email_html = $this->replace_template_variables($replace_array, $email_html);
         
+        // :: INSTANTIATE EMAIL OBJECT AND SEND EMAIL
         $mail = new PHPMailer();
-        $mail->From = $this->CI->Settings_Model->get_setting('company_email');
-        $mail->FromName = $this->CI->Settings_Model->get_setting('company_name');
-        $mail->AddAddress($provider_data['email']); // "Name" argument crushes the phpmailer class.
+        $mail->From = $company_settings['company_email'];
+        $mail->FromName = $company_settings['company_name'];
+        $mail->AddAddress($receiver_address); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet = 'UTF-8';
-        $mail->Subject = $email_title;
+        $mail->Subject = $title;
         $mail->Body    = $email_html;
 
         if (!$mail->Send()) {
@@ -174,7 +124,7 @@ class Notifications {
      * "company_name", "company_email". 
      * @param string $to_address The email address of the email receiver.
      */
-    public function send_remove_appointment($appointment_data, $provider_data, 
+    public function send_delete_appointment($appointment_data, $provider_data, 
             $service_data, $customer_data, $company_settings, $to_address) {
       	// :: PREPARE EMAIL REPLACE ARRAY
         $replace_array = array(
@@ -184,11 +134,15 @@ class Notifications {
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
             '$appointment_duration' => $service_data['duration'] . ' minutes',
             '$company_link'         => $company_settings['company_link'],
-            '$company_name'         => $company_settings['company_name']
+            '$company_name'         => $company_settings['company_name'],
+            '$customer_name'        => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
+            '$customer_email'       => $customer_data['email'],
+            '$customer_phone'       => $customer_data['phone_number'],
+            '$customer_address'     => $customer_data['address']
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
-                . '/views/emails/remove_appointment.php');
+                . '/views/emails/delete_appointment.php');
         $email_html = $this->replace_template_variables($replace_array, $email_html);
         
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION

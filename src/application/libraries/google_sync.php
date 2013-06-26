@@ -94,36 +94,23 @@ class Google_Sync {
      * If yes, the selected appointment record is going to be added to the Google 
      * Calendar account. 
      * 
-     * <strong>IMPORTANT!</strong> If the access token is not valid anymore the 
-     * appointment cannot be added to the Google Calendar. A notification warning
-     * must be sent to the provider in order to authorize the E!A again, and store
-     * the new access token to the database.
-     * 
-     * @param int $appointment_id The record id of the appointment that is going to
-     * be added to the database.
+     * @param array $appointment_data Contains the appointment record data.
+     * @param array $provider_data Contains the provider record data.
+     * @param array $service_data Contains the service record data.
+     * @param array $customer_data Contains the customer recod data.
+     * @parma array $company_settings Contains some company settings that are used
+     * by this method. By the time the following values must be in the array: 
+     * 'company_name'.
      * @return Google_Event Returns the Google_Event class object.
-     * 
-     * @task This library should not use the models. The data must be provided from 
-     * the controllers (same for notification library).
      */
-    public function add_appointment($appointment_id) {
-        $this->CI->load->model('Appointments_Model');
-        $this->CI->load->model('Providers_Model');
-        $this->CI->load->model('Services_Model');
-        $this->CI->load->model('Customers_Model');
-        $this->CI->load->model('Settings_Model');
-        
-        $appointment_data   = $this->CI->Appointments_Model->get_row($appointment_id);
-        $provider_data      = $this->CI->Providers_Model->get_row($appointment_data['id_users_provider']);
-        $customer_data      = $this->CI->Customers_Model->get_row($appointment_data['id_users_customer']);
-        $service_data       = $this->CI->Services_Model->get_row($appointment_data['id_services']);
-        $company_name       = $this->CI->Settings_Model->get_setting('company_name');
+    public function add_appointment($appointment_data, $provider_data, $service_data, 
+            $customer_data, $company_settings) {
         
         $this->CI->load->helper('general');
         
         $event = new Google_Event();
         $event->setSummary($service_data['name']);
-        $event->setLocation($company_name);
+        $event->setLocation($company_settings['company_name']);
         
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment_data['start_datetime'])));
@@ -152,7 +139,7 @@ class Google_Sync {
         $created_event = $this->service->events->insert('primary', $event);
         
         // Set the Google Calendar event id to the E!A database record.
-        $appointment_data['id_google_calendar'] = $created_event['id'];
+        $appointment_data['id_google_calendar'] = $created_event->id;
         $this->CI->Appointments_Model->add($appointment_data);
         
         return $created_event;
@@ -171,7 +158,6 @@ class Google_Sync {
      * @parma array $company_settings Contains some company settings that are used
      * by this method. By the time the following values must be in the array: 
      * 'company_name'.
-     * 
      * @return Google_Event Returns the Google_Event class object.
      */
     public function update_appointment($appointment_data, $provider_data, 
