@@ -225,7 +225,7 @@
                             <input type="text" id="phone-number" class="required" maxlength="60" />
 
                             <br/><br/>
-                            <em class="text-error">Fields with * are mandatory.</em>
+                            <em id="form-message" class="text-error">Fields with * are mandatory.</em>
                         </div>
 
                         <div class="span3">
