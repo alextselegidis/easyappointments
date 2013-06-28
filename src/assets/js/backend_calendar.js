@@ -161,72 +161,38 @@ var BackendCalendar = {
             $(this).parents().eq(2).remove(); // Hide the popover
             
             var appointmentData = BackendCalendar.lastFocusedEventData.data;
-            var modalHandle = $('#manage-appointment');
+            var dialogHandle    = $('#manage-appointment');
+            
+            BackendCalendar.resetAppointmentDialog();
             
             // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
-            modalHandle.find('input, textarea').val('');
-            modalHandle.find('#appointment-id').val(appointmentData['id']);
-            
-            // Fill the services listbox and select the appointment service.
-            $.each(GlobalVariables.availableServices, function(index, service) {
-                var option = new Option(service['name'], service['id']);
-                modalHandle.find('#select-service').append(option);
-            });
-            
-            $('#manage-appointment #select-service').val(
-                    appointmentData['id_services']);
-            
-            // Fill the providers listbox with providers that can serve the appointment's 
-            // service and then select the user's provider.
-            $.each(GlobalVariables.availableProviders, function(index, provider) {
-                var canProvideService = false; 
-                
-                $.each(provider['services'], function(index, service) {
-                    if (service === appointmentData['id_services']) {
-                        canProvideService = true;
-                        return;
-                    }
-                });
-                
-                if (canProvideService) {
-                    var option = new Option(provider['first_name'] + ' ' 
-                            + provider['last_name'], provider['id']);
-                    modalHandle.find('#select-provider').append(option);
-                }
-            });
-            
-            modalHandle.find('#select-provider').val(appointmentData['id_users_provider']);
+            dialogHandle.find('.modal-header h3').text('Edit Appointment');
+            dialogHandle.find('#appointment-id').val(appointmentData['id']);
+            dialogHandle.find('#select-service').val(appointmentData['id_services']);
+            dialogHandle.find('#select-provider').val(appointmentData['id_users_provider']);
             
             // Set the start and end datetime of the appointment.\
             var startDatetime = Date.parseExact(appointmentData['start_datetime'],
-                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-            modalHandle.find('#start-datetime').datetimepicker({
-                dateFormat  : 'dd/mm/yy',
-                defaultValue: startDatetime
-            });
-            modalHandle.find('#start-datetime').val(startDatetime);
+                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
+            dialogHandle.find('#start-datetime').val(startDatetime);
             
             var endDatetime = Date.parseExact(appointmentData['end_datetime'],
                     'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-            modalHandle.find('#end-datetime').datetimepicker({
-                dateFormat  : 'dd/mm/yy',
-                defaultValue: endDatetime
-            });
-            modalHandle.find('#end-datetime').val(endDatetime);
+            dialogHandle.find('#end-datetime').val(endDatetime);
             
             var customerData = appointmentData['customer'];
-            modalHandle.find('#customer-id').val(appointmentData['id_users_customer']);
-            modalHandle.find('#first-name').val(customerData['first_name']);
-            modalHandle.find('#last-name').val(customerData['last_name']);
-            modalHandle.find('#email').val(customerData['email']);
-            modalHandle.find('#phone-number').val(customerData['phone_number']);
-            modalHandle.find('#address').val(customerData['address']);
-            modalHandle.find('#city').val(customerData['city']);
-            modalHandle.find('#zip-code').val(customerData['zip_code']);
-            modalHandle.find('#notes').val(appointmentData['notes']);
+            dialogHandle.find('#customer-id').val(appointmentData['id_users_customer']);
+            dialogHandle.find('#first-name').val(customerData['first_name']);
+            dialogHandle.find('#last-name').val(customerData['last_name']);
+            dialogHandle.find('#email').val(customerData['email']);
+            dialogHandle.find('#phone-number').val(customerData['phone_number']);
+            dialogHandle.find('#address').val(customerData['address']);
+            dialogHandle.find('#city').val(customerData['city']);
+            dialogHandle.find('#zip-code').val(customerData['zip_code']);
+            dialogHandle.find('#notes').val(appointmentData['notes']);
             
             // :: DISPLAY THE MANAGE APPOINTMENTS MODAL DIALOG
-            $('#manage-appointment').modal('show');
+            dialogHandle.modal('show');
         });
         
         /**
@@ -249,7 +215,7 @@ var BackendCalendar = {
                     
                     $.post(postUrl, postData, function(response) {
                         /////////////////////////////////////////////////////////
-                        //console.log('Delete Appointment Response :', response);
+                        console.log('Delete Appointment Response :', response);
                         /////////////////////////////////////////////////////////
                         
                         $('#message_box').dialog('close');
@@ -279,7 +245,7 @@ var BackendCalendar = {
         /**
          * Event: Manage Appointments Dialog Cancel Button "Click"
          * 
-         * Closes the dialog without making any actions.
+         * Closes the dialog without saving any changes to the database.
          */
         $('#manage-appointment #cancel-button').click(function() {
             $('#manage-appointment').modal('hide');
@@ -288,9 +254,15 @@ var BackendCalendar = {
         /**
          * Event: Manage Appointments Dialog Save Button "Click"
          * 
-         * Stores the appointment changes.
+         * Stores the appointment changes or inserts a new appointment depending the dialog
+         * mode.
          */
         $('#manage-appointment #save-button').click(function() {
+            // Before doing anything the appointment data need to be validated.
+            if (!BackendCalendar.validateAppointmentForm()) {
+                return; // validation failed
+            }
+            
             // :: PREPARE APPOINTMENT DATA FOR AJAX CALL
             var modalHandle = $('#manage-appointment');
             
@@ -303,17 +275,21 @@ var BackendCalendar = {
                     'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
             
             var appointmentData = {
-                'id'                 : modalHandle.find('#appointment-id').val(),
                 'id_services'        : modalHandle.find('#select-service').val(),
                 'id_users_provider'  : modalHandle.find('#select-provider').val(),
-                'id_users_customer'  : modalHandle.find('#customer-id').val(),
                 'start_datetime'     : startDatetime,
                 'end_datetime'       : endDatetime,
                 'notes'              : modalHandle.find('#notes').val()
             };
             
+            if (modalHandle.find('#appointment-id').val() !== '') {
+                // Set the id value, only if we are editing an appointment.
+                appointmentData['id'] = modalHandle.find('#appointment-id').val();
+            }
+            
+            
+            
             var customerData = {
-                'id'            : modalHandle.find('#customer-id').val(), 
                 'first_name'    : modalHandle.find('#first-name').val(),
                 'last_name'     : modalHandle.find('#last-name').val(),
                 'email'         : modalHandle.find('#email').val(),
@@ -322,6 +298,12 @@ var BackendCalendar = {
                 'city'          : modalHandle.find('#city').val(),
                 'zip_code'      : modalHandle.find('#zip-code').val()
             };
+            
+            if (modalHandle.find('#customer-id').val() !== '') {
+                // Set the id value, only if we are editing an appointment.
+                customerData['id'] = modalHandle.find('#customer-id').val();
+                appointmentData['id_users_customer'] = customerData['id'];
+            }
             
             // :: DEFINE SUCCESS EVENT CALLBACK
             var successCallback = function(response) {
@@ -359,7 +341,7 @@ var BackendCalendar = {
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
-            BackendCalendar.updateAppointmentData(appointmentData, customerData, 
+            BackendCalendar.saveAppointmentData(appointmentData, customerData, 
                     successCallback, errorCallback);
         }); 
         
@@ -418,6 +400,33 @@ var BackendCalendar = {
                     }
                 });
             }
+        });
+        
+        /**
+         * Event : Insert Appointment Button "Click"
+         * 
+         * When the user presses this button, the manage appointment dialog opens and lets
+         * the user to create a new appointment.
+         */
+        $('#insert-appointment').click(function() {
+            var dialogHandle = $('#manage-appointment');
+            BackendCalendar.resetAppointmentDialog();
+            
+            // :: PREPARE THE MANAGE APPOINTMENT DIALOG FOR INSERTION
+            dialogHandle.find('.modal-header h3').text('New Appointment');
+            
+            // :: DISPLAY THE MANAGE APPOINTMENT MODAL DIALOG
+            dialogHandle.modal('show');
+        });
+        
+        /**
+         * Event : Insert Unavailable Time Period Button "Click"
+         * 
+         * When the user clicks this button a popup dialog appears and the use can set 
+         * a time period where he cannot accept any appointments.
+         */
+        $('#insert-unavailable').click(function() {
+            // @task Implement this event handler.
         });
     },
             
@@ -495,10 +504,10 @@ var BackendCalendar = {
      * @param {function} errorCallback (OPTIONAL) If defined, this function is 
      * going to be executed on post failure.
      */
-    updateAppointmentData : function(appointmentData, customerData, 
+    saveAppointmentData : function(appointmentData, customerData, 
             successCallback, errorCallback) {
         // :: MAKE AN AJAX CALL TO SERVER - STORE APPOINTMENT DATA
-        var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment_changes';
+        var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
         
         var postData = {};
         postData['appointment_data'] = JSON.stringify(appointmentData);
@@ -514,7 +523,7 @@ var BackendCalendar = {
             dataType    : 'json',
             success     : function(response) {
                 /////////////////////////////////////////////////////////////
-                console.log('Update Appointment Data Response:', response);
+                console.log('Save Appointment Data Response:', response);
                 /////////////////////////////////////////////////////////////            
                 
                 if (successCallback !== undefined) {
@@ -523,7 +532,7 @@ var BackendCalendar = {
             },
             error       : function(jqXHR, textStatus, errorThrown) {
                 //////////////////////////////////////////////////////////////////
-                console.log('Update Appointment Data Error:', jqXHR, textStatus, 
+                console.log('Save Appointment Data Error:', jqXHR, textStatus, 
                         errorThrown);
                 //////////////////////////////////////////////////////////////////
                 
@@ -579,7 +588,7 @@ var BackendCalendar = {
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
                 var postUrl = GlobalVariables.baseUrl 
-                        + 'backend/ajax_save_appointment_changes';
+                        + 'backend/ajax_save_appointment';
                      
                 var postData = { 
                     'appointment_data' : JSON.stringify(appointmentData) 
@@ -601,7 +610,7 @@ var BackendCalendar = {
         };
 
         // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-        BackendCalendar.updateAppointmentData(appointmentData, undefined, 
+        BackendCalendar.saveAppointmentData(appointmentData, undefined, 
                 successCallback, undefined);
     },
             
@@ -742,7 +751,7 @@ var BackendCalendar = {
                 event.data['end_datetime']   = appointmentData['end_datetime'];
         
                 var postUrl  = GlobalVariables.baseUrl 
-                        + 'backend/ajax_save_appointment_changes';
+                        + 'backend/ajax_save_appointment';
                 var postData = { 
                     'appointment_data' : JSON.stringify(appointmentData) 
                 };
@@ -764,7 +773,7 @@ var BackendCalendar = {
         };
 
         // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-        BackendCalendar.updateAppointmentData(appointmentData, undefined, 
+        BackendCalendar.saveAppointmentData(appointmentData, undefined, 
                 successCallback, undefined);
     },
     
@@ -816,5 +825,117 @@ var BackendCalendar = {
             }
             
         }, 'json');
+    },
+    
+    /**
+     * This method resets the manage appointment dialog modal to its initial 
+     * state. After that you can make any modification might be necessary in 
+     * order to bring the dialog to the desired state.
+     */
+    resetAppointmentDialog: function() {
+        var dialogHandle = $('#manage-appointment');
+        
+        // :: EMPTY FORM FIELDS
+        dialogHandle.find('input, textarea').val('');
+        dialogHandle.find('#modal-message').hide();
+        dialogHandle.find('#select-service, #select-provider').empty();
+        
+        // :: PREPARE SERVICE AND PROVIDER LISTBOXES
+        $.each(GlobalVariables.availableServices, function(index, service) {
+            var option = new Option(service['name'], service['id']);
+            dialogHandle.find('#select-service').append(option);
+        });
+        dialogHandle.find('#select-service').val(
+                dialogHandle.find('#select-service').eq(0).attr('value'));
+        
+        // Fill the providers listbox with providers that can serve the appointment's 
+        // service and then select the user's provider.
+        $.each(GlobalVariables.availableProviders, function(index, provider) {
+            var canProvideService = false; 
+
+            $.each(provider['services'], function(index, service) {
+                if (service == dialogHandle.find('#select-service').val()) {
+                    canProvideService = true;
+                    return;
+                }
+            });
+
+            if (canProvideService) { // Add the provider to the listbox.
+                var option = new Option(provider['first_name']  
+                       + ' ' + provider['last_name'], provider['id']);
+                dialogHandle.find('#select-provider').append(option);
+            }
+        });
+            
+        // :: SETUP START AND END DATETIME PICKERS
+        // Get the selected service duration. It will be needed in order to calculate
+        // the appointment end datetime.
+        var serviceDuration = 0;
+        $.each(GlobalVariables.availableServices, function(index, service) {
+            if (service['id'] == dialogHandle.find('#select-service').val()) {
+                serviceDuration = service['duration'];
+                return;
+            }
+        });
+        
+        var startDatetime   = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
+                            .toString('dd/MM/yyyy HH:mm');
+        var endDatetime     = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
+                            .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
+        
+        dialogHandle.find('#start-datetime').datetimepicker({
+            dateFormat   : 'dd/mm/yy',
+            minDate      : 0
+        });
+        dialogHandle.find('#start-datetime').val(startDatetime);
+        
+        dialogHandle.find('#end-datetime').datetimepicker({
+            dateFormat   : 'dd/mm/yy',
+            minDate      : 0
+        });
+        dialogHandle.find('#end-datetime').val(endDatetime);
+    },
+            
+    /**
+     * Validate the manage appointment dialog data. Validation checks need to
+     * run every time the data are going to be saved.
+     * 
+     * @returns {bool} Returns the validation result.
+     */
+    validateAppointmentForm: function() {
+        var dialogHandle = $('#manage-appointment');
+        
+        // Reset previous validation css formating.
+        dialogHandle.find('.control-group').removeClass('error');
+        dialogHandle.find('#modal-message').hide();
+        
+        try {
+            // :: CHECK REQUIRED FIELDS
+            var missingRequiredField = false;
+            dialogHandle.find('.required').each(function() {
+                if ($(this).val() === '') {
+                    $(this).parents().eq(1).addClass('error');
+                    missingRequiredField = true;
+                }
+            }); 
+            if (missingRequiredField) {
+                throw 'Fields with * are required!';                       
+            }
+             
+            // :: CHECK EMAIL ADDRESS
+            if (!GeneralFunctions.validateEmail(dialogHandle.find('#email').val())) {
+                dialogHandle.find('#email').parents().eq(1).addClass('error');
+                throw 'Invalid email address!';
+            }
+            
+            return true;
+            
+        } catch(exc) {
+            dialogHandle.find('#modal-message')
+                        .addClass('alert-error')
+                        .text(exc)
+                        .show('fade');
+            return false;
+        }
     }
 };

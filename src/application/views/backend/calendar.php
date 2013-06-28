@@ -14,7 +14,8 @@
     var GlobalVariables = {
         'availableProviders'    : <?php echo json_encode($available_providers); ?>,
         'availableServices'     : <?php echo json_encode($available_services); ?>,
-        'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>
+        'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,
+        'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>
     };
     
     $(document).ready(function() {
@@ -73,6 +74,7 @@
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
         <h3>Edit Appointment</h3>
+        <div id="modal-message" class="alert" style="display: none;"></div>
     </div>
     
     <div class="modal-body">
@@ -124,23 +126,23 @@
                 </div>
                 
                 <div class="control-group">
-                    <label for="last-name" class="control-label">Last Name</label>
+                    <label for="last-name" class="control-label">Last Name *</label>
                     <div class="controls">
-                        <input type="text" id="last-name" />
+                        <input type="text" id="last-name" class="required" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="email" class="control-label">Email</label>
+                    <label for="email" class="control-label">Email *</label>
                     <div class="controls">
-                        <input type="text" id="email" />
+                        <input type="text" id="email" class="required" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="phone-number" class="control-label">Phone Number</label>
+                    <label for="phone-number" class="control-label">Phone Number *</label>
                     <div class="controls">
-                        <input type="text" id="phone-number" />
+                        <input type="text" id="phone-number" class="required" />
                     </div>
                 </div>
                 

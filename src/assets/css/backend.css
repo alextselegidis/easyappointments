@@ -35,6 +35,8 @@ root {
            background: rgba(255, 255, 255, 0.75);}
 #loading img { margin: auto; display: block; }
 
+#modal-message { margin: 10px 0px; }
+
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar { margin: 15px 10px 20px 10px; padding-bottom: 10px; 
