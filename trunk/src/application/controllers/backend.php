@@ -117,22 +117,28 @@ class Backend extends CI_Controller {
             }
             
             $appointment_data = $this->Appointments_Model->get_row($appointment_data['id']);
-            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $provider_data    = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data    = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data     = $this->Services_Model->get_row($appointment_data['id_services']);
+            
             $company_settings = array(
-            	'company_name'  => $this->Settings_Model->get_setting('company_name')
+            	'company_name'   => $this->Settings_Model->get_setting('company_name'),
+            	'company_link'   => $this->Settings_Model->get_setting('company_link'),
+            	'company_email'  => $this->Settings_Model->get_setting('company_email')
             );
             
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
             if ($appointment_data['id_google_calendar'] != NULL) {
             	$google_sync = $this->Providers_Model
             			->get_setting('google_sync', $appointment_data['id_users_provider']);
+                
             	if ($google_sync == TRUE) {
             		$google_token = json_decode($this->Providers_Model
             				->get_setting('google_token', $appointment_data['id_users_provider']));
-            		$this->load->library('Google_Sync');
-            		$this->google_sync->refresh_token($google_token->refresh_token);
+            		
+                    $this->load->library('Google_Sync');
+            		
+                    $this->google_sync->refresh_token($google_token->refresh_token);
             		$this->google_sync->update_appointment($appointment_data, $provider_data, 
             				$service_data, $customer_data, $company_settings);
             	}
@@ -141,13 +147,24 @@ class Backend extends CI_Controller {
             // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
             $this->load->library('Notifications');
             
-            $customer_title = 'Appointment Changes Saved Successfully!';
-            $provider_title = 'Appointment Details Have Changed';
-
-            $this->notifications->send_book_success(
-                    $customer_data, $appointment_data, $customer_title);
-            $this->notifications->send_new_appointment(
-                    $customer_data, $appointment_data, $provider_title);
+            $customer_title     = 'Appointment Changes Saved Successfully!';
+            $customer_message   = 'Your appointment details have changed. The new details are '
+                                . 'listed below';
+            $customer_link      = $this->config->item('base_url') . 'appointments/index/' 
+                                . $appointment_data['hash'];
+            
+            $provider_title     = 'Appointment Details Have Changed';
+            $provider_message   = 'The new appointment details are listed below:';
+            $provider_link      = $this->config->item('base_url') . 'backend/index/' 
+                                . $appointment_data['hash'];
+            
+            $this->notifications->send_appointment_details($appointment_data, $provider_data,
+                    $service_data, $customer_data, $company_settings, $customer_title, 
+                    $customer_message, $customer_link, $customer_data['email']);
+            
+            $this->notifications->send_appointment_details($appointment_data, $provider_data,
+                    $service_data, $customer_data, $company_settings, $provider_title, 
+                    $provider_message, $provider_link, $provider_data['email']);
             
             echo json_encode('SUCCESS');
        
@@ -182,9 +199,10 @@ class Backend extends CI_Controller {
             $this->load->model('Settings_Model');
             
             $appointment_data = $this->Appointments_Model->get_row($_POST['appointment_id']);
-            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $provider_data    = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data    = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data     = $this->Services_Model->get_row($appointment_data['id_services']);
+            
             $company_settings = array(
             	'company_name'  => $this->Settings_Model->get_setting('company_name'),
             	'company_email' => $this->Settings_Model->get_setting('company_email'),

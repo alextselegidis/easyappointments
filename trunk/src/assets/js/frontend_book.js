@@ -1,7 +1,7 @@
 /**
- * This namespace contains functions that implement the book appointment 
- * page functionality. Once the initialize() method is called the page is 
- * fully functional and can serve the appointment booking process.
+ * This namespace contains functions that implement the book appointment page 
+ * functionality. Once the initialize() method is called the page is fully 
+ * functional and can serve the appointment booking process.
  * 
  * @namespace FrontendBook
  */
@@ -16,11 +16,10 @@ var FrontendBook = {
     /**
      * This method initializes the book appointment page.
      * 
-     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether 
-     * the default event handlers will be binded to the dom elements.
-     * @param {bool} manageMode (OPTIONAL) Determines whether the customer
-     * is going to make changes to an existing appointment rather than
-     * booking a new one.
+     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether the default   
+     * event handlers will be binded to the dom elements.
+     * @param {bool} manageMode (OPTIONAL) Determines whether the customer is going 
+     * to make  changes to an existing appointment rather than booking a new one.
      */
     initialize : function(bindEventHandlers, manageMode) {
         if (bindEventHandlers === undefined) {
@@ -121,8 +120,8 @@ var FrontendBook = {
          * be perfomed, depending the current wizard step.
          */
         $('.button-next').click(function() {
-            // If we are on the 2nd tab then the user should have 
-            // an appointment hour selected.
+            // If we are on the 2nd tab then the user should have an appointment hour 
+            // selected.
             if ($(this).attr('data-step_index') === '2') {
                 if ($('.selected-hour').length == 0) {
                     if ($('#select-hour-prompt').length == 0) {
@@ -209,6 +208,47 @@ var FrontendBook = {
                         + 'be undone.', dialogButtons);
             });
         }
+        
+        /**
+         * Event : Book Appointment Form "Submit"
+         * 
+         * Before the form is submitted to the server we need to make sure that
+         * in the meantime the selected appointment date/time wasn't reserved by
+         * another customer or event. 
+         */
+        $('#book-appointment-form').submit(function() {
+            event.preventDefault();
+            
+            var formData = jQuery.parseJSON($('input[name="post_data"]').val());
+            
+            var postData = {
+                'id_users_provider' : formData['appointment']['id_users_provider'],
+                'id_services'       : formData['appointment']['id_services'],
+                'start_datetime'    : formData['appointment']['start_datetime']
+            };
+            
+            var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_check_datetime_availability';
+            
+            $.post(postUrl, postData, function(response) {
+                ////////////////////////////////////////////////////////////////////////
+                console.log('Check Date/Time Availability Post Response :', response);
+                ////////////////////////////////////////////////////////////////////////
+                
+                if (response.error) {
+                    GeneralFunctions.displayMessageBox('An Unexpected Error Occured', 
+                            response.error);
+                } 
+                
+                if (response === true) {
+                    $('#book-appointment-form').submit();
+                } else {
+                    GeneralFunctions.displayMessageBox('Appointment Hour Taken', 'Unfortunately '
+                        + 'the selected appointment hour is not available anymore. Please select '
+                        + 'another hour.');
+                    FrontendBook.getAvailableHours($('#select-date').datepicker('getDate'));
+                }
+            }, 'json');
+        });
     },
     
     /**
@@ -463,4 +503,4 @@ var FrontendBook = {
             return false;
         }
     }
-}
+};

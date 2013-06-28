@@ -27,7 +27,7 @@ var BackendCalendar = {
             defaultView     : 'agendaWeek',
             height          : BackendCalendar.getCalendarHeight(),
             editable        : true,
-            slotMinutes     : 15,
+            slotMinutes     : 30,
             columnFormat    : {
                 month   : 'ddd',
                 week    : 'ddd d/M',
@@ -230,7 +230,7 @@ var BackendCalendar = {
         });
         
         /**
-         * Event: Delete Popover Button "Click"
+         * Event: Popover Delete Button "Click"
          * 
          * Displays a prompt on whether the user wants the appoinmtent to be
          * deleted. If he confirms the deletion then an ajax call is made to 
@@ -545,6 +545,9 @@ var BackendCalendar = {
      */
     calendarEventResize : function(event, dayDelta, minuteDelta, revertFunc, 
             jsEvent, ui, view) {
+        if ($('#notification').is(':visible')) {
+            $('#notification').hide('bind');
+        }  
         
         // :: PREPARE THE APPOINTMENT DATA
         var appointmentData = GeneralFunctions.clone(event.data);
@@ -564,7 +567,7 @@ var BackendCalendar = {
         var successCallback = function(response) {
             if (response.error) {
                 // Display error message to the user.
-                Backend.displayNotification(reponse.error);
+                Backend.displayNotification(response.error);
                 return;
             }
 
@@ -575,8 +578,9 @@ var BackendCalendar = {
                         .add({ minutes: -minuteDelta })
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
-                var postUrl  = GlobalVariables.baseUrl 
+                var postUrl = GlobalVariables.baseUrl 
                         + 'backend/ajax_save_appointment_changes';
+                     
                 var postData = { 
                     'appointment_data' : JSON.stringify(appointmentData) 
                 };
@@ -688,6 +692,10 @@ var BackendCalendar = {
      */
     calendarEventDrop : function(event, dayDelta, minuteDelta, allDay, 
             revertFunc, jsEvent, ui, view) {
+        if ($('#notification').is(':visible')) {
+            $('#notification').hide('bind');
+        }       
+                
         // :: PREPARE THE APPOINTMENT DATA        
         var appointmentData = GeneralFunctions.clone(event.data);
         
