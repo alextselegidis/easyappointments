@@ -163,5 +163,17 @@ var GeneralFunctions = {
         }
 
         throw new Error("Unable to copy obj! Its type isn't supported.");
+    },
+    
+    /**
+     * This method validates an email address. If the address is not on the proper
+     * form then the result is FALSE.
+     * 
+     * @param {string} email The email address to be checked.
+     * @returns {bool} Returns the validation result.
+     */
+    validateEmail: function(email) {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        return reg.test(email);
     }
 };

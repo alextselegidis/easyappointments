@@ -215,6 +215,8 @@ var FrontendBook = {
          * Before the form is submitted to the server we need to make sure that
          * in the meantime the selected appointment date/time wasn't reserved by
          * another customer or event. 
+         * 
+         * @task Fix the problem with this event handler. Book does not work anymore.
          */
         $('#book-appointment-form').submit(function() {
             event.preventDefault();
@@ -245,7 +247,7 @@ var FrontendBook = {
                     GeneralFunctions.displayMessageBox('Appointment Hour Taken', 'Unfortunately '
                         + 'the selected appointment hour is not available anymore. Please select '
                         + 'another hour.');
-                    FrontendBook.getAvailableHours($('#select-date').datepicker('getDate'));
+                    FrontendBook.getAvailableHours($('#select-date').val());
                 }
             }, 'json');
         });
@@ -341,23 +343,38 @@ var FrontendBook = {
     },
 
     /**
-     * This function validates the customer's data input.
-     * It only checks for empty fields by the time.
+     * This function validates the customer's data input. The user cannot contiue
+     * without passing all the validation checks.
      * 
      * @return {bool} Returns the validation result.
      */
     validateCustomerForm : function() {
-        var validationResult = true;
-        $('.required').css('border', '');
-
-        $('.required').each(function() {
-            if ($(this).val() == '') {
-                validationResult = false; 
-                $(this).css('border', '2px solid red');
+        $('#wizard-frame-3 input').css('border', '');
+        
+        try {
+            // :: CHECK REQUIRED FIELDS
+            var missingRequiredField = false;
+            $('.required').each(function() {
+                if ($(this).val() == '') {
+                    $(this).css('border', '2px solid red');
+                    missingRequiredField = true;
+                }
+            });
+            if (missingRequiredField) {
+                throw 'Fields with * are required!';
             }
-        });
-
-        return validationResult;
+            
+            // :: CHECK EMAIL ADDRESS
+            if (!GeneralFunctions.validateEmail($('#email').val())) {
+                $('#email').css('border', '2px solid red');
+                throw 'Invalid email address!';
+            }
+            
+            return true;
+        } catch(exc) {
+            $('#form-message').text(exc);
+            return false;
+        }
     },
 
     /**

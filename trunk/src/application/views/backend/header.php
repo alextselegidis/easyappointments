@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Easy!Appointments Admin</title>
+    <title>Easy!Appointments Backend</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
     <link rel="icon" type="image/x-icon" 
           href="<?php echo $base_url; ?>assets/images/favicon.ico">
     

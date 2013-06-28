@@ -17,10 +17,11 @@ class Backend extends CI_Controller {
         $this->load->model('Settings_Model');
         
         // Display the main backend page.
-        $view_data['base_url']     = $this->config->item('base_url');
+        $view_data['base_url']  = $this->config->item('base_url');
+        $view_data['book_advance_timeout'] = $this->Settings_Model->get_setting('book_advance_timeout');
         $view_data['company_name'] = $this->Settings_Model->get_setting('company_name');
         $view_data['available_providers'] = $this->Providers_Model->get_available_providers();
-        $view_data['available_services']  = $this->Services_Model->get_available_services();
+        $view_data['available_services'] = $this->Services_Model->get_available_services();
         
         $this->load->view('backend/header', $view_data);
         $this->load->view('backend/calendar', $view_data);
@@ -96,7 +97,7 @@ class Backend extends CI_Controller {
      * @param array $_POST['customer_data'] (OPTIONAL) Array with the customer 
      * data.
      */
-    public function ajax_save_appointment_changes() {
+    public function ajax_save_appointment() {
         try {
         	$this->load->model('Appointments_Model');
         	$this->load->model('Providers_Model');
@@ -104,16 +105,23 @@ class Backend extends CI_Controller {
         	$this->load->model('Customers_Model');
         	$this->load->model('Settings_Model');
         	
-        	// :: SAVE APPOINTMENT CHANGES TO DATABASE
-            if (isset($_POST['appointment_data'])) {
-                $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
-                $this->Appointments_Model->add($appointment_data);
-            }
-            
             // :: SAVE CUSTOMER CHANGES TO DATABASE
             if (isset($_POST['customer_data'])) {
                 $customer_data = json_decode(stripcslashes($_POST['customer_data']), true);
-                $this->Customers_Model->add($customer_data);
+                $customer_data['id'] = $this->Customers_Model->add($customer_data);
+            }
+            
+        	// :: SAVE APPOINTMENT CHANGES TO DATABASE
+            if (isset($_POST['appointment_data'])) {
+                $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
+                
+                // If the appointment does not contain the customer record id, then it 
+                // means that is is going to be inserted. Get the customer's record id.
+                if (!isset($appointment_data['id_users_customer'])) {
+                    $appointment_data['id_users_customer'] = $customer_data['id'];
+                }
+                
+                $appointment_data['id'] = $this->Appointments_Model->add($appointment_data);
             }
             
             $appointment_data = $this->Appointments_Model->get_row($appointment_data['id']);
@@ -128,20 +136,24 @@ class Backend extends CI_Controller {
             );
             
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
-            if ($appointment_data['id_google_calendar'] != NULL) {
-            	$google_sync = $this->Providers_Model
-            			->get_setting('google_sync', $appointment_data['id_users_provider']);
+            $google_sync = $this->Providers_Model
+                    ->get_setting('google_sync', $appointment_data['id_users_provider']);
+
+            if ($google_sync == TRUE) {
+                $google_token = json_decode($this->Providers_Model
+                        ->get_setting('google_token', $appointment_data['id_users_provider']));
+
+                $this->load->library('Google_Sync');
+
+                $this->google_sync->refresh_token($google_token->refresh_token);
                 
-            	if ($google_sync == TRUE) {
-            		$google_token = json_decode($this->Providers_Model
-            				->get_setting('google_token', $appointment_data['id_users_provider']));
-            		
-                    $this->load->library('Google_Sync');
-            		
-                    $this->google_sync->refresh_token($google_token->refresh_token);
-            		$this->google_sync->update_appointment($appointment_data, $provider_data, 
-            				$service_data, $customer_data, $company_settings);
-            	}
+                if ($appointment_data['id_google_calendar'] == NULL) {
+                    $this->google_sync->add_appointment($appointment_data, $provider_data, 
+                            $service_data, $customer_data, $company_settings);
+                } else {
+                    $this->google_sync->update_appointment($appointment_data, $provider_data, 
+                            $service_data, $customer_data, $company_settings);
+                }
             }
             
             // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
