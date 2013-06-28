@@ -5,8 +5,15 @@ $(document).ready(function() {
     $(window).resize(function() {
         Backend.placeFooterToBottom();
     }).trigger('resize');
+    
+    $(document).ajaxStart(function() {
+        $('#loading').show();
+    });
+    
+    $(document).ajaxStop(function() {
+        $('#loading').hide();
+    });
 });
-
 
 /**
  * This namespace contains functions that are used in the backend section of

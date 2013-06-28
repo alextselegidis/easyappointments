@@ -108,4 +108,9 @@
         
     </div>
 </div>
+    
 <div id="notification" style="display: none;"></div>
+
+<div id="loading" style="display: none;">
+    <img src="<?php echo $base_url; ?>assets/images/loading.gif" />
+</div>

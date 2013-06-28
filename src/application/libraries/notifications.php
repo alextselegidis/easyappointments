@@ -66,22 +66,22 @@ class Notifications {
         
         // :: PREPARE THE EMAIL TEMPLATE REPLACE ARRAY
         $replace_array = array(
-            '$email_title'          => $title,
-            '$email_message'        => $message,
+            '$email_title'              => $title,
+            '$email_message'            => $message,
             
-            '$appointment_service'  => $service_data['name'],
-            '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
-            '$appointment_start_date' => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
-            '$appointment_end_date'   => date('d/m/Y H:i', strtotime($appointment_data['end_datetime'])),
-            '$appointment_link'     => $appointment_link, 
+            '$appointment_service'      => $service_data['name'],
+            '$appointment_provider'     => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
+            '$appointment_start_date'   => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
+            '$appointment_end_date'     => date('d/m/Y H:i', strtotime($appointment_data['end_datetime'])),
+            '$appointment_link'         => $appointment_link, 
             
-            '$company_link'         => $company_settings['company_link'],
-            '$company_name'         => $company_settings['company_name'],
+            '$company_link'             => $company_settings['company_link'],
+            '$company_name'             => $company_settings['company_name'],
             
-            '$customer_name'        => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
-            '$customer_email'       => $customer_data['email'],
-            '$customer_phone'       => $customer_data['phone_number'],
-            '$customer_address'     => $customer_data['address']
+            '$customer_name'            => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
+            '$customer_email'           => $customer_data['email'],
+            '$customer_phone'           => $customer_data['phone_number'],
+            '$customer_address'         => $customer_data['address']
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -142,7 +142,7 @@ class Notifications {
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
-                . '/views/emails/delete_appointment.php');
+                    . '/views/emails/delete_appointment.php');
         $email_html = $this->replace_template_variables($replace_array, $email_html);
         
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
