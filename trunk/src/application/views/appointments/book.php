@@ -138,6 +138,19 @@
             
             <?php 
                 // ------------------------------------------------------
+                // DISPLAY EXCEPTIONS (IF ANY)
+                // ------------------------------------------------------
+                if (isset($exceptions)) {
+                    echo '<div style="margin: 10px">';
+                    echo '<h4>Unexpected Errors</h4>';
+                    foreach($exceptions as $exception) {
+                        echo exceptionToHtml($exception);
+                    }
+                    echo '</div>';
+                }
+            ?>            
+            <?php 
+                // ------------------------------------------------------
                 // SELECT SERVICE AND PROVIDER 
                 // ------------------------------------------------------ ?>
             <div id="wizard-frame-1" class="wizard-frame">                
