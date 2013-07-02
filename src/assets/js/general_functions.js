@@ -175,5 +175,54 @@ var GeneralFunctions = {
     validateEmail: function(email) {
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         return reg.test(email);
+    },
+           
+    /**
+     * This method returns the exception html display for javascript ajax calls.
+     * It uses the Bootstrap collapse module to show exception messages when the
+     * user opens the "Details" collapse component.
+     * 
+     * @param {array} exceptions Contains the exceptions to be displayed.
+     * @returns {String} Returns the html markup for the exceptions.
+     */
+    exceptionsToHtml: function(exceptions) {
+        var html = 
+                '<div class="accordion" id="error-accordion">' + 
+                    '<div class="accordion-group">' + 
+                        '<div class="accordion-heading">' +
+                            '<a class="accordion-toggle" data-toggle="collapse" ' +
+                                    'data-parent="#error-accordion" href="#error-technical">' + 
+                                'Details' + 
+                            '</a>' +
+                        '</div>';
+        
+        $.each(exceptions, function(index, exception) {
+            html +=
+                    '<div id="error-technical" class="accordion-body collapse">' +
+                        '<div class="accordion-inner">' + 
+                            '<pre>' + exception['message'] + '</pre>' +
+                        '</div>' +
+                    '</div>';
+        });
+        
+        html += '</div></div>';
+        
+        return html;
+    },
+            
+    /**
+     * This method parse the json encoded strings that are fetched by ajax calls.
+     * 
+     * @param {array} exceptions Exception array returned by an ajax call.
+     * @returns {Array} Returns the parsed js objects.
+     */
+    parseExceptions: function(exceptions) {
+        var parsedExceptions = new Array();
+        
+        $.each(exceptions, function(index, exception) {
+            parsedExceptions.push(jQuery.parseJSON(exception));
+        });
+        
+        return parsedExceptions;
     }
 };

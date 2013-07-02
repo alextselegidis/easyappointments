@@ -192,26 +192,14 @@
         </button>
         
         <?php 
-            // Display error message (if any).
-            if (isset($error)) {
-                echo '
-                    <hr>
-                    <h4>An Unexpected Error Occured</h4>
-                    <div class="accordion" id="error-accordion">
-                        <div class="accordion-group">
-                            <div class="accordion-heading">
-                                <a class="accordion-toggle" data-toggle="collapse" 
-                                        data-parent="#error-accordion" href="#error-technical">' . 
-                                    $error['message'] . '
-                                </a>
-                            </div>
-                            <div id="error-technical" class="accordion-body collapse">
-                                <div class="accordion-inner">
-                                    <pre>' . $error['technical'] . '</pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>';    
+            // Display exceptions (if any).
+            if (isset($exceptions)) {
+                echo '<div style="margin: 10px">';
+                echo '<h4>Unexpected Errors</h4>';
+                foreach($exceptions as $exception) {
+                    echo exceptionToHtml($exception);
+                }
+                echo '</div>';
             }
         ?>
     </div>
