@@ -56,7 +56,18 @@
     <div id="message-frame" class="frame-container">
         <img id="message-icon" src="<?php echo $message_icon; ?>" />
         <h3><?php echo $message_title; ?></h3>
-        <p><?php echo $message_text; ?></p>        
+        <p><?php echo $message_text; ?></p>  
+        <?php 
+            // Display exceptions (if any).
+            if (isset($exceptions)) {
+                echo '<div style="margin: 10px">';
+                echo '<h4>Unexpected Errors</h4>';
+                foreach($exceptions as $exception) {
+                    echo exceptionToHtml($exception);
+                }
+                echo '</div>';
+            }
+        ?>
     </div>
 </body>
 </html>

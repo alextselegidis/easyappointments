@@ -9,7 +9,7 @@
             <strong id="logo" style="color: white; font-size: 31px; 
                     text-shadow: 1px 1px 1px #8F8888;">$company_name</strong>
         </div>
-
+        
         <div id="content" style="padding: 10px 15px;">
             <h2>$email_title</h2>
             <p>
@@ -35,6 +35,29 @@
                     <td style="padding: 3px;">$appointment_duration</td>
                 </tr>
             </table>
+            
+            <h2>Customer Details</h2>
+            <table id="customer-details">
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Name</td>
+                    <td style="padding: 3px;">$customer_name</td>
+                </tr>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Email</td>
+                    <td style="padding: 3px;">$customer_email</td>
+                </tr>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Phone</td>
+                    <td style="padding: 3px;">$customer_phone</td>
+                </tr>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Address</td>
+                    <td style="padding: 3px;">$customer_address</td>
+                </tr>
+            </table>
+            
+            <h2>Reason</h2>
+            <p>$reason</p>
         </div>
 
         <div id="footer" style="padding: 10px; text-align: center; 

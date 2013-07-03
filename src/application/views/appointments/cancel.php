@@ -51,9 +51,14 @@
         <h3>Your appointment has been successfully canceled!</h3>
         
         <?php 
-            // Display exception message (if any).
-            if (isset($error)) {
-                echo $error;
+            // Display exceptions (if any).
+            if (isset($exceptions)) {
+                echo '<div style="margin: 10px">';
+                echo '<h4>Unexpected Errors</h4>';
+                foreach($exceptions as $exception) {
+                    echo exceptionToHtml($exception);
+                }
+                echo '</div>';
             }
         ?>
     </div>

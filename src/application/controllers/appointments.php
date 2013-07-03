@@ -134,8 +134,8 @@ class Appointments extends CI_Controller {
                                     $service_data, $customer_data, $company_settings);
                         }
                     }  
-                } catch(SyncException $syn_exc) {
-                    $view_data['exceptions'][] = $syn_exc;
+                } catch(Exception $exc) {
+                    $view_data['exceptions'][] = $exc;
                 }
                 
                 // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
@@ -143,28 +143,28 @@ class Appointments extends CI_Controller {
                     $this->load->library('Notifications');
 
                     if (!$post_data['manage_mode']) {
-                        $customer_title   = 'Your appointment has been successfully booked!';
+                        $customer_title = 'Your appointment has been successfully booked!';
                         $customer_message = 'Thank you for arranging an appointment with us. '   
-                                          . 'Below you can see the appointment details. Make changes '  
-                                          . 'by clicking the appointment link.';
-                        $customer_link    = $this->config->item('base_url') . 'appointments/index/' 
-                                          . $appointment_data['hash'];
+                                . 'Below you can see the appointment details. Make changes '  
+                                . 'by clicking the appointment link.';
+                        $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                                . $appointment_data['hash'];
 
-                        $provider_title   = 'A new appointment has been added to your plan.';
+                        $provider_title = 'A new appointment has been added to your plan.';
                         $provider_message = 'You can make changes by clicking the appointment '  
-                                          . 'link below';
-                        $provider_link    = $this->config->item('base_url') . 'backend/' 
-                                          . $appointment_data['hash'];
+                                . 'link below';
+                        $provider_link = $this->config->item('base_url') . 'backend/' 
+                                . $appointment_data['hash'];
                     } else {
-                        $customer_title   = 'Appointment changes have been successfully saved!';
+                        $customer_title = 'Appointment changes have been successfully saved!';
                         $customer_message = '';
-                        $customer_link    = $this->config->item('base_url') . 'appointments/index/' 
-                                          . $appointment_data['hash'];
+                        $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                                . $appointment_data['hash'];
 
-                        $provider_title   = 'Appointment details have changed.';
+                        $provider_title = 'Appointment details have changed.';
                         $provider_message = '';
-                        $provider_link    = $this->config->item('base_url') . 'backend/' 
-                                          . $appointment_data['hash'];
+                        $provider_link = $this->config->item('base_url') . 'backend/' 
+                                . $appointment_data['hash'];
                     }
 
                     $this->notifications->send_appointment_details($appointment_data, $provider_data, 
@@ -174,8 +174,8 @@ class Appointments extends CI_Controller {
                     $this->notifications->send_appointment_details($appointment_data, $provider_data, 
                             $service_data, $customer_data, $company_settings, $provider_title, 
                             $provider_message, $provider_link, $provider_data['email']);
-                } catch(NotificationException $not_exc) {
-                    $view_data['exceptions'][] = $not_exc;
+                } catch(Exception $exc) {
+                    $view_data['exceptions'][] = $exc;
                 }
                 
                 // :: LOAD THE BOOK SUCCESS VIEW
@@ -204,6 +204,8 @@ class Appointments extends CI_Controller {
      * 
      * @param string $appointment_hash This is used to distinguish the 
      * appointment record.
+     * @param string $_POST['cancel_reason'] The text that describes why
+     * the customer cancelled the appointment.
      */
     public function cancel($appointment_hash) {
         try {
@@ -219,15 +221,15 @@ class Appointments extends CI_Controller {
                 throw new Exception('No record matches the provided hash.');
             }
             
-            $appointment_data   = $records[0];
-            $provider_data      = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data      = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data       = $this->Services_Model->get_row($appointment_data['id_services']);
+            $appointment_data = $records[0];
+            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
             
             $company_settings = array(
-            		'company_name'  => $this->Settings_Model->get_setting('company_name'),
-            		'company_email' => $this->Settings_Model->get_setting('company_email'),
-            		'company_link'  => $this->Settings_Model->get_setting('company_link')
+                'company_name' => $this->Settings_Model->get_setting('company_name'),
+                'company_email' => $this->Settings_Model->get_setting('company_email'),
+                'company_link' => $this->Settings_Model->get_setting('company_link')
             );
             
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
@@ -237,29 +239,41 @@ class Appointments extends CI_Controller {
             
             // :: SYNC APPOINTMENT REMOVAL WITH GOOGLE CALENDAR
         	if ($appointment_data['id_google_calendar'] != NULL) {
-                $google_sync = $this->Providers_Model->get_setting('google_sync', 
-                        $appointment_data['id_users_provider']);
-                
-                if ($google_sync == TRUE) {
-                	$google_token = json_decode($this->Providers_Model
-                			->get_setting('google_token', $provider_data['id']));
-                	
-                	$this->load->library('Google_Sync');
-                    $this->google_sync->refresh_token($google_token->refresh_token);
-                    $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                try {
+                    $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                            $appointment_data['id_users_provider']);
+
+                    if ($google_sync == TRUE) {
+                        $google_token = json_decode($this->Providers_Model
+                                ->get_setting('google_token', $provider_data['id']));
+                        $this->load->library('Google_Sync');
+                        $this->google_sync->refresh_token($google_token->refresh_token);
+                        $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                    }
+                } catch(Exception $exc) {
+                    $exceptions[] = $exc;
                 }
             }
             
             // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER            
-            $this->load->library('Notifications');
-            $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
-            		$service_data, $customer_data, $company_settings, $provider_data['email']);
-            $this->notifications->send_delete_appointment($appointment_data, $provider_data,
-            		$service_data, $customer_data, $company_settings, $customer_data['email']);
-             
+            try {
+                $this->load->library('Notifications');
+                $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
+                        $service_data, $customer_data, $company_settings, $provider_data['email'],
+                        $_POST['cancel_reason']);
+                $this->notifications->send_delete_appointment($appointment_data, $provider_data,
+                        $service_data, $customer_data, $company_settings, $customer_data['email'],
+                        $_POST['cancel_reason']);
+            } catch(Exception $exc) {
+                $exceptions[] = $exc;
+            }
         } catch(Exception $exc) {
             // Display the error message to the customer.
-            $view_data['error'] = $exc->getMessage();
+            $exceptions[] = $exc;
+        }
+        
+        if (isset($exceptions)) {
+            $view_data['exceptions'] = $exceptions;
         }
         
         $this->load->view('appointments/cancel', $view_data);
@@ -395,14 +409,14 @@ class Appointments extends CI_Controller {
                 $appt_start = new DateTime($_POST['start_datetime']);
                 $appt_start = $appt_start->format('H:i');
                 
-                $appt_end   = new DateTime($_POST['start_datetime']);
+                $appt_end = new DateTime($_POST['start_datetime']);
                 $appt_end->add(new DateInterval('PT' . $service_duration . 'M'));
-                $appt_end   = $appt_end->format('H:i');
+                $appt_end = $appt_end->format('H:i');
                 
                 $period_start = date('H:i', strtotime($period['start']));
-                $period_end   = date('H:i', strtotime($period['end']));
+                $period_end = date('H:i', strtotime($period['end']));
 
-                if ($period_start < $appt_start && $period_end > $appt_end) { 
+                if ($period_start <= $appt_start && $period_end >= $appt_end) { 
                     $is_still_available = TRUE;
                     break;
                 }
@@ -412,7 +426,7 @@ class Appointments extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array( exceptionToJavascript($exc) )
+                'exceptions' => array(exceptionToJavascript($exc))
             ));
         }  
     }
@@ -528,7 +542,7 @@ class Appointments extends CI_Controller {
                         // don't include the appointment.
                         $new_period = array(
                             'start' => $period_start,
-                            'end'   => $appointment_start
+                            'end' => $appointment_start
                         );
                         
                         if (!in_array($new_period, $available_periods_with_appointments)) {
@@ -537,7 +551,7 @@ class Appointments extends CI_Controller {
                             
                         $new_period = array(
                             'start' => $appointment_end,
-                            'end'   => $period_end
+                            'end' => $period_end
                         );
                         
                         if (!in_array($new_period, $available_periods_with_appointments)) {
@@ -550,8 +564,8 @@ class Appointments extends CI_Controller {
                         $found = FALSE;
                         
                         foreach ($reserved_appointments as $tmp_appointment) {
-                            $appt_start  = date('H:i', strtotime($tmp_appointment['start_datetime']));
-                            $appt_end    = date('H:i', strtotime($tmp_appointment['end_datetime']));
+                            $appt_start = date('H:i', strtotime($tmp_appointment['start_datetime']));
+                            $appt_end  = date('H:i', strtotime($tmp_appointment['end_datetime']));
                             
                             if ($period_start < $appt_start && $period_end > $appt_end) {
                                 $found = TRUE;
@@ -562,7 +576,7 @@ class Appointments extends CI_Controller {
                         // already exist in the "$empty_spaces_with_appointments" array.
                         $empty_period = array(
                             'start' => $period_start,
-                            'end'   => $period_end
+                            'end' => $period_end
                         );
                         
                         $already_exist = in_array($empty_period, $available_periods_with_appointments);

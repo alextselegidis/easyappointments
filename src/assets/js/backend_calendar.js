@@ -5,11 +5,11 @@
  */
 var BackendCalendar = {
     // :: NAMESPACE CONSTANTS
-    FILTER_TYPE_PROVIDER   : 'provider',
-    FILTER_TYPE_SERVICE    : 'service',
+    FILTER_TYPE_PROVIDER: 'provider',
+    FILTER_TYPE_SERVICE: 'service',
     
     // :: NAMESPACE VALIABLES
-    lastFocusedEventData   : undefined, // Contain event data for later use.
+    lastFocusedEventData: undefined, // Contain event data for later use.
     
     /**
      * This function makes the necessary initialization for the default backend
@@ -19,38 +19,37 @@ var BackendCalendar = {
      * @param {bool} defaultEventHandlers (OPTIONAL = TRUE) Determines whether the
      * default event handlers will be set for the current page.
      */
-    initialize : function(defaultEventHandlers) {
+    initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers === undefined) defaultEventHandlers = true;
         
         // :: INITIALIZE THE DOM ELEMENTS OF THE PAGE
         $('#calendar').fullCalendar({
-            defaultView     : 'agendaWeek',
-            height          : BackendCalendar.getCalendarHeight(),
-            editable        : true,
-            slotMinutes     : 30,
-            columnFormat    : {
-                month   : 'ddd',
-                week    : 'ddd d/M',
-                day     : 'dddd d/M'
+            'defaultView': 'agendaWeek',
+            'height': BackendCalendar.getCalendarHeight(),
+            'editable': true,
+            'slotMinutes': 30,
+            'columnFormat': {
+                'month': 'ddd',
+                'week': 'ddd d/M',
+                'day': 'dddd d/M'
             },
-            titleFormat     : {
-                month   : 'MMMM yyyy',
-                week    : "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",
-                day     : 'dddd, MMM d, yyyy'
+            'titleFormat': {
+                'month': 'MMMM yyyy',
+                'week': "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",
+                'day': 'dddd, MMM d, yyyy'
             },
-            header          : {
-                left    : 'prev,next today',
-                center  : 'title',
-                right   : 'agendaDay,agendaWeek,month'
+            'header': {
+                'left': 'prev,next today',
+                'center': 'title',
+                'right': 'agendaDay,agendaWeek,month'
             },
-            
             // Calendar events need to be declared on initialization.
-            windowResize    : BackendCalendar.calendarWindowResize,
-            viewDisplay     : BackendCalendar.calendarViewDisplay,
-            dayClick        : BackendCalendar.calendarDayClick,
-            eventClick      : BackendCalendar.calendarEventClick,
-            eventResize     : BackendCalendar.calendarEventResize,
-            eventDrop       : BackendCalendar.calendarEventDrop
+            'windowResize': BackendCalendar.calendarWindowResize,
+            'viewDisplay': BackendCalendar.calendarViewDisplay,
+            'dayClick': BackendCalendar.calendarDayClick,
+            'eventClick': BackendCalendar.calendarEventClick,
+            'eventResize': BackendCalendar.calendarEventResize,
+            'eventDrop': BackendCalendar.calendarEventDrop
         });
         
         // Trigger once to set the proper footer position after calendar 
@@ -61,12 +60,13 @@ var BackendCalendar = {
         var optgroupHtml = '<optgroup label="Providers">';
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
-                ? 'true' : 'false';
+                    ? 'true' : 'false';
                 
-            optgroupHtml += '<option value="' + provider['id'] + '" ' + 
-                    'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" ' + 
-                    'google-sync="' + hasGoogleSync + '">' + 
-                    provider['first_name'] + ' ' + provider['last_name'] + '</option>';
+            optgroupHtml += '<option value="' + provider['id'] + '" '  
+                    + 'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" '  
+                    + 'google-sync="' + hasGoogleSync + '">'  
+                    + provider['first_name'] + ' ' + provider['last_name'] 
+                    + '</option>';
         });
         optgroupHtml += '</optgroup>';
         $('#select-filter-item').append(optgroupHtml);
@@ -92,7 +92,7 @@ var BackendCalendar = {
      * page. If you do not need the default handlers then initialize the page
      * by setting the "defaultEventHandlers" argument to "false".
      */
-    bindEventHandlers : function() {
+    bindEventHandlers: function() {
         /**
          * Event: Calendar Filter Item "Change"
          * 
@@ -111,11 +111,9 @@ var BackendCalendar = {
             // disabled.
             if ($('#select-filter-item option:selected').attr('type') 
                     === BackendCalendar.FILTER_TYPE_SERVICE) {
-                $('#google-sync, #enable-sync, #insert-unavailable-period')
-                        .prop('disabled', true);
+                $('#calendar-actions').hide();
             } else {
-                $('#google-sync, #enable-sync, #insert-unavailable-period')
-                        .prop('disabled', false);
+                $('#calendar-actions').show();
                 // If the user has already the sync enabled then apply the proper
                 // style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') 
@@ -161,38 +159,38 @@ var BackendCalendar = {
             $(this).parents().eq(2).remove(); // Hide the popover
             
             var appointmentData = BackendCalendar.lastFocusedEventData.data;
-            var dialogHandle    = $('#manage-appointment');
+            var dialog = $('#manage-appointment');
             
             BackendCalendar.resetAppointmentDialog();
             
             // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
-            dialogHandle.find('.modal-header h3').text('Edit Appointment');
-            dialogHandle.find('#appointment-id').val(appointmentData['id']);
-            dialogHandle.find('#select-service').val(appointmentData['id_services']);
-            dialogHandle.find('#select-provider').val(appointmentData['id_users_provider']);
+            dialog.find('.modal-header h3').text('Edit Appointment');
+            dialog.find('#appointment-id').val(appointmentData['id']);
+            dialog.find('#select-service').val(appointmentData['id_services']);
+            dialog.find('#select-provider').val(appointmentData['id_users_provider']);
             
             // Set the start and end datetime of the appointment.\
             var startDatetime = Date.parseExact(appointmentData['start_datetime'],
                     'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
-            dialogHandle.find('#start-datetime').val(startDatetime);
+            dialog.find('#start-datetime').val(startDatetime);
             
             var endDatetime = Date.parseExact(appointmentData['end_datetime'],
                     'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-            dialogHandle.find('#end-datetime').val(endDatetime);
+            dialog.find('#end-datetime').val(endDatetime);
             
             var customerData = appointmentData['customer'];
-            dialogHandle.find('#customer-id').val(appointmentData['id_users_customer']);
-            dialogHandle.find('#first-name').val(customerData['first_name']);
-            dialogHandle.find('#last-name').val(customerData['last_name']);
-            dialogHandle.find('#email').val(customerData['email']);
-            dialogHandle.find('#phone-number').val(customerData['phone_number']);
-            dialogHandle.find('#address').val(customerData['address']);
-            dialogHandle.find('#city').val(customerData['city']);
-            dialogHandle.find('#zip-code').val(customerData['zip_code']);
-            dialogHandle.find('#notes').val(appointmentData['notes']);
+            dialog.find('#customer-id').val(appointmentData['id_users_customer']);
+            dialog.find('#first-name').val(customerData['first_name']);
+            dialog.find('#last-name').val(customerData['last_name']);
+            dialog.find('#email').val(customerData['email']);
+            dialog.find('#phone-number').val(customerData['phone_number']);
+            dialog.find('#address').val(customerData['address']);
+            dialog.find('#city').val(customerData['city']);
+            dialog.find('#zip-code').val(customerData['zip_code']);
+            dialog.find('#notes').val(appointmentData['notes']);
             
             // :: DISPLAY THE MANAGE APPOINTMENTS MODAL DIALOG
-            dialogHandle.modal('show');
+            dialog.modal('show');
         });
         
         /**
@@ -206,11 +204,12 @@ var BackendCalendar = {
             $(this).parents().eq(2).remove(); // Hide the popover
             
             var messageButtons = {
-                'Delete'    : function() {
+                'OK': function() {
                     var postUrl = GlobalVariables.baseUrl + 'backend/ajax_delete_appointment';
                     
                     var postData = { 
-                        'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'] 
+                        'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
+                        'delete_reason': $('#delete-reason').val()
                     };
                     
                     $.post(postUrl, postData, function(response) {
@@ -220,26 +219,35 @@ var BackendCalendar = {
                         
                         $('#message_box').dialog('close');
                         
-                        if (response.error) {
-                            GeneralFunctions.displayMessageBox('Delete Appointment Error',
-                                'An unexpected error occured during the deletion of the ' + 
-                                'appointment. Please try again.');
+                        if (response.exceptions) {
+                            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                            GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
+                                    + 'the operation could not complete successfully. The following '
+                                    + 'issues occured:');
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                             return;
+                        }
+                        
+                        if (response.warnings) {
+                            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                            GeneralFunctions.displayMessageBox('Unexpected Warnings', 'The operation '
+                                    + 'was completed but the following warnings appeared:');
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                         }
                         
                         // Refresh calendar event items.                        
                         $('#select-filter-item').trigger('change');
-                        
                     }, 'json');
                 },
-                'Cancel'    : function() {
+                'Cancel': function() {
                     $('#message_box').dialog('close');
                 }
             };
             
-            GeneralFunctions.displayMessageBox('Delete Appointment', 'Are you sure ' 
-                    + 'that you want to delete this appointment? This action cannot ' 
-                    + 'be undone.', messageButtons);
+            GeneralFunctions.displayMessageBox('Delete Appointment', 'Please take a minute '
+                    + 'to write the reason you are deleting the appointment:', messageButtons);
+            $('#message_box').append('<textarea id="delete-reason"></textarea>');
+            $('#delete-reason').css('width', '320px');
         });
         
         /**
@@ -275,11 +283,11 @@ var BackendCalendar = {
                     'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
             
             var appointmentData = {
-                'id_services'        : modalHandle.find('#select-service').val(),
-                'id_users_provider'  : modalHandle.find('#select-provider').val(),
-                'start_datetime'     : startDatetime,
-                'end_datetime'       : endDatetime,
-                'notes'              : modalHandle.find('#notes').val()
+                'id_services': modalHandle.find('#select-service').val(),
+                'id_users_provider': modalHandle.find('#select-provider').val(),
+                'start_datetime': startDatetime,
+                'end_datetime': endDatetime,
+                'notes': modalHandle.find('#notes').val()
             };
             
             if (modalHandle.find('#appointment-id').val() !== '') {
@@ -287,16 +295,14 @@ var BackendCalendar = {
                 appointmentData['id'] = modalHandle.find('#appointment-id').val();
             }
             
-            
-            
             var customerData = {
-                'first_name'    : modalHandle.find('#first-name').val(),
-                'last_name'     : modalHandle.find('#last-name').val(),
-                'email'         : modalHandle.find('#email').val(),
-                'phone_number'  : modalHandle.find('#phone-number').val(),
-                'address'       : modalHandle.find('#address').val(),
-                'city'          : modalHandle.find('#city').val(),
-                'zip_code'      : modalHandle.find('#zip-code').val()
+                'first_name': modalHandle.find('#first-name').val(),
+                'last_name': modalHandle.find('#last-name').val(),
+                'email': modalHandle.find('#email').val(),
+                'phone_number': modalHandle.find('#phone-number').val(),
+                'address': modalHandle.find('#address').val(),
+                'city': modalHandle.find('#city').val(),
+                'zip_code': modalHandle.find('#zip-code').val()
             };
             
             if (modalHandle.find('#customer-id').val() !== '') {
@@ -307,12 +313,18 @@ var BackendCalendar = {
             
             // :: DEFINE SUCCESS EVENT CALLBACK
             var successCallback = function(response) {
-                if (response.error) {
-                    // There was something wrong within the ajax function.
+                if (response.exceptions) {             
+                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                    GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
+                            + 'the operation could not complete successfully. The following '
+                            + 'issues occured:');
+                    $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                    
                     modalHandle.find('.modal-header').append(
                         '<br><div class="alert alert-error">' + 
-                            response.error +
+                            'Unexpected issues occured!' +
                         '</div>');
+                
                     return;
                 }
                 
@@ -331,9 +343,8 @@ var BackendCalendar = {
                 }, 2000);
             };
             
-            // :: DEFINE ERROR EVENT CALLBACK
+            // :: DEFINE AJAX ERROR EVENT CALLBACK
             var errorCallback = function() {
-                // Display error message to the user.
                 modalHandle.find('.modal-header').append(
                         '<br><div class="alert alert-error">' + 
                             'A server communication error occured, please try again.' +
@@ -403,20 +414,16 @@ var BackendCalendar = {
         });
         
         /**
-         * Event : Insert Appointment Button "Click"
+         * Event: Insert Appointment Button "Click"
          * 
          * When the user presses this button, the manage appointment dialog opens and lets
          * the user to create a new appointment.
          */
         $('#insert-appointment').click(function() {
-            var dialogHandle = $('#manage-appointment');
             BackendCalendar.resetAppointmentDialog();
-            
-            // :: PREPARE THE MANAGE APPOINTMENT DIALOG FOR INSERTION
-            dialogHandle.find('.modal-header h3').text('New Appointment');
-            
-            // :: DISPLAY THE MANAGE APPOINTMENT MODAL DIALOG
-            dialogHandle.modal('show');
+            var dialog = $('#manage-appointment');
+            dialog.find('.modal-header h3').text('New Appointment');
+            dialog.modal('show');
         });
         
         /**
@@ -436,7 +443,7 @@ var BackendCalendar = {
      * 
      * @return {int} Returns the calendar element height in pixels.
      */
-    getCalendarHeight : function () {
+    getCalendarHeight: function () {
         var result = window.innerHeight - $('#footer').height() - $('#header').height() 
                 - $('#calendar-toolbar').height() - 80; // 80 for fine tuning
         return (result > 500) ? result : 500; // Minimum height is 500px
@@ -453,15 +460,15 @@ var BackendCalendar = {
      * @param {date} startDate Visible start date of the calendar.
      * @param {type} endDate Visible end date of the calendar.
      */
-    refreshCalendarAppointments : function(calendarHandle, recordId, filterType, 
+    refreshCalendarAppointments: function(calendarHandle, recordId, filterType, 
             startDate, endDate) {
         var postUrl = GlobalVariables.baseUrl + 'backend/ajax_get_calendar_appointments';
             
         var postData = {
-            record_id   : recordId,
-            start_date  : startDate.toString('yyyy-MM-dd'),
-            end_date    : endDate.toString('yyyy-MM-dd'),
-            filter_type : filterType
+            'record_id': recordId,
+            'start_date': startDate.toString('yyyy-MM-dd'),
+            'end_date': endDate.toString('yyyy-MM-dd'),
+            'filter_type': filterType
         };
 
         $.post(postUrl, postData, function(response) {
@@ -469,17 +476,28 @@ var BackendCalendar = {
             //console.log('Refresh Calendar Appointments Response :', response);
             ////////////////////////////////////////////////////////////////////
             
+            if (response.exceptions) {
+                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
+                        + 'the operation could not complete successfully. The following '
+                        + 'issues occured:');
+                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                return;
+            }
+            
             // Add the appointments to the calendar.
             var calendarEvents = new Array();
             
             $.each(response, function(index, appointment){
                 var event = {
-                    id          : appointment['id'],
-                    title       : appointment['service']['name'],
-                    start       : appointment['start_datetime'],
-                    end         : appointment['end_datetime'],
-                    allDay      : false,
-                    data        : appointment // For later use
+                    'id': appointment['id'],
+                    'title': appointment['service']['name'] + ' - ' 
+                            + appointment['customer']['first_name'] + ' ' 
+                            + appointment['customer']['last_name'],
+                    'start': appointment['start_datetime'],
+                    'end': appointment['end_datetime'],
+                    'allDay': false,
+                    'data': appointment // Store appointment data for later use.
                 };
                 
                 calendarEvents.push(event);
@@ -487,7 +505,6 @@ var BackendCalendar = {
             
             calendarHandle.fullCalendar('removeEvents');
             calendarHandle.fullCalendar('addEventSource', calendarEvents);
-            
         }, 'json');
     },
     
@@ -510,6 +527,7 @@ var BackendCalendar = {
         var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
         
         var postData = {};
+        
         postData['appointment_data'] = JSON.stringify(appointmentData);
         
         if (customerData !== undefined) {
@@ -517,11 +535,11 @@ var BackendCalendar = {
         }
         
         $.ajax({
-            type        : 'POST',
-            url         : postUrl,
-            data        : postData,
-            dataType    : 'json',
-            success     : function(response) {
+            'type': 'POST',
+            'url': postUrl,
+            'data': postData,
+            'dataType': 'json',
+            'success': function(response) {
                 /////////////////////////////////////////////////////////////
                 console.log('Save Appointment Data Response:', response);
                 /////////////////////////////////////////////////////////////            
@@ -530,7 +548,7 @@ var BackendCalendar = {
                     successCallback(response);
                 }
             },
-            error       : function(jqXHR, textStatus, errorThrown) {
+            'error': function(jqXHR, textStatus, errorThrown) {
                 //////////////////////////////////////////////////////////////////
                 console.log('Save Appointment Data Error:', jqXHR, textStatus, 
                         errorThrown);
@@ -552,7 +570,7 @@ var BackendCalendar = {
      * 
      * @see updateAppointmentData()
      */
-    calendarEventResize : function(event, dayDelta, minuteDelta, revertFunc, 
+    calendarEventResize: function(event, dayDelta, minuteDelta, revertFunc, 
             jsEvent, ui, view) {
         if ($('#notification').is(':visible')) {
             $('#notification').hide('bind');
@@ -574,10 +592,21 @@ var BackendCalendar = {
 
         // :: DEFINE THE SUCCESS CALLBACK FUNCTION
         var successCallback = function(response) {
-            if (response.error) {
-                // Display error message to the user.
-                Backend.displayNotification(response.error);
+            if (response.exceptions) {
+                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately ' 
+                        + 'the operation could not complete successfully. The following '
+                        + 'issues occured:');
+                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
+            }
+            
+            if (response.warnings) {
+                // Display warning information to the user.
+                response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                GeneralFunctions.displayMessageBox('Warnings', 'The operation completed but '
+                        + 'there were some warnings:');
+                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
             }
 
             // Display success notification to user.
@@ -587,11 +616,10 @@ var BackendCalendar = {
                         .add({ minutes: -minuteDelta })
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
-                var postUrl = GlobalVariables.baseUrl 
-                        + 'backend/ajax_save_appointment';
+                var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
                      
                 var postData = { 
-                    'appointment_data' : JSON.stringify(appointmentData) 
+                    'appointment_data': JSON.stringify(appointmentData) 
                 };
 
                 $.post(postUrl, postData, function(response) {
@@ -602,8 +630,8 @@ var BackendCalendar = {
 
             Backend.displayNotification('Appointment updated successfully!', [
                 {
-                    'label'     : 'Undo',
-                    'function'  : undoFunction
+                    'label': 'Undo',
+                    'function': undoFunction
                 }
             ]);
             $('#footer').css('position', 'static'); // Footer position fix.
@@ -623,7 +651,7 @@ var BackendCalendar = {
      * 
      * @see getCalendarHeight()
      */
-    calendarWindowResize : function(view) {
+    calendarWindowResize: function(view) {
         $('#calendar').fullCalendar('option', 'height', 
                 BackendCalendar.getCalendarHeight());
     },
@@ -634,7 +662,7 @@ var BackendCalendar = {
      * When the user clicks on a day square on the calendar, then he will 
      * automatically be transfered to that day view calendar.
      */
-    calendarDayClick : function(date, allDay, jsEvent, view) {
+    calendarDayClick: function(date, allDay, jsEvent, view) {
         if (allDay) {
             // Switch to day view
             $('#calendar').fullCalendar('gotoDate', date);
@@ -648,7 +676,9 @@ var BackendCalendar = {
      * When the user clicks on an appointment object on the calendar, then 
      * a data preview popover is display above the calendar item. 
      */
-    calendarEventClick : function(event, jsEvent, view) {
+    calendarEventClick: function(event, jsEvent, view) {
+        $('.popover').remove(); // Close all open popovers.
+        
         // Display a popover with the event details.
         var html = 
                 '<style type="text/css">' 
@@ -662,7 +692,7 @@ var BackendCalendar = {
                     + event.end.toString('dd/MM/yyyy HH:mm') 
                     + '<br>' + 
                 '<strong>Service</strong> ' 
-                    + event.title 
+                    + event.data['service']['name'] 
                     + '<br>' +  
                 '<strong>Provider</strong> ' 
                     + event.data['provider']['first_name'] + ' ' 
@@ -679,12 +709,12 @@ var BackendCalendar = {
                 '</center>';
 
         $(jsEvent.target).popover({
-            placement       : 'top',
-            title           : event.title,
-            content         : html,
-            html            : true,
-            container       : 'body',
-            trigger         : 'manual'
+            'placement': 'top',
+            'title': event.title,
+            'content': html,
+            'html': true,
+            'container': 'body',
+            'trigger': 'manual'
         });
         
         BackendCalendar.lastFocusedEventData = event;
@@ -725,17 +755,28 @@ var BackendCalendar = {
                 .toString('yyyy-MM-dd HH:mm:ss');
         
         event.data['start_datetime'] = appointmentData['start_datetime'];
-        event.data['end_datetime']   = appointmentData['end_datetime'];
+        event.data['end_datetime'] = appointmentData['end_datetime'];
         
         // :: DEFINE THE SUCCESS CALLBACK FUNCTION
         var successCallback = function(response) {
-            if (response.error) {
-                // Display error message to the user.
-                Backend.displayNotification(reponse.error);
+            if (response.exceptions) {
+                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately ' 
+                        + 'the operation could not complete successfully. The following '
+                        + 'issues occured:');
+                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
-
-            // Display success notification to user.
+            
+            if (response.warnings) {
+                // Display warning information to the user.
+                response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                GeneralFunctions.displayMessageBox('Warnings', 'The operation completed but '
+                        + 'there were some warnings:');
+                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+            }
+            
+            // Define the undo function, if the user needs to reset the last change.
             var undoFunction = function() {
                 appointmentData['start_datetime'] = Date.parseExact(
                         appointmentData['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
@@ -748,12 +789,12 @@ var BackendCalendar = {
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
                 event.data['start_datetime'] = appointmentData['start_datetime'];
-                event.data['end_datetime']   = appointmentData['end_datetime'];
+                event.data['end_datetime'] = appointmentData['end_datetime'];
         
-                var postUrl  = GlobalVariables.baseUrl 
-                        + 'backend/ajax_save_appointment';
+                var postUrl  = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
+                
                 var postData = { 
-                    'appointment_data' : JSON.stringify(appointmentData) 
+                    'appointment_data': JSON.stringify(appointmentData) 
                 };
 
                 $.post(postUrl, postData, function(response) {
@@ -764,8 +805,8 @@ var BackendCalendar = {
 
             Backend.displayNotification('Appointment updated successfully!', [
                 {
-                    'label'     : 'Undo',
-                    'function'  : undoFunction
+                    'label': 'Undo',
+                    'function': undoFunction
                 }
             ]);
             
@@ -818,12 +859,14 @@ var BackendCalendar = {
             //console.log('Disable Provider Sync Response :', response);
             ////////////////////////////////////////////////////////////
             
-            if (response.error) {
-                GeneralFunctions.displayMessageBox('Disable Sync Error', 'An unexpected ' +
-                        'error occured during the disable provider sync operation : ' + 
-                        response.error);
+            if (response.exceptions) {
+                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately ' 
+                        + 'the operation could not complete successfully. The following '
+                        + 'issues occured:');
+                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                return;
             }
-            
         }, 'json');
     },
     
@@ -833,20 +876,20 @@ var BackendCalendar = {
      * order to bring the dialog to the desired state.
      */
     resetAppointmentDialog: function() {
-        var dialogHandle = $('#manage-appointment');
+        var dialog = $('#manage-appointment');
         
         // :: EMPTY FORM FIELDS
-        dialogHandle.find('input, textarea').val('');
-        dialogHandle.find('#modal-message').hide();
-        dialogHandle.find('#select-service, #select-provider').empty();
+        dialog.find('input, textarea').val('');
+        dialog.find('#modal-message').hide();
+        dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
         $.each(GlobalVariables.availableServices, function(index, service) {
             var option = new Option(service['name'], service['id']);
-            dialogHandle.find('#select-service').append(option);
+            dialog.find('#select-service').append(option);
         });
-        dialogHandle.find('#select-service').val(
-                dialogHandle.find('#select-service').eq(0).attr('value'));
+        dialog.find('#select-service').val(
+                dialog.find('#select-service').eq(0).attr('value'));
         
         // Fill the providers listbox with providers that can serve the appointment's 
         // service and then select the user's provider.
@@ -854,7 +897,7 @@ var BackendCalendar = {
             var canProvideService = false; 
 
             $.each(provider['services'], function(index, service) {
-                if (service == dialogHandle.find('#select-service').val()) {
+                if (service == dialog.find('#select-service').val()) {
                     canProvideService = true;
                     return;
                 }
@@ -863,7 +906,7 @@ var BackendCalendar = {
             if (canProvideService) { // Add the provider to the listbox.
                 var option = new Option(provider['first_name']  
                        + ' ' + provider['last_name'], provider['id']);
-                dialogHandle.find('#select-provider').append(option);
+                dialog.find('#select-provider').append(option);
             }
         });
             
@@ -872,28 +915,28 @@ var BackendCalendar = {
         // the appointment end datetime.
         var serviceDuration = 0;
         $.each(GlobalVariables.availableServices, function(index, service) {
-            if (service['id'] == dialogHandle.find('#select-service').val()) {
+            if (service['id'] == dialog.find('#select-service').val()) {
                 serviceDuration = service['duration'];
                 return;
             }
         });
         
-        var startDatetime   = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                            .toString('dd/MM/yyyy HH:mm');
-        var endDatetime     = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                            .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
+        var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
+                .toString('dd/MM/yyyy HH:mm');
+        var endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
+                .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
         
-        dialogHandle.find('#start-datetime').datetimepicker({
-            dateFormat   : 'dd/mm/yy',
-            minDate      : 0
+        dialog.find('#start-datetime').datetimepicker({
+            'dateFormat': 'dd/mm/yy',
+            'minDate': 0
         });
-        dialogHandle.find('#start-datetime').val(startDatetime);
+        dialog.find('#start-datetime').val(startDatetime);
         
-        dialogHandle.find('#end-datetime').datetimepicker({
-            dateFormat   : 'dd/mm/yy',
-            minDate      : 0
+        dialog.find('#end-datetime').datetimepicker({
+            'dateFormat': 'dd/mm/yy',
+            'minDate': 0
         });
-        dialogHandle.find('#end-datetime').val(endDatetime);
+        dialog.find('#end-datetime').val(endDatetime);
     },
             
     /**
@@ -903,16 +946,16 @@ var BackendCalendar = {
      * @returns {bool} Returns the validation result.
      */
     validateAppointmentForm: function() {
-        var dialogHandle = $('#manage-appointment');
+        var dialog = $('#manage-appointment');
         
         // Reset previous validation css formating.
-        dialogHandle.find('.control-group').removeClass('error');
-        dialogHandle.find('#modal-message').hide();
+        dialog.find('.control-group').removeClass('error');
+        dialog.find('#modal-message').hide();
         
         try {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
-            dialogHandle.find('.required').each(function() {
+            dialog.find('.required').each(function() {
                 if ($(this).val() === '') {
                     $(this).parents().eq(1).addClass('error');
                     missingRequiredField = true;
@@ -923,18 +966,15 @@ var BackendCalendar = {
             }
              
             // :: CHECK EMAIL ADDRESS
-            if (!GeneralFunctions.validateEmail(dialogHandle.find('#email').val())) {
-                dialogHandle.find('#email').parents().eq(1).addClass('error');
+            if (!GeneralFunctions.validateEmail(dialog.find('#email').val())) {
+                dialog.find('#email').parents().eq(1).addClass('error');
                 throw 'Invalid email address!';
             }
             
             return true;
             
         } catch(exc) {
-            dialogHandle.find('#modal-message')
-                        .addClass('alert-error')
-                        .text(exc)
-                        .show('fade');
+            dialog.find('#modal-message').addClass('alert-error').text(exc).show('fade');
             return false;
         }
     }
