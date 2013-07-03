@@ -46,7 +46,7 @@ class Notifications {
      * This email template also needs an email title and an email text in order to complete
      * the appointment details.
      * 
-     * @expectedException NotificationException Raises when an unexpected error occures.
+     * @expectedException Exception Raises when an unexpected error occures.
      * 
      * @param array $appointment_data Contains the appointment data.
      * @param array $provider_data Contains the provider data.
@@ -99,8 +99,8 @@ class Notifications {
         $mail->Body    = $email_html;
 
         if (!$mail->Send()) {
-            throw new NotificationException('Email could not been sent. ' 
-                    . 'Mailer Error (Line ' . __LINE__ . '): ' . $mail->ErrorInfo);
+            throw new Exception('Email could not been sent. ' . 'Mailer Error (Line ' 
+                    . __LINE__ . '): ' . $mail->ErrorInfo);
         }
         
         return TRUE;
@@ -123,9 +123,10 @@ class Notifications {
      * By now this array must contain the following values: "company_link", 
      * "company_name", "company_email". 
      * @param string $to_address The email address of the email receiver.
+     * @param string $reason The reason why the appointment is deleted.
      */
     public function send_delete_appointment($appointment_data, $provider_data, 
-            $service_data, $customer_data, $company_settings, $to_address) {
+            $service_data, $customer_data, $company_settings, $to_address, $reason) {
       	// :: PREPARE EMAIL REPLACE ARRAY
         $replace_array = array(
             '$email_title'          => 'Appointment Cancelled',
@@ -138,7 +139,8 @@ class Notifications {
             '$customer_name'        => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
             '$customer_email'       => $customer_data['email'],
             '$customer_phone'       => $customer_data['phone_number'],
-            '$customer_address'     => $customer_data['address']
+            '$customer_address'     => $customer_data['address'],
+            '$reason'               => $reason
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -156,7 +158,7 @@ class Notifications {
         $mail->Body         = $email_html;
 
         if (!$mail->Send()) {
-            throw new NotificationException('Email could not been sent. ' 
+            throw new Exception('Email could not been sent. ' 
                     . 'Mailer Error (Line ' . __LINE__ . '): ' . $mail->ErrorInfo);
         }
         

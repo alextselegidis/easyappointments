@@ -195,17 +195,25 @@ var FrontendBook = {
                 event.preventDefault();
                 
                 var dialogButtons = {
-                    'Yes': function() {
+                    'OK': function() {
+                        if ($('#cancel-reason').val() === '') {
+                            $('#cancel-reason').css('border', '2px solid red');
+                            return;
+                        }
+                        $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
                         $('#cancel-appointment-form').submit();
                     },
-                    'No': function() {
+                    'Cancel': function() {
                         $('#message_box').dialog('close');
                     }
                 };
                 
-                GeneralFunctions.displayMessageBox('Cancel Appointment', 'Are you sure ' 
-                        + 'that you want to cancel this appointment? This action can\'t ' 
-                        + 'be undone.', dialogButtons);
+                GeneralFunctions.displayMessageBox('Cancel Appointment', 'Please take a '
+                        + 'minute to write the reason you are cancelling the appointment:',
+                        dialogButtons);
+                        
+                $('#message_box').append('<textarea id="cancel-reason"></textarea>');
+                $('#cancel-reason').css('width', '300px');
             });
         }
         
@@ -215,41 +223,43 @@ var FrontendBook = {
          * Before the form is submitted to the server we need to make sure that
          * in the meantime the selected appointment date/time wasn't reserved by
          * another customer or event. 
-         * 
-         * @task Fix the problem with this event handler. Book does not work anymore.
          */
         $('#book-appointment-form').submit(function() {
-//            event.preventDefault();
-//            
-//            var formData = jQuery.parseJSON($('input[name="post_data"]').val());
-//            
-//            var postData = {
-//                'id_users_provider' : formData['appointment']['id_users_provider'],
-//                'id_services'       : formData['appointment']['id_services'],
-//                'start_datetime'    : formData['appointment']['start_datetime']
-//            };
-//            
-//            var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_check_datetime_availability';
-//            
-//            $.post(postUrl, postData, function(response) {
-//                ////////////////////////////////////////////////////////////////////////
-//                console.log('Check Date/Time Availability Post Response :', response);
-//                ////////////////////////////////////////////////////////////////////////
-//                
-//                if (response.error) {
-//                    GeneralFunctions.displayMessageBox('An Unexpected Error Occured', 
-//                            response.error);
-//                } 
-//                
-//                if (response === true) {
-//                    $('#book-appointment-form').submit();
-//                } else {
-//                    GeneralFunctions.displayMessageBox('Appointment Hour Taken', 'Unfortunately '
-//                        + 'the selected appointment hour is not available anymore. Please select '
-//                        + 'another hour.');
-//                    FrontendBook.getAvailableHours($('#select-date').val());
-//                }
-//            }, 'json');
+            event.preventDefault();
+            
+            var formData = jQuery.parseJSON($('input[name="post_data"]').val());
+            
+            var postData = {
+                'id_users_provider': formData['appointment']['id_users_provider'],
+                'id_services': formData['appointment']['id_services'],
+                'start_datetime': formData['appointment']['start_datetime']
+            };
+            
+            var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_check_datetime_availability';
+            
+            $.post(postUrl, postData, function(response) {
+                ////////////////////////////////////////////////////////////////////////
+                console.log('Check Date/Time Availability Post Response :', response);
+                ////////////////////////////////////////////////////////////////////////
+                
+                if (response.exceptions) {
+                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                    GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
+                            + 'the check appointment time availability could not be completed. '
+                            + 'The following issues occured:');
+                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                    return;
+                } 
+                
+                if (response === true) {
+                    $('#book-appointment-form').submit();
+                } else {
+                    GeneralFunctions.displayMessageBox('Appointment Hour Taken', 'Unfortunately '
+                            + 'the selected appointment hour is not available anymore. Please select '
+                            + 'another hour.');
+                    FrontendBook.getAvailableHours($('#select-date').val());
+                }
+            }, 'json');
         });
     },
     

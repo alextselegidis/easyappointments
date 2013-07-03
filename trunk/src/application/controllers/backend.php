@@ -62,30 +62,34 @@ class Backend extends CI_Controller {
         $this->load->model('Services_Model');
         $this->load->model('Customers_Model');
         
-        if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
-            $where_id = 'id_users_provider';
-        } else { 
-            $where_id = 'id_services';
+        try {
+            if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
+                $where_id = 'id_users_provider';
+            } else { 
+                $where_id = 'id_services';
+            }
+
+            $where_clause = array(
+                $where_id => $_POST['record_id'],
+                'start_datetime >=' => $_POST['start_date'],
+                'end_datetime <=' => $_POST['end_date']
+            );
+
+            $appointments = $this->Appointments_Model->get_batch($where_clause);
+
+            foreach($appointments as &$appointment) {
+                $appointment['provider'] = $this->Providers_Model->get_row($appointment['id_users_provider']);
+                $appointment['service'] = $this->Services_Model->get_row($appointment['id_services']);
+                $appointment['customer'] = $this->Customers_Model->get_row($appointment['id_users_customer']);
+            }
+
+            echo json_encode($appointments);
+            
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
         }
-        
-        $where_clause = array(
-            $where_id => $_POST['record_id'],
-            'start_datetime >=' => $_POST['start_date'],
-            'end_datetime <=' => $_POST['end_date']
-        );
-        
-        $appointments = $this->Appointments_Model->get_batch($where_clause);
-        
-        foreach($appointments as &$appointment) {
-            $appointment['provider'] = $this->Providers_Model
-                    ->get_row($appointment['id_users_provider']);
-            $appointment['service'] = $this->Services_Model
-                    ->get_row($appointment['id_services']);
-            $appointment['customer'] = $this->Customers_Model
-                    ->get_row($appointment['id_users_customer']);
-        }
-        
-        echo json_encode($appointments);
     }
     
     /**
@@ -114,7 +118,7 @@ class Backend extends CI_Controller {
         	// :: SAVE APPOINTMENT CHANGES TO DATABASE
             if (isset($_POST['appointment_data'])) {
                 $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
-                
+                $manage_mode = isset($appointment_data['id']);
                 // If the appointment does not contain the customer record id, then it 
                 // means that is is going to be inserted. Get the customer's record id.
                 if (!isset($appointment_data['id_users_customer'])) {
@@ -125,64 +129,91 @@ class Backend extends CI_Controller {
             }
             
             $appointment_data = $this->Appointments_Model->get_row($appointment_data['id']);
-            $provider_data    = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data    = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data     = $this->Services_Model->get_row($appointment_data['id_services']);
+            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
             
             $company_settings = array(
-            	'company_name'   => $this->Settings_Model->get_setting('company_name'),
-            	'company_link'   => $this->Settings_Model->get_setting('company_link'),
-            	'company_email'  => $this->Settings_Model->get_setting('company_email')
+            	'company_name' => $this->Settings_Model->get_setting('company_name'),
+            	'company_link' => $this->Settings_Model->get_setting('company_link'),
+            	'company_email' => $this->Settings_Model->get_setting('company_email')
             );
             
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
-            $google_sync = $this->Providers_Model
-                    ->get_setting('google_sync', $appointment_data['id_users_provider']);
+            try {
+                $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                        $appointment_data['id_users_provider']);
 
-            if ($google_sync == TRUE) {
-                $google_token = json_decode($this->Providers_Model
-                        ->get_setting('google_token', $appointment_data['id_users_provider']));
+                if ($google_sync == TRUE) {
+                    $google_token = json_decode($this->Providers_Model->get_setting('google_token', 
+                            $appointment_data['id_users_provider']));
 
-                $this->load->library('Google_Sync');
+                    $this->load->library('Google_Sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
 
-                $this->google_sync->refresh_token($google_token->refresh_token);
-                
-                if ($appointment_data['id_google_calendar'] == NULL) {
-                    $this->google_sync->add_appointment($appointment_data, $provider_data, 
-                            $service_data, $customer_data, $company_settings);
-                } else {
-                    $this->google_sync->update_appointment($appointment_data, $provider_data, 
-                            $service_data, $customer_data, $company_settings);
+                    if ($appointment_data['id_google_calendar'] == NULL) {
+                        $this->google_sync->add_appointment($appointment_data, $provider_data, 
+                                $service_data, $customer_data, $company_settings);
+                    } else {
+                        $this->google_sync->update_appointment($appointment_data, $provider_data, 
+                                $service_data, $customer_data, $company_settings);
+                    }
                 }
+            } catch(Exception $exc) {
+                $warnings[] = exceptionToJavascript($exc);
             }
             
             // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
-            $this->load->library('Notifications');
+            try {
+                $this->load->library('Notifications');
+
+                if (!$manage_mode) {
+                    $customer_title = 'Your appointment has been successfully booked!';
+                    $customer_message = 'Thank you for arranging an appointment with us. '   
+                            . 'Below you can see the appointment details. Make changes '  
+                            . 'by clicking the appointment link.';
+                    $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                            . $appointment_data['hash'];
+
+                    $provider_title = 'A new appointment has been added to your plan.';
+                    $provider_message = 'You can make changes by clicking the appointment '  
+                            . 'link below';
+                    $provider_link = $this->config->item('base_url') . 'backend/' 
+                            . $appointment_data['hash'];
+                } else {
+                    $customer_title = 'Appointment changes have been successfully saved!';
+                    $customer_message = '';
+                    $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                            . $appointment_data['hash'];
+
+                    $provider_title = 'Appointment details have changed.';
+                    $provider_message = '';
+                    $provider_link = $this->config->item('base_url') . 'backend/' 
+                            . $appointment_data['hash'];
+                }
             
-            $customer_title     = 'Appointment Changes Saved Successfully!';
-            $customer_message   = 'Your appointment details have changed. The new details are '
-                                . 'listed below';
-            $customer_link      = $this->config->item('base_url') . 'appointments/index/' 
-                                . $appointment_data['hash'];
+                $this->notifications->send_appointment_details($appointment_data, $provider_data,
+                        $service_data, $customer_data, $company_settings, $customer_title, 
+                        $customer_message, $customer_link, $customer_data['email']);
+
+                $this->notifications->send_appointment_details($appointment_data, $provider_data,
+                        $service_data, $customer_data, $company_settings, $provider_title, 
+                        $provider_message, $provider_link, $provider_data['email']);
+                
+            } catch(Exception $exc) {
+                $warnings[] = exceptionToJavascript($exc);
+            }
             
-            $provider_title     = 'Appointment Details Have Changed';
-            $provider_message   = 'The new appointment details are listed below:';
-            $provider_link      = $this->config->item('base_url') . 'backend/index/' 
-                                . $appointment_data['hash'];
-            
-            $this->notifications->send_appointment_details($appointment_data, $provider_data,
-                    $service_data, $customer_data, $company_settings, $customer_title, 
-                    $customer_message, $customer_link, $customer_data['email']);
-            
-            $this->notifications->send_appointment_details($appointment_data, $provider_data,
-                    $service_data, $customer_data, $company_settings, $provider_title, 
-                    $provider_message, $provider_link, $provider_data['email']);
-            
-            echo json_encode('SUCCESS');
-       
+            if (!isset($warnings)) {
+                echo json_encode('SUCCESS');
+            } else {
+                echo json_encode(array(
+                    'warnings' => $warnings
+                ));
+            }
         } catch(Exception $exc) {
             echo json_encode(array(
-                'error' => $exc->getMessage()
+                'exceptions' => array(exceptionToJavascript($exc))
             ));
         }
     }
@@ -197,7 +228,7 @@ class Backend extends CI_Controller {
      * 
      * @param int $_POST['appointment_id'] The appointment id to be deleted.
      */
-    public function ajax_delete_appointment() {
+    public function ajax_delete_appointment() {    
         try {
             if (!isset($_POST['appointment_id'])) {
                 throw new Exception('No appointment id provided.');
@@ -209,48 +240,62 @@ class Backend extends CI_Controller {
             $this->load->model('Customers_Model');
             $this->load->model('Services_Model');
             $this->load->model('Settings_Model');
-            
+
             $appointment_data = $this->Appointments_Model->get_row($_POST['appointment_id']);
-            $provider_data    = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data    = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data     = $this->Services_Model->get_row($appointment_data['id_services']);
-            
+            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+
             $company_settings = array(
-            	'company_name'  => $this->Settings_Model->get_setting('company_name'),
-            	'company_email' => $this->Settings_Model->get_setting('company_email'),
-            	'company_link'  => $this->Settings_Model->get_setting('company_link')
+                'company_name' => $this->Settings_Model->get_setting('company_name'),
+                'company_email' => $this->Settings_Model->get_setting('company_email'),
+                'company_link' => $this->Settings_Model->get_setting('company_link')
             );
             
-            // :: DELETE APPOINTMENT RECORD FROM DATABASE.
+            // :: DELETE APPOINTMENT RECORD FROM DATABASE
             $this->Appointments_Model->delete($_POST['appointment_id']);
             
             // :: SYNC DELETE WITH GOOGLE CALENDAR
             if ($appointment_data['id_google_calendar'] != NULL) {
-                $google_sync = $this->Providers_Model->get_setting('google_sync', 
-                        $provider_data['id']);
+                try {
+                    $google_sync = $this->Providers_Model->get_setting('google_sync', $provider_data['id']);
 
-                if ($google_sync == TRUE) {
-                    $google_token = json_decode($this->Providers_Model->get_setting('google_token', 
-                            $provider_data['id']));
-
-                    $this->load->library('Google_Sync');
-                    $this->google_sync->refresh_token($google_token->refresh_token);
-                    $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                    if ($google_sync == TRUE) {
+                        $google_token = json_decode($this->Providers_Model
+                                ->get_setting('google_token', $provider_data['id']));
+                        $this->load->library('Google_Sync');
+                        $this->google_sync->refresh_token($google_token->refresh_token);
+                        $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                    }    
+                } catch(Exception $exc) {
+                    $warnings[] = exceptionToJavascript($exc);
                 }
             }
             
-            // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER.
-            $this->load->library('Notifications');
-            $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
-            		$service_data, $customer_data, $company_settings, $provider_data['email']);
-            $this->notifications->send_delete_appointment($appointment_data, $provider_data,
-            		$service_data, $customer_data, $company_settings, $customer_data['email']);
+            // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER
+            try {
+                $this->load->library('Notifications');
+                $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
+                        $service_data, $customer_data, $company_settings, $provider_data['email'],
+                        $_POST['delete_reason']);
+                $this->notifications->send_delete_appointment($appointment_data, $provider_data,
+                        $service_data, $customer_data, $company_settings, $customer_data['email'],
+                        $_POST['delete_reason']);
+            } catch(Exception $exc) {
+                $warnings[] = exceptionToJavascript($exc);
+            }
             
-            echo json_encode('SUCCESS');
-            
+            // :: SEND RESPONSE TO CLIENT BROWSER
+            if (!isset($warnings)) {
+                echo json_encode('SUCCESS'); // Everything executed successfully.
+            } else {
+                echo json_encode(array(
+                    'warnings' => $warnings // There were warnings during the operation.
+                ));
+            }
         } catch(Exception $exc) {
             echo json_encode(array(
-                'error' => $exc->getMessage()
+                'exceptions' => array(exceptionToJavascript($exc))
             ));
         }
     }
@@ -271,17 +316,14 @@ class Backend extends CI_Controller {
             }
             
             $this->load->model('Providers_Model');
-            
-            $this->Providers_Model->set_setting('google_sync', FALSE, 
-                    $_POST['provider_id']);
-            $this->Providers_Model->set_setting('google_token', NULL,
-                    $_POST['provider_id']);
+            $this->Providers_Model->set_setting('google_sync', FALSE, $_POST['provider_id']);
+            $this->Providers_Model->set_setting('google_token', NULL, $_POST['provider_id']);
             
             echo json_encode('SUCCESS');
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'error' => $exc->getMessage()
+                'exceptions' => array(exceptionToJavascript($exc))
             ));
         }
     }

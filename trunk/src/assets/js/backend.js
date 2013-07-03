@@ -1,5 +1,5 @@
 /**
- * Main javascript code for the backend section of Easy!Appointments.
+ * Main javascript code for the backend of Easy!Appointments.
  */
 $(document).ready(function() {
     $(window).resize(function() {
@@ -30,13 +30,13 @@ var Backend = {
 
         if (window.innerHeight > $('body').height()) {
             footerHandle.css({
-                'position'  : 'absolute',
-                'width'     : '100%',
-                'bottom'    : '0px'
+                'position': 'absolute',
+                'width': '100%',
+                'bottom': '0px'
             });
         } else {
             footerHandle.css({
-                'position'  : 'static'
+                'position': 'static'
             });
         }
     },
