@@ -111,13 +111,18 @@ var BackendCalendar = {
             // disabled.
             if ($('#select-filter-item option:selected').attr('type') 
                     === BackendCalendar.FILTER_TYPE_SERVICE) {
-                $('#calendar-actions').hide();
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
+                		.prop('disabled', true);
+                // @task Hide the unavailable periods.
             } else {
-                $('#calendar-actions').show();
+            	
+            	$('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
+            			.prop('disabled', false);
+            	// @task Show the unavailable periods.
+            	
                 // If the user has already the sync enabled then apply the proper
                 // style changes.
-                if ($('#select-filter-item option:selected').attr('google-sync') 
-                        === 'true') {
+                if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').addClass('btn-success enabled');
                     $('#enable-sync i').addClass('icon-white');
                     $('#enable-sync span').text('Disable Sync');
@@ -485,6 +490,13 @@ var BackendCalendar = {
                 return;
             }
             
+            if (response.warnings) {
+            	response.warnings = GeneralFunctions.parseExceptions(response.exceptions);
+            	GeneralFunctions.displayMessageBox('Unexpected Warnings', 'The operation was '
+            			+ 'completed but the following warnings appeared.');
+            	$('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+            }
+            
             // Add the appointments to the calendar.
             var calendarEvents = new Array();
             
@@ -505,6 +517,37 @@ var BackendCalendar = {
             
             calendarHandle.fullCalendar('removeEvents');
             calendarHandle.fullCalendar('addEventSource', calendarEvents);
+            
+            // Add the provider's unavailable time periods.
+            $.each(GlobalVariables.availalbeProviders, function(index, provider) {
+            	if (provider['id'] == recordId) {
+            		var workingPlan = provider['settings']['working_plan'];
+            		var start, end;
+            		var calStart = '';
+            		var calEnd = '';
+            		
+            		$.each(workingPlan, function(index, workingDay) {
+            			// Add before the work start an unavailable time period. 
+            			start = '';
+            			end = '';
+            			BackendCalendar.addUnavailableTimePeriod(start, end);
+                		
+                		// Add after the work end an unavailable time period. 
+                		
+                		
+                		// Add the break time periods.
+                		
+                		
+                		// @task Add custom unavailable time periods.
+            			
+            		});
+            		
+            		return; // break $.each()
+            	}
+            });
+            
+            
+            
         }, 'json');
     },
     
@@ -972,10 +1015,34 @@ var BackendCalendar = {
             }
             
             return true;
-            
         } catch(exc) {
             dialog.find('#modal-message').addClass('alert-error').text(exc).show('fade');
             return false;
         }
+    },
+    
+    /**
+     * This method adds an unavailable time period to calendar.
+     * 
+     * @param {date} start The period start date and time.
+     * @param {date} end The period end date and time.
+     * @return {bool} Returns the operation result.
+     */
+    addUnavailableTimePeriod: function(start, end) {
+    	try {
+    		var slotsCount = $('#calendar').find('.fc-agenda-slots tr').length;
+    		var slotsPerHour = slotsCount / 24;
+    		
+    		var startSlot = start.toString('H');
+    		var endSlot = end.toString('H') * slotsPerHour; // Include all the slots on the calculation
+    		
+    		$('#calendar .fc-agena-slots tr').slice(startSlot, endSlot)
+    				.css('background-color', '#AAA');
+    		
+    		return true;
+    	} catch(exc) {
+    		console.log('Add Unavailable Time Period Exc:', exc);
+    		return false;
+    	}
     }
 };

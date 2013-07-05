@@ -1,13 +1,13 @@
 <?php
 class SystemConfiguration {
     // General Settings
-    public static $base_url    = 'http://localhost/dev/external/easy_appointments/trunk/src/';
+    public static $base_url    = 'http://localhost/dev/easy_appointments/trunk/src/';
     
     // Database Settings
     public static $db_host     = 'localhost';
     public static $db_name     = 'easy_appointments';
     public static $db_username = 'root';
-    public static $db_password = '';
+    public static $db_password = 'root';
     
     // Google Calendar API Settings
     public static $google_product_name  = 'Easy!Appointments';

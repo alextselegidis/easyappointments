@@ -73,7 +73,7 @@
     <div id="header-menu">
         <?php // CALENDAR MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/calendar" class="menu-item">
+        <a href="<?php echo $base_url; ?>backend" class="menu-item">
             Calendar
         </a>
         
