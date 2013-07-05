@@ -16,8 +16,7 @@ class Backend extends CI_Controller {
         $this->load->model('Services_Model');
         $this->load->model('Settings_Model');
         
-        // Display the main backend page.
-        $view_data['base_url']  = $this->config->item('base_url');
+        $view_data['base_url'] = $this->config->item('base_url');
         $view_data['book_advance_timeout'] = $this->Settings_Model->get_setting('book_advance_timeout');
         $view_data['company_name'] = $this->Settings_Model->get_setting('company_name');
         $view_data['available_providers'] = $this->Providers_Model->get_available_providers();
@@ -28,8 +27,28 @@ class Backend extends CI_Controller {
         $this->load->view('backend/footer', $view_data);
     }
     
+    /**
+     * Display the backend customers page
+     * 
+     * In this page the user can manage all the customer records of the system.
+     */
     public function customers() {
-        echo '<h1>Not implemented yet.</h1>';
+    	// @task Require user to be logged in the application.
+    	
+        $this->load->model('Providers_Model');
+        $this->load->model('Customers_Model');
+        $this->load->model('Services_Model');
+        $this->load->model('Settings_Model');
+        
+        $view_data['base_url'] = $this->config->item('base_url');
+        $view_data['company_name'] = $this->Settings_Model->get_setting('company_name');
+        $view_data['customers'] = $this->Customers_Model->get_batch();
+        $view_data['available_providers'] = $this->Providers_Model->get_available_providers();
+        $view_data['available_services'] = $this->Services_Model->get_available_services();
+        
+        $this->load->view('backend/header', $view_data);
+        $this->load->view('backend/customers', $view_data);
+        $this->load->view('backend/footer', $view_data);
     }
     
     public function services() {
@@ -326,6 +345,35 @@ class Backend extends CI_Controller {
                 'exceptions' => array(exceptionToJavascript($exc))
             ));
         }
+    }
+    
+    /**
+     * [AJAX] Filter the customer records with the given key string.
+     * 
+     * @param string $_POST['key'] The filter key string
+     * @return array Returns the search results.
+     */
+    public function ajax_filter_customers() {
+    	try {
+	    	$this->load->model('Customers_Model');
+	    	
+	    	$key = $_POST['key']; //$this->db->escape($_POST['key']);
+	    	
+	    	$where_clause = 
+	    			'first_name LIKE "%' . $key . '%" OR ' . 
+	    			'last_name LIKE "%' . $key . '%" OR ' . 
+	    			'email LIKE "%' . $key . '%" OR ' .	
+	    			'phone_number LIKE "%' . $key . '%" OR ' .
+	    			'address LIKE "%' . $key . '%" OR ' .
+	    			'city LIKE "%' . $key . '%" OR ' .
+	    			'zip_code LIKE "%' . $key . '%" ';		
+	    	
+	    	echo json_encode($this->Customers_Model->get_batch($where_clause));
+    	} catch(Exception $exc) {
+    		echo json_encode(array(
+    			'exceptions' => array($exc)	
+    		));
+    	}
     }
 }
 
