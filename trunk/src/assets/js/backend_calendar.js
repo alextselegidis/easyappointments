@@ -497,7 +497,7 @@ var BackendCalendar = {
             	$('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
             }
             
-            // Add the appointments to the calendar.
+            // :: ADD APPOINTMENTS TO CALENDAR
             var calendarEvents = new Array();
             
             $.each(response, function(index, appointment){
@@ -518,36 +518,155 @@ var BackendCalendar = {
             calendarHandle.fullCalendar('removeEvents');
             calendarHandle.fullCalendar('addEventSource', calendarEvents);
             
-            // Add the provider's unavailable time periods.
-            $.each(GlobalVariables.availalbeProviders, function(index, provider) {
-            	if (provider['id'] == recordId) {
-            		var workingPlan = provider['settings']['working_plan'];
-            		var start, end;
-            		var calStart = '';
-            		var calEnd = '';
-            		
-            		$.each(workingPlan, function(index, workingDay) {
-            			// Add before the work start an unavailable time period. 
-            			start = '';
-            			end = '';
-            			BackendCalendar.addUnavailableTimePeriod(start, end);
-                		
-                		// Add after the work end an unavailable time period. 
-                		
-                		
-                		// Add the break time periods.
-                		
-                		
-                		// @task Add custom unavailable time periods.
-            			
-            		});
-            		
-            		return; // break $.each()
-            	}
-            });
-            
-            
-            
+            // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
+            var calendarView = $('#calendar').fullCalendar('getView').name;
+            if (filterType === BackendCalendar.FILTER_TYPE_PROVIDER 
+                    && calendarView !== 'month') {
+                
+                $.each(GlobalVariables.availableProviders, function(index, provider) {
+                    if (provider['id'] == recordId) {
+                        var workingPlan = jQuery.parseJSON(provider['settings']['working_plan']);
+                        var unavailablePeriod;
+                        
+                        switch(calendarView) {
+                            case 'agendaDay':
+                                var selDayName = $('#calendar').fullCalendar('getView')
+                                        .start.toString('dddd').toLowerCase();
+                                
+                                // Add unavailable period before work starts.
+                                var calendarDateStart = $('#calendar').fullCalendar('getView').start;
+                                var workDateStart = Date.parseExact(
+                                        calendarDateStart.toString('dd/MM/yyyy') + ' ' 
+                                        + workingPlan[selDayName].start,
+                                        'dd/MM/yyyy HH:mm');
+                                
+                                if (calendarDateStart < workDateStart) {
+                                    unavailablePeriod = {
+                                        'title': 'Unavailable',
+                                        'start': calendarDateStart,
+                                        'end': workDateStart,
+                                        'allDay': false,
+                                        'color': '#AAA',
+                                        'editable': false,
+                                        'className': 'fc-unavailable'
+                                    };
+                                    $('#calendar').fullCalendar('renderEvent', unavailablePeriod, true);
+                                }
+                                
+                                // Add unavailable period after work ends.
+                                var calendarDateEnd = $('#calendar').fullCalendar('getView').end;
+                                var workDateEnd = Date.parseExact(
+                                        calendarDateStart.toString('dd/MM/yyyy') + ' ' 
+                                        + workingPlan[selDayName].end,
+                                        'dd/MM/yyyy HH:mm'); // Use calendarDateStart ***
+                                if (calendarDateEnd > workDateEnd) {
+                                    var unavailablePeriod = {
+                                        'title': 'Unavailable',
+                                        'start': workDateEnd,
+                                        'end': calendarDateEnd,
+                                        'allDay': false,
+                                        'color': '#AAA',
+                                        'editable': false,
+                                        'className': 'fc-unavailable'
+                                    };
+                                    $('#calendar').fullCalendar('renderEvent', unavailablePeriod, true);
+                                }
+                                
+                                // Add unavailable periods for breaks.
+                                var breakStart, breakEnd;
+                                $.each(workingPlan[selDayName].breaks, function(index, currBreak) {
+                                    breakStart = Date.parseExact(calendarDateStart.toString('dd/MM/yyyy') 
+                                            + ' ' + currBreak.start, 'dd/MM/yyyy HH:mm');
+                                    breakEnd = Date.parseExact(calendarDateStart.toString('dd/MM/yyyy') 
+                                            + ' ' + currBreak.end, 'dd/MM/yyyy HH:mm');
+                                    var unavailablePeriod = {
+                                        'title': 'Break',
+                                        'start': breakStart,
+                                        'end': breakEnd,
+                                        'allDay': false,
+                                        'color': '#AAA',
+                                        'editable': false,
+                                        'className': 'fc-unavailable fc-break'
+                                    };
+                                    $('#calendar').fullCalendar('renderEvent', unavailablePeriod, true);
+                                });
+                                
+                                // @task Add custom unavailable periods.
+                                
+                                
+                                break;
+                                
+                            case 'agendaWeek':
+                                var currDateStart = GeneralFunctions.clone($('#calendar').fullCalendar('getView').start);
+                                var currDateEnd = GeneralFunctions.clone(currDateStart).addDays(1);
+                                
+                                $.each(workingPlan, function(index, workingDay) {
+                                    var start, end; 
+                                    
+                                    // Add unavailable period before work starts.
+                                    start = Date.parseExact(currDateStart.toString('dd/MM/yyyy') 
+                                            + ' ' + workingDay.start, 'dd/MM/yyyy HH:mm');
+                                    if (currDateStart < start) {
+                                        unavailablePeriod = {
+                                            'title': 'Unavailable',
+                                            'start': GeneralFunctions.clone(currDateStart),
+                                            'end': GeneralFunctions.clone(start),
+                                            'allDay': false,
+                                            'color': '#AAA',
+                                            'editable': false,
+                                            'className': 'fc-unavailable'
+                                        };
+                                        $('#calendar').fullCalendar('renderEvent', unavailablePeriod, 
+                                                true);
+                                    }
+
+                                    // Add unavailable period after work ends.
+                                    end = Date.parseExact(currDateStart.toString('dd/MM/yyyy') 
+                                            + ' ' + workingDay.end, 'dd/MM/yyyy HH:mm');
+                                    if (currDateEnd > end) {
+                                        unavailablePeriod = {
+                                            'title': 'Unavailable',
+                                            'start': GeneralFunctions.clone(end),
+                                            'end': GeneralFunctions.clone(currDateEnd),
+                                            'allDay': false,
+                                            'color': '#AAA',
+                                            'editable': false,
+                                            'className': 'fc-unavailable fc-brake'
+                                        };
+                                        $('#calendar').fullCalendar('renderEvent', unavailablePeriod, true);
+                                    }
+
+                                    // Add unavailable periods during day breaks.
+                                    var breakStart, breakEnd;
+                                    $.each(workingDay.breaks, function(index, currBreak) {
+                                        breakStart = Date.parseExact(currDateStart.toString('dd/MM/yyyy') 
+                                                + ' ' + currBreak.start, 'dd/MM/yyyy HH:mm');
+                                        breakEnd = Date.parseExact(currDateStart.toString('dd/MM/yyyy') 
+                                                + ' ' + currBreak.end, 'dd/MM/yyyy HH:mm');
+                                        var unavailablePeriod = {
+                                            'title': 'Break',
+                                            'start': breakStart,
+                                            'end': breakEnd,
+                                            'allDay': false,
+                                            'color': '#AAA',
+                                            'editable': false,
+                                            'className': 'fc-unavailable fc-break'
+                                        };
+                                        $('#calendar').fullCalendar('renderEvent', unavailablePeriod, true);
+                                    });
+                                    
+                                    
+                                    // @task Add custom unavailable periods.
+                                    
+                                    
+                                    currDateStart.addDays(1);
+                                    currDateEnd.addDays(1);
+                                });
+                                break;
+                        }   
+                    } 
+                });
+            }
         }, 'json');
     },
     
@@ -722,6 +841,10 @@ var BackendCalendar = {
     calendarEventClick: function(event, jsEvent, view) {
         $('.popover').remove(); // Close all open popovers.
         
+        if ($(jsEvent.target).hasClass('fc-unavailable')) {
+            return; // do not show popover on unavailable events
+        }
+        
         // Display a popover with the event details.
         var html = 
                 '<style type="text/css">' 
@@ -892,10 +1015,7 @@ var BackendCalendar = {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
         var postUrl = GlobalVariables.baseUrl + 'backend/ajax_disable_provider_sync';
-        
-        var postData = {
-            'provider_id' : providerId
-        };
+        var postData = { 'provider_id' : providerId };
         
         $.post(postUrl, postData, function(response) {
             ////////////////////////////////////////////////////////////
