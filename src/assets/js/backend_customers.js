@@ -27,11 +27,12 @@ var BackendCustomers = {
 			BackendCustomers.bindEventHandlers();
 		}
 	},
-	
+    
+    /**
+     * Default event handlers declaration for backend customers page.
+     */
 	bindEventHandlers: function() {
-		
-		
-		
+
 	},
 	
 	/**

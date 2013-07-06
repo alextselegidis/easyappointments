@@ -11,15 +11,14 @@ class Providers_Model extends CI_Model {
     /**
      * Get a specific row from the providers table.
      * 
-     * @param int $provider_id The record's id to be returned.
+     * @param int $provider_id The id of the record to be returned.
      * @return array Returns an associative array with the selected
      * record's data. Each key has the same name as the database 
      * field names.
      */
     public function get_row($provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new InvalidArgumentException('$provider_id argument is not an integer : ' 
-                    . $provider_id);
+            throw new Exception('$provider_id argument is not an integer : ' . $provider_id);
         }
         return $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
     }
@@ -34,24 +33,24 @@ class Providers_Model extends CI_Model {
      */
     public function get_value($field_name, $provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new InvalidArgumentException('Invalid argument provided as $customer_id : ' 
+            throw new Exception('Invalid argument provided as $customer_id : ' 
                     . $provider_id);
         }
         
         if (!is_string($field_name)) {
-            throw new InvalidArgumentException('$field_name argument is not a string : ' 
+            throw new Exception('$field_name argument is not a string : ' 
                     . $field_name);
         }
         
         if ($this->db->get_where('ea_users', array('id' => $provider_id))->num_rows() == 0) {
-            throw new InvalidArgumentException('The record with the $provider_id argument'
-                    . 'does not exist in the database : ' . $provider_id);
+            throw new Exception('The record with the $provider_id argument does not exist in '
+                    . 'the database : ' . $provider_id);
         }
         
         $row_data = $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
         if (!isset($row_data[$field_name])) {
-            throw new InvalidArgumentException('The given $field_name argument does not'
-                    . 'exist in the database : ' . $field_name);
+            throw new Exception('The given $field_name argument does not exist in the '
+                    . 'database : ' . $field_name);
         }
         
         return $this->db->get_where('ea_users', array('id' => $provider_id))

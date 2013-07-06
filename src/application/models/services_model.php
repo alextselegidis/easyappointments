@@ -17,7 +17,7 @@ class Services_Model extends CI_Model {
      */
     public function get_row($service_id) {
         if (!is_numeric($service_id)) {
-            throw new InvalidArgumentException('$service_id argument is not an integer : ' . $service_id);
+            throw new Exception('$service_id argument is not an integer : ' . $service_id);
         }
         return $this->db->get_where('ea_services', array('id' => $service_id))->row_array();
     }
@@ -32,20 +32,20 @@ class Services_Model extends CI_Model {
      */
     public function get_value($field_name, $service_id) {
         if (!is_numeric($service_id)) {
-            throw new InvalidArgumentException('Invalid argument provided as $service_id : ' . $service_id);
+            throw new Exception('Invalid argument provided as $service_id : ' . $service_id);
         }
         
         if (!is_string($field_name)) {
-            throw new InvalidArgumentException('$field_name argument is not a string : ' . $field_name);
+            throw new Exception('$field_name argument is not a string : ' . $field_name);
         }
         
         if ($this->db->get_where('ea_services', array('id' => $service_id))->num_rows() == 0) {
-            throw new InvalidArgumentException('The record with the $service_id argument does not exist in the database : ' . $service_id);
+            throw new Exception('The record with the $service_id argument does not exist in the database : ' . $service_id);
         }
         
         $row_data = $this->db->get_where('ea_services', array('id' => $service_id))->row_array();
         if (!isset($row_data[$field_name])) {
-            throw new InvalidArgumentException('The given $field_name argument does not exist in the database : ' . $field_name);
+            throw new Exception('The given $field_name argument does not exist in the database : ' . $field_name);
         }
         
         return $this->db->get_where('ea_services', array('id' => $service_id))->row_array()[$field_name];
@@ -84,7 +84,6 @@ class Services_Model extends CI_Model {
         		->get()->result_array();
     }
 }
-
 
 /* End of file services_model.php */
 /* Location: ./application/models/services_model.php */

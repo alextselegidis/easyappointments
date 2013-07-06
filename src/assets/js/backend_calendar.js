@@ -4,11 +4,11 @@
  * @namespace BackendCalendar
  */
 var BackendCalendar = {
-    // :: NAMESPACE CONSTANTS
+    // :: CONSTANTS
     FILTER_TYPE_PROVIDER: 'provider',
     FILTER_TYPE_SERVICE: 'service',
     
-    // :: NAMESPACE VALIABLES
+    // :: VALIABLES
     lastFocusedEventData: undefined, // Contain event data for later use.
     
     /**
@@ -22,7 +22,7 @@ var BackendCalendar = {
     initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers === undefined) defaultEventHandlers = true;
         
-        // :: INITIALIZE THE DOM ELEMENTS OF THE PAGE
+        // :: INITIALIZE PAGE
         $('#calendar').fullCalendar({
             'defaultView': 'agendaWeek',
             'height': BackendCalendar.getCalendarHeight(),
@@ -56,7 +56,7 @@ var BackendCalendar = {
         // initialization.
         BackendCalendar.calendarWindowResize(); 
         
-        // :: FILL THE SELECT ELEMENTS OF THE PAGE
+        // Fill the select listboxes of the page.
         var optgroupHtml = '<optgroup label="Providers">';
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
@@ -80,7 +80,7 @@ var BackendCalendar = {
         optgroupHtml += '</optgroup>';
         $('#select-filter-item').append(optgroupHtml);
         
-        // :: BIND THE DEFAULT EVENT HANDLERS
+        // :: BIND THE DEFAULT EVENT HANDLERS (IF NEEDED)
         if (defaultEventHandlers === true) {
             BackendCalendar.bindEventHandlers();
             $('#select-filter-item').trigger('change');
@@ -163,39 +163,39 @@ var BackendCalendar = {
         $(document).on('click', '.edit-popover', function() {
             $(this).parents().eq(2).remove(); // Hide the popover
             
-            var appointmentData = BackendCalendar.lastFocusedEventData.data;
-            var dialog = $('#manage-appointment');
+            var appointment = BackendCalendar.lastFocusedEventData.data;
+            var $dialog = $('#manage-appointment');
             
             BackendCalendar.resetAppointmentDialog();
             
             // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
-            dialog.find('.modal-header h3').text('Edit Appointment');
-            dialog.find('#appointment-id').val(appointmentData['id']);
-            dialog.find('#select-service').val(appointmentData['id_services']);
-            dialog.find('#select-provider').val(appointmentData['id_users_provider']);
+            $dialog.find('.modal-header h3').text('Edit Appointment');
+            $dialog.find('#appointment-id').val(appointment['id']);
+            $dialog.find('#select-service').val(appointment['id_services']);
+            $dialog.find('#select-provider').val(appointment['id_users_provider']);
             
             // Set the start and end datetime of the appointment.\
-            var startDatetime = Date.parseExact(appointmentData['start_datetime'],
+            var startDatetime = Date.parseExact(appointment['start_datetime'],
                     'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
-            dialog.find('#start-datetime').val(startDatetime);
+            $dialog.find('#start-datetime').val(startDatetime);
             
-            var endDatetime = Date.parseExact(appointmentData['end_datetime'],
+            var endDatetime = Date.parseExact(appointment['end_datetime'],
                     'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-            dialog.find('#end-datetime').val(endDatetime);
+            $dialog.find('#end-datetime').val(endDatetime);
             
-            var customerData = appointmentData['customer'];
-            dialog.find('#customer-id').val(appointmentData['id_users_customer']);
-            dialog.find('#first-name').val(customerData['first_name']);
-            dialog.find('#last-name').val(customerData['last_name']);
-            dialog.find('#email').val(customerData['email']);
-            dialog.find('#phone-number').val(customerData['phone_number']);
-            dialog.find('#address').val(customerData['address']);
-            dialog.find('#city').val(customerData['city']);
-            dialog.find('#zip-code').val(customerData['zip_code']);
-            dialog.find('#notes').val(appointmentData['notes']);
+            var customer = appointment['customer'];
+            $dialog.find('#customer-id').val(appointment['id_users_customer']);
+            $dialog.find('#first-name').val(customer['first_name']);
+            $dialog.find('#last-name').val(customer['last_name']);
+            $dialog.find('#email').val(customer['email']);
+            $dialog.find('#phone-number').val(customer['phone_number']);
+            $dialog.find('#address').val(customer['address']);
+            $dialog.find('#city').val(customer['city']);
+            $dialog.find('#zip-code').val(customer['zip_code']);
+            $dialog.find('#notes').val(appointment['notes']);
             
             // :: DISPLAY THE MANAGE APPOINTMENTS MODAL DIALOG
-            dialog.modal('show');
+            $dialog.modal('show');
         });
         
         /**
@@ -277,43 +277,43 @@ var BackendCalendar = {
             }
             
             // :: PREPARE APPOINTMENT DATA FOR AJAX CALL
-            var modalHandle = $('#manage-appointment');
+            var $dialog = $('#manage-appointment');
             
             // Id must exist on the object in order for the model to update 
             // the record and not to perform an insert operation.
             
-            var startDatetime = Date.parseExact(modalHandle.find('#start-datetime').val(),
+            var startDatetime = Date.parseExact($dialog.find('#start-datetime').val(),
                     'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
-            var endDatetime = Date.parseExact(modalHandle.find('#end-datetime').val(),
+            var endDatetime = Date.parseExact($dialog.find('#end-datetime').val(),
                     'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
             
-            var appointmentData = {
-                'id_services': modalHandle.find('#select-service').val(),
-                'id_users_provider': modalHandle.find('#select-provider').val(),
+            var appointment = {
+                'id_services': $dialog.find('#select-service').val(),
+                'id_users_provider': $dialog.find('#select-provider').val(),
                 'start_datetime': startDatetime,
                 'end_datetime': endDatetime,
-                'notes': modalHandle.find('#notes').val()
+                'notes': $dialog.find('#notes').val()
             };
             
-            if (modalHandle.find('#appointment-id').val() !== '') {
+            if ($dialog.find('#appointment-id').val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                appointmentData['id'] = modalHandle.find('#appointment-id').val();
+                appointment['id'] = $dialog.find('#appointment-id').val();
             }
             
-            var customerData = {
-                'first_name': modalHandle.find('#first-name').val(),
-                'last_name': modalHandle.find('#last-name').val(),
-                'email': modalHandle.find('#email').val(),
-                'phone_number': modalHandle.find('#phone-number').val(),
-                'address': modalHandle.find('#address').val(),
-                'city': modalHandle.find('#city').val(),
-                'zip_code': modalHandle.find('#zip-code').val()
+            var customer = {
+                'first_name': $dialog.find('#first-name').val(),
+                'last_name': $dialog.find('#last-name').val(),
+                'email': $dialog.find('#email').val(),
+                'phone_number': $dialog.find('#phone-number').val(),
+                'address': $dialog.find('#address').val(),
+                'city': $dialog.find('#city').val(),
+                'zip_code': $dialog.find('#zip-code').val()
             };
             
-            if (modalHandle.find('#customer-id').val() !== '') {
+            if ($dialog.find('#customer-id').val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                customerData['id'] = modalHandle.find('#customer-id').val();
-                appointmentData['id_users_customer'] = customerData['id'];
+                customer['id'] = $dialog.find('#customer-id').val();
+                appointment['id_users_customer'] = customer['id'];
             }
             
             // :: DEFINE SUCCESS EVENT CALLBACK
@@ -325,7 +325,7 @@ var BackendCalendar = {
                             + 'issues occured:');
                     $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
-                    modalHandle.find('.modal-header').append(
+                    $dialog.find('.modal-header').append(
                         '<br><div class="alert alert-error">' + 
                             'Unexpected issues occured!' +
                         '</div>');
@@ -334,7 +334,7 @@ var BackendCalendar = {
                 }
                 
                 // Display success message to the user.
-                modalHandle.find('.modal-header').append(
+                $dialog.find('.modal-header').append(
                         '<br><div class="alert alert-success">' + 
                             'Appointment saved successfully!' +
                         '</div>');
@@ -342,22 +342,22 @@ var BackendCalendar = {
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
                 setTimeout(function() {
-                    modalHandle.find('.alert').remove();
-                    modalHandle.modal('hide');
+                    $dialog.find('.alert').remove();
+                    $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
             };
             
             // :: DEFINE AJAX ERROR EVENT CALLBACK
             var errorCallback = function() {
-                modalHandle.find('.modal-header').append(
+                $dialog.find('.modal-header').append(
                         '<br><div class="alert alert-error">' + 
                             'A server communication error occured, please try again.' +
                         '</div>');
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
-            BackendCalendar.saveAppointmentData(appointmentData, customerData, 
+            BackendCalendar.saveAppointmentData(appointment, customer, 
                     successCallback, errorCallback);
         }); 
         
@@ -426,9 +426,9 @@ var BackendCalendar = {
          */
         $('#insert-appointment').click(function() {
             BackendCalendar.resetAppointmentDialog();
-            var dialog = $('#manage-appointment');
-            dialog.find('.modal-header h3').text('New Appointment');
-            dialog.modal('show');
+            var $dialog = $('#manage-appointment');
+            $dialog.find('.modal-header h3').text('New Appointment');
+            $dialog.modal('show');
         });
         
         /**
@@ -458,14 +458,14 @@ var BackendCalendar = {
      * This method reloads the registered appointments for the selected date period 
      * and filter type.
      * 
-     * @param {object} calendarHandle The calendar jQuery object.
+     * @param {object} $calendar The calendar jQuery object.
      * @param {int} recordId The selected record id.
      * @param {string} filterType The filter type, could be either FILTER_TYPE_PROVIDER
      * or FILTER_TYPE_SERVICE
      * @param {date} startDate Visible start date of the calendar.
      * @param {type} endDate Visible end date of the calendar.
      */
-    refreshCalendarAppointments: function(calendarHandle, recordId, filterType, 
+    refreshCalendarAppointments: function($calendar, recordId, filterType, 
             startDate, endDate) {
         var postUrl = GlobalVariables.baseUrl + 'backend/ajax_get_calendar_appointments';
             
@@ -498,7 +498,7 @@ var BackendCalendar = {
             }
             
             // :: ADD APPOINTMENTS TO CALENDAR
-            var calendarEvents = new Array();
+            var calendarEvents = [];
             
             $.each(response, function(index, appointment){
                 var event = {
@@ -515,8 +515,8 @@ var BackendCalendar = {
                 calendarEvents.push(event);
             });
             
-            calendarHandle.fullCalendar('removeEvents');
-            calendarHandle.fullCalendar('addEventSource', calendarEvents);
+            $calendar.fullCalendar('removeEvents');
+            $calendar.fullCalendar('addEventSource', calendarEvents);
             
             // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
             var calendarView = $('#calendar').fullCalendar('getView').name;
@@ -674,26 +674,25 @@ var BackendCalendar = {
      * This method stores the changes of an already registered appointment 
      * into the database, via an ajax call.
      * 
-     * @param {object} appointmentData Contain the new appointment data. The 
+     * @param {object} appointment Contain the new appointment data. The 
      * id of the appointment MUST be already included. The rest values must 
      * follow the database structure.
-     * @param {object} customerData (OPTIONAL) contains the customer data.
+     * @param {object} customer (OPTIONAL) contains the customer data.
      * @param {function} successCallback (OPTIONAL) If defined, this function is
      * going to be executed on post success.
      * @param {function} errorCallback (OPTIONAL) If defined, this function is 
      * going to be executed on post failure.
      */
-    saveAppointmentData : function(appointmentData, customerData, 
+    saveAppointmentData : function(appointment, customer, 
             successCallback, errorCallback) {
-        // :: MAKE AN AJAX CALL TO SERVER - STORE APPOINTMENT DATA
         var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
         
         var postData = {};
         
-        postData['appointment_data'] = JSON.stringify(appointmentData);
+        postData['appointment_data'] = JSON.stringify(appointment);
         
-        if (customerData !== undefined) {
-            postData['customer_data'] = JSON.stringify(customerData);
+        if (customer !== undefined) {
+            postData['customer_data'] = JSON.stringify(customer);
         }
         
         $.ajax({
@@ -739,16 +738,16 @@ var BackendCalendar = {
         }  
         
         // :: PREPARE THE APPOINTMENT DATA
-        var appointmentData = GeneralFunctions.clone(event.data);
+        var appointment = GeneralFunctions.clone(event.data);
 
         // Must delete the following because only appointment data should be 
         // provided to the ajax call.
-        delete appointmentData['customer'];
-        delete appointmentData['provider'];
-        delete appointmentData['service'];
+        delete appointment['customer'];
+        delete appointment['provider'];
+        delete appointment['service'];
 
-        appointmentData['end_datetime'] = Date.parseExact(
-                appointmentData['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
+        appointment['end_datetime'] = Date.parseExact(
+                appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                 .add({ minutes: minuteDelta })
                 .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -773,16 +772,13 @@ var BackendCalendar = {
 
             // Display success notification to user.
             var undoFunction = function() {
-                appointmentData['end_datetime'] = Date.parseExact(
-                        appointmentData['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
+                appointment['end_datetime'] = Date.parseExact(
+                        appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                         .add({ minutes: -minuteDelta })
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
-                var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
-                     
-                var postData = { 
-                    'appointment_data': JSON.stringify(appointmentData) 
-                };
+                var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';                     
+                var postData = { 'appointment_data': JSON.stringify(appointment) };
 
                 $.post(postUrl, postData, function(response) {
                     $('#notification').hide('blind');
@@ -800,7 +796,7 @@ var BackendCalendar = {
         };
 
         // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-        BackendCalendar.saveAppointmentData(appointmentData, undefined, 
+        BackendCalendar.saveAppointmentData(appointment, undefined, 
                 successCallback, undefined);
     },
             
@@ -826,7 +822,6 @@ var BackendCalendar = {
      */
     calendarDayClick: function(date, allDay, jsEvent, view) {
         if (allDay) {
-            // Switch to day view
             $('#calendar').fullCalendar('gotoDate', date);
             $('#calendar').fullCalendar('changeView', 'agendaDay');
         }
@@ -884,7 +879,6 @@ var BackendCalendar = {
         });
         
         BackendCalendar.lastFocusedEventData = event;
-        
         $(jsEvent.target).popover('show');
     },
     
@@ -902,26 +896,26 @@ var BackendCalendar = {
         }       
                 
         // :: PREPARE THE APPOINTMENT DATA        
-        var appointmentData = GeneralFunctions.clone(event.data);
+        var appointment = GeneralFunctions.clone(event.data);
         
         // Must delete the following because only appointment data should be 
         // provided to the ajax call.
-        delete appointmentData['customer'];
-        delete appointmentData['provider'];
-        delete appointmentData['service'];
+        delete appointment['customer'];
+        delete appointment['provider'];
+        delete appointment['service'];
 
-        appointmentData['start_datetime'] = Date.parseExact(
-                appointmentData['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
+        appointment['start_datetime'] = Date.parseExact(
+                appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
                 .add({ days: dayDelta, minutes: minuteDelta })
                 .toString('yyyy-MM-dd HH:mm:ss');
         
-        appointmentData['end_datetime'] = Date.parseExact(
-                appointmentData['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
+        appointment['end_datetime'] = Date.parseExact(
+                appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                 .add({ days: dayDelta, minutes: minuteDelta })
                 .toString('yyyy-MM-dd HH:mm:ss');
         
-        event.data['start_datetime'] = appointmentData['start_datetime'];
-        event.data['end_datetime'] = appointmentData['end_datetime'];
+        event.data['start_datetime'] = appointment['start_datetime'];
+        event.data['end_datetime'] = appointment['end_datetime'];
         
         // :: DEFINE THE SUCCESS CALLBACK FUNCTION
         var successCallback = function(response) {
@@ -944,24 +938,22 @@ var BackendCalendar = {
             
             // Define the undo function, if the user needs to reset the last change.
             var undoFunction = function() {
-                appointmentData['start_datetime'] = Date.parseExact(
-                        appointmentData['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
+                appointment['start_datetime'] = Date.parseExact(
+                        appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
                         .add({ days: -dayDelta, minutes: -minuteDelta })
                         .toString('yyyy-MM-dd HH:mm:ss');
 
-                appointmentData['end_datetime'] = Date.parseExact(
-                        appointmentData['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
+                appointment['end_datetime'] = Date.parseExact(
+                        appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                         .add({ days: -dayDelta, minutes: -minuteDelta })
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
-                event.data['start_datetime'] = appointmentData['start_datetime'];
-                event.data['end_datetime'] = appointmentData['end_datetime'];
+                event.data['start_datetime'] = appointment['start_datetime'];
+                event.data['end_datetime'] = appointment['end_datetime'];
         
                 var postUrl  = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
                 
-                var postData = { 
-                    'appointment_data': JSON.stringify(appointmentData) 
-                };
+                var postData = { 'appointment_data': JSON.stringify(appointment) };
 
                 $.post(postUrl, postData, function(response) {
                     $('#notification').hide('blind');
@@ -980,7 +972,7 @@ var BackendCalendar = {
         };
 
         // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-        BackendCalendar.saveAppointmentData(appointmentData, undefined, 
+        BackendCalendar.saveAppointmentData(appointment, undefined, 
                 successCallback, undefined);
     },
     
@@ -1015,7 +1007,7 @@ var BackendCalendar = {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
         var postUrl = GlobalVariables.baseUrl + 'backend/ajax_disable_provider_sync';
-        var postData = { 'provider_id' : providerId };
+        var postData = { 'provider_id': providerId };
         
         $.post(postUrl, postData, function(response) {
             ////////////////////////////////////////////////////////////
@@ -1039,28 +1031,28 @@ var BackendCalendar = {
      * order to bring the dialog to the desired state.
      */
     resetAppointmentDialog: function() {
-        var dialog = $('#manage-appointment');
+        var $dialog = $('#manage-appointment');
         
         // :: EMPTY FORM FIELDS
-        dialog.find('input, textarea').val('');
-        dialog.find('#modal-message').hide();
-        dialog.find('#select-service, #select-provider').empty();
+        $dialog.find('input, textarea').val('');
+        $dialog.find('#modal-message').hide();
+        $dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
         $.each(GlobalVariables.availableServices, function(index, service) {
             var option = new Option(service['name'], service['id']);
-            dialog.find('#select-service').append(option);
+            $dialog.find('#select-service').append(option);
         });
-        dialog.find('#select-service').val(
-                dialog.find('#select-service').eq(0).attr('value'));
+        $dialog.find('#select-service').val(
+                $dialog.find('#select-service').eq(0).attr('value'));
         
         // Fill the providers listbox with providers that can serve the appointment's 
         // service and then select the user's provider.
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var canProvideService = false; 
 
-            $.each(provider['services'], function(index, service) {
-                if (service == dialog.find('#select-service').val()) {
+            $.each(provider['services'], function(index, serviceId) {
+                if (serviceId == $dialog.find('#select-service').val()) {
                     canProvideService = true;
                     return;
                 }
@@ -1069,7 +1061,7 @@ var BackendCalendar = {
             if (canProvideService) { // Add the provider to the listbox.
                 var option = new Option(provider['first_name']  
                        + ' ' + provider['last_name'], provider['id']);
-                dialog.find('#select-provider').append(option);
+                $dialog.find('#select-provider').append(option);
             }
         });
             
@@ -1078,7 +1070,7 @@ var BackendCalendar = {
         // the appointment end datetime.
         var serviceDuration = 0;
         $.each(GlobalVariables.availableServices, function(index, service) {
-            if (service['id'] == dialog.find('#select-service').val()) {
+            if (service['id'] == $dialog.find('#select-service').val()) {
                 serviceDuration = service['duration'];
                 return;
             }
@@ -1089,17 +1081,17 @@ var BackendCalendar = {
         var endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
                 .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
         
-        dialog.find('#start-datetime').datetimepicker({
+        $dialog.find('#start-datetime').datetimepicker({
             'dateFormat': 'dd/mm/yy',
             'minDate': 0
         });
-        dialog.find('#start-datetime').val(startDatetime);
+        $dialog.find('#start-datetime').val(startDatetime);
         
-        dialog.find('#end-datetime').datetimepicker({
+        $dialog.find('#end-datetime').datetimepicker({
             'dateFormat': 'dd/mm/yy',
             'minDate': 0
         });
-        dialog.find('#end-datetime').val(endDatetime);
+        $dialog.find('#end-datetime').val(endDatetime);
     },
             
     /**
@@ -1109,16 +1101,16 @@ var BackendCalendar = {
      * @returns {bool} Returns the validation result.
      */
     validateAppointmentForm: function() {
-        var dialog = $('#manage-appointment');
+        var $dialog = $('#manage-appointment');
         
         // Reset previous validation css formating.
-        dialog.find('.control-group').removeClass('error');
-        dialog.find('#modal-message').hide();
+        $dialog.find('.control-group').removeClass('error');
+        $dialog.find('#modal-message').hide();
         
         try {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
-            dialog.find('.required').each(function() {
+            $dialog.find('.required').each(function() {
                 if ($(this).val() === '') {
                     $(this).parents().eq(1).addClass('error');
                     missingRequiredField = true;
@@ -1129,14 +1121,14 @@ var BackendCalendar = {
             }
              
             // :: CHECK EMAIL ADDRESS
-            if (!GeneralFunctions.validateEmail(dialog.find('#email').val())) {
-                dialog.find('#email').parents().eq(1).addClass('error');
+            if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
+                $dialog.find('#email').parents().eq(1).addClass('error');
                 throw 'Invalid email address!';
             }
             
             return true;
         } catch(exc) {
-            dialog.find('#modal-message').addClass('alert-error').text(exc).show('fade');
+            $dialog.find('#modal-message').addClass('alert-error').text(exc).show('fade');
             return false;
         }
     },
@@ -1149,20 +1141,6 @@ var BackendCalendar = {
      * @return {bool} Returns the operation result.
      */
     addUnavailableTimePeriod: function(start, end) {
-    	try {
-    		var slotsCount = $('#calendar').find('.fc-agenda-slots tr').length;
-    		var slotsPerHour = slotsCount / 24;
-    		
-    		var startSlot = start.toString('H');
-    		var endSlot = end.toString('H') * slotsPerHour; // Include all the slots on the calculation
-    		
-    		$('#calendar .fc-agena-slots tr').slice(startSlot, endSlot)
-    				.css('background-color', '#AAA');
-    		
-    		return true;
-    	} catch(exc) {
-    		console.log('Add Unavailable Time Period Exc:', exc);
-    		return false;
-    	}
+    	// @task Use this method whenever you need to add an unavailable period on calendar.
     }
 };

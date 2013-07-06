@@ -11,7 +11,7 @@ var FrontendBook = {
      * 
      * @type Boolean
      */
-    manageMode      : false,  
+    manageMode: false,  
     
     /**
      * This method initializes the book appointment page.
@@ -493,31 +493,32 @@ var FrontendBook = {
      * This method applies the appointment's data to the wizard so 
      * that the user can start making changes on an existing record.
      * 
-     * @param {object} appointmentData Selected appointment's data.
-     * @param {object} providerData Selected provider's data.
-     * @param {object} customerData Selected customer's data.
+     * @param {object} appointment Selected appointment's data.
+     * @param {object} provider Selected provider's data.
+     * @param {object} customer Selected customer's data.
      * @returns {bool} Returns the operation result.
      */
-    applyAppointmentData: function(appointmentData, providerData, customerData) {
+    applyAppointmentData: function(appointment, provider, customer) {
         try {
             // Select Service & Provider
-            $('#select-service').val(appointmentData['id_services']).trigger('change');
-            $('#select-provider').val(appointmentData['id_users_provider']);
+            $('#select-service').val(appointment['id_services']).trigger('change');
+            $('#select-provider').val(appointment['id_users_provider']);
             
             // Set Appointment Date
             $('#select-date').datepicker('setDate', Date.parseExact(
-                    appointmentData['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
+                    appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
             FrontendBook.getAvailableHours($('#select-date').val());
             
             // Apply Customer's Data
-            $('#last-name').val(customerData['last_name']);
-            $('#first-name').val(customerData['first_name']);
-            $('#email').val(customerData['email']);
-            $('#phone-number').val(customerData['phone_number']);
-            $('#address').val(customerData['address']);
-            $('#city').val(customerData['city']);
-            $('#zip-code').val(customerData['zip_code']);
-            var appointmentNotes = (appointmentData['notes'] !== null) ? appointmentData['notes'] : '';
+            $('#last-name').val(customer['last_name']);
+            $('#first-name').val(customer['first_name']);
+            $('#email').val(customer['email']);
+            $('#phone-number').val(customer['phone_number']);
+            $('#address').val(customer['address']);
+            $('#city').val(customer['city']);
+            $('#zip-code').val(customer['zip_code']);
+            var appointmentNotes = (appointment['notes'] !== null) 
+                    ? appointment['notes'] : '';
             $('#notes').val(appointmentNotes);
             
             FrontendBook.updateConfirmFrame();

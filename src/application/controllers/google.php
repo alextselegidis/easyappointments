@@ -48,11 +48,11 @@ class Google extends CI_Controller {
             }
             
        		if (isset($_SESSION['oauth_provider_id'])) {
-       			$this->load->model('Providers_Model');
+       			$this->load->model('providers_model');
        			
-                $this->Providers_Model->set_setting('google_sync', TRUE, 
+                $this->providers_model->set_setting('google_sync', TRUE, 
        					$_SESSION['oauth_provider_id']);
-       			$this->Providers_Model->set_setting('google_token', $token, 
+       			$this->providers_model->set_setting('google_token', $token, 
        					$_SESSION['oauth_provider_id']);
                 
        		} else {

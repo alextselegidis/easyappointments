@@ -14,28 +14,28 @@ class Unit_tests_appointments_model extends CI_Driver {
         $this->CI =& get_instance();
         
         $this->CI->load->library('Unit_test');
-        $this->CI->load->model('Appointments_Model');
+        $this->CI->load->model('appointments_model');
         
         // Get some sample data from the database (will be needed in the 
         // testing methods).
         $this->provider_id = $this->CI->db
-                                        ->select('ea_users.id')
-                                        ->from('ea_users')
-                                        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                                        ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-                                        ->get()->row()->id;   
+                ->select('ea_users.id')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                ->get()->row()->id;   
         $this->service_id = $this->CI->db
-                                        ->select('ea_services.id')
-                                        ->from('ea_services')
-                                        ->join('ea_services_providers', 'ea_services_providers.id_services = ea_services.id', 'inner')
-                                        ->where('ea_services_providers.id_users', $this->provider_id)
-                                        ->get()->row()->id;
+                ->select('ea_services.id')
+                ->from('ea_services')
+                ->join('ea_services_providers', 'ea_services_providers.id_services = ea_services.id', 'inner')
+                ->where('ea_services_providers.id_users', $this->provider_id)
+                ->get()->row()->id;
         $this->customer_id = $this->CI->db
-                                        ->select('ea_users.id')
-                                        ->from('ea_users')
-                                        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                                        ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                                        ->get()->row()->id;  
+                ->select('ea_users.id')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+                ->get()->row()->id;  
     }
     
     /**
@@ -61,29 +61,33 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_add_appointment_insert() {
         // Add - insert new appointment record to the database.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $appointment_data['id'] = $this->CI->Appointments_Model->add($appointment_data);
-        $this->CI->unit->run($appointment_data['id'], 'is_int', 'Test if add() appointment (insert operation) returned the db row id.');
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $appointment['id'] = $this->CI->appointments_model->add($appointment);
+        $this->CI->unit->run($appointment['id'], 'is_int', 'Test if add() appointment (insert '
+                . 'operation) returned the db row id.');
         
         // Check if the record is the one that was inserted.
-        $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->row_array();
+        $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment['id']))
+                ->row_array();
         
         // These should not be included because they are generated when the 
         // record is inserted.
         unset($db_data['hash']); 
         unset($db_data['book_datetime']);
+        unset($db_data['id_google_calendar']);
         
-        $this->CI->unit->run($appointment_data, $db_data, 'Test if add() appointment (insert operation) has successfully inserted a record.');
+        $this->CI->unit->run($appointment, $db_data, 'Test if add() appointment (insert '
+                . 'operation) has successfully inserted a record.');
         
         // Delete inserted record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     /**
@@ -91,29 +95,32 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_add_appointment_update() {
         // Insert new appointment (this row will be updated later).
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Perform the update operation and check if the record is update.
         $changed_notes = 'Some CHANGED notes right here ...';
-        $appointment_data['notes'] = $changed_notes;
+        $appointment['notes'] = $changed_notes;
         
-        $update_result = $this->CI->Appointments_Model->add($appointment_data);
-        $this->CI->unit->run($update_result, 'is_int', 'Test if add() appointment (update operation) has returned the row id.');
+        $update_result = $this->CI->appointments_model->add($appointment);
+        $this->CI->unit->run($update_result, 'is_int', 'Test if add() appointment (update '
+                . 'operation) has returned the row id.');
         
-        $db_notes = $this->CI->db->get_where('ea_appointments', array('id' => $update_result))->row()->notes;
-        $this->CI->unit->run($changed_notes, $db_notes, 'Test add() appointment (update operation) has successfully updated record.');
+        $db_notes = $this->CI->db->get_where('ea_appointments', array('id' => $update_result))
+                ->row()->notes;
+        $this->CI->unit->run($changed_notes, $db_notes, 'Test add() appointment (update '
+                . 'operation) has successfully updated record.');
         
         // Delete inserted record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     /**
@@ -122,23 +129,24 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_add_appointment_wrong_date_format() {
         // Insert new appointment with no foreign keys.
-        $appointment_data = array(
-                                'start_datetime' => '2013-0WRONG5-01 12:30WRONG:00',
-                                'end_datetime' => '2013-0WRONG5-01WRONG 13:00WRONG:00',
-                                'notes' => 'Some notes right here...',
-                                'id_users_provider' => $this->provider_id,
-                                'id_users_customer' => $this->customer_id,
-                                'id_services' => $this->service_id
-                             );
+        $appointment = array(
+            'start_datetime' => '2013-0WRONG5-01 12:30WRONG:00',
+            'end_datetime' => '2013-0WRONG5-01WRONG 13:00WRONG:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+         );
         
         $has_thrown_exception = FALSE; // This method must throw a validation exception.
         try {
-            $this->CI->Appointments_Model->add($appointment_data);
-        } catch(ValidationException $valExc) {
+            $this->CI->appointments_model->add($appointment);
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test add() appointment with wrong date format.', 'A validation exception must be thrown.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test add() appointment with wrong '
+                . 'date format.', 'A validation exception must be thrown.');
     }
     
     /**
@@ -148,50 +156,53 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_exists() {
         // Insert new appointment (this row will be checked later).
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Test the exists() method
-        $this->CI->unit->run($this->CI->Appointments_Model->exists($appointment_data), TRUE, 'Test exists() method with an inserted record.');
+        $this->CI->unit->run($this->CI->appointments_model->exists($appointment), TRUE, 
+                'Test exists() method with an inserted record.');
         
         // Delete inserted record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     private function test_exists_record_does_not_exist() {
         // Create random appointment data that doesn't exist in the database.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 08:33:45',
-                               'end_datetime' => '2013-05-02 13:13:13',
-                               'notes' => 'This is totally random!',
-                               'id_users_provider' => '198678',
-                               'id_users_customer' => '194702',
-                               'id_services' => '8766293'
-                           );
+        $appointment = array(
+            'start_datetime' => '2013-05-01 08:33:45',
+            'end_datetime' => '2013-05-02 13:13:13',
+            'notes' => 'This is totally random!',
+            'id_users_provider' => '198678',
+            'id_users_customer' => '194702',
+            'id_services' => '8766293'
+        );
         
-        $this->CI->unit->run($this->CI->Appointments_Model->exists($appointment_data), FALSE, 'Test exists() method with an appointment that does not exist');
+        $this->CI->unit->run($this->CI->appointments_model->exists($appointment), FALSE, 
+                'Test exists() method with an appointment that does not exist');
     }
     
     private function test_exists_with_wrong_data() {
         // Create random appointment data that doesn't exist in the database.
-        $appointment_data = array(
-                               'start_datetime' => '2WRONG013-05-01 0WRONG8:33:45',
-                               'end_datetime' => '2013-0WRONG5-02 13:13:WRONG13',
-                               'notes' => 'This is totally random!',
-                               'id_users_provider' => '1986WRONG78',
-                               'id_users_customer' => '1WRONG94702',
-                               'id_services' => '876WRONG6293'
-                           );
+        $appointment = array(
+            'start_datetime' => '2WRONG013-05-01 0WRONG8:33:45',
+            'end_datetime' => '2013-0WRONG5-02 13:13:WRONG13',
+            'notes' => 'This is totally random!',
+            'id_users_provider' => '1986WRONG78',
+            'id_users_customer' => '1WRONG94702',
+            'id_services' => '876WRONG6293'
+        );
         
-        $this->CI->unit->run($this->CI->Appointments_Model->exists($appointment_data), FALSE, 'Test exists() method with wrong appointment data.');
+        $this->CI->unit->run($this->CI->appointments_model->exists($appointment), FALSE, 
+                'Test exists() method with wrong appointment data.');
     }
     
     /**
@@ -200,21 +211,22 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_find_record_id() {
         // Create a new appointment record.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Find record id of the new appointment record.
-        $method_result_id = $this->CI->Appointments_Model->find_record_id($appointment_data);
+        $method_result_id = $this->CI->appointments_model->find_record_id($appointment);
         
-        $this->CI->unit->run($method_result_id, $appointment_data['id'], 'Test find_record_id() successfully returned the correct record id.');
+        $this->CI->unit->run($method_result_id, $appointment['id'], 'Test find_record_id() '
+                . 'successfully returned the correct record id.');
         
         // Delete appointment record.
         $this->CI->db->delete('ea_appointments', array('id' => $method_result_id));
@@ -228,21 +240,21 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_find_record_id_appointment_does_not_exist() {
         // Define appointment data. These data shouldn't exist in the database.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
         
         // Load the appointments model and execute the find record id method.
         $has_thrown_exception = FALSE;
         
         try {
-            $this->CI->Appointments_Model->find_record_id($appointment_data);
-        } catch(DatabaseException $db_exc) {
+            $this->CI->appointments_model->find_record_id($appointment);
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
         
@@ -259,22 +271,22 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_find_record_id_wrong_data() {
         // Define appointment data array with wrong values.
-        $appointment_data = array(
-                               'start_datetime' => '2013WRONG-05-0WRONG1 12:WRONG30:00',
-                               'end_datetime' => '2013-05-01 13:00:00WRONG',
-                               'notes' => 'Some notes righWRONGt here...',
-                               'id_users_provider' => 'WRONG',
-                               'id_users_customer' => 'WRONG',
-                               'id_services' => 'WRONG'
-                           );
+        $appointment = array(
+            'start_datetime' => '2013WRONG-05-0WRONG1 12:WRONG30:00',
+            'end_datetime' => '2013-05-01 13:00:00WRONG',
+            'notes' => 'Some notes righWRONGt here...',
+            'id_users_provider' => 'WRONG',
+            'id_users_customer' => 'WRONG',
+            'id_services' => 'WRONG'
+        );
         
         // Try to find the appointment's record id. A database 
         // exception should be raised.
         $has_thrown_exception = FALSE;
         
         try {
-            $this->CI->Appointments_Model->find_record_id($appointment_data);
-        } catch(DatabaseException $db_exc) {
+            $this->CI->appointments_model->find_record_id($appointment);
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
         
@@ -287,23 +299,24 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_delete() {
         // Create a new appointment record.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Delete new record
-        $delete_result = $this->CI->Appointments_Model->delete($appointment_data['id']);
+        $delete_result = $this->CI->appointments_model->delete($appointment['id']);
         $this->CI->unit->run($delete_result, TRUE, 'Test delete() method result (should be TRUE).');
         
         // Check if the record has been successfully deleted.
-        $num_rows = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->num_rows();
+        $num_rows = $this->CI->db->get_where('ea_appointments', array('id' => $appointment['id']))
+                ->num_rows();
         $this->CI->unit->run($num_rows, 0, 'Test if the record was successfully deleted.');
     }
     
@@ -313,9 +326,7 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_delete_record_does_not_exist() {
         $random_record_id = 1233265;
-        
-        $delete_result = $this->CI->Appointments_Model->delete($random_record_id);
-        echo $delete_result;
+        $delete_result = $this->CI->appointments_model->delete($random_record_id);
         $this->CI->unit->run($delete_result, FALSE, 'Test delete() method with a record id' 
                 . ' that does not exist');
     }
@@ -325,17 +336,18 @@ class Unit_tests_appointments_model extends CI_Driver {
      * (string and not integer).
      */
     private function test_delete_record_wrong_parameter_given() {
-        $wrong_record_id = 'not_an_integer';
+        $wrong_record_id = 'not_numeric';
         
         $has_thrown_exception = FALSE;
         
         try {
-            $this->CI->Appointments_Model->delete($wrong_record_id);
-        } catch (InvalidArgumentException $ia_exc) {
+            $this->CI->appointments_model->delete($wrong_record_id);
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
 
-        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test delete() method with argument that is not an integer.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test delete() method with argument '
+                . 'that is not an numeric.');
     }
     
     /**
@@ -346,7 +358,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $db_data = $this->CI->db->get('ea_appointments')->result_array();
         
         // Get all the appointment records (by using the model).
-        $model_data = $this->CI->Appointments_Model->get_batch();
+        $model_data = $this->CI->appointments_model->get_batch();
         
         // Check that the two arrays are the same.
         $this->CI->unit->run($model_data, $db_data, 'Test get_batch() method.');
@@ -358,28 +370,29 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_get_batch_where_clause() {
         // Insert new appointment.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',  
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',  
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Get filtered appointment records without using the model.
-        $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment_data['id']))->result_array();
+        $db_data = $this->CI->db->get_where('ea_appointments', array('id' => $appointment['id']))
+                ->result_array();
         
         // Get filtered appointment records by using the model.
-        $model_data = $this->CI->Appointments_Model->get_batch(array('id' => $appointment_data['id']));
+        $model_data = $this->CI->appointments_model->get_batch(array('id' => $appointment['id']));
         
         // Check that the two arrays are the same.
         $this->CI->unit->run($model_data, $db_data, 'Test get_batch() method.');
         
         // Delete appointment record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     /**
@@ -395,8 +408,8 @@ class Unit_tests_appointments_model extends CI_Driver {
         $has_thrown_exception = FALSE;
         
         try {
-            $this->CI->Appointments_Model->get_batch('WRONG QUERY HERE');
-        } catch(DatabaseException $db_exc) {
+            $this->CI->appointments_model->get_batch('WRONG QUERY HERE');
+        } catch(Exception $db_exc) {
             $has_thrown_exception = TRUE;
         }
         
@@ -409,27 +422,28 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_get_row() {
         // Insert new appointment record.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'hash' => '91de2d31f5cbb6d26a5b1b3e710d38d1',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'hash' => '91de2d31f5cbb6d26a5b1b3e710d38d1',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Get the appointment row from the database.
-        $db_data = $this->CI->Appointments_Model->get_row($appointment_data['id']);
+        $db_data = $this->CI->appointments_model->get_row($appointment['id']);
         unset($db_data['book_datetime']);
+        unset($db_data['id_google_calendar']);
         
         // Check if this is the record we seek.
-        $this->CI->unit->run($db_data, $appointment_data, 'Test get_row() method.');
+        $this->CI->unit->run($db_data, $appointment, 'Test get_row() method.');
         
         // Delete appointment record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     /**
@@ -438,7 +452,7 @@ class Unit_tests_appointments_model extends CI_Driver {
     private function test_get_row_that_does_not_exist() {
         $random_record_id = 789453486;
         
-        $row_data = $this->CI->Appointments_Model->get_row($random_record_id);
+        $row_data = $this->CI->appointments_model->get_row($random_record_id);
         
         $this->CI->unit->run($row_data, NULL, 'Test get_row() with record id that does ' 
                 . 'not exist in the database.');
@@ -450,12 +464,12 @@ class Unit_tests_appointments_model extends CI_Driver {
      * A database exception is expected.
      */
     private function test_get_row_with_invalid_argument() {
-        $invalid_id = 'THIS IS NOT AN INTEGER';
+        $invalid_id = 'THIS IS NOT NUMERIC';
         
         $has_thrown_exception = FALSE;
         try {
-            $this->CI->Appointments_Model->get_row($invalid_id);        
-        } catch (InvalidArgumentException $db_exc) {
+            $this->CI->appointments_model->get_row($invalid_id);        
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
         
@@ -467,25 +481,25 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_get_value() {
         // Insert new appointment record.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Get a specific value from the database.
-        $db_value = $this->CI->Appointments_Model->get_value('start_datetime', $appointment_data['id']);
+        $db_value = $this->CI->appointments_model->get_value('start_datetime', $appointment['id']);
         
         // Check if the value was correctly fetched from the database.
-        $this->CI->unit->run($db_value, $appointment_data['start_datetime'], 'Test get_value() method.');
+        $this->CI->unit->run($db_value, $appointment['start_datetime'], 'Test get_value() method.');
         
         // Delete inserted appointment record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     /**
@@ -500,12 +514,13 @@ class Unit_tests_appointments_model extends CI_Driver {
         $has_thrown_exception = FALSE;
         
         try {
-            $this->CI->Appointments_Model->get_value('start_datetime', $random_record_id);
-        } catch (InvalidArgumentException $db_exc) {
+            $this->CI->appointments_model->get_value('start_datetime', $random_record_id);
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that does not exist.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that '
+                . 'does not exist.');
     }
     
     /**
@@ -516,96 +531,101 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_get_value_field_does_not_exist() {
         // Insert new appointment record.
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $this->CI->db->insert('ea_appointments', $appointment_data);
-        $appointment_data['id'] = $this->CI->db->insert_id();
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $this->CI->db->insert('ea_appointments', $appointment);
+        $appointment['id'] = $this->CI->db->insert_id();
         
         // Try to get record value with wrong field name.
         $wrong_field_name = 'THIS IS WRONG';
         $has_thrown_exception = FALSE;
         
         try {
-            $this->CI->Appointments_Model->get_value($wrong_field_name, $appointment_data['id']);
-        } catch (InvalidArgumentException $db_exc) {
+            $this->CI->appointments_model->get_value($wrong_field_name, $appointment['id']);
+        } catch(Exception $exc) {
             $has_thrown_exception = TRUE;
         }
         
-        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that does not exist.');
+        $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that '
+                . 'does not exist.');
         
         // Delete inserted record.
-        $this->CI->db->delete('ea_appointments', array('id' => $appointment_data['id']));
+        $this->CI->db->delete('ea_appointments', array('id' => $appointment['id']));
     }
     
     private function test_validate_data() {
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
-        $this->CI->unit->run($validation_result, TRUE, 'Test validate_data() method.');
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $validation_result = $this->CI->appointments_model->validate($appointment);
+        $this->CI->unit->run($validation_result, TRUE, 'Test validate() method.');
     }
     
     private function test_validate_data_wrong_date_format() {
-        $appointment_data = array(
-                               'start_datetime' => '20WRONG13-05-01 12WRONG:30:00',
-                               'end_datetime' => '2013-05WRONG-01 13:00WRONG:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with wrong date formats.');
+        $appointment = array(
+            'start_datetime' => '20WRONG13-05-01 12WRONG:30:00',
+            'end_datetime' => '2013-05WRONG-01 13:00WRONG:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $validation_result = $this->CI->appointments_model->validate($appointment);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
+                . 'wrong date formats.');
     }
     
     private function test_validate_data_invalid_provider_id() {
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => 'THIS IS WRONG',
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => $this->service_id
-                           );
-        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with invalid provider id.');
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => 'THIS IS WRONG',
+            'id_users_customer' => $this->customer_id,
+            'id_services' => $this->service_id
+        );
+        $validation_result = $this->CI->appointments_model->validate($appointment);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
+                . 'invalid provider id.');
     }
     
     private function test_validate_data_invalid_customer_id() {
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => 'THIS IS WRONG',
-                               'id_services' => $this->service_id
-                           );
-        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with invalid customer id.');
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => 'THIS IS WRONG',
+            'id_services' => $this->service_id
+        );
+        $validation_result = $this->CI->appointments_model->validate($appointment);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
+                . 'invalid customer id.');
     }
     
     private function test_validate_data_invalid_service_id() {
-        $appointment_data = array(
-                               'start_datetime' => '2013-05-01 12:30:00',
-                               'end_datetime' => '2013-05-01 13:00:00',
-                               'notes' => 'Some notes right here...',
-                               'id_users_provider' => $this->provider_id,
-                               'id_users_customer' => $this->customer_id,
-                               'id_services' => 'THIS IS WRONG'
-                           );
-        $validation_result = $this->CI->Appointments_Model->validate_data($appointment_data);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate_data() method with invalid service id.');
+        $appointment = array(
+            'start_datetime' => '2013-05-01 12:30:00',
+            'end_datetime' => '2013-05-01 13:00:00',
+            'notes' => 'Some notes right here...',
+            'id_users_provider' => $this->provider_id,
+            'id_users_customer' => $this->customer_id,
+            'id_services' => 'THIS IS WRONG'
+        );
+        $validation_result = $this->CI->appointments_model->validate($appointment);
+        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
+                . 'invalid service id.');
     }
 }
 

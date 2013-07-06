@@ -140,7 +140,7 @@ class Google_Sync {
         
         // Set the Google Calendar event id to the E!A database record.
         $appointment_data['id_google_calendar'] = $created_event->id;
-        $this->CI->Appointments_Model->add($appointment_data);
+        $this->CI->appointments_model->add($appointment_data);
         
         return $created_event;
     }
