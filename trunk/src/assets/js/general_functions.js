@@ -46,14 +46,14 @@ var GeneralFunctions = {
         );    
 
         jQuery("#message_box").dialog({
-            autoOpen        : false,
-            modal           : true,
-            resize          : "auto",
-            width           : 400,
-            height          : "auto",
-            resizable       : false,
-            buttons         : messageButtons,
-            closeOnEscape   : false
+            autoOpen: false,
+            modal: true,
+            resize: "auto",
+            width: 400,
+            height: "auto",
+            resizable: false,
+            buttons: messageButtons,
+            closeOnEscape: false
         });
 
         jQuery("#message_box").dialog("open"); 
@@ -75,9 +75,9 @@ var GeneralFunctions = {
             elementTop = (elementTop > 0 ) ? elementTop : 20;
 
             elementHandle.css({
-                position    : 'absolute',
-                left        : elementLeft,
-                top         : elementTop
+                position: 'absolute',
+                left: elementLeft,
+                top: elementTop
             }); 
         });
         $(window).resize();

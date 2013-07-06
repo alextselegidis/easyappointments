@@ -12,15 +12,15 @@ class Backend extends CI_Controller {
     public function index() {
         // @task Require user to be logged in the application.
         
-        $this->load->model('Providers_Model');
-        $this->load->model('Services_Model');
-        $this->load->model('Settings_Model');
+        $this->load->model('providers_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
         
         $view_data['base_url'] = $this->config->item('base_url');
-        $view_data['book_advance_timeout'] = $this->Settings_Model->get_setting('book_advance_timeout');
-        $view_data['company_name'] = $this->Settings_Model->get_setting('company_name');
-        $view_data['available_providers'] = $this->Providers_Model->get_available_providers();
-        $view_data['available_services'] = $this->Services_Model->get_available_services();
+        $view_data['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
+        $view_data['company_name'] = $this->settings_model->get_setting('company_name');
+        $view_data['available_providers'] = $this->providers_model->get_available_providers();
+        $view_data['available_services'] = $this->services_model->get_available_services();
         
         $this->load->view('backend/header', $view_data);
         $this->load->view('backend/calendar', $view_data);
@@ -35,16 +35,16 @@ class Backend extends CI_Controller {
     public function customers() {
     	// @task Require user to be logged in the application.
     	
-        $this->load->model('Providers_Model');
-        $this->load->model('Customers_Model');
-        $this->load->model('Services_Model');
-        $this->load->model('Settings_Model');
+        $this->load->model('providers_model');
+        $this->load->model('customers_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
         
         $view_data['base_url'] = $this->config->item('base_url');
-        $view_data['company_name'] = $this->Settings_Model->get_setting('company_name');
-        $view_data['customers'] = $this->Customers_Model->get_batch();
-        $view_data['available_providers'] = $this->Providers_Model->get_available_providers();
-        $view_data['available_services'] = $this->Services_Model->get_available_services();
+        $view_data['company_name'] = $this->settings_model->get_setting('company_name');
+        $view_data['customers'] = $this->customers_model->get_batch();
+        $view_data['available_providers'] = $this->providers_model->get_available_providers();
+        $view_data['available_services'] = $this->services_model->get_available_services();
         
         $this->load->view('backend/header', $view_data);
         $this->load->view('backend/customers', $view_data);
@@ -76,10 +76,10 @@ class Backend extends CI_Controller {
      * @param {string} $_POST['end_date'] The user selected end date.
      */
     public function ajax_get_calendar_appointments() {
-        $this->load->model('Appointments_Model');
-        $this->load->model('Providers_Model');
-        $this->load->model('Services_Model');
-        $this->load->model('Customers_Model');
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
+        $this->load->model('services_model');
+        $this->load->model('customers_model');
         
         try {
             if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
@@ -94,12 +94,12 @@ class Backend extends CI_Controller {
                 'end_datetime <=' => $_POST['end_date']
             );
 
-            $appointments = $this->Appointments_Model->get_batch($where_clause);
+            $appointments = $this->appointments_model->get_batch($where_clause);
 
             foreach($appointments as &$appointment) {
-                $appointment['provider'] = $this->Providers_Model->get_row($appointment['id_users_provider']);
-                $appointment['service'] = $this->Services_Model->get_row($appointment['id_services']);
-                $appointment['customer'] = $this->Customers_Model->get_row($appointment['id_users_customer']);
+                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
+                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
 
             echo json_encode($appointments);
@@ -122,16 +122,16 @@ class Backend extends CI_Controller {
      */
     public function ajax_save_appointment() {
         try {
-        	$this->load->model('Appointments_Model');
-        	$this->load->model('Providers_Model');
-        	$this->load->model('Services_Model');
-        	$this->load->model('Customers_Model');
-        	$this->load->model('Settings_Model');
+        	$this->load->model('appointments_model');
+        	$this->load->model('providers_model');
+        	$this->load->model('services_model');
+        	$this->load->model('customers_model');
+        	$this->load->model('settings_model');
         	
             // :: SAVE CUSTOMER CHANGES TO DATABASE
             if (isset($_POST['customer_data'])) {
                 $customer_data = json_decode(stripcslashes($_POST['customer_data']), true);
-                $customer_data['id'] = $this->Customers_Model->add($customer_data);
+                $customer_data['id'] = $this->customers_model->add($customer_data);
             }
             
         	// :: SAVE APPOINTMENT CHANGES TO DATABASE
@@ -144,27 +144,27 @@ class Backend extends CI_Controller {
                     $appointment_data['id_users_customer'] = $customer_data['id'];
                 }
                 
-                $appointment_data['id'] = $this->Appointments_Model->add($appointment_data);
+                $appointment_data['id'] = $this->appointments_model->add($appointment_data);
             }
             
-            $appointment_data = $this->Appointments_Model->get_row($appointment_data['id']);
-            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $appointment_data = $this->appointments_model->get_row($appointment_data['id']);
+            $provider_data = $this->providers_model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->customers_model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->services_model->get_row($appointment_data['id_services']);
             
             $company_settings = array(
-            	'company_name' => $this->Settings_Model->get_setting('company_name'),
-            	'company_link' => $this->Settings_Model->get_setting('company_link'),
-            	'company_email' => $this->Settings_Model->get_setting('company_email')
+            	'company_name' => $this->settings_model->get_setting('company_name'),
+            	'company_link' => $this->settings_model->get_setting('company_link'),
+            	'company_email' => $this->settings_model->get_setting('company_email')
             );
             
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
             try {
-                $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                $google_sync = $this->providers_model->get_setting('google_sync', 
                         $appointment_data['id_users_provider']);
 
                 if ($google_sync == TRUE) {
-                    $google_token = json_decode($this->Providers_Model->get_setting('google_token', 
+                    $google_token = json_decode($this->providers_model->get_setting('google_token', 
                             $appointment_data['id_users_provider']));
 
                     $this->load->library('Google_Sync');
@@ -254,33 +254,33 @@ class Backend extends CI_Controller {
             }
             
             // :: STORE APPOINTMENT DATA FOR LATER USE IN THIS METHOD
-            $this->load->model('Appointments_Model');
-            $this->load->model('Providers_Model');
-            $this->load->model('Customers_Model');
-            $this->load->model('Services_Model');
-            $this->load->model('Settings_Model');
+            $this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            $this->load->model('customers_model');
+            $this->load->model('services_model');
+            $this->load->model('settings_model');
 
-            $appointment_data = $this->Appointments_Model->get_row($_POST['appointment_id']);
-            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $appointment_data = $this->appointments_model->get_row($_POST['appointment_id']);
+            $provider_data = $this->providers_model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->customers_model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->services_model->get_row($appointment_data['id_services']);
 
             $company_settings = array(
-                'company_name' => $this->Settings_Model->get_setting('company_name'),
-                'company_email' => $this->Settings_Model->get_setting('company_email'),
-                'company_link' => $this->Settings_Model->get_setting('company_link')
+                'company_name' => $this->settings_model->get_setting('company_name'),
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'company_link' => $this->settings_model->get_setting('company_link')
             );
             
             // :: DELETE APPOINTMENT RECORD FROM DATABASE
-            $this->Appointments_Model->delete($_POST['appointment_id']);
+            $this->appointments_model->delete($_POST['appointment_id']);
             
             // :: SYNC DELETE WITH GOOGLE CALENDAR
             if ($appointment_data['id_google_calendar'] != NULL) {
                 try {
-                    $google_sync = $this->Providers_Model->get_setting('google_sync', $provider_data['id']);
+                    $google_sync = $this->providers_model->get_setting('google_sync', $provider_data['id']);
 
                     if ($google_sync == TRUE) {
-                        $google_token = json_decode($this->Providers_Model
+                        $google_token = json_decode($this->providers_model
                                 ->get_setting('google_token', $provider_data['id']));
                         $this->load->library('Google_Sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
@@ -334,9 +334,9 @@ class Backend extends CI_Controller {
                 throw new Exception('Provider id not specified.');
             }
             
-            $this->load->model('Providers_Model');
-            $this->Providers_Model->set_setting('google_sync', FALSE, $_POST['provider_id']);
-            $this->Providers_Model->set_setting('google_token', NULL, $_POST['provider_id']);
+            $this->load->model('providers_model');
+            $this->providers_model->set_setting('google_sync', FALSE, $_POST['provider_id']);
+            $this->providers_model->set_setting('google_token', NULL, $_POST['provider_id']);
             
             echo json_encode('SUCCESS');
             
@@ -355,7 +355,7 @@ class Backend extends CI_Controller {
      */
     public function ajax_filter_customers() {
     	try {
-	    	$this->load->model('Customers_Model');
+	    	$this->load->model('customers_model');
 	    	
 	    	$key = $_POST['key']; //$this->db->escape($_POST['key']);
 	    	
@@ -368,7 +368,7 @@ class Backend extends CI_Controller {
 	    			'city LIKE "%' . $key . '%" OR ' .
 	    			'zip_code LIKE "%' . $key . '%" ';		
 	    	
-	    	echo json_encode($this->Customers_Model->get_batch($where_clause));
+	    	echo json_encode($this->customers_model->get_batch($where_clause));
     	} catch(Exception $exc) {
     		echo json_encode(array(
     			'exceptions' => array($exc)	

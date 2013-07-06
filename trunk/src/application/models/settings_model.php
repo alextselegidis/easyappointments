@@ -13,8 +13,7 @@ class Settings_Model extends CI_Model {
      * This method returns a system setting from the 
      * database.
      * 
-     * @expectedException InvalidArgumentException Raises whenever the 
-     * $name argument is not a string, or does not exist in the database.
+     * @expectedException Exception
      * 
      * @param string $name The database setting name.
      * @return string Returns the database value for 
@@ -22,11 +21,11 @@ class Settings_Model extends CI_Model {
      */
     function get_setting($name) {
         if (!is_string($name)) { // Check argument type.
-            throw new InvalidArgumentException('$name argument is not a string : ' . $name);
+            throw new Exception('$name argument is not a string : ' . $name);
         }
         
         if ($this->db->get_where('ea_settings', array('name' => $name))->num_rows() == 0) { // Check if setting exists in db.
-            throw new InvalidArgumentException('$name setting does not exist in database : ' . $name);
+            throw new Exception('$name setting does not exist in database : ' . $name);
         }
         
         $query = $this->db->get_where('ea_settings', array('name' => $name));
@@ -39,10 +38,7 @@ class Settings_Model extends CI_Model {
      * on the database. If the setting doesn't exist, it
      * is going to be created, otherwise updated.
      * 
-     * @expectedException DatabaseException Raises whenever an error 
-     * occures during the insert or the update operation.
-     * @expectedException InvalidArgumentException Raises whenever 
-     * the $name argument is not a string.
+     * @expectedException Exception
      * 
      * @param string $name The setting name.
      * @param type $value The setting value.
@@ -50,14 +46,14 @@ class Settings_Model extends CI_Model {
      */
     function set_setting($name, $value) {
         if (!is_string($name)) {
-            throw new InvalidArgumentException('$name argument is not a string : ' . $name);
+            throw new Exception('$name argument is not a string : ' . $name);
         }            
         
         $query = $this->db->get_where('ea_settings', array('name' => $name));
         if ($query->num_rows() > 0) {
             // Update setting
             if (!$this->db->update('ea_settings', array('value' => $value), array('name' => $name))) {
-                throw new DatabaseException('Could not update database setting.');
+                throw new Exception('Could not update database setting.');
             }
             $setting_id = intval($this->db->get_where('ea_settings', array('name' => $name))->row()->id);
         } else {
@@ -67,7 +63,7 @@ class Settings_Model extends CI_Model {
                 'value' => $value
             );
             if (!$this->db->insert('ea_settings', $insert_data)) {
-                throw new DatabaseException('Could not insert database setting');
+                throw new Exception('Could not insert database setting');
             }
             $setting_id = intval($this->db->insert_id());
         }
@@ -78,15 +74,14 @@ class Settings_Model extends CI_Model {
     /**
      * Remove a setting from the database.
      * 
-     * @expectedException InvalidArgumentException Raises whenever 
-     * the $name parameter is not a string.
+     * @expectedException Exception 
      * 
      * @param string $name The setting name to be removed.
      * @return bool Returns the delete operation result.
      */
     function remove_setting($name) {
         if (!is_string($name)) {
-            throw new InvalidArgumentException('$name is not a string : ' . $name);
+            throw new Exception('$name is not a string : ' . $name);
         }
         
         if ($this->db->get_where('ea_settings', array('name' => $name))->num_rows() == 0) {

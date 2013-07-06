@@ -12,17 +12,17 @@ class Appointments extends CI_Controller {
      * record.
      */
     public function index($appointment_hash = '') {
-        $this->load->model('Appointments_Model');
-        $this->load->model('Providers_Model');
-        $this->load->model('Services_Model');
-        $this->load->model('Customers_Model');
-        $this->load->model('Settings_Model');
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
+        $this->load->model('services_model');
+        $this->load->model('customers_model');
+        $this->load->model('settings_model');
                 
         if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST') { 
             try {
-                $available_services  = $this->Services_Model->get_available_services();
-                $available_providers = $this->Providers_Model->get_available_providers();
-                $company_name        = $this->Settings_Model->get_setting('company_name');
+                $available_services  = $this->services_model->get_available_services();
+                $available_providers = $this->providers_model->get_available_providers();
+                $company_name        = $this->settings_model->get_setting('company_name');
 
                 // If an appointment hash is provided then it means that the customer 
                 // is trying to edit a registered appointment record.
@@ -30,7 +30,7 @@ class Appointments extends CI_Controller {
                     // Load the appointments data and enable the manage mode of the page.
                     $manage_mode = TRUE;
 
-                    $appointments_results = $this->Appointments_Model
+                    $appointments_results = $this->appointments_model
                             ->get_batch(array('hash' => $appointment_hash));
                     
                     if (count($appointments_results) === 0) {
@@ -49,9 +49,9 @@ class Appointments extends CI_Controller {
 
                     $appointment_data = $appointments_results[0]; 
                     
-                    $provider_data = $this->Providers_Model
+                    $provider_data = $this->providers_model
                                    ->get_row($appointment_data['id_users_provider']);
-                    $customer_data = $this->Customers_Model
+                    $customer_data = $this->customers_model
                                    ->get_row($appointment_data['id_users_customer']);
                     
                 } else {
@@ -90,32 +90,32 @@ class Appointments extends CI_Controller {
                 $appointment_data   = $post_data['appointment'];
                 $customer_data      = $post_data['customer'];
 
-                $customer_id = $this->Customers_Model->add($customer_data);
+                $customer_id = $this->customers_model->add($customer_data);
                 $appointment_data['id_users_customer'] = $customer_id; 
                 
-                $appointment_data['id']   = $this->Appointments_Model->add($appointment_data);
-                $appointment_data['hash'] = $this->Appointments_Model
+                $appointment_data['id']   = $this->appointments_model->add($appointment_data);
+                $appointment_data['hash'] = $this->appointments_model
                                           ->get_value('hash', $appointment_data['id']);
                 
-                $provider_data = $this->Providers_Model
+                $provider_data = $this->providers_model
                                ->get_row($appointment_data['id_users_provider']);
-                $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+                $service_data = $this->services_model->get_row($appointment_data['id_services']);
                 
                 $company_settings = array( 
-                    'company_name'  => $this->Settings_Model->get_setting('company_name'),
-                    'company_link'  => $this->Settings_Model->get_setting('company_link'),
-                    'company_email' => $this->Settings_Model->get_setting('company_email')
+                    'company_name'  => $this->settings_model->get_setting('company_name'),
+                    'company_link'  => $this->settings_model->get_setting('company_link'),
+                    'company_email' => $this->settings_model->get_setting('company_email')
                 );
                 
                 // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
                 // The provider must have previously granted access to his google calendar account  
                 // in order to sync the appointment.
                 try {
-                    $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                    $google_sync = $this->providers_model->get_setting('google_sync', 
                             $appointment_data['id_users_provider']);
 
                     if ($google_sync == TRUE) {
-                        $google_token = json_decode($this->Providers_Model
+                        $google_token = json_decode($this->providers_model
                                 ->get_setting('google_token', $appointment_data['id_users_provider']));
 
                         $this->load->library('google_sync');
@@ -127,7 +127,7 @@ class Appointments extends CI_Controller {
                                     $service_data, $customer_data, $company_settings);
                         } else {
                             // Update appointment to Google Calendar.
-                            $appointment_data['id_google_calendar'] = $this->Appointments_Model
+                            $appointment_data['id_google_calendar'] = $this->appointments_model
                                     ->get_value('id_google_calendar', $appointment_data['id']);
 
                             $this->google_sync->update_appointment($appointment_data, $provider_data,
@@ -209,42 +209,42 @@ class Appointments extends CI_Controller {
      */
     public function cancel($appointment_hash) {
         try {
-            $this->load->model('Appointments_Model');
-            $this->load->model('Providers_Model');
-            $this->load->model('Customers_Model');
-            $this->load->model('Services_Model');
-            $this->load->model('Settings_Model');
+            $this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            $this->load->model('customers_model');
+            $this->load->model('services_model');
+            $this->load->model('settings_model');
             
             // Check whether the appointment hash exists in the database.
-            $records = $this->Appointments_Model->get_batch(array('hash' => $appointment_hash));
+            $records = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
             if (count($records) == 0) {
                 throw new Exception('No record matches the provided hash.');
             }
             
             $appointment_data = $records[0];
-            $provider_data = $this->Providers_Model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->Customers_Model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->Services_Model->get_row($appointment_data['id_services']);
+            $provider_data = $this->providers_model->get_row($appointment_data['id_users_provider']);
+            $customer_data = $this->customers_model->get_row($appointment_data['id_users_customer']);
+            $service_data = $this->services_model->get_row($appointment_data['id_services']);
             
             $company_settings = array(
-                'company_name' => $this->Settings_Model->get_setting('company_name'),
-                'company_email' => $this->Settings_Model->get_setting('company_email'),
-                'company_link' => $this->Settings_Model->get_setting('company_link')
+                'company_name' => $this->settings_model->get_setting('company_name'),
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'company_link' => $this->settings_model->get_setting('company_link')
             );
             
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
-            if (!$this->Appointments_Model->delete($appointment_data['id'])) {
+            if (!$this->appointments_model->delete($appointment_data['id'])) {
                 throw new Exception('Appointment could not be deleted from the database.');
             }
             
             // :: SYNC APPOINTMENT REMOVAL WITH GOOGLE CALENDAR
         	if ($appointment_data['id_google_calendar'] != NULL) {
                 try {
-                    $google_sync = $this->Providers_Model->get_setting('google_sync', 
+                    $google_sync = $this->providers_model->get_setting('google_sync', 
                             $appointment_data['id_users_provider']);
 
                     if ($google_sync == TRUE) {
-                        $google_token = json_decode($this->Providers_Model
+                        $google_token = json_decode($this->providers_model
                                 ->get_setting('google_token', $provider_data['id']));
                         $this->load->library('Google_Sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
@@ -294,9 +294,9 @@ class Appointments extends CI_Controller {
      * @return Returns a json object with the available hours.
      */
     public function ajax_get_available_hours() {
-        $this->load->model('Providers_Model');
-        $this->load->model('Appointments_Model');
-        $this->load->model('Settings_Model');
+        $this->load->model('providers_model');
+        $this->load->model('appointments_model');
+        $this->load->model('settings_model');
         
         try {
             // If manage mode is TRUE then the following we should not consider the selected 
@@ -354,7 +354,7 @@ class Appointments extends CI_Controller {
                 if ($_POST['manage_mode'] === 'true') {
                     $book_advance_timeout = 0;
                 } else {
-                    $book_advance_timeout = $this->Settings_Model->get_setting(
+                    $book_advance_timeout = $this->settings_model->get_setting(
                             'book_advance_timeout');
                 }
 
@@ -396,9 +396,9 @@ class Appointments extends CI_Controller {
      */
     public function ajax_check_datetime_availability() {
         try {
-            $this->load->model('Services_Model');
+            $this->load->model('services_model');
             
-            $service_duration = $this->Services_Model->get_value('duration', $_POST['id_services']);
+            $service_duration = $this->services_model->get_value('duration', $_POST['id_services']);
             
             $available_periods = $this->get_provider_available_time_periods(
                     $_POST['id_users_provider'], $_POST['start_datetime']);
@@ -447,11 +447,11 @@ class Appointments extends CI_Controller {
      */
     private function get_provider_available_time_periods($provider_id, $selected_date, 
             $exclude_appointments = array()) {
-        $this->load->model('Appointments_Model');
-        $this->load->model('Providers_Model');
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
         
         // Get the provider's working plan and reserved appointments.        
-        $working_plan = json_decode($this->Providers_Model
+        $working_plan = json_decode($this->providers_model
                 ->get_setting('working_plan', $provider_id), true);
         
         $where_clause = array(
@@ -459,7 +459,7 @@ class Appointments extends CI_Controller {
             'id_users_provider'     => $provider_id
         );     
         
-        $reserved_appointments = $this->Appointments_Model->get_batch($where_clause);
+        $reserved_appointments = $this->appointments_model->get_batch($where_clause);
         
         // Sometimes it might be necessary to not take into account some appointment records
         // in order to display what the providers available time periods would be without them.
