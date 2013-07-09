@@ -38,9 +38,11 @@ class Backend_api extends CI_Controller {
             $appointments = $this->appointments_model->get_batch($where_clause);
 
             foreach($appointments as &$appointment) {
-                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
-                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                if ($appointment['is_unavailable'] == FALSE)  {
+                    $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                    $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
+                    $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                }
             }
 
             echo json_encode($appointments);
@@ -71,27 +73,27 @@ class Backend_api extends CI_Controller {
         	
             // :: SAVE CUSTOMER CHANGES TO DATABASE
             if (isset($_POST['customer_data'])) {
-                $customer_data = json_decode(stripcslashes($_POST['customer_data']), true);
-                $customer_data['id'] = $this->customers_model->add($customer_data);
+                $customer = json_decode(stripcslashes($_POST['customer_data']), true);
+                $customer['id'] = $this->customers_model->add($customer);
             }
             
         	// :: SAVE APPOINTMENT CHANGES TO DATABASE
             if (isset($_POST['appointment_data'])) {
-                $appointment_data = json_decode(stripcslashes($_POST['appointment_data']), true);
-                $manage_mode = isset($appointment_data['id']);
+                $appointment = json_decode(stripcslashes($_POST['appointment_data']), true);
+                $manage_mode = isset($appointment['id']);
                 // If the appointment does not contain the customer record id, then it 
                 // means that is is going to be inserted. Get the customer's record id.
-                if (!isset($appointment_data['id_users_customer'])) {
-                    $appointment_data['id_users_customer'] = $customer_data['id'];
+                if (!isset($appointment['id_users_customer'])) {
+                    $appointment['id_users_customer'] = $customer['id'];
                 }
                 
-                $appointment_data['id'] = $this->appointments_model->add($appointment_data);
+                $appointment['id'] = $this->appointments_model->add($appointment);
             }
             
-            $appointment_data = $this->appointments_model->get_row($appointment_data['id']);
-            $provider_data = $this->providers_model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->customers_model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->services_model->get_row($appointment_data['id_services']);
+            $appointment = $this->appointments_model->get_row($appointment['id']);
+            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $service = $this->services_model->get_row($appointment['id_services']);
             
             $company_settings = array(
             	'company_name' => $this->settings_model->get_setting('company_name'),
@@ -102,21 +104,23 @@ class Backend_api extends CI_Controller {
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
             try {
                 $google_sync = $this->providers_model->get_setting('google_sync', 
-                        $appointment_data['id_users_provider']);
+                        $appointment['id_users_provider']);
 
                 if ($google_sync == TRUE) {
                     $google_token = json_decode($this->providers_model->get_setting('google_token', 
-                            $appointment_data['id_users_provider']));
+                            $appointment['id_users_provider']));
 
                     $this->load->library('Google_Sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
 
-                    if ($appointment_data['id_google_calendar'] == NULL) {
-                        $this->google_sync->add_appointment($appointment_data, $provider_data, 
-                                $service_data, $customer_data, $company_settings);
+                    if ($appointment['id_google_calendar'] == NULL) {
+                        $google_event = $this->google_sync->add_appointment($appointment, $provider, 
+                                $service, $customer, $company_settings);
+                        $appointment['id_google_calendar'] = $google_event->id;
+                        $this->appointments_model->add($appointment); // Store google calendar id.
                     } else {
-                        $this->google_sync->update_appointment($appointment_data, $provider_data, 
-                                $service_data, $customer_data, $company_settings);
+                        $this->google_sync->update_appointment($appointment, $provider, 
+                                $service, $customer, $company_settings);
                     }
                 }
             } catch(Exception $exc) {
@@ -133,32 +137,32 @@ class Backend_api extends CI_Controller {
                             . 'Below you can see the appointment details. Make changes '  
                             . 'by clicking the appointment link.';
                     $customer_link = $this->config->item('base_url') . 'appointments/index/' 
-                            . $appointment_data['hash'];
+                            . $appointment['hash'];
 
                     $provider_title = 'A new appointment has been added to your plan.';
                     $provider_message = 'You can make changes by clicking the appointment '  
                             . 'link below';
                     $provider_link = $this->config->item('base_url') . 'backend/' 
-                            . $appointment_data['hash'];
+                            . $appointment['hash'];
                 } else {
                     $customer_title = 'Appointment changes have been successfully saved!';
                     $customer_message = '';
                     $customer_link = $this->config->item('base_url') . 'appointments/index/' 
-                            . $appointment_data['hash'];
+                            . $appointment['hash'];
 
                     $provider_title = 'Appointment details have changed.';
                     $provider_message = '';
                     $provider_link = $this->config->item('base_url') . 'backend/' 
-                            . $appointment_data['hash'];
+                            . $appointment['hash'];
                 }
             
-                $this->notifications->send_appointment_details($appointment_data, $provider_data,
-                        $service_data, $customer_data, $company_settings, $customer_title, 
-                        $customer_message, $customer_link, $customer_data['email']);
+                $this->notifications->send_appointment_details($appointment, $provider,
+                        $service, $customer, $company_settings, $customer_title, 
+                        $customer_message, $customer_link, $customer['email']);
 
-                $this->notifications->send_appointment_details($appointment_data, $provider_data,
-                        $service_data, $customer_data, $company_settings, $provider_title, 
-                        $provider_message, $provider_link, $provider_data['email']);
+                $this->notifications->send_appointment_details($appointment, $provider,
+                        $service, $customer, $company_settings, $provider_title, 
+                        $provider_message, $provider_link, $provider['email']);
                 
             } catch(Exception $exc) {
                 $warnings[] = exceptionToJavascript($exc);
@@ -298,7 +302,7 @@ class Backend_api extends CI_Controller {
     	try {
 	    	$this->load->model('customers_model');
 	    	
-	    	$key = $_POST['key']; //$this->db->escape($_POST['key']);
+	    	$key = $_POST['key']; // @task $this->db->escape($_POST['key']);
 	    	
 	    	$where_clause = 
 	    			'first_name LIKE "%' . $key . '%" OR ' . 
@@ -315,6 +319,76 @@ class Backend_api extends CI_Controller {
     			'exceptions' => array($exc)	
     		));
     	}
+    }
+    
+    /**
+     * [AJAX] Insert of update unavailable time period to database.
+     * 
+     * @param array $_POST['unavailable'] JSON encoded array that contains the unavailable 
+     * period data.
+     */
+    public function ajax_save_unavailable() {
+        try {
+            $this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            
+            // Add appointment
+            $unavailable = json_decode($_POST['unavailable'], true);
+            $this->appointments_model->add_unavailable($unavailable); 
+            
+            // Google Sync
+            try {
+                $google_sync = $this->providers_model->get_setting('google_sync', 
+                        $unavailable['id_users_provider']);
+                
+                if ($google_sync) {
+                    $google_token = json_decode($this->providers_model->get_setting('google_token',
+                            $unavailable['id_users_provider']));
+                    
+                    $this->load->library('google_sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
+                    
+                    // @task Sync with gcal.
+                    $google_event = $this->google_sync->add_unavailable($unavailable);
+                    
+                    $unavailable['id_google_calendar'] = $google_event->id;
+                    $this->appointments_model->add_unavailable($unavailable);
+                }
+            } catch(Exception $exc) {
+                $warnings[] = $exc;
+            }
+            
+            if (isset($warnings)) {
+                echo json_encode(array(
+                    'warnings' => $warnings
+                ));
+            } else {
+                echo json_encode('SUCCESS');
+            }
+            
+        } catch(Exception $exc) { 
+            echo json_encode(array(
+                'exceptions' => array($exc)
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Delete an unavailable time period from database.
+     * 
+     * @param numeric $_POST['unavailable_id'] Record id to be deleted.
+     */
+    public function ajax_delete_unavailable() {
+        try {
+            // Delete unavailable
+            
+            // Google Sync
+            
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array($exc)
+            ));
+        }
     }
 }
 

@@ -47,20 +47,20 @@ class Appointments extends CI_Controller {
                         return;
                     }
 
-                    $appointment_data = $appointments_results[0]; 
+                    $appointment = $appointments_results[0]; 
                     
-                    $provider_data = $this->providers_model
-                                   ->get_row($appointment_data['id_users_provider']);
-                    $customer_data = $this->customers_model
-                                   ->get_row($appointment_data['id_users_customer']);
+                    $provider = $this->providers_model
+                                   ->get_row($appointment['id_users_provider']);
+                    $customer = $this->customers_model
+                                   ->get_row($appointment['id_users_customer']);
                     
                 } else {
                     // The customer is going to book a new appointment so there is no 
                     // need for the manage functionality to be initialized.
                     $manage_mode        = FALSE;
-                    $appointment_data   = array();
-                    $provider_data      = array();
-                    $customer_data      = array();
+                    $appointment   = array();
+                    $provider      = array();
+                    $customer      = array();
                 }
 
                 // Load the book appointment view.
@@ -69,9 +69,9 @@ class Appointments extends CI_Controller {
                     'available_providers'   => $available_providers,
                     'company_name'          => $company_name,
                     'manage_mode'           => $manage_mode,
-                    'appointment_data'      => $appointment_data,
-                    'provider_data'         => $provider_data,
-                    'customer_data'         => $customer_data
+                    'appointment_data'      => $appointment,
+                    'provider_data'         => $provider,
+                    'customer_data'         => $customer
                 );
                 
             } catch(Exception $exc) {
@@ -86,20 +86,18 @@ class Appointments extends CI_Controller {
             // sync is enabled then add the appointment to the provider's account.
             
             try {
-                $post_data          = json_decode($_POST['post_data'], true);
-                $appointment_data   = $post_data['appointment'];
-                $customer_data      = $post_data['customer'];
+                $post_data = json_decode($_POST['post_data'], true);
+                $appointment = $post_data['appointment'];
+                $customer = $post_data['customer'];
 
-                $customer_id = $this->customers_model->add($customer_data);
-                $appointment_data['id_users_customer'] = $customer_id; 
+                $customer_id = $this->customers_model->add($customer);
+                $appointment['id_users_customer'] = $customer_id; 
                 
-                $appointment_data['id']   = $this->appointments_model->add($appointment_data);
-                $appointment_data['hash'] = $this->appointments_model
-                                          ->get_value('hash', $appointment_data['id']);
+                $appointment['id']   = $this->appointments_model->add($appointment);
+                $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
                 
-                $provider_data = $this->providers_model
-                               ->get_row($appointment_data['id_users_provider']);
-                $service_data = $this->services_model->get_row($appointment_data['id_services']);
+                $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+                $service = $this->services_model->get_row($appointment['id_services']);
                 
                 $company_settings = array( 
                     'company_name'  => $this->settings_model->get_setting('company_name'),
@@ -112,26 +110,28 @@ class Appointments extends CI_Controller {
                 // in order to sync the appointment.
                 try {
                     $google_sync = $this->providers_model->get_setting('google_sync', 
-                            $appointment_data['id_users_provider']);
+                            $appointment['id_users_provider']);
 
                     if ($google_sync == TRUE) {
                         $google_token = json_decode($this->providers_model
-                                ->get_setting('google_token', $appointment_data['id_users_provider']));
+                                ->get_setting('google_token', $appointment['id_users_provider']));
 
                         $this->load->library('google_sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
 
                         if ($post_data['manage_mode'] === FALSE) {
                             // Add appointment to Google Calendar.
-                            $this->google_sync->add_appointment($appointment_data, $provider_data, 
-                                    $service_data, $customer_data, $company_settings);
+                            $google_event = $this->google_sync->add_appointment($appointment, $provider, 
+                                    $service, $customer, $company_settings);
+                            $appointment['id_google_calendar'] = $google_event->id;
+                            $this->appointments_model->add($appointment); 
                         } else {
                             // Update appointment to Google Calendar.
-                            $appointment_data['id_google_calendar'] = $this->appointments_model
-                                    ->get_value('id_google_calendar', $appointment_data['id']);
+                            $appointment['id_google_calendar'] = $this->appointments_model
+                                    ->get_value('id_google_calendar', $appointment['id']);
 
-                            $this->google_sync->update_appointment($appointment_data, $provider_data,
-                                    $service_data, $customer_data, $company_settings);
+                            $this->google_sync->update_appointment($appointment, $provider,
+                                    $service, $customer, $company_settings);
                         }
                     }  
                 } catch(Exception $exc) {
@@ -148,41 +148,41 @@ class Appointments extends CI_Controller {
                                 . 'Below you can see the appointment details. Make changes '  
                                 . 'by clicking the appointment link.';
                         $customer_link = $this->config->item('base_url') . 'appointments/index/' 
-                                . $appointment_data['hash'];
+                                . $appointment['hash'];
 
                         $provider_title = 'A new appointment has been added to your plan.';
                         $provider_message = 'You can make changes by clicking the appointment '  
                                 . 'link below';
                         $provider_link = $this->config->item('base_url') . 'backend/' 
-                                . $appointment_data['hash'];
+                                . $appointment['hash'];
                     } else {
                         $customer_title = 'Appointment changes have been successfully saved!';
                         $customer_message = '';
                         $customer_link = $this->config->item('base_url') . 'appointments/index/' 
-                                . $appointment_data['hash'];
+                                . $appointment['hash'];
 
                         $provider_title = 'Appointment details have changed.';
                         $provider_message = '';
                         $provider_link = $this->config->item('base_url') . 'backend/' 
-                                . $appointment_data['hash'];
+                                . $appointment['hash'];
                     }
 
-                    $this->notifications->send_appointment_details($appointment_data, $provider_data, 
-                            $service_data, $customer_data,$company_settings, $customer_title, 
-                            $customer_message, $customer_link, $customer_data['email']);
+                    $this->notifications->send_appointment_details($appointment, $provider, 
+                            $service, $customer,$company_settings, $customer_title, 
+                            $customer_message, $customer_link, $customer['email']);
 
-                    $this->notifications->send_appointment_details($appointment_data, $provider_data, 
-                            $service_data, $customer_data, $company_settings, $provider_title, 
-                            $provider_message, $provider_link, $provider_data['email']);
+                    $this->notifications->send_appointment_details($appointment, $provider, 
+                            $service, $customer, $company_settings, $provider_title, 
+                            $provider_message, $provider_link, $provider['email']);
                 } catch(Exception $exc) {
                     $view_data['exceptions'][] = $exc;
                 }
                 
                 // :: LOAD THE BOOK SUCCESS VIEW
                 $view_data = array(
-                    'appointment_data'  => $appointment_data,
-                    'provider_data'     => $provider_data,
-                    'service_data'      => $service_data,
+                    'appointment_data'  => $appointment,
+                    'provider_data'     => $provider,
+                    'service_data'      => $service,
                     'company_name'      => $company_settings['company_name']
                 );
 
@@ -221,10 +221,10 @@ class Appointments extends CI_Controller {
                 throw new Exception('No record matches the provided hash.');
             }
             
-            $appointment_data = $records[0];
-            $provider_data = $this->providers_model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->customers_model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->services_model->get_row($appointment_data['id_services']);
+            $appointment = $records[0];
+            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $service = $this->services_model->get_row($appointment['id_services']);
             
             $company_settings = array(
                 'company_name' => $this->settings_model->get_setting('company_name'),
@@ -233,22 +233,22 @@ class Appointments extends CI_Controller {
             );
             
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
-            if (!$this->appointments_model->delete($appointment_data['id'])) {
+            if (!$this->appointments_model->delete($appointment['id'])) {
                 throw new Exception('Appointment could not be deleted from the database.');
             }
             
             // :: SYNC APPOINTMENT REMOVAL WITH GOOGLE CALENDAR
-        	if ($appointment_data['id_google_calendar'] != NULL) {
+        	if ($appointment['id_google_calendar'] != NULL) {
                 try {
                     $google_sync = $this->providers_model->get_setting('google_sync', 
-                            $appointment_data['id_users_provider']);
+                            $appointment['id_users_provider']);
 
                     if ($google_sync == TRUE) {
                         $google_token = json_decode($this->providers_model
-                                ->get_setting('google_token', $provider_data['id']));
+                                ->get_setting('google_token', $provider['id']));
                         $this->load->library('Google_Sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
-                        $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                        $this->google_sync->delete_appointment($appointment['id_google_calendar']);
                     }
                 } catch(Exception $exc) {
                     $exceptions[] = $exc;
@@ -258,11 +258,11 @@ class Appointments extends CI_Controller {
             // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER            
             try {
                 $this->load->library('Notifications');
-                $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
-                        $service_data, $customer_data, $company_settings, $provider_data['email'],
+                $this->notifications->send_delete_appointment($appointment, $provider, 
+                        $service, $customer, $company_settings, $provider['email'],
                         $_POST['cancel_reason']);
-                $this->notifications->send_delete_appointment($appointment_data, $provider_data,
-                        $service_data, $customer_data, $company_settings, $customer_data['email'],
+                $this->notifications->send_delete_appointment($appointment, $provider,
+                        $service, $customer, $company_settings, $customer['email'],
                         $_POST['cancel_reason']);
             } catch(Exception $exc) {
                 $exceptions[] = $exc;

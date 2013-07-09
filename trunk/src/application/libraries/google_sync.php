@@ -94,41 +94,40 @@ class Google_Sync {
      * If yes, the selected appointment record is going to be added to the Google 
      * Calendar account. 
      * 
-     * @param array $appointment_data Contains the appointment record data.
-     * @param array $provider_data Contains the provider record data.
-     * @param array $service_data Contains the service record data.
-     * @param array $customer_data Contains the customer recod data.
+     * @param array $appointment Contains the appointment record data.
+     * @param array $provider Contains the provider record data.
+     * @param array $service Contains the service record data.
+     * @param array $customer Contains the customer recod data.
      * @parma array $company_settings Contains some company settings that are used
      * by this method. By the time the following values must be in the array: 
      * 'company_name'.
      * @return Google_Event Returns the Google_Event class object.
      */
-    public function add_appointment($appointment_data, $provider_data, $service_data, 
-            $customer_data, $company_settings) {
+    public function add_appointment($appointment, $provider, $service, $customer, $company_settings) {
         
         $this->CI->load->helper('general');
         
         $event = new Google_Event();
-        $event->setSummary($service_data['name']);
+        $event->setSummary($service['name']);
         $event->setLocation($company_settings['company_name']);
         
         $start = new Google_EventDateTime();
-        $start->setDateTime(date3339(strtotime($appointment_data['start_datetime'])));
+        $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
         $event->setStart($start);
         
         $end = new Google_EventDateTime();
-        $end->setDateTime(date3339(strtotime($appointment_data['end_datetime'])));
+        $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
         
         $eventProvider = new Google_EventAttendee();
-        $eventProvider->setDisplayName($provider_data['first_name'] . ' ' 
-                . $provider_data['last_name']);
-        $eventProvider->setEmail($provider_data['email']);
+        $eventProvider->setDisplayName($provider['first_name'] . ' ' 
+                . $provider['last_name']);
+        $eventProvider->setEmail($provider['email']);
         
         $eventCustomer = new Google_EventAttendee();
-        $eventCustomer->setDisplayName($customer_data['first_name'] . ' ' 
-                . $customer_data['last_name']);
-        $eventCustomer->setEmail($customer_data['email']);
+        $eventCustomer->setDisplayName($customer['first_name'] . ' ' 
+                . $customer['last_name']);
+        $eventCustomer->setEmail($customer['email']);
         
         $event->attendees = array(
             $eventProvider, 
@@ -137,10 +136,6 @@ class Google_Sync {
         
         // Add the new event to the "primary" calendar.
         $created_event = $this->service->events->insert('primary', $event);
-        
-        // Set the Google Calendar event id to the E!A database record.
-        $appointment_data['id_google_calendar'] = $created_event->id;
-        $this->CI->appointments_model->add($appointment_data);
         
         return $created_event;
     }
@@ -151,43 +146,42 @@ class Google_Sync {
      * This method updates the google calendar event item that is connected with the
      * provided appointment record of Easy!Appointments. 
      * 
-     * @param array $appointment_data Contains the appointment record data.
-     * @param array $provider_data Contains the provider record data.
-     * @param array $service_data Contains the service record data.
-     * @param array $customer_data Contains the customer recod data.
+     * @param array $appointment Contains the appointment record data.
+     * @param array $provider Contains the provider record data.
+     * @param array $service Contains the service record data.
+     * @param array $customer Contains the customer recod data.
      * @parma array $company_settings Contains some company settings that are used
      * by this method. By the time the following values must be in the array: 
      * 'company_name'.
      * @return Google_Event Returns the Google_Event class object.
      */
-    public function update_appointment($appointment_data, $provider_data, 
-            $service_data, $customer_data, $company_settings) {
+    public function update_appointment($appointment, $provider, $service, $customer, $company_settings) {
         $this->CI->load->helper('general');
         
-        $event = $this->service->events->get('primary', $appointment_data['id_google_calendar']);
+        $event = $this->service->events->get('primary', $appointment['id_google_calendar']);
         
         // Convert event to object
         
-        $event->setSummary($service_data['name']);
+        $event->setSummary($service['name']);
         $event->setLocation($company_settings['company_name']);
         
         $start = new Google_EventDateTime();
-        $start->setDateTime(date3339(strtotime($appointment_data['start_datetime'])));
+        $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
         $event->setStart($start);
         
         $end = new Google_EventDateTime();
-        $end->setDateTime(date3339(strtotime($appointment_data['end_datetime'])));
+        $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
         
         $event_provider = new Google_EventAttendee();
-        $event_provider->setDisplayName($provider_data['first_name'] . ' ' 
-                . $provider_data['last_name']);
-        $event_provider->setEmail($provider_data['email']);
+        $event_provider->setDisplayName($provider['first_name'] . ' ' 
+                . $provider['last_name']);
+        $event_provider->setEmail($provider['email']);
         
         $event_customer = new Google_EventAttendee();
-        $event_customer->setDisplayName($customer_data['first_name'] . ' ' 
-                . $customer_data['last_name']);
-        $event_customer->setEmail($customer_data['email']);
+        $event_customer->setDisplayName($customer['first_name'] . ' ' 
+                . $customer['last_name']);
+        $event_customer->setEmail($customer['email']);
         
         $event->attendees = array(
             $event_provider, 
@@ -207,6 +201,10 @@ class Google_Sync {
      */
     public function delete_appointment($google_calendar_id) {
         $this->service->events->delete('primary', $google_calendar_id);
+    }
+    
+    public function add_unavailble($unavailable) {
+        // @task Implement
     }
 }
 

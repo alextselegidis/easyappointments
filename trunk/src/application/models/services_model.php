@@ -10,14 +10,14 @@ class Services_Model extends CI_Model {
     /**
      * Get a specific row from the services db table.
      * 
-     * @param int $service_id The record's id to be returned.
+     * @param numeric $service_id The record's id to be returned.
      * @return array Returns an associative array with the selected
      * record's data. Each key has the same name as the database 
      * field names.
      */
     public function get_row($service_id) {
         if (!is_numeric($service_id)) {
-            throw new Exception('$service_id argument is not an integer : ' . $service_id);
+            throw new Exception('$service_id argument is not an numeric (value: "' . $service_id . '")');
         }
         return $this->db->get_where('ea_services', array('id' => $service_id))->row_array();
     }

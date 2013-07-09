@@ -58,7 +58,7 @@
                 </button>
 
                 <button id="insert-unavailable" class="btn" 
-                        title="During unavailalbe period the provider won't accept new appointments.">
+                        title="During unavailable periods the provider won't accept new appointments.">
                     <i class="icon-ban-circle"></i>
                     <span>Unavailable</span>
                 </button>
@@ -66,7 +66,7 @@
         </div>
     </div>
     
-    <div id="calendar"></div>
+    <div id="calendar"></div> <?php // Main calendar container ?>
 </div>
 
 <div id="manage-appointment" class="modal hide fade">
@@ -178,7 +178,50 @@
     </div>
     
     <div class="modal-footer">
-        <button id="save-button" class="btn btn-primary">Save</button>
-        <button id="cancel-button" class="btn">Cancel</button>
+        <button id="save-appointment" class="btn btn-primary">Save</button>
+        <button id="cancel-appointment" class="btn">Cancel</button>
+    </div>
+</div>
+
+<div id="manage-unavailable" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" 
+                aria-hidden="true">&times;</button>
+        <h3>Add Unavailable Period</h3>
+        <div class="modal-message" class="alert" style="display: none;"></div>
+    </div>
+    
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <fieldset>
+                <input id="unavailable-id" type="hidden" />
+                
+                <div class="control-group">
+                    <label for="unavailable-start" class="control-label">Start</label>
+                    <div class="controls">
+                        <input type="text" id="unavailable-start" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="unavailable-end" class="control-label">End</label>
+                    <div class="controls">
+                        <input type="text" id="unavailable-end" />
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="unavailable-notes" class="control-label">Notes</label>
+                    <div class="controls">
+                        <textarea id="unavailable-notes"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    
+    <div class="modal-footer">
+        <button id="save-unavailable" class="btn btn-primary">Save</button>
+        <button id="cancel-unavailable" class="btn">Cancel</button>
     </div>
 </div>

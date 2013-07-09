@@ -23,6 +23,14 @@ $(document).ready(function() {
  */
 var Backend = {
     /**
+     * Backend Constants
+     */
+    EXCEPTIONS_TITLE: 'Unexpected Issues',
+    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
+    WARNINGS_TITLE: 'Unexpected Warnings',
+    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    
+    /**
      * Place the backend footer always on the bottom of the page.
      */
     placeFooterToBottom: function() {

@@ -217,12 +217,10 @@ class Appointments_Model extends CI_Model {
      */
     public function delete($appointment_id) {
         if (!is_numeric($appointment_id)) { 
-            throw new Exception('Invalid argument type $appointment_id : ' 
-                    . $appointment_id);
+            throw new Exception('Invalid argument type $appointment_id (value:"' . $appointment_id . '")');
         }
         
-        $num_rows = $this->db->get_where('ea_appointments', 
-                array('id' => $appointment_id))->num_rows();
+        $num_rows = $this->db->get_where('ea_appointments', array('id' => $appointment_id))->num_rows();
         
         if ($num_rows == 0) {
             return FALSE; // Record does not exist.
@@ -314,6 +312,66 @@ class Appointments_Model extends CI_Model {
     public function generate_hash() {
         $current_date = new DateTime();
         return md5($current_date->getTimestamp());
+    }
+    
+    /**
+     * Inserts or updates an unavailable period record in the database.
+     * 
+     * @param array $unavailable Contains the unavaible data.
+     * @return int Returns the record id.
+     */
+    public function add_unavailable($unavailable) {
+        // Validate period
+        $start = strtotime($unavailable['start_datetime']);
+        $end = strtotime($unavailable['end_datetime']);
+        if ($start > $end) {
+            throw new Exception('Unavailable period start must be prior to end.');
+        }
+        
+        // Validate provider record
+        $where_clause = array(
+            'id' => $unavailable['id_users_provider'],
+            'id_roles' => $this->db->get_where('ea_roles', array('slug' => DB_SLUG_PROVIDER))->row()->id
+        );
+        
+        if ($this->db->get_where('ea_users', $where_clause)->num_rows() == 0) {
+            throw new Exception('Provider id was not found in database.');
+        }
+        
+        // Add record to database (insert or update).
+        if (!isset($unavailable['id'])) {
+            $unavailable['book_datetime'] = date('Y-m-d H:i:s');
+            $unavailable['is_unavailable'] = true;
+            
+            $this->db->insert('ea_appointments', $unavailable); 
+            $unavailable['id'] = $this->db->insert_id();
+        } else {
+            $this->db->where(array('id' => $unavailable['id']));
+            $this->db->update('ea_appointments', $unavailable);
+        }
+        
+        return $unavailable['id'];
+    }
+    
+    /**
+     * Delete an unavailable period.
+     * 
+     * @param numeric $unavailable_id Record id to be deleted.
+     */
+    public function delete_unavailable($unavailable_id) {
+        if (!is_numeric($unavailable_id)) { 
+            throw new Exception('Invalid argument type $appointment_id (value:"' . 
+                    $unavailable_id . '")');
+        }
+        
+        $num_rows = $this->db->get_where('ea_appointments', array('id' => $unavailable_id))
+                ->num_rows();
+        if ($num_rows == 0) {
+            return FALSE; // Record does not exist.
+        }
+        
+        $this->db->where('id', $unavailable_id);
+        return $this->db->delete('ea_appointments');
     }
 }
 
