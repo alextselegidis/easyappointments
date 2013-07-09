@@ -113,13 +113,10 @@ var BackendCalendar = {
                     === BackendCalendar.FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
                 		.prop('disabled', true);
-                // @task Hide the unavailable periods.
             } else {
             	
             	$('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
             			.prop('disabled', false);
-            	// @task Show the unavailable periods.
-            	
                 // If the user has already the sync enabled then apply the proper
                 // style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
@@ -226,17 +223,14 @@ var BackendCalendar = {
                         
                         if (response.exceptions) {
                             response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                            GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
-                                    + 'the operation could not complete successfully. The following '
-                                    + 'issues occured:');
+                            GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
                             $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                             return;
                         }
                         
                         if (response.warnings) {
                             response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                            GeneralFunctions.displayMessageBox('Unexpected Warnings', 'The operation '
-                                    + 'was completed but the following warnings appeared:');
+                            GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
                             $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                         }
                         
@@ -260,7 +254,7 @@ var BackendCalendar = {
          * 
          * Closes the dialog without saving any changes to the database.
          */
-        $('#manage-appointment #cancel-button').click(function() {
+        $('#manage-appointment #cancel-appointment').click(function() {
             $('#manage-appointment').modal('hide');
         });
         
@@ -270,7 +264,7 @@ var BackendCalendar = {
          * Stores the appointment changes or inserts a new appointment depending the dialog
          * mode.
          */
-        $('#manage-appointment #save-button').click(function() {
+        $('#manage-appointment #save-appointment').click(function() {
             // Before doing anything the appointment data need to be validated.
             if (!BackendCalendar.validateAppointmentForm()) {
                 return; // validation failed
@@ -320,9 +314,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {             
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
-                            + 'the operation could not complete successfully. The following '
-                            + 'issues occured:');
+                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
                     $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
                     $dialog.find('.modal-header').append(
@@ -357,9 +349,69 @@ var BackendCalendar = {
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
-            BackendCalendar.saveAppointmentData(appointment, customer, 
+            BackendCalendar.saveAppointment(appointment, customer, 
                     successCallback, errorCallback);
         }); 
+        
+        $('#manage-unavailable #save-unavailable').click(function() {
+            var $dialog = $('#manage-unavailable');
+            
+            var start = Date.parseExact($dialog.find('#unavailable-start').val(), 'dd/MM/yyyy HH:mm');
+            var end = Date.parseExact($dialog.find('#unavailable-end').val(), 'dd/MM/yyyy HH:mm');
+            
+            if (start > end) {
+                // Start time is after end time - display message to user.
+                $dialog.find('.modal-message').html(
+                        '<div class="alert alert-error">' +
+                            'Start date value is bigger than end date!' + 
+                        '</div>');
+                return;
+            }
+            
+            // Unavailable period records go to the appointments table.
+            var unavailable = {
+                'start_datetime': start.toString('yyyy-MM-dd HH:mm'),
+                'end_datetime': end.toString('yyyy-MM-dd HH:mm'),
+                'notes': $dialog.find('#unavailable-notes').val(),
+                'id_users_provider': $('#select-filter-item').val() // curr provider
+            };
+            
+            var successCallback = function(response) {
+                ///////////////////////////////////////////////////////////////////
+                console.log('Save Unavailable Time Period Response:', response);
+                ///////////////////////////////////////////////////////////////////
+
+                if (response.exceptions) {
+                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                    return;
+                }
+
+                if (response.warnings) {
+                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                }
+
+                $('#manage-unavailable').modal('hide');
+            };
+            
+            var errorCallback = function(jqXHR, textStatus, errorThrown) {
+                ////////////////////////////////////////////////////////////////////////
+                console.log('Save Unavailable Error:', jqXHR, textStatus, errorThrown);
+                ////////////////////////////////////////////////////////////////////////
+                
+                GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
+                        'the operation could not complete due to server communication errors.');
+            };
+            
+            BackendCalendar.saveUnavalable(unavailable, successCallback, errorCallback);
+        });
+        
+        $('#manage-unavailable #cancel-unavailable').click(function() {
+            $('#manage-unavailable').modal('hide');
+        });
         
         /**
          * Event: Enable - Disable Synchronization Button "Click"
@@ -438,7 +490,10 @@ var BackendCalendar = {
          * a time period where he cannot accept any appointments.
          */
         $('#insert-unavailable').click(function() {
-            // @task Implement this event handler.
+            BackendCalendar.resetUnavailableDialog();
+            var $dialog = $('#manage-unavailable');
+            $dialog.find('.modal-header h3').text('New Unavailable Period');
+            $dialog.modal('show');
         });
     },
             
@@ -483,17 +538,14 @@ var BackendCalendar = {
             
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
-                        + 'the operation could not complete successfully. The following '
-                        + 'issues occured:');
+                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
             
             if (response.warnings) {
             	response.warnings = GeneralFunctions.parseExceptions(response.exceptions);
-            	GeneralFunctions.displayMessageBox('Unexpected Warnings', 'The operation was '
-            			+ 'completed but the following warnings appeared.');
+            	GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
             	$('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
             }
             
@@ -655,9 +707,7 @@ var BackendCalendar = {
                                         $('#calendar').fullCalendar('renderEvent', unavailablePeriod, true);
                                     });
                                     
-                                    
                                     // @task Add custom unavailable periods.
-                                    
                                     
                                     currDateStart.addDays(1);
                                     currDateEnd.addDays(1);
@@ -683,8 +733,7 @@ var BackendCalendar = {
      * @param {function} errorCallback (OPTIONAL) If defined, this function is 
      * going to be executed on post failure.
      */
-    saveAppointmentData : function(appointment, customer, 
-            successCallback, errorCallback) {
+    saveAppointment: function(appointment, customer, successCallback, errorCallback) {
         var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_appointment';
         
         var postData = {};
@@ -723,6 +772,29 @@ var BackendCalendar = {
     },
     
     /**
+     * Save unavailable period to database. 
+     * 
+     * @param {object} unavailable Containts the unavailable period data.
+     * @param {function} successCallback The ajax success callback function.
+     * @param {function} errorCallback The ajax failure callback function.
+     */
+    saveUnavalable: function(unavailable, successCallback, errorCallback) {
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_unavailable';
+        
+        var postData = {
+            'unavailable': JSON.stringify(unavailable)
+        };
+        
+        $.ajax({
+            'type': 'POST',
+            'url': postUrl,
+            'data': postData,
+            'success': successCallback,
+            'error': errorCallback
+        });
+    },
+    
+    /**
      * Calendar Event "Resize" Callback
      * 
      * The user can change the duration of an event by resizing an appointment
@@ -755,9 +827,7 @@ var BackendCalendar = {
         var successCallback = function(response) {
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately ' 
-                        + 'the operation could not complete successfully. The following '
-                        + 'issues occured:');
+                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -765,8 +835,7 @@ var BackendCalendar = {
             if (response.warnings) {
                 // Display warning information to the user.
                 response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                GeneralFunctions.displayMessageBox('Warnings', 'The operation completed but '
-                        + 'there were some warnings:');
+                GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
             }
 
@@ -796,7 +865,7 @@ var BackendCalendar = {
         };
 
         // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-        BackendCalendar.saveAppointmentData(appointment, undefined, 
+        BackendCalendar.saveAppointment(appointment, undefined, 
                 successCallback, undefined);
     },
             
@@ -836,39 +905,56 @@ var BackendCalendar = {
     calendarEventClick: function(event, jsEvent, view) {
         $('.popover').remove(); // Close all open popovers.
         
-        if ($(jsEvent.target).hasClass('fc-unavailable')) {
-            return; // do not show popover on unavailable events
-        }
+        var html;
         
-        // Display a popover with the event details.
-        var html = 
-                '<style type="text/css">' 
-                    + '.popover-content strong {min-width: 80px; display:inline-block;}' 
-                    + '.popover-content button {margin-right: 10px;}'
-                    + '</style>' +
-                '<strong>Start</strong> ' 
-                    + event.start.toString('dd/MM/yyyy HH:mm') 
-                    + '<br>' + 
-                '<strong>End</strong> ' 
-                    + event.end.toString('dd/MM/yyyy HH:mm') 
-                    + '<br>' + 
-                '<strong>Service</strong> ' 
-                    + event.data['service']['name'] 
-                    + '<br>' +  
-                '<strong>Provider</strong> ' 
-                    + event.data['provider']['first_name'] + ' ' 
-                    + event.data['provider']['last_name'] 
-                    + '<br>' +
-                '<strong>Customer</strong> ' 
-                    + event.data['customer']['first_name'] + ' ' 
-                    + event.data['customer']['last_name'] 
-                    + '<hr>' +
-                '<center>' + 
-                '<button class="edit-popover btn btn-primary">Edit</button>' +
-                '<button class="delete-popover btn btn-danger">Delete</button>' +
-                '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
-                '</center>';
-
+        if ($(jsEvent.target.offsetParent).hasClass('fc-unavailable')
+                || $(jsEvent.target).parents().eq(1).hasClass('fc-unavailable')) { 
+            html = 
+                    '<style type="text/css">' 
+                        + '.popover-content strong {min-width: 80px; display:inline-block;}' 
+                        + '.popover-content button {margin-right: 10px;}'
+                        + '</style>' +
+                    '<strong>Start</strong> ' 
+                        + event.start.toString('dd/MM/yyyy HH:mm') 
+                        + '<br>' + 
+                    '<strong>End</strong> ' 
+                        + event.end.toString('dd/MM/yyyy HH:mm') 
+                        + '<br>' + 
+                    '<center>' + 
+                        '<button class="edit-popover btn btn-primary">Edit</button>' +
+                        '<button class="delete-popover btn btn-danger">Delete</button>' +
+                        '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
+                    '</center>';
+        } else {        
+            html = 
+                    '<style type="text/css">' 
+                        + '.popover-content strong {min-width: 80px; display:inline-block;}' 
+                        + '.popover-content button {margin-right: 10px;}'
+                        + '</style>' +
+                    '<strong>Start</strong> ' 
+                        + event.start.toString('dd/MM/yyyy HH:mm') 
+                        + '<br>' + 
+                    '<strong>End</strong> ' 
+                        + event.end.toString('dd/MM/yyyy HH:mm') 
+                        + '<br>' + 
+                    '<strong>Service</strong> ' 
+                        + event.data['service']['name'] 
+                        + '<br>' +  
+                    '<strong>Provider</strong> ' 
+                        + event.data['provider']['first_name'] + ' ' 
+                        + event.data['provider']['last_name'] 
+                        + '<br>' +
+                    '<strong>Customer</strong> ' 
+                        + event.data['customer']['first_name'] + ' ' 
+                        + event.data['customer']['last_name'] 
+                        + '<hr>' +
+                    '<center>' + 
+                        '<button class="edit-popover btn btn-primary">Edit</button>' +
+                        '<button class="delete-popover btn btn-danger">Delete</button>' +
+                        '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
+                    '</center>';
+        }
+                
         $(jsEvent.target).popover({
             'placement': 'top',
             'title': event.title,
@@ -921,9 +1007,7 @@ var BackendCalendar = {
         var successCallback = function(response) {
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately ' 
-                        + 'the operation could not complete successfully. The following '
-                        + 'issues occured:');
+                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -931,8 +1015,7 @@ var BackendCalendar = {
             if (response.warnings) {
                 // Display warning information to the user.
                 response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                GeneralFunctions.displayMessageBox('Warnings', 'The operation completed but '
-                        + 'there were some warnings:');
+                GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
             }
             
@@ -972,7 +1055,7 @@ var BackendCalendar = {
         };
 
         // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-        BackendCalendar.saveAppointmentData(appointment, undefined, 
+        BackendCalendar.saveAppointment(appointment, undefined, 
                 successCallback, undefined);
     },
     
@@ -983,8 +1066,10 @@ var BackendCalendar = {
      * need to be made, in order to display proper information to the user.
      */
     calendarViewDisplay : function(view) {
-        // Place the footer into correct position because the calendar
-        // height might change.
+        if ($('#select-filter-item').val() === null) {
+             return;   
+        }
+        
         BackendCalendar.refreshCalendarAppointments(
                 $('#calendar'),
                 $('#select-filter-item').val(),
@@ -1016,9 +1101,7 @@ var BackendCalendar = {
             
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately ' 
-                        + 'the operation could not complete successfully. The following '
-                        + 'issues occured:');
+                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -1132,15 +1215,31 @@ var BackendCalendar = {
             return false;
         }
     },
-    
+        
     /**
-     * This method adds an unavailable time period to calendar.
-     * 
-     * @param {date} start The period start date and time.
-     * @param {date} end The period end date and time.
-     * @return {bool} Returns the operation result.
+     * Reset the "#manage-unavailable" dialog. Use this method to bring the dialog
+     * to the initial state before it becomes visible to the user.
      */
-    addUnavailableTimePeriod: function(start, end) {
-    	// @task Use this method whenever you need to add an unavailable period on calendar.
+    resetUnavailableDialog: function() {
+        var $dialog = $('#manage-unavailable');
+        
+        // Set default time values
+        var start = new Date().toString('dd/MM/yyyy HH:mm');
+        var end = new Date().addHours(1).toString('dd/MM/yyyy HH:mm');
+        
+        $dialog.find('#unavailable-start').datetimepicker({
+            'dateFormat': 'dd/mm/yy',
+            'minDate': 0
+        });
+        $dialog.find('#unavailable-start').val(start);
+        
+        $dialog.find('#unavailable-end').datetimepicker({
+            'dateFormat': 'dd/mm/yy',
+            'minDate': 0
+        });
+        $dialog.find('#unavailable-end').val(end);
+        
+        // Clear the unavailable notes field.
+        $dialog.find('#unavailable-notes').val('');
     }
 };
