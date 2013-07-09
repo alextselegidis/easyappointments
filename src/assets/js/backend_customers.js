@@ -77,7 +77,7 @@ var BackendCustomers = {
 	 * @param {string} key The filter key string.
 	 */
 	filterCustomers: function(key) {
-		var postUrl = GlobalVariables.baseUrl + 'backend/ajax_filter_customers';
+		var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_customers';
 		var postData = { 'key': key };
 		$.post(postUrl, postData, function(response) {
 			if (response.exceptions) {
