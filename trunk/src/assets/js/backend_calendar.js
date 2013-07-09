@@ -210,7 +210,7 @@ var BackendCalendar = {
             
             var messageButtons = {
                 'OK': function() {
-                    var postUrl = GlobalVariables.baseUrl + 'backend/ajax_delete_appointment';
+                    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_appointment';
                     
                     var postData = { 
                         'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
@@ -467,7 +467,7 @@ var BackendCalendar = {
      */
     refreshCalendarAppointments: function($calendar, recordId, filterType, 
             startDate, endDate) {
-        var postUrl = GlobalVariables.baseUrl + 'backend/ajax_get_calendar_appointments';
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_get_calendar_appointments';
             
         var postData = {
             'record_id': recordId,
@@ -685,7 +685,7 @@ var BackendCalendar = {
      */
     saveAppointmentData : function(appointment, customer, 
             successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_appointment';
         
         var postData = {};
         
@@ -777,7 +777,7 @@ var BackendCalendar = {
                         .add({ minutes: -minuteDelta })
                         .toString('yyyy-MM-dd HH:mm:ss');
                 
-                var postUrl = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';                     
+                var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_appointment';                     
                 var postData = { 'appointment_data': JSON.stringify(appointment) };
 
                 $.post(postUrl, postData, function(response) {
@@ -951,7 +951,7 @@ var BackendCalendar = {
                 event.data['start_datetime'] = appointment['start_datetime'];
                 event.data['end_datetime'] = appointment['end_datetime'];
         
-                var postUrl  = GlobalVariables.baseUrl + 'backend/ajax_save_appointment';
+                var postUrl  = GlobalVariables.baseUrl + 'backend_api/ajax_save_appointment';
                 
                 var postData = { 'appointment_data': JSON.stringify(appointment) };
 
@@ -1006,7 +1006,7 @@ var BackendCalendar = {
     disableProviderSync: function(providerId) {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
-        var postUrl = GlobalVariables.baseUrl + 'backend/ajax_disable_provider_sync';
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_disable_provider_sync';
         var postData = { 'provider_id': providerId };
         
         $.post(postUrl, postData, function(response) {
