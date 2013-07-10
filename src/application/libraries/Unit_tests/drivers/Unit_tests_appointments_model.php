@@ -82,6 +82,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         unset($db_data['hash']); 
         unset($db_data['book_datetime']);
         unset($db_data['id_google_calendar']);
+        unset($db_data['is_unavailable']);
         
         $this->CI->unit->run($appointment, $db_data, 'Test if add() appointment (insert '
                 . 'operation) has successfully inserted a record.');
@@ -438,6 +439,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $db_data = $this->CI->appointments_model->get_row($appointment['id']);
         unset($db_data['book_datetime']);
         unset($db_data['id_google_calendar']);
+        unset($db_data['is_unavailable']);
         
         // Check if this is the record we seek.
         $this->CI->unit->run($db_data, $appointment, 'Test get_row() method.');

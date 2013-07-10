@@ -53,7 +53,7 @@
                     <td style="padding: 3px;">$customer_address</td>
                 </tr>
             </table>
-
+            
             <h2>Appointment Link</h2>
             <a href="$appointment_link" style="width: 600px;">$appointment_link</a>
         </div>

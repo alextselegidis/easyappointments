@@ -7,12 +7,11 @@ class Backend_api extends CI_Controller {
     /**
      * [AJAX] Get the registered appointments for the given date period and record.
      * 
-     * This method returns the database appointments for the user selected date 
-     * period and record type (provider or service). 
+     * This method returns the database appointments and unavailable periods for the 
+     * user selected date period and record type (provider or service). 
      * 
      * @param {numeric} $_POST['record_id'] Selected record id. 
-     * @param {string} $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER 
-     * or FILTER_TYPE_SERVICE.
+     * @param {string} $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
      * @param {string} $_POST['start_date'] The user selected start date.
      * @param {string} $_POST['end_date'] The user selected end date.
      */
@@ -29,23 +28,35 @@ class Backend_api extends CI_Controller {
                 $where_id = 'id_services';
             }
 
+            // Get appointments
             $where_clause = array(
                 $where_id => $_POST['record_id'],
                 'start_datetime >=' => $_POST['start_date'],
-                'end_datetime <=' => $_POST['end_date']
+                'end_datetime <=' => $_POST['end_date'],
+                'is_unavailable' => FALSE
             );
+            
+            $response['appointments'] = $this->appointments_model->get_batch($where_clause);
 
-            $appointments = $this->appointments_model->get_batch($where_clause);
-
-            foreach($appointments as &$appointment) {
-                if ($appointment['is_unavailable'] == FALSE)  {
-                    $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
-                    $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
-                    $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
-                }
+            foreach($response['appointments'] as &$appointment) {
+                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
+                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
-
-            echo json_encode($appointments);
+            
+            // Get unavailable periods (only for provider).
+            if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
+                $where_clause = array(
+                    $where_id => $_POST['record_id'],
+                    'start_datetime >=' => $_POST['start_date'],
+                    'end_datetime <=' => $_POST['end_date'],
+                    'is_unavailable' => TRUE
+                );
+                
+                $response['unavailables'] = $this->appointments_model->get_batch($where_clause);
+            }
+                
+            echo json_encode($response);
             
         } catch(Exception $exc) {
             echo json_encode(array(
@@ -205,10 +216,10 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $this->load->model('settings_model');
 
-            $appointment_data = $this->appointments_model->get_row($_POST['appointment_id']);
-            $provider_data = $this->providers_model->get_row($appointment_data['id_users_provider']);
-            $customer_data = $this->customers_model->get_row($appointment_data['id_users_customer']);
-            $service_data = $this->services_model->get_row($appointment_data['id_services']);
+            $appointment = $this->appointments_model->get_row($_POST['appointment_id']);
+            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $service = $this->services_model->get_row($appointment['id_services']);
 
             $company_settings = array(
                 'company_name' => $this->settings_model->get_setting('company_name'),
@@ -220,16 +231,16 @@ class Backend_api extends CI_Controller {
             $this->appointments_model->delete($_POST['appointment_id']);
             
             // :: SYNC DELETE WITH GOOGLE CALENDAR
-            if ($appointment_data['id_google_calendar'] != NULL) {
+            if ($appointment['id_google_calendar'] != NULL) {
                 try {
-                    $google_sync = $this->providers_model->get_setting('google_sync', $provider_data['id']);
+                    $google_sync = $this->providers_model->get_setting('google_sync', $provider['id']);
 
                     if ($google_sync == TRUE) {
                         $google_token = json_decode($this->providers_model
-                                ->get_setting('google_token', $provider_data['id']));
+                                ->get_setting('google_token', $provider['id']));
                         $this->load->library('Google_Sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
-                        $this->google_sync->delete_appointment($appointment_data['id_google_calendar']);
+                        $this->google_sync->delete_appointment($appointment['id_google_calendar']);
                     }    
                 } catch(Exception $exc) {
                     $warnings[] = exceptionToJavascript($exc);
@@ -239,11 +250,11 @@ class Backend_api extends CI_Controller {
             // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER
             try {
                 $this->load->library('Notifications');
-                $this->notifications->send_delete_appointment($appointment_data, $provider_data, 
-                        $service_data, $customer_data, $company_settings, $provider_data['email'],
+                $this->notifications->send_delete_appointment($appointment, $provider, 
+                        $service, $customer, $company_settings, $provider['email'],
                         $_POST['delete_reason']);
-                $this->notifications->send_delete_appointment($appointment_data, $provider_data,
-                        $service_data, $customer_data, $company_settings, $customer_data['email'],
+                $this->notifications->send_delete_appointment($appointment, $provider,
+                        $service, $customer, $company_settings, $customer['email'],
                         $_POST['delete_reason']);
             } catch(Exception $exc) {
                 $warnings[] = exceptionToJavascript($exc);
@@ -334,7 +345,8 @@ class Backend_api extends CI_Controller {
             
             // Add appointment
             $unavailable = json_decode($_POST['unavailable'], true);
-            $this->appointments_model->add_unavailable($unavailable); 
+            $unavailable['id'] = $this->appointments_model->add_unavailable($unavailable); 
+            $unavailable = $this->appointments_model->get_row($unavailable['id']);
             
             // Google Sync
             try {
@@ -348,11 +360,13 @@ class Backend_api extends CI_Controller {
                     $this->load->library('google_sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
                     
-                    // @task Sync with gcal.
-                    $google_event = $this->google_sync->add_unavailable($unavailable);
-                    
-                    $unavailable['id_google_calendar'] = $google_event->id;
-                    $this->appointments_model->add_unavailable($unavailable);
+                    if ($unavailable['id_google_calendar'] == NULL) {
+                        $google_event = $this->google_sync->add_unavailable($unavailable);
+                        $unavailable['id_google_calendar'] = $google_event->id;
+                        $this->appointments_model->add_unavailable($unavailable);
+                    } else {
+                        $google_event = $this->google_sync->update_unavailable($unavailable);
+                    }
                 }
             } catch(Exception $exc) {
                 $warnings[] = $exc;
@@ -380,9 +394,35 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_unavailable() {
         try {
-            // Delete unavailable
+            $this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            
+            $unavailable = $this->appointments_model->get_row($_POST['unavailable_id']);
+            $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
+            
+            // Delete unavailable 
+            $this->appointments_model->delete_unavailable($unavailable['id']);
             
             // Google Sync
+            try {
+                $google_sync = $this->providers_model->get_setting('google_sync', $provider['id']);
+                if ($google_sync == TRUE) {
+                    $google_token = json_decode($this->providers_model->get_setting('google_token', $provider['id']));
+                    $this->load->library('google_sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
+                    $this->google_sync->delete_unavailable($unavailable['id_google_calendar']);
+                }
+            } catch(Exception $exc) {
+                $warnings[] = $exc;
+            }
+            
+            if (isset($warnings)) {
+                echo json_encode(array(
+                    'warnings' => $warnings
+                ));
+            } else {
+                echo json_encode('SUCCESS');
+            }
             
         } catch(Exception $exc) {
             echo json_encode(array(
