@@ -160,8 +160,6 @@ class Google_Sync {
         
         $event = $this->service->events->get('primary', $appointment['id_google_calendar']);
         
-        // Convert event to object
-        
         $event->setSummary($service['name']);
         $event->setLocation($company_settings['company_name']);
         
@@ -203,8 +201,76 @@ class Google_Sync {
         $this->service->events->delete('primary', $google_calendar_id);
     }
     
-    public function add_unavailble($unavailable) {
-        // @task Implement
+    /**
+     * Add unavailable period event to Google Calendar.
+     * 
+     * @param array $unavailable Contains unavailable period's data.
+     * @return Google_Event Returns the google event's object.
+     */
+    public function add_unavailable($unavailable) {
+        $this->CI->load->helper('general');
+        
+        $event = new Google_Event();
+        $event->setSummary('Unavailalbe');
+        $event->setDescription($unavailable['notes']);
+        
+        $start = new Google_EventDateTime();
+        $start->setDateTime(date3339(strtotime($unavailable['start_datetime'])));
+        $event->setStart($start);
+        
+        $end = new Google_EventDateTime();
+        $end->setDateTime(date3339(strtotime($unavailable['end_datetime'])));
+        $event->setEnd($end);
+        
+        // Add the new event to the "primary" calendar.
+        $created_event = $this->service->events->insert('primary', $event);
+        
+        return $created_event;
+        
+    }
+    
+    /**
+     * Update Google Calendar unavailable period event.
+     * 
+     * @param array $unavailable Contains the unavailable period data.
+     * @return Google_Event Returns the Google_Event object.
+     */
+    public function update_unavailable($unavailable) {
+        $this->CI->load->helper('general');
+        
+        $event = $this->service->events->get('primary', $unavailable['id_google_calendar']);
+        $event->setDescription($unavailable['notes']);
+        
+        $start = new Google_EventDateTime();
+        $start->setDateTime(date3339(strtotime($unavailable['start_datetime'])));
+        $event->setStart($start);
+        
+        $end = new Google_EventDateTime();
+        $end->setDateTime(date3339(strtotime($unavailable['end_datetime'])));
+        $event->setEnd($end);
+        
+        $updated_event = $this->service->events->update('primary', $event->getId(), $event);
+        
+        return $updated_event;
+    }
+    
+    /**
+     * Delete unavailable period event from Google Calendar.
+     * 
+     * @param string $google_calendar_id Google Calendar event id to be deleted.
+     */
+    public function delete_unavailable($google_calendar_id) {
+        $this->service->events->delete('primary', $google_calendar_id);
+    }
+    
+    /**
+     * Get an event object from gcal
+     * 
+     * @param string $google_calendar_id Id of the google calendar event
+     * @return Google_Event Returns the google event object.
+     */
+    public function get_event($google_calendar_id) {
+        return $this->service->events->get('primary', $google_calendar_id);
     }
 }
 

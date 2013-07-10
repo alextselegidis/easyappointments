@@ -129,7 +129,7 @@ class Customers_Model extends CI_Model {
      */
     public function find_record_id($customer) {
         if (!isset($customer['email'])) {
-            throw new InvalidArgumentException('Customer\'s email was not provided : ' 
+            throw new Exception('Customer\'s email was not provided : ' 
                     . print_r($customer, TRUE));
         }
         
@@ -244,7 +244,7 @@ class Customers_Model extends CI_Model {
         }
         
         if (!is_string($field_name)) {
-            throw new IException('$field_name argument is not a string : ' 
+            throw new Exception('$field_name argument is not a string : ' 
                     . $field_name);
         }
         

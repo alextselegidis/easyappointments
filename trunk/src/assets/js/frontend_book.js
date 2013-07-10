@@ -345,7 +345,7 @@ var FrontendBook = {
                 FrontendBook.updateConfirmFrame();
                 
             } else {
-                $('#available-hours').text('There are no available appointment'
+                $('#available-hours').text('There are no available appointment '
                         + 'hours for the selected date. Please choose another date.');
             }
         }, 'json');

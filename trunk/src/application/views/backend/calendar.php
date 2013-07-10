@@ -15,7 +15,8 @@
         'availableProviders'    : <?php echo json_encode($available_providers); ?>,
         'availableServices'     : <?php echo json_encode($available_services); ?>,
         'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,
-        'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>
+        'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>,
+        'editAppointment'       : <?php echo json_encode($edit_appointment); ?>
     };
     
     $(document).ready(function() {

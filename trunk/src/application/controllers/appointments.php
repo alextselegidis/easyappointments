@@ -30,29 +30,25 @@ class Appointments extends CI_Controller {
                     // Load the appointments data and enable the manage mode of the page.
                     $manage_mode = TRUE;
 
-                    $appointments_results = $this->appointments_model
-                            ->get_batch(array('hash' => $appointment_hash));
+                    $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
                     
-                    if (count($appointments_results) === 0) {
+                    if (count($results) === 0) {
                         // The requested appointment doesn't exist in the database. Display
                         // a message to the customer.
-                        $view_data = array(
+                        $view = array(
                             'message_title' => 'Appointment Not Found!',
                             'message_text'  => 'The appointment you requested does not exist in '
                                              . 'the system database anymore.',
                             'message_icon'  => $this->config->item('base_url') 
                                              . 'assets/images/error.png'
                         );
-                        $this->load->view('appointments/message', $view_data);                        
+                        $this->load->view('appointments/message', $view);                        
                         return;
                     }
 
-                    $appointment = $appointments_results[0]; 
-                    
-                    $provider = $this->providers_model
-                                   ->get_row($appointment['id_users_provider']);
-                    $customer = $this->customers_model
-                                   ->get_row($appointment['id_users_customer']);
+                    $appointment = $results[0]; 
+                    $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+                    $customer = $this->customers_model->get_row($appointment['id_users_customer']);
                     
                 } else {
                     // The customer is going to book a new appointment so there is no 
@@ -64,7 +60,7 @@ class Appointments extends CI_Controller {
                 }
 
                 // Load the book appointment view.
-                $view_data = array (
+                $view = array (
                     'available_services'    => $available_services,
                     'available_providers'   => $available_providers,
                     'company_name'          => $company_name,
@@ -75,10 +71,10 @@ class Appointments extends CI_Controller {
                 );
                 
             } catch(Exception $exc) {
-                $view_data['exceptions'][] = $exc;
+                $view['exceptions'][] = $exc;
             }
             
-            $this->load->view('appointments/book', $view_data);
+            $this->load->view('appointments/book', $view);
             
         } else { 
             // The page is a post-back. Register the appointment and send notification emails
@@ -135,7 +131,7 @@ class Appointments extends CI_Controller {
                         }
                     }  
                 } catch(Exception $exc) {
-                    $view_data['exceptions'][] = $exc;
+                    $view['exceptions'][] = $exc;
                 }
                 
                 // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
@@ -175,11 +171,11 @@ class Appointments extends CI_Controller {
                             $service, $customer, $company_settings, $provider_title, 
                             $provider_message, $provider_link, $provider['email']);
                 } catch(Exception $exc) {
-                    $view_data['exceptions'][] = $exc;
+                    $view['exceptions'][] = $exc;
                 }
                 
                 // :: LOAD THE BOOK SUCCESS VIEW
-                $view_data = array(
+                $view = array(
                     'appointment_data'  => $appointment,
                     'provider_data'     => $provider,
                     'service_data'      => $service,
@@ -187,10 +183,10 @@ class Appointments extends CI_Controller {
                 );
 
             } catch(Exception $exc) {
-                $view_data['exceptions'][] = $exc;
+                $view['exceptions'][] = $exc;
             }
             
-            $this->load->view('appointments/book_success', $view_data);
+            $this->load->view('appointments/book_success', $view);
         }   
     }
     
@@ -273,10 +269,10 @@ class Appointments extends CI_Controller {
         }
         
         if (isset($exceptions)) {
-            $view_data['exceptions'] = $exceptions;
+            $view['exceptions'] = $exceptions;
         }
         
-        $this->load->view('appointments/cancel', $view_data);
+        $this->load->view('appointments/cancel', $view);
     }
     
     /**
@@ -451,12 +447,12 @@ class Appointments extends CI_Controller {
         $this->load->model('providers_model');
         
         // Get the provider's working plan and reserved appointments.        
-        $working_plan = json_decode($this->providers_model
-                ->get_setting('working_plan', $provider_id), true);
+        $working_plan = json_decode($this->providers_model->get_setting('working_plan', 
+                $provider_id), true);
         
         $where_clause = array(
-            'DATE(start_datetime)'  => date('Y-m-d', strtotime($selected_date)),
-            'id_users_provider'     => $provider_id
+            'DATE(start_datetime)' => date('Y-m-d', strtotime($selected_date)),
+            'id_users_provider' => $provider_id
         );     
         
         $reserved_appointments = $this->appointments_model->get_batch($where_clause);
@@ -474,8 +470,7 @@ class Appointments extends CI_Controller {
         // Find the empty spaces on the plan. The first split between the plan is due to 
         // a break (if exist). After that every reserved appointment is considered to be 
         // a taken space in the plan.
-        $selected_date_working_plan = $working_plan[strtolower(date('l', 
-                strtotime($selected_date)))];
+        $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
         $available_periods_with_breaks = array();
         
         if (isset($selected_date_working_plan['breaks'])) {
@@ -486,22 +481,22 @@ class Appointments extends CI_Controller {
                 
                 if (count($available_periods_with_breaks) === 0) {
                     $start_hour = $selected_date_working_plan['start'];
-                    $end_hour   = $break['start'];
+                    $end_hour = $break['start'];
                 } else {
                     $start_hour = $selected_date_working_plan['breaks'][$last_break_index]['end'];
-                    $end_hour   = $break['start'];
+                    $end_hour = $break['start'];
                 }
                 
                 $available_periods_with_breaks[] = array(
                     'start' => $start_hour,
-                    'end'   => $end_hour
+                    'end' => $end_hour
                 );
             }
             
             // Add the period from the last break to the end of the day.
             $available_periods_with_breaks[] = array(
                 'start' => $selected_date_working_plan['breaks'][$index]['end'],
-                'end'   => $selected_date_working_plan['end']
+                'end' => $selected_date_working_plan['end']
             );
         }
         
@@ -512,19 +507,19 @@ class Appointments extends CI_Controller {
             
             foreach($available_periods_with_breaks as $period) {
                 
-                foreach($reserved_appointments as $index=>$excluded_appointment) {
-                    $appointment_start   = date('H:i', strtotime($excluded_appointment['start_datetime']));
-                    $appointment_end     = date('H:i', strtotime($excluded_appointment['end_datetime']));
-                    $period_start        = date('H:i', strtotime($period['start']));
-                    $period_end          = date('H:i', strtotime($period['end']));
+                foreach($reserved_appointments as $index=>$appointment) {
+                    $appointment_start = date('H:i', strtotime($appointment['start_datetime']));
+                    $appointment_end = date('H:i', strtotime($appointment['end_datetime']));
+                    $period_start = date('H:i', strtotime($period['start']));
+                    $period_end = date('H:i', strtotime($period['end']));
                     
-                    if ($period_start < $appointment_start && $period_end > $appointment_end) {
+                    if ($period_start <= $appointment_start && $period_end >= $appointment_end) {
                         // We need to check whether another appointment fits in the current 
                         // time period. If this happens, then we need to consider the whole 
                         // appointment time as one, because the provider will not be available.
                         foreach ($reserved_appointments as $tmp_appointment) {
-                            $appt_start  = date('H:i', strtotime($tmp_appointment['start_datetime']));
-                            $appt_end    = date('H:i', strtotime($tmp_appointment['end_datetime']));
+                            $appt_start = date('H:i', strtotime($tmp_appointment['start_datetime']));
+                            $appt_end = date('H:i', strtotime($tmp_appointment['end_datetime']));
                             
                             if ($period_start < $appt_start && $period_end > $appt_end) {
                                 if ($appointment_start > $appt_start) {

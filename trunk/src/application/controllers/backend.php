@@ -8,23 +8,34 @@ class Backend extends CI_Controller {
      * view this page which displays a calendar with the events of the selected 
      * provider or service. If a user has more priviledges he will see more menus  
      * at the top of the page.
+     * 
+     * @param string $appointment_hash If given, the appointment edit dialog will 
+     * appear when the page loads.
      */
-    public function index() {
+    public function index($appointment_hash = '') {
         // @task Require user to be logged in the application.
         
+        $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
         
-        $view_data['base_url'] = $this->config->item('base_url');
-        $view_data['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
-        $view_data['company_name'] = $this->settings_model->get_setting('company_name');
-        $view_data['available_providers'] = $this->providers_model->get_available_providers();
-        $view_data['available_services'] = $this->services_model->get_available_services();
+        $view['base_url'] = $this->config->item('base_url');
+        $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['available_providers'] = $this->providers_model->get_available_providers();
+        $view['available_services'] = $this->services_model->get_available_services();
         
-        $this->load->view('backend/header', $view_data);
-        $this->load->view('backend/calendar', $view_data);
-        $this->load->view('backend/footer', $view_data);
+        if ($appointment_hash != '') {
+            $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
+            $view['edit_appointment'] = $results[0]; // This will display the appointment edit dialog on page load.
+        } else {
+            $view['edit_appointment'] = NULL;
+        }
+        
+        $this->load->view('backend/header', $view);
+        $this->load->view('backend/calendar', $view);
+        $this->load->view('backend/footer', $view);
     }
     
     /**
@@ -40,15 +51,15 @@ class Backend extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         
-        $view_data['base_url'] = $this->config->item('base_url');
-        $view_data['company_name'] = $this->settings_model->get_setting('company_name');
-        $view_data['customers'] = $this->customers_model->get_batch();
-        $view_data['available_providers'] = $this->providers_model->get_available_providers();
-        $view_data['available_services'] = $this->services_model->get_available_services();
+        $view['base_url'] = $this->config->item('base_url');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['customers'] = $this->customers_model->get_batch();
+        $view['available_providers'] = $this->providers_model->get_available_providers();
+        $view['available_services'] = $this->services_model->get_available_services();
         
-        $this->load->view('backend/header', $view_data);
-        $this->load->view('backend/customers', $view_data);
-        $this->load->view('backend/footer', $view_data);
+        $this->load->view('backend/header', $view);
+        $this->load->view('backend/customers', $view);
+        $this->load->view('backend/footer', $view);
     }
     
     public function services() {

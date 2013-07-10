@@ -360,7 +360,7 @@ class Appointments_Model extends CI_Model {
      */
     public function delete_unavailable($unavailable_id) {
         if (!is_numeric($unavailable_id)) { 
-            throw new Exception('Invalid argument type $appointment_id (value:"' . 
+            throw new Exception('Invalid argument type $unavailable_id (value:"' . 
                     $unavailable_id . '")');
         }
         
