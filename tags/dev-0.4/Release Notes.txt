@@ -1,0 +1,14 @@
+VERSION 0.4
+===========
+Main
+
+- Complete functionality of Backend Calendar Page
+- Enable Google Calendar sync (sync changes made from GCal to E!A)
+
+
+
+Minor
+
+- Display javascript ajax error messages to users.
+- Provider can edit appointment from email link.
+ 
