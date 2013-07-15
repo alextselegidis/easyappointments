@@ -152,7 +152,7 @@ class Appointments_Model extends CI_Model {
             // If a appointment id is given, check wether the record exists
             // in the database.
             if (isset($appointment['id'])) {
-                $num_rows = $this->db->get_where('ea_appointments',
+                $num_rows = $this->db->get_where('ea_appointments', 
                         array('id' => $appointment['id']))->num_rows();
                 if ($num_rows == 0) {
                     throw new Exception('Provided appointment id does not '
@@ -181,23 +181,25 @@ class Appointments_Model extends CI_Model {
                 throw new Exception('Appointment provider id is invalid.');
             }
             
-            // Check if the customer's id is valid.
-            $num_rows = $this->db
-                    ->select('*')
-                    ->from('ea_users')
-                    ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                    ->where('ea_users.id', $appointment['id_users_customer'])
-                    ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                    ->get()->num_rows();
-            if ($num_rows == 0) {
-                throw new Exception('Appointment customer id is invalid.');
-            }
-            
-            // Check if the service id is valid.
-            $num_rows = $this->db->get_where('ea_services', 
-                    array('id' => $appointment['id_services']))->num_rows();
-            if ($num_rows == 0) {
-                throw new Exception('Appointment customer id is invalid.');
+            if ($appointment['is_unavailable'] == FALSE) { 
+                // Check if the customer's id is valid.
+                $num_rows = $this->db
+                        ->select('*')
+                        ->from('ea_users')
+                        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                        ->where('ea_users.id', $appointment['id_users_customer'])
+                        ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+                        ->get()->num_rows();
+                if ($num_rows == 0) {
+                    throw new Exception('Appointment customer id is invalid.');
+                }
+                
+                // Check if the service id is valid.
+                $num_rows = $this->db->get_where('ea_services', 
+                        array('id' => $appointment['id_services']))->num_rows();
+                if ($num_rows == 0) {
+                    throw new Exception('Appointment customer id is invalid.');
+                }
             }
             
             return TRUE;

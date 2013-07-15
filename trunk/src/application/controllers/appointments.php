@@ -149,7 +149,7 @@ class Appointments extends CI_Controller {
                         $provider_title = 'A new appointment has been added to your plan.';
                         $provider_message = 'You can make changes by clicking the appointment '  
                                 . 'link below';
-                        $provider_link = $this->config->item('base_url') . 'backend/' 
+                        $provider_link = $this->config->item('base_url') . 'backend/index/' 
                                 . $appointment['hash'];
                     } else {
                         $customer_title = 'Appointment changes have been successfully saved!';
@@ -159,7 +159,7 @@ class Appointments extends CI_Controller {
 
                         $provider_title = 'Appointment details have changed.';
                         $provider_message = '';
-                        $provider_link = $this->config->item('base_url') . 'backend/' 
+                        $provider_link = $this->config->item('base_url') . 'backend/index/' 
                                 . $appointment['hash'];
                     }
 

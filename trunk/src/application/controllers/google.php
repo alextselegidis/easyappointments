@@ -73,7 +73,8 @@ class Google extends CI_Controller {
      * 
      * @param numeric $provider_id Provider record to be synced.
      * 
-     * @task This method must be executed only by the system and noone else outside. It is a big security issue.
+     * @task This method must be executed only by the system and noone else outside. 
+     * It is a big security issue.
      */
     public function sync($provider_id = NULL) {
         try {
@@ -127,52 +128,62 @@ class Google extends CI_Controller {
                 $service = $this->services_model->get_row($appointment['id_services']);
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
-                // :: APPOINTMENT WITH NO GCAL_ID -> ADD TO GCAL
+                // If current appointment not synced yet, add to gcal.
                 if ($appointment['id_google_calendar'] == NULL) {
                     $google_event = $this->google_sync->add_appointment($appointment, $provider,
                             $service, $customer, $company_settings);
                     $appointment['id_google_calendar'] = $google_event->id;
-                    $this->appointments_model->add($appointment); // save gcal id
-                }
-
-                // :: SYNCED APPOINTMENT NOT FOUND ON GCAL -> DELETE E!A RECORD
-                if ($appointment['id_google_calendar'] != NULL) {
+                    $this->appointments_model->add($appointment); // Save gcal id
+                } else {
+                    // Appointment is synced with google calendar.
                     try {
                         $google_event = $this->google_sync->get_event($appointment['id_google_calendar']);
-                    } catch(Exception $exc) {
-                        $this->appointments_model->delete($appointment['id']);
-                        $appointment['id_google_calendar'] = NULL; // Do not proceed with the rest sync actions.
-                    }
-                }
-
-                // :: SYNCED APPOINTMENT DIFFERENT FROM GCAL EVENT -> UPDATE E!A RECORD
-                if ($appointment['id_google_calendar'] != NULL) {
-                    $is_different = FALSE;
-                    $appt_start = strtotime($appointment['start_datetime']);
-                    $appt_end = strtotime($appointment['end_datetime']);
-                    $event_start = strtotime($google_event->getStart()->getDateTime());
-                    $event_end = strtotime($google_event->getEnd()->getDateTime());
-
-                    if ($appt_start != $event_start 
-                            || $appt_end != $event_end) {
-                        $is_different = TRUE;
-                    }
-
-                    if ($is_different) {
-                        $appointment['start_datetime'] = date('Y-m-d H:i:s', $event_start);
-                        $appointment['end_datetime'] = date('Y-m-d H:i:s', $event_end);
-                        $this->appointments_model->add($appointment);
-                    }
-
-                }
-
-                // @task :: GCAL EVENT NOT FOUND ON E!A -> ADD EVENT TO E!A
                     
-               
+                        // If gcal event is different from e!a appointment then update e!a record.
+                        $is_different = FALSE;
+                        $appt_start = strtotime($appointment['start_datetime']);
+                        $appt_end = strtotime($appointment['end_datetime']);
+                        $event_start = strtotime($google_event->getStart()->getDateTime());
+                        $event_end = strtotime($google_event->getEnd()->getDateTime());
+
+                        if ($appt_start != $event_start || $appt_end != $event_end) {
+                            $is_different = TRUE;
+                        }
+
+                        if ($is_different) {
+                            $appointment['start_datetime'] = date('Y-m-d H:i:s', $event_start);
+                            $appointment['end_datetime'] = date('Y-m-d H:i:s', $event_end);
+                            $this->appointments_model->add($appointment);
+                        }
+                    } catch(Exception $exc) {
+                        // Appointment not found on gcal, delete from e!a.
+                        $this->appointments_model->delete($appointment['id']);
+                        $appointment['id_google_calendar'] = NULL; 
+                    }
+                }
             }
             
-            // @task Sync unavailable periods with Google Calendar 
+            // :: ADD GCAL EVENTS THAT ARE NOT PRESENT ON E!A
+            $events = $this->google_sync->get_sync_events($start, $end);
             
+            foreach($events->getItems() as $event) {
+                $results = $this->appointments_model->get_batch(array('id_google_calendar' => $event->getId()));
+                if (count($results) == 0) {
+                    // Record doesn't exist in E!A, so add the event now.
+                    $appointment = array(
+                        'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
+                        'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
+                        'is_unavailable' => TRUE,
+                        'notes' => $event->getSummary() . ' ' . $event->getDescription(),
+                        'id_users_provider' => $provider_id,
+                        'id_google_calendar' => $event->getId(),
+                        'id_users_customer' => NULL,
+                        'id_services' => NULL,
+                    );
+                    
+                    $this->appointments_model->add($appointment);
+                }
+            }
             
             echo json_encode('SUCCESS');
             

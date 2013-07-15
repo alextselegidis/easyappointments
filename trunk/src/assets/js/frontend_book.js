@@ -443,6 +443,7 @@ var FrontendBook = {
                                     + ' ' + $('.selected-hour').text() + ':00',
             'end_datetime': FrontendBook.calcEndDatetime(),
             'notes': $('#notes').val(),
+            'is_unavailable': false,
             'id_users_provider': $('#select-provider').val(),
             'id_services': $('#select-service').val()
         };

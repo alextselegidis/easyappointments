@@ -196,8 +196,8 @@
             if (isset($exceptions)) {
                 echo '<div style="margin: 10px">';
                 echo '<h4>Unexpected Errors</h4>';
-                foreach($exceptions as $exception) {
-                    echo exceptionToHtml($exception);
+                foreach($exceptions as $exc) {
+                    echo exceptionToHtml($exc);
                 }
                 echo '</div>';
             }

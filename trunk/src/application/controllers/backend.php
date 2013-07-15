@@ -18,6 +18,7 @@ class Backend extends CI_Controller {
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
+        $this->load->model('customers_model');
         $this->load->model('settings_model');
         
         $view['base_url'] = $this->config->item('base_url');
@@ -28,7 +29,9 @@ class Backend extends CI_Controller {
         
         if ($appointment_hash != '') {
             $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
-            $view['edit_appointment'] = $results[0]; // This will display the appointment edit dialog on page load.
+            $appointment = $results[0];
+            $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+            $view['edit_appointment'] = $appointment; // This will display the appointment edit dialog on page load.
         } else {
             $view['edit_appointment'] = NULL;
         }
