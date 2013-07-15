@@ -55,6 +55,25 @@ root {
 
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
+#customers-page #filter { margin: 15px 0px 15px 15px; }
+#customers-page #filter-results { overflow-y: auto; }
+#customers-page #filter-results .customer-row { padding: 10px 7px; border-radius: 3px; }
+#customers-page #filter-results .customer-row:hover { background-color: #C6E7D5; cursor: pointer; }
+#customers-page #filter-results hr { margin: 5px 0; }
+
+#customers-page #details { margin: 15px 0 15px 15px; }
+#customers-page #details .btn-toolbar { margin-top: 0px; }
+#customers-page #details div.span5 { margin-left: 0; }
+
+#customers-page #customer-appointments { height: 250px; border: 1px solid #CCC; border-radius: 3px;
+        margin-bottom: 20px; overflow-y: auto; }
+#customers-page #customer-appointments .appointment-row { padding: 7px; border-bottom: 1px solid #CCC; }
+#customers-page #customer-appointments .appointment-row:hover { background-color: #C6E7D5; cursor: pointer; }
+
+#customers-page #details input,
+#customers-page #details textarea { background-color: white; cursor: default; }
+
+#customers-page .selected-row { background-color: #EFFDF7; }
 
 
 /* BACKEND SERVICES PAGE

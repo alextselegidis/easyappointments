@@ -60,12 +60,12 @@ class Customers_Model extends CI_Model {
         
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
-                            ->select('*')
-                            ->from('ea_users')
-                            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                            ->where('ea_users.email', $customer['email'])
-                            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                            ->get()->num_rows();
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.email', $customer['email'])
+                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+                ->get()->num_rows();
         
         return ($num_rows > 0) ? TRUE : FALSE;
     }
@@ -81,10 +81,10 @@ class Customers_Model extends CI_Model {
         // Before inserting the customer we need to get the customer's role id
         // from the database and assign it to the new record as a foreign key.
         $customer_role_id = $this->db
-                                    ->select('id')
-                                    ->from('ea_roles')
-                                    ->where('slug', DB_SLUG_CUSTOMER)
-                                    ->get()->row()->id;
+                ->select('id')
+                ->from('ea_roles')
+                ->where('slug', DB_SLUG_CUSTOMER)
+                ->get()->row()->id;
         
         $customer['id_roles'] = $customer_role_id;
         
@@ -135,12 +135,12 @@ class Customers_Model extends CI_Model {
         
         // Get customer's role id
         $result = $this->db
-                            ->select('ea_users.id')
-                            ->from('ea_users')
-                            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                            ->where('ea_users.email', $customer['email'])
-                            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                            ->get();
+                ->select('ea_users.id')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.email', $customer['email'])
+                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+                ->get();
         
         if ($result->num_rows() == 0) {
             throw new Exception('Could not find appointment record id.');
