@@ -311,24 +311,44 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_customers() {
     	try {
+            $this->load->model('appointments_model');
+            $this->load->model('services_model');
+            $this->load->model('providers_model');
 	    	$this->load->model('customers_model');
-	    	
+            
 	    	$key = $_POST['key']; // @task $this->db->escape($_POST['key']);
 	    	
 	    	$where_clause = 
-	    			'first_name LIKE "%' . $key . '%" OR ' . 
+	    			'(first_name LIKE "%' . $key . '%" OR ' . 
 	    			'last_name LIKE "%' . $key . '%" OR ' . 
 	    			'email LIKE "%' . $key . '%" OR ' .	
 	    			'phone_number LIKE "%' . $key . '%" OR ' .
 	    			'address LIKE "%' . $key . '%" OR ' .
 	    			'city LIKE "%' . $key . '%" OR ' .
-	    			'zip_code LIKE "%' . $key . '%" ';		
+	    			'zip_code LIKE "%' . $key . '%")';		
 	    	
-	    	echo json_encode($this->customers_model->get_batch($where_clause));
+            $customers = $this->customers_model->get_batch($where_clause);
+            
+            foreach($customers as &$customer) {
+                $appointments = $this->appointments_model
+                        ->get_batch(array('id_users_customer' => $customer['id']));
+                
+                foreach($appointments as &$appointment) {
+                    $appointment['service'] = $this->services_model
+                            ->get_row($appointment['id_services']);
+                    $appointment['provider'] = $this->providers_model
+                            ->get_row($appointment['id_users_provider']);
+                }
+                
+                $customer['appointments'] = $appointments;
+            }
+            
+	    	echo json_encode($customers);
+            
     	} catch(Exception $exc) {
     		echo json_encode(array(
-    			'exceptions' => array($exc)	
-    		));
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
     	}
     }
     
@@ -382,7 +402,7 @@ class Backend_api extends CI_Controller {
             
         } catch(Exception $exc) { 
             echo json_encode(array(
-                'exceptions' => array($exc)
+                'exceptions' => array(exceptionToJavascript($exc))
             ));
         }
     }
@@ -426,7 +446,42 @@ class Backend_api extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array($exc)
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * Save (insert or update) a customer record.
+     * 
+     * @param array $_POST['customer'] JSON encoded array that contains the customer's data.
+     */
+    public function ajax_save_customer() {
+        try {
+            $this->load->model('customers_model');
+            $customer = json_decode($_POST['customer'], true);
+            $this->customers_model->add($customer);
+            echo json_encode('SUCCESS');
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * Delete customer from database.
+     * 
+     * @param numeric $_POST['customer_id'] Customer record id to be deleted.
+     */
+    public function ajax_delete_customer() {
+        try {
+            $this->load->model('customers_model');
+            $this->customers_model->delete($_POST['customer_id']);
+            echo json_encode('SUCCESS');
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
             ));
         }
     }
