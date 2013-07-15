@@ -66,6 +66,10 @@ var Backend = {
             message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
         }
         
+        if (actions === undefined) {
+            actions = [];
+        }
+        
         var notificationHtml = 
                 '<div class="notification alert">' + 
                 '<strong>' + message + '</strong>';

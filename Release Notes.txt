@@ -10,4 +10,5 @@ Main
 Minor
 
 - Display javascript ajax error messages to users.
+- Provider can edit appointment from email link.
  

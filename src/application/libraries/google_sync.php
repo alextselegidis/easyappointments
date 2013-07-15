@@ -272,6 +272,25 @@ class Google_Sync {
     public function get_event($google_calendar_id) {
         return $this->service->events->get('primary', $google_calendar_id);
     }
+    
+    /**
+     * Get all the events between the sync period.
+     * 
+     * @param date $start The start date of sync period.
+     * @param date $end The end date of sync period.
+     * @return object Returns an array with Google_Event objects that belong on the given
+     * sync period (start, end).
+     */
+    public function get_sync_events($start, $end) {
+        $this->CI->load->helper('general');
+        
+        $params = array(
+            'timeMin' => date3339($start),
+            'timeMax' => date3339($end)
+        );
+        
+        return $this->service->events->listEvents('primary', $params);
+    }
 }
 
 /* End of file google_sync.php */

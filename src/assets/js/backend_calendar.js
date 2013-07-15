@@ -90,7 +90,36 @@ var BackendCalendar = {
         
         // :: DISPLAY EDIT DIALOG IF APPOINTMENT HASH IS PROVIDED
         if (GlobalVariables.editAppointment != null) {
-            // @task Display appointment edit dialog to user.
+            var $dialog = $('#manage-appointment');
+            var appointment = GlobalVariables.editAppointment;
+            BackendCalendar.resetAppointmentDialog();
+            
+            $dialog.find('.modal-header h3').text('Edit Appointment');
+            $dialog.find('#appointment-id').val(appointment['id']);
+            $dialog.find('#select-service').val(appointment['id_services']);
+            $dialog.find('#select-provider').val(appointment['id_users_provider']);
+
+            // Set the start and end datetime of the appointment.
+            var startDatetime = Date.parseExact(appointment['start_datetime'],
+                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
+            $dialog.find('#start-datetime').val(startDatetime);
+
+            var endDatetime = Date.parseExact(appointment['end_datetime'],
+                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
+            $dialog.find('#end-datetime').val(endDatetime);
+
+            var customer = appointment['customer'];
+            $dialog.find('#customer-id').val(appointment['id_users_customer']);
+            $dialog.find('#first-name').val(customer['first_name']);
+            $dialog.find('#last-name').val(customer['last_name']);
+            $dialog.find('#email').val(customer['email']);
+            $dialog.find('#phone-number').val(customer['phone_number']);
+            $dialog.find('#address').val(customer['address']);
+            $dialog.find('#city').val(customer['city']);
+            $dialog.find('#zip-code').val(customer['zip_code']);
+            $dialog.find('#notes').val(appointment['notes']);
+            
+            $dialog.modal('show');
         }
     },
     
@@ -141,6 +170,45 @@ var BackendCalendar = {
         });
         
         /**
+         * Event: Google Sync Button "Click"
+         * 
+         * Trigger the synchronization algorithm. 
+         */
+        $('#google-sync').click(function() {
+            var getUrl = GlobalVariables.baseUrl + 'google/sync/' + $('#select-filter-item').val();
+            $.ajax({
+                'type': 'GET',
+                'url': getUrl,
+                'dataType': 'json',
+                'success': function(response) {
+                    /////////////////////////////////////////////////
+                    console.log('Google Sync Response:', response);
+                    /////////////////////////////////////////////////
+                    
+                    if (response.exceptions) {
+                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                        GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                        return;
+                    }
+
+                    if (response.warnings) {
+                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                        GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                    }
+                    
+                    Backend.displayNotification('Google synchronization completed successfully!');
+                    $('#reload-appointments').trigger('click');
+                },
+                'error': function(jqXHR, textStatus, errorThrown) {
+                    Backend.displayNotification('Google synchronization failed: Could not establish '
+                            + 'server connection.');
+                }
+            });
+        });
+        
+        /**
          * Event: Reload Button "Click"
          * 
          * When the user clicks the reload button an the calendar items need to 
@@ -181,7 +249,7 @@ var BackendCalendar = {
                 $dialog.find('#select-service').val(appointment['id_services']);
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
-                // Set the start and end datetime of the appointment.\
+                // Set the start and end datetime of the appointment.
                 var startDatetime = Date.parseExact(appointment['start_datetime'],
                         'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
                 $dialog.find('#start-datetime').val(startDatetime);
@@ -218,7 +286,7 @@ var BackendCalendar = {
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
             
-            // :: DIAPLY EDIT DIALOG
+            // :: DISPLAY EDIT DIALOG
             $dialog.modal('show');
         });
         
@@ -751,7 +819,7 @@ var BackendCalendar = {
                                         'start': Date.parse(unavailable.start_datetime),
                                         'end': Date.parse(unavailable.end_datetime),
                                         'allDay': false,
-                                        'color': '#123456',
+                                        'color': '#879DB4',
                                         'editable': true,
                                         'className': 'fc-unavailable fc-custom',
                                         'data': unavailable
@@ -829,7 +897,7 @@ var BackendCalendar = {
                                                 'start': Date.parse(unavailable.start_datetime),
                                                 'end': Date.parse(unavailable.end_datetime),
                                                 'allDay': false,
-                                                'color': '#123456',
+                                                'color': '#879DB4',
                                                 'editable': true,
                                                 'className': 'fc-unavailable fc-custom',
                                                 'data': unavailable

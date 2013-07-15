@@ -29,22 +29,22 @@ class SyncException extends Exception {}
  * We display only one exceptions at a time because the user needs to be able
  * to display the details of each exception seperately. (In contrast with js).
  * 
- * @param Exception $exception The exception to be displayed.
+ * @param Exception $exc The exception to be displayed.
  * @return string Returns the html markup of the exception.
  */
-function exceptionToHtml($exception) {
+function exceptionToHtml($exc) {
     return 
         '<div class="accordion" id="error-accordion">
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" 
                             data-parent="#error-accordion" href="#error-technical">' . 
-                        $exception->getMessage() . '
+                        $exc->getMessage() . '
                     </a>
                 </div>
                 <div id="error-technical" class="accordion-body collapse">
                     <div class="accordion-inner">
-                        <pre>' . $exception->getTraceAsString() . '</pre>
+                        <pre>' . $exc->getTraceAsString() . '</pre>
                     </div>
                 </div>
             </div>
