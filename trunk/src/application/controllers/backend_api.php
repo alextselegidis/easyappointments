@@ -485,6 +485,30 @@ class Backend_api extends CI_Controller {
             ));
         }
     }
+    
+    public function ajax_save_service() {
+        
+    }
+    
+    public function ajax_delete_service() {
+        
+    }
+    
+    public function ajax_filter_services() {
+        
+    }
+    
+    public function ajax_save_service_category() {
+        
+    }
+    
+    public function ajax_delete_service_category() {
+        
+    }
+    
+    public function ajax_filter_service_categories() {
+        
+    }
 }
 
 /* End of file backend_api.php */
