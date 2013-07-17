@@ -66,7 +66,21 @@ class Backend extends CI_Controller {
     }
     
     public function services() {
-        echo '<h1>Not implemented yet.</h1>';
+        // @task Require user to be logged in the application.
+        
+        $this->load->model('providers_model');
+        $this->load->model('customers_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
+        
+        $view['base_url'] = $this->config->item('base_url');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['services'] = $this->services_model->get_batch();
+        $view['categories'] = $this->services_model->get_all_categories();
+        
+        $this->load->view('backend/header', $view);
+        $this->load->view('backend/services', $view);
+        $this->load->view('backend/footer', $view);
     }
     
     public function providers() {

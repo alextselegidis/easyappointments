@@ -180,7 +180,7 @@ class Backend_api extends CI_Controller {
             }
             
             if (!isset($warnings)) {
-                echo json_encode('SUCCESS');
+                echo json_encode(AJAX_SUCCESS);
             } else {
                 echo json_encode(array(
                     'warnings' => $warnings
@@ -262,7 +262,7 @@ class Backend_api extends CI_Controller {
             
             // :: SEND RESPONSE TO CLIENT BROWSER
             if (!isset($warnings)) {
-                echo json_encode('SUCCESS'); // Everything executed successfully.
+                echo json_encode(AJAX_SUCCESS); // Everything executed successfully.
             } else {
                 echo json_encode(array(
                     'warnings' => $warnings // There were warnings during the operation.
@@ -294,7 +294,7 @@ class Backend_api extends CI_Controller {
             $this->providers_model->set_setting('google_sync', FALSE, $_POST['provider_id']);
             $this->providers_model->set_setting('google_token', NULL, $_POST['provider_id']);
             
-            echo json_encode('SUCCESS');
+            echo json_encode(AJAX_SUCCESS);
             
         } catch(Exception $exc) {
             echo json_encode(array(
@@ -397,7 +397,7 @@ class Backend_api extends CI_Controller {
                     'warnings' => $warnings
                 ));
             } else {
-                echo json_encode('SUCCESS');
+                echo json_encode(AJAX_SUCCESS);
             }
             
         } catch(Exception $exc) { 
@@ -441,7 +441,7 @@ class Backend_api extends CI_Controller {
                     'warnings' => $warnings
                 ));
             } else {
-                echo json_encode('SUCCESS');
+                echo json_encode(AJAX_SUCCESS);
             }
             
         } catch(Exception $exc) {
@@ -461,7 +461,7 @@ class Backend_api extends CI_Controller {
             $this->load->model('customers_model');
             $customer = json_decode($_POST['customer'], true);
             $this->customers_model->add($customer);
-            echo json_encode('SUCCESS');
+            echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavascript($exc))
@@ -478,7 +478,7 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('customers_model');
             $this->customers_model->delete($_POST['customer_id']);
-            echo json_encode('SUCCESS');
+            echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavascript($exc))
@@ -487,27 +487,84 @@ class Backend_api extends CI_Controller {
     }
     
     public function ajax_save_service() {
-        
+        try {
+            $this->load->model('services_model');
+            $service = json_decode($_POST['service'], true);
+            $this->services_model->add($service);
+            echo json_encode(AJAX_SUCCESS);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
     }
     
     public function ajax_delete_service() {
-        
+        try {
+            $this->load->model('services_model');
+            $result = $this->services_model->delete($_POST['service_id']);
+            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
     }
     
     public function ajax_filter_services() {
-        
+        try {
+            $this->load->model('services_model');
+            $key = $_POST['key']; // @task fix sql injection
+            $where = 
+                    '(name LIKE "%' . $key . '%" OR duration LIKE "%' . $key . '%" OR ' . 
+                    'price LIKE "%' . $key . '%" OR currency LIKE "%' . $key . '%" OR ' .
+                    'description LIKE "%' . $key . '%")';
+            $services = $this->services_model->get_batch($where);
+            echo json_encode($services);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
     }
     
     public function ajax_save_service_category() {
-        
+        try {
+            $this->load->model('services_model');
+            $category = json_decode($_POST['category'], true);
+            $this->services_model->add_category($category);
+            echo json_encode(AJAX_SUCCESS);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
     }
     
     public function ajax_delete_service_category() {
-        
+        try {
+            $this->load->model('services_model');
+            $result = $this->services_model->delete($_POST['category_id']);
+            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
     }
     
     public function ajax_filter_service_categories() {
-        
+        try {
+            $this->load->model('services_model');
+            $key = $_POST['key']; // @task sql injection
+            $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
+            $categories = $this->services_model->get_categories($where);
+            echo json_encode($categories);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavascript($exc))
+            ));
+        }
     }
 }
 

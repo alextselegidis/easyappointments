@@ -78,7 +78,12 @@ root {
 
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
-
+#services-page .tab-content { margin: 15px; }
+#services-page .nav { margin: 15px; }
+#services-page .nav li { cursor: pointer; }
+#services-page .service-row { padding: 10px 7px; border-radius: 3px; }
+#services-page .service-row:hover { cursor: pointer; background-color: #C6E7D5; }
+#services-page .selected-row { background-color: #EFFDF7; }
 
 /* BACKEND PROVIDERS PAGE
    -------------------------------------------------------------------- */

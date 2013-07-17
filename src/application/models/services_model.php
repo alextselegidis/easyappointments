@@ -324,7 +324,8 @@ class Services_Model extends CI_Model {
      * 
      * @return array Returns an array that contains all the service category records.
      */
-    public function get_all_categories() {
+    public function get_all_categories($where = '') {
+        if ($where !== '') $this->db->where($where);
         return $this->db->get('ea_service_categories')->result_array();
     }
     
