@@ -185,7 +185,7 @@ class Google extends CI_Controller {
                 }
             }
             
-            echo json_encode('SUCCESS');
+            echo json_encode(AJAX_SUCCESS);
             
         } catch(Exception $exc) {
             echo json_encode(array(

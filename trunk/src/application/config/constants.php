@@ -53,5 +53,7 @@ define('DB_SLUG_SECRETARY', 'secretary');
 define('FILTER_TYPE_PROVIDER', 'provider');
 define('FILTER_TYPE_SERVICE', 'service');
 
+define('AJAX_SUCCESS', 'SUCCESS');
+define('AJAX_FAILURE', 'FAILURE');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
