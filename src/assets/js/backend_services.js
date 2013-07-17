@@ -22,7 +22,7 @@ var BackendServices = {
         
         // Fill available service categories listbox.
         $.each(GlobalVariables.categories, function(index, category) {
-            var option = new Option(category.name, category.value);
+            var option = new Option(category.name, category.id);
             $('#service-category').append(option);
         });
         $('#service-category').append(new Option('- No Category -', null)).val('null');
@@ -34,7 +34,7 @@ var BackendServices = {
         
         $('#service-duration').spinner({
             'min': 0,
-            'numberFormat': 'n Minutes'
+            'disabled': true //default
         });
         
         
@@ -70,7 +70,7 @@ var BackendServices = {
         /**
          * Event: Filter Services Button "Click"
          */
-        $(' .filter-services').click(function() {
+        $('.filter-services').click(function() {
             var key = $('#services .filter-key').val();
             $('.selected-row').removeClass('selected-row');
             BackendServices.helper.resetForm();
@@ -96,6 +96,88 @@ var BackendServices = {
             
             $('.selected-row').removeClass('selected-row');
             $(this).addClass('selected-row');
+            $('#edit-service, #delete-service').prop('disabled', false);
+        });
+        
+        /**
+         * Event: Add New Service Button "Click"
+         */
+        $('#add-service').click(function() {
+            BackendServices.helper.resetForm();
+            $('#services .add-edit-delete-group').hide();
+            $('#services .save-cancel-group').show();
+            $('#services .details').find('input, textarea').prop('readonly', false);
+            $('#services .details').find('select').prop('disabled', false);
+            $('#service-duration').spinner('enable');
+        });
+        
+        /**
+         * Event: Cancel Service Button "Click"
+         * 
+         * Cancel add or edit of a service record.
+         */
+        $('#cancel-service').click(function() {
+            BackendServices.helper.resetForm();
+        });
+        
+        /**
+         * Event: Save Service Button "Click"
+         */
+        $('#save-service').click(function() {
+            var service = {
+                'name': $('#service-name').val(),
+                'duration': $('#service-duration').val(),
+                'price': $('#service-price').val(),
+                'currency': $('#service-currency').val(),
+                'description': $('#service-description').val()
+            };
+            
+            if ($('#service-category').val() !== 'null') {
+                service.id_service_categories = $('#service-category').val();
+            } else {
+                service.id_service_categories = null;
+            }
+            
+            if ($('#service-id').val() !== '') {
+                service.id = $('#service-id').val();
+            }
+            
+            if (!BackendServices.helper.validate(service)) return;
+            
+            BackendServices.helper.save(service);
+        });
+        
+        /**
+         * Event: Edit Service Button "Click"
+         */
+        $('#edit-service').click(function() {
+            $('#services .add-edit-delete-group').hide();
+            $('#services .save-cancel-group').show();
+            $('.filter-services').prop('disabled', true);
+            
+            $('#services .details').find('input, textarea').prop('readonly', false);
+            $('#services .details select').prop('disabled', false);
+            $('#service-duration').spinner('enable');
+        });
+        
+        /**
+         * Event: Delete Service Button "Click"
+         */
+        $('#delete-service').click(function() {
+            var serviceId = $('#service-id').val();
+            
+            var messageBtns = {
+                'Delete': function() {
+                    BackendServices.helper.delete(serviceId);
+                    $('#message_box').dialog('close');
+                },
+                'Cancel': function() {
+                    $('#message_box').dialog('close');
+                }
+            };
+            
+            GeneralFunctions.displayMessageBox('Delete Service', 'Are you sure that you want '
+                    + 'to delete this record? This action cannot be undone.', messageBtns);
         });
     }
 };
@@ -122,9 +204,10 @@ ServicesHelper.prototype.save = function(service) {
         console.log('Save Service Response:', response);
         if (!Backend.handleAjaxExceptions(response)) return;
         
-        $('#services .add-edit-delete-group').show();
-        $('#services .save-cancel-group').hide();
-    });
+        Backend.displayNotification('Service saved successfully!');
+        BackendServices.helper.resetForm();
+        BackendServices.helper.filter($('#services .filter-key').val());
+    }, 'json');
 };
 
 /**
@@ -133,7 +216,21 @@ ServicesHelper.prototype.save = function(service) {
  * @param {int} id Record id to be deleted. 
  */
 ServicesHelper.prototype.delete = function(id) {
+    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_service';
+    var postData = { 'service_id': id };
     
+    $.post(postUrl, postData, function(response) {
+        ////////////////////////////////////////////////////
+        console.log('Delete service response:', response);
+        ////////////////////////////////////////////////////
+        
+        if (!Backend.handleAjaxExceptions(response)) return;
+        
+        Backend.displayNotification('Services deleted successfully!');
+        
+        BackendServices.helper.resetForm();
+        BackendServices.helper.filter($('.filter-services').val());
+    });
 };
 
 /**
@@ -143,7 +240,25 @@ ServicesHelper.prototype.delete = function(id) {
  * @returns {bool} Returns the validation result.
  */
 ServicesHelper.prototype.validate = function(service) {
+    $('#services .required').css('border', '');
     
+    try {
+        // validate required fields.
+        var missingRequired = false;
+        $('#services .required').each(function() {
+            if ($(this).val() == '' || $(this).val() == undefined) {
+                $(this).css('border', '2px solid red');
+                missingRequired = true;
+            }
+        });
+        if (missingRequired) {
+            throw 'Fields with * are  required.';
+        }
+        
+        return true;
+    } catch(exc) {
+        return false;
+    }
 };
 
 /**
@@ -157,6 +272,7 @@ ServicesHelper.prototype.resetForm = function() {
     $('#edit-service, #delete-service').prop('disabled', true);
     $('#services .details').find('input, textarea').prop('readonly', true);
     $('#service-category').prop('disabled', true);
+    $('.filter-services').prop('disabled', false);
 };
 
 /**
@@ -167,11 +283,13 @@ ServicesHelper.prototype.resetForm = function() {
 ServicesHelper.prototype.display = function(service) {
     $('#service-id').val(service.id);
     $('#service-name').val(service.name);
-    $('#service-duration').val(service.duration + ' min');
+    $('#service-duration').val(service.duration);
     $('#service-price').val(service.price);
     $('#service-currency').val(service.currency);
     $('#service-description').val(service.description);
-    $('#service-category').val(service.id_service_categories);
+    
+    var categoryId = (service.id_service_categories != null) ? service.id_service_categories : 'null';
+    $('#service-category').val(categoryId);
 };
 
 /**
@@ -226,3 +344,87 @@ ServicesHelper.prototype.getFilterHtml = function(service) {
 var CategoriesHelper = function() {
     this.filterResults = {};
 };
+
+/**
+ * Filter service categories records.
+ * 
+ * @param {string} key This key string is used to filter the category records.
+ */
+CategoriesHelper.prototype.filter = function(key) {
+    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_categories';
+    var postData = { 'key': key };
+    
+    $.post(postUrl, postData, function(response) {
+        ///////////////////////////////////////////////////////
+        console.log('Filter Categories Response:', response);
+        ///////////////////////////////////////////////////////
+        
+        if (!Backend.handleAjaxExceptions(response)) return;
+        
+        $('#categories .filter-results').html('');
+        $.each(response, function(index, category) {
+           var html = BackendServices.helper.getFilterHtml(category);
+           $('#categories .filter-results').append(html);
+        });
+        
+    }, 'json');
+};
+
+/**
+ * Save a category record to the database (via ajax post).
+ * 
+ * @param {object} category Contains the category data.
+ */
+CategoriesHelper.prototype.save = function(category) {
+    
+};
+
+/**
+ * Delete category record.
+ * 
+ * @param {int} id Record id to be deleted.
+ */
+CategoriesHelper.prototype.delete = function(id) {
+    
+};
+
+/**
+ * Display a category record on the form.
+ * 
+ * @param {object} category Contains the category data.
+ */
+CategoriesHelper.prototype.display = function(category) {
+    
+};
+
+/**
+ * Validate category data before save (insert or update).
+ * 
+ * @param {object} category Contains the category data.
+ */
+CategoriesHelper.prototype.validate = function(category) {
+    
+};
+
+/**
+ * Bring the category form back to its initial state.
+ */
+CategoriesHelper.prototype.resetForm = function() {
+    
+};
+
+/**
+ * Get the filter results row html code.
+ * 
+ * @param {object} category Contains the category data.
+ * @return {string} Returns the record html code.
+ */
+CategoriesHelper.prototype.getFilterHtml = function(category) {
+    var html =
+            '<div class="category-row" data-id="' + category.id + '">' + 
+                '<strong>' + category.name + '</strong>' + 
+            '</div>';
+
+    return html;
+};
+

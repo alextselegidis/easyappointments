@@ -84,6 +84,13 @@ root {
 #services-page .service-row { padding: 10px 7px; border-radius: 3px; }
 #services-page .service-row:hover { cursor: pointer; background-color: #C6E7D5; }
 #services-page .selected-row { background-color: #EFFDF7; }
+#services-page .details .ui-spinner { border: none; margin-bottom: 10px; }
+#services-page #service-duration { margin: 0px; }
+#services-page .details .ui-spinner a { cursor: pointer; }
+
+#services-page .details input, 
+#services-page .details select, 
+#services-page .details textarea { background-color: white; cursor: pointer; }
 
 /* BACKEND PROVIDERS PAGE
    -------------------------------------------------------------------- */

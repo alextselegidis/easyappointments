@@ -63,10 +63,10 @@
             <label for="service-name">Name *</label>
             <input type="text" id="service-name" class="span7 required" />
             
-            <label for="service-duration">Duration</label>
-            <input type="text" id="service-duration" class="span7" />
+            <label for="service-duration">Duration *</label>
+            <input type="text" id="service-duration"  />
             
-            <label for="service-price">Price</label>
+            <label for="service-price">Price *</label>
             <input type="text" id="service-price" class="span7" />
             
             <label for="service-currency">Currency</label>
@@ -77,6 +77,9 @@
             
             <label for="service-category">Category</label>
             <select id="service-category" class="span7"></select>
+            
+            <br/><br/>
+            <em id="form-message" class="text-error">Fields with * are required!</em>
         </div>
     </div>
     
@@ -85,7 +88,7 @@
         <div class="filter span4">
             <div class="input-append">
                 <input class="span12" type="text" class="filter-key" />
-                <button type="button" class="btn" class="filter-services">Filter</button>
+                <button type="button" class="btn" class="filter-categories">Filter</button>
             </div>
 
             <h2>Categories</h2>
