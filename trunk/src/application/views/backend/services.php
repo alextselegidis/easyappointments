@@ -64,10 +64,10 @@
             <input type="text" id="service-name" class="span7 required" />
             
             <label for="service-duration">Duration *</label>
-            <input type="text" id="service-duration"  />
+            <input type="text" id="service-duration" class="required"  />
             
             <label for="service-price">Price *</label>
-            <input type="text" id="service-price" class="span7" />
+            <input type="text" id="service-price" class="span7 required" />
             
             <label for="service-currency">Currency</label>
             <input type="text" id="service-currency" class="span7" />
@@ -87,8 +87,8 @@
     <div id="categories" class="tab-content" style="display:none;">
         <div class="filter span4">
             <div class="input-append">
-                <input class="span12" type="text" class="filter-key" />
-                <button type="button" class="btn" class="filter-categories">Filter</button>
+                <input class="filter-key span12" type="text" class="" />
+                <button class="filter-categories btn" type="button">Filter</button>
             </div>
 
             <h2>Categories</h2>
@@ -121,6 +121,8 @@
             
             <h2>Details</h2>
             <div class="form-message alert" style="display:none;"></div>
+            
+            <input type="hidden" id="category-id" />
             
             <label for="category-name">Name *</label>
             <input type="text" id="category-name" class="span7 required" />

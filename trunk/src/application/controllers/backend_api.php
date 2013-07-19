@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Contains all the backend ajax calls
+ * Contains all the backend ajax calls.
  */
 class Backend_api extends CI_Controller {
     /**
@@ -452,7 +452,7 @@ class Backend_api extends CI_Controller {
     }
     
     /**
-     * Save (insert or update) a customer record.
+     * [AJAX] Save (insert or update) a customer record.
      * 
      * @param array $_POST['customer'] JSON encoded array that contains the customer's data.
      */
@@ -470,7 +470,7 @@ class Backend_api extends CI_Controller {
     }
     
     /**
-     * Delete customer from database.
+     * [AJAX] Delete customer from database.
      * 
      * @param numeric $_POST['customer_id'] Customer record id to be deleted.
      */
@@ -486,6 +486,11 @@ class Backend_api extends CI_Controller {
         }
     }
     
+    /**
+     * [AJAX] Save (insert or update) service record.
+     * 
+     * @param array $_POST['service'] Contains the service data (json encoded).
+     */
     public function ajax_save_service() {
         try {
             $this->load->model('services_model');
@@ -499,6 +504,11 @@ class Backend_api extends CI_Controller {
         }
     }
     
+    /**
+     * [AJAX] Delete service record from database.
+     * 
+     * @param numeric $_POST['service_id'] Record id to be deleted.
+     */
     public function ajax_delete_service() {
         try {
             $this->load->model('services_model');
@@ -511,6 +521,12 @@ class Backend_api extends CI_Controller {
         }
     }
     
+    /**
+     * [AJAX] Filter service records by given key string.
+     * 
+     * @param string $_POST['key'] Key string used to filter the records.
+     * @return array Returns a json encoded array back to client.
+     */
     public function ajax_filter_services() {
         try {
             $this->load->model('services_model');
@@ -528,6 +544,12 @@ class Backend_api extends CI_Controller {
         }
     }
     
+    /**
+     * [AJAX] Save (insert or update) category record.
+     * 
+     * @param array $_POST['category'] Json encoded array with the category data. If an id
+     * value is provided then the category is going to be udpated instead of inserted.
+     */
     public function ajax_save_service_category() {
         try {
             $this->load->model('services_model');
@@ -541,10 +563,15 @@ class Backend_api extends CI_Controller {
         }
     }
     
+    /**
+     * [AJAX] Delete category record from database.
+     * 
+     * @param numeric $_POST['category_id'] Record id to be deleted.
+     */
     public function ajax_delete_service_category() {
         try {
             $this->load->model('services_model');
-            $result = $this->services_model->delete($_POST['category_id']);
+            $result = $this->services_model->delete_category($_POST['category_id']);
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
         } catch(Exception $exc) {
             echo json_encode(array(
@@ -553,12 +580,18 @@ class Backend_api extends CI_Controller {
         }
     }
     
+    /**
+     * [AJAX] Filter services categories with key string.
+     * 
+     * @param string $_POST['key'] The key string used to filter the records.
+     * @return array Returns a json encoded array back to client with the category records.
+     */
     public function ajax_filter_service_categories() {
         try {
             $this->load->model('services_model');
             $key = $_POST['key']; // @task sql injection
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
-            $categories = $this->services_model->get_categories($where);
+            $categories = $this->services_model->get_all_categories($where);
             echo json_encode($categories);
         } catch(Exception $exc) {
             echo json_encode(array(
