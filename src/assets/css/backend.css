@@ -92,6 +92,11 @@ root {
 #services-page .details select, 
 #services-page .details textarea { background-color: white; cursor: pointer; }
 
+#services-page #categories .category-row { padding: 10px 7px; border-radius: 3px; }
+#services-page #categories .category-row:hover { background-color: #C6E7D5; cursor: pointer; }
+
+
+
 /* BACKEND PROVIDERS PAGE
    -------------------------------------------------------------------- */
 
