@@ -91,8 +91,8 @@
         
         <?php // PROVIDERS MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/providers" class="menu-item">
-            Providers
+        <a href="<?php echo $base_url; ?>backend/users" class="menu-item">
+            Users
         </a>
         
         <?php // SETTINGS MENU ITEM 
