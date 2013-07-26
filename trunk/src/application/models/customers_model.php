@@ -28,8 +28,7 @@ class Customers_Model extends CI_Model {
         // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).	
         if ($this->exists($customer) && !isset($customer['id'])) {
         	// Find the customer id from the database.
-        	$customer['id'] = $this->get_batch(
-        			array('email' => $customer['email']))[0]['id'];
+        	$customer['id'] = $this->find_record_id($customer);
         }
 
         // :: INSERT OR UPDATE CUSTOMER RECORD
@@ -260,8 +259,9 @@ class Customers_Model extends CI_Model {
                     . 'exist in the database : ' . $field_name);
         }
         
-        return $this->db->get_where('ea_users', array('id' => $customer_id))
-                ->row_array()[$field_name];
+        $customer = $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();
+        
+        return $customer[$field_name];
     }
     
     /**
