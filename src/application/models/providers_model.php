@@ -53,8 +53,9 @@ class Providers_Model extends CI_Model {
                     . 'database : ' . $field_name);
         }
         
-        return $this->db->get_where('ea_users', array('id' => $provider_id))
-                ->row_array()[$field_name];
+        $provider = $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
+        
+        return $provider[$field_name];
     }
     
     /**
@@ -146,8 +147,9 @@ class Providers_Model extends CI_Model {
      * @return string Returs the value of the selected user setting.
      */
     public function get_setting($setting_name, $provider_id) {
-        return $this->db->get_where('ea_user_settings', array('id_users' => $provider_id))
-                ->row_array()[$setting_name];
+        $provider_settings = $this->db->get_where('ea_user_settings', 
+                array('id_users' => $provider_id))->row_array();
+        return $provider_settings[$setting_name];
     }
     
     /**

@@ -220,7 +220,8 @@ class Services_Model extends CI_Model {
             throw new Exception('The given $field_name argument does not exist in the database : ' . $field_name);
         }
         
-        return $this->db->get_where('ea_services', array('id' => $service_id))->row_array()[$field_name];
+        $setting = $this->db->get_where('ea_services', array('id' => $service_id))->row_array();
+        return $setting[$field_name];
     }
     
     /**
