@@ -142,7 +142,7 @@ class Customers_Model extends CI_Model {
                 ->get();
         
         if ($result->num_rows() == 0) {
-            throw new Exception('Could not find appointment record id.');
+            throw new Exception('Could not find customer record id.');
         }
         
         return $result->row()->id;
@@ -192,25 +192,20 @@ class Customers_Model extends CI_Model {
     /**
      * Delete an existing customer record from the database.
      * 
-     * @expectedException InvalidArgumentException Raises when 
-     * the $customer_id is not an integer.
-     * 
-     * @param numeric $record_id The record id to be deleted.
+     * @param numeric $customer_id The record id to be deleted.
      * @return bool Returns the delete operation result.
      */
-    public function delete($record_id) {
-        if (!is_numeric($record_id)) {
-            throw new Exception('Invalid argument type $customer_id : ' 
-                    . $record_id);
+    public function delete($customer_id) {
+        if (!is_numeric($customer_id)) {
+            throw new Exception('Invalid argument type $customer_id : ' . $customer_id);
         }
         
-        $num_rows = $this->db->get_where('ea_users', array('id' => $record_id))->num_rows();
+        $num_rows = $this->db->get_where('ea_users', array('id' => $customer_id))->num_rows();
         if ($num_rows == 0) {
             return FALSE;
         }
         
-        $this->db->where('id', $record_id);
-        return $this->db->delete('ea_users');
+        return $this->db->delete('ea_users', array('id' => $customer_id));
     }
     
     /**

@@ -9,6 +9,180 @@ class Providers_Model extends CI_Model {
     }
     
     /**
+     * Add (insert/update) a service provider record. 
+     * 
+     * If the record already exists (id value provided) then it is going to be updated,
+     * otherwise inserted into the database.
+     * 
+     * @param array $provider Contains the service provider data.
+     * @return int Returns the record id.
+     * @throws Exception When the record data validation fails.
+     */
+    public function add($provider) {
+        if (!$this->validate($provider)) {
+            throw new Exception('Provider data are not valid :' . print_r($provider, TRUE));
+        }
+        
+        if ($this->exists($provider) && !isset($provider['id'])) {
+            $provider['id'] = $this->find_record_id($provider);
+        }
+        
+        if (!isset($provider['id'])) {
+            $provider['id'] = $this->insert($provider);
+        } else {
+            $this->update($provider);
+        }
+        
+        return $provider['id'];
+    }
+    
+    /**
+     * Check whether a particular provider record already exists in the database.
+     *  
+     * @param array $provider Contains the provider data. The 'email' value is required 
+     * in order to check for a provider.
+     * @return bool Returns whether the provider record exists or not.
+     * @throws Exception When the 'email' value is not provided.
+     */
+    public function exists($provider) {
+        if (!isset($provider['email'])) {
+            throw new Exception('Provider email is not provided :' . print_r($provider, TRUE));
+        }
+        
+        // This method shouldn't depend on another method of this class.
+        $num_rows = $this->db
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.email', $provider['email'])
+                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                ->get()->num_rows();
+        
+        return ($num_rows > 0) ? TRUE : FALSE;
+    }
+    
+    /**
+     * Insert a new provider record into the database.
+     *  
+     * @param array $provider Contains the provider data (must be already validated).
+     * @return int Returns the new record id.
+     * @throws Exception When the insert operation fails.
+     */
+    public function insert($provider) {
+        // Get provider's role id. 
+        $provider['id_roles'] = $this->get_providers_role_id();
+        
+        if (!$this->db->insert('ea_users', $provider)) {
+            throw new Exception('Could not insert provider into the database');
+        }
+        
+        return intval($this->db->insert_id());
+    }   
+    
+    /**
+     * Update an existing provider record in the database.
+     * 
+     * @param array $provider Contains the provider data.
+     * @return int Returns the record id.
+     * @throws Exception When the update operation fails.
+     */
+    public function update($provider) {
+        $this->db->where('id', $provider['id']);
+        
+        if (!$this->db->update('ea_users', $provider)) {
+            throw new Exception('Could not update provider record.');
+        }
+        
+        return intval($provider['id']);
+    }
+    
+    /**
+     * Find the database record id of a provider.
+     * 
+     * @param array $provider Contains the provider data. The 'email' value is required
+     * in order to find the record id.
+     * @return int Returns the record id.
+     * @throws Exception When the provider's email value is not provided.
+     */
+    public function find_record_id($provider) {
+        if (!isset($provider['email'])) {
+            throw new Exception('Provider email was not provided :' . print_r($provider, TRUE));
+        }
+        
+        // Get customer's role id
+        $result = $this->db
+                ->select('ea_users.id')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.email', $provider['email'])
+                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                ->get();
+        
+        if ($result->num_rows() == 0) {
+            throw new Exception('Could not find provider record id.');
+        }
+        
+        return $result->row()->id;
+    }
+    
+    /**
+     * Validate provider data before the insert or  update operation is executed.
+     * 
+     * @param array $provider Contains the provider data.
+     * @return bool Returns the validation result.
+     */
+    public function validate($provider) {
+        $this->load->helper('data_validation');
+        
+        try {
+            // If a customer id is provided, check whether the record
+            // exist in the database.
+            if (isset($provider['id'])) {
+                $num_rows = $this->db->get_where('ea_users', 
+                        array('id' => $provider['id']))->num_rows();
+                if ($num_rows == 0) {
+                    throw new Exception('Provided record id does not exist in the database.');
+                }
+            }
+            // Validate required fields
+            if (!isset($provider['last_name'])
+                    || !isset($provider['email'])
+                    || !isset($provider['phone_number'])) { 
+                throw new Exception('Not all required fields are provided : ' . print_r($provider, TRUE));
+            }
+            
+            // Validate email address
+            if (!filter_var($provider['email'], FILTER_VALIDATE_EMAIL)) {
+                throw new Exception('Invalid email address provided : ' . $provider['email']);
+            }
+            
+            return TRUE;
+        } catch (Exception $exc) {
+            return FALSE;
+        }
+    }
+    
+    /**
+     * Delete an existing provider record from the database.
+     * 
+     * @param numeric $customer_id The record id to be deleted.
+     * @return bool Returns the delete operation result.
+     * @throws Exception When the provider id value is not numeric.
+     */
+    public function delete($provider_id) {
+        if (!is_numeric($provider_id)) {
+            throw new Exception('Invalid argument type $customer_id : ' . $provider_id);
+        }
+        
+        $num_rows = $this->db->get_where('ea_users', array('id' => $provider_id))->num_rows();
+        if ($num_rows == 0) {
+            return FALSE; // record does not exist
+        }
+        
+        return $this->db->delete('ea_users', array('id' => $provider_id));
+    }
+    
+    /**
      * Get a specific row from the providers table.
      * 
      * @param int $provider_id The id of the record to be returned.
