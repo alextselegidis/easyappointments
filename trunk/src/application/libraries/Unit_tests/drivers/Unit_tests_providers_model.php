@@ -52,6 +52,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'zip_code' => '12345',
             'notes' => 'This is a test provider',
             'id_roles' => $this->provider_role_id,
+            'services' => array(),
             'settings' => array(
                 'username' => 'test_prov',
                 'password' => 'test_prov',
@@ -69,10 +70,15 @@ class Unit_tests_providers_model extends CI_Driver {
         $this->ci->unit->run($provider['id'], 'is_int', 'Check if add (insert) result is integer.');
         
         // Check if record was inserted successfully.
-        $db_provider = $this->ci->db->get_where('ea_users', array('id' => $provider['id']))->row_array();
-        $db_provider['settings'] = $this->ci->db->get_where('ea_user_settings', 
-                array('id_users' => $provider['id']))->row_array();
+        $db_provider = $this->ci->db
+                ->get_where('ea_users', array('id' => $provider['id']))
+                ->row_array();
+        $db_provider['services'] = array();
+        $db_provider['settings'] = $this->ci->db
+                ->get_where('ea_user_settings', array('id_users' => $provider['id']))
+                ->row_array();
         unset($db_provider['settings']['id_users']); // not needed
+        
         $this->ci->unit->run($provider, $db_provider, 'Check if add(insert) has successfully '
                 . 'inserted a provider record.');
         
@@ -129,6 +135,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'zip_code' => 'CHANGED',
             'notes' => 'CHANGED',
             'id_roles' => $this->provider_role_id,
+            'services' => array(),
             'settings' => array(
                 'username' => 'CHANGED',
                 'password' => 'CHANGED',
@@ -145,10 +152,15 @@ class Unit_tests_providers_model extends CI_Driver {
         $this->ci->unit->run($update_result, 'is_int', 'Check if add (update) result is integer.');
         
         // Check if record was updated successfully
-        $db_provider = $this->ci->db->get_where('ea_users', array('id' => $provider['id']))->row_array();
-        $db_provider['settings'] = $this->ci->db->get_where('ea_user_settings', 
-                array('id_users' => $provider['id']))->row_array();
+        $db_provider = $this->ci->db
+                ->get_where('ea_users', array('id' => $provider['id']))
+                ->row_array();
+        $db_provider['services'] = array();
+        $db_provider['settings'] = $this->ci->db
+                ->get_where('ea_user_settings', array('id_users' => $provider['id']))
+                ->row_array();
         unset($db_provider['settings']['id_users']);
+        
         $this->ci->unit->run($provider, $db_provider, 'Check if add(update) has successfully '
                 . 'updated a provider record.');
         
@@ -358,6 +370,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'zip_code' => '12345',
             'notes' => 'This is a test provider',
             'id_roles' => $this->provider_role_id,
+            'services' => array(),
             'settings' => array(
                 'username' => 'test_prov',
                 'password' => 'test_prov',
@@ -389,6 +402,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'zip_code' => '12345',
             'notes' => 'This is a test provider',
             'id_roles' => $this->provider_role_id,
+            'services' => array(),
             'settings' => array(
                 'username' => 'test_prov',
                 'password' => 'test_prov',
@@ -419,6 +433,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'zip_code' => '12345',
             'notes' => 'This is a test provider',
             'id_roles' => $this->provider_role_id,
+            'services' => array(),
             'settings' => array(
                 'username' => 'test_prov',
                 'password' => 'test_prov',
@@ -449,6 +464,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'zip_code' => '12345',
             'notes' => 'This is a test provider',
             'id_roles' => $this->provider_role_id,
+            'services' => array(),
             'settings' => array(
                 'username' => 'test_prov',
                 'password' => 'test_prov',
@@ -504,6 +520,8 @@ class Unit_tests_providers_model extends CI_Driver {
         );
         $this->ci->db->insert('ea_users', $provider);
         $provider['id'] = intval($this->ci->db->insert_id());
+        
+        $provider['services'] = array();
         
         $provider['settings'] = array(
             'id_users' => $provider['id'],
@@ -579,6 +597,8 @@ class Unit_tests_providers_model extends CI_Driver {
         $this->ci->db->insert('ea_users', $provider);
         $provider['id'] = $this->ci->db->insert_id();
         
+        $provider['services'] = array();
+        
         $provider['settings'] = array(
             'id_users' => $provider['id'],
             'username' => 'testprov',
@@ -594,17 +614,19 @@ class Unit_tests_providers_model extends CI_Driver {
         unset($provider['settings']['id_users']);
         
         // Check if get_row() will successfully return the record.
-        $no_model_provider = $this->ci->db->get_where('ea_users', array('id' => $provider['id']))->row_array();
-        $no_model_provider['settings'] = $this->ci->db->get_where('ea_user_settings', 
-                array('id_users' => $provider['id']))->row_array();
+        $no_model_provider = $this->ci->db
+                ->get_where('ea_users', array('id' => $provider['id']))
+                ->row_array();
+        $no_model_provider['services'] = array();
+        $no_model_provider['settings'] = $this->ci->db
+                ->get_where('ea_user_settings', array('id_users' => $provider['id']))
+                ->row_array();
         unset($no_model_provider['settings']['id_users']);
         
         $model_provider = $this->ci->providers_model->get_row($provider['id']);
         
         $this->ci->unit->run($no_model_provider, $model_provider, 'Test get_row() method successfully ' 
                 . 'returned provider record.');
-        
-        
         
         // Delete inserted provider record.
         $this->ci->db->delete('ea_users', array('id' => $provider['id']));
@@ -619,8 +641,6 @@ class Unit_tests_providers_model extends CI_Driver {
         } catch (Exception $exc) {
             $has_thrown_exc = TRUE;
         }
-
-        
         $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if get_row() with record id that does ' 
                 . 'not exist in the database has thrown an exception.');
     }
@@ -711,25 +731,38 @@ class Unit_tests_providers_model extends CI_Driver {
         $this->ci->db->delete('ea_users', array('id' => $provider['id']));
     }
     
-    // TEST GET BATCH METHOD    ---------------------------------------------
+    // TEST GET BATCH METHOD    
     private function test_get_batch() {
         // Get all the provider rows without using the model.
-        $db_data = $this->ci->db->get_where('ea_users', 
-                array('id_roles' => $this->provider_role_id))->result_array();
+        $db_data = $this->ci->db
+                ->get_where('ea_users', array('id_roles' => $this->provider_role_id))
+                ->result_array();
+        
         foreach($db_data as &$db_provider) {
-            $db_provider['settings'] = $this->ci->db->get_where('ea_user_settings', 
-                    array('id_users' => $db_provider['id']))->row_array();
+            $services = $this->ci->db
+                    ->get_where('ea_services_providers', array('id_users' => $db_provider['id']))
+                    ->result_array();
+            $db_provider['services'] = array();
+            foreach($services as $service) {
+                $db_provider['services'][] = $service['id_services'];
+            }
+            
+            
+            $db_provider['settings'] = $this->ci->db
+                    ->get_where('ea_user_settings', array('id_users' => $db_provider['id']))
+                    ->row_array();
             unset($db_provider['settings']['id_users']);
         }
         
         // Get all the provider rows by using the model.
         $model_data = $this->ci->providers_model->get_batch();
+        
         // Check that the two arrays are the same.
         $this->ci->unit->run($db_data, $model_data, 'Test get_batch() method.');
     }
     
     private function test_get_batch_with_where_clause() {
-        // Insert new provider record.
+        // Insert new provider record and try to fetch it.
         $provider = array(
             'last_name' => 'Doe',
             'first_name' => 'John',
@@ -743,27 +776,52 @@ class Unit_tests_providers_model extends CI_Driver {
         $this->ci->db->insert('ea_users', $provider);
         $provider['id'] = intval($this->ci->db->insert_id());
         
-        // Get data without using the model.
-        $no_model_data = $this->ci->db->get_where('ea_users', array('id' => $provider['id']))
+        $settings = array(
+            'id_users' => $provider['id'],
+            'username' => 'testprov',
+            'password' => 'testprov', 
+            'notifications' => FALSE,
+            'working_plan' => $this->default_working_plan,
+            'google_sync' => FALSE,
+            'google_token' => NULL,
+            'sync_past_days' => '5',
+            'sync_future_days' => '5' 
+        );
+        $this->ci->db->insert('ea_user_settings', $settings);
+        
+        // Get provider records without using the model.
+        $no_model_batch = $this->ci->db
+                ->get_where('ea_users', array('id' => $provider['id']))
                 ->result_array();
-        foreach($no_model_data as &$no_model_provider) {
-            $no_model_provider['settings'] = $this->ci->db->get_where('ea_user_settings',
-                    array('id_users' => $no_model_provider['id']))->row_array();
+        
+        foreach($no_model_batch as &$no_model_provider) {
+            $services = $this->ci->db
+                    ->get_where('ea_services_providers', array('id_users' => $provider['id']))
+                    ->result_array();
+            $no_model_provider['services'] = array();
+            foreach($services as $service) {
+                $no_model_provider['services'][] = $service['id_services'];
+            }
+            
+            
+            $no_model_provider['settings'] = $this->ci->db
+                    ->get_where('ea_user_settings', array('id_users' => $no_model_provider['id']))
+                    ->row_array();
             unset($no_model_provider['settings']['id_users']);
         }
         
         // Get data by using the model. 
-        $model_data = $this->ci->providers_model->get_batch(array('id' => $provider['id']));
+        $model_batch = $this->ci->providers_model->get_batch(array('id' => $provider['id']));
         
         // Check that the data arrays are the same.
-        $this->ci->unit->run($no_model_data, $model_data, 'Test get_batch() with where clause.');
+        $this->ci->unit->run($no_model_batch, $model_batch, 'Test get_batch() with where clause.');
         
         // Delete inserted record from database.
         $this->ci->db->delete('ea_users', array('id' => $provider['id']));
     }
 
     private function unabled_test_get_batch_with_invalid_where_clause() {
-        // CodeIgniter auto raises an exception if the where section is invalid.
+        // CodeIgniter auto raises an exception if the where clause is invalid.
     }
 }
 

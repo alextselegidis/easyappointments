@@ -27,7 +27,7 @@ class Admins_Model extends CI_Model {
     }
     
     /**
-     * Add (insert or update) a admin user record into database.
+     * Add (insert or update) an admin user record into database.
      * 
      * @param array $admin Contains the admin user data.
      * @return int Returns the record id.
@@ -48,7 +48,7 @@ class Admins_Model extends CI_Model {
             $admin['id'] = $this->update($admin);
         }
         
-        return intval($admin);
+        return intval($admin['id']);
     }
     
     /**
@@ -69,7 +69,7 @@ class Admins_Model extends CI_Model {
                 ->select('*')
                 ->from('ea_users')
                 ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $provider['email'])
+                ->where('ea_users.email', $admin['email'])
                 ->where('ea_roles.slug', DB_SLUG_ADMIN)
                 ->get()->num_rows();
         
@@ -110,9 +110,9 @@ class Admins_Model extends CI_Model {
     }
     
     /**
-     * Find the database record id of a provider.
+     * Find the database record id of an admin user.
      * 
-     * @param array $admin Contains the admin data. The 'email value is required in order to 
+     * @param array $admin Contains the admin data. The 'email' value is required in order to 
      * find the record id.
      * @return int Returns the record id
      * @throws Exception When the 'email' value is not present on the $admin array.
@@ -191,7 +191,7 @@ class Admins_Model extends CI_Model {
         // There must be always at least one admin user. If this is the only admin
         // the system, it cannot be deleted.
         $admin_count = $this->db->get_where('ea_users', 
-                array('id_roles' => $this->get_admin_roles_id()))->num_rows();
+                array('id_roles' => $this->get_admin_role_id()))->num_rows();
         if ($admin_count == 1) {
             throw new Exception('Record could not be deleted. The system requires at least '
                     . 'one admin user.');
@@ -266,13 +266,15 @@ class Admins_Model extends CI_Model {
      * @return array Returns an array with admin records.
      */
     public function get_batch($where_clause = '') {
+        $role_id = $this->get_admin_role_id();
+        
         if ($where_clause != '') {
             $this->db->where($where_clause);
         }
         
-        $this->db->where('id_roles', $this->get_admin_role_id());
+        $this->db->where('id_roles', $role_id);
+        $batch = $this->db->get('ea_users')->result_array();
         
-        $batch = $this->get('ea_users')->result_array();
         return $batch;
     }
     

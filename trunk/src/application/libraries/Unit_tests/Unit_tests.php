@@ -23,7 +23,9 @@ class Unit_tests extends CI_Driver_Library {
             'Unit_tests_customers_model',
             'Unit_tests_providers_model',
             'Unit_tests_services_model',
-            'Unit_tests_settings_model'
+            'Unit_tests_settings_model',
+            'Unit_tests_admins_model',
+            'Unit_tests_secretaries_model'
         );
     }
     
@@ -53,11 +55,13 @@ class Unit_tests extends CI_Driver_Library {
      */
     public function run_model_tests($output_report = true) {
         // @task Reenable all model tests.
-        //$this->appointments_model->run_all();
-        //$this->customers_model->run_all();
-        //$this->settings_model->run_all();
-        $this->providers_model->run_all();
-        //$this->services_model->run_all();
+//        $this->appointments_model->run_all();
+//        $this->customers_model->run_all();
+//        $this->settings_model->run_all();
+//        $this->providers_model->run_all();
+//        $this->services_model->run_all();
+//        $this->admins_model->run_all();
+        $this->secretaries_model->run_all();
         
         if ($output_report) {
             $this->CI->output->append_output($this->CI->unit->report());

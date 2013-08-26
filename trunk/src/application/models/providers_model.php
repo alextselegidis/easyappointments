@@ -329,19 +329,23 @@ class Providers_Model extends CI_Model {
      * 
      * @example $this->Model->get_batch('id = ' . $recordId);
      * 
-     * @param string $where_clause (OPTIONAL) The WHERE clause of the query to be executed.
+     * @param mixed $where_clause (OPTIONAL) The WHERE clause of the query to be executed.
      * 
      * NOTICE: DO NOT INCLUDE 'WHERE' KEYWORD.
      * 
      * @return array Returns the rows from the database.
      */
     public function get_batch($where_clause = '') {        
+        // CI db class may confuse two where clauses made in the same time, so 
+        // get the role id first and then apply the get_batch() where clause.
+        $role_id = $this->get_providers_role_id();
+        
         if ($where_clause != '') {
             $this->db->where($where_clause);
         }
         
         $batch = $this->db->get_where('ea_users', 
-                array('id_roles' => $this->get_providers_role_id()))->result_array();
+                array('id_roles' => $role_id))->result_array();
        
         // Include each provider sevices and settings.
         foreach($batch as &$provider) {
@@ -408,8 +412,8 @@ class Providers_Model extends CI_Model {
      * 
      * @return int Returns the role id for the provider records.
      */
-    public function get_providers_role_id() {
-        return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_PROVIDER))->row()->id;
+    public function get_providers_role_id() {       
+        return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_PROVIDER))->row()->id;        
     }
     
     /**
@@ -485,7 +489,7 @@ class Providers_Model extends CI_Model {
         }
         
         // Save provider services in the database (delete old records and add new).
-        $this->db->delete('ea_services_records', array('id_users' => $provider_id));
+        $this->db->delete('ea_services_providers', array('id_users' => $provider_id));
         foreach($services as $service_id) {
             $service_provider = array(
                 'id_users' => $provider_id,
