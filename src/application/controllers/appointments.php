@@ -371,7 +371,7 @@ class Appointments extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array( exceptionToJavascript($exc) )
+                'exceptions' => array( exceptionToJavaScript($exc) )
             ));
         }
     }
@@ -422,7 +422,7 @@ class Appointments extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }  
     }

@@ -44,8 +44,6 @@ var BackendServices = {
     /**
      * Binds the default event handlers of the backend services page. Do not use this method
      * if you include the "BackendServices" namespace on another page.
-     * 
-     * @returns {undefined}
      */
     bindEventHandlers: function() {
         /**
