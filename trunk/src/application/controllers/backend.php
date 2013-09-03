@@ -109,9 +109,9 @@ class Backend extends CI_Controller {
         
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['admins'] = $this->admins_model->get_batch();
         $view['providers'] = $this->providers_model->get_batch();
         $view['secretaries'] = $this->secretaries_model->get_batch();
-        $view['admins'] = $this->admins_model->get_batch();
         $view['services'] = $this->services_model->get_batch(); 
         
         $this->load->view('backend/header', $view);

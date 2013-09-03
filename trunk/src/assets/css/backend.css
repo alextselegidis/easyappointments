@@ -13,92 +13,309 @@ root {
     background-color: #35B66F;
     border-bottom: 6px solid #247A4B;
 }
-#header #header-logo { display: inline-block; height: 60px; margin: 10px 15px 0px 15px; }
-#header #header-logo img { float: left; width: 50px; height: 50px; margin-right: 6px; }
-#header #header-logo span { float: left; font-size: 20px; color: white; margin-top: 16px; }
 
-#header #header-menu { display: inline-block; float: right; height: 100%; }
-#header #header-menu .menu-item { float: left; margin-right: 8px; margin-top: 10px;  
-        padding: 15px 12px; min-width: 68px; text-align: center; 
-        font-weight: bold; color: #FFF; text-decoration: none;
-        font-size: 16px; }
-#header #header-menu .menu-item:hover { background-color: #247A4B; }
+#header #header-logo { 
+    display: inline-block; 
+    height: 60px; 
+    margin: 10px 15px 0px 15px; 
+}
+
+#header #header-logo img { 
+    float: left; 
+    width: 50px; 
+    height: 50px; 
+    margin-right: 6px; 
+}
+
+#header #header-logo span { 
+    float: left; 
+    font-size: 20px; 
+    color: white; 
+    margin-top: 16px; 
+}
+
+#header #header-menu { 
+    display: inline-block; 
+    float: right; 
+    height: 100%; 
+}
+
+#header #header-menu .menu-item { 
+    float: left; 
+    margin-right: 8px; 
+    margin-top: 10px;  
+    padding: 15px 12px; 
+    min-width: 68px; 
+    text-align: center; 
+    font-weight: bold; 
+    color: #FFF; 
+    text-decoration: none;
+    font-size: 16px; 
+}
+
+#header #header-menu .menu-item:hover { 
+    background-color: #247A4B; 
+}
 
 #footer {
     background-color: #F7F7F7;
     border-top: 1px solid #DDD;
 }
-#footer #footer-content { padding: 15px; }
+#footer #footer-content { 
+    padding: 15px; 
+}
 
-#notification strong { margin-right: 15px; }
-#loading { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 999999;
-           background: rgba(255, 255, 255, 0.75);}
-#loading img { margin: auto; display: block; }
+#notification strong { 
+    margin-right: 15px; 
+}
 
-#modal-message { margin: 10px 0px; }
+#loading { 
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 999999;
+    background: rgba(255, 255, 255, 0.75);
+}
+
+#loading img { 
+    margin: auto; 
+    display: block; 
+}
+
+#modal-message { 
+    margin: 10px 0px; 
+}
 
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
-#calendar-page #calendar-toolbar { margin: 15px 10px 20px 10px; padding-bottom: 10px; 
-                                   overflow: auto; border-bottom: 1px solid #D6D6D6; }
-#calendar-page #calendar-filter { display: inline-block;  float: left; }
-#calendar-page #calendar-filter label { display: inline-block; margin-right: 7px; 
-                                        font-weight: bold; font-size: 18px; }
-#calendar-page #calendar-filter select { margin-top: 5px; }
-#calendar-page #calendar-actions { display: inline-block; float: right; margin-top: 4px; }
-#calendar-page #calendar { margin: 12px; }
-#calendar-page #calendar .fc-unavailable { background-image: url('../images/unavailable.jpg');   
-        font-size: 24px; border-radius: 0; font-weight: bold; color: #333;
-        text-shadow: 0px 1px 0px #FFF;}
-#calendar-page #calendar .fc-break { background-image: url('../images/break.jpg'); }
-#calendar-page #calendar .fc-custom { background-image: url('../images/custom.jpg'); }
+#calendar-page #calendar-toolbar { 
+    margin: 15px 10px 20px 10px; 
+    padding-bottom: 10px; 
+    overflow: auto; 
+    border-bottom: 1px solid #D6D6D6; 
+}
+
+#calendar-page #calendar-filter { 
+    display: inline-block;  
+    float: left; 
+}
+
+#calendar-page #calendar-filter label { 
+    display: inline-block; 
+    margin-right: 7px; 
+    font-weight: bold; 
+    font-size: 18px; 
+}
+
+#calendar-page #calendar-filter select { 
+    margin-top: 5px; 
+}
+
+#calendar-page #calendar-actions { 
+    display: inline-block; 
+    float: right; 
+    margin-top: 4px; 
+}
+
+#calendar-page #calendar { 
+    margin: 12px; 
+}
+
+#calendar-page #calendar .fc-unavailable { 
+    background-image: url('../images/unavailable.jpg');   
+    font-size: 24px; 
+    border-radius: 0; 
+    font-weight: bold; 
+    color: #333;
+    text-shadow: 0px 1px 0px #FFF;
+}
+
+#calendar-page #calendar .fc-break { 
+    background-image: url('../images/break.jpg'); 
+}
+
+#calendar-page #calendar .fc-custom { 
+    background-image: url('../images/custom.jpg'); 
+}
 
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
-#customers-page #filter { margin: 15px 0px 15px 15px; }
-#customers-page #filter-results { overflow-y: auto; }
-#customers-page #filter-results .customer-row { padding: 10px 7px; border-radius: 3px; }
-#customers-page #filter-results .customer-row:hover { background-color: #C6E7D5; cursor: pointer; }
-#customers-page #filter-results hr { margin: 5px 0; }
+#customers-page #filter {
+    margin: 15px 0px 15px 15px; 
+}
 
-#customers-page #details { margin: 15px 0 15px 15px; }
-#customers-page #details .btn-toolbar { margin-top: 0px; }
-#customers-page #details div.span5 { margin-left: 0; }
+#customers-page #filter-results { 
+    overflow-y: auto; 
+}
 
-#customers-page #customer-appointments { height: 250px; border: 1px solid #CCC; border-radius: 3px;
-        margin-bottom: 20px; overflow-y: auto; }
-#customers-page #customer-appointments .appointment-row { padding: 7px; border-bottom: 1px solid #CCC; }
-#customers-page #customer-appointments .appointment-row:hover { background-color: #C6E7D5; cursor: pointer; }
+#customers-page #filter-results .customer-row { 
+    padding: 10px 7px; border-radius: 3px; 
+}
+
+#customers-page #filter-results .customer-row:hover { 
+    background-color: #C6E7D5; 
+    cursor: pointer; 
+}
+
+#customers-page #filter-results hr { 
+    margin: 5px 0; 
+}
+
+#customers-page #details { 
+    margin: 15px 0 15px 15px; 
+}
+
+#customers-page #details .btn-toolbar { 
+    margin-top: 0px; 
+}
+
+#customers-page #details div.span5 { 
+    margin-left: 0; 
+}
+
+#customers-page #customer-appointments { 
+    height: 250px; 
+    border: 1px solid #CCC; 
+    border-radius: 3px;
+    margin-bottom: 20px; 
+    overflow-y: auto; 
+}
+
+#customers-page #customer-appointments .appointment-row { 
+    padding: 7px; 
+    border-bottom: 1px solid #CCC; 
+}
+
+#customers-page #customer-appointments .appointment-row:hover { 
+    background-color: #C6E7D5; 
+    cursor: pointer; 
+}
 
 #customers-page #details input,
-#customers-page #details textarea { background-color: white; cursor: default; }
+#customers-page #details textarea { 
+    background-color: white; 
+    cursor: default; 
+}
 
-#customers-page .selected-row { background-color: #EFFDF7; }
+#customers-page .selected-row { 
+    background-color: #EFFDF7; 
+}
 
 
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
-#services-page .tab-content { margin: 15px; }
-#services-page .nav { margin: 15px; }
-#services-page .nav li { cursor: pointer; }
-#services-page .service-row { padding: 10px 7px; border-radius: 3px; }
-#services-page .service-row:hover { cursor: pointer; background-color: #C6E7D5; }
-#services-page .selected-row { background-color: #EFFDF7; }
-#services-page .details .ui-spinner { border: none; margin-bottom: 10px; }
-#services-page #service-duration { margin: 0px; }
-#services-page .details .ui-spinner a { cursor: pointer; }
+#services-page .tab-content { 
+    margin: 15px; 
+}
+
+#services-page .nav { 
+    margin: 15px; 
+}
+
+#services-page .nav li { 
+    cursor: pointer; 
+}
+
+#services-page .service-row { 
+    padding: 10px 7px; 
+    border-radius: 3px; 
+}
+
+#services-page .service-row:hover { 
+    cursor: pointer; 
+    background-color: #C6E7D5; 
+}
+
+#services-page .selected-row { 
+    background-color: #EFFDF7; 
+}
+
+#services-page .details .ui-spinner { 
+    border: none; 
+    margin-bottom: 10px; 
+}
+
+#services-page #service-duration { 
+    margin: 0px; 
+}
+
+#services-page .details .ui-spinner a { 
+    cursor: pointer; 
+}
 
 #services-page .details input, 
 #services-page .details select, 
-#services-page .details textarea { background-color: white; cursor: pointer; }
+#services-page .details textarea { 
+    background-color: white; 
+    cursor: pointer; 
+}
 
-#services-page #categories .category-row { padding: 10px 7px; border-radius: 3px; }
-#services-page #categories .category-row:hover { background-color: #C6E7D5; cursor: pointer; }
+#services-page #categories .category-row { 
+    padding: 10px 7px; 
+    border-radius: 3px; 
+}
+
+#services-page #categories .category-row:hover { 
+    background-color: #C6E7D5; 
+    cursor: pointer; 
+}
 
 
 
-/* BACKEND PROVIDERS PAGE
+/* BACKEND USERS PAGE
    -------------------------------------------------------------------- */
+#users-page .tab-content { 
+    margin: 15px; 
+}
+
+#users-page .nav { 
+    margin: 15px; 
+}
+
+#users-page .nav li { 
+    cursor: pointer; 
+}
+
+#users-page .secretary-row,
+#users-page .provider-row,
+#users-page .admin-row { 
+    padding: 10px 7px; 
+    border-radius: 3px; 
+}
+
+#users-page .secretary-row:hover,
+#users-page .provider-row:hover,
+#users-page .admin-row:hover { 
+    cursor: pointer; 
+    background-color: #C6E7D5; 
+}
+
+#users-page .selected-row { 
+    background-color: #EFFDF7; 
+}
+
+#users-page .details input, 
+#users-page .details select, 
+#users-page .details textarea { 
+    background-color: white; 
+    cursor: pointer; 
+}
+
+#users-page #secretary-notifications.active,
+#users-page #provider-notifications.active,
+#users-page #admin-notifications.active {
+    background: #FFFF91;
+}
+
+#users-page #secretary-providers,
+#users-page #provider-services { 
+    border: 2px solid #ccc; 
+    width: 300px; 
+    height: 100px; 
+    overflow-y: scroll; 
+}
 
 
 /* BACKEND SETTINGS PAGE

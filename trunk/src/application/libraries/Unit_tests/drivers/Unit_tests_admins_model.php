@@ -4,6 +4,7 @@ class Unit_tests_admins_model extends CI_Driver {
     private $ci;
     private $admin_role_id;
     private $default_admin; // does not contain an 'id' value
+    private $default_settings; // does not contain 'id_users' value
     
     /**
      * Class Constructor
@@ -28,6 +29,17 @@ class Unit_tests_admins_model extends CI_Driver {
             'zip_code' => '12345',
             'notes' => 'This is a test admin user.',
             'id_roles' => $this->admin_role_id
+        );
+        
+        $this->default_settings = array(
+            'username' => 'test_admin',
+            'password' => 'test_pswd',
+            'working_plan' => NULL,
+            'notifications' => FALSE,
+            'google_sync' => FALSE, 
+            'google_token' => NULL,
+            'sync_past_days' => NULL,
+            'sync_future_days' => NULL
         );
     }
     

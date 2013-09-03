@@ -59,6 +59,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
                 . 'has returned and integer value.');
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary['id']))->row_array();
+        $db_secretary['providers'] = array();
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - insert operation - '
                 . 'has successfully inserted a new record.');
         
@@ -88,6 +89,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
                 . 'returned an integer value.');
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary['id']))->row_array();
+        $db_secretary['providers'] = array();
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - update operation - has '
                 . 'successfully updated the secretary record.');
         
@@ -125,6 +127,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
                 . 'returned and integer value.');
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary_id))->row_array();
+        $db_secretary['providers'] = array();
         unset($db_secretary['id']);
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - update operation - has '
                 . 'successfully updated the secretary record using find_record_id() method ' 
@@ -323,9 +326,14 @@ class Unit_tests_secretaries_model extends CI_Driver {
     
     private function test_get_row_record_does_not_exist() {
         $random_id = 2309203923; // no record exists with this id.
-        $model_secretary = $this->ci->secretaries_model->get_row($random_id);
-        $this->ci->unit->run($model_secretary, array(), 'Test if get_row() has returned an empty '
-                . 'array on record that does not exist.');
+        $has_thrown_exc = FALSE;
+       try {
+            $this->ci->secretaries_model->get_row($random_id);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if get_row() has thrown an exception '
+                . 'when trying to get a record that does not exist in the database.');
     }
     
     // TEST GET VALUE METHOD --------------------------------------------------

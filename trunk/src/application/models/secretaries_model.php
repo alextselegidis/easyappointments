@@ -17,7 +17,7 @@
  *      'zip_code'
  *      'notes'
  *      'id_roles'
- *      'provders' >> array with provider ids that the secretary handles
+ *      'providers' >> array with provider ids that the secretary handles
  */
 class Secretaries_Model extends CI_Model {
     /**
@@ -38,7 +38,7 @@ class Secretaries_Model extends CI_Model {
         if (!$this->validate($secretary)) {
             throw new Exception('Secretary data are invalid: ' . print_r($secretary, TRUE));
         }
-        
+
         if ($this->exists($secretary) && !isset($secretary['id'])) {
             $secretary['id'] = $this->find_record_id($secretary);
         }
@@ -87,7 +87,9 @@ class Secretaries_Model extends CI_Model {
     public function insert($secretary) {
         $providers = $secretary['providers'];
         unset($secretary['providers']);
-      
+        $settings = $secretary['settings'];
+        unset($secretary['settings']); 
+        
         $secretary['id_roles'] = $this->get_secretary_role_id();
         
         if (!$this->db->insert('ea_users', $secretary)) {
@@ -96,7 +98,8 @@ class Secretaries_Model extends CI_Model {
         
         $secretary['id'] = intval($this->db->insert_id());
         
-        $this->save_providers($providers,$secretary['id']);
+        $this->save_providers($providers, $secretary['id']);
+        $this->save_settings($settings, $secretary['id']);
         
         return $secretary['id'];
     }   
@@ -111,6 +114,8 @@ class Secretaries_Model extends CI_Model {
     public function update($secretary) {
         $providers = $secretary['providers'];
         unset($secretary['providers']);
+        $settings = $secretary['settings'];
+        unset($secretary['settings']); 
         
         $this->db->where('id', $secretary['id']);
         if (!$this->db->update('ea_users', $secretary)){
@@ -118,6 +123,7 @@ class Secretaries_Model extends CI_Model {
         }
         
         $this->save_providers($providers, $secretary['id']);
+        $this->save_settings($settings, $secretary['id']);
         
         return intval($secretary['id']);
     }
@@ -170,7 +176,7 @@ class Secretaries_Model extends CI_Model {
             }
             
             // Validate 'providers' value datatype (must be array)
-            if (isset($secretary['provders']) && !is_array($secretary['providers'])) {
+            if (isset($secretary['providers']) && !is_array($secretary['providers'])) {
                 throw new Exception('Secretary providers value is not an array.');
             }
             
@@ -218,15 +224,30 @@ class Secretaries_Model extends CI_Model {
      * @param numeric $secretary_id The id of the record to be returned.
      * @return array Returns an array with the secretary user data.
      * @throws Exception When the $secretary_id is not a valid numeric value.
+     * @throws Exception When given record id does not exist in the database.
      */
     public function get_row($secretary_id) {
         if (!is_numeric($secretary_id)) {
             throw new Exception('$secretary_id argument is not a valid numeric value: ' . $secretary_id);
         }
         
+        // Check if record exists
+        if ($this->db->get_where('ea_users', array('id' => $secretary_id))->num_rows() == 0) {
+            throw new Exception('The given secretary id does not match a record in the database.');
+        }
+        
+        
         $secretary = $this->db->get_where('ea_users', array('id' => $secretary_id))->row_array();
-        $secretary['providers'] = $this->db->get_where('ea_secretaries_providers',
-                array('id_users_secretary' => $secretary_id))->result_array();
+        
+        $secretary_providers = $this->db->get_where('ea_secretaries_providers', 
+                array('id_users_secretary' => $secretary['id']))->result_array();
+        $secretary['providers'] = array();
+        foreach($secretary_providers as $secretary_provider) {
+            $secretary['providers'][] = $secretary_provider['id_users_provider'];
+        }
+        
+        $secretary['settings'] = $this->db->get_where('ea_user_settings', 
+                array('id_users' => $secretary['id']))->row_array();
         
         return $secretary;
     }
@@ -285,10 +306,18 @@ class Secretaries_Model extends CI_Model {
         $this->db->where('id_roles', $role_id);
         $batch = $this->db->get('ea_users')->result_array();
         
-        // Include every secretary handling users.
+        // Include every secretary providers.
         foreach ($batch as &$secretary) {
-            $secretary['providers'] = $this->db->get_where('ea_secretaries_providers', 
+            $secretary_providers = $this->db->get_where('ea_secretaries_providers', 
                     array('id_users_secretary' => $secretary['id']))->result_array();
+            
+            $secretary['providers'] = array();
+            foreach($secretary_providers as $secretary_provider) {
+                $secretary['providers'][] = $secretary_provider['id_users_provider'];
+            }
+            
+            $secretary['settings'] = $this->db->get_where('ea_user_settings', 
+                    array('id_users' => $secretary['id']))->row_array();
         }        
         
         return $batch;
@@ -313,6 +342,9 @@ class Secretaries_Model extends CI_Model {
             throw new Exception('Invalid argument given $providers: ' . print_r($providers, TRUE));
         }
         
+        // Delete old connections
+        $this->db->delete('ea_secretaries_providers', array('id_users_secretary' => $secretary_id));
+        
         if (count($providers) > 0) {
             foreach ($providers as $provider_id) {
                 $this->db->insert('ea_secretaries_providers', array(
@@ -321,6 +353,60 @@ class Secretaries_Model extends CI_Model {
                 ));
             }
         }
+    }
+    
+    /**
+     * Save the secretary settings (used from insert or update operation).
+     * 
+     * @param array $settings Contains the setting values.
+     * @param numeric $secretary_id Record id of the secretary.
+     */
+    private function save_settings($settings, $secretary_id) {
+        if (!is_numeric($secretary_id)) {
+            throw new Exception('Invalid $provider_id argument given :' . $secretary_id);
+        }
+        
+        if (count($settings) == 0 || !is_array($settings)) {
+            throw new Exception('Invalid $settings argument given:' . print_r($settings, TRUE));
+        }
+        
+        // Check if the setting record exists in db.
+        if ($this->db->get_where('ea_user_settings', array('id_users' => $secretary_id))
+                ->num_rows() == 0) {
+            $this->db->insert('ea_user_settings', array('id_users' => $secretary_id));
+        }
+        
+        foreach($settings as $name=>$value) {
+            $this->set_setting($name, $value, $secretary_id);
+        }
+    }
+    
+    /**
+     * Get a providers setting from the database.
+     * 
+     * @param string $setting_name The setting name that is going to be
+     * returned.
+     * @param int $secretary_id The selected provider id.
+     * @return string Returs the value of the selected user setting.
+     */
+    public function get_setting($setting_name, $secretary_id) {
+        $provider_settings = $this->db->get_where('ea_user_settings', 
+                array('id_users' => $secretary_id))->row_array();
+        return $provider_settings[$setting_name];
+    }
+    
+    /**
+     * Set a provider's setting value in the database. 
+     * 
+     * The provider and settings record must already exist.
+     * 
+     * @param string $setting_name The setting's name.
+     * @param string $value The setting's value.
+     * @param numeric $secretary_id The selected provider id.
+     */
+    public function set_setting($setting_name, $value, $secretary_id) {
+        $this->db->where(array('id_users' => $secretary_id));
+        return $this->db->update('ea_user_settings', array($setting_name => $value));
     }
 }
 

@@ -60,7 +60,7 @@ class Backend_api extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -135,7 +135,7 @@ class Backend_api extends CI_Controller {
                     }
                 }
             } catch(Exception $exc) {
-                $warnings[] = exceptionToJavascript($exc);
+                $warnings[] = exceptionToJavaScript($exc);
             }
             
             // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
@@ -176,7 +176,7 @@ class Backend_api extends CI_Controller {
                         $provider_message, $provider_link, $provider['email']);
                 
             } catch(Exception $exc) {
-                $warnings[] = exceptionToJavascript($exc);
+                $warnings[] = exceptionToJavaScript($exc);
             }
             
             if (!isset($warnings)) {
@@ -188,7 +188,7 @@ class Backend_api extends CI_Controller {
             }
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -243,7 +243,7 @@ class Backend_api extends CI_Controller {
                         $this->google_sync->delete_appointment($appointment['id_google_calendar']);
                     }    
                 } catch(Exception $exc) {
-                    $warnings[] = exceptionToJavascript($exc);
+                    $warnings[] = exceptionToJavaScript($exc);
                 }
             }
             
@@ -257,7 +257,7 @@ class Backend_api extends CI_Controller {
                         $service, $customer, $company_settings, $customer['email'],
                         $_POST['delete_reason']);
             } catch(Exception $exc) {
-                $warnings[] = exceptionToJavascript($exc);
+                $warnings[] = exceptionToJavaScript($exc);
             }
             
             // :: SEND RESPONSE TO CLIENT BROWSER
@@ -270,7 +270,7 @@ class Backend_api extends CI_Controller {
             }
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -298,7 +298,7 @@ class Backend_api extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -347,7 +347,7 @@ class Backend_api extends CI_Controller {
             
     	} catch(Exception $exc) {
     		echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
     	}
     }
@@ -402,7 +402,7 @@ class Backend_api extends CI_Controller {
             
         } catch(Exception $exc) { 
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -446,7 +446,7 @@ class Backend_api extends CI_Controller {
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -464,7 +464,7 @@ class Backend_api extends CI_Controller {
             echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -481,7 +481,7 @@ class Backend_api extends CI_Controller {
             echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -499,7 +499,7 @@ class Backend_api extends CI_Controller {
             echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -516,7 +516,7 @@ class Backend_api extends CI_Controller {
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -539,7 +539,7 @@ class Backend_api extends CI_Controller {
             echo json_encode($services);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -558,7 +558,7 @@ class Backend_api extends CI_Controller {
             echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -575,7 +575,7 @@ class Backend_api extends CI_Controller {
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -595,7 +595,199 @@ class Backend_api extends CI_Controller {
             echo json_encode($categories);
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array(exceptionToJavascript($exc))
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Filter admin records with string key.
+     * 
+     * @param string $_POST['key'] The key string used to filter the records.
+     * @return array Returns a json encoded array back to client with the admin records.
+     */
+    public function ajax_filter_admins() {
+        try {
+            $this->load->model('admins_model');
+            $key = $_POST['key']; // @task sql injection
+            $where = 
+                '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' . 
+                'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' . 
+                'OR phone_number LIKE "%' . $key . '%" OR address LIKE "%' . $key . '%" ' .
+                'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
+                'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
+            $admins = $this->admins_model->get_batch($where);
+            echo json_encode($admins);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Save (insert or update) admin record into database.
+     * 
+     * @param array $_POST['admin'] A json encoded array that contains the admin data. If an 'id'
+     * value is provided then the record is going to be updated.
+     * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that  
+     * everything completed successfully.
+     */
+    public function ajax_save_admin() {
+        try {
+            $this->load->model('admins_model');
+            $admin = json_decode($_POST['admin'], true);
+            $this->admins_model->add($admin);
+            echo json_encode(AJAX_SUCCESS);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Delete an admin record from the database.
+     * 
+     * @param numeric $_POST['admin_id'] The id of the record to be deleted.
+     * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
+     */
+    public function ajax_delete_admin() {
+        try {
+            $this->load->model('admins_model');
+            $result = $this->admins_model->delete($_POST['admin_id']);
+            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Filter provider records with string key.
+     * 
+     * @param string $_POST['key'] The key string used to filter the records.
+     * @return array Returns a json encoded array back to client with the provider records.
+     */
+    public function ajax_filter_providers() {
+        try {
+            $this->load->model('providers_model');
+            $key = $_POST['key']; // @task sql injection
+            $where = 
+                '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' . 
+                'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' . 
+                'OR phone_number LIKE "%' . $key . '%" OR address LIKE "%' . $key . '%" ' .
+                'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
+                'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
+            $providers = $this->providers_model->get_batch($where);
+            echo json_encode($providers);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Save (insert or update) a provider record into database.
+     * 
+     * @param array $_POST['provider'] A json encoded array that contains the provider data. If an 'id'
+     * value is provided then the record is going to be updated.
+     * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that  
+     * everything completed successfully.
+     */
+    public function ajax_save_provider() {
+        try {
+            $this->load->model('providers_model');
+            $provider = json_decode($_POST['provider'], true);
+            $this->providers_model->add($provider);
+            echo json_encode(AJAX_SUCCESS);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Delete a provider record from the database.
+     * 
+     * @param numeric $_POST['provider_id'] The id of the record to be deleted.
+     * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
+     */
+    public function ajax_delete_provider() {
+        try {
+            $this->load->model('providers_model');
+            $result = $this->providers_model->delete($_POST['provider_id']);
+            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Filter secretary records with string key.
+     * 
+     * @param string $_POST['key'] The key string used to filter the records.
+     * @return array Returns a json encoded array back to client with the secretary records.
+     */
+    public function ajax_filter_secretaries() {
+        try {
+            $this->load->model('secretaries_model');
+            $key = $_POST['key']; // @task sql injection
+            $where = 
+                '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' . 
+                'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' . 
+                'OR phone_number LIKE "%' . $key . '%" OR address LIKE "%' . $key . '%" ' .
+                'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
+                'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
+            $secretaries = $this->secretaries_model->get_batch($where);
+            echo json_encode($secretaries);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Save (insert or update) a secretary record into database.
+     * 
+     * @param array $_POST['secretary'] A json encoded array that contains the secretary data. 
+     * If an 'id' value is provided then the record is going to be updated.
+     * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that  
+     * everything completed successfully.
+     */
+    public function ajax_save_secretary() {
+        try {
+            $this->load->model('secretaries_model');
+            $secretary = json_decode($_POST['secretary'], true);
+            $this->secretaries_model->add($secretary);
+            echo json_encode(AJAX_SUCCESS);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] Delete a secretary record from the database.
+     * 
+     * @param numeric $_POST['secretary_id'] The id of the record to be deleted.
+     * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
+     */
+    public function ajax_delete_secretary() {
+        try {
+            $this->load->model('secretaries_model');
+            $result = $this->secretaries_model->delete($_POST['secretary_id']);
+            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }

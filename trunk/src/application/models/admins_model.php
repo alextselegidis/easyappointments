@@ -17,6 +17,7 @@
  *      'zip_code'
  *      'notes'
  *      'id_roles'
+ *      'settings' >>> array that contains user settings (username, password etc)
  */
 class Admins_Model extends CI_Model {
     /**
@@ -85,12 +86,27 @@ class Admins_Model extends CI_Model {
      */
     public function insert($admin) {
         $admin['id_roles'] = $this->get_admin_role_id();
+        $settings = $admin['settings'];
+        unset($admin['settings']);
+        
+        $this->db->trans_begin();        
         
         if (!$this->db->insert('ea_users', $admin)) {
             throw new Exception('Could not insert admin into the database.');
         }
         
-        return intval($this->db->insert_id());
+        $admin['id'] = intval($this->db->insert_id());
+        $settings['id_users'] = $admin['id'];
+        
+        // Insert admin settings. 
+        if (!$this->db->insert('ea_user_settings', $settings)) {
+            $this->db->trans_rollback();
+            throw new Exception('Could not insert admin settings into the database.');
+        }
+        
+        $this->db->trans_complete();
+        
+        return $admin['id'];
     }   
     
     /**
@@ -101,9 +117,18 @@ class Admins_Model extends CI_Model {
      * @throws Exception When the update operation fails.
      */
     public function update($admin) {
+        $settings = $admin['settings'];
+        unset($admin['settings']);
+        $settings['id_users'] = $admin['id'];
+        
         $this->db->where('id', $admin['id']);
-        if (!$this->db->update('ea_users', $admin)){
+        if (!$this->db->update('ea_users', $admin)) {
             throw new Exception('Could not update admin record.');
+        }
+        
+        $this->db->where('id_users', $settings['id_users']);
+        if (!$this->db->update('ea_user_settings', $settings)) {
+            throw new Exception('Could not update admin settings.');
         }
         
         return intval($admin['id']);
@@ -218,6 +243,10 @@ class Admins_Model extends CI_Model {
         }
         
         $admin = $this->db->get_where('ea_users', array('id' => $admin_id))->row_array();
+        $admin['settings'] = $this->db->get_where('ea_user_settings', 
+                array('id_users' => $admin_id))->row_array();
+        unset($admin['settings']['id_users']);
+        
         return $admin;
     }
     
@@ -272,8 +301,14 @@ class Admins_Model extends CI_Model {
             $this->db->where($where_clause);
         }
         
-        $this->db->where('id_roles', $role_id);
-        $batch = $this->db->get('ea_users')->result_array();
+        $batch = $this->db->get_where('ea_users', array('id_roles' => $role_id))->result_array();
+        
+        // Get every admin settings.
+        foreach ($batch as &$admin) {
+            $admin['settings'] = $this->db->get_where('ea_user_settings', 
+                    array('id_users' => $admin['id']))->row_array();
+            unset($admin['settings']['id_users']);
+        }
         
         return $batch;
     }

@@ -60,7 +60,7 @@ function exceptionToHtml($exc) {
  * @param Exception $exception The given exception object.
  * @return string Returns the json encoded object of the exception.
  */
-function exceptionToJavascript($exception) {
+function exceptionToJavaScript($exception) {
     return json_encode(array(
         'code' => $exception->getCode(),
         'file' => $exception->getFile(),
