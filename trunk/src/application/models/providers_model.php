@@ -271,6 +271,7 @@ class Providers_Model extends CI_Model {
         // Get provider data.
         $provider = $this->db->get_where('ea_users', array('id' => $provider_id))->row_array();
         
+       
         // Include provider services.
         $services = $this->db->get_where('ea_services_providers', 
                 array('id_users' => $provider_id))->result_array();
@@ -278,12 +279,12 @@ class Providers_Model extends CI_Model {
         foreach($services as $service) {
             $provider['services'][] = $service['id_services'];
         }
-        
+
         // Include provider settings.
         $provider['settings'] = $this->db->get_where('ea_user_settings', 
                 array('id_users' => $provider_id))->row_array();
         unset($provider['settings']['id_users']);
-        
+
         // Return provider data array.
         return $provider;
     }

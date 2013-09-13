@@ -26,14 +26,21 @@
     <section>
         <article>
             <pre class="prettyprint source"><code>/**
- * Main javascript code for the backend section of Easy!Appointments.
+ * Main javascript code for the backend of Easy!Appointments.
  */
 $(document).ready(function() {
     $(window).resize(function() {
         Backend.placeFooterToBottom();
     }).trigger('resize');
+    
+    $(document).ajaxStart(function() {
+        $('#loading').show();
+    });
+    
+    $(document).ajaxStop(function() {
+        $('#loading').hide();
+    });
 });
-
 
 /**
  * This namespace contains functions that are used in the backend section of
@@ -43,24 +50,98 @@ $(document).ready(function() {
  */
 var Backend = {
     /**
+     * Backend Constants
+     */
+    EXCEPTIONS_TITLE: 'Unexpected Issues',
+    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
+    WARNINGS_TITLE: 'Unexpected Warnings',
+    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    
+    /**
      * Place the backend footer always on the bottom of the page.
      */
     placeFooterToBottom: function() {
-        var footerHandle = $('#footer');
+        var $footer = $('#footer');
 
         if (window.innerHeight > $('body').height()) {
-            footerHandle.css({
-                'position'  : 'absolute',
-                'width'     : '100%',
-                'bottom'    : '0px'
+            $footer.css({
+                'position': 'absolute',
+                'width': '100%',
+                'bottom': '0px'
             });
         } else {
-            footerHandle.css({
-                'position'  : 'static'
+            $footer.css({
+                'position': 'static'
             });
         }
+    },
+
+    /**
+     * Display backend notifications to user. 
+     * 
+     * Using this method you can display notifications to the use with custom
+     * messages. If the 'actions' array is provided then an action link will 
+     * be displayed too.
+     * 
+     * @param {string} message Notification message
+     * @param {array} actions An array with custom actions that will be available
+     * to the user. Every array item is an object that contains the 'label' and 
+     * 'function' key values.
+     */
+    displayNotification: function(message, actions) {
+        if (message === undefined) {
+            message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
+        }
+        
+        if (actions === undefined) {
+            actions = [];
+        }
+        
+        var notificationHtml = 
+                '&lt;div class="notification alert">' + 
+                '&lt;strong>' + message + '&lt;/strong>';
+        
+        $.each(actions, function(index, action) {
+            var actionId = action['label'].toLowerCase().replace(' ', '-');
+            notificationHtml += '&lt;button id="' + actionId + '" class="btn">' 
+                    + action['label'] + '&lt;/button>';
+            
+            $(document).off('click', '#' + actionId);
+            $(document).on('click', '#' + actionId, action['function']);
+        });
+        
+        notificationHtml += '&lt;/div>';
+        
+        $('#notification').html(notificationHtml);
+        $('#notification').show('blind');
+    },
+            
+    /**
+     * All backend js code has the same way of dislaying exceptions that are raised on the
+     * server during an ajax call. 
+     * 
+     * @param {object} response Contains the server response. If exceptions or warnings are 
+     * found, user friendly messages are going to be displayed to the user.
+     * @returns {bool} Returns whether the the ajax callback should continue the execution or
+     * stop, due to critical server exceptions.
+     */
+    handleAjaxExceptions: function(response) {
+        if (response.exceptions) {
+            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+            GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+            return false;
+        }
+
+        if (response.warnings) {
+            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+            GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+        }
+        
+        return true;
     }
-}</code></pre>
+};</code></pre>
         </article>
     </section>
 
@@ -70,13 +151,13 @@ var Backend = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:46 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:16 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -7,7 +7,7 @@
 	<title>Class Services_Model</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?815896003"></script>
+	<script type="text/javascript" src="elementlist.js?3375239373"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -19,19 +19,32 @@
 
 
 		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
 		</div>
 
+		<hr />
 
 
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-Admins_Model.html">Admins_Model</a></li>
 				<li><a href="class-Appointments.html">Appointments</a></li>
 				<li><a href="class-Appointments_Model.html">Appointments_Model</a></li>
 				<li><a href="class-Backend.html">Backend</a></li>
+				<li><a href="class-Backend_api.html">Backend_api</a></li>
 				<li><a href="class-Customers_Model.html">Customers_Model</a></li>
+				<li><a href="class-Errors.html">Errors</a></li>
+				<li><a href="class-Google.html">Google</a></li>
 				<li><a href="class-Providers_Model.html">Providers_Model</a></li>
 				<li><a href="class-Roles_Model.html">Roles_Model</a></li>
+				<li><a href="class-Secretaries_Model.html">Secretaries_Model</a></li>
 				<li class="active"><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
@@ -60,6 +73,9 @@
 		<ul>
 			<li>
 				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -105,7 +121,7 @@ CI_Model
 		
 		
 
-		<b>Located at</b> <a href="source-class-Services_Model.html#2-80" title="Go to source code">services_model.php</a><br />
+		<b>Located at</b> <a href="source-class-Services_Model.html#2-361" title="Go to source code">services_model.php</a><br />
 	</div>
 
 
@@ -145,6 +161,294 @@ CI_Model
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="add" id="_add">
+
+		<td class="attributes"><code>
+			 public 
+			numeric
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add">#</a>
+		<code><a href="source-class-Services_Model.html#10-29" title="Go to source code">add</a>( <span>array <var>$service</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Add (insert or update) a service record on the database</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add (insert or update) a service record on the database</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service</var></dt>
+					<dd><code>array</code><br>$service Contains the service data. If an 'id' value is provided then the record
+will be updated.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>numeric</code><br>Returns the record id.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="insert" id="_insert">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_insert">#</a>
+		<code><a href="source-class-Services_Model.html#31-42" title="Go to source code">insert</a>( <span>array <var>$service</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Insert service record into database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Insert service record into database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service</var></dt>
+					<dd><code>array</code><br>$service Contains the service record data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Returns the new service record id.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="update" id="_update">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update">#</a>
+		<code><a href="source-class-Services_Model.html#44-55" title="Go to source code">update</a>( <span>array <var>$service</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Update service record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Update service record.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service</var></dt>
+					<dd><code>array</code><br>$service Contains the service data. The record id needs to be included in the
+array.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="exists" id="_exists">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_exists">#</a>
+		<code><a href="source-class-Services_Model.html#57-78" title="Go to source code">exists</a>( <span>array <var>$service</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Checks whether an service record already exists in the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Checks whether an service record already exists in the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service</var></dt>
+					<dd><code>array</code><br>$service Contains the service data. Name, duration and price values are
+mandatory in order to perform the checks.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="validate" id="_validate">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_validate">#</a>
+		<code><a href="source-class-Services_Model.html#80-132" title="Go to source code">validate</a>( <span>array <var>$service</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Validate a service record data.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Validate a service record data.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service</var></dt>
+					<dd><code>array</code><br>$service Contains the service data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the validation result.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="find_record_id" id="_find_record_id">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_find_record_id">#</a>
+		<code><a href="source-class-Services_Model.html#134-161" title="Go to source code">find_record_id</a>( <span>array <var>$service</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the record id of an existing record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the record id of an existing record.</p>
+
+<p>NOTICE! The record must exist, otherwise an exeption will be raised.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service</var></dt>
+					<dd><code>array</code><br>$service Contains the service record data. Name, duration and price values are
+mandatory for this method to complete.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete" id="_delete">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete">#</a>
+		<code><a href="source-class-Services_Model.html#163-180" title="Go to source code">delete</a>( <span>numeric <var>$service_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Delete a service record from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Delete a service record from database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$service_id</var></dt>
+					<dd><code>numeric</code><br>$service_id Record id to be deleted.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the delete operation result.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="get_row" id="_get_row">
 
 		<td class="attributes"><code>
@@ -156,7 +460,7 @@ CI_Model
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_row">#</a>
-		<code><a href="source-class-Services_Model.html#10-23" title="Go to source code">get_row</a>( <span>integer <var>$service_id</var></span> )</code>
+		<code><a href="source-class-Services_Model.html#182-195" title="Go to source code">get_row</a>( <span>numeric <var>$service_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -173,7 +477,7 @@ CI_Model
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$service_id</var></dt>
-					<dd><code>integer</code><br>$service_id The record's id to be returned.</dd>
+					<dd><code>numeric</code><br>$service_id The record's id to be returned.</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -199,7 +503,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_value">#</a>
-		<code><a href="source-class-Services_Model.html#25-52" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$service_id</var></span> )</code>
+		<code><a href="source-class-Services_Model.html#197-225" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$service_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -243,7 +547,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_batch">#</a>
-		<code><a href="source-class-Services_Model.html#54-69" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-keyword1">NULL</span></span> )</code>
+		<code><a href="source-class-Services_Model.html#227-242" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-keyword1">NULL</span></span> )</code>
 
 		<div class="description short">
 			
@@ -290,7 +594,7 @@ INCLUDE 'WHERE' KEYWORD.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_available_services">#</a>
-		<code><a href="source-class-Services_Model.html#71-79" title="Go to source code">get_available_services</a>( )</code>
+		<code><a href="source-class-Services_Model.html#244-261" title="Go to source code">get_available_services</a>( )</code>
 
 		<div class="description short">
 			
@@ -308,6 +612,215 @@ INCLUDE 'WHERE' KEYWORD.</dd>
 				<h4>Returns</h4>
 				<div class="list">
 					<code>array</code><br>Returns an object array with all the database services.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add_category" id="_add_category">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add_category">#</a>
+		<code><a href="source-class-Services_Model.html#263-283" title="Go to source code">add_category</a>( <span>array <var>$category</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Add (insert or update) a service category record into database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add (insert or update) a service category record into database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$category</var></dt>
+					<dd><code>array</code><br>$category Containst the service category data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Returns the record id.s<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete_category" id="_delete_category">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete_category">#</a>
+		<code><a href="source-class-Services_Model.html#285-304" title="Go to source code">delete_category</a>( <span>numeric <var>$category_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Delete a service category record from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Delete a service category record from the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$category_id</var></dt>
+					<dd><code>numeric</code><br>$category_id Record id to be deleted.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the delete operation result.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_category" id="_get_category">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_category">#</a>
+		<code><a href="source-class-Services_Model.html#306-324" title="Go to source code">get_category</a>( <span>numeric <var>$category_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get a service category record data.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get a service category record data.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$category_id</var></dt>
+					<dd><code>numeric</code><br>$category_id Record id to be retrieved.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns the record data from the database.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_all_categories" id="_get_all_categories">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_all_categories">#</a>
+		<code><a href="source-class-Services_Model.html#326-334" title="Go to source code">get_all_categories</a>( <span>mixed <var>$where</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get all service category records from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get all service category records from database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns an array that contains all the service category records.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="validate_category" id="_validate_category">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_validate_category">#</a>
+		<code><a href="source-class-Services_Model.html#336-360" title="Go to source code">validate_category</a>( <span>array <var>$category</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Validate a service category record data. This method must be used before
+adding a service category record into database in order to secure the record
+integrity.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Validate a service category record data. This method must be used before
+adding a service category record into database in order to secure the record
+integrity.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$category</var></dt>
+					<dd><code>array</code><br>$category Contains the service category data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the validation result.<br />
 				</div>
 
 

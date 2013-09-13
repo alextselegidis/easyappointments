@@ -7,7 +7,7 @@
 	<title>Class Providers_Model</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?815896003"></script>
+	<script type="text/javascript" src="elementlist.js?3375239373"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -19,19 +19,32 @@
 
 
 		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
 		</div>
 
+		<hr />
 
 
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-Admins_Model.html">Admins_Model</a></li>
 				<li><a href="class-Appointments.html">Appointments</a></li>
 				<li><a href="class-Appointments_Model.html">Appointments_Model</a></li>
 				<li><a href="class-Backend.html">Backend</a></li>
+				<li><a href="class-Backend_api.html">Backend_api</a></li>
 				<li><a href="class-Customers_Model.html">Customers_Model</a></li>
+				<li><a href="class-Errors.html">Errors</a></li>
+				<li><a href="class-Google.html">Google</a></li>
 				<li class="active"><a href="class-Providers_Model.html">Providers_Model</a></li>
 				<li><a href="class-Roles_Model.html">Roles_Model</a></li>
+				<li><a href="class-Secretaries_Model.html">Secretaries_Model</a></li>
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
@@ -61,6 +74,9 @@
 			<li>
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
 			<li class="active">
 <span>Class</span>			</li>
 		</ul>
@@ -77,6 +93,21 @@
 	<h1>Class Providers_Model</h1>
 
 
+	<div class="description">
+	
+<p>Providers_Model Class</p>
+
+<p>Contains the database operations for the service provider users of
+Easy!Appointmenst.</p>
+
+<p>Data Structure: 'fist_name' 'last_name' (required) 'email' (required)
+'mobile_number' 'phone_number' (required) 'address' 'city' 'state' 'zip_code'
+'notes' 'id_roles' 'services' &gt;&gt; array that contains the ids that the
+provider can provide 'settings' 'username' 'password' 'notifications'
+'working_plan' 'google_sync' 'google_token' 'sync_past_days'
+'sync_future_days'</p>
+
+	</div>
 
 	<dl class="tree">
 		<dd style="padding-left:0px">
@@ -105,7 +136,7 @@ CI_Model
 		
 		
 
-		<b>Located at</b> <a href="source-class-Providers_Model.html#3-154" title="Go to source code">providers_model.php</a><br />
+		<b>Located at</b> <a href="source-class-Providers_Model.html#3-502" title="Go to source code">providers_model.php</a><br />
 	</div>
 
 
@@ -123,7 +154,7 @@ CI_Model
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Providers_Model.html#4-9" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-Providers_Model.html#33-38" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -139,6 +170,331 @@ CI_Model
 
 
 
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add" id="_add">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add">#</a>
+		<code><a href="source-class-Providers_Model.html#40-66" title="Go to source code">add</a>( <span>array <var>$provider</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Add (insert - update) a service provider record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add (insert - update) a service provider record.</p>
+
+<p>If the record already exists (id value provided) then it is going to be
+updated, otherwise inserted into the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider</var></dt>
+					<dd><code>array</code><br>$provider Contains the service provider data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Returns the record id.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the record data validation fails.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="exists" id="_exists">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_exists">#</a>
+		<code><a href="source-class-Providers_Model.html#68-91" title="Go to source code">exists</a>( <span>array <var>$provider</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Check whether a particular provider record already exists in the
+database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Check whether a particular provider record already exists in the
+database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider</var></dt>
+					<dd><code>array</code><br>$provider Contains the provider data. The 'email' value is required in order to
+check for a provider.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns whether the provider record exists or not.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the 'email' value is not provided.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="insert" id="_insert">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_insert">#</a>
+		<code><a href="source-class-Providers_Model.html#93-121" title="Go to source code">insert</a>( <span>array <var>$provider</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Insert a new provider record into the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Insert a new provider record into the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider</var></dt>
+					<dd><code>array</code><br>$provider Contains the provider data (must be already validated).</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Returns the new record id.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the insert operation fails.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="update" id="_update">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update">#</a>
+		<code><a href="source-class-Providers_Model.html#123-148" title="Go to source code">update</a>( <span>array <var>$provider</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Update an existing provider record in the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Update an existing provider record in the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider</var></dt>
+					<dd><code>array</code><br>$provider Contains the provider data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Returns the record id.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the update operation fails.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="find_record_id" id="_find_record_id">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_find_record_id">#</a>
+		<code><a href="source-class-Providers_Model.html#150-176" title="Go to source code">find_record_id</a>( <span>array <var>$provider</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Find the database record id of a provider.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Find the database record id of a provider.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider</var></dt>
+					<dd><code>array</code><br>$provider Contains the provider data. The 'email' value is required in order to
+find the record id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>Returns the record id.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the provider's email value is not provided.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="validate" id="_validate">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_validate">#</a>
+		<code><a href="source-class-Providers_Model.html#178-231" title="Go to source code">validate</a>( <span>array <var>$provider</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Validate provider data before the insert or update operation is executed.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Validate provider data before the insert or update operation is executed.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider</var></dt>
+					<dd><code>array</code><br>$provider Contains the provider data.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the validation result.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete" id="_delete">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete">#</a>
+		<code><a href="source-class-Providers_Model.html#233-251" title="Go to source code">delete</a>( <span>numeric <var>$provider_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Delete an existing provider record from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Delete an existing provider record from the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$provider_id</var></dt>
+					<dd><code>numeric</code><br>$customer_id The record id to be deleted.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the delete operation result.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the provider id value is not numeric.<br />
+				</div>
 
 
 
@@ -156,24 +512,24 @@ CI_Model
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_row">#</a>
-		<code><a href="source-class-Providers_Model.html#11-25" title="Go to source code">get_row</a>( <span>integer <var>$provider_id</var></span> )</code>
+		<code><a href="source-class-Providers_Model.html#253-290" title="Go to source code">get_row</a>( <span>integer <var>$provider_id</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Get a specific row from the providers table.</p>
+<p>Get a specific provider record from the database.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Get a specific row from the providers table.</p>
+<p>Get a specific provider record from the database.</p>
 
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$provider_id</var></dt>
-					<dd><code>integer</code><br>$provider_id The record's id to be returned.</dd>
+					<dd><code>integer</code><br>$provider_id The id of the record to be returned.</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -182,6 +538,10 @@ CI_Model
 same name as the database field names.<br />
 				</div>
 
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the selected record does not exist in database.<br />
+				</div>
 
 
 
@@ -199,7 +559,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_value">#</a>
-		<code><a href="source-class-Providers_Model.html#27-59" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>integer <var>$provider_id</var></span> )</code>
+		<code><a href="source-class-Providers_Model.html#292-326" title="Go to source code">get_value</a>( <span>string <var>$field_name</var></span>, <span>numeric <var>$provider_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -218,14 +578,21 @@ same name as the database field names.<br />
 					<dt><var>$field_name</var></dt>
 					<dd><code>string</code><br>$field_name The field name of the value to be returned.</dd>
 					<dt><var>$provider_id</var></dt>
-					<dd><code>integer</code><br>$provider_id The selected record's id.</dd>
+					<dd><code>numeric</code><br>$provider_id Record id of the value to be returned.</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code>string</code><br>Returns the records value from the database.<br />
+					<code>string</code><br>Returns the selected record value from the database.<br />
 				</div>
 
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the $field_name argument is not a valid string.<br />
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the $admin_id is not a valid numeric.<br />
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the admin record does not exist in the database.<br />
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the selected field value is not present on database.<br />
+				</div>
 
 
 
@@ -243,7 +610,7 @@ same name as the database field names.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_batch">#</a>
-		<code><a href="source-class-Providers_Model.html#61-80" title="Go to source code">get_batch</a>( <span>string <var>$where_clause</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-Providers_Model.html#328-369" title="Go to source code">get_batch</a>( <span>mixed <var>$where_clause</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -260,8 +627,8 @@ same name as the database field names.<br />
 				<h4>Parameters</h4>
 				<div class="list"><dl>
 					<dt><var>$where_clause</var></dt>
-					<dd><code>string</code><br>$whereClause (OPTIONAL) The WHERE clause of the query to be executed. DO NOT
-INCLUDE 'WHERE' KEYWORD.</dd>
+					<dd><code>mixed</code><br>$where_clause (OPTIONAL) The WHERE clause of the query to be executed. NOTICE:
+DO NOT INCLUDE 'WHERE' KEYWORD.</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -272,48 +639,8 @@ INCLUDE 'WHERE' KEYWORD.</dd>
 
 				<h4>Example</h4>
 				<div class="list">
-						$this-&gt;Model-&gt;getBatch('id = ' . $recordId);<br />
+						$this-&gt;Model-&gt;get_batch('id = ' . $recordId);<br />
 				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="get_available_providers" id="_get_available_providers">
-
-		<td class="attributes"><code>
-			 public 
-			array
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_get_available_providers">#</a>
-		<code><a href="source-class-Providers_Model.html#82-119" title="Go to source code">get_available_providers</a>( )</code>
-
-		<div class="description short">
-			
-<p>Get the available system providers.</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Get the available system providers.</p>
-
-<p>This method returns the available providers and the services that can
-provide.</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>array</code><br>Returns an array with the providers data.<br />
-				</div>
-
-
 
 
 		</div>
@@ -330,7 +657,7 @@ provide.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_providers_role_id">#</a>
-		<code><a href="source-class-Providers_Model.html#121-128" title="Go to source code">get_providers_role_id</a>( )</code>
+		<code><a href="source-class-Providers_Model.html#411-418" title="Go to source code">get_providers_role_id</a>( )</code>
 
 		<div class="description short">
 			
@@ -347,7 +674,7 @@ provide.</p>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code>integer</code><br>Returns the role id for the customer records.<br />
+					<code>integer</code><br>Returns the role id for the provider records.<br />
 				</div>
 
 
@@ -367,7 +694,7 @@ provide.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_setting">#</a>
-		<code><a href="source-class-Providers_Model.html#130-141" title="Go to source code">get_setting</a>( <span>string <var>$setting_name</var></span>, <span>integer <var>$provider_id</var></span> )</code>
+		<code><a href="source-class-Providers_Model.html#420-432" title="Go to source code">get_setting</a>( <span>string <var>$setting_name</var></span>, <span>integer <var>$provider_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -411,7 +738,7 @@ provide.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_setting">#</a>
-		<code><a href="source-class-Providers_Model.html#143-153" title="Go to source code">set_setting</a>( <span>string <var>$setting_name</var></span>, <span>string <var>$value</var></span>, <span>numeric <var>$provider_id</var></span> )</code>
+		<code><a href="source-class-Providers_Model.html#434-446" title="Go to source code">set_setting</a>( <span>string <var>$setting_name</var></span>, <span>string <var>$value</var></span>, <span>numeric <var>$provider_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -422,6 +749,8 @@ provide.</p>
 		<div class="description detailed hidden">
 			
 <p>Set a provider's setting value in the database.</p>
+
+<p>The provider and settings record must already exist.</p>
 
 
 

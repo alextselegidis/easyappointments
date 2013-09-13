@@ -9,7 +9,7 @@ var FrontendBook = {
     /**
      * Determines the functionality of the page.
      * 
-     * @type Boolean
+     * @type {bool}
      */
     manageMode: false,  
     
@@ -110,6 +110,7 @@ var FrontendBook = {
 
             FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
             FrontendBook.updateConfirmFrame();
+            FrontendBook.updateServiceDescription($('#select-service').val(), $('#service-description'));
         });
         
         /**
@@ -361,7 +362,7 @@ var FrontendBook = {
         $('#wizard-frame-3 input').css('border', '');
         
         try {
-            // :: CHECK REQUIRED FIELDS
+            // Validate required fields.
             var missingRequiredField = false;
             $('.required').each(function() {
                 if ($(this).val() == '') {
@@ -373,7 +374,7 @@ var FrontendBook = {
                 throw 'Fields with * are required!';
             }
             
-            // :: CHECK EMAIL ADDRESS
+            // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').css('border', '2px solid red');
                 throw 'Invalid email address!';
@@ -392,26 +393,36 @@ var FrontendBook = {
      * booking.
      */
     updateConfirmFrame: function() {
-        // :: UPDATE APPOINTMENT DETAILS DIV
+        // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
         if (selectedDate !== null) {
             selectedDate = Date.parse(selectedDate).toString('dd/MM/yyyy');
         }
 
+        var selServiceId = $('#select-service').val();
+        var servicePrice, serviceCurrency;
+        $.each(GlobalVariables.availableServices, function(index, service) {
+            if (service.id == selServiceId) {
+                servicePrice = '<br>' + service.price;
+                serviceCurrency = service.currency;
+                return false; // break loop
+            }
+        });
+
         $('#appointment-details').html(
-            '<h3>' + $('#select-service option:selected').text() + '</h3>' +  
+            '<h4>' + $('#select-service option:selected').text() + '</h4>' +  
             '<p>' 
-        		+ $('#select-provider option:selected').text()
-        		+ '<br/>'
         		+ '<strong class="text-info">' 
+                    + $('#select-provider option:selected').text() + '<br>'
         			+ selectedDate + ' ' +  $('.selected-hour').text() 
+                    + servicePrice + ' ' + serviceCurrency
     			+ '</strong>' + 
             '</p>'
         );
 
-        // :: UPDATE CUSTOMER'S DETAILS DIV
+        // Customer Details
         $('#customer-details').html(
-            '<h3>' + $('#first-name').val() + ' ' + $('#last-name').val() + '</h3>' + 
+            '<h4>' + $('#first-name').val() + ' ' + $('#last-name').val() + '</h4>' + 
             '<p>' + 
             	'Phone: ' + $('#phone-number').val() + 
             	'<br/>' + 
@@ -425,7 +436,8 @@ var FrontendBook = {
         	'</p>'
         );
             
-        // :: UPDATE APPOINTMENT DATA FORM 
+        // Update appointment form data for submission to server when the user confirms
+        // the appointment.
         var postData = new Object();
         
         postData['customer'] = {
@@ -529,5 +541,46 @@ var FrontendBook = {
             console.log(exc); // log exception
             return false;
         }
+    },
+    
+    /**
+     * This method updates a div's html content with a brief description of the 
+     * user selected service (only if available in db). This is usefull for the 
+     * customers upon selecting the correct service.
+     * 
+     * @param {int} serviceId The selected service record id.
+     * @param {object} $div The destination div jquery object (e.g. provide $('#div-id') 
+     * object as value).
+     */
+    updateServiceDescription: function(serviceId, $div) {
+        var html = ''; 
+        
+        $.each(GlobalVariables.availableServices, function(index, service) {
+            if (service.id == serviceId) { // Just found the service.
+                html = '<strong>' + service.name + ':</strong> ';
+                
+                if (service.description != '' && service.description != null) {
+                    html += service.description;
+                }
+                
+                if (service.price != '' && service.price != null) {
+                    html += ' [Price ' + service.price + ' ' + service.currency  + ']';
+                }   
+                
+                html += '<br>';
+                
+                return false;
+            }
+        });
+        
+        $div.html(html);
+        
+        if (html != '') {
+            $div.show();
+        } else {
+            $div.hide();
+        }
+        
     }
+    
 };

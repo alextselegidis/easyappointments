@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+	<meta name="robots" content="noindex" />
+
+	<title>File errors.php</title>
+
+	<script type="text/javascript" src="resources/combined.js?955602237"></script>
+	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Admins_Model.html">Admins_Model</a></li>
+				<li><a href="class-Appointments.html">Appointments</a></li>
+				<li><a href="class-Appointments_Model.html">Appointments_Model</a></li>
+				<li><a href="class-Backend.html">Backend</a></li>
+				<li><a href="class-Backend_api.html">Backend_api</a></li>
+				<li><a href="class-Customers_Model.html">Customers_Model</a></li>
+				<li class="active"><a href="class-Errors.html">Errors</a></li>
+				<li><a href="class-Google.html">Google</a></li>
+				<li><a href="class-Providers_Model.html">Providers_Model</a></li>
+				<li><a href="class-Roles_Model.html">Roles_Model</a></li>
+				<li><a href="class-Secretaries_Model.html">Secretaries_Model</a></li>
+				<li><a href="class-Services_Model.html">Services_Model</a></li>
+				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
+				<li><a href="class-Test.html">Test</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
+			<li>
+				<a href="class-Errors.html" title="Summary of Errors"><span>Class</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<pre><code><span id="1" class="l"><a class="l" href="#1"> 1: </a><span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> ( ! <span class="php-keyword2">defined</span>(<span class="php-quote">'BASEPATH'</span>)) <span class="php-keyword1">exit</span>(<span class="php-quote">'No direct script access allowed'</span>);
+</span><span id="2" class="l"><a class="l" href="#2"> 2: </a>
+</span><span id="3" class="l"><a class="l" href="#3"> 3: </a><span class="php-keyword1">class</span> <a id="Errors" href="#Errors">Errors</a> <span class="php-keyword1">extends</span> CI_Controller {
+</span><span id="4" class="l"><a class="l" href="#4"> 4: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_index" href="#_index">index</a>() {
+</span><span id="5" class="l"><a class="l" href="#5"> 5: </a>        <span class="php-var">$this</span>-&gt;e404();
+</span><span id="6" class="l"><a class="l" href="#6"> 6: </a>    }
+</span><span id="7" class="l"><a class="l" href="#7"> 7: </a>    
+</span><span id="8" class="l"><a class="l" href="#8"> 8: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_error404" href="#_error404">error404</a>() {
+</span><span id="9" class="l"><a class="l" href="#9"> 9: </a>        <span class="php-var">$this</span>-&gt;load-&gt;model(<span class="php-quote">'settings_model'</span>);
+</span><span id="10" class="l"><a class="l" href="#10">10: </a>        <span class="php-var">$view</span>[<span class="php-quote">'company_name'</span>] = <span class="php-var">$this</span>-&gt;settings_model-&gt;get_setting(<span class="php-quote">'company_name'</span>);
+</span><span id="11" class="l"><a class="l" href="#11">11: </a>        <span class="php-var">$this</span>-&gt;load-&gt;view(<span class="php-quote">'general/error404'</span>, <span class="php-var">$view</span>);
+</span><span id="12" class="l"><a class="l" href="#12">12: </a>    }
+</span><span id="13" class="l"><a class="l" href="#13">13: </a>}
+</span><span id="14" class="l"><a class="l" href="#14">14: </a>
+</span><span id="15" class="l"><a class="l" href="#15">15: </a><span class="php-comment">/* End of file errors.php */</span>
+</span><span id="16" class="l"><a class="l" href="#16">16: </a></span><span class="php-comment">/* Location: ./application/controllers/errors.php */</span></code></pre>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

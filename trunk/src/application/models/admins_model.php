@@ -241,11 +241,18 @@ class Admins_Model extends CI_Model {
         if (!is_numeric($admin_id)) {
             throw new Exception('$admin_id argument is not a valid numeric value: ' . $admin_id);
         }
+
+        // Check if record exists
+        if ($this->db->get_where('ea_users', array('id' => $admin_id))->num_rows() == 0) {
+            throw new Exception('The given admin id does not match a record in the database.');
+        }
         
         $admin = $this->db->get_where('ea_users', array('id' => $admin_id))->row_array();
+        
         $admin['settings'] = $this->db->get_where('ea_user_settings', 
                 array('id_users' => $admin_id))->row_array();
         unset($admin['settings']['id_users']);
+        
         
         return $admin;
     }

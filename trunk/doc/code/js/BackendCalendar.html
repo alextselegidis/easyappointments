@@ -141,7 +141,573 @@ by setting the "defaultEventHandlers" argument to "false".
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line152">line 152</a>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="calendarDayClick"><span class="type-signature">&lt;static> </span>calendarDayClick<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Calendar Day "Click" Callback
+
+When the user clicks on a day square on the calendar, then he will 
+automatically be transfered to that day view calendar.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1143">line 1143</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="calendarEventClick"><span class="type-signature">&lt;static> </span>calendarEventClick<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Calendar Event "Click" Callback
+
+When the user clicks on an appointment object on the calendar, then 
+a data preview popover is display above the calendar item.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1156">line 1156</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="calendarEventDrop"><span class="type-signature">&lt;static> </span>calendarEventDrop<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Calendar Event "Drop" Callback
+
+This event handler is triggered whenever the user drags and drops 
+an event into a different position on the calendar. We need to update
+the database with this change. This is done via an ajax call.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1247">line 1247</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="calendarEventResize"><span class="type-signature">&lt;static> </span>calendarEventResize<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Calendar Event "Resize" Callback
+
+The user can change the duration of an event by resizing an appointment
+object on the calendar. This change needs to be stored to the database
+too and this is done via an ajax call.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1004">line 1004</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>updateAppointmentData()</li>
+        </ul>
+    </dd>
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="calendarViewDisplay"><span class="type-signature">&lt;static> </span>calendarViewDisplay<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Calendar "View Display" Callback
+
+Whenever the calendar changes or refreshes its view certain actions 
+need to be made, in order to display proper information to the user.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1400">line 1400</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="calendarWindowResize"><span class="type-signature">&lt;static> </span>calendarWindowResize<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Calendar Window "Resize" Callback
+
+The calendar element needs to be resized too in order to fit into the
+window. Nevertheless, if the window becomes very small the the calendar
+won't shrink anymore.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1132">line 1132</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>getCalendarHeight()</li>
+        </ul>
+    </dd>
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="disableProviderSync"><span class="type-signature">&lt;static> </span>disableProviderSync<span class="signature">(providerId)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method disables the google synchronization for a specific provider.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>providerId</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The selected provider record id.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1423">line 1423</a>
     </li></ul></dd>
     
     
@@ -211,7 +777,7 @@ correctly, even when the browser window is resizing.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line243">line 243</a>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line674">line 674</a>
     </li></ul></dd>
     
     
@@ -353,7 +919,7 @@ default event handlers will be set for the current page.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line20">line 20</a>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line22">line 22</a>
     </li></ul></dd>
     
     
@@ -381,7 +947,7 @@ default event handlers will be set for the current page.</td>
         
             
 <dt>
-    <h4 class="name" id="refreshCalendarAppointments"><span class="type-signature">&lt;static> </span>refreshCalendarAppointments<span class="signature">(calendarHandle, recordId, filterType, startDate, endDate)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="refreshCalendarAppointments"><span class="type-signature">&lt;static> </span>refreshCalendarAppointments<span class="signature">($calendar, recordId, filterType, startDate, endDate)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -424,7 +990,7 @@ and filter type.
 	
         <tr>
             
-                <td class="name"><code>calendarHandle</code></td>
+                <td class="name"><code>$calendar</code></td>
             
             
             <td class="type">
@@ -564,7 +1130,7 @@ or FILTER_TYPE_SERVICE</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line260">line 260</a>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line691">line 691</a>
     </li></ul></dd>
     
     
@@ -592,7 +1158,148 @@ or FILTER_TYPE_SERVICE</td>
         
             
 <dt>
-    <h4 class="name" id="updateAppointment"><span class="type-signature">&lt;static> </span>updateAppointment<span class="signature">(appointmentData)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="resetAppointmentDialog"><span class="type-signature">&lt;static> </span>resetAppointmentDialog<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method resets the manage appointment dialog modal to its initial 
+state. After that you can make any modification might be necessary in 
+order to bring the dialog to the desired state.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1448">line 1448</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="resetUnavailableDialog"><span class="type-signature">&lt;static> </span>resetUnavailableDialog<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Reset the "#manage-unavailable" dialog. Use this method to bring the dialog
+to the initial state before it becomes visible to the user.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1553">line 1553</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="saveAppointment"><span class="type-signature">&lt;static> </span>saveAppointment<span class="signature">(appointment, customer, successCallback, errorCallback)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -635,7 +1342,7 @@ into the database, via an ajax call.
 	
         <tr>
             
-                <td class="name"><code>appointmentData</code></td>
+                <td class="name"><code>appointment</code></td>
             
             
             <td class="type">
@@ -652,7 +1359,79 @@ into the database, via an ajax call.
             
             
             <td class="description last">Contain the new appointment data. The 
-id of the appointment MUST be already included.</td>
+id of the appointment MUST be already included. The rest values must 
+follow the database structure.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>customer</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL) contains the customer data.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>successCallback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL) If defined, this function is
+going to be executed on post success.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>errorCallback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL) If defined, this function is 
+going to be executed on post failure.</td>
         </tr>
 	
 	
@@ -683,7 +1462,7 @@ id of the appointment MUST be already included.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line305">line 305</a>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line934">line 934</a>
     </li></ul></dd>
     
     
@@ -708,6 +1487,261 @@ id of the appointment MUST be already included.</td>
     
 </dd>
 
+        
+            
+<dt>
+    <h4 class="name" id="saveUnavailable"><span class="type-signature">&lt;static> </span>saveUnavailable<span class="signature">(unavailable, successCallback, errorCallback)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Save unavailable period to database.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>unavailable</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Containts the unavailable period data.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>successCallback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The ajax success callback function.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>errorCallback</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The ajax failure callback function.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line979">line 979</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="validateAppointmentForm"><span class="type-signature">&lt;static> </span>validateAppointmentForm<span class="signature">()</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Validate the manage appointment dialog data. Validation checks need to
+run every time the data are going to be saved.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_calendar.js.html">backend_calendar.js</a>, <a href="backend_calendar.js.html#line1516">line 1516</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns the validation result.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">bool</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
         </dl>
     
     
@@ -724,13 +1758,13 @@ id of the appointment MUST be already included.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:48 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:16 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

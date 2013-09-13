@@ -107,6 +107,8 @@
                     <label for="admin-password-confirm">Retype Password *</label>
                     <input type="password" id="admin-password-confirm" class="span7 required" />
                     
+                    <br>
+                    
                     <button type="button" id="admin-notifications" class="btn" data-toggle="button">
                         <i class="icon-asterisk"></i>
                         <span>Receive Notifications</span>
@@ -198,6 +200,8 @@
                     
                     <label for="provider-password-confirm">Retype Password *</label>
                     <input type="password" id="provider-password-confirm" class="span7 required" />
+                    
+                    <br>
                     
                     <button type="button" id="provider-notifications" class="btn" data-toggle="button">
                         <i class="icon-asterisk"></i>
@@ -296,6 +300,8 @@
                     <label for="secretary-password-confirm">Retype Password *</label>
                     <input type="password" id="secretary-password-confirm" class="span7 required" />
                     
+                    <br>
+                    
                     <button type="button" id="secretary-notifications" class="btn" data-toggle="button">
                         <i class="icon-asterisk"></i>
                         <span>Receive Notifications</span>
@@ -303,7 +309,7 @@
                     
                     <br><br>
                     
-                    <h4>Services</h4>
+                    <h4>Providers</h4>
                     <div id="secretary-providers"></div>
                 </div>
             </div>

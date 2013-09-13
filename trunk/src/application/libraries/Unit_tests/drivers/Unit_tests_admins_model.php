@@ -64,12 +64,18 @@ class Unit_tests_admins_model extends CI_Driver {
     // TEST ADD METHOD ------------------------------------------------------
     private function test_add_insert() {
         $admin = $this->default_admin;
+        $admin['settings'] = $this->default_settings;
         
         $admin['id'] = $this->ci->admins_model->add($admin);
         $this->ci->unit->run($admin['id'], 'is_int', 'Test if add() - insert operation - has ' 
                 . 'has returned an integer value.');
         
         $db_record = $this->ci->db->get_where('ea_users', array('id' => $admin['id']))->row_array();
+        
+        $db_record['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                array('id_users' => $admin['id']))->row_array();
+        unset($db_record['settings']['id_users']);
+        
         $this->ci->unit->run($admin, $db_record, 'Test if add() - insert operation - has '
                 . 'successfully inserted a new admin record.');
         
@@ -81,6 +87,10 @@ class Unit_tests_admins_model extends CI_Driver {
         $admin = $this->default_admin;
         $this->ci->db->insert('ea_users', $admin);
         $admin['id'] = intval($this->ci->db->insert_id());
+        $admin['settings'] = $this->default_settings;
+        $admin['settings']['id_users'] = $admin['id'];
+        $this->ci->db->insert('ea_user_settings', $admin['settings']);
+        unset($admin['settings']['id_users']);
         
         $admin['first_name'] = 'First Name Changed';
         $admin['last_name'] = 'Last Name Changed';
@@ -97,6 +107,9 @@ class Unit_tests_admins_model extends CI_Driver {
                 . 'returned a valid integer value.');
         
         $db_record = $this->ci->db->get_where('ea_users', array('id' => $admin['id']))->row_array();
+        $db_record['settings'] = $this->ci->db->get_where('ea_user_settings', array('id_users' => $admin['id']))->row_array();
+        unset($db_record['settings']['id_users']);
+
         $this->ci->unit->run($admin, $db_record, 'Test if add() - update operation - has '
                 . 'successfully updated an existing admin record.');
         
@@ -256,8 +269,17 @@ class Unit_tests_admins_model extends CI_Driver {
     // TEST GET BATCH METHOD ------------------------------------------------
     private function test_get_batch() {
         $model_batch = $this->ci->admins_model->get_batch();
-        $db_batch = $this->ci->db->get_where('ea_users', array('id_roles' => $this->admin_role_id))
-                ->result_array();
+        
+        $db_batch = $this->ci->db->get_where('ea_users', 
+                array('id_roles' => $this->admin_role_id))->result_array();
+        
+        foreach($db_batch as &$admin) {  // Get each admin settings
+            $admin['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                    array('id_users' => $admin['id']))->row_array();
+            unset($admin['settings']['id_users']);
+        }
+        
+        
         $this->ci->unit->run($model_batch, $db_batch, 'Test if get_batch() has successfully '
                 . 'returned an array of admin users.');
     }
@@ -269,6 +291,9 @@ class Unit_tests_admins_model extends CI_Driver {
         
         $model_batch = $this->ci->admins_model->get_batch(array('id' => $admin['id']));
         $db_batch = $this->ci->db->get_where('ea_users', array('id' => $admin['id']))->result_array();
+        foreach($db_batch as &$admin) {
+            $admin['settings'] = [];
+        }
         
         $this->ci->unit->run($model_batch, $db_batch, 'Test if get_batch() with where clause ' 
                 . 'has successfully returned the correct results.');
@@ -285,6 +310,7 @@ class Unit_tests_admins_model extends CI_Driver {
         $admin = $this->default_admin;
         $this->ci->db->insert('ea_users', $admin);
         $admin['id'] = intval($this->ci->db->insert_id());
+        $admin['settings'] = [];
         
         $model_admin = $this->ci->admins_model->get_row($admin['id']);
         $this->ci->unit->run($model_admin, $admin, 'Test if get_row() has successfully '
@@ -307,9 +333,15 @@ class Unit_tests_admins_model extends CI_Driver {
     
     private function test_get_row_record_does_not_exist() {
         $random_id = 2390482039;
-        $res = $this->ci->admins_model->get_row($random_id);
-        $this->ci->unit->run($res, array(), 'Test if get_row() with record that does not exist ' 
-                . 'has returned an empy array.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->admins_model->get_row($random_id);
+        } catch(Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if get_row() has thrown exception '
+                . 'with record that does not exist.');
     }
     
     // TEST GET VALUE METHOD ------------------------------------------------

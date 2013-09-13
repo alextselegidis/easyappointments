@@ -142,14 +142,34 @@ body {
 }
 
 #book-appointment-wizard #appointment-details p,
-#book-appointment-wizard #customer-details p { font-size: 16px; line-height: 28px; }
+#book-appointment-wizard #customer-details p { 
+    font-size: 16px; 
+    line-height: 28px; 
+}
+
+#book-appointment-wizard #service-description {
+    margin-top: 10px;
+    padding: 25px 10px;
+    background: #F5F5F5;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+}
+
+#book-appointment-wizard #wizard-frame-1 label {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+#book-appointment-wizard #wizard-frame-1 select {
+    margin-bottom: 25px;
+}
 
 
 /* CANCEL APPOINTMENT 
    ------------------------------------------------------------------------- */
 #cancel-appointment-frame {
     padding: 12px 17px;
-    background: #F5F5F5;
+    background: #FAFAFA;
     border-bottom: 1px solid #E2E2E2;
 }
 

@@ -18,6 +18,7 @@
  *      'notes'
  *      'id_roles'
  *      'providers' >> array with provider ids that the secretary handles
+ *      'settings' >> array with the secretary settings
  */
 class Secretaries_Model extends CI_Model {
     /**
@@ -236,7 +237,6 @@ class Secretaries_Model extends CI_Model {
             throw new Exception('The given secretary id does not match a record in the database.');
         }
         
-        
         $secretary = $this->db->get_where('ea_users', array('id' => $secretary_id))->row_array();
         
         $secretary_providers = $this->db->get_where('ea_secretaries_providers', 
@@ -248,6 +248,7 @@ class Secretaries_Model extends CI_Model {
         
         $secretary['settings'] = $this->db->get_where('ea_user_settings', 
                 array('id_users' => $secretary['id']))->row_array();
+        unset($secretary['settings']['id_users']);
         
         return $secretary;
     }
@@ -318,6 +319,7 @@ class Secretaries_Model extends CI_Model {
             
             $secretary['settings'] = $this->db->get_where('ea_user_settings', 
                     array('id_users' => $secretary['id']))->row_array();
+            unset($secretary['settings']['id_users']);
         }        
         
         return $batch;
@@ -371,12 +373,13 @@ class Secretaries_Model extends CI_Model {
         }
         
         // Check if the setting record exists in db.
-        if ($this->db->get_where('ea_user_settings', array('id_users' => $secretary_id))
-                ->num_rows() == 0) {
+        $num_rows = $this->db->get_where('ea_user_settings', 
+                array('id_users' => $secretary_id))->num_rows();
+        if ($num_rows == 0) {
             $this->db->insert('ea_user_settings', array('id_users' => $secretary_id));
         }
         
-        foreach($settings as $name=>$value) {
+        foreach($settings as $name => $value) {
             $this->set_setting($name, $value, $secretary_id);
         }
     }
@@ -384,8 +387,7 @@ class Secretaries_Model extends CI_Model {
     /**
      * Get a providers setting from the database.
      * 
-     * @param string $setting_name The setting name that is going to be
-     * returned.
+     * @param string $setting_name The setting name that is going to be returned.
      * @param int $secretary_id The selected provider id.
      * @return string Returs the value of the selected user setting.
      */

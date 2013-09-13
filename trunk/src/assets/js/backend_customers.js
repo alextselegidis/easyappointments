@@ -3,9 +3,8 @@
  * of the backend customers page. If you need to use this namespace in a 
  * different page, do not bind the default event handlers during initialization.
  *
- * @namespace Backend Customers
+ * @namespace BackendCustomers
  */
-
 var BackendCustomers = {
     filterResults: {},
     selectedCustomer: {},
@@ -41,6 +40,10 @@ var BackendCustomers = {
          * Display the customer data of the selected row.
          */
         $(document).on('click', '.customer-row', function() {
+            if ($('#filter-customers').prop('disabled')) {
+                return; // Do nothing when user edits a customer record.
+            }
+            
             $('#filter-results .selected-row').removeClass('selected-row');
             $(this).addClass('selected-row');
             
@@ -101,6 +104,7 @@ var BackendCustomers = {
             $('#details').find('input, textarea').prop('readonly', false);
             $('#filter-customers').prop('disabled', true);
             $('.selected-row').removeClass('selected-row');
+            $('#filter-results').css('color', '#AAA');
         });
         
         /**
@@ -111,6 +115,7 @@ var BackendCustomers = {
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
             $('#filter-customers').prop('disabled', true);
+            $('#filter-results').css('color', '#AAA');
         });
         
         /**
@@ -120,13 +125,18 @@ var BackendCustomers = {
             $('#details').find('input, textarea').prop('readonly', true);
             $('#save-cancel-group').hide();
             $('#add-edit-delete-group').show();
-            $('#filter-customers').prop('disabled', true);
+            $('#filter-customers').prop('disabled', false);
+             $('#filter-results').css('color', '');
+            // Reset the selected appointments data.
+            $('#filter-results .selected-row').trigger('click');
         });
         
         /**
          * Event: Save Add/Edit Customer Operation "Click"
          */
         $('#save-customer').click(function() {
+            $('#filter-results').css('color', '');
+            
             var customer = {
                 'first_name': $('#first-name').val(),
                 'last_name': $('#last-name').val(),

@@ -7,7 +7,7 @@
 	<title>Class Appointments</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?815896003"></script>
+	<script type="text/javascript" src="elementlist.js?3375239373"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -19,19 +19,32 @@
 
 
 		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
 		</div>
 
+		<hr />
 
 
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-Admins_Model.html">Admins_Model</a></li>
 				<li class="active"><a href="class-Appointments.html">Appointments</a></li>
 				<li><a href="class-Appointments_Model.html">Appointments_Model</a></li>
 				<li><a href="class-Backend.html">Backend</a></li>
+				<li><a href="class-Backend_api.html">Backend_api</a></li>
 				<li><a href="class-Customers_Model.html">Customers_Model</a></li>
+				<li><a href="class-Errors.html">Errors</a></li>
+				<li><a href="class-Google.html">Google</a></li>
 				<li><a href="class-Providers_Model.html">Providers_Model</a></li>
 				<li><a href="class-Roles_Model.html">Roles_Model</a></li>
+				<li><a href="class-Secretaries_Model.html">Secretaries_Model</a></li>
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
@@ -60,6 +73,9 @@
 		<ul>
 			<li>
 				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
 			</li>
 			<li class="active">
 <span>Class</span>			</li>
@@ -105,7 +121,7 @@ CI_Controller
 		
 		
 
-		<b>Located at</b> <a href="source-class-Appointments.html#3-397" title="Go to source code">appointments.php</a><br />
+		<b>Located at</b> <a href="source-class-Appointments.html#3-591" title="Go to source code">appointments.php</a><br />
 	</div>
 
 
@@ -123,7 +139,7 @@ CI_Controller
 
 		<td class="name"><div>
 		<a class="anchor" href="#_index">#</a>
-		<code><a href="source-class-Appointments.html#4-141" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-Appointments.html#4-191" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -165,7 +181,7 @@ that was send with the book success email.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_cancel">#</a>
-		<code><a href="source-class-Appointments.html#143-207" title="Go to source code">cancel</a>( <span>string <var>$appointment_hash</var></span> )</code>
+		<code><a href="source-class-Appointments.html#193-276" title="Go to source code">cancel</a>( <span>string <var>$appointment_hash</var></span> )</code>
 
 		<div class="description short">
 			
@@ -207,7 +223,7 @@ can only cancel the appointment if the edit time period is not over yet.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_get_available_hours">#</a>
-		<code><a href="source-class-Appointments.html#209-396" title="Go to source code">ajax_get_available_hours</a>( )</code>
+		<code><a href="source-class-Appointments.html#278-377" title="Go to source code">ajax_get_available_hours</a>( )</code>
 
 		<div class="description short">
 			
@@ -220,7 +236,7 @@ can only cancel the appointment if the edit time period is not over yet.</p>
 <p>[AJAX] Get the available appointment hours for the given date.</p>
 
 <p>This method answers to an AJAX request. It calculates the available hours for
-the given service, provider and date.</p>
+thegiven service, provider and date.</p>
 
 
 
@@ -228,6 +244,52 @@ the given service, provider and date.</p>
 				<h4>Returns</h4>
 				<div class="list">
 					<code>Returns</code><br>a json object with the available hours.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_check_datetime_availability" id="_ajax_check_datetime_availability">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_check_datetime_availability">#</a>
+		<code><a href="source-class-Appointments.html#379-428" title="Go to source code">ajax_check_datetime_availability</a>( )</code>
+
+		<div class="description short">
+			
+<p>Check whether the provider is still available in the selected appointment
+date.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Check whether the provider is still available in the selected appointment
+date.</p>
+
+<p>It might be times where two or more customers select the same appointment
+date and time. This shouldn't be allowed to happen, so one of the two customers
+will eventually get the prefered date and the other one will have to choose for
+another date. Use this method just before the customer confirms the appointment
+details. If the selected date was taken in the mean time, the customer must be
+prompted to select another time for his appointment.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns whether the selected datetime is still available.<br />
 				</div>
 
 

@@ -54,7 +54,6 @@ class Unit_tests extends CI_Driver_Library {
      * report will be outputted.
      */
     public function run_model_tests($output_report = true) {
-        // @task Reenable all model tests.
         $this->appointments_model->run_all();
         $this->customers_model->run_all();
         $this->settings_model->run_all();

@@ -219,6 +219,147 @@ centered.</td>
         
             
 <dt>
+    <h4 class="name" id="clone"><span class="type-signature">&lt;static> </span>clone<span class="signature">(originalObject)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method creates and returns an exact copy of the provided object. 
+It is very usefull whenever changes need to be made to an object without
+modyfing the original data.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>originalObject</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Object to be copied.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line134">line 134</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns an exact copy of the provided element.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="displayMessageBox"><span class="type-signature">&lt;static> </span>displayMessageBox<span class="signature">(title, message, messageButtons)</span><span class="type-signature"></span></h4>
     
     
@@ -378,6 +519,147 @@ buttons along with their functions.</td>
     
     
     
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="exceptionsToHtml"><span class="type-signature">&lt;static> </span>exceptionsToHtml<span class="signature">(exceptions)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method returns the exception html display for javascript ajax calls.
+It uses the Bootstrap collapse module to show exception messages when the
+user opens the "Details" collapse component.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>exceptions</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Contains the exceptions to be displayed.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line188">line 188</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns the html markup for the exceptions.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">String</span>
+
+
+	</dd>
+</dl>
+
+        
     
     
 </dd>
@@ -684,6 +966,285 @@ by the Google Calendar API in order to pass dates as parameters.
     
 </dd>
 
+        
+            
+<dt>
+    <h4 class="name" id="parseExceptions"><span class="type-signature">&lt;static> </span>parseExceptions<span class="signature">(exceptions)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method parse the json encoded strings that are fetched by ajax calls.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>exceptions</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Exception array returned by an ajax call.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line219">line 219</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns the parsed js objects.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="validateEmail"><span class="type-signature">&lt;static> </span>validateEmail<span class="signature">(email)</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method validates an email address. If the address is not on the proper
+form then the result is FALSE.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The email address to be checked.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line175">line 175</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns the validation result.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">bool</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
         </dl>
     
     
@@ -700,13 +1261,13 @@ by the Google Calendar API in order to pass dates as parameters.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:48 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:17 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

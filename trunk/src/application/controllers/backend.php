@@ -127,7 +127,14 @@ class Backend extends CI_Controller {
      * installation (core settings like company name, book timeout etc). 
      */
     public function settings() {
-        echo '<h1>Not implemented yet.</h1>';
+        $this->load->model('settings_model');
+        
+        $view['base_url'] = $this->config->item('base_url');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        
+        $this->load->view('backend/header', $view);
+        $this->load->view('backend/settings', $view);
+        $this->load->view('backend/footer', $view);
     }
 }
 
