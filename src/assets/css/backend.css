@@ -60,13 +60,18 @@ root {
 #footer {
     background-color: #F7F7F7;
     border-top: 1px solid #DDD;
+    font-size: 11px;
 }
 #footer #footer-content { 
-    padding: 15px; 
+    padding: 10px 15px; 
 }
 
 #notification strong { 
     margin-right: 15px; 
+}
+
+#notification .alert {
+    margin-bottom: 0px;
 }
 
 #loading { 
@@ -88,13 +93,26 @@ root {
     margin: 10px 0px; 
 }
 
+body .modal-header {
+    padding: 9px 15px;
+    background: #51B173;
+    border-bottom: 3px solid #3A8154;
+    color: #FFF;
+}
+
+body .modal-header h3 {
+    font-size: 20px;
+}
+
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar { 
-    margin: 15px 10px 20px 10px; 
-    padding-bottom: 10px; 
-    overflow: auto; 
-    border-bottom: 1px solid #D6D6D6; 
+    border-bottom: 1px solid #D6D6D6;
+    background: #3A3A3A;
+    /*background: #FAFAFA;*/
+    padding: 10px;
+    height: 39px;
+    color: white;
 }
 
 #calendar-page #calendar-filter { 
@@ -120,7 +138,7 @@ root {
 }
 
 #calendar-page #calendar { 
-    margin: 12px; 
+    margin: 6px 12px; 
 }
 
 #calendar-page #calendar .fc-unavailable { 
@@ -130,6 +148,7 @@ root {
     font-weight: bold; 
     color: #333;
     text-shadow: 0px 1px 0px #FFF;
+    opacity: 0.7;
 }
 
 #calendar-page #calendar .fc-break { 
@@ -138,6 +157,38 @@ root {
 
 #calendar-page #calendar .fc-custom { 
     background-image: url('../images/custom.jpg'); 
+}
+
+#calendar .fc-header-title h2 {
+    font-size: 22px;
+    margin: 0px;
+    line-height: 32px;
+}
+
+#calendar .fc-header .fc-button {
+    margin-bottom: 8px;
+}
+
+#calendar .fc-agenda-allday .fc-day-content {
+    min-height: 19px;
+}
+
+#calendar .fc-agenda-divider-inner {
+    height: 3px;
+}
+
+#calendar table thead .fc-first { 
+    background: #DFDFDF;
+}
+
+#calendar table thead .fc-first th {
+    vertical-align: middle;
+    padding: 2px 0;
+}
+
+#manage-appointment {
+    width: 860px;
+    margin-left: -430px;
 }
 
 /* BACKEND CUSTOMERS PAGE

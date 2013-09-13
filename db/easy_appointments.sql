@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.3
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Φιλοξενητής: localhost
--- Χρόνος δημιουργίας: 12 Σεπ 2013 στις 11:19:36
--- Έκδοση διακομιστή: 5.5.32-0ubuntu0.12.04.1
--- Έκδοση PHP: 5.5.3-1+debphp.org~precise+2
+-- Χρόνος δημιουργίας: 13 Σεπ 2013 στις 16:10:44
+-- Έκδοση διακομιστή: 5.5.24-log
+-- Έκδοση PHP: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Βάση: `easy_appointments`
 --
-CREATE DATABASE IF NOT EXISTS `easy_appointments` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `easy_appointments`;
 
 -- --------------------------------------------------------
 
@@ -44,14 +42,18 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   KEY `id_users_customer` (`id_users_customer`),
   KEY `id_services` (`id_services`),
   KEY `id_users_provider` (`id_users_provider`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_appointments`
 --
 
 INSERT INTO `ea_appointments` (`id`, `book_datetime`, `start_datetime`, `end_datetime`, `notes`, `hash`, `is_unavailable`, `id_users_provider`, `id_users_customer`, `id_services`, `id_google_calendar`) VALUES
-(1, '2013-08-22 23:23:41', '2013-08-23 09:00:00', '2013-08-23 09:20:00', '', '65cac73b2b0ad4f524db6e707c5908e7', 0, 2, 5, 1, NULL);
+(21, '2013-09-13 12:02:18', '2013-09-13 15:00:00', '2013-09-13 17:00:00', '', 'be278cf3c1d617fc372d89d75d5fd26d', 0, 2, 21, 4, 'e2c7abe3eket7ip9c58lllt3c8'),
+(37, '2013-09-13 13:47:54', '2013-09-14 11:30:00', '2013-09-14 13:30:00', 'Γυμναστήριο ', '3ace1513fdf92a4983b7ae719a8475b5', 1, 2, NULL, NULL, 'cqm0t14p50d0917ghkirtruuno'),
+(38, '2013-09-13 13:47:54', '2013-09-14 15:00:00', '2013-09-14 18:00:00', 'Ε!Α ', '3ace1513fdf92a4983b7ae719a8475b5', 1, 2, NULL, NULL, 'vs0btdvi34t73rvkeubh77ln40'),
+(39, '2013-09-13 15:39:44', '2013-09-13 17:00:00', '2013-09-13 17:20:00', 'This is a test appt.', '6fd60f567310511d8f2fb4ff4c787d5e', 0, 2, 22, 3, NULL),
+(40, '2013-09-13 15:50:14', '2013-09-14 10:00:00', '2013-09-14 11:00:00', 'heart decease', '39b81301e5bb1a82f77bd23d07ec63ce', 0, 4, 23, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -102,8 +104,7 @@ CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
 
 INSERT INTO `ea_secretaries_providers` (`id_users_secretary`, `id_users_provider`) VALUES
 (20, 2),
-(20, 3),
-(22, 2);
+(20, 3);
 
 -- --------------------------------------------------------
 
@@ -121,16 +122,16 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   `id_service_categories` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_service_categories` (`id_service_categories`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_services`
 --
 
 INSERT INTO `ea_services` (`id`, `name`, `duration`, `price`, `currency`, `description`, `id_service_categories`) VALUES
-(1, 'General Examination', 20, 50.00, 'euro', 'General examination of the patient.', NULL),
-(2, 'Heart Examination', 30, 40.00, 'euro', 'Checkup for heart problems.', NULL),
-(3, 'Neurological Examination', 20, 35.00, 'euro', 'Neurological tests for the patient.', NULL);
+(2, 'Heart Examination', 30, '40.00', 'Euro', 'Checkup for heart problems.', NULL),
+(3, 'Neurological Examination', 20, '35.00', 'Euro', 'Neurological tests for the patient.', NULL),
+(4, 'General Examination', 30, '30.00', 'Euro', 'General patient examination. Includes blood, pressure and eyes tests.', 2);
 
 -- --------------------------------------------------------
 
@@ -150,13 +151,11 @@ CREATE TABLE IF NOT EXISTS `ea_services_providers` (
 --
 
 INSERT INTO `ea_services_providers` (`id_users`, `id_services`) VALUES
-(2, 1),
-(3, 1),
-(4, 1),
 (3, 2),
 (4, 2),
 (2, 3),
-(3, 3);
+(3, 3),
+(2, 4);
 
 -- --------------------------------------------------------
 
@@ -169,7 +168,16 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
   `name` varchar(256) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Άδειασμα δεδομένων του πίνακα `ea_service_categories`
+--
+
+INSERT INTO `ea_service_categories` (`id`, `name`, `description`) VALUES
+(2, 'General Services', 'Contains the general services of our company.'),
+(5, 'test1', 'test1'),
+(7, 'test2', 'test2');
 
 -- --------------------------------------------------------
 
@@ -189,10 +197,10 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
 --
 
 INSERT INTO `ea_settings` (`id`, `name`, `value`) VALUES
-(1, 'company_name', 'Javation & Co'),
+(1, 'company_name', 'Easy!Appointments & Co'),
 (2, 'company_working_plan', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'),
-(3, 'company_email', 'alextselegidis@gmail.com'),
-(8, 'company_link', 'http://javation.com'),
+(3, 'company_email', 'info@alextselegidis.com'),
+(8, 'company_link', 'http://easyappointments.org'),
 (9, 'book_advance_timeout', '30');
 
 -- --------------------------------------------------------
@@ -216,22 +224,21 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   `id_roles` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_roles` (`id_roles`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Άδειασμα δεδομένων του πίνακα `ea_users`
 --
 
 INSERT INTO `ea_users` (`id`, `first_name`, `last_name`, `email`, `mobile_number`, `phone_number`, `address`, `city`, `state`, `zip_code`, `notes`, `id_roles`) VALUES
-(2, 'George', 'Harrison', 'alextselegidis@gmail.com', '1111111111111', '1111111111111', 'Some Str 1', 'Some City 1', 'Some State 1', '11111', 'This is a test provider (with my email for google syncing).', 2),
-(3, 'John', 'Lennon', 'prov2@test.gr', '2222222222222', '2222222222222', 'Some Str 2', 'Some City 2', 'Some State 2', '22222', NULL, 2),
-(4, 'Paul', 'McCartney', 'prov3@test.gr', '3333333333333', '3333333333333', 'Some Str 3', 'Some City 3', 'Some State 3', '33333', NULL, 2),
-(5, '', 'a', 'alextselegidis@yahoo.gr', NULL, 'a', '', '', NULL, '', 'This is my testing customer.', 3),
-(12, 'Admin', 'Admin', 'info@alextselegidis.com', '0', '0', 'Some Str 0', 'Some City 0', 'Some State 0', '00000', 'This is an admin.', 1),
-(18, 'test', 'test', 'test@test.com', 'test', 'test', 'test', 'test', 'test', '', '', 1),
-(20, 'b', 'b', 'b@b.com', '', 'b', '', '', '', '', '', 4),
-(21, 'c', 'c', 'c@c.com', '', 'c', '', '', '', '', '', 4),
-(22, '', 't', 't@t.com', '', 't', '', '', '', '', '', 4);
+(2, 'Ned', 'Janger', 'alextselegidis@gmail.com', '659875666', '785448465', 'Kloesel', 'Berlin', '', '23980', '', 2),
+(3, 'Urlich', 'Setzel', 'u.setzel@piorin.com', '23908252398', '20923798723', 'Groundliche Str. 23', 'Munich', 'Bayern', '86895', '', 2),
+(4, 'Brandon', 'Clod', 'b.clod@besters.org', '239072439', '858754487', 'Wellin Str 8', 'Plymouth', '', '20940', '', 2),
+(18, 'Tod', 'Cliffer', 'info@alextselegidis.com', '987568857', '875986878', 'Yourd Str 98', 'Blackpool', '', '09234', '', 1),
+(20, 'Sonia', 'Sterling', 's.sterling@reo.com', '584256658', '4265462587', '', '', '', '', '', 4),
+(21, 'Alex', 'Tselegidis', 'info@alextselegidis.com', NULL, '98765465712', '', '', NULL, '', '', 3),
+(22, 'John', 'Doe', 'john.doe@oizent.com', NULL, '8757595445', 'Orizend 51', 'London', NULL, '56648', 'Test customer record.', 3),
+(23, 'James', 'Goern', 'james.goern@softiner.com', NULL, '98654869544', 'Ureklin 09', 'New York', NULL, '56987', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -257,14 +264,11 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
 --
 
 INSERT INTO `ea_user_settings` (`id_users`, `username`, `password`, `working_plan`, `notifications`, `google_sync`, `google_token`, `sync_past_days`, `sync_future_days`) VALUES
-(2, 'provider_1', 'provider_1', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', '0', 0, NULL, 5, 5),
-(3, 'provider_2', 'provider_2', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', '0', 0, NULL, 5, 5),
-(4, 'provider_3', 'provider_3', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', '0', 0, NULL, 5, 5),
-(12, 'admin', 'admin', '', '1', 0, NULL, 5, 5),
-(18, 'test', 'aka', NULL, '0', 0, NULL, 5, 5),
-(20, 'b', NULL, NULL, '0', 0, NULL, 5, 5),
-(21, 'c', 'c', NULL, '1', 0, NULL, 5, 5),
-(22, 't', 't', NULL, '0', 0, NULL, 5, 5);
+(2, 'ned.janger', 'test', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', '1', 0, NULL, 5, 5),
+(3, 'u.setzel', 'test', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', '1', 0, NULL, 5, 5),
+(4, 'b.clod', 'test', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}', '0', 0, NULL, 5, 5),
+(18, 't.cliffer', 'test', NULL, '0', 0, NULL, 5, 5),
+(20, 's.sterling', 'test', NULL, '0', 0, NULL, 5, 5);
 
 --
 -- Περιορισμοί για άχρηστους πίνακες
@@ -289,7 +293,7 @@ ALTER TABLE `ea_secretaries_providers`
 -- Περιορισμοί για πίνακα `ea_services`
 --
 ALTER TABLE `ea_services`
-  ADD CONSTRAINT `ea_services_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `ea_services_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Περιορισμοί για πίνακα `ea_services_providers`

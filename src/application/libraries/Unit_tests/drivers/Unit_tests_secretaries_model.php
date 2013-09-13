@@ -4,6 +4,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
     private $ci;
     private $secretary_role_id;
     private $default_secretary; // does not contain an 'id' value
+    private $default_settings;
     
     /**
      * Class Constructor
@@ -29,6 +30,17 @@ class Unit_tests_secretaries_model extends CI_Driver {
             'notes' => 'This is a test secretary user.',
             'id_roles' => $this->secretary_role_id
         );
+        
+        $this->default_settings = array(
+            'username' => 'test_secretary',
+            'password' => 'test_pswd',
+            'working_plan' => NULL,
+            'notifications' => FALSE,
+            'google_sync' => FALSE, 
+            'google_token' => NULL,
+            'sync_past_days' => NULL,
+            'sync_future_days' => NULL
+        );
     }
     
     /**
@@ -53,13 +65,19 @@ class Unit_tests_secretaries_model extends CI_Driver {
     private function test_add_insert() {
         $secretary = $this->default_secretary;
         $secretary['providers'] = array();
+        $secretary['settings'] = $this->default_settings;
         $secretary['id'] = $this->ci->secretaries_model->add($secretary);
         
         $this->ci->unit->run($secretary['id'], 'is_int', 'Test if add() - insert operation - '
                 . 'has returned and integer value.');
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary['id']))->row_array();
+        
         $db_secretary['providers'] = array();
+        $db_secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                array('id_users' => $secretary['id']))->row_array();
+        unset($db_secretary['settings']['id_users']);
+        
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - insert operation - '
                 . 'has successfully inserted a new record.');
         
@@ -70,6 +88,11 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $secretary = $this->default_secretary;
         $this->ci->db->insert('ea_users', $secretary);
         $secretary['id'] = intval($this->ci->db->insert_id());
+        
+        $secretary['settings'] = $this->default_settings;
+        $secretary['settings']['id_users'] = $secretary['id'];
+        $this->ci->db->insert('ea_user_settings', $secretary['settings']);
+        unset($secretary['settings']['id_users']);
         
         $secretary['first_name'] = 'value changed';
         $secretary['last_name'] = 'value changed';
@@ -90,6 +113,10 @@ class Unit_tests_secretaries_model extends CI_Driver {
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary['id']))->row_array();
         $db_secretary['providers'] = array();
+        $db_secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                array('id_users' => $secretary['id']))->row_array();
+        unset($db_secretary['settings']['id_users']);
+        
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - update operation - has '
                 . 'successfully updated the secretary record.');
         
@@ -116,9 +143,14 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $this->ci->db->insert('ea_users', $secretary);
         $secretary_id = intval($this->ci->db->insert_id());
         
+        $secretary['settings'] = $this->default_settings;
+        $secretary['settings']['id_users'] = $secretary_id;
+        $this->ci->db->insert('ea_user_settings', $secretary['settings']);
+        unset($secretary['settings']['id_users']);
+        
         // since $secretary array does not contain an 'id'value but 
         // exists in the database, the find_record_id() method is going 
-        // to be used inside the method to find the secretary id.
+        // to be used inside the add() method to find the secretary id.
         
         $secretary['last_name'] = 'updated value';
         $secretary['providers'] = array();
@@ -127,8 +159,14 @@ class Unit_tests_secretaries_model extends CI_Driver {
                 . 'returned and integer value.');
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary_id))->row_array();
+        
         $db_secretary['providers'] = array();
         unset($db_secretary['id']);
+        
+        $db_secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                array('id_users' => $secretary_id))->row_array();
+        unset($db_secretary['settings']['id_users']);
+        
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - update operation - has '
                 . 'successfully updated the secretary record using find_record_id() method ' 
                 . 'internally.');
@@ -303,8 +341,14 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $this->ci->db->insert('ea_users', $secretary);
         $secretary['id'] = intval($this->ci->db->insert_id());
         
+        $secretary['providers'] = array();
+        
+        $secretary['settings'] = $this->default_settings;
+        $secretary['settings']['id_users'] = $secretary['id'];
+        $this->ci->db->insert('ea_user_settings', $secretary['settings']);
+        unset($secretary['settings']['id_users']);
+        
         $model_secretary = $this->ci->secretaries_model->get_row($secretary['id']);
-        unset($model_secretary['providers']);
         
         $this->ci->unit->run($secretary, $model_secretary, 'Test if get_row() has successfully '
                 . 'returned the secretary record.');
@@ -410,14 +454,22 @@ class Unit_tests_secretaries_model extends CI_Driver {
     // TEST GET BATCH METHOD --------------------------------------------------
     private function test_get_batch() {
         $model_batch = $this->ci->secretaries_model->get_batch();
-        foreach ($model_batch as &$secretary) {
-            if (isset($secretary['providers'])) {
-                unset($secretary['providers']); // will not be included in the test
-            }
-        }
         
         $no_model_batch = $this->ci->db->get_where('ea_users', 
                 array('id_roles' => $this->secretary_role_id))->result_array();
+        
+        foreach($no_model_batch as &$secretary) {
+            $providers = $this->ci->db->get_where('ea_secretaries_providers', 
+                    array('id_users_secretary' => $secretary['id']))->result_array();
+            $secretary['providers'] = array();
+            foreach($providers as $provider) {
+                $secretary['providers'][] = $provider['id_users_provider'];
+            }
+            
+            $secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                    array('id_users' => $secretary['id']))->row_array();
+            unset($secretary['settings']['id_users']);
+        }
         
         $this->ci->unit->run($model_batch, $no_model_batch, 'Test if get_batch() has '
                 . 'returned the correct results.');
@@ -428,14 +480,26 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $this->ci->db->insert('ea_users', $secretary);
         $secretary['id'] = intval($this->ci->db->insert_id());
         
+        $secretary['settings'] = $this->default_settings;
+        $secretary['settings']['id_users'] = $secretary['id'];
+        $this->ci->db->insert('ea_user_settings', $secretary['settings']);
+        unset($secretary['settings']['id_users']);
+        
         $model_batch = $this->ci->secretaries_model->get_batch(array('id' => $secretary['id']));
-        foreach ($model_batch as &$tmp_secretary) {
-            if (isset($tmp_secretary['providers'])) {
-                unset($tmp_secretary['providers']); // will not be included in the test
-            }
-        }
         
         $no_model_batch = $this->ci->db->get_where('ea_users', array('id' => $secretary['id']))->result_array();
+        foreach($no_model_batch as &$secretary) {
+            $providers = $this->ci->db->get_where('ea_secretaries_providers', 
+                    array('id_users_secretary' => $secretary['id']))->result_array();
+            $secretary['providers'] = array();
+            foreach($providers as $provider) {
+                $secretary['providers'][] = $provider['id_users_provider'];
+            }
+            
+            $secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
+                    array('id_users' => $secretary['id']))->row_array();
+            unset($secretary['settings']['id_users']);
+        }
         
         $this->ci->unit->run($model_batch, $no_model_batch, 'Test if get_batch() with where clause '
                 . 'has returned the correct results.');

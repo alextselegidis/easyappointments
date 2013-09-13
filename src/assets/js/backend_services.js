@@ -283,6 +283,34 @@ var BackendServices = {
             GeneralFunctions.displayMessageBox('Delete Category', 'Are you sure that you want '
                     + 'to delete this record? This action cannot be undone.', messageBtns);
         });
+    },
+    
+    /**
+     * Update the service category listbox. Use this method every time a change is made
+     * to the service categories db table.
+     * 
+     * @param {array} categories Contains the available category objects.
+     */
+    updateAvailableCategories: function() {
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_service_categories';
+        var postData = { 'key': '' };
+        
+        $.post(postUrl, postData, function(response) {
+            ///////////////////////////////////////////////////////////////
+            console.log('Update Available Categories Response:', response);
+            ///////////////////////////////////////////////////////////////
+            
+            if (!Backend.handleAjaxExceptions(response)) return;
+            
+            GlobalVariables.categories = response;
+            var $select = $('#service-category');
+            $select.empty();
+            $.each(response, function(index, category) {
+                var option = new Option(category.name, category.id);
+                $select.append(option);
+            });
+            $select.append(new Option('- No Category -', null)).val('null');
+        }, 'json');
     }
 };
 
@@ -495,6 +523,7 @@ CategoriesHelper.prototype.save = function(category) {
         Backend.displayNotification('Service saved successfully!');
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#categories .filter-key').val());
+        BackendServices.updateAvailableCategories();
     });
 };
 
@@ -518,6 +547,7 @@ CategoriesHelper.prototype.delete = function(id) {
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#categories .filter-key').val());
+        BackendServices.updateAvailableCategories();
     });
 };
 

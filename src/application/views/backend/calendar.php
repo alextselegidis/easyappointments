@@ -114,64 +114,67 @@
                 </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset class="row-fluid">
                 <legend>Customer Details</legend>
 
                 <input id="customer-id" type="hidden" />
                 
-                <div class="control-group">
-                    <label for="first-name" class="control-label">First Name</label>
-                    <div class="controls">
-                        <input type="text" id="first-name" />
+                <div class="span5">
+                    <div class="control-group">
+                        <label for="first-name" class="control-label">First Name</label>
+                        <div class="controls">
+                            <input type="text" id="first-name" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="last-name" class="control-label">Last Name *</label>
+                        <div class="controls">
+                            <input type="text" id="last-name" class="required" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="email" class="control-label">Email *</label>
+                        <div class="controls">
+                            <input type="text" id="email" class="required" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="phone-number" class="control-label">Phone Number *</label>
+                        <div class="controls">
+                            <input type="text" id="phone-number" class="required" />
+                        </div>
                     </div>
                 </div>
-                
-                <div class="control-group">
-                    <label for="last-name" class="control-label">Last Name *</label>
-                    <div class="controls">
-                        <input type="text" id="last-name" class="required" />
+                <div class="span6">
+                    <div class="control-group">
+                        <label for="address" class="control-label">Address</label>
+                        <div class="controls">
+                            <input type="text" id="address" />
+                        </div>
                     </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="email" class="control-label">Email *</label>
-                    <div class="controls">
-                        <input type="text" id="email" class="required" />
+
+                    <div class="control-group">
+                        <label for="city" class="control-label">City</label>
+                        <div class="controls">
+                            <input type="text" id="city" />
+                        </div>
                     </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="phone-number" class="control-label">Phone Number *</label>
-                    <div class="controls">
-                        <input type="text" id="phone-number" class="required" />
+
+                    <div class="control-group">
+                        <label for="zip-code" class="control-label">Zip Code</label>
+                        <div class="controls">
+                            <input type="text" id="zip-code" />
+                        </div>
                     </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="address" class="control-label">Address</label>
-                    <div class="controls">
-                        <input type="text" id="address" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="city" class="control-label">City</label>
-                    <div class="controls">
-                        <input type="text" id="city" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="zip-code" class="control-label">Zip Code</label>
-                    <div class="controls">
-                        <input type="text" id="zip-code" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="notes" class="control-label">Notes</label>
-                    <div class="controls">
-                        <textarea id="notes"></textarea>
+
+                    <div class="control-group">
+                        <label for="notes" class="control-label">Notes</label>
+                        <div class="controls">
+                            <textarea id="notes"></textarea>
+                        </div>
                     </div>
                 </div>
             </fieldset>

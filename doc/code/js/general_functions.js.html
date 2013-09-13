@@ -73,14 +73,14 @@ var GeneralFunctions = {
         );    
 
         jQuery("#message_box").dialog({
-            autoOpen        : false,
-            modal           : true,
-            resize          : "auto",
-            width           : 400,
-            height          : "auto",
-            resizable       : false,
-            buttons         : messageButtons,
-            closeOnEscape   : false
+            autoOpen: false,
+            modal: true,
+            resize: "auto",
+            width: 400,
+            height: "auto",
+            resizable: false,
+            buttons: messageButtons,
+            closeOnEscape: false
         });
 
         jQuery("#message_box").dialog("open"); 
@@ -102,9 +102,9 @@ var GeneralFunctions = {
             elementTop = (elementTop > 0 ) ? elementTop : 20;
 
             elementHandle.css({
-                position    : 'absolute',
-                left        : elementLeft,
-                top         : elementTop
+                position: 'absolute',
+                left: elementLeft,
+                top: elementTop
             }); 
         });
         $(window).resize();
@@ -138,16 +138,121 @@ var GeneralFunctions = {
      * @returns {String} Returns the transformed string.
      */
     ISODateString: function(dt){
-        function pad(n){return n&lt;10 ? '0'+n : n}
+        function pad(n){return n&lt;10 ? '0'+n : n;}
 
         return dt.getUTCFullYear()+'-'
              + pad(dt.getUTCMonth()+1)+'-'
              + pad(dt.getUTCDate())+'T'
              + pad(dt.getUTCHours())+':'
              + pad(dt.getUTCMinutes())+':'
-             + pad(dt.getUTCSeconds())+'Z'
+             + pad(dt.getUTCSeconds())+'Z';
+    },
+    
+    /**
+     * This method creates and returns an exact copy of the provided object. 
+     * It is very usefull whenever changes need to be made to an object without
+     * modyfing the original data.
+     * 
+     * @link http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
+     * 
+     * @param {object} originalObject Object to be copied.
+     * @returns {object} Returns an exact copy of the provided element.
+     */
+    clone: function(originalObject) {
+        // Handle the 3 simple types, and null or undefined
+        if (null == originalObject || "object" != typeof originalObject) 
+            return originalObject;
+
+        // Handle Date
+        if (originalObject instanceof Date) {
+            var copy = new Date();
+            copy.setTime(originalObject.getTime());
+            return copy;
+        }
+
+        // Handle Array
+        if (originalObject instanceof Array) {
+            var copy = [];
+            for (var i = 0, len = originalObject.length; i &lt; len; i++) {
+                copy[i] = GeneralFunctions.clone(originalObject[i]);
+            }
+            return copy;
+        }
+
+        // Handle Object
+        if (originalObject instanceof Object) {
+            var copy = {};
+            for (var attr in originalObject) {
+                if (originalObject.hasOwnProperty(attr)) 
+                    copy[attr] = GeneralFunctions.clone(originalObject[attr]);
+            }
+            return copy;
+        }
+
+        throw new Error("Unable to copy obj! Its type isn't supported.");
+    },
+    
+    /**
+     * This method validates an email address. If the address is not on the proper
+     * form then the result is FALSE.
+     * 
+     * @param {string} email The email address to be checked.
+     * @returns {bool} Returns the validation result.
+     */
+    validateEmail: function(email) {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        return reg.test(email);
+    },
+           
+    /**
+     * This method returns the exception html display for javascript ajax calls.
+     * It uses the Bootstrap collapse module to show exception messages when the
+     * user opens the "Details" collapse component.
+     * 
+     * @param {array} exceptions Contains the exceptions to be displayed.
+     * @returns {String} Returns the html markup for the exceptions.
+     */
+    exceptionsToHtml: function(exceptions) {
+        var html = 
+                '&lt;div class="accordion" id="error-accordion">' + 
+                    '&lt;div class="accordion-group">' + 
+                        '&lt;div class="accordion-heading">' +
+                            '&lt;a class="accordion-toggle" data-toggle="collapse" ' +
+                                    'data-parent="#error-accordion" href="#error-technical">' + 
+                                'Details' + 
+                            '&lt;/a>' +
+                        '&lt;/div>';
+        
+        $.each(exceptions, function(index, exception) {
+            html +=
+                    '&lt;div id="error-technical" class="accordion-body collapse">' +
+                        '&lt;div class="accordion-inner">' + 
+                            '&lt;pre>' + exception['message'] + '&lt;/pre>' +
+                        '&lt;/div>' +
+                    '&lt;/div>';
+        });
+        
+        html += '&lt;/div>&lt;/div>';
+        
+        return html;
+    },
+            
+    /**
+     * This method parse the json encoded strings that are fetched by ajax calls.
+     * 
+     * @param {array} exceptions Exception array returned by an ajax call.
+     * @returns {Array} Returns the parsed js objects.
+     */
+    parseExceptions: function(exceptions) {
+        var parsedExceptions = new Array();
+        
+        $.each(exceptions, function(index, exception) {
+            parsedExceptions.push(jQuery.parseJSON(exception));
+        });
+        
+        return parsedExceptions;
     }
-}</code></pre>
+};</code></pre>
         </article>
     </section>
 
@@ -157,13 +262,13 @@ var GeneralFunctions = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:47 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:16 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

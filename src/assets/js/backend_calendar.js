@@ -22,7 +22,7 @@ var BackendCalendar = {
     initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers === undefined) defaultEventHandlers = true;
         
-        // :: INITIALIZE PAGE
+        // Initialize page calendar
         $('#calendar').fullCalendar({
             'defaultView': 'agendaWeek',
             'height': BackendCalendar.getCalendarHeight(),
@@ -53,6 +53,14 @@ var BackendCalendar = {
             'eventResize': BackendCalendar.calendarEventResize,
             'eventDrop': BackendCalendar.calendarEventDrop
         });
+        
+        // Temporary fix: make the first letter capital in all the lowercase strings
+        // of the calendar.
+        $('#calendar .fc-button-today').text('Today');
+        $('#calendar .fc-button-agendaDay').text('Day');
+        $('#calendar .fc-button-agendaWeek').text('Week');
+        $('#calendar .fc-button-month').text('Month');
+        $('#calendar .fc-agenda-allday .fc-agenda-axis').text('All Day');
         
         // Trigger once to set the proper footer position after calendar 
         // initialization.
@@ -414,7 +422,8 @@ var BackendCalendar = {
                 'id_users_provider': $dialog.find('#select-provider').val(),
                 'start_datetime': startDatetime,
                 'end_datetime': endDatetime,
-                'notes': $dialog.find('#notes').val()
+                'notes': $dialog.find('#notes').val(),
+                'is_unavailable': false
             };
             
             if ($dialog.find('#appointment-id').val() !== '') {
@@ -767,7 +776,7 @@ var BackendCalendar = {
                                         'start': calendarDateStart,
                                         'end': workDateStart,
                                         'allDay': false,
-                                        'color': '#AAA',
+                                        'color': '#BEBEBE',
                                         'editable': false,
                                         'className': 'fc-unavailable'
                                     };
@@ -786,7 +795,7 @@ var BackendCalendar = {
                                         'start': workDateEnd,
                                         'end': calendarDateEnd,
                                         'allDay': false,
-                                        'color': '#AAA',
+                                        'color': '#BEBEBE',
                                         'editable': false,
                                         'className': 'fc-unavailable'
                                     };
@@ -805,7 +814,7 @@ var BackendCalendar = {
                                         'start': breakStart,
                                         'end': breakEnd,
                                         'allDay': false,
-                                        'color': '#AAA',
+                                        'color': '#BEBEBE',
                                         'editable': false,
                                         'className': 'fc-unavailable fc-break'
                                     };
@@ -845,7 +854,7 @@ var BackendCalendar = {
                                             'start': GeneralFunctions.clone(currDateStart),
                                             'end': GeneralFunctions.clone(start),
                                             'allDay': false,
-                                            'color': '#AAA',
+                                            'color': '#BEBEBE',
                                             'editable': false,
                                             'className': 'fc-unavailable'
                                         };
@@ -862,7 +871,7 @@ var BackendCalendar = {
                                             'start': GeneralFunctions.clone(end),
                                             'end': GeneralFunctions.clone(currDateEnd),
                                             'allDay': false,
-                                            'color': '#AAA',
+                                            'color': '#BEBEBE',
                                             'editable': false,
                                             'className': 'fc-unavailable fc-brake'
                                         };
@@ -881,7 +890,7 @@ var BackendCalendar = {
                                             'start': breakStart,
                                             'end': breakEnd,
                                             'allDay': false,
-                                            'color': '#AAA',
+                                            'color': '#BEBEBE',
                                             'editable': false,
                                             'className': 'fc-unavailable fc-break'
                                         };

@@ -781,7 +781,7 @@ ProvidersHelper.prototype.resetForm = function() {
     $('#providers .save-cancel-group').hide();
     $('#edit-provider, #delete-provider').prop('disabled', true);
     $('#providers .details').find('input, textarea').prop('readonly', true);
-    $('.filter-admins').prop('disabled', false);
+    $('.filter-providers').prop('disabled', false);
     $('#providers .filter-results').css('color', '');
     $('#providers .form-message').hide();    
     $('#provider-notifications').removeClass('active');
@@ -915,9 +915,9 @@ SecretariesHelper.prototype.delete = function(id) {
         console.log('Delete secretary response:', response);
         ////////////////////////////////////////////////////
         if (!Backend.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('secretary deleted successfully!');
+        Backend.displayNotification('Secretary deleted successfully!');
         BackendUsers.helper.resetForm();
-        BackendUsers.helper.filter($('#secretariess .filter-key').val());
+        BackendUsers.helper.filter($('#secretaries .filter-key').val());
     });
 };
 
@@ -967,7 +967,7 @@ SecretariesHelper.prototype.resetForm = function() {
     $('#secretaries .save-cancel-group').hide();
     $('#edit-secretary, #delete-secretary').prop('disabled', true);
     $('#secretaries .details').find('input, textarea').prop('readonly', true);
-    $('.filter-admins').prop('disabled', false);
+    $('.filter-secretaries').prop('disabled', false);
     $('#secretaries .filter-results').css('color', '');
     $('#secretaries .form-message').hide();    
     $('#secretary-notifications').removeClass('active');

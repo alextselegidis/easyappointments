@@ -65,7 +65,7 @@ the applications.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line11">line 11</a>
+        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line18">line 18</a>
     </li></ul></dd>
     
     
@@ -92,11 +92,357 @@ the applications.</div>
     
     
     
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="EXCEPTIONS_TITLE"><span class="type-signature">&lt;static> </span>EXCEPTIONS_TITLE<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Backend Constants
+    </div>
+    
+    
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
     
     
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
+            
+<dt>
+    <h4 class="name" id="displayNotification"><span class="type-signature">&lt;static> </span>displayNotification<span class="signature">(message, actions)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Display backend notifications to user. 
+
+Using this method you can display notifications to the use with custom
+messages. If the 'actions' array is provided then an action link will 
+be displayed too.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Notification message</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>actions</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">An array with custom actions that will be available
+to the user. Every array item is an object that contains the 'label' and 
+'function' key values.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="handleAjaxExceptions"><span class="type-signature">&lt;static> </span>handleAjaxExceptions<span class="signature">(response)</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        All backend js code has the same way of dislaying exceptions that are raised on the
+server during an ajax call.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>response</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Contains the server response. If exceptions or warnings are 
+found, user friendly messages are going to be displayed to the user.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line101">line 101</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns whether the the ajax callback should continue the execution or
+stop, due to critical server exceptions.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">bool</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
             
 <dt>
     <h4 class="name" id="placeFooterToBottom"><span class="type-signature">&lt;static> </span>placeFooterToBottom<span class="signature">()</span><span class="type-signature"></span></h4>
@@ -140,7 +486,7 @@ the applications.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line21">line 21</a>
+        <a href="backend.js.html">backend.js</a>, <a href="backend.js.html#line36">line 36</a>
     </li></ul></dd>
     
     
@@ -181,13 +527,13 @@ the applications.</div>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:47 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:16 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

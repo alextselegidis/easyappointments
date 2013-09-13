@@ -158,16 +158,60 @@
                 <div class="frame-container">
                     <h2 class="frame-title">Select Service & Provider</h2>
                     
-                    <div class="frame-content" style="width:270px">
+                    <div class="frame-content" style="width:520px">
                         <label for="select-service">
                             <strong>Select Service</strong>
                         </label>
                         
                         <select id="select-service">
                             <?php 
+                                // Group services by category, only if there is at least one service 
+                                // with a parent category.
                                 foreach($available_services as $service) {
-                                    echo '<option value="' . $service['id'] . '">' 
-                                            . $service['name'] . '</option>';
+                                    if ($service['category_id'] != NULL) {
+                                        $has_category = TRUE;
+                                        break;
+                                    }
+                                }
+                                
+                                if ($has_category) {
+                                    $grouped_services = [];
+
+                                    foreach($available_services as $service) {
+                                        if ($service['category_id'] != NULL) {
+                                            if (!isset($grouped_services[$service['category_name']])) {
+                                                $grouped_services[$service['category_name']] = array();
+                                            }
+
+                                            $grouped_services[$service['category_name']][] = $service;
+                                        } 
+                                    }
+
+                                    // We need the uncategorized services at the end of the list so
+                                    // we will use another iteration only for the uncategorized services.
+                                    $grouped_services['uncategorized'] = [];
+                                    foreach($available_services as $service) {
+                                        if ($service['category_id'] == NULL) {
+                                            $grouped_services['uncategorized'][] = $service;
+                                        }
+                                    }
+
+                                    foreach($grouped_services as $group) {
+                                        $group_label = ($group[0]['category_name'] != NULL) 
+                                                ? $group[0]['category_name'] : 'Uncategorized'; 
+
+                                        echo '<optgroup label="' . $group_label . '">';
+                                        foreach($group as $service) {
+                                            echo '<option value="' . $service['id'] . '">' 
+                                                . $service['name'] . '</option>';
+                                        }
+                                        echo '</optgroup>';
+                                    }
+                                }  else {
+                                    foreach($available_services as $service) {
+                                        echo '<option value="' . $service['id'] . '">' 
+                                                    . $service['name'] . '</option>';
+                                    }
                                 }
                             ?>
                         </select>
@@ -177,6 +221,8 @@
                         </label>
                         
                         <select id="select-provider"></select>
+                        
+                        <div id="service-description" style="display:none;"></div>
                     </div>
                 </div>
                 

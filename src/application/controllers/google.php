@@ -74,7 +74,8 @@ class Google extends CI_Controller {
      * @param numeric $provider_id Provider record to be synced.
      * 
      * @task This method must be executed only by the system and noone else outside. 
-     * It is a big security issue.
+     * It is a big security issue. So whenever this method is used we should check for
+     * user credentials.
      */
     public function sync($provider_id = NULL) {
         try {

@@ -54,7 +54,7 @@
         
         <input id="customer-id" type="hidden" />
         
-        <div class="span5">
+        <div class="span6" style="margin-left: 0;">
             <h2>Details</h2>
             <div id="form-message" class="alert" style="display:none;"></div>
             
@@ -86,7 +86,7 @@
             <center><em id="form-message" class="text-error">Fields with * are required!</em></center>
         </div> 
         
-        <div class="span7">
+        <div class="span5">
             <h2>Appointments</h2>
             <div id="customer-appointments"></div>
             <div id="appointment-details"></div>

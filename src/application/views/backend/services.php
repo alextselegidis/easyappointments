@@ -19,7 +19,13 @@
         <li class="categories-tab tab"><a>Categories</a></li>
     </ul>
     
-    <?php // SERVICES TAB ++++++++++++++++++++++++++++++++ ?>
+    <?php 
+        // -------------------------------------------------------------- 
+        //        
+        // SERVICES TAB 
+        // 
+        // --------------------------------------------------------------
+    ?>
     <div id="services" class="tab-content">
         <?php // FILTER SERVICES ?>
         <div class="filter span4">
@@ -83,7 +89,13 @@
         </div>
     </div>
     
-    <?php // CATEGORIES TAB ++++++++++++++++++++++++++++++++ ?>
+    <?php 
+        // -------------------------------------------------------------- 
+        //        
+        // CATEGORIES TAB 
+        // 
+        // --------------------------------------------------------------
+    ?>
     <div id="categories" class="tab-content" style="display:none;">
         <div class="filter span4">
             <div class="input-append">

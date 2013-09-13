@@ -316,8 +316,8 @@ class Backend_api extends CI_Controller {
             $this->load->model('providers_model');
 	    	$this->load->model('customers_model');
             
-	    	$key = $_POST['key']; // @task $this->db->escape($_POST['key']);
-	    	
+	    	$key = mysql_real_escape_string($_POST['key']); 
+            
 	    	$where_clause = 
 	    			'(first_name LIKE "%' . $key . '%" OR ' . 
 	    			'last_name LIKE "%' . $key . '%" OR ' . 
@@ -326,7 +326,7 @@ class Backend_api extends CI_Controller {
 	    			'address LIKE "%' . $key . '%" OR ' .
 	    			'city LIKE "%' . $key . '%" OR ' .
 	    			'zip_code LIKE "%' . $key . '%")';		
-	    	
+            
             $customers = $this->customers_model->get_batch($where_clause);
             
             foreach($customers as &$customer) {
@@ -342,6 +342,8 @@ class Backend_api extends CI_Controller {
                 
                 $customer['appointments'] = $appointments;
             }
+            
+            
             
 	    	echo json_encode($customers);
             
@@ -530,7 +532,7 @@ class Backend_api extends CI_Controller {
     public function ajax_filter_services() {
         try {
             $this->load->model('services_model');
-            $key = $_POST['key']; // @task fix sql injection
+            $key = mysql_real_escape_string($_POST['key']);  
             $where = 
                     '(name LIKE "%' . $key . '%" OR duration LIKE "%' . $key . '%" OR ' . 
                     'price LIKE "%' . $key . '%" OR currency LIKE "%' . $key . '%" OR ' .
@@ -589,7 +591,7 @@ class Backend_api extends CI_Controller {
     public function ajax_filter_service_categories() {
         try {
             $this->load->model('services_model');
-            $key = $_POST['key']; // @task sql injection
+            $key = mysql_real_escape_string($_POST['key']);  
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
             $categories = $this->services_model->get_all_categories($where);
             echo json_encode($categories);
@@ -609,7 +611,7 @@ class Backend_api extends CI_Controller {
     public function ajax_filter_admins() {
         try {
             $this->load->model('admins_model');
-            $key = $_POST['key']; // @task sql injection
+            $key = mysql_real_escape_string($_POST['key']); 
             $where = 
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' . 
                 'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' . 
@@ -673,7 +675,7 @@ class Backend_api extends CI_Controller {
     public function ajax_filter_providers() {
         try {
             $this->load->model('providers_model');
-            $key = $_POST['key']; // @task sql injection
+            $key = mysql_real_escape_string($_POST['key']); 
             $where = 
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' . 
                 'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' . 
@@ -737,7 +739,7 @@ class Backend_api extends CI_Controller {
     public function ajax_filter_secretaries() {
         try {
             $this->load->model('secretaries_model');
-            $key = $_POST['key']; // @task sql injection
+            $key = mysql_real_escape_string($_POST['key']); 
             $where = 
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' . 
                 'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' . 

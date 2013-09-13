@@ -250,10 +250,13 @@ class Services_Model extends CI_Model {
     public function get_available_services() {
     	$this->db->distinct();
         return $this->db
-        		->select('ea_services.*')
+        		->select('ea_services.*, ea_service_categories.name AS category_name, '
+                        . 'ea_service_categories.id AS category_id')
         		->from('ea_services')
         		->join('ea_services_providers', 
         				'ea_services_providers.id_services = ea_services.id', 'inner')
+                ->join('ea_service_categories',
+                        'ea_service_categories.id = ea_services.id_service_categories', 'left')
         		->get()->result_array();
     }
     

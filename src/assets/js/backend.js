@@ -83,7 +83,7 @@ var Backend = {
             $(document).on('click', '#' + actionId, action['function']);
         });
         
-        notificationHtml += '</div>';
+        notificationHtml += '<a class="close" data-dismiss="alert" href="#">&times;</a></div>';
         
         $('#notification').html(notificationHtml);
         $('#notification').show('blind');

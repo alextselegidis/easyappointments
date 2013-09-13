@@ -38,9 +38,9 @@
     
     
         
-            <div class="description">This namespace contains functions that implement the book appointment 
-page functionality. Once the initialize() method is called the page is 
-fully functional and can serve the appointment booking process.</div>
+            <div class="description">This namespace contains functions that implement the book appointment page 
+functionality. Once the initialize() method is called the page is fully 
+functional and can serve the appointment booking process.</div>
         
         
         
@@ -98,7 +98,7 @@ fully functional and can serve the appointment booking process.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="manageMode"><span class="type-signature">&lt;static> </span>manageMode<span class="type-signature"> :Boolean</span></h4>
+    <h4 class="name" id="manageMode"><span class="type-signature">&lt;static> </span>manageMode<span class="type-signature"> :bool</span></h4>
     
     
 </dt>
@@ -114,7 +114,7 @@ fully functional and can serve the appointment booking process.</div>
         <ul>
             <li>
                 
-<span class="param-type">Boolean</span>
+<span class="param-type">bool</span>
 
 
             </li>
@@ -168,7 +168,7 @@ fully functional and can serve the appointment booking process.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="applyAppointmentData"><span class="type-signature">&lt;static> </span>applyAppointmentData<span class="signature">(appointmentData, providerData, customerData)</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    <h4 class="name" id="applyAppointmentData"><span class="type-signature">&lt;static> </span>applyAppointmentData<span class="signature">(appointment, provider, customer)</span><span class="type-signature"> &rarr; {bool}</span></h4>
     
     
 </dt>
@@ -211,7 +211,7 @@ that the user can start making changes on an existing record.
 	
         <tr>
             
-                <td class="name"><code>appointmentData</code></td>
+                <td class="name"><code>appointment</code></td>
             
             
             <td class="type">
@@ -234,7 +234,7 @@ that the user can start making changes on an existing record.
 	
         <tr>
             
-                <td class="name"><code>providerData</code></td>
+                <td class="name"><code>provider</code></td>
             
             
             <td class="type">
@@ -257,7 +257,7 @@ that the user can start making changes on an existing record.
 	
         <tr>
             
-                <td class="name"><code>customerData</code></td>
+                <td class="name"><code>customer</code></td>
             
             
             <td class="type">
@@ -304,7 +304,7 @@ that the user can start making changes on an existing record.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line425">line 425</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line514">line 514</a>
     </li></ul></dd>
     
     
@@ -396,7 +396,7 @@ appointments page.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line77">line 77</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line76">line 76</a>
     </li></ul></dd>
     
     
@@ -466,7 +466,7 @@ End datetime is depending on the service and start datetime fieldss.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line390">line 390</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line479">line 479</a>
     </li></ul></dd>
     
     
@@ -607,7 +607,7 @@ hours we need to receive.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line221">line 221</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line274">line 274</a>
     </li></ul></dd>
     
     
@@ -693,8 +693,8 @@ hours we need to receive.</td>
             
             
             
-            <td class="description last">(OPTIONAL) Determines whether 
-the default event handlers will be binded to the dom elements.</td>
+            <td class="description last">(OPTIONAL) Determines whether the default   
+event handlers will be binded to the dom elements.</td>
         </tr>
 	
 	
@@ -717,9 +717,8 @@ the default event handlers will be binded to the dom elements.</td>
             
             
             
-            <td class="description last">(OPTIONAL) Determines whether the customer
-is going to make changes to an existing appointment rather than
-booking a new one.</td>
+            <td class="description last">(OPTIONAL) Determines whether the customer is going 
+to make  changes to an existing appointment rather than booking a new one.</td>
         </tr>
 	
 	
@@ -750,7 +749,7 @@ booking a new one.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line25">line 25</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line24">line 24</a>
     </li></ul></dd>
     
     
@@ -821,7 +820,150 @@ booking.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line328">line 328</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line395">line 395</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="updateServiceDescription"><span class="type-signature">&lt;static> </span>updateServiceDescription<span class="signature">(serviceId, $div)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method updates a div's html content with a brief description of the 
+user selected service (only if available in db). This is usefull for the 
+customers upon selecting the correct service.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>serviceId</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The selected service record id.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>$div</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The destination div jquery object (e.g. provide $('#div-id') 
+object as value).</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line555">line 555</a>
     </li></ul></dd>
     
     
@@ -857,8 +999,8 @@ booking.
     
     
     <div class="description">
-        This function validates the customer's data input.
-It only checks for empty fields by the time.
+        This function validates the customer's data input. The user cannot contiue
+without passing all the validation checks.
     </div>
     
 
@@ -891,7 +1033,7 @@ It only checks for empty fields by the time.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line309">line 309</a>
+        <a href="frontend_book.js.html">frontend_book.js</a>, <a href="frontend_book.js.html#line361">line 361</a>
     </li></ul></dd>
     
     
@@ -954,13 +1096,13 @@ It only checks for empty fields by the time.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Thu Jun 13 2013 16:52:48 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:17 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
