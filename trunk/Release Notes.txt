@@ -1,14 +1,20 @@
-VERSION 0.4
+VERSION 0.5
 ===========
-Main
+[Feature] Admin users management.
+[Feature] Service provider users management.
+[Feature] Customer users management.
+[Feature] Secretary users management.
+[Feature] Custom error 404 page.
+[Enhancement] Display selected service description and price at the appointment book wizard.
+[Enhancement] Group services by categories at the appointment book wizard.
 
-- Complete functionality of Backend Calendar Page
-- Enable Google Calendar sync (sync changes made from GCal to E!A)
+Official Easy!Appointments Website:
+http://easyappointments.org
 
+Check the Google+ Community for development updates:
+https://plus.google.com/communities/105333709485142846840
 
+Visit the Support Group for any help on the project: 
+http://groups.google.com/group/easy-appointments
 
-Minor
-
-- Display javascript ajax error messages to users.
-- Provider can edit appointment from email link.
  
