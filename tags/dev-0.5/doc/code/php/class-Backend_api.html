@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class Backend_api</title>
+
+	<script type="text/javascript" src="resources/combined.js?955602237"></script>
+	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Admins_Model.html">Admins_Model</a></li>
+				<li><a href="class-Appointments.html">Appointments</a></li>
+				<li><a href="class-Appointments_Model.html">Appointments_Model</a></li>
+				<li><a href="class-Backend.html">Backend</a></li>
+				<li class="active"><a href="class-Backend_api.html">Backend_api</a></li>
+				<li><a href="class-Customers_Model.html">Customers_Model</a></li>
+				<li><a href="class-Errors.html">Errors</a></li>
+				<li><a href="class-Google.html">Google</a></li>
+				<li><a href="class-Providers_Model.html">Providers_Model</a></li>
+				<li><a href="class-Roles_Model.html">Roles_Model</a></li>
+				<li><a href="class-Secretaries_Model.html">Secretaries_Model</a></li>
+				<li><a href="class-Services_Model.html">Services_Model</a></li>
+				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
+				<li><a href="class-Test.html">Test</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Backend_api</h1>
+
+
+	<div class="description">
+	
+<p>Contains all the backend ajax calls.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+CI_Controller
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>Backend_api</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-Backend_api.html#3-794" title="Go to source code">backend_api.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="ajax_get_calendar_appointments" id="_ajax_get_calendar_appointments">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_get_calendar_appointments">#</a>
+		<code><a href="source-class-Backend_api.html#7-66" title="Go to source code">ajax_get_calendar_appointments</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Get the registered appointments for the given date period and
+record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Get the registered appointments for the given date period and
+record.</p>
+
+<p>This method returns the database appointments and unavailable periods for the
+user selected date period and record type (provider or service).</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_appointment" id="_ajax_save_appointment">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_appointment">#</a>
+		<code><a href="source-class-Backend_api.html#68-194" title="Go to source code">ajax_save_appointment</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save appointment changes that are made from the backend calendar
+page.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save appointment changes that are made from the backend calendar
+page.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_appointment" id="_ajax_delete_appointment">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_appointment">#</a>
+		<code><a href="source-class-Backend_api.html#196-276" title="Go to source code">ajax_delete_appointment</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete appointment from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete appointment from the database.</p>
+
+<p>This method deletes an existing appointment from the database. Once this
+action is finished it cannot be undone. Notification emails are send to both
+provider and customer and the delete action is executed to the Google Calendar
+account of the provider, if the "google_sync" setting is enabled.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_disable_provider_sync" id="_ajax_disable_provider_sync">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_disable_provider_sync">#</a>
+		<code><a href="source-class-Backend_api.html#278-304" title="Go to source code">ajax_disable_provider_sync</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Disable a providers sync setting.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Disable a providers sync setting.</p>
+
+<p>This method deletes the "google_sync" and "google_token" settings from the
+database. After that the provider's appointments will be no longer synced with
+google calendar.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_filter_customers" id="_ajax_filter_customers">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_filter_customers">#</a>
+		<code><a href="source-class-Backend_api.html#306-353" title="Go to source code">ajax_filter_customers</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Filter the customer records with the given key string.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Filter the customer records with the given key string.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns the search results.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_unavailable" id="_ajax_save_unavailable">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_unavailable">#</a>
+		<code><a href="source-class-Backend_api.html#355-408" title="Go to source code">ajax_save_unavailable</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Insert of update unavailable time period to database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Insert of update unavailable time period to database.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_unavailable" id="_ajax_delete_unavailable">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_unavailable">#</a>
+		<code><a href="source-class-Backend_api.html#410-452" title="Go to source code">ajax_delete_unavailable</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete an unavailable time period from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete an unavailable time period from database.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_customer" id="_ajax_save_customer">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_customer">#</a>
+		<code><a href="source-class-Backend_api.html#454-470" title="Go to source code">ajax_save_customer</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save (insert or update) a customer record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save (insert or update) a customer record.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_customer" id="_ajax_delete_customer">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_customer">#</a>
+		<code><a href="source-class-Backend_api.html#472-487" title="Go to source code">ajax_delete_customer</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete customer from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete customer from database.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_service" id="_ajax_save_service">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_service">#</a>
+		<code><a href="source-class-Backend_api.html#489-505" title="Go to source code">ajax_save_service</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save (insert or update) service record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save (insert or update) service record.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_service" id="_ajax_delete_service">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_service">#</a>
+		<code><a href="source-class-Backend_api.html#507-522" title="Go to source code">ajax_delete_service</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete service record from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete service record from database.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_filter_services" id="_ajax_filter_services">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_filter_services">#</a>
+		<code><a href="source-class-Backend_api.html#524-545" title="Go to source code">ajax_filter_services</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Filter service records by given key string.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Filter service records by given key string.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns a json encoded array back to client.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_service_category" id="_ajax_save_service_category">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_service_category">#</a>
+		<code><a href="source-class-Backend_api.html#547-564" title="Go to source code">ajax_save_service_category</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save (insert or update) category record.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save (insert or update) category record.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_service_category" id="_ajax_delete_service_category">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_service_category">#</a>
+		<code><a href="source-class-Backend_api.html#566-581" title="Go to source code">ajax_delete_service_category</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete category record from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete category record from database.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_filter_service_categories" id="_ajax_filter_service_categories">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_filter_service_categories">#</a>
+		<code><a href="source-class-Backend_api.html#583-601" title="Go to source code">ajax_filter_service_categories</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Filter services categories with key string.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Filter services categories with key string.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns a json encoded array back to client with the category records.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_filter_admins" id="_ajax_filter_admins">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_filter_admins">#</a>
+		<code><a href="source-class-Backend_api.html#603-626" title="Go to source code">ajax_filter_admins</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Filter admin records with string key.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Filter admin records with string key.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns a json encoded array back to client with the admin records.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_admin" id="_ajax_save_admin">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_admin">#</a>
+		<code><a href="source-class-Backend_api.html#628-647" title="Go to source code">ajax_save_admin</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save (insert or update) admin record into database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save (insert or update) admin record into database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the success contant 'AJAX_SUCCESS' so javascript knows that everything
+completed successfully.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_admin" id="_ajax_delete_admin">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_admin">#</a>
+		<code><a href="source-class-Backend_api.html#649-665" title="Go to source code">ajax_delete_admin</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete an admin record from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete an admin record from the database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_filter_providers" id="_ajax_filter_providers">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_filter_providers">#</a>
+		<code><a href="source-class-Backend_api.html#667-690" title="Go to source code">ajax_filter_providers</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Filter provider records with string key.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Filter provider records with string key.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns a json encoded array back to client with the provider records.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_provider" id="_ajax_save_provider">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_provider">#</a>
+		<code><a href="source-class-Backend_api.html#692-711" title="Go to source code">ajax_save_provider</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save (insert or update) a provider record into database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save (insert or update) a provider record into database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the success contant 'AJAX_SUCCESS' so javascript knows that everything
+completed successfully.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_provider" id="_ajax_delete_provider">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_provider">#</a>
+		<code><a href="source-class-Backend_api.html#713-729" title="Go to source code">ajax_delete_provider</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete a provider record from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete a provider record from the database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_filter_secretaries" id="_ajax_filter_secretaries">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_filter_secretaries">#</a>
+		<code><a href="source-class-Backend_api.html#731-754" title="Go to source code">ajax_filter_secretaries</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Filter secretary records with string key.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Filter secretary records with string key.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns a json encoded array back to client with the secretary records.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_secretary" id="_ajax_save_secretary">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_secretary">#</a>
+		<code><a href="source-class-Backend_api.html#756-775" title="Go to source code">ajax_save_secretary</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save (insert or update) a secretary record into database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save (insert or update) a secretary record into database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the success contant 'AJAX_SUCCESS' so javascript knows that everything
+completed successfully.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_delete_secretary" id="_ajax_delete_secretary">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_delete_secretary">#</a>
+		<code><a href="source-class-Backend_api.html#777-793" title="Go to source code">ajax_delete_secretary</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Delete a secretary record from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Delete a secretary record from the database.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
