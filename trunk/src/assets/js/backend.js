@@ -29,6 +29,10 @@ var Backend = {
     EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
     WARNINGS_TITLE: 'Unexpected Warnings',
     WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    DB_SLUG_ADMIN: 'admin',
+    DB_SLUG_PROVIDER: 'provider',
+    DB_SLUG_SECRETARY: 'secretary',
+    DB_SLUG_CUSTOMER: 'customer',
     
     /**
      * Place the backend footer always on the bottom of the page.

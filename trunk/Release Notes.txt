@@ -1,12 +1,11 @@
-VERSION 0.5
+VERSION 0.6
 ===========
-[Feature] Admin users management.
-[Feature] Service provider users management.
-[Feature] Customer users management.
-[Feature] Secretary users management.
-[Feature] Custom error 404 page.
-[Enhancement] Display selected service description and price at the appointment book wizard.
-[Enhancement] Group services by categories at the appointment book wizard.
+[Feature] System and user settings page.
+[Feature] Login process included.
+[Feature] Applied user privileges through all the system depending their role type.
+[Feature] Select existing customer from backend/calendar when trying to add a new appointment.
+[Fix] Fix backend/calendar service and provider functionality.
+
 
 Official Easy!Appointments Website:
 http://easyappointments.org

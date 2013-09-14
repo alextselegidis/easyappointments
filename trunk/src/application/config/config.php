@@ -1,5 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+// Include the external configuration.php
+include dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -225,7 +228,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = SystemConfiguration::$base_url;
 
 /*
 |--------------------------------------------------------------------------
