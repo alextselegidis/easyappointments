@@ -793,6 +793,33 @@ class Backend_api extends CI_Controller {
             ));
         }
     }
+    
+    /**
+     * [AJAX] Save a setting or multiple settings in the database.
+     * 
+     * This method is used to store settings in the database. It can be either system 
+     * or user settings, one or many. Use the $_POST variables accordingly.
+     * 
+     * @param array $_POST['settings'] Contains an array with settings.
+     * @param bool $_POST['type'] Determines the settings type, can be either SETTINGS_SYSTEM
+     * or SETTINGS_USER.
+     */
+    public function ajax_save_settings() {
+        try {
+            if ($_POST['type'] == SETTINGS_SYSTEM) {
+                // @task Implement save settings.
+            } else if ($_POST['type'] == SETTINGS_USER) {
+                $this->load->library('session');
+                $this->load->model('user_model');
+                $user_id = $this->session->userdata('user_id');
+                $this->user_model->save_settings($_POST['settings'], $user_id);
+            }
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
 }
 
 /* End of file backend_api.php */

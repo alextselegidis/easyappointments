@@ -55,5 +55,8 @@ define('FILTER_TYPE_SERVICE', 'service');
 
 define('AJAX_SUCCESS', 'SUCCESS');
 define('AJAX_FAILURE', 'FAILURE');
+
+define('SETTINGS_SYSTEM', 'SETTINGS_SYSTEM');
+define('SETTINGS_USER', 'SETTINGS_USER');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

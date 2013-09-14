@@ -28,14 +28,14 @@ var BackendUsers = {
         
         // Fill the services and providers list boxes.
         $.each(GlobalVariables.services, function(index, service) {
-            var html = '<input type="checkbox" data-id="' + service.id + '" />' 
-                    + service.name + '<br>'; 
+            var html = '<label class="checkbox"><input type="checkbox" data-id="' + service.id + '" />' 
+                    + service.name + '</label>'; 
             $('#provider-services').append(html);
         });
         
         $.each(GlobalVariables.providers, function(index, provider) {
-           var html = '<input type="checkbox" data-id="' + provider.id + '" />' 
-                   + provider.first_name + ' ' + provider.last_name + '<br>';
+           var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
+                   + provider.first_name + ' ' + provider.last_name + '</label>';
             $('#secretary-providers').append(html);
         });
         
@@ -82,8 +82,8 @@ var BackendUsers = {
                     
                     $('#secretary-providers').html('');
                     $.each(GlobalVariables.providers, function(index, provider) {
-                        var html = '<input type="checkbox" data-id="' + provider.id + '" />' 
-                                + provider.first_name + ' ' + provider.last_name + '<br>';
+                        var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
+                                + provider.first_name + ' ' + provider.last_name + '</label>';
                          $('#secretary-providers').append(html);
                      });
                      $('#secretary-providers input[type="checkbox"]').prop('disabled', true);

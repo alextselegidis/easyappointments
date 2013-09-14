@@ -128,9 +128,21 @@ class Backend extends CI_Controller {
      */
     public function settings() {
         $this->load->model('settings_model');
+        $this->load->model('user_model');
+        
+        $this->load->library('session');
+        
+        // @task Apply data for testing this page (this must be done during the login process).
+        $this->session->set_userdata('user_id', 18);
+        $this->session->set_userdata('user_slug', DB_SLUG_ADMIN);
+        
+        $user_id = $this->session->userdata('user_id'); 
         
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['user_slug'] = $this->session->userdata('user_slug');
+        $view['system_settings'] = $this->settings_model->get_settings();
+        $view['user_settings'] = $this->user_model->get_settings($user_id);
         
         $this->load->view('backend/header', $view);
         $this->load->view('backend/settings', $view);

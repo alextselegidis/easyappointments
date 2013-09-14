@@ -111,7 +111,7 @@
                     
                     <button type="button" id="admin-notifications" class="btn" data-toggle="button">
                         <i class="icon-asterisk"></i>
-                        <span>Receive Notifications</span>
+                        <span>Receive Email Notifications</span>
                     </button>
                 </div>
             </div>
@@ -205,7 +205,7 @@
                     
                     <button type="button" id="provider-notifications" class="btn" data-toggle="button">
                         <i class="icon-asterisk"></i>
-                        <span>Receive Notifications</span>
+                        <span>Receive Email Notifications</span>
                     </button>
                     
                     <br><br>

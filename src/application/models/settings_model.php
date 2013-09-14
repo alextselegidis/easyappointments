@@ -90,6 +90,40 @@ class Settings_Model extends CI_Model {
         
         return $this->db->delete('ea_settings', array('name' => $name));
     }
+    
+    /**
+     * Saves all the system settings into the database.
+     * 
+     * This method is usefull when trying to save all the system settings at once instead of 
+     * saving them one by one.
+     * 
+     * @param array $settings Contains all the system settings.
+     * @return bool Returns the save operation result.
+     * 
+     * @throws Exception When the update operation won't work for a specific setting.
+     */
+    public function save_settings($settings) {
+        if (!is_array($settings)) {
+            throw new Exception('$settings argument is invalid: '. print_r($settings, TRUE));
+        }
+        
+        foreach($settings as $name=>$value) {
+            if (!$this->db->update('ea_settings', array('value' => $value), array('name' => $name))) {
+                throw new Exception('Could not save setting (' . $name . ' - ' . $value . ')');
+            }
+        }
+        
+        return TRUE;
+    }
+    
+    /**
+     * Returns all the system settings at once.
+     * 
+     * @return array Array of all the system settings stored in the 'ea_settings' table.
+     */
+    public function get_settings() {
+        return $this->db->get('ea_settings')->result_array();
+    }
 }
 
 /* End of file settings_model.php */

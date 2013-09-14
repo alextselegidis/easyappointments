@@ -363,9 +363,10 @@ body .modal-header h3 {
 #users-page #secretary-providers,
 #users-page #provider-services { 
     border: 2px solid #ccc; 
-    width: 300px; 
-    height: 100px; 
+    width: 320px; 
+    height: 140px; 
     overflow-y: scroll; 
+    padding: 7px;
 }
 
 
