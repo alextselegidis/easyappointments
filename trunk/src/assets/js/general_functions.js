@@ -224,5 +224,15 @@ var GeneralFunctions = {
         });
         
         return parsedExceptions;
+    },
+       
+    /**
+     * Makes the first letter of the string upper case.
+     * 
+     * @param {string} str The string to be converted.
+     * @returns {string} Returns the capitalized string.
+     */
+    ucaseFirstLetter: function(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 };

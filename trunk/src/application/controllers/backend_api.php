@@ -807,13 +807,17 @@ class Backend_api extends CI_Controller {
     public function ajax_save_settings() {
         try {
             if ($_POST['type'] == SETTINGS_SYSTEM) {
-                // @task Implement save settings.
+                $this->load->model('settings_model');
+                $settings = json_decode($_POST['settings'], true);
+                $this->settings_model->save_settings($settings);
             } else if ($_POST['type'] == SETTINGS_USER) {
                 $this->load->library('session');
                 $this->load->model('user_model');
                 $user_id = $this->session->userdata('user_id');
                 $this->user_model->save_settings($_POST['settings'], $user_id);
             }
+            
+            echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))

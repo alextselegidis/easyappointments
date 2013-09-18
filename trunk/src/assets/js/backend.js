@@ -36,21 +36,23 @@ var Backend = {
     
     /**
      * Place the backend footer always on the bottom of the page.
+     * 
+     * @task Re-enable this method.
      */
     placeFooterToBottom: function() {
-        var $footer = $('#footer');
-
-        if (window.innerHeight > $('body').height()) {
-            $footer.css({
-                'position': 'absolute',
-                'width': '100%',
-                'bottom': '0px'
-            });
-        } else {
-            $footer.css({
-                'position': 'static'
-            });
-        }
+//        var $footer = $('#footer');
+//
+//        if (window.innerHeight > $('body').height()) {
+//            $footer.css({
+//                'position': 'absolute',
+//                'width': '100%',
+//                'bottom': '0px'
+//            });
+//        } else {
+//            $footer.css({
+//                'position': 'static'
+//            });
+//        }
     },
 
     /**

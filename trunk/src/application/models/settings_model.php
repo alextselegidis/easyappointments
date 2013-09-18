@@ -107,9 +107,11 @@ class Settings_Model extends CI_Model {
             throw new Exception('$settings argument is invalid: '. print_r($settings, TRUE));
         }
         
-        foreach($settings as $name=>$value) {
-            if (!$this->db->update('ea_settings', array('value' => $value), array('name' => $name))) {
-                throw new Exception('Could not save setting (' . $name . ' - ' . $value . ')');
+        foreach($settings as $setting) {
+            $this->db->where('name', $setting['name']);
+            if (!$this->db->update('ea_settings', array('value' => $setting['value']))) {
+                throw new Exception('Could not save setting (' . $setting['name'] 
+                        . ' - ' . $setting['value'] . ')');
             }
         }
         
