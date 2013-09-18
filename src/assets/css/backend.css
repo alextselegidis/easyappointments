@@ -372,3 +372,51 @@ body .modal-header h3 {
 
 /* BACKEND SETTINGS PAGE
    -------------------------------------------------------------------- */
+#settings-page .tab-content {
+    margin: 15px;
+}
+
+#settings-page .nav {
+    margin: 15px;
+}
+
+#settings-page .nav li { 
+    cursor: pointer; 
+}
+
+#business-logic .working-hours td input[type="text"] {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+#business-logic .working-hours label.checkbox {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+#business-logic #breaks .btn {
+    margin-right: 5px;
+    padding: 4px 7px;
+}
+
+#business-logic #breaks input {
+    margin-bottom: 0;
+}
+
+#business-logic #breaks .editable form {
+    margin: 0;
+}
+
+#business-logic #breaks .editable select,
+#business-logic #breaks .editable input {
+    margin: 0;
+    cursor: pointer;
+}
+
+#business-logic #book-advance-timeout { 
+    margin: 0;
+}
+
+#business-logic .ui-spinner { 
+    border: none;
+}
