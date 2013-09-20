@@ -589,6 +589,12 @@ AdminsHelper.prototype.validate = function(admin) {
             throw 'Passwords mismatch!';
         }
         
+        // Validate user email.
+        if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
+            $('#admin-email').css('border', '2px solid red');
+            throw 'Invalid email address!';
+        }
+        
         return true;
     } catch(exc) {
         $('#admins .form-message').text(exc);
@@ -611,6 +617,8 @@ AdminsHelper.prototype.resetForm = function() {
     $('#admins .form-message').hide();    
     $('#admin-notifications').removeClass('active');
     $('#admin-notifications').prop('disabled', true);
+    $('#admins .required').css('border', '');
+    $('#admin-password, #admin-password-confirm').css('border', '');
 };
 
 /**
@@ -764,6 +772,12 @@ ProvidersHelper.prototype.validate = function(provider) {
             throw 'Passwords mismatch!';
         }
         
+        // Validate user email.
+        if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
+            $('#provider-email').css('border', '2px solid red');
+            throw 'Invalid email address!';
+        }
+        
         return true;
     } catch(exc) {
         $('#providers .form-message').text(exc);
@@ -788,6 +802,8 @@ ProvidersHelper.prototype.resetForm = function() {
     $('#provider-notifications').prop('disabled', true);
     $('#provider-services input[type="checkbox"]').prop('checked', false);
     $('#provider-services input[type="checkbox"]').prop('disabled', true);
+    $('#providers .required').css('border', '');
+    $('#provider-password, #provider-password-confirm').css('border', '');
 };
 
 /**
@@ -950,6 +966,12 @@ SecretariesHelper.prototype.validate = function(secretary) {
             throw 'Passwords mismatch!';
         }
         
+        // Validate user email.
+        if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
+            $('#secretary-email').css('border', '2px solid red');
+            throw 'Invalid email address!';
+        }
+        
         return true;
     } catch(exc) {
         $('#secretaries .form-message').text(exc);
@@ -974,6 +996,8 @@ SecretariesHelper.prototype.resetForm = function() {
     $('#secretary-notifications').prop('disabled', true);
     $('#secretary-providers input[type="checkbox"]').prop('checked', false);
     $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
+    $('#secretaries .required').css('border', '');
+    $('#secretary-password, #secretary-password-confirm').css('border', '');
 };
 
 /**

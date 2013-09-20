@@ -58,5 +58,17 @@ define('AJAX_FAILURE', 'FAILURE');
 
 define('SETTINGS_SYSTEM', 'SETTINGS_SYSTEM');
 define('SETTINGS_USER', 'SETTINGS_USER');
+
+define('PRIV_VIEW', 1);
+define('PRIV_ADD', 2);
+define('PRIV_EDIT', 4);
+define('PRIV_DELETE', 8);
+
+define('PAGE_APPOINTMENTS', 'appointments');
+define('PAGE_CUSTOMERS', 'customers');
+define('PAGE_SERVICES', 'services');
+define('PAGE_USERS', 'users');
+define('PAGE_SYSTEM_SETTINGS', 'system_settings');
+define('PAGE_USER_SETTINGS', 'user_settings');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

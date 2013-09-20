@@ -25,5 +25,18 @@ function date3339($timestamp=0) {
     return $date;
 }
 
+/**
+ * Generate a hash of password string.
+ * 
+ * For user security, all system passwords are stored in hash string into the database. Use
+ * this method to produce the hash.
+ * 
+ * @param string $password Given string password.
+ * @return string Returns the hash string of the given password.
+ */
+function hash_password($password) {
+    return md5($password); // @task include salt and hash more times.
+}
+
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */
