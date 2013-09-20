@@ -91,7 +91,7 @@
                             record.</strong> After that you can add break periods.
                         </span>
                         
-                        <table class="working-hours table table-striped">
+                        <table class="working-plan table table-striped">
                             <thead>
                                 <tr>
                                     <th>Day</th>
@@ -102,38 +102,38 @@
                             <tbody>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="monday" />Monday</label></td>
-                                    <td><input type="text" id="monday-start" /></td>
-                                    <td><input type="text" id="monday-end" /></td>
+                                    <td><input type="text" id="monday-start" class="work-start" /></td>
+                                    <td><input type="text" id="monday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="tuesday" />Tuesday</label></td>
-                                    <td><input type="text" id="tuesday-start" /></td>
-                                    <td><input type="text" id="tuesday-end" /></td>
+                                    <td><input type="text" id="tuesday-start" class="work-start" /></td>
+                                    <td><input type="text" id="tuesday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="wednesday" />Wednesday</label></td>
-                                    <td><input type="text" id="wednesday-start" /></td>
-                                    <td><input type="text" id="wednesday-end" /></td>
+                                    <td><input type="text" id="wednesday-start" class="work-start" /></td>
+                                    <td><input type="text" id="wednesday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="thursday" />Thursday</label></td>
-                                    <td><input type="text" id="thursday-start" /></td>
-                                    <td><input type="text" id="thursday-end" /></td>
+                                    <td><input type="text" id="thursday-start" class="work-start" /></td>
+                                    <td><input type="text" id="thursday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="friday" />Friday</label></td>
-                                    <td><input type="text" id="friday-start" /></td>
-                                    <td><input type="text" id="friday-end" /></td>
+                                    <td><input type="text" id="friday-start" class="work-start" /></td>
+                                    <td><input type="text" id="friday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="saturday" />Saturday</label></td>
-                                    <td><input type="text" id="saturday-start" /></td>
-                                    <td><input type="text" id="saturday-end" /></td>
+                                    <td><input type="text" id="saturday-start" class="work-start" /></td>
+                                    <td><input type="text" id="saturday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox"><input type="checkbox" id="sunday" />Sunday</label></td>
-                                    <td><input type="text" id="sunday-start" /></td>
-                                    <td><input type="text" id="sunday-end" /></td>
+                                    <td><input type="text" id="sunday-start" class="work-start" /></td>
+                                    <td><input type="text" id="sunday-end" class="work-end" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -206,16 +206,16 @@
                 <input type="text" id="first-name" class="span9" />
                 
                 <label for="last-name">Last Name *</label>
-                <input type="text" id="last-name" class="span9" />
+                <input type="text" id="last-name" class="span9 required" />
                 
                 <label for="email">Email *</label>
-                <input type="text" id="email" class="span9" />
+                <input type="text" id="email" class="span9 required" />
                 
                 <label for="mobile-number">Mobile Number</label>
                 <input type="text" id="mobile-number" class="span9" />
                 
-                <label for="phone-number">Phone Number</label>
-                <input type="text" id="phone-number" class="span9" />
+                <label for="phone-number">Phone Number *</label>
+                <input type="text" id="phone-number" class="span9 required" />
                 
                 <label for="address">Address</label>
                 <input type="text" id="address" class="span9" />
@@ -237,17 +237,17 @@
                 <legend>Miscellaneous</legend>
                 
                 <label for="username">Username *</label>
-                <input type="text" id="username" />
+                <input type="text" id="username" class="required" />
                 
-                <label for="password">Password *</label>
-                <input type="text" id="password" />
+                <label for="password">Password</label>
+                <input type="password" id="password" />
                 
-                <label for="retype-password">Retype Password *</label>
-                <input type="text" id="retype-password" />
+                <label for="retype-password">Retype Password</label>
+                <input type="password" id="retype-password" />
                 
                 <br>
                 
-                <button type="button" class="btn" data-toggle="button">
+                <button type="button" id="user-notifications" class="btn" data-toggle="button">
                     <i class="icon-asterisk"></i>
                     Receive Email Notifications
                 </button>

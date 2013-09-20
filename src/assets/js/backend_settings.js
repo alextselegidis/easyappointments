@@ -42,7 +42,7 @@ var BackendSettings = {
     initialize: function(bindEventHandlers) {
         if (bindEventHandlers == undefined) bindEventHandlers = true;
         
-        // Apply values from database.
+        // Apply setting values from database.
         $.each(GlobalVariables.settings.system, function(index, setting) {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
         });
@@ -93,18 +93,49 @@ var BackendSettings = {
         });
         
         // Make break cells editable.
-        BackendSettings.breakDayEditable($('#breaks .break-day'));
-        BackendSettings.breakTimeEditable($('#breaks').find('.break-start, .break-end'));
+        BackendSettings.editableBreakDay($('#breaks .break-day'));
+        BackendSettings.editableBreakTime($('#breaks').find('.break-start, .break-end'));
         
         // Set timepickers where needed.
-        $('.working-hours input').timepicker({
-            timeFormat: 'HH:mm'
+        $('.working-plan input').timepicker({
+            'timeFormat': 'HH:mm',
+            'onSelect': function(datetime, inst) {
+                // Start time must be earlier than end time. 
+                var start = Date.parse($(this).parent().parent().find('.work-start').val());
+                var end = Date.parse($(this).parent().parent().find('.work-end').val());
+                
+                if (start > end) {
+                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
+                }
+            }
         });
         
         // Book Advance Timeout Spinner
         $('#book-advance-timeout').spinner({
-            min: 0
+            'min': 0
         });
+        
+        // Load user settings into form
+        $('#user-id').val(GlobalVariables.settings.user.id);
+        $('#first-name').val(GlobalVariables.settings.user.first_name);
+        $('#last-name').val(GlobalVariables.settings.user.last_name);
+        $('#email').val(GlobalVariables.settings.user.email);
+        $('#mobile-number').val(GlobalVariables.settings.user.mobile_number);
+        $('#phone-number').val(GlobalVariables.settings.user.phone_number);
+        $('#address').val(GlobalVariables.settings.user.address);
+        $('#city').val(GlobalVariables.settings.user.city);
+        $('#state').val(GlobalVariables.settings.user.state);
+        $('#zip-code').val(GlobalVariables.settings.user.zip_code);
+        $('#notes').val(GlobalVariables.settings.user.notes);
+        
+        $('#username').val(GlobalVariables.settings.user.settings.username);
+        $('#password, #retype-password').val('');
+        
+        if (GlobalVariables.settings.user.settings.notifications == true) { 
+            $('#user-notifications').addClass('active');
+        } else {
+            $('#user-notifications').removeClass('active');
+        }
         
         // Set default settings helper.
         BackendSettings.settings = new SystemSettings();
@@ -114,6 +145,10 @@ var BackendSettings = {
         }
     },
             
+    /**
+     * Bind the backend/settings default event handlers. This method depends on the 
+     * backend/settings html, so do not use this method on a different page.
+     */
     bindEventHandlers: function() {
         /**
          * Event: Tab "Click"
@@ -121,6 +156,11 @@ var BackendSettings = {
          * Change the visible tab contents.
          */
         $('.tab').click(function() {
+            // Bootstrap has a bug with toggle buttons. Their toggle state is lost when the
+            // button is hidden or shown. Show before anything else we need to store the toggle 
+            // and apply it whenever the user tab is clicked..
+            var areNotificationsActive = $('#user-notifications').hasClass('active');
+            
             $('.active').removeClass('active');
             $(this).addClass('active');
             $('.tab-content').hide();
@@ -134,6 +174,13 @@ var BackendSettings = {
             } else if ($(this).hasClass('user-tab')) {
                 $('#user').show();
                 BackendSettings.settings = new UserSettings();
+               
+                // Apply toggle state to user notifications button.
+                if (areNotificationsActive) {
+                    $('#user-notifications').addClass('active');
+                } else {
+                    $('#user-notifications').removeClass('active');   
+                }
             }
         });
         
@@ -145,6 +192,9 @@ var BackendSettings = {
         $('.save-settings').click(function() {
             var settings = BackendSettings.settings.get();
             BackendSettings.settings.save(settings);
+            //////////////////////////////////////////////
+            console.log('Settings To Save: ', settings);
+            //////////////////////////////////////////////
         });
         
         /**
@@ -152,7 +202,7 @@ var BackendSettings = {
          * 
          * Enable or disable the time selection for each day.
          */
-        $('.working-hours input[type="checkbox"]').click(function() {
+        $('.working-plan input[type="checkbox"]').click(function() {
             var id = $(this).attr('id');
             
             if ($(this).prop('checked') == true) {
@@ -195,8 +245,8 @@ var BackendSettings = {
             
             // Bind editable and event handlers.
             tr = $('#breaks tr').get()[1];
-            BackendSettings.breakDayEditable($(tr).find('.break-day'));
-            BackendSettings.breakTimeEditable($(tr).find('.break-start, .break-end'));
+            BackendSettings.editableBreakDay($(tr).find('.break-day'));
+            BackendSettings.editableBreakTime($(tr).find('.break-start, .break-end'));
             $(tr).find('.edit-break').trigger('click');
         });
         
@@ -252,6 +302,13 @@ var BackendSettings = {
          * Save the editable values and restore the table to its initial state.
          */
         $(document).on('click', '.save-break', function() {
+            // Break's start time must always be prior to break's end. 
+            var start = Date.parse($(this).parent().parent().find('.break-start input').val());
+            var end = Date.parse($(this).parent().parent().find('.break-end input').val());
+            if (start > end) {
+                $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
+            }
+            
             BackendSettings.enableSubmit = true;
             $(this).parent().parent().find('.editable .submit-editable').trigger('click');
             BackendSettings.enableSubmit = false;
@@ -266,7 +323,7 @@ var BackendSettings = {
      * 
      * @param {object} $selector The cells to be initialized.
      */
-    breakDayEditable: function($selector) {
+    editableBreakDay: function($selector) {
         $selector.editable(function(value, settings) {
             return value;
         }, {
@@ -293,7 +350,7 @@ var BackendSettings = {
      * 
      * @param {object} $selector The cells to be initialized.
      */        
-    breakTimeEditable: function($selector) {
+    editableBreakTime: function($selector) {
         $selector.editable(function(value, settings) {
             // Do not return the value because the user needs to press the "Save" button.
             return value;
@@ -362,13 +419,27 @@ SystemSettings.prototype.get = function() {
     
     // Business Logic Tab
     var workingPlan = {};
-    $('.working-hours input[type="checkbox"').each(function() {
+    $('.working-plan input[type="checkbox"').each(function() {
         var id = $(this).attr('id');
         if ($(this).prop('checked') == true) {
             workingPlan[id] = {}
             workingPlan[id].start = $('#' + id + '-start').val();
             workingPlan[id].end = $('#' + id + '-end').val();
-            workingPlan[id].breaks = {};
+            workingPlan[id].breaks = [];
+            
+            $('#breaks tr').each(function(index, tr) {
+                var day = $(tr).find('.break-day').text().toLowerCase();
+                if (day == id) {
+                    var start = $(tr).find('.break-start').text();
+                    var end = $(tr).find('.break-end').text();
+                    
+                    workingPlan[id].breaks.push({
+                        'start': start,
+                        'end': end
+                    });
+                    
+                }
+            });
             
         } else {
             workingPlan[id] = null;
@@ -378,6 +449,11 @@ SystemSettings.prototype.get = function() {
     settings.push({
         'name': 'company_working_plan',
         'value': JSON.stringify(workingPlan)
+    });
+    
+    settings.push({
+        'name': 'book_advance_timeout',
+        'value': $('#book-advance-timeout').val()
     });
     
     return settings;
@@ -390,7 +466,32 @@ SystemSettings.prototype.get = function() {
  * @returns {bool} Returns the validation result.
  */
 SystemSettings.prototype.validate = function() {
+    $('#general .required').css('border', '');
     
+    try {
+        // Validate required fields.
+        var missingRequired = false;
+        $('#general .required').each(function() {
+            if ($(this).val() == '' || $(this).val() == undefined) {
+                $(this).css('border', '2px solid red');
+                missingRequired = true;
+            }
+        });
+        if (missingRequired) {
+            throw 'Fields with * are  required.';
+        }
+        
+        // Validate company email address.
+        if (!GeneralFunctions.validateEmail($('#company-email').val())) {
+            $('#company-email').css('border', '2px solid red');
+            throw 'Invalid email address!';
+        }
+        
+        return true;
+    } catch(exc) {
+        Backend.displayNotification(exc);
+        return false;
+    }
 };
 
 /**
@@ -402,10 +503,33 @@ var UserSettings = function() {};
 /**
  * Get the settings data for the user settings.
  * 
- * @returns {array} Returns the user settings array.
+ * @returns {object} Returns the user settings array.
  */
 UserSettings.prototype.get = function() {
+    var user = {
+        'id': $('#user-id').val(),
+        'first_name': $('#first-name').val(),
+        'last_name': $('#last-name').val(),
+        'email': $('#email').val(),
+        'mobile_number': $('#mobile-number').val(),
+        'phone_number': $('#phone-number').val(),
+        'address': $('#address').val(),
+        'city': $('#city').val(),
+        'state': $('#state').val(),
+        'zip_code': $('#zip-code').val(),
+        'notes': $('#notes').val(),
+        'settings': {
+            'username': $('#username').val(),
+            'password': $('#password').val(),
+            'notifications': $('#user-notifications').hasClass('active')
+        }
+    };
     
+    if ($('#password').val() != '') {
+        user.settings.password = $('#password').val();
+    }
+    
+    return user;
 };
 
 /**
@@ -414,7 +538,27 @@ UserSettings.prototype.get = function() {
  * @param {array} settings Contains the user settings.
  */
 UserSettings.prototype.save = function(settings) {
+    if (!BackendSettings.settings.validate(settings)) {
+        Backend.displayNotification('User settings are invalid! Please review your settings '
+                + 'and try again.');
+        return; // Validation failed, do not procceed.
+    }
     
+    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_settings';
+    var postData = {
+        'type': BackendSettings.SETTINGS_USER,
+        'settings': JSON.stringify(settings)
+    };
+    
+    $.post(postUrl, postData, function(response) {
+        //////////////////////////////////////////////////////////
+        console.log('Save User Settings Response: ', response);
+        //////////////////////////////////////////////////////////
+        
+        if (!Backend.handleAjaxExceptions(response)) return;
+        Backend.displayNotification('Settings saved successfully!');
+        
+    }, 'json');
 };
 
 /**
@@ -424,5 +568,37 @@ UserSettings.prototype.save = function(settings) {
  * @returns {bool} Returns the validation result.
  */
 UserSettings.prototype.validate = function() {
-    
+    $('#user .required').css('border', '');
+    $('#user').find('#password, #retype-password').css('border', '');
+
+    try {
+        // Validate required fields.
+        var missingRequired = false;
+        $('#user .required').each(function() {
+            if ($(this).val() == '' || $(this).val() == undefined) {
+                $(this).css('border', '2px solid red');
+                missingRequired = true;
+            }
+        });
+        if (missingRequired) {
+            throw 'Fields with * are  required.';
+        }
+        
+        // Validate passwords (if provided).
+        if ($('#password').val() != $('#retype-password').val()) {
+            $('#password, #retype-password').css('border', '2px solid red');
+            throw 'Passwords mismatch!';
+        }
+        
+        // Validate user email.
+        if (!GeneralFunctions.validateEmail($('#email').val())) {
+            $('#email').css('border', '2px solid red');
+            throw 'Invalid email address!';
+        }
+        
+        return true;
+    } catch(exc) {
+        Backend.displayNotification(exc);
+        return false;
+    }
 };

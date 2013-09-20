@@ -384,12 +384,12 @@ body .modal-header h3 {
     cursor: pointer; 
 }
 
-#business-logic .working-hours td input[type="text"] {
+#business-logic .working-plan td input[type="text"] {
     margin-bottom: 0;
     cursor: pointer;
 }
 
-#business-logic .working-hours label.checkbox {
+#business-logic .working-plan label.checkbox {
     margin-top: 5px;
     margin-bottom: 0;
 }

@@ -1,6 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Backend extends CI_Controller {
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('session');
+    }
+    
     /**
      * Display the main backend page.
      * 
@@ -13,7 +18,8 @@ class Backend extends CI_Controller {
      * appear when the page loads.
      */
     public function index($appointment_hash = '') {
-        // @task Require user to be logged in the application.
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend');
+        if (!$this->hasPrivileges(PAGE_APPOINTMENTS)) return;
         
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
@@ -47,7 +53,8 @@ class Backend extends CI_Controller {
      * In this page the user can manage all the customer records of the system.
      */
     public function customers() {
-    	// @task Require user to be logged in the application.
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/customers');
+    	if (!$this->hasPrivileges(PAGE_CUSTOMERS)) return;
     	
         $this->load->model('providers_model');
         $this->load->model('customers_model');
@@ -75,7 +82,8 @@ class Backend extends CI_Controller {
      * from the backend services page. 
      */
     public function services() {
-        // @task Require user to be logged in the application.
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/services');
+        if (!$this->hasPrivileges(PAGE_SERVICES)) return;
         
         $this->load->model('customers_model');
         $this->load->model('services_model');
@@ -99,7 +107,8 @@ class Backend extends CI_Controller {
      * the page where the admin defines which service can each provider provide.
      */
     public function users() {
-        // @task Require user to be logged in the application.
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/users');
+        if (!$this->hasPrivileges(PAGE_USERS)) return;
         
         $this->load->model('providers_model');
         $this->load->model('secretaries_model');
@@ -127,6 +136,10 @@ class Backend extends CI_Controller {
      * installation (core settings like company name, book timeout etc). 
      */
     public function settings() {
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/settings');
+        if (!$this->hasPrivileges(PAGE_SYSTEM_SETTINGS)
+                && !$this->hasPrivileges(PAGE_USER_SETTINGS)) return;
+        
         $this->load->model('settings_model');
         $this->load->model('user_model');
         
@@ -147,6 +160,48 @@ class Backend extends CI_Controller {
         $this->load->view('backend/header', $view);
         $this->load->view('backend/settings', $view);
         $this->load->view('backend/footer', $view);
+    }
+    
+    /**
+     * Check whether current user is logged in and has the required privileges to 
+     * view a page. 
+     * 
+     * The backend page requires different privileges from the users to display pages. Not all
+     * pages are avaiable to all users. For example secretaries should not be able to edit the
+     * system users.
+     * 
+     * @see Constant Definition In application/config/constants.php
+     * 
+     * @param string $page This argument must match the roles field names of each section 
+     * (eg "appointments", "users" ...).
+     * @param bool $redirect (OPTIONAL - TRUE) If the user has not the required privileges
+     * (either not logged in or insufficient role privileges) then the user will be redirected  
+     * to another page. Set this argument to FALSE when using ajax.
+     * @return bool Returns whether the user has the required privileges to view the page or
+     * not. If the user is not logged in then he will be prompted to log in. If he hasn't the
+     * required privileges then an info message will be displayed.
+     */
+    private function hasPrivileges($page, $redirect = TRUE) {       
+        // Check if user is logged in.
+        $user_id = $this->session->userdata('user_id');
+        if ($user_id == FALSE) { // User not logged in, display the login view.
+            if ($redirect) {
+                header('Location: ' . $this->config->item('base_url') . 'user/login');
+            }
+            return FALSE;
+        }
+        
+        // Check if the user has the required privileges for viewing the selected page.
+        $role_slug = $this->session->userdata('role_slug');
+        $role_priv = $this->db->get_where('ea_roles', array('slug' => $role_slug))->row_array();
+        if ($role_priv[$page] < PRIV_VIEW) { // User does not have the permission to view the page.
+             if ($redirect) {
+                header('Location: ' . $this->config->item('base_url') . 'user/no_privileges');
+            }
+            return FALSE;
+        }
+        
+        return TRUE;
     }
 }
 

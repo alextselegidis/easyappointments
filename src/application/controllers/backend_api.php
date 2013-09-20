@@ -811,10 +811,8 @@ class Backend_api extends CI_Controller {
                 $settings = json_decode($_POST['settings'], true);
                 $this->settings_model->save_settings($settings);
             } else if ($_POST['type'] == SETTINGS_USER) {
-                $this->load->library('session');
                 $this->load->model('user_model');
-                $user_id = $this->session->userdata('user_id');
-                $this->user_model->save_settings($_POST['settings'], $user_id);
+                $this->user_model->save_settings(json_decode($_POST['settings'], true));
             }
             
             echo json_encode(AJAX_SUCCESS);

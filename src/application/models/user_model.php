@@ -18,22 +18,32 @@ class User_Model extends CI_Model {
      * @return array Returns an array with user settings.
      */
     public function get_settings($user_id) {
-        $settings = $this->db->get_where('ea_user_settings', array('id_users' => $user_id))->row_array();
-        unset($settings['id_users']);
-        return $settings;
+        $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
+        $user['settings'] = $this->db->get_where('ea_user_settings', array('id_users' => $user_id))->row_array();
+        unset($user['settings']['id_users']);
+        return $user;
     }
     
     /**
      * This method saves the user settings into the database.
      * 
-     * @param array $settings Contains the current users settings.
-     * @param numeric $user_id User record id of the settings.
+     * @param array $user Contains the current users settings.
      * @return bool Returns the operation result.
      */
-    public function save_settings($settings, $user_id) {
-        $settings['id_users'] = $user_id;
-        $this->db->where('id_users', $user_id);
-        return $this->db->update('ea_user_settings', $settings);
+    public function save_settings($user) {
+        $user_settings = $user['settings'];
+        $user_settings['id_users'] = $user['id'];
+        unset($user['settings']);
+        
+        if (!$this->db->update('ea_users', $user, array('id' => $user['id']))) {
+            return FALSE;
+        }
+        
+        if (!$this->db->update('ea_user_settings', $user_settings, array('id_users' => $user['id']))) {
+            return FALSE;
+        }
+        
+        return TRUE;
     }
 }
 
