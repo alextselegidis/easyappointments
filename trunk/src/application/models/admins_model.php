@@ -85,6 +85,8 @@ class Admins_Model extends CI_Model {
      * @throws Exception When the insert operation fails.
      */
     public function insert($admin) {
+        $this->load->helper('general');
+        
         $admin['id_roles'] = $this->get_admin_role_id();
         $settings = $admin['settings'];
         unset($admin['settings']);
@@ -97,6 +99,8 @@ class Admins_Model extends CI_Model {
         
         $admin['id'] = intval($this->db->insert_id());
         $settings['id_users'] = $admin['id'];
+        $settings['salt'] = generate_salt();
+        $settings['password'] = hash_password($settings['salt'], $settings['password']);
         
         // Insert admin settings. 
         if (!$this->db->insert('ea_user_settings', $settings)) {
@@ -117,9 +121,16 @@ class Admins_Model extends CI_Model {
      * @throws Exception When the update operation fails.
      */
     public function update($admin) {
+        $this->load->helper('general');
+        
         $settings = $admin['settings'];
         unset($admin['settings']);
         $settings['id_users'] = $admin['id'];
+        
+        if (isset($settings['password'])) {
+            $salt = $this->db->get_where('ea_user_settings', array('id_users' => $admin['id']))->row()->salt;
+            $settings['password'] = hash_password($salt, $settings['password']);
+        }
         
         $this->db->where('id', $admin['id']);
         if (!$this->db->update('ea_users', $admin)) {
@@ -191,6 +202,24 @@ class Admins_Model extends CI_Model {
             // Validate admin email address.
             if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
                 throw new Exception('Invalid email address provided : ' . $admin['email']);
+            }
+            
+            // Validate admin username 
+            if (isset($admin['settings']['username'])) {
+                $num_rows = $this->db->get_where('ea_user_settings', 
+                        array('username' => $admin['settings']['username']))->num_rows();
+                if ($num_rows > 0) {
+                    throw new Exception('Username already exists, please select another '
+                            . 'and try again (username: ' . $admin['settings']['username'] . ')');
+                }
+            }
+            
+            // Validate admin password
+            if (isset($admin['settings']['password'])) {
+                if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                    throw new Exception('The user password must be at least ' 
+                            . MIN_PASSWORD_LENGTH . ' characters long.');
+                }
             }
             
             return TRUE;
@@ -327,6 +356,22 @@ class Admins_Model extends CI_Model {
      */
     public function get_admin_role_id() {
         return intval($this->db->get_where('ea_roles', array('slug' => DB_SLUG_ADMIN))->row()->id);
+    }
+    
+    /**
+     * Validate Records Username 
+     * 
+     * @param string $username The provider records username.
+     * @param bool $record_exists Whether the record exists or not.
+     * @return bool Returns the validation result.
+     */
+    public function validate_username($username, $record_exists) {
+        $num_rows = $this->db->get_where('ea_user_settings', array('username' => $username))->num_rows();
+        if ($num_rows == 0 && $record_exists == FALSE || $num_rows == 1 && $record_exists == TRUE) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

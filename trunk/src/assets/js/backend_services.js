@@ -300,7 +300,7 @@ var BackendServices = {
             console.log('Update Available Categories Response:', response);
             ///////////////////////////////////////////////////////////////
             
-            if (!Backend.handleAjaxExceptions(response)) return;
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
             
             GlobalVariables.categories = response;
             var $select = $('#service-category');
@@ -334,7 +334,7 @@ ServicesHelper.prototype.save = function(service) {
     
     $.post(postUrl, postData, function(response) {
         console.log('Save Service Response:', response);
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         Backend.displayNotification('Service saved successfully!');
         BackendServices.helper.resetForm();
@@ -356,7 +356,7 @@ ServicesHelper.prototype.delete = function(id) {
         console.log('Delete service response:', response);
         ////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         Backend.displayNotification('Service deleted successfully!');
         
@@ -439,7 +439,7 @@ ServicesHelper.prototype.filter = function(key) {
         console.log('Filter services response:', response);
         /////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendServices.helper.filterResults = response;
         $('#services .filter-results').html('');
@@ -492,7 +492,7 @@ CategoriesHelper.prototype.filter = function(key) {
         console.log('Filter Categories Response:', response);
         ///////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         BackendServices.helper.filterResults = response;
         $('#categories .filter-results').html('');
@@ -518,7 +518,7 @@ CategoriesHelper.prototype.save = function(category) {
         console.log('Save Service Category Response:', response);
         ///////////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         Backend.displayNotification('Service saved successfully!');
         BackendServices.helper.resetForm();
@@ -541,7 +541,7 @@ CategoriesHelper.prototype.delete = function(id) {
         console.log('Delete category response:', response);
         ////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         Backend.displayNotification('Category deleted successfully!');
         

@@ -703,6 +703,13 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('providers_model');
             $provider = json_decode($_POST['provider'], true);
+            
+            if (!isset($provider['working_plan'])) {
+                $this->load->model('settings_model');
+                $provider['settings']['working_plan'] = $this->settings_model
+                        ->get_setting('company_working_plan');
+            }
+            
             $this->providers_model->add($provider);
             echo json_encode(AJAX_SUCCESS);
         } catch(Exception $exc) {
@@ -816,6 +823,26 @@ class Backend_api extends CI_Controller {
             }
             
             echo json_encode(AJAX_SUCCESS);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * [AJAX] This method checks whether the username already exists in the database. 
+     * 
+     * @param string $_POST['username'] Record's username to validate.
+     * @param bool $_POST['record_exists'] Whether the record already exists in database.
+     */
+    public function ajax_validate_username() {
+        try {
+            // We will use the function in the admins_model because it is sufficient for 
+            // the rest user types for now (providers, secretaries).
+            $this->load->model('admins_model');
+            $is_valid = $this->admins_model->validate_username($_POST['username'], $_POST['record_exists']);
+            echo json_encode($is_valid);
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))

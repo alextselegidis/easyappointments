@@ -7,6 +7,14 @@
  */
 var GeneralFunctions = {
     /**
+     * General Functions Constants
+     */
+    EXCEPTIONS_TITLE: 'Unexpected Issues',
+    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
+    WARNINGS_TITLE: 'Unexpected Warnings',
+    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    
+    /**
      * This functions displays a message box in
      * the admin array. It is usefull when user
      * decisions or verifications are needed.
@@ -234,5 +242,31 @@ var GeneralFunctions = {
      */
     ucaseFirstLetter: function(str){
         return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+            
+    /**
+     * All backend js code has the same way of dislaying exceptions that are raised on the
+     * server during an ajax call. 
+     * 
+     * @param {object} response Contains the server response. If exceptions or warnings are 
+     * found, user friendly messages are going to be displayed to the user.
+     * @returns {bool} Returns whether the the ajax callback should continue the execution or
+     * stop, due to critical server exceptions.
+     */
+    handleAjaxExceptions: function(response) {
+        if (response.exceptions) {
+            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+            GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
+            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+            return false;
+        }
+
+        if (response.warnings) {
+            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+            GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
+            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+        }
+        
+        return true;
     }
 };

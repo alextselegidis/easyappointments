@@ -29,13 +29,38 @@ function date3339($timestamp=0) {
  * Generate a hash of password string.
  * 
  * For user security, all system passwords are stored in hash string into the database. Use
- * this method to produce the hash.
+ * this method to produce the hashed password. 
  * 
+ * @param string $salt Salt value for current user. This value is stored on the database and 
+ * is used when generating the password hash.
  * @param string $password Given string password.
  * @return string Returns the hash string of the given password.
  */
-function hash_password($password) {
-    return md5($password); // @task include salt and hash more times.
+function hash_password($salt, $password) {
+    $salt = strtoupper($salt);
+    $password = strtoupper($password);
+    $half = (int)(strlen($salt) / 2);
+    $hash = hash('sha256', substr($salt, 0, $half ) . $password . substr($salt, $half));
+    
+    for ($i = 0; $i < 100000; $i++) {
+        $hash = hash('sha256', $hash);
+    } 
+    
+    return $hash; // @task include salt and hash more times.
+}
+
+/**
+ * Generate a new password salt.
+ * 
+ * This method will not check if the salt is unique in database. This must be done 
+ * from the calling procedure.
+ * 
+ * @return string Returns a salt string.
+ */
+function generate_salt() {
+    $max_length = 100;
+    $salt = hash('sha256', (uniqid(rand(), true)));
+    return substr($salt, 0, $max_length);
 }
 
 /* End of file general_helper.php */

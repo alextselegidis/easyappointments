@@ -86,6 +86,8 @@ class Secretaries_Model extends CI_Model {
      * @throws Exception When the insert operation fails.
      */
     public function insert($secretary) {
+        $this->load->helper('general');
+        
         $providers = $secretary['providers'];
         unset($secretary['providers']);
         $settings = $secretary['settings'];
@@ -98,6 +100,8 @@ class Secretaries_Model extends CI_Model {
         }
         
         $secretary['id'] = intval($this->db->insert_id());
+        $settings['salt'] = generate_salt();
+        $settings['password'] = hash_password($settings['salt'], $settings['password']);
         
         $this->save_providers($providers, $secretary['id']);
         $this->save_settings($settings, $secretary['id']);
@@ -113,10 +117,17 @@ class Secretaries_Model extends CI_Model {
      * @throws Exception When the update operation fails.
      */
     public function update($secretary) {
+        $this->load->helper('general');
+        
         $providers = $secretary['providers'];
         unset($secretary['providers']);
         $settings = $secretary['settings'];
         unset($secretary['settings']); 
+        
+        if (isset($settings['password'])) {
+            $salt = $this->db->get_where('ea_user_settings', array('id_users' => $secretary['id']))->row()->salt;
+            $settings['password'] = hash_password($salt, $settings['password']);
+        }
         
         $this->db->where('id', $secretary['id']);
         if (!$this->db->update('ea_users', $secretary)){
@@ -191,6 +202,24 @@ class Secretaries_Model extends CI_Model {
             // Validate secretary email address.
             if (!filter_var($secretary['email'], FILTER_VALIDATE_EMAIL)) {
                 throw new Exception('Invalid email address provided : ' . $secretary['email']);
+            }
+            
+            // Validate admin username 
+            if (isset($secretary['settings']['username'])) {
+                $num_rows = $this->db->get_where('ea_user_settings', 
+                        array('username' => $secretary['settings']['username']))->num_rows();
+                if ($num_rows > 0) {
+                    throw new Exception('Username already exists, please select another '
+                            . 'and try again (username: ' . $secretary['settings']['username'] . ')');
+                }
+            }
+            
+            // Validate admin password
+            if (isset($secretary['settings']['password'])) {
+                if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                    throw new Exception('The user password must be at least ' 
+                            . MIN_PASSWORD_LENGTH . ' characters long.');
+                }
             }
             
             return TRUE;

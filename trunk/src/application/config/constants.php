@@ -70,5 +70,7 @@ define('PAGE_SERVICES', 'services');
 define('PAGE_USERS', 'users');
 define('PAGE_SYSTEM_SETTINGS', 'system_settings');
 define('PAGE_USER_SETTINGS', 'user_settings');
+
+define('MIN_PASSWORD_LENGTH', 7);
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
