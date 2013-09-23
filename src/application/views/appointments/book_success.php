@@ -149,7 +149,7 @@
                                             'Your appointment has successfully been added to ' +
                                             'your Google Calendar account. <br>' + 
                                             '<a href="' + response.htmlLink + '">' + 
-                                                'Click here to view your appoinmtent on Google ' +
+                                                'Click here to view your appointment on Google ' +
                                                 'Calendar.' +
                                             '</a>' + 
                                         '</p>' +

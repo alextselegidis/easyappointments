@@ -60,11 +60,13 @@
         }
     </style>
     
-    <script>
+    <script type="text/javascript">
         $(document).ready(function() {
             var GlobalVariables = {
                 'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
-                'destUrl': <?php echo '"' . $dest_url . '"'; ?>
+                'destUrl': <?php echo '"' . $dest_url . '"'; ?>,
+                'AJAX_SUCCESS': 'SUCCESS',
+                'AJAX_FAILURE': 'FAILURE'
             };
             
             /**
@@ -73,37 +75,43 @@
              * Make an ajax call to the server and check whether the user's credentials are right. 
              * If yes then redirect him to his desired page, otherwise display a message.
              */
-            $('#login').click(function() {
-                var postUrl = GlobalVariables.baseUrl . 'user/ajax_check_login';
+            $('#login-form').submit(function() {
+                event.preventDefault(); 
+                
+                var postUrl = GlobalVariables.baseUrl + 'user/ajax_check_login';
                 var postData = {
                     'username': $('#username').val(),
                     'password': $('#password').val()
                 };
                 
+                $('.alert').addClass('hidden');
+        
                 $.post(postUrl, postData, function(response) {
                     //////////////////////////////////////////////////
                     console.log('Check Login Response: ', response);
                     //////////////////////////////////////////////////
                     
-                    if (response == true) {
-                        location(GlobalVariables.destUrl);
+                    if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                    
+                    if (response == GlobalVariables.AJAX_SUCCESS) {
+                        window.location.href = GlobalVariables.destUrl;
                     } else {
                         $('.alert').text('Login failed, please enter the correct credentials '
                             + 'and try again.');
                         $('.alert').removeClass('hidden');
                     }
-                });
+                }, 'json');
             });
         });
     </script>
 </head>
 <body>
     <div id="login-frame" class="frame-container">
-        <h2>Login Required</h2>
-        <p>Welcome! You will need to login in order to view this page.</p>  
+        <h2>Backend Section</h2>
+        <p>Welcome! You will need to login in order to view backend pages.</p>  
         <hr>
         <div class="alert hidden"></div>  
-        <form>
+        <form id="login-form">
             <label for="username">Username</label>
             <input type="text" id="username" placeholder="Enter your username here ..." />
             
@@ -112,7 +120,7 @@
             
             <br><br>
             
-            <button type="button" id="login" class="btn btn-primary btn-large">Login</button> 
+            <button type="submit" id="login" class="btn btn-primary btn-large">Login</button> 
             
             <a href="<?php echo $base_url; ?>user/forgot_password" class="forgot-password">Forgot Your Password?</a>
         </form>

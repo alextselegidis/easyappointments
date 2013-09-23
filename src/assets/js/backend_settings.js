@@ -394,7 +394,7 @@ SystemSettings.prototype.save = function(settings) {
         console.log('Save General Settings Response:', response);
         ///////////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
        
         Backend.displayNotification('Settings saved successfully!');
     }, 'json');
@@ -520,7 +520,6 @@ UserSettings.prototype.get = function() {
         'notes': $('#notes').val(),
         'settings': {
             'username': $('#username').val(),
-            'password': $('#password').val(),
             'notifications': $('#user-notifications').hasClass('active')
         }
     };
@@ -555,7 +554,7 @@ UserSettings.prototype.save = function(settings) {
         console.log('Save User Settings Response: ', response);
         //////////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Settings saved successfully!');
         
     }, 'json');

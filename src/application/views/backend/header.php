@@ -103,7 +103,7 @@
         
         <?php // LOGOUT MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/logout" class="menu-item">
+        <a href="<?php echo $base_url; ?>user/logout" class="menu-item">
             Logout
         </a>
         

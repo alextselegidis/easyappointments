@@ -2,9 +2,12 @@
  * This namespace handles the js functionality of the users backend page. It uses three other
  * classes (defined below) in order to handle the admin, provider and secretary record types. 
  * 
- * @namespace BackendUsers.
+ * @namespace BackendUsers
  */
 var BackendUsers = {
+    MIN_PASSWORD_LENGTH: 7, 
+    
+    
     /**
      * Contains the current tab record methods for the page.
      * 
@@ -76,7 +79,7 @@ var BackendUsers = {
                     console.log('Get all db providers response:', response);
                     //////////////////////////////////////////////////////////
                     
-                    if (!Backend.handleAjaxExceptions(response)) return;
+                    if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                     
                     GlobalVariables.providers = response;
                     
@@ -93,6 +96,26 @@ var BackendUsers = {
             BackendUsers.helper.resetForm();
             BackendUsers.helper.filter('');
             $('.filter-key').val('');
+        });
+        
+        $('#admin-username').focusout(function() {
+            // Validate username. 
+            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
+            var postData = { 
+                'username': $('#admin-username').val(), 
+                'record_exists': ($('#admin-id').val() != '') ? true : false
+            };
+            $.post(postUrl, postData, function(response) {
+                ///////////////////////////////////////////////////////
+                console.log('Validate Username Response:', response);
+                ///////////////////////////////////////////////////////
+                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                if (!response) {
+                    $('#admin-username').css('border', '2px solid red');
+                    $('#admins .form-message').text('Username already exists.');
+                    $('#admins .form-message').show();
+                }
+            }, 'json');
         });
         
         /**
@@ -113,8 +136,8 @@ var BackendUsers = {
          * Display the selected admin data to the user.
          */
         $(document).on('click', '.admin-row', function() {
-            if ($('#admin .filter-admins').prop('disabled')) {
-                $('#admin .filter-results').css('color', '#AAA');
+            if ($('#admins .filter-admins').prop('disabled')) {
+                $('#admins .filter-results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
             }
             
@@ -243,8 +266,8 @@ var BackendUsers = {
          * Display the selected provider data to the user.
          */
         $(document).on('click', '.provider-row', function() {
-            if ($('#provider .filter-providers').prop('disabled')) {
-                $('#provider .filter-results').css('color', '#AAA');
+            if ($('#providers .filter-providers').prop('disabled')) {
+                $('#providers .filter-results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
             }
             
@@ -383,8 +406,8 @@ var BackendUsers = {
          * Display the selected secretary data to the user.
          */
         $(document).on('click', '.secretary-row', function() {
-            if ($('#secretary .filter-secretaries').prop('disabled')) {
-                $('#secretary .filter-results').css('color', '#AAA');
+            if ($('#secretaries .filter-secretaries').prop('disabled')) {
+                $('#secretaries .filter-results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
             }
             
@@ -522,9 +545,9 @@ var AdminsHelper = function() {
  * then the update operation is going to be executed.
  */
 AdminsHelper.prototype.save = function(admin) {
-    //////////////////////////////////////////
+    ////////////////////////////////////////////
     console.log('Admin data to save:', admin);
-    //////////////////////////////////////////
+    ////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_admin';
     var postData = { 'admin': JSON.stringify(admin) };
@@ -533,7 +556,7 @@ AdminsHelper.prototype.save = function(admin) {
         ////////////////////////////////////////////////
         console.log('Save Admin Response:', response);
         ////////////////////////////////////////////////
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Admin saved successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#admins .filter-key').val());
@@ -550,10 +573,10 @@ AdminsHelper.prototype.delete = function(id) {
     var postData = { 'admin_id': id };
     
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
+        //////////////////////////////////////////////////
         console.log('Delete admin response:', response);
-        ////////////////////////////////////////////////////
-        if (!Backend.handleAjaxExceptions(response)) return;
+        //////////////////////////////////////////////////
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Admin deleted successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#admins .filter-key').val());
@@ -587,6 +610,12 @@ AdminsHelper.prototype.validate = function(admin) {
         if ($('#admin-password').val() != $('#admin-password-confirm').val()) {
             $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
             throw 'Passwords mismatch!';
+        }
+        
+        if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH) {
+            $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
+            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
+                    + ' characters long.';
         }
         
         // Validate user email.
@@ -657,11 +686,11 @@ AdminsHelper.prototype.filter = function(key) {
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {
-        /////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         console.log('Filter admins response:', response);
-        /////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         BackendUsers.helper.filterResults = response;
         
@@ -705,18 +734,18 @@ var ProvidersHelper = function() {
  * then the update operation is going to be executed.
  */
 ProvidersHelper.prototype.save = function(provider) {
-    //////////////////////////////////////////
+    //////////////////////////////////////////////////
     console.log('Provider data to save:', provider);
-    //////////////////////////////////////////
+    //////////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_provider';
     var postData = { 'provider': JSON.stringify(provider) };
     
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////
+        ///////////////////////////////////////////////////
         console.log('Save Provider Response:', response);
-        ////////////////////////////////////////////////
-        if (!Backend.handleAjaxExceptions(response)) return;
+        ///////////////////////////////////////////////////
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Provider saved successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#providers .filter-key').val());
@@ -733,10 +762,10 @@ ProvidersHelper.prototype.delete = function(id) {
     var postData = { 'provider_id': id };
     
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////
         console.log('Delete provider response:', response);
-        ////////////////////////////////////////////////////
-        if (!Backend.handleAjaxExceptions(response)) return;
+        /////////////////////////////////////////////////////
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Provider deleted successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#providers .filter-key').val());
@@ -772,11 +801,33 @@ ProvidersHelper.prototype.validate = function(provider) {
             throw 'Passwords mismatch!';
         }
         
+        if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH) {
+            $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
+            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
+                    + ' characters long.';
+        }
+        
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
             $('#provider-email').css('border', '2px solid red');
             throw 'Invalid email address!';
         }
+        
+         // Validate username. 
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
+        var postData = { 
+            'username': $('#provider-username').val(), 
+            'record_exists': ($('#provider-id').val() != '') ? true : false
+        };
+        $.post(postUrl, postData, function(response) {
+            ///////////////////////////////////////////////////////
+            console.log('Validate Username Response:', response);
+            ///////////////////////////////////////////////////////
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+            if (!response) {
+                throw('Username already exists, please enter another one and try again.');
+            }
+        });
         
         return true;
     } catch(exc) {
@@ -851,11 +902,11 @@ ProvidersHelper.prototype.filter = function(key) {
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {
-        /////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////
         console.log('Filter providers response:', response);
-        /////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         BackendUsers.helper.filterResults = response;
         
@@ -899,18 +950,18 @@ var SecretariesHelper = function() {
  * then the update operation is going to be executed.
  */
 SecretariesHelper.prototype.save = function(secretary) {
-    //////////////////////////////////////////
+    ////////////////////////////////////////////////////
     console.log('Secretary data to save:', secretary);
-    //////////////////////////////////////////
+    ////////////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_secretary';
     var postData = { 'secretary': JSON.stringify(secretary) };
     
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
         console.log('Save Secretary Response:', response);
-        ////////////////////////////////////////////////
-        if (!Backend.handleAjaxExceptions(response)) return;
+        ////////////////////////////////////////////////////
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Secretary saved successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#secretaries .filter-key').val());
@@ -927,10 +978,10 @@ SecretariesHelper.prototype.delete = function(id) {
     var postData = { 'secretary_id': id };
     
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////
         console.log('Delete secretary response:', response);
-        ////////////////////////////////////////////////////
-        if (!Backend.handleAjaxExceptions(response)) return;
+        //////////////////////////////////////////////////////
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Secretary deleted successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#secretaries .filter-key').val());
@@ -966,11 +1017,33 @@ SecretariesHelper.prototype.validate = function(secretary) {
             throw 'Passwords mismatch!';
         }
         
+        if ($('#secretary-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH) {
+            $('#secretary-password, #secretary-password-confirm').css('border', '2px solid red');
+            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
+                    + ' characters long.';
+        }
+        
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
             $('#secretary-email').css('border', '2px solid red');
             throw 'Invalid email address!';
         }
+        
+         // Validate username. 
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
+        var postData = { 
+            'username': $('#secretary-username').val(), 
+            'record_exists': ($('#secretary-id').val() != '') ? true : false
+        };
+        $.post(postUrl, postData, function(response) {
+            ///////////////////////////////////////////////////////
+            console.log('Validate Username Response:', response);
+            ///////////////////////////////////////////////////////
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+            if (!response) {
+                throw('Username already exists, please enter another one and try again.');
+            }
+        });
         
         return true;
     } catch(exc) {
@@ -1045,11 +1118,11 @@ SecretariesHelper.prototype.filter = function(key) {
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {
-        /////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
         console.log('Filter secretaries response:', response);
-        /////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
         
-        if (!Backend.handleAjaxExceptions(response)) return;
+        if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
         BackendUsers.helper.filterResults = response;
         

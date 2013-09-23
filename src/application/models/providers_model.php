@@ -98,6 +98,8 @@ class Providers_Model extends CI_Model {
      * @throws Exception When the insert operation fails.
      */
     public function insert($provider) {
+        $this->load->helper('general');
+        
         // Get provider role id. 
         $provider['id_roles'] = $this->get_providers_role_id();
         
@@ -111,6 +113,9 @@ class Providers_Model extends CI_Model {
         if (!$this->db->insert('ea_users', $provider)) {
             throw new Exception('Could not insert provider into the database');
         }
+        
+        $settings['salt'] = generate_salt();
+        $settings['password'] = hash_password($settings['salt'], $settings['password']);
         
         $provider['id'] = $this->db->insert_id();
         $this->save_settings($settings, $provider['id']);
@@ -128,11 +133,18 @@ class Providers_Model extends CI_Model {
      * @throws Exception When the update operation fails.
      */
     public function update($provider) {
+        $this->load->helper('general');
+        
         // Store service and settings (must not be present on the $provider array).
         $services = $provider['services'];
         unset($provider['services']);
         $settings = $provider['settings'];
         unset($provider['settings']);
+        
+        if (isset($settings['password'])) {
+            $salt = $this->db->get_where('ea_user_settings', array('id_users' => $provider['id']))->row()->salt;
+            $settings['password'] = hash_password($salt, $settings['password']);
+        }
         
         // Update provider record.
         $this->db->where('id', $provider['id']);
@@ -222,6 +234,24 @@ class Providers_Model extends CI_Model {
             if (!isset($provider['settings']) || count($provider['settings']) == 0
                     || !is_array($provider['settings'])) {
                 throw new Exception('Invalid provider settings given: ' . print_r($provider, TRUE));
+            }
+            
+            // Validate admin username 
+            if (isset($provider['settings']['username'])) {
+                $num_rows = $this->db->get_where('ea_user_settings', 
+                        array('username' => $provider['settings']['username']))->num_rows();
+                if ($num_rows > 0) {
+                    throw new Exception('Username already exists, please select another '
+                            . 'and try again (username: ' . $provider['settings']['username'] . ')');
+                }
+            }
+            
+            // Validate admin password
+            if (isset($provider['settings']['password'])) {
+                if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                    throw new Exception('The user password must be at least ' 
+                            . MIN_PASSWORD_LENGTH . ' characters long.');
+                }
             }
             
             return TRUE;

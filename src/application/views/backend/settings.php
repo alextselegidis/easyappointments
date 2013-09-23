@@ -8,7 +8,7 @@
 <script type="text/javascript">    
     var GlobalVariables = {
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
-        'userSlug': <?php echo '"' . $user_slug . '"'; ?>,
+        'userSlug': <?php echo '"' . $role_slug . '"'; ?>,
         'settings': {
             'system': <?php echo json_encode($system_settings); ?>,
             'user': <?php echo json_encode($user_settings); ?>

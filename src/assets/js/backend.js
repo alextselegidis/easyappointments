@@ -25,10 +25,6 @@ var Backend = {
     /**
      * Backend Constants
      */
-    EXCEPTIONS_TITLE: 'Unexpected Issues',
-    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
-    WARNINGS_TITLE: 'Unexpected Warnings',
-    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
     DB_SLUG_ADMIN: 'admin',
     DB_SLUG_PROVIDER: 'provider',
     DB_SLUG_SECRETARY: 'secretary',
@@ -91,31 +87,5 @@ var Backend = {
         
         $('#notification').html(notificationHtml);
         $('#notification').show('blind');
-    },
-            
-    /**
-     * All backend js code has the same way of dislaying exceptions that are raised on the
-     * server during an ajax call. 
-     * 
-     * @param {object} response Contains the server response. If exceptions or warnings are 
-     * found, user friendly messages are going to be displayed to the user.
-     * @returns {bool} Returns whether the the ajax callback should continue the execution or
-     * stop, due to critical server exceptions.
-     */
-    handleAjaxExceptions: function(response) {
-        if (response.exceptions) {
-            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-            GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
-            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-            return false;
-        }
-
-        if (response.warnings) {
-            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-            GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
-            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-        }
-        
-        return true;
     }
 };
