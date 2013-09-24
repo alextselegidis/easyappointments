@@ -122,6 +122,7 @@ class Backend extends CI_Controller {
         $view['providers'] = $this->providers_model->get_batch();
         $view['secretaries'] = $this->secretaries_model->get_batch();
         $view['services'] = $this->services_model->get_batch(); 
+        $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
         
         $this->load->view('backend/header', $view);
         $this->load->view('backend/users', $view);

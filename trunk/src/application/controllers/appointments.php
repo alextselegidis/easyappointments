@@ -137,7 +137,10 @@ class Appointments extends CI_Controller {
                 // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
                 try {
                     $this->load->library('Notifications');
-
+                    
+                    $send_provider = $this->providers_model
+                            ->get_setting('notifications', $provider['id']);
+                    
                     if (!$post_data['manage_mode']) {
                         $customer_title = 'Your appointment has been successfully booked!';
                         $customer_message = 'Thank you for arranging an appointment with us. '   
@@ -166,10 +169,12 @@ class Appointments extends CI_Controller {
                     $this->notifications->send_appointment_details($appointment, $provider, 
                             $service, $customer,$company_settings, $customer_title, 
                             $customer_message, $customer_link, $customer['email']);
-
-                    $this->notifications->send_appointment_details($appointment, $provider, 
-                            $service, $customer, $company_settings, $provider_title, 
-                            $provider_message, $provider_link, $provider['email']);
+                    
+                    if ($send_provider == TRUE) {
+                        $this->notifications->send_appointment_details($appointment, $provider, 
+                                $service, $customer, $company_settings, $provider_title, 
+                                $provider_message, $provider_link, $provider['email']);
+                    }
                 } catch(Exception $exc) {
                     $view['exceptions'][] = $exc;
                 }
@@ -254,9 +259,16 @@ class Appointments extends CI_Controller {
             // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER            
             try {
                 $this->load->library('Notifications');
-                $this->notifications->send_delete_appointment($appointment, $provider, 
-                        $service, $customer, $company_settings, $provider['email'],
-                        $_POST['cancel_reason']);
+                
+                $send_provider = $this->providers_model
+                            ->get_setting('notifications', $provider['id']);
+                
+                if ($send_provider == TRUE) {
+                    $this->notifications->send_delete_appointment($appointment, $provider, 
+                            $service, $customer, $company_settings, $provider['email'],
+                            $_POST['cancel_reason']);
+                }
+                
                 $this->notifications->send_delete_appointment($appointment, $provider,
                         $service, $customer, $company_settings, $customer['email'],
                         $_POST['cancel_reason']);
@@ -267,6 +279,8 @@ class Appointments extends CI_Controller {
             // Display the error message to the customer.
             $exceptions[] = $exc;
         }
+        
+        $view = array();
         
         if (isset($exceptions)) {
             $view['exceptions'] = $exceptions;

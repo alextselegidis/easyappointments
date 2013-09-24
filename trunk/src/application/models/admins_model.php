@@ -204,16 +204,6 @@ class Admins_Model extends CI_Model {
                 throw new Exception('Invalid email address provided : ' . $admin['email']);
             }
             
-            // Validate admin username 
-            if (isset($admin['settings']['username'])) {
-                $num_rows = $this->db->get_where('ea_user_settings', 
-                        array('username' => $admin['settings']['username']))->num_rows();
-                if ($num_rows > 0) {
-                    throw new Exception('Username already exists, please select another '
-                            . 'and try again (username: ' . $admin['settings']['username'] . ')');
-                }
-            }
-            
             // Validate admin password
             if (isset($admin['settings']['password'])) {
                 if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH) {
@@ -367,10 +357,10 @@ class Admins_Model extends CI_Model {
      */
     public function validate_username($username, $record_exists) {
         $num_rows = $this->db->get_where('ea_user_settings', array('username' => $username))->num_rows();
-        if ($num_rows == 0 && $record_exists == FALSE || $num_rows == 1 && $record_exists == TRUE) {
-            return true;
+        if (($num_rows == 0 && $record_exists == FALSE) || ($num_rows == 1 && $record_exists == TRUE)) {
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     }
 }

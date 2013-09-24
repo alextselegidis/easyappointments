@@ -60,6 +60,13 @@
                 <input type="text" id="company-link" data-field="company_link">
                 <span class="help-block">Company link should point to the official website of 
                     the company (optional).</span>
+                
+                <br><br>
+                
+                <a href="<?php echo $this->config->base_url(); ?>" class="btn btn-primary btn-large">
+                    <i class="icon-calendar icon-white"></i>
+                    Visit Book Appointment Page
+                </a>
             </fieldset>
         </form>
     </div>
@@ -230,7 +237,7 @@
                 <input type="text" id="zip-code" class="span9" />
                 
                 <label for="notes">Notes</label>
-                <textarea id="notes" class="span9"></textarea>
+                <textarea id="notes" class="span9" rows="3"></textarea>
             </fieldset>
             
             <fieldset class="span5">
