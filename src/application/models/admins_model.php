@@ -357,10 +357,11 @@ class Admins_Model extends CI_Model {
      */
     public function validate_username($username, $record_exists) {
         $num_rows = $this->db->get_where('ea_user_settings', array('username' => $username))->num_rows();
-        if (($num_rows == 0 && $record_exists == FALSE) || ($num_rows == 1 && $record_exists == TRUE)) {
-            return TRUE;
+        if (($num_rows == 0 && $record_exists == FALSE) || ($num_rows == 1 && $record_exists == TRUE) 
+                || ($num_rows == 0 && $record_exists == TRUE)) {
+            return TRUE; // valid
         } else {
-            return FALSE;
+            return FALSE; // not valid
         }
     }
 }

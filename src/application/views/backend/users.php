@@ -1,5 +1,13 @@
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/backend_users.js"></script>
+        
+<script type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/backend_users_admins.js"></script>
+<script type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/backend_users_providers.js"></script>
+<script type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/backend_users_secretaries.js"></script>
+        
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" 
