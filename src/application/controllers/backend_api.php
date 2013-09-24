@@ -141,7 +141,10 @@ class Backend_api extends CI_Controller {
             // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
             try {
                 $this->load->library('Notifications');
-
+                
+                $send_provider = $this->providers_model
+                            ->get_setting('notifications', $provider['id']);
+                
                 if (!$manage_mode) {
                     $customer_title = 'Your appointment has been successfully booked!';
                     $customer_message = 'Thank you for arranging an appointment with us. '   
@@ -171,9 +174,11 @@ class Backend_api extends CI_Controller {
                         $service, $customer, $company_settings, $customer_title, 
                         $customer_message, $customer_link, $customer['email']);
 
-                $this->notifications->send_appointment_details($appointment, $provider,
-                        $service, $customer, $company_settings, $provider_title, 
-                        $provider_message, $provider_link, $provider['email']);
+                if ($send_provider == TRUE) {
+                    $this->notifications->send_appointment_details($appointment, $provider,
+                            $service, $customer, $company_settings, $provider_title, 
+                            $provider_message, $provider_link, $provider['email']);
+                }
                 
             } catch(Exception $exc) {
                 $warnings[] = exceptionToJavaScript($exc);
@@ -250,9 +255,16 @@ class Backend_api extends CI_Controller {
             // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER
             try {
                 $this->load->library('Notifications');
-                $this->notifications->send_delete_appointment($appointment, $provider, 
-                        $service, $customer, $company_settings, $provider['email'],
-                        $_POST['delete_reason']);
+                
+                $send_provider = $this->providers_model
+                            ->get_setting('notifications', $provider['id']);
+                
+                if ($send_provider == TRUE) {
+                    $this->notifications->send_delete_appointment($appointment, $provider, 
+                            $service, $customer, $company_settings, $provider['email'],
+                            $_POST['delete_reason']);
+                }
+                
                 $this->notifications->send_delete_appointment($appointment, $provider,
                         $service, $customer, $company_settings, $customer['email'],
                         $_POST['delete_reason']);
@@ -704,7 +716,7 @@ class Backend_api extends CI_Controller {
             $this->load->model('providers_model');
             $provider = json_decode($_POST['provider'], true);
             
-            if (!isset($provider['working_plan'])) {
+            if (!isset($provider['settings']['working_plan'])) {
                 $this->load->model('settings_model');
                 $provider['settings']['working_plan'] = $this->settings_model
                         ->get_setting('company_working_plan');

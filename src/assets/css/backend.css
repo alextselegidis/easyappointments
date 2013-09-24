@@ -184,6 +184,7 @@ body .modal-header h3 {
 #calendar table thead .fc-first th {
     vertical-align: middle;
     padding: 2px 0;
+    color: #555;
 }
 
 #manage-appointment {
@@ -369,6 +370,48 @@ body .modal-header h3 {
     padding: 7px;
 }
 
+#users-page #providers .switch-view {
+    overflow: auto;
+    margin-bottom: 5px;
+}
+
+#users-page #providers .switch-view div {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 4px;
+    color: #333;
+    float: left;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+#users-page #providers .switch-view div:hover:not(.current) {
+    background: #F5F5F5;
+}
+
+#users-page #providers .switch-view .current {
+    color: #FFF;
+background: #95E4A8;
+}
+
+#users-page #providers .details-view,
+#users-page #providers .working-plan-view {
+    clear: both;
+}
+
+#users-page .btn-toolbar {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+#users-page #providers .form-message {
+    clear: both;
+}
+
+#users-page #providers #breaks .btn {
+margin-right: 5px;
+padding: 4px 7px;
+}
 
 /* BACKEND SETTINGS PAGE
    -------------------------------------------------------------------- */

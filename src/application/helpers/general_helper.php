@@ -37,8 +37,6 @@ function date3339($timestamp=0) {
  * @return string Returns the hash string of the given password.
  */
 function hash_password($salt, $password) {
-    $salt = strtoupper($salt);
-    $password = strtoupper($password);
     $half = (int)(strlen($salt) / 2);
     $hash = hash('sha256', substr($salt, 0, $half ) . $password . substr($salt, $half));
     

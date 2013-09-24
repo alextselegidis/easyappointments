@@ -7,6 +7,21 @@
 var BackendUsers = {
     MIN_PASSWORD_LENGTH: 7, 
     
+    /**
+     * This flag is used when trying to cancel row editing. It is
+     * true only whenever the user presses the cancel button.
+     * 
+     * @type {bool}
+     */
+    enableCancel: false,
+            
+    /**
+     * This flag determines whether the jeditables are allowed to submit. It is  
+     * true only whenever the user presses the save button.
+     * 
+     * @type {bool}
+     */
+    enableSubmit: false,
     
     /**
      * Contains the current tab record methods for the page.
@@ -98,25 +113,44 @@ var BackendUsers = {
             $('.filter-key').val('');
         });
         
-        $('#admin-username').focusout(function() {
-            // Validate username. 
+        /**
+         * Event: Admin, Provider, Secretary Username "Focusout" 
+         * 
+         * When the user leaves the username input field we will need to check if the username 
+         * is not taken by another record in the system. Usernames must be unique.
+         */
+        $('#admin-username, #provider-username, #secretary-username').focusout(function() {
+            var $input = $(this);
+            
+            if ($input.prop('readonly') == true || $input.val() == '') {
+                return;
+            }
+            
             var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
             var postData = { 
-                'username': $('#admin-username').val(), 
-                'record_exists': ($('#admin-id').val() != '') ? true : false
+                'username': $input.val(), 
+                'record_exists': ($input.parents().eq(2).find('.record-id').val() != '') ? true : false
             };
+            
             $.post(postUrl, postData, function(response) {
                 ///////////////////////////////////////////////////////
                 console.log('Validate Username Response:', response);
                 ///////////////////////////////////////////////////////
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-                if (!response) {
-                    $('#admin-username').css('border', '2px solid red');
-                    $('#admins .form-message').text('Username already exists.');
-                    $('#admins .form-message').show();
+                if (response == false) {
+                    $input.css('border', '2px solid red');
+                    $input.parents().eq(3).find('.form-message').text('Username already exists.');
+                    $input.parents().eq(3).find('.form-message').show();
+                } else {
+                    $input.css('border', '');
+                    if ($input.parents().eq(3).find('.form-message').text() == 'Username already exists.') {
+                        $input.parents().eq(3).find('.form-message').hide();
+                    }
                 }
             }, 'json');
         });
+        
+        // -----------------------------------------------------------------
         
         /**
          * Event: Filter Admins Button "Click"
@@ -244,6 +278,19 @@ var BackendUsers = {
          */
         $('#cancel-admin').click(function() {
             BackendUsers.helper.resetForm();
+            
+            var admin = { 'id': $('#admins .selected-row').attr('data-id') };
+            
+            $.each(BackendUsers.helper.filterResults, function(index, item) {
+                if (item.id === admin.id) {
+                    admin = item;
+                    return;
+                }
+            });
+            
+            BackendUsers.helper.display(admin);
+            
+            $('#edit-admin, #delete-admin').prop('disabled', false);
         });
         
         // ------------------------------------------------------------------------
@@ -297,6 +344,186 @@ var BackendUsers = {
             $('#provider-password, #provider-password-confirm').addClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#provider-services input[type="checkbox"]').prop('disabled', false);
+            
+            $('#providers .add-break').prop('disabled', false);
+            $('.edit-break, .delete-break').prop('disabled', false);
+            $('#providers input[type="checkbox"]').prop('disabled', false);
+            
+            // Apply default working plan
+            $.each(GlobalVariables.workingPlan, function(index, workingDay) {
+                if (workingDay != null) {
+                    $('#' + index).prop('checked', true);
+                    $('#' + index + '-start').val(workingDay.start);
+                    $('#' + index + '-end').val(workingDay.end);
+
+                    // Add the day's breaks on the breaks table.
+                    $.each(workingDay.breaks, function(i, brk) {
+                        var tr = 
+                                '<tr>' + 
+                                    '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '</td>' +
+                                    '<td class="break-start editable">' + brk.start + '</td>' +
+                                    '<td class="break-end editable">' + brk.end + '</td>' +
+                                    '<td>' + 
+                                        '<button type="button" class="btn edit-break" title="Edit Break">' +
+                                            '<i class="icon-pencil"></i>' +
+                                        '</button>' +
+                                        '<button type="button" class="btn delete-break" title="Delete Break">' +
+                                            '<i class="icon-remove"></i>' +
+                                        '</button>' +
+                                        '<button type="button" class="btn save-break hidden" title="Save Break">' +
+                                            '<i class="icon-ok"></i>' +
+                                        '</button>' +
+                                        '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                                            '<i class="icon-ban-circle"></i>' +
+                                        '</button>' +
+                                    '</td>' +
+                                '</tr>';
+                        $('#breaks').append(tr);
+                    });
+                } else {
+                    $('#' + index).prop('checked', false);
+                    $('#' + index + '-start').prop('disabled', true);
+                    $('#' + index + '-end').prop('disabled', true);
+                }
+            });
+            
+            // Make break cells editable.
+            BackendUsers.editableBreakDay($('#breaks .break-day'));
+            BackendUsers.editableBreakTime($('#breaks').find('.break-start, .break-end'));
+
+            // Set timepickers where needed.
+            $('.working-plan input').timepicker({
+                'timeFormat': 'HH:mm',
+                'onSelect': function(datetime, inst) {
+                    // Start time must be earlier than end time. 
+                    var start = Date.parse($(this).parent().parent().find('.work-start').val());
+                    var end = Date.parse($(this).parent().parent().find('.work-end').val());
+
+                    if (start > end) {
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
+                    }
+                }
+            });
+        });
+        
+        /**
+         * Event: Day Checkbox "Click"
+         * 
+         * Enable or disable the time selection for each day.
+         */
+        $('.working-plan input[type="checkbox"]').click(function() {
+            var id = $(this).attr('id');
+            
+            if ($(this).prop('checked') == true) {
+                $('#' + id + '-start').prop('disabled', false).val('09:00');
+                $('#' + id + '-end').prop('disabled', false).val('18:00');
+            } else {
+                $('#' + id + '-start').prop('disabled', true).val('');
+                $('#' + id + '-end').prop('disabled', true).val('');
+            }
+        });
+        
+        /**
+         * Event: Add Break Button "Click"
+         * 
+         * A new row is added on the table and the user can enter the new break 
+         * data. After that he can either press the save or cancel button.
+         */
+        $('.add-break').click(function() {
+            var tr = 
+                    '<tr>' + 
+                        '<td class="break-day editable">Monday</td>' +
+                        '<td class="break-start editable">09:00</td>' +
+                        '<td class="break-end editable">10:00</td>' +
+                        '<td>' + 
+                            '<button type="button" class="btn edit-break" title="Edit Break">' +
+                                '<i class="icon-pencil"></i>' +
+                            '</button>' +
+                            '<button type="button" class="btn delete-break" title="Delete Break">' +
+                                '<i class="icon-remove"></i>' +
+                            '</button>' +
+                            '<button type="button" class="btn save-break hidden" title="Save Break">' +
+                                '<i class="icon-ok"></i>' +
+                            '</button>' +
+                            '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                                '<i class="icon-ban-circle"></i>' +
+                            '</button>' +
+                        '</td>' +
+                    '</tr>';
+            $('#breaks').prepend(tr);
+            
+            // Bind editable and event handlers.
+            tr = $('#breaks tr').get()[1];
+            BackendUsers.editableBreakDay($(tr).find('.break-day'));
+            BackendUsers.editableBreakTime($(tr).find('.break-start, .break-end'));
+            $(tr).find('.edit-break').trigger('click');
+        });
+        
+        /**
+         * Event: Edit Break Button "Click"
+         * 
+         * Enables the row editing for the "Breaks" table rows.
+         */
+        $(document).on('click', '.edit-break', function() {
+            // Reset previous editable tds
+            var $previousEdt = $(this).closest('table').find('.editable').get();
+            $.each($previousEdt, function(index, edt) {
+               edt.reset();
+            });
+            
+            // Make all cells in current row editable.
+            $(this).parent().parent().children().trigger('edit');
+            $(this).parent().parent().find('.break-start input, .break-end input').timepicker();
+            $(this).parent().parent().find('.break-day select').focus();
+            
+            // Show save - cancel buttons.
+            $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
+            $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
+            
+        });
+        
+        /**
+         * Event: Delete Break Button "Click"
+         * 
+         * Removes the current line from the "Breaks" table.
+         */
+        $(document).on('click', '.delete-break', function() {
+           $(this).parent().parent().remove();
+        });
+        
+        /**
+         * Event: Cancel Break Button "Click"
+         * 
+         * Bring the "#breaks" table back to its initial state.
+         */
+        $(document).on('click', '.cancel-break', function() {
+            BackendUsers.enableCancel = true;
+            $(this).parent().parent().find('.cancel-editable').trigger('click');
+            BackendUsers.enableCancel = false;
+            
+            $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+            $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+        });
+        
+        /**
+         * Event: Save Break Button "Click"
+         * 
+         * Save the editable values and restore the table to its initial state.
+         */
+        $(document).on('click', '.save-break', function() {
+            // Break's start time must always be prior to break's end. 
+            var start = Date.parse($(this).parent().parent().find('.break-start input').val());
+            var end = Date.parse($(this).parent().parent().find('.break-end input').val());
+            if (start > end) {
+                $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
+            }
+            
+            BackendUsers.enableSubmit = true;
+            $(this).parent().parent().find('.editable .submit-editable').trigger('click');
+            BackendUsers.enableSubmit = false;
+            
+            $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+            $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
         });
         
         /**
@@ -311,6 +538,10 @@ var BackendUsers = {
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#provider-services input[type="checkbox"]').prop('disabled', false);
+            
+            $('#providers .add-break').prop('disabled', false);
+            $('.edit-break, .delete-break').prop('disabled', false);
+            $('#providers input[type="checkbox"]').prop('disabled', false);
         });
         
         /**
@@ -349,7 +580,8 @@ var BackendUsers = {
                 'zip_code': $('#provider-zip-code').val(),
                 'notes': $('#provider-notes').val(),
                 'settings': {
-                    'username': $('#provider-username').val(),                    
+                    'username': $('#provider-username').val(),  
+                    'working_plan': BackendUsers.helper.getWorkingPlan(),
                     'notifications': $('#provider-notifications').hasClass('active')
                 }
             };
@@ -384,6 +616,42 @@ var BackendUsers = {
          */
         $('#cancel-provider').click(function() {
             BackendUsers.helper.resetForm();
+            
+            var provider = { 'id': $('#providers .selected-row').attr('data-id') };
+            
+            $.each(BackendUsers.helper.filterResults, function(index, item) {
+                if (item.id === provider.id) {
+                    provider = item;
+                    return;
+                }
+            });
+            
+            BackendUsers.helper.display(provider);
+            
+            $('#edit-provider, #delete-provider').prop('disabled', false);
+        });
+        
+        /**
+         * Event: Display Provider Details "Click"
+         */
+        $('#providers .display-details').click(function() {
+            $('#providers .switch-view .current').removeClass('current');
+            $(this).addClass('current');
+            $('.working-plan-view').hide('fade', function() {
+                $('.details-view').show('fade');
+            });
+            
+        });
+        
+        /**
+         * Event: Display Provider Working Plan "Click"
+         */
+        $('#providers .display-working-plan').click(function() {
+            $('#providers .switch-view .current').removeClass('current');
+            $(this).addClass('current');
+            $('.details-view').hide('fade', function() {
+                $('.working-plan-view').show('fade');
+            });
         });
         
         // ------------------------------------------------------------------------
@@ -525,8 +793,58 @@ var BackendUsers = {
         $('#cancel-secretary').click(function() {
             BackendUsers.helper.resetForm();
         });
-        
-    }    
+    },
+            
+    /**
+     * Initialize the editable functionality to the break day table cells.
+     * 
+     * @param {object} $selector The cells to be initialized.
+     */
+    editableBreakDay: function($selector) {
+        $selector.editable(function(value, settings) {
+            return value;
+        }, {
+            'type': 'select',
+            'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
+                    + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
+                    + '"Sunday": "Sunday", "selected": "Monday"}',
+            'event': 'edit',
+            'height': '30px',
+            'submit': '<button type="button" class="hidden submit-editable">Submit</button>',
+            'cancel': '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            'onblur': 'ignore',
+            'onreset': function(settings, td) {
+                if (!BackendUsers.enableCancel) return false; // disable ESC button
+            },
+            'onsubmit': function(settings, td) {
+                if (!BackendUsers.enableSubmit) return false; // disable Enter button
+            }
+        });
+    },
+    
+    /**
+     * Initialize the editable functionality to the break time table cells.
+     * 
+     * @param {object} $selector The cells to be initialized.
+     */        
+    editableBreakTime: function($selector) {
+        $selector.editable(function(value, settings) {
+            // Do not return the value because the user needs to press the "Save" button.
+            return value;
+        }, {
+            'event': 'edit',
+            'height': '25px',
+            'submit': '<button type="button" class="hidden submit-editable">Submit</button>',
+            'cancel': '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            'onblur': 'ignore',
+            'onreset': function(settings, td) {
+                if (!BackendUsers.enableCancel) return false; // disable ESC button
+            },
+            'onsubmit': function(settings, td) {
+                if (!BackendUsers.enableSubmit) return false; // disable Enter button
+            }
+        });
+    }
 };
 
 /**
@@ -558,8 +876,11 @@ AdminsHelper.prototype.save = function(admin) {
         ////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Admin saved successfully!');
-        BackendUsers.helper.resetForm();
-        BackendUsers.helper.filter($('#admins .filter-key').val());
+        BackendUsers.helper.resetForm(true);
+        // When adding a new record the "admin.id" will be undefined. In this situation
+        // no record will be selected because we do not yet know the id of the new record,
+        // but no error will occur either.
+        BackendUsers.helper.filter($('#admins .filter-key').val(), admin.id); 
     }, 'json');
 };
 
@@ -612,7 +933,8 @@ AdminsHelper.prototype.validate = function(admin) {
             throw 'Passwords mismatch!';
         }
         
-        if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH) {
+        if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
+                && $('#admin-password').val() != '') {
             $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
             throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
                     + ' characters long.';
@@ -634,20 +956,28 @@ AdminsHelper.prototype.validate = function(admin) {
 
 /**
  * Resets the admin tab form back to its initial state. 
+ * 
+ * @param {bool} keepRecordData (OPTIONAL = false) If false then the current record data 
+ * will remain on the form.
  */
-AdminsHelper.prototype.resetForm = function() {
-    $('#admins .details').find('input, textarea').val('');
+AdminsHelper.prototype.resetForm = function(keepRecordData) {
+    if (keepRecordData == undefined) keepRecordData = false;
+    
     $('#admins .add-edit-delete-group').show();
     $('#admins .save-cancel-group').hide();
-    $('#edit-admin, #delete-admin').prop('disabled', true);
     $('#admins .details').find('input, textarea').prop('readonly', true);
     $('.filter-admins').prop('disabled', false);
     $('#admins .filter-results').css('color', '');
     $('#admins .form-message').hide();    
-    $('#admin-notifications').removeClass('active');
     $('#admin-notifications').prop('disabled', true);
     $('#admins .required').css('border', '');
     $('#admin-password, #admin-password-confirm').css('border', '');
+    
+    if (!keepRecordData) {
+        $('#admins .details').find('input, textarea').val('');
+        $('#admin-notifications').removeClass('active');
+        $('#edit-admin, #delete-admin').prop('disabled', true);
+    }
 };
 
 /**
@@ -681,7 +1011,7 @@ AdminsHelper.prototype.display = function(admin) {
  * 
  * @param {string} key This is used to filter the admin records of the database.
  */
-AdminsHelper.prototype.filter = function(key) {
+AdminsHelper.prototype.filter = function(key, selectRecordId) {
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_admins';
     var postData = { 'key': key };
     
@@ -699,6 +1029,15 @@ AdminsHelper.prototype.filter = function(key) {
             var html = AdminsHelper.prototype.getFilterHtml(admin);
             $('#admins .filter-results').append(html);
         });
+        
+        if (selectRecordId != undefined) {
+            $('.admin-row').each(function() {
+                if ($(this).attr('data-id') == selectRecordId) {
+                    $(this).addClass('selected-row');
+                    return false;
+                }
+            });
+        }
     }, 'json');
 };
 
@@ -747,8 +1086,10 @@ ProvidersHelper.prototype.save = function(provider) {
         ///////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Provider saved successfully!');
-        BackendUsers.helper.resetForm();
-        BackendUsers.helper.filter($('#providers .filter-key').val());
+        BackendUsers.helper.resetForm(true);
+        // If "id" is not defined then no record will be selected (applies when adding 
+        // a new provider record).
+        BackendUsers.helper.filter($('#providers .filter-key').val(), provider.id); 
     }, 'json');
 };
 
@@ -801,7 +1142,8 @@ ProvidersHelper.prototype.validate = function(provider) {
             throw 'Passwords mismatch!';
         }
         
-        if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH) {
+        if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
+                && $('#provider-password').val() != '') {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
             throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
                     + ' characters long.';
@@ -813,22 +1155,6 @@ ProvidersHelper.prototype.validate = function(provider) {
             throw 'Invalid email address!';
         }
         
-         // Validate username. 
-        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
-        var postData = { 
-            'username': $('#provider-username').val(), 
-            'record_exists': ($('#provider-id').val() != '') ? true : false
-        };
-        $.post(postUrl, postData, function(response) {
-            ///////////////////////////////////////////////////////
-            console.log('Validate Username Response:', response);
-            ///////////////////////////////////////////////////////
-            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-            if (!response) {
-                throw('Username already exists, please enter another one and try again.');
-            }
-        });
-        
         return true;
     } catch(exc) {
         $('#providers .form-message').text(exc);
@@ -839,22 +1165,36 @@ ProvidersHelper.prototype.validate = function(provider) {
 
 /**
  * Resets the admin tab form back to its initial state. 
+ * 
+ * @param {bool} keepRecordData (OPTIONAL = false) If true then the current record data will
+ * remain on the form.
  */
-ProvidersHelper.prototype.resetForm = function() {
-    $('#providers .details').find('input, textarea').val('');
+ProvidersHelper.prototype.resetForm = function(keepRecordData) {
+    if (keepRecordData == undefined) keepRecordData = false;
+    
     $('#providers .add-edit-delete-group').show();
     $('#providers .save-cancel-group').hide();
-    $('#edit-provider, #delete-provider').prop('disabled', true);
     $('#providers .details').find('input, textarea').prop('readonly', true);
     $('.filter-providers').prop('disabled', false);
     $('#providers .filter-results').css('color', '');
     $('#providers .form-message').hide();    
     $('#provider-notifications').removeClass('active');
     $('#provider-notifications').prop('disabled', true);
-    $('#provider-services input[type="checkbox"]').prop('checked', false);
     $('#provider-services input[type="checkbox"]').prop('disabled', true);
     $('#providers .required').css('border', '');
     $('#provider-password, #provider-password-confirm').css('border', '');
+    $('#providers .add-break').prop('disabled', true);
+    $('#providers input[type="checkbox"]').prop('disabled', true);
+    $('#providers .working-plan input[type="text"]').timepicker('destroy');
+    $('#breaks').find('.edit-break, .delete-break').prop('disabled', true);
+    
+    if (!keepRecordData) {
+        $('#edit-provider, #delete-provider').prop('disabled', true);
+        $('#providers .details').find('input, textarea').val('');
+        $('#providers input[type="checkbox"]').prop('checked', false);
+        $('#provider-services input[type="checkbox"]').prop('checked', false);
+        $('#providers #breaks tbody').empty();
+    }
 };
 
 /**
@@ -890,14 +1230,76 @@ ProvidersHelper.prototype.display = function(provider) {
             }
         });
     });
+    
+    // Display working plan
+    $('#providers #breaks tbody').empty();
+    var workingPlan = $.parseJSON(provider.settings.working_plan);
+    $.each(workingPlan, function(index, workingDay) {
+        if (workingDay != null) {
+            $('#' + index).prop('checked', true);
+            $('#' + index + '-start').val(workingDay.start);
+            $('#' + index + '-end').val(workingDay.end);
+
+            // Add the day's breaks on the breaks table.
+            $.each(workingDay.breaks, function(i, brk) {
+                var tr = 
+                        '<tr>' + 
+                            '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '</td>' +
+                            '<td class="break-start editable">' + brk.start + '</td>' +
+                            '<td class="break-end editable">' + brk.end + '</td>' +
+                            '<td>' + 
+                                '<button type="button" class="btn edit-break" title="Edit Break">' +
+                                    '<i class="icon-pencil"></i>' +
+                                '</button>' +
+                                '<button type="button" class="btn delete-break" title="Delete Break">' +
+                                    '<i class="icon-remove"></i>' +
+                                '</button>' +
+                                '<button type="button" class="btn save-break hidden" title="Save Break">' +
+                                    '<i class="icon-ok"></i>' +
+                                '</button>' +
+                                '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                                    '<i class="icon-ban-circle"></i>' +
+                                '</button>' +
+                            '</td>' +
+                        '</tr>';
+                $('#breaks').append(tr);
+            });
+        } else {
+            $('#' + index).prop('checked', false);
+            $('#' + index + '-start').prop('disabled', true);
+            $('#' + index + '-end').prop('disabled', true);
+        }
+    });
+    
+    $('.edit-break, .delete-break').prop('disabled', true);
+
+    // Make break cells editable.
+    BackendUsers.editableBreakDay($('#breaks .break-day'));
+    BackendUsers.editableBreakTime($('#breaks').find('.break-start, .break-end'));
+
+    // Set timepickers where needed.
+    $('.working-plan input').timepicker({
+        'timeFormat': 'HH:mm',
+        'onSelect': function(datetime, inst) {
+            // Start time must be earlier than end time. 
+            var start = Date.parse($(this).parent().parent().find('.work-start').val());
+            var end = Date.parse($(this).parent().parent().find('.work-end').val());
+
+            if (start > end) {
+                $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
+            }
+        }
+    });
 };
 
 /**
  * Filters provider records depending a string key.
  * 
  * @param {string} key This is used to filter the provider records of the database.
+ * @param {numeric} selectRecordId (OPTIONAL) If set, when the function is complete
+ * a result row can be set as selected. 
  */
-ProvidersHelper.prototype.filter = function(key) {
+ProvidersHelper.prototype.filter = function(key, selectRecordId) {
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_providers';
     var postData = { 'key': key };
     
@@ -915,6 +1317,15 @@ ProvidersHelper.prototype.filter = function(key) {
             var html = ProvidersHelper.prototype.getFilterHtml(provider);
             $('#providers .filter-results').append(html);
         });
+        
+        if (selectRecordId != undefined) {
+            $('.provider-row').each(function() {
+                if ($(this).attr('data-id') == selectRecordId) {
+                    $(this).addClass('selected-row');
+                    return false;
+                }
+            });
+        }
     }, 'json');
 };
 
@@ -932,6 +1343,43 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
             '</div>';
 
     return html;
+};
+
+/**
+ * Get the current working plan.
+ * 
+ * @return {string} Returns the working plan (already stringified).
+ */
+ProvidersHelper.prototype.getWorkingPlan = function() {
+    var workingPlan = {};
+    $('.working-plan input[type="checkbox"').each(function() {
+        var id = $(this).attr('id');
+        if ($(this).prop('checked') == true) {
+            workingPlan[id] = {}
+            workingPlan[id].start = $('#' + id + '-start').val();
+            workingPlan[id].end = $('#' + id + '-end').val();
+            workingPlan[id].breaks = [];
+            
+            $('#breaks tr').each(function(index, tr) {
+                var day = $(tr).find('.break-day').text().toLowerCase();
+                if (day == id) {
+                    var start = $(tr).find('.break-start').text();
+                    var end = $(tr).find('.break-end').text();
+                    
+                    workingPlan[id].breaks.push({
+                        'start': start,
+                        'end': end
+                    });
+                    
+                }
+            });
+            
+        } else {
+            workingPlan[id] = null;
+        }
+    });
+    
+    return JSON.stringify(workingPlan);
 };
 
 /**
@@ -1017,7 +1465,8 @@ SecretariesHelper.prototype.validate = function(secretary) {
             throw 'Passwords mismatch!';
         }
         
-        if ($('#secretary-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH) {
+        if ($('#secretary-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
+                && $('#secretary-password').val() != '') {
             $('#secretary-password, #secretary-password-confirm').css('border', '2px solid red');
             throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
                     + ' characters long.';
@@ -1028,22 +1477,6 @@ SecretariesHelper.prototype.validate = function(secretary) {
             $('#secretary-email').css('border', '2px solid red');
             throw 'Invalid email address!';
         }
-        
-         // Validate username. 
-        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
-        var postData = { 
-            'username': $('#secretary-username').val(), 
-            'record_exists': ($('#secretary-id').val() != '') ? true : false
-        };
-        $.post(postUrl, postData, function(response) {
-            ///////////////////////////////////////////////////////
-            console.log('Validate Username Response:', response);
-            ///////////////////////////////////////////////////////
-            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-            if (!response) {
-                throw('Username already exists, please enter another one and try again.');
-            }
-        });
         
         return true;
     } catch(exc) {
@@ -1112,8 +1545,10 @@ SecretariesHelper.prototype.display = function(secretary) {
  * Filters secretary records depending a string key.
  * 
  * @param {string} key This is used to filter the secretary records of the database.
+ * @param {numeric} selectRecordId (OPTIONAL) If provided then the given id will be 
+ * selected in the filter results (only selected, not displayed).
  */
-SecretariesHelper.prototype.filter = function(key) {
+SecretariesHelper.prototype.filter = function(key, selectRecordId) {
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_secretaries';
     var postData = { 'key': key };
     
@@ -1131,6 +1566,15 @@ SecretariesHelper.prototype.filter = function(key) {
             var html = SecretariesHelper.prototype.getFilterHtml(secretary);
             $('#secretaries .filter-results').append(html);
         });
+        
+        if (selectRecordId != undefined) {
+            $('.secretary-row').each(function() {
+                if ($(this).attr('data-id') == selectRecordId) {
+                    $(this).addClass('selected-row');
+                    return false;
+                }
+            });
+        }
     }, 'json');
 };
 
