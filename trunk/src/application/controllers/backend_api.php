@@ -850,8 +850,13 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_validate_username() {
         try {
-            // We will use the function in the admins_model because it is sufficient for 
-            // the rest user types for now (providers, secretaries).
+            // $_POST['record_exists'] is treated like a string in this method and this 
+            // is making the validation algorithm fail. So we need to convert the value 
+            // into bool before validating the username.
+            $_POST['record_exists'] = ($_POST['record_exists'] == 'true') ? TRUE : FALSE;
+            
+            // We will only use the function in the admins_model because it is sufficient 
+            // for the rest user types for now (providers, secretaries).
             $this->load->model('admins_model');
             $is_valid = $this->admins_model->validate_username($_POST['username'], $_POST['record_exists']);
             echo json_encode($is_valid);
