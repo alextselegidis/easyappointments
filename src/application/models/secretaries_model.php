@@ -204,16 +204,6 @@ class Secretaries_Model extends CI_Model {
                 throw new Exception('Invalid email address provided : ' . $secretary['email']);
             }
             
-            // Validate admin username 
-            if (isset($secretary['settings']['username'])) {
-                $num_rows = $this->db->get_where('ea_user_settings', 
-                        array('username' => $secretary['settings']['username']))->num_rows();
-                if ($num_rows > 0) {
-                    throw new Exception('Username already exists, please select another '
-                            . 'and try again (username: ' . $secretary['settings']['username'] . ')');
-                }
-            }
-            
             // Validate admin password
             if (isset($secretary['settings']['password'])) {
                 if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH) {

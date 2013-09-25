@@ -10,20 +10,10 @@ var BackendSettings = {
     SETTINGS_USER: 'SETTINGS_USER',
     
     /**
-     * This flag is used when trying to cancel row editing. It is
-     * true only whenever the user presses the cancel button.
-     * 
-     * @type {bool}
+     * Use this WorkingPlan class instance to perform actions on the page's working plan
+     * tables.
      */
-    enableCancel: false,
-            
-    /**
-     * This flag determines whether the jeditables are allowed to submit. It is  
-     * true only whenever the user presses the save button.
-     * 
-     * @type {bool}
-     */
-    enableSubmit: false,
+    wp: {},
     
     /**
      * Tab settings object.
@@ -55,60 +45,9 @@ var BackendSettings = {
             }
         });
         
-        $.each(workingPlan, function(index, workingDay) {
-            if (workingDay != null) {
-                $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(workingDay.start);
-                $('#' + index + '-end').val(workingDay.end);
-                
-                // Add the day's breaks on the breaks table.
-                $.each(workingDay.breaks, function(i, brk) {
-                    var tr = 
-                            '<tr>' + 
-                                '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '</td>' +
-                                '<td class="break-start editable">' + brk.start + '</td>' +
-                                '<td class="break-end editable">' + brk.end + '</td>' +
-                                '<td>' + 
-                                    '<button type="button" class="btn edit-break" title="Edit Break">' +
-                                        '<i class="icon-pencil"></i>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn delete-break" title="Delete Break">' +
-                                        '<i class="icon-remove"></i>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn save-break hidden" title="Save Break">' +
-                                        '<i class="icon-ok"></i>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
-                                        '<i class="icon-ban-circle"></i>' +
-                                    '</button>' +
-                                '</td>' +
-                            '</tr>';
-                    $('#breaks').append(tr);
-                });
-            } else {
-                $('#' + index).prop('checked', false);
-                $('#' + index + '-start').prop('disabled', true);
-                $('#' + index + '-end').prop('disabled', true);
-            }
-        });
-        
-        // Make break cells editable.
-        BackendSettings.editableBreakDay($('#breaks .break-day'));
-        BackendSettings.editableBreakTime($('#breaks').find('.break-start, .break-end'));
-        
-        // Set timepickers where needed.
-        $('.working-plan input').timepicker({
-            'timeFormat': 'HH:mm',
-            'onSelect': function(datetime, inst) {
-                // Start time must be earlier than end time. 
-                var start = Date.parse($(this).parent().parent().find('.work-start').val());
-                var end = Date.parse($(this).parent().parent().find('.work-end').val());
-                
-                if (start > end) {
-                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
-                }
-            }
-        });
+        BackendSettings.wp = new WorkingPlan();
+        BackendSettings.wp.setup(workingPlan);
+        BackendSettings.wp.timepickers(false);
         
         // Book Advance Timeout Spinner
         $('#book-advance-timeout').spinner({
@@ -150,6 +89,8 @@ var BackendSettings = {
      * backend/settings html, so do not use this method on a different page.
      */
     bindEventHandlers: function() {
+        BackendSettings.wp.bindEventHandlers();
+        
         /**
          * Event: Tab "Click"
          * 
@@ -195,177 +136,6 @@ var BackendSettings = {
             //////////////////////////////////////////////
             console.log('Settings To Save: ', settings);
             //////////////////////////////////////////////
-        });
-        
-        /**
-         * Event: Day Checkbox "Click"
-         * 
-         * Enable or disable the time selection for each day.
-         */
-        $('.working-plan input[type="checkbox"]').click(function() {
-            var id = $(this).attr('id');
-            
-            if ($(this).prop('checked') == true) {
-                $('#' + id + '-start').prop('disabled', false).val('09:00');
-                $('#' + id + '-end').prop('disabled', false).val('18:00');
-            } else {
-                $('#' + id + '-start').prop('disabled', true).val('');
-                $('#' + id + '-end').prop('disabled', true).val('');
-            }
-        });
-        
-        /**
-         * Event: Add Break Button "Click"
-         * 
-         * A new row is added on the table and the user can enter the new break 
-         * data. After that he can either press the save or cancel button.
-         */
-        $('.add-break').click(function() {
-            var tr = 
-                    '<tr>' + 
-                        '<td class="break-day editable">Monday</td>' +
-                        '<td class="break-start editable">09:00</td>' +
-                        '<td class="break-end editable">10:00</td>' +
-                        '<td>' + 
-                            '<button type="button" class="btn edit-break" title="Edit Break">' +
-                                '<i class="icon-pencil"></i>' +
-                            '</button>' +
-                            '<button type="button" class="btn delete-break" title="Delete Break">' +
-                                '<i class="icon-remove"></i>' +
-                            '</button>' +
-                            '<button type="button" class="btn save-break hidden" title="Save Break">' +
-                                '<i class="icon-ok"></i>' +
-                            '</button>' +
-                            '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
-                                '<i class="icon-ban-circle"></i>' +
-                            '</button>' +
-                        '</td>' +
-                    '</tr>';
-            $('#breaks').prepend(tr);
-            
-            // Bind editable and event handlers.
-            tr = $('#breaks tr').get()[1];
-            BackendSettings.editableBreakDay($(tr).find('.break-day'));
-            BackendSettings.editableBreakTime($(tr).find('.break-start, .break-end'));
-            $(tr).find('.edit-break').trigger('click');
-        });
-        
-        /**
-         * Event: Edit Break Button "Click"
-         * 
-         * Enables the row editing for the "Breaks" table rows.
-         */
-        $(document).on('click', '.edit-break', function() {
-            // Reset previous editable tds
-            var $previousEdt = $(this).closest('table').find('.editable').get();
-            $.each($previousEdt, function(index, edt) {
-               edt.reset();
-            });
-            
-            // Make all cells in current row editable.
-            $(this).parent().parent().children().trigger('edit');
-            $(this).parent().parent().find('.break-start input, .break-end input').timepicker();
-            $(this).parent().parent().find('.break-day select').focus();
-            
-            // Show save - cancel buttons.
-            $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
-            $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-            
-        });
-        
-        /**
-         * Event: Delete Break Button "Click"
-         * 
-         * Removes the current line from the "Breaks" table.
-         */
-        $(document).on('click', '.delete-break', function() {
-           $(this).parent().parent().remove();
-        });
-        
-        /**
-         * Event: Cancel Break Button "Click"
-         * 
-         * Bring the "#breaks" table back to its initial state.
-         */
-        $(document).on('click', '.cancel-break', function() {
-            BackendSettings.enableCancel = true;
-            $(this).parent().parent().find('.cancel-editable').trigger('click');
-            BackendSettings.enableCancel = false;
-            
-            $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-            $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
-        });
-        
-        /**
-         * Event: Save Break Button "Click"
-         * 
-         * Save the editable values and restore the table to its initial state.
-         */
-        $(document).on('click', '.save-break', function() {
-            // Break's start time must always be prior to break's end. 
-            var start = Date.parse($(this).parent().parent().find('.break-start input').val());
-            var end = Date.parse($(this).parent().parent().find('.break-end input').val());
-            if (start > end) {
-                $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
-            }
-            
-            BackendSettings.enableSubmit = true;
-            $(this).parent().parent().find('.editable .submit-editable').trigger('click');
-            BackendSettings.enableSubmit = false;
-            
-            $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-            $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
-        });
-    },
-    
-    /**
-     * Initialize the editable functionality to the break day table cells.
-     * 
-     * @param {object} $selector The cells to be initialized.
-     */
-    editableBreakDay: function($selector) {
-        $selector.editable(function(value, settings) {
-            return value;
-        }, {
-            'type': 'select',
-            'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
-                    + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
-                    + '"Sunday": "Sunday", "selected": "Monday"}',
-            'event': 'edit',
-            'height': '30px',
-            'submit': '<button type="button" class="hidden submit-editable">Submit</button>',
-            'cancel': '<button type="button" class="hidden cancel-editable">Cancel</button>',
-            'onblur': 'ignore',
-            'onreset': function(settings, td) {
-                if (!BackendSettings.enableCancel) return false; // disable ESC button
-            },
-            'onsubmit': function(settings, td) {
-                if (!BackendSettings.enableSubmit) return false; // disable Enter button
-            }
-        });
-    },
-    
-    /**
-     * Initialize the editable functionality to the break time table cells.
-     * 
-     * @param {object} $selector The cells to be initialized.
-     */        
-    editableBreakTime: function($selector) {
-        $selector.editable(function(value, settings) {
-            // Do not return the value because the user needs to press the "Save" button.
-            return value;
-        }, {
-            'event': 'edit',
-            'height': '25px',
-            'submit': '<button type="button" class="hidden submit-editable">Submit</button>',
-            'cancel': '<button type="button" class="hidden cancel-editable">Cancel</button>',
-            'onblur': 'ignore',
-            'onreset': function(settings, td) {
-                if (!BackendSettings.enableCancel) return false; // disable ESC button
-            },
-            'onsubmit': function(settings, td) {
-                if (!BackendSettings.enableSubmit) return false; // disable Enter button
-            }
         });
     }
 };
@@ -418,37 +188,9 @@ SystemSettings.prototype.get = function() {
     });
     
     // Business Logic Tab
-    var workingPlan = {};
-    $('.working-plan input[type="checkbox"').each(function() {
-        var id = $(this).attr('id');
-        if ($(this).prop('checked') == true) {
-            workingPlan[id] = {}
-            workingPlan[id].start = $('#' + id + '-start').val();
-            workingPlan[id].end = $('#' + id + '-end').val();
-            workingPlan[id].breaks = [];
-            
-            $('#breaks tr').each(function(index, tr) {
-                var day = $(tr).find('.break-day').text().toLowerCase();
-                if (day == id) {
-                    var start = $(tr).find('.break-start').text();
-                    var end = $(tr).find('.break-end').text();
-                    
-                    workingPlan[id].breaks.push({
-                        'start': start,
-                        'end': end
-                    });
-                    
-                }
-            });
-            
-        } else {
-            workingPlan[id] = null;
-        }
-    });
-    
     settings.push({
         'name': 'company_working_plan',
-        'value': JSON.stringify(workingPlan)
+        'value': JSON.stringify(BackendSettings.wp.get())
     });
     
     settings.push({

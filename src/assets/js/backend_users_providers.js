@@ -14,15 +14,24 @@ var ProvidersHelper = function() {
  */
 ProvidersHelper.prototype.bindEventHandlers = function() {
     /**
-     * Event: Filter Providers Button "Click"
+     * Event: Filter Providers Form "Submit"
      * 
      * Filter the provider records with the given key string.
      */
-    $('.filter-providers').click(function() {
-        var key = $('#providers .filter-key').val();
+    $('#filter-providers form').submit(function() {
+        event.preventDefault();
+        var key = $('#filter-providers .key').val();
         $('.selected-row').removeClass('selected-row');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter(key);
+    });
+
+    /**
+     * Event: Clear Filter Button "Click"
+     */
+    $('#filter-providers .clear').click(function() {
+        BackendUsers.helper.filter('');
+        $('#filter-providers .key').val('');
     });
 
     /**
@@ -31,20 +40,22 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      * Display the selected provider data to the user.
      */
     $(document).on('click', '.provider-row', function() {
-        if ($('#providers .filter-providers').prop('disabled')) {
-            $('#providers .filter-results').css('color', '#AAA');
-            return; // exit because we are currently on edit mode
+        if ($('#filter-providers .filter').prop('disabled')) {
+            $('#filter-providers .results').css('color', '#AAA');
+            return; // Exit because we are currently on edit mode.
         }
-
-        var provider = { 'id': $(this).attr('data-id') };
+        
+        var providerId = $(this).attr('data-id');
+        var provider = {};
         $.each(BackendUsers.helper.filterResults, function(index, item) {
-            if (item.id === provider.id) {
+            if (item.id === providerId) {
                 provider = item;
-                return;
+                return false;
             }
         });
+        
         BackendUsers.helper.display(provider);
-        $('.selected-row').removeClass('selected-row');
+        $('#filter-providers .selected-row').removeClass('selected-row');
         $(this).addClass('selected-row');
         $('#edit-provider, #delete-provider').prop('disabled', false);
     });
@@ -54,194 +65,19 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      */
     $('#add-provider').click(function() {
         BackendUsers.helper.resetForm();
+        $('#filter-providers button').prop('disabled', true);
+        $('#filter-providers .results').css('color', '#AAA');
         $('#providers .add-edit-delete-group').hide();
         $('#providers .save-cancel-group').show();
         $('#providers .details').find('input, textarea').prop('readonly', false);
-        $('#providers .filter-providers').prop('disabled', true);
-        $('#providers .filter-results').css('color', '#AAA');
         $('#provider-password, #provider-password-confirm').addClass('required');
         $('#provider-notifications').prop('disabled', false);
         $('#provider-services input[type="checkbox"]').prop('disabled', false);
-
-        $('#providers .add-break').prop('disabled', false);
-        $('.edit-break, .delete-break').prop('disabled', false);
         $('#providers input[type="checkbox"]').prop('disabled', false);
 
         // Apply default working plan
-        $.each(GlobalVariables.workingPlan, function(index, workingDay) {
-            if (workingDay != null) {
-                $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(workingDay.start);
-                $('#' + index + '-end').val(workingDay.end);
-
-                // Add the day's breaks on the breaks table.
-                $.each(workingDay.breaks, function(i, brk) {
-                    var tr = 
-                            '<tr>' + 
-                                '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '</td>' +
-                                '<td class="break-start editable">' + brk.start + '</td>' +
-                                '<td class="break-end editable">' + brk.end + '</td>' +
-                                '<td>' + 
-                                    '<button type="button" class="btn edit-break" title="Edit Break">' +
-                                        '<i class="icon-pencil"></i>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn delete-break" title="Delete Break">' +
-                                        '<i class="icon-remove"></i>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn save-break hidden" title="Save Break">' +
-                                        '<i class="icon-ok"></i>' +
-                                    '</button>' +
-                                    '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
-                                        '<i class="icon-ban-circle"></i>' +
-                                    '</button>' +
-                                '</td>' +
-                            '</tr>';
-                    $('#breaks').append(tr);
-                });
-            } else {
-                $('#' + index).prop('checked', false);
-                $('#' + index + '-start').prop('disabled', true);
-                $('#' + index + '-end').prop('disabled', true);
-            }
-        });
-
-        // Make break cells editable.
-        BackendUsers.helper.editableBreakDay($('#breaks .break-day'));
-        BackendUsers.helper.editableBreakTime($('#breaks').find('.break-start, .break-end'));
-
-        // Set timepickers where needed.
-        $('.working-plan input').timepicker({
-            'timeFormat': 'HH:mm',
-            'onSelect': function(datetime, inst) {
-                // Start time must be earlier than end time. 
-                var start = Date.parse($(this).parent().parent().find('.work-start').val());
-                var end = Date.parse($(this).parent().parent().find('.work-end').val());
-
-                if (start > end) {
-                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
-                }
-            }
-        });
-    });
-
-    /**
-     * Event: Day Checkbox "Click"
-     * 
-     * Enable or disable the time selection for each day.
-     */
-    $('.working-plan input[type="checkbox"]').click(function() {
-        var id = $(this).attr('id');
-
-        if ($(this).prop('checked') == true) {
-            $('#' + id + '-start').prop('disabled', false).val('09:00');
-            $('#' + id + '-end').prop('disabled', false).val('18:00');
-        } else {
-            $('#' + id + '-start').prop('disabled', true).val('');
-            $('#' + id + '-end').prop('disabled', true).val('');
-        }
-    });
-
-    /**
-     * Event: Add Break Button "Click"
-     * 
-     * A new row is added on the table and the user can enter the new break 
-     * data. After that he can either press the save or cancel button.
-     */
-    $('.add-break').click(function() {
-        var tr = 
-                '<tr>' + 
-                    '<td class="break-day editable">Monday</td>' +
-                    '<td class="break-start editable">09:00</td>' +
-                    '<td class="break-end editable">10:00</td>' +
-                    '<td>' + 
-                        '<button type="button" class="btn edit-break" title="Edit Break">' +
-                            '<i class="icon-pencil"></i>' +
-                        '</button>' +
-                        '<button type="button" class="btn delete-break" title="Delete Break">' +
-                            '<i class="icon-remove"></i>' +
-                        '</button>' +
-                        '<button type="button" class="btn save-break hidden" title="Save Break">' +
-                            '<i class="icon-ok"></i>' +
-                        '</button>' +
-                        '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
-                            '<i class="icon-ban-circle"></i>' +
-                        '</button>' +
-                    '</td>' +
-                '</tr>';
-        $('#breaks').prepend(tr);
-
-        // Bind editable and event handlers.
-        tr = $('#breaks tr').get()[1];
-        BackendUsers.helper.editableBreakDay($(tr).find('.break-day'));
-        BackendUsers.helper.editableBreakTime($(tr).find('.break-start, .break-end'));
-        $(tr).find('.edit-break').trigger('click');
-    });
-
-    /**
-     * Event: Edit Break Button "Click"
-     * 
-     * Enables the row editing for the "Breaks" table rows.
-     */
-    $(document).on('click', '.edit-break', function() {
-        // Reset previous editable tds
-        var $previousEdt = $(this).closest('table').find('.editable').get();
-        $.each($previousEdt, function(index, edt) {
-           edt.reset();
-        });
-
-        // Make all cells in current row editable.
-        $(this).parent().parent().children().trigger('edit');
-        $(this).parent().parent().find('.break-start input, .break-end input').timepicker();
-        $(this).parent().parent().find('.break-day select').focus();
-
-        // Show save - cancel buttons.
-        $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
-        $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-
-    });
-
-    /**
-     * Event: Delete Break Button "Click"
-     * 
-     * Removes the current line from the "Breaks" table.
-     */
-    $(document).on('click', '.delete-break', function() {
-       $(this).parent().parent().remove();
-    });
-
-    /**
-     * Event: Cancel Break Button "Click"
-     * 
-     * Bring the "#breaks" table back to its initial state.
-     */
-    $(document).on('click', '.cancel-break', function() {
-        BackendUsers.enableCancel = true;
-        $(this).parent().parent().find('.cancel-editable').trigger('click');
-        BackendUsers.enableCancel = false;
-
-        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-        $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
-    });
-
-    /**
-     * Event: Save Break Button "Click"
-     * 
-     * Save the editable values and restore the table to its initial state.
-     */
-    $(document).on('click', '.save-break', function() {
-        // Break's start time must always be prior to break's end. 
-        var start = Date.parse($(this).parent().parent().find('.break-start input').val());
-        var end = Date.parse($(this).parent().parent().find('.break-end input').val());
-        if (start > end) {
-            $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
-        }
-
-        BackendUsers.enableSubmit = true;
-        $(this).parent().parent().find('.editable .submit-editable').trigger('click');
-        BackendUsers.enableSubmit = false;
-
-        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-        $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+        BackendUsers.wp.setup(GlobalVariables.workingPlan);
+        BackendUsers.wp.timepickers(false);
     });
 
     /**
@@ -250,16 +86,15 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
     $('#edit-provider').click(function() {
         $('#providers .add-edit-delete-group').hide();
         $('#providers .save-cancel-group').show();
-        $('.filter-providers').prop('disabled', true);
-        $('#providers .filter-results').css('color', '#AAA');
+        $('#filter-providers button').prop('disabled', true);
+        $('#filter-providers .results').css('color', '#AAA');
         $('#providers .details').find('input, textarea').prop('readonly', false);
         $('#provider-password, #provider-password-confirm').removeClass('required');
         $('#provider-notifications').prop('disabled', false);
         $('#provider-services input[type="checkbox"]').prop('disabled', false);
-
-        $('#providers .add-break').prop('disabled', false);
-        $('.edit-break, .delete-break').prop('disabled', false);
+        $('#providers').find('.add-break, .edit-break, .delete-break').prop('disabled', false);
         $('#providers input[type="checkbox"]').prop('disabled', false);
+        BackendUsers.wp.timepickers(false);
     });
 
     /**
@@ -299,7 +134,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
             'notes': $('#provider-notes').val(),
             'settings': {
                 'username': $('#provider-username').val(),  
-                'working_plan': BackendUsers.helper.getWorkingPlan(),
+                'working_plan': JSON.stringify(BackendUsers.wp.get()),
                 'notifications': $('#provider-notifications').hasClass('active')
             }
         };
@@ -333,20 +168,11 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      * Cancel add or edit of an provider record.
      */
     $('#cancel-provider').click(function() {
+        var id = $('#filter-providers .selected-row').attr('data-id');
         BackendUsers.helper.resetForm();
-
-        var provider = { 'id': $('#providers .selected-row').attr('data-id') };
-
-        $.each(BackendUsers.helper.filterResults, function(index, item) {
-            if (item.id === provider.id) {
-                provider = item;
-                return;
-            }
-        });
-
-        BackendUsers.helper.display(provider);
-
-        $('#edit-provider, #delete-provider').prop('disabled', false);
+        if (id != '') {
+            BackendUsers.helper.select(id, true);
+        }
     });
 
     /**
@@ -393,17 +219,16 @@ ProvidersHelper.prototype.save = function(provider) {
         ///////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Provider saved successfully!');
-        BackendUsers.helper.resetForm(true);
-        // If "id" is not defined then no record will be selected (applies when adding 
-        // a new provider record).
-        BackendUsers.helper.filter($('#providers .filter-key').val(), provider.id); 
+        BackendUsers.helper.resetForm();
+        $('#filter-providers .key').val('');
+        BackendUsers.helper.filter('', response.id, true); 
     }, 'json');
 };
 
 /**
  * Delete a provider record from database.
  * 
- * @param {int} id Record id to be deleted. 
+ * @param {numeric} id Record id to be deleted. 
  */
 ProvidersHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_provider';
@@ -416,7 +241,7 @@ ProvidersHelper.prototype.delete = function(id) {
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Provider deleted successfully!');
         BackendUsers.helper.resetForm();
-        BackendUsers.helper.filter($('#providers .filter-key').val());
+        BackendUsers.helper.filter($('#filter-providers .key').val());
     });
 };
 
@@ -472,18 +297,15 @@ ProvidersHelper.prototype.validate = function(provider) {
 
 /**
  * Resets the admin tab form back to its initial state. 
- * 
- * @param {bool} keepRecordData (OPTIONAL = false) If true then the current record data will
- * remain on the form.
  */
-ProvidersHelper.prototype.resetForm = function(keepRecordData) {
-    if (keepRecordData == undefined) keepRecordData = false;
+ProvidersHelper.prototype.resetForm = function() {
+    $('#filter-providers .selected-row').removeClass('selected-row');
+    $('#filter-providers button').prop('disabled', false);
+    $('#filter-providers .results').css('color', '');
     
     $('#providers .add-edit-delete-group').show();
     $('#providers .save-cancel-group').hide();
     $('#providers .details').find('input, textarea').prop('readonly', true);
-    $('.filter-providers').prop('disabled', false);
-    $('#providers .filter-results').css('color', '');
     $('#providers .form-message').hide();    
     $('#provider-notifications').removeClass('active');
     $('#provider-notifications').prop('disabled', true);
@@ -491,17 +313,16 @@ ProvidersHelper.prototype.resetForm = function(keepRecordData) {
     $('#providers .required').css('border', '');
     $('#provider-password, #provider-password-confirm').css('border', '');
     $('#providers .add-break').prop('disabled', true);
-    $('#providers input[type="checkbox"]').prop('disabled', true);
+    BackendUsers.wp.timepickers(true);
     $('#providers .working-plan input[type="text"]').timepicker('destroy');
-    $('#breaks').find('.edit-break, .delete-break').prop('disabled', true);
-    
-    if (!keepRecordData) {
-        $('#edit-provider, #delete-provider').prop('disabled', true);
-        $('#providers .details').find('input, textarea').val('');
-        $('#providers input[type="checkbox"]').prop('checked', false);
-        $('#provider-services input[type="checkbox"]').prop('checked', false);
-        $('#providers #breaks tbody').empty();
-    }
+    $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
+
+    $('#edit-provider, #delete-provider').prop('disabled', true);
+    $('#providers .details').find('input, textarea').val('');
+    $('#providers input[type="checkbox"]').prop('checked', false);
+    $('#provider-services input[type="checkbox"]').prop('checked', false);
+    $('#providers .breaks tbody').empty();
+
 };
 
 /**
@@ -539,74 +360,24 @@ ProvidersHelper.prototype.display = function(provider) {
     });
     
     // Display working plan
-    $('#providers #breaks tbody').empty();
+    $('#providers .breaks tbody').empty();
     var workingPlan = $.parseJSON(provider.settings.working_plan);
-    $.each(workingPlan, function(index, workingDay) {
-        if (workingDay != null) {
-            $('#' + index).prop('checked', true);
-            $('#' + index + '-start').val(workingDay.start);
-            $('#' + index + '-end').val(workingDay.end);
-
-            // Add the day's breaks on the breaks table.
-            $.each(workingDay.breaks, function(i, brk) {
-                var tr = 
-                        '<tr>' + 
-                            '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '</td>' +
-                            '<td class="break-start editable">' + brk.start + '</td>' +
-                            '<td class="break-end editable">' + brk.end + '</td>' +
-                            '<td>' + 
-                                '<button type="button" class="btn edit-break" title="Edit Break">' +
-                                    '<i class="icon-pencil"></i>' +
-                                '</button>' +
-                                '<button type="button" class="btn delete-break" title="Delete Break">' +
-                                    '<i class="icon-remove"></i>' +
-                                '</button>' +
-                                '<button type="button" class="btn save-break hidden" title="Save Break">' +
-                                    '<i class="icon-ok"></i>' +
-                                '</button>' +
-                                '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
-                                    '<i class="icon-ban-circle"></i>' +
-                                '</button>' +
-                            '</td>' +
-                        '</tr>';
-                $('#breaks').append(tr);
-            });
-        } else {
-            $('#' + index).prop('checked', false);
-            $('#' + index + '-start').prop('disabled', true);
-            $('#' + index + '-end').prop('disabled', true);
-        }
-    });
-    
-    $('.edit-break, .delete-break').prop('disabled', true);
-
-    // Make break cells editable.
-    BackendUsers.helper.editableBreakDay($('#breaks .break-day'));
-    BackendUsers.helper.editableBreakTime($('#breaks').find('.break-start, .break-end'));
-
-    // Set timepickers where needed.
-    $('.working-plan input').timepicker({
-        'timeFormat': 'HH:mm',
-        'onSelect': function(datetime, inst) {
-            // Start time must be earlier than end time. 
-            var start = Date.parse($(this).parent().parent().find('.work-start').val());
-            var end = Date.parse($(this).parent().parent().find('.work-end').val());
-
-            if (start > end) {
-                $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
-            }
-        }
-    });
+    BackendUsers.wp.setup(workingPlan);
+    $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
 };
 
 /**
  * Filters provider records depending a string key.
  * 
  * @param {string} key This is used to filter the provider records of the database.
- * @param {numeric} selectRecordId (OPTIONAL) If set, when the function is complete
+ * @param {numeric} selectId (OPTIONAL = undefined) If set, when the function is complete
  * a result row can be set as selected. 
+ * @param {bool} display (OPTIONAL = false) If true then the selected record will be also 
+ * displayed.
  */
-ProvidersHelper.prototype.filter = function(key, selectRecordId) {
+ProvidersHelper.prototype.filter = function(key, selectId, display) {
+    if (display == undefined) display = false;
+    
     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_providers';
     var postData = { 'key': key };
     
@@ -619,19 +390,18 @@ ProvidersHelper.prototype.filter = function(key, selectRecordId) {
         
         BackendUsers.helper.filterResults = response;
         
-        $('#providers .filter-results').html('');
+        $('#filter-providers .results').html('');
         $.each(response, function(index, provider) {
             var html = ProvidersHelper.prototype.getFilterHtml(provider);
-            $('#providers .filter-results').append(html);
+            $('#filter-providers .results').append(html);
         });
         
-        if (selectRecordId != undefined) {
-            $('.provider-row').each(function() {
-                if ($(this).attr('data-id') == selectRecordId) {
-                    $(this).addClass('selected-row');
-                    return false;
-                }
-            });
+        if (response.length == 0) {
+            $('#filter-providers .results').html('<em>No results found ...</em>')
+        }
+        
+        if (selectId != undefined) {
+            BackendUsers.helper.select(selectId, display);
         }
     }, 'json');
 };
@@ -651,44 +421,6 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
 
     return html;
 };
-
-/**
- * Get the current working plan.
- * 
- * @return {string} Returns the working plan (already stringified).
- */
-ProvidersHelper.prototype.getWorkingPlan = function() {
-    var workingPlan = {};
-    $('.working-plan input[type="checkbox"').each(function() {
-        var id = $(this).attr('id');
-        if ($(this).prop('checked') == true) {
-            workingPlan[id] = {}
-            workingPlan[id].start = $('#' + id + '-start').val();
-            workingPlan[id].end = $('#' + id + '-end').val();
-            workingPlan[id].breaks = [];
-            
-            $('#breaks tr').each(function(index, tr) {
-                var day = $(tr).find('.break-day').text().toLowerCase();
-                if (day == id) {
-                    var start = $(tr).find('.break-start').text();
-                    var end = $(tr).find('.break-end').text();
-                    
-                    workingPlan[id].breaks.push({
-                        'start': start,
-                        'end': end
-                    });
-                    
-                }
-            });
-            
-        } else {
-            workingPlan[id] = null;
-        }
-    });
-    
-    return JSON.stringify(workingPlan);
-};
-
 
 /**
  * Initialize the editable functionality to the break day table cells.
@@ -715,7 +447,7 @@ ProvidersHelper.prototype.editableBreakDay = function($selector) {
             if (!BackendUsers.enableSubmit) return false; // disable Enter button
         }
     });
-},
+};
 
 /**
  * Initialize the editable functionality to the break time table cells.
@@ -739,4 +471,33 @@ ProvidersHelper.prototype.editableBreakTime = function($selector) {
             if (!BackendUsers.enableSubmit) return false; // disable Enter button
         }
     });
-}
+};
+
+/**
+ * Select and display a providers filter result on the form.
+ * 
+ * @param {numeric} id Record id to be selected.
+ * @param {bool} display (OPTIONAL = false) If true the record will be displayed on the form.
+ */
+ProvidersHelper.prototype.select = function(id, display) {
+    if (display == undefined) display = false;
+    
+    // Select record in filter results.
+    $('#filter-providers .provider-row').each(function() {
+        if ($(this).attr('data-id') == id) {
+            $(this).addClass('selected-row');
+            return false;
+        }
+    });
+    
+    // Display record in form (if display = true).
+    if (display) {
+        $.each(BackendUsers.helper.filterResults, function(index, provider) {
+            if (provider.id == id) {
+                BackendUsers.helper.display(provider);
+                $('#edit-provider, #delete-provider').prop('disabled', false);
+                return false;
+            }
+        });
+    }
+};

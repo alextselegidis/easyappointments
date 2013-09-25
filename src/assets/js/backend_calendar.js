@@ -640,7 +640,7 @@ var BackendCalendar = {
                         $('#enable-sync span').text('Enable Sync');
                         $('#google-sync').prop('disabled', true);
                         
-                        return;
+                        return false;
                     }
                 });
             }
@@ -1477,7 +1477,7 @@ var BackendCalendar = {
             $.each(provider['services'], function(index, serviceId) {
                 if (serviceId == $dialog.find('#select-service').val()) {
                     canProvideService = true;
-                    return;
+                    return false;
                 }
             });
 
@@ -1495,7 +1495,7 @@ var BackendCalendar = {
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service['id'] == $dialog.find('#select-service').val()) {
                 serviceDuration = service['duration'];
-                return;
+                return false;
             }
         });
         

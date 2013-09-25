@@ -474,8 +474,11 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('customers_model');
             $customer = json_decode($_POST['customer'], true);
-            $this->customers_model->add($customer);
-            echo json_encode(AJAX_SUCCESS);
+            $customer_id = $this->customers_model->add($customer);
+            echo json_encode(array(
+                'status' => AJAX_SUCCESS,
+                'id' => $customer_id
+            ));
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
@@ -509,8 +512,11 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('services_model');
             $service = json_decode($_POST['service'], true);
-            $this->services_model->add($service);
-            echo json_encode(AJAX_SUCCESS);
+            $service_id =$this->services_model->add($service);
+            echo json_encode(array(
+                'status' => AJAX_SUCCESS,
+                'id' => $service_id
+            ));
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
@@ -568,8 +574,11 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('services_model');
             $category = json_decode($_POST['category'], true);
-            $this->services_model->add_category($category);
-            echo json_encode(AJAX_SUCCESS);
+            $category_id = $this->services_model->add_category($category);
+            echo json_encode(array(
+                'status' => AJAX_SUCCESS,
+                'id' => $category_id
+            ));
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
@@ -644,15 +653,21 @@ class Backend_api extends CI_Controller {
      * 
      * @param array $_POST['admin'] A json encoded array that contains the admin data. If an 'id'
      * value is provided then the record is going to be updated.
-     * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that  
-     * everything completed successfully.
+     * @return array Returns an array with the operation status and the record id that was 
+     * saved into the database.
      */
     public function ajax_save_admin() {
         try {
             $this->load->model('admins_model');
             $admin = json_decode($_POST['admin'], true);
-            $this->admins_model->add($admin);
-            echo json_encode(AJAX_SUCCESS);
+            $admin_id = $this->admins_model->add($admin);
+            
+            $response = array(
+                'status' => AJAX_SUCCESS,
+                'id' => $admin_id 
+            );
+            
+            echo json_encode($response);
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
@@ -722,8 +737,13 @@ class Backend_api extends CI_Controller {
                         ->get_setting('company_working_plan');
             }
             
-            $this->providers_model->add($provider);
-            echo json_encode(AJAX_SUCCESS);
+            $provider_id = $this->providers_model->add($provider);
+            
+            echo json_encode(array(
+                'status' => AJAX_SUCCESS,
+                'id' => $provider_id
+            ));
+            
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
@@ -786,8 +806,12 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('secretaries_model');
             $secretary = json_decode($_POST['secretary'], true);
-            $this->secretaries_model->add($secretary);
-            echo json_encode(AJAX_SUCCESS);
+            $secretary_id = $this->secretaries_model->add($secretary);
+            
+            echo json_encode(array(
+                'status' => AJAX_SUCCESS,
+                'id' => $secretary_id
+            ));
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
