@@ -1,6 +1,8 @@
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/backend_settings.js"></script>
 <script type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/working_plan.js"></script>
+<script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.jeditable.min.js"></script>
@@ -65,7 +67,7 @@
                 
                 <a href="<?php echo $this->config->base_url(); ?>" class="btn btn-primary btn-large">
                     <i class="icon-calendar icon-white"></i>
-                    Visit Book Appointment Page
+                    Book Appointment Page
                 </a>
             </fieldset>
         </form>
@@ -174,7 +176,7 @@
 
                         <br>
 
-                        <table id="breaks" class="table table-striped">
+                        <table class="breaks table table-striped">
                             <thead>
                                 <tr>
                                     <th>Day</th>
@@ -255,8 +257,8 @@
                 <br>
                 
                 <button type="button" id="user-notifications" class="btn" data-toggle="button">
-                    <i class="icon-asterisk"></i>
-                    Receive Email Notifications
+                    <i class="icon-envelope"></i>
+                    Receive Notifications
                 </button>
             </fieldset>
         </form>

@@ -7,6 +7,9 @@
         src="<?php echo $base_url; ?>assets/js/backend_users_providers.js"></script>
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/backend_users_secretaries.js"></script>
+
+<script type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/working_plan.js"></script>
         
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
@@ -30,25 +33,45 @@
 
 <div id="users-page" class="row-fluid">
     
-    <?php // Page Tabs ?>
+    <?php 
+        // ---------------------------------------------------------------------
+        //
+        // Page Navigation
+        //
+        // ---------------------------------------------------------------------
+    ?>
     <ul class="nav nav-tabs">
         <li class="admins-tab tab active"><a>Admins</a></li>
         <li class="providers-tab tab"><a>Providers</a></li>
         <li class="secretaries-tab tab"><a>Secretaries</a></li>
     </ul>
     
-    <?php // Admin Tab ?>
+    <?php 
+        // ---------------------------------------------------------------------
+        //
+        // Admins Tab 
+        //
+        // ---------------------------------------------------------------------
+    ?>
     <div id="admins" class="tab-content">
-        <div class="filter span4">
-            <div class="input-append">
-                <input class="filter-key span12" type="text" />
-                <button class="filter-admins btn" type="button">Filter</button>
-            </div>
+        <div id="filter-admins" class="filter-records column span4">
+            <form class="input-append">
+                <input class="key span8" type="text" />
+                <button class="filter btn" type="submit">
+                    <i class="icon-filter"></i>
+                    Filter
+                </button>
+                <button class="clear btn" type="button">
+                    <i class="icon-remove-circle"></i>
+                    Clear
+                </button>
+            </form>
+            
             <h2>Admins</h2>
-            <div class="filter-results"></div>
+            <div class="results"></div>
         </div>
         
-        <div class="details span7">
+        <div class="details column span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-admin" class="btn">
@@ -123,26 +146,40 @@
                     <br>
                     
                     <button type="button" id="admin-notifications" class="btn" data-toggle="button">
-                        <i class="icon-asterisk"></i>
-                        <span>Receive Email Notifications</span>
+                        <i class="icon-envelope"></i>
+                        <span>Receive Notifications</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
     
-    <?php // Providers Tab ?>
+    <?php 
+        // ---------------------------------------------------------------------
+        //
+        // Providers Tab 
+        //
+        // ---------------------------------------------------------------------
+    ?>
     <div id="providers" class="tab-content" style="display:none;">
-        <div class="filter span4">
-            <div class="input-append">
-                <input class="filter-key span12" type="text" />
-                <button class="filter-providers btn" type="button">Filter</button>
-            </div>
+        <div id="filter-providers" class="filter-records column span4">
+            <form class="input-append">
+                <input class="key span8" type="text" />
+                <button class="filter btn" type="submit">
+                    <i class="icon-filter"></i>
+                    Filter
+                </button>
+                <button class="clear btn" type="button">
+                    <i class="icon-remove-circle"></i>
+                    Clear
+                </button>
+            </form>
+            
             <h2>Providers</h2>
-            <div class="filter-results"></div>
+            <div class="results"></div>
         </div>
         
-        <div class="details span7">
+        <div class="details column span7">
             <div class="btn-toolbar span5">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn">
@@ -167,13 +204,16 @@
             </div>
             
             <div class="switch-view pull-right">
+                <strong>Current View</strong>
                 <div class="display-details current">Details</div>
                 <div class="display-working-plan">Working Plan</div>
             </div>
             
+            <?php // This form message is outside the details view, so that it can be 
+                  // visible when the user has working plan view active. ?>
             <div class="form-message alert" style="display:none;"></div>
             
-            <div class="details-view"> 
+            <div class="details-view provider-view"> 
                 <h2>Details</h2>
 
                 <input type="hidden" id="provider-id" class="record-id" />
@@ -223,8 +263,8 @@
                         <br>
 
                         <button type="button" id="provider-notifications" class="btn" data-toggle="button">
-                            <i class="icon-asterisk"></i>
-                            <span>Receive Email Notifications</span>
+                            <i class="icon-envelope"></i>
+                            <span>Receive Notifications</span>
                         </button>
 
                         <br><br>
@@ -235,7 +275,7 @@
                 </div>
             </div>
                 
-            <div class="working-plan-view" style="display: none;">
+            <div class="working-plan-view provider-view" style="display: none;">
                 <h2>Working Plan</h2>
                 <table class="working-plan table table-striped">
                     <thead>
@@ -302,7 +342,7 @@
 
                 <br>
 
-                <table id="breaks" class="table table-striped">
+                <table class="breaks table table-striped">
                     <thead>
                         <tr>
                             <th>Day</th>
@@ -318,18 +358,32 @@
         </div>
     </div>
     
-    <?php // Secretaries Tab ?>
+    <?php 
+        // ---------------------------------------------------------------------
+        //
+        // Secretaries Tab 
+        //
+        // ---------------------------------------------------------------------
+    ?>
     <div id="secretaries" class="tab-content" style="display:none;">
-        <div class="filter span4">
-            <div class="input-append">
-                <input class="filter-key span12" type="text" />
-                <button class="filter-secretaries btn" type="button">Filter</button>
-            </div>
+        <div id="filter-secretaries" class="filter-records column span4">
+            <form class="input-append">
+                <input class="key span8" type="text" />
+                <button class="filter btn" type="submit">
+                    <i class="icon-filter"></i>
+                    Filter
+                </button>
+                <button class="clear btn" type="button">
+                    <i class="icon-remove-circle"></i>
+                    Clear
+                </button>
+            </form>
+            
             <h2>Secretaries</h2>
-            <div class="filter-results"></div>
+            <div class="results"></div>
         </div>
         
-        <div class="details span7">
+        <div class="details column span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-secretary" class="btn">
@@ -404,7 +458,7 @@
                     <br>
                     
                     <button type="button" id="secretary-notifications" class="btn" data-toggle="button">
-                        <i class="icon-asterisk"></i>
+                        <i class="icon-envelope"></i>
                         <span>Receive Notifications</span>
                     </button>
                     

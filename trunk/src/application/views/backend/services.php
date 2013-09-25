@@ -28,16 +28,24 @@
     ?>
     <div id="services" class="tab-content">
         <?php // FILTER SERVICES ?>
-        <div class="filter span4">
-            <div class="input-append">
-                <input class="filter-key span12" type="text" />
-                <button class="filter-services btn" type="button">Filter</button>
-            </div>
+        <div id="filter-services" class="filter-records column span4">
+            <form class="input-append">
+                <input class="key span8" type="text" />
+                <button class="filter btn" type="submit">
+                    <i class="icon-filter"></i>
+                    Filter
+                </button>
+                <button class="clear btn" type="button">
+                    <i class="icon-remove-circle"></i>
+                    Clear
+                </button>
+            </form>
+            
             <h2>Services</h2>
-            <div class="filter-results"></div>
+            <div class="results"></div>
         </div>
 
-        <div class="details span7">
+        <div class="details column span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-service" class="btn">
@@ -97,14 +105,21 @@
         // --------------------------------------------------------------
     ?>
     <div id="categories" class="tab-content" style="display:none;">
-        <div class="filter span4">
-            <div class="input-append">
-                <input class="filter-key span12" type="text" class="" />
-                <button class="filter-categories btn" type="button">Filter</button>
-            </div>
+        <div id="filter-categories" class="filter-records column span4">
+            <form class="input-append">
+                <input class="key span8" type="text" class="" />
+                <button class="filter btn" type="submit">
+                    <i class="icon-filter"></i>
+                    Filter
+                </button>
+                <button class="clear btn" type="button">
+                    <i class="icon-remove-circle"></i>
+                    Clear
+                </button>
+            </form>
 
             <h2>Categories</h2>
-            <div class="filter-results"></div>
+            <div class="results"></div>
         </div>
 
         <div class="details span7">

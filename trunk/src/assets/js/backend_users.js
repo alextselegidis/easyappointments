@@ -13,22 +13,13 @@ var BackendUsers = {
      * @type AdminsHelper|ProvidersHelper|SecretariesHelper
      */
     helper: {},
-    
-    /**
-     * This flag is used when trying to cancel row editing. It is
-     * true only whenever the user presses the cancel button.
-     * 
-     * @type {bool}
-     */
-    enableCancel: false,
             
     /**
-     * This flag determines whether the jeditables are allowed to submit. It is  
-     * true only whenever the user presses the save button.
+     * Use this class instance for performing actions on the working plan.
      * 
-     * @type {bool}
+     * @type {object}
      */
-    enableSubmit: false,
+    wp: {},
         
     /**
      * Initialize the backend users page.
@@ -43,6 +34,9 @@ var BackendUsers = {
         BackendUsers.helper = new AdminsHelper();
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter('');
+        
+        BackendUsers.wp = new WorkingPlan();
+        BackendUsers.wp.bindEventHandlers();
         
         // Fill the services and providers list boxes.
         $.each(GlobalVariables.services, function(index, service) {
@@ -150,7 +144,7 @@ var BackendUsers = {
             }, 'json');
         });
         
-        // -----------------------------------------------------------------
+        // ------------------------------------------------------------------------
         
         AdminsHelper.prototype.bindEventHandlers();
         
@@ -161,5 +155,7 @@ var BackendUsers = {
         // ------------------------------------------------------------------------
         
         SecretariesHelper.prototype.bindEventHandlers();
+        
+        // ------------------------------------------------------------------------
     }
 };

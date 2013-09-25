@@ -18,14 +18,21 @@
 </script>
 
 <div id="customers-page" class="row-fluid">
-	<div id="filter" class="span4">
-		<div class="input-append">
-			<input class="span12" type="text" id="filter-key" />
-            <button type="button" class="btn" id="filter-customers">Filter</button>
-		</div>
+	<div id="filter-customers" class="filter-records column span4">
+		<form class="input-append">
+			<input class="key span8" type="text" />
+            <button class="filter btn" type="submit">
+                    <i class="icon-filter"></i>
+                    Filter
+                </button>
+                <button class="clear btn" type="button">
+                    <i class="icon-remove-circle"></i>
+                    Clear
+                </button>
+		</form>
         
         <h2>Customers</h2>
-        <div id="filter-results"></div>
+        <div class="results"></div>
 	</div>
 
 	<div id="details" class="span7 row-fluid">

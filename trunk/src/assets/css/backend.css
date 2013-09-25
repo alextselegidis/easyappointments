@@ -194,24 +194,25 @@ body .modal-header h3 {
 
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
-#customers-page #filter {
+#customers-page #filter-customers {
     margin: 15px 0px 15px 15px; 
 }
 
-#customers-page #filter-results { 
+#customers-page .filter-records .results { 
     overflow-y: auto; 
+    max-height: 650px;
 }
 
-#customers-page #filter-results .customer-row { 
+#customers-page #filter-customers .results .customer-row { 
     padding: 10px 7px; border-radius: 3px; 
 }
 
-#customers-page #filter-results .customer-row:hover { 
+#customers-page #filter-customers .results .customer-row:hover { 
     background-color: #C6E7D5; 
     cursor: pointer; 
 }
 
-#customers-page #filter-results hr { 
+#customers-page #filter-customers .results hr { 
     margin: 5px 0; 
 }
 
@@ -268,6 +269,11 @@ body .modal-header h3 {
 
 #services-page .nav li { 
     cursor: pointer; 
+}
+
+#services-page .filter-records .results {
+    overflow-y: auto;
+    max-height: 650px;
 }
 
 #services-page .service-row { 
@@ -330,6 +336,11 @@ body .modal-header h3 {
     cursor: pointer; 
 }
 
+#users-page .filter-records .results {
+    overflow-y: auto;
+    max-height: 650px;
+}
+
 #users-page .secretary-row,
 #users-page .provider-row,
 #users-page .admin-row { 
@@ -358,7 +369,8 @@ body .modal-header h3 {
 #users-page #secretary-notifications.active,
 #users-page #provider-notifications.active,
 #users-page #admin-notifications.active {
-    background: #FFFF91;
+    background: #B6DCFF;
+    box-shadow: none;
 }
 
 #users-page #secretary-providers,
@@ -377,16 +389,23 @@ body .modal-header h3 {
 
 #users-page #providers .switch-view div {
     display: inline-block;
-    padding: 10px 15px;
+    padding: 6px 13px;
     border-radius: 4px;
     color: #333;
     float: left;
-    margin-right: 5px;
+    margin-right: 3px;
     cursor: pointer;
 }
 
 #users-page #providers .switch-view div:hover:not(.current) {
     background: #F5F5F5;
+}
+
+#users-page #providers .switch-view strong {
+    display: inline-block;
+    float: left;
+    margin: 8px 20px;
+    font-size: 17px;
 }
 
 #users-page #providers .switch-view .current {
@@ -408,7 +427,7 @@ background: #95E4A8;
     clear: both;
 }
 
-#users-page #providers #breaks .btn {
+#users-page #providers .breaks .btn {
 margin-right: 5px;
 padding: 4px 7px;
 }
@@ -437,21 +456,21 @@ padding: 4px 7px;
     margin-bottom: 0;
 }
 
-#business-logic #breaks .btn {
+#business-logic .breaks .btn {
     margin-right: 5px;
     padding: 4px 7px;
 }
 
-#business-logic #breaks input {
+#business-logic .breaks input {
     margin-bottom: 0;
 }
 
-#business-logic #breaks .editable form {
+#business-logic .breaks .editable form {
     margin: 0;
 }
 
-#business-logic #breaks .editable select,
-#business-logic #breaks .editable input {
+#business-logic .breaks .editable select,
+#business-logic .breaks .editable input {
     margin: 0;
     cursor: pointer;
 }
@@ -462,4 +481,9 @@ padding: 4px 7px;
 
 #business-logic .ui-spinner { 
     border: none;
+}
+
+#settings-page #user-notifications.active {
+    background: #B6DCFF;
+    box-shadow: none;
 }

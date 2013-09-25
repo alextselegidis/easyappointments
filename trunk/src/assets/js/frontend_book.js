@@ -483,7 +483,7 @@ var FrontendBook = {
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == $('#select-service').val()) {
                 selServiceDuration = service.duration;
-                return; // Stop searching ... 
+                return false; // Stop searching ... 
             }
         });
         
