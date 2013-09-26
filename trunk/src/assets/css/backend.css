@@ -90,7 +90,7 @@ root {
 }
 
 #modal-message { 
-    margin: 10px 0px; 
+    margin: 10px; 
 }
 
 body .modal-header {
@@ -160,7 +160,7 @@ body .modal-header h3 {
 }
 
 #calendar .fc-header-title h2 {
-    font-size: 20px;
+    font-size: 18px;
     margin: 0px;
     line-height: 32px;
 }
@@ -190,6 +190,34 @@ body .modal-header h3 {
 #manage-appointment {
     width: 860px;
     margin-left: -430px;
+}
+
+#existing-customers-list { 
+    height: 110px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+#existing-customers-list div {
+    display: inline-block;
+    width: 250px;
+    margin: 0 5px 5px 0;
+    padding: 3px 5px;
+    border-radius: 3px;
+}
+
+#existing-customers-list div:hover {
+    background: #B8F0C1;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#filter-existing-customers {
+    display: inline-block;
+    height: 14px;
+    font-size: 12px;
 }
 
 /* BACKEND CUSTOMERS PAGE

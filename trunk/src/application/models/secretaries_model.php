@@ -36,9 +36,7 @@ class Secretaries_Model extends CI_Model {
      * @throws Exception When the secretary data are invalid (see validate() method).
      */
     public function add($secretary) {
-        if (!$this->validate($secretary)) {
-            throw new Exception('Secretary data are invalid: ' . print_r($secretary, TRUE));
-        }
+        $this->validate($secretary);
 
         if ($this->exists($secretary) && !isset($secretary['id'])) {
             $secretary['id'] = $this->find_record_id($secretary);
@@ -177,45 +175,41 @@ class Secretaries_Model extends CI_Model {
     public function validate($secretary) {
         $this->load->helper('data_validation');
         
-        try {
-            // If a record id is provided then check whether the record exists in the database.
-            if (isset($secretary['id'])) {
-                $num_rows = $this->db->get_where('ea_users', array('id' => $secretary['id']))
-                        ->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Given secretary id does not exist in database: ' . $secretary['id']);
-                }
+        // If a record id is provided then check whether the record exists in the database.
+        if (isset($secretary['id'])) {
+            $num_rows = $this->db->get_where('ea_users', array('id' => $secretary['id']))
+                    ->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Given secretary id does not exist in database: ' . $secretary['id']);
             }
-            
-            // Validate 'providers' value datatype (must be array)
-            if (isset($secretary['providers']) && !is_array($secretary['providers'])) {
-                throw new Exception('Secretary providers value is not an array.');
-            }
-            
-            // Validate required fields integrity.
-            if (!isset($secretary['last_name'])
-                    || !isset($secretary['email'])
-                    || !isset($secretary['phone_number'])) { 
-                throw new Exception('Not all required fields are provided : ' . print_r($secretary, TRUE));
-            }
-            
-            // Validate secretary email address.
-            if (!filter_var($secretary['email'], FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('Invalid email address provided : ' . $secretary['email']);
-            }
-            
-            // Validate admin password
-            if (isset($secretary['settings']['password'])) {
-                if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH) {
-                    throw new Exception('The user password must be at least ' 
-                            . MIN_PASSWORD_LENGTH . ' characters long.');
-                }
-            }
-            
-            return TRUE;
-        } catch (Exception $exc) {
-            return FALSE;
         }
+
+        // Validate 'providers' value datatype (must be array)
+        if (isset($secretary['providers']) && !is_array($secretary['providers'])) {
+            throw new Exception('Secretary providers value is not an array.');
+        }
+
+        // Validate required fields integrity.
+        if (!isset($secretary['last_name'])
+                || !isset($secretary['email'])
+                || !isset($secretary['phone_number'])) { 
+            throw new Exception('Not all required fields are provided : ' . print_r($secretary, TRUE));
+        }
+
+        // Validate secretary email address.
+        if (!filter_var($secretary['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Invalid email address provided : ' . $secretary['email']);
+        }
+
+        // Validate admin password
+        if (isset($secretary['settings']['password'])) {
+            if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                throw new Exception('The user password must be at least ' 
+                        . MIN_PASSWORD_LENGTH . ' characters long.');
+            }
+        }
+
+        return TRUE;
     }
     
     /**

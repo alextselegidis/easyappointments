@@ -14,6 +14,12 @@
         'settings': {
             'system': <?php echo json_encode($system_settings); ?>,
             'user': <?php echo json_encode($user_settings); ?>
+        },
+        'user'                  : {
+            'id'        : <?php echo $user_id; ?>,
+            'email'     : <?php echo '"' . $user_email . '"'; ?>,
+            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'privileges': <?php echo json_encode($privileges); ?>
         }
     };
     
@@ -24,9 +30,17 @@
 
 <div id="settings-page" class="row-fluid">
     <ul class="nav nav-tabs">
-        <li class="general-tab tab active"><a>General</a></li>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
+        <li class="general-tab tab"><a>General</a></li>
+        <?php } ?>
+        
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
         <li class="business-logic-tab tab"><a>Business Logic</a></li>
+        <?php } ?>
+        
+        <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
         <li class="user-tab tab"><a>User</a></li>
+        <?php } ?>
     </ul>
     
     <?php 
@@ -36,12 +50,15 @@
         // 
         // --------------------------------------------------------------
     ?>
-    <div id="general" class="tab-content">
+    <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
+    <div id="general" class="tab-content <?php echo $hidden; ?>">
         <form>
             <fieldset>
                 <legend>
                     General Settings
+                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
                     <button type="button" class="save-settings btn btn-primary btn-mini">Save</button>
+                    <?php } ?>
                 </legend>
                 
                 <label for="company-name">Company Name *</label>
@@ -80,12 +97,15 @@
         // 
         // --------------------------------------------------------------
     ?>
-    <div id="business-logic" class="tab-content" style="display: none;">
+    <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
+    <div id="business-logic" class="tab-content <?php echo $hidden; ?>">
         <form>
             <fieldset>
                 <legend>
                     Business Logic
+                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
                     <button type="button" class="save-settings btn btn-primary btn-mini">Save</button>
+                    <?php } ?>
                 </legend>
                 
                 <div class="row-fluid">
@@ -201,12 +221,15 @@
         // 
         // --------------------------------------------------------------
     ?>
-    <div id="user" class="tab-content" style="display: none;">
+    <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
+    <div id="user" class="tab-content <?php echo $hidden; ?>">
         <form class="row-fluid">
             <fieldset class="span5">
                 <legend>
                     Personal Info 
+                    <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
                     <button type="button" class="save-settings btn btn-primary btn-mini">Save</button>
+                    <?php } ?>
                 </legend>
                 
                 <input type="hidden" id="user-id" />

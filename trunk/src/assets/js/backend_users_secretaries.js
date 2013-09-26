@@ -212,7 +212,7 @@ SecretariesHelper.prototype.delete = function(id) {
         Backend.displayNotification('Secretary deleted successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-secretaries .key').val());
-    });
+    }, 'json');
 };
 
 /**

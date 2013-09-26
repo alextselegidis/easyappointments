@@ -292,7 +292,7 @@ ServicesHelper.prototype.delete = function(id) {
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-services .key').val());
-    });
+    }, 'json');
 };
 
 /**
@@ -641,7 +641,7 @@ CategoriesHelper.prototype.save = function(category) {
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('', response.id, true);
         BackendServices.updateAvailableCategories();
-    });
+    }, 'json');
 };
 
 /**
@@ -665,7 +665,7 @@ CategoriesHelper.prototype.delete = function(id) {
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-categories .key').val());
         BackendServices.updateAvailableCategories();
-    });
+    }, 'json');
 };
 
 /**

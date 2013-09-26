@@ -35,9 +35,7 @@ class Admins_Model extends CI_Model {
      * @throws Exception When the admin data are invalid (see validate() method).
      */
     public function add($admin) {
-        if (!$this->validate($admin)) {
-            throw new Exception('Admin data are invalid: ' . print_r($admin, TRUE));
-        }
+        $this->validate($admin);
         
         if ($this->exists($admin) && !isset($admin['id'])) {
             $admin['id'] = $this->find_record_id($admin);
@@ -178,44 +176,42 @@ class Admins_Model extends CI_Model {
      * 
      * @param array $admin Contains the admin user data.
      * @return bool Returns the validation result.
+     * 
+     * @throws Exception When data are invalid.
      */
     public function validate($admin) {
         $this->load->helper('data_validation');
-        
-        try {
-            // If a record id is provided then check whether the record exists in the database.
-            if (isset($admin['id'])) {
-                $num_rows = $this->db->get_where('ea_users', array('id' => $admin['id']))
-                        ->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Given admin id does not exist in database: ' . $admin['id']);
-                }
+
+        // If a record id is provided then check whether the record exists in the database.
+        if (isset($admin['id'])) {
+            $num_rows = $this->db->get_where('ea_users', array('id' => $admin['id']))
+                    ->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Given admin id does not exist in database: ' . $admin['id']);
             }
-            
-            // Validate required fields integrity.
-            if (!isset($admin['last_name'])
-                    || !isset($admin['email'])
-                    || !isset($admin['phone_number'])) { 
-                throw new Exception('Not all required fields are provided : ' . print_r($admin, TRUE));
-            }
-            
-            // Validate admin email address.
-            if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('Invalid email address provided : ' . $admin['email']);
-            }
-            
-            // Validate admin password
-            if (isset($admin['settings']['password'])) {
-                if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH) {
-                    throw new Exception('The user password must be at least ' 
-                            . MIN_PASSWORD_LENGTH . ' characters long.');
-                }
-            }
-            
-            return TRUE;
-        } catch (Exception $exc) {
-            return FALSE;
         }
+
+        // Validate required fields integrity.
+        if (!isset($admin['last_name'])
+                || !isset($admin['email'])
+                || !isset($admin['phone_number'])) { 
+            throw new Exception('Not all required fields are provided : ' . print_r($admin, TRUE));
+        }
+
+        // Validate admin email address.
+        if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Invalid email address provided : ' . $admin['email']);
+        }
+
+        // Validate admin password
+        if (isset($admin['settings']['password'])) {
+            if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                throw new Exception('The user password must be at least ' 
+                        . MIN_PASSWORD_LENGTH . ' characters long.');
+            }
+        }
+            
+        return TRUE; // Operation completed successfully.
     }
     
     /**

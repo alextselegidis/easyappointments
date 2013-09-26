@@ -5,7 +5,13 @@
     var GlobalVariables = {
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
         'services': <?php echo json_encode($services); ?>,
-        'categories': <?php echo json_encode($categories); ?>
+        'categories': <?php echo json_encode($categories); ?>,
+        'user'                  : {
+            'id'        : <?php echo $user_id; ?>,
+            'email'     : <?php echo '"' . $user_email . '"'; ?>,
+            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'privileges': <?php echo json_encode($privileges); ?>
+        }
     };
     
     $(document).ready(function() {

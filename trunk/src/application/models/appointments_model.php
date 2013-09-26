@@ -21,9 +21,7 @@ class Appointments_Model extends CI_Model {
      */
     public function add($appointment) {
         // Validate the appointment data before doing anything.
-        if (!$this->validate($appointment)) {
-            throw new Exception('Appointment data are invalid.');
-        }
+        $this->validate($appointment);
         
         // Perform insert() or update() operation.
         if (!isset($appointment['id'])) {
@@ -148,64 +146,60 @@ class Appointments_Model extends CI_Model {
     public function validate($appointment) {
         $this->load->helper('data_validation');
         
-        try {
-            // If a appointment id is given, check wether the record exists
-            // in the database.
-            if (isset($appointment['id'])) {
-                $num_rows = $this->db->get_where('ea_appointments', 
-                        array('id' => $appointment['id']))->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Provided appointment id does not '
-                            . 'exist in the database.');
-                }
+        // If a appointment id is given, check wether the record exists
+        // in the database.
+        if (isset($appointment['id'])) {
+            $num_rows = $this->db->get_where('ea_appointments', 
+                    array('id' => $appointment['id']))->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Provided appointment id does not '
+                        . 'exist in the database.');
             }
-            
-            // Check if appointment dates are valid.
-            if (!validate_mysql_datetime($appointment['start_datetime'])) {
-                throw new Exception('Appointment start datetime is invalid.');    
-            }
-            
-            if (!validate_mysql_datetime($appointment['end_datetime'])) {
-                throw new Exception('Appointment end datetime is invalid.');
-            }
+        }
 
-            // Check if the provider's id is valid. 
+        // Check if appointment dates are valid.
+        if (!validate_mysql_datetime($appointment['start_datetime'])) {
+            throw new Exception('Appointment start datetime is invalid.');    
+        }
+
+        if (!validate_mysql_datetime($appointment['end_datetime'])) {
+            throw new Exception('Appointment end datetime is invalid.');
+        }
+
+        // Check if the provider's id is valid. 
+        $num_rows = $this->db
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_users.id', $appointment['id_users_provider'])
+                ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                ->get()->num_rows();
+        if ($num_rows == 0) {
+            throw new Exception('Appointment provider id is invalid.');
+        }
+
+        if ($appointment['is_unavailable'] == FALSE) { 
+            // Check if the customer's id is valid.
             $num_rows = $this->db
                     ->select('*')
                     ->from('ea_users')
                     ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                    ->where('ea_users.id', $appointment['id_users_provider'])
-                    ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+                    ->where('ea_users.id', $appointment['id_users_customer'])
+                    ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
                     ->get()->num_rows();
             if ($num_rows == 0) {
-                throw new Exception('Appointment provider id is invalid.');
+                throw new Exception('Appointment customer id is invalid.');
             }
-            
-            if ($appointment['is_unavailable'] == FALSE) { 
-                // Check if the customer's id is valid.
-                $num_rows = $this->db
-                        ->select('*')
-                        ->from('ea_users')
-                        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                        ->where('ea_users.id', $appointment['id_users_customer'])
-                        ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                        ->get()->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Appointment customer id is invalid.');
-                }
-                
-                // Check if the service id is valid.
-                $num_rows = $this->db->get_where('ea_services', 
-                        array('id' => $appointment['id_services']))->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Appointment customer id is invalid.');
-                }
+
+            // Check if the service id is valid.
+            $num_rows = $this->db->get_where('ea_services', 
+                    array('id' => $appointment['id_services']))->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Appointment customer id is invalid.');
             }
-            
-            return TRUE;
-        } catch (Exception $exc) {
-            return FALSE;
         }
+
+        return TRUE;
     }
     
     /**

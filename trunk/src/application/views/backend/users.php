@@ -23,7 +23,13 @@
         'providers': <?php echo json_encode($providers); ?>,
         'secretaries': <?php echo json_encode($secretaries); ?>,
         'services': <?php echo json_encode($services); ?>,
-        'workingPlan': $.parseJSON(<?php echo json_encode($working_plan); ?>)
+        'workingPlan': $.parseJSON(<?php echo json_encode($working_plan); ?>),
+        'user'                  : {
+            'id'        : <?php echo $user_id; ?>,
+            'email'     : <?php echo '"' . $user_email . '"'; ?>,
+            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'privileges': <?php echo json_encode($privileges); ?>
+        }
     };
     
     $(document).ready(function() {

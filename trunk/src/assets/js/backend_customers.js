@@ -294,11 +294,16 @@ CustomersHelper.prototype.validate = function(customer) {
  */
 CustomersHelper.prototype.resetForm = function() {
     $('#details').find('input, textarea').val(''); 
+    $('#details').find('input, textarea').prop('readonly', true); 
+    
     $('#customer-appointments').html('');
     $('#appointment-details').html('');
     $('#edit-customer, #delete-customer').prop('disabled', true);
     $('#add-edit-delete-group').show();
     $('#save-cancel-group').hide();
+    
+    $('#details .required').css('border', '');
+    $('#details #form-message').hide();
     
     $('#filter-customers button').prop('disabled', false);
     $('#filter-customers .selected-row').removeClass('selected-row');
