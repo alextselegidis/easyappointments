@@ -16,7 +16,14 @@
         'availableServices'     : <?php echo json_encode($available_services); ?>,
         'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,
         'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>,
-        'editAppointment'       : <?php echo json_encode($edit_appointment); ?>
+        'editAppointment'       : <?php echo json_encode($edit_appointment); ?>,
+        'customers'             : <?php echo json_encode($customers); ?>,
+        'user'                  : {
+            'id'        : <?php echo $user_id; ?>,
+            'email'     : <?php echo '"' . $user_email . '"'; ?>,
+            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'privileges': <?php echo json_encode($privileges); ?>
+        }
     };
     
     $(document).ready(function() {
@@ -33,6 +40,7 @@
         
         <div id="calendar-actions">
             <div class="btn-group">
+                <?php if ($privileges[PRIV_USERS]['edit'] == TRUE) { ?>
                 <button id="google-sync" class="btn btn-primary" 
                         title="Trigger the Google Calendar synchronization process.">
                     <i class="icon-refresh icon-white"></i>
@@ -44,6 +52,7 @@
                     <i class="icon-calendar"></i>
                     <span>Enable Sync</span>
                 </button>
+                <?php } ?>
                 
                 <button id="reload-appointments" class="btn" title="Reload calendar appointments.">
                     <i class="icon-repeat"></i>
@@ -51,19 +60,21 @@
                 </button>
             </div>
             
+            <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE) { ?>
             <div class="btn-group">
-                <button id="insert-appointment" class="btn" 
+                <button id="insert-appointment" class="btn btn-info" 
                         title="Create a new appointment and store it into the database.">
-                    <i class="icon-plus"></i>
+                    <i class="icon-plus icon-white"></i>
                     <span>Appointment</span>
                 </button>
 
                 <button id="insert-unavailable" class="btn" 
                         title="During unavailable periods the provider won't accept new appointments.">
-                    <i class="icon-ban-circle"></i>
+                    <i class="icon-plus"></i>
                     <span>Unavailable</span>
                 </button>
             </div>
+            <?php } ?>
         </div>
     </div>
     
@@ -75,8 +86,9 @@
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
         <h3>Edit Appointment</h3>
-        <div id="modal-message" class="alert" style="display: none;"></div>
     </div>
+    
+    <div class="modal-message alert" style="display: none;"></div>
     
     <div class="modal-body">
         <form class="form-horizontal">
@@ -115,7 +127,14 @@
             </fieldset>
 
             <fieldset class="row-fluid">
-                <legend>Customer Details</legend>
+                <legend>
+                    Customer Details
+                    <button id="select-customer" class="btn btn-primary btn-mini" 
+                            title="Pick an existing customer." type="button">Select Existing Customer</button>
+                    <input type="text" id="filter-existing-customers" placeholder="Type to filter customers." 
+                           style="display: none;" class="input-medium"/>
+                    <div id="existing-customers-list" style="display: none;"></div>
+                </legend>
 
                 <input id="customer-id" type="hidden" />
                 
@@ -192,8 +211,10 @@
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
         <h3>Add Unavailable Period</h3>
-        <div class="modal-message" class="alert" style="display: none;"></div>
+        
     </div>
+    
+    <div class="modal-message alert" style="display: none;"></div>
     
     <div class="modal-body">
         <form class="form-horizontal">

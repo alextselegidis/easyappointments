@@ -9,7 +9,13 @@
         'availableProviders': <?php echo json_encode($available_providers); ?>,
         'availableServices': <?php echo json_encode($available_services); ?>,
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
-        'customers': <?php echo json_encode($customers); ?>
+        'customers': <?php echo json_encode($customers); ?>,
+        'user'                  : {
+            'id'        : <?php echo $user_id; ?>,
+            'email'     : <?php echo '"' . $user_email . '"'; ?>,
+            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'privileges': <?php echo json_encode($privileges); ?>
+        }
     };
     
     $(document).ready(function() {
@@ -38,15 +44,23 @@
 	<div id="details" class="span7 row-fluid">
         <div class="btn-toolbar">
             <div id="add-edit-delete-group" class="btn-group">
+                <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
                 <button id="add-customer" class="btn">
                     <i class="icon-plus"></i>
                     Add</button>
+                <?php } ?>
+                
+                <?php if ($privileges[PRIV_CUSTOMERS]['edit'] == TRUE) { ?>
                 <button id="edit-customer" class="btn" disabled="disabled">
                     <i class="icon-pencil"></i>
                     Edit</button>
+                <?php }?>
+                
+                <?php if ($privileges[PRIV_CUSTOMERS]['delete'] == TRUE) { ?>
                 <button id="delete-customer" class="btn" disabled="disabled">
                     <i class="icon-remove"></i>
                     Delete</button>
+                <?php } ?>
             </div>
             
             <div id="save-cancel-group" class="btn-group" style="display:none;">

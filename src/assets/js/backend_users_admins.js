@@ -201,7 +201,7 @@ AdminsHelper.prototype.delete = function(id) {
         Backend.displayNotification('Admin deleted successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-admins .key').val());
-    });
+    }, 'json');
 };
 
 /**

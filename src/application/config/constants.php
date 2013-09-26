@@ -64,12 +64,12 @@ define('PRIV_ADD', 2);
 define('PRIV_EDIT', 4);
 define('PRIV_DELETE', 8);
 
-define('PAGE_APPOINTMENTS', 'appointments');
-define('PAGE_CUSTOMERS', 'customers');
-define('PAGE_SERVICES', 'services');
-define('PAGE_USERS', 'users');
-define('PAGE_SYSTEM_SETTINGS', 'system_settings');
-define('PAGE_USER_SETTINGS', 'user_settings');
+define('PRIV_APPOINTMENTS', 'appointments');
+define('PRIV_CUSTOMERS', 'customers');
+define('PRIV_SERVICES', 'services');
+define('PRIV_USERS', 'users');
+define('PRIV_SYSTEM_SETTINGS', 'system_settings');
+define('PRIV_USER_SETTINGS', 'user_settings');
 
 define('MIN_PASSWORD_LENGTH', 7);
 /* End of file constants.php */

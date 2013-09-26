@@ -242,7 +242,7 @@ ProvidersHelper.prototype.delete = function(id) {
         Backend.displayNotification('Provider deleted successfully!');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-providers .key').val());
-    });
+    }, 'json');
 };
 
 /**

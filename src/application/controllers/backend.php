@@ -19,19 +19,22 @@ class Backend extends CI_Controller {
      */
     public function index($appointment_hash = '') {
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend');
-        if (!$this->hasPrivileges(PAGE_APPOINTMENTS)) return;
+        if (!$this->hasPrivileges(PRIV_APPOINTMENTS)) return;
         
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
+        $this->load->model('roles_model');
         
         $view['base_url'] = $this->config->item('base_url');
         $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
+        $view['customers'] = $this->customers_model->get_batch();
+        $this->setUserData($view);
         
         if ($appointment_hash != '') {
             $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
@@ -54,7 +57,7 @@ class Backend extends CI_Controller {
      */
     public function customers() {
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/customers');
-    	if (!$this->hasPrivileges(PAGE_CUSTOMERS)) return;
+    	if (!$this->hasPrivileges(PRIV_CUSTOMERS)) return;
     	
         $this->load->model('providers_model');
         $this->load->model('customers_model');
@@ -66,6 +69,7 @@ class Backend extends CI_Controller {
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
+        $this->setUserData($view);
         
         $this->load->view('backend/header', $view);
         $this->load->view('backend/customers', $view);
@@ -83,7 +87,7 @@ class Backend extends CI_Controller {
      */
     public function services() {
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/services');
-        if (!$this->hasPrivileges(PAGE_SERVICES)) return;
+        if (!$this->hasPrivileges(PRIV_SERVICES)) return;
         
         $this->load->model('customers_model');
         $this->load->model('services_model');
@@ -93,6 +97,7 @@ class Backend extends CI_Controller {
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['services'] = $this->services_model->get_batch();
         $view['categories'] = $this->services_model->get_all_categories();
+        $this->setUserData($view);
         
         $this->load->view('backend/header', $view);
         $this->load->view('backend/services', $view);
@@ -108,7 +113,7 @@ class Backend extends CI_Controller {
      */
     public function users() {
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/users');
-        if (!$this->hasPrivileges(PAGE_USERS)) return;
+        if (!$this->hasPrivileges(PRIV_USERS)) return;
         
         $this->load->model('providers_model');
         $this->load->model('secretaries_model');
@@ -123,6 +128,7 @@ class Backend extends CI_Controller {
         $view['secretaries'] = $this->secretaries_model->get_batch();
         $view['services'] = $this->services_model->get_batch(); 
         $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
+        $this->setUserData($view);
         
         $this->load->view('backend/header', $view);
         $this->load->view('backend/users', $view);
@@ -138,8 +144,8 @@ class Backend extends CI_Controller {
      */
     public function settings() {
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'backend/settings');
-        if (!$this->hasPrivileges(PAGE_SYSTEM_SETTINGS)
-                && !$this->hasPrivileges(PAGE_USER_SETTINGS)) return;
+        if (!$this->hasPrivileges(PRIV_SYSTEM_SETTINGS, FALSE)
+                && !$this->hasPrivileges(PRIV_USER_SETTINGS)) return;
         
         $this->load->model('settings_model');
         $this->load->model('user_model');
@@ -152,6 +158,7 @@ class Backend extends CI_Controller {
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['system_settings'] = $this->settings_model->get_settings();
         $view['user_settings'] = $this->user_model->get_settings($user_id);
+        $this->setUserData($view);
         
         $this->load->view('backend/header', $view);
         $this->load->view('backend/settings', $view);
@@ -198,6 +205,21 @@ class Backend extends CI_Controller {
         }
         
         return TRUE;
+    }
+    
+    /**
+     * Set the user data in order to be available at the view and js code.
+     * 
+     * @param array $view Contains the view data. 
+     */
+    public function setUserData(&$view) {
+        $this->load->model('roles_model');
+        
+        // Get privileges
+        $view['user_id'] = $this->session->userdata('user_id');
+        $view['user_email'] = $this->session->userdata('user_email');
+        $view['role_slug'] = $this->session->userdata('role_slug');
+        $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
 }
 

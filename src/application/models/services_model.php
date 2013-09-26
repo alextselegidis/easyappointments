@@ -15,9 +15,7 @@ class Services_Model extends CI_Model {
      * @return numeric Returns the record id.
      */
     public function add($service) {
-        if (!$this->validate($service)) {
-            throw new Exception('Service data are invalid.');
-        }
+        $this->validate($service);
         
         if (!isset($service['id'])) {
             $service['id'] = $this->insert($service);
@@ -86,49 +84,45 @@ class Services_Model extends CI_Model {
     public function validate($service) {
         $this->load->helper('data_validation');
         
-        try {
-            // If record id is provided we need to check whether the record exists
-            // in the database.
-            if (isset($service['id'])) {
-                $num_rows = $this->db->get_where('ea_services', array('id' => $service['id']))
-                        ->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Provided service id does not exist in the database.');
-                }
+        // If record id is provided we need to check whether the record exists
+        // in the database.
+        if (isset($service['id'])) {
+            $num_rows = $this->db->get_where('ea_services', array('id' => $service['id']))
+                    ->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Provided service id does not exist in the database.');
             }
-            
-            // Check if service category id is valid (only when present)
-            if ($service['id_service_categories'] != NULL) {
-                $num_rows = $this->db->get_where('ea_service_categories', 
-                        array('id' => $service['id_service_categories']))->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Provided service category id does not exist in database.');
-                }
-            }
-            
-            // Check for required fields
-            if ($service['name'] == '') {
-                throw new Exception('Not all required service fields where provided: ' 
-                        . print_r($service, TRUE));
-            }
-            
-            // Duration must be numeric
-            if ($service['duration'] !== NULL) {
-                if (!is_numeric($service['duration'])) {
-                    throw new Exception('Service duration is not numeric.');
-                }
-            }
-            
-            if ($service['price'] !== NULL) {
-                if (!is_numeric($service['price'])) {
-                    throw new Exception('Service price is not numeric.');
-                }
-            }
-            
-            return TRUE;
-        } catch(Exception $exc) {
-            return FALSE;
         }
+
+        // Check if service category id is valid (only when present)
+        if ($service['id_service_categories'] != NULL) {
+            $num_rows = $this->db->get_where('ea_service_categories', 
+                    array('id' => $service['id_service_categories']))->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Provided service category id does not exist in database.');
+            }
+        }
+
+        // Check for required fields
+        if ($service['name'] == '') {
+            throw new Exception('Not all required service fields where provided: ' 
+                    . print_r($service, TRUE));
+        }
+
+        // Duration must be numeric
+        if ($service['duration'] !== NULL) {
+            if (!is_numeric($service['duration'])) {
+                throw new Exception('Service duration is not numeric.');
+            }
+        }
+
+        if ($service['price'] !== NULL) {
+            if (!is_numeric($service['price'])) {
+                throw new Exception('Service price is not numeric.');
+            }
+        }
+
+        return TRUE;
     }
     
     /**

@@ -671,6 +671,98 @@ var BackendCalendar = {
             $dialog.find('.modal-header h3').text('New Unavailable Period');
             $dialog.modal('show');
         });
+        
+        /**
+         * Event: Pick Existing Customer Button "Click"
+         */
+        $('#select-customer').click(function() {
+            var $list = $('#existing-customers-list');
+            
+            if (!$list.is(':visible')) {
+                $(this).text('Hide List');
+                $list.empty();
+                $list.slideDown('slow');
+                $('#filter-existing-customers').fadeIn('slow');
+                $('#filter-existing-customers').val('');
+                $.each(GlobalVariables.customers, function(index, c) {
+                    $list.append('<div data-id="' + c.id + '">' 
+                            + c.first_name + ' ' + c.last_name + '</div>');
+                });
+            } else {
+                $list.slideUp('slow');
+                $('#filter-existing-customers').fadeOut('slow');
+                $(this).text('Select Existing Customer');
+            }
+        });
+        
+        /**
+         * Event: Select Existing Customer From List "Click"
+         */
+        $(document).on('click', '#existing-customers-list div', function() {
+            var id = $(this).attr('data-id');
+            
+            $.each(GlobalVariables.customers, function(index, c) {
+                if (c.id == id) {
+                    $('#customer-id').val(c.id);
+                    $('#first-name').val(c.first_name);
+                    $('#last-name').val(c.last_name);
+                    $('#email').val(c.email);
+                    $('#phone-number').val(c.phone_number);
+                    $('#address').val(c.address);
+                    $('#city').val(c.city);
+                    $('#zip-code').val(c.zip_code);
+                    return false;
+                }
+            });
+            
+            $('#select-customer').trigger('click'); // hide list
+        });
+        
+        /**
+         * Event: Filter Existing Customers "Change"
+         */
+        $('#filter-existing-customers').keyup(function() {
+            var key = $(this).val();
+            var $list = $('#existing-customers-list');
+            $list.empty();
+            $.each(GlobalVariables.customers, function(index, c) {
+                if (c.first_name.indexOf(key) != -1 
+                        || c.last_name.indexOf(key) != -1
+                        || c.email.indexOf(key) != -1
+                        || c.phone_number.indexOf(key) != -1
+                        || c.address.indexOf(key) != -1
+                        || c.city.indexOf(key) != -1
+                        || c.zip_code.indexOf(key) != -1) {
+                    $list.append('<div data-id="' + c.id + '">' 
+                            + c.first_name + ' ' + c.last_name + '</div>');
+                }
+            });
+        });
+        
+        /**
+         * Event: Selected Service "Change"
+         * 
+         * When the user clicks on a service, its available providers should 
+         * become visible. 
+         */
+        $('#select-service').change(function() {
+            var sid = $('#select-service').val();
+            $('#select-provider').empty();
+
+            $.each(GlobalVariables.availableProviders, function(indexProvider, provider) {
+                $.each(provider.services, function(indexService, serviceId) {
+                    // If the current provider is able to provide the selected service,
+                    // add him to the listbox. 
+                    if (serviceId == sid) { 
+                        var optionHtml = '<option value="' + provider['id'] + '">' 
+                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + '</option>';
+                        $('#select-provider').append(optionHtml);
+                    }
+                });
+            });
+        });
+        
     },
             
     /**
@@ -1011,6 +1103,13 @@ var BackendCalendar = {
      */
     calendarEventResize: function(event, dayDelta, minuteDelta, revertFunc, 
             jsEvent, ui, view) {
+        if (GlobalVariables.user.privileges.appointments.edit == false) {
+            revertFunc();
+            Backend.displayNotification('You do not have the required privileges to '
+                    + 'edit appointments.');
+            return;
+        }
+                
         if ($('#notification').is(':visible')) {
             $('#notification').hide('bind');
         }  
@@ -1164,7 +1263,7 @@ var BackendCalendar = {
     calendarEventClick: function(event, jsEvent, view) {
         $('.popover').remove(); // Close all open popovers.
         
-        var html; // Popover's html code
+        var html, displayEdit, displayDelete; 
         
         // Depending where the user clicked the event (title or empty space) we 
         // need to use different selectors to reach the parent element.
@@ -1172,9 +1271,11 @@ var BackendCalendar = {
         var $altParent = $(jsEvent.target).parents().eq(1);
         
         if ($parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
-            var displayEdit = ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) 
+            displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+                    && GlobalVariables.user.privileges.appointments.edit == true) 
                     ? '' : 'hide';
-            var displayDelete = displayEdit; // Same value at the time.
+            displayDelete = (GlobalVariables.user.privileges.appointments.delete == true) 
+                    ? '' : 'hide'; // Same value at the time.
             
             var notes = ''; 
             if (event.data) { // Only custom unavailable periods have notes.
@@ -1199,7 +1300,12 @@ var BackendCalendar = {
                         '<button class="delete-popover btn btn-danger ' + displayDelete + '">Delete</button>' +
                         '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
                     '</center>';
-        } else {        
+        } else {   
+            displayEdit = (GlobalVariables.user.privileges.appointments.edit == true) 
+                    ? '' : 'hide'; 
+            displayDelete = (GlobalVariables.user.privileges.appointments.delete == true) 
+                    ? '' : 'hide'; 
+            
             html = 
                     '<style type="text/css">' 
                         + '.popover-content strong {min-width: 80px; display:inline-block;}' 
@@ -1223,8 +1329,8 @@ var BackendCalendar = {
                         + event.data['customer']['last_name'] 
                         + '<hr>' +
                     '<center>' + 
-                        '<button class="edit-popover btn btn-primary">Edit</button>' +
-                        '<button class="delete-popover btn btn-danger">Delete</button>' +
+                        '<button class="edit-popover btn btn-primary ' + displayEdit + '">Edit</button>' +
+                        '<button class="delete-popover btn btn-danger ' + displayDelete + '">Delete</button>' +
                         '<button class="close-popover btn" data-po=' + jsEvent.target + '>Close</button>' +
                     '</center>';
         }
@@ -1254,6 +1360,13 @@ var BackendCalendar = {
      */
     calendarEventDrop : function(event, dayDelta, minuteDelta, allDay, 
             revertFunc, jsEvent, ui, view) {
+        if (GlobalVariables.user.privileges.appointments.edit == false) {
+            revertFunc();
+            Backend.displayNotification('You do not have the required privileges to '
+                    + 'edit appointments.');
+            return;
+        }
+                
         if ($('#notification').is(':visible')) {
             $('#notification').hide('bind');
         }    
@@ -1458,7 +1571,7 @@ var BackendCalendar = {
         
         // :: EMPTY FORM FIELDS
         $dialog.find('input, textarea').val('');
-        $dialog.find('#modal-message').hide();
+        $dialog.find('.modal-message').hide();
         $dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
@@ -1526,7 +1639,7 @@ var BackendCalendar = {
         
         // Reset previous validation css formating.
         $dialog.find('.control-group').removeClass('error');
-        $dialog.find('#modal-message').hide();
+        $dialog.find('.modal-message').hide();
         
         try {
             // :: CHECK REQUIRED FIELDS
@@ -1549,7 +1662,7 @@ var BackendCalendar = {
             
             return true;
         } catch(exc) {
-            $dialog.find('#modal-message').addClass('alert-error').text(exc).show('fade');
+            $dialog.find('.modal-message').addClass('alert-error').text(exc).show('fade');
             return false;
         }
     },

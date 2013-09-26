@@ -4,6 +4,17 @@
  * Contains all the backend ajax calls.
  */
 class Backend_api extends CI_Controller {
+    private $privileges;
+    
+    public function __construct() {
+        parent::__construct();
+        
+        $this->load->library('session');
+        $this->load->model('roles_model');
+        $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+    }
+    
+    
     /**
      * [AJAX] Get the registered appointments for the given date period and record.
      * 
@@ -16,12 +27,16 @@ class Backend_api extends CI_Controller {
      * @param {string} $_POST['end_date'] The user selected end date.
      */
     public function ajax_get_calendar_appointments() {
-        $this->load->model('appointments_model');
-        $this->load->model('providers_model');
-        $this->load->model('services_model');
-        $this->load->model('customers_model');
-        
         try {
+            if ($this->privileges[PRIV_APPOINTMENTS]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
+            $this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            $this->load->model('services_model');
+            $this->load->model('customers_model');
+            
             if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
                 $where_id = 'id_users_provider';
             } else { 
@@ -85,12 +100,28 @@ class Backend_api extends CI_Controller {
             // :: SAVE CUSTOMER CHANGES TO DATABASE
             if (isset($_POST['customer_data'])) {
                 $customer = json_decode(stripcslashes($_POST['customer_data']), true);
+                
+                $REQUIRED_PRIV = (!isset($customer['id'])) 
+                        ? $this->privileges[PRIV_CUSTOMERS]['add'] 
+                        : $this->privileges[PRIV_CUSTOMERS]['edit'];
+                if ($REQUIRED_PRIV == FALSE) {
+                    throw new Exception('You do not have the required privileges for this task.');
+                }
+                
                 $customer['id'] = $this->customers_model->add($customer);
             }
             
         	// :: SAVE APPOINTMENT CHANGES TO DATABASE
             if (isset($_POST['appointment_data'])) {
                 $appointment = json_decode(stripcslashes($_POST['appointment_data']), true);
+                
+                $REQUIRED_PRIV = (!isset($appointment['id'])) 
+                        ? $this->privileges[PRIV_APPOINTMENTS]['add'] 
+                        : $this->privileges[PRIV_APPOINTMENTS]['edit'];
+                if ($REQUIRED_PRIV == FALSE) {
+                    throw new Exception('You do not have the required privileges for this task.');
+                }
+                
                 $manage_mode = isset($appointment['id']);
                 // If the appointment does not contain the customer record id, then it 
                 // means that is is going to be inserted. Get the customer's record id.
@@ -210,6 +241,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_appointment() {    
         try {
+            if ($this->privileges[PRIV_APPOINTMENTS]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             if (!isset($_POST['appointment_id'])) {
                 throw new Exception('No appointment id provided.');
             }
@@ -298,6 +333,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_disable_provider_sync() {
         try { 
+            if ($this->privileges[PRIV_USERS]['edit'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             if (!isset($_POST['provider_id'])) {
                 throw new Exception('Provider id not specified.');
             }
@@ -323,6 +362,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_customers() {
     	try {
+            if ($this->privileges[PRIV_CUSTOMERS]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('appointments_model');
             $this->load->model('services_model');
             $this->load->model('providers_model');
@@ -355,8 +398,6 @@ class Backend_api extends CI_Controller {
                 $customer['appointments'] = $appointments;
             }
             
-            
-            
 	    	echo json_encode($customers);
             
     	} catch(Exception $exc) {
@@ -374,13 +415,22 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_save_unavailable() {
         try {
+            // Check privileges
+            $unavailable = json_decode($_POST['unavailable'], true);
+            
+            $REQUIRED_PRIV = (!isset($unavailable['id'])) 
+                    ? $this->privileges[PRIV_APPOINTMENTS]['add'] 
+                    : $this->privileges[PRIV_APPOINTMENTS]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
             
             // Add appointment
-            $unavailable = json_decode($_POST['unavailable'], true);
             $unavailable['id'] = $this->appointments_model->add_unavailable($unavailable); 
-            $unavailable = $this->appointments_model->get_row($unavailable['id']);
+            $unavailable = $this->appointments_model->get_row($unavailable['id']); // fetch all inserted data
             
             // Google Sync
             try {
@@ -428,6 +478,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_unavailable() {
         try {
+            if ($this->privileges[PRIV_APPOINTMENTS]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
             
@@ -474,6 +528,14 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('customers_model');
             $customer = json_decode($_POST['customer'], true);
+            
+            $REQUIRED_PRIV = (!isset($customer['id'])) 
+                    ? $this->privileges[PRIV_CUSTOMERS]['add'] 
+                    : $this->privileges[PRIV_CUSTOMERS]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $customer_id = $this->customers_model->add($customer);
             echo json_encode(array(
                 'status' => AJAX_SUCCESS,
@@ -493,6 +555,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_customer() {
         try {
+            if ($this->privileges[PRIV_CUSTOMERS]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('customers_model');
             $this->customers_model->delete($_POST['customer_id']);
             echo json_encode(AJAX_SUCCESS);
@@ -512,6 +578,14 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('services_model');
             $service = json_decode($_POST['service'], true);
+            
+            $REQUIRED_PRIV = (!isset($service['id'])) 
+                    ? $this->privileges[PRIV_SERVICES]['add'] 
+                    : $this->privileges[PRIV_SERVICES]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $service_id =$this->services_model->add($service);
             echo json_encode(array(
                 'status' => AJAX_SUCCESS,
@@ -531,6 +605,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_service() {
         try {
+            if ($this->privileges[PRIV_SERVICES]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('services_model');
             $result = $this->services_model->delete($_POST['service_id']);
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
@@ -549,6 +627,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_services() {
         try {
+            if ($this->privileges[PRIV_SERVICES]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('services_model');
             $key = mysql_real_escape_string($_POST['key']);  
             $where = 
@@ -574,6 +656,14 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('services_model');
             $category = json_decode($_POST['category'], true);
+            
+            $REQUIRED_PRIV = (!isset($category['id'])) 
+                    ? $this->privileges[PRIV_SERVICES]['add'] 
+                    : $this->privileges[PRIV_SERVICES]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $category_id = $this->services_model->add_category($category);
             echo json_encode(array(
                 'status' => AJAX_SUCCESS,
@@ -593,6 +683,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_service_category() {
         try {
+            if ($this->privileges[PRIV_SERVICES]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('services_model');
             $result = $this->services_model->delete_category($_POST['category_id']);
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
@@ -611,6 +705,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_service_categories() {
         try {
+            if ($this->privileges[PRIV_SERVICES]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('services_model');
             $key = mysql_real_escape_string($_POST['key']);  
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
@@ -631,6 +729,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_admins() {
         try {
+            if ($this->privileges[PRIV_USERS]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('admins_model');
             $key = mysql_real_escape_string($_POST['key']); 
             $where = 
@@ -660,6 +762,14 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('admins_model');
             $admin = json_decode($_POST['admin'], true);
+            
+            $REQUIRED_PRIV = (!isset($admin['id'])) 
+                    ? $this->privileges[PRIV_USERS]['add'] 
+                    : $this->privileges[PRIV_USERS]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $admin_id = $this->admins_model->add($admin);
             
             $response = array(
@@ -683,6 +793,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_admin() {
         try {
+            if ($this->privileges[PRIV_USERS]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('admins_model');
             $result = $this->admins_model->delete($_POST['admin_id']);
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
@@ -701,6 +815,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_providers() {
         try {
+            if ($this->privileges[PRIV_USERS]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('providers_model');
             $key = mysql_real_escape_string($_POST['key']); 
             $where = 
@@ -731,6 +849,13 @@ class Backend_api extends CI_Controller {
             $this->load->model('providers_model');
             $provider = json_decode($_POST['provider'], true);
             
+            $REQUIRED_PRIV = (!isset($provider['id'])) 
+                    ? $this->privileges[PRIV_USERS]['add'] 
+                    : $this->privileges[PRIV_USERS]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             if (!isset($provider['settings']['working_plan'])) {
                 $this->load->model('settings_model');
                 $provider['settings']['working_plan'] = $this->settings_model
@@ -759,6 +884,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_provider() {
         try {
+            if ($this->privileges[PRIV_USERS]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('providers_model');
             $result = $this->providers_model->delete($_POST['provider_id']);
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
@@ -777,6 +906,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_secretaries() {
         try {
+            if ($this->privileges[PRIV_USERS]['view'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('secretaries_model');
             $key = mysql_real_escape_string($_POST['key']); 
             $where = 
@@ -806,6 +939,14 @@ class Backend_api extends CI_Controller {
         try {
             $this->load->model('secretaries_model');
             $secretary = json_decode($_POST['secretary'], true);
+            
+            $REQUIRED_PRIV = (!isset($secretary['id'])) 
+                    ? $this->privileges[PRIV_USERS]['add']
+                    : $this->privileges[PRIV_USERS]['edit'];
+            if ($REQUIRED_PRIV == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $secretary_id = $this->secretaries_model->add($secretary);
             
             echo json_encode(array(
@@ -827,6 +968,10 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_delete_secretary() {
         try {
+            if ($this->privileges[PRIV_USERS]['delete'] == FALSE) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $this->load->model('secretaries_model');
             $result = $this->secretaries_model->delete($_POST['secretary_id']);
             echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
@@ -850,10 +995,16 @@ class Backend_api extends CI_Controller {
     public function ajax_save_settings() {
         try {
             if ($_POST['type'] == SETTINGS_SYSTEM) {
+                if ($this->privileges[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE) {
+                    throw new Exception('You do not have the required privileges for this task.');
+                }
                 $this->load->model('settings_model');
                 $settings = json_decode($_POST['settings'], true);
                 $this->settings_model->save_settings($settings);
             } else if ($_POST['type'] == SETTINGS_USER) {
+                if ($this->privileges[PRIV_USER_SETTINGS]['edit'] == FALSE) {
+                    throw new Exception('You do not have the required privileges for this task.');
+                }
                 $this->load->model('user_model');
                 $this->user_model->save_settings(json_decode($_POST['settings'], true));
             }

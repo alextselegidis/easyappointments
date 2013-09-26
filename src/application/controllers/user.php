@@ -38,11 +38,18 @@ class User extends CI_Controller {
     }
     
     public function no_privileges() {
-        // can't view the requested page.
+        $view['base_url'] = $this->config->item('base_url');
+        $this->load->view('user/no_privileges', $view);
     }
     
     /**
      * [AJAX] Check whether the user has entered the correct login credentials.
+     * 
+     * The session data of a logged in user are the following:
+     *      'user_id'
+     *      'user_email'
+     *      'role_slug'
+     *      'dest_url'
      */
     public function ajax_check_login() {
         try {

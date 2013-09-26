@@ -48,9 +48,7 @@ class Providers_Model extends CI_Model {
      * @throws Exception When the record data validation fails.
      */
     public function add($provider) {
-        if (!$this->validate($provider)) {
-            throw new Exception('Provider data are not valid :' . print_r($provider, TRUE));
-        }
+        $this->validate($provider);
         
         if ($this->exists($provider) && !isset($provider['id'])) {
             $provider['id'] = $this->find_record_id($provider);
@@ -196,58 +194,54 @@ class Providers_Model extends CI_Model {
     public function validate($provider) {
         $this->load->helper('data_validation');
         
-        try {
-            // If a provider id is present, check whether the record exist in the database.
-            if (isset($provider['id'])) {
-                $num_rows = $this->db->get_where('ea_users', 
-                        array('id' => $provider['id']))->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Provided record id does not exist in the database.');
-                }
+        // If a provider id is present, check whether the record exist in the database.
+        if (isset($provider['id'])) {
+            $num_rows = $this->db->get_where('ea_users', 
+                    array('id' => $provider['id']))->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Provided record id does not exist in the database.');
             }
-            
-            // Validate required fields.
-            if (!isset($provider['last_name'])
-                    || !isset($provider['email'])
-                    || !isset($provider['phone_number'])) { 
-                throw new Exception('Not all required fields are provided : ' . print_r($provider, TRUE));
-            }
-            
-            // Validate provider email address.
-            if (!filter_var($provider['email'], FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('Invalid email address provided : ' . $provider['email']);
-            }
-            
-            // Validate provider services.
-            if (!isset($provider['services']) || !is_array($provider['services'])) {
-                throw new Exception('Invalid provider services given: ' . print_r($provider, TRUE));
-            } else { // Check if services are valid numeric values.
-                foreach($provider['services'] as $service_id) {
-                    if (!is_numeric($service_id)) {
-                        throw new Exception('A provider service with invalid id was found: ' 
-                                . print_r($provider, TRUE));
-                    }
-                }
-            }
-            
-            // Validate provider settings.
-            if (!isset($provider['settings']) || count($provider['settings']) == 0
-                    || !is_array($provider['settings'])) {
-                throw new Exception('Invalid provider settings given: ' . print_r($provider, TRUE));
-            }
-            
-            // Validate admin password
-            if (isset($provider['settings']['password'])) {
-                if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH) {
-                    throw new Exception('The user password must be at least ' 
-                            . MIN_PASSWORD_LENGTH . ' characters long.');
-                }
-            }
-            
-            return TRUE;
-        } catch (Exception $exc) {
-            return FALSE;
         }
+
+        // Validate required fields.
+        if (!isset($provider['last_name'])
+                || !isset($provider['email'])
+                || !isset($provider['phone_number'])) { 
+            throw new Exception('Not all required fields are provided : ' . print_r($provider, TRUE));
+        }
+
+        // Validate provider email address.
+        if (!filter_var($provider['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Invalid email address provided : ' . $provider['email']);
+        }
+
+        // Validate provider services.
+        if (!isset($provider['services']) || !is_array($provider['services'])) {
+            throw new Exception('Invalid provider services given: ' . print_r($provider, TRUE));
+        } else { // Check if services are valid numeric values.
+            foreach($provider['services'] as $service_id) {
+                if (!is_numeric($service_id)) {
+                    throw new Exception('A provider service with invalid id was found: ' 
+                            . print_r($provider, TRUE));
+                }
+            }
+        }
+
+        // Validate provider settings.
+        if (!isset($provider['settings']) || count($provider['settings']) == 0
+                || !is_array($provider['settings'])) {
+            throw new Exception('Invalid provider settings given: ' . print_r($provider, TRUE));
+        }
+
+        // Validate admin password
+        if (isset($provider['settings']['password'])) {
+            if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                throw new Exception('The user password must be at least ' 
+                        . MIN_PASSWORD_LENGTH . ' characters long.');
+            }
+        }
+
+        return TRUE;
     }
     
     /**

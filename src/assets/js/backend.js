@@ -30,6 +30,11 @@ var Backend = {
     DB_SLUG_SECRETARY: 'secretary',
     DB_SLUG_CUSTOMER: 'customer',
     
+    PRIV_VIEW: 1,
+    PRIV_ADD: 2,
+    PRIV_EDIT: 4,
+    PRIV_DELETE: 8,
+    
     /**
      * Place the backend footer always on the bottom of the page.
      */
@@ -62,12 +67,15 @@ var Backend = {
      * 'function' key values.
      */
     displayNotification: function(message, actions) {
-        if (message === undefined) {
+        if (message == undefined) {
             message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
         }
         
-        if (actions === undefined) {
+        if (actions == undefined) {
             actions = [];
+            setTimeout(function() {
+                $('#notification').slideUp('slow');
+            }, 7000);
         }
         
         var notificationHtml = 

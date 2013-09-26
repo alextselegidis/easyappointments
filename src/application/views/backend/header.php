@@ -73,31 +73,37 @@
     <div id="header-menu">
         <?php // CALENDAR MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend" class="menu-item">
+        <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden'; ?>
+        <a href="<?php echo $base_url; ?>backend" class="menu-item <?php echo $hidden; ?>">
             Calendar
         </a>
         
         <?php // CUSTOMERS MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/customers" class="menu-item">
+        <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden'; ?>
+        <a href="<?php echo $base_url; ?>backend/customers" class="menu-item <?php echo $hidden; ?>">
             Customers
         </a>
         
         <?php // SERVICES MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/services" class="menu-item">
+        <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
+        <a href="<?php echo $base_url; ?>backend/services" class="menu-item <?php echo $hidden; ?>">
             Services
         </a>
         
-        <?php // PROVIDERS MENU ITEM 
+        <?php // USERS MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/users" class="menu-item">
+        <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden'; ?>
+        <a href="<?php echo $base_url; ?>backend/users" class="menu-item <?php echo $hidden; ?>">
             Users
         </a>
         
         <?php // SETTINGS MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>backend/settings" class="menu-item">
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE 
+                || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
+        <a href="<?php echo $base_url; ?>backend/settings" class="menu-item <?php echo $hidden; ?>">
             Settings
         </a>
         

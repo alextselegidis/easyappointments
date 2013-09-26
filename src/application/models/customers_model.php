@@ -21,9 +21,7 @@ class Customers_Model extends CI_Model {
      */
     public function add($customer) {
         // Validate the customer data before doing anything.
-        if (!$this->validate($customer)) {
-            throw new Exception('Customer data are not valid.');
-        }
+        !$this->validate($customer);
         
         // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).	
         if ($this->exists($customer) && !isset($customer['id'])) {
@@ -158,35 +156,32 @@ class Customers_Model extends CI_Model {
     public function validate($customer) {
         $this->load->helper('data_validation');
         
-        try {
-            // If a customer id is provided, check whether the record
-            // exist in the database.
-            if (isset($customer['id'])) {
-                $num_rows = $this->db->get_where('ea_users', 
-                        array('id' => $customer['id']))->num_rows();
-                if ($num_rows == 0) {
-                    throw new Exception('Provided customer id does not ' 
-                            . 'exist in the database.');
-                }
+        
+        // If a customer id is provided, check whether the record
+        // exist in the database.
+        if (isset($customer['id'])) {
+            $num_rows = $this->db->get_where('ea_users', 
+                    array('id' => $customer['id']))->num_rows();
+            if ($num_rows == 0) {
+                throw new Exception('Provided customer id does not ' 
+                        . 'exist in the database.');
             }
-            // Validate required fields
-            if (!isset($customer['last_name'])
-                    || !isset($customer['email'])
-                    || !isset($customer['phone_number'])) { 
-                throw new Exception('Not all required fields are provided : ' 
-                        . print_r($customer, TRUE));
-            }
-            
-            // Validate email address
-            if (!filter_var($customer['email'], FILTER_VALIDATE_EMAIL)) {
-                throw new Exception('Invalid email address provided : ' 
-                        . $customer['email']);
-            }
-            
-            return TRUE;
-        } catch (Exception $exc) {
-            return FALSE;
         }
+        // Validate required fields
+        if (!isset($customer['last_name'])
+                || !isset($customer['email'])
+                || !isset($customer['phone_number'])) { 
+            throw new Exception('Not all required fields are provided : ' 
+                    . print_r($customer, TRUE));
+        }
+
+        // Validate email address
+        if (!filter_var($customer['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception('Invalid email address provided : ' 
+                    . $customer['email']);
+        }
+
+        return TRUE;
     }
     
     /**
