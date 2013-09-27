@@ -90,6 +90,11 @@ var BackendCalendar = {
         optgroupHtml += '</optgroup>';
         $('#select-filter-item').append(optgroupHtml);
         
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
+            $('#select-filter-item optgroup:eq(0)').val(GlobalVariables.user.id);
+            $('#select-filter-item').prop('disabled', true);
+        }
+        
         // :: BIND THE DEFAULT EVENT HANDLERS (IF NEEDED)
         if (defaultEventHandlers === true) {
             BackendCalendar.bindEventHandlers();
@@ -195,7 +200,7 @@ var BackendCalendar = {
                     
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
@@ -254,7 +259,7 @@ var BackendCalendar = {
                 // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
                 $dialog.find('.modal-header h3').text('Edit Appointment');
                 $dialog.find('#appointment-id').val(appointment['id']);
-                $dialog.find('#select-service').val(appointment['id_services']);
+                $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
                 // Set the start and end datetime of the appointment.
@@ -327,7 +332,7 @@ var BackendCalendar = {
 
                             if (response.exceptions) {
                                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                                 return;
                             }
@@ -368,7 +373,7 @@ var BackendCalendar = {
 
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
@@ -451,22 +456,20 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {             
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
-                    $dialog.find('.modal-header').append(
-                        '<br><div class="alert alert-error">' + 
-                            'Unexpected issues occured!' +
-                        '</div>');
-                
+                    $dialog.find('.modal-message').text('Unexpected issues occured!');
+                    $dialog.find('.modal-message').addClass('alert-error');
+                    $dialog.find('.modal-message').fadeIn();
+                    
                     return;
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-header').append(
-                        '<br><div class="alert alert-success">' + 
-                            'Appointment saved successfully!' +
-                        '</div>');
+                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
                 
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
@@ -479,10 +482,9 @@ var BackendCalendar = {
             
             // :: DEFINE AJAX ERROR EVENT CALLBACK
             var errorCallback = function() {
-                $dialog.find('.modal-header').append(
-                        '<br><div class="alert alert-error">' + 
-                            'A server communication error occured, please try again.' +
-                        '</div>');
+                $dialog.find('.modal-message').text('A server communication error occured, please try again.');
+                $dialog.find('.modal-message').addClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
@@ -503,11 +505,9 @@ var BackendCalendar = {
             
             if (start > end) {
                 // Start time is after end time - display message to user.
-                $dialog.find('.modal-message').html(
-                        '<div class="alert alert-error">' +
-                            'Start date value is bigger than end date!' + 
-                        '</div>');
-                $dialog.find('.modal-message').show();
+                $dialog.find('.modal-message').text('Start date value is bigger than end date!');
+                $dialog.find('.modal-message').addClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
                 return;
             }
             
@@ -531,14 +531,13 @@ var BackendCalendar = {
 
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
-                    $dialog.find('.modal-header').append(
-                        '<br><div class="alert alert-error">' + 
-                            'Unexpected issues occured!' +
-                        '</div>');
-                
+                    $dialog.find('.modal-message').text('Unexpected issues occured!');
+                    $dialog.find('.modal-message').addClass('alert-error');
+                    $dialog.find('.modal-message').fadeIn();
+                    
                     return;
                 }
 
@@ -549,10 +548,10 @@ var BackendCalendar = {
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-header').append(
-                        '<br><div class="alert alert-success">' + 
-                            'Appointment saved successfully!' +
-                        '</div>');
+                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').removeClass('alert-error');
+                $dialog.find('.modal-message').addClass('alert-success');
+                $dialog.find('.modal-message').fadeIn();
                 
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
@@ -571,10 +570,9 @@ var BackendCalendar = {
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
                         'the operation could not complete due to server communication errors.');
                 
-                $dialog.find('.modal-header').append(
-                        '<br><div class="alert alert-error">' + 
-                            'A server communication error occured, please try again.' +
-                        '</div>');
+                $dialog.find('.modal-message').txt('A server communication error occured, please try again.');
+                $dialog.find('.modal-message').addClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
             };
             
             BackendCalendar.saveUnavailable(unavailable, successCallback, errorCallback);
@@ -679,7 +677,7 @@ var BackendCalendar = {
             var $list = $('#existing-customers-list');
             
             if (!$list.is(':visible')) {
-                $(this).text('Hide List');
+                $(this).text('Hide');
                 $list.empty();
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
@@ -691,7 +689,7 @@ var BackendCalendar = {
             } else {
                 $list.slideUp('slow');
                 $('#filter-existing-customers').fadeOut('slow');
-                $(this).text('Select Existing Customer');
+                $(this).text('Select');
             }
         });
         
@@ -763,6 +761,13 @@ var BackendCalendar = {
             });
         });
         
+        /**
+         * Event: Enter New Customer Button "Click"
+         */
+        $('#new-customer').click(function() {
+            $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
+                    + '#phone-number, #address, #city, #zip-code').val('');
+        });
     },
             
     /**
@@ -806,7 +811,7 @@ var BackendCalendar = {
             
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -1133,7 +1138,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1186,7 +1191,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1274,7 +1279,8 @@ var BackendCalendar = {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                     && GlobalVariables.user.privileges.appointments.edit == true) 
                     ? '' : 'hide';
-            displayDelete = (GlobalVariables.user.privileges.appointments.delete == true) 
+            displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+                    && GlobalVariables.user.privileges.appointments.delete == true) 
                     ? '' : 'hide'; // Same value at the time.
             
             var notes = ''; 
@@ -1399,7 +1405,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1463,7 +1469,7 @@ var BackendCalendar = {
                 
                 if (response.exceptions) {
                     reponse.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1554,7 +1560,7 @@ var BackendCalendar = {
             
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -1571,7 +1577,7 @@ var BackendCalendar = {
         
         // :: EMPTY FORM FIELDS
         $dialog.find('input, textarea').val('');
-        $dialog.find('.modal-message').hide();
+        $dialog.find('.modal-message').fadeOut();
         $dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
@@ -1639,7 +1645,7 @@ var BackendCalendar = {
         
         // Reset previous validation css formating.
         $dialog.find('.control-group').removeClass('error');
-        $dialog.find('.modal-message').hide();
+        $dialog.find('.modal-message').fadeOut();
         
         try {
             // :: CHECK REQUIRED FIELDS
