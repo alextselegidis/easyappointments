@@ -131,6 +131,11 @@ body .modal-header h3 {
     margin-top: 5px; 
 }
 
+#calendar-page #calendar-filter select:disabled { 
+    background: white;
+    cursor: auto;
+}
+
 #calendar-page #calendar-actions { 
     display: inline-block; 
     float: right; 

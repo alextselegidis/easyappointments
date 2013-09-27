@@ -88,9 +88,9 @@
         <h3>Edit Appointment</h3>
     </div>
     
-    <div class="modal-message alert" style="display: none;"></div>
-    
     <div class="modal-body">
+        <div class="modal-message alert" style="display: none;"></div>
+        
         <form class="form-horizontal">
             <fieldset>
                 <legend>Appointment Details</legend>
@@ -129,8 +129,10 @@
             <fieldset class="row-fluid">
                 <legend>
                     Customer Details
+                    <button id="new-customer" class="btn btn-mini" title="Clear the fields and enter a new customer."
+                            type="button">New</button>
                     <button id="select-customer" class="btn btn-primary btn-mini" 
-                            title="Pick an existing customer." type="button">Select Existing Customer</button>
+                            title="Pick an existing customer." type="button">Select</button>
                     <input type="text" id="filter-existing-customers" placeholder="Type to filter customers." 
                            style="display: none;" class="input-medium"/>
                     <div id="existing-customers-list" style="display: none;"></div>
@@ -214,9 +216,9 @@
         
     </div>
     
-    <div class="modal-message alert" style="display: none;"></div>
-    
     <div class="modal-body">
+        <div class="modal-message alert" style="display: none;"></div>
+        
         <form class="form-horizontal">
             <fieldset>
                 <input id="unavailable-id" type="hidden" />

@@ -35,6 +35,13 @@ var Backend = {
     PRIV_EDIT: 4,
     PRIV_DELETE: 8,
     
+    PRIV_APPOINTMENTS: 'appointments',
+    PRIV_CUSTOMERS: 'customers',
+    PRIV_SERVICES: 'services',
+    PRIV_USERS: 'users',
+    PRIV_SYSTEM_SETTINGS: 'system_settings',
+    PRIV_USER_SETTINGS: 'user_settings',
+    
     /**
      * Place the backend footer always on the bottom of the page.
      */
