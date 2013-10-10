@@ -390,11 +390,14 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
         
         BackendUsers.helper.filterResults = response;
         
+        
+        $('#filter-providers .results').data('jsp').destroy;
         $('#filter-providers .results').html('');
         $.each(response, function(index, provider) {
             var html = ProvidersHelper.prototype.getFilterHtml(provider);
             $('#filter-providers .results').append(html);
         });
+        $('#filter-providers .results').jScrollPane();
         
         if (response.length == 0) {
             $('#filter-providers .results').html('<em>No results found ...</em>')
@@ -417,7 +420,7 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
             '<div class="provider-row" data-id="' + provider.id + '">' + 
                 '<strong>' + provider.first_name + ' ' + provider.last_name + '</strong><br>' +
                 provider.email + ', ' + provider.mobile_number + ', ' + provider.phone_number + '<br>' + 
-            '</div>';
+            '</div><hr>';
 
     return html;
 };

@@ -149,10 +149,11 @@ body {
 
 #book-appointment-wizard #service-description {
     margin-top: 10px;
-    padding: 25px 10px;
+    padding: 10px;
     background: #F5F5F5;
     border: 1px solid #EEE;
     border-radius: 5px;
+    min-height: 80px;
 }
 
 #book-appointment-wizard #wizard-frame-1 label {

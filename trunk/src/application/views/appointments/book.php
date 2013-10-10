@@ -272,8 +272,8 @@
                     
                     <div class="frame-content" style="width:600px">
                         <div class="span3">
-                            <label for="first-name">First Name</label>
-                            <input type="text" id="first-name" maxlength="100" />
+                            <label for="first-name">First Name *</label>
+                            <input type="text" id="first-name" class="required" maxlength="100" />
                             
                             <label for="last-name">Last Name *</label>
                             <input type="text" id="last-name" class="required" maxlength="250" />

@@ -39,10 +39,10 @@ class Roles_Model extends CI_Model {
             $privileges_number = $value; 
             
             $value = array(
-                'view' => false,
-                'add' => false,
-                'edit' => false,
-                'delete' => false
+                'view' => FALSE,
+                'add' => FALSE,
+                'edit' => FALSE,
+                'delete' => FALSE
             );
             
             if ($privileges_number > 0) {

@@ -35,6 +35,10 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $base_url; ?>assets/css/general.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $base_url; ?>assets/css/libs/jquery/jquery.jscrollpane.css">
     
     <?php
         // ------------------------------------------------------------
@@ -61,6 +65,12 @@
     <script 
         type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/backend.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.jscrollpane.min.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.mousewheel.js"></script>
 </head>
 
 <body>
@@ -74,28 +84,32 @@
         <?php // CALENDAR MENU ITEM 
               // ------------------------------------------------------ ?>
         <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <a href="<?php echo $base_url; ?>backend" class="menu-item <?php echo $hidden; ?>">
+        <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : ''; ?>
+        <a href="<?php echo $base_url; ?>backend" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>">
             Calendar
         </a>
         
         <?php // CUSTOMERS MENU ITEM 
               // ------------------------------------------------------ ?>
         <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <a href="<?php echo $base_url; ?>backend/customers" class="menu-item <?php echo $hidden; ?>">
+        <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : ''; ?>
+        <a href="<?php echo $base_url; ?>backend/customers" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>">
             Customers
         </a>
         
         <?php // SERVICES MENU ITEM 
               // ------------------------------------------------------ ?>
         <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <a href="<?php echo $base_url; ?>backend/services" class="menu-item <?php echo $hidden; ?>">
+        <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
+        <a href="<?php echo $base_url; ?>backend/services" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>">
             Services
         </a>
         
         <?php // USERS MENU ITEM 
               // ------------------------------------------------------ ?>
         <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden'; ?>
-        <a href="<?php echo $base_url; ?>backend/users" class="menu-item <?php echo $hidden; ?>">
+        <?php $active = ($active_menu == PRIV_USERS) ? 'active' : ''; ?>
+        <a href="<?php echo $base_url; ?>backend/users" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>">
             Users
         </a>
         
@@ -103,7 +117,8 @@
               // ------------------------------------------------------ ?>
         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE 
                 || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <a href="<?php echo $base_url; ?>backend/settings" class="menu-item <?php echo $hidden; ?>">
+        <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : ''; ?>
+        <a href="<?php echo $base_url; ?>backend/settings" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>">
             Settings
         </a>
         
