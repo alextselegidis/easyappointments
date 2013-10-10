@@ -67,7 +67,7 @@ var BackendCalendar = {
         BackendCalendar.calendarWindowResize(); 
         
         // Fill the select listboxes of the page.
-        var optgroupHtml = '<optgroup label="Providers">';
+        var optgroupHtml = '<optgroup label="Providers" type="providers-group">';
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
                     ? 'true' : 'false';
@@ -81,7 +81,7 @@ var BackendCalendar = {
         optgroupHtml += '</optgroup>';
         $('#select-filter-item').append(optgroupHtml);
         
-        optgroupHtml = '<optgroup label="Services">';
+        optgroupHtml = '<optgroup label="Services" type="services-group">';
         $.each(GlobalVariables.availableServices, function(index, service) {
             optgroupHtml += '<option value="' + service['id'] + '" ' + 
                     'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 
@@ -90,9 +90,30 @@ var BackendCalendar = {
         optgroupHtml += '</optgroup>';
         $('#select-filter-item').append(optgroupHtml);
         
+        // Privileges Checks
         if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
             $('#select-filter-item optgroup:eq(0)').val(GlobalVariables.user.id);
             $('#select-filter-item').prop('disabled', true);
+        }
+        
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+            // Remove the providers that are not connected to the secretary.
+            $('#select-filter-item option[type="provider"]').each(function(index, option) {
+                var found = false;
+                $.each(GlobalVariables.secretaryProviders, function(index, id) {
+                    if ($(option).val() == id) {
+                        found = true;
+                        return false;
+                    }
+                });
+                
+                if (!found) 
+                    $(option).remove();
+            });
+            
+            if ($('#select-filter-item option[type="provider"]').length == 0) {
+                $('#select-filter-item optgroup[type="providers-group"]').remove();
+            }
         }
         
         // :: BIND THE DEFAULT EVENT HANDLERS (IF NEEDED)

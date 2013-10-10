@@ -27,14 +27,25 @@ class Backend extends CI_Controller {
         $this->load->model('customers_model');
         $this->load->model('settings_model');
         $this->load->model('roles_model');
+        $this->load->model('user_model');
+        $this->load->model('secretaries_model');
         
         $view['base_url'] = $this->config->item('base_url');
+        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['active_menu'] = PRIV_APPOINTMENTS;
         $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
         $this->setUserData($view);
+        
+        if ($this->session->userdata('role_slug') == DB_SLUG_SECRETARY) {
+            $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
+            $view['secretary_providers'] = $secretary['providers'];
+        } else {
+            $view['secretary_providers'] = array();
+        }
         
         if ($appointment_hash != '') {
             $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
@@ -63,8 +74,11 @@ class Backend extends CI_Controller {
         $this->load->model('customers_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+        $this->load->model('user_model');
         
         $view['base_url'] = $this->config->item('base_url');
+        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['active_menu'] = PRIV_CUSTOMERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
@@ -92,8 +106,11 @@ class Backend extends CI_Controller {
         $this->load->model('customers_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+        $this->load->model('user_model');
         
         $view['base_url'] = $this->config->item('base_url');
+        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['active_menu'] = PRIV_SERVICES;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['services'] = $this->services_model->get_batch();
         $view['categories'] = $this->services_model->get_all_categories();
@@ -120,8 +137,11 @@ class Backend extends CI_Controller {
         $this->load->model('admins_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+        $this->load->model('user_model');
         
         $view['base_url'] = $this->config->item('base_url');
+        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['active_menu'] = PRIV_USERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['admins'] = $this->admins_model->get_batch();
         $view['providers'] = $this->providers_model->get_batch();
@@ -154,6 +174,8 @@ class Backend extends CI_Controller {
         $user_id = $this->session->userdata('user_id'); 
         
         $view['base_url'] = $this->config->item('base_url');
+        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['active_menu'] = PRIV_SYSTEM_SETTINGS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['system_settings'] = $this->settings_model->get_settings();

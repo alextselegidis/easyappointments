@@ -89,6 +89,19 @@ class User_Model extends CI_Model {
         
         return ($user_data) ? $user_data : NULL;
     }
+    
+    /**
+     * Get the given user's display name (first + last name).
+     * 
+     * @param numeric $user_id The given user record id.
+     * @return string Returns the user display name.
+     */
+    public function get_user_display_name($user_id) {
+        if (!is_numeric($user_id))
+            throw new Exception ('Invalid argument given ($user_id = "' . $user_id . '").');
+        $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
+        return $user['first_name'] . ' ' . $user['last_name'];
+    }
 }
 
 /* End of file user_model.php */

@@ -45,8 +45,8 @@
         <div class="btn-toolbar">
             <div id="add-edit-delete-group" class="btn-group">
                 <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
-                <button id="add-customer" class="btn">
-                    <i class="icon-plus"></i>
+                <button id="add-customer" class="btn btn-primary">
+                    <i class="icon-plus icon-white"></i>
                     Add</button>
                 <?php } ?>
                 
@@ -79,8 +79,8 @@
             <h2>Details</h2>
             <div id="form-message" class="alert" style="display:none;"></div>
             
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" class="span11" />
+            <label for="first-name">First Name *</label>
+            <input type="text" id="first-name" class="span11 required" />
 
             <label for="last-name">Last Name *</label>
             <input type="text" id="last-name" class="span11 required" />

@@ -80,8 +80,8 @@
         <div class="details column span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-admin" class="btn">
-                        <i class="icon-plus"></i>
+                    <button id="add-admin" class="btn btn-primary">
+                        <i class="icon-plus icon-white"></i>
                         Add</button>
                     <button id="edit-admin" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
@@ -109,8 +109,8 @@
             
             <div class="row-fluid">
                 <div class="admin-details span6">
-                    <label for="first-name">First Name</label>
-                    <input type="text" id="admin-first-name" class="span11" />
+                    <label for="first-name">First Name *</label>
+                    <input type="text" id="admin-first-name" class="span11 required" />
 
                     <label for="admin-last-name">Last Name *</label>
                     <input type="text" id="admin-last-name" class="span11 required" />
@@ -188,8 +188,8 @@
         <div class="details column span7">
             <div class="btn-toolbar span5">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-provider" class="btn">
-                        <i class="icon-plus"></i>
+                    <button id="add-provider" class="btn btn-primary">
+                        <i class="icon-plus icon-white"></i>
                         Add</button>
                     <button id="edit-provider" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
@@ -226,8 +226,8 @@
 
                 <div class="row-fluid">
                     <div class="provider-details span6">
-                        <label for="provider-first-name">First Name</label>
-                        <input type="text" id="provider-first-name" class="span11" />
+                        <label for="provider-first-name">First Name *</label>
+                        <input type="text" id="provider-first-name" class="span11 required" />
 
                         <label for="provider-last-name">Last Name *</label>
                         <input type="text" id="provider-last-name" class="span11 required" />
@@ -392,8 +392,8 @@
         <div class="details column span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-secretary" class="btn">
-                        <i class="icon-plus"></i>
+                    <button id="add-secretary" class="btn btn-primary">
+                        <i class="icon-plus icon-white"></i>
                         Add</button>
                     <button id="edit-secretary" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
@@ -421,8 +421,8 @@
             
             <div class="row-fluid">
                 <div class="secretary-details span6">
-                    <label for="secretary-first-name">First Name</label>
-                    <input type="text" id="secretary-first-name" class="span11" />
+                    <label for="secretary-first-name">First Name *</label>
+                    <input type="text" id="secretary-first-name" class="span11 required" />
 
                     <label for="secretary-last-name">Last Name *</label>
                     <input type="text" id="secretary-last-name" class="span11 required" />

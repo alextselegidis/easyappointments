@@ -57,13 +57,28 @@ root {
     background-color: #247A4B; 
 }
 
+#header #header-menu .active { 
+    color: #D6FF80;
+}
+
 #footer {
     background-color: #F7F7F7;
     border-top: 1px solid #DDD;
     font-size: 11px;
+    overflow: auto;
 }
+
 #footer #footer-content { 
     padding: 10px 15px; 
+    display: inline-block;
+    float: left;
+}
+
+#footer #footer-user-display-name { 
+    display: inline-block;
+    float: right;
+    padding: 10px 15px;
+    font-weight: bold;
 }
 
 #notification strong { 
@@ -102,6 +117,14 @@ body .modal-header {
 
 body .modal-header h3 {
     font-size: 20px;
+}
+
+body .jspDrag {
+    background: #D3D3D3;
+}
+
+body .jspTrack {
+    background: #EBEBEB;
 }
 
 /* BACKEND CALENDAR PAGE
@@ -234,6 +257,7 @@ body .modal-header h3 {
 #customers-page .filter-records .results { 
     overflow-y: auto; 
     max-height: 650px;
+    outline: none;
 }
 
 #customers-page #filter-customers .results .customer-row { 
@@ -307,6 +331,7 @@ body .modal-header h3 {
 #services-page .filter-records .results {
     overflow-y: auto;
     max-height: 650px;
+    outline: none;
 }
 
 #services-page .service-row { 
@@ -321,6 +346,10 @@ body .modal-header h3 {
 
 #services-page .selected-row { 
     background-color: #EFFDF7; 
+}
+
+#services-page .filter-records .results hr { 
+    margin: 5px 0; 
 }
 
 #services-page .details .ui-spinner { 
@@ -353,8 +382,6 @@ body .modal-header h3 {
     cursor: pointer; 
 }
 
-
-
 /* BACKEND USERS PAGE
    -------------------------------------------------------------------- */
 #users-page .tab-content { 
@@ -372,6 +399,7 @@ body .modal-header h3 {
 #users-page .filter-records .results {
     overflow-y: auto;
     max-height: 650px;
+    outline: none;
 }
 
 #users-page .secretary-row,
@@ -465,6 +493,10 @@ margin-right: 5px;
 padding: 4px 7px;
 }
 
+
+#users-page .filter-records .results hr { 
+    margin: 5px 0; 
+}
 /* BACKEND SETTINGS PAGE
    -------------------------------------------------------------------- */
 #settings-page .tab-content {

@@ -80,11 +80,11 @@
                 <span class="help-block">Company link should point to the official website of 
                     the company (optional).</span>
                 
-                <br><br>
+                <br>
                 
-                <a href="<?php echo $this->config->base_url(); ?>" class="btn btn-primary btn-large">
+                <a href="<?php echo $this->config->base_url(); ?>" target="blank" class="btn btn-primary">
                     <i class="icon-calendar icon-white"></i>
-                    Book Appointment Page
+                    Go To Booking Page
                 </a>
             </fieldset>
         </form>
@@ -234,8 +234,8 @@
                 
                 <input type="hidden" id="user-id" />
                 
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" class="span9" />
+                <label for="first-name">First Name *</label>
+                <input type="text" id="first-name" class="span9 required" />
                 
                 <label for="last-name">Last Name *</label>
                 <input type="text" id="last-name" class="span9 required" />

@@ -30,6 +30,11 @@ var BackendUsers = {
     initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers == undefined) defaultEventHandlers = true;
         
+        // Initialize jScrollPane Scrollbars
+        $('#filter-admins .results').jScrollPane();
+        $('#filter-providers .results').jScrollPane();
+        $('#filter-secretaries .results').jScrollPane();
+        
         // Instanciate default helper object (admin).
         BackendUsers.helper = new AdminsHelper();
         BackendUsers.helper.resetForm();
@@ -44,12 +49,14 @@ var BackendUsers = {
                     + service.name + '</label>'; 
             $('#provider-services').append(html);
         });
-        
+        $('#provider-services').jScrollPane();
+                
         $.each(GlobalVariables.providers, function(index, provider) {
            var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
                    + provider.first_name + ' ' + provider.last_name + '</label>';
             $('#secretary-providers').append(html);
         });
+        $('#secretary-providers').jScrollPane();
         
         // Bind event handlers.
         if (defaultEventHandlers) BackendUsers.bindEventHandlers();
@@ -75,6 +82,8 @@ var BackendUsers = {
                 BackendUsers.helper = new AdminsHelper();
             } else if ($(this).hasClass('providers-tab')) { // display providers tab
                 $('#providers').show();
+                $('#provider-services').data('jsp').destroy();
+                $('#provider-services').jScrollPane();
                 BackendUsers.helper = new ProvidersHelper();
             } else if ($(this).hasClass('secretaries-tab')) { // display secretaries tab
                 $('#secretaries').show();
@@ -91,7 +100,8 @@ var BackendUsers = {
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                     
                     GlobalVariables.providers = response;
-                    
+                
+                    $('#secretary-providers').data('jsp').destroy();
                     $('#secretary-providers').html('');
                     $.each(GlobalVariables.providers, function(index, provider) {
                         var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
@@ -99,6 +109,7 @@ var BackendUsers = {
                          $('#secretary-providers').append(html);
                      });
                      $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
+                     $('#secretary-providers').jScrollPane();
                 }, 'json');
             }
             

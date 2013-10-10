@@ -324,11 +324,13 @@ AdminsHelper.prototype.filter = function(key, selectId, display) {
         
         BackendUsers.helper.filterResults = response;
         
+        $('#filter-admins .results').data('jsp').destroy();
         $('#filter-admins .results').html('');
         $.each(response, function(index, admin) {
             var html = AdminsHelper.prototype.getFilterHtml(admin);
             $('#filter-admins .results').append(html);
         });
+        $('#filter-admins .results').jScrollPane();
         
         if (response.length == 0) {
             $('#filter-admins .results').html('<em>No results found ...</em>')
@@ -351,7 +353,7 @@ AdminsHelper.prototype.getFilterHtml = function(admin) {
             '<div class="admin-row" data-id="' + admin.id + '">' + 
                 '<strong>' + admin.first_name + ' ' + admin.last_name + '</strong><br>' +
                 admin.email + ', ' + admin.mobile_number + ', ' + admin.phone_number + '<br>' + 
-            '</div>';
+            '</div><hr>';
 
     return html;
 };

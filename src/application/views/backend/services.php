@@ -54,8 +54,8 @@
         <div class="details column span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-service" class="btn">
-                        <i class="icon-plus"></i>
+                    <button id="add-service" class="btn btn-primary">
+                        <i class="icon-plus icon-white"></i>
                         Add</button>
                     <button id="edit-service" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
@@ -131,8 +131,8 @@
         <div class="details span7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-category" class="btn">
-                        <i class="icon-plus"></i>
+                    <button id="add-category" class="btn btn-primary">
+                        <i class="icon-plus icon-white"></i>
                         Add</button>
                     <button id="edit-category" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>

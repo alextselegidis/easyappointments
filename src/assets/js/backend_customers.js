@@ -28,6 +28,9 @@ var BackendCustomers = {
 		BackendCustomers.helper.resetForm();
 		BackendCustomers.helper.filter('');
         
+        $('#filter-customers .results').jScrollPane();
+        $('#customer-appointments').jScrollPane();
+        
 		if (defaultEventHandlers) {
 			BackendCustomers.bindEventHandlers();
 		}
@@ -326,6 +329,7 @@ CustomersHelper.prototype.display = function(customer) {
     $('#zip-code').val(customer.zip_code);
     $('#notes').val(customer.notes);
 
+    $('#customer-appointments').data('jsp').destroy();
     $('#customer-appointments').empty();
     $.each(customer.appointments, function(index, appointment) {
         var start = Date.parse(appointment.start_datetime).toString('dd/MM/yyyy HH:mm');
@@ -338,6 +342,7 @@ CustomersHelper.prototype.display = function(customer) {
                 '</div>';   
         $('#customer-appointments').append(html);
     });
+    $('#customer-appointments').jScrollPane();
 };
 
 /**
@@ -364,11 +369,14 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
         
         BackendCustomers.helper.filterResults = response;
         
+        $('#filter-customers .results').data('jsp').destroy(); 
         $('#filter-customers .results').html('');
         $.each(response, function(index, customer) {
            var html = BackendCustomers.helper.getFilterHtml(customer);
            $('#filter-customers .results').append(html);
         });
+        
+        $('#filter-customers .results').jScrollPane();
         
         if (response.length == 0) {
             $('#filter-customers .results').html('<em>No records found...</em>');

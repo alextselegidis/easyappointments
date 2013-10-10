@@ -37,6 +37,8 @@ var BackendServices = {
             'disabled': true //default
         });
         
+        $('#filter-services .results').jScrollPane();
+        $('#filter-categories .results').jScrollPane();
         
         if (bindEventHandlers) BackendServices.bindEventHandlers();        
     },
@@ -381,11 +383,13 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
 
         BackendServices.helper.filterResults = response;
         
+        $('#filter-services .results').data('jsp').destroy();
         $('#filter-services .results').html('');
         $.each(response, function(index, service) {
             var html = ServicesHelper.prototype.getFilterHtml(service);
             $('#filter-services .results').append(html);
-        });
+        });        
+        $('#filter-services .results').jScrollPane();
         
         if (response.length == 0) {
             $('#filter-services .result').html('<em>No results found ...</em>');
@@ -409,7 +413,7 @@ ServicesHelper.prototype.getFilterHtml = function(service) {
                 '<strong>' + service.name + '</strong><br>' +
                 service.duration + ' min - ' + 
                 service.price + ' ' + service.currency + '<br>' +
-            '</div>';
+            '</div><hr>';
 
     return html;
 };
@@ -603,11 +607,13 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
         
         BackendServices.helper.filterResults = response;
         
+        $('#filter-categories .results').data('jsp').destroy();
         $('#filter-categories .results').html('');
         $.each(response, function(index, category) {
            var html = BackendServices.helper.getFilterHtml(category);
            $('#filter-categories .results').append(html);
         });
+        $('#filter-categories .results').jScrollPane();
         
         if (response.length == 0) {
             $('#filter-categories .results').html('<em>No records found...</em>');
@@ -730,7 +736,7 @@ CategoriesHelper.prototype.getFilterHtml = function(category) {
     var html =
             '<div class="category-row" data-id="' + category.id + '">' + 
                 '<strong>' + category.name + '</strong>' +
-            '</div>';
+            '</div><hr>';
 
     return html;
 };

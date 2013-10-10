@@ -345,11 +345,13 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
         
         BackendUsers.helper.filterResults = response;
         
+        $('#filter-secretaries .results').data('jsp').destroy();
         $('#filter-secretaries .results').html('');
         $.each(response, function(index, secretary) {
             var html = SecretariesHelper.prototype.getFilterHtml(secretary);
             $('#filter-secretaries .results').append(html);
         });
+        $('#filter-secretaries .results').jScrollPane();
         
         if (response.length == 0) {
             $('#filter-secretaries .results').html('<em>No results found ...</em>')
@@ -372,7 +374,7 @@ SecretariesHelper.prototype.getFilterHtml = function(secretary) {
             '<div class="secretary-row" data-id="' + secretary.id + '">' + 
                 '<strong>' + secretary.first_name + ' ' + secretary.last_name + '</strong><br>' +
                 secretary.email + ', ' + secretary.mobile_number + ', ' + secretary.phone_number + '<br>' + 
-            '</div>';
+            '</div><hr>';
 
     return html;
 };
