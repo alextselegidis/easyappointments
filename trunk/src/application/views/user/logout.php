@@ -70,7 +70,7 @@
         </a>
         
         <a href="<?php echo $this->config->base_url(); ?>backend" class="btn btn-danger btn-large">
-            <i class="icon-wrench icon-white"></i>
+            <i class="icon-home icon-white"></i>
             Backend Section
         </a>
     </div>

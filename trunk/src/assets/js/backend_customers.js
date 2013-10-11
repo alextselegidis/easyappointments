@@ -342,7 +342,7 @@ CustomersHelper.prototype.display = function(customer) {
                 '</div>';   
         $('#customer-appointments').append(html);
     });
-    $('#customer-appointments').jScrollPane();
+    $('#customer-appointments').jScrollPane({ mouseWheelSpeed: 70 });
 };
 
 /**
@@ -375,8 +375,7 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
            var html = BackendCustomers.helper.getFilterHtml(customer);
            $('#filter-customers .results').append(html);
         });
-        
-        $('#filter-customers .results').jScrollPane();
+        $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
             $('#filter-customers .results').html('<em>No records found...</em>');

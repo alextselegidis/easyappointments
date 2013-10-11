@@ -12,6 +12,8 @@ class Appointments extends CI_Controller {
      * record.
      */
     public function index($appointment_hash = '') {
+        if (!$this->check_installation()) return;
+        
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
@@ -601,6 +603,41 @@ class Appointments extends CI_Controller {
         }
         
         return $available_periods_with_appointments;
+    }
+    
+    /**
+     * This method checks whether the application is installed.
+     * 
+     * This method resides in this controller because the "index()" function will 
+     * be the first to be launched after the files are on the server. NOTE that the 
+     * "configuration.php" file must be already set because we won't be able to 
+     * connect to the database otherwise.
+     */
+    public function check_installation() {
+        try {
+            if (!$this->db->table_exists('ea_users')) {
+                // This is the first time the website is launched an the user needs to set 
+                // the basic settings. 
+                
+                // We will use mysqli to create the database structure from the "structure.sql" file.
+                require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+                $mysqli = new mysqli(SystemConfiguration::$db_host, SystemConfiguration::$db_username, 
+                        SystemConfiguration::$db_password, SystemConfiguration::$db_name);
+                $structure = file_get_contents($this->config->item('base_url') . 'assets/sql/structure.sql');
+                $mysqli->multi_query($structure);
+                $mysqli->close();
+                
+                // Display the installation view page.
+                $view['base_url'] = $this->config->item('base_url');
+                $this->load->view('general/installation', $view);
+                
+                return FALSE; // Do not display the book appointment view file.
+            } else {
+                return TRUE;
+            }
+        } catch(Exception $exc) {
+            echo $exc->getTrace();
+        }
     }
 }
 

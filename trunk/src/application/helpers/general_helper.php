@@ -61,5 +61,21 @@ function generate_salt() {
     return substr($salt, 0, $max_length);
 }
 
+/**
+ * This method generates a random string.
+ * 
+ * @param int $length (OPTIONAL = 10) The length of the generated string.
+ * @return string Returns the randomly generated string.
+ * @link http://stackoverflow.com/a/4356295/1718162
+ */
+function generate_random_string($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $random_string = '';
+    for ($i = 0; $i < $length; $i++) {
+        $random_string .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $random_string;
+}
+
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */

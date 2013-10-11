@@ -54,7 +54,7 @@ var BackendServices = {
          * Changes the displayed tab.
          */
         $('.tab').click(function() {
-            $('.active').removeClass('active');
+            $(this).parent().find('.active').removeClass('active');
             $(this).addClass('active');
             $('.tab-content').hide();
             
@@ -389,7 +389,7 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
             var html = ServicesHelper.prototype.getFilterHtml(service);
             $('#filter-services .results').append(html);
         });        
-        $('#filter-services .results').jScrollPane();
+        $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
             $('#filter-services .result').html('<em>No results found ...</em>');
@@ -613,7 +613,7 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
            var html = BackendServices.helper.getFilterHtml(category);
            $('#filter-categories .results').append(html);
         });
-        $('#filter-categories .results').jScrollPane();
+        $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
             $('#filter-categories .results').html('<em>No records found...</em>');
