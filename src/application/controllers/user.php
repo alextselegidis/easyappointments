@@ -29,12 +29,12 @@ class User extends CI_Controller {
         $this->session->unset_userdata('dest_url');
         
         $view['base_url'] = $this->config->item('base_url');
-        
         $this->load->view('user/logout', $view);
     }
     
     public function forgot_password() {
-        
+        $view['base_url'] = $this->config->item('base_url');
+        $this->load->view('user/forgot_password', $view);
     }
     
     public function no_privileges() {
@@ -67,6 +67,43 @@ class User extends CI_Controller {
                 echo json_encode(AJAX_FAILURE);
             }
             
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+    
+    /**
+     * Regenerate a new password for the current user, only if the username and 
+     * email address given corresond to an existing user in db.
+     * 
+     * @param string $_POST['username'] 
+     * @param string $_POST['email']
+     */
+    public function ajax_forgot_password() {
+        try {
+            if (!isset($_POST['username']) || !isset($_POST['email'])) {
+                throw new Exception('You must enter a valid username and email address in '
+                        . 'order to get a new password!');
+            }
+            
+            $this->load->model('user_model');
+            $this->load->model('settings_model');
+            
+            $new_password = $this->user_model->regenerate_password($_POST['username'], $_POST['email']);
+            
+            if ($new_password != FALSE) {
+                $this->load->library('notifications');
+                $company_settings = array(
+                    'company_name' => $this->settings_model->get_setting('company_name'),
+                    'company_link' => $this->settings_model->get_setting('company_link'),
+                    'company_email' => $this->settings_model->get_setting('company_email')
+                );
+                $this->notifications->send_password($new_password, $_POST['email'], $company_settings);
+            }
+            
+            echo ($new_password != FALSE) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))

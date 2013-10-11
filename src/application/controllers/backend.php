@@ -174,7 +174,7 @@ class Backend extends CI_Controller {
         $user_id = $this->session->userdata('user_id'); 
         
         $view['base_url'] = $this->config->item('base_url');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_SYSTEM_SETTINGS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['role_slug'] = $this->session->userdata('role_slug');

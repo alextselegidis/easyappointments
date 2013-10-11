@@ -53,12 +53,13 @@ root {
     font-size: 16px; 
 }
 
-#header #header-menu .menu-item:hover { 
+#header #header-menu .menu-item:hover:not(.active) { 
     background-color: #247A4B; 
 }
 
 #header #header-menu .active { 
-    color: #D6FF80;
+    color: #E7FFB3;
+    text-shadow: 1px 1px 0px #57814D;
 }
 
 #footer {

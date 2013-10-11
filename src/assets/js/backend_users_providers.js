@@ -397,7 +397,7 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
             var html = ProvidersHelper.prototype.getFilterHtml(provider);
             $('#filter-providers .results').append(html);
         });
-        $('#filter-providers .results').jScrollPane();
+        $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
             $('#filter-providers .results').html('<em>No results found ...</em>')

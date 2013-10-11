@@ -346,7 +346,7 @@
                 // ------------------------------------------------------ ?>
             <div id="frame-footer">
                 Powered By 
-                <a href="https://code.google.com/p/easy-appointments/">
+                <a href="http://easyappointments.org" target="_blank">
                     Easy!Appointments
                 </a>
             </div>

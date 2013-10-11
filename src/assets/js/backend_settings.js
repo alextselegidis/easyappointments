@@ -116,7 +116,7 @@ var BackendSettings = {
             // and apply it whenever the user tab is clicked..
             var areNotificationsActive = $('#user-notifications').hasClass('active');
             
-            $('.active').removeClass('active');
+            $(this).parent().find('.active').removeClass('active');
             $(this).addClass('active');
             $('.tab-content').hide();
             

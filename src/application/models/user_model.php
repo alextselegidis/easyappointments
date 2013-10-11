@@ -102,6 +102,38 @@ class User_Model extends CI_Model {
         $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
         return $user['first_name'] . ' ' . $user['last_name'];
     }
+    
+    /**
+     * If the given arguments correspond to an existing user record, generate a new 
+     * password and send it with an email.
+     * 
+     * @param string $username
+     * @param string $email
+     * @return string|bool Returns the new password on success or FALSE on failure.
+     */
+    public function regenerate_password($username, $email) {
+        $this->load->helper('general');
+        
+        $result = $this->db
+                ->select('ea_users.id')
+                ->from('ea_users')
+                ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id', 'inner')
+                ->where('ea_users.email', $email)
+                ->where('ea_user_settings.username', $username)
+                ->get();
+        
+        if ($result->num_rows() == 0) return FALSE;
+        
+        $user_id = $result->row()->id;
+        
+        // Create a new password and send it with an email to the given email address.
+        $new_password = generate_random_string();
+        $salt = $this->db->get_where('ea_user_settings', array('id_users' => $user_id))->row()->salt;
+        $hash_password = hash_password($salt, $new_password);
+        $this->db->update('ea_user_settings', array('password' => $hash_password), array('id_users' => $user_id));
+        
+        return $new_password;
+    }
 }
 
 /* End of file user_model.php */

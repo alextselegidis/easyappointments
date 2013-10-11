@@ -49,14 +49,14 @@ var BackendUsers = {
                     + service.name + '</label>'; 
             $('#provider-services').append(html);
         });
-        $('#provider-services').jScrollPane();
+        $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
                 
         $.each(GlobalVariables.providers, function(index, provider) {
            var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
                    + provider.first_name + ' ' + provider.last_name + '</label>';
             $('#secretary-providers').append(html);
         });
-        $('#secretary-providers').jScrollPane();
+        $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
         
         // Bind event handlers.
         if (defaultEventHandlers) BackendUsers.bindEventHandlers();
@@ -73,7 +73,7 @@ var BackendUsers = {
          * Changes the displayed tab.
          */
         $('.tab').click(function() {
-            $('.active').removeClass('active');
+            $(this).parent().find('.active').removeClass('active');
             $(this).addClass('active');
             $('.tab-content').hide();
             
@@ -83,7 +83,7 @@ var BackendUsers = {
             } else if ($(this).hasClass('providers-tab')) { // display providers tab
                 $('#providers').show();
                 $('#provider-services').data('jsp').destroy();
-                $('#provider-services').jScrollPane();
+                $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
                 BackendUsers.helper = new ProvidersHelper();
             } else if ($(this).hasClass('secretaries-tab')) { // display secretaries tab
                 $('#secretaries').show();
@@ -109,7 +109,7 @@ var BackendUsers = {
                          $('#secretary-providers').append(html);
                      });
                      $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
-                     $('#secretary-providers').jScrollPane();
+                     $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
                 }, 'json');
             }
             

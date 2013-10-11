@@ -164,6 +164,45 @@ class Notifications {
         
         return TRUE;
     }
+    
+    /**
+     * This method sends an email with the new password of a user. 
+     * 
+     * @param string $password Contains the new password.
+     * @param string $email The receiver's email address.
+     */
+    public function send_password($password, $email, $company_settings) {
+        $replace_array = array(
+            '$email_title' => 'New Account Password',
+            '$email_message' => 'Your new account password is <strong>' . $password . '</strong>. '
+                    . 'Please store this email to be able to retrieve your password if necessary. '
+                    . 'You can also change this password with a new one in the settings page.',
+            '$company_name' => $company_settings['company_name'],
+            '$company_email' => $company_settings['company_email'],
+            '$company_link' => $company_settings['company_link']
+        );
+        
+        $email_html = file_get_contents(dirname(dirname(__FILE__)) 
+                    . '/views/emails/new_password.php');
+        $email_html = $this->replace_template_variables($replace_array, $email_html);
+        
+        // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
+        $mail = new PHPMailer();
+        $mail->From         = $company_settings['company_email'];
+        $mail->FromName     = $company_settings['company_name'];
+        $mail->AddAddress($email); // "Name" argument crushes the phpmailer class.
+        $mail->IsHTML(true);
+        $mail->CharSet      = 'UTF-8';
+        $mail->Subject      = 'New Account Password';
+        $mail->Body         = $email_html;
+
+        if (!$mail->Send()) {
+            throw new Exception('Email could not been sent. ' 
+                    . 'Mailer Error (Line ' . __LINE__ . '): ' . $mail->ErrorInfo);
+        }
+        
+        return TRUE;
+    }
 }
 
 /* End of file notifications.php */

@@ -330,7 +330,7 @@ AdminsHelper.prototype.filter = function(key, selectId, display) {
             var html = AdminsHelper.prototype.getFilterHtml(admin);
             $('#filter-admins .results').append(html);
         });
-        $('#filter-admins .results').jScrollPane();
+        $('#filter-admins .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
             $('#filter-admins .results').html('<em>No results found ...</em>')

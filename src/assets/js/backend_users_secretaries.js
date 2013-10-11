@@ -351,7 +351,7 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
             var html = SecretariesHelper.prototype.getFilterHtml(secretary);
             $('#filter-secretaries .results').append(html);
         });
-        $('#filter-secretaries .results').jScrollPane();
+        $('#filter-secretaries .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
             $('#filter-secretaries .results').html('<em>No results found ...</em>')
