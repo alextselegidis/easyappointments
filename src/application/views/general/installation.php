@@ -19,7 +19,7 @@
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $base_url(); ?>assets/images/favicon.ico">       
+        href="<?php echo $base_url; ?>assets/images/favicon.ico">       
 
     <?php // INCLUDE SCRIPTS ?>
     <script 
@@ -41,21 +41,38 @@
                 'baseUrl': <?php echo '"' . $base_url . '"'; ?>
             };
             
+            var MIN_PASSWORD_LENGTH = 7;
+            var AJAX_SUCCESS = 'SUCCESS';
+            var AJAX_FAILURE = 'FAILURE';
+            
             /**
-             * Event: Install System "Click"
+             * Event: Install Easy!Appointments Button "Click"
              */
             $('#install').click(function() {
                 if (!validate()) return;
         
-                var postUrl = GlobalVariables.baseUrl + 'ajax_install';
+                var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_install';
                 var postData = {
-                    'admin': getAdminData(),
-                    'company': getCompanyDate()
+                    'admin': JSON.stringify(getAdminData()),
+                    'company': JSON.stringify(getCompanyData())
                 };
                 
                 $.post(postUrl, postData, function(response) {
-                
-                });
+                    //////////////////////////////////////////////////////
+                    console.log('Ajax Install E!A Response:', response);
+                    //////////////////////////////////////////////////////
+                    
+                    if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                    
+                    if (response == AJAX_SUCCESS) {
+                        $('.alert').text('Easy!Appointments has been success fully installed!');
+                        $('.alert').addClass('alert-success');
+                        $('.alert').show();
+                        setTimeout(function() {
+                            window.location.href = GlobalVariables.baseUrl + 'backend';
+                        }, 1000);
+                    }
+                }, 'json');
             });
             
             /**
@@ -65,12 +82,12 @@
              */
             function validate() {
                 try {
-                    $('.alert').fadeOut();
-                    $('input[type="text"]').css('border', '');
+                    $('.alert').hide();
+                    $('input').css('border', '');
                     
                     // Check for empty fields.
                     var missingRequired = false;
-                    $('input[type="text"]').each(function() {
+                    $('input').each(function() {
                         if ($(this).val() == '') {
                             $(this).css('border', '2px solid red');
                             missingRequired = true;
@@ -87,16 +104,27 @@
                         throw 'Passwords do not match!';
                     }
                     
+                    if ($('#password').val().length < MIN_PASSWORD_LENGTH) {
+                        $('#password').css('border', '2px solid red');
+                        $('#retype-password').css('border', '2px solid red');
+                        throw 'The password must be at least ' + MIN_PASSWORD_LENGTH + ' characters long.';
+                    }
+                    
                     // Validate Email
                     if (!GeneralFunctions.validateEmail($('#email').val())) {
                         $('#email').css('border', '2px solid red');
-                        throw 'The email addres is invalid!';
+                        throw 'The email address is invalid!';
+                    }
+                    
+                    if (!GeneralFunctions.validateEmail($('#company-email').val())) {
+                        $('#company-email').css('border', '2px solid red');
+                        throw 'The email address is invalid!';
                     }
                     
                     return true;
                 } catch(exc) {
-                    $('.alert').txt(exc);
-                    $('.alert').fadeIn();
+                    $('.alert').text(exc);
+                    $('.alert').show();
                     return false;
                 }
             }
@@ -125,10 +153,39 @@
              * @returns {object}
              */
             function getCompanyData() {
+                var company = {
+                    'company_name': $('#company-name').val(),
+                    'company_email': $('#company-email').val(),
+                    'company_link': $('#company-link').val()
+                };
                 
+                return company;
             }
         });
     </script>
+    
+    <style>
+        header { 
+            background: #DAFFEB;
+            margin-bottom: 25px;
+        }
+        
+        .content {
+            margin: 32px;
+            max-width: 980px;
+        }
+        
+        .alert {
+            margin: 25px 0 10px 0;
+        }
+        
+        footer {
+           padding: 10px 35px; 
+           background-color: #FAFAFA;
+           margin-top: 20px;
+           border-top: 1px solid #EEE;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -136,76 +193,81 @@
             <img src="<?php echo $base_url; ?>assets/images/installation-banner.png" alt="Easy!Appointents Installation Banner">
         </a>
     </header>
+    
     <div class="content">
         <div class="welcome">
-            <h2>Welcome To The Easy!Appointments Installation Page</h2>
+            <h2>Welcome to the Easy!Appointments installation page.</h2>
             <p>
                 This page will help you set the main settings of your Easy!Appointments installation.
                 You will be able to edit these settings and many more in the backend session of your 
-                system. Remember to use the <span class="label label-info"><?php echo $base_url; ?>
-                backend</span> url to connect to the backend section of Easy!Appointments.
-                
+                system. Remember to use the <span class="text-error"><?php echo $base_url; ?>backend</span> 
+                url to connect to the backend section of Easy!Appointments.
+
                 If you face any problems during the usage of Easy!Appointments you can always check
                 the official <a href="https://code.google.com/p/easy-appointments/w/list">Wiki Pages</a> 
-                and the <a href="http://groups.google.com/group/easy-appointments">Support Group</a>
-                for getting help. You may also submit new issues on the
-                <a href="https://code.google.com/p/easy-appointments/issues/list">Google Code Issues</a>
-                page, in order to help our development process.
+                and <a href="http://groups.google.com/group/easy-appointments">Support Group</a>
+                for getting help. You may also submit new issues on
+                <a href="https://code.google.com/p/easy-appointments/issues/list">Google Code</a>
+                in order to help our development process.
             </p>
         </div>
         
-        <hr>
-        
-        <div class="alert" style="display: none"></div>
-        
-        <div class="admin-settings">
-            <h2>Administrator Settings</h2>
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" />
-            
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" />
-            
-            <label for="email">Email</label>
-            <input type="text" id="email" />
-            
-            <label for="phone-number">Phone Number</label>
-            <input type="text" id="phone-number" />
-            
-            <label for="username">Username</label>
-            <input type="text" id="username" />
-            
-            <label for="password">Password</label>
-            <input type="password" id="password" />
-            
-            <label for="retype-password">Retype Password</label>
-            <input type="password" id="retype-password" />
-        </div>
-        
-        <hr>
-        
-        <div class="company-settings">
-            <h2>Company Settings</h2>
-            <label for="company-name">Company Name</label>
-            <input type="text" id="company-name">
-            
-            <label for="company-email">Company Email</label>
-            <input type="text" id="company-email">
-            
-            <label for="company-link">Company Link</label>
-            <input type="text" id="company-link">
-            
-            <div class="alert alert-info">
-                You will be able to set your business logic in the backend settings page after 
-                the installation is complete.
+        <div class="alert" style="display:none"></div>
+
+        <div class="row-fluid">
+            <div class="admin-settings span5">
+                <h3>Administrator</h3>
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" class="span10" />
+
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" class="span10" />
+
+                <label for="email">Email</label>
+                <input type="text" id="email" class="span10" />
+
+                <label for="phone-number">Phone Number</label>
+                <input type="text" id="phone-number" class="span10" />
+
+                <label for="username">Username</label>
+                <input type="text" id="username" class="span10" />
+
+                <label for="password">Password</label>
+                <input type="password" id="password" class="span10" />
+
+                <label for="retype-password">Retype Password</label>
+                <input type="password" id="retype-password" class="span10" />
+            </div>
+
+            <div class="company-settings span5">
+                <h3>Company</h3>
+                <label for="company-name">Company Name</label>
+                <input type="text" id="company-name" class="span10" />
+
+                <label for="company-email">Company Email</label>
+                <input type="text" id="company-email" class="span10" />
+
+                <label for="company-link">Company Link</label>
+                <input type="text" id="company-link" class="span10" />
+
+                
             </div>
         </div>
         
-        <center>
-            <button type="button" id="install" class="btn btn-success btn-large">
-                <i class="icon-white icon-ok"></i>
-                Install</button>
-        </center>
+        <br>
+        
+        <p>
+            You will be able to set your business logic in the backend settings page 
+            after the installation is complete. 
+            <br>
+            Press the following button to complete the installation process.
+        </p>
+        
+        <br>
+        
+        <button type="button" id="install" class="btn btn-success btn-large">
+            <i class="icon-white icon-ok"></i>
+            Install Easy!Appointments</button>
     </div>
 
     <footer>

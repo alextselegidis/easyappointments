@@ -62,21 +62,21 @@
                 </legend>
                 
                 <label for="company-name">Company Name *</label>
-                <input type="text" id="company-name" data-field="company_name" class="required">
+                <input type="text" id="company-name" data-field="company_name" class="required span4">
                 <span class="help-block">Company name will be displayed everywhere on the system 
                     (required).</span>
                 
                 <br>
                 
                 <label for="company-email">Company Email *</label>
-                <input type="text" id="company-email" data-field="company_email" class="required">
+                <input type="text" id="company-email" data-field="company_email" class="required span4">
                 <span class="help-block">This will be the company email address. It will be used 
                     as the sender and the reply address of the system emails (required).</span>
                 
                 <br>
                 
                 <label for="company-link">Company Link *</label>
-                <input type="text" id="company-link" data-field="company_link" class="required">
+                <input type="text" id="company-link" data-field="company_link" class="required span4">
                 <span class="help-block">Company link should point to the official website of 
                     the company (optional).</span>
                 
