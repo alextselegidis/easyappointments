@@ -5,7 +5,7 @@ class SystemConfiguration {
     
     // Database Settings
     public static $db_host     = 'localhost';
-    public static $db_name     = 'easy_appointments';
+    public static $db_name     = 'new_ea'; //'easy_appointments';
     public static $db_username = 'root';
     public static $db_password = '';
     

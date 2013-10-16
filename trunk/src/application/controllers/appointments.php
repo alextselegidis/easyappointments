@@ -617,26 +617,71 @@ class Appointments extends CI_Controller {
         try {
             if (!$this->db->table_exists('ea_users')) {
                 // This is the first time the website is launched an the user needs to set 
-                // the basic settings. 
-                
-                // We will use mysqli to create the database structure from the "structure.sql" file.
-                require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
-                $mysqli = new mysqli(SystemConfiguration::$db_host, SystemConfiguration::$db_username, 
-                        SystemConfiguration::$db_password, SystemConfiguration::$db_name);
-                $structure = file_get_contents($this->config->item('base_url') . 'assets/sql/structure.sql');
-                $mysqli->multi_query($structure);
-                $mysqli->close();
-                
-                // Display the installation view page.
+                // the basic settings. Display the installation view page.
                 $view['base_url'] = $this->config->item('base_url');
                 $this->load->view('general/installation', $view);
-                
                 return FALSE; // Do not display the book appointment view file.
             } else {
-                return TRUE;
+                return TRUE; // Application installed, continue ...
             }
         } catch(Exception $exc) {
             echo $exc->getTrace();
+        }
+    }
+    
+    /**
+     * Installs Easy!Appointments on server. 
+     * 
+     * @param array $_POST['admin'] Contains the initial admin user data. System needs at least
+     * one admin user to work. 
+     * @param array $_POST['company'] Contains the basic company data.
+     */
+    public function ajax_install() {
+        try {
+            // 2nd method using the ci database class.
+            $file_contents = file_get_contents($this->config->item('base_url') . 'assets/sql/structure.sql');
+            $sql_queries = explode(';', $file_contents);
+            array_pop($sql_queries);
+            foreach($sql_queries as $query) {
+                $this->db->query($query);
+            }
+            
+            //$this->db->reconnect();
+            
+            $admin = json_decode($_POST['admin'], true);
+            $admin_role_id = $this->db->get_where('ea_roles', array('slug' => DB_SLUG_ADMIN))->row()->id;
+            $admin = json_decode($_POST['admin'], true);
+            $this->db->query('INSERT INTO `ea_users` (`first_name`, `last_name`, `email`, `phone_number`, `id_roles`) VALUES ' 
+                    . '("' . $admin['first_name'] . '", "' . $admin['last_name'] . '", "' . $admin['email'] . '", "' . $admin['phone_number'] . '", "' . $admin_role_id . '");');
+            $this->db->query('INSERT INTO `ea_user_settings` (`id_users`, `username`, `password`) VALUES '
+                    . '("' . $this->db->insert_id() . '", "' . $admin['username'] . '", "' . $admin['password'] . '");');
+            
+//            // Insert admin
+//            $this->load->model('admins_model');
+//            $admin = json_decode($_POST['admin'], true);
+//            $admin['settings']['username'] = $admin['username'];
+//            $admin['settings']['password'] = $admin['password'];
+//            unset($admin['username'], $admin['password']);
+//            $this->admins_model->add($admin);
+            
+            // Save company settings
+            $company = json_decode($_POST['company'], true);
+            $this->db->query('INSERT INTO `ea_settings` (`name`, `value`) VALUES '
+                    . '("company_name", "' . $company['company_name'] . '"),'
+                    . '("company_email", "' . $company['company_email'] . '"),'
+                    . '("company_link", "' . $company['company_link'] . '");');
+//            $this->load->model('settings_model');
+//            $company = json_decode($_POST['company'], true);
+//            $this->settings_model->set_setting('company_name', $company['company_name']);
+//            $this->settings_model->set_setting('company_email', $company['company_email']);
+//            $this->settings_model->set_setting('company_link', $company['company_link']);
+            
+            echo json_encode(AJAX_SUCCESS);
+            
+        } catch (Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
         }
     }
 }
