@@ -26,7 +26,7 @@
 <div id="customers-page" class="row-fluid">
 	<div id="filter-customers" class="filter-records column span4">
 		<form class="input-append">
-			<input class="key span8" type="text" />
+			<input class="key span7" type="text" />
             <button class="filter btn" type="submit">
                     <i class="icon-filter"></i>
                     Filter
@@ -41,7 +41,7 @@
         <div class="results"></div>
 	</div>
 
-	<div id="details" class="span7 row-fluid">
+	<div class="details span7 row-fluid">
         <div class="btn-toolbar">
             <div id="add-edit-delete-group" class="btn-group">
                 <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>

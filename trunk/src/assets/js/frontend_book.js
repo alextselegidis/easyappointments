@@ -45,6 +45,7 @@ var FrontendBook = {
         
         $('#select-date').datepicker({
             dateFormat: 'dd-mm-yy',
+            firstDay: 1, // Monday
             minDate: 0,
             defaultDate: Date.today(),
             onSelect: function(dateText, instance) {
@@ -272,6 +273,8 @@ var FrontendBook = {
      * hours we need to receive.
      */
     getAvailableHours: function(selDate) {
+        $('#available-hours').empty();
+        
         // Find the selected service duration (it is going to 
         // be send within the "postData" object.
         var selServiceDuration = 15; // Default value of duration (in minutes).

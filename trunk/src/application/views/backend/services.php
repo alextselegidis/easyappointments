@@ -36,7 +36,7 @@
         <?php // FILTER SERVICES ?>
         <div id="filter-services" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span8" type="text" />
+                <input class="key span7" type="text" />
                 <button class="filter btn" type="submit">
                     <i class="icon-filter"></i>
                     Filter
@@ -81,22 +81,22 @@
             <input type="hidden" id="service-id" />
             
             <label for="service-name">Name *</label>
-            <input type="text" id="service-name" class="span7 required" />
+            <input type="text" id="service-name" class="span6 required" />
             
-            <label for="service-duration">Duration *</label>
+            <label for="service-duration">Duration (Minutes) *</label>
             <input type="text" id="service-duration" class="required"  />
             
             <label for="service-price">Price *</label>
-            <input type="text" id="service-price" class="span7 required" />
+            <input type="text" id="service-price" class="required" />
             
             <label for="service-currency">Currency</label>
-            <input type="text" id="service-currency" class="span7" />
-            
-            <label for="service-description">Description</label>
-            <textarea id="service-description" rows="4" class="span7"></textarea>
+            <input type="text" id="service-currency" class="" />
             
             <label for="service-category">Category</label>
-            <select id="service-category" class="span7"></select>
+            <select id="service-category"></select>
+            
+            <label for="service-description">Description</label>
+            <textarea id="service-description" rows="4" class="span6"></textarea>
             
             <br/><br/>
             <em id="form-message" class="text-error">Fields with * are required!</em>
@@ -113,7 +113,7 @@
     <div id="categories" class="tab-content" style="display:none;">
         <div id="filter-categories" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span8" type="text" class="" />
+                <input class="key span7" type="text" class="" />
                 <button class="filter btn" type="submit">
                     <i class="icon-filter"></i>
                     Filter

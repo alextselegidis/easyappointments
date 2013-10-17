@@ -19,6 +19,7 @@ include dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 */
 require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 $config['base_url']	= SystemConfiguration::$base_url; 
+$config['ea_version'] = '0.6'; // This must be changed manually.
 
 /*
 |--------------------------------------------------------------------------

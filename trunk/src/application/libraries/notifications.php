@@ -188,13 +188,13 @@ class Notifications {
         
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
         $mail = new PHPMailer();
-        $mail->From         = $company_settings['company_email'];
-        $mail->FromName     = $company_settings['company_name'];
+        $mail->From = $company_settings['company_email'];
+        $mail->FromName = $company_settings['company_name'];
         $mail->AddAddress($email); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
-        $mail->CharSet      = 'UTF-8';
-        $mail->Subject      = 'New Account Password';
-        $mail->Body         = $email_html;
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = 'New Account Password';
+        $mail->Body = $email_html;
 
         if (!$mail->Send()) {
             throw new Exception('Email could not been sent. ' 
@@ -202,6 +202,30 @@ class Notifications {
         }
         
         return TRUE;
+    }
+    
+    /**
+     * Sends a simple email to notify for a new installation. 
+     * 
+     * This method will be only used for tracking the number of installations. No personal
+     * data will be retrieved for any other cause.
+     * 
+     * @returns bool Returns the "send()" method result.
+     */
+    public function send_new_installation($company_name, $company_email, $company_link) {
+        $mail = new PHPMailer();
+        $mail->From = $company_email;
+        $mail->FromName = 'New Installation: ' . $company_name ;
+        $mail->AddAddress('info@easyappointments.org');
+        $mail->IsHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = 'New Easy!Appointments Installation';
+        $mail->Body = 'Base URL: ' . $this->CI->config->item('base_url') . '<br>'
+                . 'E!A Version: ' . $this->CI->config->item('ea_version') . '<br>'
+                . 'Company Name: ' . $company_name . '<br>'
+                . 'Company Email: ' . $company_email . '<br>'
+                . 'Company Link: ' . $company_link . '<br>';
+        return $mail->Send();
     }
 }
 

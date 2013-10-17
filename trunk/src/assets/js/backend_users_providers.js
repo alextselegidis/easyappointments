@@ -92,7 +92,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
         $('#provider-password, #provider-password-confirm').removeClass('required');
         $('#provider-notifications').prop('disabled', false);
         $('#provider-services input[type="checkbox"]').prop('disabled', false);
-        $('#providers').find('.add-break, .edit-break, .delete-break').prop('disabled', false);
+        $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
         $('#providers input[type="checkbox"]').prop('disabled', false);
         BackendUsers.wp.timepickers(false);
     });
@@ -184,7 +184,6 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
         $('.working-plan-view').hide('fade', function() {
             $('.details-view').show('fade');
         });
-
     });
 
     /**
@@ -196,6 +195,15 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
         $('.details-view').hide('fade', function() {
             $('.working-plan-view').show('fade');
         });
+    });
+    
+    /**
+     * Event: Reset Working Plan Button "Click".
+     */
+    $('#reset-working-plan').click(function() {
+        $('.breaks').empty();
+        BackendUsers.wp.setup(GlobalVariables.workingPlan);
+        BackendUsers.wp.timepickers(false);
     });
 };
 
@@ -312,9 +320,10 @@ ProvidersHelper.prototype.resetForm = function() {
     $('#provider-services input[type="checkbox"]').prop('disabled', true);
     $('#providers .required').css('border', '');
     $('#provider-password, #provider-password-confirm').css('border', '');
-    $('#providers .add-break').prop('disabled', true);
+    $('#providers .add-break, #reset-working-plan').prop('disabled', true);
     BackendUsers.wp.timepickers(true);
     $('#providers .working-plan input[type="text"]').timepicker('destroy');
+    $('#providers .working-plan input[type="checkbox"]').prop('disabled', true);
     $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
 
     $('#edit-provider, #delete-provider').prop('disabled', true);
