@@ -646,35 +646,31 @@ class Appointments extends CI_Controller {
                 $this->db->query($query);
             }
             
-            //$this->db->reconnect();
-            
+            // Insert admin
+            $this->load->model('admins_model');
             $admin = json_decode($_POST['admin'], true);
-            $admin_role_id = $this->db->get_where('ea_roles', array('slug' => DB_SLUG_ADMIN))->row()->id;
-            $admin = json_decode($_POST['admin'], true);
-            $this->db->query('INSERT INTO `ea_users` (`first_name`, `last_name`, `email`, `phone_number`, `id_roles`) VALUES ' 
-                    . '("' . $admin['first_name'] . '", "' . $admin['last_name'] . '", "' . $admin['email'] . '", "' . $admin['phone_number'] . '", "' . $admin_role_id . '");');
-            $this->db->query('INSERT INTO `ea_user_settings` (`id_users`, `username`, `password`) VALUES '
-                    . '("' . $this->db->insert_id() . '", "' . $admin['username'] . '", "' . $admin['password'] . '");');
-            
-//            // Insert admin
-//            $this->load->model('admins_model');
-//            $admin = json_decode($_POST['admin'], true);
-//            $admin['settings']['username'] = $admin['username'];
-//            $admin['settings']['password'] = $admin['password'];
-//            unset($admin['username'], $admin['password']);
-//            $this->admins_model->add($admin);
+            $admin['settings']['username'] = $admin['username'];
+            $admin['settings']['password'] = $admin['password'];
+            unset($admin['username'], $admin['password']);
+            $this->admins_model->add($admin);
             
             // Save company settings
+            $this->load->model('settings_model');
             $company = json_decode($_POST['company'], true);
-            $this->db->query('INSERT INTO `ea_settings` (`name`, `value`) VALUES '
-                    . '("company_name", "' . $company['company_name'] . '"),'
-                    . '("company_email", "' . $company['company_email'] . '"),'
-                    . '("company_link", "' . $company['company_link'] . '");');
-//            $this->load->model('settings_model');
-//            $company = json_decode($_POST['company'], true);
-//            $this->settings_model->set_setting('company_name', $company['company_name']);
-//            $this->settings_model->set_setting('company_email', $company['company_email']);
-//            $this->settings_model->set_setting('company_link', $company['company_link']);
+            $this->settings_model->set_setting('company_name', $company['company_name']);
+            $this->settings_model->set_setting('company_email', $company['company_email']);
+            $this->settings_model->set_setting('company_link', $company['company_link']);
+            
+            // Try to send a notification email for the new installation. 
+            // IMPORTANT: THIS WILL ONLY BE USED TO TRACK THE INSTALLATION NUMBER AND
+            // NO PERSONAL DATA WILL BE USED FOR OTHER CAUSE.
+            try {
+                $this->load->library('notifications');
+                $this->notifications->send_new_installation($company['company_name'], 
+                        $company['company_email'], $company['company_link']);
+            } catch(Exception $exc) {
+                // Well, I guess we'll never know ...
+            }
             
             echo json_encode(AJAX_SUCCESS);
             

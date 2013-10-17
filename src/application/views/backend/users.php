@@ -62,7 +62,7 @@
     <div id="admins" class="tab-content">
         <div id="filter-admins" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span8" type="text" />
+                <input class="key span7" type="text" />
                 <button class="filter btn" type="submit">
                     <i class="icon-filter"></i>
                     Filter
@@ -170,7 +170,7 @@
     <div id="providers" class="tab-content" style="display:none;">
         <div id="filter-providers" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span8" type="text" />
+                <input class="key span7" type="text" />
                 <button class="filter btn" type="submit">
                     <i class="icon-filter"></i>
                     Filter
@@ -283,6 +283,10 @@
                 
             <div class="working-plan-view provider-view" style="display: none;">
                 <h2>Working Plan</h2>
+                <button id="reset-working-plan" class="btn btn-primary"
+                        title="Reset the working plan back to the default values.">
+                    <i class="icon-repeat icon-white"></i>
+                    Reset Plan</button>
                 <table class="working-plan table table-striped">
                     <thead>
                         <tr>
@@ -335,8 +339,8 @@
                 <h2>Breaks</h2>
 
                 <span class="help-block">
-                    Add the working breaks during each day. These breaks will be applied for 
-                    all new providers. 
+                    Add the working breaks during each day. During breaks the provider will 
+                    not accept any appointments.
                 </span>
 
                 <div>
@@ -374,7 +378,7 @@
     <div id="secretaries" class="tab-content" style="display:none;">
         <div id="filter-secretaries" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span8" type="text" />
+                <input class="key span7" type="text" />
                 <button class="filter btn" type="submit">
                     <i class="icon-filter"></i>
                     Filter

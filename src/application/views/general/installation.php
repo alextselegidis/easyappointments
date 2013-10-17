@@ -45,6 +45,14 @@
             var AJAX_SUCCESS = 'SUCCESS';
             var AJAX_FAILURE = 'FAILURE';
             
+            $(document).ajaxStart(function() {
+                $('#loading').show();
+            });
+
+            $(document).ajaxStop(function() {
+                $('#loading').hide();
+            });
+            
             /**
              * Event: Install Easy!Appointments Button "Click"
              */
@@ -185,9 +193,28 @@
            margin-top: 20px;
            border-top: 1px solid #EEE;
         }
+        
+        #loading { 
+            position: absolute; 
+            top: 0px; 
+            left: 0px; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 999999;
+            background: rgba(255, 255, 255, 0.75);
+        }
+
+        #loading img { 
+            margin: auto; 
+            display: block; 
+        }
     </style>
 </head>
 <body>
+    <div id="loading" style="display: none;">
+        <img src="<?php echo $base_url; ?>assets/images/loading.gif" />
+    </div>
+    
     <header>
         <a href="http://easyappointments.org" target="_blank">
             <img src="<?php echo $base_url; ?>assets/images/installation-banner.png" alt="Easy!Appointents Installation Banner">

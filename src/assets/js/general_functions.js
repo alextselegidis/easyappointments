@@ -65,6 +65,7 @@ var GeneralFunctions = {
         });
 
         jQuery("#message_box").dialog("open"); 
+        jQuery(".ui-dialog .ui-dialog-buttonset button").addClass('btn');
         jQuery("#message_box .ui-dialog-titlebar-close").hide();
     },
 

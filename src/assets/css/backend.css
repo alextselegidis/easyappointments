@@ -110,14 +110,15 @@ root {
 }
 
 body .modal-header {
-    padding: 9px 15px;
-    background: #51B173;
-    border-bottom: 3px solid #3A8154;
+    padding: 12px 15px;
+    background: #3DD481;
+    border-bottom: 4px solid #3A8154;
     color: #FFF;
 }
 
 body .modal-header h3 {
     font-size: 20px;
+    text-shadow: 1px 1px 1px #134D13;
 }
 
 body .jspDrag {
@@ -127,6 +128,32 @@ body .jspDrag {
 body .jspTrack {
     background: #EBEBEB;
 }
+
+body .ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+body .ui-draggable .ui-dialog-titlebar {
+    background: #3DD481;
+    color: #FFF;
+    text-shadow: 1px 1px 0px #327451;
+    padding: 14px 10px;
+    border-bottom: 4px solid #1A865F;
+    margin-bottom: 10px;
+}
+
+body .ui-dialog {
+    padding: 0;
+}
+
+body .ui-dialog .ui-dialog-buttonpane {
+    padding: .3em 1em .3em .4em;
+}
+
+.breaks tr:hover td {
+    background: #FFFFC2 !important;
+}
+
 
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
@@ -274,15 +301,15 @@ body .jspTrack {
     margin: 5px 0; 
 }
 
-#customers-page #details { 
+#customers-page .details { 
     margin: 15px 0 15px 15px; 
 }
 
-#customers-page #details .btn-toolbar { 
+#customers-page .details .btn-toolbar { 
     margin-top: 0px; 
 }
 
-#customers-page #details div.span5 { 
+#customers-page .details div.span5 { 
     margin-left: 0; 
 }
 
@@ -304,8 +331,8 @@ body .jspTrack {
     cursor: pointer; 
 }
 
-#customers-page #details input,
-#customers-page #details textarea { 
+#customers-page .details input,
+#customers-page .details textarea { 
     background-color: white; 
     cursor: default; 
 }
@@ -358,6 +385,10 @@ body .jspTrack {
     margin-bottom: 10px; 
 }
 
+#services-page .details .ui-state-disabled {
+    opacity: 1;
+}
+
 #services-page #service-duration { 
     margin: 0px; 
 }
@@ -381,6 +412,13 @@ body .jspTrack {
 #services-page #categories .category-row:hover { 
     background-color: #C6E7D5; 
     cursor: pointer; 
+}
+
+.details input:read-only,
+.details select:disabled,
+.details textarea:read-only {
+    opacity: 0.85;
+    box-shadow: none;
 }
 
 /* BACKEND USERS PAGE

@@ -392,7 +392,7 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-services .result').html('<em>No results found ...</em>');
+            $('#filter-services .results').html('<em>No results found ...</em>');
         }
         
         if (selectId != undefined) {
@@ -642,7 +642,7 @@ CategoriesHelper.prototype.save = function(category) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Service saved successfully!');
+        Backend.displayNotification('Category saved successfully!');
         BackendServices.helper.resetForm();
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('', response.id, true);

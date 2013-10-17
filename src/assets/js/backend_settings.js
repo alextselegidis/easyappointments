@@ -96,6 +96,8 @@ var BackendSettings = {
             $('#user').find('button').prop('disabled', true);
         }
         
+        
+        Backend.placeFooterToBottom();
     },
             
     /**
@@ -137,6 +139,8 @@ var BackendSettings = {
                     $('#user-notifications').removeClass('active');   
                 }
             }
+            
+            Backend.placeFooterToBottom();
         });
         
         /**

@@ -36,7 +36,7 @@
     <div id="calendar-toolbar">
         <div id="calendar-filter">
             <label for="select-filter-item">Display Calendar</label>
-            <select id="select-filter-item"></select>
+            <select id="select-filter-item" title="Select a provider or a service and view the appointments on the calendar."></select>
         </div>
         
         <div id="calendar-actions">
@@ -100,16 +100,16 @@
                 <input id="appointment-id" type="hidden" />
                 
                 <div class="control-group">
-                    <label for="select-service" class="control-label">Service</label>
+                    <label for="select-service" class="control-label">Service *</label>
                     <div class="controls">
-                        <select id="select-service"></select>
+                        <select id="select-service" class="required"></select>
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="select-provider" class="control-label">Provider</label>
+                    <label for="select-provider" class="control-label">Provider *</label>
                     <div class="controls">
-                        <select id="select-provider"></select>
+                        <select id="select-provider" class="required"></select>
                     </div>
                 </div>
                 

@@ -27,6 +27,7 @@ var BackendCalendar = {
             'defaultView': 'agendaWeek',
             'height': BackendCalendar.getCalendarHeight(),
             'editable': true,
+            'firstDay': 1, // Monday
             'slotMinutes': 30,
             'axisFormat': 'HH:mm',
             'timeFormat': 'HH:mm{ - HH:mm}',
@@ -67,28 +68,32 @@ var BackendCalendar = {
         BackendCalendar.calendarWindowResize(); 
         
         // Fill the select listboxes of the page.
-        var optgroupHtml = '<optgroup label="Providers" type="providers-group">';
-        $.each(GlobalVariables.availableProviders, function(index, provider) {
-            var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
-                    ? 'true' : 'false';
-                
-            optgroupHtml += '<option value="' + provider['id'] + '" '  
-                    + 'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" '  
-                    + 'google-sync="' + hasGoogleSync + '">'  
-                    + provider['first_name'] + ' ' + provider['last_name'] 
-                    + '</option>';
-        });
-        optgroupHtml += '</optgroup>';
-        $('#select-filter-item').append(optgroupHtml);
-        
-        optgroupHtml = '<optgroup label="Services" type="services-group">';
-        $.each(GlobalVariables.availableServices, function(index, service) {
-            optgroupHtml += '<option value="' + service['id'] + '" ' + 
-                    'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 
-                    service['name'] + '</option>';
-        });
-        optgroupHtml += '</optgroup>';
-        $('#select-filter-item').append(optgroupHtml);
+        if (GlobalVariables.availableProviders.length > 0) {
+            var optgroupHtml = '<optgroup label="Providers" type="providers-group">';
+            $.each(GlobalVariables.availableProviders, function(index, provider) {
+                var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
+                        ? 'true' : 'false';
+
+                optgroupHtml += '<option value="' + provider['id'] + '" '  
+                        + 'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" '  
+                        + 'google-sync="' + hasGoogleSync + '">'  
+                        + provider['first_name'] + ' ' + provider['last_name'] 
+                        + '</option>';
+            });
+            optgroupHtml += '</optgroup>';
+            $('#select-filter-item').append(optgroupHtml);
+        }
+            
+        if (GlobalVariables.availableServices.length > 0) {
+            optgroupHtml = '<optgroup label="Services" type="services-group">';
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                optgroupHtml += '<option value="' + service['id'] + '" ' + 
+                        'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 
+                        service['name'] + '</option>';
+            });
+            optgroupHtml += '</optgroup>';
+            $('#select-filter-item').append(optgroupHtml);
+        }
         
         // Privileges Checks
         if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
@@ -799,7 +804,7 @@ var BackendCalendar = {
      */
     getCalendarHeight: function () {
         var result = window.innerHeight - $('#footer').height() - $('#header').height() 
-                - $('#calendar-toolbar').height() - 80; // 80 for fine tuning
+                - $('#calendar-toolbar').height() - 50; // 80 for fine tuning
         return (result > 500) ? result : 500; // Minimum height is 500px
     },
            
@@ -881,6 +886,8 @@ var BackendCalendar = {
                                 var selDayName = $calendar.fullCalendar('getView')
                                         .start.toString('dddd').toLowerCase();
                                 
+                                if (workingPlan[selDayName] == null) return; // go to next loop
+                                
                                 // Add unavailable period before work starts.
                                 var calendarDateStart = $calendar.fullCalendar('getView').start;
                                 var workDateStart = Date.parseExact(
@@ -961,6 +968,7 @@ var BackendCalendar = {
                                 var currDateEnd = GeneralFunctions.clone(currDateStart).addDays(1);
                                 
                                 $.each(workingPlan, function(index, workingDay) {
+                                    if (workingDay == null) return; // Go to the next loop.
                                     var start, end; 
                                     
                                     // Add unavailable period before work starts.
@@ -1672,7 +1680,7 @@ var BackendCalendar = {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
             $dialog.find('.required').each(function() {
-                if ($(this).val() === '') {
+                if ($(this).val() == '' || $(this).val() == null) {
                     $(this).parents().eq(1).addClass('error');
                     missingRequiredField = true;
                 }

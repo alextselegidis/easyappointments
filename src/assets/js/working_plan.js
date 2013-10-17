@@ -173,8 +173,8 @@ WorkingPlan.prototype.bindEventHandlers = function() {
 
         // Bind editable and event handlers.
         tr = $('.breaks tr').get()[1];
-        BackendSettings.editableBreakDay($(tr).find('.break-day'));
-        BackendSettings.editableBreakTime($(tr).find('.break-start, .break-end'));
+        WorkingPlan.prototype.editableBreakDay($(tr).find('.break-day'));
+        WorkingPlan.prototype.editableBreakTime($(tr).find('.break-start, .break-end'));
         $(tr).find('.edit-break').trigger('click');
     });
 
@@ -295,7 +295,7 @@ WorkingPlan.prototype.timepickers = function(disabled) {
     
     if (disabled == false) {
         // Set timepickers where needed.
-        $('.working-plan input').timepicker({
+        $('.working-plan input[type="text"]').timepicker({
             'timeFormat': 'HH:mm',
             'onSelect': function(datetime, inst) {
                 // Start time must be earlier than end time. 
@@ -310,4 +310,11 @@ WorkingPlan.prototype.timepickers = function(disabled) {
     } else {
         $('.working-plan input').timepicker('destroy');
     }
+};
+
+/**
+ * Reset the current plan back to the company's default working plan.
+ */
+WorkingPlan.prototype.reset = function() {
+    
 };

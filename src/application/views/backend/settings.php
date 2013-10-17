@@ -82,7 +82,7 @@
                 
                 <br>
                 
-                <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-primary">
+                <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-info">
                     <i class="icon-calendar icon-white"></i>
                     Go To Booking Page
                 </a>

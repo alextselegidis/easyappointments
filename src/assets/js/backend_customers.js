@@ -136,7 +136,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
         BackendCustomers.helper.resetForm();
         $('#add-edit-delete-group').hide();
         $('#save-cancel-group').show();
-        $('#details').find('input, textarea').prop('readonly', false);
+        $('.details').find('input, textarea').prop('readonly', false);
 
         $('#filter-customers button').prop('disabled', true);
         $('#filter-customers .results').css('color', '#AAA');
@@ -146,7 +146,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
      * Event: Edit Customer Button "Click"
      */
     $('#edit-customer').click(function() {
-        $('#details').find('input, textarea').prop('readonly', false);
+        $('.details').find('input, textarea').prop('readonly', false);
         $('#add-edit-delete-group').hide();
         $('#save-cancel-group').show();
 
@@ -296,8 +296,8 @@ CustomersHelper.prototype.validate = function(customer) {
  * Bring the customer form back to its initial state.
  */
 CustomersHelper.prototype.resetForm = function() {
-    $('#details').find('input, textarea').val(''); 
-    $('#details').find('input, textarea').prop('readonly', true); 
+    $('.details').find('input, textarea').val(''); 
+    $('.details').find('input, textarea').prop('readonly', true); 
     
     $('#customer-appointments').html('');
     $('#appointment-details').html('');
@@ -305,8 +305,8 @@ CustomersHelper.prototype.resetForm = function() {
     $('#add-edit-delete-group').show();
     $('#save-cancel-group').hide();
     
-    $('#details .required').css('border', '');
-    $('#details #form-message').hide();
+    $('.details .required').css('border', '');
+    $('.details #form-message').hide();
     
     $('#filter-customers button').prop('disabled', false);
     $('#filter-customers .selected-row').removeClass('selected-row');
