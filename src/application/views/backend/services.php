@@ -81,22 +81,22 @@
             <input type="hidden" id="service-id" />
             
             <label for="service-name">Name *</label>
-            <input type="text" id="service-name" class="span6 required" />
+            <input type="text" id="service-name" class="span12 required" />
             
             <label for="service-duration">Duration (Minutes) *</label>
             <input type="text" id="service-duration" class="required"  />
             
             <label for="service-price">Price *</label>
-            <input type="text" id="service-price" class="required" />
+            <input type="text" id="service-price" class="span12 required" />
             
             <label for="service-currency">Currency</label>
-            <input type="text" id="service-currency" class="" />
+            <input type="text" id="service-currency" class="span12" />
             
             <label for="service-category">Category</label>
-            <select id="service-category"></select>
+            <select id="service-category" class="span12"></select>
             
             <label for="service-description">Description</label>
-            <textarea id="service-description" rows="4" class="span6"></textarea>
+            <textarea id="service-description" rows="4" class="span12"></textarea>
             
             <br/><br/>
             <em id="form-message" class="text-error">Fields with * are required!</em>
@@ -158,10 +158,10 @@
             <input type="hidden" id="category-id" />
             
             <label for="category-name">Name *</label>
-            <input type="text" id="category-name" class="span7 required" />
+            <input type="text" id="category-name" class="span12 required" />
             
             <label for="category-description">Description</label>
-            <textarea id="category-description" rows="4" class="span7"></textarea>
+            <textarea id="category-description" rows="4" class="span12"></textarea>
         </div>
     </div>
 </div>

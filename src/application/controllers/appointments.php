@@ -303,6 +303,8 @@ class Appointments extends CI_Controller {
      * available hours we want to see.
      * @param numeric $_POST['service_duration'] The selected service duration in 
      * minutes.
+     * @param string $$_POST['manage_mode'] Contains either 'true' or 'false' and determines
+     * the if current user is managing an already booked appointment or not.
      * @return Returns a json object with the available hours.
      */
     public function ajax_get_available_hours() {
@@ -320,16 +322,15 @@ class Appointments extends CI_Controller {
             $empty_periods = $this->get_provider_available_time_periods($_POST['provider_id'], 
                     $_POST['selected_date'], $exclude_appointments);
 
-            // Calculate the available appointment hours for the given date. 
-            // The empty spaces are broken down to 15 min and if the service
-            // fit in each quarter then a new available hour is added to the
-            // $available hours array.
+            // Calculate the available appointment hours for the given date. The empty spaces 
+            // are broken down to 15 min and if the service fit in each quarter then a new 
+            // available hour is added to the "$available_hours" array.
 
             $available_hours = array();
 
-            foreach($empty_periods as $period) {
+            foreach ($empty_periods as $period) {
                 $start_hour = new DateTime($_POST['selected_date'] . ' ' . $period['start']);
-                $end_hour   = new DateTime($_POST['selected_date'] . ' ' . $period['end']);
+                $end_hour = new DateTime($_POST['selected_date'] . ' ' . $period['end']);
 
                 $minutes = $start_hour->format('i');
 
@@ -347,13 +348,13 @@ class Appointments extends CI_Controller {
                     }
                 }
 
-                $curr_hour  = $start_hour;
-                $diff = $curr_hour->diff($end_hour);
+                $current_hour = $start_hour;
+                $diff = $current_hour->diff($end_hour);
 
-                while(($diff->h * 60 + $diff->i) > intval($_POST['service_duration'])) {
-                    $available_hours[] = $curr_hour->format('H:i');
-                    $curr_hour->add(new DateInterval("PT15M"));
-                    $diff = $curr_hour->diff($end_hour);
+                while (($diff->h * 60 + $diff->i) > intval($_POST['service_duration'])) {
+                    $available_hours[] = $current_hour->format('H:i');
+                    $current_hour->add(new DateInterval("PT15M"));
+                    $diff = $current_hour->diff($end_hour);
                 }
             }
 
@@ -366,15 +367,12 @@ class Appointments extends CI_Controller {
                 if ($_POST['manage_mode'] === 'true') {
                     $book_advance_timeout = 0;
                 } else {
-                    $book_advance_timeout = $this->settings_model->get_setting(
-                            'book_advance_timeout');
+                    $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
                 }
 
-                foreach($available_hours as $index=>$value) {
+                foreach($available_hours as $index => $value) {
                     $available_hour = strtotime($value);
-                    $current_hour = strtotime('+' . $book_advance_timeout . ' minutes', 
-                            strtotime('now'));
-
+                    $current_hour = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
                     if ($available_hour <= $current_hour) {
                         unset($available_hours[$index]);
                     }
@@ -382,12 +380,11 @@ class Appointments extends CI_Controller {
             }
 
             $available_hours = array_values($available_hours);
-            
             echo json_encode($available_hours);
             
         } catch(Exception $exc) {
             echo json_encode(array(
-                'exceptions' => array( exceptionToJavaScript($exc) )
+                'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
     }
@@ -463,8 +460,7 @@ class Appointments extends CI_Controller {
         $this->load->model('providers_model');
         
         // Get the provider's working plan and reserved appointments.        
-        $working_plan = json_decode($this->providers_model->get_setting('working_plan', 
-                $provider_id), true);
+        $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), true);
         
         $where_clause = array(
             'DATE(start_datetime)' => date('Y-m-d', strtotime($selected_date)),
@@ -474,10 +470,10 @@ class Appointments extends CI_Controller {
         $reserved_appointments = $this->appointments_model->get_batch($where_clause);
         
         // Sometimes it might be necessary to not take into account some appointment records
-        // in order to display what the providers available time periods would be without them.
-        foreach($exclude_appointments as $excluded_appointment) {
-            foreach($reserved_appointments as $index=>$appointment) {
-                if ($appointment['id'] == $excluded_appointment['id']) {
+        // in order to display what the providers' available time periods would be without them.
+        foreach ($exclude_appointments as $excluded_id) {
+            foreach ($reserved_appointments as $index => $reserved) {
+                if ($reserved['id'] == $excluded_id) {
                     unset($reserved_appointments[$index]);
                 }
             }
@@ -523,9 +519,9 @@ class Appointments extends CI_Controller {
             
             foreach($available_periods_with_breaks as $period) {
                 
-                foreach($reserved_appointments as $index=>$appointment) {
-                    $appointment_start = date('H:i', strtotime($appointment['start_datetime']));
-                    $appointment_end = date('H:i', strtotime($appointment['end_datetime']));
+                foreach($reserved_appointments as $index=>$reserved) {
+                    $appointment_start = date('H:i', strtotime($reserved['start_datetime']));
+                    $appointment_end = date('H:i', strtotime($reserved['end_datetime']));
                     $period_start = date('H:i', strtotime($period['start']));
                     $period_end = date('H:i', strtotime($period['end']));
                     

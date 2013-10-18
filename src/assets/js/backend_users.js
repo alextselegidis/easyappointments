@@ -58,6 +58,16 @@ var BackendUsers = {
         });
         $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
         
+        $('#reset-working-plan').qtip({
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
+        
         // Bind event handlers.
         if (defaultEventHandlers) BackendUsers.bindEventHandlers();
     },

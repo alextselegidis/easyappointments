@@ -302,24 +302,14 @@ var FrontendBook = {
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
-            //console.log('Get Available Hours JSON Response :', response);
+            //console.log('Get Available Hours JSON Response:', response);
             ///////////////////////////////////////////////////////////////
 
-            if (response.exceptions) {
-                // Display a friendly message to the user with the exceptions information.
-                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox('Unexpected Error', 'An unexpected '
-                        + 'error occured during the available hours calculation. Please '
-                        + 'refresh the page and try again.');
-                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                console.log('Get Available Hours Exceptions:', response.exceptions);
-                return;
-            }
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
             // The response contains the available hours for the selected provider and
             // service. Fill the available hours div with response data. 
             if (response.length > 0) {
-                
                 var currColumn = 1;
                 $('#available-hours').html('<div style="width:50px; float:left;"></div>');
 

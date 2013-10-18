@@ -3,7 +3,14 @@
         Powered by 
         <a href="http://easyappointments.org">
             Easy!Appointments
-            v<?php echo $this->config->item('ea_version'); ?>
+            <?php 
+                echo 'v' . $this->config->item('ea_version');
+            
+                $release_title = $this->config->item('ea_release_title');
+                if ($release_title != '') {
+                    echo ' - ' . $release_title;
+                }
+            ?>
         </a> | 
         Licensed Under GPLv3
     </div>

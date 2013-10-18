@@ -230,7 +230,7 @@ INSERT INTO `ea_roles` (`id`, `name`, `slug`, `is_admin`, `appointments`, `custo
 (1, 'Administrator', 'admin', 1, 15, 15, 15, 15, 15, 15),
 (2, 'Provider', 'provider', 0, 15, 15, 0, 0, 0, 15),
 (3, 'Customer', 'customer', 0, 0, 0, 0, 0, 0, 0),
-(4, 'Secretary', 'secretary', 0, 15, 15, 0, 0, 15, 15);
+(4, 'Secretary', 'secretary', 0, 15, 15, 0, 0, 0, 15);
 
 INSERT INTO `ea_settings` (`name`, `value`) VALUES
 ('company_working_plan', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'),
