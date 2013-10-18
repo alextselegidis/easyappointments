@@ -1,0 +1,14 @@
+#summary This article will guide you through the installation and configuration of Easy!Appointments.
+#labels Featured
+
+= Introduction =
+
+Easy!Appointments is a web appointment scheduler that can be installed and run in web servers. Users will be able to reach the application through their web browsers using an active internet connection, just like visiting a normal website. The installation progress is very similar to other popular web systems like WordPress and Joomla, so it is very likely that you will be familiar with the next steps. Follow this article strictly in order to complete the installation with no problems. After the installation, read the "Configuration" section for setting up the system to fit your company's needs.
+
+= Installation =
+There are 5 steps you must do during the installation process. Each step has a hint description aimed to provide more information.
+  # Make sure that your server has Apache (>= v2.4), PHP (>= v5.3) and MySQL (>= v5.5.24) installed. Easy!Appointments needs these programs to run and additional *mod_rewrite* module enabled on Apache. Most (if not all) of the web hosting companies provide these prerequisites on their linux hosting plans. If you want to install Easy!Appointments locally on your computer use one of the premade bundles available on the web (XAMPP, MAMP, WAMP), all of them are free to use. 
+  # Create a new database (or use an existing). The database is necessary for Easy!Appointments in order to store the system data. Therefore your hosting plan must include at least one MySQL database. You must also find the database administration credentials because they will be needed later.
+  # Copy the "easy_appointments" source folder on your server. Easy!Appointments will take 6Mb of your server's storage device. Make sure that you mark the Easy!Appointments folder URL. For example if Easy!Appointments files are placed in the this directory ".../httpdocs/easy_appointments/" then the URL to this folder will be "http://your-domain-name.com/easy_appointments/". This URL will be needed in the following step.
+  # Edit the "configuration.php" file and set your server properties. Like other web systems Easy!Appointments needs to know how to connect to the database and the base URL of the installation. You can also provide the Google API values in this file, if you want to use the Google Calendar Synchronization feature. NOTE that you will need to create an API key in the Google Cloud Console (former Google APIs Console).
+  # Open a web browser and head to the Easy!Appointments installation folder URL. The first time you run Easy!Appointments an installation page will be shown. Fill in the admin user and company settings and press the "Install" button. That's it! You can now use Easy!Appointments at your will.
