@@ -1,3 +1,12 @@
+body .custom-qtip {
+    border: 2px solid #AFD8C1;
+    background: #EFFDF6;
+    font-size: 12px;
+    line-height: 20px;
+    color: #258D53;
+    border-radius: 6px;
+}
+
 /* JQUERY UI DATETIME PICKER ADDON
    ------------------------------------------------------------------------- */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }

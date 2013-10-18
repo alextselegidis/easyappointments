@@ -39,7 +39,7 @@
         <?php } ?>
         
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
-        <li class="user-tab tab"><a>User</a></li>
+        <li class="user-tab tab"><a>Current User</a></li>
         <?php } ?>
     </ul>
     
@@ -61,31 +61,33 @@
                     <?php } ?>
                 </legend>
                 
-                <label for="company-name">Company Name *</label>
-                <input type="text" id="company-name" data-field="company_name" class="required span4">
-                <span class="help-block">Company name will be displayed everywhere on the system 
-                    (required).</span>
-                
-                <br>
-                
-                <label for="company-email">Company Email *</label>
-                <input type="text" id="company-email" data-field="company_email" class="required span4">
-                <span class="help-block">This will be the company email address. It will be used 
-                    as the sender and the reply address of the system emails (required).</span>
-                
-                <br>
-                
-                <label for="company-link">Company Link *</label>
-                <input type="text" id="company-link" data-field="company_link" class="required span4">
-                <span class="help-block">Company link should point to the official website of 
-                    the company (optional).</span>
-                
-                <br>
-                
-                <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-info">
-                    <i class="icon-calendar icon-white"></i>
-                    Go To Booking Page
-                </a>
+                <div class="wrapper">
+                    <label for="company-name">Company Name *</label>
+                    <input type="text" id="company-name" data-field="company_name" class="required span12">
+                    <span class="help-block">Company name will be displayed everywhere on the system 
+                        (required).</span>
+
+                    <br>
+
+                    <label for="company-email">Company Email *</label>
+                    <input type="text" id="company-email" data-field="company_email" class="required span12">
+                    <span class="help-block">This will be the company email address. It will be used 
+                        as the sender and the reply address of the system emails (required).</span>
+
+                    <br>
+
+                    <label for="company-link">Company Link *</label>
+                    <input type="text" id="company-link" data-field="company_link" class="required span12">
+                    <span class="help-block">Company link should point to the official website of 
+                        the company (optional).</span>
+
+                    <br>
+
+                    <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-info">
+                        <i class="icon-calendar icon-white"></i>
+                        Go To Booking Page
+                    </a>
+                </div>
             </fieldset>
         </form>
     </div>
@@ -109,7 +111,7 @@
                 </legend>
                 
                 <div class="row-fluid">
-                    <div class="span7">
+                    <div class="span7 working-plan-wrapper">
                         <h4>Working Plan</h4>
                         <span class="help-block">
                             Mark below the days and hours that your company will accept appointments. 
@@ -179,7 +181,7 @@
                         <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" />
                         
                     </div>
-                    <div class="span5">
+                    <div class="span5 breaks-wrapper">
                         <h4>Breaks</h4>
 
                         <span class="help-block">
@@ -224,7 +226,7 @@
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="user" class="tab-content <?php echo $hidden; ?>">
         <form class="row-fluid">
-            <fieldset class="span5">
+            <fieldset class="span5 personal-info-wrapper">
                 <legend>
                     Personal Info 
                     <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
@@ -265,7 +267,7 @@
                 <textarea id="notes" class="span9" rows="3"></textarea>
             </fieldset>
             
-            <fieldset class="span5">
+            <fieldset class="span5 miscellaneous-wrapper">
                 <legend>Miscellaneous</legend>
                 
                 <label for="username">Username *</label>

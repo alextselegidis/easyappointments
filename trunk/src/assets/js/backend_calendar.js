@@ -102,6 +102,10 @@ var BackendCalendar = {
         }
         
         if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+            $('#select-filter-item optgroup:eq(1)').remove();
+        }
+        
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
             $('#select-filter-item option[type="provider"]').each(function(index, option) {
                 var found = false;
@@ -160,6 +164,27 @@ var BackendCalendar = {
             
             $dialog.modal('show');
         }
+        
+        // Apply qtip to control tooltips.
+        $('#calendar-toolbar button').qtip({
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
+        
+        $('#select-filter-item').qtip({
+            position: {
+                my: 'middle left',
+                at: 'middle right'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
     },
     
     /**
@@ -380,8 +405,8 @@ var BackendCalendar = {
 
                 GeneralFunctions.displayMessageBox('Delete Appointment', 'Please take a minute '
                         + 'to write the reason you are deleting the appointment:', messageButtons);
-                $('#message_box').append('<textarea id="delete-reason"></textarea>');
-                $('#delete-reason').css('width', '320px');
+                $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
+                $('#delete-reason').css('width', '353px');
             } else {
                 // Do not display confirmation promt.
                 var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_unavailable';

@@ -28,6 +28,10 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $this->config->base_url(); ?>assets/css/frontend.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/general.css">
 
     <?php
         // ------------------------------------------------------------

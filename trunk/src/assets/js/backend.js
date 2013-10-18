@@ -13,6 +13,16 @@ $(document).ready(function() {
     $(document).ajaxStop(function() {
         $('#loading').hide();
     });
+    
+    $('.menu-item').qtip({
+        position: {
+            my: 'top center',
+            at: 'bottom center'
+        },
+        style: {
+            classes: 'qtip-green qtip-shadow custom-qtip'
+        }
+    });
 });
 
 /**

@@ -129,8 +129,9 @@
         
         <?php // LOGOUT MENU ITEM 
               // ------------------------------------------------------ ?>
-        <a href="<?php echo $base_url; ?>user/logout" class="menu-item">
-            Logout
+        <a href="<?php echo $base_url; ?>user/logout" class="menu-item"
+                title="Log out of the system.">
+            Log Out
         </a>
         
     </div>

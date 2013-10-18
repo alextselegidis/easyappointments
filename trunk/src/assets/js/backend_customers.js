@@ -343,6 +343,8 @@ CustomersHelper.prototype.display = function(customer) {
         $('#customer-appointments').append(html);
     });
     $('#customer-appointments').jScrollPane({ mouseWheelSpeed: 70 });
+    
+    $('#appointment-details').empty();
 };
 
 /**

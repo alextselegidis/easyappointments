@@ -96,7 +96,6 @@ var BackendSettings = {
             $('#user').find('button').prop('disabled', true);
         }
         
-        
         Backend.placeFooterToBottom();
     },
             
@@ -152,8 +151,39 @@ var BackendSettings = {
             var settings = BackendSettings.settings.get();
             BackendSettings.settings.save(settings);
             //////////////////////////////////////////////
-            console.log('Settings To Save: ', settings);
+            //console.log('Settings To Save: ', settings);
             //////////////////////////////////////////////
+        });
+        
+        /**
+         * Event: Username "Focusout" 
+         * 
+         * When the user leaves the username input field we will need to check if the username 
+         * is not taken by another record in the system. Usernames must be unique.
+         */
+        $('#username').focusout(function() {
+            var $input = $(this);
+            
+            if ($input.prop('readonly') == true || $input.val() == '') return;
+            
+            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
+            var postData = { 
+                'username': $input.val(), 
+                'record_exists': ($input.parents().eq(2).find('#user-id').val() != '') ? true : false
+            };
+            
+            $.post(postUrl, postData, function(response) {
+                ///////////////////////////////////////////////////////
+                //console.log('Validate Username Response:', response);
+                ///////////////////////////////////////////////////////
+                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                if (response == false) {
+                    $input.css('border', '2px solid red');
+                    Backend.displayNotification('Username already exists.');
+                } else {
+                    $input.css('border', '');
+                }
+            }, 'json');
         });
     }
 };
@@ -185,6 +215,16 @@ SystemSettings.prototype.save = function(settings) {
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
        
         Backend.displayNotification('Settings saved successfully!');
+        
+        // Update the logo title on the header.
+        $('#header-logo span').text($('#company-name').val());
+        
+        // We need to refresh the working plan.
+        var workingPlan = BackendSettings.wp.get();
+        $('.breaks').empty();
+        BackendSettings.wp.setup(workingPlan);
+        BackendSettings.wp.timepickers(false);
+        
     }, 'json');
 };
 
@@ -316,6 +356,9 @@ UserSettings.prototype.save = function(settings) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification('Settings saved successfully!');
+        
+        // Update footer greetings.
+        $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val());
         
     }, 'json');
 };

@@ -72,6 +72,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
         $('#providers .details').find('input, textarea').prop('readonly', false);
         $('#provider-password, #provider-password-confirm').addClass('required');
         $('#provider-notifications').prop('disabled', false);
+        $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
         $('#provider-services input[type="checkbox"]').prop('disabled', false);
         $('#providers input[type="checkbox"]').prop('disabled', false);
 

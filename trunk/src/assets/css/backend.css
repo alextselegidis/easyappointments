@@ -28,10 +28,12 @@ root {
 }
 
 #header #header-logo span { 
-    float: left; 
-    font-size: 20px; 
-    color: white; 
-    margin-top: 16px; 
+    float: left;
+    font-size: 20px;
+    color: white;
+    margin-top: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px rgb(32, 99, 48);
 }
 
 #header #header-menu { 
@@ -41,25 +43,28 @@ root {
 }
 
 #header #header-menu .menu-item { 
-    float: left; 
-    margin-right: 8px; 
-    margin-top: 10px;  
-    padding: 15px 12px; 
-    min-width: 68px; 
-    text-align: center; 
-    font-weight: bold; 
-    color: #FFF; 
+    float: left;
+    margin-right: 8px;
+    margin-top: 11px;
+    padding: 13px 12px;
+    min-width: 68px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
     text-decoration: none;
-    font-size: 16px; 
+    font-size: 16px;
+    border-radius: 3px;
 }
 
 #header #header-menu .menu-item:hover:not(.active) { 
-    background-color: #247A4B; 
+    background-color: #2A8F57;
+    border-bottom: 2px solid #2E7244;
 }
 
 #header #header-menu .active { 
-    color: #E7FFB3;
-    text-shadow: 1px 1px 0px #57814D;
+    color: #C5FFD6;
+    background: #29A067;
+    border-bottom: 2px solid #2A7751;
 }
 
 #footer {
@@ -154,6 +159,13 @@ body .ui-dialog .ui-dialog-buttonpane {
     background: #FFFFC2 !important;
 }
 
+.working-plan td {
+    vertical-align: middle;
+}
+
+.breaks td  {
+    vertical-align: middle;
+}
 
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
@@ -278,8 +290,13 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
+#customers-page h2 {
+    color: #525252;
+}
+
 #customers-page #filter-customers {
     margin: 15px 0px 15px 15px; 
+    width: 350px;
 }
 
 #customers-page .filter-records .results { 
@@ -289,11 +306,11 @@ body .ui-dialog .ui-dialog-buttonpane {
 }
 
 #customers-page #filter-customers .results .customer-row { 
-    padding: 10px 7px; border-radius: 3px; 
+    padding: 10px 7px; 
 }
 
-#customers-page #filter-customers .results .customer-row:hover { 
-    background-color: #C6E7D5; 
+#customers-page #filter-customers .results .customer-row:hover:not(.selected-row) { 
+    background-color: #F3F3F3; 
     cursor: pointer; 
 }
 
@@ -303,6 +320,7 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #customers-page .details { 
     margin: 15px 0 15px 15px; 
+    max-width: 710px;
 }
 
 #customers-page .details .btn-toolbar { 
@@ -315,20 +333,30 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #customers-page #customer-appointments { 
     height: 250px; 
-    border: 1px solid #CCC; 
-    border-radius: 3px;
+    width: 330px;
+    border: 4px solid #E2E2E2; 
     margin-bottom: 20px; 
     overflow-y: auto; 
 }
 
 #customers-page #customer-appointments .appointment-row { 
     padding: 7px; 
-    border-bottom: 1px solid #CCC; 
+    border-bottom: 4px solid #E2E2E2;; 
 }
 
-#customers-page #customer-appointments .appointment-row:hover { 
-    background-color: #C6E7D5; 
+#customers-page #customer-appointments .appointment-row:hover:not(.selected-row) { 
+    background-color: #F3F3F3; 
     cursor: pointer; 
+}
+
+#customers-page #appointment-details {
+    width: 338px;
+}
+
+#customers-page #appointment-details div {
+    padding: 10px;
+    background: #F8F8F8;
+    border-bottom: 4px solid #EEE;
 }
 
 #customers-page .details input,
@@ -338,12 +366,16 @@ body .ui-dialog .ui-dialog-buttonpane {
 }
 
 #customers-page .selected-row { 
-    background-color: #EFFDF7; 
+    background-color: #CBFFD8; 
 }
 
 
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
+#services-page h2 {
+    color: #525252;
+}
+
 #services-page .tab-content { 
     margin: 15px; 
 }
@@ -356,6 +388,10 @@ body .ui-dialog .ui-dialog-buttonpane {
     cursor: pointer; 
 }
 
+#services-page .filter-records {
+    width: 350px;
+}
+
 #services-page .filter-records .results {
     overflow-y: auto;
     max-height: 650px;
@@ -364,16 +400,15 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #services-page .service-row { 
     padding: 10px 7px; 
-    border-radius: 3px; 
 }
 
-#services-page .service-row:hover { 
+#services-page .service-row:hover:not(.selected-row) { 
     cursor: pointer; 
-    background-color: #C6E7D5; 
+    background-color: #F3F3F3; 
 }
 
 #services-page .selected-row { 
-    background-color: #EFFDF7; 
+    background-color: #CBFFD8; 
 }
 
 #services-page .filter-records .results hr { 
@@ -406,11 +441,10 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #services-page #categories .category-row { 
     padding: 10px 7px; 
-    border-radius: 3px; 
 }
 
-#services-page #categories .category-row:hover { 
-    background-color: #C6E7D5; 
+#services-page #categories .category-row:hover:not(.selected-row) { 
+    background-color: #F3F3F3; 
     cursor: pointer; 
 }
 
@@ -421,8 +455,16 @@ body .ui-dialog .ui-dialog-buttonpane {
     box-shadow: none;
 }
 
+#services-page .details {
+    max-width:  370px;
+}
+
 /* BACKEND USERS PAGE
    -------------------------------------------------------------------- */
+#users-page h2 {
+    color: #525252;
+}
+
 #users-page .tab-content { 
     margin: 15px; 
 }
@@ -435,6 +477,10 @@ body .ui-dialog .ui-dialog-buttonpane {
     cursor: pointer; 
 }
 
+#users-page .filter-records {
+    width: 380px;
+}
+
 #users-page .filter-records .results {
     overflow-y: auto;
     max-height: 650px;
@@ -445,25 +491,24 @@ body .ui-dialog .ui-dialog-buttonpane {
 #users-page .provider-row,
 #users-page .admin-row { 
     padding: 10px 7px; 
-    border-radius: 3px; 
 }
 
-#users-page .secretary-row:hover,
-#users-page .provider-row:hover,
-#users-page .admin-row:hover { 
+#users-page .secretary-row:hover:not(.selected-row),
+#users-page .provider-row:hover:not(.selected-row),
+#users-page .admin-row:hover:not(.selected-row) { 
     cursor: pointer; 
-    background-color: #C6E7D5; 
+    background-color: #F3F3F3; 
 }
 
 #users-page .selected-row { 
-    background-color: #EFFDF7; 
+    background-color: #CBFFD8; 
 }
 
 #users-page .details input, 
 #users-page .details select, 
 #users-page .details textarea { 
     background-color: white; 
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 #users-page #secretary-notifications.active,
@@ -475,8 +520,8 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #users-page #secretary-providers,
 #users-page #provider-services { 
-    border: 2px solid #ccc; 
-    width: 320px; 
+    border: 4px solid #ccc; 
+    width: 340px; 
     height: 140px; 
     overflow-y: scroll; 
     padding: 7px;
@@ -510,7 +555,7 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #users-page #providers .switch-view .current {
     color: #FFF;
-background: #95E4A8;
+    background: #95E4A8;
 }
 
 #users-page #providers .details-view,
@@ -536,8 +581,22 @@ padding: 4px 7px;
 #users-page .filter-records .results hr { 
     margin: 5px 0; 
 }
+
+#users-page .details {
+    max-width: 700px;
+}
+
+#users-page .working-plan td input[type="text"] {
+    width: 85px;
+    margin-bottom: 0px;
+}
+
 /* BACKEND SETTINGS PAGE
    -------------------------------------------------------------------- */
+#settings-page h2 {
+    color: #525252;
+}
+
 #settings-page .tab-content {
     margin: 15px;
 }
@@ -553,6 +612,7 @@ padding: 4px 7px;
 #business-logic .working-plan td input[type="text"] {
     margin-bottom: 0;
     cursor: pointer;
+    width: 85px;
 }
 
 #business-logic .working-plan label.checkbox {
@@ -581,13 +641,35 @@ padding: 4px 7px;
 
 #business-logic #book-advance-timeout { 
     margin: 0;
+    width: 131px;
 }
 
 #business-logic .ui-spinner { 
     border: none;
+    width: 145px;
 }
 
 #settings-page #user-notifications.active {
     background: #B6DCFF;
     box-shadow: none;
+}
+
+#settings-page #general fieldset .wrapper {
+    max-width: 400px;
+}
+
+#settings-page .working-plan-wrapper {
+    max-width: 600px;
+}
+
+#settings-page .breaks-wrapper {
+    max-width: 500px;
+}
+
+#settings-page .personal-info-wrapper {
+    max-width: 400px;
+}
+
+#settings-page .miscellaneous-wrapper {
+    max-width:  400px;
 }
