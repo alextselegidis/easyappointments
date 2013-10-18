@@ -13,7 +13,7 @@ There are 5 steps you must do during the installation process. Each step has a h
   # Edit the "configuration.php" file and set your server properties. Like other web systems Easy!Appointments needs to know how to connect to the database and the base URL of the installation. You can also provide the Google API values in this file, if you want to use the Google Calendar Synchronization feature. NOTE that you will need to create an API key in the Google Cloud Console (former Google APIs Console).
   # Open a web browser and head to the Easy!Appointments installation folder URL. The first time you run Easy!Appointments an installation page will be shown. Fill in the admin user and company settings and press the "Install" button. That's it! You can now use Easy!Appointments at your will.
 
-=Configuration=
+=Configuration (First Steps)=
 When you finish the installation procedure Easy!Appointments will only contain an administrator user and some default settings. You will need to apply more info to the system in order to be able to suit your needs.
 
   # Head to backend section by typing the Easy!Appointments URL followed by the "/backend" word in the end. When logged in, click on the Settings menu item on top of the page. Then click on the "Business Logic" tab to apply the working plan of your company. This will be the default working plan for all new providers. When you are finished click the "Save" button.
