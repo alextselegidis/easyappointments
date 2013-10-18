@@ -22,4 +22,4 @@ When you finish the installation procedure Easy!Appointments will only contain a
   # If you'll have a secretary handling all the appointments for your company, hit the "Secretaries" tab and add a new user. Select the providers that she can manage and save the record. The secretary user will be able to manage the appointments only for the providers she is responsible.
   # That's it! Head to the "Settings" page and hit the "Go To Booking Page" button. Add a new appointment and then go to the "Calendar" page to see it on the plan. The customer data has also been saved and you can see it on the "Customers" page.
 
-Now in order for your customers to find easier the booking page, add a link on your webpage or facebook account, that points to the Easy!Appointments installation folder.
+Now in order for your customers to find the booking page, add a link on your webpage or your facebook account, that points to the Easy!Appointments installation folder. When a customer clicks on that link he will see the booking page.
