@@ -7,7 +7,7 @@
 	<title>Class Settings_Model</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -48,6 +48,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li class="active"><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -121,7 +123,7 @@ CI_Model
 		
 		
 
-		<b>Located at</b> <a href="source-class-Settings_Model.html#2-93" title="Go to source code">settings_model.php</a><br />
+		<b>Located at</b> <a href="source-class-Settings_Model.html#2-129" title="Go to source code">settings_model.php</a><br />
 	</div>
 
 
@@ -300,6 +302,92 @@ setting doesn't exist, it is going to be created, otherwise updated.</p>
 				<div class="list">
 						Exception<br />
 				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="save_settings" id="_save_settings">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_save_settings">#</a>
+		<code><a href="source-class-Settings_Model.html#94-119" title="Go to source code">save_settings</a>( <span>array <var>$settings</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Saves all the system settings into the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Saves all the system settings into the database.</p>
+
+<p>This method is usefull when trying to save all the system settings at once
+instead of saving them one by one.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$settings</var></dt>
+					<dd><code>array</code><br>$settings Contains all the system settings.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the save operation result.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>When the update operation won't work for a specific setting.<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_settings" id="_get_settings">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_settings">#</a>
+		<code><a href="source-class-Settings_Model.html#121-128" title="Go to source code">get_settings</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns all the system settings at once.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns all the system settings at once.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Array of all the system settings stored in the 'ea_settings' table.<br />
+				</div>
+
+
 
 
 		</div>

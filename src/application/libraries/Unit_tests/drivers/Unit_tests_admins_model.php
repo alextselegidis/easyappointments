@@ -36,7 +36,7 @@ class Unit_tests_admins_model extends CI_Driver {
             'password' => 'test_pswd',
             'working_plan' => NULL,
             'notifications' => FALSE,
-            'google_sync' => FALSE, 
+            'google_sync' => 0, 
             'google_token' => NULL,
             'sync_past_days' => NULL,
             'sync_future_days' => NULL
@@ -74,8 +74,8 @@ class Unit_tests_admins_model extends CI_Driver {
         
         $db_record['settings'] = $this->ci->db->get_where('ea_user_settings', 
                 array('id_users' => $admin['id']))->row_array();
-        unset($db_record['settings']['id_users']);
-        
+        unset($db_record['settings']['id_users'], $db_record['settings']['salt'],
+                $admin['settings']['password'], $db_record['settings']['password']); // not needed
         $this->ci->unit->run($admin, $db_record, 'Test if add() - insert operation - has '
                 . 'successfully inserted a new admin record.');
         
@@ -108,7 +108,8 @@ class Unit_tests_admins_model extends CI_Driver {
         
         $db_record = $this->ci->db->get_where('ea_users', array('id' => $admin['id']))->row_array();
         $db_record['settings'] = $this->ci->db->get_where('ea_user_settings', array('id_users' => $admin['id']))->row_array();
-        unset($db_record['settings']['id_users']);
+        unset($db_record['settings']['id_users'], $db_record['settings']['salt'],
+                $admin['settings']['password'], $db_record['settings']['password']); // not needed
 
         $this->ci->unit->run($admin, $db_record, 'Test if add() - update operation - has '
                 . 'successfully updated an existing admin record.');
@@ -430,9 +431,15 @@ class Unit_tests_admins_model extends CI_Driver {
     private function test_validate_record_does_not_exist() {
         $admin = $this->default_admin;
         $admin['id'] = 234092830; // record does not exist
-        $validation_result = $this->ci->admins_model->validate($admin);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE on '
-                . 'record that does not exist.');
+        
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->admins_model->validate($admin);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with record that does not exist.');
     }
     
     private function test_validate_missing_required_fields() {
@@ -442,17 +449,27 @@ class Unit_tests_admins_model extends CI_Driver {
         unset($admin['last_name']);
         unset($admin['email']);
         unset($admin['phone_number']);
-        $validation_result = $this->ci->admins_model->validate($admin);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE on '
-                . 'missing required field values.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->admins_model->validate($admin);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with missing required field values.');
     }
     
     private function test_validate_invalid_email() {
         $admin = $this->default_admin;
         $admin['email'] = 'This is invalid';
-        $validation_result = $this->ci->admins_model->validate($admin);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE on '
-                . 'invalid email address.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->admins_model->validate($admin);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid email address.');
     }
 }
 

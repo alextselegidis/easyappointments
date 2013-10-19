@@ -49,11 +49,12 @@ var BackendCalendar = {
     initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers === undefined) defaultEventHandlers = true;
         
-        // :: INITIALIZE PAGE
+        // Initialize page calendar
         $('#calendar').fullCalendar({
             'defaultView': 'agendaWeek',
             'height': BackendCalendar.getCalendarHeight(),
             'editable': true,
+            'firstDay': 1, // Monday
             'slotMinutes': 30,
             'axisFormat': 'HH:mm',
             'timeFormat': 'HH:mm{ - HH:mm}',
@@ -81,33 +82,75 @@ var BackendCalendar = {
             'eventDrop': BackendCalendar.calendarEventDrop
         });
         
+        // Temporary fix: make the first letter capital in all the lowercase strings
+        // of the calendar.
+        $('#calendar .fc-button-today').text('Today');
+        $('#calendar .fc-button-agendaDay').text('Day');
+        $('#calendar .fc-button-agendaWeek').text('Week');
+        $('#calendar .fc-button-month').text('Month');
+        $('#calendar .fc-agenda-allday .fc-agenda-axis').text('All Day');
+        
         // Trigger once to set the proper footer position after calendar 
         // initialization.
         BackendCalendar.calendarWindowResize(); 
         
         // Fill the select listboxes of the page.
-        var optgroupHtml = '&lt;optgroup label="Providers">';
-        $.each(GlobalVariables.availableProviders, function(index, provider) {
-            var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
-                    ? 'true' : 'false';
-                
-            optgroupHtml += '&lt;option value="' + provider['id'] + '" '  
-                    + 'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" '  
-                    + 'google-sync="' + hasGoogleSync + '">'  
-                    + provider['first_name'] + ' ' + provider['last_name'] 
-                    + '&lt;/option>';
-        });
-        optgroupHtml += '&lt;/optgroup>';
-        $('#select-filter-item').append(optgroupHtml);
+        if (GlobalVariables.availableProviders.length > 0) {
+            var optgroupHtml = '&lt;optgroup label="Providers" type="providers-group">';
+            $.each(GlobalVariables.availableProviders, function(index, provider) {
+                var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
+                        ? 'true' : 'false';
+
+                optgroupHtml += '&lt;option value="' + provider['id'] + '" '  
+                        + 'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" '  
+                        + 'google-sync="' + hasGoogleSync + '">'  
+                        + provider['first_name'] + ' ' + provider['last_name'] 
+                        + '&lt;/option>';
+            });
+            optgroupHtml += '&lt;/optgroup>';
+            $('#select-filter-item').append(optgroupHtml);
+        }
+            
+        if (GlobalVariables.availableServices.length > 0) {
+            optgroupHtml = '&lt;optgroup label="Services" type="services-group">';
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                optgroupHtml += '&lt;option value="' + service['id'] + '" ' + 
+                        'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 
+                        service['name'] + '&lt;/option>';
+            });
+            optgroupHtml += '&lt;/optgroup>';
+            $('#select-filter-item').append(optgroupHtml);
+        }
         
-        optgroupHtml = '&lt;optgroup label="Services">';
-        $.each(GlobalVariables.availableServices, function(index, service) {
-            optgroupHtml += '&lt;option value="' + service['id'] + '" ' + 
-                    'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 
-                    service['name'] + '&lt;/option>';
-        });
-        optgroupHtml += '&lt;/optgroup>';
-        $('#select-filter-item').append(optgroupHtml);
+        // Privileges Checks
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
+            $('#select-filter-item optgroup:eq(0)').val(GlobalVariables.user.id);
+            $('#select-filter-item').prop('disabled', true);
+        }
+        
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+            $('#select-filter-item optgroup:eq(1)').remove();
+        }
+        
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+            // Remove the providers that are not connected to the secretary.
+            $('#select-filter-item option[type="provider"]').each(function(index, option) {
+                var found = false;
+                $.each(GlobalVariables.secretaryProviders, function(index, id) {
+                    if ($(option).val() == id) {
+                        found = true;
+                        return false;
+                    }
+                });
+                
+                if (!found) 
+                    $(option).remove();
+            });
+            
+            if ($('#select-filter-item option[type="provider"]').length == 0) {
+                $('#select-filter-item optgroup[type="providers-group"]').remove();
+            }
+        }
         
         // :: BIND THE DEFAULT EVENT HANDLERS (IF NEEDED)
         if (defaultEventHandlers === true) {
@@ -148,6 +191,27 @@ var BackendCalendar = {
             
             $dialog.modal('show');
         }
+        
+        // Apply qtip to control tooltips.
+        $('#calendar-toolbar button').qtip({
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
+        
+        $('#select-filter-item').qtip({
+            position: {
+                my: 'middle left',
+                at: 'middle right'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
     },
     
     /**
@@ -214,7 +278,7 @@ var BackendCalendar = {
                     
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
@@ -273,7 +337,7 @@ var BackendCalendar = {
                 // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
                 $dialog.find('.modal-header h3').text('Edit Appointment');
                 $dialog.find('#appointment-id').val(appointment['id']);
-                $dialog.find('#select-service').val(appointment['id_services']);
+                $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
                 // Set the start and end datetime of the appointment.
@@ -346,7 +410,7 @@ var BackendCalendar = {
 
                             if (response.exceptions) {
                                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                                 return;
                             }
@@ -368,8 +432,8 @@ var BackendCalendar = {
 
                 GeneralFunctions.displayMessageBox('Delete Appointment', 'Please take a minute '
                         + 'to write the reason you are deleting the appointment:', messageButtons);
-                $('#message_box').append('&lt;textarea id="delete-reason">&lt;/textarea>');
-                $('#delete-reason').css('width', '320px');
+                $('#message_box').append('&lt;textarea id="delete-reason" rows="3">&lt;/textarea>');
+                $('#delete-reason').css('width', '353px');
             } else {
                 // Do not display confirmation promt.
                 var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_unavailable';
@@ -387,7 +451,7 @@ var BackendCalendar = {
 
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
@@ -470,22 +534,20 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {             
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
-                    $dialog.find('.modal-header').append(
-                        '&lt;br>&lt;div class="alert alert-error">' + 
-                            'Unexpected issues occured!' +
-                        '&lt;/div>');
-                
+                    $dialog.find('.modal-message').text('Unexpected issues occured!');
+                    $dialog.find('.modal-message').addClass('alert-error');
+                    $dialog.find('.modal-message').fadeIn();
+                    
                     return;
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-header').append(
-                        '&lt;br>&lt;div class="alert alert-success">' + 
-                            'Appointment saved successfully!' +
-                        '&lt;/div>');
+                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
                 
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
@@ -498,10 +560,9 @@ var BackendCalendar = {
             
             // :: DEFINE AJAX ERROR EVENT CALLBACK
             var errorCallback = function() {
-                $dialog.find('.modal-header').append(
-                        '&lt;br>&lt;div class="alert alert-error">' + 
-                            'A server communication error occured, please try again.' +
-                        '&lt;/div>');
+                $dialog.find('.modal-message').text('A server communication error occured, please try again.');
+                $dialog.find('.modal-message').addClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
@@ -522,11 +583,9 @@ var BackendCalendar = {
             
             if (start > end) {
                 // Start time is after end time - display message to user.
-                $dialog.find('.modal-message').html(
-                        '&lt;div class="alert alert-error">' +
-                            'Start date value is bigger than end date!' + 
-                        '&lt;/div>');
-                $dialog.find('.modal-message').show();
+                $dialog.find('.modal-message').text('Start date value is bigger than end date!');
+                $dialog.find('.modal-message').addClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
                 return;
             }
             
@@ -550,14 +609,13 @@ var BackendCalendar = {
 
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
-                    $dialog.find('.modal-header').append(
-                        '&lt;br>&lt;div class="alert alert-error">' + 
-                            'Unexpected issues occured!' +
-                        '&lt;/div>');
-                
+                    $dialog.find('.modal-message').text('Unexpected issues occured!');
+                    $dialog.find('.modal-message').addClass('alert-error');
+                    $dialog.find('.modal-message').fadeIn();
+                    
                     return;
                 }
 
@@ -568,10 +626,10 @@ var BackendCalendar = {
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-header').append(
-                        '&lt;br>&lt;div class="alert alert-success">' + 
-                            'Appointment saved successfully!' +
-                        '&lt;/div>');
+                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').removeClass('alert-error');
+                $dialog.find('.modal-message').addClass('alert-success');
+                $dialog.find('.modal-message').fadeIn();
                 
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
@@ -590,10 +648,9 @@ var BackendCalendar = {
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
                         'the operation could not complete due to server communication errors.');
                 
-                $dialog.find('.modal-header').append(
-                        '&lt;br>&lt;div class="alert alert-error">' + 
-                            'A server communication error occured, please try again.' +
-                        '&lt;/div>');
+                $dialog.find('.modal-message').txt('A server communication error occured, please try again.');
+                $dialog.find('.modal-message').addClass('alert-error');
+                $dialog.find('.modal-message').fadeIn();
             };
             
             BackendCalendar.saveUnavailable(unavailable, successCallback, errorCallback);
@@ -659,7 +716,7 @@ var BackendCalendar = {
                         $('#enable-sync span').text('Enable Sync');
                         $('#google-sync').prop('disabled', true);
                         
-                        return;
+                        return false;
                     }
                 });
             }
@@ -690,6 +747,105 @@ var BackendCalendar = {
             $dialog.find('.modal-header h3').text('New Unavailable Period');
             $dialog.modal('show');
         });
+        
+        /**
+         * Event: Pick Existing Customer Button "Click"
+         */
+        $('#select-customer').click(function() {
+            var $list = $('#existing-customers-list');
+            
+            if (!$list.is(':visible')) {
+                $(this).text('Hide');
+                $list.empty();
+                $list.slideDown('slow');
+                $('#filter-existing-customers').fadeIn('slow');
+                $('#filter-existing-customers').val('');
+                $.each(GlobalVariables.customers, function(index, c) {
+                    $list.append('&lt;div data-id="' + c.id + '">' 
+                            + c.first_name + ' ' + c.last_name + '&lt;/div>');
+                });
+            } else {
+                $list.slideUp('slow');
+                $('#filter-existing-customers').fadeOut('slow');
+                $(this).text('Select');
+            }
+        });
+        
+        /**
+         * Event: Select Existing Customer From List "Click"
+         */
+        $(document).on('click', '#existing-customers-list div', function() {
+            var id = $(this).attr('data-id');
+            
+            $.each(GlobalVariables.customers, function(index, c) {
+                if (c.id == id) {
+                    $('#customer-id').val(c.id);
+                    $('#first-name').val(c.first_name);
+                    $('#last-name').val(c.last_name);
+                    $('#email').val(c.email);
+                    $('#phone-number').val(c.phone_number);
+                    $('#address').val(c.address);
+                    $('#city').val(c.city);
+                    $('#zip-code').val(c.zip_code);
+                    return false;
+                }
+            });
+            
+            $('#select-customer').trigger('click'); // hide list
+        });
+        
+        /**
+         * Event: Filter Existing Customers "Change"
+         */
+        $('#filter-existing-customers').keyup(function() {
+            var key = $(this).val();
+            var $list = $('#existing-customers-list');
+            $list.empty();
+            $.each(GlobalVariables.customers, function(index, c) {
+                if (c.first_name.indexOf(key) != -1 
+                        || c.last_name.indexOf(key) != -1
+                        || c.email.indexOf(key) != -1
+                        || c.phone_number.indexOf(key) != -1
+                        || c.address.indexOf(key) != -1
+                        || c.city.indexOf(key) != -1
+                        || c.zip_code.indexOf(key) != -1) {
+                    $list.append('&lt;div data-id="' + c.id + '">' 
+                            + c.first_name + ' ' + c.last_name + '&lt;/div>');
+                }
+            });
+        });
+        
+        /**
+         * Event: Selected Service "Change"
+         * 
+         * When the user clicks on a service, its available providers should 
+         * become visible. 
+         */
+        $('#select-service').change(function() {
+            var sid = $('#select-service').val();
+            $('#select-provider').empty();
+
+            $.each(GlobalVariables.availableProviders, function(indexProvider, provider) {
+                $.each(provider.services, function(indexService, serviceId) {
+                    // If the current provider is able to provide the selected service,
+                    // add him to the listbox. 
+                    if (serviceId == sid) { 
+                        var optionHtml = '&lt;option value="' + provider['id'] + '">' 
+                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + '&lt;/option>';
+                        $('#select-provider').append(optionHtml);
+                    }
+                });
+            });
+        });
+        
+        /**
+         * Event: Enter New Customer Button "Click"
+         */
+        $('#new-customer').click(function() {
+            $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
+                    + '#phone-number, #address, #city, #zip-code').val('');
+        });
     },
             
     /**
@@ -700,7 +856,7 @@ var BackendCalendar = {
      */
     getCalendarHeight: function () {
         var result = window.innerHeight - $('#footer').height() - $('#header').height() 
-                - $('#calendar-toolbar').height() - 80; // 80 for fine tuning
+                - $('#calendar-toolbar').height() - 50; // 80 for fine tuning
         return (result > 500) ? result : 500; // Minimum height is 500px
     },
            
@@ -733,7 +889,7 @@ var BackendCalendar = {
             
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -782,6 +938,8 @@ var BackendCalendar = {
                                 var selDayName = $calendar.fullCalendar('getView')
                                         .start.toString('dddd').toLowerCase();
                                 
+                                if (workingPlan[selDayName] == null) return; // go to next loop
+                                
                                 // Add unavailable period before work starts.
                                 var calendarDateStart = $calendar.fullCalendar('getView').start;
                                 var workDateStart = Date.parseExact(
@@ -795,7 +953,7 @@ var BackendCalendar = {
                                         'start': calendarDateStart,
                                         'end': workDateStart,
                                         'allDay': false,
-                                        'color': '#AAA',
+                                        'color': '#BEBEBE',
                                         'editable': false,
                                         'className': 'fc-unavailable'
                                     };
@@ -814,7 +972,7 @@ var BackendCalendar = {
                                         'start': workDateEnd,
                                         'end': calendarDateEnd,
                                         'allDay': false,
-                                        'color': '#AAA',
+                                        'color': '#BEBEBE',
                                         'editable': false,
                                         'className': 'fc-unavailable'
                                     };
@@ -833,7 +991,7 @@ var BackendCalendar = {
                                         'start': breakStart,
                                         'end': breakEnd,
                                         'allDay': false,
-                                        'color': '#AAA',
+                                        'color': '#BEBEBE',
                                         'editable': false,
                                         'className': 'fc-unavailable fc-break'
                                     };
@@ -862,6 +1020,7 @@ var BackendCalendar = {
                                 var currDateEnd = GeneralFunctions.clone(currDateStart).addDays(1);
                                 
                                 $.each(workingPlan, function(index, workingDay) {
+                                    if (workingDay == null) return; // Go to the next loop.
                                     var start, end; 
                                     
                                     // Add unavailable period before work starts.
@@ -873,7 +1032,7 @@ var BackendCalendar = {
                                             'start': GeneralFunctions.clone(currDateStart),
                                             'end': GeneralFunctions.clone(start),
                                             'allDay': false,
-                                            'color': '#AAA',
+                                            'color': '#BEBEBE',
                                             'editable': false,
                                             'className': 'fc-unavailable'
                                         };
@@ -890,7 +1049,7 @@ var BackendCalendar = {
                                             'start': GeneralFunctions.clone(end),
                                             'end': GeneralFunctions.clone(currDateEnd),
                                             'allDay': false,
-                                            'color': '#AAA',
+                                            'color': '#BEBEBE',
                                             'editable': false,
                                             'className': 'fc-unavailable fc-brake'
                                         };
@@ -909,7 +1068,7 @@ var BackendCalendar = {
                                             'start': breakStart,
                                             'end': breakEnd,
                                             'allDay': false,
-                                            'color': '#AAA',
+                                            'color': '#BEBEBE',
                                             'editable': false,
                                             'className': 'fc-unavailable fc-break'
                                         };
@@ -1030,6 +1189,13 @@ var BackendCalendar = {
      */
     calendarEventResize: function(event, dayDelta, minuteDelta, revertFunc, 
             jsEvent, ui, view) {
+        if (GlobalVariables.user.privileges.appointments.edit == false) {
+            revertFunc();
+            Backend.displayNotification('You do not have the required privileges to '
+                    + 'edit appointments.');
+            return;
+        }
+                
         if ($('#notification').is(':visible')) {
             $('#notification').hide('bind');
         }  
@@ -1053,7 +1219,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1106,7 +1272,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1183,7 +1349,7 @@ var BackendCalendar = {
     calendarEventClick: function(event, jsEvent, view) {
         $('.popover').remove(); // Close all open popovers.
         
-        var html; // Popover's html code
+        var html, displayEdit, displayDelete; 
         
         // Depending where the user clicked the event (title or empty space) we 
         // need to use different selectors to reach the parent element.
@@ -1191,9 +1357,12 @@ var BackendCalendar = {
         var $altParent = $(jsEvent.target).parents().eq(1);
         
         if ($parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
-            var displayEdit = ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) 
+            displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+                    && GlobalVariables.user.privileges.appointments.edit == true) 
                     ? '' : 'hide';
-            var displayDelete = displayEdit; // Same value at the time.
+            displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+                    && GlobalVariables.user.privileges.appointments.delete == true) 
+                    ? '' : 'hide'; // Same value at the time.
             
             var notes = ''; 
             if (event.data) { // Only custom unavailable periods have notes.
@@ -1218,7 +1387,12 @@ var BackendCalendar = {
                         '&lt;button class="delete-popover btn btn-danger ' + displayDelete + '">Delete&lt;/button>' +
                         '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>Close&lt;/button>' +
                     '&lt;/center>';
-        } else {        
+        } else {   
+            displayEdit = (GlobalVariables.user.privileges.appointments.edit == true) 
+                    ? '' : 'hide'; 
+            displayDelete = (GlobalVariables.user.privileges.appointments.delete == true) 
+                    ? '' : 'hide'; 
+            
             html = 
                     '&lt;style type="text/css">' 
                         + '.popover-content strong {min-width: 80px; display:inline-block;}' 
@@ -1242,8 +1416,8 @@ var BackendCalendar = {
                         + event.data['customer']['last_name'] 
                         + '&lt;hr>' +
                     '&lt;center>' + 
-                        '&lt;button class="edit-popover btn btn-primary">Edit&lt;/button>' +
-                        '&lt;button class="delete-popover btn btn-danger">Delete&lt;/button>' +
+                        '&lt;button class="edit-popover btn btn-primary ' + displayEdit + '">Edit&lt;/button>' +
+                        '&lt;button class="delete-popover btn btn-danger ' + displayDelete + '">Delete&lt;/button>' +
                         '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>Close&lt;/button>' +
                     '&lt;/center>';
         }
@@ -1273,6 +1447,13 @@ var BackendCalendar = {
      */
     calendarEventDrop : function(event, dayDelta, minuteDelta, allDay, 
             revertFunc, jsEvent, ui, view) {
+        if (GlobalVariables.user.privileges.appointments.edit == false) {
+            revertFunc();
+            Backend.displayNotification('You do not have the required privileges to '
+                    + 'edit appointments.');
+            return;
+        }
+                
         if ($('#notification').is(':visible')) {
             $('#notification').hide('bind');
         }    
@@ -1305,7 +1486,7 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1369,7 +1550,7 @@ var BackendCalendar = {
                 
                 if (response.exceptions) {
                     reponse.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
@@ -1460,7 +1641,7 @@ var BackendCalendar = {
             
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
+                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
@@ -1477,7 +1658,7 @@ var BackendCalendar = {
         
         // :: EMPTY FORM FIELDS
         $dialog.find('input, textarea').val('');
-        $dialog.find('#modal-message').hide();
+        $dialog.find('.modal-message').fadeOut();
         $dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
@@ -1496,7 +1677,7 @@ var BackendCalendar = {
             $.each(provider['services'], function(index, serviceId) {
                 if (serviceId == $dialog.find('#select-service').val()) {
                     canProvideService = true;
-                    return;
+                    return false;
                 }
             });
 
@@ -1514,7 +1695,7 @@ var BackendCalendar = {
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service['id'] == $dialog.find('#select-service').val()) {
                 serviceDuration = service['duration'];
-                return;
+                return false;
             }
         });
         
@@ -1545,13 +1726,13 @@ var BackendCalendar = {
         
         // Reset previous validation css formating.
         $dialog.find('.control-group').removeClass('error');
-        $dialog.find('#modal-message').hide();
+        $dialog.find('.modal-message').fadeOut();
         
         try {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
             $dialog.find('.required').each(function() {
-                if ($(this).val() === '') {
+                if ($(this).val() == '' || $(this).val() == null) {
                     $(this).parents().eq(1).addClass('error');
                     missingRequiredField = true;
                 }
@@ -1568,7 +1749,7 @@ var BackendCalendar = {
             
             return true;
         } catch(exc) {
-            $dialog.find('#modal-message').addClass('alert-error').text(exc).show('fade');
+            $dialog.find('.modal-message').addClass('alert-error').text(exc).show('fade');
             return false;
         }
     },
@@ -1607,13 +1788,13 @@ var BackendCalendar = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:16 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

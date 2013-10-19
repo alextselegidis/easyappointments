@@ -58,7 +58,7 @@ class Unit_tests_providers_model extends CI_Driver {
                 'password' => 'test_prov',
                 'working_plan' => $this->default_working_plan,
                 'notifications' => TRUE,
-                'google_sync' => FALSE,
+                'google_sync' => 0,
                 'google_token' => NULL,
                 'sync_past_days' => '5',
                 'sync_future_days' => '5'
@@ -77,7 +77,8 @@ class Unit_tests_providers_model extends CI_Driver {
         $db_provider['settings'] = $this->ci->db
                 ->get_where('ea_user_settings', array('id_users' => $provider['id']))
                 ->row_array();
-        unset($db_provider['settings']['id_users']); // not needed
+        unset($db_provider['settings']['id_users'], $db_provider['settings']['salt'],
+                $provider['settings']['password'], $db_provider['settings']['password']); // not needed
         
         $this->ci->unit->run($provider, $db_provider, 'Check if add(insert) has successfully '
                 . 'inserted a provider record.');
@@ -114,7 +115,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'password' => 'test_prov',
             'working_plan' => $this->default_working_plan,
             'notifications' => TRUE,
-            'google_sync' => FALSE,
+            'google_sync' => 0,
             'google_token' => NULL,
             'sync_past_days' => '5',
             'sync_future_days' => '5'
@@ -141,7 +142,7 @@ class Unit_tests_providers_model extends CI_Driver {
                 'password' => 'CHANGED',
                 'working_plan' => $this->default_working_plan,
                 'notifications' => TRUE,
-                'google_sync' => FALSE,
+                'google_sync' => 0,
                 'google_token' => NULL,
                 'sync_past_days' => '9', // changed
                 'sync_future_days' => '8' // changed
@@ -159,7 +160,8 @@ class Unit_tests_providers_model extends CI_Driver {
         $db_provider['settings'] = $this->ci->db
                 ->get_where('ea_user_settings', array('id_users' => $provider['id']))
                 ->row_array();
-        unset($db_provider['settings']['id_users']);
+        unset($db_provider['settings']['id_users'], $db_provider['settings']['salt'],
+                $provider['settings']['password'], $db_provider['settings']['password']); // not needed
         
         $this->ci->unit->run($provider, $db_provider, 'Check if add(update) has successfully '
                 . 'updated a provider record.');
@@ -415,8 +417,13 @@ class Unit_tests_providers_model extends CI_Driver {
             )
         );
         
-        $validation_result = $this->ci->providers_model->validate($provider);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE '
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->providers_model->validate($provider);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
                 . 'with record that does not exist.');
     }
     
@@ -446,8 +453,13 @@ class Unit_tests_providers_model extends CI_Driver {
             )
         );
         
-        $validation_result = $this->ci->providers_model->validate($provider);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE '
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->providers_model->validate($provider);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
                 . 'with data that is missing required fields.');
     }
     
@@ -477,8 +489,13 @@ class Unit_tests_providers_model extends CI_Driver {
             )
         );
         
-        $validation_result = $this->ci->providers_model->validate($provider);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE '
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->providers_model->validate($provider);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
                 . 'with data that has invalid email.');
     }
     
@@ -497,8 +514,13 @@ class Unit_tests_providers_model extends CI_Driver {
             'id_roles' => $this->provider_role_id
         );
         
-        $validation_result = $this->ci->providers_model->validate($provider);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has returned FALSE '
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->providers_model->validate($provider);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
                 . 'with data that do not contain the provider settings.');
     }
     

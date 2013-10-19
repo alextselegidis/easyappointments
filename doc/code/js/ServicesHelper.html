@@ -80,7 +80,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line317">line 317</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line106">line 106</a>
     </li></ul></dd>
     
     
@@ -134,7 +134,7 @@
     
     
     <div class="description">
-        Delete a service records from database.
+        Delete a service record from database.
     </div>
     
 
@@ -174,7 +174,7 @@
             <td class="type">
             
                 
-<span class="param-type">int</span>
+<span class="param-type">numeric</span>
 
 
             
@@ -215,7 +215,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line350">line 350</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line282">line 282</a>
     </li></ul></dd>
     
     
@@ -332,7 +332,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line416">line 416</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line350">line 350</a>
     </li></ul></dd>
     
     
@@ -360,7 +360,7 @@
         
             
 <dt>
-    <h4 class="name" id="filter"><span class="type-signature"></span>filter<span class="signature">(key)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="filter"><span class="type-signature"></span>filter<span class="signature">(key, selectId, display)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -422,6 +422,54 @@
         </tr>
 	
 	
+	
+        <tr>
+            
+                <td class="name"><code>selectId</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">numeric</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL = undefined) If set then after the filter 
+operation the record with this id will be selected (but not displayed).</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>display</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL = false) If true then the selected record will 
+be displayed on the form.</td>
+        </tr>
+	
+	
 	</tbody>
 </table>
     
@@ -449,7 +497,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line433">line 433</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line371">line 371</a>
     </li></ul></dd>
     
     
@@ -566,7 +614,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line460">line 460</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line410">line 410</a>
     </li></ul></dd>
     
     
@@ -657,7 +705,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line399">line 399</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line331">line 331</a>
     </li></ul></dd>
     
     
@@ -775,7 +823,149 @@ then the update operation is going to be executed.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line331">line 331</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line256">line 256</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(id, display)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Select a specific record from the current filter results. If the service id does not exist 
+in the list then no record will be selected.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">numeric</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The record id to be selected from the filter results.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>display</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">(OPTIONAL = false) If true then the method will display the record
+on the form.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line432">line 432</a>
     </li></ul></dd>
     
     
@@ -892,7 +1082,7 @@ then the update operation is going to be executed.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line374">line 374</a>
+        <a href="backend_services.js.html">backend_services.js</a>, <a href="backend_services.js.html#line306">line 306</a>
     </li></ul></dd>
     
     
@@ -955,13 +1145,13 @@ then the update operation is going to be executed.</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:17 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:42 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

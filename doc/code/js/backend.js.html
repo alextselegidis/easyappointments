@@ -40,6 +40,16 @@ $(document).ready(function() {
     $(document).ajaxStop(function() {
         $('#loading').hide();
     });
+    
+    $('.menu-item').qtip({
+        position: {
+            my: 'top center',
+            at: 'bottom center'
+        },
+        style: {
+            classes: 'qtip-green qtip-shadow custom-qtip'
+        }
+    });
 });
 
 /**
@@ -52,10 +62,22 @@ var Backend = {
     /**
      * Backend Constants
      */
-    EXCEPTIONS_TITLE: 'Unexpected Issues',
-    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
-    WARNINGS_TITLE: 'Unexpected Warnings',
-    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    DB_SLUG_ADMIN: 'admin',
+    DB_SLUG_PROVIDER: 'provider',
+    DB_SLUG_SECRETARY: 'secretary',
+    DB_SLUG_CUSTOMER: 'customer',
+    
+    PRIV_VIEW: 1,
+    PRIV_ADD: 2,
+    PRIV_EDIT: 4,
+    PRIV_DELETE: 8,
+    
+    PRIV_APPOINTMENTS: 'appointments',
+    PRIV_CUSTOMERS: 'customers',
+    PRIV_SERVICES: 'services',
+    PRIV_USERS: 'users',
+    PRIV_SYSTEM_SETTINGS: 'system_settings',
+    PRIV_USER_SETTINGS: 'user_settings',
     
     /**
      * Place the backend footer always on the bottom of the page.
@@ -89,12 +111,15 @@ var Backend = {
      * 'function' key values.
      */
     displayNotification: function(message, actions) {
-        if (message === undefined) {
+        if (message == undefined) {
             message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
         }
         
-        if (actions === undefined) {
+        if (actions == undefined) {
             actions = [];
+            setTimeout(function() {
+                $('#notification').slideUp('slow');
+            }, 7000);
         }
         
         var notificationHtml = 
@@ -110,36 +135,10 @@ var Backend = {
             $(document).on('click', '#' + actionId, action['function']);
         });
         
-        notificationHtml += '&lt;/div>';
+        notificationHtml += '&lt;a class="close" data-dismiss="alert" href="#">&times;&lt;/a>&lt;/div>';
         
         $('#notification').html(notificationHtml);
         $('#notification').show('blind');
-    },
-            
-    /**
-     * All backend js code has the same way of dislaying exceptions that are raised on the
-     * server during an ajax call. 
-     * 
-     * @param {object} response Contains the server response. If exceptions or warnings are 
-     * found, user friendly messages are going to be displayed to the user.
-     * @returns {bool} Returns whether the the ajax callback should continue the execution or
-     * stop, due to critical server exceptions.
-     */
-    handleAjaxExceptions: function(response) {
-        if (response.exceptions) {
-            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-            GeneralFunctions.displayMessageBox(Backend.EXCEPTIONS_TITLE, Backend.EXCEPTIONS_MESSAGE);
-            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-            return false;
-        }
-
-        if (response.warnings) {
-            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-            GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
-            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-        }
-        
-        return true;
     }
 };</code></pre>
         </article>
@@ -151,13 +150,13 @@ var Backend = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:16 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

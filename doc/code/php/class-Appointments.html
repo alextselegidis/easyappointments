@@ -7,7 +7,7 @@
 	<title>Class Appointments</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -48,6 +48,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -121,7 +123,7 @@ CI_Controller
 		
 		
 
-		<b>Located at</b> <a href="source-class-Appointments.html#3-591" title="Go to source code">appointments.php</a><br />
+		<b>Located at</b> <a href="source-class-Appointments.html#3-679" title="Go to source code">appointments.php</a><br />
 	</div>
 
 
@@ -139,7 +141,7 @@ CI_Controller
 
 		<td class="name"><div>
 		<a class="anchor" href="#_index">#</a>
-		<code><a href="source-class-Appointments.html#4-191" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-Appointments.html#4-198" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -181,7 +183,7 @@ that was send with the book success email.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_cancel">#</a>
-		<code><a href="source-class-Appointments.html#193-276" title="Go to source code">cancel</a>( <span>string <var>$appointment_hash</var></span> )</code>
+		<code><a href="source-class-Appointments.html#200-292" title="Go to source code">cancel</a>( <span>string <var>$appointment_hash</var></span> )</code>
 
 		<div class="description short">
 			
@@ -223,7 +225,7 @@ can only cancel the appointment if the edit time period is not over yet.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_get_available_hours">#</a>
-		<code><a href="source-class-Appointments.html#278-377" title="Go to source code">ajax_get_available_hours</a>( )</code>
+		<code><a href="source-class-Appointments.html#294-390" title="Go to source code">ajax_get_available_hours</a>( )</code>
 
 		<div class="description short">
 			
@@ -263,7 +265,7 @@ thegiven service, provider and date.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_check_datetime_availability">#</a>
-		<code><a href="source-class-Appointments.html#379-428" title="Go to source code">ajax_check_datetime_availability</a>( )</code>
+		<code><a href="source-class-Appointments.html#392-441" title="Go to source code">ajax_check_datetime_availability</a>( )</code>
 
 		<div class="description short">
 			
@@ -291,6 +293,77 @@ prompted to select another time for his appointment.</p>
 				<div class="list">
 					<code>boolean</code><br>Returns whether the selected datetime is still available.<br />
 				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="check_installation" id="_check_installation">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_check_installation">#</a>
+		<code><a href="source-class-Appointments.html#604-626" title="Go to source code">check_installation</a>( )</code>
+
+		<div class="description short">
+			
+<p>This method checks whether the application is installed.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>This method checks whether the application is installed.</p>
+
+<p>This method resides in this controller because the "index()" function will be
+the first to be launched after the files are on the server. NOTE that the
+"configuration.php" file must be already set because we won't be able to connect
+to the database otherwise.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_install" id="_ajax_install">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_install">#</a>
+		<code><a href="source-class-Appointments.html#628-678" title="Go to source code">ajax_install</a>( )</code>
+
+		<div class="description short">
+			
+<p>Installs Easy!Appointments on server.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Installs Easy!Appointments on server.</p>
+
+
+
+
 
 
 

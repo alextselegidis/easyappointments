@@ -7,7 +7,7 @@
 	<title>Class Backend</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -48,6 +48,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -121,13 +123,42 @@ CI_Controller
 		
 		
 
-		<b>Located at</b> <a href="source-class-Backend.html#3-132" title="Go to source code">backend.php</a><br />
+		<b>Located at</b> <a href="source-class-Backend.html#3-246" title="Go to source code">backend.php</a><br />
 	</div>
 
 
 
 	<table class="summary" id="methods">
 	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Backend.html#4-7" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="index" id="_index">
 
 		<td class="attributes"><code>
@@ -139,7 +170,7 @@ CI_Controller
 
 		<td class="name"><div>
 		<a class="anchor" href="#_index">#</a>
-		<code><a href="source-class-Backend.html#4-42" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-Backend.html#9-62" title="Go to source code">index</a>( <span>string <var>$appointment_hash</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -183,7 +214,7 @@ page loads.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_customers">#</a>
-		<code><a href="source-class-Backend.html#44-66" title="Go to source code">customers</a>( )</code>
+		<code><a href="source-class-Backend.html#64-91" title="Go to source code">customers</a>( )</code>
 
 		<div class="description short">
 			
@@ -218,7 +249,7 @@ page loads.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_services">#</a>
-		<code><a href="source-class-Backend.html#68-92" title="Go to source code">services</a>( )</code>
+		<code><a href="source-class-Backend.html#93-122" title="Go to source code">services</a>( )</code>
 
 		<div class="description short">
 			
@@ -257,7 +288,7 @@ the backend services page.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_users">#</a>
-		<code><a href="source-class-Backend.html#94-120" title="Go to source code">users</a>( )</code>
+		<code><a href="source-class-Backend.html#124-156" title="Go to source code">users</a>( )</code>
 
 		<div class="description short">
 			
@@ -294,7 +325,7 @@ admin defines which service can each provider provide.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_settings">#</a>
-		<code><a href="source-class-Backend.html#122-131" title="Go to source code">settings</a>( )</code>
+		<code><a href="source-class-Backend.html#158-188" title="Go to source code">settings</a>( )</code>
 
 		<div class="description short">
 			
@@ -313,6 +344,44 @@ etc).</p>
 
 
 
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setUserData" id="_setUserData">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setUserData">#</a>
+		<code><a href="source-class-Backend.html#232-245" title="Go to source code">setUserData</a>( <span>array <var>&amp; $view</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set the user data in order to be available at the view and js code.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set the user data in order to be available at the view and js code.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$view</var></dt>
+					<dd><code>array</code><br>$view Contains the view data.</dd>
+				</dl></div>
 
 
 
