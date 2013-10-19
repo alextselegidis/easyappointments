@@ -597,9 +597,17 @@ class Unit_tests_appointments_model extends CI_Driver {
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
         );
-        $validation_result = $this->CI->appointments_model->validate($appointment);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
-                . 'wrong date formats.');
+        
+        $has_thrown_exc = FALSE;
+        try {
+            $this->CI->appointments_model->validate($appointment);
+        } catch(Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        
+        $this->CI->unit->run($has_thrown_exc, TRUE, 'Test if validate() method with '
+                . 'wrong date formats has thrown exception.');
     }
     
     private function test_validate_data_invalid_provider_id() {
@@ -612,9 +620,16 @@ class Unit_tests_appointments_model extends CI_Driver {
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
         );
-        $validation_result = $this->CI->appointments_model->validate($appointment);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
-                . 'invalid provider id.');
+        
+        $has_thrown_exc = FALSE;
+        try {
+            $this->CI->appointments_model->validate($appointment);
+        } catch(Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        $this->CI->unit->run($has_thrown_exc, TRUE, 'Test if validate() method with '
+                . 'invalid provider id has thrown exception.');
     }
     
     private function test_validate_data_invalid_customer_id() {
@@ -627,9 +642,16 @@ class Unit_tests_appointments_model extends CI_Driver {
             'id_users_customer' => 'THIS IS WRONG',
             'id_services' => $this->service_id
         );
-        $validation_result = $this->CI->appointments_model->validate($appointment);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
-                . 'invalid customer id.');
+        
+        $has_thrown_exc = FALSE;
+        try {
+            $this->CI->appointments_model->validate($appointment);
+        } catch(Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        $this->CI->unit->run($has_thrown_exc, TRUE, 'Test if validate() method with '
+                . 'invalid customer id has thrown exception.');
     }
     
     private function test_validate_data_invalid_service_id() {
@@ -642,9 +664,16 @@ class Unit_tests_appointments_model extends CI_Driver {
             'id_users_customer' => $this->customer_id,
             'id_services' => 'THIS IS WRONG'
         );
-        $validation_result = $this->CI->appointments_model->validate($appointment);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with '
-                . 'invalid service id.');
+        
+        $has_thrown_exc = FALSE;
+        try {
+            $this->CI->appointments_model->validate($appointment);
+        } catch(Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        $this->CI->unit->run($has_thrown_exc, TRUE, 'Test if validate() method with '
+                . 'invalid service id has thrown exception.');
     }
 }
 

@@ -167,6 +167,10 @@ body .ui-dialog .ui-dialog-buttonpane {
     vertical-align: middle;
 }
 
+body .ui-icon, .ui-widget-content .ui-icon {
+    background-image: url(libs/jquery/images/ui-icons_52b799_256x240.png);
+}
+
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar { 
@@ -341,7 +345,7 @@ body .ui-dialog .ui-dialog-buttonpane {
 
 #customers-page #customer-appointments .appointment-row { 
     padding: 7px; 
-    border-bottom: 4px solid #E2E2E2;; 
+    border-bottom: 4px solid #E2E2E2;
 }
 
 #customers-page #customer-appointments .appointment-row:hover:not(.selected-row) { 

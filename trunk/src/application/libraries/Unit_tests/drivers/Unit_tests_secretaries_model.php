@@ -36,7 +36,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
             'password' => 'test_pswd',
             'working_plan' => NULL,
             'notifications' => FALSE,
-            'google_sync' => FALSE, 
+            'google_sync' => 0, 
             'google_token' => NULL,
             'sync_past_days' => NULL,
             'sync_future_days' => NULL
@@ -76,7 +76,8 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $db_secretary['providers'] = array();
         $db_secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
                 array('id_users' => $secretary['id']))->row_array();
-        unset($db_secretary['settings']['id_users']);
+        unset($db_secretary['settings']['id_users'], $db_secretary['settings']['salt'],
+                $secretary['settings']['password'], $db_secretary['settings']['password']); // not needed
         
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - insert operation - '
                 . 'has successfully inserted a new record.');
@@ -115,7 +116,8 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $db_secretary['providers'] = array();
         $db_secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
                 array('id_users' => $secretary['id']))->row_array();
-        unset($db_secretary['settings']['id_users']);
+        unset($db_secretary['settings']['id_users'], $db_secretary['settings']['salt'],
+                $secretary['settings']['password'], $db_secretary['settings']['password']); // not needed
         
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - update operation - has '
                 . 'successfully updated the secretary record.');
@@ -165,7 +167,8 @@ class Unit_tests_secretaries_model extends CI_Driver {
         
         $db_secretary['settings'] = $this->ci->db->get_where('ea_user_settings', 
                 array('id_users' => $secretary_id))->row_array();
-        unset($db_secretary['settings']['id_users']);
+        unset($db_secretary['settings']['id_users'], $db_secretary['settings']['salt'],
+                $secretary['settings']['password'], $db_secretary['settings']['password']); // not needed
         
         $this->ci->unit->run($secretary, $db_secretary, 'Test if add() - update operation - has '
                 . 'successfully updated the secretary record using find_record_id() method ' 
@@ -263,18 +266,28 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $secretary = $this->default_secretary;
         $secretary['id'] = 'This id does not exist in database.';
         
-        $validation_result = $this->ci->secretaries_model->validate($secretary);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has '
-                . 'returned FALSE on invalid data (provided id not exists in db).');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->secretaries_model->validate($secretary);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid data (provided id does not exists in db).');
     }
     
     private function test_validate_invalid_users_value_data_type() {
         $secretary = $this->default_secretary;
         $secretary['providers'] = 'This is not an array';
         
-        $validation_result = $this->ci->secretaries_model->validate($secretary);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has '
-                . 'returned FALSE on invalid data (users value is not an array).');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->secretaries_model->validate($secretary);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid data (users value is not an array).');
     }
     
     private function test_validate_missing_required_field_values() {
@@ -283,18 +296,28 @@ class Unit_tests_secretaries_model extends CI_Driver {
         unset($secretary['email']);
         unset($secretary['phone_number']);
         
-        $validation_result = $this->ci->secretaries_model->validate($secretary);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has '
-                . 'returned FALSE on invalid data (missing required field values).');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->secretaries_model->validate($secretary);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid data (missing required field values).');
     }
     
     private function test_validate_invalid_email_address() {
         $secretary = $this->default_secretary;
         $secretary['email'] = 'This is invalid.';
         
-        $validation_result = $this->ci->secretaries_model->validate($secretary);
-        $this->ci->unit->run($validation_result, FALSE, 'Test if validate() has '
-                . 'returned FALSE on invalid data (invalid email address).');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->secretaries_model->validate($secretary);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid data (invalid email address).');
     }
     
     // TEST DELETE METHOD -----------------------------------------------------
@@ -346,9 +369,11 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $secretary['settings'] = $this->default_settings;
         $secretary['settings']['id_users'] = $secretary['id'];
         $this->ci->db->insert('ea_user_settings', $secretary['settings']);
-        unset($secretary['settings']['id_users']);
+        
+        unset($secretary['settings']['id_users'], $secretary['settings']['password']);
         
         $model_secretary = $this->ci->secretaries_model->get_row($secretary['id']);
+        unset($model_secretary['settings']['password']);
         
         $this->ci->unit->run($secretary, $model_secretary, 'Test if get_row() has successfully '
                 . 'returned the secretary record.');

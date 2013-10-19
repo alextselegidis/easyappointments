@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: working_plan.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: working_plan.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * Contains the working plan functionality. The working plan DOM elements must be same 
+ * in every page this class is used.
+ * 
+ * @class WorkingPlan
+ */
+var WorkingPlan = function() {
+    /**
+     * This flag is used when trying to cancel row editing. It is
+     * true only whenever the user presses the cancel button.
+     * 
+     * @type {bool}
+     */
+    this.enableCancel = false;
+            
+    /**
+     * This flag determines whether the jeditables are allowed to submit. It is  
+     * true only whenever the user presses the save button.
+     * 
+     * @type {bool}
+     */
+    this.enableSubmit = false;
+};
+
+/**
+ * Setup the dom elements of a given working plan. 
+ * 
+ * @param {object} workingPlan Contains the working hours and breaks for each day of the week.
+ */
+WorkingPlan.prototype.setup = function(workingPlan) {
+    $.each(workingPlan, function(index, workingDay) {
+        if (workingDay != null) {
+            $('#' + index).prop('checked', true);
+            $('#' + index + '-start').val(workingDay.start);
+            $('#' + index + '-end').val(workingDay.end);
+
+            // Add the day's breaks on the breaks table.
+            $.each(workingDay.breaks, function(i, brk) {
+                var tr = 
+                        '&lt;tr>' + 
+                            '&lt;td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '&lt;/td>' +
+                            '&lt;td class="break-start editable">' + brk.start + '&lt;/td>' +
+                            '&lt;td class="break-end editable">' + brk.end + '&lt;/td>' +
+                            '&lt;td>' + 
+                                '&lt;button type="button" class="btn edit-break" title="Edit Break">' +
+                                    '&lt;i class="icon-pencil">&lt;/i>' +
+                                '&lt;/button>' +
+                                '&lt;button type="button" class="btn delete-break" title="Delete Break">' +
+                                    '&lt;i class="icon-remove">&lt;/i>' +
+                                '&lt;/button>' +
+                                '&lt;button type="button" class="btn save-break hidden" title="Save Break">' +
+                                    '&lt;i class="icon-ok">&lt;/i>' +
+                                '&lt;/button>' +
+                                '&lt;button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                                    '&lt;i class="icon-ban-circle">&lt;/i>' +
+                                '&lt;/button>' +
+                            '&lt;/td>' +
+                        '&lt;/tr>';
+                $('.breaks').append(tr);
+            });
+        } else {
+            $('#' + index).prop('checked', false);
+            $('#' + index + '-start').prop('disabled', true);
+            $('#' + index + '-end').prop('disabled', true);
+        }
+    });
+    
+    // Make break cells editable.
+    WorkingPlan.prototype.editableBreakDay($('.breaks .break-day'));
+    WorkingPlan.prototype.editableBreakTime($('.breaks').find('.break-start, .break-end'));
+};
+
+/**
+ * This method makes editable the break day cells. 
+ * 
+ * @param {object} $selector The jquery selector ready for use.
+ */
+WorkingPlan.prototype.editableBreakDay = function($selector) {
+    $selector.editable(function(value, settings) {
+        return value;
+    }, {
+        'type': 'select',
+        'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
+                + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
+                + '"Sunday": "Sunday", "selected": "Monday"}',
+        'event': 'edit',
+        'height': '30px',
+        'submit': '&lt;button type="button" class="hidden submit-editable">Submit&lt;/button>',
+        'cancel': '&lt;button type="button" class="hidden cancel-editable">Cancel&lt;/button>',
+        'onblur': 'ignore',
+        'onreset': function(settings, td) {
+            if (!WorkingPlan.prototype.enableCancel) return false; // disable ESC button
+        },
+        'onsubmit': function(settings, td) {
+            if (!WorkingPlan.prototype.enableSubmit) return false; // disable Enter button
+        }
+    });
+};
+
+/**
+ * This method makes editable the break time cells. 
+ * 
+ * @param {object} $selector The jquery selector ready for use.
+ */
+WorkingPlan.prototype.editableBreakTime = function($selector) {
+    $selector.editable(function(value, settings) {
+        // Do not return the value because the user needs to press the "Save" button.
+        return value;
+    }, {
+        'event': 'edit',
+        'height': '25px',
+        'submit': '&lt;button type="button" class="hidden submit-editable">Submit&lt;/button>',
+        'cancel': '&lt;button type="button" class="hidden cancel-editable">Cancel&lt;/button>',
+        'onblur': 'ignore',
+        'onreset': function(settings, td) {
+            if (!WorkingPlan.prototype.enableCancel) return false; // disable ESC button
+        },
+        'onsubmit': function(settings, td) {
+            if (!WorkingPlan.prototype.enableSubmit) return false; // disable Enter button
+        }
+    });
+};
+
+/**
+ * Binds the event handlers for the working plan dom elements.
+ */
+WorkingPlan.prototype.bindEventHandlers = function() {
+    /**
+     * Event: Day Checkbox "Click"
+     * 
+     * Enable or disable the time selection for each day.
+     */
+    $('.working-plan input[type="checkbox"]').click(function() {
+        var id = $(this).attr('id');
+
+        if ($(this).prop('checked') == true) {
+            $('#' + id + '-start').prop('disabled', false).val('09:00');
+            $('#' + id + '-end').prop('disabled', false).val('18:00');
+        } else {
+            $('#' + id + '-start').prop('disabled', true).val('');
+            $('#' + id + '-end').prop('disabled', true).val('');
+        }
+    });
+
+    /**
+     * Event: Add Break Button "Click"
+     * 
+     * A new row is added on the table and the user can enter the new break 
+     * data. After that he can either press the save or cancel button.
+     */
+    $('.add-break').click(function() {
+        var tr = 
+                '&lt;tr>' + 
+                    '&lt;td class="break-day editable">Monday&lt;/td>' +
+                    '&lt;td class="break-start editable">09:00&lt;/td>' +
+                    '&lt;td class="break-end editable">10:00&lt;/td>' +
+                    '&lt;td>' + 
+                        '&lt;button type="button" class="btn edit-break" title="Edit Break">' +
+                            '&lt;i class="icon-pencil">&lt;/i>' +
+                        '&lt;/button>' +
+                        '&lt;button type="button" class="btn delete-break" title="Delete Break">' +
+                            '&lt;i class="icon-remove">&lt;/i>' +
+                        '&lt;/button>' +
+                        '&lt;button type="button" class="btn save-break hidden" title="Save Break">' +
+                            '&lt;i class="icon-ok">&lt;/i>' +
+                        '&lt;/button>' +
+                        '&lt;button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                            '&lt;i class="icon-ban-circle">&lt;/i>' +
+                        '&lt;/button>' +
+                    '&lt;/td>' +
+                '&lt;/tr>';
+        $('.breaks').prepend(tr);
+
+        // Bind editable and event handlers.
+        tr = $('.breaks tr').get()[1];
+        WorkingPlan.prototype.editableBreakDay($(tr).find('.break-day'));
+        WorkingPlan.prototype.editableBreakTime($(tr).find('.break-start, .break-end'));
+        $(tr).find('.edit-break').trigger('click');
+    });
+
+    /**
+     * Event: Edit Break Button "Click"
+     * 
+     * Enables the row editing for the "Breaks" table rows.
+     */
+    $(document).on('click', '.edit-break', function() {
+        // Reset previous editable tds
+        var $previousEdt = $(this).closest('table').find('.editable').get();
+        $.each($previousEdt, function(index, edt) {
+           edt.reset();
+        });
+
+        // Make all cells in current row editable.
+        $(this).parent().parent().children().trigger('edit');
+        $(this).parent().parent().find('.break-start input, .break-end input').timepicker();
+        $(this).parent().parent().find('.break-day select').focus();
+
+        // Show save - cancel buttons.
+        $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
+        $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
+
+    });
+
+    /**
+     * Event: Delete Break Button "Click"
+     * 
+     * Removes the current line from the "Breaks" table.
+     */
+    $(document).on('click', '.delete-break', function() {
+       $(this).parent().parent().remove();
+    });
+
+    /**
+     * Event: Cancel Break Button "Click"
+     * 
+     * Bring the ".breaks" table back to its initial state.
+     */
+    $(document).on('click', '.cancel-break', function() {
+        WorkingPlan.prototype.enableCancel = true;
+        $(this).parent().parent().find('.cancel-editable').trigger('click');
+        WorkingPlan.prototype.enableCancel = false;
+
+        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+        $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+    });
+
+    /**
+     * Event: Save Break Button "Click"
+     * 
+     * Save the editable values and restore the table to its initial state.
+     */
+    $(document).on('click', '.save-break', function() {
+        // Break's start time must always be prior to break's end. 
+        var start = Date.parse($(this).parent().parent().find('.break-start input').val());
+        var end = Date.parse($(this).parent().parent().find('.break-end input').val());
+        if (start > end) {
+            $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
+        }
+
+        WorkingPlan.prototype.enableSubmit = true;
+        $(this).parent().parent().find('.editable .submit-editable').trigger('click');
+        WorkingPlan.prototype.enableSubmit = false;
+
+        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+        $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+    });
+};
+
+/**
+ * Get the working plan settings.
+ * 
+ * @returns {object} Returns the working plan settings object.
+ */
+WorkingPlan.prototype.get = function() {
+    var workingPlan = {};
+    $('.working-plan input[type="checkbox"').each(function() {
+        var id = $(this).attr('id');
+        if ($(this).prop('checked') == true) {
+            workingPlan[id] = {}
+            workingPlan[id].start = $('#' + id + '-start').val();
+            workingPlan[id].end = $('#' + id + '-end').val();
+            workingPlan[id].breaks = [];
+            
+            $('.breaks tr').each(function(index, tr) {
+                var day = $(tr).find('.break-day').text().toLowerCase();
+                if (day == id) {
+                    var start = $(tr).find('.break-start').text();
+                    var end = $(tr).find('.break-end').text();
+                    
+                    workingPlan[id].breaks.push({
+                        'start': start,
+                        'end': end
+                    });
+                    
+                }
+            });
+            
+        } else {
+            workingPlan[id] = null;
+        }
+    });
+    
+    return workingPlan;
+};
+
+/**
+ * Enables or disabled the timepicker functionality from the working plan input 
+ * text fields.
+ * 
+ * @param {bool} disabled (OPTIONAL = false) If true then the timepickers will be
+ * disabled.
+ */
+WorkingPlan.prototype.timepickers = function(disabled) {
+    if (disabled == undefined) disabled == false;
+    
+    if (disabled == false) {
+        // Set timepickers where needed.
+        $('.working-plan input[type="text"]').timepicker({
+            'timeFormat': 'HH:mm',
+            'onSelect': function(datetime, inst) {
+                // Start time must be earlier than end time. 
+                var start = Date.parse($(this).parent().parent().find('.work-start').val());
+                var end = Date.parse($(this).parent().parent().find('.work-end').val());
+
+                if (start > end) {
+                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
+                }
+            }
+        });
+    } else {
+        $('.working-plan input').timepicker('destroy');
+    }
+};
+
+/**
+ * Reset the current plan back to the company's default working plan.
+ */
+WorkingPlan.prototype.reset = function() {
+    
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

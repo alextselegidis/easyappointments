@@ -276,7 +276,7 @@ var FrontendBook = {
         $('#available-hours').empty();
         
         // Find the selected service duration (it is going to 
-        // be send within the "postData" object.
+        // be send within the "postData" object).
         var selServiceDuration = 15; // Default value of duration (in minutes).
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service['id'] == $('#select-service').val()) {
@@ -296,7 +296,7 @@ var FrontendBook = {
             'service_duration': selServiceDuration,
             'manage_mode': FrontendBook.manageMode,
             'appointment_id': appointmentId
-        }
+        };
 
         // Make ajax post request and get the available hours.
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
@@ -511,8 +511,8 @@ var FrontendBook = {
             $('#select-provider').val(appointment['id_users_provider']);
             
             // Set Appointment Date
-            $('#select-date').datepicker('setDate', Date.parseExact(
-                    appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
+            $('#select-date').datepicker('setDate', 
+                    Date.parseExact(appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
             FrontendBook.getAvailableHours($('#select-date').val());
             
             // Apply Customer's Data
@@ -550,14 +550,14 @@ var FrontendBook = {
         
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == serviceId) { // Just found the service.
-                html = '<strong>' + service.name + ':</strong> ';
+                html = '<strong>' + service.name + '</strong><br> ';
                 
                 if (service.description != '' && service.description != null) {
                     html += service.description;
                 }
                 
                 if (service.price != '' && service.price != null) {
-                    html += ' [Price ' + service.price + ' ' + service.currency  + ']';
+                    html += '<br> [Price ' + service.price + ' ' + service.currency  + ']';
                 }   
                 
                 html += '<br>';

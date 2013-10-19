@@ -261,7 +261,7 @@ class Secretaries_Model extends CI_Model {
         
         $secretary['settings'] = $this->db->get_where('ea_user_settings', 
                 array('id_users' => $secretary['id']))->row_array();
-        unset($secretary['settings']['id_users']);
+        unset($secretary['settings']['id_users'], $secretary['settings']['salt']);
         
         return $secretary;
     }

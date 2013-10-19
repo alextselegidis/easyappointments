@@ -7,7 +7,7 @@
 	<title>Class Roles_Model</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -48,6 +48,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -121,7 +123,7 @@ CI_Model
 		
 		
 
-		<b>Located at</b> <a href="source-class-Roles_Model.html#3-21" title="Go to source code">roles_model.php</a><br />
+		<b>Located at</b> <a href="source-class-Roles_Model.html#3-70" title="Go to source code">roles_model.php</a><br />
 	</div>
 
 
@@ -196,6 +198,52 @@ CI_Model
 				<h4>Returns</h4>
 				<div class="list">
 					<code>integer</code><br>Returns the database id of the roles record.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_privileges" id="_get_privileges">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_privileges">#</a>
+		<code><a href="source-class-Roles_Model.html#22-69" title="Go to source code">get_privileges</a>( <span>string <var>$slug</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns all the privileges (bool values) of a role slug.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns all the privileges (bool values) of a role slug.</p>
+
+<p>The privilege numbers are converted into bool values of the four main actions
+(view, add, edit, delete). By checking each value you can know if the user is
+able to perform this action.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$slug</var></dt>
+					<dd><code>string</code><br>$slug The role slug.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns the privilege value.<br />
 				</div>
 
 

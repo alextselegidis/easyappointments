@@ -8,7 +8,7 @@
 	<title>File providers_model.php</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -49,6 +49,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -141,56 +143,56 @@
 </span></span><span id="48" class="l"><a class="l" href="#48"> 48: </a><span class="php-comment">     * @throws Exception When the record data validation fails.
 </span></span><span id="49" class="l"><a class="l" href="#49"> 49: </a><span class="php-comment">     */</span>
 </span><span id="50" class="l"><a class="l" href="#50"> 50: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_add" href="#_add">add</a>(<span class="php-var">$provider</span>) {
-</span><span id="51" class="l"><a class="l" href="#51"> 51: </a>        <span class="php-keyword1">if</span> (!<span class="php-var">$this</span>-&gt;validate(<span class="php-var">$provider</span>)) {
-</span><span id="52" class="l"><a class="l" href="#52"> 52: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provider data are not valid :'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="53" class="l"><a class="l" href="#53"> 53: </a>        }
-</span><span id="54" class="l"><a class="l" href="#54"> 54: </a>        
-</span><span id="55" class="l"><a class="l" href="#55"> 55: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;exists(<span class="php-var">$provider</span>) &amp;&amp; !<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>])) {
-</span><span id="56" class="l"><a class="l" href="#56"> 56: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;find_record_id(<span class="php-var">$provider</span>);
-</span><span id="57" class="l"><a class="l" href="#57"> 57: </a>        }
-</span><span id="58" class="l"><a class="l" href="#58"> 58: </a>        
-</span><span id="59" class="l"><a class="l" href="#59"> 59: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>])) {
-</span><span id="60" class="l"><a class="l" href="#60"> 60: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;insert(<span class="php-var">$provider</span>);
-</span><span id="61" class="l"><a class="l" href="#61"> 61: </a>        } <span class="php-keyword1">else</span> {
-</span><span id="62" class="l"><a class="l" href="#62"> 62: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;update(<span class="php-var">$provider</span>);
-</span><span id="63" class="l"><a class="l" href="#63"> 63: </a>        }
-</span><span id="64" class="l"><a class="l" href="#64"> 64: </a>        
-</span><span id="65" class="l"><a class="l" href="#65"> 65: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="66" class="l"><a class="l" href="#66"> 66: </a>    }
-</span><span id="67" class="l"><a class="l" href="#67"> 67: </a>    
-</span><span id="68" class="l"><a class="l" href="#68"> 68: </a>    <span class="php-comment">/**
-</span></span><span id="69" class="l"><a class="l" href="#69"> 69: </a><span class="php-comment">     * Check whether a particular provider record already exists in the database.
-</span></span><span id="70" class="l"><a class="l" href="#70"> 70: </a><span class="php-comment">     *  
-</span></span><span id="71" class="l"><a class="l" href="#71"> 71: </a><span class="php-comment">     * @param array $provider Contains the provider data. The 'email' value is required 
-</span></span><span id="72" class="l"><a class="l" href="#72"> 72: </a><span class="php-comment">     * in order to check for a provider.
-</span></span><span id="73" class="l"><a class="l" href="#73"> 73: </a><span class="php-comment">     * @return bool Returns whether the provider record exists or not.
-</span></span><span id="74" class="l"><a class="l" href="#74"> 74: </a><span class="php-comment">     * @throws Exception When the 'email' value is not provided.
-</span></span><span id="75" class="l"><a class="l" href="#75"> 75: </a><span class="php-comment">     */</span>
-</span><span id="76" class="l"><a class="l" href="#76"> 76: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_exists" href="#_exists">exists</a>(<span class="php-var">$provider</span>) {
-</span><span id="77" class="l"><a class="l" href="#77"> 77: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])) {
-</span><span id="78" class="l"><a class="l" href="#78"> 78: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provider email is not provided :'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="79" class="l"><a class="l" href="#79"> 79: </a>        }
-</span><span id="80" class="l"><a class="l" href="#80"> 80: </a>        
-</span><span id="81" class="l"><a class="l" href="#81"> 81: </a>        <span class="php-comment">// This method shouldn't depend on another method of this class.</span>
-</span><span id="82" class="l"><a class="l" href="#82"> 82: </a>        <span class="php-var">$num_rows</span> = <span class="php-var">$this</span>-&gt;db
-</span><span id="83" class="l"><a class="l" href="#83"> 83: </a>                -&gt;select(<span class="php-quote">'*'</span>)
-</span><span id="84" class="l"><a class="l" href="#84"> 84: </a>                -&gt;from(<span class="php-quote">'ea_users'</span>)
-</span><span id="85" class="l"><a class="l" href="#85"> 85: </a>                -&gt;<span class="php-keyword2">join</span>(<span class="php-quote">'ea_roles'</span>, <span class="php-quote">'ea_roles.id = ea_users.id_roles'</span>, <span class="php-quote">'inner'</span>)
-</span><span id="86" class="l"><a class="l" href="#86"> 86: </a>                -&gt;where(<span class="php-quote">'ea_users.email'</span>, <span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])
-</span><span id="87" class="l"><a class="l" href="#87"> 87: </a>                -&gt;where(<span class="php-quote">'ea_roles.slug'</span>, DB_SLUG_PROVIDER)
-</span><span id="88" class="l"><a class="l" href="#88"> 88: </a>                -&gt;get()-&gt;num_rows();
-</span><span id="89" class="l"><a class="l" href="#89"> 89: </a>        
-</span><span id="90" class="l"><a class="l" href="#90"> 90: </a>        <span class="php-keyword1">return</span> (<span class="php-var">$num_rows</span> &gt; <span class="php-num">0</span>) ? <span class="php-keyword1">TRUE</span> : <span class="php-keyword1">FALSE</span>;
-</span><span id="91" class="l"><a class="l" href="#91"> 91: </a>    }
-</span><span id="92" class="l"><a class="l" href="#92"> 92: </a>    
-</span><span id="93" class="l"><a class="l" href="#93"> 93: </a>    <span class="php-comment">/**
-</span></span><span id="94" class="l"><a class="l" href="#94"> 94: </a><span class="php-comment">     * Insert a new provider record into the database.
-</span></span><span id="95" class="l"><a class="l" href="#95"> 95: </a><span class="php-comment">     *  
-</span></span><span id="96" class="l"><a class="l" href="#96"> 96: </a><span class="php-comment">     * @param array $provider Contains the provider data (must be already validated).
-</span></span><span id="97" class="l"><a class="l" href="#97"> 97: </a><span class="php-comment">     * @return int Returns the new record id.
-</span></span><span id="98" class="l"><a class="l" href="#98"> 98: </a><span class="php-comment">     * @throws Exception When the insert operation fails.
-</span></span><span id="99" class="l"><a class="l" href="#99"> 99: </a><span class="php-comment">     */</span>
-</span><span id="100" class="l"><a class="l" href="#100">100: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_insert" href="#_insert">insert</a>(<span class="php-var">$provider</span>) {
+</span><span id="51" class="l"><a class="l" href="#51"> 51: </a>        <span class="php-var">$this</span>-&gt;validate(<span class="php-var">$provider</span>);
+</span><span id="52" class="l"><a class="l" href="#52"> 52: </a>        
+</span><span id="53" class="l"><a class="l" href="#53"> 53: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;exists(<span class="php-var">$provider</span>) &amp;&amp; !<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>])) {
+</span><span id="54" class="l"><a class="l" href="#54"> 54: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;find_record_id(<span class="php-var">$provider</span>);
+</span><span id="55" class="l"><a class="l" href="#55"> 55: </a>        }
+</span><span id="56" class="l"><a class="l" href="#56"> 56: </a>        
+</span><span id="57" class="l"><a class="l" href="#57"> 57: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>])) {
+</span><span id="58" class="l"><a class="l" href="#58"> 58: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;insert(<span class="php-var">$provider</span>);
+</span><span id="59" class="l"><a class="l" href="#59"> 59: </a>        } <span class="php-keyword1">else</span> {
+</span><span id="60" class="l"><a class="l" href="#60"> 60: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;update(<span class="php-var">$provider</span>);
+</span><span id="61" class="l"><a class="l" href="#61"> 61: </a>        }
+</span><span id="62" class="l"><a class="l" href="#62"> 62: </a>        
+</span><span id="63" class="l"><a class="l" href="#63"> 63: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="64" class="l"><a class="l" href="#64"> 64: </a>    }
+</span><span id="65" class="l"><a class="l" href="#65"> 65: </a>    
+</span><span id="66" class="l"><a class="l" href="#66"> 66: </a>    <span class="php-comment">/**
+</span></span><span id="67" class="l"><a class="l" href="#67"> 67: </a><span class="php-comment">     * Check whether a particular provider record already exists in the database.
+</span></span><span id="68" class="l"><a class="l" href="#68"> 68: </a><span class="php-comment">     *  
+</span></span><span id="69" class="l"><a class="l" href="#69"> 69: </a><span class="php-comment">     * @param array $provider Contains the provider data. The 'email' value is required 
+</span></span><span id="70" class="l"><a class="l" href="#70"> 70: </a><span class="php-comment">     * in order to check for a provider.
+</span></span><span id="71" class="l"><a class="l" href="#71"> 71: </a><span class="php-comment">     * @return bool Returns whether the provider record exists or not.
+</span></span><span id="72" class="l"><a class="l" href="#72"> 72: </a><span class="php-comment">     * @throws Exception When the 'email' value is not provided.
+</span></span><span id="73" class="l"><a class="l" href="#73"> 73: </a><span class="php-comment">     */</span>
+</span><span id="74" class="l"><a class="l" href="#74"> 74: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_exists" href="#_exists">exists</a>(<span class="php-var">$provider</span>) {
+</span><span id="75" class="l"><a class="l" href="#75"> 75: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])) {
+</span><span id="76" class="l"><a class="l" href="#76"> 76: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provider email is not provided :'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="77" class="l"><a class="l" href="#77"> 77: </a>        }
+</span><span id="78" class="l"><a class="l" href="#78"> 78: </a>        
+</span><span id="79" class="l"><a class="l" href="#79"> 79: </a>        <span class="php-comment">// This method shouldn't depend on another method of this class.</span>
+</span><span id="80" class="l"><a class="l" href="#80"> 80: </a>        <span class="php-var">$num_rows</span> = <span class="php-var">$this</span>-&gt;db
+</span><span id="81" class="l"><a class="l" href="#81"> 81: </a>                -&gt;select(<span class="php-quote">'*'</span>)
+</span><span id="82" class="l"><a class="l" href="#82"> 82: </a>                -&gt;from(<span class="php-quote">'ea_users'</span>)
+</span><span id="83" class="l"><a class="l" href="#83"> 83: </a>                -&gt;<span class="php-keyword2">join</span>(<span class="php-quote">'ea_roles'</span>, <span class="php-quote">'ea_roles.id = ea_users.id_roles'</span>, <span class="php-quote">'inner'</span>)
+</span><span id="84" class="l"><a class="l" href="#84"> 84: </a>                -&gt;where(<span class="php-quote">'ea_users.email'</span>, <span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])
+</span><span id="85" class="l"><a class="l" href="#85"> 85: </a>                -&gt;where(<span class="php-quote">'ea_roles.slug'</span>, DB_SLUG_PROVIDER)
+</span><span id="86" class="l"><a class="l" href="#86"> 86: </a>                -&gt;get()-&gt;num_rows();
+</span><span id="87" class="l"><a class="l" href="#87"> 87: </a>        
+</span><span id="88" class="l"><a class="l" href="#88"> 88: </a>        <span class="php-keyword1">return</span> (<span class="php-var">$num_rows</span> &gt; <span class="php-num">0</span>) ? <span class="php-keyword1">TRUE</span> : <span class="php-keyword1">FALSE</span>;
+</span><span id="89" class="l"><a class="l" href="#89"> 89: </a>    }
+</span><span id="90" class="l"><a class="l" href="#90"> 90: </a>    
+</span><span id="91" class="l"><a class="l" href="#91"> 91: </a>    <span class="php-comment">/**
+</span></span><span id="92" class="l"><a class="l" href="#92"> 92: </a><span class="php-comment">     * Insert a new provider record into the database.
+</span></span><span id="93" class="l"><a class="l" href="#93"> 93: </a><span class="php-comment">     *  
+</span></span><span id="94" class="l"><a class="l" href="#94"> 94: </a><span class="php-comment">     * @param array $provider Contains the provider data (must be already validated).
+</span></span><span id="95" class="l"><a class="l" href="#95"> 95: </a><span class="php-comment">     * @return int Returns the new record id.
+</span></span><span id="96" class="l"><a class="l" href="#96"> 96: </a><span class="php-comment">     * @throws Exception When the insert operation fails.
+</span></span><span id="97" class="l"><a class="l" href="#97"> 97: </a><span class="php-comment">     */</span>
+</span><span id="98" class="l"><a class="l" href="#98"> 98: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_insert" href="#_insert">insert</a>(<span class="php-var">$provider</span>) {
+</span><span id="99" class="l"><a class="l" href="#99"> 99: </a>        <span class="php-var">$this</span>-&gt;load-&gt;helper(<span class="php-quote">'general'</span>);
+</span><span id="100" class="l"><a class="l" href="#100">100: </a>        
 </span><span id="101" class="l"><a class="l" href="#101">101: </a>        <span class="php-comment">// Get provider role id. </span>
 </span><span id="102" class="l"><a class="l" href="#102">102: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'id_roles'</span>] = <span class="php-var">$this</span>-&gt;get_providers_role_id();
 </span><span id="103" class="l"><a class="l" href="#103">103: </a>        
@@ -205,397 +207,411 @@
 </span><span id="112" class="l"><a class="l" href="#112">112: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Could not insert provider into the database'</span>);
 </span><span id="113" class="l"><a class="l" href="#113">113: </a>        }
 </span><span id="114" class="l"><a class="l" href="#114">114: </a>        
-</span><span id="115" class="l"><a class="l" href="#115">115: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;insert_id();
-</span><span id="116" class="l"><a class="l" href="#116">116: </a>        <span class="php-var">$this</span>-&gt;save_settings(<span class="php-var">$settings</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="117" class="l"><a class="l" href="#117">117: </a>        <span class="php-var">$this</span>-&gt;save_services(<span class="php-var">$services</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="118" class="l"><a class="l" href="#118">118: </a>        
-</span><span id="119" class="l"><a class="l" href="#119">119: </a>        <span class="php-comment">// Return the new record id.</span>
-</span><span id="120" class="l"><a class="l" href="#120">120: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="121" class="l"><a class="l" href="#121">121: </a>    }   
-</span><span id="122" class="l"><a class="l" href="#122">122: </a>    
-</span><span id="123" class="l"><a class="l" href="#123">123: </a>    <span class="php-comment">/**
-</span></span><span id="124" class="l"><a class="l" href="#124">124: </a><span class="php-comment">     * Update an existing provider record in the database.
-</span></span><span id="125" class="l"><a class="l" href="#125">125: </a><span class="php-comment">     * 
-</span></span><span id="126" class="l"><a class="l" href="#126">126: </a><span class="php-comment">     * @param array $provider Contains the provider data.
-</span></span><span id="127" class="l"><a class="l" href="#127">127: </a><span class="php-comment">     * @return int Returns the record id.
-</span></span><span id="128" class="l"><a class="l" href="#128">128: </a><span class="php-comment">     * @throws Exception When the update operation fails.
-</span></span><span id="129" class="l"><a class="l" href="#129">129: </a><span class="php-comment">     */</span>
-</span><span id="130" class="l"><a class="l" href="#130">130: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_update" href="#_update">update</a>(<span class="php-var">$provider</span>) {
-</span><span id="131" class="l"><a class="l" href="#131">131: </a>        <span class="php-comment">// Store service and settings (must not be present on the $provider array).</span>
-</span><span id="132" class="l"><a class="l" href="#132">132: </a>        <span class="php-var">$services</span> = <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>];
-</span><span id="133" class="l"><a class="l" href="#133">133: </a>        <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>]);
-</span><span id="134" class="l"><a class="l" href="#134">134: </a>        <span class="php-var">$settings</span> = <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>];
-</span><span id="135" class="l"><a class="l" href="#135">135: </a>        <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>]);
-</span><span id="136" class="l"><a class="l" href="#136">136: </a>        
-</span><span id="137" class="l"><a class="l" href="#137">137: </a>        <span class="php-comment">// Update provider record.</span>
-</span><span id="138" class="l"><a class="l" href="#138">138: </a>        <span class="php-var">$this</span>-&gt;db-&gt;where(<span class="php-quote">'id'</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="139" class="l"><a class="l" href="#139">139: </a>        <span class="php-keyword1">if</span> (!<span class="php-var">$this</span>-&gt;db-&gt;update(<span class="php-quote">'ea_users'</span>, <span class="php-var">$provider</span>)) {
-</span><span id="140" class="l"><a class="l" href="#140">140: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Could not update provider record.'</span>);
-</span><span id="141" class="l"><a class="l" href="#141">141: </a>        }
-</span><span id="142" class="l"><a class="l" href="#142">142: </a>        
-</span><span id="143" class="l"><a class="l" href="#143">143: </a>        <span class="php-var">$this</span>-&gt;save_services(<span class="php-var">$services</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="144" class="l"><a class="l" href="#144">144: </a>        <span class="php-var">$this</span>-&gt;save_settings(<span class="php-var">$settings</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="145" class="l"><a class="l" href="#145">145: </a>        
-</span><span id="146" class="l"><a class="l" href="#146">146: </a>        <span class="php-comment">// Return record id.</span>
-</span><span id="147" class="l"><a class="l" href="#147">147: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
-</span><span id="148" class="l"><a class="l" href="#148">148: </a>    }
-</span><span id="149" class="l"><a class="l" href="#149">149: </a>    
-</span><span id="150" class="l"><a class="l" href="#150">150: </a>    <span class="php-comment">/**
-</span></span><span id="151" class="l"><a class="l" href="#151">151: </a><span class="php-comment">     * Find the database record id of a provider.
-</span></span><span id="152" class="l"><a class="l" href="#152">152: </a><span class="php-comment">     * 
-</span></span><span id="153" class="l"><a class="l" href="#153">153: </a><span class="php-comment">     * @param array $provider Contains the provider data. The 'email' value is required
-</span></span><span id="154" class="l"><a class="l" href="#154">154: </a><span class="php-comment">     * in order to find the record id.
-</span></span><span id="155" class="l"><a class="l" href="#155">155: </a><span class="php-comment">     * @return int Returns the record id.
-</span></span><span id="156" class="l"><a class="l" href="#156">156: </a><span class="php-comment">     * @throws Exception When the provider's email value is not provided.
-</span></span><span id="157" class="l"><a class="l" href="#157">157: </a><span class="php-comment">     */</span>
-</span><span id="158" class="l"><a class="l" href="#158">158: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_find_record_id" href="#_find_record_id">find_record_id</a>(<span class="php-var">$provider</span>) {
-</span><span id="159" class="l"><a class="l" href="#159">159: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])) {
-</span><span id="160" class="l"><a class="l" href="#160">160: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provider email was not provided :'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="161" class="l"><a class="l" href="#161">161: </a>        }
-</span><span id="162" class="l"><a class="l" href="#162">162: </a>        
-</span><span id="163" class="l"><a class="l" href="#163">163: </a>        <span class="php-var">$result</span> = <span class="php-var">$this</span>-&gt;db
-</span><span id="164" class="l"><a class="l" href="#164">164: </a>                -&gt;select(<span class="php-quote">'ea_users.id'</span>)
-</span><span id="165" class="l"><a class="l" href="#165">165: </a>                -&gt;from(<span class="php-quote">'ea_users'</span>)
-</span><span id="166" class="l"><a class="l" href="#166">166: </a>                -&gt;<span class="php-keyword2">join</span>(<span class="php-quote">'ea_roles'</span>, <span class="php-quote">'ea_roles.id = ea_users.id_roles'</span>, <span class="php-quote">'inner'</span>)
-</span><span id="167" class="l"><a class="l" href="#167">167: </a>                -&gt;where(<span class="php-quote">'ea_users.email'</span>, <span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])
-</span><span id="168" class="l"><a class="l" href="#168">168: </a>                -&gt;where(<span class="php-quote">'ea_roles.slug'</span>, DB_SLUG_PROVIDER)
-</span><span id="169" class="l"><a class="l" href="#169">169: </a>                -&gt;get();
-</span><span id="170" class="l"><a class="l" href="#170">170: </a>        
-</span><span id="171" class="l"><a class="l" href="#171">171: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$result</span>-&gt;num_rows() == <span class="php-num">0</span>) {
-</span><span id="172" class="l"><a class="l" href="#172">172: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Could not find provider record id.'</span>);
-</span><span id="173" class="l"><a class="l" href="#173">173: </a>        }
-</span><span id="174" class="l"><a class="l" href="#174">174: </a>        
-</span><span id="175" class="l"><a class="l" href="#175">175: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$result</span>-&gt;row()-&gt;id);
-</span><span id="176" class="l"><a class="l" href="#176">176: </a>    }
-</span><span id="177" class="l"><a class="l" href="#177">177: </a>    
-</span><span id="178" class="l"><a class="l" href="#178">178: </a>    <span class="php-comment">/**
-</span></span><span id="179" class="l"><a class="l" href="#179">179: </a><span class="php-comment">     * Validate provider data before the insert or  update operation is executed.
-</span></span><span id="180" class="l"><a class="l" href="#180">180: </a><span class="php-comment">     * 
-</span></span><span id="181" class="l"><a class="l" href="#181">181: </a><span class="php-comment">     * @param array $provider Contains the provider data.
-</span></span><span id="182" class="l"><a class="l" href="#182">182: </a><span class="php-comment">     * @return bool Returns the validation result.
-</span></span><span id="183" class="l"><a class="l" href="#183">183: </a><span class="php-comment">     */</span>
-</span><span id="184" class="l"><a class="l" href="#184">184: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_validate" href="#_validate">validate</a>(<span class="php-var">$provider</span>) {
-</span><span id="185" class="l"><a class="l" href="#185">185: </a>        <span class="php-var">$this</span>-&gt;load-&gt;helper(<span class="php-quote">'data_validation'</span>);
-</span><span id="186" class="l"><a class="l" href="#186">186: </a>        
-</span><span id="187" class="l"><a class="l" href="#187">187: </a>        <span class="php-keyword1">try</span> {
-</span><span id="188" class="l"><a class="l" href="#188">188: </a>            <span class="php-comment">// If a provider id is present, check whether the record exist in the database.</span>
-</span><span id="189" class="l"><a class="l" href="#189">189: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>])) {
-</span><span id="190" class="l"><a class="l" href="#190">190: </a>                <span class="php-var">$num_rows</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, 
-</span><span id="191" class="l"><a class="l" href="#191">191: </a>                        <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;num_rows();
-</span><span id="192" class="l"><a class="l" href="#192">192: </a>                <span class="php-keyword1">if</span> (<span class="php-var">$num_rows</span> == <span class="php-num">0</span>) {
-</span><span id="193" class="l"><a class="l" href="#193">193: </a>                    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provided record id does not exist in the database.'</span>);
-</span><span id="194" class="l"><a class="l" href="#194">194: </a>                }
-</span><span id="195" class="l"><a class="l" href="#195">195: </a>            }
-</span><span id="196" class="l"><a class="l" href="#196">196: </a>            
-</span><span id="197" class="l"><a class="l" href="#197">197: </a>            <span class="php-comment">// Validate required fields.</span>
-</span><span id="198" class="l"><a class="l" href="#198">198: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'last_name'</span>])
-</span><span id="199" class="l"><a class="l" href="#199">199: </a>                    || !<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])
-</span><span id="200" class="l"><a class="l" href="#200">200: </a>                    || !<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'phone_number'</span>])) { 
-</span><span id="201" class="l"><a class="l" href="#201">201: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Not all required fields are provided : '</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="202" class="l"><a class="l" href="#202">202: </a>            }
-</span><span id="203" class="l"><a class="l" href="#203">203: </a>            
-</span><span id="204" class="l"><a class="l" href="#204">204: </a>            <span class="php-comment">// Validate provider email address.</span>
-</span><span id="205" class="l"><a class="l" href="#205">205: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword2">filter_var</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>], FILTER_VALIDATE_EMAIL)) {
-</span><span id="206" class="l"><a class="l" href="#206">206: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid email address provided : '</span> . <span class="php-var">$provider</span>[<span class="php-quote">'email'</span>]);
-</span><span id="207" class="l"><a class="l" href="#207">207: </a>            }
-</span><span id="208" class="l"><a class="l" href="#208">208: </a>            
-</span><span id="209" class="l"><a class="l" href="#209">209: </a>            <span class="php-comment">// Validate provider services.</span>
-</span><span id="210" class="l"><a class="l" href="#210">210: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>]) || !<span class="php-keyword2">is_array</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>])) {
-</span><span id="211" class="l"><a class="l" href="#211">211: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid provider services given: '</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="212" class="l"><a class="l" href="#212">212: </a>            } <span class="php-keyword1">else</span> { <span class="php-comment">// Check if services are valid numeric values.</span>
-</span><span id="213" class="l"><a class="l" href="#213">213: </a>                <span class="php-keyword1">foreach</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] <span class="php-keyword1">as</span> <span class="php-var">$service_id</span>) {
-</span><span id="214" class="l"><a class="l" href="#214">214: </a>                    <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$service_id</span>)) {
-</span><span id="215" class="l"><a class="l" href="#215">215: </a>                        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'A provider service with invalid id was found: '</span> 
-</span><span id="216" class="l"><a class="l" href="#216">216: </a>                                . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="217" class="l"><a class="l" href="#217">217: </a>                    }
-</span><span id="218" class="l"><a class="l" href="#218">218: </a>                }
-</span><span id="219" class="l"><a class="l" href="#219">219: </a>            }
-</span><span id="220" class="l"><a class="l" href="#220">220: </a>            
-</span><span id="221" class="l"><a class="l" href="#221">221: </a>            <span class="php-comment">// Validate provider settings.</span>
-</span><span id="222" class="l"><a class="l" href="#222">222: </a>            <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>]) || <span class="php-keyword2">count</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>]) == <span class="php-num">0</span>
-</span><span id="223" class="l"><a class="l" href="#223">223: </a>                    || !<span class="php-keyword2">is_array</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>])) {
-</span><span id="224" class="l"><a class="l" href="#224">224: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid provider settings given: '</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="225" class="l"><a class="l" href="#225">225: </a>            }
-</span><span id="226" class="l"><a class="l" href="#226">226: </a>            
-</span><span id="227" class="l"><a class="l" href="#227">227: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">TRUE</span>;
-</span><span id="228" class="l"><a class="l" href="#228">228: </a>        } <span class="php-keyword1">catch</span> (Exception <span class="php-var">$exc</span>) {
-</span><span id="229" class="l"><a class="l" href="#229">229: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">FALSE</span>;
-</span><span id="230" class="l"><a class="l" href="#230">230: </a>        }
-</span><span id="231" class="l"><a class="l" href="#231">231: </a>    }
-</span><span id="232" class="l"><a class="l" href="#232">232: </a>    
-</span><span id="233" class="l"><a class="l" href="#233">233: </a>    <span class="php-comment">/**
-</span></span><span id="234" class="l"><a class="l" href="#234">234: </a><span class="php-comment">     * Delete an existing provider record from the database.
-</span></span><span id="235" class="l"><a class="l" href="#235">235: </a><span class="php-comment">     * 
-</span></span><span id="236" class="l"><a class="l" href="#236">236: </a><span class="php-comment">     * @param numeric $customer_id The record id to be deleted.
-</span></span><span id="237" class="l"><a class="l" href="#237">237: </a><span class="php-comment">     * @return bool Returns the delete operation result.
-</span></span><span id="238" class="l"><a class="l" href="#238">238: </a><span class="php-comment">     * @throws Exception When the provider id value is not numeric.
-</span></span><span id="239" class="l"><a class="l" href="#239">239: </a><span class="php-comment">     */</span>
-</span><span id="240" class="l"><a class="l" href="#240">240: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <span class="php-keyword2">delete</span>(<span class="php-var">$provider_id</span>) {
-</span><span id="241" class="l"><a class="l" href="#241">241: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
-</span><span id="242" class="l"><a class="l" href="#242">242: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument type $provider_id : '</span> . <span class="php-var">$provider_id</span>);
-</span><span id="243" class="l"><a class="l" href="#243">243: </a>        }
-</span><span id="244" class="l"><a class="l" href="#244">244: </a>        
-</span><span id="245" class="l"><a class="l" href="#245">245: </a>        <span class="php-var">$num_rows</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;num_rows();
-</span><span id="246" class="l"><a class="l" href="#246">246: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$num_rows</span> == <span class="php-num">0</span>) {
-</span><span id="247" class="l"><a class="l" href="#247">247: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">FALSE</span>; <span class="php-comment">// Record does not exist in database.</span>
-</span><span id="248" class="l"><a class="l" href="#248">248: </a>        }
-</span><span id="249" class="l"><a class="l" href="#249">249: </a>        
-</span><span id="250" class="l"><a class="l" href="#250">250: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;db-&gt;<span class="php-keyword2">delete</span>(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>));
-</span><span id="251" class="l"><a class="l" href="#251">251: </a>    }
-</span><span id="252" class="l"><a class="l" href="#252">252: </a>    
-</span><span id="253" class="l"><a class="l" href="#253">253: </a>    <span class="php-comment">/**
-</span></span><span id="254" class="l"><a class="l" href="#254">254: </a><span class="php-comment">     * Get a specific provider record from the database.
-</span></span><span id="255" class="l"><a class="l" href="#255">255: </a><span class="php-comment">     * 
-</span></span><span id="256" class="l"><a class="l" href="#256">256: </a><span class="php-comment">     * @param int $provider_id The id of the record to be returned.
-</span></span><span id="257" class="l"><a class="l" href="#257">257: </a><span class="php-comment">     * @return array Returns an associative array with the selected record's data. Each key 
-</span></span><span id="258" class="l"><a class="l" href="#258">258: </a><span class="php-comment">     * has the same name as the database field names.
-</span></span><span id="259" class="l"><a class="l" href="#259">259: </a><span class="php-comment">     * @throws Exception When the selected record does not exist in database.
-</span></span><span id="260" class="l"><a class="l" href="#260">260: </a><span class="php-comment">     */</span>
-</span><span id="261" class="l"><a class="l" href="#261">261: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_row" href="#_get_row">get_row</a>(<span class="php-var">$provider_id</span>) {
-</span><span id="262" class="l"><a class="l" href="#262">262: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
-</span><span id="263" class="l"><a class="l" href="#263">263: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'$provider_id argument is not a valid numeric value: '</span> . <span class="php-var">$provider_id</span>);
-</span><span id="264" class="l"><a class="l" href="#264">264: </a>        }
-</span><span id="265" class="l"><a class="l" href="#265">265: </a>        
-</span><span id="266" class="l"><a class="l" href="#266">266: </a>        <span class="php-comment">// Check if selected record exists on database. </span>
-</span><span id="267" class="l"><a class="l" href="#267">267: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;num_rows() == <span class="php-num">0</span>) {
-</span><span id="268" class="l"><a class="l" href="#268">268: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Selected record does not exist in the database.'</span>);
-</span><span id="269" class="l"><a class="l" href="#269">269: </a>        }
-</span><span id="270" class="l"><a class="l" href="#270">270: </a>        
-</span><span id="271" class="l"><a class="l" href="#271">271: </a>        <span class="php-comment">// Get provider data.</span>
-</span><span id="272" class="l"><a class="l" href="#272">272: </a>        <span class="php-var">$provider</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;row_array();
-</span><span id="273" class="l"><a class="l" href="#273">273: </a>        
-</span><span id="274" class="l"><a class="l" href="#274">274: </a>       
-</span><span id="275" class="l"><a class="l" href="#275">275: </a>        <span class="php-comment">// Include provider services.</span>
-</span><span id="276" class="l"><a class="l" href="#276">276: </a>        <span class="php-var">$services</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_services_providers'</span>, 
-</span><span id="277" class="l"><a class="l" href="#277">277: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;result_array();
-</span><span id="278" class="l"><a class="l" href="#278">278: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] = <span class="php-keyword1">array</span>();
-</span><span id="279" class="l"><a class="l" href="#279">279: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service</span>) {
-</span><span id="280" class="l"><a class="l" href="#280">280: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>][] = <span class="php-var">$service</span>[<span class="php-quote">'id_services'</span>];
-</span><span id="281" class="l"><a class="l" href="#281">281: </a>        }
-</span><span id="282" class="l"><a class="l" href="#282">282: </a>
-</span><span id="283" class="l"><a class="l" href="#283">283: </a>        <span class="php-comment">// Include provider settings.</span>
-</span><span id="284" class="l"><a class="l" href="#284">284: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
-</span><span id="285" class="l"><a class="l" href="#285">285: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;row_array();
-</span><span id="286" class="l"><a class="l" href="#286">286: </a>        <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'id_users'</span>]);
-</span><span id="287" class="l"><a class="l" href="#287">287: </a>
-</span><span id="288" class="l"><a class="l" href="#288">288: </a>        <span class="php-comment">// Return provider data array.</span>
-</span><span id="289" class="l"><a class="l" href="#289">289: </a>        <span class="php-keyword1">return</span> <span class="php-var">$provider</span>;
-</span><span id="290" class="l"><a class="l" href="#290">290: </a>    }
-</span><span id="291" class="l"><a class="l" href="#291">291: </a>    
-</span><span id="292" class="l"><a class="l" href="#292">292: </a>    <span class="php-comment">/**
-</span></span><span id="293" class="l"><a class="l" href="#293">293: </a><span class="php-comment">     * Get a specific field value from the database.
-</span></span><span id="294" class="l"><a class="l" href="#294">294: </a><span class="php-comment">     * 
-</span></span><span id="295" class="l"><a class="l" href="#295">295: </a><span class="php-comment">     * @param string $field_name The field name of the value to be returned.
-</span></span><span id="296" class="l"><a class="l" href="#296">296: </a><span class="php-comment">     * @param numeric $provider_id Record id of the value to be returned.
-</span></span><span id="297" class="l"><a class="l" href="#297">297: </a><span class="php-comment">     * @return string Returns the selected record value from the database.
-</span></span><span id="298" class="l"><a class="l" href="#298">298: </a><span class="php-comment">     * @throws Exception When the $field_name argument is not a valid string.
-</span></span><span id="299" class="l"><a class="l" href="#299">299: </a><span class="php-comment">     * @throws Exception When the $admin_id is not a valid numeric.
-</span></span><span id="300" class="l"><a class="l" href="#300">300: </a><span class="php-comment">     * @throws Exception When the admin record does not exist in the database.
-</span></span><span id="301" class="l"><a class="l" href="#301">301: </a><span class="php-comment">     * @throws Exception When the selected field value is not present on database.
-</span></span><span id="302" class="l"><a class="l" href="#302">302: </a><span class="php-comment">     */</span>
-</span><span id="303" class="l"><a class="l" href="#303">303: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_value" href="#_get_value">get_value</a>(<span class="php-var">$field_name</span>, <span class="php-var">$provider_id</span>) {
-</span><span id="304" class="l"><a class="l" href="#304">304: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
-</span><span id="305" class="l"><a class="l" href="#305">305: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument provided as $provider_id : '</span> . <span class="php-var">$provider_id</span>);
-</span><span id="306" class="l"><a class="l" href="#306">306: </a>        }
-</span><span id="307" class="l"><a class="l" href="#307">307: </a>        
-</span><span id="308" class="l"><a class="l" href="#308">308: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_string</span>(<span class="php-var">$field_name</span>)) {
-</span><span id="309" class="l"><a class="l" href="#309">309: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'$field_name argument is not a string : '</span> . <span class="php-var">$field_name</span>);
-</span><span id="310" class="l"><a class="l" href="#310">310: </a>        }
-</span><span id="311" class="l"><a class="l" href="#311">311: </a>        
-</span><span id="312" class="l"><a class="l" href="#312">312: </a>        <span class="php-comment">// Check whether the admin record exists in database.</span>
-</span><span id="313" class="l"><a class="l" href="#313">313: </a>        <span class="php-var">$result</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>));
-</span><span id="314" class="l"><a class="l" href="#314">314: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$result</span>-&gt;num_rows() == <span class="php-num">0</span>) {
-</span><span id="315" class="l"><a class="l" href="#315">315: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'The record with the $provider_id argument does not exist in '</span>
-</span><span id="316" class="l"><a class="l" href="#316">316: </a>                    . <span class="php-quote">'the database : '</span> . <span class="php-var">$provider_id</span>);
-</span><span id="317" class="l"><a class="l" href="#317">317: </a>        }
-</span><span id="318" class="l"><a class="l" href="#318">318: </a>        
-</span><span id="319" class="l"><a class="l" href="#319">319: </a>        <span class="php-var">$provider</span> = <span class="php-var">$result</span>-&gt;row_array();
-</span><span id="320" class="l"><a class="l" href="#320">320: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-var">$field_name</span>])) {
-</span><span id="321" class="l"><a class="l" href="#321">321: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'The given $field_name argument does not exist in the '</span>
-</span><span id="322" class="l"><a class="l" href="#322">322: </a>                    . <span class="php-quote">'database : '</span> . <span class="php-var">$field_name</span>);
-</span><span id="323" class="l"><a class="l" href="#323">323: </a>        }
-</span><span id="324" class="l"><a class="l" href="#324">324: </a>        
-</span><span id="325" class="l"><a class="l" href="#325">325: </a>        <span class="php-keyword1">return</span> <span class="php-var">$provider</span>[<span class="php-var">$field_name</span>];
-</span><span id="326" class="l"><a class="l" href="#326">326: </a>    }
-</span><span id="327" class="l"><a class="l" href="#327">327: </a>    
-</span><span id="328" class="l"><a class="l" href="#328">328: </a>    <span class="php-comment">/**
-</span></span><span id="329" class="l"><a class="l" href="#329">329: </a><span class="php-comment">     * Get all, or specific records from provider's table.
-</span></span><span id="330" class="l"><a class="l" href="#330">330: </a><span class="php-comment">     * 
-</span></span><span id="331" class="l"><a class="l" href="#331">331: </a><span class="php-comment">     * @example $this-&gt;Model-&gt;get_batch('id = ' . $recordId);
-</span></span><span id="332" class="l"><a class="l" href="#332">332: </a><span class="php-comment">     * 
-</span></span><span id="333" class="l"><a class="l" href="#333">333: </a><span class="php-comment">     * @param mixed $where_clause (OPTIONAL) The WHERE clause of the query to be executed.
-</span></span><span id="334" class="l"><a class="l" href="#334">334: </a><span class="php-comment">     * 
-</span></span><span id="335" class="l"><a class="l" href="#335">335: </a><span class="php-comment">     * NOTICE: DO NOT INCLUDE 'WHERE' KEYWORD.
-</span></span><span id="336" class="l"><a class="l" href="#336">336: </a><span class="php-comment">     * 
-</span></span><span id="337" class="l"><a class="l" href="#337">337: </a><span class="php-comment">     * @return array Returns the rows from the database.
-</span></span><span id="338" class="l"><a class="l" href="#338">338: </a><span class="php-comment">     */</span>
-</span><span id="339" class="l"><a class="l" href="#339">339: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_batch" href="#_get_batch">get_batch</a>(<span class="php-var">$where_clause</span> = <span class="php-quote">''</span>) {        
-</span><span id="340" class="l"><a class="l" href="#340">340: </a>        <span class="php-comment">// CI db class may confuse two where clauses made in the same time, so </span>
-</span><span id="341" class="l"><a class="l" href="#341">341: </a>        <span class="php-comment">// get the role id first and then apply the get_batch() where clause.</span>
-</span><span id="342" class="l"><a class="l" href="#342">342: </a>        <span class="php-var">$role_id</span> = <span class="php-var">$this</span>-&gt;get_providers_role_id();
-</span><span id="343" class="l"><a class="l" href="#343">343: </a>        
-</span><span id="344" class="l"><a class="l" href="#344">344: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$where_clause</span> != <span class="php-quote">''</span>) {
-</span><span id="345" class="l"><a class="l" href="#345">345: </a>            <span class="php-var">$this</span>-&gt;db-&gt;where(<span class="php-var">$where_clause</span>);
-</span><span id="346" class="l"><a class="l" href="#346">346: </a>        }
-</span><span id="347" class="l"><a class="l" href="#347">347: </a>        
-</span><span id="348" class="l"><a class="l" href="#348">348: </a>        <span class="php-var">$batch</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, 
-</span><span id="349" class="l"><a class="l" href="#349">349: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_roles'</span> =&gt; <span class="php-var">$role_id</span>))-&gt;result_array();
-</span><span id="350" class="l"><a class="l" href="#350">350: </a>       
-</span><span id="351" class="l"><a class="l" href="#351">351: </a>        <span class="php-comment">// Include each provider sevices and settings.</span>
-</span><span id="352" class="l"><a class="l" href="#352">352: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$batch</span> <span class="php-keyword1">as</span> &amp;<span class="php-var">$provider</span>) {
-</span><span id="353" class="l"><a class="l" href="#353">353: </a>            <span class="php-comment">// Services</span>
-</span><span id="354" class="l"><a class="l" href="#354">354: </a>            <span class="php-var">$services</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_services_providers'</span>, 
-</span><span id="355" class="l"><a class="l" href="#355">355: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;result_array();
-</span><span id="356" class="l"><a class="l" href="#356">356: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] = <span class="php-keyword1">array</span>();
-</span><span id="357" class="l"><a class="l" href="#357">357: </a>            <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service</span>) {
-</span><span id="358" class="l"><a class="l" href="#358">358: </a>                <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>][] = <span class="php-var">$service</span>[<span class="php-quote">'id_services'</span>];
-</span><span id="359" class="l"><a class="l" href="#359">359: </a>            }
-</span><span id="360" class="l"><a class="l" href="#360">360: </a>            
-</span><span id="361" class="l"><a class="l" href="#361">361: </a>            <span class="php-comment">// Settings</span>
-</span><span id="362" class="l"><a class="l" href="#362">362: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
-</span><span id="363" class="l"><a class="l" href="#363">363: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;row_array();
-</span><span id="364" class="l"><a class="l" href="#364">364: </a>            <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'id_users'</span>]);
-</span><span id="365" class="l"><a class="l" href="#365">365: </a>        }
-</span><span id="366" class="l"><a class="l" href="#366">366: </a>        
-</span><span id="367" class="l"><a class="l" href="#367">367: </a>        <span class="php-comment">// Return provider records in an array.</span>
-</span><span id="368" class="l"><a class="l" href="#368">368: </a>        <span class="php-keyword1">return</span> <span class="php-var">$batch</span>;
-</span><span id="369" class="l"><a class="l" href="#369">369: </a>    }
-</span><span id="370" class="l"><a class="l" href="#370">370: </a>    
-</span><span id="371" class="l"><a class="l" href="#371">371: </a>    <span class="php-comment">/**
-</span></span><span id="372" class="l"><a class="l" href="#372">372: </a><span class="php-comment">     * Get the available system providers.
-</span></span><span id="373" class="l"><a class="l" href="#373">373: </a><span class="php-comment">     * 
-</span></span><span id="374" class="l"><a class="l" href="#374">374: </a><span class="php-comment">     * This method returns the available providers and the services that can 
-</span></span><span id="375" class="l"><a class="l" href="#375">375: </a><span class="php-comment">     * provide.
-</span></span><span id="376" class="l"><a class="l" href="#376">376: </a><span class="php-comment">     * 
-</span></span><span id="377" class="l"><a class="l" href="#377">377: </a><span class="php-comment">     * @return array Returns an array with the providers data.
-</span></span><span id="378" class="l"><a class="l" href="#378">378: </a><span class="php-comment">     * 
-</span></span><span id="379" class="l"><a class="l" href="#379">379: </a><span class="php-comment">     * @deprecated since version 0.5 - Use get_batch() instead.
-</span></span><span id="380" class="l"><a class="l" href="#380">380: </a><span class="php-comment">     */</span>
-</span><span id="381" class="l"><a class="l" href="#381">381: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_available_providers" href="#_get_available_providers">get_available_providers</a>() {
-</span><span id="382" class="l"><a class="l" href="#382">382: </a>        <span class="php-comment">// Get provider records from database.</span>
-</span><span id="383" class="l"><a class="l" href="#383">383: </a>        <span class="php-var">$this</span>-&gt;db
-</span><span id="384" class="l"><a class="l" href="#384">384: </a>                -&gt;select(<span class="php-quote">'ea_users.*'</span>)
-</span><span id="385" class="l"><a class="l" href="#385">385: </a>                -&gt;from(<span class="php-quote">'ea_users'</span>)  
-</span><span id="386" class="l"><a class="l" href="#386">386: </a>                -&gt;<span class="php-keyword2">join</span>(<span class="php-quote">'ea_roles'</span>, <span class="php-quote">'ea_roles.id = ea_users.id_roles'</span>, <span class="php-quote">'inner'</span>)
-</span><span id="387" class="l"><a class="l" href="#387">387: </a>                -&gt;where(<span class="php-quote">'ea_roles.slug'</span>, DB_SLUG_PROVIDER);
-</span><span id="388" class="l"><a class="l" href="#388">388: </a>        
-</span><span id="389" class="l"><a class="l" href="#389">389: </a>        <span class="php-var">$providers</span> = <span class="php-var">$this</span>-&gt;db-&gt;get()-&gt;result_array();
-</span><span id="390" class="l"><a class="l" href="#390">390: </a>        
-</span><span id="391" class="l"><a class="l" href="#391">391: </a>        <span class="php-comment">// Include each provider services and settings.</span>
-</span><span id="392" class="l"><a class="l" href="#392">392: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$providers</span> <span class="php-keyword1">as</span> &amp;<span class="php-var">$provider</span>) {
-</span><span id="393" class="l"><a class="l" href="#393">393: </a>            <span class="php-comment">// Services</span>
-</span><span id="394" class="l"><a class="l" href="#394">394: </a>            <span class="php-var">$services</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_services_providers'</span>, 
-</span><span id="395" class="l"><a class="l" href="#395">395: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;result_array();
-</span><span id="396" class="l"><a class="l" href="#396">396: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] = <span class="php-keyword1">array</span>();
-</span><span id="397" class="l"><a class="l" href="#397">397: </a>            <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service</span>) {
-</span><span id="398" class="l"><a class="l" href="#398">398: </a>                <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>][] = <span class="php-var">$service</span>[<span class="php-quote">'id_services'</span>];
-</span><span id="399" class="l"><a class="l" href="#399">399: </a>            }
-</span><span id="400" class="l"><a class="l" href="#400">400: </a>            
-</span><span id="401" class="l"><a class="l" href="#401">401: </a>            <span class="php-comment">// Settings</span>
-</span><span id="402" class="l"><a class="l" href="#402">402: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
-</span><span id="403" class="l"><a class="l" href="#403">403: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;row_array();
-</span><span id="404" class="l"><a class="l" href="#404">404: </a>            <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'id_users'</span>]);
-</span><span id="405" class="l"><a class="l" href="#405">405: </a>        }
-</span><span id="406" class="l"><a class="l" href="#406">406: </a>        
-</span><span id="407" class="l"><a class="l" href="#407">407: </a>        <span class="php-comment">// Return provider records.</span>
-</span><span id="408" class="l"><a class="l" href="#408">408: </a>        <span class="php-keyword1">return</span> <span class="php-var">$providers</span>;
-</span><span id="409" class="l"><a class="l" href="#409">409: </a>    }
-</span><span id="410" class="l"><a class="l" href="#410">410: </a>    
-</span><span id="411" class="l"><a class="l" href="#411">411: </a>    <span class="php-comment">/**
-</span></span><span id="412" class="l"><a class="l" href="#412">412: </a><span class="php-comment">     * Get the providers role id from the database.
-</span></span><span id="413" class="l"><a class="l" href="#413">413: </a><span class="php-comment">     * 
-</span></span><span id="414" class="l"><a class="l" href="#414">414: </a><span class="php-comment">     * @return int Returns the role id for the provider records.
-</span></span><span id="415" class="l"><a class="l" href="#415">415: </a><span class="php-comment">     */</span>
-</span><span id="416" class="l"><a class="l" href="#416">416: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_providers_role_id" href="#_get_providers_role_id">get_providers_role_id</a>() {       
-</span><span id="417" class="l"><a class="l" href="#417">417: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_roles'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'slug'</span> =&gt; DB_SLUG_PROVIDER))-&gt;row()-&gt;id;        
-</span><span id="418" class="l"><a class="l" href="#418">418: </a>    }
-</span><span id="419" class="l"><a class="l" href="#419">419: </a>    
-</span><span id="420" class="l"><a class="l" href="#420">420: </a>    <span class="php-comment">/**
-</span></span><span id="421" class="l"><a class="l" href="#421">421: </a><span class="php-comment">     * Get a providers setting from the database.
-</span></span><span id="422" class="l"><a class="l" href="#422">422: </a><span class="php-comment">     * 
-</span></span><span id="423" class="l"><a class="l" href="#423">423: </a><span class="php-comment">     * @param string $setting_name The setting name that is going to be
-</span></span><span id="424" class="l"><a class="l" href="#424">424: </a><span class="php-comment">     * returned.
-</span></span><span id="425" class="l"><a class="l" href="#425">425: </a><span class="php-comment">     * @param int $provider_id The selected provider id.
-</span></span><span id="426" class="l"><a class="l" href="#426">426: </a><span class="php-comment">     * @return string Returs the value of the selected user setting.
-</span></span><span id="427" class="l"><a class="l" href="#427">427: </a><span class="php-comment">     */</span>
-</span><span id="428" class="l"><a class="l" href="#428">428: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_setting" href="#_get_setting">get_setting</a>(<span class="php-var">$setting_name</span>, <span class="php-var">$provider_id</span>) {
-</span><span id="429" class="l"><a class="l" href="#429">429: </a>        <span class="php-var">$provider_settings</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
-</span><span id="430" class="l"><a class="l" href="#430">430: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;row_array();
-</span><span id="431" class="l"><a class="l" href="#431">431: </a>        <span class="php-keyword1">return</span> <span class="php-var">$provider_settings</span>[<span class="php-var">$setting_name</span>];
+</span><span id="115" class="l"><a class="l" href="#115">115: </a>        <span class="php-var">$settings</span>[<span class="php-quote">'salt'</span>] = generate_salt();
+</span><span id="116" class="l"><a class="l" href="#116">116: </a>        <span class="php-var">$settings</span>[<span class="php-quote">'password'</span>] = hash_password(<span class="php-var">$settings</span>[<span class="php-quote">'salt'</span>], <span class="php-var">$settings</span>[<span class="php-quote">'password'</span>]);
+</span><span id="117" class="l"><a class="l" href="#117">117: </a>        
+</span><span id="118" class="l"><a class="l" href="#118">118: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;insert_id();
+</span><span id="119" class="l"><a class="l" href="#119">119: </a>        <span class="php-var">$this</span>-&gt;save_settings(<span class="php-var">$settings</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="120" class="l"><a class="l" href="#120">120: </a>        <span class="php-var">$this</span>-&gt;save_services(<span class="php-var">$services</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="121" class="l"><a class="l" href="#121">121: </a>        
+</span><span id="122" class="l"><a class="l" href="#122">122: </a>        <span class="php-comment">// Return the new record id.</span>
+</span><span id="123" class="l"><a class="l" href="#123">123: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="124" class="l"><a class="l" href="#124">124: </a>    }   
+</span><span id="125" class="l"><a class="l" href="#125">125: </a>    
+</span><span id="126" class="l"><a class="l" href="#126">126: </a>    <span class="php-comment">/**
+</span></span><span id="127" class="l"><a class="l" href="#127">127: </a><span class="php-comment">     * Update an existing provider record in the database.
+</span></span><span id="128" class="l"><a class="l" href="#128">128: </a><span class="php-comment">     * 
+</span></span><span id="129" class="l"><a class="l" href="#129">129: </a><span class="php-comment">     * @param array $provider Contains the provider data.
+</span></span><span id="130" class="l"><a class="l" href="#130">130: </a><span class="php-comment">     * @return int Returns the record id.
+</span></span><span id="131" class="l"><a class="l" href="#131">131: </a><span class="php-comment">     * @throws Exception When the update operation fails.
+</span></span><span id="132" class="l"><a class="l" href="#132">132: </a><span class="php-comment">     */</span>
+</span><span id="133" class="l"><a class="l" href="#133">133: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_update" href="#_update">update</a>(<span class="php-var">$provider</span>) {
+</span><span id="134" class="l"><a class="l" href="#134">134: </a>        <span class="php-var">$this</span>-&gt;load-&gt;helper(<span class="php-quote">'general'</span>);
+</span><span id="135" class="l"><a class="l" href="#135">135: </a>        
+</span><span id="136" class="l"><a class="l" href="#136">136: </a>        <span class="php-comment">// Store service and settings (must not be present on the $provider array).</span>
+</span><span id="137" class="l"><a class="l" href="#137">137: </a>        <span class="php-var">$services</span> = <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>];
+</span><span id="138" class="l"><a class="l" href="#138">138: </a>        <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>]);
+</span><span id="139" class="l"><a class="l" href="#139">139: </a>        <span class="php-var">$settings</span> = <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>];
+</span><span id="140" class="l"><a class="l" href="#140">140: </a>        <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>]);
+</span><span id="141" class="l"><a class="l" href="#141">141: </a>        
+</span><span id="142" class="l"><a class="l" href="#142">142: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$settings</span>[<span class="php-quote">'password'</span>])) {
+</span><span id="143" class="l"><a class="l" href="#143">143: </a>            <span class="php-var">$salt</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;row()-&gt;salt;
+</span><span id="144" class="l"><a class="l" href="#144">144: </a>            <span class="php-var">$settings</span>[<span class="php-quote">'password'</span>] = hash_password(<span class="php-var">$salt</span>, <span class="php-var">$settings</span>[<span class="php-quote">'password'</span>]);
+</span><span id="145" class="l"><a class="l" href="#145">145: </a>        }
+</span><span id="146" class="l"><a class="l" href="#146">146: </a>        
+</span><span id="147" class="l"><a class="l" href="#147">147: </a>        <span class="php-comment">// Update provider record.</span>
+</span><span id="148" class="l"><a class="l" href="#148">148: </a>        <span class="php-var">$this</span>-&gt;db-&gt;where(<span class="php-quote">'id'</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="149" class="l"><a class="l" href="#149">149: </a>        <span class="php-keyword1">if</span> (!<span class="php-var">$this</span>-&gt;db-&gt;update(<span class="php-quote">'ea_users'</span>, <span class="php-var">$provider</span>)) {
+</span><span id="150" class="l"><a class="l" href="#150">150: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Could not update provider record.'</span>);
+</span><span id="151" class="l"><a class="l" href="#151">151: </a>        }
+</span><span id="152" class="l"><a class="l" href="#152">152: </a>        
+</span><span id="153" class="l"><a class="l" href="#153">153: </a>        <span class="php-var">$this</span>-&gt;save_services(<span class="php-var">$services</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="154" class="l"><a class="l" href="#154">154: </a>        <span class="php-var">$this</span>-&gt;save_settings(<span class="php-var">$settings</span>, <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="155" class="l"><a class="l" href="#155">155: </a>        
+</span><span id="156" class="l"><a class="l" href="#156">156: </a>        <span class="php-comment">// Return record id.</span>
+</span><span id="157" class="l"><a class="l" href="#157">157: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]);
+</span><span id="158" class="l"><a class="l" href="#158">158: </a>    }
+</span><span id="159" class="l"><a class="l" href="#159">159: </a>    
+</span><span id="160" class="l"><a class="l" href="#160">160: </a>    <span class="php-comment">/**
+</span></span><span id="161" class="l"><a class="l" href="#161">161: </a><span class="php-comment">     * Find the database record id of a provider.
+</span></span><span id="162" class="l"><a class="l" href="#162">162: </a><span class="php-comment">     * 
+</span></span><span id="163" class="l"><a class="l" href="#163">163: </a><span class="php-comment">     * @param array $provider Contains the provider data. The 'email' value is required
+</span></span><span id="164" class="l"><a class="l" href="#164">164: </a><span class="php-comment">     * in order to find the record id.
+</span></span><span id="165" class="l"><a class="l" href="#165">165: </a><span class="php-comment">     * @return int Returns the record id.
+</span></span><span id="166" class="l"><a class="l" href="#166">166: </a><span class="php-comment">     * @throws Exception When the provider's email value is not provided.
+</span></span><span id="167" class="l"><a class="l" href="#167">167: </a><span class="php-comment">     */</span>
+</span><span id="168" class="l"><a class="l" href="#168">168: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_find_record_id" href="#_find_record_id">find_record_id</a>(<span class="php-var">$provider</span>) {
+</span><span id="169" class="l"><a class="l" href="#169">169: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])) {
+</span><span id="170" class="l"><a class="l" href="#170">170: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provider email was not provided :'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="171" class="l"><a class="l" href="#171">171: </a>        }
+</span><span id="172" class="l"><a class="l" href="#172">172: </a>        
+</span><span id="173" class="l"><a class="l" href="#173">173: </a>        <span class="php-var">$result</span> = <span class="php-var">$this</span>-&gt;db
+</span><span id="174" class="l"><a class="l" href="#174">174: </a>                -&gt;select(<span class="php-quote">'ea_users.id'</span>)
+</span><span id="175" class="l"><a class="l" href="#175">175: </a>                -&gt;from(<span class="php-quote">'ea_users'</span>)
+</span><span id="176" class="l"><a class="l" href="#176">176: </a>                -&gt;<span class="php-keyword2">join</span>(<span class="php-quote">'ea_roles'</span>, <span class="php-quote">'ea_roles.id = ea_users.id_roles'</span>, <span class="php-quote">'inner'</span>)
+</span><span id="177" class="l"><a class="l" href="#177">177: </a>                -&gt;where(<span class="php-quote">'ea_users.email'</span>, <span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])
+</span><span id="178" class="l"><a class="l" href="#178">178: </a>                -&gt;where(<span class="php-quote">'ea_roles.slug'</span>, DB_SLUG_PROVIDER)
+</span><span id="179" class="l"><a class="l" href="#179">179: </a>                -&gt;get();
+</span><span id="180" class="l"><a class="l" href="#180">180: </a>        
+</span><span id="181" class="l"><a class="l" href="#181">181: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$result</span>-&gt;num_rows() == <span class="php-num">0</span>) {
+</span><span id="182" class="l"><a class="l" href="#182">182: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Could not find provider record id.'</span>);
+</span><span id="183" class="l"><a class="l" href="#183">183: </a>        }
+</span><span id="184" class="l"><a class="l" href="#184">184: </a>        
+</span><span id="185" class="l"><a class="l" href="#185">185: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">intval</span>(<span class="php-var">$result</span>-&gt;row()-&gt;id);
+</span><span id="186" class="l"><a class="l" href="#186">186: </a>    }
+</span><span id="187" class="l"><a class="l" href="#187">187: </a>    
+</span><span id="188" class="l"><a class="l" href="#188">188: </a>    <span class="php-comment">/**
+</span></span><span id="189" class="l"><a class="l" href="#189">189: </a><span class="php-comment">     * Validate provider data before the insert or  update operation is executed.
+</span></span><span id="190" class="l"><a class="l" href="#190">190: </a><span class="php-comment">     * 
+</span></span><span id="191" class="l"><a class="l" href="#191">191: </a><span class="php-comment">     * @param array $provider Contains the provider data.
+</span></span><span id="192" class="l"><a class="l" href="#192">192: </a><span class="php-comment">     * @return bool Returns the validation result.
+</span></span><span id="193" class="l"><a class="l" href="#193">193: </a><span class="php-comment">     */</span>
+</span><span id="194" class="l"><a class="l" href="#194">194: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_validate" href="#_validate">validate</a>(<span class="php-var">$provider</span>) {
+</span><span id="195" class="l"><a class="l" href="#195">195: </a>        <span class="php-var">$this</span>-&gt;load-&gt;helper(<span class="php-quote">'data_validation'</span>);
+</span><span id="196" class="l"><a class="l" href="#196">196: </a>        
+</span><span id="197" class="l"><a class="l" href="#197">197: </a>        <span class="php-comment">// If a provider id is present, check whether the record exist in the database.</span>
+</span><span id="198" class="l"><a class="l" href="#198">198: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'id'</span>])) {
+</span><span id="199" class="l"><a class="l" href="#199">199: </a>            <span class="php-var">$num_rows</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, 
+</span><span id="200" class="l"><a class="l" href="#200">200: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;num_rows();
+</span><span id="201" class="l"><a class="l" href="#201">201: </a>            <span class="php-keyword1">if</span> (<span class="php-var">$num_rows</span> == <span class="php-num">0</span>) {
+</span><span id="202" class="l"><a class="l" href="#202">202: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Provided record id does not exist in the database.'</span>);
+</span><span id="203" class="l"><a class="l" href="#203">203: </a>            }
+</span><span id="204" class="l"><a class="l" href="#204">204: </a>        }
+</span><span id="205" class="l"><a class="l" href="#205">205: </a>
+</span><span id="206" class="l"><a class="l" href="#206">206: </a>        <span class="php-comment">// Validate required fields.</span>
+</span><span id="207" class="l"><a class="l" href="#207">207: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'last_name'</span>])
+</span><span id="208" class="l"><a class="l" href="#208">208: </a>                || !<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>])
+</span><span id="209" class="l"><a class="l" href="#209">209: </a>                || !<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'phone_number'</span>])) { 
+</span><span id="210" class="l"><a class="l" href="#210">210: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Not all required fields are provided : '</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="211" class="l"><a class="l" href="#211">211: </a>        }
+</span><span id="212" class="l"><a class="l" href="#212">212: </a>
+</span><span id="213" class="l"><a class="l" href="#213">213: </a>        <span class="php-comment">// Validate provider email address.</span>
+</span><span id="214" class="l"><a class="l" href="#214">214: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">filter_var</span>(<span class="php-var">$provider</span>[<span class="php-quote">'email'</span>], FILTER_VALIDATE_EMAIL)) {
+</span><span id="215" class="l"><a class="l" href="#215">215: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid email address provided : '</span> . <span class="php-var">$provider</span>[<span class="php-quote">'email'</span>]);
+</span><span id="216" class="l"><a class="l" href="#216">216: </a>        }
+</span><span id="217" class="l"><a class="l" href="#217">217: </a>
+</span><span id="218" class="l"><a class="l" href="#218">218: </a>        <span class="php-comment">// Validate provider services.</span>
+</span><span id="219" class="l"><a class="l" href="#219">219: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>]) || !<span class="php-keyword2">is_array</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>])) {
+</span><span id="220" class="l"><a class="l" href="#220">220: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid provider services given: '</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="221" class="l"><a class="l" href="#221">221: </a>        } <span class="php-keyword1">else</span> { <span class="php-comment">// Check if services are valid numeric values.</span>
+</span><span id="222" class="l"><a class="l" href="#222">222: </a>            <span class="php-keyword1">foreach</span>(<span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] <span class="php-keyword1">as</span> <span class="php-var">$service_id</span>) {
+</span><span id="223" class="l"><a class="l" href="#223">223: </a>                <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$service_id</span>)) {
+</span><span id="224" class="l"><a class="l" href="#224">224: </a>                    <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'A provider service with invalid id was found: '</span> 
+</span><span id="225" class="l"><a class="l" href="#225">225: </a>                            . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="226" class="l"><a class="l" href="#226">226: </a>                }
+</span><span id="227" class="l"><a class="l" href="#227">227: </a>            }
+</span><span id="228" class="l"><a class="l" href="#228">228: </a>        }
+</span><span id="229" class="l"><a class="l" href="#229">229: </a>
+</span><span id="230" class="l"><a class="l" href="#230">230: </a>        <span class="php-comment">// Validate provider settings.</span>
+</span><span id="231" class="l"><a class="l" href="#231">231: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>]) || <span class="php-keyword2">count</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>]) == <span class="php-num">0</span>
+</span><span id="232" class="l"><a class="l" href="#232">232: </a>                || !<span class="php-keyword2">is_array</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>])) {
+</span><span id="233" class="l"><a class="l" href="#233">233: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid provider settings given: '</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$provider</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="234" class="l"><a class="l" href="#234">234: </a>        }
+</span><span id="235" class="l"><a class="l" href="#235">235: </a>
+</span><span id="236" class="l"><a class="l" href="#236">236: </a>        <span class="php-comment">// Validate admin password</span>
+</span><span id="237" class="l"><a class="l" href="#237">237: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'password'</span>])) {
+</span><span id="238" class="l"><a class="l" href="#238">238: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">strlen</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'password'</span>]) &lt; MIN_PASSWORD_LENGTH) {
+</span><span id="239" class="l"><a class="l" href="#239">239: </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'The user password must be at least '</span> 
+</span><span id="240" class="l"><a class="l" href="#240">240: </a>                        . MIN_PASSWORD_LENGTH . <span class="php-quote">' characters long.'</span>);
+</span><span id="241" class="l"><a class="l" href="#241">241: </a>            }
+</span><span id="242" class="l"><a class="l" href="#242">242: </a>        }
+</span><span id="243" class="l"><a class="l" href="#243">243: </a>
+</span><span id="244" class="l"><a class="l" href="#244">244: </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">TRUE</span>;
+</span><span id="245" class="l"><a class="l" href="#245">245: </a>    }
+</span><span id="246" class="l"><a class="l" href="#246">246: </a>    
+</span><span id="247" class="l"><a class="l" href="#247">247: </a>    <span class="php-comment">/**
+</span></span><span id="248" class="l"><a class="l" href="#248">248: </a><span class="php-comment">     * Delete an existing provider record from the database.
+</span></span><span id="249" class="l"><a class="l" href="#249">249: </a><span class="php-comment">     * 
+</span></span><span id="250" class="l"><a class="l" href="#250">250: </a><span class="php-comment">     * @param numeric $customer_id The record id to be deleted.
+</span></span><span id="251" class="l"><a class="l" href="#251">251: </a><span class="php-comment">     * @return bool Returns the delete operation result.
+</span></span><span id="252" class="l"><a class="l" href="#252">252: </a><span class="php-comment">     * @throws Exception When the provider id value is not numeric.
+</span></span><span id="253" class="l"><a class="l" href="#253">253: </a><span class="php-comment">     */</span>
+</span><span id="254" class="l"><a class="l" href="#254">254: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <span class="php-keyword2">delete</span>(<span class="php-var">$provider_id</span>) {
+</span><span id="255" class="l"><a class="l" href="#255">255: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
+</span><span id="256" class="l"><a class="l" href="#256">256: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument type $provider_id : '</span> . <span class="php-var">$provider_id</span>);
+</span><span id="257" class="l"><a class="l" href="#257">257: </a>        }
+</span><span id="258" class="l"><a class="l" href="#258">258: </a>        
+</span><span id="259" class="l"><a class="l" href="#259">259: </a>        <span class="php-var">$num_rows</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;num_rows();
+</span><span id="260" class="l"><a class="l" href="#260">260: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$num_rows</span> == <span class="php-num">0</span>) {
+</span><span id="261" class="l"><a class="l" href="#261">261: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">FALSE</span>; <span class="php-comment">// Record does not exist in database.</span>
+</span><span id="262" class="l"><a class="l" href="#262">262: </a>        }
+</span><span id="263" class="l"><a class="l" href="#263">263: </a>        
+</span><span id="264" class="l"><a class="l" href="#264">264: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;db-&gt;<span class="php-keyword2">delete</span>(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>));
+</span><span id="265" class="l"><a class="l" href="#265">265: </a>    }
+</span><span id="266" class="l"><a class="l" href="#266">266: </a>    
+</span><span id="267" class="l"><a class="l" href="#267">267: </a>    <span class="php-comment">/**
+</span></span><span id="268" class="l"><a class="l" href="#268">268: </a><span class="php-comment">     * Get a specific provider record from the database.
+</span></span><span id="269" class="l"><a class="l" href="#269">269: </a><span class="php-comment">     * 
+</span></span><span id="270" class="l"><a class="l" href="#270">270: </a><span class="php-comment">     * @param int $provider_id The id of the record to be returned.
+</span></span><span id="271" class="l"><a class="l" href="#271">271: </a><span class="php-comment">     * @return array Returns an associative array with the selected record's data. Each key 
+</span></span><span id="272" class="l"><a class="l" href="#272">272: </a><span class="php-comment">     * has the same name as the database field names.
+</span></span><span id="273" class="l"><a class="l" href="#273">273: </a><span class="php-comment">     * @throws Exception When the selected record does not exist in database.
+</span></span><span id="274" class="l"><a class="l" href="#274">274: </a><span class="php-comment">     */</span>
+</span><span id="275" class="l"><a class="l" href="#275">275: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_row" href="#_get_row">get_row</a>(<span class="php-var">$provider_id</span>) {
+</span><span id="276" class="l"><a class="l" href="#276">276: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
+</span><span id="277" class="l"><a class="l" href="#277">277: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'$provider_id argument is not a valid numeric value: '</span> . <span class="php-var">$provider_id</span>);
+</span><span id="278" class="l"><a class="l" href="#278">278: </a>        }
+</span><span id="279" class="l"><a class="l" href="#279">279: </a>        
+</span><span id="280" class="l"><a class="l" href="#280">280: </a>        <span class="php-comment">// Check if selected record exists on database. </span>
+</span><span id="281" class="l"><a class="l" href="#281">281: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;num_rows() == <span class="php-num">0</span>) {
+</span><span id="282" class="l"><a class="l" href="#282">282: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Selected record does not exist in the database.'</span>);
+</span><span id="283" class="l"><a class="l" href="#283">283: </a>        }
+</span><span id="284" class="l"><a class="l" href="#284">284: </a>        
+</span><span id="285" class="l"><a class="l" href="#285">285: </a>        <span class="php-comment">// Get provider data.</span>
+</span><span id="286" class="l"><a class="l" href="#286">286: </a>        <span class="php-var">$provider</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;row_array();
+</span><span id="287" class="l"><a class="l" href="#287">287: </a>        
+</span><span id="288" class="l"><a class="l" href="#288">288: </a>       
+</span><span id="289" class="l"><a class="l" href="#289">289: </a>        <span class="php-comment">// Include provider services.</span>
+</span><span id="290" class="l"><a class="l" href="#290">290: </a>        <span class="php-var">$services</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_services_providers'</span>, 
+</span><span id="291" class="l"><a class="l" href="#291">291: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;result_array();
+</span><span id="292" class="l"><a class="l" href="#292">292: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] = <span class="php-keyword1">array</span>();
+</span><span id="293" class="l"><a class="l" href="#293">293: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service</span>) {
+</span><span id="294" class="l"><a class="l" href="#294">294: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>][] = <span class="php-var">$service</span>[<span class="php-quote">'id_services'</span>];
+</span><span id="295" class="l"><a class="l" href="#295">295: </a>        }
+</span><span id="296" class="l"><a class="l" href="#296">296: </a>
+</span><span id="297" class="l"><a class="l" href="#297">297: </a>        <span class="php-comment">// Include provider settings.</span>
+</span><span id="298" class="l"><a class="l" href="#298">298: </a>        <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
+</span><span id="299" class="l"><a class="l" href="#299">299: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;row_array();
+</span><span id="300" class="l"><a class="l" href="#300">300: </a>        <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'id_users'</span>]);
+</span><span id="301" class="l"><a class="l" href="#301">301: </a>
+</span><span id="302" class="l"><a class="l" href="#302">302: </a>        <span class="php-comment">// Return provider data array.</span>
+</span><span id="303" class="l"><a class="l" href="#303">303: </a>        <span class="php-keyword1">return</span> <span class="php-var">$provider</span>;
+</span><span id="304" class="l"><a class="l" href="#304">304: </a>    }
+</span><span id="305" class="l"><a class="l" href="#305">305: </a>    
+</span><span id="306" class="l"><a class="l" href="#306">306: </a>    <span class="php-comment">/**
+</span></span><span id="307" class="l"><a class="l" href="#307">307: </a><span class="php-comment">     * Get a specific field value from the database.
+</span></span><span id="308" class="l"><a class="l" href="#308">308: </a><span class="php-comment">     * 
+</span></span><span id="309" class="l"><a class="l" href="#309">309: </a><span class="php-comment">     * @param string $field_name The field name of the value to be returned.
+</span></span><span id="310" class="l"><a class="l" href="#310">310: </a><span class="php-comment">     * @param numeric $provider_id Record id of the value to be returned.
+</span></span><span id="311" class="l"><a class="l" href="#311">311: </a><span class="php-comment">     * @return string Returns the selected record value from the database.
+</span></span><span id="312" class="l"><a class="l" href="#312">312: </a><span class="php-comment">     * @throws Exception When the $field_name argument is not a valid string.
+</span></span><span id="313" class="l"><a class="l" href="#313">313: </a><span class="php-comment">     * @throws Exception When the $admin_id is not a valid numeric.
+</span></span><span id="314" class="l"><a class="l" href="#314">314: </a><span class="php-comment">     * @throws Exception When the admin record does not exist in the database.
+</span></span><span id="315" class="l"><a class="l" href="#315">315: </a><span class="php-comment">     * @throws Exception When the selected field value is not present on database.
+</span></span><span id="316" class="l"><a class="l" href="#316">316: </a><span class="php-comment">     */</span>
+</span><span id="317" class="l"><a class="l" href="#317">317: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_value" href="#_get_value">get_value</a>(<span class="php-var">$field_name</span>, <span class="php-var">$provider_id</span>) {
+</span><span id="318" class="l"><a class="l" href="#318">318: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
+</span><span id="319" class="l"><a class="l" href="#319">319: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument provided as $provider_id : '</span> . <span class="php-var">$provider_id</span>);
+</span><span id="320" class="l"><a class="l" href="#320">320: </a>        }
+</span><span id="321" class="l"><a class="l" href="#321">321: </a>        
+</span><span id="322" class="l"><a class="l" href="#322">322: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_string</span>(<span class="php-var">$field_name</span>)) {
+</span><span id="323" class="l"><a class="l" href="#323">323: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'$field_name argument is not a string : '</span> . <span class="php-var">$field_name</span>);
+</span><span id="324" class="l"><a class="l" href="#324">324: </a>        }
+</span><span id="325" class="l"><a class="l" href="#325">325: </a>        
+</span><span id="326" class="l"><a class="l" href="#326">326: </a>        <span class="php-comment">// Check whether the admin record exists in database.</span>
+</span><span id="327" class="l"><a class="l" href="#327">327: </a>        <span class="php-var">$result</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id'</span> =&gt; <span class="php-var">$provider_id</span>));
+</span><span id="328" class="l"><a class="l" href="#328">328: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$result</span>-&gt;num_rows() == <span class="php-num">0</span>) {
+</span><span id="329" class="l"><a class="l" href="#329">329: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'The record with the $provider_id argument does not exist in '</span>
+</span><span id="330" class="l"><a class="l" href="#330">330: </a>                    . <span class="php-quote">'the database : '</span> . <span class="php-var">$provider_id</span>);
+</span><span id="331" class="l"><a class="l" href="#331">331: </a>        }
+</span><span id="332" class="l"><a class="l" href="#332">332: </a>        
+</span><span id="333" class="l"><a class="l" href="#333">333: </a>        <span class="php-var">$provider</span> = <span class="php-var">$result</span>-&gt;row_array();
+</span><span id="334" class="l"><a class="l" href="#334">334: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$provider</span>[<span class="php-var">$field_name</span>])) {
+</span><span id="335" class="l"><a class="l" href="#335">335: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'The given $field_name argument does not exist in the '</span>
+</span><span id="336" class="l"><a class="l" href="#336">336: </a>                    . <span class="php-quote">'database : '</span> . <span class="php-var">$field_name</span>);
+</span><span id="337" class="l"><a class="l" href="#337">337: </a>        }
+</span><span id="338" class="l"><a class="l" href="#338">338: </a>        
+</span><span id="339" class="l"><a class="l" href="#339">339: </a>        <span class="php-keyword1">return</span> <span class="php-var">$provider</span>[<span class="php-var">$field_name</span>];
+</span><span id="340" class="l"><a class="l" href="#340">340: </a>    }
+</span><span id="341" class="l"><a class="l" href="#341">341: </a>    
+</span><span id="342" class="l"><a class="l" href="#342">342: </a>    <span class="php-comment">/**
+</span></span><span id="343" class="l"><a class="l" href="#343">343: </a><span class="php-comment">     * Get all, or specific records from provider's table.
+</span></span><span id="344" class="l"><a class="l" href="#344">344: </a><span class="php-comment">     * 
+</span></span><span id="345" class="l"><a class="l" href="#345">345: </a><span class="php-comment">     * @example $this-&gt;Model-&gt;get_batch('id = ' . $recordId);
+</span></span><span id="346" class="l"><a class="l" href="#346">346: </a><span class="php-comment">     * 
+</span></span><span id="347" class="l"><a class="l" href="#347">347: </a><span class="php-comment">     * @param mixed $where_clause (OPTIONAL) The WHERE clause of the query to be executed.
+</span></span><span id="348" class="l"><a class="l" href="#348">348: </a><span class="php-comment">     * 
+</span></span><span id="349" class="l"><a class="l" href="#349">349: </a><span class="php-comment">     * NOTICE: DO NOT INCLUDE 'WHERE' KEYWORD.
+</span></span><span id="350" class="l"><a class="l" href="#350">350: </a><span class="php-comment">     * 
+</span></span><span id="351" class="l"><a class="l" href="#351">351: </a><span class="php-comment">     * @return array Returns the rows from the database.
+</span></span><span id="352" class="l"><a class="l" href="#352">352: </a><span class="php-comment">     */</span>
+</span><span id="353" class="l"><a class="l" href="#353">353: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_batch" href="#_get_batch">get_batch</a>(<span class="php-var">$where_clause</span> = <span class="php-quote">''</span>) {        
+</span><span id="354" class="l"><a class="l" href="#354">354: </a>        <span class="php-comment">// CI db class may confuse two where clauses made in the same time, so </span>
+</span><span id="355" class="l"><a class="l" href="#355">355: </a>        <span class="php-comment">// get the role id first and then apply the get_batch() where clause.</span>
+</span><span id="356" class="l"><a class="l" href="#356">356: </a>        <span class="php-var">$role_id</span> = <span class="php-var">$this</span>-&gt;get_providers_role_id();
+</span><span id="357" class="l"><a class="l" href="#357">357: </a>        
+</span><span id="358" class="l"><a class="l" href="#358">358: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$where_clause</span> != <span class="php-quote">''</span>) {
+</span><span id="359" class="l"><a class="l" href="#359">359: </a>            <span class="php-var">$this</span>-&gt;db-&gt;where(<span class="php-var">$where_clause</span>);
+</span><span id="360" class="l"><a class="l" href="#360">360: </a>        }
+</span><span id="361" class="l"><a class="l" href="#361">361: </a>        
+</span><span id="362" class="l"><a class="l" href="#362">362: </a>        <span class="php-var">$batch</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_users'</span>, 
+</span><span id="363" class="l"><a class="l" href="#363">363: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_roles'</span> =&gt; <span class="php-var">$role_id</span>))-&gt;result_array();
+</span><span id="364" class="l"><a class="l" href="#364">364: </a>       
+</span><span id="365" class="l"><a class="l" href="#365">365: </a>        <span class="php-comment">// Include each provider sevices and settings.</span>
+</span><span id="366" class="l"><a class="l" href="#366">366: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$batch</span> <span class="php-keyword1">as</span> &amp;<span class="php-var">$provider</span>) {
+</span><span id="367" class="l"><a class="l" href="#367">367: </a>            <span class="php-comment">// Services</span>
+</span><span id="368" class="l"><a class="l" href="#368">368: </a>            <span class="php-var">$services</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_services_providers'</span>, 
+</span><span id="369" class="l"><a class="l" href="#369">369: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;result_array();
+</span><span id="370" class="l"><a class="l" href="#370">370: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] = <span class="php-keyword1">array</span>();
+</span><span id="371" class="l"><a class="l" href="#371">371: </a>            <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service</span>) {
+</span><span id="372" class="l"><a class="l" href="#372">372: </a>                <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>][] = <span class="php-var">$service</span>[<span class="php-quote">'id_services'</span>];
+</span><span id="373" class="l"><a class="l" href="#373">373: </a>            }
+</span><span id="374" class="l"><a class="l" href="#374">374: </a>            
+</span><span id="375" class="l"><a class="l" href="#375">375: </a>            <span class="php-comment">// Settings</span>
+</span><span id="376" class="l"><a class="l" href="#376">376: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
+</span><span id="377" class="l"><a class="l" href="#377">377: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;row_array();
+</span><span id="378" class="l"><a class="l" href="#378">378: </a>            <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'id_users'</span>]);
+</span><span id="379" class="l"><a class="l" href="#379">379: </a>        }
+</span><span id="380" class="l"><a class="l" href="#380">380: </a>        
+</span><span id="381" class="l"><a class="l" href="#381">381: </a>        <span class="php-comment">// Return provider records in an array.</span>
+</span><span id="382" class="l"><a class="l" href="#382">382: </a>        <span class="php-keyword1">return</span> <span class="php-var">$batch</span>;
+</span><span id="383" class="l"><a class="l" href="#383">383: </a>    }
+</span><span id="384" class="l"><a class="l" href="#384">384: </a>    
+</span><span id="385" class="l"><a class="l" href="#385">385: </a>    <span class="php-comment">/**
+</span></span><span id="386" class="l"><a class="l" href="#386">386: </a><span class="php-comment">     * Get the available system providers.
+</span></span><span id="387" class="l"><a class="l" href="#387">387: </a><span class="php-comment">     * 
+</span></span><span id="388" class="l"><a class="l" href="#388">388: </a><span class="php-comment">     * This method returns the available providers and the services that can 
+</span></span><span id="389" class="l"><a class="l" href="#389">389: </a><span class="php-comment">     * provide.
+</span></span><span id="390" class="l"><a class="l" href="#390">390: </a><span class="php-comment">     * 
+</span></span><span id="391" class="l"><a class="l" href="#391">391: </a><span class="php-comment">     * @return array Returns an array with the providers data.
+</span></span><span id="392" class="l"><a class="l" href="#392">392: </a><span class="php-comment">     * 
+</span></span><span id="393" class="l"><a class="l" href="#393">393: </a><span class="php-comment">     * @deprecated since version 0.5 - Use get_batch() instead.
+</span></span><span id="394" class="l"><a class="l" href="#394">394: </a><span class="php-comment">     */</span>
+</span><span id="395" class="l"><a class="l" href="#395">395: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_available_providers" href="#_get_available_providers">get_available_providers</a>() {
+</span><span id="396" class="l"><a class="l" href="#396">396: </a>        <span class="php-comment">// Get provider records from database.</span>
+</span><span id="397" class="l"><a class="l" href="#397">397: </a>        <span class="php-var">$this</span>-&gt;db
+</span><span id="398" class="l"><a class="l" href="#398">398: </a>                -&gt;select(<span class="php-quote">'ea_users.*'</span>)
+</span><span id="399" class="l"><a class="l" href="#399">399: </a>                -&gt;from(<span class="php-quote">'ea_users'</span>)  
+</span><span id="400" class="l"><a class="l" href="#400">400: </a>                -&gt;<span class="php-keyword2">join</span>(<span class="php-quote">'ea_roles'</span>, <span class="php-quote">'ea_roles.id = ea_users.id_roles'</span>, <span class="php-quote">'inner'</span>)
+</span><span id="401" class="l"><a class="l" href="#401">401: </a>                -&gt;where(<span class="php-quote">'ea_roles.slug'</span>, DB_SLUG_PROVIDER);
+</span><span id="402" class="l"><a class="l" href="#402">402: </a>        
+</span><span id="403" class="l"><a class="l" href="#403">403: </a>        <span class="php-var">$providers</span> = <span class="php-var">$this</span>-&gt;db-&gt;get()-&gt;result_array();
+</span><span id="404" class="l"><a class="l" href="#404">404: </a>        
+</span><span id="405" class="l"><a class="l" href="#405">405: </a>        <span class="php-comment">// Include each provider services and settings.</span>
+</span><span id="406" class="l"><a class="l" href="#406">406: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$providers</span> <span class="php-keyword1">as</span> &amp;<span class="php-var">$provider</span>) {
+</span><span id="407" class="l"><a class="l" href="#407">407: </a>            <span class="php-comment">// Services</span>
+</span><span id="408" class="l"><a class="l" href="#408">408: </a>            <span class="php-var">$services</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_services_providers'</span>, 
+</span><span id="409" class="l"><a class="l" href="#409">409: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;result_array();
+</span><span id="410" class="l"><a class="l" href="#410">410: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>] = <span class="php-keyword1">array</span>();
+</span><span id="411" class="l"><a class="l" href="#411">411: </a>            <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service</span>) {
+</span><span id="412" class="l"><a class="l" href="#412">412: </a>                <span class="php-var">$provider</span>[<span class="php-quote">'services'</span>][] = <span class="php-var">$service</span>[<span class="php-quote">'id_services'</span>];
+</span><span id="413" class="l"><a class="l" href="#413">413: </a>            }
+</span><span id="414" class="l"><a class="l" href="#414">414: </a>            
+</span><span id="415" class="l"><a class="l" href="#415">415: </a>            <span class="php-comment">// Settings</span>
+</span><span id="416" class="l"><a class="l" href="#416">416: </a>            <span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>] = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
+</span><span id="417" class="l"><a class="l" href="#417">417: </a>                    <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider</span>[<span class="php-quote">'id'</span>]))-&gt;row_array();
+</span><span id="418" class="l"><a class="l" href="#418">418: </a>            <span class="php-keyword1">unset</span>(<span class="php-var">$provider</span>[<span class="php-quote">'settings'</span>][<span class="php-quote">'id_users'</span>]);
+</span><span id="419" class="l"><a class="l" href="#419">419: </a>        }
+</span><span id="420" class="l"><a class="l" href="#420">420: </a>        
+</span><span id="421" class="l"><a class="l" href="#421">421: </a>        <span class="php-comment">// Return provider records.</span>
+</span><span id="422" class="l"><a class="l" href="#422">422: </a>        <span class="php-keyword1">return</span> <span class="php-var">$providers</span>;
+</span><span id="423" class="l"><a class="l" href="#423">423: </a>    }
+</span><span id="424" class="l"><a class="l" href="#424">424: </a>    
+</span><span id="425" class="l"><a class="l" href="#425">425: </a>    <span class="php-comment">/**
+</span></span><span id="426" class="l"><a class="l" href="#426">426: </a><span class="php-comment">     * Get the providers role id from the database.
+</span></span><span id="427" class="l"><a class="l" href="#427">427: </a><span class="php-comment">     * 
+</span></span><span id="428" class="l"><a class="l" href="#428">428: </a><span class="php-comment">     * @return int Returns the role id for the provider records.
+</span></span><span id="429" class="l"><a class="l" href="#429">429: </a><span class="php-comment">     */</span>
+</span><span id="430" class="l"><a class="l" href="#430">430: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_providers_role_id" href="#_get_providers_role_id">get_providers_role_id</a>() {       
+</span><span id="431" class="l"><a class="l" href="#431">431: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_roles'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'slug'</span> =&gt; DB_SLUG_PROVIDER))-&gt;row()-&gt;id;        
 </span><span id="432" class="l"><a class="l" href="#432">432: </a>    }
 </span><span id="433" class="l"><a class="l" href="#433">433: </a>    
 </span><span id="434" class="l"><a class="l" href="#434">434: </a>    <span class="php-comment">/**
-</span></span><span id="435" class="l"><a class="l" href="#435">435: </a><span class="php-comment">     * Set a provider's setting value in the database. 
+</span></span><span id="435" class="l"><a class="l" href="#435">435: </a><span class="php-comment">     * Get a providers setting from the database.
 </span></span><span id="436" class="l"><a class="l" href="#436">436: </a><span class="php-comment">     * 
-</span></span><span id="437" class="l"><a class="l" href="#437">437: </a><span class="php-comment">     * The provider and settings record must already exist.
-</span></span><span id="438" class="l"><a class="l" href="#438">438: </a><span class="php-comment">     * 
-</span></span><span id="439" class="l"><a class="l" href="#439">439: </a><span class="php-comment">     * @param string $setting_name The setting's name.
-</span></span><span id="440" class="l"><a class="l" href="#440">440: </a><span class="php-comment">     * @param string $value The setting's value.
-</span></span><span id="441" class="l"><a class="l" href="#441">441: </a><span class="php-comment">     * @param numeric $provider_id The selected provider id.
-</span></span><span id="442" class="l"><a class="l" href="#442">442: </a><span class="php-comment">     */</span>
-</span><span id="443" class="l"><a class="l" href="#443">443: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_set_setting" href="#_set_setting">set_setting</a>(<span class="php-var">$setting_name</span>, <span class="php-var">$value</span>, <span class="php-var">$provider_id</span>) {
-</span><span id="444" class="l"><a class="l" href="#444">444: </a>        <span class="php-var">$this</span>-&gt;db-&gt;where(<span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>));
-</span><span id="445" class="l"><a class="l" href="#445">445: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;db-&gt;update(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-var">$setting_name</span> =&gt; <span class="php-var">$value</span>));
+</span></span><span id="437" class="l"><a class="l" href="#437">437: </a><span class="php-comment">     * @param string $setting_name The setting name that is going to be
+</span></span><span id="438" class="l"><a class="l" href="#438">438: </a><span class="php-comment">     * returned.
+</span></span><span id="439" class="l"><a class="l" href="#439">439: </a><span class="php-comment">     * @param int $provider_id The selected provider id.
+</span></span><span id="440" class="l"><a class="l" href="#440">440: </a><span class="php-comment">     * @return string Returs the value of the selected user setting.
+</span></span><span id="441" class="l"><a class="l" href="#441">441: </a><span class="php-comment">     */</span>
+</span><span id="442" class="l"><a class="l" href="#442">442: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_get_setting" href="#_get_setting">get_setting</a>(<span class="php-var">$setting_name</span>, <span class="php-var">$provider_id</span>) {
+</span><span id="443" class="l"><a class="l" href="#443">443: </a>        <span class="php-var">$provider_settings</span> = <span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, 
+</span><span id="444" class="l"><a class="l" href="#444">444: </a>                <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))-&gt;row_array();
+</span><span id="445" class="l"><a class="l" href="#445">445: </a>        <span class="php-keyword1">return</span> <span class="php-var">$provider_settings</span>[<span class="php-var">$setting_name</span>];
 </span><span id="446" class="l"><a class="l" href="#446">446: </a>    }
 </span><span id="447" class="l"><a class="l" href="#447">447: </a>    
 </span><span id="448" class="l"><a class="l" href="#448">448: </a>    <span class="php-comment">/**
-</span></span><span id="449" class="l"><a class="l" href="#449">449: </a><span class="php-comment">     * Save the provider settings (used from insert or update operation).
+</span></span><span id="449" class="l"><a class="l" href="#449">449: </a><span class="php-comment">     * Set a provider's setting value in the database. 
 </span></span><span id="450" class="l"><a class="l" href="#450">450: </a><span class="php-comment">     * 
-</span></span><span id="451" class="l"><a class="l" href="#451">451: </a><span class="php-comment">     * @param array $settings Contains the setting values.
-</span></span><span id="452" class="l"><a class="l" href="#452">452: </a><span class="php-comment">     * @param numeric $provider_id Record id of the provider.
-</span></span><span id="453" class="l"><a class="l" href="#453">453: </a><span class="php-comment">     */</span>
-</span><span id="454" class="l"><a class="l" href="#454">454: </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="_save_settings" href="#_save_settings">save_settings</a>(<span class="php-var">$settings</span>, <span class="php-var">$provider_id</span>) {
-</span><span id="455" class="l"><a class="l" href="#455">455: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
-</span><span id="456" class="l"><a class="l" href="#456">456: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid $provider_id argument given :'</span> . <span class="php-var">$provider_id</span>);
-</span><span id="457" class="l"><a class="l" href="#457">457: </a>        }
-</span><span id="458" class="l"><a class="l" href="#458">458: </a>        
-</span><span id="459" class="l"><a class="l" href="#459">459: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">count</span>(<span class="php-var">$settings</span>) == <span class="php-num">0</span> || !<span class="php-keyword2">is_array</span>(<span class="php-var">$settings</span>)) {
-</span><span id="460" class="l"><a class="l" href="#460">460: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid $settings argument given:'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$settings</span>, <span class="php-keyword1">TRUE</span>));
-</span><span id="461" class="l"><a class="l" href="#461">461: </a>        }
-</span><span id="462" class="l"><a class="l" href="#462">462: </a>        
-</span><span id="463" class="l"><a class="l" href="#463">463: </a>        <span class="php-comment">// Check if the setting record exists in db.</span>
-</span><span id="464" class="l"><a class="l" href="#464">464: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))
-</span><span id="465" class="l"><a class="l" href="#465">465: </a>                -&gt;num_rows() == <span class="php-num">0</span>) {
-</span><span id="466" class="l"><a class="l" href="#466">466: </a>            <span class="php-var">$this</span>-&gt;db-&gt;insert(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>));
-</span><span id="467" class="l"><a class="l" href="#467">467: </a>        }
-</span><span id="468" class="l"><a class="l" href="#468">468: </a>        
-</span><span id="469" class="l"><a class="l" href="#469">469: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$settings</span> <span class="php-keyword1">as</span> <span class="php-var">$name</span>=&gt;<span class="php-var">$value</span>) {
-</span><span id="470" class="l"><a class="l" href="#470">470: </a>            <span class="php-var">$this</span>-&gt;set_setting(<span class="php-var">$name</span>, <span class="php-var">$value</span>, <span class="php-var">$provider_id</span>);
+</span></span><span id="451" class="l"><a class="l" href="#451">451: </a><span class="php-comment">     * The provider and settings record must already exist.
+</span></span><span id="452" class="l"><a class="l" href="#452">452: </a><span class="php-comment">     * 
+</span></span><span id="453" class="l"><a class="l" href="#453">453: </a><span class="php-comment">     * @param string $setting_name The setting's name.
+</span></span><span id="454" class="l"><a class="l" href="#454">454: </a><span class="php-comment">     * @param string $value The setting's value.
+</span></span><span id="455" class="l"><a class="l" href="#455">455: </a><span class="php-comment">     * @param numeric $provider_id The selected provider id.
+</span></span><span id="456" class="l"><a class="l" href="#456">456: </a><span class="php-comment">     */</span>
+</span><span id="457" class="l"><a class="l" href="#457">457: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_set_setting" href="#_set_setting">set_setting</a>(<span class="php-var">$setting_name</span>, <span class="php-var">$value</span>, <span class="php-var">$provider_id</span>) {
+</span><span id="458" class="l"><a class="l" href="#458">458: </a>        <span class="php-var">$this</span>-&gt;db-&gt;where(<span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>));
+</span><span id="459" class="l"><a class="l" href="#459">459: </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;db-&gt;update(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-var">$setting_name</span> =&gt; <span class="php-var">$value</span>));
+</span><span id="460" class="l"><a class="l" href="#460">460: </a>    }
+</span><span id="461" class="l"><a class="l" href="#461">461: </a>    
+</span><span id="462" class="l"><a class="l" href="#462">462: </a>    <span class="php-comment">/**
+</span></span><span id="463" class="l"><a class="l" href="#463">463: </a><span class="php-comment">     * Save the provider settings (used from insert or update operation).
+</span></span><span id="464" class="l"><a class="l" href="#464">464: </a><span class="php-comment">     * 
+</span></span><span id="465" class="l"><a class="l" href="#465">465: </a><span class="php-comment">     * @param array $settings Contains the setting values.
+</span></span><span id="466" class="l"><a class="l" href="#466">466: </a><span class="php-comment">     * @param numeric $provider_id Record id of the provider.
+</span></span><span id="467" class="l"><a class="l" href="#467">467: </a><span class="php-comment">     */</span>
+</span><span id="468" class="l"><a class="l" href="#468">468: </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="_save_settings" href="#_save_settings">save_settings</a>(<span class="php-var">$settings</span>, <span class="php-var">$provider_id</span>) {
+</span><span id="469" class="l"><a class="l" href="#469">469: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
+</span><span id="470" class="l"><a class="l" href="#470">470: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid $provider_id argument given :'</span> . <span class="php-var">$provider_id</span>);
 </span><span id="471" class="l"><a class="l" href="#471">471: </a>        }
-</span><span id="472" class="l"><a class="l" href="#472">472: </a>    }
-</span><span id="473" class="l"><a class="l" href="#473">473: </a>    
-</span><span id="474" class="l"><a class="l" href="#474">474: </a>    <span class="php-comment">/**
-</span></span><span id="475" class="l"><a class="l" href="#475">475: </a><span class="php-comment">     * Save the provider services in the database (use on both insert and update operation).
-</span></span><span id="476" class="l"><a class="l" href="#476">476: </a><span class="php-comment">     * 
-</span></span><span id="477" class="l"><a class="l" href="#477">477: </a><span class="php-comment">     * @param array $services Contains the service ids that the selected provider can provide.
-</span></span><span id="478" class="l"><a class="l" href="#478">478: </a><span class="php-comment">     * @param numeric $provider_id The selected provider record id.
-</span></span><span id="479" class="l"><a class="l" href="#479">479: </a><span class="php-comment">     * @throws Exception When the $services argument type is not array.
-</span></span><span id="480" class="l"><a class="l" href="#480">480: </a><span class="php-comment">     * @throws Exception When the $provider_id argumetn type is not numeric.
-</span></span><span id="481" class="l"><a class="l" href="#481">481: </a><span class="php-comment">     */</span>
-</span><span id="482" class="l"><a class="l" href="#482">482: </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="_save_services" href="#_save_services">save_services</a>(<span class="php-var">$services</span>, <span class="php-var">$provider_id</span>) {
-</span><span id="483" class="l"><a class="l" href="#483">483: </a>        <span class="php-comment">// Validate method arguments.</span>
-</span><span id="484" class="l"><a class="l" href="#484">484: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_array</span>(<span class="php-var">$services</span>)) {
-</span><span id="485" class="l"><a class="l" href="#485">485: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument type $services: '</span> . <span class="php-var">$services</span>);
-</span><span id="486" class="l"><a class="l" href="#486">486: </a>        }
-</span><span id="487" class="l"><a class="l" href="#487">487: </a>        
-</span><span id="488" class="l"><a class="l" href="#488">488: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
-</span><span id="489" class="l"><a class="l" href="#489">489: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument type $provider_id: '</span> . <span class="php-var">$provider_id</span>);
-</span><span id="490" class="l"><a class="l" href="#490">490: </a>        }
-</span><span id="491" class="l"><a class="l" href="#491">491: </a>        
-</span><span id="492" class="l"><a class="l" href="#492">492: </a>        <span class="php-comment">// Save provider services in the database (delete old records and add new).</span>
-</span><span id="493" class="l"><a class="l" href="#493">493: </a>        <span class="php-var">$this</span>-&gt;db-&gt;<span class="php-keyword2">delete</span>(<span class="php-quote">'ea_services_providers'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>));
-</span><span id="494" class="l"><a class="l" href="#494">494: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service_id</span>) {
-</span><span id="495" class="l"><a class="l" href="#495">495: </a>            <span class="php-var">$service_provider</span> = <span class="php-keyword1">array</span>(
-</span><span id="496" class="l"><a class="l" href="#496">496: </a>                <span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>,
-</span><span id="497" class="l"><a class="l" href="#497">497: </a>                <span class="php-quote">'id_services'</span> =&gt; <span class="php-var">$service_id</span>
-</span><span id="498" class="l"><a class="l" href="#498">498: </a>            );
-</span><span id="499" class="l"><a class="l" href="#499">499: </a>            <span class="php-var">$this</span>-&gt;db-&gt;insert(<span class="php-quote">'ea_services_providers'</span>, <span class="php-var">$service_provider</span>);
-</span><span id="500" class="l"><a class="l" href="#500">500: </a>        } 
-</span><span id="501" class="l"><a class="l" href="#501">501: </a>    }
-</span><span id="502" class="l"><a class="l" href="#502">502: </a>}
-</span><span id="503" class="l"><a class="l" href="#503">503: </a>
-</span><span id="504" class="l"><a class="l" href="#504">504: </a><span class="php-comment">/* End of file providers_model.php */</span>
-</span><span id="505" class="l"><a class="l" href="#505">505: </a></span><span class="php-comment">/* Location: ./application/models/providers_model.php */</span></code></pre>
+</span><span id="472" class="l"><a class="l" href="#472">472: </a>        
+</span><span id="473" class="l"><a class="l" href="#473">473: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">count</span>(<span class="php-var">$settings</span>) == <span class="php-num">0</span> || !<span class="php-keyword2">is_array</span>(<span class="php-var">$settings</span>)) {
+</span><span id="474" class="l"><a class="l" href="#474">474: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid $settings argument given:'</span> . <span class="php-keyword2">print_r</span>(<span class="php-var">$settings</span>, <span class="php-keyword1">TRUE</span>));
+</span><span id="475" class="l"><a class="l" href="#475">475: </a>        }
+</span><span id="476" class="l"><a class="l" href="#476">476: </a>        
+</span><span id="477" class="l"><a class="l" href="#477">477: </a>        <span class="php-comment">// Check if the setting record exists in db.</span>
+</span><span id="478" class="l"><a class="l" href="#478">478: </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;db-&gt;get_where(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>))
+</span><span id="479" class="l"><a class="l" href="#479">479: </a>                -&gt;num_rows() == <span class="php-num">0</span>) {
+</span><span id="480" class="l"><a class="l" href="#480">480: </a>            <span class="php-var">$this</span>-&gt;db-&gt;insert(<span class="php-quote">'ea_user_settings'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>));
+</span><span id="481" class="l"><a class="l" href="#481">481: </a>        }
+</span><span id="482" class="l"><a class="l" href="#482">482: </a>        
+</span><span id="483" class="l"><a class="l" href="#483">483: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$settings</span> <span class="php-keyword1">as</span> <span class="php-var">$name</span>=&gt;<span class="php-var">$value</span>) {
+</span><span id="484" class="l"><a class="l" href="#484">484: </a>            <span class="php-var">$this</span>-&gt;set_setting(<span class="php-var">$name</span>, <span class="php-var">$value</span>, <span class="php-var">$provider_id</span>);
+</span><span id="485" class="l"><a class="l" href="#485">485: </a>        }
+</span><span id="486" class="l"><a class="l" href="#486">486: </a>    }
+</span><span id="487" class="l"><a class="l" href="#487">487: </a>    
+</span><span id="488" class="l"><a class="l" href="#488">488: </a>    <span class="php-comment">/**
+</span></span><span id="489" class="l"><a class="l" href="#489">489: </a><span class="php-comment">     * Save the provider services in the database (use on both insert and update operation).
+</span></span><span id="490" class="l"><a class="l" href="#490">490: </a><span class="php-comment">     * 
+</span></span><span id="491" class="l"><a class="l" href="#491">491: </a><span class="php-comment">     * @param array $services Contains the service ids that the selected provider can provide.
+</span></span><span id="492" class="l"><a class="l" href="#492">492: </a><span class="php-comment">     * @param numeric $provider_id The selected provider record id.
+</span></span><span id="493" class="l"><a class="l" href="#493">493: </a><span class="php-comment">     * @throws Exception When the $services argument type is not array.
+</span></span><span id="494" class="l"><a class="l" href="#494">494: </a><span class="php-comment">     * @throws Exception When the $provider_id argumetn type is not numeric.
+</span></span><span id="495" class="l"><a class="l" href="#495">495: </a><span class="php-comment">     */</span>
+</span><span id="496" class="l"><a class="l" href="#496">496: </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> <a id="_save_services" href="#_save_services">save_services</a>(<span class="php-var">$services</span>, <span class="php-var">$provider_id</span>) {
+</span><span id="497" class="l"><a class="l" href="#497">497: </a>        <span class="php-comment">// Validate method arguments.</span>
+</span><span id="498" class="l"><a class="l" href="#498">498: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_array</span>(<span class="php-var">$services</span>)) {
+</span><span id="499" class="l"><a class="l" href="#499">499: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument type $services: '</span> . <span class="php-var">$services</span>);
+</span><span id="500" class="l"><a class="l" href="#500">500: </a>        }
+</span><span id="501" class="l"><a class="l" href="#501">501: </a>        
+</span><span id="502" class="l"><a class="l" href="#502">502: </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_numeric</span>(<span class="php-var">$provider_id</span>)) {
+</span><span id="503" class="l"><a class="l" href="#503">503: </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> Exception(<span class="php-quote">'Invalid argument type $provider_id: '</span> . <span class="php-var">$provider_id</span>);
+</span><span id="504" class="l"><a class="l" href="#504">504: </a>        }
+</span><span id="505" class="l"><a class="l" href="#505">505: </a>        
+</span><span id="506" class="l"><a class="l" href="#506">506: </a>        <span class="php-comment">// Save provider services in the database (delete old records and add new).</span>
+</span><span id="507" class="l"><a class="l" href="#507">507: </a>        <span class="php-var">$this</span>-&gt;db-&gt;<span class="php-keyword2">delete</span>(<span class="php-quote">'ea_services_providers'</span>, <span class="php-keyword1">array</span>(<span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>));
+</span><span id="508" class="l"><a class="l" href="#508">508: </a>        <span class="php-keyword1">foreach</span>(<span class="php-var">$services</span> <span class="php-keyword1">as</span> <span class="php-var">$service_id</span>) {
+</span><span id="509" class="l"><a class="l" href="#509">509: </a>            <span class="php-var">$service_provider</span> = <span class="php-keyword1">array</span>(
+</span><span id="510" class="l"><a class="l" href="#510">510: </a>                <span class="php-quote">'id_users'</span> =&gt; <span class="php-var">$provider_id</span>,
+</span><span id="511" class="l"><a class="l" href="#511">511: </a>                <span class="php-quote">'id_services'</span> =&gt; <span class="php-var">$service_id</span>
+</span><span id="512" class="l"><a class="l" href="#512">512: </a>            );
+</span><span id="513" class="l"><a class="l" href="#513">513: </a>            <span class="php-var">$this</span>-&gt;db-&gt;insert(<span class="php-quote">'ea_services_providers'</span>, <span class="php-var">$service_provider</span>);
+</span><span id="514" class="l"><a class="l" href="#514">514: </a>        } 
+</span><span id="515" class="l"><a class="l" href="#515">515: </a>    }
+</span><span id="516" class="l"><a class="l" href="#516">516: </a>}
+</span><span id="517" class="l"><a class="l" href="#517">517: </a>
+</span><span id="518" class="l"><a class="l" href="#518">518: </a><span class="php-comment">/* End of file providers_model.php */</span>
+</span><span id="519" class="l"><a class="l" href="#519">519: </a></span><span class="php-comment">/* Location: ./application/models/providers_model.php */</span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

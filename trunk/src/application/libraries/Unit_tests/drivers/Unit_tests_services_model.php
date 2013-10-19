@@ -177,8 +177,14 @@ class Unit_tests_services_model extends CI_Driver {
             'id_service_categories' => NULL
         );
         
-        $is_valid = $this->ci->services_model->validate($service);
-        $this->ci->unit->run($is_valid, FALSE, 'Test validate() method with invalid record id.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->services_model->validate($service);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid record id.');
     }
     
     private function test_validate_invalid_service_category_id() {
@@ -191,9 +197,14 @@ class Unit_tests_services_model extends CI_Driver {
             'id_service_categories' => 'THIS IS INVALID'
         );
         
-        $is_valid = $this->ci->services_model->validate($service);
-        $this->ci->unit->run($is_valid, FALSE, 'Test validate() method with invalid service '
-                . 'category id.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->services_model->validate($service);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid service category id.');
     }
     
     private function test_validate_invalid_service_name() {
@@ -206,8 +217,14 @@ class Unit_tests_services_model extends CI_Driver {
             'id_service_categories' => 'THIS IS INVALID'
         );
         
-        $is_valid = $this->ci->services_model->validate($service);
-        $this->ci->unit->run($is_valid, FALSE, 'Test validate() method with invalid service name.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->ci->services_model->validate($service);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        $this->ci->unit->run($has_thrown_exc, TRUE, 'Test if validate() has thrown an exception '
+                . 'with invalid service service name.');
     }
     
     // TEST FIND RECORD ID --------------------------------------------------

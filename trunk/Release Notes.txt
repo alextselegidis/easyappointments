@@ -5,6 +5,7 @@ VERSION 0.6
 [Feature] Applied user privileges through all the system depending their role type.
 [Feature] Select existing customer from backend/calendar when trying to add a new appointment.
 [Fix] Fix backend/calendar service and provider functionality.
+[Fix] Other minor fixes.
 
 
 Official Easy!Appointments Website:

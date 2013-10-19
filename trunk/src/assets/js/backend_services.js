@@ -27,15 +27,15 @@ var BackendServices = {
         });
         $('#service-category').append(new Option('- No Category -', null)).val('null');
         
-        // Instantiate helper object (service helper by default).
-        BackendServices.helper = new ServicesHelper();
-        BackendServices.helper.resetForm();
-        BackendServices.helper.filter('');
-        
         $('#service-duration').spinner({
             'min': 0,
             'disabled': true //default
         });
+        
+        // Instantiate helper object (service helper by default).
+        BackendServices.helper = new ServicesHelper();
+        BackendServices.helper.resetForm();
+        BackendServices.helper.filter('');
         
         $('#filter-services .results').jScrollPane();
         $('#filter-categories .results').jScrollPane();
@@ -336,6 +336,7 @@ ServicesHelper.prototype.resetForm = function() {
     $('#edit-service, #delete-service').prop('disabled', true);
     $('#services .details').find('input, textarea').prop('readonly', true);
     $('#service-category').prop('disabled', true);
+    $('#service-duration').spinner('disable');
     
     $('#filter-services .selected-row').removeClass('selected-row');
     $('#filter-services button').prop('disabled', false);

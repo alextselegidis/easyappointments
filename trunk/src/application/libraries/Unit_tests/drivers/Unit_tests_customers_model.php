@@ -302,9 +302,15 @@ class Unit_tests_customers_model extends CI_Driver {
         );
         
         // Validate customers data.
-        $validation_result = $this->CI->customers_model->validate($customer);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method without a '
-                . 'last_name value.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->CI->customers_model->validate($customer);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        $this->CI->unit->run($has_thrown_exc, TRUE, 'Test if validate() method without a '
+                . 'last_name value has thrown exception.');
     }
     
     private function test_validate_data_invalid_email_address() {
@@ -321,9 +327,15 @@ class Unit_tests_customers_model extends CI_Driver {
         );
         
         // Validate customers data.
-        $validation_result = $this->CI->customers_model->validate($customer);
-        $this->CI->unit->run($validation_result, FALSE, 'Test validate() method with invalid '
-                . 'email address.');
+        $has_thrown_exc = FALSE;
+        try {
+            $this->CI->customers_model->validate($customer);
+        } catch (Exception $exc) {
+            $has_thrown_exc = TRUE;
+        }
+        
+        $this->CI->unit->run($has_thrown_exc, TRUE, 'Test if validate() method with invalid '
+                . 'email address has thrown exception.');
     }
     
     // TEST FIND RECORD ID METHOD

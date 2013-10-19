@@ -93,6 +93,64 @@ end of the application.</div>
     
     
     
+        <h3 class="subsection-title">Members</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="EXCEPTIONS_TITLE"><span class="type-signature">&lt;static> </span>EXCEPTIONS_TITLE<span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        General Functions Constants
+    </div>
+    
+    
+    
+
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+</dd>
+
+        </dl>
+    
     
     
         <h3 class="subsection-title">Methods</h3>
@@ -191,7 +249,7 @@ centered.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line70">line 70</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line79">line 79</a>
     </li></ul></dd>
     
     
@@ -310,7 +368,7 @@ modyfing the original data.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line134">line 134</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line143">line 143</a>
     </li></ul></dd>
     
     
@@ -498,7 +556,7 @@ buttons along with their functions.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line19">line 19</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line27">line 27</a>
     </li></ul></dd>
     
     
@@ -617,7 +675,7 @@ user opens the "Details" collapse component.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line188">line 188</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line197">line 197</a>
     </li></ul></dd>
     
     
@@ -779,7 +837,7 @@ user opens the "Details" collapse component.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line95">line 95</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line104">line 104</a>
     </li></ul></dd>
     
     
@@ -816,6 +874,148 @@ user opens the "Details" collapse component.
 	<dd>
 		
 <span class="param-type">String</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="handleAjaxExceptions"><span class="type-signature">&lt;static> </span>handleAjaxExceptions<span class="signature">(response)</span><span class="type-signature"> &rarr; {bool}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        All backend js code has the same way of dislaying exceptions that are raised on the
+server during an ajax call.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>response</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Contains the server response. If exceptions or warnings are 
+found, user friendly messages are going to be displayed to the user.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line257">line 257</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns whether the the ajax callback should continue the execution or
+stop, due to critical server exceptions.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">bool</span>
 
 
 	</dd>
@@ -919,7 +1119,7 @@ by the Google Calendar API in order to pass dates as parameters.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line113">line 113</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line122">line 122</a>
     </li></ul></dd>
     
     
@@ -1058,7 +1258,7 @@ by the Google Calendar API in order to pass dates as parameters.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line219">line 219</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line228">line 228</a>
     </li></ul></dd>
     
     
@@ -1095,6 +1295,145 @@ by the Google Calendar API in order to pass dates as parameters.
 	<dd>
 		
 <span class="param-type">Array</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="ucaseFirstLetter"><span class="type-signature">&lt;static> </span>ucaseFirstLetter<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Makes the first letter of the string upper case.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The string to be converted.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line244">line 244</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Returns the capitalized string.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
 
 
 	</dd>
@@ -1198,7 +1537,7 @@ form then the result is FALSE.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line175">line 175</a>
+        <a href="general_functions.js.html">general_functions.js</a>, <a href="general_functions.js.html#line184">line 184</a>
     </li></ul></dd>
     
     
@@ -1261,13 +1600,13 @@ form then the result is FALSE.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="Customers.html">Backend Customers</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendUsers..html">BackendUsers.</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Fri Sep 13 2013 11:50:17 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:42 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

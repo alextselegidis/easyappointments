@@ -7,7 +7,7 @@
 	<title>Class Backend_api</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -48,6 +48,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -126,13 +128,42 @@ CI_Controller
 		
 		
 
-		<b>Located at</b> <a href="source-class-Backend_api.html#3-794" title="Go to source code">backend_api.php</a><br />
+		<b>Located at</b> <a href="source-class-Backend_api.html#3-1044" title="Go to source code">backend_api.php</a><br />
 	</div>
 
 
 
 	<table class="summary" id="methods">
 	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Backend_api.html#9-15" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="ajax_get_calendar_appointments" id="_ajax_get_calendar_appointments">
 
 		<td class="attributes"><code>
@@ -144,7 +175,7 @@ CI_Controller
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_get_calendar_appointments">#</a>
-		<code><a href="source-class-Backend_api.html#7-66" title="Go to source code">ajax_get_calendar_appointments</a>( )</code>
+		<code><a href="source-class-Backend_api.html#18-81" title="Go to source code">ajax_get_calendar_appointments</a>( )</code>
 
 		<div class="description short">
 			
@@ -182,7 +213,7 @@ user selected date period and record type (provider or service).</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_appointment">#</a>
-		<code><a href="source-class-Backend_api.html#68-194" title="Go to source code">ajax_save_appointment</a>( )</code>
+		<code><a href="source-class-Backend_api.html#83-230" title="Go to source code">ajax_save_appointment</a>( )</code>
 
 		<div class="description short">
 			
@@ -217,7 +248,7 @@ page.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_appointment">#</a>
-		<code><a href="source-class-Backend_api.html#196-276" title="Go to source code">ajax_delete_appointment</a>( )</code>
+		<code><a href="source-class-Backend_api.html#232-323" title="Go to source code">ajax_delete_appointment</a>( )</code>
 
 		<div class="description short">
 			
@@ -255,7 +286,7 @@ account of the provider, if the "google_sync" setting is enabled.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_disable_provider_sync">#</a>
-		<code><a href="source-class-Backend_api.html#278-304" title="Go to source code">ajax_disable_provider_sync</a>( )</code>
+		<code><a href="source-class-Backend_api.html#325-355" title="Go to source code">ajax_disable_provider_sync</a>( )</code>
 
 		<div class="description short">
 			
@@ -292,7 +323,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_filter_customers">#</a>
-		<code><a href="source-class-Backend_api.html#306-353" title="Go to source code">ajax_filter_customers</a>( )</code>
+		<code><a href="source-class-Backend_api.html#357-408" title="Go to source code">ajax_filter_customers</a>( )</code>
 
 		<div class="description short">
 			
@@ -329,7 +360,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_unavailable">#</a>
-		<code><a href="source-class-Backend_api.html#355-408" title="Go to source code">ajax_save_unavailable</a>( )</code>
+		<code><a href="source-class-Backend_api.html#410-472" title="Go to source code">ajax_save_unavailable</a>( )</code>
 
 		<div class="description short">
 			
@@ -362,7 +393,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_unavailable">#</a>
-		<code><a href="source-class-Backend_api.html#410-452" title="Go to source code">ajax_delete_unavailable</a>( )</code>
+		<code><a href="source-class-Backend_api.html#474-520" title="Go to source code">ajax_delete_unavailable</a>( )</code>
 
 		<div class="description short">
 			
@@ -395,7 +426,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_customer">#</a>
-		<code><a href="source-class-Backend_api.html#454-470" title="Go to source code">ajax_save_customer</a>( )</code>
+		<code><a href="source-class-Backend_api.html#522-549" title="Go to source code">ajax_save_customer</a>( )</code>
 
 		<div class="description short">
 			
@@ -428,7 +459,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_customer">#</a>
-		<code><a href="source-class-Backend_api.html#472-487" title="Go to source code">ajax_delete_customer</a>( )</code>
+		<code><a href="source-class-Backend_api.html#551-570" title="Go to source code">ajax_delete_customer</a>( )</code>
 
 		<div class="description short">
 			
@@ -461,7 +492,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_service">#</a>
-		<code><a href="source-class-Backend_api.html#489-505" title="Go to source code">ajax_save_service</a>( )</code>
+		<code><a href="source-class-Backend_api.html#572-599" title="Go to source code">ajax_save_service</a>( )</code>
 
 		<div class="description short">
 			
@@ -494,7 +525,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_service">#</a>
-		<code><a href="source-class-Backend_api.html#507-522" title="Go to source code">ajax_delete_service</a>( )</code>
+		<code><a href="source-class-Backend_api.html#601-620" title="Go to source code">ajax_delete_service</a>( )</code>
 
 		<div class="description short">
 			
@@ -527,7 +558,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_filter_services">#</a>
-		<code><a href="source-class-Backend_api.html#524-545" title="Go to source code">ajax_filter_services</a>( )</code>
+		<code><a href="source-class-Backend_api.html#622-647" title="Go to source code">ajax_filter_services</a>( )</code>
 
 		<div class="description short">
 			
@@ -564,7 +595,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_service_category">#</a>
-		<code><a href="source-class-Backend_api.html#547-564" title="Go to source code">ajax_save_service_category</a>( )</code>
+		<code><a href="source-class-Backend_api.html#649-677" title="Go to source code">ajax_save_service_category</a>( )</code>
 
 		<div class="description short">
 			
@@ -597,7 +628,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_service_category">#</a>
-		<code><a href="source-class-Backend_api.html#566-581" title="Go to source code">ajax_delete_service_category</a>( )</code>
+		<code><a href="source-class-Backend_api.html#679-698" title="Go to source code">ajax_delete_service_category</a>( )</code>
 
 		<div class="description short">
 			
@@ -630,7 +661,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_filter_service_categories">#</a>
-		<code><a href="source-class-Backend_api.html#583-601" title="Go to source code">ajax_filter_service_categories</a>( )</code>
+		<code><a href="source-class-Backend_api.html#700-722" title="Go to source code">ajax_filter_service_categories</a>( )</code>
 
 		<div class="description short">
 			
@@ -667,7 +698,7 @@ google calendar.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_filter_admins">#</a>
-		<code><a href="source-class-Backend_api.html#603-626" title="Go to source code">ajax_filter_admins</a>( )</code>
+		<code><a href="source-class-Backend_api.html#724-751" title="Go to source code">ajax_filter_admins</a>( )</code>
 
 		<div class="description short">
 			
@@ -697,14 +728,14 @@ google calendar.</p>
 
 		<td class="attributes"><code>
 			 public 
-			string
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_admin">#</a>
-		<code><a href="source-class-Backend_api.html#628-647" title="Go to source code">ajax_save_admin</a>( )</code>
+		<code><a href="source-class-Backend_api.html#753-786" title="Go to source code">ajax_save_admin</a>( )</code>
 
 		<div class="description short">
 			
@@ -721,8 +752,8 @@ google calendar.</p>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code>string</code><br>Returns the success contant 'AJAX_SUCCESS' so javascript knows that everything
-completed successfully.<br />
+					<code>array</code><br>Returns an array with the operation status and the record id that was saved into
+the database.<br />
 				</div>
 
 
@@ -742,7 +773,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_admin">#</a>
-		<code><a href="source-class-Backend_api.html#649-665" title="Go to source code">ajax_delete_admin</a>( )</code>
+		<code><a href="source-class-Backend_api.html#788-808" title="Go to source code">ajax_delete_admin</a>( )</code>
 
 		<div class="description short">
 			
@@ -779,7 +810,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_filter_providers">#</a>
-		<code><a href="source-class-Backend_api.html#667-690" title="Go to source code">ajax_filter_providers</a>( )</code>
+		<code><a href="source-class-Backend_api.html#810-837" title="Go to source code">ajax_filter_providers</a>( )</code>
 
 		<div class="description short">
 			
@@ -816,7 +847,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_provider">#</a>
-		<code><a href="source-class-Backend_api.html#692-711" title="Go to source code">ajax_save_provider</a>( )</code>
+		<code><a href="source-class-Backend_api.html#839-877" title="Go to source code">ajax_save_provider</a>( )</code>
 
 		<div class="description short">
 			
@@ -854,7 +885,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_provider">#</a>
-		<code><a href="source-class-Backend_api.html#713-729" title="Go to source code">ajax_delete_provider</a>( )</code>
+		<code><a href="source-class-Backend_api.html#879-899" title="Go to source code">ajax_delete_provider</a>( )</code>
 
 		<div class="description short">
 			
@@ -891,7 +922,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_filter_secretaries">#</a>
-		<code><a href="source-class-Backend_api.html#731-754" title="Go to source code">ajax_filter_secretaries</a>( )</code>
+		<code><a href="source-class-Backend_api.html#901-928" title="Go to source code">ajax_filter_secretaries</a>( )</code>
 
 		<div class="description short">
 			
@@ -928,7 +959,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_save_secretary">#</a>
-		<code><a href="source-class-Backend_api.html#756-775" title="Go to source code">ajax_save_secretary</a>( )</code>
+		<code><a href="source-class-Backend_api.html#930-961" title="Go to source code">ajax_save_secretary</a>( )</code>
 
 		<div class="description short">
 			
@@ -966,7 +997,7 @@ completed successfully.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#_ajax_delete_secretary">#</a>
-		<code><a href="source-class-Backend_api.html#777-793" title="Go to source code">ajax_delete_secretary</a>( )</code>
+		<code><a href="source-class-Backend_api.html#963-983" title="Go to source code">ajax_delete_secretary</a>( )</code>
 
 		<div class="description short">
 			
@@ -985,6 +1016,77 @@ completed successfully.<br />
 				<div class="list">
 					<code>string</code><br>Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).<br />
 				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_save_settings" id="_ajax_save_settings">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_save_settings">#</a>
+		<code><a href="source-class-Backend_api.html#985-1018" title="Go to source code">ajax_save_settings</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] Save a setting or multiple settings in the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] Save a setting or multiple settings in the database.</p>
+
+<p>This method is used to store settings in the database. It can be either
+system or user settings, one or many. Use the $_POST variables accordingly.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="ajax_validate_username" id="_ajax_validate_username">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_ajax_validate_username">#</a>
+		<code><a href="source-class-Backend_api.html#1020-1043" title="Go to source code">ajax_validate_username</a>( )</code>
+
+		<div class="description short">
+			
+<p>[AJAX] This method checks whether the username already exists in the
+database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>[AJAX] This method checks whether the username already exists in the
+database.</p>
+
+
+
+
 
 
 

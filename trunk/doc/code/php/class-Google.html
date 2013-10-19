@@ -7,7 +7,7 @@
 	<title>Class Google</title>
 
 	<script type="text/javascript" src="resources/combined.js?955602237"></script>
-	<script type="text/javascript" src="elementlist.js?3375239373"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -48,6 +48,8 @@
 				<li><a href="class-Services_Model.html">Services_Model</a></li>
 				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
 				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li><a href="class-User_Model.html">User_Model</a></li>
 			</ul>
 
 
@@ -121,7 +123,7 @@ CI_Controller
 		
 		
 
-		<b>Located at</b> <a href="source-class-Google.html#3-196" title="Go to source code">google.php</a><br />
+		<b>Located at</b> <a href="source-class-Google.html#3-197" title="Go to source code">google.php</a><br />
 	</div>
 
 
@@ -225,7 +227,7 @@ be included in an allowed redirect url.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sync">#</a>
-		<code><a href="source-class-Google.html#67-195" title="Go to source code">sync</a>( <span>numeric <var>$provider_id</var> = <span class="php-keyword1">NULL</span></span> )</code>
+		<code><a href="source-class-Google.html#67-196" title="Go to source code">sync</a>( <span>numeric <var>$provider_id</var> = <span class="php-keyword1">NULL</span></span> )</code>
 
 		<div class="description short">
 			
@@ -257,7 +259,8 @@ limit for the Calendar API usage.</p>
 				<h4>Task</h4>
 				<div class="list">
 						This method must be executed only by the system and noone else outside. It is a
-big security issue.<br />
+big security issue. So whenever this method is used we should check for user
+credentials.<br />
 				</div>
 
 

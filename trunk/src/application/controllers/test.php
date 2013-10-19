@@ -11,8 +11,19 @@ class Test extends CI_Controller {
     
     /**
      * Run all available unit tests.
+     * 
+     * We only test models at the moment. In the future the unit test will be 
+     * improved.
      */
     public function index() {
+        // User must be logged in as an admin in order to run the tests.
+        $this->load->library('session');
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . 'test');
+        if ($this->session->userdata('role_slug') != DB_SLUG_ADMIN) {
+            header('Location: ' . $this->config->item('base_url') . 'user/login');
+            return;
+        }
+        
         $this->load->view('general/test');
         $this->unit_tests->run_all_tests();
     } 
@@ -21,16 +32,16 @@ class Test extends CI_Controller {
      * Test only the app models.
      */
     public function models() {
-        $this->load->view('general/test');
-        $this->unit_tests->run_model_tests();
+        //$this->load->view('general/test');
+        //$this->unit_tests->run_model_tests();
     }
     
     /**
      * Test only the app libraries.
      */
     public function libraries() {
-        $this->load->view('general/test');
-        $this->unit_tests->run_library_tests();
+        //$this->load->view('general/test');
+        //$this->unit_tests->run_library_tests();
     }
 }
 
