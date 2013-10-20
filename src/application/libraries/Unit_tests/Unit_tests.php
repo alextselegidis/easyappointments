@@ -35,8 +35,6 @@ class Unit_tests extends CI_Driver_Library {
      * If a new group of tests is added, it should be also added in
      * this method, in order to be executed when all the tests need to 
      * be run.
-     * 
-     * @task In order to run the tests the user must be logged in as admin.
      */
     public function run_all_tests() {
         $this->run_model_tests(false);
@@ -74,7 +72,7 @@ class Unit_tests extends CI_Driver_Library {
      * report will be outputted.
      */
     public function run_library_tests($output_report = true) {
-        // @task Implement unit tests for the libraries.
+        // No tests for libraries at the moment.
         if ($output_report) {
             $this->CI->output->append_output($this->CI->unit->report());
         }

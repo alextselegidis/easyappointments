@@ -97,7 +97,8 @@ var BackendCalendar = {
         
         // Privileges Checks
         if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
-            $('#select-filter-item optgroup:eq(0)').val(GlobalVariables.user.id);
+            $('#select-filter-item optgroup:eq(0)')
+                    .find('option[value="' + GlobalVariables.user.id + '"]').prop('selected', true);
             $('#select-filter-item').prop('disabled', true);
         }
         
@@ -844,10 +845,8 @@ var BackendCalendar = {
      * @param {date} startDate Visible start date of the calendar.
      * @param {type} endDate Visible end date of the calendar.
      */
-    refreshCalendarAppointments: function($calendar, recordId, filterType, 
-            startDate, endDate) {
+    refreshCalendarAppointments: function($calendar, recordId, filterType, startDate, endDate) {
         var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_get_calendar_appointments';
-            
         var postData = {
             'record_id': recordId,
             'start_date': startDate.toString('yyyy-MM-dd'),
@@ -857,21 +856,10 @@ var BackendCalendar = {
 
         $.post(postUrl, postData, function(response) {
             ////////////////////////////////////////////////////////////////////
-            //console.log('Refresh Calendar Appointments Response :', response);
+            console.log('Refresh Calendar Appointments Response :', response);
             ////////////////////////////////////////////////////////////////////
             
-            if (response.exceptions) {
-                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                return;
-            }
-            
-            if (response.warnings) {
-            	response.warnings = GeneralFunctions.parseExceptions(response.exceptions);
-            	GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
-            	$('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-            }
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
             
             // :: ADD APPOINTMENTS TO CALENDAR
             var calendarEvents = [];
@@ -898,12 +886,10 @@ var BackendCalendar = {
             // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
             var calendarView = $calendar.fullCalendar('getView').name;
             
-            if (filterType === BackendCalendar.FILTER_TYPE_PROVIDER 
-                    && calendarView !== 'month') {
-                
+            if (filterType === BackendCalendar.FILTER_TYPE_PROVIDER && calendarView !== 'month') {
                 $.each(GlobalVariables.availableProviders, function(index, provider) {
                     if (provider['id'] == recordId) {
-                        var workingPlan = jQuery.parseJSON(provider['settings']['working_plan']);
+                        var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
                         var unavailablePeriod;
                         
                         switch(calendarView) {
@@ -993,7 +979,44 @@ var BackendCalendar = {
                                 var currDateEnd = GeneralFunctions.clone(currDateStart).addDays(1);
                                 
                                 $.each(workingPlan, function(index, workingDay) {
-                                    if (workingDay == null) return; // Go to the next loop.
+                                    
+                                    // Add custom unavailable periods (they are always displayed
+                                    // on the calendar, even if the provider won't work on that day).
+                                    $.each(response.unavailables, function(index, unavailable) {
+                                        if (currDateStart.toString('dd/MM/yyyy') 
+                                            === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
+                                            var unavailablePeriod = {
+                                                'title': 'Unavailable',
+                                                'start': Date.parse(unavailable.start_datetime),
+                                                'end': Date.parse(unavailable.end_datetime),
+                                                'allDay': false,
+                                                'color': '#879DB4',
+                                                'editable': true,
+                                                'className': 'fc-unavailable fc-custom',
+                                                'data': unavailable
+                                            };
+                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                        }
+                                    });
+                                    
+                                    
+                                    if (workingDay == null) {
+                                        // Add a full day unavailable event.
+                                        unavailablePeriod = {
+                                            'title': 'Not Working',
+                                            'start': GeneralFunctions.clone(currDateStart),
+                                            'end': GeneralFunctions.clone(currDateEnd),
+                                            'allDay': false,
+                                            'color': '#BEBEBE',
+                                            'editable': false,
+                                            'className': 'fc-unavailable'
+                                        };
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
+                                        currDateStart.addDays(1);
+                                        currDateEnd.addDays(1);
+                                        return; // Go to the next loop.
+                                    }
+                                
                                     var start, end; 
                                     
                                     // Add unavailable period before work starts.
@@ -1009,8 +1032,7 @@ var BackendCalendar = {
                                             'editable': false,
                                             'className': 'fc-unavailable'
                                         };
-                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, 
-                                                true);
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
                                     }
 
                                     // Add unavailable period after work ends.
@@ -1046,24 +1068,6 @@ var BackendCalendar = {
                                             'className': 'fc-unavailable fc-break'
                                         };
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                    });
-                                    
-                                    // Add custom unavailable periods.
-                                    $.each(response.unavailables, function(index, unavailable) {
-                                        if (currDateStart.toString('dd/MM/yyyy') 
-                                            === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
-                                            var unavailablePeriod = {
-                                                'title': 'Unavailable',
-                                                'start': Date.parse(unavailable.start_datetime),
-                                                'end': Date.parse(unavailable.end_datetime),
-                                                'allDay': false,
-                                                'color': '#879DB4',
-                                                'editable': true,
-                                                'className': 'fc-unavailable fc-custom',
-                                                'data': unavailable
-                                            };
-                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                        }
                                     });
                                     
                                     currDateStart.addDays(1);

@@ -44,7 +44,7 @@ function hash_password($salt, $password) {
         $hash = hash('sha256', $hash);
     } 
     
-    return $hash; // @task include salt and hash more times.
+    return $hash; 
 }
 
 /**

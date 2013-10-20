@@ -14,7 +14,6 @@ class Backend_api extends CI_Controller {
         $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
     
-    
     /**
      * [AJAX] Get the registered appointments for the given date period and record.
      * 

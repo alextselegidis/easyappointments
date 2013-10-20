@@ -550,10 +550,10 @@ var FrontendBook = {
         
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == serviceId) { // Just found the service.
-                html = '<strong>' + service.name + '</strong><br> ';
+                html = '<strong>' + service.name + '</strong>';
                 
                 if (service.description != '' && service.description != null) {
-                    html += service.description;
+                    html += '<br>' + service.description;
                 }
                 
                 if (service.price != '' && service.price != null) {
