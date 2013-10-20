@@ -416,9 +416,6 @@ CustomersHelper.prototype.getFilterHtml = function(customer) {
  * @param {numeric} id The record id to be selected from the filter results.
  * @param {bool} display (OPTIONAL = false) If true then the method will display the record
  * on the form.
- * 
- * @task The selected row must always be visible (even if a vertical scroll bar is used to 
- * navigate through the filter results).
  */
 CustomersHelper.prototype.select = function(id, display) {
     if (display == undefined) display = false;

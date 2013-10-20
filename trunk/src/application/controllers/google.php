@@ -73,12 +73,13 @@ class Google extends CI_Controller {
      * 
      * @param numeric $provider_id Provider record to be synced.
      * 
-     * @task This method must be executed only by the system and noone else outside. 
-     * It is a big security issue. So whenever this method is used we should check for
-     * user credentials.
      */
     public function sync($provider_id = NULL) {
         try {
+            // The user must be logged in.
+            $this->load->library('session');
+            if ($this->session->userdata('user_id') == FALSE) return;
+            
             if ($provider_id === NULL) {
                 throw new Exception('Provider id not specified.');
             }
@@ -139,7 +140,7 @@ class Google extends CI_Controller {
                     // Appointment is synced with google calendar.
                     try {
                         $google_event = $this->google_sync->get_event($appointment['id_google_calendar']);
-                    
+                        
                         // If gcal event is different from e!a appointment then update e!a record.
                         $is_different = FALSE;
                         $appt_start = strtotime($appointment['start_datetime']);
@@ -156,6 +157,7 @@ class Google extends CI_Controller {
                             $appointment['end_datetime'] = date('Y-m-d H:i:s', $event_end);
                             $this->appointments_model->add($appointment);
                         }
+                        
                     } catch(Exception $exc) {
                         // Appointment not found on gcal, delete from e!a.
                         $this->appointments_model->delete($appointment['id']);
