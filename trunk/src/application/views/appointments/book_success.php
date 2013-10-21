@@ -186,10 +186,12 @@
         <h3>Your appointment has been successfully registered!</h3>
         <p>An email with the appointment details has been sent to you.</p>
 
+        <?php if ($this->config->item('ea_google_sync_feature')) { ?>
         <button id="add-to-google-calendar" class="btn btn-primary">
             <i class="icon-plus icon-white"></i>
             Add to Google Calendar
         </button>
+        <?php } ?>
         
         <?php 
             // Display exceptions (if any).

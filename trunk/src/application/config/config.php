@@ -19,8 +19,19 @@ include dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 */
 require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 $config['base_url']	= SystemConfiguration::$base_url; 
+
+/*
+|--------------------------------------------------------------------------
+| Easy!Appointments Configuration
+|--------------------------------------------------------------------------
+| 
+| Declare some of the global config values of Easy!Appointments.  
+| the global "config" variable.
+|
+*/
 $config['ea_version'] = '0.6'; // This must be changed manually.
 $config['ea_release_title'] = 'Alpha'; // Leave empty for no title or add BETA, TEST etc ...
+$config['ea_google_sync_feature'] = SystemConfiguration::$google_sync_feature;
 
 /*
 |--------------------------------------------------------------------------

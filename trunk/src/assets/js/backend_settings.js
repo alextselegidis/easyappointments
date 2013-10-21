@@ -358,7 +358,7 @@ UserSettings.prototype.save = function(settings) {
         Backend.displayNotification('Settings saved successfully!');
         
         // Update footer greetings.
-        $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val());
+        $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
         
     }, 'json');
 };
