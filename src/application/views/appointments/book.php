@@ -179,7 +179,7 @@
                                 }
                                 
                                 if ($has_category) {
-                                    $grouped_services = [];
+                                    $grouped_services = array();
 
                                     foreach($available_services as $service) {
                                         if ($service['category_id'] != NULL) {
@@ -193,7 +193,7 @@
 
                                     // We need the uncategorized services at the end of the list so
                                     // we will use another iteration only for the uncategorized services.
-                                    $grouped_services['uncategorized'] = [];
+                                    $grouped_services['uncategorized'] = array();
                                     foreach($available_services as $service) {
                                         if ($service['category_id'] == NULL) {
                                             $grouped_services['uncategorized'][] = $service;

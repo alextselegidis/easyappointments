@@ -99,7 +99,7 @@ class Notifications {
         $mail->Body    = $email_html;
 
         if (!$mail->Send()) {
-            throw new Exception('Email could not been sent. ' . 'Mailer Error (Line ' 
+            throw new Exception('Email could not been sent. Mailer Error (Line ' 
                     . __LINE__ . '): ' . $mail->ErrorInfo);
         }
         

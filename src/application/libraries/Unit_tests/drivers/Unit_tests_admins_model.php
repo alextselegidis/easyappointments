@@ -293,7 +293,7 @@ class Unit_tests_admins_model extends CI_Driver {
         $model_batch = $this->ci->admins_model->get_batch(array('id' => $admin['id']));
         $db_batch = $this->ci->db->get_where('ea_users', array('id' => $admin['id']))->result_array();
         foreach($db_batch as &$admin) {
-            $admin['settings'] = [];
+            $admin['settings'] = array();
         }
         
         $this->ci->unit->run($model_batch, $db_batch, 'Test if get_batch() with where clause ' 
@@ -311,7 +311,7 @@ class Unit_tests_admins_model extends CI_Driver {
         $admin = $this->default_admin;
         $this->ci->db->insert('ea_users', $admin);
         $admin['id'] = intval($this->ci->db->insert_id());
-        $admin['settings'] = [];
+        $admin['settings'] = array();
         
         $model_admin = $this->ci->admins_model->get_row($admin['id']);
         $this->ci->unit->run($model_admin, $admin, 'Test if get_row() has successfully '
