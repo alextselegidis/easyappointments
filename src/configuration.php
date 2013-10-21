@@ -5,16 +5,16 @@ class SystemConfiguration {
     
     // Database Settings
     public static $db_host     = 'localhost';
-    public static $db_name     = 'new_ea'; //'easy_appointments';
-    public static $db_username = 'root';
-    public static $db_password = '';
+    public static $db_name     = 'Enter DB Name Here'; 
+    public static $db_username = 'Enter DB Username Here';
+    public static $db_password = 'Enter DB Password Here';
     
     // Google Calendar API Settings
     public static $google_sync_feature  = FALSE; // Enter TRUE or FALSE;
     public static $google_product_name  = 'Easy!Appointments';
-    public static $google_client_id     = '396094740598-l9ohhdgs0hr6qi89628p3chf9lm59mkc.apps.googleusercontent.com';
-    public static $google_client_secret = '3kKEgx3mgxfFInrWf3jTUn4D';
-    public static $google_api_key       = 'AIzaSyCLMin3-ePz8xShJ7klSduo7iChDV7ldc0';
+    public static $google_client_id     = 'Enter Google Client Id Here';
+    public static $google_client_secret = 'Enter Google Client Secret Here';
+    public static $google_api_key       = 'Enter Google API Key Here';
 }
 
 /* End of file configuration.php */
