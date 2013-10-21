@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: backend.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: backend.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * Main javascript code for the backend of Easy!Appointments.
+ */
+$(document).ready(function() {
+    $(window).resize(function() {
+        Backend.placeFooterToBottom();
+    }).trigger('resize');
+    
+    $(document).ajaxStart(function() {
+        $('#loading').show();
+    });
+    
+    $(document).ajaxStop(function() {
+        $('#loading').hide();
+    });
+    
+    $('.menu-item').qtip({
+        position: {
+            my: 'top center',
+            at: 'bottom center'
+        },
+        style: {
+            classes: 'qtip-green qtip-shadow custom-qtip'
+        }
+    });
+});
+
+/**
+ * This namespace contains functions that are used in the backend section of
+ * the applications.
+ * 
+ * @namespace Backend
+ */
+var Backend = {
+    /**
+     * Backend Constants
+     */
+    DB_SLUG_ADMIN: 'admin',
+    DB_SLUG_PROVIDER: 'provider',
+    DB_SLUG_SECRETARY: 'secretary',
+    DB_SLUG_CUSTOMER: 'customer',
+    
+    PRIV_VIEW: 1,
+    PRIV_ADD: 2,
+    PRIV_EDIT: 4,
+    PRIV_DELETE: 8,
+    
+    PRIV_APPOINTMENTS: 'appointments',
+    PRIV_CUSTOMERS: 'customers',
+    PRIV_SERVICES: 'services',
+    PRIV_USERS: 'users',
+    PRIV_SYSTEM_SETTINGS: 'system_settings',
+    PRIV_USER_SETTINGS: 'user_settings',
+    
+    /**
+     * Place the backend footer always on the bottom of the page.
+     */
+    placeFooterToBottom: function() {
+        var $footer = $('#footer');
+
+        if (window.innerHeight > $('body').height()) {
+            $footer.css({
+                'position': 'absolute',
+                'width': '100%',
+                'bottom': '0px'
+            });
+        } else {
+            $footer.css({
+                'position': 'static'
+            });
+        }
+    },
+
+    /**
+     * Display backend notifications to user. 
+     * 
+     * Using this method you can display notifications to the use with custom
+     * messages. If the 'actions' array is provided then an action link will 
+     * be displayed too.
+     * 
+     * @param {string} message Notification message
+     * @param {array} actions An array with custom actions that will be available
+     * to the user. Every array item is an object that contains the 'label' and 
+     * 'function' key values.
+     */
+    displayNotification: function(message, actions) {
+        if (message == undefined) {
+            message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
+        }
+        
+        if (actions == undefined) {
+            actions = [];
+            setTimeout(function() {
+                $('#notification').slideUp('slow');
+            }, 7000);
+        }
+        
+        var notificationHtml = 
+                '&lt;div class="notification alert">' + 
+                '&lt;strong>' + message + '&lt;/strong>';
+        
+        $.each(actions, function(index, action) {
+            var actionId = action['label'].toLowerCase().replace(' ', '-');
+            notificationHtml += '&lt;button id="' + actionId + '" class="btn">' 
+                    + action['label'] + '&lt;/button>';
+            
+            $(document).off('click', '#' + actionId);
+            $(document).on('click', '#' + actionId, action['function']);
+        });
+        
+        notificationHtml += '&lt;a class="close" data-dismiss="alert" href="#">&times;&lt;/a>&lt;/div>';
+        
+        $('#notification').html(notificationHtml);
+        $('#notification').show('blind');
+    }
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

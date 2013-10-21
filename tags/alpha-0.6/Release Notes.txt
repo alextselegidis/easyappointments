@@ -1,0 +1,20 @@
+VERSION 0.6
+===========
+[Feature] System and user settings page.
+[Feature] Login process included.
+[Feature] Applied user privileges through all the system depending their role type.
+[Feature] Select existing customer from backend/calendar when trying to add a new appointment.
+[Fix] Fix backend/calendar service and provider functionality.
+[Fix] Other minor fixes.
+
+
+Official Easy!Appointments Website:
+http://easyappointments.org
+
+Check the Google+ Community for development updates:
+https://plus.google.com/communities/105333709485142846840
+
+Visit the Support Group for any help on the project: 
+http://groups.google.com/group/easy-appointments
+
+ 
