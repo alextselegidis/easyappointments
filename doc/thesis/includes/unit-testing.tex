@@ -33,23 +33,25 @@
 private function test_add_appointment_insert() {
     // Add - insert new appointment record to the database.
     $appointment_data = array(
-                           'start_datetime' => '2013-05-01 12:30:00',
-                           'end_datetime' => '2013-05-01 13:00:00',
-                           'notes' => 'Some notes right here...',
-                           'id_users_provider' => $this->provider_id,
-                           'id_users_customer' => $this->customer_id,
-                           'id_services' => $this->service_id
-                       );
+	   'start_datetime' => '2013-05-01 12:30:00',
+	   'end_datetime' => '2013-05-01 13:00:00',
+	   'notes' => 'Some notes right here...',
+	   'id_users_provider' => $this->provider_id,
+	   'id_users_customer' => $this->customer_id,
+	   'id_services' => $this->service_id
+   );
     $appointment_data['id'] = $this->CI->Appointments_Model
             ->add($appointment_data);
     $this->CI->unit->run($appointment_data['id'], 'is_int', 
-             'Test if add() appointment (insert operation) returned the db row id.');
+             'Test if add() appointment (insert operation) '
+			 . 'returned the db row id.');
         
     // Check if the record is the one that was inserted.
     $db_data = $this->CI->db->get_where('ea_appointments', 
             array('id' => $appointment_data['id']))->row_array();
-    $this->CI->unit->run($appointment_data, $db_data, 
-            'Test if add() appointment (insert operation) has successfully inserted a record.');
+    $this->CI->unit->run($appointment_data, $db_data, 'Test if add() '
+			. 'appointment (insert operation) has successfully '
+			. 'inserted a record.');
 
     // Delete inserted record.
     $this->CI->db->delete('ea_appointments', 
@@ -74,12 +76,14 @@ private function test_get_value_record_does_not_exist() {
     $has_thrown_exception = FALSE;
         
     try {
-        $this->CI->Appointments_Model->get_value('start_datetime', $random_record_id);
+        $this->CI->Appointments_Model
+				->get_value('start_datetime', $random_record_id);
     } catch (InvalidArgumentException $db_exc) {
         $has_thrown_exception = TRUE;
     }
         
-    $this->CI->unit->run($has_thrown_exception, TRUE, 'Test get_value() with record id that does not exist.');
+    $this->CI->unit->run($has_thrown_exception, TRUE, 
+			'Test get_value() with record id that does not exist.');
 }
 \end{verbatim}
 \endgroup
