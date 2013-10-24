@@ -1,16 +1,23 @@
 \documentclass[oneside, 12pt]{book}
+
+%% ============================================================================
+%% ΟΡΙΣΜΟΣ ΤΩΝ PACKAGES ΠΟΥ ΘΑ ΧΡΗΣΙΜΟΠΟΙΗΘΟΥΝ
+%% ============================================================================
 \usepackage{thesis}
 \usepackage{tabularx} 
 \usepackage{epsfig}
 \usepackage{float}
-
+\usepackage{listings}
 \usepackage{hyperref}
 \usepackage {color}
+
+%% ============================================================================
+%% ΡΥΘΜΙΣΗ ΤΩΝ HYPERLINKS
+%% ============================================================================
 \hypersetup {colorlinks}
 \definecolor{darkred}{rgb}{0.5,0,0}
 \definecolor{darkgreen}{rgb}{0,0.5,0}
 \definecolor{darkblue}{rgb}{0,0,0.5}
-
 \hypersetup{ 
 	colorlinks,
 	linkcolor=darkblue,
@@ -19,7 +26,37 @@
 	citecolor=darkred 
 }
 
+%% ============================================================================
+%% PHP LISTINGS STYLE
+%% http://tex.stackexchange.com/a/54687
+%% http://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
+%% http://en.wikibooks.org/wiki/LaTeX/Colors
+%% ============================================================================
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{dkblue}{rgb}{0,0,.6}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+\definecolor{ltgrey}{RGB}{240,240,240}
+\lstset{
+  language        = php,
+  basicstyle      = \footnotesize\ttfamily,
+  keywordstyle    = \color{dkblue},
+  stringstyle     = \color{red},
+  identifierstyle = \color{dkgreen},
+  commentstyle    = \color{gray},
+  emph            =[1]{php},
+  emphstyle       =[1]\color{black},
+  emph            =[2]{if,and,or,else,public,function,try,catch},
+  emphstyle       =[2]\color{dkyellow},
+  numbers		  = left,
+  tabsize		  = 2,
+  backgroundcolor = \color{ltgrey},
+  extendedchars   = true,
+  showspaces	  = false,
+  showstringspaces= false}
+
+%% ============================================================================
 %% ΤΑ ΠΑΡΑΚΑΤΩ ΕΙΝΑΙ ΥΠΟΧΡΕΩΤΙΚΑ
+%% ============================================================================
 \renewcommand{\thesistitle}{Δημιουργία διαδικτυακού συστήματος συνατντήσεων (appointments) με χρήση Google Calendar PHP API}
 \renewcommand{\thesisauthor}{Αλέξανδρος Τσελεγγίδης (2503)}
 \renewcommand{\thesisauthorabbrv}{Α. Τσελεγγίδης}
