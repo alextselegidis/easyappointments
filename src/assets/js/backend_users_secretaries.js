@@ -370,10 +370,17 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
  * @returns {string} The html code that represents the record on the filter results list.
  */
 SecretariesHelper.prototype.getFilterHtml = function(secretary) {
+    var name = secretary.first_name + ' ' + secretary.last_name;
+    var info = secretary.email;
+    info = (secretary.mobile_number != '' && secretary.mobile_number != null)
+            ? info + ', ' + secretary.mobile_number : info;
+    info = (secretary.phone_number != '' && secretary.phone_number != null)
+            ? info + ', ' + secretary.phone_number : info;   
+            
     var html =
             '<div class="secretary-row" data-id="' + secretary.id + '">' + 
-                '<strong>' + secretary.first_name + ' ' + secretary.last_name + '</strong><br>' +
-                secretary.email + ', ' + secretary.mobile_number + ', ' + secretary.phone_number + '<br>' + 
+                '<strong>' + name + '</strong><br>' +
+                info + '<br>' + 
             '</div><hr>';
 
     return html;
