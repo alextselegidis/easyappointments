@@ -93,7 +93,7 @@
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-admin" class="btn btn-primary">
-                        <i class="icon-ok"></i>
+                        <i class="icon-ok icon-white"></i>
                         Save</button>
                     <button id="cancel-admin" class="btn">
                         <i class="icon-ban-circle"></i>
@@ -201,7 +201,7 @@
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-provider" class="btn btn-primary">
-                        <i class="icon-ok"></i>
+                        <i class="icon-ok icon-white"></i>
                         Save</button>
                     <button id="cancel-provider" class="btn">
                         <i class="icon-ban-circle"></i>
@@ -409,7 +409,7 @@
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-secretary" class="btn btn-primary">
-                        <i class="icon-ok"></i>
+                        <i class="icon-ok icon-white"></i>
                         Save</button>
                     <button id="cancel-secretary" class="btn">
                         <i class="icon-ban-circle"></i>

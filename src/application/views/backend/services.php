@@ -67,7 +67,7 @@
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-service" class="btn btn-primary">
-                        <i class="icon-ok"></i>
+                        <i class="icon-ok icon-white"></i>
                         Save</button>
                     <button id="cancel-service" class="btn">
                         <i class="icon-ban-circle"></i>
@@ -144,7 +144,7 @@
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-category" class="btn btn-primary">
-                        <i class="icon-ok"></i>
+                        <i class="icon-ok icon-white"></i>
                         Save</button>
                     <button id="cancel-category" class="btn">
                         <i class="icon-ban-circle"></i>

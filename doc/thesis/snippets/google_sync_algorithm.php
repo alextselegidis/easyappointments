@@ -1,7 +1,7 @@
 <?php
 /**
- * Complete synchronization of appointments between Google Calendar 
- * and Easy!Appointments.
+ * Complete synchronization of appointments between Google 
+ * Calendar and Easy!Appointments.
  * 
  * This method will completely sync the appointments of a provider 
  * with his Google Calendar account. The sync period needs to be 
@@ -34,8 +34,8 @@ public function sync($provider_id = NULL) {
 		$google_sync = $this->providers_model
 				->get_setting('google_sync', $provider['id']);
 		if (!$google_sync) {
-			throw new Exception('The selected provider has not the '
-					. 'google synchronization setting enabled.');
+			throw new Exception('The selected provider has not the  '
+					. 'Google synchronization setting enabled.');
 		}
 		
 		$google_token = json_decode($this->providers_model
@@ -43,66 +43,75 @@ public function sync($provider_id = NULL) {
 		$this->load->library('google_sync');
 		$this->google_sync->refresh_token($google_token->refresh_token);
 		
-		// Fetch provider's appointments that belong to the
-		// sync time period. 
+		// Fetch provider's appointments that belong to the sync 
+		// time period. 
 		$sync_past_days = $this->providers_model
 				->get_setting('sync_past_days', $provider['id']);
 		$sync_future_days = $this->providers_model
 				->get_setting('sync_future_days', $provider['id']);
-		$start = strtotime('-' . $sync_past_days . ' days', 
-				strtotime(date('Y-m-d')));
-		$end = strtotime('+' . $sync_future_days . ' days', 
-				strtotime(date('Y-m-d')));
+		$start = strtotime('-' . $sync_past_days 
+				. ' days', strtotime(date('Y-m-d')));
+		$end = strtotime('+' . $sync_future_days 
+				. ' days', strtotime(date('Y-m-d')));
 		
 		$where_clause = array(
 			'start_datetime >=' => date('Y-m-d H:i:s', $start),
 			'end_datetime <=' => date('Y-m-d H:i:s', $end),
-			'id_users_provider' => $provider['id'],
-			'is_unavailable' => FALSE
+			'id_users_provider' => $provider['id']
 		);
 		
-		$appointments = $this->appointments_model
-				->get_batch($where_clause);
+		$appointments = 
+				$this->appointments_model->get_batch($where_clause);
 		
 		$company_settings = array(
-			'company_name' => 
-				$this->settings_model->get_setting('company_name'),
-			'company_link' => 
-				$this->settings_model->get_setting('company_link'),
-			'company_email' => 
-				$this->settings_model->get_setting('company_email')
+			'company_name' => $this->settings_model
+					->get_setting('company_name'),
+			'company_link' => $this->settings_model
+					->get_setting('company_link'),
+			'company_email' => $this->settings_model
+					->get_setting('company_email')
 		);
 		
-		// Sync each appointment with Google Calendar by following
+		// Sync each appointment with Google Calendar by following 
 		// the project's sync protocol (see documentation).
 		foreach($appointments as $appointment) {
-			$service = $this->services_model
-					->get_row($appointment['id_services']);
-			$customer = $this->customers_model
-					->get_row($appointment['id_users_customer']);
+			if ($appointment['is_unavailable'] == FALSE) {
+				$service = $this->services_model
+						->get_row($appointment['id_services']);
+				$customer = $this->customers_model
+						->get_row($appointment['id_users_customer']);
+			} else {
+				$service = NULL;
+				$customer = NULL;
+			}
 
 			// If current appointment not synced yet, add to gcal.
 			if ($appointment['id_google_calendar'] == NULL) {
 				$google_event = $this->google_sync
-						->add_appointment($appointment, $provider, $service, 
-						$customer, $company_settings);
+						->add_appointment($appointment, $provider,
+						$service, $customer, $company_settings);
 				$appointment['id_google_calendar'] = $google_event->id;
-				$this->appointments_model->add($appointment); // Save gcal id
+				$this->appointments_model->add($appointment);// Save gcal id
 			} else {
 				// Appointment is synced with google calendar.
 				try {
 					$google_event = $this->google_sync
 							->get_event($appointment['id_google_calendar']);
 					
-					// If gcal event is different from e!a appointment then 
-					// update Easy!Appointments record.
+					if ($google_event->status == 'cancelled') {
+						throw new Exception('Event is cancelled, remove the '
+								. 'record from Easy!Appointments.');
+					}
+					
+					// If gcal event is different from e!a appointment 
+					// then update e!a record.
 					$is_different = FALSE;
 					$appt_start = strtotime($appointment['start_datetime']);
 					$appt_end = strtotime($appointment['end_datetime']);
 					$event_start = 
-							strtotime($google_event->getStart()->getDateTime());
+						strtotime($google_event->getStart()->getDateTime());
 					$event_end = 
-							strtotime($google_event->getEnd()->getDateTime());
+						strtotime($google_event->getEnd()->getDateTime());
 
 					if ($appt_start != $event_start 
 							|| $appt_end != $event_end) {
@@ -146,7 +155,6 @@ public function sync($provider_id = NULL) {
 					'id_users_customer' => NULL,
 					'id_services' => NULL,
 				);
-				
 				$this->appointments_model->add($appointment);
 			}
 		}

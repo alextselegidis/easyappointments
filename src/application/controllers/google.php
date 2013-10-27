@@ -112,8 +112,7 @@ class Google extends CI_Controller {
             $where_clause = array(
                 'start_datetime >=' => date('Y-m-d H:i:s', $start),
                 'end_datetime <=' => date('Y-m-d H:i:s', $end),
-                'id_users_provider' => $provider['id'],
-                'is_unavailable' => FALSE
+                'id_users_provider' => $provider['id']
             );
             
             $appointments = $this->appointments_model->get_batch($where_clause);
@@ -127,8 +126,13 @@ class Google extends CI_Controller {
             // Sync each appointment with Google Calendar by following the project's sync
             // protocol (see documentation).
             foreach($appointments as $appointment) {
-                $service = $this->services_model->get_row($appointment['id_services']);
-                $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+                if ($appointment['is_unavailable'] == FALSE) {
+                    $service = $this->services_model->get_row($appointment['id_services']);
+                    $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+                } else {
+                    $service = NULL;
+                    $customer = NULL;
+                }
 
                 // If current appointment not synced yet, add to gcal.
                 if ($appointment['id_google_calendar'] == NULL) {
@@ -140,6 +144,10 @@ class Google extends CI_Controller {
                     // Appointment is synced with google calendar.
                     try {
                         $google_event = $this->google_sync->get_event($appointment['id_google_calendar']);
+                        
+                        if ($google_event->status == 'cancelled') {
+                            throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
+                        }
                         
                         // If gcal event is different from e!a appointment then update e!a record.
                         $is_different = FALSE;

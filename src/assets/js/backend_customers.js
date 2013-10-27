@@ -397,13 +397,17 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
  * @return {string} Returns the record html code.
  */
 CustomersHelper.prototype.getFilterHtml = function(customer) {
+    var name = customer.first_name + ' ' + customer.last_name;
+    var info = customer.email; 
+    info = (customer.phone_number != '' && customer.phone_number != null) 
+            ? info + ', ' + customer.phone_number : info;
+    
     var html = 
             '<div class="customer-row" data-id="' + customer.id + '">' +
                 '<strong>' + 
-                    customer.first_name + ' ' + customer.last_name + 
+                    name + 
                 '</strong><br>' + 
-                '<span>' + customer.email + '</span> | ' + 
-                '<span>' + customer.phone_number + '</span>' + 
+                info +
             '</div><hr>';
     
     return html;

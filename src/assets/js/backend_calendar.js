@@ -52,7 +52,10 @@ var BackendCalendar = {
             'dayClick': BackendCalendar.calendarDayClick,
             'eventClick': BackendCalendar.calendarEventClick,
             'eventResize': BackendCalendar.calendarEventResize,
-            'eventDrop': BackendCalendar.calendarEventDrop
+            'eventDrop': BackendCalendar.calendarEventDrop,
+            'eventAfterAllRender': function(view) {
+                BackendCalendar.convertTitlesToHtml();
+            }
         });
         
         // Temporary fix: make the first letter capital in all the lowercase strings
@@ -264,7 +267,7 @@ var BackendCalendar = {
 
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
                     
@@ -396,7 +399,7 @@ var BackendCalendar = {
 
                             if (response.warnings) {
                                 response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                                GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                                GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                             }
 
@@ -437,7 +440,7 @@ var BackendCalendar = {
 
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
 
@@ -510,7 +513,7 @@ var BackendCalendar = {
             }
             
             // :: DEFINE SUCCESS EVENT CALLBACK
-            var successCallback = function(response) {
+            var successCallback = function(response) {                
                 if (response.exceptions) {             
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
@@ -527,6 +530,7 @@ var BackendCalendar = {
                 $dialog.find('.modal-message').text('Appointment saved successfully!');
                 $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-body').scrollTop(0);
                 
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
@@ -542,6 +546,7 @@ var BackendCalendar = {
                 $dialog.find('.modal-message').text('A server communication error occured, please try again.');
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-body').scrollTop(0);
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
@@ -600,7 +605,7 @@ var BackendCalendar = {
 
                 if (response.warnings) {
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
                 
@@ -913,7 +918,7 @@ var BackendCalendar = {
                                 
                                 if (calendarDateStart < workDateStart) {
                                     unavailablePeriod = {
-                                        'title': 'Unavailable',
+                                        'title': 'Not Working',
                                         'start': calendarDateStart,
                                         'end': workDateStart,
                                         'allDay': false,
@@ -932,7 +937,7 @@ var BackendCalendar = {
                                         'dd/MM/yyyy HH:mm'); // Use calendarDateStart ***
                                 if (calendarDateEnd > workDateEnd) {
                                     var unavailablePeriod = {
-                                        'title': 'Unavailable',
+                                        'title': 'Not Working',
                                         'start': workDateEnd,
                                         'end': calendarDateEnd,
                                         'allDay': false,
@@ -965,7 +970,9 @@ var BackendCalendar = {
                                 // Add custom unavailable periods.
                                 $.each(response.unavailables, function(index, unavailable) {
                                     var unavailablePeriod = {
-                                        'title': 'Unavailable',
+                                        'title': 'Unavailable <br><small>' + ((unavailable.notes.length > 30) 
+                                                        ? unavailable.notes.substring(0, 30) + '...'
+                                                        : unavailable.notes) + '</small>',
                                         'start': Date.parse(unavailable.start_datetime),
                                         'end': Date.parse(unavailable.end_datetime),
                                         'allDay': false,
@@ -991,7 +998,9 @@ var BackendCalendar = {
                                         if (currDateStart.toString('dd/MM/yyyy') 
                                             === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
                                             var unavailablePeriod = {
-                                                'title': 'Unavailable',
+                                                'title': 'Unavailable <br><small>' + ((unavailable.notes.length > 30) 
+                                                        ? unavailable.notes.substring(0, 30) + '...'
+                                                        : unavailable.notes) + '</small>',
                                                 'start': Date.parse(unavailable.start_datetime),
                                                 'end': Date.parse(unavailable.end_datetime),
                                                 'allDay': false,
@@ -1003,7 +1012,6 @@ var BackendCalendar = {
                                             $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
                                         }
                                     });
-                                    
                                     
                                     if (workingDay == null) {
                                         // Add a full day unavailable event.
@@ -1029,7 +1037,7 @@ var BackendCalendar = {
                                             + ' ' + workingDay.start, 'dd/MM/yyyy HH:mm');
                                     if (currDateStart < start) {
                                         unavailablePeriod = {
-                                            'title': 'Unavailable',
+                                            'title': 'Not Working',
                                             'start': GeneralFunctions.clone(currDateStart),
                                             'end': GeneralFunctions.clone(start),
                                             'allDay': false,
@@ -1045,7 +1053,7 @@ var BackendCalendar = {
                                             + ' ' + workingDay.end, 'dd/MM/yyyy HH:mm');
                                     if (currDateEnd > end) {
                                         unavailablePeriod = {
-                                            'title': 'Unavailable',
+                                            'title': 'Not Working',
                                             'start': GeneralFunctions.clone(end),
                                             'end': GeneralFunctions.clone(currDateEnd),
                                             'allDay': false,
@@ -1082,6 +1090,8 @@ var BackendCalendar = {
                         }   
                     } 
                 });
+                // Convert the titles to html code.
+                //BackendCalendar.convertTitlesToHtml();
             }
         }, 'json');
     },
@@ -1209,7 +1219,7 @@ var BackendCalendar = {
                 if (response.warnings) {
                     // Display warning information to the user.
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
 
@@ -1262,7 +1272,7 @@ var BackendCalendar = {
                 if (response.warnings) {
                     // Display warning information to the user.
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
 
@@ -1307,6 +1317,7 @@ var BackendCalendar = {
     calendarWindowResize: function(view) {
         $('#calendar').fullCalendar('option', 'height', 
                 BackendCalendar.getCalendarHeight());
+        //BackendCalendar.convertTitlesToHtml();        
     },
     
     /**
@@ -1476,7 +1487,7 @@ var BackendCalendar = {
                 if (response.warnings) {
                     // Display warning information to the user.
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
 
@@ -1539,7 +1550,7 @@ var BackendCalendar = {
                 
                 if (response.warnings) {
                     reponse.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
                 
@@ -1598,8 +1609,17 @@ var BackendCalendar = {
                 $('#select-filter-item option:selected').attr('type'), 
                 $('#calendar').fullCalendar('getView').visStart,
                 $('#calendar').fullCalendar('getView').visEnd);
-        $(window).trigger('resize'); 
-
+        $(window).trigger('resize'); // Places the footer on the bottom.
+        
+        // Change string from "all-day" to "All Day".
+        $('#calendar .fc-agenda-allday .fc-agenda-axis').text('All Day');
+        
+        // Remove all open popovers.
+        $('.close-popover').each(function() {
+            $(this).parents().eq(2).remove();
+        });
+        
+        // Add new pop overs.
         $('.fv-events').each(function(index, eventHandle) {
             $(eventHandle).popover();
         });
@@ -1759,5 +1779,20 @@ var BackendCalendar = {
         
         // Clear the unavailable notes field.
         $dialog.find('#unavailable-notes').val('');
+    },
+           
+    /**
+     * On some calendar events the titles contain html markup that is not 
+     * displayed properly due to the fullcalendar plugin. This plugin sets
+     * the .fc-event-title value by using the $.text() method and not the 
+     * $.html() method. So in order for the title to display the html properly
+     * we convert all the .fc-event-titles where needed into html.
+     */
+    convertTitlesToHtml: function() {
+        // Convert the titles to html code.
+        $('.fc-custom').each(function() {
+            var title = $(this).find('.fc-event-title').text();
+            $(this).find('.fc-event-title').html(title);
+        });
     }
 };
