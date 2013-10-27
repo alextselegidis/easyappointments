@@ -349,10 +349,17 @@ AdminsHelper.prototype.filter = function(key, selectId, display) {
  * @returns {string} The html code that represents the record on the filter results list.
  */
 AdminsHelper.prototype.getFilterHtml = function(admin) {
+    var name = admin.first_name + ' ' + admin.last_name;
+    var info = admin.email;
+    info = (admin.mobile_number != '' && admin.mobile_number != null) 
+            ? info + ', ' + admin.mobile_number : info;
+    info = (admin.phone_number != '' && admin.phone_number != null) 
+            ? info + ', ' + admin.phone_number : info;
+    
     var html =
             '<div class="admin-row" data-id="' + admin.id + '">' + 
-                '<strong>' + admin.first_name + ' ' + admin.last_name + '</strong><br>' +
-                admin.email + ', ' + admin.mobile_number + ', ' + admin.phone_number + '<br>' + 
+                '<strong>' + name + '</strong><br>' +
+                info + '<br>' + 
             '</div><hr>';
 
     return html;

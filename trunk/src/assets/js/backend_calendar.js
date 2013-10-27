@@ -186,6 +186,11 @@ var BackendCalendar = {
                 classes: 'qtip-green qtip-shadow custom-qtip'
             }
         });
+        
+        // Fine tune the footer's position only for this page.
+        if (window.innerHeight < 700) {
+            $('#footer').css('position', 'static');
+        }
     },
     
     /**

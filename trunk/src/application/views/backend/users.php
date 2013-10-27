@@ -92,7 +92,7 @@
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
-                    <button id="save-admin" class="btn">
+                    <button id="save-admin" class="btn btn-primary">
                         <i class="icon-ok"></i>
                         Save</button>
                     <button id="cancel-admin" class="btn">
@@ -200,7 +200,7 @@
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
-                    <button id="save-provider" class="btn">
+                    <button id="save-provider" class="btn btn-primary">
                         <i class="icon-ok"></i>
                         Save</button>
                     <button id="cancel-provider" class="btn">
@@ -408,7 +408,7 @@
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
-                    <button id="save-secretary" class="btn">
+                    <button id="save-secretary" class="btn btn-primary">
                         <i class="icon-ok"></i>
                         Save</button>
                     <button id="cancel-secretary" class="btn">

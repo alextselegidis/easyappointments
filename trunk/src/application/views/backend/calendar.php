@@ -42,7 +42,8 @@
         <div id="calendar-actions">
             <div class="btn-group">
                 <?php //if ($privileges[PRIV_USERS]['edit'] == TRUE) { ?>
-                <?php if ($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER) { ?>
+                <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
+                        && $this->config->item('ea_google_sync') == TRUE) { ?>
                 <button id="google-sync" class="btn btn-primary" 
                         title="Trigger the Google Calendar synchronization process.">
                     <i class="icon-refresh icon-white"></i>
