@@ -214,8 +214,8 @@ var FrontendBook = {
                         + 'minute to write the reason you are cancelling the appointment:',
                         dialogButtons);
                         
-                $('#message_box').append('<textarea id="cancel-reason"></textarea>');
-                $('#cancel-reason').css('width', '300px');
+                $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
+                $('#cancel-reason').css('width', '353px');
             });
         }
         
@@ -553,11 +553,15 @@ var FrontendBook = {
                 html = '<strong>' + service.name + '</strong>';
                 
                 if (service.description != '' && service.description != null) {
-                    html += '<br>' + service.description;
+                    html += '<br>' + service.description + '<br>';
+                }
+                
+                if (service.duration != '' && service.duration != null) {
+                    html += '[Duration ' + service.duration + ' Minutes] ';
                 }
                 
                 if (service.price != '' && service.price != null) {
-                    html += '<br> [Price ' + service.price + ' ' + service.currency  + ']';
+                    html += '[Price ' + service.price + ' ' + service.currency  + ']';
                 }   
                 
                 html += '<br>';

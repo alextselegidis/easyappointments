@@ -10,7 +10,7 @@ class SystemConfiguration {
     public static $db_password = '';
     
     // Google Calendar API Settings
-    public static $google_sync_feature  = FALSE; // Enter TRUE or FALSE;
+    public static $google_sync_feature  = TRUE; // Enter TRUE or FALSE;
     public static $google_product_name  = 'Easy!Appointments';
     public static $google_client_id     = '396094740598-l9ohhdgs0hr6qi89628p3chf9lm59mkc.apps.googleusercontent.com';
     public static $google_client_secret = '3kKEgx3mgxfFInrWf3jTUn4D';

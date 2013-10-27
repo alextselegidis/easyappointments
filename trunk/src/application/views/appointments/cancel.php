@@ -48,7 +48,7 @@
     <div id="success-frame" class="frame-container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
         
-        <h3>Your appointment has been successfully canceled!</h3>
+        <h3>Your appointment has been successfully cancelled!</h3>
         
         <?php 
             // Display exceptions (if any).

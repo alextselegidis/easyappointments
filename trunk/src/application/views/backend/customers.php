@@ -65,7 +65,7 @@
             
             <div id="save-cancel-group" class="btn-group" style="display:none;">
                 <button id="save-customer" class="btn btn-primary">
-                    <i class="icon-ok"></i>
+                    <i class="icon-ok icon-white"></i>
                     Save</button>
                 <button id="cancel-customer" class="btn">
                     <i class="icon-ban-circle"></i>

@@ -11,7 +11,7 @@ root {
 #header {
     height: 70px;
     background-color: #35B66F;
-    border-bottom: 6px solid #247A4B;
+    border-bottom: 4px solid #247A4B;
 }
 
 #header #header-logo { 
@@ -96,7 +96,7 @@ root {
 }
 
 #loading { 
-    position: absolute; 
+    position: fixed; 
     top: 0px; 
     left: 0px; 
     width: 100%; 
@@ -178,12 +178,17 @@ body .jspTrack {
 
 #calendar-page #calendar .fc-unavailable { 
     background-image: url('../images/unavailable.jpg');   
-    font-size: 24px; 
+    font-size: 17px; 
     border-radius: 0; 
     font-weight: bold; 
     color: #333;
-    text-shadow: 0px 1px 0px #FFF;
+    text-shadow: 0px 1px 0px #E6E6E6;
     opacity: 0.7;
+}
+
+#calendar-page #calendar .fc-event-title small {
+    font-weight: normal;
+    font-size: 12px;
 }
 
 #calendar-page #calendar .fc-break { 

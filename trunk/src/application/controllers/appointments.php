@@ -513,92 +513,53 @@ class Appointments extends CI_Controller {
         }
         
         // Break the empty periods with the reserved appointments.
-        $available_periods_with_appointments = array();
+        $available_periods_with_appointments = $available_periods_with_breaks;
         
-        if (count($reserved_appointments) > 0) {
+        foreach($reserved_appointments as $appointment) {
+            foreach($available_periods_with_appointments as $index => &$period) {
             
-            foreach($available_periods_with_breaks as $period) {
-                
-                foreach($reserved_appointments as $index=>$reserved) {
-                    $appointment_start = date('H:i', strtotime($reserved['start_datetime']));
-                    $appointment_end = date('H:i', strtotime($reserved['end_datetime']));
-                    $period_start = date('H:i', strtotime($period['start']));
-                    $period_end = date('H:i', strtotime($period['end']));
-                    
-                    if ($period_start <= $appointment_start && $period_end >= $appointment_end) {
-                        // We need to check whether another appointment fits in the current 
-                        // time period. If this happens, then we need to consider the whole 
-                        // appointment time as one, because the provider will not be available.
-                        foreach ($reserved_appointments as $tmp_appointment) {
-                            $appt_start = date('H:i', strtotime($tmp_appointment['start_datetime']));
-                            $appt_end = date('H:i', strtotime($tmp_appointment['end_datetime']));
-                            
-                            if ($period_start < $appt_start && $period_end > $appt_end) {
-                                if ($appointment_start > $appt_start) {
-                                    $appointment_start = $appt_start;
-                                }
-                                
-                                if ($appointment_end < $appt_end) { 
-                                    $appointment_end = $appt_end;
-                                }
-                            }
-                        }
+                $a_start = date('H:i', strtotime($appointment['start_datetime']));
+                $a_end = date('H:i', strtotime($appointment['end_datetime']));
+                $p_start = date('H:i', strtotime($period['start']));
+                $p_end = date('H:i', strtotime($period['end']));
 
-                        // Current appointment is within the current empty space. So 
-                        // we need to break the empty space into two other spaces that 
-                        // don't include the appointment.
-                        $new_period = array(
-                            'start' => $period_start,
-                            'end' => $appointment_start
-                        );
-                        
-                        if (!in_array($new_period, $available_periods_with_appointments)) {
-                            $available_periods_with_appointments[] = $new_period;
-                        }
-                            
-                        $new_period = array(
-                            'start' => $appointment_end,
-                            'end' => $period_end
-                        );
-                        
-                        if (!in_array($new_period, $available_periods_with_appointments)) {
-                            $available_periods_with_appointments[] = $new_period;
-                        }
-                        
-                    } else {
-                        // Check if there are any other appointments between this 
-                        // time space. If not, it is going to be added as it is.
-                        $found = FALSE;
-                        
-                        foreach ($reserved_appointments as $tmp_appointment) {
-                            $appt_start = date('H:i', strtotime($tmp_appointment['start_datetime']));
-                            $appt_end  = date('H:i', strtotime($tmp_appointment['end_datetime']));
-                            
-                            if ($period_start < $appt_start && $period_end > $appt_end) {
-                                $found = TRUE;
-                            }
-                        }
-                        
-                        // It is also necessary to check that this time period doesn't
-                        // already exist in the "$empty_spaces_with_appointments" array.
-                        $empty_period = array(
-                            'start' => $period_start,
-                            'end' => $period_end
-                        );
-                        
-                        $already_exist = in_array($empty_period, $available_periods_with_appointments);
-                        
-                        if ($found === FALSE && $already_exist === FALSE) {
-                            $available_periods_with_appointments[] = $empty_period;
-                        }
-                    }
+                if ($a_start <= $p_start && $a_end <= $p_end && $a_end <= $p_start) {
+                    // The appointment does not belong in this time period, so we
+                    // will not change anything.
+                } else if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start) {
+                    // The appointment starts before the period and finishes somewhere inside.
+                    // We will need to break this period and leave the available part.
+                    $period['start'] = $a_end;
+
+                } else if ($a_start >= $p_start && $a_end <= $p_start) {
+                    // The appointment is inside the time period, so we will split the period
+                    // into two new others.
+                    unset($available_periods_with_appointments[$index]);
+                    $available_periods_with_appointments[] = array(
+                        'start' => $p_start,
+                        'end' => $a_start
+                    );
+                    $available_periods_with_appointments[] = array(
+                        'start' => $a_end,
+                        'end' => $p_end
+                    );
+
+                } else if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end) {
+                    // The appointment starts in the period and finishes out of it. We will
+                    // need to remove the time that is taken from the appointment.
+                    $period['end'] = $a_start;
+
+                } else if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end) {
+                    // The appointment does not belong in the period so do not change anything.
+                } else if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end) {
+                    // The appointment is bigger than the period, so this period needs to be 
+                    // removed.
+                    unset($available_periods_with_appointments[$index]);
                 }
             }
-        } else {
-            $available_periods_with_appointments = $available_periods_with_breaks;
         }
         
-        return $available_periods_with_appointments;
+        return array_values($available_periods_with_appointments);
     }
     
     /**

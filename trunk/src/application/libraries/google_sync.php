@@ -108,7 +108,7 @@ class Google_Sync {
         $this->CI->load->helper('general');
         
         $event = new Google_Event();
-        $event->setSummary($service['name']);
+        $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
         $event->setLocation($company_settings['company_name']);
         
         $start = new Google_EventDateTime();
@@ -119,20 +119,21 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
         
-        $eventProvider = new Google_EventAttendee();
-        $eventProvider->setDisplayName($provider['first_name'] . ' ' 
+        $event->attendees = array();
+        
+        $event_provider = new Google_EventAttendee();
+        $event_provider->setDisplayName($provider['first_name'] . ' ' 
                 . $provider['last_name']);
-        $eventProvider->setEmail($provider['email']);
+        $event_provider->setEmail($provider['email']);
+        $event->attendees[] = $event_provider;
         
-        $eventCustomer = new Google_EventAttendee();
-        $eventCustomer->setDisplayName($customer['first_name'] . ' ' 
-                . $customer['last_name']);
-        $eventCustomer->setEmail($customer['email']);
-        
-        $event->attendees = array(
-            $eventProvider, 
-            $eventCustomer
-        );
+        if ($customer != NULL) {
+            $event_customer = new Google_EventAttendee();
+            $event_customer->setDisplayName($customer['first_name'] . ' ' 
+                    . $customer['last_name']);
+            $event_customer->setEmail($customer['email']);
+            $event->attendees[] = $event_customer;
+        }
         
         // Add the new event to the "primary" calendar.
         $created_event = $this->service->events->insert('primary', $event);
@@ -171,20 +172,21 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
         
+        $event->attendees = array();
+        
         $event_provider = new Google_EventAttendee();
         $event_provider->setDisplayName($provider['first_name'] . ' ' 
                 . $provider['last_name']);
         $event_provider->setEmail($provider['email']);
+        $event->attendees[] = $event_provider; 
         
-        $event_customer = new Google_EventAttendee();
-        $event_customer->setDisplayName($customer['first_name'] . ' ' 
-                . $customer['last_name']);
-        $event_customer->setEmail($customer['email']);
-        
-        $event->attendees = array(
-            $event_provider, 
-            $event_customer
-        );
+        if ($customer != NULL) {
+            $event_customer = new Google_EventAttendee();
+            $event_customer->setDisplayName($customer['first_name'] . ' ' 
+                    . $customer['last_name']);
+            $event_customer->setEmail($customer['email']);
+            $event->attendees[] = $event_customer;
+        }
         
         $updated_event = $this->service->events->update('primary', $event->getId(), $event);
         
