@@ -60,24 +60,24 @@
 
 Δείγματα από URL για την κλήση διαφόρων μεθόδων: 
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines=true]
 https://www.googleapis.com/calendar/v3/lists/calendarListID/calendar?parameters
 https://www.googleapis.com/calendar/v3/users/userID/lists?parameters
-\end{verbatim}
+\end{lstlisting}
 
 Αντιθέτως με την χρήση των έτοιμων βιβλιοθηκών οι διαδικασίες επικοινωνίας είναι έτοιμες και ο προγραμματιστής μπορεί να πετύχει την επικοινωνία με τους servers της Google γρηγορότερα και ευκολότερα. 
 Υπάρχουν βιβλιοθήκες για την Java, την PHP, την Python, το .NET περιβάλλον και την Ruby και πολλές άλλες γλώσσες και τεχνολογίες. 
 
 Αφού κατεβάσουμε τις βιβλιοθήκες και τις βάλουμε σε κάποιο σημείο μέσα στο project, μπορούμε να τις χρησιμοποιήσουμε μέσα από τον κώδικα:
 
-\begin{verbatim}
+\begin{lstlisting}
 require_once "../src/apiClient.php";
 require_once "../src/contrib/apiCalendarService.php";
-\end{verbatim}
+\end{lstlisting}
 
 Στην συνέχεια είναι απαραίτητο να ρυθμίσουμε κάποιες παραμέτρους έτσι ώστε να είμαστε σε θέση να χρησιμοποιήσουμε αυτήν την υπηρεσία:
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines=true]
 global $apiConfig;
 
 $apiConfig = array(
@@ -103,11 +103,11 @@ $apiConfig = array(
         'calendar' => array('scope' => 'https://www.googleapis.com/auth/calendar'),
     )
 );
-\end{verbatim}
+\end{lstlisting}
 
 Έπειτα θα χρειαστεί να γίνει εκκίνηση του service και να ολοκληρωθεί η διαδικασία πιστοποίησης (authenticate) με την χρήση του API Key  που αντιστοιχεί στην εφαρμογή.
 
-\begin{verbatim}
+\begin{lstlisting}[breaklines=true]
 <?php
 session_start();
 
@@ -125,7 +125,7 @@ if (isset($_SESSION['oauth_access_token'])) {
   $_SESSION['oauth_access_token'] = $token;
 }
 ...
-\end{verbatim}
+\end{lstlisting}
 
 Με αυτόν τον τρόπο εκτελούνται οι διαδικασίες ανταλλαγής δεδομένων μεταξύ του Google Calendar και του συστήματος του προγραμματιστή.
 
