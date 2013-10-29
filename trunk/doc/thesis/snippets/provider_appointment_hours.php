@@ -4,9 +4,7 @@
  * 
  * This method answers to an AJAX request. It calculates the 
  * available hours for thegiven service, provider and date.
- * 
- * @param numeric $_POST['service_id'] The selected service's 
- * record id.
+ *
  * @param numeric $_POST['provider_id'] The selected provider's 
  * record id.
  * @param string $_POST['selected_date'] The selected date of 

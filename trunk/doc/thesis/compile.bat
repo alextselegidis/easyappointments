@@ -7,10 +7,11 @@ call:cleanupq
  
 :: Run XeLaTex on main file.
 xelatex thesis.tex --quiet
-bibtex  thesis.tex
+bibtex  thesis.aux
 
 :: If you are using multibib the following will run bibtex on all aux files
 :: FOR /R . %%G IN (*.aux) DO bibtex %%G
+xelatex thesis.tex --quiet
 xelatex thesis.tex --quiet
  
 :: Run Cleanup
