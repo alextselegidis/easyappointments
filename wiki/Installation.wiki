@@ -3,10 +3,11 @@
 
 = Introduction =
 Easy!Appointments is a web appointment scheduler that can be installed and run in web servers. Users will be able to reach the application through their web browsers using an active internet connection, just like visiting a normal website. The installation process is very similar to other popular web systems like WordPress and Joomla, so it is very likely that you will be familiar with the next steps. Follow this article strictly in order to complete the installation with no problems. After that, read the "Configuration" section for adjusting the system to fit your needs.
-
+<br><br>
 -----------------
-
+<br><br>
 http://alextselegidis.com/link/installation-steps.png
+<br><br>
 
 = Installation =
 There are 5 steps you must do during the installation process. Each step has a hint description aimed to provide more information.
@@ -15,10 +16,11 @@ There are 5 steps you must do during the installation process. Each step has a h
   # *Copy the "easy_appointments" source folder on your server.* You can rename this folder into anything you like ("easyappointments", "book" etc). E!A will take 6Mb of your server's storage space. Make sure that you mark the Easy!Appointments folder URL. For example if the system files are placed in the this directory ".../httpdocs/easy_appointments/" then the URL to this folder will be "http://your-domain-name.com/easy_appointments/". This URL will be needed in the following step.
   # *Edit the "configuration.php" file and set your server properties.* Like other web systems Easy!Appointments needs to know how to connect to the database and the base URL of the installation. You can also provide the Google API keys in this file, if you want to use the Google Calendar Sync feature. NOTE that you will need to create an API key before that in the Google Cloud Console (former Google APIs Console).
   # *Open a web browser and head to the Easy!Appointments installation folder URL.* The first time you open this page an installation guide will be shown. Fill in the administrator user and company settings and press the "Install" button. That's it! You can now use Easy!Appointments at your will.
-
+<br><br>
 -------------
-
+<br><br>
 http://alextselegidis.com/link/configuration.png
+<br><br>
 
 =Configuration=
 When you finish the installation, Easy!Appointments will only contain an administrator user and some default settings. You will need to apply more info to the system to be able to suit your needs.
