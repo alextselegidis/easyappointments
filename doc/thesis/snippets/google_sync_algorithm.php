@@ -1,6 +1,6 @@
 <?php
 /**
- * Complete synchronization of appointments between Google 
+ * Full synchronization of appointments between Google 
  * Calendar and Easy!Appointments.
  * 
  * This method will completely sync the appointments of a provider 
@@ -10,7 +10,6 @@
  * API usage.
  * 
  * @param numeric $provider_id Provider record to be synced.
- * 
  */
 public function sync($provider_id = NULL) {
 	try {
