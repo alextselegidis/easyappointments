@@ -610,7 +610,7 @@ var BackendCalendar = {
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').text('Unavailable period saved successfully!');
                 $dialog.find('.modal-message').removeClass('alert-error');
                 $dialog.find('.modal-message').addClass('alert-success');
                 $dialog.find('.modal-message').fadeIn();
@@ -680,6 +680,7 @@ var BackendCalendar = {
                             $('#enable-sync i').addClass('icon-white');
                             $('#enable-sync span').text('Disable Sync');
                             $('#google-sync').prop('disabled', false);
+                            $('#select-filter-item option:selected').attr('google-sync', 'true');
                         }
                     }
                 }, 100);
@@ -699,6 +700,7 @@ var BackendCalendar = {
                         $('#enable-sync i').removeClass('icon-white');
                         $('#enable-sync span').text('Enable Sync');
                         $('#google-sync').prop('disabled', true);
+                        $('#select-filter-item option:selected').attr('google-sync', 'false');
                         
                         return false;
                     }
