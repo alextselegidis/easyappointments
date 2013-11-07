@@ -200,16 +200,18 @@
                                         }
                                     }
 
-                                    foreach($grouped_services as $group) {
-                                        $group_label = ($group[0]['category_name'] != NULL) 
-                                                ? $group[0]['category_name'] : 'Uncategorized'; 
-
-                                        echo '<optgroup label="' . $group_label . '">';
-                                        foreach($group as $service) {
-                                            echo '<option value="' . $service['id'] . '">' 
-                                                . $service['name'] . '</option>';
+                                    foreach($grouped_services as $key => $group) {
+                                        $group_label = ($key != 'uncategorized')
+                                                ? $group[0]['category_name'] : 'Uncategorized';
+                                        
+                                        if (count($group) > 0) {
+                                            echo '<optgroup label="' . $group_label . '">';
+                                            foreach($group as $service) {
+                                                echo '<option value="' . $service['id'] . '">' 
+                                                    . $service['name'] . '</option>';
+                                            }
+                                            echo '</optgroup>';
                                         }
-                                        echo '</optgroup>';
                                     }
                                 }  else {
                                     foreach($available_services as $service) {

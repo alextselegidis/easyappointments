@@ -196,7 +196,7 @@ class Backend_api extends CI_Controller {
 
                     $provider_title = 'Appointment details have changed.';
                     $provider_message = '';
-                    $provider_link = $this->config->item('base_url') . 'backend/' 
+                    $provider_link = $this->config->item('base_url') . 'backend/index/' 
                             . $appointment['hash'];
                 }
             
@@ -332,12 +332,13 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_disable_provider_sync() {
         try { 
-            if ($this->privileges[PRIV_USERS]['edit'] == FALSE) {
-                throw new Exception('You do not have the required privileges for this task.');
-            }
-            
             if (!isset($_POST['provider_id'])) {
                 throw new Exception('Provider id not specified.');
+            }
+            
+            if ($this->privileges[PRIV_USERS]['edit'] == FALSE
+                    && $this->session->userdata('user_id') != $_POST['provider_id']) {
+                throw new Exception('You do not have the required privileges for this task.');
             }
             
             $this->load->model('providers_model');

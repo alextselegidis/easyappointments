@@ -146,7 +146,7 @@
                                     '<div class="alert alert-success">' +
                                         '<h4>Success!</h4>' +
                                         '<p>' +
-                                            'Your appointment has successfully been added to ' +
+                                            'Your appointment has been added to ' +
                                             'your Google Calendar account. <br>' + 
                                             '<a href="' + response.htmlLink + '" target="_blank">' + 
                                                 'Click here to view your appointment on Google ' +

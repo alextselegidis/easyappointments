@@ -6,8 +6,9 @@
     <div class="email-container" style="width: 650px;border: 1px solid #eee;">
         <div id="header" style="background-color: #3DD481; border-bottom: 4px solid #1A865F; 
                 height: 40px;padding: 10px 15px;">
-            <strong id="logo" style="color: white; font-size: 31px; 
-                    text-shadow: 1px 1px 1px #8F8888;">$company_name</strong>
+            <strong id="logo" style="color: white; font-size: 24px; 
+                    text-shadow: 1px 1px 1px #8F8888; margin-top: 5px; display: inline-block">
+                    $company_name</strong>
         </div>
         
         <div id="content" style="padding: 10px 15px;">

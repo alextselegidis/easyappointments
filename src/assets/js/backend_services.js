@@ -69,6 +69,7 @@ var BackendServices = {
             BackendServices.helper.resetForm();
             BackendServices.helper.filter('');
             $('.filter-key').val('');
+            Backend.placeFooterToBottom();
         });
         
         ServicesHelper.prototype.bindEventHandlers();
