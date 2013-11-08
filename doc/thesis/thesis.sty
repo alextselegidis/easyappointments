@@ -38,10 +38,10 @@
 
 %-------------------------Package Loading--------------------------------------
 \RequirePackage{polyglossia}
-\RequirePackage{fontspec}     % necessary of XeTeX
-\RequirePackage{xunicode}     % Unicode from accented glyphs
-\RequirePackage{xltxtra}      % loads fixltx2e, etex, xunicode, fontspec
-%\RequirePackage{xgreek}      % for greek documents
+\RequirePackage{fontspec} % necessary of XeTeX
+\RequirePackage{xunicode} % Unicode from accented glyphs
+\RequirePackage{xltxtra}  % loads fixltx2e, etex, xunicode, fontspec
+%\RequirePackage{xgreek}   % for greek documents
 \RequirePackage[backend=biber,bibencoding=utf8,natbib=false,bibstyle=authoryear,citestyle=authoryear,babel=hyphen]{biblatex}
 \RequirePackage{ifthen}
 \RequirePackage{url}
@@ -67,8 +67,8 @@
 %--------------------------- Main Code-----------------------------------------
 
 \typeout{----------------------------------------------------------------------}
-\typeout{-       Τμήμα Πληροφορικής και Επικοινωνιών            }
-\typeout{-       ΤΕΙ Σερρών, version 0.3, 27/11/2011                   }
+\typeout{-       Τμήμα Μηχανικών Πληροφορικής ΤΕ            }
+\typeout{-       ΤΕΙ Κεντρικής Μακεδονίας, version 0.4, 05/11/2013                   }
 \typeout{-       Nicholaos Petalidis, nikos <at> petalidis.gr         }
 \typeout{-----------------------------------------------------------------------}
 
@@ -165,8 +165,8 @@
 \newcommand{\degreetitleabbr}{Πτυχίο}
 \newcommand{\thesisyear}{1900}
 \newcommand{\thesisschool}{Σχολή Τεχνολογικών Εφαρμογών}
-\newcommand{\thesisuniversity}{ΤΕΧΝΟΛΟΓΙΚΟ ΕΚΠΑΙΔΕΥΤΙΚΟ ΙΔΡΥΜΑ ΣΕΡΡΩΝ}
-\newcommand{\thesisdepartment}{Τμήμα Πληροφορικής \& Επικοινωνιών}
+\newcommand{\thesisuniversity}{ΤΕΧΝΟΛΟΓΙΚΟ ΕΚΠΑΙΔΕΥΤΙΚΟ ΙΔΡΥΜΑ ΚΕΝΤΡΙΚΗΣ ΜΑΚΕΔΟΝΙΑΣ}
+\newcommand{\thesisdepartment}{Τμήμα Μηχανικών Πληροφορικής ΤΕ}
 
 %--------------------Format the page style-------------------------------------
   %According to BS 4821 page numbers should appear at the top outer corner
@@ -291,8 +291,7 @@
           ιδεών ή λέξεων, είτε αυτές αναφέρονται ακριβώς είτε
           παραφρασμένες. Επίσης βεβαιώνω ότι αυτή η πτυχιακή εργασία
           προετοιμάστηκε από εμένα προσωπικά ειδικά για τις απαιτήσεις του
-          προγράμματος σπουδών του Τμήματος Πληροφορικής \& Επικοινωνιών
-          του Τ.Ε.Ι. Σερρών. 
+          προγράμματος σπουδών του Τμήματος Μηχανικών Πληροφορικής ΤΕ του Τ.Ε.Ι. Κεντρικής Μακεδονίας.
         }
     {Βεβαιώνουμε ότι είμαστε συγγραφείς αυτής της πτυχιακής εργασίας και ότι κάθε βοήθεια 
           την οποία είχαμε για την προετοιμασία της, είναι πλήρως
@@ -301,8 +300,7 @@
           ιδεών ή λέξεων, είτε αυτές αναφέρονται ακριβώς είτε
           παραφρασμένες. Επίσης βεβαιώνουμε ότι αυτή η πτυχιακή εργασία
           προετοιμάστηκε από εμάς προσωπικά ειδικά για τις απαιτήσεις του
-          προγράμματος σπουδών του Τμήματος Πληροφορικής \& Επικοινωνιών
-          του Τ.Ε.Ι. Σερρών. }
+          προγράμματος σπουδών του Τμήματος Μηχανικών Πληροφορικής ΤΕ του Τ.Ε.Ι. Κεντρικής Μακεδονίας.}
    
   \end{Declaration}
 }
@@ -448,3 +446,9 @@
 %        {\@latex@warning{Empty `thebibliography' environment}}%
 %       \endlist}
 \newcommand{\citep}[1]{\parencite{#1}}
+
+\newcommand{\lastpageinfo}{\newpage
+\vspace*{\fill}
+\thispagestyle{empty}
+\scriptsize{\noindent Η εργασία αυτή στοιχειοθετήθηκε με το πρόγραμμα \XeLaTeX. Για τη στοιχειοθέτηση της βιβλιογραφίας χρησιμοποιήθηκε το πρόγραμμα \texttt{biber} και \texttt{biblatex}. Οι γραμματοσειρές που χρησιμοποιήθηκαν είναι οι Times New Roman και \texttt{Courier New}.}
+}
