@@ -1,6 +1,6 @@
 <?php
 /**
- * Run all the available tests
+ * Run all the available tests.
  */
 public function run_all() {
 	// All the methods whose names start with "test" are going to be             
