@@ -342,8 +342,10 @@ class Backend_api extends CI_Controller {
             }
             
             $this->load->model('providers_model');
+            $this->load->model('appointments_model');
             $this->providers_model->set_setting('google_sync', FALSE, $_POST['provider_id']);
             $this->providers_model->set_setting('google_token', NULL, $_POST['provider_id']);
+            $this->appointments_model->clear_google_sync_ids($_POST['provider_id']);
             
             echo json_encode(AJAX_SUCCESS);
             

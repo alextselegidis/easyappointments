@@ -203,6 +203,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      */
     $('#reset-working-plan').click(function() {
         $('.breaks').empty();
+        $('.work-start, .work-end').val('');
         BackendUsers.wp.setup(GlobalVariables.workingPlan);
         BackendUsers.wp.timepickers(false);
     });
