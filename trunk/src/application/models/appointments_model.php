@@ -369,6 +369,21 @@ class Appointments_Model extends CI_Model {
         $this->db->where('id', $unavailable_id);
         return $this->db->delete('ea_appointments');
     }
+    
+    /**
+     * Clear google sync IDs from appointment record.
+     * 
+     * @param numeric $provider_id The appointment provider record id.
+     */
+    public function clear_google_sync_ids($provider_id) {
+        if (!is_numeric($provider_id)) {
+            throw new Exception('Invalid argument type $provider_id (value: "' 
+                    . $provider_id . '")');
+        }
+        
+        $this->db->update('ea_appointments', array('id_google_calendar' => NULL), 
+                array('id_users_provider' => $provider_id));
+    }
 }
 
 /* End of file appointments_model.php */

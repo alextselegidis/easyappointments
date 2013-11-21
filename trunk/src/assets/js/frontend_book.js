@@ -234,8 +234,12 @@ var FrontendBook = {
             var postData = {
                 'id_users_provider': formData['appointment']['id_users_provider'],
                 'id_services': formData['appointment']['id_services'],
-                'start_datetime': formData['appointment']['start_datetime']
+                'start_datetime': formData['appointment']['start_datetime'],
             };
+            
+            if (GlobalVariables.manageMode) {
+                postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
+            }
             
             var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_check_datetime_availability';
             

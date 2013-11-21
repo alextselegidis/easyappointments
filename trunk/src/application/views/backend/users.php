@@ -62,14 +62,12 @@
     <div id="admins" class="tab-content">
         <div id="filter-admins" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span7" type="text" />
-                <button class="filter btn" type="submit">
-                    <i class="icon-filter"></i>
-                    Filter
+                <input class="key span12" type="text" />
+                <button class="filter btn" type="submit" title="Filter">
+                    <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button">
-                    <i class="icon-remove-circle"></i>
-                    Clear
+                <button class="clear btn" type="button" title="Clear">
+                    <i class="icon-repeat"></i>
                 </button>
             </form>
             
@@ -170,14 +168,12 @@
     <div id="providers" class="tab-content" style="display:none;">
         <div id="filter-providers" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span7" type="text" />
-                <button class="filter btn" type="submit">
-                    <i class="icon-filter"></i>
-                    Filter
+                <input class="key span12" type="text" />
+                <button class="filter btn" type="submit" title="Filter">
+                    <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button">
-                    <i class="icon-remove-circle"></i>
-                    Clear
+                <button class="clear btn" type="button" title="Clear">
+                    <i class="icon-repeat"></i>
                 </button>
             </form>
             
@@ -378,14 +374,12 @@
     <div id="secretaries" class="tab-content" style="display:none;">
         <div id="filter-secretaries" class="filter-records column span4">
             <form class="input-append">
-                <input class="key span7" type="text" />
-                <button class="filter btn" type="submit">
-                    <i class="icon-filter"></i>
-                    Filter
+                <input class="key span12" type="text" />
+                <button class="filter btn" type="submit" title="Filter">
+                    <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button">
-                    <i class="icon-remove-circle"></i>
-                    Clear
+                <button class="clear btn" type="button" title="Clear">
+                    <i class="icon-repeat"></i>
                 </button>
             </form>
             

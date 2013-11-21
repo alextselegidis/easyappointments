@@ -31,6 +31,7 @@ var BackendCalendar = {
             'slotMinutes': 30,
             'axisFormat': 'HH:mm',
             'timeFormat': 'HH:mm{ - HH:mm}',
+            'allDayText': 'All Day', 
             'columnFormat': {
                 'month': 'ddd',
                 'week': 'ddd d/M',
@@ -55,7 +56,7 @@ var BackendCalendar = {
             'eventDrop': BackendCalendar.calendarEventDrop,
             'eventAfterAllRender': function(view) {
                 BackendCalendar.convertTitlesToHtml();
-            }
+            }   
         });
         
         // Temporary fix: make the first letter capital in all the lowercase strings
@@ -64,7 +65,6 @@ var BackendCalendar = {
         $('#calendar .fc-button-agendaDay').text('Day');
         $('#calendar .fc-button-agendaWeek').text('Week');
         $('#calendar .fc-button-month').text('Month');
-        $('#calendar .fc-agenda-allday .fc-agenda-axis').text('All Day');
         
         // Trigger once to set the proper footer position after calendar 
         // initialization.
@@ -1318,8 +1318,7 @@ var BackendCalendar = {
      */
     calendarWindowResize: function(view) {
         $('#calendar').fullCalendar('option', 'height', 
-                BackendCalendar.getCalendarHeight());
-        //BackendCalendar.convertTitlesToHtml();        
+                BackendCalendar.getCalendarHeight());      
     },
     
     /**
@@ -1612,10 +1611,7 @@ var BackendCalendar = {
                 $('#calendar').fullCalendar('getView').visStart,
                 $('#calendar').fullCalendar('getView').visEnd);
         $(window).trigger('resize'); // Places the footer on the bottom.
-        
-        // Change string from "all-day" to "All Day".
-        $('#calendar .fc-agenda-allday .fc-agenda-axis').text('All Day');
-        
+                
         // Remove all open popovers.
         $('.close-popover').each(function() {
             $(this).parents().eq(2).remove();
@@ -1787,7 +1783,7 @@ var BackendCalendar = {
      * On some calendar events the titles contain html markup that is not 
      * displayed properly due to the fullcalendar plugin. This plugin sets
      * the .fc-event-title value by using the $.text() method and not the 
-     * $.html() method. So in order for the title to display the html properly
+     * $.html() method. So in order for the title to displya the html properly
      * we convert all the .fc-event-titles where needed into html.
      */
     convertTitlesToHtml: function() {
@@ -1795,6 +1791,8 @@ var BackendCalendar = {
         $('.fc-custom').each(function() {
             var title = $(this).find('.fc-event-title').text();
             $(this).find('.fc-event-title').html(title);
+            var time = $(this).find('.fc-event-time').text();
+            $(this).find('.fc-event-time').html(time);
         });
     }
 };
