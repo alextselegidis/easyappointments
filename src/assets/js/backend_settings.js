@@ -137,6 +137,8 @@ var BackendSettings = {
                 } else {
                     $('#user-notifications').removeClass('active');   
                 }
+            } else if ($(this).hasClass('about-tab')) {
+                $('#about').show();
             }
             
             Backend.placeFooterToBottom();
