@@ -645,3 +645,16 @@ padding: 4px 7px;
 #settings-page .miscellaneous-wrapper {
     max-width:  400px;
 }
+
+#settings-page #about {
+    max-width: 720px;
+}
+
+#settings-page #about .current-version {
+    padding: 15px 10px;
+    background: #EEE;
+    border-bottom: 2px solid #CFCFCF;
+    font-size: 18px;
+    font-weight: bold;
+    color: #838383;    
+}

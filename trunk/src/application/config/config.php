@@ -29,8 +29,8 @@ $config['base_url']	= SystemConfiguration::$base_url;
 | the global "config" variable.
 |
 */
-$config['ea_version'] = '0.6'; // This must be changed manually.
-$config['ea_release_title'] = 'Alpha'; // Leave empty for no title or add BETA, TEST etc ...
+$config['ea_version'] = '0.7'; // This must be changed manually.
+$config['ea_release_title'] = 'Beta'; // Leave empty for no title or add BETA, TEST etc ...
 $config['ea_google_sync_feature'] = SystemConfiguration::$google_sync_feature;
 
 /*

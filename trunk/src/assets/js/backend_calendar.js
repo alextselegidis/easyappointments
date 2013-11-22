@@ -717,6 +717,49 @@ var BackendCalendar = {
         $('#insert-appointment').click(function() {
             BackendCalendar.resetAppointmentDialog();
             var $dialog = $('#manage-appointment');
+            
+            // Set the selected filter item and find the next appointment time
+            // as the default modal values.
+            if ($('#select-filter-item option:selected').attr('type') == 'provider') {
+                var $providerOption = $dialog.find('#select-provider option[value="' 
+                        + $('#select-filter-item').val() + '"]');
+                if ($providerOption.length == 0) { // Change the services until you find the correct.
+                    $.each($dialog.find('#select-service option'), function() {
+                        $(this).prop('selected', true).parent().change();
+                        if ($providerOption.length > 0) 
+                            return false;
+                    });
+                }
+                $providerOption.prop('selected', true);
+            } else {
+                $dialog.find('#select-service option[value="' 
+                        + $('#select-filter-item').val() + '"]').prop('selected', true);
+            }            
+            
+            var serviceDuration = 0;
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                if (service['id'] == $dialog.find('#select-service').val()) {
+                    serviceDuration = service['duration'];
+                    return false; // exit loop
+                }
+            });
+            
+            var start = new Date();
+            var currentMin = parseInt(start.toString('mm'));
+            
+            if (currentMin > 0 && currentMin < 15) 
+                start.set({ 'minute': 15 });
+            else if (currentMin > 15 && currentMin < 30)
+                start.set({ 'minute': 30 });
+            else if (currentMin > 30 && currentMin < 45)
+                start.set({ 'minute': 45 });
+            else 
+                start.addHours(1).set({ 'minute': 0 });
+            
+            $dialog.find('#start-datetime').val(start.toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#end-datetime').val(start.addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm'));
+            
+            // Display modal form.
             $dialog.find('.modal-header h3').text('New Appointment');
             $dialog.modal('show');
         });
@@ -784,17 +827,17 @@ var BackendCalendar = {
          * Event: Filter Existing Customers "Change"
          */
         $('#filter-existing-customers').keyup(function() {
-            var key = $(this).val();
+            var key = $(this).val().toLowerCase();
             var $list = $('#existing-customers-list');
             $list.empty();
             $.each(GlobalVariables.customers, function(index, c) {
-                if (c.first_name.indexOf(key) != -1 
-                        || c.last_name.indexOf(key) != -1
-                        || c.email.indexOf(key) != -1
-                        || c.phone_number.indexOf(key) != -1
-                        || c.address.indexOf(key) != -1
-                        || c.city.indexOf(key) != -1
-                        || c.zip_code.indexOf(key) != -1) {
+                if (c.first_name.toLowerCase().indexOf(key) != -1 
+                        || c.last_name.toLowerCase().indexOf(key) != -1
+                        || c.email.toLowerCase().indexOf(key) != -1
+                        || c.phone_number.toLowerCase().indexOf(key) != -1
+                        || c.address.toLowerCase().indexOf(key) != -1
+                        || c.city.toLowerCase().indexOf(key) != -1
+                        || c.zip_code.toLowerCase().indexOf(key) != -1) {
                     $list.append('<div data-id="' + c.id + '">' 
                             + c.first_name + ' ' + c.last_name + '</div>');
                 }
@@ -817,7 +860,7 @@ var BackendCalendar = {
                     // add him to the listbox. 
                     if (serviceId == sid) { 
                         var optionHtml = '<option value="' + provider['id'] + '">' 
-                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + provider['first_name']  + ' ' + provider['last_name'] 
                                 + '</option>';
                         $('#select-provider').append(optionHtml);
                     }
@@ -1687,6 +1730,11 @@ var BackendCalendar = {
                 $dialog.find('#select-provider').append(option);
             }
         });
+        
+        // :: CLOSE EXISTING CUSTOMERS FILTER FRAME
+        $('#existing-customers-list').slideUp('slow');
+        $('#filter-existing-customers').fadeOut('slow');
+        $('#select-customer').text('Select');
             
         // :: SETUP START AND END DATETIME PICKERS
         // Get the selected service duration. It will be needed in order to calculate
@@ -1745,6 +1793,15 @@ var BackendCalendar = {
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
                 $dialog.find('#email').parents().eq(1).addClass('error');
                 throw 'Invalid email address!';
+            }
+            
+            // :: CHECK APPOINTMENT START AND END TIME
+            var start = Date.parseExact($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var end = Date.parseExact($('#end-datetime').val(), 'dd/MM/yyyy HH:mm');
+            if (start > end) {
+                $dialog.find('#start-datetime').parents().eq(1).addClass('error');
+                $dialog.find('#end-datetime').parents().eq(1).addClass('error');
+                throw 'Appointment start must be prior to appointment end date!';
             }
             
             return true;

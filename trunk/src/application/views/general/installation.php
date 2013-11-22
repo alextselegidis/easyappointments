@@ -292,6 +292,16 @@
         
         <br>
         
+        <p>
+            <h3>License</h3>
+            Easy!Appointments is licensed under the GPLv3 license. By using 
+            the code of Easy!Appointments in any way <br> you are agreeing to the 
+            terms described in the following url:
+            <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
+        </p>
+        
+        <br>
+        
         <button type="button" id="install" class="btn btn-success btn-large">
             <i class="icon-white icon-ok"></i>
             Install Easy!Appointments</button>

@@ -84,6 +84,13 @@
     <div id="calendar"></div> <?php // Main calendar container ?>
 </div>
 
+<?php
+    // --------------------------------------------------------------------
+    //
+    // MANAGE APPOINTMENT
+    //
+    // --------------------------------------------------------------------
+?>
 <div id="manage-appointment" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
@@ -103,14 +110,14 @@
                 <div class="control-group">
                     <label for="select-service" class="control-label">Service *</label>
                     <div class="controls">
-                        <select id="select-service" class="required"></select>
+                        <select id="select-service" class="required span4"></select>
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="select-provider" class="control-label">Provider *</label>
                     <div class="controls">
-                        <select id="select-provider" class="required"></select>
+                        <select id="select-provider" class="required span4"></select>
                     </div>
                 </div>
                 
@@ -211,6 +218,13 @@
     </div>
 </div>
 
+<?php
+    // --------------------------------------------------------------------
+    //
+    // MANAGE UNAVAILALBE
+    //
+    // --------------------------------------------------------------------
+?>
 <div id="manage-unavailable" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
