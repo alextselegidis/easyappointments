@@ -140,7 +140,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
                 . 'on invalid data.');
     }
     
-    private function test_add_using_find_record_id() {
+    private function disabled_test_add_using_find_record_id() {
         $secretary = $this->default_secretary; 
         $this->ci->db->insert('ea_users', $secretary);
         $secretary_id = intval($this->ci->db->insert_id());
@@ -150,7 +150,7 @@ class Unit_tests_secretaries_model extends CI_Driver {
         $this->ci->db->insert('ea_user_settings', $secretary['settings']);
         unset($secretary['settings']['id_users']);
         
-        // since $secretary array does not contain an 'id'value but 
+        // Since $secretary array does not contain an 'id' value but 
         // exists in the database, the find_record_id() method is going 
         // to be used inside the add() method to find the secretary id.
         
@@ -161,7 +161,6 @@ class Unit_tests_secretaries_model extends CI_Driver {
                 . 'returned and integer value.');
         
         $db_secretary = $this->ci->db->get_where('ea_users', array('id' => $secretary_id))->row_array();
-        
         $db_secretary['providers'] = array();
         unset($db_secretary['id']);
         

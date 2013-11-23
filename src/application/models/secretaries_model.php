@@ -200,13 +200,37 @@ class Secretaries_Model extends CI_Model {
         if (!filter_var($secretary['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception('Invalid email address provided : ' . $secretary['email']);
         }
+        
+        // Check if username exists.
+        if (isset($secretary['settings']['username'])) {
+            $user_id = (isset($secretary['id'])) ? $secretary['id'] : '';
+            if (!$this->validate_username($secretary['settings']['username'], $user_id)) {
+                throw new Exception ('Username already exists. Please select a different ' 
+                        . 'username for this record.');
+            }
+        }
 
-        // Validate admin password
+        // Validate secretary password.
         if (isset($secretary['settings']['password'])) {
             if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH) {
                 throw new Exception('The user password must be at least ' 
                         . MIN_PASSWORD_LENGTH . ' characters long.');
             }
+        }
+        
+        // When inserting a record the email address must be unique.
+        $num_rows = $this->db
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_roles.slug', DB_SLUG_SECRETARY)
+                ->where('ea_users.email', $secretary['email'])
+                ->get()
+                ->num_rows();
+        
+        if ($num_rows > 0 && !isset($secretary['id'])) {
+            throw new Exception('Given email address belongs to another secretary record. ' 
+                    . 'Please use a different email.');
         }
 
         return TRUE;
@@ -422,6 +446,19 @@ class Secretaries_Model extends CI_Model {
     public function set_setting($setting_name, $value, $secretary_id) {
         $this->db->where(array('id_users' => $secretary_id));
         return $this->db->update('ea_user_settings', array($setting_name => $value));
+    }
+    
+    /**
+     * Validate Records Username 
+     * 
+     * @param string $username The provider records username.
+     * @param numeric $user_id The user record id.
+     * @return bool Returns the validation result.
+     */
+    public function validate_username($username, $user_id) {
+        $num_rows = $this->db->get_where('ea_user_settings', 
+                array('username' => $username, 'id_users <> ' => $user_id))->num_rows();
+        return ($num_rows > 0) ? FALSE : TRUE;
     }
 }
 

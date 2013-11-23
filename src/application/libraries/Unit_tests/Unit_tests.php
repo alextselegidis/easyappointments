@@ -48,8 +48,8 @@ class Unit_tests extends CI_Driver_Library {
     /**
      * Run all the models tests.
      * 
-     * @param bool $output_report Determines wether the test 
-     * report will be outputted.
+     * @param bool $output_report Determines wether the test report
+     * will be outputted.
      */
     public function run_model_tests($output_report = true) {
         $this->appointments_model->run_all();

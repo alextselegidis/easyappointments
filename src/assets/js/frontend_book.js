@@ -102,7 +102,7 @@ var FrontendBook = {
                     // add him to the listbox. 
                     if (serviceId == currServiceId) { 
                         var optionHtml = '<option value="' + provider['id'] + '">' 
-                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + provider['first_name']  + ' ' + provider['last_name'] 
                                 + '</option>';
                         $('#select-provider').append(optionHtml);
                     }
@@ -554,7 +554,7 @@ var FrontendBook = {
         
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == serviceId) { // Just found the service.
-                html = '<strong>' + service.name + '</strong>';
+                html = '<strong>' + service.name + ' </strong>';
                 
                 if (service.description != '' && service.description != null) {
                     html += '<br>' + service.description + '<br>';

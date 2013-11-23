@@ -110,7 +110,60 @@
                 <div class="control-group">
                     <label for="select-service" class="control-label">Service *</label>
                     <div class="controls">
-                        <select id="select-service" class="required span4"></select>
+                        <select id="select-service" class="required span4">
+                            <?php 
+                                // Group services by category, only if there is at least one service 
+                                // with a parent category.
+                                foreach($available_services as $service) {
+                                    if ($service['category_id'] != NULL) {
+                                        $has_category = TRUE;
+                                        break;
+                                    }
+                                }
+                                
+                                if ($has_category) {
+                                    $grouped_services = array();
+
+                                    foreach($available_services as $service) {
+                                        if ($service['category_id'] != NULL) {
+                                            if (!isset($grouped_services[$service['category_name']])) {
+                                                $grouped_services[$service['category_name']] = array();
+                                            }
+
+                                            $grouped_services[$service['category_name']][] = $service;
+                                        } 
+                                    }
+
+                                    // We need the uncategorized services at the end of the list so
+                                    // we will use another iteration only for the uncategorized services.
+                                    $grouped_services['uncategorized'] = array();
+                                    foreach($available_services as $service) {
+                                        if ($service['category_id'] == NULL) {
+                                            $grouped_services['uncategorized'][] = $service;
+                                        }
+                                    }
+
+                                    foreach($grouped_services as $key => $group) {
+                                        $group_label = ($key != 'uncategorized')
+                                                ? $group[0]['category_name'] : 'Uncategorized';
+                                        
+                                        if (count($group) > 0) {
+                                            echo '<optgroup label="' . $group_label . '">';
+                                            foreach($group as $service) {
+                                                echo '<option value="' . $service['id'] . '">' 
+                                                    . $service['name'] . '</option>';
+                                            }
+                                            echo '</optgroup>';
+                                        }
+                                    }
+                                }  else {
+                                    foreach($available_services as $service) {
+                                        echo '<option value="' . $service['id'] . '">' 
+                                                    . $service['name'] . '</option>';
+                                    }
+                                }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 
@@ -257,7 +310,7 @@
                 <div class="control-group">
                     <label for="unavailable-notes" class="control-label">Notes</label>
                     <div class="controls">
-                        <textarea id="unavailable-notes"></textarea>
+                        <textarea id="unavailable-notes" rows="3" class="span3"></textarea>
                     </div>
                 </div>
             </fieldset>

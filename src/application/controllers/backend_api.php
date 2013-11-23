@@ -1026,16 +1026,11 @@ class Backend_api extends CI_Controller {
      * @param bool $_POST['record_exists'] Whether the record already exists in database.
      */
     public function ajax_validate_username() {
-        try {
-            // $_POST['record_exists'] is treated like a string in this method and this 
-            // is making the validation algorithm fail. So we need to convert the value 
-            // into bool before validating the username.
-            $_POST['record_exists'] = ($_POST['record_exists'] == 'true') ? TRUE : FALSE;
-            
+        try {            
             // We will only use the function in the admins_model because it is sufficient 
             // for the rest user types for now (providers, secretaries).
             $this->load->model('admins_model');
-            $is_valid = $this->admins_model->validate_username($_POST['username'], $_POST['record_exists']);
+            $is_valid = $this->admins_model->validate_username($_POST['username'], $_POST['user_id']);
             echo json_encode($is_valid);
         } catch(Exception $exc) {
             echo json_encode(array(

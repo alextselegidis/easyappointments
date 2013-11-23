@@ -1,11 +1,9 @@
-VERSION 0.6
+VERSION 0.7
 ===========
-[Feature] System and user settings page.
-[Feature] Login process included.
-[Feature] Applied user privileges through all the system depending their role type.
-[Feature] Select existing customer from backend/calendar when trying to add a new appointment.
-[Fix] Fix backend/calendar service and provider functionality.
-[Fix] Other minor fixes.
+This is the Beta version of Easy!Appointments. It has many improvements 
+and bug fixes from the Alpha version and will be the first major release
+candidate. If you have any suggestions or problems please visit the 
+links below.
 
 
 Official Easy!Appointments Website:
