@@ -43,7 +43,7 @@ class Unit_tests_customers_model extends CI_Driver {
         $customer = array(
             'last_name' => 'Doe',
             'first_name' => 'John',
-            'email' => 'alextselegidis@gmail.com',
+            'email' => 'test@test.com',
             'phone_number' => '0123456789',
             'address' => 'Abbey Road 18',
             'city' => 'London',
@@ -130,7 +130,7 @@ class Unit_tests_customers_model extends CI_Driver {
                 . 'email address.');
     }
     
-    private function test_add_missing_no_last_name() {
+    private function test_add_missing_last_name() {
         // Prepare customer's data (last name field is missing).
         $customer = array(
             'first_name' => 'John',

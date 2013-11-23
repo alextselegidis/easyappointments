@@ -260,6 +260,14 @@ body .jspTrack {
     font-size: 12px;
 }
 
+body .form-horizontal .control-label {
+    width: 135px;
+}
+
+body .form-horizontal .controls {
+    margin-left: 158px;
+}
+
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
 #customers-page h2 {
@@ -652,9 +660,8 @@ padding: 4px 7px;
 
 #settings-page #about .current-version {
     padding: 15px 10px;
-    background: #EEE;
-    border-bottom: 2px solid #CFCFCF;
-    font-size: 18px;
-    font-weight: bold;
-    color: #838383;    
+    background: #F7F7F7;
+    font-size: 15px;
+    color: #7E7E7E;
+    box-shadow: inset 0px 0px 5px #E0E0E0;  
 }

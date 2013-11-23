@@ -17,7 +17,19 @@ terms described in the following url:
 			
 >> http://www.gnu.org/copyleft/gpl.html
 
+SUPPORT
+=================================================================
+If you encounter any problems when using Easy!Appointments you can 
+search the official Google Group for answers. You might also want 
+to create a new issue on the Google Code page in order to help the 
+development progress. 
+
+>> Google+ Community: https://plus.google.com/communities/105333709485142846840
+>> Support Group: https://groups.google.com/forum/#!forum/easy-appointments
+>> Project Issues: https://code.google.com/p/easy-appointments/issues/list
+
 SETUP FOR DEVELOPMENT
 =================================================================
-For setting up the application for development you will need to 
-rename the "configuration-sample.php" file to "configuration.php".
+If you checkout the project from Google Code you will need to 
+rename the "configuration-sample.php" file to "configuration.php"
+and then set your server settings.

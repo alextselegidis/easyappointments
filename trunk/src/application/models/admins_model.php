@@ -202,6 +202,15 @@ class Admins_Model extends CI_Model {
         if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
             throw new Exception('Invalid email address provided : ' . $admin['email']);
         }
+        
+        // Check if username exists.
+        if (isset($admin['settings']['username'])) {
+            $user_id = (isset($admin['id'])) ? $admin['id'] : '';
+            if (!$this->validate_username($admin['settings']['username'], $user_id)) {
+                throw new Exception ('Username already exists. Please select a different ' 
+                        . 'username for this record.');
+            }
+        }
 
         // Validate admin password
         if (isset($admin['settings']['password'])) {
@@ -209,6 +218,21 @@ class Admins_Model extends CI_Model {
                 throw new Exception('The user password must be at least ' 
                         . MIN_PASSWORD_LENGTH . ' characters long.');
             }
+        }
+        
+        // When inserting a record the email address must be unique.
+        $num_rows = $this->db
+                ->select('*')
+                ->from('ea_users')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+                ->where('ea_roles.slug', DB_SLUG_ADMIN)
+                ->where('ea_users.email', $admin['email'])
+                ->get()
+                ->num_rows();
+        
+        if ($num_rows > 0 && !isset($admin['id'])) {
+            throw new Exception('Given email address belongs to another admin record. ' 
+                    . 'Please use a different email.');
         }
             
         return TRUE; // Operation completed successfully.
@@ -348,17 +372,13 @@ class Admins_Model extends CI_Model {
      * Validate Records Username 
      * 
      * @param string $username The provider records username.
-     * @param bool $record_exists Whether the record exists or not.
+     * @param numeric $user_id The user record id.
      * @return bool Returns the validation result.
      */
-    public function validate_username($username, $record_exists) {
-        $num_rows = $this->db->get_where('ea_user_settings', array('username' => $username))->num_rows();
-        if (($num_rows == 0 && $record_exists == FALSE) || ($num_rows == 1 && $record_exists == TRUE) 
-                || ($num_rows == 0 && $record_exists == TRUE)) {
-            return TRUE; // valid
-        } else {
-            return FALSE; // not valid
-        }
+    public function validate_username($username, $user_id) {
+        $num_rows = $this->db->get_where('ea_user_settings', 
+                array('username' => $username, 'id_users <> ' => $user_id))->num_rows();
+        return ($num_rows > 0) ? FALSE : TRUE;
     }
 }
 

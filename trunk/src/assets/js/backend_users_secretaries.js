@@ -257,6 +257,12 @@ SecretariesHelper.prototype.validate = function(secretary) {
             throw 'Invalid email address!';
         }
         
+        // Check if username exists
+        if ($('#secretary-username').attr('already-exists') ==  'true') {
+            $('#secretary-username').css('border', '2px solid red');
+            throw 'Username already exists.';
+        } 
+        
         return true;
     } catch(exc) {
         $('#secretaries .form-message').text(exc);

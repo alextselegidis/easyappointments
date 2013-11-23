@@ -144,20 +144,22 @@ var BackendUsers = {
             var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
             var postData = { 
                 'username': $input.val(), 
-                'record_exists': ($input.parents().eq(2).find('.record-id').val() != '') ? true : false
+                'user_id': $input.parents().eq(2).find('.record-id').val()
             };
             
             $.post(postUrl, postData, function(response) {
                 ///////////////////////////////////////////////////////
-                //console.log('Validate Username Response:', response);
+                console.log('Validate Username Response:', response);
                 ///////////////////////////////////////////////////////
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 if (response == false) {
                     $input.css('border', '2px solid red');
+                    $input.attr('already-exists', 'true');
                     $input.parents().eq(3).find('.form-message').text('Username already exists.');
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
                     $input.css('border', '');
+                    $input.attr('already-exists', 'false');
                     if ($input.parents().eq(3).find('.form-message').text() == 'Username already exists.') {
                         $input.parents().eq(3).find('.form-message').hide();
                     }

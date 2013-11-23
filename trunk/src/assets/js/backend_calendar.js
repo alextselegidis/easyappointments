@@ -29,6 +29,7 @@ var BackendCalendar = {
             'editable': true,
             'firstDay': 1, // Monday
             'slotMinutes': 30,
+            'snapMinutes': 15,
             'axisFormat': 'HH:mm',
             'timeFormat': 'HH:mm{ - HH:mm}',
             'allDayText': 'All Day', 
@@ -194,6 +195,9 @@ var BackendCalendar = {
         if (window.innerHeight < 700) {
             $('#footer').css('position', 'static');
         }
+        
+        if ($('#select-filter-item option').length == 0) 
+            $('#calendar-actions button').prop('disabled', true);
     },
     
     /**
@@ -535,7 +539,7 @@ var BackendCalendar = {
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
                 setTimeout(function() {
-                    $dialog.find('.alert').remove();
+                    $dialog.find('.alert').fadeOut();
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -618,7 +622,7 @@ var BackendCalendar = {
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
                 setTimeout(function() {
-                    $dialog.find('.alert').remove();
+                    $dialog.find('.alert').fadeOut();
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -773,6 +777,23 @@ var BackendCalendar = {
         $('#insert-unavailable').click(function() {
             BackendCalendar.resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
+            
+            // Set the default datetime values.
+            var start = new Date();
+            var currentMin = parseInt(start.toString('mm'));
+            
+            if (currentMin > 0 && currentMin < 15) 
+                start.set({ 'minute': 15 });
+            else if (currentMin > 15 && currentMin < 30)
+                start.set({ 'minute': 30 });
+            else if (currentMin > 30 && currentMin < 45)
+                start.set({ 'minute': 45 });
+            else 
+                start.addHours(1).set({ 'minute': 0 });
+            
+            $dialog.find('#unavailable-start').val(start.toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#unavailable-end').val(start.addHours(1).toString('dd/MM/yyyy HH:mm'));
+            
             $dialog.find('.modal-header h3').text('New Unavailable Period');
             $dialog.modal('show');
         });
@@ -1702,18 +1723,14 @@ var BackendCalendar = {
         // :: EMPTY FORM FIELDS
         $dialog.find('input, textarea').val('');
         $dialog.find('.modal-message').fadeOut();
-        $dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
-        $.each(GlobalVariables.availableServices, function(index, service) {
-            var option = new Option(service['name'], service['id']);
-            $dialog.find('#select-service').append(option);
-        });
         $dialog.find('#select-service').val(
                 $dialog.find('#select-service').eq(0).attr('value'));
         
         // Fill the providers listbox with providers that can serve the appointment's 
         // service and then select the user's provider.
+        $dialog.find('#select-provider').empty();
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var canProvideService = false; 
 

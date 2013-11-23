@@ -246,6 +246,12 @@ AdminsHelper.prototype.validate = function(admin) {
             throw 'Invalid email address!';
         }
         
+        // Check if username exists
+        if ($('#admin-username').attr('already-exists') ==  'true') {
+            $('#admin-username').css('border', '2px solid red');
+            throw 'Username already exists.';
+        } 
+        
         return true;
     } catch(exc) {
         $('#admins .form-message').text(exc);

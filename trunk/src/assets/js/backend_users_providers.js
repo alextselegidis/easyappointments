@@ -297,6 +297,12 @@ ProvidersHelper.prototype.validate = function(provider) {
             throw 'Invalid email address!';
         }
         
+        // Check if username exists
+        if ($('#provider-username').attr('already-exists') ==  'true') {
+            $('#provider-username').css('border', '2px solid red');
+            throw 'Username already exists.';
+        } 
+        
         return true;
     } catch(exc) {
         $('#providers .form-message').text(exc);
