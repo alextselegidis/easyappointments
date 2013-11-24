@@ -221,16 +221,19 @@ class Admins_Model extends CI_Model {
         }
         
         // When inserting a record the email address must be unique.
+        $admin_id = (isset($admin['id'])) ? $admin['id'] : '';
+        
         $num_rows = $this->db
                 ->select('*')
                 ->from('ea_users')
                 ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
                 ->where('ea_roles.slug', DB_SLUG_ADMIN)
                 ->where('ea_users.email', $admin['email'])
+                ->where('ea_users.id <>', $admin_id)
                 ->get()
                 ->num_rows();
         
-        if ($num_rows > 0 && !isset($admin['id'])) {
+        if ($num_rows > 0) {
             throw new Exception('Given email address belongs to another admin record. ' 
                     . 'Please use a different email.');
         }

@@ -251,16 +251,19 @@ class Providers_Model extends CI_Model {
         }
         
         // When inserting a record the email address must be unique.
+        $provider_id = (isset($provider['id'])) ? $provider['id'] : '';
+        
         $num_rows = $this->db
                 ->select('*')
                 ->from('ea_users')
                 ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
                 ->where('ea_roles.slug', DB_SLUG_PROVIDER)
                 ->where('ea_users.email', $provider['email'])
+                ->where('ea_users.id <>', $provider_id)
                 ->get()
                 ->num_rows();
         
-        if ($num_rows > 0 && !isset($provider['id'])) {
+        if ($num_rows > 0) {
             throw new Exception('Given email address belongs to another provider record. ' 
                     . 'Please use a different email.');
         }
