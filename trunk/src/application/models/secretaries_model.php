@@ -219,16 +219,19 @@ class Secretaries_Model extends CI_Model {
         }
         
         // When inserting a record the email address must be unique.
+        $secretary_id = (isset($secretary['id'])) ? $secretary['id'] : '';
+        
         $num_rows = $this->db
                 ->select('*')
                 ->from('ea_users')
                 ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
                 ->where('ea_roles.slug', DB_SLUG_SECRETARY)
                 ->where('ea_users.email', $secretary['email'])
+                ->where('ea_users.id <>', $secretary_id)
                 ->get()
                 ->num_rows();
         
-        if ($num_rows > 0 && !isset($secretary['id'])) {
+        if ($num_rows > 0) {
             throw new Exception('Given email address belongs to another secretary record. ' 
                     . 'Please use a different email.');
         }
