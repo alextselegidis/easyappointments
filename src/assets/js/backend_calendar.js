@@ -165,7 +165,8 @@ var BackendCalendar = {
             $dialog.find('#address').val(customer['address']);
             $dialog.find('#city').val(customer['city']);
             $dialog.find('#zip-code').val(customer['zip_code']);
-            $dialog.find('#notes').val(appointment['notes']);
+            $dialog.find('#appointment-notes').val(appointment['notes']);
+            $dialog.find('#customer-notes').val(customer['notes']);
             
             $dialog.modal('show');
         }
@@ -344,7 +345,8 @@ var BackendCalendar = {
                 $dialog.find('#address').val(customer['address']);
                 $dialog.find('#city').val(customer['city']);
                 $dialog.find('#zip-code').val(customer['zip_code']);
-                $dialog.find('#notes').val(appointment['notes']);
+                $dialog.find('#appointment-notes').val(appointment['notes']);
+                $dialog.find('#customer-notes').val(customer['notes']);
             } else {
                 var unavailable = BackendCalendar.lastFocusedEventData.data;
                 
@@ -491,7 +493,7 @@ var BackendCalendar = {
                 'id_users_provider': $dialog.find('#select-provider').val(),
                 'start_datetime': startDatetime,
                 'end_datetime': endDatetime,
-                'notes': $dialog.find('#notes').val(),
+                'notes': $dialog.find('#appointment-notes').val(),
                 'is_unavailable': false
             };
             
@@ -507,7 +509,8 @@ var BackendCalendar = {
                 'phone_number': $dialog.find('#phone-number').val(),
                 'address': $dialog.find('#address').val(),
                 'city': $dialog.find('#city').val(),
-                'zip_code': $dialog.find('#zip-code').val()
+                'zip_code': $dialog.find('#zip-code').val(),
+                'notes': $dialog.find('#customer-notes').val()
             };
             
             if ($dialog.find('#customer-id').val() !== '') {
@@ -837,6 +840,7 @@ var BackendCalendar = {
                     $('#address').val(c.address);
                     $('#city').val(c.city);
                     $('#zip-code').val(c.zip_code);
+                    $('#customer-code').val(c.notes);
                     return false;
                 }
             });
@@ -894,7 +898,7 @@ var BackendCalendar = {
          */
         $('#new-customer').click(function() {
             $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
-                    + '#phone-number, #address, #city, #zip-code').val('');
+                    + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
         });
     },
             

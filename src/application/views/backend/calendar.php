@@ -187,6 +187,13 @@
                         <input type="text" id="end-datetime" />
                     </div>
                 </div>
+                
+                <div class="control-group">
+                    <label for="notes" class="control-label">Notes</label>
+                    <div class="controls">
+                        <textarea id="appointment-notes" class="span4" rows="3"></textarea>
+                    </div>
+                </div>
             </fieldset>
 
             <fieldset class="row-fluid">
@@ -253,11 +260,11 @@
                             <input type="text" id="zip-code" />
                         </div>
                     </div>
-
+                    
                     <div class="control-group">
                         <label for="notes" class="control-label">Notes</label>
                         <div class="controls">
-                            <textarea id="notes"></textarea>
+                            <textarea id="customer-notes" rows="3"></textarea>
                         </div>
                     </div>
                 </div>

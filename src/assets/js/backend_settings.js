@@ -171,7 +171,7 @@ var BackendSettings = {
             var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
             var postData = { 
                 'username': $input.val(), 
-                'record_exists': ($input.parents().eq(2).find('#user-id').val() != '') ? true : false
+                'user_id': $input.parents().eq(2).find('#user-id').val()
             };
             
             $.post(postUrl, postData, function(response) {
@@ -182,8 +182,10 @@ var BackendSettings = {
                 if (response == false) {
                     $input.css('border', '2px solid red');
                     Backend.displayNotification('Username already exists.');
+                    $input.attr('already-exists', 'true');
                 } else {
                     $input.css('border', '');
+                    $input.attr('already-exists', 'false');
                 }
             }, 'json');
         });
@@ -398,6 +400,11 @@ UserSettings.prototype.validate = function() {
         if (!GeneralFunctions.validateEmail($('#email').val())) {
             $('#email').css('border', '2px solid red');
             throw 'Invalid email address!';
+        }
+        
+        if ($('#username').attr('already-exists') === 'true') {
+            $('#username').css('border', '2px solid red');
+            throw 'Username already exists.';
         }
         
         return true;
