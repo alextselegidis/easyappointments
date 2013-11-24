@@ -182,19 +182,19 @@ class Customers_Model extends CI_Model {
         }
         
         // When inserting a record the email address must be unique.
-        $num_rows = $this->db
-                ->select('*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                ->where('ea_users.email', $customer['email'])
-                ->get()
-                ->num_rows();
-        
-        if ($num_rows > 0 && !isset($customer['id'])) {
-            throw new Exception('Given email address belongs to another customer record. ' 
-                    . 'Please use a different email.');
-        }
+        //$num_rows = $this->db
+        //        ->select('*')
+        //        ->from('ea_users')
+        //        ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+        //        ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+        //        ->where('ea_users.email', $customer['email'])
+        //        ->get()
+        //        ->num_rows();
+        //
+        //if ($num_rows > 0 && !isset($customer['id'])) {
+        //    throw new Exception('Given email address belongs to another customer record. ' 
+        //            . 'Please use a different email.');
+        //}
 
         return TRUE;
     }
