@@ -73,7 +73,7 @@
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                     
                     if (response == AJAX_SUCCESS) {
-                        $('.alert').text('Easy!Appointments has been success fully installed!');
+                        $('.alert').text('Easy!Appointments has been successfully installed!');
                         $('.alert').addClass('alert-success');
                         $('.alert').show();
                         setTimeout(function() {
