@@ -1,0 +1,18 @@
+VERSION 0.7
+===========
+This is the Beta version of Easy!Appointments. It has many improvements 
+and bug fixes from the Alpha version and will be the first major release
+candidate. If you have any suggestions or problems please visit the 
+links below.
+
+
+Official Easy!Appointments Website:
+http://easyappointments.org
+
+Check the Google+ Community for development updates:
+https://plus.google.com/communities/105333709485142846840
+
+Visit the Support Group for any help on the project: 
+http://groups.google.com/group/easy-appointments
+
+ 
