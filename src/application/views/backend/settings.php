@@ -325,6 +325,8 @@
             official Google Group for answers. You might also need to create a new issue
             on the Google Code page in order to help the development progress.
             <br><br>
+            <a href="http://easyappointments.org">Official Website</a>
+            | 
             <a href="https://plus.google.com/communities/105333709485142846840">
                 Google+ Community</a>
             | 
