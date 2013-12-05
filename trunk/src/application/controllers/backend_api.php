@@ -194,7 +194,7 @@ class Backend_api extends CI_Controller {
                     $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                             . $appointment['hash'];
 
-                    $provider_title = 'Appointment details have changed.';
+                    $provider_title = 'Appointment changes have been successfully saved!';
                     $provider_message = '';
                     $provider_link = $this->config->item('base_url') . 'backend/index/' 
                             . $appointment['hash'];

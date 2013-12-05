@@ -305,7 +305,7 @@
                             <input type="text" id="zip-code" maxlength="120" />
 
                             <label for="notes">Notes</label>
-                            <textarea id="notes" maxlength="500" rows="4"></textarea>
+                            <textarea id="notes" maxlength="500" rows="3"></textarea>
                         </div>
                     </div>
                 </div>
