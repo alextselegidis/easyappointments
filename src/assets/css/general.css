@@ -22,6 +22,7 @@ body .ui-draggable .ui-dialog-titlebar {
 
 body .ui-dialog {
     padding: 0;
+    z-index: 2000;
 }
 
 body .ui-dialog .ui-dialog-buttonpane {

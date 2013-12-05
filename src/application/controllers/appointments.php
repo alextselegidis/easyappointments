@@ -494,30 +494,37 @@ class Appointments extends CI_Controller {
         $available_periods_with_breaks = array();
         
         if (isset($selected_date_working_plan['breaks'])) {
-            foreach($selected_date_working_plan['breaks'] as $index=>$break) {
-                // Split the working plan to available time periods that do not
-                // contain the breaks in them.
-                $last_break_index = $index - 1;
-                
-                if (count($available_periods_with_breaks) === 0) {
-                    $start_hour = $selected_date_working_plan['start'];
-                    $end_hour = $break['start'];
-                } else {
-                    $start_hour = $selected_date_working_plan['breaks'][$last_break_index]['end'];
-                    $end_hour = $break['start'];
+            if (count($selected_date_working_plan['breaks'])) {
+                foreach($selected_date_working_plan['breaks'] as $index=>$break) {
+                    // Split the working plan to available time periods that do not
+                    // contain the breaks in them.
+                    $last_break_index = $index - 1;
+
+                    if (count($available_periods_with_breaks) === 0) {
+                        $start_hour = $selected_date_working_plan['start'];
+                        $end_hour = $break['start'];
+                    } else {
+                        $start_hour = $selected_date_working_plan['breaks'][$last_break_index]['end'];
+                        $end_hour = $break['start'];
+                    }
+
+                    $available_periods_with_breaks[] = array(
+                        'start' => $start_hour,
+                        'end' => $end_hour
+                    );
                 }
-                
+
+                // Add the period from the last break to the end of the day.
                 $available_periods_with_breaks[] = array(
-                    'start' => $start_hour,
-                    'end' => $end_hour
+                    'start' => $selected_date_working_plan['breaks'][$index]['end'],
+                    'end' => $selected_date_working_plan['end']
+                );
+            } else {
+                $available_periods_with_breaks[] = array(
+                    'start' => $selected_date_working_plan['start'],
+                    'end' => $selected_date_working_plan['end']
                 );
             }
-            
-            // Add the period from the last break to the end of the day.
-            $available_periods_with_breaks[] = array(
-                'start' => $selected_date_working_plan['breaks'][$index]['end'],
-                'end' => $selected_date_working_plan['end']
-            );
         }
         
         // Break the empty periods with the reserved appointments.

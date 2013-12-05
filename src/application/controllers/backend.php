@@ -47,8 +47,9 @@ class Backend extends CI_Controller {
             $view['secretary_providers'] = array();
         }
         
-        if ($appointment_hash != '') {
-            $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
+        
+        $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
+        if ($appointment_hash != '' && count($results) > 0) {
             $appointment = $results[0];
             $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             $view['edit_appointment'] = $appointment; // This will display the appointment edit dialog on page load.

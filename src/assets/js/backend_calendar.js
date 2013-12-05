@@ -144,7 +144,7 @@ var BackendCalendar = {
             
             $dialog.find('.modal-header h3').text('Edit Appointment');
             $dialog.find('#appointment-id').val(appointment['id']);
-            $dialog.find('#select-service').val(appointment['id_services']);
+            $dialog.find('#select-service').val(appointment['id_services']).change();
             $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
             // Set the start and end datetime of the appointment.
@@ -521,15 +521,10 @@ var BackendCalendar = {
             
             // :: DEFINE SUCCESS EVENT CALLBACK
             var successCallback = function(response) {                
-                if (response.exceptions) {             
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    
+                if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $dialog.find('.modal-message').text('Unexpected issues occured!');
                     $dialog.find('.modal-message').addClass('alert-error');
                     $dialog.find('.modal-message').fadeIn();
-                    
                     return;
                 }
                 
