@@ -52,3 +52,5 @@ $lang['fe_appointment_added_to_google_calendar'] = 'Το ραντεβού έχε
 $lang['fe_view_appointment_in_google_calendar'] = 'Πατήστε εδώ για να δείτε το ραντεβού στο Google Calendar.';
 $lang['fe_appointment_added_to_your_plan'] = 'Ένα νέο ραντεβού έχει προστεθεί στο πλάνο σας.';
 $lang['fe_appointment_link_description'] = 'Μπορείτε να πραγματοποιήσετε αλλαγές πατώντας στον σύνδεσμο του ραντεβού.';
+$lang['fe_appointment_not_found'] = 'Το Ραντεβού Δεν Βρέθηκε!';
+$lang['fe_appointment_does_not_exist_in_db'] = 'Το ραντεβού που ζητήσατε δεν υπάρχει πλέον στην βάση δεδομένων του συστήματος.';

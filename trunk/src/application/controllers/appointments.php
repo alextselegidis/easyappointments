@@ -38,12 +38,12 @@ class Appointments extends CI_Controller {
                         // The requested appointment doesn't exist in the database. Display
                         // a message to the customer.
                         $view = array(
-                            'message_title' => 'Appointment Not Found!',
-                            'message_text'  => 'The appointment you requested does not exist in '
-                                             . 'the system database anymore.',
+                            'message_title' => $this->lang->line('fe_appointment_not_found'),
+                            'message_text'  => $this->lang->line('fe_appointment_does_not_exist_in_db'),
                             'message_icon'  => $this->config->item('base_url') 
                                              . 'assets/images/error.png'
                         );
+                        $view['ea_lang'] = $this->lang->language;
                         $this->load->view('appointments/message', $view);                        
                         return;
                     }
@@ -76,6 +76,7 @@ class Appointments extends CI_Controller {
                 $view['exceptions'][] = $exc;
             }
             
+            $view['ea_lang'] = $this->lang->language;
             $this->load->view('appointments/book', $view);
             
         } else { 
@@ -147,25 +148,22 @@ class Appointments extends CI_Controller {
                             ->get_setting('notifications', $provider['id']);
                     
                     if (!$post_data['manage_mode']) {
-                        $customer_title = 'Your appointment has been successfully booked!';
-                        $customer_message = 'Thank you for arranging an appointment with us. '   
-                                . 'Below you can see the appointment details. Make changes '  
-                                . 'by clicking the appointment link.';
+                        $customer_title = $this->lang->line('fe_appointment_booked');
+                        $customer_message = $this->lang->line('fe_thank_your_for_appointment');
                         $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                                 . $appointment['hash'];
 
-                        $provider_title = 'A new appointment has been added to your plan.';
-                        $provider_message = 'You can make changes by clicking the appointment '  
-                                . 'link below.';
+                        $provider_title = $this->lang->line('fe_appointment_added_to_your_plan');
+                        $provider_message = $this->lang->line('fe_appointment_link_description');
                         $provider_link = $this->config->item('base_url') . 'backend/index/' 
                                 . $appointment['hash'];
                     } else {
-                        $customer_title = 'Appointment changes have been successfully saved!';
+                        $customer_title = $this->lang->line('be_appointment_changes_saved');
                         $customer_message = '';
                         $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                                 . $appointment['hash'];
 
-                        $provider_title = 'Appointment details have changed.';
+                        $provider_title = $this->lang->line('be_appointment_details_changed');
                         $provider_message = '';
                         $provider_link = $this->config->item('base_url') . 'backend/index/' 
                                 . $appointment['hash'];
@@ -196,6 +194,7 @@ class Appointments extends CI_Controller {
                 $view['exceptions'][] = $exc;
             }
             
+            $view['ea_lang'] = $this->lang->language;
             $this->load->view('appointments/book_success', $view);
         }   
     }
@@ -291,6 +290,7 @@ class Appointments extends CI_Controller {
             $view['exceptions'] = $exceptions;
         }
         
+        $view['ea_lang'] = $this->lang->language;
         $this->load->view('appointments/cancel', $view);
     }
     

@@ -52,3 +52,5 @@ $lang['fe_appointment_added_to_google_calendar'] = 'Your appointment has been ad
 $lang['fe_view_appointment_in_google_calendar'] = 'Click here to view your appointment on Google Calendar.';
 $lang['fe_appointment_added_to_your_plan'] = 'A new appointment has been added to your plan.';
 $lang['fe_appointment_link_description'] = 'You can make changes by clicking the appointment link below.';
+$lang['fe_appointment_not_found'] = 'Appointment Not Found!';
+$lang['fe_appointment_does_not_exist_in_db'] = 'The appointment you requested does not exist in the system database anymore.';

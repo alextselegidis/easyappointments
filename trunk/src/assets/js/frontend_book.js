@@ -129,7 +129,7 @@ var FrontendBook = {
                     if ($('#select-hour-prompt').length == 0) {
                         $('#available-hours').append('<br><br>'
                                 + '<strong id="select-hour-prompt" class="text-error">'
-                                + 'Please select an appointment hour before continuing!' 
+                                + EALang['fe_appointment_hour_missing'] 
                                 + '</strong>');
                     }
                     return;
@@ -343,8 +343,7 @@ var FrontendBook = {
                 FrontendBook.updateConfirmFrame();
                 
             } else {
-                $('#available-hours').text('There are no available appointment '
-                        + 'hours for the selected date. Please choose another date.');
+                $('#available-hours').text(EALang['fe_no_available_hours']);
             }
         }, 'json');
     },
@@ -368,13 +367,13 @@ var FrontendBook = {
                 }
             });
             if (missingRequiredField) {
-                throw 'Fields with * are required!';
+                throw EALang['fe_fields_are_required'];
             }
             
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').css('border', '2px solid red');
-                throw 'Invalid email address!';
+                throw EALang['be_invalid_email'];
             }
             
             return true;
@@ -421,15 +420,15 @@ var FrontendBook = {
         $('#customer-details').html(
             '<h4>' + $('#first-name').val() + ' ' + $('#last-name').val() + '</h4>' + 
             '<p>' + 
-            	'Phone: ' + $('#phone-number').val() + 
+            	EALang['fe_phone'] + ': ' + $('#phone-number').val() + 
             	'<br/>' + 
-            	'Email: ' + $('#email').val() + 
+            	EALang['fe_email'] + ': ' + $('#email').val() + 
             	'<br/>' + 
-            	'Address: ' + $('#address').val() + 
+            	EALang['fe_address'] + ': ' + $('#address').val() + 
             	'<br/>' + 
-            	'City: ' + $('#city').val() + 
+            	EALang['fe_city'] + ': ' + $('#city').val() + 
             	'<br/>' + 
-            	'Zip Code: ' + $('#zip-code').val() + 
+            	EALang['fe_zip_code'] + ': ' + $('#zip-code').val() + 
         	'</p>'
         );
             
@@ -561,11 +560,12 @@ var FrontendBook = {
                 }
                 
                 if (service.duration != '' && service.duration != null) {
-                    html += '[Duration ' + service.duration + ' Minutes] ';
+                    html += '[' + EALang['fe_duration'] + ' ' + service.duration 
+                            + ' ' + EALang['fe_minutes'] + '] ';
                 }
                 
                 if (service.price != '' && service.price != null) {
-                    html += '[Price ' + service.price + ' ' + service.currency  + ']';
+                    html += '[' + EALang['fe_price'] + ' ' + service.price + ' ' + service.currency  + ']';
                 }   
                 
                 html += '<br>';
