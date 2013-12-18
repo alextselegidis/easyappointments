@@ -81,7 +81,20 @@ class Notifications {
             '$customer_name'            => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
             '$customer_email'           => $customer_data['email'],
             '$customer_phone'           => $customer_data['phone_number'],
-            '$customer_address'         => $customer_data['address']
+            '$customer_address'         => $customer_data['address'],
+            
+            // Translations
+            'Appointment Details' => $this->lang->line('fe_appointment_details_title'),
+            'Service' => $this->lang->line('fe_service'),
+            'Provider' => $this->lang->line('fe_provider'),
+            'Start' => $this->lang->line('fe_start'),
+            'End' => $this->lang->line('fe_end'),
+            'Customer Details' => $this->lang->line('fe_customer_details_title'),
+            'Name' => $this->lang->line('fe_start'),
+            'Email' => $this->lang->line('fe_start'),
+            'Phone' => $this->lang->line('fe_start'),
+            'Address' => $this->lang->line('fe_start'),
+            'Start' => $this->lang->line('fe_start'),
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 

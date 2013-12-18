@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Book Appointment With <?php echo $company_name; ?></title>
+    <title><?php echo $this->lang->line('fe_page_title') . ' ' .  $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php
@@ -73,15 +73,17 @@
         // VIEW FILE JAVASCRIPT CODE
         // ------------------------------------------------------------ ?>
     <script type="text/javascript">
-        GlobalVariables = {
+        var GlobalVariables = {
             availableServices   : <?php echo json_encode($available_services); ?>,
             availableProviders  : <?php echo json_encode($available_providers); ?>,
             baseUrl             : <?php echo '"' . $this->config->base_url() . '"'; ?>,
             manageMode          : <?php echo ($manage_mode) ? 'true' : 'false'; ?>,
             appointmentData     : <?php echo json_encode($appointment_data); ?>,
             providerData        : <?php echo json_encode($provider_data); ?>,
-            customerData        : <?php echo json_encode($customer_data); ?>
+            customerData        : <?php echo json_encode($customer_data); ?>,
         };
+
+        var EALang = <?php echo json_encode($ea_lang); ?>;
         
         $(document).ready(function() {
             FrontendBook.initialize(true, GlobalVariables.manageMode); 
@@ -103,17 +105,17 @@
                 <span id="company-name"><?php echo $company_name; ?></span>
                 
                 <div id="steps">
-                    <div id="step-1" class="book-step active-step" title="Select Service & Provider">
+                    <div id="step-1" class="book-step active-step" title="<?php echo $this->lang->line('fe_step_one_title'); ?>">
                         <strong>1</strong>
                     </div>
                     
-                    <div id="step-2" class="book-step" title="Select Appointment Date">
+                    <div id="step-2" class="book-step" title="<?php echo $this->lang->line('fe_step_two_title'); ?>">
                         <strong>2</strong>
                     </div>
-                    <div id="step-3" class="book-step" title="Your Information">
+                    <div id="step-3" class="book-step" title="<?php echo $this->lang->line('fe_step_three_title'); ?>">
                         <strong>3</strong>
                     </div>
-                    <div id="step-4" class="book-step" title="Confirm Appointment">
+                    <div id="step-4" class="book-step" title="<?php echo $this->lang->line('fe_step_four_title'); ?>">
                         <strong>4</strong>
                     </div>
                 </div>
@@ -126,10 +128,9 @@
                 if ($manage_mode === TRUE) {
                     echo '
                         <div id="cancel-appointment-frame">
-                            <p>
-                                Press the "Cancel" button to remove the appointment
-                                from the company schedule.
-                            </p>
+                            <p>' . 
+                                $this->lang->line('fe_cancel_appointment_hint') .
+                            '</p>
                             <form id="cancel-appointment-form" method="post" 
                                     action="' . $this->config->item('base_url') 
                                     . 'appointments/cancel/' . $appointment_data['hash'] . '">
@@ -147,7 +148,7 @@
                 // ------------------------------------------------------
                 if (isset($exceptions)) {
                     echo '<div style="margin: 10px">';
-                    echo '<h4>Unexpected Errors</h4>';
+                    echo '<h4>' . $this->lang->line('be_unexpected_issues') . '</h4>';
                     foreach($exceptions as $exception) {
                         echo exceptionToHtml($exception);
                     }
@@ -160,11 +161,11 @@
                 // ------------------------------------------------------ ?>
             <div id="wizard-frame-1" class="wizard-frame">                
                 <div class="frame-container">
-                    <h2 class="frame-title">Select Service & Provider</h2>
+                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_one_title'); ?></h3>
                     
                     <div class="frame-content" style="width:520px">
                         <label for="select-service">
-                            <strong>Select Service</strong>
+                            <strong><?php echo $this->lang->line('fe_select_service'); ?></strong>
                         </label>
                         
                         <select id="select-service">
@@ -223,7 +224,7 @@
                         </select>
 
                         <label for="select-provider">
-                            <strong>Select Provider</strong>
+                            <strong><?php echo $this->lang->line('fe_select_provider'); ?></strong>
                         </label>
                         
                         <select id="select-provider"></select>
@@ -234,7 +235,9 @@
                 
                 <div class="command-buttons">
                     <button type="button" id="button-next-1" class="btn button-next btn-primary" 
-                            data-step_index="1">Next <i class="icon-forward icon-white"></i></button>
+                            data-step_index="1">
+                        <?php echo $this->lang->line('fe_next'); ?> 
+                        <i class="icon-forward icon-white"></i></button>
                 </div>
             </div>
 
@@ -245,7 +248,7 @@
             <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
                     
-                    <h2 class="frame-title">Select Appointment Date And Time</h2>
+                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_two_title'); ?></h3>
                     
                     <div class="frame-content" style="width:600px">
                         <div class="span3">
@@ -261,9 +264,14 @@
                 
                 <div class="command-buttons">
                     <button type="button" id="button-back-2" class="btn button-back" 
-                            data-step_index="2"><i class="icon-backward"></i> Back</button>
+                            data-step_index="2"><i class="icon-backward"></i> 
+                        <?php echo $this->lang->line('fe_back'); ?>
+                    </button>
                     <button type="button" id="button-next-2" class="btn button-next btn-primary" 
-                            data-step_index="2">Next <i class="icon-forward icon-white"></i></button>
+                            data-step_index="2">
+                        <?php echo $this->lang->line('fe_next'); ?>
+                        <i class="icon-forward icon-white"></i>
+                    </button>
                 </div>
             </div>
 
@@ -274,37 +282,37 @@
             <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
                     
-                    <h2 class="frame-title">Fill In Your Information</h2>
+                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_three_title'); ?></h3>
                     
                     <div class="frame-content" style="width:600px">
                         <div class="span3">
-                            <label for="first-name">First Name *</label>
+                            <label for="first-name"><?php echo $this->lang->line('fe_first_name'); ?> *</label>
                             <input type="text" id="first-name" class="required" maxlength="100" />
                             
-                            <label for="last-name">Last Name *</label>
+                            <label for="last-name"><?php echo $this->lang->line('fe_last_name'); ?> *</label>
                             <input type="text" id="last-name" class="required" maxlength="250" />
 
-                            <label for="email">Email *</label>
+                            <label for="email"><?php echo $this->lang->line('fe_email'); ?> *</label>
                             <input type="text" id="email" class="required" maxlength="250" />
 
-                            <label for="phone-number">Phone Number *</label>
+                            <label for="phone-number"><?php echo $this->lang->line('fe_phone_number'); ?> *</label>
                             <input type="text" id="phone-number" class="required" maxlength="60" />
 
                             <br/><br/>
-                            <em id="form-message" class="text-error">Fields with * are required!</em>
+                            <em id="form-message" class="text-error"><?php echo $this->lang->line('fe_fields_are_required'); ?></em>
                         </div>
 
                         <div class="span3">
-                            <label for="address">Address</label>
+                            <label for="address"><?php echo $this->lang->line('fe_address'); ?></label>
                             <input type="text" id="address" maxlength="250" />
 
-                            <label for="city">City</label>
+                            <label for="city"><?php echo $this->lang->line('fe_city'); ?></label>
                             <input type="text" id="city" maxlength="120" />
 
-                            <label for="zip-code">Zip Code</label>
+                            <label for="zip-code"><?php echo $this->lang->line('fe_zip_code'); ?></label>
                             <input type="text" id="zip-code" maxlength="120" />
 
-                            <label for="notes">Notes</label>
+                            <label for="notes"><?php echo $this->lang->line('fe_notes'); ?></label>
                             <textarea id="notes" maxlength="500" rows="3"></textarea>
                         </div>
                     </div>
@@ -312,9 +320,14 @@
                 
                 <div class="command-buttons">
                     <button type="button" id="button-back-3" class="btn button-back" 
-                            data-step_index="3"><i class="icon-backward"></i> Back</button>
+                            data-step_index="3"><i class="icon-backward"></i> 
+                        <?php echo $this->lang->line('fe_back'); ?>
+                    </button>
                     <button type="button" id="button-next-3" class="btn button-next btn-primary" 
-                            data-step_index="3">Next <i class="icon-forward icon-white"></i></button>
+                            data-step_index="3">
+                        <?php echo $this->lang->line('fe_next'); ?>
+                        <i class="icon-forward icon-white"></i>
+                    </button>
                 </div>
             </div>
 
@@ -324,7 +337,7 @@
                 // ------------------------------------------------------ ?>
             <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
-                    <h2 class="frame-title">Confirm Appointment</h2>
+                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_four_title'); ?></h3>
                     <div class="frame-content" style="width:600px">
                         <div id="appointment-details" class="span3"></div>
                         <div id="customer-details" class="span3"></div>
@@ -333,12 +346,15 @@
                 
                 <div class="command-buttons">
                     <button type="button" id="button-back-4" class="btn button-back" 
-                            data-step_index="4"><i class="icon-backward"></i> Back</button>
+                            data-step_index="4"><i class="icon-backward"></i> 
+                        <?php echo $this->lang->line('fe_back'); ?>
+                    </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button type="submit" class="btn btn-success">
                             <i class="icon-ok icon-white"></i>
                             <?php
-                                echo (!$manage_mode) ? "Confirm" : "Update";
+                                echo (!$manage_mode) ? $this->lang->line('fe_confirm')
+                                        : $this->lang->line('fe_update');
                             ?>
                         </button>
                         <input type="hidden" name="post_data" />
