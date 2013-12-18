@@ -13,9 +13,7 @@
         
         <div id="content" style="padding: 10px 15px;">
             <h2>$email_title</h2>
-            <p>
-                The following appointment was removed from the company's schedule.
-            </p>    
+            <p>$email_message</p>    
             
             <h2>Appointment Details</h2>
             <table id="appointment-details">

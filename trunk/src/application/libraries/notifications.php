@@ -10,13 +10,13 @@ require_once dirname(__FILE__) . '/external/class.phpmailer.php';
  * during the execution of each class methods.
  */
 class Notifications {
-    private $CI;
+    private $ci;
     
     /**
      * Class Constructor
      */
     public function __construct() {   
-        $this->CI =& get_instance();
+        $this->ci =& get_instance();
     }
     
     /**
@@ -84,17 +84,17 @@ class Notifications {
             '$customer_address'         => $customer_data['address'],
             
             // Translations
-            'Appointment Details' => $this->lang->line('fe_appointment_details_title'),
-            'Service' => $this->lang->line('fe_service'),
-            'Provider' => $this->lang->line('fe_provider'),
-            'Start' => $this->lang->line('fe_start'),
-            'End' => $this->lang->line('fe_end'),
-            'Customer Details' => $this->lang->line('fe_customer_details_title'),
-            'Name' => $this->lang->line('fe_start'),
-            'Email' => $this->lang->line('fe_start'),
-            'Phone' => $this->lang->line('fe_start'),
-            'Address' => $this->lang->line('fe_start'),
-            'Start' => $this->lang->line('fe_start'),
+            'Appointment Details' => $this->ci->lang->line('fe_appointment_details_title'),
+            'Service' => $this->ci->lang->line('fe_service'),
+            'Provider' => $this->ci->lang->line('fe_provider'),
+            'Start' => $this->ci->lang->line('fe_start'),
+            'End' => $this->ci->lang->line('fe_end'),
+            'Customer Details' => $this->ci->lang->line('fe_customer_details_title'),
+            'Name' => $this->ci->lang->line('fe_name'),
+            'Email' => $this->ci->lang->line('fe_email'),
+            'Phone' => $this->ci->lang->line('fe_phone'),
+            'Address' => $this->ci->lang->line('fe_address'),
+            'Appointment Link' => $this->ci->lang->line('fe_appointment_link_title')
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -142,7 +142,8 @@ class Notifications {
             $service_data, $customer_data, $company_settings, $to_address, $reason) {
       	// :: PREPARE EMAIL REPLACE ARRAY
         $replace_array = array(
-            '$email_title'          => 'Appointment Cancelled',
+            '$email_title'          => $this->ci->lang->line('fe_appointment_cancelled_title'),
+            '$email_message'        => $this->ci->lang->line('fe_appointment_removed_from_schedule'),
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
@@ -153,7 +154,21 @@ class Notifications {
             '$customer_email'       => $customer_data['email'],
             '$customer_phone'       => $customer_data['phone_number'],
             '$customer_address'     => $customer_data['address'],
-            '$reason'               => $reason
+            '$reason'               => $reason,
+            
+            // Translations
+            'Appointment Details' => $this->ci->lang->line('fe_appointment_details_title'),
+            'Service' => $this->ci->lang->line('fe_service'),
+            'Provider' => $this->ci->lang->line('fe_provider'),
+            'Date' => $this->ci->lang->line('fe_start'),
+            'Duration' => $this->ci->lang->line('fe_duration'),
+            'Customer Details' => $this->ci->lang->line('fe_customer_details_title'),
+            'Name' => $this->ci->lang->line('fe_name'),
+            'Email' => $this->ci->lang->line('fe_email'),
+            'Phone' => $this->ci->lang->line('fe_phone'),
+            'Address' => $this->ci->lang->line('fe_address'),
+            'Reason' => $this->ci->lang->line('fe_reason')
+            
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -167,7 +182,7 @@ class Notifications {
         $mail->AddAddress($to_address); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet      = 'UTF-8';
-        $mail->Subject      = 'Appointment Cancelled';
+        $mail->Subject      = $this->ci->lang->line('fe_appointment_cancelled_title');
         $mail->Body         = $email_html;
 
         if (!$mail->Send()) {
@@ -186,13 +201,12 @@ class Notifications {
      */
     public function send_password($password, $email, $company_settings) {
         $replace_array = array(
-            '$email_title' => 'New Account Password',
-            '$email_message' => 'Your new account password is <strong>' . $password . '</strong>. '
-                    . 'Please store this email to be able to retrieve your password if necessary. '
-                    . 'You can also change this password with a new one in the settings page.',
+            '$email_title' => $this->ci->lang->line('be_new_account_password'),
+            '$email_message' => $this->ci->lang->line('be_new_password_is'),
             '$company_name' => $company_settings['company_name'],
             '$company_email' => $company_settings['company_email'],
-            '$company_link' => $company_settings['company_link']
+            '$company_link' => $company_settings['company_link'],
+            '$password' => '<strong>' . $password . '</strong>'
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -206,7 +220,7 @@ class Notifications {
         $mail->AddAddress($email); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet = 'UTF-8';
-        $mail->Subject = 'New Account Password';
+        $mail->Subject = $this->ci->lang->line('be_new_account_password');
         $mail->Body = $email_html;
 
         if (!$mail->Send()) {
@@ -233,8 +247,8 @@ class Notifications {
         $mail->IsHTML(true);
         $mail->CharSet = 'UTF-8';
         $mail->Subject = 'New Easy!Appointments Installation';
-        $mail->Body = 'Base URL: ' . $this->CI->config->item('base_url') . '<br>'
-                . 'E!A Version: ' . $this->CI->config->item('ea_version') . '<br>'
+        $mail->Body = 'Base URL: ' . $this->ci->config->item('base_url') . '<br>'
+                . 'E!A Version: ' . $this->ci->config->item('ea_version') . '<br>'
                 . 'Company Name: ' . $company_name . '<br>'
                 . 'Company Email: ' . $company_email . '<br>'
                 . 'Company Link: ' . $company_link . '<br>';

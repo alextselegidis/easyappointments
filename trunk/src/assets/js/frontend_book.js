@@ -196,23 +196,22 @@ var FrontendBook = {
             $('#cancel-appointment').click(function() {
                 event.preventDefault();
                 
-                var dialogButtons = {
-                    'OK': function() {
-                        if ($('#cancel-reason').val() === '') {
-                            $('#cancel-reason').css('border', '2px solid red');
-                            return;
-                        }
-                        $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
-                        $('#cancel-appointment-form').submit();
-                    },
-                    'Cancel': function() {
-                        $('#message_box').dialog('close');
+                var dialogButtons = {};
+                dialogButtons['OK'] = function() {
+                    if ($('#cancel-reason').val() === '') {
+                        $('#cancel-reason').css('border', '2px solid red');
+                        return;
                     }
+                    $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
+                    $('#cancel-appointment-form').submit();
+                };
+                    
+                dialogButtons[EALang['fe_cancel']] = function() {
+                    $('#message_box').dialog('close');
                 };
                 
-                GeneralFunctions.displayMessageBox('Cancel Appointment', 'Please take a '
-                        + 'minute to write the reason you are cancelling the appointment:',
-                        dialogButtons);
+                GeneralFunctions.displayMessageBox(EALang['fe_cancel_appointment_title'], 
+                        EALang['be_write_appointment_removal_reason'], dialogButtons);
                         
                 $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
                 $('#cancel-reason').css('width', '353px');
