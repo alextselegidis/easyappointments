@@ -79,12 +79,14 @@
                 };
                 
                 $('.alert').addClass('hidden');
+                $('#get-new-password').prop('disabled', true);
         
                 $.post(postUrl, postData, function(response) {
                     //////////////////////////////////////////////////////////
                     console.log('Regenerate Password Response: ', response);
                     //////////////////////////////////////////////////////////
                     
+                    $('#get-new-password').prop('disabled', false);
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                     
                     if (response == GlobalVariables.AJAX_SUCCESS) {

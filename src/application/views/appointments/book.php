@@ -128,15 +128,15 @@
                 if ($manage_mode === TRUE) {
                     echo '
                         <div id="cancel-appointment-frame">
-                            <p>' . 
+                            <p class="pull-left">' . 
                                 $this->lang->line('fe_cancel_appointment_hint') .
                             '</p>
-                            <form id="cancel-appointment-form" method="post" 
+                            <form id="cancel-appointment-form" method="post" class="pull-right"  
                                     action="' . $this->config->item('base_url') 
                                     . 'appointments/cancel/' . $appointment_data['hash'] . '">
                                 <textarea name="cancel_reason" style="display:none"></textarea>
-                                <button id="cancel-appointment" class="btn btn-inverse">
-                                        Cancel</button>
+                                <button id="cancel-appointment" class="btn btn-inverse">' .
+                                        $this->lang->line('fe_cancel') . '</button>
                             </form>
                         </div>';
                 }   
