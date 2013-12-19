@@ -94,18 +94,17 @@ AdminsHelper.prototype.bindEventHandlers = function() {
     $('#delete-admin').click(function() {
         var adminId = $('#admin-id').val();
 
-        var messageBtns = {
-            'Delete': function() {
-                BackendUsers.helper.delete(adminId);
-                $('#message_box').dialog('close');
-            },
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['be_delete']] = function() {
+            BackendUsers.helper.delete(adminId);
+            $('#message_box').dialog('close');
+        };
+        messageBtns[EALang['be_cancel']] = function() {
+            $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox('Delete Admin', 'Are you sure that you want '
-                + 'to delete this record? This action cannot be undone.', messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['be_delete_admin'], 
+                EALang['be_delete_record_prompt'], messageBtns);
     });
 
     /**
@@ -177,7 +176,7 @@ AdminsHelper.prototype.save = function(admin) {
         //console.log('Save Admin Response:', response);
         ////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Admin saved successfully!');
+        Backend.displayNotification(EALang['be_admin_saved']);
         BackendUsers.helper.resetForm();
         $('#filter-admins .key').val('');
         BackendUsers.helper.filter('', response.id, true); 
@@ -198,7 +197,7 @@ AdminsHelper.prototype.delete = function(id) {
         //console.log('Delete admin response:', response);
         //////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Admin deleted successfully!');
+        Backend.displayNotification(EALang['be_admin_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-admins .key').val());
     }, 'json');
@@ -230,26 +229,26 @@ AdminsHelper.prototype.validate = function(admin) {
         // Validate passwords.
         if ($('#admin-password').val() != $('#admin-password-confirm').val()) {
             $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
-            throw 'Passwords mismatch!';
+            throw EALang['be_passwords_mismatch'];
         }
         
         if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                 && $('#admin-password').val() != '') {
             $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
-            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
-                    + ' characters long.';
+            
+            throw EALang['be_password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
         }
         
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
             $('#admin-email').css('border', '2px solid red');
-            throw 'Invalid email address!';
+            throw EALang['be_invalid_email'];
         }
         
         // Check if username exists
         if ($('#admin-username').attr('already-exists') ==  'true') {
             $('#admin-username').css('border', '2px solid red');
-            throw 'Username already exists.';
+            throw EALang['be_username_already_exists'];
         } 
         
         return true;
@@ -339,7 +338,7 @@ AdminsHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-admins .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-admins .results').html('<em>No results found ...</em>')
+            $('#filter-admins .results').html('<em>' + EALang['be_no_records_found'] + '</em>')
         }
         
         if (selectId != undefined) {

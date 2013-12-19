@@ -14,9 +14,6 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
         
     <?php // INCLUDE CSS FILES ?>
     <link 
@@ -62,16 +59,16 @@
     </style>
     
     <script type="text/javascript">
+        var GlobalVariables = {
+            'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
+            'destUrl': <?php echo '"' . $dest_url . '"'; ?>,
+            'AJAX_SUCCESS': 'SUCCESS',
+            'AJAX_FAILURE': 'FAILURE'
+        };
+        
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        
         $(document).ready(function() {
-            var GlobalVariables = {
-                'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
-                'destUrl': <?php echo '"' . $dest_url . '"'; ?>,
-                'AJAX_SUCCESS': 'SUCCESS',
-                'AJAX_FAILURE': 'FAILURE'
-            };
-            
-            var EALang = <?php echo json_encode($ea_lang); ?>;
-            
             /**
              * Event: Login Button "Click"
              * 
@@ -127,5 +124,9 @@
             <a href="<?php echo $base_url; ?>user/forgot_password" class="forgot-password"><?php echo $this->lang->line('be_forgot_your_password'); ?></a>
         </form>
     </div>
+
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
 </body>
 </html>

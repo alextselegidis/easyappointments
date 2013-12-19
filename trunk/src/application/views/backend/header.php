@@ -39,7 +39,6 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $base_url; ?>assets/css/libs/jquery/jquery.jscrollpane.css">
-    
     <?php
         // ------------------------------------------------------------
         // INCLUDE JAVASCRIPT FILES 
@@ -61,12 +60,6 @@
         src="<?php echo $base_url; ?>assets/js/libs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/general_functions.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend.js"></script>
-    <script 
-        type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.jscrollpane.min.js"></script>
     <script 
         type="text/javascript" 
@@ -86,8 +79,8 @@
         <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="Manage all the appointment records of the available providers and services.">
-            Calendar
+                title="<?php echo $this->lang->line('be_manage_appointment_record_hint'); ?>">
+            <?php echo $this->lang->line('be_calendar'); ?>
         </a>
         
         <?php // CUSTOMERS MENU ITEM 
@@ -95,8 +88,8 @@
         <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/customers" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="Manage the registered customers and view their booking history.">
-            Customers
+                title="<?php echo $this->lang->line('be_manage_customers_hint'); ?>">
+            <?php echo $this->lang->line('be_customers'); ?>
         </a>
         
         <?php // SERVICES MENU ITEM 
@@ -104,8 +97,8 @@
         <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/services" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="Manage the available services and categories of the system.">
-            Services
+                title="<?php echo $this->lang->line('be_manage_services_hint'); ?>">
+            <?php echo $this->lang->line('be_services'); ?>
         </a>
         
         <?php // USERS MENU ITEM 
@@ -113,8 +106,8 @@
         <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_USERS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/users" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="Manage the backend users (admins, providers, secretaries).">
-            Users
+                title="<?php echo $this->lang->line('be_manage_users_hint'); ?>">
+            <?php echo $this->lang->line('be_users'); ?>
         </a>
         
         <?php // SETTINGS MENU ITEM 
@@ -123,15 +116,15 @@
                 || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/settings" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="Set system and user settings.">
-            Settings
+                title="<?php echo $this->lang->line('be_settings_hint'); ?>">
+            <?php echo $this->lang->line('be_settings'); ?>
         </a>
         
         <?php // LOGOUT MENU ITEM 
               // ------------------------------------------------------ ?>
         <a href="<?php echo $base_url; ?>user/logout" class="menu-item"
-                title="Log out of the system.">
-            Log Out
+                title="<?php echo $this->lang->line('be_log_out_hint'); ?>">
+            <?php echo $this->lang->line('be_log_out'); ?>
         </a>
         
     </div>

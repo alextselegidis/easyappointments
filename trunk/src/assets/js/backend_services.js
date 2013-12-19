@@ -25,7 +25,7 @@ var BackendServices = {
             var option = new Option(category.name, category.id);
             $('#service-category').append(option);
         });
-        $('#service-category').append(new Option('- No Category -', null)).val('null');
+        $('#service-category').append(new Option('- ' + EALang['be_no_category'] + ' -', null)).val('null');
         
         $('#service-duration').spinner({
             'min': 0,
@@ -99,7 +99,7 @@ var BackendServices = {
                 var option = new Option(category.name, category.id);
                 $select.append(option);
             });
-            $select.append(new Option('- No Category -', null)).val('null');
+            $select.append(new Option('- ' + EALang['be_no_category'] + ' -', null)).val('null');
         }, 'json');
     }
 };
@@ -233,18 +233,18 @@ ServicesHelper.prototype.bindEventHandlers = function() {
     $('#delete-service').click(function() {
         var serviceId = $('#service-id').val();
 
-        var messageBtns = {
-            'Delete': function() {
-                BackendServices.helper.delete(serviceId);
-                $('#message_box').dialog('close');
-            },
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['be_delete']] = function() {
+            BackendServices.helper.delete(serviceId);
+            $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox('Delete Service', 'Are you sure that you want '
-                + 'to delete this record? This action cannot be undone.', messageBtns);
+        messageBtns[EALang['fe_cancel']] = function() {
+            $('#message_box').dialog('close');
+        };
+
+        GeneralFunctions.displayMessageBox(EALang['be_delete_service'], 
+                EALang['be_delete_record_prompt'], messageBtns);
     });
 };
 
@@ -268,7 +268,7 @@ ServicesHelper.prototype.save = function(service) {
         //////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Service saved successfully!');
+        Backend.displayNotification(EALang['be_service_saved']);
         BackendServices.helper.resetForm();
         $('#filter-services .key').val('');
         BackendServices.helper.filter('', response.id, true);
@@ -291,7 +291,7 @@ ServicesHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Service deleted successfully!');
+        Backend.displayNotification(EALang['be_service_deleted']);
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-services .key').val());
@@ -317,7 +317,7 @@ ServicesHelper.prototype.validate = function(service) {
             }
         });
         if (missingRequired) {
-            throw 'Fields with * are  required.';
+            throw EALang['fe_fields_are_required'];
         }
         
         return true;
@@ -342,6 +342,7 @@ ServicesHelper.prototype.resetForm = function() {
     $('#filter-services .selected-row').removeClass('selected-row');
     $('#filter-services button').prop('disabled', false);
     $('#filter-services .results').css('color', '');
+    $('#filter-services .key').val('');
 };
 
 /**
@@ -394,7 +395,7 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-services .results').html('<em>No results found ...</em>');
+            $('#filter-services .results').html('<em>' + EALang['be_no_records_found'] + '</em>');
         }
         
         if (selectId != undefined) {
@@ -550,8 +551,8 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
             }
         };
 
-        GeneralFunctions.displayMessageBox('Delete Category', 'Are you sure that you want '
-                + 'to delete this record? This action cannot be undone.', messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['be_delete_category'], 
+                EALang['be_delete_record_prompt'], messageBtns);
     });
     
     /**
@@ -615,7 +616,7 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-categories .results').html('<em>No records found...</em>');
+            $('#filter-categories .results').html('<em>' + EALang['be_no_records_found'] + '</em>');
         }
         
         if (selectId != undefined) {
@@ -641,7 +642,7 @@ CategoriesHelper.prototype.save = function(category) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Category saved successfully!');
+        Backend.displayNotification(EALang['be_category_saved']);
         BackendServices.helper.resetForm();
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('', response.id, true);
@@ -665,7 +666,7 @@ CategoriesHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Category deleted successfully!');
+        Backend.displayNotification(EALang['be_category_deleted']);
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-categories .key').val());
@@ -700,7 +701,7 @@ CategoriesHelper.prototype.validate = function(category) {
                 missingRequired = true;
             }
         });
-        if (missingRequired) throw 'Required field is missing.';
+        if (missingRequired) throw EALang['fe_fields_are_required'];
         
         return true;
         
@@ -723,6 +724,7 @@ CategoriesHelper.prototype.resetForm = function() {
     $('#filter-categories .selected-row').removeClass('selected-row');
     $('#filter-categories .results').css('color', '');
     $('#filter-categories button').prop('disabled', false);
+    $('#filter-categories .key').val('');
 };
 
 /**

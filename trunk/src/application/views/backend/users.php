@@ -31,6 +31,8 @@
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
+
+    var EALang = <?php echo json_encode($this->lang->language); ?>;
     
     $(document).ready(function() {
         BackendUsers.initialize(true);
@@ -47,9 +49,9 @@
         // ---------------------------------------------------------------------
     ?>
     <ul class="nav nav-tabs">
-        <li class="admins-tab tab active"><a>Admins</a></li>
-        <li class="providers-tab tab"><a>Providers</a></li>
-        <li class="secretaries-tab tab"><a>Secretaries</a></li>
+        <li class="admins-tab tab active"><a><?php echo $this->lang->line('be_admins'); ?></a></li>
+        <li class="providers-tab tab"><a><?php echo $this->lang->line('be_providers'); ?></a></li>
+        <li class="secretaries-tab tab"><a><?php echo $this->lang->line('be_secretaries'); ?></a></li>
     </ul>
     
     <?php 
@@ -63,15 +65,15 @@
         <div id="filter-admins" class="filter-records column span4">
             <form class="input-append">
                 <input class="key span12" type="text" />
-                <button class="filter btn" type="submit" title="Filter">
+                <button class="filter btn" type="submit" title="<?php echo $this->lang->line('be_filter'); ?>">
                     <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button" title="Clear">
+                <button class="clear btn" type="button" title="<?php echo $this->lang->line('be_clear'); ?>">
                     <i class="icon-repeat"></i>
                 </button>
             </form>
             
-            <h2>Admins</h2>
+            <h2><?php echo $this->lang->line('be_admins'); ?></h2>
             <div class="results"></div>
         </div>
         
@@ -80,26 +82,31 @@
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-admin" class="btn btn-primary">
                         <i class="icon-plus icon-white"></i>
-                        Add</button>
+                        <?php echo $this->lang->line('be_add'); ?>
+                    </button>
                     <button id="edit-admin" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
-                        Edit</button>
+                        <?php echo $this->lang->line('be_edit'); ?>
+                    </button>
                     <button id="delete-admin" class="btn" disabled="disabled">
                         <i class="icon-remove"></i>
-                        Delete</button>
+                        <?php echo $this->lang->line('be_delete'); ?>
+                    </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-admin" class="btn btn-primary">
                         <i class="icon-ok icon-white"></i>
-                        Save</button>
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <button id="cancel-admin" class="btn">
                         <i class="icon-ban-circle"></i>
-                        Cancel</button>
+                        <?php echo $this->lang->line('be_cancel'); ?>
+                    </button>
                 </div>
             </div>
             
-            <h2>Details</h2>
+            <h2><?php echo $this->lang->line('be_details'); ?></h2>
             
             <div class="form-message alert" style="display:none;"></div>
             
@@ -107,51 +114,51 @@
             
             <div class="row-fluid">
                 <div class="admin-details span6">
-                    <label for="first-name">First Name *</label>
+                    <label for="first-name"><?php echo $this->lang->line('fe_first_name'); ?> *</label>
                     <input type="text" id="admin-first-name" class="span11 required" />
 
-                    <label for="admin-last-name">Last Name *</label>
+                    <label for="admin-last-name"><?php echo $this->lang->line('fe_last_name'); ?> *</label>
                     <input type="text" id="admin-last-name" class="span11 required" />
 
-                    <label for="admin-email">Email *</label>
+                    <label for="admin-email"><?php echo $this->lang->line('fe_email'); ?> *</label>
                     <input type="text" id="admin-email" class="span11 required" />
 
-                    <label for="admin-mobile-number">Mobile Number</label>
+                    <label for="admin-mobile-number"><?php echo $this->lang->line('be_mobile_number'); ?></label>
                     <input type="text" id="admin-mobile-number" class="span11" />
 
-                    <label for="admin-phone-number">Phone Number *</label>
+                    <label for="admin-phone-number"><?php echo $this->lang->line('fe_phone_number'); ?> *</label>
                     <input type="text" id="admin-phone-number" class="span11 required" />
 
-                    <label for="admin-address">Address</label>
+                    <label for="admin-address"><?php echo $this->lang->line('fe_address'); ?></label>
                     <input type="text" id="admin-address" class="span11" />
 
-                    <label for="admin-city">City</label>
+                    <label for="admin-city"><?php echo $this->lang->line('fe_city'); ?></label>
                     <input type="text" id="admin-city" class="span11" />
 
-                    <label for="admin-state">State</label>
+                    <label for="admin-state"><?php echo $this->lang->line('be_state'); ?></label>
                     <input type="text" id="admin-state" class="span11" />
 
-                    <label for="admin-zip-code">Zip Code</label>
+                    <label for="admin-zip-code"><?php echo $this->lang->line('fe_zip_code'); ?></label>
                     <input type="text" id="admin-zip-code" class="span11" />
 
-                    <label for="admin-notes">Notes</label>
+                    <label for="admin-notes"><?php echo $this->lang->line('fe_notes'); ?></label>
                     <textarea id="admin-notes" class="span11" rows="3"></textarea>
                 </div>
                 <div class="admin-settings span6">
-                    <label for="admin-username">Username *</label>
+                    <label for="admin-username"><?php echo $this->lang->line('be_username'); ?> *</label>
                     <input type="text" id="admin-username" class="span9 required" />
                     
-                    <label for="admin-password">Password *</label>
+                    <label for="admin-password"><?php echo $this->lang->line('be_password'); ?> *</label>
                     <input type="password" id="admin-password" class="span9 required"/>
                     
-                    <label for="admin-password-confirm">Retype Password *</label>
+                    <label for="admin-password-confirm"><?php echo $this->lang->line('be_retype_password'); ?> *</label>
                     <input type="password" id="admin-password-confirm" class="span9 required" />
                     
                     <br>
                     
                     <button type="button" id="admin-notifications" class="btn" data-toggle="button">
                         <i class="icon-envelope"></i>
-                        <span>Receive Notifications</span>
+                        <span><?php echo $this->lang->line('be_receive_notifications'); ?></span>
                     </button>
                 </div>
             </div>
@@ -169,15 +176,15 @@
         <div id="filter-providers" class="filter-records column span4">
             <form class="input-append">
                 <input class="key span12" type="text" />
-                <button class="filter btn" type="submit" title="Filter">
+                <button class="filter btn" type="submit" title="<?php echo $this->lang->line('be_filter'); ?>">
                     <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button" title="Clear">
+                <button class="clear btn" type="button" title="<?php echo $this->lang->line('be_clear'); ?>">
                     <i class="icon-repeat"></i>
                 </button>
             </form>
             
-            <h2>Providers</h2>
+            <h2><?php echo $this->lang->line('be_providers'); ?></h2>
             <div class="results"></div>
         </div>
         
@@ -186,29 +193,34 @@
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn btn-primary">
                         <i class="icon-plus icon-white"></i>
-                        Add</button>
+                        <?php echo $this->lang->line('be_add'); ?>
+                    </button>
                     <button id="edit-provider" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
-                        Edit</button>
+                        <?php echo $this->lang->line('be_edit'); ?>
+                    </button>
                     <button id="delete-provider" class="btn" disabled="disabled">
                         <i class="icon-remove"></i>
-                        Delete</button>
+                        <?php echo $this->lang->line('be_delete'); ?>
+                    </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-provider" class="btn btn-primary">
                         <i class="icon-ok icon-white"></i>
-                        Save</button>
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <button id="cancel-provider" class="btn">
                         <i class="icon-ban-circle"></i>
-                        Cancel</button>
+                        <?php echo $this->lang->line('be_cancel'); ?>
+                    </button>
                 </div>
             </div>
             
             <div class="switch-view pull-right">
-                <strong>Current View</strong>
-                <div class="display-details current">Details</div>
-                <div class="display-working-plan">Working Plan</div>
+                <strong><?php echo $this->lang->line('be_current_view'); ?></strong>
+                <div class="display-details current"><?php echo $this->lang->line('be_details'); ?></div>
+                <div class="display-working-plan"><?php echo $this->lang->line('be_working_plan'); ?></div>
             </div>
             
             <?php // This form message is outside the details view, so that it can be 
@@ -216,114 +228,121 @@
             <div class="form-message alert" style="display:none;"></div>
             
             <div class="details-view provider-view"> 
-                <h2>Details</h2>
+                <h2><?php echo $this->lang->line('be_details'); ?></h2>
 
                 <input type="hidden" id="provider-id" class="record-id" />
 
                 <div class="row-fluid">
                     <div class="provider-details span6">
-                        <label for="provider-first-name">First Name *</label>
+                        <label for="provider-first-name"><?php echo $this->lang->line('fe_first_name'); ?> *</label>
                         <input type="text" id="provider-first-name" class="span11 required" />
 
-                        <label for="provider-last-name">Last Name *</label>
+                        <label for="provider-last-name"><?php echo $this->lang->line('fe_last_name'); ?> *</label>
                         <input type="text" id="provider-last-name" class="span11 required" />
 
-                        <label for="provider-email">Email *</label>
+                        <label for="provider-email"><?php echo $this->lang->line('fe_email'); ?> *</label>
                         <input type="text" id="provider-email" class="span11 required" />
 
-                        <label for="provider-mobile-number">Mobile Number</label>
+                        <label for="provider-mobile-number"><?php echo $this->lang->line('be_mobile_number'); ?></label>
                         <input type="text" id="provider-mobile-number" class="span11" />
 
-                        <label for="provider-phone-number">Phone Number *</label>
+                        <label for="provider-phone-number"><?php echo $this->lang->line('fe_phone_number'); ?> *</label>
                         <input type="text" id="provider-phone-number" class="span11 required" />
 
-                        <label for="provider-address">Address</label>
+                        <label for="provider-address"><?php echo $this->lang->line('fe_address'); ?></label>
                         <input type="text" id="provider-address" class="span11" />
 
-                        <label for="provider-city">City</label>
+                        <label for="provider-city"><?php echo $this->lang->line('fe_city'); ?></label>
                         <input type="text" id="provider-city" class="span11" />
 
-                        <label for="provider-state">State</label>
+                        <label for="provider-state"><?php echo $this->lang->line('be_state'); ?></label>
                         <input type="text" id="provider-state" class="span11" />
 
-                        <label for="provider-zip-code">Zip Code</label>
+                        <label for="provider-zip-code"><?php echo $this->lang->line('fe_zip_code'); ?></label>
                         <input type="text" id="provider-zip-code" class="span11" />
 
-                        <label for="provider-notes">Notes</label>
+                        <label for="provider-notes"><?php echo $this->lang->line('fe_notes'); ?></label>
                         <textarea id="provider-notes" class="span11" rows="3"></textarea>
                     </div>
                     <div class="provider-settings span6">
-                        <label for="provider-username">Username *</label>
+                        <label for="provider-username"><?php echo $this->lang->line('be_username'); ?> *</label>
                         <input type="text" id="provider-username" class="span9 required" />
 
-                        <label for="provider-password">Password *</label>
+                        <label for="provider-password"><?php echo $this->lang->line('be_password'); ?> *</label>
                         <input type="password" id="provider-password" class="span9 required"/>
 
-                        <label for="provider-password-confirm">Retype Password *</label>
+                        <label for="provider-password-confirm"><?php echo $this->lang->line('be_retype_password'); ?> *</label>
                         <input type="password" id="provider-password-confirm" class="span9 required" />
 
                         <br>
 
                         <button type="button" id="provider-notifications" class="btn" data-toggle="button">
                             <i class="icon-envelope"></i>
-                            <span>Receive Notifications</span>
+                            <span><?php echo $this->lang->line('be_receive_notifications'); ?></span>
                         </button>
 
                         <br><br>
 
-                        <h4>Services</h4>
+                        <h4><?php echo $this->lang->line('be_services'); ?></h4>
                         <div id="provider-services"></div>
                     </div>
                 </div>
             </div>
                 
             <div class="working-plan-view provider-view" style="display: none;">
-                <h2>Working Plan</h2>
+                <h2><?php echo $this->lang->line('be_working_plan'); ?></h2>
                 <button id="reset-working-plan" class="btn btn-primary"
                         title="Reset the working plan back to the default values.">
                     <i class="icon-repeat icon-white"></i>
-                    Reset Plan</button>
+                    <?php echo $this->lang->line('be_reset_plan'); ?></button>
                 <table class="working-plan table table-striped">
                     <thead>
                         <tr>
-                            <th>Day</th>
-                            <th>Start</th>
-                            <th>End</th>
+                            <th><?php echo $this->lang->line('be_day'); ?></th>
+                            <th><?php echo $this->lang->line('fe_start'); ?></th>
+                            <th><?php echo $this->lang->line('fe_end'); ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="monday" />Monday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="monday" />
+                                    <?php echo $this->lang->line('be_monday'); ?></label></td>
                             <td><input type="text" id="monday-start" class="work-start" /></td>
                             <td><input type="text" id="monday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="tuesday" />Tuesday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="tuesday" />
+                                    <?php echo $this->lang->line('be_tuesday'); ?></label></td>
                             <td><input type="text" id="tuesday-start" class="work-start" /></td>
                             <td><input type="text" id="tuesday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="wednesday" />Wednesday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="wednesday" />
+                                    <?php echo $this->lang->line('be_wednesday'); ?></label></td>
                             <td><input type="text" id="wednesday-start" class="work-start" /></td>
                             <td><input type="text" id="wednesday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="thursday" />Thursday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="thursday" />
+                                    <?php echo $this->lang->line('be_tuesday'); ?></label></td>
                             <td><input type="text" id="thursday-start" class="work-start" /></td>
                             <td><input type="text" id="thursday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="friday" />Friday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="friday" />
+                                    <?php echo $this->lang->line('be_friday'); ?></label></td>
                             <td><input type="text" id="friday-start" class="work-start" /></td>
                             <td><input type="text" id="friday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="saturday" />Saturday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="saturday" />
+                                    <?php echo $this->lang->line('be_saturday'); ?></label></td>
                             <td><input type="text" id="saturday-start" class="work-start" /></td>
                             <td><input type="text" id="saturday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="sunday" />Sunday</label></td>
+                            <td><label class="checkbox"><input type="checkbox" id="sunday" />
+                                    <?php echo $this->lang->line('be_sunday'); ?></label></td>
                             <td><input type="text" id="sunday-start" class="work-start" /></td>
                             <td><input type="text" id="sunday-end" class="work-end" /></td>
                         </tr>
@@ -332,17 +351,17 @@
 
                 <br>
                 
-                <h2>Breaks</h2>
+                <h2><?php echo $this->lang->line('be_breaks');?></h2>
 
                 <span class="help-block">
-                    Add the working breaks during each day. During breaks the provider will 
-                    not accept any appointments.
+                    <?php echo $this->lang->line('be_add_breaks_during_each_day');?>
                 </span>
 
                 <div>
                     <button type="button" class="add-break btn btn-primary">
                         <i class="icon-white icon-plus"></i>
-                        Add Break
+                        <?php echo $this->lang->line('be_add');?> 
+                        <?php echo $this->lang->line('be_break');?>
                     </button>
                 </div>
 
@@ -351,10 +370,10 @@
                 <table class="breaks table table-striped">
                     <thead>
                         <tr>
-                            <th>Day</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Actions</th>
+                            <th><?php echo $this->lang->line('be_day');?></th>
+                            <th><?php echo $this->lang->line('fe_start');?></th>
+                            <th><?php echo $this->lang->line('fe_end');?></th>
+                            <th><?php echo $this->lang->line('be_actions');?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -375,15 +394,15 @@
         <div id="filter-secretaries" class="filter-records column span4">
             <form class="input-append">
                 <input class="key span12" type="text" />
-                <button class="filter btn" type="submit" title="Filter">
+                <button class="filter btn" type="submit" title="<?php echo $this->lang->line('be_filter');?>">
                     <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button" title="Clear">
+                <button class="clear btn" type="button" title="<?php echo $this->lang->line('be_clear');?>">
                     <i class="icon-repeat"></i>
                 </button>
             </form>
             
-            <h2>Secretaries</h2>
+            <h2><?php echo $this->lang->line('be_secretaries');?></h2>
             <div class="results"></div>
         </div>
         
@@ -392,26 +411,31 @@
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-secretary" class="btn btn-primary">
                         <i class="icon-plus icon-white"></i>
-                        Add</button>
+                        <?php echo $this->lang->line('be_add');?>
+                    </button>
                     <button id="edit-secretary" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
-                        Edit</button>
+                        <?php echo $this->lang->line('be_edit');?>
+                    </button>
                     <button id="delete-secretary" class="btn" disabled="disabled">
                         <i class="icon-remove"></i>
-                        Delete</button>
+                        <?php echo $this->lang->line('be_delete');?>
+                    </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-secretary" class="btn btn-primary">
                         <i class="icon-ok icon-white"></i>
-                        Save</button>
+                        <?php echo $this->lang->line('be_save');?>
+                    </button>
                     <button id="cancel-secretary" class="btn">
                         <i class="icon-ban-circle"></i>
-                        Cancel</button>
+                        <?php echo $this->lang->line('be_cancel');?>
+                    </button>
                 </div>
             </div>
             
-            <h2>Details</h2>
+            <h2><?php echo $this->lang->line('be_details');?></h2>
             
             <div class="form-message alert" style="display:none;"></div>
             
@@ -419,56 +443,56 @@
             
             <div class="row-fluid">
                 <div class="secretary-details span6">
-                    <label for="secretary-first-name">First Name *</label>
+                    <label for="secretary-first-name"><?php echo $this->lang->line('fe_first_name');?> *</label>
                     <input type="text" id="secretary-first-name" class="span11 required" />
 
-                    <label for="secretary-last-name">Last Name *</label>
+                    <label for="secretary-last-name"><?php echo $this->lang->line('fe_last_name');?> *</label>
                     <input type="text" id="secretary-last-name" class="span11 required" />
 
-                    <label for="secretary-email">Email *</label>
+                    <label for="secretary-email"><?php echo $this->lang->line('fe_email');?> *</label>
                     <input type="text" id="secretary-email" class="span11 required" />
 
-                    <label for="secretary-mobile-number">Mobile Number</label>
+                    <label for="secretary-mobile-number"><?php echo $this->lang->line('be_mobile_number');?></label>
                     <input type="text" id="secretary-mobile-number" class="span11" />
 
-                    <label for="secretary-phone-number">Phone Number *</label>
+                    <label for="secretary-phone-number"><?php echo $this->lang->line('fe_phone_number');?> *</label>
                     <input type="text" id="secretary-phone-number" class="span11 required" />
 
-                    <label for="secretary-address">Address</label>
+                    <label for="secretary-address"><?php echo $this->lang->line('fe_address');?></label>
                     <input type="text" id="secretary-address" class="span11" />
 
-                    <label for="secretary-city">City</label>
+                    <label for="secretary-city"><?php echo $this->lang->line('fe_city');?></label>
                     <input type="text" id="secretary-city" class="span11" />
 
-                    <label for="secretary-state">State</label>
+                    <label for="secretary-state"><?php echo $this->lang->line('be_state');?></label>
                     <input type="text" id="secretary-state" class="span11" />
 
-                    <label for="secretary-zip-code">Zip Code</label>
+                    <label for="secretary-zip-code"><?php echo $this->lang->line('fe_zip_code');?></label>
                     <input type="text" id="secretary-zip-code" class="span11" />
 
-                    <label for="secretary-notes">Notes</label>
+                    <label for="secretary-notes"><?php echo $this->lang->line('fe_notes');?></label>
                     <textarea id="secretary-notes" class="span11" rows="3"></textarea>
                 </div>
                 <div class="secretary-settings span6">
-                    <label for="secretary-username">Username *</label>
+                    <label for="secretary-username"><?php echo $this->lang->line('be_username');?> *</label>
                     <input type="text" id="secretary-username" class="span9 required" />
                    
-                    <label for="secretary-password">Password *</label>
+                    <label for="secretary-password"><?php echo $this->lang->line('be_password');?> *</label>
                     <input type="password" id="secretary-password" class="span9 required"/>
                     
-                    <label for="secretary-password-confirm">Retype Password *</label>
+                    <label for="secretary-password-confirm"><?php echo $this->lang->line('be_retype_password');?> *</label>
                     <input type="password" id="secretary-password-confirm" class="span9 required" />
                     
                     <br>
                     
                     <button type="button" id="secretary-notifications" class="btn" data-toggle="button">
                         <i class="icon-envelope"></i>
-                        <span>Receive Notifications</span>
+                        <span><?php echo $this->lang->line('be_receive_notifications');?></span>
                     </button>
                     
                     <br><br>
                     
-                    <h4>Providers</h4>
+                    <h4><?php echo $this->lang->line('be_providers');?></h4>
                     <div id="secretary-providers"></div>
                 </div>
             </div>

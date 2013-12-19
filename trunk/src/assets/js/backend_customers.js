@@ -195,19 +195,17 @@ CustomersHelper.prototype.bindEventHandlers = function() {
     $('#delete-customer').click(function() {
         var customerId = $('#customer-id').val();
         
-        var messageBtns = {
-            'Delete': function() {        
-                BackendCustomers.helper.delete(customerId);
-                $('#message_box').dialog('close');
-            },
-
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['be_delete']] = function() {        
+            BackendCustomers.helper.delete(customerId);
+            $('#message_box').dialog('close');
+        };
+        messageBtns[EALang['fe_cancel']] = function() {
+            $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox('Delete Customer', 'Are you sure that you want '
-                + 'to delete this customer? This action cannot be undone.', messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['be_delete_customer'], 
+                EALang['be_delete_record_prompt'], messageBtns);
     });
 };
 
@@ -227,7 +225,7 @@ CustomersHelper.prototype.save = function(customer) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Customer saved successfully!');
+        Backend.displayNotification(EALang['be_customer_saved']);
         BackendCustomers.helper.resetForm();
         $('#filter-customers .key').val('');
         BackendCustomers.helper.filter('', response.id, true);
@@ -250,7 +248,7 @@ CustomersHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification('Customer deleted successfully!');
+        Backend.displayNotification(EALang['be_customer_deleted']);
         BackendCustomers.helper.resetForm();
         BackendCustomers.helper.filter($('#filter-customers .key').val());
     }, 'json');
@@ -275,13 +273,13 @@ CustomersHelper.prototype.validate = function(customer) {
             }
         });
         if (missingRequired) {
-            throw 'Fields with * are required!';
+            throw EALang['fe_fields_are_required'];
         }
 
         // Validate email address.
         if (!GeneralFunctions.validateEmail($('#email').val())) {
             $('#email').css('border', '2px solid red');
-            throw 'Invalid email address!';
+            throw EALang['be_invalid_email'];
         }
 
         return true;
@@ -380,7 +378,7 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-customers .results').html('<em>No records found...</em>');
+            $('#filter-customers .results').html('<em>' + EALang['be_no_records_found'] + '</em>');
         }
         
         if (selectId != undefined) {

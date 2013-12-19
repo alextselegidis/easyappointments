@@ -9,10 +9,10 @@ var GeneralFunctions = {
     /**
      * General Functions Constants
      */
-    EXCEPTIONS_TITLE: 'Unexpected Issues',
-    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
-    WARNINGS_TITLE: 'Unexpected Warnings',
-    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    EXCEPTIONS_TITLE: EALang['be_unexpected_issues'],
+    EXCEPTIONS_MESSAGE: EALang['be_unexpected_issues_message'],
+    WARNINGS_TITLE: EALang['be_unexpected_warnings'],
+    WARNINGS_MESSAGE: EALang['be_unexpected_warnings_message'],
     
     /**
      * This functions displays a message box in
@@ -35,10 +35,9 @@ var GeneralFunctions = {
         } 
 
         if (messageButtons == undefined) {
-            messageButtons = {
-                Close: function() {
-                    jQuery("#message_box").dialog("close");
-                }
+            messageButtons = {};
+            messageButtons[EALang['be_close']] = function() {
+                jQuery("#message_box").dialog("close");
             };
         }
 

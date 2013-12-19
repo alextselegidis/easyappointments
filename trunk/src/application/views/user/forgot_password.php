@@ -14,9 +14,10 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
+    
+    <script type="text/javascript">
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+    </script>
         
     <?php // INCLUDE CSS FILES ?>
     <link 
@@ -64,7 +65,7 @@
                 'AJAX_FAILURE': 'FAILURE'
             };
             
-            var EALang = <?php echo json_encode($ea_lang); ?>;
+            var EALang = <?php echo json_encode($this->lang->language); ?>;
             
             /**
              * Event: Login Button "Click"
@@ -129,5 +130,8 @@
             </a>
         </form>
     </div>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
 </body>
 </html>

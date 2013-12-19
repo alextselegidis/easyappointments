@@ -44,7 +44,6 @@ class Appointments extends CI_Controller {
                                              . 'assets/images/error.png',
                             'company_name'  => $company_name
                         );
-                        $view['ea_lang'] = $this->lang->language;
                         $this->load->view('appointments/message', $view);                        
                         return;
                     }
@@ -77,7 +76,6 @@ class Appointments extends CI_Controller {
                 $view['exceptions'][] = $exc;
             }
             
-            $view['ea_lang'] = $this->lang->language;
             $this->load->view('appointments/book', $view);
             
         } else { 
@@ -195,7 +193,6 @@ class Appointments extends CI_Controller {
                 $view['exceptions'][] = $exc;
             }
             
-            $view['ea_lang'] = $this->lang->language;
             $this->load->view('appointments/book_success', $view);
         }   
     }
@@ -291,7 +288,6 @@ class Appointments extends CI_Controller {
             $view['exceptions'] = $exceptions;
         }
         
-        $view['ea_lang'] = $this->lang->language;
         $this->load->view('appointments/cancel', $view);
     }
     

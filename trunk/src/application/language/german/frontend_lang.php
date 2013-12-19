@@ -41,6 +41,7 @@ $lang['fe_appointment_details_title'] = 'Termindaten';
 $lang['fe_customer_details_title'] = 'Kundendaten';
 $lang['fe_service'] = 'Dienstleistung';
 $lang['fe_provider'] = 'Anbieter';
+$lang['fe_customer'] = 'Kunde';
 $lang['fe_start'] = 'Beginn';
 $lang['fe_end'] = 'Ende';
 $lang['fe_name'] = 'Name';

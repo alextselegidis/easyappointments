@@ -11,6 +11,10 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>   
+    
+    <script type="text/javascript">
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+    </script>
         
     <?php // INCLUDE CSS FILES ?>
     <link 

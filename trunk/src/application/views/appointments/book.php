@@ -55,9 +55,6 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>assets/js/frontend_book.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
     
     <?php
         // ------------------------------------------------------------
@@ -83,7 +80,7 @@
             customerData        : <?php echo json_encode($customer_data); ?>,
         };
 
-        var EALang = <?php echo json_encode($ea_lang); ?>;
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
         
         $(document).ready(function() {
             FrontendBook.initialize(true, GlobalVariables.manageMode); 
@@ -374,5 +371,8 @@
             </div>
         </div>
     </div>
+<script 
+    type="text/javascript" 
+    src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
 </body>
 </html>

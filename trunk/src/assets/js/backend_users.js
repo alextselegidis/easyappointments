@@ -155,12 +155,12 @@ var BackendUsers = {
                 if (response == false) {
                     $input.css('border', '2px solid red');
                     $input.attr('already-exists', 'true');
-                    $input.parents().eq(3).find('.form-message').text('Username already exists.');
+                    $input.parents().eq(3).find('.form-message').text(EALang['be_username_already_exists']);
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
                     $input.css('border', '');
                     $input.attr('already-exists', 'false');
-                    if ($input.parents().eq(3).find('.form-message').text() == 'Username already exists.') {
+                    if ($input.parents().eq(3).find('.form-message').text() == EALang['be_username_already_exists']) {
                         $input.parents().eq(3).find('.form-message').hide();
                     }
                 }

@@ -41,6 +41,7 @@ $lang['fe_appointment_details_title'] = 'Λεπτομέρειες Ραντεβο
 $lang['fe_customer_details_title'] = 'Λεπτομέρειες Πελάτη';
 $lang['fe_service'] = 'Υπηρεσία';
 $lang['fe_provider'] = 'Πάροχος';
+$lang['fe_customer'] = 'Πελάτης';
 $lang['fe_start'] = 'Έναρξη';
 $lang['fe_end'] = 'Λήξη';
 $lang['fe_name'] = 'Όνομα';

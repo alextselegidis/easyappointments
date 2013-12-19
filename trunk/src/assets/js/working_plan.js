@@ -76,13 +76,23 @@ WorkingPlan.prototype.setup = function(workingPlan) {
  * @param {object} $selector The jquery selector ready for use.
  */
 WorkingPlan.prototype.editableBreakDay = function($selector) {
+    var weekDays = {};
+    weekDays[EALang['be_monday']] = 'Monday';
+    weekDays[EALang['be_tuesday']] = 'Tuesday';
+    weekDays[EALang['be_wednesday']] = 'Wednesday';
+    weekDays[EALang['be_thursday']] = 'Thursday';
+    weekDays[EALang['be_friday']] = 'Friday';
+    weekDays[EALang['be_saturday']] = 'Saturday';
+    weekDays[EALang['be_sunday']] = 'Sunday';
+
     $selector.editable(function(value, settings) {
         return value;
     }, {
         'type': 'select',
-        'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
-                + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
-                + '"Sunday": "Sunday", "selected": "Monday"}',
+        'data': weekDays,
+        // 'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
+        //         + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
+        //         + '"Sunday": "Sunday", "selected": "Monday"}',
         'event': 'edit',
         'height': '30px',
         'submit': '<button type="button" class="hidden submit-editable">Submit</button>',
