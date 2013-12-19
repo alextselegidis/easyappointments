@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><?php echo $this->lang->line('fe_appointment_registered') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -63,6 +64,8 @@
             'googleClientId'    : <?php echo '"' . SystemConfiguration::$google_client_id . '"'; ?>,
             'googleApiScope'    : 'https://www.googleapis.com/auth/calendar'
         };
+        
+        var EALang = <?php echo json_encode($ea_lang); ?>;
         
         $(document).ready(function() {
             /**
@@ -144,13 +147,12 @@
                                 $('#success-frame').append(
                                     '<br><br>' +
                                     '<div class="alert alert-success">' +
-                                        '<h4>Success!</h4>' +
+                                        '<h4>' + EALang['fe_success'] + '</h4>' +
                                         '<p>' +
-                                            'Your appointment has been added to ' +
-                                            'your Google Calendar account. <br>' + 
+                                            EALang['fe_appointment_added_to_google_calendar'] + 
+                                            '<br>' + 
                                             '<a href="' + response.htmlLink + '" target="_blank">' + 
-                                                'Click here to view your appointment on Google ' +
-                                                'Calendar.' +
+                                                EALang['fe_view_appointment_in_google_calendar'] +
                                             '</a>' + 
                                         '</p>' +
                                     '</div>'
@@ -183,13 +185,13 @@
     <div id="success-frame" class="frame-container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
 
-        <h3>Your appointment has been successfully registered!</h3>
-        <p>An email with the appointment details has been sent to you.</p>
+        <h3><?php echo $this->lang->line('fe_appointment_registered'); ?></h3>
+        <p><?php echo $this->lang->line('fe_appointment_details_was_sent_to_you'); ?></p>
 
         <?php if ($this->config->item('ea_google_sync_feature')) { ?>
         <button id="add-to-google-calendar" class="btn btn-primary">
             <i class="icon-plus icon-white"></i>
-            Add to Google Calendar
+            <?php echo $this->lang->line('fe_add_to_google_calendar'); ?>
         </button>
         <?php } ?>
         

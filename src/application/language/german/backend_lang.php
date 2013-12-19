@@ -160,3 +160,6 @@ $lang['be_delete'] = 'Löschen';
 $lang['be_unexpected_issues'] = 'Unvorhergesene Vorfälle';
 $lang['be_unexpected_issues_message'] = 'Dieser Vorgang konnte aufgrund unvorgesehener Vorfälle nicht beendet werden.';
 $lang['be_close'] = 'Schließen';
+$lang['be_page_not_found'] = 'Seite Nicht Gefunden';
+$lang['be_page_not_found_message'] = 'Leider ist die von Ihnen angeforderte Seite existiert nicht. Bitte überprüfen Sie Ihre Browser-URL oder navigieren Sie zu einem anderen Ort mit den Tasten unten.';
+$lang['be_error'] = 'Fehler';

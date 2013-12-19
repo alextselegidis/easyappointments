@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><?php echo $this->lang->line('be_forgot_your_password') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -63,6 +64,8 @@
                 'AJAX_FAILURE': 'FAILURE'
             };
             
+            var EALang = <?php echo json_encode($ea_lang); ?>;
+            
             /**
              * Event: Login Button "Click"
              * 
@@ -91,7 +94,7 @@
                     
                     if (response == GlobalVariables.AJAX_SUCCESS) {
                         $('.alert').addClass('alert-success');
-                        $('.alert').text('Your new password has been sent to you with an email.');
+                        $('.alert').text(EALang['be_new_password_sent_with_email']);
                     } else {
                         $('.alert').text('The operation failed! Please enter a valid username '
                                 + 'and email address in order to get a new password.');
@@ -104,22 +107,26 @@
 </head>
 <body>
     <div id="forgot-password-frame" class="frame-container">
-        <h2>Forgot Your Password?</h2>
-        <p>Type your username and your email address to get your new password.</p>  
+        <h2><?php echo $this->lang->line('be_forgot_your_password'); ?></h2>
+        <p><?php echo $this->lang->line('be_type_username_and_email_for_new_password'); ?></p>  
         <hr>
         <div class="alert hidden"></div>  
         <form>
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter your username here ..." />
+            <label for="username"><?php echo $this->lang->line('be_username'); ?></label>
+            <input type="text" id="username" placeholder="<?php echo $this->lang->line('be_enter_username_here'); ?>" class="span3" />
             
-            <label for="email">Email</label>
-            <input type="text" id="email" placeholder="Enter your email here ..." />    
+            <label for="email"><?php echo $this->lang->line('fe_email'); ?></label>
+            <input type="text" id="email" placeholder="<?php echo $this->lang->line('be_enter_email_here'); ?>" class="span3" />    
             
             <br><br>
             
-            <button type="submit" id="get-new-password" class="btn btn-primary btn-large">Regenerate Password</button> 
+            <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
+                <?php echo $this->lang->line('be_regenerate_password'); ?>
+            </button> 
             
-            <a href="<?php echo $base_url; ?>user/login" class="user-login">Go Back To Login Page</a>
+            <a href="<?php echo $base_url; ?>user/login" class="user-login">
+                <?php echo $this->lang->line('be_go_to_login'); ?>
+            </a>
         </form>
     </div>
 </body>
