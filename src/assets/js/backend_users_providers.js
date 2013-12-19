@@ -104,18 +104,17 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
     $('#delete-provider').click(function() {
         var providerId = $('#provider-id').val();
 
-        var messageBtns = {
-            'Delete': function() {
-                BackendUsers.helper.delete(providerId);
-                $('#message_box').dialog('close');
-            },
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['be_delete']] = function() {
+            BackendUsers.helper.delete(providerId);
+            $('#message_box').dialog('close');
+        };
+        messageBtns[EALang['be_cancel']] = function() {
+            $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox('Delete Provider', 'Are you sure that you want '
-                + 'to delete this record? This action cannot be undone.', messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['be_delete_provider'], 
+                EALang['be_delete_record_prompt'], messageBtns);
     });
 
     /**
@@ -228,7 +227,7 @@ ProvidersHelper.prototype.save = function(provider) {
         //console.log('Save Provider Response:', response);
         ///////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Provider saved successfully!');
+        Backend.displayNotification(EALang['be_provider_saved']);
         BackendUsers.helper.resetForm();
         $('#filter-providers .key').val('');
         BackendUsers.helper.filter('', response.id, true); 
@@ -249,7 +248,7 @@ ProvidersHelper.prototype.delete = function(id) {
         //console.log('Delete provider response:', response);
         /////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Provider deleted successfully!');
+        Backend.displayNotification(EALang['be_provider_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-providers .key').val());
     }, 'json');
@@ -275,32 +274,31 @@ ProvidersHelper.prototype.validate = function(provider) {
             }
         });
         if (missingRequired) {
-            throw 'Fields with * are  required.';
+            throw EALang['fe_fields_are_required'];
         }
         
         // Validate passwords.
         if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-            throw 'Passwords mismatch!';
+            throw EALang['be_passwords_mismatch'];
         }
         
         if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                 && $('#provider-password').val() != '') {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
-                    + ' characters long.';
+            throw EALang['be_password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
         }
         
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
             $('#provider-email').css('border', '2px solid red');
-            throw 'Invalid email address!';
+            throw EALang['be_invalid_email'];
         }
         
         // Check if username exists
         if ($('#provider-username').attr('already-exists') ==  'true') {
             $('#provider-username').css('border', '2px solid red');
-            throw 'Username already exists.';
+            throw EALang['be_username_already_exists'];
         } 
         
         return true;
@@ -417,7 +415,7 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-providers .results').html('<em>No results found ...</em>')
+            $('#filter-providers .results').html('<em>' + EALang['be_no_records_found'] + '</em>')
         }
         
         if (selectId != undefined) {
@@ -455,13 +453,24 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
  * @param {object} $selector The cells to be initialized.
  */
 ProvidersHelper.prototype.editableBreakDay = function($selector) {
+    var weekDays = {};
+    weekDays[EALang['be_monday']] = 'Monday';
+    weekDays[EALang['be_tuesday']] = 'Tuesday';
+    weekDays[EALang['be_wednesday']] = 'Wednesday';
+    weekDays[EALang['be_thursday']] = 'Thursday';
+    weekDays[EALang['be_friday']] = 'Friday';
+    weekDays[EALang['be_saturday']] = 'Saturday';
+    weekDays[EALang['be_sunday']] = 'Sunday';
+
+
     $selector.editable(function(value, settings) {
         return value;
     }, {
         'type': 'select',
-        'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
-                + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
-                + '"Sunday": "Sunday", "selected": "Monday"}',
+        // 'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
+        //         + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
+        //         + '"Sunday": "Sunday", "selected": "Monday"}',
+        'data': weekDays,
         'event': 'edit',
         'height': '30px',
         'submit': '<button type="button" class="hidden submit-editable">Submit</button>',

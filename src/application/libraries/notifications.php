@@ -168,7 +168,6 @@ class Notifications {
             'Phone' => $this->ci->lang->line('fe_phone'),
             'Address' => $this->ci->lang->line('fe_address'),
             'Reason' => $this->ci->lang->line('fe_reason')
-            
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 

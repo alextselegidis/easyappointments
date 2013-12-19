@@ -21,7 +21,6 @@ class User extends CI_Controller {
         }
         
         $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/login', $view);
     }
     
@@ -36,7 +35,6 @@ class User extends CI_Controller {
         
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/logout', $view);
     }
     
@@ -44,7 +42,6 @@ class User extends CI_Controller {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/forgot_password', $view);
     }
     
@@ -52,7 +49,6 @@ class User extends CI_Controller {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/no_privileges', $view);
     }
     

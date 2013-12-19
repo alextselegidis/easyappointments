@@ -65,7 +65,7 @@
             'googleApiScope'    : 'https://www.googleapis.com/auth/calendar'
         };
         
-        var EALang = <?php echo json_encode($ea_lang); ?>;
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
         
         $(document).ready(function() {
             /**

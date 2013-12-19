@@ -14,6 +14,8 @@
         }
     };
     
+    var EALang = <?php echo json_encode($this->lang->language); ?>;
+    
     $(document).ready(function() {
         BackendServices.initialize(true);
     });
@@ -21,8 +23,8 @@
 
 <div id="services-page" class="row-fluid">
     <ul class="nav nav-tabs">
-        <li class="services-tab tab active"><a>Services</a></li>
-        <li class="categories-tab tab"><a>Categories</a></li>
+        <li class="services-tab tab active"><a><?php echo $this->lang->line('be_services'); ?></a></li>
+        <li class="categories-tab tab"><a><?php echo $this->lang->line('be_categories'); ?></a></li>
     </ul>
     
     <?php 
@@ -37,15 +39,15 @@
         <div id="filter-services" class="filter-records column span4">
             <form class="input-append">
                 <input class="key span12" type="text" />
-                <button class="filter btn" type="submit" title="Filter">
+                <button class="filter btn" type="submit" title="<?php echo $this->lang->line('be_filter'); ?>">
                     <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button" title="Clear">
+                <button class="clear btn" type="button" title="<?php echo $this->lang->line('be_clear'); ?>">
                     <i class="icon-repeat"></i>
                 </button>
             </form>
             
-            <h2>Services</h2>
+            <h2><?php echo $this->lang->line('be_services'); ?></h2>
             <div class="results"></div>
         </div>
 
@@ -54,50 +56,56 @@
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-service" class="btn btn-primary">
                         <i class="icon-plus icon-white"></i>
-                        Add</button>
+                        <?php echo $this->lang->line('be_add'); ?>
+                    </button>
                     <button id="edit-service" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
-                        Edit</button>
+                        <?php echo $this->lang->line('be_edit'); ?>
+                    </button>
                     <button id="delete-service" class="btn" disabled="disabled">
                         <i class="icon-remove"></i>
-                        Delete</button>
+                        <?php echo $this->lang->line('be_delete'); ?>
+                    </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-service" class="btn btn-primary">
                         <i class="icon-ok icon-white"></i>
-                        Save</button>
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <button id="cancel-service" class="btn">
                         <i class="icon-ban-circle"></i>
-                        Cancel</button>
+                        <?php echo $this->lang->line('be_cancel'); ?>
+                    </button>
                 </div>
             </div>
             
-            <h2>Details</h2>
+            <h2><?php echo $this->lang->line('be_details'); ?></h2>
             <div class="form-message alert" style="display:none;"></div>
             
             <input type="hidden" id="service-id" />
             
-            <label for="service-name">Name *</label>
+            <label for="service-name"><?php echo $this->lang->line('fe_name'); ?> *</label>
             <input type="text" id="service-name" class="span12 required" />
             
-            <label for="service-duration">Duration (Minutes) *</label>
+            <label for="service-duration"><?php echo $this->lang->line('be_duration_minutes'); ?> *</label>
             <input type="text" id="service-duration" class="required"  />
             
-            <label for="service-price">Price *</label>
+            <label for="service-price"><?php echo $this->lang->line('fe_price'); ?> *</label>
             <input type="text" id="service-price" class="span12 required" />
             
-            <label for="service-currency">Currency</label>
+            <label for="service-currency"><?php echo $this->lang->line('be_currency'); ?></label>
             <input type="text" id="service-currency" class="span12" />
             
-            <label for="service-category">Category</label>
+            <label for="service-category"><?php echo $this->lang->line('be_category'); ?></label>
             <select id="service-category" class="span12"></select>
             
-            <label for="service-description">Description</label>
+            <label for="service-description"><?php echo $this->lang->line('be_description'); ?></label>
             <textarea id="service-description" rows="4" class="span12"></textarea>
             
             <br/><br/>
-            <em id="form-message" class="text-error">Fields with * are required!</em>
+            <em id="form-message" class="text-error">
+                <?php echo $this->lang->line('fe_fields_are_required'); ?></em>
         </div>
     </div>
     
@@ -112,15 +120,15 @@
         <div id="filter-categories" class="filter-records column span4">
             <form class="input-append">
                 <input class="key span12" type="text" />
-                <button class="filter btn" type="submit" title="Filter">
+                <button class="filter btn" type="submit" title="<?php echo $this->lang->line('be_filter'); ?>">
                     <i class="icon-search"></i>
                 </button>
-                <button class="clear btn" type="button" title="Clear">
+                <button class="clear btn" type="button" title="<?php echo $this->lang->line('be_clear'); ?>">
                     <i class="icon-repeat"></i>
                 </button>
             </form>
 
-            <h2>Categories</h2>
+            <h2><?php echo $this->lang->line('be_categories'); ?></h2>
             <div class="results"></div>
         </div>
 
@@ -129,34 +137,39 @@
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-category" class="btn btn-primary">
                         <i class="icon-plus icon-white"></i>
-                        Add</button>
+                        <?php echo $this->lang->line('be_add'); ?>
+                    </button>
                     <button id="edit-category" class="btn" disabled="disabled">
                         <i class="icon-pencil"></i>
-                        Edit</button>
+                        <?php echo $this->lang->line('be_edit'); ?>
+                    </button>
                     <button id="delete-category" class="btn" disabled="disabled">
                         <i class="icon-remove"></i>
-                        Delete</button>
+                        <?php echo $this->lang->line('be_delete'); ?>
+                    </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-category" class="btn btn-primary">
                         <i class="icon-ok icon-white"></i>
-                        Save</button>
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <button id="cancel-category" class="btn">
                         <i class="icon-ban-circle"></i>
-                        Cancel</button>
+                        <?php echo $this->lang->line('be_cancel'); ?>
+                    </button>
                 </div>
             </div>
             
-            <h2>Details</h2>
+            <h2><?php echo $this->lang->line('be_details'); ?></h2>
             <div class="form-message alert" style="display:none;"></div>
             
             <input type="hidden" id="category-id" />
             
-            <label for="category-name">Name *</label>
+            <label for="category-name"><?php echo $this->lang->line('fe_name'); ?> *</label>
             <input type="text" id="category-name" class="span12 required" />
             
-            <label for="category-description">Description</label>
+            <label for="category-description"><?php echo $this->lang->line('be_description'); ?></label>
             <textarea id="category-description" rows="4" class="span12"></textarea>
         </div>
     </div>
