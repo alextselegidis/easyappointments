@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><?php echo $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><?php echo $this->lang->line('fe_appointment_cancelled_title'); ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -48,7 +49,7 @@
     <div id="success-frame" class="frame-container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
         
-        <h3>Your appointment has been successfully cancelled!</h3>
+        <h3><?php echo $this->lang->line('fe_appointment_cancelled'); ?></h3>
         
         <?php 
             // Display exceptions (if any).

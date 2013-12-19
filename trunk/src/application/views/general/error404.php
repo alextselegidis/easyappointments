@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page Not Found <?php echo $company_name; ?></title>
+    <title><?php echo $this->lang->line('be_page_not_found') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -54,23 +54,22 @@
 </head>
 <body>
     <div id="message-frame" class="frame-container">
-        <h3>Page Not Found - Error 404</h3>
+        <h3><?php echo $this->lang->line('be_page_not_found') 
+                . ' - ' . $this->lang->line('be_error') . ' 404' ?></h3>
         <p>
-            Unfortunately the page you requested does not exist.
-            Please check your browser URL or head to another location using the 
-            buttons below.
+            <?php echo $this->lang->line('be_page_not_found_message'); ?>
         </p>
         
         <br>
         
         <a href="<?php echo $this->config->base_url(); ?>" class="btn btn-primary btn-large">
             <i class="icon-calendar icon-white"></i>
-            Book Appointment
+            <?php echo $this->lang->line('be_book_appointment_title'); ?>
         </a>
         
         <a href="<?php echo $this->config->base_url(); ?>backend" class="btn btn-danger btn-large">
             <i class="icon-wrench icon-white"></i>
-            Backend Section
+            <?php echo $this->lang->line('be_backend_section'); ?>
         </a>
         
     </div>

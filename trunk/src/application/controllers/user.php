@@ -11,6 +11,8 @@ class User extends CI_Controller {
     }
     
     public function login() {
+        $this->load->model('settings_model');
+        
         $view['base_url'] = $this->config->item('base_url');
         $view['dest_url'] = $this->session->userdata('dest_url');
         
@@ -18,10 +20,14 @@ class User extends CI_Controller {
             $view['dest_url'] = $view['base_url'] . 'backend';
         }
         
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/login', $view);
     }
     
     public function logout() {
+        $this->load->model('settings_model');
+        
         $this->session->unset_userdata('user_id');
         $this->session->unset_userdata('user_email');
         $this->session->unset_userdata('role_slug');
@@ -29,16 +35,24 @@ class User extends CI_Controller {
         $this->session->unset_userdata('dest_url');
         
         $view['base_url'] = $this->config->item('base_url');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/logout', $view);
     }
     
     public function forgot_password() {
+        $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/forgot_password', $view);
     }
     
     public function no_privileges() {
+        $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
+        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['ea_lang'] = $this->lang->language;
         $this->load->view('user/no_privileges', $view);
     }
     

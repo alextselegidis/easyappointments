@@ -160,3 +160,6 @@ $lang['be_delete'] = 'Delete';
 $lang['be_unexpected_issues'] = 'Unexpected Issues';
 $lang['be_unexpected_issues_message'] = 'The operation could not complete due to unexpected issues.';
 $lang['be_close'] = 'Close';
+$lang['be_page_not_found'] = 'Page Not Found';
+$lang['be_page_not_found_message'] = 'Unfortunately the page you requested does not exist. Please check your browser URL or head to another location using the buttons below.';
+$lang['be_error'] = 'Error';

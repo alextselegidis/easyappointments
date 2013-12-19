@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title><?php echo $this->lang->line('be_log_out') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -56,22 +57,21 @@
 </head>
 <body>
     <div id="logout-frame" class="frame-container">
-        <h3>Logout</h3>
+        <h3><?php echo $this->lang->line('be_log_out'); ?></h3>
         <p>
-            You have been successfully logged out! Click on one of the following buttons to 
-            navigate to a different page.
+            <?php echo $this->lang->line('be_logout_success'); ?>
         </p>  
         
         <br>
         
         <a href="<?php echo $this->config->base_url(); ?>" class="btn btn-primary btn-large">
             <i class="icon-calendar icon-white"></i>
-            Book Appointment
+            <?php echo $this->lang->line('be_book_appointment_title'); ?>
         </a>
         
         <a href="<?php echo $this->config->base_url(); ?>backend" class="btn btn-danger btn-large">
             <i class="icon-home icon-white"></i>
-            Backend Section
+            <?php echo $this->lang->line('be_backend_section'); ?>
         </a>
     </div>
 </body>
