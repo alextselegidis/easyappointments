@@ -38,8 +38,8 @@ class Appointments extends CI_Controller {
                         // The requested appointment doesn't exist in the database. Display
                         // a message to the customer.
                         $view = array(
-                            'message_title' => $this->lang->line('fe_appointment_not_found'),
-                            'message_text'  => $this->lang->line('fe_appointment_does_not_exist_in_db'),
+                            'message_title' => $this->lang->line('appointment_not_found'),
+                            'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
                             'message_icon'  => $this->config->item('base_url') 
                                              . 'assets/images/error.png',
                             'company_name'  => $company_name
@@ -147,22 +147,22 @@ class Appointments extends CI_Controller {
                             ->get_setting('notifications', $provider['id']);
                     
                     if (!$post_data['manage_mode']) {
-                        $customer_title = $this->lang->line('fe_appointment_booked');
-                        $customer_message = $this->lang->line('fe_thank_your_for_appointment');
+                        $customer_title = $this->lang->line('appointment_booked');
+                        $customer_message = $this->lang->line('thank_your_for_appointment');
                         $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                                 . $appointment['hash'];
 
-                        $provider_title = $this->lang->line('fe_appointment_added_to_your_plan');
-                        $provider_message = $this->lang->line('fe_appointment_link_description');
+                        $provider_title = $this->lang->line('appointment_added_to_your_plan');
+                        $provider_message = $this->lang->line('appointment_link_description');
                         $provider_link = $this->config->item('base_url') . 'backend/index/' 
                                 . $appointment['hash'];
                     } else {
-                        $customer_title = $this->lang->line('be_appointment_changes_saved');
+                        $customer_title = $this->lang->line('appointment_changes_saved');
                         $customer_message = '';
                         $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                                 . $appointment['hash'];
 
-                        $provider_title = $this->lang->line('be_appointment_details_changed');
+                        $provider_title = $this->lang->line('appointment_details_changed');
                         $provider_message = '';
                         $provider_link = $this->config->item('base_url') . 'backend/index/' 
                                 . $appointment['hash'];

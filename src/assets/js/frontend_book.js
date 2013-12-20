@@ -48,11 +48,30 @@ var FrontendBook = {
             firstDay: 1, // Monday
             minDate: 0,
             defaultDate: Date.today(),
+           
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                    EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                    EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+                    EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            
             onSelect: function(dateText, instance) {
                 FrontendBook.getAvailableHours(dateText);
                 FrontendBook.updateConfirmFrame();
             }
         });
+
        
         // Bind the event handlers (might not be necessary every time
         // we use this class).
@@ -129,7 +148,7 @@ var FrontendBook = {
                     if ($('#select-hour-prompt').length == 0) {
                         $('#available-hours').append('<br><br>'
                                 + '<strong id="select-hour-prompt" class="text-error">'
-                                + EALang['fe_appointment_hour_missing'] 
+                                + EALang['appointment_hour_missing'] 
                                 + '</strong>');
                     }
                     return;
@@ -206,12 +225,12 @@ var FrontendBook = {
                     $('#cancel-appointment-form').submit();
                 };
                     
-                dialogButtons[EALang['fe_cancel']] = function() {
+                dialogButtons[EALang['cancel']] = function() {
                     $('#message_box').dialog('close');
                 };
                 
-                GeneralFunctions.displayMessageBox(EALang['fe_cancel_appointment_title'], 
-                        EALang['be_write_appointment_removal_reason'], dialogButtons);
+                GeneralFunctions.displayMessageBox(EALang['cancel_appointment_title'], 
+                        EALang['write_appointment_removal_reason'], dialogButtons);
                         
                 $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
                 $('#cancel-reason').css('width', '353px');
@@ -342,7 +361,7 @@ var FrontendBook = {
                 FrontendBook.updateConfirmFrame();
                 
             } else {
-                $('#available-hours').text(EALang['fe_no_available_hours']);
+                $('#available-hours').text(EALang['no_available_hours']);
             }
         }, 'json');
     },
@@ -366,13 +385,13 @@ var FrontendBook = {
                 }
             });
             if (missingRequiredField) {
-                throw EALang['fe_fields_are_required'];
+                throw EALang['fields_are_required'];
             }
             
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').css('border', '2px solid red');
-                throw EALang['be_invalid_email'];
+                throw EALang['invalid_email'];
             }
             
             return true;
@@ -419,15 +438,15 @@ var FrontendBook = {
         $('#customer-details').html(
             '<h4>' + $('#first-name').val() + ' ' + $('#last-name').val() + '</h4>' + 
             '<p>' + 
-            	EALang['fe_phone'] + ': ' + $('#phone-number').val() + 
+            	EALang['phone'] + ': ' + $('#phone-number').val() + 
             	'<br/>' + 
-            	EALang['fe_email'] + ': ' + $('#email').val() + 
+            	EALang['email'] + ': ' + $('#email').val() + 
             	'<br/>' + 
-            	EALang['fe_address'] + ': ' + $('#address').val() + 
+            	EALang['address'] + ': ' + $('#address').val() + 
             	'<br/>' + 
-            	EALang['fe_city'] + ': ' + $('#city').val() + 
+            	EALang['city'] + ': ' + $('#city').val() + 
             	'<br/>' + 
-            	EALang['fe_zip_code'] + ': ' + $('#zip-code').val() + 
+            	EALang['zip_code'] + ': ' + $('#zip-code').val() + 
         	'</p>'
         );
             
@@ -559,12 +578,12 @@ var FrontendBook = {
                 }
                 
                 if (service.duration != '' && service.duration != null) {
-                    html += '[' + EALang['fe_duration'] + ' ' + service.duration 
-                            + ' ' + EALang['fe_minutes'] + '] ';
+                    html += '[' + EALang['duration'] + ' ' + service.duration 
+                            + ' ' + EALang['minutes'] + '] ';
                 }
                 
                 if (service.price != '' && service.price != null) {
-                    html += '[' + EALang['fe_price'] + ' ' + service.price + ' ' + service.currency  + ']';
+                    html += '[' + EALang['price'] + ' ' + service.price + ' ' + service.currency  + ']';
                 }   
                 
                 html += '<br>';

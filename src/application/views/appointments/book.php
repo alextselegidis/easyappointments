@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $this->lang->line('fe_page_title') . ' ' .  $company_name; ?></title>
+    <title><?php echo $this->lang->line('page_title') . ' ' .  $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php
@@ -102,17 +102,17 @@
                 <span id="company-name"><?php echo $company_name; ?></span>
                 
                 <div id="steps">
-                    <div id="step-1" class="book-step active-step" title="<?php echo $this->lang->line('fe_step_one_title'); ?>">
+                    <div id="step-1" class="book-step active-step" title="<?php echo $this->lang->line('step_one_title'); ?>">
                         <strong>1</strong>
                     </div>
                     
-                    <div id="step-2" class="book-step" title="<?php echo $this->lang->line('fe_step_two_title'); ?>">
+                    <div id="step-2" class="book-step" title="<?php echo $this->lang->line('step_two_title'); ?>">
                         <strong>2</strong>
                     </div>
-                    <div id="step-3" class="book-step" title="<?php echo $this->lang->line('fe_step_three_title'); ?>">
+                    <div id="step-3" class="book-step" title="<?php echo $this->lang->line('step_three_title'); ?>">
                         <strong>3</strong>
                     </div>
-                    <div id="step-4" class="book-step" title="<?php echo $this->lang->line('fe_step_four_title'); ?>">
+                    <div id="step-4" class="book-step" title="<?php echo $this->lang->line('step_four_title'); ?>">
                         <strong>4</strong>
                     </div>
                 </div>
@@ -126,14 +126,14 @@
                     echo '
                         <div id="cancel-appointment-frame">
                             <p class="pull-left">' . 
-                                $this->lang->line('fe_cancel_appointment_hint') .
+                                $this->lang->line('cancel_appointment_hint') .
                             '</p>
                             <form id="cancel-appointment-form" method="post" class="pull-right"  
                                     action="' . $this->config->item('base_url') 
                                     . 'appointments/cancel/' . $appointment_data['hash'] . '">
                                 <textarea name="cancel_reason" style="display:none"></textarea>
                                 <button id="cancel-appointment" class="btn btn-inverse">' .
-                                        $this->lang->line('fe_cancel') . '</button>
+                                        $this->lang->line('cancel') . '</button>
                             </form>
                         </div>';
                 }   
@@ -145,7 +145,7 @@
                 // ------------------------------------------------------
                 if (isset($exceptions)) {
                     echo '<div style="margin: 10px">';
-                    echo '<h4>' . $this->lang->line('be_unexpected_issues') . '</h4>';
+                    echo '<h4>' . $this->lang->line('unexpected_issues') . '</h4>';
                     foreach($exceptions as $exception) {
                         echo exceptionToHtml($exception);
                     }
@@ -158,11 +158,11 @@
                 // ------------------------------------------------------ ?>
             <div id="wizard-frame-1" class="wizard-frame">                
                 <div class="frame-container">
-                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_one_title'); ?></h3>
+                    <h3 class="frame-title"><?php echo $this->lang->line('step_one_title'); ?></h3>
                     
                     <div class="frame-content" style="width:520px">
                         <label for="select-service">
-                            <strong><?php echo $this->lang->line('fe_select_service'); ?></strong>
+                            <strong><?php echo $this->lang->line('select_service'); ?></strong>
                         </label>
                         
                         <select id="select-service">
@@ -221,7 +221,7 @@
                         </select>
 
                         <label for="select-provider">
-                            <strong><?php echo $this->lang->line('fe_select_provider'); ?></strong>
+                            <strong><?php echo $this->lang->line('select_provider'); ?></strong>
                         </label>
                         
                         <select id="select-provider"></select>
@@ -233,7 +233,7 @@
                 <div class="command-buttons">
                     <button type="button" id="button-next-1" class="btn button-next btn-primary" 
                             data-step_index="1">
-                        <?php echo $this->lang->line('fe_next'); ?> 
+                        <?php echo $this->lang->line('next'); ?> 
                         <i class="icon-forward icon-white"></i></button>
                 </div>
             </div>
@@ -245,7 +245,7 @@
             <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
                     
-                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_two_title'); ?></h3>
+                    <h3 class="frame-title"><?php echo $this->lang->line('step_two_title'); ?></h3>
                     
                     <div class="frame-content" style="width:600px">
                         <div class="span3">
@@ -262,11 +262,11 @@
                 <div class="command-buttons">
                     <button type="button" id="button-back-2" class="btn button-back" 
                             data-step_index="2"><i class="icon-backward"></i> 
-                        <?php echo $this->lang->line('fe_back'); ?>
+                        <?php echo $this->lang->line('back'); ?>
                     </button>
                     <button type="button" id="button-next-2" class="btn button-next btn-primary" 
                             data-step_index="2">
-                        <?php echo $this->lang->line('fe_next'); ?>
+                        <?php echo $this->lang->line('next'); ?>
                         <i class="icon-forward icon-white"></i>
                     </button>
                 </div>
@@ -279,37 +279,37 @@
             <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
                     
-                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_three_title'); ?></h3>
+                    <h3 class="frame-title"><?php echo $this->lang->line('step_three_title'); ?></h3>
                     
                     <div class="frame-content" style="width:600px">
                         <div class="span3">
-                            <label for="first-name"><?php echo $this->lang->line('fe_first_name'); ?> *</label>
+                            <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
                             <input type="text" id="first-name" class="required" maxlength="100" />
                             
-                            <label for="last-name"><?php echo $this->lang->line('fe_last_name'); ?> *</label>
+                            <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
                             <input type="text" id="last-name" class="required" maxlength="250" />
 
-                            <label for="email"><?php echo $this->lang->line('fe_email'); ?> *</label>
+                            <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
                             <input type="text" id="email" class="required" maxlength="250" />
 
-                            <label for="phone-number"><?php echo $this->lang->line('fe_phone_number'); ?> *</label>
+                            <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
                             <input type="text" id="phone-number" class="required" maxlength="60" />
 
                             <br/><br/>
-                            <em id="form-message" class="text-error"><?php echo $this->lang->line('fe_fields_are_required'); ?></em>
+                            <em id="form-message" class="text-error"><?php echo $this->lang->line('fields_are_required'); ?></em>
                         </div>
 
                         <div class="span3">
-                            <label for="address"><?php echo $this->lang->line('fe_address'); ?></label>
+                            <label for="address"><?php echo $this->lang->line('address'); ?></label>
                             <input type="text" id="address" maxlength="250" />
 
-                            <label for="city"><?php echo $this->lang->line('fe_city'); ?></label>
+                            <label for="city"><?php echo $this->lang->line('city'); ?></label>
                             <input type="text" id="city" maxlength="120" />
 
-                            <label for="zip-code"><?php echo $this->lang->line('fe_zip_code'); ?></label>
+                            <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
                             <input type="text" id="zip-code" maxlength="120" />
 
-                            <label for="notes"><?php echo $this->lang->line('fe_notes'); ?></label>
+                            <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
                             <textarea id="notes" maxlength="500" rows="3"></textarea>
                         </div>
                     </div>
@@ -318,11 +318,11 @@
                 <div class="command-buttons">
                     <button type="button" id="button-back-3" class="btn button-back" 
                             data-step_index="3"><i class="icon-backward"></i> 
-                        <?php echo $this->lang->line('fe_back'); ?>
+                        <?php echo $this->lang->line('back'); ?>
                     </button>
                     <button type="button" id="button-next-3" class="btn button-next btn-primary" 
                             data-step_index="3">
-                        <?php echo $this->lang->line('fe_next'); ?>
+                        <?php echo $this->lang->line('next'); ?>
                         <i class="icon-forward icon-white"></i>
                     </button>
                 </div>
@@ -334,7 +334,7 @@
                 // ------------------------------------------------------ ?>
             <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
-                    <h3 class="frame-title"><?php echo $this->lang->line('fe_step_four_title'); ?></h3>
+                    <h3 class="frame-title"><?php echo $this->lang->line('step_four_title'); ?></h3>
                     <div class="frame-content" style="width:600px">
                         <div id="appointment-details" class="span3"></div>
                         <div id="customer-details" class="span3"></div>
@@ -344,14 +344,14 @@
                 <div class="command-buttons">
                     <button type="button" id="button-back-4" class="btn button-back" 
                             data-step_index="4"><i class="icon-backward"></i> 
-                        <?php echo $this->lang->line('fe_back'); ?>
+                        <?php echo $this->lang->line('back'); ?>
                     </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button type="submit" class="btn btn-success">
                             <i class="icon-ok icon-white"></i>
                             <?php
-                                echo (!$manage_mode) ? $this->lang->line('fe_confirm')
-                                        : $this->lang->line('fe_update');
+                                echo (!$manage_mode) ? $this->lang->line('confirm')
+                                        : $this->lang->line('update');
                             ?>
                         </button>
                         <input type="hidden" name="post_data" />

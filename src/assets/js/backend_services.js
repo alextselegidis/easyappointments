@@ -25,7 +25,7 @@ var BackendServices = {
             var option = new Option(category.name, category.id);
             $('#service-category').append(option);
         });
-        $('#service-category').append(new Option('- ' + EALang['be_no_category'] + ' -', null)).val('null');
+        $('#service-category').append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
         
         $('#service-duration').spinner({
             'min': 0,
@@ -99,7 +99,7 @@ var BackendServices = {
                 var option = new Option(category.name, category.id);
                 $select.append(option);
             });
-            $select.append(new Option('- ' + EALang['be_no_category'] + ' -', null)).val('null');
+            $select.append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
         }, 'json');
     }
 };
@@ -234,17 +234,17 @@ ServicesHelper.prototype.bindEventHandlers = function() {
         var serviceId = $('#service-id').val();
 
         var messageBtns = {};
-        messageBtns[EALang['be_delete']] = function() {
+        messageBtns[EALang['delete']] = function() {
             BackendServices.helper.delete(serviceId);
             $('#message_box').dialog('close');
         };
 
-        messageBtns[EALang['fe_cancel']] = function() {
+        messageBtns[EALang['cancel']] = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['be_delete_service'], 
-                EALang['be_delete_record_prompt'], messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['delete_service'], 
+                EALang['delete_record_prompt'], messageBtns);
     });
 };
 
@@ -268,7 +268,7 @@ ServicesHelper.prototype.save = function(service) {
         //////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['be_service_saved']);
+        Backend.displayNotification(EALang['service_saved']);
         BackendServices.helper.resetForm();
         $('#filter-services .key').val('');
         BackendServices.helper.filter('', response.id, true);
@@ -291,7 +291,7 @@ ServicesHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['be_service_deleted']);
+        Backend.displayNotification(EALang['service_deleted']);
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-services .key').val());
@@ -317,7 +317,7 @@ ServicesHelper.prototype.validate = function(service) {
             }
         });
         if (missingRequired) {
-            throw EALang['fe_fields_are_required'];
+            throw EALang['fields_are_required'];
         }
         
         return true;
@@ -395,7 +395,7 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-services .results').html('<em>' + EALang['be_no_records_found'] + '</em>');
+            $('#filter-services .results').html('<em>' + EALang['no_records_found'] + '</em>');
         }
         
         if (selectId != undefined) {
@@ -551,8 +551,8 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
             }
         };
 
-        GeneralFunctions.displayMessageBox(EALang['be_delete_category'], 
-                EALang['be_delete_record_prompt'], messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['delete_category'], 
+                EALang['delete_record_prompt'], messageBtns);
     });
     
     /**
@@ -616,7 +616,7 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-categories .results').html('<em>' + EALang['be_no_records_found'] + '</em>');
+            $('#filter-categories .results').html('<em>' + EALang['no_records_found'] + '</em>');
         }
         
         if (selectId != undefined) {
@@ -642,7 +642,7 @@ CategoriesHelper.prototype.save = function(category) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['be_category_saved']);
+        Backend.displayNotification(EALang['category_saved']);
         BackendServices.helper.resetForm();
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('', response.id, true);
@@ -666,7 +666,7 @@ CategoriesHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['be_category_deleted']);
+        Backend.displayNotification(EALang['category_deleted']);
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-categories .key').val());
@@ -701,7 +701,7 @@ CategoriesHelper.prototype.validate = function(category) {
                 missingRequired = true;
             }
         });
-        if (missingRequired) throw EALang['fe_fields_are_required'];
+        if (missingRequired) throw EALang['fields_are_required'];
         
         return true;
         

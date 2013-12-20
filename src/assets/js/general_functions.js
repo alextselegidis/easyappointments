@@ -9,10 +9,10 @@ var GeneralFunctions = {
     /**
      * General Functions Constants
      */
-    EXCEPTIONS_TITLE: EALang['be_unexpected_issues'],
-    EXCEPTIONS_MESSAGE: EALang['be_unexpected_issues_message'],
-    WARNINGS_TITLE: EALang['be_unexpected_warnings'],
-    WARNINGS_MESSAGE: EALang['be_unexpected_warnings_message'],
+    EXCEPTIONS_TITLE: EALang['unexpected_issues'],
+    EXCEPTIONS_MESSAGE: EALang['unexpected_issues_message'],
+    WARNINGS_TITLE: EALang['unexpected_warnings'],
+    WARNINGS_MESSAGE: EALang['unexpected_warnings_message'],
     
     /**
      * This functions displays a message box in
@@ -36,7 +36,7 @@ var GeneralFunctions = {
 
         if (messageButtons == undefined) {
             messageButtons = {};
-            messageButtons[EALang['be_close']] = function() {
+            messageButtons[EALang['close']] = function() {
                 jQuery("#message_box").dialog("close");
             };
         }

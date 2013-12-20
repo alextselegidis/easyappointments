@@ -44,16 +44,16 @@ WorkingPlan.prototype.setup = function(workingPlan) {
                             '<td class="break-start editable">' + brk.start + '</td>' +
                             '<td class="break-end editable">' + brk.end + '</td>' +
                             '<td>' + 
-                                '<button type="button" class="btn edit-break" title="' + EALang['be_edit'] + '">' +
+                                '<button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
                                     '<i class="icon-pencil"></i>' +
                                 '</button>' +
-                                '<button type="button" class="btn delete-break" title="' + EALang['be_delete'] + '">' +
+                                '<button type="button" class="btn delete-break" title="' + EALang['delete'] + '">' +
                                     '<i class="icon-remove"></i>' +
                                 '</button>' +
-                                '<button type="button" class="btn save-break hidden" title="' + EALang['be_save'] + '">' +
+                                '<button type="button" class="btn save-break hidden" title="' + EALang['save'] + '">' +
                                     '<i class="icon-ok"></i>' +
                                 '</button>' +
-                                '<button type="button" class="btn cancel-break hidden" title="' + EALang['be_cancel'] + '">' +
+                                '<button type="button" class="btn cancel-break hidden" title="' + EALang['cancel'] + '">' +
                                     '<i class="icon-ban-circle"></i>' +
                                 '</button>' +
                             '</td>' +
@@ -79,13 +79,13 @@ WorkingPlan.prototype.setup = function(workingPlan) {
  */
 WorkingPlan.prototype.editableBreakDay = function($selector) {
     var weekDays = {};
-    weekDays[EALang['be_monday']] = EALang['be_monday']; //'Monday';
-    weekDays[EALang['be_tuesday']] = EALang['be_tuesday']; //'Tuesday';
-    weekDays[EALang['be_wednesday']] = EALang['be_wednesday']; //'Wednesday';
-    weekDays[EALang['be_thursday']] = EALang['be_thursday']; //'Thursday';
-    weekDays[EALang['be_friday']] = EALang['be_friday']; //'Friday';
-    weekDays[EALang['be_saturday']] = EALang['be_saturday']; //'Saturday';
-    weekDays[EALang['be_sunday']] = EALang['be_sunday']; //'Sunday';
+    weekDays[EALang['monday']] = EALang['monday']; //'Monday';
+    weekDays[EALang['tuesday']] = EALang['tuesday']; //'Tuesday';
+    weekDays[EALang['wednesday']] = EALang['wednesday']; //'Wednesday';
+    weekDays[EALang['thursday']] = EALang['thursday']; //'Thursday';
+    weekDays[EALang['friday']] = EALang['friday']; //'Friday';
+    weekDays[EALang['saturday']] = EALang['saturday']; //'Saturday';
+    weekDays[EALang['sunday']] = EALang['sunday']; //'Sunday';
 
     $selector.editable(function(value, settings) {
         return value;
@@ -163,20 +163,20 @@ WorkingPlan.prototype.bindEventHandlers = function() {
     $('.add-break').click(function() {
         var tr = 
                 '<tr>' + 
-                    '<td class="break-day editable">' + EALang['be_monday'] + '</td>' +
+                    '<td class="break-day editable">' + EALang['monday'] + '</td>' +
                     '<td class="break-start editable">09:00</td>' +
                     '<td class="break-end editable">10:00</td>' +
                     '<td>' + 
-                        '<button type="button" class="btn edit-break" title="' + EALang['be_edit'] + '">' +
+                        '<button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
                             '<i class="icon-pencil"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn delete-break" title="' + EALang['be_delete'] + '">' +
+                        '<button type="button" class="btn delete-break" title="' + EALang['delete'] + '">' +
                             '<i class="icon-remove"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn save-break hidden" title="' + EALang['be_save'] + '">' +
+                        '<button type="button" class="btn save-break hidden" title="' + EALang['save'] + '">' +
                             '<i class="icon-ok"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn cancel-break hidden" title="' + EALang['be_cancel'] + '">' +
+                        '<button type="button" class="btn cancel-break hidden" title="' + EALang['cancel'] + '">' +
                             '<i class="icon-ban-circle"></i>' +
                         '</button>' +
                     '</td>' +
@@ -205,7 +205,14 @@ WorkingPlan.prototype.bindEventHandlers = function() {
 
         // Make all cells in current row editable.
         $(this).parent().parent().children().trigger('edit');
-        $(this).parent().parent().find('.break-start input, .break-end input').timepicker();
+        $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes']
+        });
         $(this).parent().parent().find('.break-day select').focus();
 
         // Show save - cancel buttons.
@@ -313,6 +320,14 @@ WorkingPlan.prototype.timepickers = function(disabled) {
         // Set timepickers where needed.
         $('.working-plan input[type="text"]').timepicker({
             'timeFormat': 'HH:mm',
+            
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+            
             'onSelect': function(datetime, inst) {
                 // Start time must be earlier than end time. 
                 var start = Date.parse($(this).parent().parent().find('.work-start').val());
@@ -343,25 +358,25 @@ WorkingPlan.prototype.reset = function() {
 WorkingPlan.prototype.convertValueToDay = function(value) {
     switch (value) {
         case 'monday': 
-            return EALang['be_monday'];
+            return EALang['monday'];
             break;
         case 'tuesday': 
-            return EALang['be_tuesday'];
+            return EALang['tuesday'];
             break;
         case 'wednesday': 
-            return EALang['be_wednesday'];
+            return EALang['wednesday'];
             break;
         case 'thursday': 
-            return EALang['be_thursday'];
+            return EALang['thursday'];
             break;
         case 'friday': 
-            return EALang['be_friday'];
+            return EALang['friday'];
             break;
         case 'saturday': 
-            return EALang['be_saturday'];
+            return EALang['saturday'];
             break;
         case 'sunday': 
-            return EALang['be_sunday'];
+            return EALang['sunday'];
             break;
     }
 };
@@ -373,25 +388,25 @@ WorkingPlan.prototype.convertValueToDay = function(value) {
  */
 WorkingPlan.prototype.convertDayToValue = function(day) {
     switch (day) {
-        case EALang['be_monday']: 
+        case EALang['monday']: 
             return 'monday';
             break;
-        case EALang['be_tuesday']: 
+        case EALang['tuesday']: 
             return 'tuesday';
             break;
-        case EALang['be_wednesday']: 
+        case EALang['wednesday']: 
             return 'wednesday';
             break;
-        case EALang['be_thursday']: 
+        case EALang['thursday']: 
             return 'thursday';
             break;
-        case EALang['be_friday']: 
+        case EALang['friday']: 
             return 'friday';
             break;
-        case EALang['be_saturday']: 
+        case EALang['saturday']: 
             return 'saturday';
             break;
-        case EALang['be_sunday']: 
+        case EALang['sunday']: 
             return 'sunday';
             break;
     }

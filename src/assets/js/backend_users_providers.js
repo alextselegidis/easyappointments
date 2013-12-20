@@ -105,16 +105,16 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
         var providerId = $('#provider-id').val();
 
         var messageBtns = {};
-        messageBtns[EALang['be_delete']] = function() {
+        messageBtns[EALang['delete']] = function() {
             BackendUsers.helper.delete(providerId);
             $('#message_box').dialog('close');
         };
-        messageBtns[EALang['be_cancel']] = function() {
+        messageBtns[EALang['cancel']] = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['be_delete_provider'], 
-                EALang['be_delete_record_prompt'], messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['delete_provider'], 
+                EALang['delete_record_prompt'], messageBtns);
     });
 
     /**
@@ -227,7 +227,7 @@ ProvidersHelper.prototype.save = function(provider) {
         //console.log('Save Provider Response:', response);
         ///////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification(EALang['be_provider_saved']);
+        Backend.displayNotification(EALang['provider_saved']);
         BackendUsers.helper.resetForm();
         $('#filter-providers .key').val('');
         BackendUsers.helper.filter('', response.id, true); 
@@ -248,7 +248,7 @@ ProvidersHelper.prototype.delete = function(id) {
         //console.log('Delete provider response:', response);
         /////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification(EALang['be_provider_deleted']);
+        Backend.displayNotification(EALang['provider_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-providers .key').val());
     }, 'json');
@@ -274,31 +274,31 @@ ProvidersHelper.prototype.validate = function(provider) {
             }
         });
         if (missingRequired) {
-            throw EALang['fe_fields_are_required'];
+            throw EALang['fields_are_required'];
         }
         
         // Validate passwords.
         if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-            throw EALang['be_passwords_mismatch'];
+            throw EALang['passwords_mismatch'];
         }
         
         if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                 && $('#provider-password').val() != '') {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-            throw EALang['be_password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
+            throw EALang['password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
         }
         
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
             $('#provider-email').css('border', '2px solid red');
-            throw EALang['be_invalid_email'];
+            throw EALang['invalid_email'];
         }
         
         // Check if username exists
         if ($('#provider-username').attr('already-exists') ==  'true') {
             $('#provider-username').css('border', '2px solid red');
-            throw EALang['be_username_already_exists'];
+            throw EALang['username_already_exists'];
         } 
         
         return true;
@@ -415,7 +415,7 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-providers .results').html('<em>' + EALang['be_no_records_found'] + '</em>')
+            $('#filter-providers .results').html('<em>' + EALang['no_records_found'] + '</em>')
         }
         
         if (selectId != undefined) {
@@ -454,13 +454,13 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
  */
 ProvidersHelper.prototype.editableBreakDay = function($selector) {
     var weekDays = {};
-    weekDays[EALang['be_monday']] = 'Monday';
-    weekDays[EALang['be_tuesday']] = 'Tuesday';
-    weekDays[EALang['be_wednesday']] = 'Wednesday';
-    weekDays[EALang['be_thursday']] = 'Thursday';
-    weekDays[EALang['be_friday']] = 'Friday';
-    weekDays[EALang['be_saturday']] = 'Saturday';
-    weekDays[EALang['be_sunday']] = 'Sunday';
+    weekDays[EALang['monday']] = 'Monday';
+    weekDays[EALang['tuesday']] = 'Tuesday';
+    weekDays[EALang['wednesday']] = 'Wednesday';
+    weekDays[EALang['thursday']] = 'Thursday';
+    weekDays[EALang['friday']] = 'Friday';
+    weekDays[EALang['saturday']] = 'Saturday';
+    weekDays[EALang['sunday']] = 'Sunday';
 
 
     $selector.editable(function(value, settings) {

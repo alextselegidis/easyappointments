@@ -12,11 +12,11 @@
                 }
             ?>
         </a> | 
-        <?php echo $this->lang->line('be_licensed_under'); ?> GPLv3
+        <?php echo $this->lang->line('licensed_under'); ?> GPLv3
     </div>
     
     <div id="footer-user-display-name">
-        <?php echo $this->lang->line('be_hello') . ', ' . $user_display_name; ?>!
+        <?php echo $this->lang->line('hello') . ', ' . $user_display_name; ?>!
     </div>
 </div>
 

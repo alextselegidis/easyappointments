@@ -196,16 +196,16 @@ CustomersHelper.prototype.bindEventHandlers = function() {
         var customerId = $('#customer-id').val();
         
         var messageBtns = {};
-        messageBtns[EALang['be_delete']] = function() {        
+        messageBtns[EALang['delete']] = function() {        
             BackendCustomers.helper.delete(customerId);
             $('#message_box').dialog('close');
         };
-        messageBtns[EALang['fe_cancel']] = function() {
+        messageBtns[EALang['cancel']] = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['be_delete_customer'], 
-                EALang['be_delete_record_prompt'], messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['delete_customer'], 
+                EALang['delete_record_prompt'], messageBtns);
     });
 };
 
@@ -225,7 +225,7 @@ CustomersHelper.prototype.save = function(customer) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['be_customer_saved']);
+        Backend.displayNotification(EALang['customer_saved']);
         BackendCustomers.helper.resetForm();
         $('#filter-customers .key').val('');
         BackendCustomers.helper.filter('', response.id, true);
@@ -248,7 +248,7 @@ CustomersHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['be_customer_deleted']);
+        Backend.displayNotification(EALang['customer_deleted']);
         BackendCustomers.helper.resetForm();
         BackendCustomers.helper.filter($('#filter-customers .key').val());
     }, 'json');
@@ -273,13 +273,13 @@ CustomersHelper.prototype.validate = function(customer) {
             }
         });
         if (missingRequired) {
-            throw EALang['fe_fields_are_required'];
+            throw EALang['fields_are_required'];
         }
 
         // Validate email address.
         if (!GeneralFunctions.validateEmail($('#email').val())) {
             $('#email').css('border', '2px solid red');
-            throw EALang['be_invalid_email'];
+            throw EALang['invalid_email'];
         }
 
         return true;
@@ -378,7 +378,7 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-customers .results').html('<em>' + EALang['be_no_records_found'] + '</em>');
+            $('#filter-customers .results').html('<em>' + EALang['no_records_found'] + '</em>');
         }
         
         if (selectId != undefined) {
