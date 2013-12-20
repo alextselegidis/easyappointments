@@ -36,22 +36,24 @@ WorkingPlan.prototype.setup = function(workingPlan) {
 
             // Add the day's breaks on the breaks table.
             $.each(workingDay.breaks, function(i, brk) {
+                var day = WorkingPlan.prototype.convertValueToDay(index);
+                
                 var tr = 
                         '<tr>' + 
-                            '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '</td>' +
+                            '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
                             '<td class="break-start editable">' + brk.start + '</td>' +
                             '<td class="break-end editable">' + brk.end + '</td>' +
                             '<td>' + 
-                                '<button type="button" class="btn edit-break" title="Edit Break">' +
+                                '<button type="button" class="btn edit-break" title="' + EALang['be_edit'] + '">' +
                                     '<i class="icon-pencil"></i>' +
                                 '</button>' +
-                                '<button type="button" class="btn delete-break" title="Delete Break">' +
+                                '<button type="button" class="btn delete-break" title="' + EALang['be_delete'] + '">' +
                                     '<i class="icon-remove"></i>' +
                                 '</button>' +
-                                '<button type="button" class="btn save-break hidden" title="Save Break">' +
+                                '<button type="button" class="btn save-break hidden" title="' + EALang['be_save'] + '">' +
                                     '<i class="icon-ok"></i>' +
                                 '</button>' +
-                                '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                                '<button type="button" class="btn cancel-break hidden" title="' + EALang['be_cancel'] + '">' +
                                     '<i class="icon-ban-circle"></i>' +
                                 '</button>' +
                             '</td>' +
@@ -77,13 +79,13 @@ WorkingPlan.prototype.setup = function(workingPlan) {
  */
 WorkingPlan.prototype.editableBreakDay = function($selector) {
     var weekDays = {};
-    weekDays[EALang['be_monday']] = 'Monday';
-    weekDays[EALang['be_tuesday']] = 'Tuesday';
-    weekDays[EALang['be_wednesday']] = 'Wednesday';
-    weekDays[EALang['be_thursday']] = 'Thursday';
-    weekDays[EALang['be_friday']] = 'Friday';
-    weekDays[EALang['be_saturday']] = 'Saturday';
-    weekDays[EALang['be_sunday']] = 'Sunday';
+    weekDays[EALang['be_monday']] = EALang['be_monday']; //'Monday';
+    weekDays[EALang['be_tuesday']] = EALang['be_tuesday']; //'Tuesday';
+    weekDays[EALang['be_wednesday']] = EALang['be_wednesday']; //'Wednesday';
+    weekDays[EALang['be_thursday']] = EALang['be_thursday']; //'Thursday';
+    weekDays[EALang['be_friday']] = EALang['be_friday']; //'Friday';
+    weekDays[EALang['be_saturday']] = EALang['be_saturday']; //'Saturday';
+    weekDays[EALang['be_sunday']] = EALang['be_sunday']; //'Sunday';
 
     $selector.editable(function(value, settings) {
         return value;
@@ -161,20 +163,20 @@ WorkingPlan.prototype.bindEventHandlers = function() {
     $('.add-break').click(function() {
         var tr = 
                 '<tr>' + 
-                    '<td class="break-day editable">Monday</td>' +
+                    '<td class="break-day editable">' + EALang['be_monday'] + '</td>' +
                     '<td class="break-start editable">09:00</td>' +
                     '<td class="break-end editable">10:00</td>' +
                     '<td>' + 
-                        '<button type="button" class="btn edit-break" title="Edit Break">' +
+                        '<button type="button" class="btn edit-break" title="' + EALang['be_edit'] + '">' +
                             '<i class="icon-pencil"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn delete-break" title="Delete Break">' +
+                        '<button type="button" class="btn delete-break" title="' + EALang['be_delete'] + '">' +
                             '<i class="icon-remove"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn save-break hidden" title="Save Break">' +
+                        '<button type="button" class="btn save-break hidden" title="' + EALang['be_save'] + '">' +
                             '<i class="icon-ok"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                        '<button type="button" class="btn cancel-break hidden" title="' + EALang['be_cancel'] + '">' +
                             '<i class="icon-ban-circle"></i>' +
                         '</button>' +
                     '</td>' +
@@ -186,6 +188,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         WorkingPlan.prototype.editableBreakDay($(tr).find('.break-day'));
         WorkingPlan.prototype.editableBreakTime($(tr).find('.break-start, .break-end'));
         $(tr).find('.edit-break').trigger('click');
+        $('.add-break').prop('disabled', true);
     });
 
     /**
@@ -208,7 +211,8 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         // Show save - cancel buttons.
         $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
         $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-
+        
+        $('.add-break').prop('disabled', true);
     });
 
     /**
@@ -232,6 +236,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
 
         $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
         $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+        $('.add-break').prop('disabled', false);
     });
 
     /**
@@ -251,8 +256,9 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         $(this).parent().parent().find('.editable .submit-editable').trigger('click');
         WorkingPlan.prototype.enableSubmit = false;
 
-        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
         $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+        $('.add-break').prop('disabled', false);
     });
 };
 
@@ -266,13 +272,14 @@ WorkingPlan.prototype.get = function() {
     $('.working-plan input[type="checkbox"').each(function() {
         var id = $(this).attr('id');
         if ($(this).prop('checked') == true) {
-            workingPlan[id] = {}
+            workingPlan[id] = {};
             workingPlan[id].start = $('#' + id + '-start').val();
             workingPlan[id].end = $('#' + id + '-end').val();
             workingPlan[id].breaks = [];
             
             $('.breaks tr').each(function(index, tr) {
-                var day = $(tr).find('.break-day').text().toLowerCase();
+                var day = WorkingPlan.prototype.convertDayToValue(
+                        $(tr).find('.break-day').text());
                 if (day == id) {
                     var start = $(tr).find('.break-start').text();
                     var end = $(tr).find('.break-end').text();
@@ -281,7 +288,6 @@ WorkingPlan.prototype.get = function() {
                         'start': start,
                         'end': end
                     });
-                    
                 }
             });
             
@@ -327,4 +333,66 @@ WorkingPlan.prototype.timepickers = function(disabled) {
  */
 WorkingPlan.prototype.reset = function() {
     
+};
+
+/**
+ * This is necessary for translated days.
+ * 
+ * @param {string} value Day value could be like "monday", "tuesday" etc.
+ */
+WorkingPlan.prototype.convertValueToDay = function(value) {
+    switch (value) {
+        case 'monday': 
+            return EALang['be_monday'];
+            break;
+        case 'tuesday': 
+            return EALang['be_tuesday'];
+            break;
+        case 'wednesday': 
+            return EALang['be_wednesday'];
+            break;
+        case 'thursday': 
+            return EALang['be_thursday'];
+            break;
+        case 'friday': 
+            return EALang['be_friday'];
+            break;
+        case 'saturday': 
+            return EALang['be_saturday'];
+            break;
+        case 'sunday': 
+            return EALang['be_sunday'];
+            break;
+    }
+};
+
+/**
+ * This is necessary for translated days.
+ * 
+ * @param {string} value Day value could be like "Monday", "Tuesday" etc.
+ */
+WorkingPlan.prototype.convertDayToValue = function(day) {
+    switch (day) {
+        case EALang['be_monday']: 
+            return 'monday';
+            break;
+        case EALang['be_tuesday']: 
+            return 'tuesday';
+            break;
+        case EALang['be_wednesday']: 
+            return 'wednesday';
+            break;
+        case EALang['be_thursday']: 
+            return 'thursday';
+            break;
+        case EALang['be_friday']: 
+            return 'friday';
+            break;
+        case EALang['be_saturday']: 
+            return 'saturday';
+            break;
+        case EALang['be_sunday']: 
+            return 'sunday';
+            break;
+    }
 };

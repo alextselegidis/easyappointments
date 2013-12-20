@@ -23,6 +23,8 @@
         }
     };
     
+    var EALang = <?php echo json_encode($this->lang->language); ?>;
+    
     $(document).ready(function() {
         BackendSettings.initialize(true);
     });
@@ -31,18 +33,18 @@
 <div id="settings-page" class="row-fluid">
     <ul class="nav nav-tabs">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li class="general-tab tab"><a>General</a></li>
+        <li class="general-tab tab"><a><?php echo $this->lang->line('be_general'); ?></a></li>
         <?php } ?>
         
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li class="business-logic-tab tab"><a>Business Logic</a></li>
+        <li class="business-logic-tab tab"><a><?php echo $this->lang->line('be_business_logic'); ?></a></li>
         <?php } ?>
         
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
-        <li class="user-tab tab"><a>Current User</a></li>
+        <li class="user-tab tab"><a><?php echo $this->lang->line('be_current_user'); ?></a></li>
         <?php } ?>
         
-        <li class="about-tab tab"><a>About E!A</a></li>
+        <li class="about-tab tab"><a><?php echo $this->lang->line('be_about_ea'); ?></a></li>
     </ul>
     
     <?php 
@@ -57,37 +59,42 @@
         <form>
             <fieldset>
                 <legend>
-                    General Settings
+                    <?php echo $this->lang->line('be_general_settings'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-mini">Save</button>
+                    <button type="button" class="save-settings btn btn-primary btn-mini">
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <?php } ?>
                 </legend>
                 
                 <div class="wrapper">
-                    <label for="company-name">Company Name *</label>
+                    <label for="company-name"><?php echo $this->lang->line('be_company_name'); ?> *</label>
                     <input type="text" id="company-name" data-field="company_name" class="required span12">
-                    <span class="help-block">Company name will be displayed everywhere on the system 
-                        (required).</span>
+                    <span class="help-block">
+                        <?php echo $this->lang->line('be_company_name_hint'); ?>
+                    </span>
 
                     <br>
 
-                    <label for="company-email">Company Email *</label>
+                    <label for="company-email"><?php echo $this->lang->line('be_company_email'); ?> *</label>
                     <input type="text" id="company-email" data-field="company_email" class="required span12">
-                    <span class="help-block">This will be the company email address. It will be used 
-                        as the sender and the reply address of the system emails (required).</span>
+                    <span class="help-block">
+                        <?php echo $this->lang->line('be_company_email_hint'); ?>
+                    </span>
 
                     <br>
 
-                    <label for="company-link">Company Link *</label>
+                    <label for="company-link"><?php echo $this->lang->line('be_company_link'); ?> *</label>
                     <input type="text" id="company-link" data-field="company_link" class="required span12">
-                    <span class="help-block">Company link should point to the official website of 
-                        the company (optional).</span>
+                    <span class="help-block">
+                        <?php echo $this->lang->line('be_company_link_hint'); ?>
+                    </span>
 
                     <br>
 
                     <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-info">
                         <i class="icon-calendar icon-white"></i>
-                        Go To Booking Page
+                        <?php echo $this->lang->line('be_go_to_booking_page'); ?>
                     </a>
                 </div>
             </fieldset>
@@ -106,65 +113,62 @@
         <form>
             <fieldset>
                 <legend>
-                    Business Logic
+                    <?php echo $this->lang->line('be_business_logic'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-mini">Save</button>
+                    <button type="button" class="save-settings btn btn-primary btn-mini">
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <?php } ?>
                 </legend>
                 
                 <div class="row-fluid">
                     <div class="span7 working-plan-wrapper">
-                        <h4>Working Plan</h4>
+                        <h4><?php echo $this->lang->line('be_working_plan'); ?></h4>
                         <span class="help-block">
-                            Mark below the days and hours that your company will accept appointments. 
-                            You will be able to adjust appointments in non working hours but the customers
-                            will not be able to book appointments by themselves in non working periods. 
-                            <strong>This working plan will be the default for every new provider record but 
-                            you will be able to change each provider's plan separately by editing his 
-                            record.</strong> After that you can add break periods.
+                            <?php echo $this->lang->line('be_edit_working_plan_hint'); ?>
                         </span>
                         
                         <table class="working-plan table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Day</th>
-                                    <th>Start</th>
-                                    <th>End</th>
+                                    <th><?php echo $this->lang->line('be_day'); ?></th>
+                                    <th><?php echo $this->lang->line('fe_start'); ?></th>
+                                    <th><?php echo $this->lang->line('fe_end'); ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="monday" />Monday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="monday" /><?php echo $this->lang->line('be_monday'); ?></label></td>
                                     <td><input type="text" id="monday-start" class="work-start" /></td>
                                     <td><input type="text" id="monday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="tuesday" />Tuesday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="tuesday" /><?php echo $this->lang->line('be_tuesday'); ?></label></td>
                                     <td><input type="text" id="tuesday-start" class="work-start" /></td>
                                     <td><input type="text" id="tuesday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="wednesday" />Wednesday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="wednesday" /><?php echo $this->lang->line('be_wednesday'); ?></label></td>
                                     <td><input type="text" id="wednesday-start" class="work-start" /></td>
                                     <td><input type="text" id="wednesday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="thursday" />Thursday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="thursday" /><?php echo $this->lang->line('be_thursday'); ?></label></td>
                                     <td><input type="text" id="thursday-start" class="work-start" /></td>
                                     <td><input type="text" id="thursday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="friday" />Friday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="friday" /><?php echo $this->lang->line('be_friday'); ?></label></td>
                                     <td><input type="text" id="friday-start" class="work-start" /></td>
                                     <td><input type="text" id="friday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="saturday" />Saturday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="saturday" /><?php echo $this->lang->line('be_saturday'); ?></label></td>
                                     <td><input type="text" id="saturday-start" class="work-start" /></td>
                                     <td><input type="text" id="saturday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="sunday" />Sunday</label></td>
+                                    <td><label class="checkbox"><input type="checkbox" id="sunday" /><?php echo $this->lang->line('be_sunday'); ?></label></td>
                                     <td><input type="text" id="sunday-start" class="work-start" /></td>
                                     <td><input type="text" id="sunday-end" class="work-end" /></td>
                                 </tr>
@@ -173,28 +177,26 @@
                         
                         <br>
                         
-                        <h4>Book Advance Timeout</h4>
+                        <h4><?php echo $this->lang->line('be_book_advance_timeout'); ?></h4>
                         <span class="help-block">
-                            Define the timeout (in minutes) before the customers can book or re-arrange
-                            appointments with the company. 
+                            <?php echo $this->lang->line('be_book_advance_timeout_hint'); ?> 
                         </span>
                         
-                        <label for="book-advance-timeout">Timeout (Minutes)</label>
+                        <label for="book-advance-timeout"><?php echo $this->lang->line('be_timeout_minutes'); ?></label>
                         <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" />
                         
                     </div>
                     <div class="span5 breaks-wrapper">
-                        <h4>Breaks</h4>
+                        <h4><?php echo $this->lang->line('be_breaks'); ?></h4>
 
                         <span class="help-block">
-                            Add the working breaks during each day. These breaks will be applied for 
-                            all new providers. 
+                            <?php echo $this->lang->line('be_edit_breaks_hint'); ?>
                         </span>
 
                         <div>
                             <button type="button" class="add-break btn btn-primary">
                                 <i class="icon-white icon-plus"></i>
-                                Add Break
+                                <?php echo $this->lang->line('be_add_break');?>
                             </button>
                         </div>
 
@@ -203,10 +205,10 @@
                         <table class="breaks table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Day</th>
-                                    <th>Start</th>
-                                    <th>End</th>
-                                    <th>Actions</th>
+                                    <th><?php echo $this->lang->line('be_day'); ?></th>
+                                    <th><?php echo $this->lang->line('fe_start'); ?></th>
+                                    <th><?php echo $this->lang->line('fe_end'); ?></th>
+                                    <th><?php echo $this->lang->line('be_actions'); ?></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -230,62 +232,64 @@
         <form class="row-fluid">
             <fieldset class="span5 personal-info-wrapper">
                 <legend>
-                    Personal Info 
+                    <?php echo $this->lang->line('be_personal_information'); ?>
                     <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-mini">Save</button>
+                    <button type="button" class="save-settings btn btn-primary btn-mini">
+                        <?php echo $this->lang->line('be_save'); ?>
+                    </button>
                     <?php } ?>
                 </legend>
                 
                 <input type="hidden" id="user-id" />
                 
-                <label for="first-name">First Name *</label>
+                <label for="first-name"><?php echo $this->lang->line('fe_first_name'); ?> *</label>
                 <input type="text" id="first-name" class="span9 required" />
                 
-                <label for="last-name">Last Name *</label>
+                <label for="last-name"><?php echo $this->lang->line('fe_last_name'); ?> *</label>
                 <input type="text" id="last-name" class="span9 required" />
                 
-                <label for="email">Email *</label>
+                <label for="email"><?php echo $this->lang->line('fe_email'); ?> *</label>
                 <input type="text" id="email" class="span9 required" />
                 
-                <label for="mobile-number">Mobile Number</label>
+                <label for="mobile-number"><?php echo $this->lang->line('be_mobile_number'); ?></label>
                 <input type="text" id="mobile-number" class="span9" />
                 
-                <label for="phone-number">Phone Number *</label>
+                <label for="phone-number"><?php echo $this->lang->line('fe_phone_number'); ?> *</label>
                 <input type="text" id="phone-number" class="span9 required" />
                 
-                <label for="address">Address</label>
+                <label for="address"><?php echo $this->lang->line('fe_address'); ?></label>
                 <input type="text" id="address" class="span9" />
                 
-                <label for="city">City</label>
+                <label for="city"><?php echo $this->lang->line('fe_city'); ?></label>
                 <input type="text" id="city" class="span9" />
                 
-                <label for="state">State</label>
+                <label for="state"><?php echo $this->lang->line('be_state'); ?></label>
                 <input type="text" id="state" class="span9" />
                 
-                <label for="zip-code">Zip Code</label>
+                <label for="zip-code"><?php echo $this->lang->line('fe_zip_code'); ?></label>
                 <input type="text" id="zip-code" class="span9" />
                 
-                <label for="notes">Notes</label>
+                <label for="notes"><?php echo $this->lang->line('fe_notes'); ?></label>
                 <textarea id="notes" class="span9" rows="3"></textarea>
             </fieldset>
             
             <fieldset class="span5 miscellaneous-wrapper">
-                <legend>Miscellaneous</legend>
+                <legend><?php echo $this->lang->line('be_system_login'); ?></legend>
                 
-                <label for="username">Username *</label>
+                <label for="username"><?php echo $this->lang->line('be_username'); ?> *</label>
                 <input type="text" id="username" class="required" />
                 
-                <label for="password">Password</label>
+                <label for="password"><?php echo $this->lang->line('be_password'); ?></label>
                 <input type="password" id="password" />
                 
-                <label for="retype-password">Retype Password</label>
+                <label for="retype-password"><?php echo $this->lang->line('be_retype_password'); ?></label>
                 <input type="password" id="retype-password" />
                 
                 <br>
                 
                 <button type="button" id="user-notifications" class="btn" data-toggle="button">
                     <i class="icon-envelope"></i>
-                    Receive Notifications
+                    <?php echo $this->lang->line('be_receive_notifications'); ?>
                 </button>
             </fieldset>
         </form>
@@ -301,16 +305,13 @@
     <div id="about" class="tab-content">
         <h2>Easy!Appointments</h2>
         <p>
-            Easy!Appointments is a highly customizable web application that allows 
-            your customers to book appointments with you via the web. Moreover, it 
-            provides the ability to sync your data with Google Calendar so you can 
-            use them with other services. 
+            <?php echo $this->lang->line('be_about_ea_info'); ?>
         </p>
         
         <br>
         
         <div class="current-version"> 
-            Current Version 
+            <?php echo $this->lang->line('be_current_version'); ?>
             <?php 
                 echo $this->config->item('ea_version') 
                         . ' ' . $this->config->item('ea_release_title'); 
@@ -319,30 +320,32 @@
         
 		<br>
 		
-        <h3>Support</h3>
+        <h3><?php echo $this->lang->line('be_support'); ?></h3>
         <p>
-            If you encounter any problems when using Easy!Appointments you can search the 
-            official Google Group for answers. You might also need to create a new issue
-            on the Google Code page in order to help the development progress.
+            <?php echo $this->lang->line('be_about_ea_support'); ?>
             <br><br>
-            <a href="http://easyappointments.org">Official Website</a>
+            <a href="http://easyappointments.org">
+                <?php echo $this->lang->line('be_official_website'); ?>
+            </a>
             | 
             <a href="https://plus.google.com/communities/105333709485142846840">
-                Google+ Community</a>
+                <?php echo $this->lang->line('be_google_plus_community'); ?>
+            </a>
             | 
             <a href="https://groups.google.com/forum/#!forum/easy-appointments">
-                Support Group</a>
+                <?php echo $this->lang->line('be_support_group'); ?>
+            </a>
             |
-            <a href="https://code.google.com/p/easy-appointments/issues/list">Project Issues</a>
+            <a href="https://code.google.com/p/easy-appointments/issues/list">
+                <?php echo $this->lang->line('be_project_issues'); ?>
+            </a>
         </p>
 		
 		<br>
 		
-		<h3>License</h3>
+		<h3><?php echo $this->lang->line('be_license'); ?></h3>
 		<p>
-            Easy!Appointments is licensed under the GPLv3 license. By using 
-            the code of Easy!Appointments in any way <br> you are agreeing to the 
-            terms described in the following url:
+            <?php echo $this->lang->line('be_about_ea_license'); ?>
             <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
         </p>
     </div>

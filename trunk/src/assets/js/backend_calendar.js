@@ -984,7 +984,7 @@ var BackendCalendar = {
                                 
                                 if (calendarDateStart < workDateStart) {
                                     unavailablePeriod = {
-                                        'title': EALang['be_now_working'],
+                                        'title': EALang['be_not_working'],
                                         'start': calendarDateStart,
                                         'end': workDateStart,
                                         'allDay': false,

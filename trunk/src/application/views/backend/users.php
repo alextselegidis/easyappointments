@@ -360,8 +360,7 @@
                 <div>
                     <button type="button" class="add-break btn btn-primary">
                         <i class="icon-white icon-plus"></i>
-                        <?php echo $this->lang->line('be_add');?> 
-                        <?php echo $this->lang->line('be_break');?>
+                        <?php echo $this->lang->line('be_add_break');?>
                     </button>
                 </div>
 
@@ -376,8 +375,7 @@
                             <th><?php echo $this->lang->line('be_actions');?></th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
