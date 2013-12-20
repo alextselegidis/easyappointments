@@ -79,8 +79,8 @@
         <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('be_manage_appointment_record_hint'); ?>">
-            <?php echo $this->lang->line('be_calendar'); ?>
+                title="<?php echo $this->lang->line('manage_appointment_record_hint'); ?>">
+            <?php echo $this->lang->line('calendar'); ?>
         </a>
         
         <?php // CUSTOMERS MENU ITEM 
@@ -88,8 +88,8 @@
         <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/customers" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('be_manage_customers_hint'); ?>">
-            <?php echo $this->lang->line('be_customers'); ?>
+                title="<?php echo $this->lang->line('manage_customers_hint'); ?>">
+            <?php echo $this->lang->line('customers'); ?>
         </a>
         
         <?php // SERVICES MENU ITEM 
@@ -97,8 +97,8 @@
         <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/services" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('be_manage_services_hint'); ?>">
-            <?php echo $this->lang->line('be_services'); ?>
+                title="<?php echo $this->lang->line('manage_services_hint'); ?>">
+            <?php echo $this->lang->line('services'); ?>
         </a>
         
         <?php // USERS MENU ITEM 
@@ -106,8 +106,8 @@
         <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_USERS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/users" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('be_manage_users_hint'); ?>">
-            <?php echo $this->lang->line('be_users'); ?>
+                title="<?php echo $this->lang->line('manage_users_hint'); ?>">
+            <?php echo $this->lang->line('users'); ?>
         </a>
         
         <?php // SETTINGS MENU ITEM 
@@ -116,15 +116,15 @@
                 || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
         <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : ''; ?>
         <a href="<?php echo $base_url; ?>backend/settings" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('be_settings_hint'); ?>">
-            <?php echo $this->lang->line('be_settings'); ?>
+                title="<?php echo $this->lang->line('settings_hint'); ?>">
+            <?php echo $this->lang->line('settings'); ?>
         </a>
         
         <?php // LOGOUT MENU ITEM 
               // ------------------------------------------------------ ?>
         <a href="<?php echo $base_url; ?>user/logout" class="menu-item"
-                title="<?php echo $this->lang->line('be_log_out_hint'); ?>">
-            <?php echo $this->lang->line('be_log_out'); ?>
+                title="<?php echo $this->lang->line('log_out_hint'); ?>">
+            <?php echo $this->lang->line('log_out'); ?>
         </a>
         
     </div>

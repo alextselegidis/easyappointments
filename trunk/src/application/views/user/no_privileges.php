@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $this->lang->line('be_no_privileges') . ' - ' . $company_name; ?></title>
+    <title><?php echo $this->lang->line('no_privileges') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -57,16 +57,16 @@
 </head>
 <body>
     <div id="no-priv-frame" class="frame-container">
-        <h3><?php echo $this->lang->line('be_no_privileges'); ?></h3>
+        <h3><?php echo $this->lang->line('no_privileges'); ?></h3>
         <p>
-            <?php echo $this->lang->line('be_no_provileges_message'); ?>
+            <?php echo $this->lang->line('no_provileges_message'); ?>
         </p>  
         
         <br>
         
         <a href="<?php echo $this->config->base_url(); ?>backend" class="btn btn-success btn-large">
             <i class="icon-calendar icon-white"></i>
-            <?php echo $this->lang->line('be_backend_calendar'); ?>
+            <?php echo $this->lang->line('backend_calendar'); ?>
         </a>
     </div>
 </body>

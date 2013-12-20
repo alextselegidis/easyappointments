@@ -181,7 +181,7 @@ var BackendSettings = {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 if (response == false) {
                     $input.css('border', '2px solid red');
-                    Backend.displayNotification(EALang['be_username_already_exists']);
+                    Backend.displayNotification(EALang['username_already_exists']);
                     $input.attr('already-exists', 'true');
                 } else {
                     $input.css('border', '');
@@ -218,7 +218,7 @@ SystemSettings.prototype.save = function(settings) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
        
-        Backend.displayNotification(EALang['be_settings_saved']);
+        Backend.displayNotification(EALang['settings_saved']);
         
         // Update the logo title on the header.
         $('#header-logo span').text($('#company-name').val());
@@ -282,13 +282,13 @@ SystemSettings.prototype.validate = function() {
             }
         });
         if (missingRequired) {
-            throw EALang['fe_fields_are_required'];
+            throw EALang['fields_are_required'];
         }
         
         // Validate company email address.
         if (!GeneralFunctions.validateEmail($('#company-email').val())) {
             $('#company-email').css('border', '2px solid red');
-            throw EALang['be_invalid_email'];
+            throw EALang['invalid_email'];
         }
         
         return true;
@@ -342,7 +342,7 @@ UserSettings.prototype.get = function() {
  */
 UserSettings.prototype.save = function(settings) {
     if (!BackendSettings.settings.validate(settings)) {
-        Backend.displayNotification(EALang['be_user_settings_are_invalid']);
+        Backend.displayNotification(EALang['user_settings_are_invalid']);
         return; // Validation failed, do not procceed.
     }
     
@@ -358,7 +358,7 @@ UserSettings.prototype.save = function(settings) {
         //////////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification(EALang['be_settings_saved']);
+        Backend.displayNotification(EALang['settings_saved']);
         
         // Update footer greetings.
         $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
@@ -386,24 +386,24 @@ UserSettings.prototype.validate = function() {
             }
         });
         if (missingRequired) {
-            throw EALang['fe_fields_are_required'];
+            throw EALang['fields_are_required'];
         }
         
         // Validate passwords (if provided).
         if ($('#password').val() != $('#retype-password').val()) {
             $('#password, #retype-password').css('border', '2px solid red');
-            throw EALang['be_passwords_mismatch'];
+            throw EALang['passwords_mismatch'];
         }
         
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#email').val())) {
             $('#email').css('border', '2px solid red');
-            throw EALang['be_invalid_email'];
+            throw EALang['invalid_email'];
         }
         
         if ($('#username').attr('already-exists') === 'true') {
             $('#username').css('border', '2px solid red');
-            throw EALang['be_username_already_exists'];
+            throw EALang['username_already_exists'];
         }
         
         return true;

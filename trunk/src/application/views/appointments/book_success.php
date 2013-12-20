@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $this->lang->line('fe_appointment_registered') . ' - ' . $company_name; ?></title>
+    <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <?php // INCLUDE JS FILES ?>
@@ -147,12 +147,12 @@
                                 $('#success-frame').append(
                                     '<br><br>' +
                                     '<div class="alert alert-success">' +
-                                        '<h4>' + EALang['fe_success'] + '</h4>' +
+                                        '<h4>' + EALang['success'] + '</h4>' +
                                         '<p>' +
-                                            EALang['fe_appointment_added_to_google_calendar'] + 
+                                            EALang['appointment_added_to_google_calendar'] + 
                                             '<br>' + 
                                             '<a href="' + response.htmlLink + '" target="_blank">' + 
-                                                EALang['fe_view_appointment_in_google_calendar'] +
+                                                EALang['view_appointment_in_google_calendar'] +
                                             '</a>' + 
                                         '</p>' +
                                     '</div>'
@@ -185,13 +185,13 @@
     <div id="success-frame" class="frame-container">
         <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
 
-        <h3><?php echo $this->lang->line('fe_appointment_registered'); ?></h3>
-        <p><?php echo $this->lang->line('fe_appointment_details_was_sent_to_you'); ?></p>
+        <h3><?php echo $this->lang->line('appointment_registered'); ?></h3>
+        <p><?php echo $this->lang->line('appointment_details_was_sent_to_you'); ?></p>
 
         <?php if ($this->config->item('ea_google_sync_feature')) { ?>
         <button id="add-to-google-calendar" class="btn btn-primary">
             <i class="icon-plus icon-white"></i>
-            <?php echo $this->lang->line('fe_add_to_google_calendar'); ?>
+            <?php echo $this->lang->line('add_to_google_calendar'); ?>
         </button>
         <?php } ?>
         

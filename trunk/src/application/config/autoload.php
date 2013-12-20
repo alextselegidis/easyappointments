@@ -96,7 +96,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array('frontend', 'backend');
+$autoload['language'] = array('translations');
 
 
 /*

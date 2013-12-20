@@ -38,10 +38,10 @@
     <div id="calendar-toolbar">
         <div id="calendar-filter">
             <label for="select-filter-item">
-                <?php echo $this->lang->line('be_display_calendar'); ?>
+                <?php echo $this->lang->line('display_calendar'); ?>
             </label>
             <select id="select-filter-item" 
-                    title="<?php echo $this->lang->line('be_select_filter_item_hint'); ?>">
+                    title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
             </select>
         </div>
         
@@ -51,37 +51,37 @@
                 <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
                         && $this->config->item('ea_google_sync_feature') == TRUE) { ?>
                 <button id="google-sync" class="btn btn-primary" 
-                        title="<?php echo $this->lang->line('be_trigger_google_sync_hint'); ?>">
+                        title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
                     <i class="icon-refresh icon-white"></i>
-                    <span><?php echo $this->lang->line('be_synchronize'); ?></span>
+                    <span><?php echo $this->lang->line('synchronize'); ?></span>
                 </button>
 
                 <button id="enable-sync" class="btn" data-toggle="button" 
-                        title="<?php echo $this->lang->line('be_enable_appointment_sync_hint'); ?>">
+                        title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
                     <i class="icon-calendar"></i>
-                    <span><?php echo $this->lang->line('be_enable_sync'); ?></span>
+                    <span><?php echo $this->lang->line('enable_sync'); ?></span>
                 </button>
                 <?php } ?>
                 
                 <button id="reload-appointments" class="btn" 
-                        title="<?php echo $this->lang->line('be_reload_appointments_hint'); ?>">
+                        title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
                     <i class="icon-repeat"></i>
-                    <span><?php echo $this->lang->line('be_reload'); ?></span>
+                    <span><?php echo $this->lang->line('reload'); ?></span>
                 </button>
             </div>
             
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE) { ?>
             <div class="btn-group">
                 <button id="insert-appointment" class="btn btn-info" 
-                        title="<?php echo $this->lang->line('be_new_appointment_hint'); ?>">
+                        title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
                     <i class="icon-plus icon-white"></i>
-                    <span><?php echo $this->lang->line('be_appointment'); ?></span>
+                    <span><?php echo $this->lang->line('appointment'); ?></span>
                 </button>
 
                 <button id="insert-unavailable" class="btn" 
-                        title="<?php echo $this->lang->line('be_unavailable_periods_hint'); ?>">
+                        title="<?php echo $this->lang->line('unavailable_periods_hint'); ?>">
                     <i class="icon-plus"></i>
-                    <span><?php echo $this->lang->line('be_unavailable'); ?></span>
+                    <span><?php echo $this->lang->line('unavailable'); ?></span>
                 </button>
             </div>
             <?php } ?>
@@ -102,7 +102,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
-        <h3><?php echo $this->lang->line('be_edit_appointment_title'); ?></h3>
+        <h3><?php echo $this->lang->line('edit_appointment_title'); ?></h3>
     </div>
     
     <div class="modal-body">
@@ -110,12 +110,12 @@
         
         <form class="form-horizontal">
             <fieldset>
-                <legend><?php echo $this->lang->line('fe_appointment_details_title'); ?></legend>
+                <legend><?php echo $this->lang->line('appointment_details_title'); ?></legend>
                 
                 <input id="appointment-id" type="hidden" />
                 
                 <div class="control-group">
-                    <label for="select-service" class="control-label"><?php echo $this->lang->line('fe_service'); ?> *</label>
+                    <label for="select-service" class="control-label"><?php echo $this->lang->line('service'); ?> *</label>
                     <div class="controls">
                         <select id="select-service" class="required span4">
                             <?php 
@@ -175,28 +175,28 @@
                 </div>
                 
                 <div class="control-group">
-                    <label for="select-provider" class="control-label"><?php echo $this->lang->line('fe_provider'); ?> *</label>
+                    <label for="select-provider" class="control-label"><?php echo $this->lang->line('provider'); ?> *</label>
                     <div class="controls">
                         <select id="select-provider" class="required span4"></select>
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="start-datetime" class="control-label"><?php echo $this->lang->line('be_start_date_time'); ?></label>
+                    <label for="start-datetime" class="control-label"><?php echo $this->lang->line('start_date_time'); ?></label>
                     <div class="controls">
                         <input type="text" id="start-datetime" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="end-datetime" class="control-label"><?php echo $this->lang->line('be_start_date_time'); ?></label>
+                    <label for="end-datetime" class="control-label"><?php echo $this->lang->line('start_date_time'); ?></label>
                     <div class="controls">
                         <input type="text" id="end-datetime" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="notes" class="control-label"><?php echo $this->lang->line('fe_notes'); ?></label>
+                    <label for="notes" class="control-label"><?php echo $this->lang->line('notes'); ?></label>
                     <div class="controls">
                         <textarea id="appointment-notes" class="span4" rows="3"></textarea>
                     </div>
@@ -205,17 +205,17 @@
 
             <fieldset class="row-fluid">
                 <legend>
-                    <?php echo $this->lang->line('fe_customer_details_title'); ?>
+                    <?php echo $this->lang->line('customer_details_title'); ?>
                     <button id="new-customer" class="btn btn-mini" 
-                            title="<?php echo $this->lang->line('be_clear_fields_add_existing_customer_hint'); ?>"
-                            type="button"><?php echo $this->lang->line('be_new'); ?>
+                            title="<?php echo $this->lang->line('clear_fields_add_existing_customer_hint'); ?>"
+                            type="button"><?php echo $this->lang->line('new'); ?>
                     </button>
                     <button id="select-customer" class="btn btn-primary btn-mini" 
-                            title="<?php echo $this->lang->line('be_pick_existing_customer_hint'); ?>" 
-                            type="button"><?php echo $this->lang->line('be_select'); ?>
+                            title="<?php echo $this->lang->line('pick_existing_customer_hint'); ?>" 
+                            type="button"><?php echo $this->lang->line('select'); ?>
                     </button>
                     <input type="text" id="filter-existing-customers"
-                           placeholder="<?php echo $this->lang->line('be_type_to_filter_customers'); ?>" 
+                           placeholder="<?php echo $this->lang->line('type_to_filter_customers'); ?>" 
                            style="display: none;" class="input-medium"/>
                     <div id="existing-customers-list" style="display: none;"></div>
                 </legend>
@@ -225,7 +225,7 @@
                 <div class="span5">
                     <div class="control-group">
                         <label for="first-name" class="control-label">
-                            <?php echo $this->lang->line('fe_first_name'); ?> *</label>
+                            <?php echo $this->lang->line('first_name'); ?> *</label>
                         <div class="controls">
                             <input type="text" id="first-name" class="required" />
                         </div>
@@ -233,7 +233,7 @@
 
                     <div class="control-group">
                         <label for="last-name" class="control-label">
-                            <?php echo $this->lang->line('fe_last_name'); ?>*</label>
+                            <?php echo $this->lang->line('last_name'); ?>*</label>
                         <div class="controls">
                             <input type="text" id="last-name" class="required" />
                         </div>
@@ -241,7 +241,7 @@
 
                     <div class="control-group">
                         <label for="email" class="control-label">
-                            <?php echo $this->lang->line('fe_email'); ?>*</label>
+                            <?php echo $this->lang->line('email'); ?>*</label>
                         <div class="controls">
                             <input type="text" id="email" class="required" />
                         </div>
@@ -249,7 +249,7 @@
 
                     <div class="control-group">
                         <label for="phone-number" class="control-label">
-                            <?php echo $this->lang->line('fe_phone_number'); ?>*</label>
+                            <?php echo $this->lang->line('phone_number'); ?>*</label>
                         <div class="controls">
                             <input type="text" id="phone-number" class="required" />
                         </div>
@@ -258,7 +258,7 @@
                 <div class="span6">
                     <div class="control-group">
                         <label for="address" class="control-label">
-                            <?php echo $this->lang->line('fe_address'); ?>
+                            <?php echo $this->lang->line('address'); ?>
                         </label>
                         <div class="controls">
                             <input type="text" id="address" />
@@ -267,7 +267,7 @@
 
                     <div class="control-group">
                         <label for="city" class="control-label">
-                            <?php echo $this->lang->line('fe_city'); ?>
+                            <?php echo $this->lang->line('city'); ?>
                         </label>
                         <div class="controls">
                             <input type="text" id="city" />
@@ -276,7 +276,7 @@
 
                     <div class="control-group">
                         <label for="zip-code" class="control-label">
-                            <?php echo $this->lang->line('fe_zip_code'); ?>
+                            <?php echo $this->lang->line('zip_code'); ?>
                         </label>
                         <div class="controls">
                             <input type="text" id="zip-code" />
@@ -285,7 +285,7 @@
                     
                     <div class="control-group">
                         <label for="notes" class="control-label">
-                            <?php echo $this->lang->line('fe_notes'); ?></label>
+                            <?php echo $this->lang->line('notes'); ?></label>
                         <div class="controls">
                             <textarea id="customer-notes" rows="3"></textarea>
                         </div>
@@ -297,10 +297,10 @@
     
     <div class="modal-footer">
         <button id="save-appointment" class="btn btn-primary">
-            <?php echo $this->lang->line('be_save'); ?>
+            <?php echo $this->lang->line('save'); ?>
         </button>
         <button id="cancel-appointment" class="btn">
-            <?php echo $this->lang->line('fe_cancel'); ?>
+            <?php echo $this->lang->line('cancel'); ?>
         </button>
     </div>
 </div>
@@ -316,7 +316,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
-        <h3><?php echo $this->lang->line('be_new_unavailable_title'); ?></h3>
+        <h3><?php echo $this->lang->line('new_unavailable_title'); ?></h3>
         
     </div>
     
@@ -329,7 +329,7 @@
                 
                 <div class="control-group">
                     <label for="unavailable-start" class="control-label">
-                        <?php echo $this->lang->line('fe_start'); ?>
+                        <?php echo $this->lang->line('start'); ?>
                     </label>
                     <div class="controls">
                         <input type="text" id="unavailable-start" />
@@ -338,7 +338,7 @@
                 
                 <div class="control-group">
                     <label for="unavailable-end" class="control-label">
-                        <?php echo $this->lang->line('fe_end'); ?>
+                        <?php echo $this->lang->line('end'); ?>
                     </label>
                     <div class="controls">
                         <input type="text" id="unavailable-end" />
@@ -347,7 +347,7 @@
                 
                 <div class="control-group">
                     <label for="unavailable-notes" class="control-label">
-                        <?php echo $this->lang->line('fe_notes'); ?>
+                        <?php echo $this->lang->line('notes'); ?>
                     </label>
                     <div class="controls">
                         <textarea id="unavailable-notes" rows="3" class="span3"></textarea>
@@ -359,10 +359,10 @@
     
     <div class="modal-footer">
         <button id="save-unavailable" class="btn btn-primary">
-            <?php echo $this->lang->line('be_save'); ?>
+            <?php echo $this->lang->line('save'); ?>
         </button>
         <button id="cancel-unavailable" class="btn">
-            <?php echo $this->lang->line('fe_cancel'); ?>
+            <?php echo $this->lang->line('cancel'); ?>
         </button>
     </div>
 </div>

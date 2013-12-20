@@ -84,17 +84,17 @@ class Notifications {
             '$customer_address'         => $customer_data['address'],
             
             // Translations
-            'Appointment Details' => $this->ci->lang->line('fe_appointment_details_title'),
-            'Service' => $this->ci->lang->line('fe_service'),
-            'Provider' => $this->ci->lang->line('fe_provider'),
-            'Start' => $this->ci->lang->line('fe_start'),
-            'End' => $this->ci->lang->line('fe_end'),
-            'Customer Details' => $this->ci->lang->line('fe_customer_details_title'),
-            'Name' => $this->ci->lang->line('fe_name'),
-            'Email' => $this->ci->lang->line('fe_email'),
-            'Phone' => $this->ci->lang->line('fe_phone'),
-            'Address' => $this->ci->lang->line('fe_address'),
-            'Appointment Link' => $this->ci->lang->line('fe_appointment_link_title')
+            'Appointment Details' => $this->ci->lang->line('appointment_details_title'),
+            'Service' => $this->ci->lang->line('service'),
+            'Provider' => $this->ci->lang->line('provider'),
+            'Start' => $this->ci->lang->line('start'),
+            'End' => $this->ci->lang->line('end'),
+            'Customer Details' => $this->ci->lang->line('customer_details_title'),
+            'Name' => $this->ci->lang->line('name'),
+            'Email' => $this->ci->lang->line('email'),
+            'Phone' => $this->ci->lang->line('phone'),
+            'Address' => $this->ci->lang->line('address'),
+            'Appointment Link' => $this->ci->lang->line('appointment_link_title')
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -142,8 +142,8 @@ class Notifications {
             $service_data, $customer_data, $company_settings, $to_address, $reason) {
       	// :: PREPARE EMAIL REPLACE ARRAY
         $replace_array = array(
-            '$email_title'          => $this->ci->lang->line('fe_appointment_cancelled_title'),
-            '$email_message'        => $this->ci->lang->line('fe_appointment_removed_from_schedule'),
+            '$email_title'          => $this->ci->lang->line('appointment_cancelled_title'),
+            '$email_message'        => $this->ci->lang->line('appointment_removed_from_schedule'),
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
             '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
@@ -157,17 +157,17 @@ class Notifications {
             '$reason'               => $reason,
             
             // Translations
-            'Appointment Details' => $this->ci->lang->line('fe_appointment_details_title'),
-            'Service' => $this->ci->lang->line('fe_service'),
-            'Provider' => $this->ci->lang->line('fe_provider'),
-            'Date' => $this->ci->lang->line('fe_start'),
-            'Duration' => $this->ci->lang->line('fe_duration'),
-            'Customer Details' => $this->ci->lang->line('fe_customer_details_title'),
-            'Name' => $this->ci->lang->line('fe_name'),
-            'Email' => $this->ci->lang->line('fe_email'),
-            'Phone' => $this->ci->lang->line('fe_phone'),
-            'Address' => $this->ci->lang->line('fe_address'),
-            'Reason' => $this->ci->lang->line('fe_reason')
+            'Appointment Details' => $this->ci->lang->line('appointment_details_title'),
+            'Service' => $this->ci->lang->line('service'),
+            'Provider' => $this->ci->lang->line('provider'),
+            'Date' => $this->ci->lang->line('start'),
+            'Duration' => $this->ci->lang->line('duration'),
+            'Customer Details' => $this->ci->lang->line('customer_details_title'),
+            'Name' => $this->ci->lang->line('name'),
+            'Email' => $this->ci->lang->line('email'),
+            'Phone' => $this->ci->lang->line('phone'),
+            'Address' => $this->ci->lang->line('address'),
+            'Reason' => $this->ci->lang->line('reason')
         );
         
         $email_html = file_get_contents(dirname(dirname(__FILE__)) 
@@ -181,7 +181,7 @@ class Notifications {
         $mail->AddAddress($to_address); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet      = 'UTF-8';
-        $mail->Subject      = $this->ci->lang->line('fe_appointment_cancelled_title');
+        $mail->Subject      = $this->ci->lang->line('appointment_cancelled_title');
         $mail->Body         = $email_html;
 
         if (!$mail->Send()) {
@@ -200,8 +200,8 @@ class Notifications {
      */
     public function send_password($password, $email, $company_settings) {
         $replace_array = array(
-            '$email_title' => $this->ci->lang->line('be_new_account_password'),
-            '$email_message' => $this->ci->lang->line('be_new_password_is'),
+            '$email_title' => $this->ci->lang->line('new_account_password'),
+            '$email_message' => $this->ci->lang->line('new_password_is'),
             '$company_name' => $company_settings['company_name'],
             '$company_email' => $company_settings['company_email'],
             '$company_link' => $company_settings['company_link'],
@@ -219,7 +219,7 @@ class Notifications {
         $mail->AddAddress($email); // "Name" argument crushes the phpmailer class.
         $mail->IsHTML(true);
         $mail->CharSet = 'UTF-8';
-        $mail->Subject = $this->ci->lang->line('be_new_account_password');
+        $mail->Subject = $this->ci->lang->line('new_account_password');
         $mail->Body = $email_html;
 
         if (!$mail->Send()) {
