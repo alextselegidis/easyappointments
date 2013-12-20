@@ -1,9 +1,8 @@
-VERSION 0.7
+VERSION 1.0
 ===========
-This is the Beta version of Easy!Appointments. It has many improvements 
-and bug fixes from the Alpha version and will be the first major release
-candidate. If you have any suggestions or problems please visit the 
-links below.
+The first major release will include translated interface (English, 
+Greek, German) and the user will also be able to select a specific 
+calendar for synchronization.
 
 
 Official Easy!Appointments Website:
