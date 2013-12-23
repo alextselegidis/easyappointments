@@ -23,8 +23,6 @@
         }
     };
     
-    var EALang = <?php echo json_encode($this->lang->language); ?>;
-    
     $(document).ready(function() {
         BackendSettings.initialize(true);
     });

@@ -268,5 +268,54 @@ var GeneralFunctions = {
         }
         
         return true;
+    },
+    
+    /**
+     * Enables the language selection functionality. Must be called on every page has a
+     * language selection button. This method requires the global variable 'availableLanguages'
+     * to be initialized before the execution.
+     * 
+     * @param {object} $element Selected element button for the language selection.
+     */
+    enableLanguageSelection: function($element) {
+    	// Select Language
+        var html = '<ul id="language-list">';
+        $.each(availableLanguages, function() {
+        	html += '<li class="language" data-language="' + this + '">' 
+        			+ GeneralFunctions.ucaseFirstLetter(this) + '</li>';
+        });
+        html += '</ul>';
+        
+        $element.popover({
+            'placement': 'top',
+            'title': 'Select Language',
+            'content': html,
+            'html': true,
+            'container': 'body',
+            'trigger': 'manual'
+        });
+        
+        $element.click(function() {
+        	if ($('#language-list').length == 0) {
+        		$(this).popover('show');
+        	} else {
+        		$(this).popover('hide');
+        	}
+        });
+        
+        $(document).on('click', 'li.language', function() {
+        	// Change language with ajax call and refresh page.
+        	var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_change_language';
+        	var postData = { 'language': $(this).attr('data-language') };
+        	$.post(postUrl, postData, function(response) {
+        		////////////////////////////////////////////////////
+        		console.log('Change Language Response', response);
+    			////////////////////////////////////////////////////
+        		
+        		if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+        		document.location.reload(true);
+        		
+        	}, 'json');
+        });
     }
 };

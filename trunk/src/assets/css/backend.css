@@ -571,6 +571,12 @@ padding: 4px 7px;
     margin-bottom: 0px;
 }
 
+#users-page .editable form,
+#users-page .editable select, 
+#users-page .editable input {
+	margin: 0px;
+}
+
 /* BACKEND SETTINGS PAGE
    -------------------------------------------------------------------- */
 #settings-page h2 {

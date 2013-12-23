@@ -41,13 +41,42 @@ var BackendCalendar = {
             'titleFormat': {
                 'month': 'MMMM yyyy',
                 'week': "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",
-                'day': 'dddd, MMM d, yyyy'
+                'day': 'dddd, MMMM d, yyyy'
             },
             'header': {
                 'left': 'prev,next today',
                 'center': 'title',
                 'right': 'agendaDay,agendaWeek,month'
             },
+            
+            // Translations
+            'monthNames': [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                           EALang['may'], EALang['june'], EALang['july'], EALang['august'], 
+                           EALang['september'],EALang['october'], EALang['november'], 
+                           EALang['december']],
+           	'monthNamesShort': [EALang['january'].substr(0,3), EALang['february'].substr(0,3), 
+           	        EALang['march'].substr(0,3), EALang['april'].substr(0,3),
+                    EALang['may'].substr(0,3), EALang['june'].substr(0,3), 
+                    EALang['july'].substr(0,3), EALang['august'].substr(0,3), 
+                    EALang['september'].substr(0,3),EALang['october'].substr(0,3), 
+                    EALang['november'].substr(0,3), EALang['december'].substr(0,3)],
+            'dayNames': [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+	                    EALang['thursday'], EALang['friday'], EALang['saturday']],
+	        'dayNamesShort': [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+	               EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+	               EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+	               EALang['saturday'].substr(0,3)],
+	        'dayNamesMin': [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+	               EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+	               EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+	               EALang['saturday'].substr(0,2)],
+            'buttonText': {
+            	'today': EALang['today'],
+            	'day': EALang['day'],
+            	'week': EALang['week'],
+            	'month': EALang['month']
+            },
+	         
             // Calendar events need to be declared on initialization.
             'windowResize': BackendCalendar.calendarWindowResize,
             'viewDisplay': BackendCalendar.calendarViewDisplay,
@@ -59,13 +88,6 @@ var BackendCalendar = {
                 BackendCalendar.convertTitlesToHtml();
             }   
         });
-        
-        // Temporary fix: make the first letter capital in all the lowercase strings
-        // of the calendar.
-        $('#calendar .fc-button-today').text('Today');
-        $('#calendar .fc-button-agendaDay').text('Day');
-        $('#calendar .fc-button-agendaWeek').text('Week');
-        $('#calendar .fc-button-month').text('Month');
         
         // Trigger once to set the proper footer position after calendar 
         // initialization.
@@ -1488,7 +1510,7 @@ var BackendCalendar = {
         });
         
         BackendCalendar.lastFocusedEventData = event;
-        $(jsEvent.target).popover('show');
+        $(jsEvent.target).popover('toggle');
         
         // Fix popover position
         if ($('.popover').position().top < 200) $('.popover').css('top', '200px');

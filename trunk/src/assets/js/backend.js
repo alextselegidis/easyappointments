@@ -23,6 +23,8 @@ $(document).ready(function() {
             classes: 'qtip-green qtip-shadow custom-qtip'
         }
     });
+    
+    GeneralFunctions.enableLanguageSelection($('#select-language'));
 });
 
 /**

@@ -2,9 +2,9 @@
 <html>
 <head>
     <?php // PAGE META ?>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Easy!Appointments - Installation</title>
-
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
     <?php // INCLUDE CSS ?>
     <link 
         rel="stylesheet" 
@@ -31,16 +31,15 @@
     <script 
         type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/date.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/general_functions.js"></script>
     
     <script type="text/javascript">
-        $(document).ready(function() {
-            var GlobalVariables = {
-                'baseUrl': <?php echo '"' . $base_url . '"'; ?>
-            };
-            
+	    var GlobalVariables = {
+            'baseUrl': <?php echo '"' . $base_url . '"'; ?>
+        };
+
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        
+        $(document).ready(function() {            
             var MIN_PASSWORD_LENGTH = 7;
             var AJAX_SUCCESS = 'SUCCESS';
             var AJAX_FAILURE = 'FAILURE';
@@ -59,7 +58,7 @@
             $('#install').click(function() {
                 if (!validate()) return;
         
-                var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_install';
+                var postUrl = GlobalVariables.baseUrl + 'index.php/appointments/ajax_install';
                 var postData = {
                     'admin': JSON.stringify(getAdminData()),
                     'company': JSON.stringify(getCompanyData())
@@ -310,5 +309,9 @@
     <footer>
         Powered by <a href="http://easyappointments.org">Easy!Appointments</a>
     </footer>
+    
+    <script 
+        type="text/javascript" 
+        src="<?php echo $base_url; ?>assets/js/general_functions.js"></script>
 </body>
 </html>

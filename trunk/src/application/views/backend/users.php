@@ -31,8 +31,6 @@
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
-
-    var EALang = <?php echo json_encode($this->lang->language); ?>;
     
     $(document).ready(function() {
         BackendUsers.initialize(true);
