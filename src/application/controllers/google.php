@@ -1,6 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Google extends CI_Controller {
+	public function __construct() {
+		parent::__construct();
+	}
+	
     /**
      * Authorize Google Calendar API usage for a specific provider.
      * 

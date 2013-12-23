@@ -64,6 +64,12 @@
     <script 
         type="text/javascript" 
         src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.mousewheel.js"></script>
+        
+    <script type="text/javascript">
+    	// Global JavaScript Variables - Used in all backend pages.
+    	var availableLanguages = <?php echo json_encode($this->config->item('available_languages')); ?>;
+    	var EALang = <?php echo json_encode($this->lang->language); ?>;
+    </script>
 </head>
 
 <body>

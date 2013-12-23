@@ -276,7 +276,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
  */
 WorkingPlan.prototype.get = function() {
     var workingPlan = {};
-    $('.working-plan input[type="checkbox"').each(function() {
+    $('.working-plan input[type="checkbox"]').each(function() {
         var id = $(this).attr('id');
         if ($(this).prop('checked') == true) {
             workingPlan[id] = {};

@@ -316,9 +316,10 @@ ServicesHelper.prototype.validate = function(service) {
                 missingRequired = true;
             }
         });
-        if (missingRequired) {
+        
+        if (missingRequired) 
             throw EALang['fields_are_required'];
-        }
+        
         
         return true;
     } catch(exc) {
@@ -541,14 +542,13 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
     $('#delete-category').click(function() {
         var categoryId = $('#category-id').val();
 
-        var messageBtns = {
-            'Delete': function() {
-                BackendServices.helper.delete(categoryId);
-                $('#message_box').dialog('close');
-            },
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['delete']] = function() {
+            BackendServices.helper.delete(categoryId);
+            $('#message_box').dialog('close');
+        };
+        messageBtns[EALang['cancel']] = function() {
+            $('#message_box').dialog('close');
         };
 
         GeneralFunctions.displayMessageBox(EALang['delete_category'], 
@@ -642,7 +642,7 @@ CategoriesHelper.prototype.save = function(category) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['category_saved']);
+        Backend.displayNotification(EALang['service_category_saved']);
         BackendServices.helper.resetForm();
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('', response.id, true);
@@ -666,7 +666,7 @@ CategoriesHelper.prototype.delete = function(id) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         
-        Backend.displayNotification(EALang['category_deleted']);
+        Backend.displayNotification(EALang['service_category_deleted']);
         
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-categories .key').val());
