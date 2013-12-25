@@ -262,3 +262,5 @@ $lang['select_time'] = 'Select Time';
 $lang['time'] = 'Time';
 $lang['hour'] = 'Hour';
 $lang['minute'] = 'Minute';
+$lang['google_sync_completed'] = 'Google synchronization completed successfully!';
+$lang['google_sync_failed'] = 'Google synchronization failed: Could not establish server connection.';

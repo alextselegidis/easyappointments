@@ -81,10 +81,12 @@
         };
 
         var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var availableLanguages = <?php echo json_encode($this->config->item('available_languages')); ?>;
         
         $(document).ready(function() {
             FrontendBook.initialize(true, GlobalVariables.manageMode); 
             GeneralFunctions.centerElementOnPage($('#book-appointment-wizard'));
+            GeneralFunctions.enableLanguageSelection($('#select-language'));
         });
     </script>
 </head>
@@ -368,6 +370,10 @@
                 <a href="http://easyappointments.org" target="_blank">
                     Easy!Appointments
                 </a>
+                |
+                <span id="select-language" class="badge badge-inverse">
+		        	<?php echo ucfirst($this->config->item('language')); ?>
+		        </span>
             </div>
         </div>
     </div>

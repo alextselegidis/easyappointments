@@ -9,7 +9,8 @@ require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
  * Google Synchronization Class
  * 
  * This class implements all the core synchronization between the Google Calendar
- * and the Easy!Appointments system. 
+ * and the Easy!Appointments system. Do not place any model handling inside this 
+ * library.
  */
 class Google_Sync {
 	private $CI;
@@ -292,6 +293,19 @@ class Google_Sync {
         );
         
         return $this->service->events->listEvents('primary', $params);
+    }
+    
+    /**
+     * Return available google calendars for specific user.
+     * 
+     * The given user's token must already exist in db in order to get access to his 
+     * Google Calendar account.
+     * 
+     * @param numeric $provider_id The provider's record id.
+     * @return array Returns an array with the available calendars.
+     */
+    public function get_google_calendars($provider_id) {
+    	
     }
 }
 

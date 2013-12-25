@@ -58,6 +58,8 @@ class Google extends CI_Controller {
        					$_SESSION['oauth_provider_id']);
        			$this->providers_model->set_setting('google_token', $token, 
        					$_SESSION['oauth_provider_id']);
+       			$this->providers_model->set_setting('google_calendar', 'primary', 
+       					$_SESSION['oath_provider_id']);
                 
        		} else {
        			echo '<h1>Sync provider id not specified!</h1>';

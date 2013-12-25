@@ -24,6 +24,10 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+	<link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>assets/css/general.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
@@ -54,7 +58,7 @@
         }
         
         .forgot-password {
-            margin-left: 20px;
+/*             margin-left: 20px; */
         }
     </style>
     
@@ -67,8 +71,11 @@
         };
         
         var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var availableLanguages = <?php echo json_encode($this->config->item('available_languages')); ?>;
         
         $(document).ready(function() {
+        	GeneralFunctions.enableLanguageSelection($('#select-language'));
+        	
             /**
              * Event: Login Button "Click"
              * 
@@ -112,16 +119,30 @@
         <div class="alert hidden"></div>  
         <form id="login-form">
             <label for="username"><?php echo $this->lang->line('username'); ?></label>
-            <input type="text" id="username" placeholder="<?php echo $this->lang->line('enter_username_here'); ?>"  class="span3" />
+            <input type="text" id="username" 
+            		placeholder="<?php echo $this->lang->line('enter_username_here'); ?>"  
+            		class="span3" />
             
             <label for="password"><?php echo $this->lang->line('password'); ?></label>
-            <input type="password" id="password" placeholder="<?php echo $this->lang->line('enter_password_here'); ?>" class="span3" />    
+            <input type="password" id="password" 
+            		placeholder="<?php echo $this->lang->line('enter_password_here'); ?>" 
+            		class="span3" />    
+            
+            <br>
+            
+            <button type="submit" id="login" class="btn btn-primary">
+            	<?php echo $this->lang->line('login'); ?>
+            </button> 
             
             <br><br>
             
-            <button type="submit" id="login" class="btn btn-primary btn-large"><?php echo $this->lang->line('login'); ?></button> 
-            
-            <a href="<?php echo $base_url; ?>user/forgot_password" class="forgot-password"><?php echo $this->lang->line('forgot_your_password'); ?></a>
+            <a href="<?php echo $base_url; ?>user/forgot_password" class="forgot-password">
+            	<?php echo $this->lang->line('forgot_your_password'); ?>
+            </a>
+            |
+            <span id="select-language" class="badge badge-inverse">
+	        	<?php echo ucfirst($this->config->item('language')); ?>
+	        </span>
         </form>
     </div>
 
