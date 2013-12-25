@@ -262,3 +262,5 @@ $lang['select_time'] = 'Επιλέξτε Ώρα';
 $lang['time'] = 'Χρόνος';
 $lang['hour'] = 'Ώρα';
 $lang['minute'] = 'Λεπτά';
+$lang['google_sync_completed'] = 'Ο συγχρονισμός με την Google ολοκληρώθηκε επιτυχώς!';
+$lang['google_sync_failed'] = 'Ο συγχρονισμός με την Google απέτυχε: Δεν μπόρεσε να πραγματοποιηθεί σύνδεση με τον server.';

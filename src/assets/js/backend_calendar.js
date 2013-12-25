@@ -287,23 +287,24 @@ var BackendCalendar = {
                     
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, 
+                        		GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
 
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, 
+                        		GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
                     
-                    Backend.displayNotification('Google synchronization completed successfully!');
+                    Backend.displayNotification(EALang['google_sync_completed']);
                     $('#reload-appointments').trigger('click');
                 },
                 'error': function(jqXHR, textStatus, errorThrown) {
-                    Backend.displayNotification('Google synchronization failed: Could not establish '
-                            + 'server connection.');
+                    Backend.displayNotification(EALang['google_sync_failed']);
                 }
             });
         });
@@ -706,6 +707,9 @@ var BackendCalendar = {
                             $('#enable-sync span').text(EALang['disable_sync']);
                             $('#google-sync').prop('disabled', false);
                             $('#select-filter-item option:selected').attr('google-sync', 'true');
+                            
+                            // Display the calendar selection dialog.
+                            
                         }
                     }
                 }, 100);

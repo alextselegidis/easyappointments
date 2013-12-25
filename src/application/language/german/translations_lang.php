@@ -262,3 +262,5 @@ $lang['select_time'] = 'Zeit Wählen';
 $lang['time'] = 'Zeit';
 $lang['hour'] = 'Uhr';
 $lang['minute'] = 'Minute';
+$lang['google_sync_completed'] = 'Google Synchronisation erfolgreich beendet!';
+$lang['google_sync_failed'] = 'Google Synchronisation fehlgeschlagen: Serververbindung konnte nicht hergestellt werden.';

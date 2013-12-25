@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `notifications` tinyint(4) DEFAULT '0',
   `google_sync` tinyint(4) DEFAULT '0',
   `google_token` text,
+  `google_calendar` varchar(128) DEFAULT NULL,
   `sync_past_days` int(11) DEFAULT '5',
   `sync_future_days` int(11) DEFAULT '5',
   PRIMARY KEY (`id_users`)

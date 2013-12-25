@@ -1072,6 +1072,30 @@ class Backend_api extends CI_Controller {
             )); 
     	}
     }
+    
+    /**
+     * This method will return a list of the available google calendars. 
+     * 
+     * The user will need to select a specific calendar from this list to sync his 
+     * appointments with. Google access must be already granted for the specific 
+     * provider.
+     * 
+     * @param string $_POST['provider_id'] Provider record id.
+     */
+    public function ajax_get_google_calendars() {
+    	try {
+    		$this->load->library('google_sync');
+    		$this->load->model('providers_model');
+    		
+    		$calendars = $this->google_sync->get_google_calendars($_POST['provider_id']);
+    		echo json_encode($calendars);
+    		
+    	} catch(Exception $exc) {
+    		echo json_encode(array(
+    				'exceptions' => array(exceptionToJavaScript($exc))
+    		));
+    	}
+    }
 }
 
 /* End of file backend_api.php */
