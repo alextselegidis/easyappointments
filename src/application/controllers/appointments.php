@@ -100,13 +100,13 @@ class Appointments extends CI_Controller {
                 $appointment = $post_data['appointment'];
                 $customer = $post_data['customer'];
 
-				if ($this->customers_model->exists($customer)) 
-					$customer['id'] = $this->customers_model->find_record_id($customer);
+                if ($this->customers_model->exists($customer)) 
+                        $customer['id'] = $this->customers_model->find_record_id($customer);
 					
                 $customer_id = $this->customers_model->add($customer);
                 $appointment['id_users_customer'] = $customer_id; 
                 
-                $appointment['id']   = $this->appointments_model->add($appointment);
+                $appointment['id'] = $this->appointments_model->add($appointment);
                 $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
                 
                 $provider = $this->providers_model->get_row($appointment['id_users_provider']);

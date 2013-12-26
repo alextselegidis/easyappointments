@@ -43,30 +43,27 @@ class Google extends CI_Controller {
      */
     public function oauth_callback() {
        	if (isset($_GET['code'])) {
-       		$this->load->library('Google_Sync');
-       		$token = $this->google_sync->authenticate($_GET['code']);
+            $this->load->library('Google_Sync');
+            $token = $this->google_sync->authenticate($_GET['code']);
        		
        		// Store the token into the database for future reference.
             if (!isset($_SESSION)) {
                 @session_start();
             }
             
-       		if (isset($_SESSION['oauth_provider_id'])) {
-       			$this->load->model('providers_model');
-       			
+            if (isset($_SESSION['oauth_provider_id'])) {
+                $this->load->model('providers_model');
                 $this->providers_model->set_setting('google_sync', TRUE, 
-       					$_SESSION['oauth_provider_id']);
-       			$this->providers_model->set_setting('google_token', $token, 
-       					$_SESSION['oauth_provider_id']);
-       			$this->providers_model->set_setting('google_calendar', 'primary', 
-       					$_SESSION['oath_provider_id']);
-                
-       		} else {
-       			echo '<h1>Sync provider id not specified!</h1>';
-       		}
-            
+                                        $_SESSION['oauth_provider_id']);
+                $this->providers_model->set_setting('google_token', $token, 
+                                $_SESSION['oauth_provider_id']);
+                $this->providers_model->set_setting('google_calendar', 'primary', 
+                                $_SESSION['oauth_provider_id']);
+            } else {
+                echo '<h1>Sync provider id not specified!</h1>';
+            }
        	} else {
-       		echo '<h1>Authorization Failed!</h1>';
+            echo '<h1>Authorization Failed!</h1>';
        	}
     }
     

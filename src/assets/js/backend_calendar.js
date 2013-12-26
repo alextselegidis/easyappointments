@@ -708,8 +708,29 @@ var BackendCalendar = {
                             $('#google-sync').prop('disabled', false);
                             $('#select-filter-item option:selected').attr('google-sync', 'true');
                             
-                            // Display the calendar selection dialog.
-                            
+                            // Display the calendar selection dialog. First we will get a list 
+                            // of the available user's calendars and then we will display a selection
+                            // modal so the user can select the sync calendar.
+                            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_get_google_calendars';
+                            var postData = { 
+                                'provider_id': $('#select-filter-item').val()
+                            };
+                            $.post(postUrl, postData, function(response) {
+                                ///////////////////////////////////////////////////////////////////
+                                console.log('Get Available Google Calendars Response', response);
+                                ///////////////////////////////////////////////////////////////////
+                                
+                                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                                
+                                $('#google-calendar').empty();
+                                $.each(response, function() {
+                                    var option = '<option value="' + this.id  + '">' + this.summary + '</option>';
+                                    $('#google-calendar').append(option);
+                                });
+                                
+                                $('#select-google-calendar').modal('show');
+                                
+                            }, 'json');
                         }
                     }
                 }, 100);
@@ -922,6 +943,32 @@ var BackendCalendar = {
             $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
                     + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
         });
+        
+        /**
+         * Event: Select Google Calendar "Click"
+         */
+        $('#select-calendar').click(function() {
+            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_select_google_calendar';
+            var postData = {
+                'provider_id': $('#select-filter-item').val(),
+                'calendar_id': $('#google-calendar').val()
+            };
+            $.post(postUrl, postData, function(response){
+                ///////////////////////////////////////////////////////////
+                console.log('Select Google Calendar Response', response);
+                ///////////////////////////////////////////////////////////
+                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                Backend.displayNotification(EALang['google_calendar_selected']);
+                $('#select-google-calendar').modal('hide');
+            });
+        });
+        
+        /**
+         * Event: Close Google Calendar "Click"
+         */
+        $('#close-calendar').click(function() {
+            $('#select-google-calendar').modal('hide');
+        });
     },
             
     /**
@@ -1087,7 +1134,7 @@ var BackendCalendar = {
                                     // on the calendar, even if the provider won't work on that day).
                                     $.each(response.unavailables, function(index, unavailable) {
                                         if (currDateStart.toString('dd/MM/yyyy') 
-                                            === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
+                                                === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
                                             var unavailablePeriod = {
                                                 'title': EALang['unavailable'] + ' <br><small>' + ((unavailable.notes.length > 30) 
                                                         ? unavailable.notes.substring(0, 30) + '...'
@@ -1630,14 +1677,14 @@ var BackendCalendar = {
                 console.log('Drop Unavailable Event Response:', response);
                 
                 if (response.exceptions) {
-                    reponse.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
                 
                 if (response.warnings) {
-                    reponse.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
                     GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }

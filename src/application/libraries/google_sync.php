@@ -13,7 +13,7 @@ require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
  * library.
  */
 class Google_Sync {
-	private $CI;
+    private $CI;
     private $client; 
     private $service;
     
@@ -301,11 +301,19 @@ class Google_Sync {
      * The given user's token must already exist in db in order to get access to his 
      * Google Calendar account.
      * 
-     * @param numeric $provider_id The provider's record id.
+     * @param string $google_token The user's token will be used to grant access to google calendar.
      * @return array Returns an array with the available calendars.
      */
-    public function get_google_calendars($provider_id) {
-    	
+    public function get_google_calendars() {
+        $calendarList = $this->service->calendarList->listCalendarList();
+        $calendars = array();
+        foreach ($calendarList->items as $google_calendar) {
+            $calendars[] = array(
+                'id' => $google_calendar->id,
+                'summary' => $google_calendar->summary
+            );
+        }
+         return $calendars;
     }
 }
 

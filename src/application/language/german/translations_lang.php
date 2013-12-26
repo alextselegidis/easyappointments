@@ -264,3 +264,6 @@ $lang['hour'] = 'Uhr';
 $lang['minute'] = 'Minute';
 $lang['google_sync_completed'] = 'Google Synchronisation erfolgreich beendet!';
 $lang['google_sync_failed'] = 'Google Synchronisation fehlgeschlagen: Serververbindung konnte nicht hergestellt werden.';
+$lang['select_google_calendar'] = 'Wählen Sie Google Kalender';
+$lang['select_google_calendar_prompt'] = 'Wählen Sie den Kalender, den Sie Ihre Termine synchronisieren möchten. Wenn Sie nicht wollen, um einen bestimmten Kalender wählen den Standard, verwendet.';
+$lang['google_calendar_selected'] = 'Google-Kalender ausgewählt wurde erfolgreich!';
