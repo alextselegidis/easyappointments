@@ -279,7 +279,7 @@ class Backend_api extends CI_Controller {
                                 ->get_setting('google_token', $provider['id']));
                         $this->load->library('Google_Sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
-                        $this->google_sync->delete_appointment($appointment['id_google_calendar']);
+                        $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }    
                 } catch(Exception $exc) {
                     $warnings[] = exceptionToJavaScript($exc);
@@ -430,6 +430,8 @@ class Backend_api extends CI_Controller {
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
             
+            $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
+            
             // Add appointment
             $unavailable['id'] = $this->appointments_model->add_unavailable($unavailable); 
             $unavailable = $this->appointments_model->get_row($unavailable['id']); // fetch all inserted data
@@ -447,11 +449,11 @@ class Backend_api extends CI_Controller {
                     $this->google_sync->refresh_token($google_token->refresh_token);
                     
                     if ($unavailable['id_google_calendar'] == NULL) {
-                        $google_event = $this->google_sync->add_unavailable($unavailable);
+                        $google_event = $this->google_sync->add_unavailable($provider, $unavailable);
                         $unavailable['id_google_calendar'] = $google_event->id;
                         $this->appointments_model->add_unavailable($unavailable);
                     } else {
-                        $google_event = $this->google_sync->update_unavailable($unavailable);
+                        $google_event = $this->google_sync->update_unavailable($provider, $unavailable);
                     }
                 }
             } catch(Exception $exc) {
@@ -500,7 +502,7 @@ class Backend_api extends CI_Controller {
                     $google_token = json_decode($this->providers_model->get_setting('google_token', $provider['id']));
                     $this->load->library('google_sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
-                    $this->google_sync->delete_unavailable($unavailable['id_google_calendar']);
+                    $this->google_sync->delete_unavailable($provider, $unavailable['id_google_calendar']);
                 }
             } catch(Exception $exc) {
                 $warnings[] = $exc;

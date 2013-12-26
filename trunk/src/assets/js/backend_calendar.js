@@ -636,7 +636,7 @@ var BackendCalendar = {
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text(EALang['unavailabled_saved']);
+                $dialog.find('.modal-message').text(EALang['unavailable_saved']);
                 $dialog.find('.modal-message').removeClass('alert-error');
                 $dialog.find('.modal-message').addClass('alert-success');
                 $dialog.find('.modal-message').fadeIn();
