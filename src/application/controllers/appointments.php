@@ -263,7 +263,7 @@ class Appointments extends CI_Controller {
                                 ->get_setting('google_token', $provider['id']));
                         $this->load->library('Google_Sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
-                        $this->google_sync->delete_appointment($appointment['id_google_calendar']);
+                        $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }
                 } catch(Exception $exc) {
                     $exceptions[] = $exc;

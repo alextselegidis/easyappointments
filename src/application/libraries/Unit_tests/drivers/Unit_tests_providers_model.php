@@ -60,6 +60,7 @@ class Unit_tests_providers_model extends CI_Driver {
                 'notifications' => TRUE,
                 'google_sync' => 0,
                 'google_token' => NULL,
+                'google_calendar' => NULL, 
                 'sync_past_days' => '5',
                 'sync_future_days' => '5'
             )
@@ -117,6 +118,7 @@ class Unit_tests_providers_model extends CI_Driver {
             'notifications' => TRUE,
             'google_sync' => 0,
             'google_token' => NULL,
+            'google_calendar' => NULL,
             'sync_past_days' => '5',
             'sync_future_days' => '5'
         );
@@ -144,6 +146,7 @@ class Unit_tests_providers_model extends CI_Driver {
                 'notifications' => TRUE,
                 'google_sync' => 0,
                 'google_token' => NULL,
+                'google_calendar' => NULL,
                 'sync_past_days' => '9', // changed
                 'sync_future_days' => '8' // changed
             )

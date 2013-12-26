@@ -194,7 +194,7 @@
                 </div>
                 
                 <div class="control-group">
-                    <label for="notes" class="control-label"><?php echo $this->lang->line('notes'); ?></label>
+                    <label for="appointment-notes" class="control-label"><?php echo $this->lang->line('notes'); ?></label>
                     <div class="controls">
                         <textarea id="appointment-notes" class="span4" rows="3"></textarea>
                     </div>
@@ -282,7 +282,7 @@
                     </div>
                     
                     <div class="control-group">
-                        <label for="notes" class="control-label">
+                        <label for="customer-notes" class="control-label">
                             <?php echo $this->lang->line('notes'); ?></label>
                         <div class="controls">
                             <textarea id="customer-notes" rows="3"></textarea>
@@ -306,7 +306,7 @@
 <?php
     // --------------------------------------------------------------------
     //
-    // MANAGE UNAVAILALBE
+    // MANAGE UNAVAILABLE
     //
     // --------------------------------------------------------------------
 ?>

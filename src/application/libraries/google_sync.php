@@ -105,7 +105,6 @@ class Google_Sync {
      * @return Google_Event Returns the Google_Event class object.
      */
     public function add_appointment($appointment, $provider, $service, $customer, $company_settings) {
-        
         $this->CI->load->helper('general');
         
         $event = new Google_Event();
@@ -136,8 +135,8 @@ class Google_Sync {
             $event->attendees[] = $event_customer;
         }
         
-        // Add the new event to the "primary" calendar.
-        $created_event = $this->service->events->insert('primary', $event);
+        // Add the new event to the google calendar.
+        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event);
         
         return $created_event;
     }
@@ -160,7 +159,7 @@ class Google_Sync {
     public function update_appointment($appointment, $provider, $service, $customer, $company_settings) {
         $this->CI->load->helper('general');
         
-        $event = $this->service->events->get('primary', $appointment['id_google_calendar']);
+        $event = $this->service->events->get($provider['settings']['google_calendar'], $appointment['id_google_calendar']);
         
         $event->setSummary($service['name']);
         $event->setLocation($company_settings['company_name']);
@@ -189,7 +188,8 @@ class Google_Sync {
             $event->attendees[] = $event_customer;
         }
         
-        $updated_event = $this->service->events->update('primary', $event->getId(), $event);
+        $updated_event = $this->service->events->update($provider['settings']['google_calendar'], 
+                $event->getId(), $event);
         
         return $updated_event;
     }
@@ -197,24 +197,26 @@ class Google_Sync {
     /**
      * Delete an existing appointment from Google Calendar.
      * 
-     * @param string $google_calendar_id The Google Calendar event id to
+     * @param array $provider Contains the provider record data.
+     * @param string $google_event_id The Google Calendar event id to
      * be deleted.
      */
-    public function delete_appointment($google_calendar_id) {
-        $this->service->events->delete('primary', $google_calendar_id);
+    public function delete_appointment($provider, $google_event_id) {
+        $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }
     
     /**
      * Add unavailable period event to Google Calendar.
      * 
+     * @param array $provider Contains the provider record data.
      * @param array $unavailable Contains unavailable period's data.
      * @return Google_Event Returns the google event's object.
      */
-    public function add_unavailable($unavailable) {
+    public function add_unavailable($provider, $unavailable) {
         $this->CI->load->helper('general');
         
         $event = new Google_Event();
-        $event->setSummary('Unavailalbe');
+        $event->setSummary('Unavailable');
         $event->setDescription($unavailable['notes']);
         
         $start = new Google_EventDateTime();
@@ -225,8 +227,8 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($unavailable['end_datetime'])));
         $event->setEnd($end);
         
-        // Add the new event to the "primary" calendar.
-        $created_event = $this->service->events->insert('primary', $event);
+        // Add the new event to the google calendar.
+        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event);
         
         return $created_event;
         
@@ -235,13 +237,14 @@ class Google_Sync {
     /**
      * Update Google Calendar unavailable period event.
      * 
+     * @param array $provider Contains the provider record data.
      * @param array $unavailable Contains the unavailable period data.
      * @return Google_Event Returns the Google_Event object.
      */
-    public function update_unavailable($unavailable) {
+    public function update_unavailable($provider, $unavailable) {
         $this->CI->load->helper('general');
         
-        $event = $this->service->events->get('primary', $unavailable['id_google_calendar']);
+        $event = $this->service->events->get($provider['settings']['google_calendar'], $unavailable['id_google_calendar']);
         $event->setDescription($unavailable['notes']);
         
         $start = new Google_EventDateTime();
@@ -252,7 +255,8 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($unavailable['end_datetime'])));
         $event->setEnd($end);
         
-        $updated_event = $this->service->events->update('primary', $event->getId(), $event);
+        $updated_event = $this->service->events->update($provider['settings']['google_calendar'], 
+                $event->getId(), $event);
         
         return $updated_event;
     }
@@ -260,31 +264,34 @@ class Google_Sync {
     /**
      * Delete unavailable period event from Google Calendar.
      * 
-     * @param string $google_calendar_id Google Calendar event id to be deleted.
+     * @param array $provider Contains the provider record data.
+     * @param string $google_event_id Google Calendar event id to be deleted.
      */
-    public function delete_unavailable($google_calendar_id) {
-        $this->service->events->delete('primary', $google_calendar_id);
+    public function delete_unavailable($provider, $google_event_id) {
+        $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }
     
     /**
      * Get an event object from gcal
      * 
-     * @param string $google_calendar_id Id of the google calendar event
+     * @param array $provider Contains the provider record data.
+     * @param string $google_event_id Id of the google calendar event
      * @return Google_Event Returns the google event object.
      */
-    public function get_event($google_calendar_id) {
-        return $this->service->events->get('primary', $google_calendar_id);
+    public function get_event($provider, $google_event_id) {
+        return $this->service->events->get($provider['settings']['google_calendar'], $google_event_id);
     }
     
     /**
      * Get all the events between the sync period.
      * 
+     * @param string $google_calendar The name of the google calendar to be used.
      * @param date $start The start date of sync period.
      * @param date $end The end date of sync period.
      * @return object Returns an array with Google_Event objects that belong on the given
      * sync period (start, end).
      */
-    public function get_sync_events($start, $end) {
+    public function get_sync_events($google_calendar, $start, $end) {
         $this->CI->load->helper('general');
         
         $params = array(
@@ -292,7 +299,7 @@ class Google_Sync {
             'timeMax' => date3339($end)
         );
         
-        return $this->service->events->listEvents('primary', $params);
+        return $this->service->events->listEvents($google_calendar, $params);
     }
     
     /**

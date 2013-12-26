@@ -12,8 +12,7 @@ class Google extends CI_Controller {
      * a refresh token from the Google API service, this method is going to authorize 
      * the given provider.
      * 
-     * @param int $provider_id The provider id, for whom the sync authorization is 
-     * made.
+     * @param int $provider_id The provider id, for whom the sync authorization is made. 
      */
     public function oauth($provider_id) {
     	// Store the provider id for use on the callback function.
@@ -54,11 +53,11 @@ class Google extends CI_Controller {
             if (isset($_SESSION['oauth_provider_id'])) {
                 $this->load->model('providers_model');
                 $this->providers_model->set_setting('google_sync', TRUE, 
-                                        $_SESSION['oauth_provider_id']);
+                        $_SESSION['oauth_provider_id']);
                 $this->providers_model->set_setting('google_token', $token, 
-                                $_SESSION['oauth_provider_id']);
+                        $_SESSION['oauth_provider_id']);
                 $this->providers_model->set_setting('google_calendar', 'primary', 
-                                $_SESSION['oauth_provider_id']);
+                        $_SESSION['oauth_provider_id']);
             } else {
                 echo '<h1>Sync provider id not specified!</h1>';
             }
@@ -75,7 +74,6 @@ class Google extends CI_Controller {
      * be necessary and this will lead to consuming the Google limit for the Calendar API usage.
      * 
      * @param numeric $provider_id Provider record to be synced.
-     * 
      */
     public function sync($provider_id = NULL) {
         try {
@@ -146,7 +144,7 @@ class Google extends CI_Controller {
                 } else {
                     // Appointment is synced with google calendar.
                     try {
-                        $google_event = $this->google_sync->get_event($appointment['id_google_calendar']);
+                        $google_event = $this->google_sync->get_event($provider, $appointment['id_google_calendar']);
                         
                         if ($google_event->status == 'cancelled') {
                             throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
@@ -178,7 +176,8 @@ class Google extends CI_Controller {
             }
             
             // :: ADD GCAL EVENTS THAT ARE NOT PRESENT ON E!A
-            $events = $this->google_sync->get_sync_events($start, $end);
+            $google_calendar = $provider['settings']['google_calendar'];
+            $events = $this->google_sync->get_sync_events($google_calendar, $start, $end);
             
             foreach($events->getItems() as $event) {
                 $results = $this->appointments_model->get_batch(array('id_google_calendar' => $event->getId()));
