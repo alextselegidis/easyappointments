@@ -315,7 +315,6 @@
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
         <h3><?php echo $this->lang->line('new_unavailable_title'); ?></h3>
-        
     </div>
     
     <div class="modal-body">
@@ -361,6 +360,38 @@
         </button>
         <button id="cancel-unavailable" class="btn">
             <?php echo $this->lang->line('cancel'); ?>
+        </button>
+    </div>
+</div>
+
+<?php
+    // --------------------------------------------------------------------
+    //
+    // SELECT GOOGLE CALENDAR
+    //
+    // --------------------------------------------------------------------
+?>
+
+<div id="select-google-calendar" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" 
+                aria-hidden="true">&times;</button>
+        <h3><?php echo $this->lang->line('select_google_calendar'); ?></h3>
+    </div>
+    
+    <div class="modal-body">
+        <p>
+            <?php echo $this->lang->line('select_google_calendar_prompt'); ?>
+        </p>
+        <select id="google-calendar"></select>
+    </div>
+    
+    <div class="modal-footer">
+        <button id="select-calendar" class="btn btn-primary">
+            <?php echo $this->lang->line('select'); ?>
+        </button>
+        <button id="close-calendar" class="btn">
+            <?php echo $this->lang->line('close'); ?>
         </button>
     </div>
 </div>

@@ -264,3 +264,6 @@ $lang['hour'] = 'Hour';
 $lang['minute'] = 'Minute';
 $lang['google_sync_completed'] = 'Google synchronization completed successfully!';
 $lang['google_sync_failed'] = 'Google synchronization failed: Could not establish server connection.';
+$lang['select_google_calendar'] = 'Select Google Calendar';
+$lang['select_google_calendar_prompt'] = 'Select the calendar that you want to sync your appointments. If you do not want to select a specific calendar the default one will be used.';
+$lang['google_calendar_selected'] = 'Google calendar has been successfully selected!';

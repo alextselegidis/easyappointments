@@ -332,9 +332,9 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_disable_provider_sync() {
         try { 
-            if (!isset($_POST['provider_id'])) {
+            if (!isset($_POST['provider_id'])) 
                 throw new Exception('Provider id not specified.');
-            }
+            
             
             if ($this->privileges[PRIV_USERS]['edit'] == FALSE
                     && $this->session->userdata('user_id') != $_POST['provider_id']) {
@@ -1049,25 +1049,25 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_change_language() {
     	try {
-    		// Check if language exists in the available languages.
-    		$found = false;
-    		foreach($this->config->item('available_languages') as $lang) {
-    			if ($lang == $_POST['language']) {
-    				$found = true;
-    				break;
-    			}	
-    		}
-    		
-    		if (!$found)
-    			throw new Exception('Translations for the given language does not exist (' . $_POST['language'] . ').');
-    		
-    		$this->session->set_userdata('language', $_POST['language']);
-    		$this->config->set_item('language', $_POST['language']);
-    		
-    		echo json_encode(AJAX_SUCCESS);
+            // Check if language exists in the available languages.
+            $found = false;
+            foreach($this->config->item('available_languages') as $lang) {
+                if ($lang == $_POST['language']) {
+                    $found = true;
+                    break;
+                }	
+            }
+
+            if (!$found)
+                throw new Exception('Translations for the given language does not exist (' . $_POST['language'] . ').');
+
+            $this->session->set_userdata('language', $_POST['language']);
+            $this->config->set_item('language', $_POST['language']);
+
+            echo json_encode(AJAX_SUCCESS);
     		
     	} catch(Exception $exc) {
-    		echo json_encode(array(
+            echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
             )); 
     	}
@@ -1084,17 +1084,53 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_get_google_calendars() {
     	try {
-    		$this->load->library('google_sync');
-    		$this->load->model('providers_model');
-    		
-    		$calendars = $this->google_sync->get_google_calendars($_POST['provider_id']);
-    		echo json_encode($calendars);
-    		
+            $this->load->library('google_sync');
+            $this->load->model('providers_model');
+
+            if (!isset($_POST['provider_id']))
+                throw new Exception('Provider id is required in order to fetch the google calendars.');
+
+            // Check if selected provider has sync enabled. 
+            $google_sync = $this->providers_model->get_setting('google_sync', $_POST['provider_id']);
+            if ($google_sync) {
+                $google_token = json_decode($this->providers_model->get_setting('google_token', $_POST['provider_id']));
+                $this->google_sync->refresh_token($google_token->refresh_token);
+                $calendars = $this->google_sync->get_google_calendars();
+                echo json_encode($calendars);
+            } else {
+                echo json_encode(AJAX_FAILURE);
+            }
     	} catch(Exception $exc) {
-    		echo json_encode(array(
-    				'exceptions' => array(exceptionToJavaScript($exc))
-    		));
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
     	}
+    }
+    
+    /**
+     * Select a specific google calendar for a provider. 
+     * 
+     * All the appointments will be synced with this particular calendar.
+     * 
+     * @param numeric $_POST['provider_id'] Provider record id.
+     * @param string $_POST['calendar_id'] Google calendar's id.
+     */
+    public function ajax_select_google_calendar() {
+        try {
+            if ($this->privileges[PRIV_USERS]['edit'] == FALSE
+                    && $this->session->userdata('user_id') != $_POST['provider_id']) {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
+            $this->load->model('providers_model');
+            $result = $this->providers_model->set_setting('google_calendar', $_POST['calendar_id'], $_POST['provider_id']);
+            echo json_encode(($result) ? AJAX_SUCCESS : AJAX_FAILURE);
+            
+        } catch (Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
     }
 }
 
