@@ -96,7 +96,7 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-appointment" class="modal hide fade">
+<div id="manage-appointment" class="modal hide fade" data-keyboard="true" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
@@ -310,7 +310,7 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-unavailable" class="modal hide fade">
+<div id="manage-unavailable" class="modal hide fade" data-keyboard="true" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
@@ -371,8 +371,7 @@
     //
     // --------------------------------------------------------------------
 ?>
-
-<div id="select-google-calendar" class="modal hide fade">
+<div id="select-google-calendar" class="modal hide fade" data-keyboard="true" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>

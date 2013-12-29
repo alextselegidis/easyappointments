@@ -267,3 +267,5 @@ $lang['google_sync_failed'] = 'Google Synchronisation fehlgeschlagen: Serververb
 $lang['select_google_calendar'] = 'Wählen Sie Google Kalender';
 $lang['select_google_calendar_prompt'] = 'Wählen Sie den Kalender, den Sie Ihre Termine synchronisieren möchten. Wenn Sie nicht wollen, um einen bestimmten Kalender wählen den Standard, verwendet.';
 $lang['google_calendar_selected'] = 'Google-Kalender ausgewählt wurde erfolgreich!';
+$lang['oops_something_went_wrong'] = 'Oops! Etwas ist schiefgelaufen!';
+$lang['could_not_add_to_google_calendar'] = 'Ihr Termin konnte nicht in den Google-Kalender-Konto hinzugefügt werden.';

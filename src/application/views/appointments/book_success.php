@@ -14,9 +14,6 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
         
     <?php // INCLUDE CSS FILES ?>
     <link 
@@ -169,13 +166,13 @@
                     $('#success-frame').append(
                         '<br><br>' +
                         '<div class="alert alert-error">' + 
-                            '<h4>Oops! Something Went Wrong!</h4>' + 
+                            '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' + 
                             '<p>' + 
-                                'Your appointment could not be added to your ' +
-                                'Google Calendar account.' +
+                                EALang['could_not_add_to_google_calendar'] +
                                 '<pre>' + exc + '</pre>' +
                             '</p>' +
                         '</div>');
+                    console.log('Add To Google Calendar Exception', exc);
                 }
             }   
         });
@@ -207,5 +204,8 @@
             }
         ?>
     </div>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
 </body>
 </html>

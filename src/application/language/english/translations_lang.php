@@ -267,3 +267,5 @@ $lang['google_sync_failed'] = 'Google synchronization failed: Could not establis
 $lang['select_google_calendar'] = 'Select Google Calendar';
 $lang['select_google_calendar_prompt'] = 'Select the calendar that you want to sync your appointments. If you do not want to select a specific calendar the default one will be used.';
 $lang['google_calendar_selected'] = 'Google calendar has been successfully selected!';
+$lang['oops_something_went_wrong'] = 'Oops! Something Went Wrong!';
+$lang['could_not_add_to_google_calendar'] = 'Your appointment could not be added to your Google Calendar account.';

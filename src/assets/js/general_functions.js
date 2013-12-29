@@ -60,7 +60,7 @@ var GeneralFunctions = {
             height: "auto",
             resizable: false,
             buttons: messageButtons,
-            closeOnEscape: false
+            closeOnEscape: true
         });
 
         jQuery("#message_box").dialog("open"); 
