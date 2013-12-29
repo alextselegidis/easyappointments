@@ -128,7 +128,7 @@ var FrontendBook = {
                 });
             });
 
-            FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            FrontendBook.getAvailableHours($('#select-date').val());
             FrontendBook.updateConfirmFrame();
             FrontendBook.updateServiceDescription($('#select-service').val(), $('#service-description'));
         });

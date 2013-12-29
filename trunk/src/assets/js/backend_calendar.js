@@ -440,7 +440,6 @@ var BackendCalendar = {
                 messageButtons[EALang['cancel']] = function() {
                     $('#message_box').dialog('close');
                 };
-                
 
                 GeneralFunctions.displayMessageBox(EALang['delete_appointment_title'], 
                         EALang['write_appointment_removal_reason'], messageButtons);
@@ -1564,7 +1563,9 @@ var BackendCalendar = {
         $(jsEvent.target).popover('toggle');
         
         // Fix popover position
-        if ($('.popover').position().top < 200) $('.popover').css('top', '200px');
+        if ($('.popover').length > 0) {
+            if ($('.popover').position().top < 200) $('.popover').css('top', '200px');
+        }
     },
     
     /**

@@ -1,5 +1,5 @@
 <?php
-// Greek
+// Hungarian
 $lang['page_title'] = 'Κράτηση Ραντεβού Με';
 $lang['step_one_title'] = 'Επιλογή Υπηρεσίας & Πάροχου';
 $lang['select_service'] = 'Επιλογή Υπηρεσίας';
