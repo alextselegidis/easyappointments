@@ -18,12 +18,12 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      * 
      * Filter the provider records with the given key string.
      */
-    $('#filter-providers form').submit(function() {
-        event.preventDefault();
+    $('#filter-providers form').submit(function(event) {
         var key = $('#filter-providers .key').val();
         $('.selected-row').removeClass('selected-row');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter(key);
+        return false;
     });
 
     /**

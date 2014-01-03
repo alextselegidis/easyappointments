@@ -116,12 +116,12 @@ ServicesHelper.prototype.bindEventHandlers = function() {
     /**
      * Event: Filter Services Form "Submit"
      */
-    $('#filter-services form').submit(function() {
-        event.preventDefault();
+    $('#filter-services form').submit(function(event) {
         var key = $('#filter-services .key').val();
         $('#filter-services .selected-row').removeClass('selected-row');
         BackendServices.helper.resetForm();
         BackendServices.helper.filter(key);
+        return false;
     });
 
     /**
@@ -343,7 +343,6 @@ ServicesHelper.prototype.resetForm = function() {
     $('#filter-services .selected-row').removeClass('selected-row');
     $('#filter-services button').prop('disabled', false);
     $('#filter-services .results').css('color', '');
-    $('#filter-services .key').val('');
 };
 
 /**
@@ -478,12 +477,12 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
     /**
      * Event: Filter Categories Form "Submit"
      */
-    $('#filter-categories form').submit(function() {
-        event.preventDefault();
+    $('#filter-categories form').submit(function(event) {
         var key = $('#filter-categories .key').val();
         $('.selected-row').removeClass('selected-row');
         BackendServices.helper.resetForm();
         BackendServices.helper.filter(key);
+        return false;
     });
     
     /**
@@ -724,7 +723,6 @@ CategoriesHelper.prototype.resetForm = function() {
     $('#filter-categories .selected-row').removeClass('selected-row');
     $('#filter-categories .results').css('color', '');
     $('#filter-categories button').prop('disabled', false);
-    $('#filter-categories .key').val('');
 };
 
 /**

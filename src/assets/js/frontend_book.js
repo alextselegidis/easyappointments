@@ -212,9 +212,7 @@ var FrontendBook = {
              * once the appointment is cancelled, it will be delete from the 
              * database.
              */
-            $('#cancel-appointment').click(function() {
-                event.preventDefault();
-                
+            $('#cancel-appointment').click(function(event) {
                 var dialogButtons = {};
                 dialogButtons['OK'] = function() {
                     if ($('#cancel-reason').val() === '') {
@@ -234,6 +232,7 @@ var FrontendBook = {
                         
                 $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
                 $('#cancel-reason').css('width', '353px');
+                return false;
             });
         }
         
@@ -244,9 +243,7 @@ var FrontendBook = {
          * in the meantime the selected appointment date/time wasn't reserved by
          * another customer or event. 
          */
-        $('#book-appointment-form').submit(function() {
-            event.preventDefault();
-            
+        $('#book-appointment-form').submit(function(event) {
             var formData = jQuery.parseJSON($('input[name="post_data"]').val());
             
             var postData = {
@@ -284,6 +281,8 @@ var FrontendBook = {
                     FrontendBook.getAvailableHours($('#select-date').val());
                 }
             }, 'json');
+            
+            return false;
         });
     },
     
