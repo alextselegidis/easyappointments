@@ -1,0 +1,14 @@
+#Information about getting involved with the project development.
+
+= Introduction =
+
+Easy!Appointments is an open source project and thus the connection with the users community is stronger than commercial projects. People can contribute in the development and spread of this project and make it event better so that they themselves can take advantage of it in order to fullfill their business needs. Bellow are described the ways that you can help E!A get better.
+
+
+= Testing =
+
+The most important goal of Easy!Appointments is performance and stability and that means that EVERYTHING MUST WORK AS EXPECTED. Even though that the project has been tested thoroughly during its Beta phase it is important that bugs might still exist and if anyone tracks down one he must register it in order to be fixed.
+
+= Suggestions =
+
+= Translation =
