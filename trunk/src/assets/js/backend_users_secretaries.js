@@ -18,12 +18,12 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
      * 
      * Filter the secretary records with the given key string.
      */
-    $('#filter-secretaries form').submit(function() {
-        event.preventDefault();
+    $('#filter-secretaries form').submit(function(event) {
         var key = $('#filter-secretaries .key').val();
         $('#filter-secretaries .selected-row').removeClass('selected-row');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter(key);
+        return false;
     });
 
     /**

@@ -60,12 +60,12 @@ CustomersHelper.prototype.bindEventHandlers = function() {
     /**
      * Event: Filter Customers Form "Submit"
      */
-    $('#filter-customers form').submit(function() {
-        event.preventDefault();
+    $('#filter-customers form').submit(function(event) {
         var key = $('#filter-customers .key').val();
         $('#filter-customers .selected-row').removeClass('selected-row');
         BackendCustomers.helper.resetForm();
         BackendCustomers.helper.filter(key);
+        return false;
     });
     
     /**

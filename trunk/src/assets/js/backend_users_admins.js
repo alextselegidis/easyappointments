@@ -18,12 +18,12 @@ AdminsHelper.prototype.bindEventHandlers = function() {
      * 
      * Filter the admin records with the given key string.
      */
-    $('#filter-admins form').submit(function() {
-        event.preventDefault();
+    $('#filter-admins form').submit(function(event) {
         var key = $('#filter-admins .key').val();
         $('#filter-admins .selected-row').removeClass('selected-row');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter(key);
+        return false;
     });
     
     /**

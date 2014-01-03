@@ -73,7 +73,7 @@
              * Make an ajax call to the server and check whether the user's credentials are right. 
              * If yes then redirect him to his desired page, otherwise display a message.
              */
-            $('form').submit(function() {
+            $('form').submit(function(event) {
                 event.preventDefault(); 
                 
                 var postUrl = GlobalVariables.baseUrl + 'user/ajax_forgot_password';
