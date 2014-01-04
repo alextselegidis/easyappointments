@@ -1,8 +1,9 @@
-VERSION 1.0
-===========
-The first major release will include translated interface (English, 
-Greek, German) and the user will also be able to select a specific 
-calendar for synchronization.
+VERSION 0.7.1 Beta
+==================
+This beta release contains fixes in JavaScript that occured
+with Firefox. It is also the first version that localization
+is applied and the ability to select a specific google calendar
+for synchronizatioan.
 
 
 Official Easy!Appointments Website:
@@ -14,4 +15,6 @@ https://plus.google.com/communities/105333709485142846840
 Visit the Support Group for any help on the project: 
 http://groups.google.com/group/easy-appointments
 
+E!A Blog for news and information:
+http://easyappointments.wordpress.com
  
