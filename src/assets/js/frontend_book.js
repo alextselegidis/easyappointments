@@ -243,7 +243,7 @@ var FrontendBook = {
          * in the meantime the selected appointment date/time wasn't reserved by
          * another customer or event. 
          */
-        $('#book-appointment-form').submit(function(event) {
+        $('#book-appointment-submit').click(function(event) {
             var formData = jQuery.parseJSON($('input[name="post_data"]').val());
             
             var postData = {
@@ -269,7 +269,7 @@ var FrontendBook = {
                             + 'the check appointment time availability could not be completed. '
                             + 'The following issues occured:');
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return;
+                    return false;
                 } 
                 
                 if (response === true) {
@@ -281,8 +281,6 @@ var FrontendBook = {
                     FrontendBook.getAvailableHours($('#select-date').val());
                 }
             }, 'json');
-            
-            return false;
         });
     },
     

@@ -191,7 +191,7 @@ var GeneralFunctions = {
      * user opens the "Details" collapse component.
      * 
      * @param {array} exceptions Contains the exceptions to be displayed.
-     * @returns {String} Returns the html markup for the exceptions.
+     * @returns {string} Returns the html markup for the exceptions.
      */
     exceptionsToHtml: function(exceptions) {
         var html = 
@@ -200,7 +200,7 @@ var GeneralFunctions = {
                         '<div class="accordion-heading">' +
                             '<a class="accordion-toggle" data-toggle="collapse" ' +
                                     'data-parent="#error-accordion" href="#error-technical">' + 
-                                'Details' + 
+                                EALang['details'] + 
                             '</a>' +
                         '</div>';
         
@@ -222,7 +222,7 @@ var GeneralFunctions = {
      * This method parse the json encoded strings that are fetched by ajax calls.
      * 
      * @param {array} exceptions Exception array returned by an ajax call.
-     * @returns {Array} Returns the parsed js objects.
+     * @returns {array} Returns the parsed js objects.
      */
     parseExceptions: function(exceptions) {
         var parsedExceptions = new Array();

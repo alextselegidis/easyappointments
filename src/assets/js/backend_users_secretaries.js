@@ -97,18 +97,17 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
     $('#delete-secretary').click(function() {
         var secretaryId = $('#secretary-id').val();
 
-        var messageBtns = {
-            'Delete': function() {
-                BackendUsers.helper.delete(secretaryId);
-                $('#message_box').dialog('close');
-            },
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['delete']] = function() {
+            BackendUsers.helper.delete(secretaryId);
+            $('#message_box').dialog('close');
+        };
+        messageBtns[EALang['cancel']] = function() {
+            $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox('Delete Secretary', 'Are you sure that you want '
-                + 'to delete this record? This action cannot be undone.', messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['delete_secretary'], 
+                EALang['delete_record_prompt'], messageBtns);
     });
 
     /**
@@ -188,7 +187,7 @@ SecretariesHelper.prototype.save = function(secretary) {
         //console.log('Save Secretary Response:', response);
         ////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Secretary saved successfully!');
+        Backend.displayNotification(EALang['secretary_saved']);
         BackendUsers.helper.resetForm();
         $('#filter-secretaries .key').val('');
         BackendUsers.helper.filter('', response.id, true);
@@ -209,7 +208,7 @@ SecretariesHelper.prototype.delete = function(id) {
         //console.log('Delete secretary response:', response);
         //////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Secretary deleted successfully!');
+        Backend.displayNotification(EALang['secretary_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-secretaries .key').val());
     }, 'json');

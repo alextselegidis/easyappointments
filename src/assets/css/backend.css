@@ -665,9 +665,13 @@ padding: 4px 7px;
 }
 
 #settings-page #about .current-version {
-    padding: 15px 10px;
+    padding: 9px 10px;
     background: #F7F7F7;
     font-size: 15px;
     color: #7E7E7E;
     box-shadow: inset 0px 0px 5px #E0E0E0;  
+}
+
+#settings-page #update-ea {
+    margin-left: 12px;
 }
