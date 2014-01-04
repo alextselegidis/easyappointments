@@ -7,7 +7,7 @@ class Migration_Specific_calendar_sync extends CI_Migration {
 			'google_calendar' => array(
 				'type' => 'VARCHAR',
 				'constraint' => '128',
-				'default' => 'null')
+				'null' => TRUE)
 		);
 		
 		$this->dbforge->add_column('ea_user_settings', $fields);
@@ -17,9 +17,3 @@ class Migration_Specific_calendar_sync extends CI_Migration {
 		$this->dbforge->drop_column('ea_user_settings', 'google_calendar');
 	}
 }
-
-/*
- * This migration class adds the "google_calendar" field to the database 
- * "user_settings" table in order to be able to select a specific calendar 
- * for google synchronization. 
- */
