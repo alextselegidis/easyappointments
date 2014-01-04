@@ -316,6 +316,9 @@
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }
+
+                echo '<button id="update-ea" class="btn btn-success">'  
+                        . $this->lang->line('update') . '</button>';
             ?>
         </div>
         
@@ -339,6 +342,10 @@
             |
             <a href="https://code.google.com/p/easy-appointments/issues/list">
                 <?php echo $this->lang->line('project_issues'); ?>
+            </a>
+            |
+            <a href="http://easyappointments.wordpress.com">
+                E!A Blog
             </a>
         </p>
 		

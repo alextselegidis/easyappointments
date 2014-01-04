@@ -1863,7 +1863,8 @@ var BackendCalendar = {
             timeOnlyTitle: EALang['select_time'],
             timeText: EALang['time'],
             hourText: EALang['hour'],
-            minuteText: EALang['minutes']
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#start-datetime').val(startDatetime);
         
@@ -1890,7 +1891,8 @@ var BackendCalendar = {
             timeOnlyTitle: EALang['select_time'],
             timeText: EALang['time'],
             hourText: EALang['hour'],
-            minuteText: EALang['minutes']
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#end-datetime').val(endDatetime);
     },
@@ -1950,6 +1952,8 @@ var BackendCalendar = {
     resetUnavailableDialog: function() {
         var $dialog = $('#manage-unavailable');
         
+        $dialog.find('#unavailable-id').val('');
+
         // Set default time values
         var start = new Date().toString('dd/MM/yyyy HH:mm');
         var end = new Date().addHours(1).toString('dd/MM/yyyy HH:mm');
@@ -1977,7 +1981,8 @@ var BackendCalendar = {
             timeOnlyTitle: EALang['select_time'],
             timeText: EALang['time'],
             hourText: EALang['hour'],
-            minuteText: EALang['minutes']
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#unavailable-start').val(start);
         
@@ -2004,7 +2009,8 @@ var BackendCalendar = {
             timeOnlyTitle: EALang['select_time'],
             timeText: EALang['time'],
             hourText: EALang['hour'],
-            minuteText: EALang['minutes']
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#unavailable-end').val(end);
         

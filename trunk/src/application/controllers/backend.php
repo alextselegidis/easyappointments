@@ -252,6 +252,34 @@ class Backend extends CI_Controller {
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
+
+    /**
+     * This method will update the installation to the latest available 
+     * version in the server. IMPORTANT: The code files must exist in the
+     * server, this method will not fetch any new files but will update 
+     * the database schema.
+     *
+     * This method can be used either by loading the page in the browser
+     * or by an ajax request. But it will answer with json encoded data.
+     */
+    public function update() {
+        try {
+            if (!$this->hasPrivileges(PRIV_SYSTEM_SETTINGS, TRUE)) 
+                throw new Exception('You do not have the required privileges for this task.');
+
+            $this->load->library('migration');
+
+            if (!$this->migration->current()) 
+                throw new Exception($this->migration->error_string());
+            
+            echo json_encode(AJAX_SUCCESS);
+
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }       
+    }
 }
 
 /* End of file backend.php */

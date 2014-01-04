@@ -349,7 +349,7 @@
                         <?php echo $this->lang->line('back'); ?>
                     </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
-                        <button type="submit" class="btn btn-success">
+                        <button id="book-appointment-submit" type="button" class="btn btn-success">
                             <i class="icon-ok icon-white"></i>
                             <?php
                                 echo (!$manage_mode) ? $this->lang->line('confirm')
