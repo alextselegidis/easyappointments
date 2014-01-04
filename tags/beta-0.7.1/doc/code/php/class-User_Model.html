@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class User_Model</title>
+
+	<script type="text/javascript" src="resources/combined.js?955602237"></script>
+	<script type="text/javascript" src="elementlist.js?679583101"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-None.html">None</a>
+						</li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Admins_Model.html">Admins_Model</a></li>
+				<li><a href="class-Appointments.html">Appointments</a></li>
+				<li><a href="class-Appointments_Model.html">Appointments_Model</a></li>
+				<li><a href="class-Backend.html">Backend</a></li>
+				<li><a href="class-Backend_api.html">Backend_api</a></li>
+				<li><a href="class-Customers_Model.html">Customers_Model</a></li>
+				<li><a href="class-Errors.html">Errors</a></li>
+				<li><a href="class-Google.html">Google</a></li>
+				<li><a href="class-Providers_Model.html">Providers_Model</a></li>
+				<li><a href="class-Roles_Model.html">Roles_Model</a></li>
+				<li><a href="class-Secretaries_Model.html">Secretaries_Model</a></li>
+				<li><a href="class-Services_Model.html">Services_Model</a></li>
+				<li><a href="class-Settings_Model.html">Settings_Model</a></li>
+				<li><a href="class-Test.html">Test</a></li>
+				<li><a href="class-User.html">User</a></li>
+				<li class="active"><a href="class-User_Model.html">User_Model</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-None.html" title="Summary of None"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class User_Model</h1>
+
+
+	<div class="description">
+	
+<p>Contains current user's methods.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+CI_Model
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>User_Model</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-User_Model.html#3-137" title="Go to source code">user_model.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-User_Model.html#7-12" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+<p>Class Constructor</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Class Constructor</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_settings" id="_get_settings">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_settings">#</a>
+		<code><a href="source-class-User_Model.html#14-25" title="Go to source code">get_settings</a>( <span>numeric <var>$user_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns the user settings from the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns the user settings from the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$user_id</var></dt>
+					<dd><code>numeric</code><br>$user_id User record id of which the settings will be returned.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns an array with user settings.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="save_settings" id="_save_settings">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_save_settings">#</a>
+		<code><a href="source-class-User_Model.html#27-54" title="Go to source code">save_settings</a>( <span>array <var>$user</var></span> )</code>
+
+		<div class="description short">
+			
+<p>This method saves the user settings into the database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>This method saves the user settings into the database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$user</var></dt>
+					<dd><code>array</code><br>$user Contains the current users settings.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>Returns the operation result.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_salt" id="_get_salt">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_salt">#</a>
+		<code><a href="source-class-User_Model.html#56-65" title="Go to source code">get_salt</a>( <span>string <var>$username</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Retrieve user's salt from database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Retrieve user's salt from database.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$username</var></dt>
+					<dd><code>string</code><br>$username This will be used to find the user record.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the salt db value.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="check_login" id="_check_login">
+
+		<td class="attributes"><code>
+			 public 
+			array|null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_check_login">#</a>
+		<code><a href="source-class-User_Model.html#67-91" title="Go to source code">check_login</a>( <span>string <var>$username</var></span>, <span>type <var>$password</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Performs the check of the given user credentials.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Performs the check of the given user credentials.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$username</var></dt>
+					<dd><code>string</code><br>$username Given user's name.</dd>
+					<dt><var>$password</var></dt>
+					<dd><code>type</code><br>$password Given user's password (not hashed yet).</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array|null</code><br>Returns the session data of the logged in user or null on failure.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_user_display_name" id="_get_user_display_name">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_user_display_name">#</a>
+		<code><a href="source-class-User_Model.html#93-104" title="Go to source code">get_user_display_name</a>( <span>numeric <var>$user_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the given user's display name (first + last name).</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the given user's display name (first + last name).</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$user_id</var></dt>
+					<dd><code>numeric</code><br>$user_id The given user record id.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the user display name.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="regenerate_password" id="_regenerate_password">
+
+		<td class="attributes"><code>
+			 public 
+			string|boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_regenerate_password">#</a>
+		<code><a href="source-class-User_Model.html#106-136" title="Go to source code">regenerate_password</a>( <span>string <var>$username</var></span>, <span>string <var>$email</var></span> )</code>
+
+		<div class="description short">
+			
+<p>If the given arguments correspond to an existing user record, generate a new
+password and send it with an email.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>If the given arguments correspond to an existing user record, generate a new
+password and send it with an email.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$username</var></dt>
+					<dd><code>string</code><br>$username</dd>
+					<dt><var>$email</var></dt>
+					<dd><code>string</code><br>$email</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string|boolean</code><br>Returns the new password on success or FALSE on failure.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
