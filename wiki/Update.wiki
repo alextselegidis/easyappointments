@@ -1,7 +1,7 @@
 #summary This page will guide you through the update procedure.
 #labels Featured
 
-= Introduction =
+= Update Easy!Appointments =
 
 This page will guide you through the update procedure of your Easy!Appointments installation. You will need to follow the steps below precisely in order to have successfull results.
 
