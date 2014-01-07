@@ -1,4 +1,6 @@
+#summary Learn the in which ways you can get involved with the project development!
 #labels Featured
+
 = Get Involved =
 
 Easy!Appointments is an open source project and thus the connection with the users community is stronger than commercial projects. People can contribute in the development and spread of this project and make it event better so that they themselves can take advantage of it in order to fullfill their business needs. Bellow are described the ways that you can help E!A get better.
