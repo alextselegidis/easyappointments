@@ -1,5 +1,5 @@
 #labels Featured
-= Introduction =
+= Get Involved =
 
 Easy!Appointments is an open source project and thus the connection with the users community is stronger than commercial projects. People can contribute in the development and spread of this project and make it event better so that they themselves can take advantage of it in order to fullfill their business needs. Bellow are described the ways that you can help E!A get better.
 
@@ -17,6 +17,8 @@ Everything you might suggest about the project will be taken into concern and is
 Since version 1.0 Easy!Appointments supports a localized environment so that people that are not familiar with English can use the application more easily. If you want to help with the translation process download the "translations.xls" file and once done send it back to [mailto:alextselegidis@gmail.com alextselegidis@gmail.com]. The translation will be applied in E!A within the next release and you will be off course credited for your work.
 
 [https://easy-appointments.googlecode.com/svn/trunk/doc/translations.xls translations.xls]
+
+I would like to thank Stefan Tselegidis (German), Zsolt Zala(Hungarian) and Andre Tavares (Portuguese) for their work on the translations.
 
 == Stats ==
 
