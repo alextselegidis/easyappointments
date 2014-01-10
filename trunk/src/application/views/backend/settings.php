@@ -316,9 +316,6 @@
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }
-
-                echo '<button id="update-ea" class="btn btn-success">'  
-                        . $this->lang->line('update') . '</button>';
             ?>
         </div>
         

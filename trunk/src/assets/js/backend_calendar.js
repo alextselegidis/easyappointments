@@ -95,7 +95,7 @@ var BackendCalendar = {
         
         // Fill the select listboxes of the page.
         if (GlobalVariables.availableProviders.length > 0) {
-            var optgroupHtml = '<optgroup label="Providers" type="providers-group">';
+            var optgroupHtml = '<optgroup label="' + EALang['providers'] + '" type="providers-group">';
             $.each(GlobalVariables.availableProviders, function(index, provider) {
                 var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
                         ? 'true' : 'false';
@@ -111,7 +111,7 @@ var BackendCalendar = {
         }
             
         if (GlobalVariables.availableServices.length > 0) {
-            optgroupHtml = '<optgroup label="Services" type="services-group">';
+            optgroupHtml = '<optgroup label="' + EALang['services'] + '" type="services-group">';
             $.each(GlobalVariables.availableServices, function(index, service) {
                 optgroupHtml += '<option value="' + service['id'] + '" ' + 
                         'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 

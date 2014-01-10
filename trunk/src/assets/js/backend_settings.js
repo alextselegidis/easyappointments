@@ -189,23 +189,6 @@ var BackendSettings = {
                 }
             }, 'json');
         });
-
-        /**
-         * Event: Update Easy!Appointments DB Schema To Latest Version
-         */
-        $('#update-ea').click(function() {
-            var postUrl = GlobalVariables.baseUrl + 'backend/update';
-            $.post(postUrl, {}, function(response) {
-                //////////////////////////////////////////////
-                console.log('Update EA Response', response);
-                //////////////////////////////////////////////
-
-                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-
-                Backend.displayNotification(EALang['ea_update_success']);
-
-            }, 'json');
-        });
     }
 };
 
