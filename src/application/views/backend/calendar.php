@@ -214,7 +214,7 @@
                     </button>
                     <input type="text" id="filter-existing-customers"
                            placeholder="<?php echo $this->lang->line('type_to_filter_customers'); ?>" 
-                           style="display: none;" class="input-medium"/>
+                           style="display: none;" class="input-medium span4"/>
                     <div id="existing-customers-list" style="display: none;"></div>
                 </legend>
 

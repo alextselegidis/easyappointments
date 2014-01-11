@@ -548,7 +548,7 @@ var BackendCalendar = {
                     $dialog.find('.modal-message').text(EALang['unexpected_issues_occurred']);
                     $dialog.find('.modal-message').addClass('alert-error');
                     $dialog.find('.modal-message').fadeIn();
-                    return;
+                    return false;
                 }
                 
                 // Display success message to the user.
@@ -882,7 +882,7 @@ var BackendCalendar = {
                     $('#address').val(c.address);
                     $('#city').val(c.city);
                     $('#zip-code').val(c.zip_code);
-                    $('#customer-code').val(c.notes);
+                    $('#customer-notes').val(c.notes);
                     return false;
                 }
             });
@@ -1920,13 +1920,13 @@ var BackendCalendar = {
                 }
             }); 
             if (missingRequiredField) {
-                throw 'Fields with * are required!';                       
+                throw EALang['fields_are_required'];                       
             }
              
             // :: CHECK EMAIL ADDRESS
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
                 $dialog.find('#email').parents().eq(1).addClass('error');
-                throw 'Invalid email address!';
+                throw EALang['invalid_email'];
             }
             
             // :: CHECK APPOINTMENT START AND END TIME
@@ -1935,7 +1935,7 @@ var BackendCalendar = {
             if (start > end) {
                 $dialog.find('#start-datetime').parents().eq(1).addClass('error');
                 $dialog.find('#end-datetime').parents().eq(1).addClass('error');
-                throw 'Appointment start must be prior to appointment end date!';
+                throw EALang['start_date_before_end_error'];
             }
             
             return true;

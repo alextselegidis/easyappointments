@@ -265,7 +265,7 @@ class Backend extends CI_Controller {
     public function update() {
         try {
             if (!$this->hasPrivileges(PRIV_SYSTEM_SETTINGS, TRUE)) 
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required privileges for this task!');
 
             $this->load->library('migration');
 

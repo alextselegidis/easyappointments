@@ -21,7 +21,7 @@ class Customers_Model extends CI_Model {
      */
     public function add($customer) {
         // Validate the customer data before doing anything.
-        !$this->validate($customer);
+        $this->validate($customer);
         
         // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).	
         if ($this->exists($customer) && !isset($customer['id'])) {
@@ -103,6 +103,12 @@ class Customers_Model extends CI_Model {
      * @return int Returns the updated record id.
      */
     private function update($customer) {        
+        // Do not update empty string values.
+        foreach ($customer as $key => $value) {
+            if ($value === '') 
+                unset($customer[$key]);
+        }
+        
         $this->db->where('id', $customer['id']);
         if (!$this->db->update('ea_users', $customer)) {
             throw new Exception('Could not update customer to the database.');
@@ -147,15 +153,13 @@ class Customers_Model extends CI_Model {
     }
     
     /**
-     * Validate customer data before the insert or 
-     * update operation is executed.
+     * Validate customer data before the insert or update operation is executed.
      * 
      * @param array $customer Contains the customer data.
      * @return bool Returns the validation result.
      */
     public function validate($customer) {
         $this->load->helper('data_validation');
-        
         
         // If a customer id is provided, check whether the record
         // exist in the database.

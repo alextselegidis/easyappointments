@@ -257,6 +257,7 @@ body .jspTrack {
 #filter-existing-customers {
     display: inline-block;
     height: 14px;
+    min-height: 24px;
     font-size: 12px;
 }
 
@@ -312,7 +313,7 @@ body .form-horizontal .controls {
 }
 
 #customers-page #customer-appointments { 
-    height: 250px; 
+    height: 370px; 
     width: 330px;
     border: 4px solid #E2E2E2; 
     margin-bottom: 20px; 
@@ -502,7 +503,7 @@ body .form-horizontal .controls {
 #users-page #provider-services { 
     border: 4px solid #ccc; 
     width: 340px; 
-    height: 140px; 
+    height: 387px; 
     overflow-y: scroll; 
     padding: 7px;
 }

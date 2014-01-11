@@ -81,7 +81,7 @@ class User_Model extends CI_Model {
                 ->select('ea_users.id AS user_id, ea_users.email AS user_email, '
                         . 'ea_roles.slug AS role_slug, ea_user_settings.username')
                 ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'innder')
+                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
                 ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id')
                 ->where('ea_user_settings.username', $username)
                 ->where('ea_user_settings.password', $password)

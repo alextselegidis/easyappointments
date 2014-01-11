@@ -24,6 +24,12 @@ class Test extends CI_Controller {
             return;
         }
         
+        if (ENVIRONMENT !== 'development') {
+            $this->output->set_output('Tests are available only at development environment. '
+                    . 'Please check your "index.php" file settings.');
+            return;
+        }
+        
         $this->load->view('general/test');
         $this->unit_tests->run_all_tests();
     } 

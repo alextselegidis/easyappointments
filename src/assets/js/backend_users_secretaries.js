@@ -359,7 +359,7 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-secretaries .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-secretaries .results').html('<em>No results found ...</em>')
+            $('#filter-secretaries .results').html('<em>' + EALang['no_records_found'] + '</em>')
         }
         
         if (selectId != undefined) {
