@@ -619,7 +619,7 @@ class Appointments extends CI_Controller {
      */
     public function ajax_install() {
         try {
-            // 2nd method using the ci database class.
+            // Create E!A database structure.
             $file_contents = file_get_contents($this->config->item('base_url') . 'assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
@@ -633,7 +633,13 @@ class Appointments extends CI_Controller {
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
             unset($admin['username'], $admin['password']);
-            $this->admins_model->add($admin);
+            $admin['id'] = $this->admins_model->add($admin);
+            
+            $this->load->library('session');
+            $this->session->set_userdata('user_id', $admin['id']);
+            $this->session->set_userdata('user_email', $admin['email']);
+            $this->session->set_userdata('role_slug', DB_SLUG_ADMIN);
+            $this->session->set_userdata('username', $admin['settings']['username']);
             
             // Save company settings
             $this->load->model('settings_model');

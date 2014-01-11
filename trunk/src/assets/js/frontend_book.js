@@ -267,7 +267,7 @@ var FrontendBook = {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
                             + 'the check appointment time availability could not be completed. '
-                            + 'The following issues occured:');
+                            + 'The following issues occurred:');
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return false;
                 } 

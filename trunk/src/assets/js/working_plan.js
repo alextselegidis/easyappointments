@@ -200,7 +200,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         // Reset previous editable tds
         var $previousEdt = $(this).closest('table').find('.editable').get();
         $.each($previousEdt, function(index, edt) {
-           edt.reset();
+            if (edt.reset !== undefined) edt.reset();
         });
 
         // Make all cells in current row editable.

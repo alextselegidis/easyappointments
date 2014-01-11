@@ -12,6 +12,14 @@ class Backend_api extends CI_Controller {
         $this->load->library('session');
         $this->load->model('roles_model');
         $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+        
+        // Set user's selected language.        
+        if ($this->session->userdata('language')) {
+        	$this->config->set_item('language', $this->session->userdata('language'));
+        	$this->lang->load('translations', $this->session->userdata('language'));
+        } else {
+        	$this->lang->load('translations', $this->config->item('language')); // default
+        }
     }
     
     /**
@@ -176,25 +184,22 @@ class Backend_api extends CI_Controller {
                             ->get_setting('notifications', $provider['id']);
                 
                 if (!$manage_mode) {
-                    $customer_title = 'Your appointment has been successfully booked!';
-                    $customer_message = 'Thank you for arranging an appointment with us. '   
-                            . 'Below you can see the appointment details. Make changes '  
-                            . 'by clicking the appointment link.';
+                    $customer_title = $this->lang->line('appointment_booked');
+                    $customer_message = $this->lang->line('thank_your_for_appointment');
                     $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                             . $appointment['hash'];
 
-                    $provider_title = 'A new appointment has been added to your plan.';
-                    $provider_message = 'You can make changes by clicking the appointment '  
-                            . 'link below';
+                    $provider_title = $this->lang->line('appointment_added_to_your_plan');
+                    $provider_message = $this->lang->line('appointment_link_description');
                     $provider_link = $this->config->item('base_url') . 'backend/index/' 
                             . $appointment['hash'];
                 } else {
-                    $customer_title = 'Appointment changes have been successfully saved!';
+                    $customer_title = $this->lang->line('appointment_changes_saved');
                     $customer_message = '';
                     $customer_link = $this->config->item('base_url') . 'appointments/index/' 
                             . $appointment['hash'];
 
-                    $provider_title = 'Appointment changes have been successfully saved!';
+                    $provider_title = $this->lang->line('appointment_details_changed');
                     $provider_message = '';
                     $provider_link = $this->config->item('base_url') . 'backend/index/' 
                             . $appointment['hash'];
