@@ -48,13 +48,13 @@ class Backend_api extends CI_Controller {
                 $where_id = 'id_users_provider';
             } else { 
                 $where_id = 'id_services';
-            }
-
+            }            
+            
             // Get appointments
             $where_clause = array(
                 $where_id => $_POST['record_id'],
-                'start_datetime >=' => $_POST['start_date'],
-                'end_datetime <=' => $_POST['end_date'],
+                //'start_datetime >=' => $_POST['start_date'],
+                //'end_datetime <=' => $_POST['end_date'],
                 'is_unavailable' => FALSE
             );
             
@@ -70,8 +70,8 @@ class Backend_api extends CI_Controller {
             if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
                 $where_clause = array(
                     $where_id => $_POST['record_id'],
-                    'start_datetime >=' => $_POST['start_date'],
-                    'end_datetime <=' => $_POST['end_date'],
+                    //'start_datetime >=' => $_POST['start_date'],
+                    //'end_datetime <=' => $_POST['end_date'],
                     'is_unavailable' => TRUE
                 );
                 
