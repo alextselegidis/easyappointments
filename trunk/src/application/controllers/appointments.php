@@ -480,7 +480,7 @@ class Appointments extends CI_Controller {
         $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), true);
         
         $where_clause = array(
-            'DATE(start_datetime)' => date('Y-m-d', strtotime($selected_date)),
+            //'DATE(start_datetime)' => date('Y-m-d', strtotime($selected_date)),
             'id_users_provider' => $provider_id
         );     
         
@@ -542,10 +542,10 @@ class Appointments extends CI_Controller {
         foreach($reserved_appointments as $appointment) {
             foreach($available_periods_with_appointments as $index => &$period) {
             
-                $a_start = date('H:i', strtotime($appointment['start_datetime']));
-                $a_end = date('H:i', strtotime($appointment['end_datetime']));
-                $p_start = date('H:i', strtotime($period['start']));
-                $p_end = date('H:i', strtotime($period['end']));
+                $a_start = strtotime($appointment['start_datetime']);
+                $a_end =  strtotime($appointment['end_datetime']);
+                $p_start = strtotime($selected_date .  ' ' . $period['start']);
+                $p_end = strtotime($selected_date .  ' ' .$period['end']);
 
                 if ($a_start <= $p_start && $a_end <= $p_end && $a_end <= $p_start) {
                     // The appointment does not belong in this time period, so we
@@ -553,25 +553,25 @@ class Appointments extends CI_Controller {
                 } else if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start) {
                     // The appointment starts before the period and finishes somewhere inside.
                     // We will need to break this period and leave the available part.
-                    $period['start'] = $a_end;
+                    $period['start'] = date('H:i', $a_end);
 
                 } else if ($a_start >= $p_start && $a_end <= $p_end) {
                     // The appointment is inside the time period, so we will split the period
                     // into two new others.
                     unset($available_periods_with_appointments[$index]);
                     $available_periods_with_appointments[] = array(
-                        'start' => $p_start,
-                        'end' => $a_start
+                        'start' => date('H:i', $p_start),
+                        'end' => date('H:i', $a_start)
                     );
                     $available_periods_with_appointments[] = array(
-                        'start' => $a_end,
-                        'end' => $p_end
+                        'start' => date('H:i', $a_end),
+                        'end' => date('H:i', $p_end)
                     );
 
                 } else if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end) {
                     // The appointment starts in the period and finishes out of it. We will
                     // need to remove the time that is taken from the appointment.
-                    $period['end'] = $a_start;
+                    $period['end'] = date('H:i', $a_start);
 
                 } else if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end) {
                     // The appointment does not belong in the period so do not change anything.
