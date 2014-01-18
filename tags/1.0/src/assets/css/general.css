@@ -1,0 +1,68 @@
+body .custom-qtip {
+    border: 2px solid #AFD8C1;
+    background: #EFFDF6;
+    font-size: 12px;
+    line-height: 20px;
+    color: #258D53;
+    border-radius: 6px;
+}
+
+body .ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+body .ui-draggable .ui-dialog-titlebar {
+    background: #3DD481;
+    color: #FFF;
+    text-shadow: 1px 1px 0px #327451;
+    padding: 14px 10px;
+    border-bottom: 4px solid #1A865F;
+    margin-bottom: 10px;
+}
+
+body .ui-dialog {
+    padding: 0;
+    z-index: 2000;
+}
+
+body .ui-dialog .ui-dialog-buttonpane {
+    padding: .3em 1em .3em .4em;
+}
+
+.breaks tr:hover td {
+    background: #FFFFC2 !important;
+}
+
+.working-plan td {
+    vertical-align: middle;
+}
+
+.breaks td  {
+    vertical-align: middle;
+}
+
+body .ui-icon, .ui-widget-content .ui-icon {
+    background-image: url(libs/jquery/images/ui-icons_52b799_256x240.png);
+}
+
+li.language:hover {
+	cursor: pointer;
+	color: #005580;
+}
+
+#select-language {
+	cursor: pointer;
+}
+
+/* JQUERY UI DATETIME PICKER ADDON
+   ------------------------------------------------------------------------- */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }

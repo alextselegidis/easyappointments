@@ -1,0 +1,20 @@
+VERSION 1.0
+===========
+Easy!Appointments now supports multilingual interface (English,
+German, Greek, Hungarian & Portuguese)
+
+I would like to thank Stefan Tselegidis (German), Zsolt Zala(Hungarian) and Andre Tavares (Portuguese) for their work on the translations.
+
+
+Official Easy!Appointments Website:
+http://easyappointments.org
+
+Check the Google+ Community for development updates:
+https://plus.google.com/communities/105333709485142846840
+
+Visit the Support Group for any help on the project: 
+http://groups.google.com/group/easy-appointments
+
+E!A Blog for news and information:
+http://easyappointments.wordpress.com
+ 

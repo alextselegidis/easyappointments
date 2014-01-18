@@ -1,0 +1,678 @@
+/**
+ * BACKEND CSS FILE FOR EASY!APPOINTMENTS
+ */
+
+root { 
+    display: block;
+}
+
+/* BACKEND GENERAL ELEMENTS
+   -------------------------------------------------------------------- */
+#header {
+    height: 70px;
+    background-color: #35B66F;
+    border-bottom: 4px solid #247A4B;
+}
+
+#header #header-logo { 
+    display: inline-block; 
+    height: 60px; 
+    margin: 10px 15px 0px 15px; 
+}
+
+#header #header-logo img { 
+    float: left; 
+    width: 50px; 
+    height: 50px; 
+    margin-right: 6px; 
+}
+
+#header #header-logo span { 
+    float: left;
+    font-size: 20px;
+    color: white;
+    margin-top: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px rgb(32, 99, 48);
+}
+
+#header #header-menu { 
+    display: inline-block; 
+    float: right; 
+    height: 100%; 
+}
+
+#header #header-menu .menu-item { 
+    float: left;
+    margin-right: 8px;
+    margin-top: 11px;
+    padding: 13px 12px;
+    min-width: 68px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 3px;
+}
+
+#header #header-menu .menu-item:hover:not(.active) { 
+    background-color: #2A8F57;
+    border-bottom: 2px solid #2E7244;
+}
+
+#header #header-menu .active { 
+    color: #C5FFD6;
+    background: #29A067;
+    border-bottom: 2px solid #2A7751;
+}
+
+#footer {
+    background-color: #F7F7F7;
+    border-top: 1px solid #DDD;
+    font-size: 11px;
+    overflow: auto;
+}
+
+#footer #footer-content { 
+    padding: 10px 15px; 
+    display: inline-block;
+    float: left;
+}
+
+#footer #footer-user-display-name { 
+    display: inline-block;
+    float: right;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+
+#notification strong { 
+    margin-right: 15px; 
+}
+
+#notification .alert {
+    margin-bottom: 0px;
+}
+
+#loading { 
+    position: fixed; 
+    top: 0px; 
+    left: 0px; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 999999;
+    background: rgba(255, 255, 255, 0.75);
+}
+
+#loading img { 
+    margin: auto; 
+    display: block; 
+}
+
+#modal-message { 
+    margin: 10px; 
+}
+
+body .modal-header {
+    padding: 12px 15px;
+    background: #3DD481;
+    border-bottom: 4px solid #3A8154;
+    color: #FFF;
+}
+
+body .modal-header h3 {
+    font-size: 20px;
+    text-shadow: 1px 1px 1px #134D13;
+}
+
+body .jspDrag {
+    background: #D3D3D3;
+}
+
+body .jspTrack {
+    background: #EBEBEB;
+}
+
+/* BACKEND CALENDAR PAGE
+   -------------------------------------------------------------------- */
+#calendar-page #calendar-toolbar { 
+    border-bottom: 1px solid #D6D6D6;
+    background: #3A3A3A;
+    /*background: #FAFAFA;*/
+    padding: 10px;
+    height: 39px;
+    color: white;
+}
+
+#calendar-page #calendar-filter { 
+    display: inline-block;  
+    float: left; 
+}
+
+#calendar-page #calendar-filter label { 
+    display: inline-block; 
+    margin-right: 7px; 
+    font-weight: bold; 
+    font-size: 18px; 
+}
+
+#calendar-page #calendar-filter select { 
+    margin-top: 5px; 
+}
+
+#calendar-page #calendar-filter select:disabled { 
+    background: white;
+    cursor: auto;
+}
+
+#calendar-page #calendar-actions { 
+    display: inline-block; 
+    float: right; 
+    margin-top: 4px; 
+}
+
+#calendar-page #calendar { 
+    margin: 6px 12px; 
+}
+
+#calendar-page #calendar .fc-unavailable { 
+    background-image: url('../images/unavailable.jpg');   
+    font-size: 17px; 
+    border-radius: 0; 
+    font-weight: bold; 
+    color: #333;
+    text-shadow: 0px 1px 0px #E6E6E6;
+    opacity: 0.7;
+}
+
+#calendar-page #calendar .fc-event-title small {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+#calendar-page #calendar .fc-break { 
+    background-image: url('../images/break.jpg'); 
+}
+
+#calendar-page #calendar .fc-custom { 
+    background-image: url('../images/custom.jpg'); 
+}
+
+#calendar .fc-header-title h2 {
+    font-size: 18px;
+    margin: 0px;
+    line-height: 32px;
+}
+
+#calendar .fc-header .fc-button {
+    margin-bottom: 8px;
+}
+
+#calendar .fc-agenda-allday .fc-day-content {
+    min-height: 19px;
+}
+
+#calendar .fc-agenda-divider-inner {
+    height: 3px;
+}
+
+#calendar table thead .fc-first { 
+    background: #DFDFDF;
+}
+
+#calendar table thead .fc-first th {
+    vertical-align: middle;
+    padding: 2px 0;
+    color: #555;
+}
+
+#manage-appointment {
+    width: 860px;
+    margin-left: -430px;
+}
+
+#existing-customers-list { 
+    height: 110px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+#existing-customers-list div {
+    display: inline-block;
+    width: 250px;
+    margin: 0 5px 5px 0;
+    padding: 3px 5px;
+    border-radius: 3px;
+}
+
+#existing-customers-list div:hover {
+    background: #B8F0C1;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#filter-existing-customers {
+    display: inline-block;
+    height: 14px;
+    min-height: 24px;
+    font-size: 12px;
+}
+
+body .form-horizontal .control-label {
+    width: 135px;
+}
+
+body .form-horizontal .controls {
+    margin-left: 158px;
+}
+
+/* BACKEND CUSTOMERS PAGE
+   -------------------------------------------------------------------- */
+#customers-page h2 {
+    color: #525252;
+}
+
+#customers-page #filter-customers {
+    margin: 15px 0px 15px 15px; 
+    width: 350px;
+}
+
+#customers-page .filter-records .results { 
+    overflow-y: auto; 
+    max-height: 650px;
+    outline: none;
+}
+
+#customers-page #filter-customers .results .customer-row { 
+    padding: 10px 7px; 
+}
+
+#customers-page #filter-customers .results .customer-row:hover:not(.selected-row) { 
+    background-color: #F3F3F3; 
+    cursor: pointer; 
+}
+
+#customers-page #filter-customers .results hr { 
+    margin: 5px 0; 
+}
+
+#customers-page .details { 
+    margin: 15px 0 15px 15px; 
+    max-width: 710px;
+}
+
+#customers-page .details .btn-toolbar { 
+    margin-top: 0px; 
+}
+
+#customers-page .details div.span5 { 
+    margin-left: 0; 
+}
+
+#customers-page #customer-appointments { 
+    height: 370px; 
+    width: 330px;
+    border: 4px solid #E2E2E2; 
+    margin-bottom: 20px; 
+    overflow-y: auto; 
+}
+
+#customers-page #customer-appointments .appointment-row { 
+    padding: 7px; 
+    border-bottom: 4px solid #E2E2E2;
+}
+
+#customers-page #customer-appointments .appointment-row:hover:not(.selected-row) { 
+    background-color: #F3F3F3; 
+    cursor: pointer; 
+}
+
+#customers-page #appointment-details {
+    width: 338px;
+}
+
+#customers-page #appointment-details div {
+    padding: 10px;
+    background: #F8F8F8;
+    border-bottom: 4px solid #EEE;
+}
+
+#customers-page .details input,
+#customers-page .details textarea { 
+    background-color: white; 
+    cursor: default; 
+}
+
+#customers-page .selected-row { 
+    background-color: #CBFFD8; 
+}
+
+
+/* BACKEND SERVICES PAGE
+   -------------------------------------------------------------------- */
+#services-page h2 {
+    color: #525252;
+}
+
+#services-page .tab-content { 
+    margin: 15px; 
+}
+
+#services-page .nav { 
+    margin: 15px; 
+}
+
+#services-page .nav li { 
+    cursor: pointer; 
+}
+
+#services-page .filter-records {
+    width: 350px;
+}
+
+#services-page .filter-records .results {
+    overflow-y: auto;
+    max-height: 650px;
+    outline: none;
+}
+
+#services-page .service-row { 
+    padding: 10px 7px; 
+}
+
+#services-page .service-row:hover:not(.selected-row) { 
+    cursor: pointer; 
+    background-color: #F3F3F3; 
+}
+
+#services-page .selected-row { 
+    background-color: #CBFFD8; 
+}
+
+#services-page .filter-records .results hr { 
+    margin: 5px 0; 
+}
+
+#services-page .details .ui-spinner { 
+    border: none; 
+    margin-bottom: 10px; 
+}
+
+#services-page .details .ui-state-disabled {
+    opacity: 1;
+}
+
+#services-page #service-duration { 
+    margin: 0px; 
+}
+
+#services-page .details .ui-spinner a { 
+    cursor: pointer; 
+}
+
+#services-page .details input, 
+#services-page .details select, 
+#services-page .details textarea { 
+    background-color: white; 
+    cursor: pointer; 
+}
+
+#services-page #categories .category-row { 
+    padding: 10px 7px; 
+}
+
+#services-page #categories .category-row:hover:not(.selected-row) { 
+    background-color: #F3F3F3; 
+    cursor: pointer; 
+}
+
+.details input:read-only,
+.details select:disabled,
+.details textarea:read-only {
+    opacity: 0.85;
+    box-shadow: none;
+}
+
+#services-page .details {
+    max-width:  370px;
+}
+
+/* BACKEND USERS PAGE
+   -------------------------------------------------------------------- */
+#users-page h2 {
+    color: #525252;
+}
+
+#users-page .tab-content { 
+    margin: 15px; 
+}
+
+#users-page .nav { 
+    margin: 15px; 
+}
+
+#users-page .nav li { 
+    cursor: pointer; 
+}
+
+#users-page .filter-records {
+    width: 380px;
+}
+
+#users-page .filter-records .results {
+    overflow-y: auto;
+    max-height: 650px;
+    outline: none;
+}
+
+#users-page .secretary-row,
+#users-page .provider-row,
+#users-page .admin-row { 
+    padding: 10px 7px; 
+}
+
+#users-page .secretary-row:hover:not(.selected-row),
+#users-page .provider-row:hover:not(.selected-row),
+#users-page .admin-row:hover:not(.selected-row) { 
+    cursor: pointer; 
+    background-color: #F3F3F3; 
+}
+
+#users-page .selected-row { 
+    background-color: #CBFFD8; 
+}
+
+#users-page .details input, 
+#users-page .details select, 
+#users-page .details textarea { 
+    background-color: white; 
+    cursor: pointer;
+}
+
+#users-page #secretary-notifications.active,
+#users-page #provider-notifications.active,
+#users-page #admin-notifications.active {
+    background: #B6DCFF;
+    box-shadow: none;
+}
+
+#users-page #secretary-providers,
+#users-page #provider-services { 
+    border: 4px solid #ccc; 
+    width: 340px; 
+    height: 387px; 
+    overflow-y: scroll; 
+    padding: 7px;
+}
+
+#users-page #providers .switch-view {
+    overflow: auto;
+    margin-bottom: 5px;
+}
+
+#users-page #providers .switch-view div {
+    display: inline-block;
+    padding: 6px 13px;
+    border-radius: 4px;
+    color: #333;
+    float: left;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+#users-page #providers .switch-view div:hover:not(.current) {
+    background: #F5F5F5;
+}
+
+#users-page #providers .switch-view strong {
+    display: inline-block;
+    float: left;
+    margin: 8px 20px;
+    font-size: 17px;
+}
+
+#users-page #providers .switch-view .current {
+    color: #FFF;
+    background: #95E4A8;
+}
+
+#users-page #providers .details-view,
+#users-page #providers .working-plan-view {
+    clear: both;
+}
+
+#users-page .btn-toolbar {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+#users-page #providers .form-message {
+    clear: both;
+}
+
+#users-page #providers .breaks .btn {
+margin-right: 5px;
+padding: 4px 7px;
+}
+
+
+#users-page .filter-records .results hr { 
+    margin: 5px 0; 
+}
+
+#users-page .details {
+    max-width: 700px;
+}
+
+#users-page .working-plan td input[type="text"] {
+    width: 85px;
+    margin-bottom: 0px;
+}
+
+#users-page .editable form,
+#users-page .editable select, 
+#users-page .editable input {
+	margin: 0px;
+}
+
+/* BACKEND SETTINGS PAGE
+   -------------------------------------------------------------------- */
+#settings-page h2 {
+    color: #525252;
+}
+
+#settings-page .tab-content {
+    margin: 15px;
+}
+
+#settings-page .nav {
+    margin: 15px;
+}
+
+#settings-page .nav li { 
+    cursor: pointer; 
+}
+
+#business-logic .working-plan td input[type="text"] {
+    margin-bottom: 0;
+    cursor: pointer;
+    width: 85px;
+}
+
+#business-logic .working-plan label.checkbox {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+#business-logic .breaks .btn {
+    margin-right: 5px;
+    padding: 4px 7px;
+}
+
+#business-logic .breaks input {
+    margin-bottom: 0;
+}
+
+#business-logic .breaks .editable form {
+    margin: 0;
+}
+
+#business-logic .breaks .editable select,
+#business-logic .breaks .editable input {
+    margin: 0;
+    cursor: pointer;
+}
+
+#business-logic #book-advance-timeout { 
+    margin: 0;
+    width: 131px;
+}
+
+#business-logic .ui-spinner { 
+    border: none;
+    width: 145px;
+}
+
+#settings-page #user-notifications.active {
+    background: #B6DCFF;
+    box-shadow: none;
+}
+
+#settings-page #general fieldset .wrapper {
+    max-width: 400px;
+}
+
+#settings-page .working-plan-wrapper {
+    max-width: 600px;
+}
+
+#settings-page .breaks-wrapper {
+    max-width: 500px;
+}
+
+#settings-page .personal-info-wrapper {
+    max-width: 400px;
+}
+
+#settings-page .miscellaneous-wrapper {
+    max-width:  400px;
+}
+
+#settings-page #about {
+    max-width: 720px;
+}
+
+#settings-page #about .current-version {
+    padding: 9px 10px;
+    background: #F7F7F7;
+    font-size: 15px;
+    color: #7E7E7E;
+    box-shadow: inset 0px 0px 5px #E0E0E0;  
+}
+
+#settings-page #update-ea {
+    margin-left: 12px;
+}

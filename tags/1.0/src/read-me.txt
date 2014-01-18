@@ -1,0 +1,35 @@
+EASY!APPOINTMENTS
+=================================================================
+Easy!Appointments is a highly customizable web application that 
+allows your customers to book appointments with you via the web. 
+Moreover, it provides the ability to sync your data with Google 
+Calendar so you can use them with other services. It is an open 
+source project and you can download and install it even for 
+commercial use. Easy!Appointments will run smoothly with your 
+existing website, because it can be installed in a single folder 
+of the server and of course, both sites can share the same database.
+
+LICENSE
+=================================================================
+Easy!Appointments is licensed under the GPLv3 license. By using 
+the code of Easy!Appointments in any way you are agreeing to the 
+terms described in the following url:
+			
+>> http://www.gnu.org/copyleft/gpl.html
+
+SUPPORT
+=================================================================
+If you encounter any problems when using Easy!Appointments you can 
+search the official Google Group for answers. You might also want 
+to create a new issue on the Google Code page in order to help the 
+development progress. 
+
+>> Google+ Community: https://plus.google.com/communities/105333709485142846840
+>> Support Group: https://groups.google.com/forum/#!forum/easy-appointments
+>> Project Issues: https://code.google.com/p/easy-appointments/issues/list
+
+SETUP FOR DEVELOPMENT
+=================================================================
+If you checkout the project from Google Code you will need to 
+rename the "configuration-sample.php" file to "configuration.php"
+and then set your server settings.
