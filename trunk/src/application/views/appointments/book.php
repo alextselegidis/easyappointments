@@ -167,7 +167,7 @@
                             <strong><?php echo $this->lang->line('select_service'); ?></strong>
                         </label>
                         
-                        <select id="select-service">
+                        <select id="select-service" class="span4">
                             <?php 
                                 // Group services by category, only if there is at least one service 
                                 // with a parent category.
@@ -226,7 +226,7 @@
                             <strong><?php echo $this->lang->line('select_provider'); ?></strong>
                         </label>
                         
-                        <select id="select-provider"></select>
+                        <select id="select-provider" class="span4"></select>
                         
                         <div id="service-description" style="display:none;"></div>
                     </div>
