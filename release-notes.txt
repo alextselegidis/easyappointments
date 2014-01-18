@@ -1,9 +1,9 @@
-VERSION 0.7.1 Beta
-==================
-This beta release contains fixes in JavaScript that occured
-with Firefox. It is also the first version that localization
-is applied and the ability to select a specific google calendar
-for synchronizatioan.
+VERSION 1.0
+===========
+Easy!Appointments now supports multilingual interface (English,
+German, Greek, Hungarian & Portuguese)
+
+I would like to thank Stefan Tselegidis (German), Zsolt Zala(Hungarian) and Andre Tavares (Portuguese) for their work on the translations.
 
 
 Official Easy!Appointments Website:
