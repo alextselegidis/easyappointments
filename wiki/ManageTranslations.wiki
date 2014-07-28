@@ -23,3 +23,5 @@ Follow these steps in order to add or adjust your translations and modify the me
 ||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIYlZUVUtJVTBPRXc" target="_blank">Portuguese (Andre Tavares)</a>||
 ||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIcWc2amo2MTM4R2c" target="_blank">Spanish (Karim Hallar)</a>||
 ||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIRVFxWXh0b09XRUU" target="_blank">Spanish (Cristian Silva)</a>||
+||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIRC1xRUNOelhielk" target="_blank">Spanish (Obalogun Yoruba)</a>||
+||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIZlg1OEpCVmtzaHM" target="_blank">Dutch (Marco Tielen)</a>||
