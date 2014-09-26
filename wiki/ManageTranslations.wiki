@@ -25,3 +25,4 @@ Follow these steps in order to add or adjust your translations and modify the me
 ||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIRVFxWXh0b09XRUU" target="_blank">Spanish (Cristian Silva)</a>||
 ||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIRC1xRUNOelhielk" target="_blank">Spanish (Obalogun Yoruba)</a>||
 ||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIZlg1OEpCVmtzaHM" target="_blank">Dutch (Marco Tielen)</a>||
+||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIa2ltdmg3WUZwOXM" target="_blank">Japanese (Masashi Nakane)</a>||
