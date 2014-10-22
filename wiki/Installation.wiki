@@ -6,7 +6,7 @@ Easy!Appointments is a web appointment scheduler that can be installed and run i
 <br><br>
 -----------------
 <br><br>
-http://alextselegidis.com/link/installation-steps.png
+https://dl.dropboxusercontent.com/u/27545985/easyappointments/installation-steps.png
 <br><br>
 
 = Installation =
@@ -19,7 +19,7 @@ There are 5 steps you must do during the installation process. Each step has a h
 <br><br>
 -------------
 <br><br>
-http://alextselegidis.com/link/configuration.png
+https://dl.dropboxusercontent.com/u/27545985/easyappointments/configuration.png
 <br><br>
 
 =Configuration=
