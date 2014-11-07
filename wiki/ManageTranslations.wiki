@@ -16,13 +16,14 @@ Easy!Appointments is based upon CodeIgniter (PHP Framework) and it uses its buil
 Follow these steps in order to add or adjust your translations and modify the message of the user interface of Easy!Appointments. If you want contribute to the translation process of Easy!Appointments please read the [https://code.google.com/p/easy-appointments/wiki/GetInvolved GetInvolved] wiki page for more information. Please share your translations in order to help the user community. 
 
 ||*Available Custom Translations*||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllITlIwZUVtc0YzZm8" target="_blank">English (Alex Tselegidis)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIUnBsa1NKY2xBZGM" target="_blank">German (Stefan Tselegidis)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIY09UUlNVeWdhZWs" target="_blank">Greek (Alex Tselegidis)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllISjE0Z3pya29wcHM" target="_blank">Hungarian (Zsolt Zala)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIYlZUVUtJVTBPRXc" target="_blank">Portuguese (Andre Tavares)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIcWc2amo2MTM4R2c" target="_blank">Spanish (Karim Hallar)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIRVFxWXh0b09XRUU" target="_blank">Spanish (Cristian Silva)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIRC1xRUNOelhielk" target="_blank">Spanish (Obalogun Yoruba)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIZlg1OEpCVmtzaHM" target="_blank">Dutch (Marco Tielen)</a>||
-||<a href="https://docs.google.com/uc?export=download&id=0B7P12VHAZllIa2ltdmg3WUZwOXM" target="_blank">Japanese (Masashi Nakane)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/english.zip?dl=1" target="_blank">English (Alex Tselegidis)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/german.zip?dl=1" target="_blank">German (Stefan Tselegidis)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/greek.zip?dl=1" target="_blank">Greek (Alex Tselegidis)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/hungarian.zip?dl=1" target="_blank">Hungarian (Zsolt Zala)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/portuguese.zip?dl=1" target="_blank">Portuguese (Andre Tavares)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/spanish-hallar.zip?dl=1" target="_blank">Spanish (Karim Hallar)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/spanish-silva.zip?dl=1" target="_blank">Spanish (Cristian Silva)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/spanish-yoruba.zip?dl=1" target="_blank">Spanish (Obalogun Yoruba)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/dutch.zip?dl=1" target="_blank">Dutch (Marco Tielen)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/japanese.zip?dl=1" target="_blank">Japanese (Masashi Nakane)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/french.zip?dl=1" target="_blank">French (Bernard Sylvie)</a>||
