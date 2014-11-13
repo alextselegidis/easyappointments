@@ -27,3 +27,4 @@ Follow these steps in order to add or adjust your translations and modify the me
 ||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/dutch.zip?dl=1" target="_blank">Dutch (Marco Tielen)</a>||
 ||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/japanese.zip?dl=1" target="_blank">Japanese (Masashi Nakane)</a>||
 ||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/french.zip?dl=1" target="_blank">French (Bernard Sylvie)</a>||
+||<a href="https://dl.dropboxusercontent.com/u/27545985/easyappointments/translations/chinese.zip?dl=1" target="_blank">Simplified Chinese (Aaron Wong)</a>||
