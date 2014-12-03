@@ -29,22 +29,19 @@ perform the following steps in order to install the system on your server:
 
 * Make sure that your server has Apache, PHP and MySQL installed.
 * Create a new database (or use an existing).
-* Copy the "easy_appointments" source folder on your server.
+* Copy the "easyappointments" source folder on your server.
 * Edit the "configuration.php" file and set your server properties.
 * Open your browser on the Easy!Appointments URL and follow the installation guide.
 * That's it! You can now use Easy!Appointments at your will.
 
-You will find the latest release on the "Downloads" tab. If you have problems installing or 
-configuring the application take a look on the wiki pages or contact [alextselegidis@gmail.com]
-(mailto:alextselegidis@gmail.com). You can also report problems on the "Issues" tab in order to
-help the development progress.
+You will find the latest release at [www.easyappointments.org](http://easyappointments.org). If you have problems installing or configuring the application take a look on the [Wiki Pages](https://github.com/alextselegidis/easyappointments/wiki) or visit the [Official Support Group](https://groups.google.com/forum/#!forum/easy-appointments). You can also report problems on the [Issues](https://github.com/alextselegidis/easyappointments/issues) page in order to help the development progress or contact [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
 
 ### User Feedback
-Wether it is new ideas or defects, your feedback is highly appreciated and will be taken into 
+Whether it is new ideas or defects, your feedback is highly appreciated and will be taken into 
 consideration for the following releases of the project. Share your experience and discuss your 
 thoughts with other users through communities. Create issues with suggestions on new features or 
-bug reports. Please take your time to fill this quick form about the project. 
-[Feedback Form](https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform#start=openform)
+bug reports. Please take your time to fill [this quick feedback form] (https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform#start=openform) about the project. You can also submit new feature requests on the [Feature Request Page]
+(http://easyappointments.org/submission.php).
 
 ### Tranlate E!A
 As of version 1.0 Easy!Appointments supports translated user interface. If you want to contribute to the 
