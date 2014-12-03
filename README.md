@@ -34,13 +34,13 @@ perform the following steps in order to install the system on your server:
 * Open your browser on the Easy!Appointments URL and follow the installation guide.
 * That's it! You can now use Easy!Appointments at your will.
 
-You will find the latest release at [www.easyappointments.org](http://easyappointments.org). If you have problems installing or configuring the application take a look on the [Wiki Pages](https://github.com/alextselegidis/easyappointments/wiki) or visit the [Official Support Group](https://groups.google.com/forum/#!forum/easy-appointments). You can also report problems on the [Issues](https://github.com/alextselegidis/easyappointments/issues) page in order to help the development progress or contact [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
+You will find the latest release at [easyappointments.org](http://easyappointments.org). If you have problems installing or configuring the application take a look on the [Wiki Pages](https://github.com/alextselegidis/easyappointments/wiki) or visit the [Official Support Group](https://groups.google.com/forum/#!forum/easy-appointments). You can also report problems on the [Issues Page](https://github.com/alextselegidis/easyappointments/issues) in order to help the development progress or contact [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
 
 ### User Feedback
 Whether it is new ideas or defects, your feedback is highly appreciated and will be taken into 
 consideration for the following releases of the project. Share your experience and discuss your 
 thoughts with other users through communities. Create issues with suggestions on new features or 
-bug reports. Please take your time to fill [this quick feedback form] (https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform#start=openform) about the project. You can also submit new feature requests on the [Feature Request Page]
+bug reports. Please take your time to fill this quick [Feedback Form] (https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform#start=openform) about the project. You can also submit new feature requests on the [Feature Request Page]
 (http://easyappointments.org/submission.php).
 
 ### Tranlate E!A
