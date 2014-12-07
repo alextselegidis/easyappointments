@@ -43,6 +43,6 @@ thoughts with other users through communities. Create issues with suggestions on
 bug reports. Please take your time to fill this quick [Feedback Form] (https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform#start=openform) about the project. You can also submit new feature requests on the [Feature Request Page]
 (http://easyappointments.org/submission.php).
 
-### Tranlate E!A
+### Translate E!A
 As of version 1.0 Easy!Appointments supports translated user interface. If you want to contribute to the 
 translation process contact [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
