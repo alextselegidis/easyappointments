@@ -322,7 +322,7 @@
                         </tr>
                         <tr>
                             <td><label class="checkbox"><input type="checkbox" id="thursday" />
-                                    <?php echo $this->lang->line('tuesday'); ?></label></td>
+                                    <?php echo $this->lang->line('thursday'); ?></label></td>
                             <td><input type="text" id="thursday-start" class="work-start" /></td>
                             <td><input type="text" id="thursday-end" class="work-end" /></td>
                         </tr>
