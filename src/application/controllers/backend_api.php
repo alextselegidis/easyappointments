@@ -131,7 +131,7 @@ class Backend_api extends CI_Controller {
                 
                 $manage_mode = isset($appointment['id']);
                 // If the appointment does not contain the customer record id, then it 
-                // means that is is going to be inserted. Get the customer's record id.
+                // means that it is going to be inserted. Get the customer's record id.
                 if (!isset($appointment['id_users_customer'])) {
                     $appointment['id_users_customer'] = $customer['id'];
                 }
