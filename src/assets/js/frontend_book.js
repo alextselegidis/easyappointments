@@ -12,6 +12,15 @@ var FrontendBook = {
      * @type {bool}
      */
     manageMode: false,  
+
+    /**
+     * Lists the available days that appointments can be booked.
+     * This is populated through ajax calls and cleared when the
+     * service type is changed.
+     * 
+     * @type {array}
+     */
+    availableDays: [],
     
     /**
      * This method initializes the book appointment page.
@@ -69,7 +78,24 @@ var FrontendBook = {
             onSelect: function(dateText, instance) {
                 FrontendBook.getAvailableHours(dateText);
                 FrontendBook.updateConfirmFrame();
-            }
+            },
+
+            onChangeMonthYear: function(year, month, instance) {
+                if (month < 10)
+                    month = "0" + month;
+                var calDate = new Date(year + "-" + month + "-" + "01");
+                FrontendBook.getAvailableDays(calDate);
+            },
+            beforeShowDay: function(date, instance) {
+                console.log("beforeShowDay()");
+                for (i = 0; i < FrontendBook.availableDays.length; i++){
+                    var dateStr = $.datepicker.formatDate('yy-mm-dd',date);
+                    if (dateStr == FrontendBook.availableDays[i]) {
+                        return [true,"","opening(s) available"];
+                    }
+                }
+                return [false,"","no openings available"];
+            },
         });
 
        
@@ -101,6 +127,12 @@ var FrontendBook = {
          * date - time periods must be updated.
          */
         $('#select-provider').change(function() {
+            var selectedDate = $('#select-date').datepicker('getDate');
+            FrontendBook.availableDays = [];
+            $('#select-date').datepicker('setDate', selectedDate);
+            selectedDate.setDate(1); // first of the month
+            FrontendBook.getAvailableDays(selectedDate);
+
             FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
             FrontendBook.updateConfirmFrame();
         });
@@ -128,6 +160,11 @@ var FrontendBook = {
                 });
             });
 
+            var selectedDate = $('#select-date').datepicker('getDate');
+            FrontendBook.availableDays = [];
+            $('#select-date').datepicker('setDate', selectedDate);
+            selectedDate.setDate(1); // first of the month
+            FrontendBook.getAvailableDays(selectedDate);
             FrontendBook.getAvailableHours($('#select-date').val());
             FrontendBook.updateConfirmFrame();
             FrontendBook.updateServiceDescription($('#select-service').val(), $('#service-description'));
@@ -286,6 +323,66 @@ var FrontendBook = {
     
     /**
      * This function makes an ajax call and returns the available 
+     * days for the selected service, provider.
+     * 
+     * @param {string} selDate The selected date of which the available
+     * hours we need to receive.
+     */
+    getAvailableDays: function(dateStart) {
+        
+        // Find the selected service duration (it is going to 
+        // be send within the "postData" object).
+        var selServiceDuration = 15; // Default value of duration (in minutes).
+        $.each(GlobalVariables.availableServices, function(index, service) {
+            if (service['id'] == $('#select-service').val()) {
+                selServiceDuration = service['duration']; 
+            }
+        });
+        
+        // If the manage mode is true then the appointment's start 
+        // date should return as available too.
+        var appointmentId = (FrontendBook.manageMode) 
+                ? GlobalVariables.appointmentData['id'] : undefined;
+
+        var dateEnd = new Date(dateStart);
+        dateEnd.setMonth(dateEnd.getMonth() + 1);
+        var startDate = $.datepicker.formatDate('yy-mm-dd',dateStart);
+        var endDate = $.datepicker.formatDate('yy-mm-dd',dateEnd);
+
+        var postData = {
+            'service_id': $('#select-service').val(),
+            'provider_id': $('#select-provider').val(),
+            'start_date': startDate,
+            'end_date': endDate,
+            'service_duration': selServiceDuration,
+            'manage_mode': FrontendBook.manageMode,
+            'appointment_id': appointmentId
+        };
+
+        // Make ajax post request and get the available hours.
+        var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_days';
+        jQuery.post(ajaxurl, postData, function(response) {
+            ///////////////////////////////////////////////////////////////
+            console.log('Get Available Days JSON Response:', response);
+            ///////////////////////////////////////////////////////////////
+            
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+
+            // The response contains the available hours for the selected provider and
+            // service. Fill the available hours div with response data. 
+            if (response.length > 0) {
+                $.each(response, function(index, availableDay) {
+                    FrontendBook.availableDays.push(availableDay);
+                });
+
+                $('#select-date').datepicker('refresh');
+                
+            }
+        }, 'json');
+    },
+
+    /**
+     * This function makes an ajax call and returns the available 
      * hours for the selected service, provider and date.
      * 
      * @param {string} selDate The selected date of which the available
@@ -407,7 +504,7 @@ var FrontendBook = {
         // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
         if (selectedDate !== null) {
-            selectedDate = Date.parse(selectedDate).toString('dd/MM/yyyy');
+            selectedDate = Date.parse(selectedDate).toString('yyyy-MM-dd');
         }
 
         var selServiceId = $('#select-service').val();
@@ -463,7 +560,7 @@ var FrontendBook = {
         
         postData['appointment'] = {
             'start_datetime': $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
-                                    + ' ' + $('.selected-hour').text() + ':00',
+                                    + ' ' + $('.selected-hour').text(),
             'end_datetime': FrontendBook.calcEndDatetime(),
             'notes': $('#notes').val(),
             'is_unavailable': false,
@@ -499,9 +596,9 @@ var FrontendBook = {
         });
         
         // Add the duration to the start datetime.
-        var startDatetime = $('#select-date').datepicker('getDate').toString('dd-MM-yyyy') 
+        var startDatetime = $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
                 + ' ' + $('.selected-hour').text();
-        startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
+        startDatetime = Date.parse(startDatetime);
         var endDatetime = undefined;
         
         if (selServiceDuration !== undefined && startDatetime !== null) {

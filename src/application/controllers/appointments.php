@@ -302,6 +302,62 @@ class Appointments extends CI_Controller {
         
         $this->load->view('appointments/cancel', $view);
     }
+
+    /**
+     * [AJAX] Get the available appointment hours for the given date.
+     * 
+     * This method answers to an AJAX request. It calculates the available days  
+     * for thegiven service, provider and date range.
+     * 
+     * @param numeric $_POST['provider_id'] The selected provider's record id.
+     * @param string $_POST['start_date'] The start date of the date range 
+     * @param string $_POST['end_date'] The end date of the date range 
+     * @param numeric $_POST['service_duration'] The selected service duration in 
+     * minutes.
+     * @param string $_POST['manage_mode'] Contains either 'true' or 'false' and determines
+     * @param string $_POST['appointment_id'] the appointnment id if manage mode
+     * the if current user is managing an already booked appointment or not.
+     * @return Returns a json object with the number of available appointmnets for each day
+     * in the range.
+     */
+    public function ajax_get_available_days() {
+        $this->load->model('providers_model');
+        $this->load->model('appointments_model');
+        $this->load->model('settings_model');
+
+        
+        try {
+            $provider_id = $_POST['provider_id'];
+            $start_date = new DateTime($_POST['start_date']);
+            $end_date = new DateTime($_POST['end_date']);
+            $service_duration = $_POST['service_duration'];
+            $manage_mode = $_POST['manage_mode'];
+            if (isset($_POST['appointment_id']))
+                $appointment_id = $_POST['appointment_id'];
+            else
+                $appointment_id = NULL;
+
+            $available_days = array();
+            while ($start_date <= $end_date)
+            {
+                $day = $start_date->format('Y-m-d');
+
+                $available_hours = $this->get_available_hours($provider_id, $day, $service_duration, $manage_mode, $appointment_id);
+
+                if (count($available_hours) > 0)
+                {
+                    $available_days[] = $day;
+                }
+
+                $start_date->add(new DateInterval("P1D")); // add one day
+            }
+            echo json_encode($available_days);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
     
     /**
      * [AJAX] Get the available appointment hours for the given date.
@@ -309,17 +365,31 @@ class Appointments extends CI_Controller {
      * This method answers to an AJAX request. It calculates the available hours  
      * for thegiven service, provider and date.
      * 
-     * @param numeric $_POST['service_id'] The selected service's record id.
      * @param numeric $_POST['provider_id'] The selected provider's record id.
      * @param string $_POST['selected_date'] The selected date of which the  
      * available hours we want to see.
      * @param numeric $_POST['service_duration'] The selected service duration in 
      * minutes.
-     * @param string $$_POST['manage_mode'] Contains either 'true' or 'false' and determines
+     * @param string $_POST['manage_mode'] Contains either 'true' or 'false' and determines
+     * @param string $_POST['appointment_id'] the appointnment id if manage mode
      * the if current user is managing an already booked appointment or not.
      * @return Returns a json object with the available hours.
      */
     public function ajax_get_available_hours() {
+        $provider_id = $_POST['provider_id'];
+        $selected_date = $_POST['selected_date'];
+        $service_duration = $_POST['service_duration'];
+        $manage_mode = $_POST['manage_mode'];
+        if (isset($_POST['appointment_id']))
+            $appointment_id = $_POST['appointment_id'];
+        else
+            $appointment_id = NULL;
+
+        $available_hours = $this->get_available_hours($provider_id, $selected_date, $service_duration, $manage_mode, $appointment_id);
+        echo json_encode($available_hours);
+    }
+
+    public function get_available_hours($provider_id, $selected_date, $service_duration, $manage_mode, $appointment_id) {
         $this->load->model('providers_model');
         $this->load->model('appointments_model');
         $this->load->model('settings_model');
@@ -327,12 +397,12 @@ class Appointments extends CI_Controller {
         try {
             // If manage mode is TRUE then the following we should not consider the selected 
             // appointment when calculating the available time periods of the provider.
-            $exclude_appointments = ($_POST['manage_mode'] === 'true') 
-                    ? array($_POST['appointment_id'])
+            $exclude_appointments = ($manage_mode === 'true') 
+                    ? array($appointment_id)
                     : array();    
 
-            $empty_periods = $this->get_provider_available_time_periods($_POST['provider_id'], 
-                    $_POST['selected_date'], $exclude_appointments);
+            $empty_periods = $this->get_provider_available_time_periods($provider_id, 
+                    $selected_date, $exclude_appointments);
 
             // Calculate the available appointment hours for the given date. The empty spaces 
             // are broken down to 15 min and if the service fit in each quarter then a new 
@@ -341,8 +411,8 @@ class Appointments extends CI_Controller {
             $available_hours = array();
 
             foreach ($empty_periods as $period) {
-                $start_hour = new DateTime($_POST['selected_date'] . ' ' . $period['start']);
-                $end_hour = new DateTime($_POST['selected_date'] . ' ' . $period['end']);
+                $start_hour = new DateTime($selected_date . ' ' . $period['start']);
+                $end_hour = new DateTime($selected_date . ' ' . $period['end']);
 
                 $minutes = $start_hour->format('i');
 
@@ -363,9 +433,10 @@ class Appointments extends CI_Controller {
                 $current_hour = $start_hour;
                 $diff = $current_hour->diff($end_hour);
 
-                while (($diff->h * 60 + $diff->i) >= intval($_POST['service_duration'])) {
+                while (($diff->h * 60 + $diff->i) >= intval($service_duration)) {
                     $available_hours[] = $current_hour->format('H:i');
-                    $current_hour->add(new DateInterval("PT15M"));
+                    //$current_hour->add(new DateInterval("PT15M"));
+                    $current_hour->add(new DateInterval("PT" . $service_duration . "M"));
                     $diff = $current_hour->diff($end_hour);
                 }
             }
@@ -375,8 +446,8 @@ class Appointments extends CI_Controller {
             // the system. Normally we might want the customer to book an appointment
             // that is at least half or one hour from now. The setting is stored in 
             // minutes.
-            if (date('m/d/Y', strtotime($_POST['selected_date'])) == date('m/d/Y')) {
-                if ($_POST['manage_mode'] === 'true') {
+            if (date('m/d/Y', strtotime($selected_date)) == date('m/d/Y')) {
+                if ($manage_mode === 'true') {
                     $book_advance_timeout = 0;
                 } else {
                     $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
@@ -394,7 +465,7 @@ class Appointments extends CI_Controller {
             $available_hours = array_values($available_hours);
             sort($available_hours, SORT_STRING );
             $available_hours = array_values($available_hours);
-            echo json_encode($available_hours);
+            return $available_hours;
             
         } catch(Exception $exc) {
             echo json_encode(array(
