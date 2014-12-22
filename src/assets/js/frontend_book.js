@@ -557,10 +557,12 @@ var FrontendBook = {
             'city': $('#city').val(),
             'zip_code': $('#zip-code').val()
         };
+
+        var startDatetime = Date.parse($('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
+            + ' ' + $('.selected-hour').text());
         
         postData['appointment'] = {
-            'start_datetime': $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') 
-                                    + ' ' + $('.selected-hour').text(),
+            'start_datetime': startDatetime.toString('yyyy-MM-dd HH:mm:ss'),
             'end_datetime': FrontendBook.calcEndDatetime(),
             'notes': $('#notes').val(),
             'is_unavailable': false,
