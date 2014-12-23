@@ -647,6 +647,8 @@ class Unit_tests_providers_model extends CI_Driver {
                 ->get_where('ea_user_settings', array('id_users' => $provider['id']))
                 ->row_array();
         unset($no_model_provider['settings']['id_users']);
+        unset($no_model_provider['settings']['password']);
+        unset($no_model_provider['settings']['salt']);
         
         $model_provider = $this->ci->providers_model->get_row($provider['id']);
         
@@ -777,6 +779,8 @@ class Unit_tests_providers_model extends CI_Driver {
                     ->get_where('ea_user_settings', array('id_users' => $db_provider['id']))
                     ->row_array();
             unset($db_provider['settings']['id_users']);
+            unset($db_provider['settings']['password']);
+            unset($db_provider['settings']['salt']);
         }
         
         // Get all the provider rows by using the model.
@@ -833,6 +837,8 @@ class Unit_tests_providers_model extends CI_Driver {
                     ->get_where('ea_user_settings', array('id_users' => $no_model_provider['id']))
                     ->row_array();
             unset($no_model_provider['settings']['id_users']);
+            unset($no_model_provider['settings']['password']);
+            unset($no_model_provider['settings']['salt']);
         }
         
         // Get data by using the model. 
