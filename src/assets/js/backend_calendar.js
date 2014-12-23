@@ -933,6 +933,27 @@ var BackendCalendar = {
                     }
                 });
             });
+            $('#start-datetime').trigger('change');
+        });
+
+        /**
+         * Event: Start Date / Time "Change"
+         *
+         * When the user changes the start date/time, the end date/time should
+         * be automatically set based on the duration of the service.
+         */
+        $('#start-datetime').change(function() {
+            var start = Date.parseExact($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
+
+            var serviceDuration = 0;
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                if (service['id'] == $('#select-service').val()) {
+                    serviceDuration = service['duration'];
+                    return false; // exit loop
+                }
+            });
+
+            $('#end-datetime').val(start.addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm'));
         });
         
         /**
