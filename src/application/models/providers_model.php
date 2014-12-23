@@ -326,6 +326,8 @@ class Providers_Model extends CI_Model {
         $provider['settings'] = $this->db->get_where('ea_user_settings', 
                 array('id_users' => $provider_id))->row_array();
         unset($provider['settings']['id_users']);
+        unset($provider['settings']['password']);
+        unset($provider['settings']['salt']);
 
         // Return provider data array.
         return $provider;
@@ -404,6 +406,8 @@ class Providers_Model extends CI_Model {
             $provider['settings'] = $this->db->get_where('ea_user_settings', 
                     array('id_users' => $provider['id']))->row_array();
             unset($provider['settings']['id_users']);
+            unset($provider['settings']['password']);
+            unset($provider['settings']['salt']);
         }
         
         // Return provider records in an array.
@@ -444,6 +448,8 @@ class Providers_Model extends CI_Model {
             $provider['settings'] = $this->db->get_where('ea_user_settings', 
                     array('id_users' => $provider['id']))->row_array();
             unset($provider['settings']['id_users']);
+            unset($provider['settings']['password']);
+            unset($provider['settings']['salt']);
         }
         
         // Return provider records.
