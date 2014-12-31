@@ -21,7 +21,7 @@ $config['migration_enabled'] = TRUE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 1; // current
+$config['migration_version'] = 2; // current
 
 
 /*
@@ -35,6 +35,17 @@ $config['migration_version'] = 1; // current
 |
 */
 $config['migration_path'] = APPPATH . 'migrations/';
+
+
+/*
+|--------------------------------------------------------------------------
+| Migrations Table
+|--------------------------------------------------------------------------
+|
+| The database table name for storing the schema version number.
+|
+*/
+$config['migration_table'] = 'ea_migrations';
 
 
 /* End of file migration.php */

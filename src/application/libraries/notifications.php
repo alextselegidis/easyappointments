@@ -62,7 +62,7 @@ class Notifications {
      */
     public function send_appointment_details($appointment_data, $provider_data, $service_data, 
             $customer_data, $company_settings, $title, $message, $appointment_link, 
-            $receiver_address) {
+            $receiver_address, $debug = FALSE) {
         
         // :: PREPARE THE EMAIL TEMPLATE REPLACE ARRAY
         $replace_array = array(
@@ -111,10 +111,19 @@ class Notifications {
         $mail->Subject = $title;
         $mail->Body    = $email_html;
 
-        if (!$mail->Send()) {
-            throw new Exception('Email could not been sent. Mailer Error (Line ' 
-                    . __LINE__ . '): ' . $mail->ErrorInfo);
-        }
+		if ($debug)
+		{
+			echo "To: $receiver_address\n";
+			echo "Subject: $title\n";
+			echo "Body:\n$email_html\n\n";
+		}
+		else
+		{
+			if (!$mail->Send()) {
+				throw new Exception('Email could not been sent. Mailer Error (Line ' 
+						. __LINE__ . '): ' . $mail->ErrorInfo);
+			}
+		}
         
         return TRUE;
     }

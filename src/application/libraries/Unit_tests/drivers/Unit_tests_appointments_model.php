@@ -107,6 +107,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         
         // These should not be included because they are generated when the 
         // record is inserted.
+        unset($db_data['notified']); 
         unset($db_data['hash']); 
         unset($db_data['book_datetime']);
         unset($db_data['id_google_calendar']);
@@ -477,6 +478,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $db_data = $this->ci->appointments_model->get_row($appointment['id']);
         unset($db_data['book_datetime']);
         unset($db_data['id_google_calendar']);
+        unset($db_data['notified']);
         
         // Check if this is the record we seek.
         $this->ci->unit->run($db_data, $appointment, 'Test get_row() method.');

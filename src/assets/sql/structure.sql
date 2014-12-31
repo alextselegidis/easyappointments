@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `book_datetime` datetime DEFAULT NULL,
   `start_datetime` datetime DEFAULT NULL,
   `end_datetime` datetime DEFAULT NULL,
+  `notified` BOOLEAN NOT NULL DEFAULT FALSE,
   `notes` text,
   `hash` text,
   `is_unavailable` tinyint(4) DEFAULT '0',
@@ -177,6 +178,16 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `sync_past_days` int(11) DEFAULT '5',
   `sync_future_days` int(11) DEFAULT '5',
   PRIMARY KEY (`id_users`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- `ea_migrations`
+--
+
+CREATE TABLE IF NOT EXISTS `ea_migrations` (
+  `version` int(3) NOT NULL DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

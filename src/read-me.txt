@@ -33,3 +33,21 @@ SETUP FOR DEVELOPMENT
 If you checkout the project from Google Code you will need to 
 rename the "configuration-sample.php" file to "configuration.php"
 and then set your server settings.
+
+REMINDER EMAILS
+=================================================================
+Reminders can be sent out 24 hours before the appointment by
+setting up a cron job. The cron job will check for upcoming
+appointments and send a reminder notification if one has not been
+sent.
+
+command:
+php index.php cli send_appointment_reminders
+
+UPGRADING
+=================================================================
+To make sure the database schema is up to date, run the following
+command:
+
+php index.php cli update
+
