@@ -64,6 +64,45 @@ class Appointments extends CI_Controller {
                     $provider = $this->providers_model->get_row($appointment['id_users_provider']);
                     $customer = $this->customers_model->get_row($appointment['id_users_customer']);
                     
+
+                    // if there is less than 24 hours until the appointment,
+                    // do not allow the customer to make changes. also do not
+                    // allow the customer to change appointments that have
+                    // already occurred
+                    $startDateTime = new DateTime($appointment['start_datetime']);
+                    $dateTimeNow = new DateTime("now");
+                    $dateTimeTomorrow = new DateTime("now");
+                    $dateTimeTomorrow->add(new DateInterval("P1D"));
+                    if ($startDateTime < $dateTimeTomorrow)
+                    {
+                        if ($startDateTime < $dateTimeNow)
+                        {
+                            // The appointment was in the past.
+                            $view = array(
+                                'message_title' => $this->lang->line('appointment_not_found'),
+                                'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
+                                'message_icon'  => $this->config->item('base_url')
+                                                 . 'assets/images/error.png',
+                                'company_name'  => $company_name
+                            );
+                        }
+                        else
+                        {
+                            // The appointment can not be edited because
+                            // it starts in less than 24 hours
+                            $view = array(
+                                'message_title' => $this->lang->line('appointment_locked'),
+                                'message_text'  => $this->lang->line('appointment_locked_details'),
+                                'message_icon'  => $this->config->item('base_url')
+                                                 . 'assets/images/error.png',
+                                'company_name'  => $company_name
+                            );
+                        }
+
+                        $this->load->view('appointments/message', $view);
+                        return;
+
+                    }
                 } else {
                     // The customer is going to book a new appointment so there is no 
                     // need for the manage functionality to be initialized.
