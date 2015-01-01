@@ -291,6 +291,8 @@ class Appointments_Model extends CI_Model {
         if ($where_clause != '') {
             $this->db->where($where_clause);
         }
+
+		$this->db->order_by('start_datetime','asc');
         
         return $this->db->get('ea_appointments')->result_array();
     }
