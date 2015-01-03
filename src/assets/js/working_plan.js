@@ -31,8 +31,11 @@ WorkingPlan.prototype.setup = function(workingPlan) {
     $.each(workingPlan, function(index, workingDay) {
         if (workingDay != null) {
             $('#' + index).prop('checked', true);
-            $('#' + index + '-start').val(workingDay.start);
-            $('#' + index + '-end').val(workingDay.end);
+
+            var start = GeneralFunctions.getDisplayTime(Date.parse(workingDay.start));
+            var end = GeneralFunctions.getDisplayTime(Date.parse(workingDay.end));
+            $('#' + index + '-start').val(start);
+            $('#' + index + '-end').val(end);
 
             // Add the day's breaks on the breaks table.
             $.each(workingDay.breaks, function(i, brk) {
@@ -41,8 +44,8 @@ WorkingPlan.prototype.setup = function(workingPlan) {
                 var tr = 
                         '<tr>' + 
                             '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
-                            '<td class="break-start editable">' + brk.start + '</td>' +
-                            '<td class="break-end editable">' + brk.end + '</td>' +
+                            '<td class="break-start editable">' + GeneralFunctions.getDisplayTime(Date.parse(brk.start)) + '</td>' +
+                            '<td class="break-end editable">' + GeneralFunctions.getDisplayTime(Date.parse(brk.end)) + '</td>' +
                             '<td>' + 
                                 '<button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
                                     '<i class="icon-pencil"></i>' +
@@ -161,11 +164,13 @@ WorkingPlan.prototype.bindEventHandlers = function() {
      * data. After that he can either press the save or cancel button.
      */
     $('.add-break').click(function() {
+        var start = GeneralFunctions.getDisplayTime(Date.parse('12:00'));
+        var end = GeneralFunctions.getDisplayTime(Date.parse('13:00'));
         var tr = 
                 '<tr>' + 
                     '<td class="break-day editable">' + EALang['monday'] + '</td>' +
-                    '<td class="break-start editable">09:00</td>' +
-                    '<td class="break-end editable">10:00</td>' +
+                    '<td class="break-start editable">' + start + '</td>' +
+                    '<td class="break-end editable">' + end + '</td>' +
                     '<td>' + 
                         '<button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
                             '<i class="icon-pencil"></i>' +
@@ -203,16 +208,21 @@ WorkingPlan.prototype.bindEventHandlers = function() {
             if (edt.reset !== undefined) edt.reset();
         });
 
+        var timeFmt = GeneralFunctions.getDisplayTimeFormat();
+
         // Make all cells in current row editable.
         $(this).parent().parent().children().trigger('edit');
-        $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes']
-        });
+        var timePickerOpts = WorkingPlan.prototype.getTimePickerOptions();
+        timePickerOpts.onClose = function(datetime, inst) {
+            // Start time must be earlier than end time. 
+            var start = Date.parse($(this).parent().parent().parent().find('.break-start input').val());
+            var end = Date.parse($(this).parent().parent().parent().find('.break-end input').val());
+
+            if (start >= end) {
+                $(this).parent().parent().parent().find('.break-end input').val(start.addMinutes(15).toString(timeFmt).toLowerCase());
+            }
+        };
+        $(this).parent().parent().find('.break-start input, .break-end input').timepicker(timePickerOpts);
         $(this).parent().parent().find('.break-day select').focus();
 
         // Show save - cancel buttons.
@@ -255,8 +265,9 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         // Break's start time must always be prior to break's end. 
         var start = Date.parse($(this).parent().parent().find('.break-start input').val());
         var end = Date.parse($(this).parent().parent().find('.break-end input').val());
-        if (start > end) {
-            $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
+        if (start >= end) {
+            var timeFmt = GeneralFunctions.getDisplayTimeFormat();
+            $(this).parent().parent().find('.break-end input').val(start.addMinutes(15).toString(timeFmt).toLowerCase());
         }
 
         WorkingPlan.prototype.enableSubmit = true;
@@ -280,16 +291,16 @@ WorkingPlan.prototype.get = function() {
         var id = $(this).attr('id');
         if ($(this).prop('checked') == true) {
             workingPlan[id] = {};
-            workingPlan[id].start = $('#' + id + '-start').val();
-            workingPlan[id].end = $('#' + id + '-end').val();
+            workingPlan[id].start = GeneralFunctions.getStorageTime(Date.parse($('#' + id + '-start').val()));
+            workingPlan[id].end = GeneralFunctions.getStorageTime(Date.parse($('#' + id + '-end').val()));
             workingPlan[id].breaks = [];
             
             $('.breaks tr').each(function(index, tr) {
                 var day = WorkingPlan.prototype.convertDayToValue(
                         $(tr).find('.break-day').text());
                 if (day == id) {
-                    var start = $(tr).find('.break-start').text();
-                    var end = $(tr).find('.break-end').text();
+                    var start = GeneralFunctions.getStorageTime(Date.parse($(tr).find('.break-start').text()));
+                    var end = GeneralFunctions.getStorageTime(Date.parse($(tr).find('.break-end').text()));
                     
                     workingPlan[id].breaks.push({
                         'start': start,
@@ -318,26 +329,20 @@ WorkingPlan.prototype.timepickers = function(disabled) {
     
     if (disabled == false) {
         // Set timepickers where needed.
-        $('.working-plan input[type="text"]').timepicker({
-            'timeFormat': 'HH:mm',
-            
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
-            
-            'onSelect': function(datetime, inst) {
-                // Start time must be earlier than end time. 
-                var start = Date.parse($(this).parent().parent().find('.work-start').val());
-                var end = Date.parse($(this).parent().parent().find('.work-end').val());
 
-                if (start > end) {
-                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
-                }
+        var timePickerOpts = WorkingPlan.prototype.getTimePickerOptions();
+        timePickerOpts.onClose = function(datetime, inst) {
+            // Start time must be earlier than end time. 
+            var start = Date.parse($(this).parent().parent().find('.work-start').val());
+            var end = Date.parse($(this).parent().parent().find('.work-end').val());
+
+            if (start >= end) {
+                var timeFmt = GeneralFunctions.getDisplayTimeFormat();
+                $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(timeFmt).toLowerCase());
             }
-        });
+        };
+
+        $('.working-plan input[type="text"]').timepicker(timePickerOpts);
     } else {
         $('.working-plan input').timepicker('destroy');
     }
@@ -411,3 +416,19 @@ WorkingPlan.prototype.convertDayToValue = function(day) {
             break;
     }
 };
+
+WorkingPlan.prototype.getTimePickerOptions = function() {
+    return {
+        timeFormat: GeneralFunctions.getDisplayTimeFormat(),
+        currentText: EALang['now'],
+        closeText: EALang['close'],
+        timeOnlyTitle: EALang['select_time'],
+        timeText: EALang['time'],
+        hourText: EALang['hour'],
+        minuteText: EALang['minutes'],
+        stepMinute: parseInt(GlobalVariables.time_slot_interval),
+        hourMin:Date.parse(GlobalVariables.day_start_time).getHours(),
+        hourMax:Date.parse(GlobalVariables.day_end_time).getHours(),
+    };
+};
+

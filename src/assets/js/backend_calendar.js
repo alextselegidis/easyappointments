@@ -21,18 +21,24 @@ var BackendCalendar = {
      */
     initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers === undefined) defaultEventHandlers = true;
-        
+
+        axisFormat = GeneralFunctions.getDisplayTimeFormat();
+        timeFormat = axisFormat + '{ - ' + axisFormat + '}';
+        firstDayOfWeek = GlobalVariables.first_day_of_week;
+
         // Initialize page calendar
         $('#calendar').fullCalendar({
             'defaultView': 'agendaWeek',
+            'minTime': Date.parse(GlobalVariables.day_start_time).getHours(),
+            'maxTime': Date.parse(GlobalVariables.day_end_time).getHours(),
             'height': BackendCalendar.getCalendarHeight(),
             'editable': true,
-            'firstDay': 1, // Monday
-            'slotMinutes': 30,
-            'snapMinutes': 15,
-            'axisFormat': 'HH:mm',
-            'timeFormat': 'HH:mm{ - HH:mm}',
-            'allDayText': EALang['all_day'], 
+            'firstDay': firstDayOfWeek, // Sunday
+            'slotMinutes': parseInt(GlobalVariables.time_slot_interval),
+            'snapMinutes': parseInt(GlobalVariables.time_slot_interval),
+            'axisFormat': axisFormat,
+            'timeFormat': timeFormat,
+            'allDayText': EALang['all_day'],
             'columnFormat': {
                 'month': 'ddd',
                 'week': 'ddd d/M',
@@ -54,29 +60,29 @@ var BackendCalendar = {
                            EALang['may'], EALang['june'], EALang['july'], EALang['august'], 
                            EALang['september'],EALang['october'], EALang['november'], 
                            EALang['december']],
-           	'monthNamesShort': [EALang['january'].substr(0,3), EALang['february'].substr(0,3), 
-           	        EALang['march'].substr(0,3), EALang['april'].substr(0,3),
+               'monthNamesShort': [EALang['january'].substr(0,3), EALang['february'].substr(0,3), 
+                       EALang['march'].substr(0,3), EALang['april'].substr(0,3),
                     EALang['may'].substr(0,3), EALang['june'].substr(0,3), 
                     EALang['july'].substr(0,3), EALang['august'].substr(0,3), 
                     EALang['september'].substr(0,3),EALang['october'].substr(0,3), 
                     EALang['november'].substr(0,3), EALang['december'].substr(0,3)],
             'dayNames': [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
-	                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-	        'dayNamesShort': [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
-	               EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
-	               EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-	               EALang['saturday'].substr(0,3)],
-	        'dayNamesMin': [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
-	               EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
-	               EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-	               EALang['saturday'].substr(0,2)],
+                        EALang['thursday'], EALang['friday'], EALang['saturday']],
+            'dayNamesShort': [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                   EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                   EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                   EALang['saturday'].substr(0,3)],
+            'dayNamesMin': [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                   EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                   EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                   EALang['saturday'].substr(0,2)],
             'buttonText': {
-            	'today': EALang['today'],
-            	'day': EALang['day'],
-            	'week': EALang['week'],
-            	'month': EALang['month']
+                'today': EALang['today'],
+                'day': EALang['day'],
+                'week': EALang['week'],
+                'month': EALang['month']
             },
-	         
+             
             // Calendar events need to be declared on initialization.
             'windowResize': BackendCalendar.calendarWindowResize,
             'viewDisplay': BackendCalendar.calendarViewDisplay,
@@ -170,12 +176,12 @@ var BackendCalendar = {
             $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
             // Set the start and end datetime of the appointment.
-            var startDatetime = Date.parseExact(appointment['start_datetime'],
-                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
+            var startDatetime = GeneralFunctions.getDisplayDateTime(
+                    Date.parseExact(appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
             $dialog.find('#start-datetime').val(startDatetime);
 
-            var endDatetime = Date.parseExact(appointment['end_datetime'],
-                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
+            var endDatetime = GeneralFunctions.getDisplayDateTime(
+                    Date.parseExact(appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss'));
             $dialog.find('#end-datetime').val(endDatetime);
 
             var customer = appointment['customer'];
@@ -248,11 +254,11 @@ var BackendCalendar = {
             if ($('#select-filter-item option:selected').attr('type') 
                     === BackendCalendar.FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
-                		.prop('disabled', true);
+                        .prop('disabled', true);
             } else {
-            	
-            	$('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
-            			.prop('disabled', false);
+                
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
+                        .prop('disabled', false);
                 // If the user has already the sync enabled then apply the proper
                 // style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
@@ -288,7 +294,7 @@ var BackendCalendar = {
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                         GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, 
-                        		GeneralFunctions.EXCEPTIONS_MESSAGE);
+                                GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
@@ -296,7 +302,7 @@ var BackendCalendar = {
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
                         GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, 
-                        		GeneralFunctions.WARNINGS_MESSAGE);
+                                GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
                     
@@ -351,12 +357,12 @@ var BackendCalendar = {
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
                 // Set the start and end datetime of the appointment.
-                var startDatetime = Date.parseExact(appointment['start_datetime'],
-                        'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');            
+                var startDatetime = GeneralFunctions.getDisplayDateTime(
+                    Date.parseExact(appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
                 $dialog.find('#start-datetime').val(startDatetime);
 
-                var endDatetime = Date.parseExact(appointment['end_datetime'],
-                        'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
+                var endDatetime = GeneralFunctions.getDisplayDateTime(
+                    Date.parseExact(appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss'));
                 $dialog.find('#end-datetime').val(endDatetime);
 
                 var customer = appointment['customer'];
@@ -383,8 +389,8 @@ var BackendCalendar = {
                 // :: APPLY UNAVAILABLE DATA TO DIALOG
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
                 $dialog.find('#unavailable-id').val(unavailable.id);
-                $dialog.find('#unavailable-start').val(unavailable.start_datetime.toString('dd/MM/yyyy HH:mm'));
-                $dialog.find('#unavailable-end').val(unavailable.end_datetime.toString('dd/MM/yyyy HH:mm'));
+                $dialog.find('#unavailable-start').val(GeneralFunctions.getDisplayDateTime(unavailable.start_datetime));
+                $dialog.find('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(unavailable.end_datetime));
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
             
@@ -506,10 +512,10 @@ var BackendCalendar = {
             // Id must exist on the object in order for the model to update 
             // the record and not to perform an insert operation.
             
-            var startDatetime = Date.parseExact($dialog.find('#start-datetime').val(),
-                    'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
-            var endDatetime = Date.parseExact($dialog.find('#end-datetime').val(),
-                    'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
+            var startDatetime = GeneralFunctions.getStorageDateTime(
+                GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#start-datetime').val()));
+            var endDatetime = GeneralFunctions.getStorageDateTime(
+                GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#end-datetime').val()));
             
             var appointment = {
                 'id_services': $dialog.find('#select-service').val(),
@@ -587,8 +593,8 @@ var BackendCalendar = {
         $('#manage-unavailable #save-unavailable').click(function() {
             var $dialog = $('#manage-unavailable');
             
-            var start = Date.parseExact($dialog.find('#unavailable-start').val(), 'dd/MM/yyyy HH:mm');
-            var end = Date.parseExact($dialog.find('#unavailable-end').val(), 'dd/MM/yyyy HH:mm');
+            var start = GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#unavailable-start').val());
+            var end = GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#unavailable-end').val());
             
             if (start > end) {
                 // Start time is after end time - display message to user.
@@ -600,8 +606,8 @@ var BackendCalendar = {
             
             // Unavailable period records go to the appointments table.
             var unavailable = {
-                'start_datetime': start.toString('yyyy-MM-dd HH:mm'),
-                'end_datetime': end.toString('yyyy-MM-dd HH:mm'),
+                'start_datetime': GeneralFunctions.getStorageDateTime(start),
+                'end_datetime': GeneralFunctions.getStorageDateTime(end),
                 'notes': $dialog.find('#unavailable-notes').val(),
                 'id_users_provider': $('#select-filter-item').val() // curr provider
             };
@@ -805,8 +811,8 @@ var BackendCalendar = {
             else 
                 start.addHours(1).set({ 'minute': 0 });
             
-            $dialog.find('#start-datetime').val(start.toString('dd/MM/yyyy HH:mm'));
-            $dialog.find('#end-datetime').val(start.addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#start-datetime').val(GeneralFunctions.getDisplayDateTime(start));
+            $dialog.find('#end-datetime').val(GeneralFunctions.getDisplayDateTime(start.addMinutes(serviceDuration)));
             
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
@@ -836,8 +842,8 @@ var BackendCalendar = {
             else 
                 start.addHours(1).set({ 'minute': 0 });
             
-            $dialog.find('#unavailable-start').val(start.toString('dd/MM/yyyy HH:mm'));
-            $dialog.find('#unavailable-end').val(start.addHours(1).toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#unavailable-start').val(GeneralFunctions.getDisplayDateTime(start));
+            $dialog.find('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
             
             $dialog.find('.modal-header h3').text(EALang['new_unavailable_title']);
             $dialog.modal('show');
@@ -943,7 +949,7 @@ var BackendCalendar = {
          * be automatically set based on the duration of the service.
          */
         $('#start-datetime').change(function() {
-            var start = Date.parseExact($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var start = Date.parseExact($('#start-datetime').val(), GeneralFunctions.getDisplayDateTimeFormat());
 
             var serviceDuration = 0;
             $.each(GlobalVariables.availableServices, function(index, service) {
@@ -953,7 +959,7 @@ var BackendCalendar = {
                 }
             });
 
-            $('#end-datetime').val(start.addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm'));
+            $('#end-datetime').val(GeneralFunctions.getDisplayDateTime(start.addMinutes(serviceDuration)));
         });
         
         /**
@@ -1159,9 +1165,6 @@ var BackendCalendar = {
                                 break;
                                 
                             case 'agendaWeek':
-                                var currDateStart = GeneralFunctions.clone($calendar.fullCalendar('getView').start);
-                                var currDateEnd = GeneralFunctions.clone(currDateStart).addDays(1);
-                                
                                 // Add custom unavailable periods (they are always displayed
                                 // on the calendar, even if the provider won't work on that day).
                                 $.each(response.unavailables, function(index, unavailable) {
@@ -1183,7 +1186,26 @@ var BackendCalendar = {
                                    //}
                                 });
                                 
-                                $.each(workingPlan, function(index, workingDay) { 
+                                var dateStart = GeneralFunctions.clone($calendar.fullCalendar('getView').start);
+                                var dateEnd = GeneralFunctions.clone(dateStart).addDays(1);
+
+                                //$.each(workingPlan, function(index, workingDay) {
+                                for (workingDayKey in workingPlan){
+                                    workingDay = workingPlan[workingDayKey];
+                                    var currDateStart = GeneralFunctions.clone(dateStart);
+                                    var currDateEnd = GeneralFunctions.clone(dateEnd);
+
+                                    for (var i = 0; i < 7; i++){
+                                        var selDayName = currDateStart.toString('dddd').toLowerCase();
+                                        if (selDayName == workingDayKey)
+                                        {
+                                            break;
+                                        }
+
+                                        currDateStart.addDays(1);
+                                        currDateEnd.addDays(1);
+                                    }
+                                    
                                     
                                     if (workingDay == null) {
                                         // Add a full day unavailable event.
@@ -1197,9 +1219,7 @@ var BackendCalendar = {
                                             'className': 'fc-unavailable'
                                         };
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
-                                        currDateStart.addDays(1);
-                                        currDateEnd.addDays(1);
-                                        return; // Go to the next loop.
+                                        continue;
                                     }
                                 
                                     var start, end; 
@@ -1255,9 +1275,7 @@ var BackendCalendar = {
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
                                     });
                                     
-                                    currDateStart.addDays(1);
-                                    currDateEnd.addDays(1);
-                                });
+                                }
                                 break;
                         }   
                     } 
@@ -1538,10 +1556,10 @@ var BackendCalendar = {
                         + '.popover-content button {margin-right: 10px;}'
                         + '</style>' +
                     '<strong>' + EALang['start'] + '</strong> ' 
-                        + event.start.toString('dd/MM/yyyy HH:mm') 
+                        + GeneralFunctions.getDisplayDateTime(event.start)
                         + '<br>' + 
                     '<strong>' + EALang['end'] + '</strong> ' 
-                        + event.end.toString('dd/MM/yyyy HH:mm') 
+                        + GeneralFunctions.getDisplayDateTime(event.end)
                         + '<br>'  
                         + notes 
                         + '<hr>' +
@@ -1562,10 +1580,10 @@ var BackendCalendar = {
                         + '.popover-content button {margin-right: 10px;}'
                         + '</style>' +
                     '<strong>' + EALang['start'] + '</strong> ' 
-                        + event.start.toString('dd/MM/yyyy HH:mm') 
+                        + GeneralFunctions.getDisplayDateTime(event.start)
                         + '<br>' + 
                     '<strong>' + EALang['end'] + '</strong> ' 
-                        + event.end.toString('dd/MM/yyyy HH:mm') 
+                        + GeneralFunctions.getDisplayDateTime(event.end)
                         + '<br>' + 
                     '<strong>' + EALang['service'] + '</strong> ' 
                         + event.data['service']['name'] 
@@ -1642,6 +1660,8 @@ var BackendCalendar = {
                     appointment['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                     .add({ days: dayDelta, minutes: minuteDelta })
                     .toString('yyyy-MM-dd HH:mm:ss');
+
+            console.log(appointment['start_datetime'] + "->" + appointment['end_datetime']);
 
             event.data['start_datetime'] = appointment['start_datetime'];
             event.data['end_datetime'] = appointment['end_datetime'];
@@ -1870,65 +1890,13 @@ var BackendCalendar = {
             }
         });
         
-        var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                .toString('dd/MM/yyyy HH:mm');
-        var endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
+        var startDatetime = GeneralFunctions.getDisplayDateTime(new Date().addMinutes(GlobalVariables.bookAdvanceTimeout));
+        var endDatetime = GeneralFunctions.getDisplayDateTime(new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(serviceDuration));
         
-        $dialog.find('#start-datetime').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
-            // Translation
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
-            firstDay: 1
-        });
+        $dialog.find('#start-datetime').datetimepicker(this.getDateTimePickerOptions());
         $dialog.find('#start-datetime').val(startDatetime);
         
-        $dialog.find('#end-datetime').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
-            // Translation
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
-            firstDay: 1
-        });
+        $dialog.find('#end-datetime').datetimepicker(this.getDateTimePickerOptions());
         $dialog.find('#end-datetime').val(endDatetime);
     },
             
@@ -1965,8 +1933,8 @@ var BackendCalendar = {
             }
             
             // :: CHECK APPOINTMENT START AND END TIME
-            var start = Date.parseExact($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
-            var end = Date.parseExact($('#end-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var start = Date.parseExact($('#start-datetime').val(), GeneralFunctions.getDisplayDateTimeFormat());
+            var end = Date.parseExact($('#end-datetime').val(), GeneralFunctions.getDisplayDateTimeFormat());
             if (start > end) {
                 $dialog.find('#start-datetime').parents().eq(1).addClass('error');
                 $dialog.find('#end-datetime').parents().eq(1).addClass('error');
@@ -1990,63 +1958,13 @@ var BackendCalendar = {
         $dialog.find('#unavailable-id').val('');
 
         // Set default time values
-        var start = new Date().toString('dd/MM/yyyy HH:mm');
-        var end = new Date().addHours(1).toString('dd/MM/yyyy HH:mm');
+        var start = GeneralFunctions.getDisplayDateTime(new Date());
+        var end = GeneralFunctions.getDisplayDateTime(new Date().addHours(1));
         
-        $dialog.find('#unavailable-start').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
-            // Translation
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
-            firstDay: 1
-        });
+        $dialog.find('#unavailable-start').datetimepicker(this.getDateTimePickerOptions());
         $dialog.find('#unavailable-start').val(start);
         
-        $dialog.find('#unavailable-end').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
-            // Translation
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
-            firstDay: 1
-        });
+        $dialog.find('#unavailable-end').datetimepicker(this.getDateTimePickerOptions());
         $dialog.find('#unavailable-end').val(end);
         
         // Clear the unavailable notes field.
@@ -2068,5 +1986,41 @@ var BackendCalendar = {
             var time = $(this).find('.fc-event-time').text();
             $(this).find('.fc-event-time').html(time);
         });
-    }
+    },
+
+    /**
+     * Gets the default options for a datetimepicker
+     */
+    getDateTimePickerOptions: function(){
+        return {
+            dateFormat: GeneralFunctions.getDisplayDatePickerFormat(),
+            timeFormat: GeneralFunctions.getDisplayTimeFormat(),
+            firstDay: GlobalVariables.first_day_of_week,
+            stepMinute: parseInt(GlobalVariables.time_slot_interval),
+            hourMin:Date.parse(GlobalVariables.day_start_time).getHours(),
+            hourMax:Date.parse(GlobalVariables.day_end_time).getHours(),
+            // Translation
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+            EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+            EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+            EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+            EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+            EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+            EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+            EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+            EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+            EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+        }   
+    },
 };

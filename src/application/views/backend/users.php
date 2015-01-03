@@ -19,6 +19,9 @@
 <script type="text/javascript">    
     var GlobalVariables = {
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
+        'date_format': <?php echo json_encode($date_format); ?>,
+        'time_format': <?php echo json_encode($time_format); ?>,
+        'first_day_of_week': <?php echo json_encode($first_day_of_week); ?>,
         'admins': <?php echo json_encode($admins); ?>,
         'providers': <?php echo json_encode($providers); ?>,
         'secretaries': <?php echo json_encode($secretaries); ?>,

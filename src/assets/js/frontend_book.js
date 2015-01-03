@@ -53,8 +53,8 @@ var FrontendBook = {
         });
         
         $('#select-date').datepicker({
-            dateFormat: 'dd-mm-yy',
-            firstDay: 1, // Monday
+            dateFormat: 'yy-mm-dd',
+            firstDay: GlobalVariables.first_day_of_week, // Monday
             minDate: 0,
             defaultDate: Date.today(),
            
@@ -427,13 +427,15 @@ var FrontendBook = {
             // service. Fill the available hours div with response data. 
             if (response.length > 0) {
                 var currColumn = 1;
-                $('#available-hours').html('<div style="width:50px; float:left;"></div>');
+                $('#available-hours').html('<div style="width:70px; float:left;"></div>');
 
                 $.each(response, function(index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
-                        $('#available-hours').append('<div style="width:50px; float:left;"></div>');
+                        $('#available-hours').append('<div style="width:70px; float:left;"></div>');
                     }
+
+                availableHour = GeneralFunctions.getDisplayTime(Date.parse(availableHour));
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
                             '<span class="available-hour">' + availableHour + '</span><br/>');
@@ -443,9 +445,9 @@ var FrontendBook = {
                     // Set the appointment's start time as the default selection.
                     $('.available-hour').removeClass('selected-hour');
                     $('.available-hour').filter(function() {
-                        return $(this).text() === Date.parseExact(
-                                GlobalVariables.appointmentData['start_datetime'],
-                                'yyyy-MM-dd HH:mm:ss').toString('HH:mm');
+                        return $(this).text() === GeneralFunctions.getDisplayTime(
+                                GeneralFunctions.getDateFromStorageDateTime(
+                                GlobalVariables.appointmentData['start_datetime']));
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.
@@ -504,7 +506,8 @@ var FrontendBook = {
         // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
         if (selectedDate !== null) {
-            selectedDate = Date.parse(selectedDate).toString('dd/MM/yyyy');
+            // show long date format
+            selectedDate = Date.parse(selectedDate).toString("dddd, MMMM d, yyyy");
         }
 
         var selServiceId = $('#select-service').val();
@@ -522,7 +525,7 @@ var FrontendBook = {
             '<p>' 
         		+ '<strong class="text-info">' 
                     + $('#select-provider option:selected').text() + '<br>'
-        			+ selectedDate + ' ' +  $('.selected-hour').text() 
+        			+ selectedDate + '<br>' +  $('.selected-hour').text() 
                     + servicePrice + ' ' + serviceCurrency
     			+ '</strong>' + 
             '</p>'
@@ -562,7 +565,7 @@ var FrontendBook = {
             + ' ' + $('.selected-hour').text());
         
         postData['appointment'] = {
-            'start_datetime': startDatetime.toString('yyyy-MM-dd HH:mm:ss'),
+            'start_datetime': GeneralFunctions.getStorageDateTime(startDatetime),
             'end_datetime': FrontendBook.calcEndDatetime(),
             'notes': $('#notes').val(),
             'is_unavailable': false,
@@ -609,7 +612,7 @@ var FrontendBook = {
             endDatetime = new Date();
         }
         
-        return endDatetime.toString('yyyy-MM-dd HH:mm:ss');
+        return GeneralFunctions.getStorageDateTime(endDatetime);
     },
     
     /**

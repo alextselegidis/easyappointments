@@ -9,6 +9,9 @@
         'availableProviders': <?php echo json_encode($available_providers); ?>,
         'availableServices': <?php echo json_encode($available_services); ?>,
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
+        'date_format': <?php echo json_encode($date_format); ?>,
+        'time_format': <?php echo json_encode($time_format); ?>,
+        'first_day_of_week': <?php echo json_encode($first_day_of_week); ?>,
         'customers': <?php echo json_encode($customers); ?>,
         'user'                  : {
             'id'        : <?php echo $user_id; ?>,

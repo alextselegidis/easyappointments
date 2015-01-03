@@ -37,6 +37,10 @@ var BackendSettings = {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
         });
         
+        $.each(GlobalVariables.settings.system, function(index, setting) {
+            $('select[data-field="' + setting.name + '"]').val(setting.value);
+        });
+        
         var workingPlan = {};
         $.each(GlobalVariables.settings.system, function(index, setting) {
             if (setting.name == 'company_working_plan') {
@@ -243,6 +247,13 @@ SystemSettings.prototype.get = function() {
     
     // General Settings Tab
     $('#general input').each(function() {
+        settings.push({
+            'name': $(this).attr('data-field'),
+            'value': $(this).val()
+        });
+    });
+
+    $('#general select').each(function() {
         settings.push({
             'name': $(this).attr('data-field'),
             'value': $(this).val()

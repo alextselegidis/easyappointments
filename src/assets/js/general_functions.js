@@ -317,5 +317,95 @@ var GeneralFunctions = {
         		
         	}, 'json');
         });
-    }
+    },
+    /**
+     * Format a date for display
+     * This method requires the global variable 'date_foramt'
+     * to be initialized before the execution.
+     * 
+     * @param {Date} returns 
+     * @returns {String} Returns a formated date string
+     */
+    getDisplayDateFormat: function() {
+        var date_format = "dd/MM/yyyy";
+        if (GlobalVariables.date_format == "YMD") {
+            date_format = "yyyy-MM-dd";
+        }
+        else if (GlobalVariables.date_format == "MDY") {
+            date_format = "MM/dd/yyyy";
+        }
+
+        return date_format;
+    },
+
+    getDisplayDatePickerFormat: function() {
+        var date_format = 'dd/mm/yy';
+        if (GlobalVariables.date_format == "YMD") {
+            date_format = "yy-mm-dd";
+        }
+        else if (GlobalVariables.date_format == "MDY") {
+            date_format = "mm/dd/yy";
+        }
+
+        return date_format;
+    },
+
+    getDisplayTimeFormat: function() {
+        var timeFmt = 'HH:mm';
+        if (GlobalVariables.time_format == 12) {
+            timeFmt = 'h:mmtt';
+        }
+        return timeFmt;
+    },
+
+    getStorageDateFormat: function() {
+        return "yyyy-MM-dd";
+    },
+
+    getStorageTimeFormat: function() {
+        return 'HH:mm';
+    },
+
+    getDisplayDateTimeFormat: function() {
+        return this.getDisplayDateFormat() + " " + this.getDisplayTimeFormat();
+    },
+
+    getStorageDateTimeFormat: function() {
+        return 'yyyy-MM-dd HH:mm:ss';
+    },
+
+    getDisplayDate: function(date) {
+        return date.toString(this.getDisplayDateFormat());
+    },
+
+    getDisplayTime: function(date) {
+        return date.toString(this.getDisplayTimeFormat()).toLowerCase();
+    },
+
+    getDisplayDateTime: function(date) {
+        return date.toString(this.getDisplayDateTimeFormat()).toLowerCase();
+    },
+
+    getStorageDate: function(date) {
+        return date.toString(this.getStorageDateFormat());
+    },
+
+    getStorageTime: function(date) {
+        return date.toString(this.getStorageTimeFormat());
+    },
+
+    getStorageDateTime: function(date) {
+        return date.toString(this.getStorageDateTimeFormat());
+    },
+
+    getDateFromDisplayDate: function(str){
+        return Date.parseExact(str, this.getDisplayDateFormat());
+    },
+    getDateFromDisplayTime: function(str){
+        return Date.parseExact(str, this.getDisplayTimeFormat());
+    },
+    getDateFromDisplayDateTime: function(str){
+        return Date.parseExact(str, this.getDisplayDateTimeFormat());
+    },
+
 };

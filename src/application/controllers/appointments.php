@@ -37,6 +37,9 @@ class Appointments extends CI_Controller {
                 $available_services  = $this->services_model->get_available_services();
                 $available_providers = $this->providers_model->get_available_providers();
                 $company_name        = $this->settings_model->get_setting('company_name');
+                $date_format         = $this->settings_model->get_setting('date_format');
+                $time_format         = $this->settings_model->get_setting('time_format');
+                $first_day_of_week   = $this->settings_model->get_setting('first_day_of_week');
 
                 // If an appointment hash is provided then it means that the customer 
                 // is trying to edit a registered appointment record.
@@ -114,6 +117,9 @@ class Appointments extends CI_Controller {
 
                 // Load the book appointment view.
                 $view = array (
+                    'date_format'           => $date_format,
+                    'time_format'           => $time_format,
+                    'first_day_of_week'     => $first_day_of_week,
                     'available_services'    => $available_services,
                     'available_providers'   => $available_providers,
                     'company_name'          => $company_name,
@@ -154,7 +160,9 @@ class Appointments extends CI_Controller {
                 $company_settings = array( 
                     'company_name'  => $this->settings_model->get_setting('company_name'),
                     'company_link'  => $this->settings_model->get_setting('company_link'),
-                    'company_email' => $this->settings_model->get_setting('company_email')
+                    'company_email' => $this->settings_model->get_setting('company_email'),
+                    'date_format' => $this->settings_model->get_setting('date_format'),
+                    'time_format' => $this->settings_model->get_setting('time_format')
                 );
                 
                 // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
@@ -283,7 +291,9 @@ class Appointments extends CI_Controller {
             $company_settings = array(
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link')
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             );
             
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
@@ -780,6 +790,12 @@ class Appointments extends CI_Controller {
             $this->settings_model->set_setting('company_name', $company['company_name']);
             $this->settings_model->set_setting('company_email', $company['company_email']);
             $this->settings_model->set_setting('company_link', $company['company_link']);
+            $this->settings_model->set_setting('date_format', 'DMY');
+            $this->settings_model->set_setting('time_format', '24');
+            $this->settings_model->set_setting('first_day_of_week', '1');
+            $this->settings_model->set_setting('day_start_time', '00:00');
+            $this->settings_model->set_setting('day_end_time', '23:00');
+            $this->settings_model->set_setting('time_slot_interval', '15');
             
             // Try to send a notification email for the new installation. 
             // IMPORTANT: THIS WILL ONLY BE USED TO TRACK THE INSTALLATION NUMBER AND

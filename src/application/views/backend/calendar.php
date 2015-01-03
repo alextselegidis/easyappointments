@@ -12,6 +12,12 @@
         
 <script type="text/javascript">    
     var GlobalVariables = {
+        'date_format'    : <?php echo json_encode($date_format); ?>,
+        'time_format'    : <?php echo json_encode($time_format); ?>,
+        'first_day_of_week'    : <?php echo json_encode($first_day_of_week); ?>,
+        'day_start_time'    : <?php echo json_encode($day_start_time); ?>,
+        'day_end_time'    : <?php echo json_encode($day_end_time); ?>,
+        'time_slot_interval'    : <?php echo json_encode($time_slot_interval); ?>,
         'availableProviders'    : <?php echo json_encode($available_providers); ?>,
         'availableServices'     : <?php echo json_encode($available_services); ?>,
         'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,

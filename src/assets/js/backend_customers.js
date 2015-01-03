@@ -329,9 +329,13 @@ CustomersHelper.prototype.display = function(customer) {
 
     $('#customer-appointments').data('jsp').destroy();
     $('#customer-appointments').empty();
-    $.each(customer.appointments, function(index, appointment) {
-        var start = Date.parse(appointment.start_datetime).toString('dd/MM/yyyy HH:mm');
-        var end = Date.parse(appointment.end_datetime).toString('dd/MM/yyyy HH:mm');
+    var appointments = customer.appointments;
+    appointments.reverse(); // show appointments from newest to oldest
+
+
+    $.each(appointments, function(index, appointment) {
+        var start = GeneralFunctions.getDisplayDateTime(Date.parse(appointment.start_datetime));
+        var end = GeneralFunctions.getDisplayDateTime(Date.parse(appointment.end_datetime));
         var html = 
                 '<div class="appointment-row" data-id="' + appointment.id + '">' + 
                     start + ' - ' + end + '<br>' +

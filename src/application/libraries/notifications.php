@@ -63,6 +63,16 @@ class Notifications {
     public function send_appointment_details($appointment_data, $provider_data, $service_data, 
             $customer_data, $company_settings, $title, $message, $appointment_link, 
             $receiver_address, $debug = FALSE) {
+
+        $date_format = "d/m/Y";
+        if ($company_settings['date_format'] == "YMD")
+            $date_format = "Y-m-d";
+        else if ($company_settings['date_format'] == "MDY")
+            $date_format = "m/d/Y";
+
+        $time_format = "H:i";
+        if ($company_settings['time_format'] == 12)
+            $time_format = "g:ia";
         
         // :: PREPARE THE EMAIL TEMPLATE REPLACE ARRAY
         $replace_array = array(
@@ -71,8 +81,8 @@ class Notifications {
             
             '$appointment_service'      => $service_data['name'],
             '$appointment_provider'     => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
-            '$appointment_start_date'   => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
-            '$appointment_end_date'     => date('d/m/Y H:i', strtotime($appointment_data['end_datetime'])),
+            '$appointment_start_date'   => date($date_format . ' ' . $time_format, strtotime($appointment_data['start_datetime'])),
+            '$appointment_end_date'     => date($date_format . ' ' . $time_format, strtotime($appointment_data['end_datetime'])),
             '$appointment_link'         => $appointment_link, 
             
             '$company_link'             => $company_settings['company_link'],
@@ -149,13 +159,23 @@ class Notifications {
      */
     public function send_delete_appointment($appointment_data, $provider_data, 
             $service_data, $customer_data, $company_settings, $to_address, $reason) {
+
+        $date_format = "d/m/Y";
+        if ($company_settings['date_format'] == "YMD")
+            $date_format = "Y-m-d";
+        else if ($company_settings['date_format'] == "MDY")
+            $date_format = "m/d/Y";
+
+        $time_format = "H:i";
+        if ($company_settings['time_format'] == 12)
+            $time_format = "g:ia";
       	// :: PREPARE EMAIL REPLACE ARRAY
         $replace_array = array(
             '$email_title'          => $this->ci->lang->line('appointment_cancelled_title'),
             '$email_message'        => $this->ci->lang->line('appointment_removed_from_schedule'),
             '$appointment_service'  => $service_data['name'],
             '$appointment_provider' => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
-            '$appointment_date'     => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
+            '$appointment_date'     => date($date_format . ' ' . $time_format, strtotime($appointment_data['start_datetime'])),
             '$appointment_duration' => $service_data['duration'] . ' minutes',
             '$company_link'         => $company_settings['company_link'],
             '$company_name'         => $company_settings['company_name'],

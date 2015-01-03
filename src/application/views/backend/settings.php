@@ -10,6 +10,12 @@
 <script type="text/javascript">    
     var GlobalVariables = {
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
+        'date_format': <?php echo '"' . $date_format . '"'; ?>,
+        'time_format': <?php echo '"' . $time_format . '"'; ?>,
+        'first_day_of_week': <?php echo '"' . $first_day_of_week . '"'; ?>,
+        'day_start_time'    : <?php echo json_encode($day_start_time); ?>,
+        'day_end_time'    : <?php echo json_encode($day_end_time); ?>,
+        'time_slot_interval'    : <?php echo json_encode($time_slot_interval); ?>,
         'userSlug': <?php echo '"' . $role_slug . '"'; ?>,
         'settings': {
             'system': <?php echo json_encode($system_settings); ?>,
@@ -67,7 +73,7 @@
                 
                 <div class="wrapper">
                     <label for="company-name"><?php echo $this->lang->line('company_name'); ?> *</label>
-                    <input type="text" id="company-name" data-field="company_name" class="required span12">
+                    <input type="text" id="company-name" data-field="company_name" class="required span12" />
                     <span class="help-block">
                         <?php echo $this->lang->line('company_name_hint'); ?>
                     </span>
@@ -75,7 +81,7 @@
                     <br>
 
                     <label for="company-email"><?php echo $this->lang->line('company_email'); ?> *</label>
-                    <input type="text" id="company-email" data-field="company_email" class="required span12">
+                    <input type="text" id="company-email" data-field="company_email" class="required span12" />
                     <span class="help-block">
                         <?php echo $this->lang->line('company_email_hint'); ?>
                     </span>
@@ -83,11 +89,75 @@
                     <br>
 
                     <label for="company-link"><?php echo $this->lang->line('company_link'); ?> *</label>
-                    <input type="text" id="company-link" data-field="company_link" class="required span12">
+                    <input type="text" id="company-link" data-field="company_link" class="required span12" />
                     <span class="help-block">
                         <?php echo $this->lang->line('company_link_hint'); ?>
                     </span>
 
+                    <br>
+                    <label for="date-format"><?php echo $this->lang->line('date_format'); ?></label>
+                    <select type="text" id="date-format" data-field="date_format">
+                        <option value='YMD'><?php echo $this->lang->line('date_format_ymd'); ?></option>
+                        <option value='MDY'><?php echo $this->lang->line('date_format_mdy'); ?></option>
+                        <option value='DMY'><?php echo $this->lang->line('date_format_dmy'); ?></option>
+                    </select>
+
+                    <br>
+                    <label for="time-format"><?php echo $this->lang->line('time_format'); ?></label>
+                    <select type="text" id="time-format" data-field="time_format">
+                        <option value='12'><?php echo $this->lang->line('12_hour'); ?></option>
+                        <option value='24'><?php echo $this->lang->line('24_hour'); ?></option>
+                    </select>
+
+                    <br>
+                    <label for="first-day-of-week"><?php echo $this->lang->line('first_day_of_week'); ?></label>
+                    <select type="text" id="first-day-of-week" data-field="first_day_of_week">
+                        <option value='0'><?php echo $this->lang->line('sunday'); ?></option>
+                        <option value='1'><?php echo $this->lang->line('monday'); ?></option>
+                    </select>
+
+                    <br/>
+
+                    <label for="day-start-time"><?php echo $this->lang->line('day_start_time'); ?></label>
+                    <select type="text" id="day-start-time" data-field="day_start_time">
+                    <?php for ($i = 0; $i < 24; $i++) {
+                        $time = new DateTime($i . ":00");
+                        $display_time = $time->format("H:i");
+                        $storage_time = $display_time; 
+                        if ($time_format == 12)
+                            $display_time = $time->format("g:ia");
+                    ?>
+                        <option value='<?php echo $storage_time;?>'><?php echo $display_time;?></option>
+                    <?php } ?>
+                    </select>
+
+                    <br/>
+
+                    <label for="day-end-time"><?php echo $this->lang->line('day_end_time'); ?></label>
+                    <select type="text" id="day-end-time" data-field="day_end_time">
+                    <?php for ($i = 0; $i < 24; $i++) {
+                        $time = new DateTime($i . ":00");
+                        $display_time = $time->format("H:i");
+                        $storage_time = $display_time; 
+                        if ($time_format == 12)
+                            $display_time = $time->format("g:ia");
+                    ?>
+                        <option value='<?php echo $storage_time;?>'><?php echo $display_time;?></option>
+                    <?php } ?>
+                    </select>
+
+                    <br/>
+
+                    <label for="time-slot-interval"><?php echo $this->lang->line('time_slot_interval'); ?></label>
+                    <select type="text" id="time-slot-interval" data-field="time_slot_interval">
+                        <option value='10'><?php echo $this->lang->line('10_minutes'); ?></option>
+                        <option value='15'><?php echo $this->lang->line('15_minutes'); ?></option>
+                        <option value='20'><?php echo $this->lang->line('20_minutes'); ?></option>
+                        <option value='30'><?php echo $this->lang->line('30_minutes'); ?></option>
+                        <option value='60'><?php echo $this->lang->line('60_minutes'); ?></option>
+                    </select>
+
+                    <br>
                     <br>
 
                     <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-info">

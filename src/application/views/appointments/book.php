@@ -71,6 +71,9 @@
         // ------------------------------------------------------------ ?>
     <script type="text/javascript">
         var GlobalVariables = {
+            date_format         : <?php echo json_encode($date_format); ?>,
+            time_format         : <?php echo json_encode($time_format); ?>,
+            first_day_of_week   : <?php echo json_encode($first_day_of_week); ?>,
             availableServices   : <?php echo json_encode($available_services); ?>,
             availableProviders  : <?php echo json_encode($available_providers); ?>,
             baseUrl             : <?php echo '"' . $this->config->base_url() . '"'; ?>,

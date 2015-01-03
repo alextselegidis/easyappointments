@@ -98,7 +98,9 @@ class cli extends CI_Controller
 		$company_settings = array(
 			'company_name'  => $this->settings_model->get_setting('company_name'),
 			'company_link'  => $this->settings_model->get_setting('company_link'),
-			'company_email' => $this->settings_model->get_setting('company_email')
+			'company_email' => $this->settings_model->get_setting('company_email'),
+			'date_format' => $this->settings_model->get_setting('date_format'),
+			'time_format' => $this->settings_model->get_setting('time_format')
 		);
 
 		try {
