@@ -667,22 +667,9 @@ var FrontendBook = {
         
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == serviceId) { // Just found the service.
-                html = '<strong>' + service.name + ' </strong>';
-                
                 if (service.description != '' && service.description != null) {
-                    html += '<br>' + service.description + '<br>';
+                    html = service.description;
                 }
-                
-                if (service.duration != '' && service.duration != null) {
-                    html += '[' + EALang['duration'] + ' ' + service.duration 
-                            + ' ' + EALang['minutes'] + '] ';
-                }
-                
-                if (service.price != '' && service.price != null) {
-                    html += '[' + EALang['price'] + ' ' + service.price + ' ' + service.currency  + ']';
-                }   
-                
-                html += '<br>';
                 
                 return false;
             }
