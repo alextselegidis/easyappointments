@@ -53,7 +53,7 @@ class Appointments extends CI_Controller {
                             'message_title' => $this->lang->line('appointment_not_found'),
                             'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
                             'message_icon'  => $this->config->item('base_url') 
-                                             . 'assets/images/error.png',
+                                             . 'assets/img/error.png',
                             'company_name'  => $company_name
                         );
                         $this->load->view('appointments/message', $view);                        

@@ -23,7 +23,7 @@
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
+        href="<?php echo $this->config->base_url(); ?>assets/img/favicon.ico">
     
     <style>
         body {
@@ -47,7 +47,7 @@
 </head>
 <body>
     <div id="success-frame" class="frame-container">
-        <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/images/success.png" />
+        <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/img/success.png" />
         
         <h3><?php echo $this->lang->line('appointment_cancelled'); ?></h3>
         

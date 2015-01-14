@@ -1,0 +1,44 @@
+VERSION 1.1
+===========
+
+Change Log
+
+    - Addition of extra custom translations (Dutch, Spanish, Japanese, Simplified Chinese, French, Polish) .
+    
+    - Responsive Design (both for frontend and backend). 
+
+    - Enhancements in Google Synchronization.
+
+    - Display E!A Blog RSS feeds. 
+
+    - Add Google Analytics support to the booking page.
+
+    - Fixes in minor project issues. 
+
+
+Technical
+
+    - Update of third party tools (CodeIgniter, Bootstrap, jQuery, FullCalendar, Google API libs).
+
+    - Addition of Require.js for JavaScript code.
+
+    - Refactored configuration file and information. 
+
+    - Add error logging for tracking software defects.
+
+    - Update scripts, added sample database data, generate documentation. 
+
+    - Addition of Selenium IDE and QUnit tests.
+
+
+Official Easy!Appointments Website:
+http://easyappointments.org
+
+Visit the Support Group for any help on the project: 
+http://groups.google.com/group/easy-appointments
+
+E!A Blog for news and information:
+http://easyappointments.wordpress.com
+
+Check the Google+ Community for development updates:
+https://plus.google.com/communities/105333709485142846840 

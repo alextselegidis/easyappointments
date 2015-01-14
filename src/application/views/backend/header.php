@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <link rel="icon" type="image/x-icon" 
-          href="<?php echo $base_url; ?>assets/images/favicon.ico">
+          href="<?php echo $base_url; ?>assets/img/favicon.ico">
     
     <?php
         // ------------------------------------------------------------
@@ -75,7 +75,7 @@
 <body>
 <div id="header">
     <div id="header-logo">
-        <img src="<?php echo $base_url; ?>assets/images/logo.png">
+        <img src="<?php echo $base_url; ?>assets/img/logo.png">
         <span><?php echo $company_name; ?></span>
     </div>
     
@@ -139,5 +139,5 @@
 <div id="notification" style="display: none;"></div>
 
 <div id="loading" style="display: none;">
-    <img src="<?php echo $base_url; ?>assets/images/loading.gif" />
+    <img src="<?php echo $base_url; ?>assets/img/loading.gif" />
 </div>

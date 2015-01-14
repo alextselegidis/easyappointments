@@ -33,7 +33,7 @@
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>assets/images/favicon.ico">
+        href="<?php echo $this->config->base_url(); ?>assets/img/favicon.ico">
     
     <style>
         body {

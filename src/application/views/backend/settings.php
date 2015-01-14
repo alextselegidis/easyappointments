@@ -329,20 +329,20 @@
                 <?php echo $this->lang->line('official_website'); ?>
             </a>
             | 
-            <a href="https://plus.google.com/communities/105333709485142846840">
-                <?php echo $this->lang->line('google_plus_community'); ?>
-            </a>
-            | 
             <a href="https://groups.google.com/forum/#!forum/easy-appointments">
                 <?php echo $this->lang->line('support_group'); ?>
             </a>
             |
-            <a href="https://code.google.com/p/easy-appointments/issues/list">
+            <a href="https://github.com/alextselegidis/easyappointments/issues">
                 <?php echo $this->lang->line('project_issues'); ?>
             </a>
             |
             <a href="http://easyappointments.wordpress.com">
                 E!A Blog
+            </a>
+            | 
+            <a href="https://plus.google.com/communities/105333709485142846840">
+                <?php echo $this->lang->line('google_plus_community'); ?>
             </a>
         </p>
 		
