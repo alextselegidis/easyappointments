@@ -1,5 +1,6 @@
-VERSION 1.1
-===========
+===============================================================================
+VERSION 1.1 - RELEASE NOTES
+===============================================================================
 
 Change Log
 
@@ -40,5 +41,5 @@ http://groups.google.com/group/easy-appointments
 E!A Blog for news and information:
 http://easyappointments.wordpress.com
 
-Check the Google+ Community for development updates:
+Join the Google+ Community and connect with other users:
 https://plus.google.com/communities/105333709485142846840 
