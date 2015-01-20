@@ -177,7 +177,7 @@ body .jspTrack {
 }
 
 #calendar-page #calendar .fc-unavailable { 
-    background-image: url('../images/unavailable.jpg');   
+    background-image: url('../img/unavailable.jpg');   
     font-size: 17px; 
     border-radius: 0; 
     font-weight: bold; 
@@ -192,11 +192,11 @@ body .jspTrack {
 }
 
 #calendar-page #calendar .fc-break { 
-    background-image: url('../images/break.jpg'); 
+    background-image: url('../img/break.jpg'); 
 }
 
 #calendar-page #calendar .fc-custom { 
-    background-image: url('../images/custom.jpg'); 
+    background-image: url('../img/custom.jpg'); 
 }
 
 #calendar .fc-header-title h2 {

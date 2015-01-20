@@ -1,7 +1,21 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// Include the external configuration.php
-include dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+// Include the app "configuration.php" file.
+require dirname(dirname(__DIR__)) . '/configuration.php';
+
+/*
+|--------------------------------------------------------------------------
+| Easy!Appointments Configuration
+|--------------------------------------------------------------------------
+| 
+| Declare some of the global config values of Easy!Appointments.  
+| the global "config" variable.
+|
+*/
+$config['ea_version'] = '1.1'; // This must be changed manually.
+$config['ea_release_title'] = 'Develop'; // Leave empty for no title or add BETA, TEST etc ...
+$config['ea_google_sync_feature'] = SystemConfiguration::$google_sync_feature;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,21 +31,8 @@ include dirname(dirname(dirname(__FILE__))) . '/configuration.php';
 | path to your installation.
 |
 */
-require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+require_once dirname(dirname(__DIR__)) . '/configuration.php';
 $config['base_url']	= SystemConfiguration::$base_url; 
-
-/*
-|--------------------------------------------------------------------------
-| Easy!Appointments Configuration
-|--------------------------------------------------------------------------
-| 
-| Declare some of the global config values of Easy!Appointments.  
-| the global "config" variable.
-|
-*/
-$config['ea_version'] = '1.0'; // This must be changed manually.
-$config['ea_release_title'] = ''; // Leave empty for no title or add BETA, TEST etc ...
-$config['ea_google_sync_feature'] = SystemConfiguration::$google_sync_feature;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,7 +88,8 @@ $config['url_suffix'] = '';
 |
 */
 $config['language'] = 'english'; // default language
-$config['available_languages'] = array('english', 'german', 'greek', 'hungarian', 'portuguese');
+$config['available_languages'] = array('english', 'german', 'greek', 'hungarian', 'portuguese',
+        'chinese', 'dutch', 'french', 'japanese', 'polish', 'spanish');
 
 /*
 |--------------------------------------------------------------------------

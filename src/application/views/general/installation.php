@@ -19,7 +19,7 @@
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $base_url; ?>assets/images/favicon.ico">       
+        href="<?php echo $base_url; ?>assets/img/favicon.ico">       
 
     <?php // INCLUDE SCRIPTS ?>
     <script 
@@ -211,12 +211,12 @@
 </head>
 <body>
     <div id="loading" style="display: none;">
-        <img src="<?php echo $base_url; ?>assets/images/loading.gif" />
+        <img src="<?php echo $base_url; ?>assets/img/loading.gif" />
     </div>
     
     <header>
         <a href="http://easyappointments.org" target="_blank">
-            <img src="<?php echo $base_url; ?>assets/images/installation-banner.png" alt="Easy!Appointents Installation Banner">
+            <img src="<?php echo $base_url; ?>assets/img/installation-banner.png" alt="Easy!Appointents Installation Banner">
         </a>
     </header>
     

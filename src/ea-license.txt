@@ -1,0 +1,41 @@
+EASY!APPOINTMENTS
+=================================================================
+Easy!Appointments is a highly customizable web application that 
+allows your customers to book appointments with you via the web. 
+Moreover, it provides the ability to sync your data with Google 
+Calendar so you can use them with other services. It is an open 
+source project and you can download and install it even for 
+commercial use. Easy!Appointments will run smoothly with your 
+existing website, because it can be installed in a single folder 
+of the server and of course, both sites can share the same database.
+
+LICENSE
+=================================================================
+Easy!Appointments is licensed under the GPLv3 license. By using 
+the code of Easy!Appointments in any way you are agreeing to the 
+terms described in the following url:
+			
+>> http://www.gnu.org/copyleft/gpl.html
+
+
+DISCLAIMER OF WARRANTY
+=================================================================
+THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY 
+APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT 
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT 
+WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT 
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
+A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE 
+OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU 
+ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+SUPPORT
+=================================================================
+If you encounter any problems when using Easy!Appointments you can 
+search the official Google Group for answers. You might also want 
+to create a new issue on the Google Code page in order to help the 
+development progress. 
+
+>> Support Group: https://groups.google.com/forum/#!forum/easy-appointments
+>> Project Issues: https://github.com/alextselegidis/easyappointments/issues
+>> Project Wiki: https://github.com/alextselegidis/easyappointments/wiki
