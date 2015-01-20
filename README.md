@@ -33,8 +33,19 @@ perform the following steps in order to install the system on your server:
 * Edit the "configuration.php" file and set your server properties.
 * Open your browser on the Easy!Appointments URL and follow the installation guide.
 * That's it! You can now use Easy!Appointments at your will.
+* Reminders can be sent out 24 hours before the appointment by setting up a cron job. The cron job will check for upcoming appointments and send a reminder notification if one has not been sent. The cronjob should run the following command:
+```
+php index.php cli send_appointment_reminders
+```
 
 You will find the latest release at [easyappointments.org](http://easyappointments.org). If you have problems installing or configuring the application take a look on the [Wiki Pages](https://github.com/alextselegidis/easyappointments/wiki) or visit the [Official Support Group](https://groups.google.com/forum/#!forum/easy-appointments). You can also report problems on the [Issues Page](https://github.com/alextselegidis/easyappointments/issues) in order to help the development progress or contact [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
+
+
+### Upgrading
+To make sure the database schema is up to date, run the following command:
+```
+php index.php cli update
+```
 
 ### User Feedback
 Whether it is new ideas or defects, your feedback is highly appreciated and will be taken into 
