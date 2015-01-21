@@ -1,5 +1,5 @@
 <?php
-# Polish
+// Polish
 $lang['page_title'] = 'Zamów wizytę';
 $lang['step_one_title'] = 'Wybierz Zabieg i Personel';
 $lang['select_service'] = 'Wybierz zabieg:';
@@ -16,6 +16,7 @@ $lang['first_name'] = 'Imię';
 $lang['last_name'] = 'Nazwisko';
 $lang['email'] = 'E-mail';
 $lang['phone_number'] = 'Numer telefonu';
+$lang['address'] = 'Adres';
 $lang['city'] = 'Miasto';
 $lang['zip_code'] = 'Kod pocztowy';
 $lang['notes'] = 'Uwagi';
@@ -24,6 +25,7 @@ $lang['step_four_title'] = 'Potwierdz Wizytę';
 $lang['confirm'] = 'Potwierdź';
 $lang['update'] = 'Aktualizuj';
 $lang['cancel_appointment_hint'] = 'Przyciśnij \'Anuluj\' aby usunąć wizytę z terminarza.';
+$lang['cancel'] = 'Anulować';
 $lang['appointment_registered'] = 'Twoja wizyta została została pozytywnie zarejestrowana.';
 $lang['cancel_appointment_title'] = 'Anuluj Wizytę';
 $lang['appointment_cancelled'] = 'Twoja wizyta została anulowana!';
