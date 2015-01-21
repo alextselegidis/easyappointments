@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: working_plan.js</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,16 +16,17 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Source: working_plan.js</h1>
+
     
-    
+
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
+            <pre class="prettyprint source linenums"><code>/**
  * Contains the working plan functionality. The working plan DOM elements must be same 
  * in every page this class is used.
  * 
@@ -63,22 +64,24 @@ WorkingPlan.prototype.setup = function(workingPlan) {
 
             // Add the day's breaks on the breaks table.
             $.each(workingDay.breaks, function(i, brk) {
+                var day = WorkingPlan.prototype.convertValueToDay(index);
+                
                 var tr = 
                         '&lt;tr>' + 
-                            '&lt;td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(index) + '&lt;/td>' +
+                            '&lt;td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '&lt;/td>' +
                             '&lt;td class="break-start editable">' + brk.start + '&lt;/td>' +
                             '&lt;td class="break-end editable">' + brk.end + '&lt;/td>' +
                             '&lt;td>' + 
-                                '&lt;button type="button" class="btn edit-break" title="Edit Break">' +
+                                '&lt;button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
                                     '&lt;i class="icon-pencil">&lt;/i>' +
                                 '&lt;/button>' +
-                                '&lt;button type="button" class="btn delete-break" title="Delete Break">' +
+                                '&lt;button type="button" class="btn delete-break" title="' + EALang['delete'] + '">' +
                                     '&lt;i class="icon-remove">&lt;/i>' +
                                 '&lt;/button>' +
-                                '&lt;button type="button" class="btn save-break hidden" title="Save Break">' +
+                                '&lt;button type="button" class="btn save-break hidden" title="' + EALang['save'] + '">' +
                                     '&lt;i class="icon-ok">&lt;/i>' +
                                 '&lt;/button>' +
-                                '&lt;button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                                '&lt;button type="button" class="btn cancel-break hidden" title="' + EALang['cancel'] + '">' +
                                     '&lt;i class="icon-ban-circle">&lt;/i>' +
                                 '&lt;/button>' +
                             '&lt;/td>' +
@@ -103,13 +106,23 @@ WorkingPlan.prototype.setup = function(workingPlan) {
  * @param {object} $selector The jquery selector ready for use.
  */
 WorkingPlan.prototype.editableBreakDay = function($selector) {
+    var weekDays = {};
+    weekDays[EALang['monday']] = EALang['monday']; //'Monday';
+    weekDays[EALang['tuesday']] = EALang['tuesday']; //'Tuesday';
+    weekDays[EALang['wednesday']] = EALang['wednesday']; //'Wednesday';
+    weekDays[EALang['thursday']] = EALang['thursday']; //'Thursday';
+    weekDays[EALang['friday']] = EALang['friday']; //'Friday';
+    weekDays[EALang['saturday']] = EALang['saturday']; //'Saturday';
+    weekDays[EALang['sunday']] = EALang['sunday']; //'Sunday';
+
     $selector.editable(function(value, settings) {
         return value;
     }, {
         'type': 'select',
-        'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
-                + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
-                + '"Sunday": "Sunday", "selected": "Monday"}',
+        'data': weekDays,
+        // 'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
+        //         + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
+        //         + '"Sunday": "Sunday", "selected": "Monday"}',
         'event': 'edit',
         'height': '30px',
         'submit': '&lt;button type="button" class="hidden submit-editable">Submit&lt;/button>',
@@ -178,20 +191,20 @@ WorkingPlan.prototype.bindEventHandlers = function() {
     $('.add-break').click(function() {
         var tr = 
                 '&lt;tr>' + 
-                    '&lt;td class="break-day editable">Monday&lt;/td>' +
+                    '&lt;td class="break-day editable">' + EALang['monday'] + '&lt;/td>' +
                     '&lt;td class="break-start editable">09:00&lt;/td>' +
                     '&lt;td class="break-end editable">10:00&lt;/td>' +
                     '&lt;td>' + 
-                        '&lt;button type="button" class="btn edit-break" title="Edit Break">' +
+                        '&lt;button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
                             '&lt;i class="icon-pencil">&lt;/i>' +
                         '&lt;/button>' +
-                        '&lt;button type="button" class="btn delete-break" title="Delete Break">' +
+                        '&lt;button type="button" class="btn delete-break" title="' + EALang['delete'] + '">' +
                             '&lt;i class="icon-remove">&lt;/i>' +
                         '&lt;/button>' +
-                        '&lt;button type="button" class="btn save-break hidden" title="Save Break">' +
+                        '&lt;button type="button" class="btn save-break hidden" title="' + EALang['save'] + '">' +
                             '&lt;i class="icon-ok">&lt;/i>' +
                         '&lt;/button>' +
-                        '&lt;button type="button" class="btn cancel-break hidden" title="Cancel Break">' +
+                        '&lt;button type="button" class="btn cancel-break hidden" title="' + EALang['cancel'] + '">' +
                             '&lt;i class="icon-ban-circle">&lt;/i>' +
                         '&lt;/button>' +
                     '&lt;/td>' +
@@ -203,6 +216,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         WorkingPlan.prototype.editableBreakDay($(tr).find('.break-day'));
         WorkingPlan.prototype.editableBreakTime($(tr).find('.break-start, .break-end'));
         $(tr).find('.edit-break').trigger('click');
+        $('.add-break').prop('disabled', true);
     });
 
     /**
@@ -214,18 +228,26 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         // Reset previous editable tds
         var $previousEdt = $(this).closest('table').find('.editable').get();
         $.each($previousEdt, function(index, edt) {
-           edt.reset();
+            if (edt.reset !== undefined) edt.reset();
         });
 
         // Make all cells in current row editable.
         $(this).parent().parent().children().trigger('edit');
-        $(this).parent().parent().find('.break-start input, .break-end input').timepicker();
+        $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes']
+        });
         $(this).parent().parent().find('.break-day select').focus();
 
         // Show save - cancel buttons.
         $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
         $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-
+        
+        $('.add-break').prop('disabled', true);
     });
 
     /**
@@ -249,6 +271,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
 
         $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
         $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+        $('.add-break').prop('disabled', false);
     });
 
     /**
@@ -268,8 +291,9 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         $(this).parent().parent().find('.editable .submit-editable').trigger('click');
         WorkingPlan.prototype.enableSubmit = false;
 
-        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
         $(this).parent().find('.save-break, .cancel-break').addClass('hidden');
+        $(this).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+        $('.add-break').prop('disabled', false);
     });
 };
 
@@ -280,16 +304,17 @@ WorkingPlan.prototype.bindEventHandlers = function() {
  */
 WorkingPlan.prototype.get = function() {
     var workingPlan = {};
-    $('.working-plan input[type="checkbox"').each(function() {
+    $('.working-plan input[type="checkbox"]').each(function() {
         var id = $(this).attr('id');
         if ($(this).prop('checked') == true) {
-            workingPlan[id] = {}
+            workingPlan[id] = {};
             workingPlan[id].start = $('#' + id + '-start').val();
             workingPlan[id].end = $('#' + id + '-end').val();
             workingPlan[id].breaks = [];
             
             $('.breaks tr').each(function(index, tr) {
-                var day = $(tr).find('.break-day').text().toLowerCase();
+                var day = WorkingPlan.prototype.convertDayToValue(
+                        $(tr).find('.break-day').text());
                 if (day == id) {
                     var start = $(tr).find('.break-start').text();
                     var end = $(tr).find('.break-end').text();
@@ -298,7 +323,6 @@ WorkingPlan.prototype.get = function() {
                         'start': start,
                         'end': end
                     });
-                    
                 }
             });
             
@@ -324,6 +348,14 @@ WorkingPlan.prototype.timepickers = function(disabled) {
         // Set timepickers where needed.
         $('.working-plan input[type="text"]').timepicker({
             'timeFormat': 'HH:mm',
+            
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+            
             'onSelect': function(datetime, inst) {
                 // Start time must be earlier than end time. 
                 var start = Date.parse($(this).parent().parent().find('.work-start').val());
@@ -344,6 +376,68 @@ WorkingPlan.prototype.timepickers = function(disabled) {
  */
 WorkingPlan.prototype.reset = function() {
     
+};
+
+/**
+ * This is necessary for translated days.
+ * 
+ * @param {string} value Day value could be like "monday", "tuesday" etc.
+ */
+WorkingPlan.prototype.convertValueToDay = function(value) {
+    switch (value) {
+        case 'monday': 
+            return EALang['monday'];
+            break;
+        case 'tuesday': 
+            return EALang['tuesday'];
+            break;
+        case 'wednesday': 
+            return EALang['wednesday'];
+            break;
+        case 'thursday': 
+            return EALang['thursday'];
+            break;
+        case 'friday': 
+            return EALang['friday'];
+            break;
+        case 'saturday': 
+            return EALang['saturday'];
+            break;
+        case 'sunday': 
+            return EALang['sunday'];
+            break;
+    }
+};
+
+/**
+ * This is necessary for translated days.
+ * 
+ * @param {string} value Day value could be like "Monday", "Tuesday" etc.
+ */
+WorkingPlan.prototype.convertDayToValue = function(day) {
+    switch (day) {
+        case EALang['monday']: 
+            return 'monday';
+            break;
+        case EALang['tuesday']: 
+            return 'tuesday';
+            break;
+        case EALang['wednesday']: 
+            return 'wednesday';
+            break;
+        case EALang['thursday']: 
+            return 'thursday';
+            break;
+        case EALang['friday']: 
+            return 'friday';
+            break;
+        case EALang['saturday']: 
+            return 'saturday';
+            break;
+        case EALang['sunday']: 
+            return 'sunday';
+            break;
+    }
 };</code></pre>
         </article>
     </section>
@@ -354,13 +448,13 @@ WorkingPlan.prototype.reset = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Wed Jan 21 2015 23:15:07 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

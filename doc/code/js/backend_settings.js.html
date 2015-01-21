@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: backend_settings.js</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,16 +16,17 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Source: backend_settings.js</h1>
+
     
-    
+
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
+            <pre class="prettyprint source linenums"><code>/**
  * Contains the functionality of the backend settings page. Can either work for 
  * system or user settings, but the actions allowed to the user are restricted to
  * his role (only admin has full privileges).
@@ -164,6 +165,8 @@ var BackendSettings = {
                 } else {
                     $('#user-notifications').removeClass('active');   
                 }
+            } else if ($(this).hasClass('about-tab')) {
+                $('#about').show();
             }
             
             Backend.placeFooterToBottom();
@@ -196,7 +199,7 @@ var BackendSettings = {
             var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
             var postData = { 
                 'username': $input.val(), 
-                'record_exists': ($input.parents().eq(2).find('#user-id').val() != '') ? true : false
+                'user_id': $input.parents().eq(2).find('#user-id').val()
             };
             
             $.post(postUrl, postData, function(response) {
@@ -206,9 +209,11 @@ var BackendSettings = {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 if (response == false) {
                     $input.css('border', '2px solid red');
-                    Backend.displayNotification('Username already exists.');
+                    Backend.displayNotification(EALang['username_already_exists']);
+                    $input.attr('already-exists', 'true');
                 } else {
                     $input.css('border', '');
+                    $input.attr('already-exists', 'false');
                 }
             }, 'json');
         });
@@ -241,7 +246,7 @@ SystemSettings.prototype.save = function(settings) {
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
        
-        Backend.displayNotification('Settings saved successfully!');
+        Backend.displayNotification(EALang['settings_saved']);
         
         // Update the logo title on the header.
         $('#header-logo span').text($('#company-name').val());
@@ -305,13 +310,13 @@ SystemSettings.prototype.validate = function() {
             }
         });
         if (missingRequired) {
-            throw 'Fields with * are  required.';
+            throw EALang['fields_are_required'];
         }
         
         // Validate company email address.
         if (!GeneralFunctions.validateEmail($('#company-email').val())) {
             $('#company-email').css('border', '2px solid red');
-            throw 'Invalid email address!';
+            throw EALang['invalid_email'];
         }
         
         return true;
@@ -365,8 +370,7 @@ UserSettings.prototype.get = function() {
  */
 UserSettings.prototype.save = function(settings) {
     if (!BackendSettings.settings.validate(settings)) {
-        Backend.displayNotification('User settings are invalid! Please review your settings '
-                + 'and try again.');
+        Backend.displayNotification(EALang['user_settings_are_invalid']);
         return; // Validation failed, do not procceed.
     }
     
@@ -382,10 +386,10 @@ UserSettings.prototype.save = function(settings) {
         //////////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Settings saved successfully!');
+        Backend.displayNotification(EALang['settings_saved']);
         
         // Update footer greetings.
-        $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val());
+        $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
         
     }, 'json');
 };
@@ -410,19 +414,24 @@ UserSettings.prototype.validate = function() {
             }
         });
         if (missingRequired) {
-            throw 'Fields with * are  required.';
+            throw EALang['fields_are_required'];
         }
         
         // Validate passwords (if provided).
         if ($('#password').val() != $('#retype-password').val()) {
             $('#password, #retype-password').css('border', '2px solid red');
-            throw 'Passwords mismatch!';
+            throw EALang['passwords_mismatch'];
         }
         
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#email').val())) {
             $('#email').css('border', '2px solid red');
-            throw 'Invalid email address!';
+            throw EALang['invalid_email'];
+        }
+        
+        if ($('#username').attr('already-exists') === 'true') {
+            $('#username').css('border', '2px solid red');
+            throw EALang['username_already_exists'];
         }
         
         return true;
@@ -441,13 +450,13 @@ UserSettings.prototype.validate = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Wed Jan 21 2015 23:15:07 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

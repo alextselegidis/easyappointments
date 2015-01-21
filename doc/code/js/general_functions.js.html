@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: general_functions.js</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,16 +16,17 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Source: general_functions.js</h1>
+
     
-    
+
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
+            <pre class="prettyprint source linenums"><code>/**
  * This file contains the General Functions javascript namespace.
  * It contains functions that apply both on the front and back 
  * end of the application.
@@ -36,10 +37,10 @@ var GeneralFunctions = {
     /**
      * General Functions Constants
      */
-    EXCEPTIONS_TITLE: 'Unexpected Issues',
-    EXCEPTIONS_MESSAGE: 'The operation could not complete due to unexpected issues. ',
-    WARNINGS_TITLE: 'Unexpected Warnings',
-    WARNINGS_MESSAGE: 'The operation completed but some warnings appeared. ',
+    EXCEPTIONS_TITLE: EALang['unexpected_issues'],
+    EXCEPTIONS_MESSAGE: EALang['unexpected_issues_message'],
+    WARNINGS_TITLE: EALang['unexpected_warnings'],
+    WARNINGS_MESSAGE: EALang['unexpected_warnings_message'],
     
     /**
      * This functions displays a message box in
@@ -62,10 +63,9 @@ var GeneralFunctions = {
         } 
 
         if (messageButtons == undefined) {
-            messageButtons = {
-                Close: function() {
-                    jQuery("#message_box").dialog("close");
-                }
+            messageButtons = {};
+            messageButtons[EALang['close']] = function() {
+                jQuery("#message_box").dialog("close");
             };
         }
 
@@ -88,7 +88,7 @@ var GeneralFunctions = {
             height: "auto",
             resizable: false,
             buttons: messageButtons,
-            closeOnEscape: false
+            closeOnEscape: true
         });
 
         jQuery("#message_box").dialog("open"); 
@@ -130,7 +130,7 @@ var GeneralFunctions = {
      */
     getUrlParameter: function(url, parameterName) {
        parameterName = parameterName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-       var regexS = "[\\#&]"+parameterName+"=([^&#]*)";
+       var regexS = "[\\#&amp;]"+parameterName+"=([^&amp;#]*)";
        var regex = new RegExp( regexS );
        var results = regex.exec( url );
        if( results == null )
@@ -219,7 +219,7 @@ var GeneralFunctions = {
      * user opens the "Details" collapse component.
      * 
      * @param {array} exceptions Contains the exceptions to be displayed.
-     * @returns {String} Returns the html markup for the exceptions.
+     * @returns {string} Returns the html markup for the exceptions.
      */
     exceptionsToHtml: function(exceptions) {
         var html = 
@@ -228,7 +228,7 @@ var GeneralFunctions = {
                         '&lt;div class="accordion-heading">' +
                             '&lt;a class="accordion-toggle" data-toggle="collapse" ' +
                                     'data-parent="#error-accordion" href="#error-technical">' + 
-                                'Details' + 
+                                EALang['details'] + 
                             '&lt;/a>' +
                         '&lt;/div>';
         
@@ -250,7 +250,7 @@ var GeneralFunctions = {
      * This method parse the json encoded strings that are fetched by ajax calls.
      * 
      * @param {array} exceptions Exception array returned by an ajax call.
-     * @returns {Array} Returns the parsed js objects.
+     * @returns {array} Returns the parsed js objects.
      */
     parseExceptions: function(exceptions) {
         var parsedExceptions = new Array();
@@ -296,6 +296,55 @@ var GeneralFunctions = {
         }
         
         return true;
+    },
+    
+    /**
+     * Enables the language selection functionality. Must be called on every page has a
+     * language selection button. This method requires the global variable 'availableLanguages'
+     * to be initialized before the execution.
+     * 
+     * @param {object} $element Selected element button for the language selection.
+     */
+    enableLanguageSelection: function($element) {
+    	// Select Language
+        var html = '&lt;ul id="language-list">';
+        $.each(availableLanguages, function() {
+        	html += '&lt;li class="language" data-language="' + this + '">' 
+        			+ GeneralFunctions.ucaseFirstLetter(this) + '&lt;/li>';
+        });
+        html += '&lt;/ul>';
+        
+        $element.popover({
+            'placement': 'top',
+            'title': 'Select Language',
+            'content': html,
+            'html': true,
+            'container': 'body',
+            'trigger': 'manual'
+        });
+        
+        $element.click(function() {
+        	if ($('#language-list').length == 0) {
+        		$(this).popover('show');
+        	} else {
+        		$(this).popover('hide');
+        	}
+        });
+        
+        $(document).on('click', 'li.language', function() {
+        	// Change language with ajax call and refresh page.
+        	var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_change_language';
+        	var postData = { 'language': $(this).attr('data-language') };
+        	$.post(postUrl, postData, function(response) {
+        		////////////////////////////////////////////////////
+        		console.log('Change Language Response', response);
+    			////////////////////////////////////////////////////
+        		
+        		if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+        		document.location.reload(true);
+        		
+        	}, 'json');
+        });
     }
 };</code></pre>
         </article>
@@ -307,13 +356,13 @@ var GeneralFunctions = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Wed Jan 21 2015 23:15:07 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: backend_calendar.js</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,16 +16,17 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Source: backend_calendar.js</h1>
+
     
-    
+
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
+            <pre class="prettyprint source linenums"><code>/**
  * This namespace contains functions that are used by the backend calendar page.
  * 
  * @namespace BackendCalendar
@@ -56,8 +57,10 @@ var BackendCalendar = {
             'editable': true,
             'firstDay': 1, // Monday
             'slotMinutes': 30,
+            'snapMinutes': 15,
             'axisFormat': 'HH:mm',
             'timeFormat': 'HH:mm{ - HH:mm}',
+            'allDayText': EALang['all_day'], 
             'columnFormat': {
                 'month': 'ddd',
                 'week': 'ddd d/M',
@@ -65,30 +68,54 @@ var BackendCalendar = {
             },
             'titleFormat': {
                 'month': 'MMMM yyyy',
-                'week': "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",
-                'day': 'dddd, MMM d, yyyy'
+                'week': "MMMM d[ yyyy]{ '&amp;#8212;'[ MMM] d, yyyy}",
+                'day': 'dddd, MMMM d, yyyy'
             },
             'header': {
                 'left': 'prev,next today',
                 'center': 'title',
                 'right': 'agendaDay,agendaWeek,month'
             },
+            
+            // Translations
+            'monthNames': [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                           EALang['may'], EALang['june'], EALang['july'], EALang['august'], 
+                           EALang['september'],EALang['october'], EALang['november'], 
+                           EALang['december']],
+           	'monthNamesShort': [EALang['january'].substr(0,3), EALang['february'].substr(0,3), 
+           	        EALang['march'].substr(0,3), EALang['april'].substr(0,3),
+                    EALang['may'].substr(0,3), EALang['june'].substr(0,3), 
+                    EALang['july'].substr(0,3), EALang['august'].substr(0,3), 
+                    EALang['september'].substr(0,3),EALang['october'].substr(0,3), 
+                    EALang['november'].substr(0,3), EALang['december'].substr(0,3)],
+            'dayNames': [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+	                    EALang['thursday'], EALang['friday'], EALang['saturday']],
+	        'dayNamesShort': [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+	               EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+	               EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+	               EALang['saturday'].substr(0,3)],
+	        'dayNamesMin': [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+	               EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+	               EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+	               EALang['saturday'].substr(0,2)],
+            'buttonText': {
+            	'today': EALang['today'],
+            	'day': EALang['day'],
+            	'week': EALang['week'],
+            	'month': EALang['month']
+            },
+	         
             // Calendar events need to be declared on initialization.
             'windowResize': BackendCalendar.calendarWindowResize,
             'viewDisplay': BackendCalendar.calendarViewDisplay,
             'dayClick': BackendCalendar.calendarDayClick,
             'eventClick': BackendCalendar.calendarEventClick,
             'eventResize': BackendCalendar.calendarEventResize,
-            'eventDrop': BackendCalendar.calendarEventDrop
+            'eventDrop': BackendCalendar.calendarEventDrop,
+            'eventAfterAllRender': function(view) {
+                BackendCalendar.convertTitlesToHtml();
+            }   
         });
-        
-        // Temporary fix: make the first letter capital in all the lowercase strings
-        // of the calendar.
-        $('#calendar .fc-button-today').text('Today');
-        $('#calendar .fc-button-agendaDay').text('Day');
-        $('#calendar .fc-button-agendaWeek').text('Week');
-        $('#calendar .fc-button-month').text('Month');
-        $('#calendar .fc-agenda-allday .fc-agenda-axis').text('All Day');
         
         // Trigger once to set the proper footer position after calendar 
         // initialization.
@@ -96,7 +123,7 @@ var BackendCalendar = {
         
         // Fill the select listboxes of the page.
         if (GlobalVariables.availableProviders.length > 0) {
-            var optgroupHtml = '&lt;optgroup label="Providers" type="providers-group">';
+            var optgroupHtml = '&lt;optgroup label="' + EALang['providers'] + '" type="providers-group">';
             $.each(GlobalVariables.availableProviders, function(index, provider) {
                 var hasGoogleSync = (provider['settings']['google_sync'] === '1') 
                         ? 'true' : 'false';
@@ -112,7 +139,7 @@ var BackendCalendar = {
         }
             
         if (GlobalVariables.availableServices.length > 0) {
-            optgroupHtml = '&lt;optgroup label="Services" type="services-group">';
+            optgroupHtml = '&lt;optgroup label="' + EALang['services'] + '" type="services-group">';
             $.each(GlobalVariables.availableServices, function(index, service) {
                 optgroupHtml += '&lt;option value="' + service['id'] + '" ' + 
                         'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' + 
@@ -124,7 +151,8 @@ var BackendCalendar = {
         
         // Privileges Checks
         if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
-            $('#select-filter-item optgroup:eq(0)').val(GlobalVariables.user.id);
+            $('#select-filter-item optgroup:eq(0)')
+                    .find('option[value="' + GlobalVariables.user.id + '"]').prop('selected', true);
             $('#select-filter-item').prop('disabled', true);
         }
         
@@ -164,9 +192,9 @@ var BackendCalendar = {
             var appointment = GlobalVariables.editAppointment;
             BackendCalendar.resetAppointmentDialog();
             
-            $dialog.find('.modal-header h3').text('Edit Appointment');
+            $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
             $dialog.find('#appointment-id').val(appointment['id']);
-            $dialog.find('#select-service').val(appointment['id_services']);
+            $dialog.find('#select-service').val(appointment['id_services']).change();
             $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
             // Set the start and end datetime of the appointment.
@@ -187,7 +215,8 @@ var BackendCalendar = {
             $dialog.find('#address').val(customer['address']);
             $dialog.find('#city').val(customer['city']);
             $dialog.find('#zip-code').val(customer['zip_code']);
-            $dialog.find('#notes').val(appointment['notes']);
+            $dialog.find('#appointment-notes').val(appointment['notes']);
+            $dialog.find('#customer-notes').val(customer['notes']);
             
             $dialog.modal('show');
         }
@@ -212,6 +241,14 @@ var BackendCalendar = {
                 classes: 'qtip-green qtip-shadow custom-qtip'
             }
         });
+        
+        // Fine tune the footer's position only for this page.
+        if (window.innerHeight &lt; 700) {
+            $('#footer').css('position', 'static');
+        }
+        
+        if ($('#select-filter-item option').length == 0) 
+            $('#calendar-actions button').prop('disabled', true);
     },
     
     /**
@@ -249,12 +286,12 @@ var BackendCalendar = {
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').addClass('btn-success enabled');
                     $('#enable-sync i').addClass('icon-white');
-                    $('#enable-sync span').text('Disable Sync');
+                    $('#enable-sync span').text(EALang['disable_sync']);
                     $('#google-sync').prop('disabled', false);
                 } else {
                     $('#enable-sync').removeClass('btn-success enabled');
                     $('#enable-sync i').removeClass('icon-white');
-                    $('#enable-sync span').text('Enable Sync');
+                    $('#enable-sync span').text(EALang['enable_sync']);
                     $('#google-sync').prop('disabled', true);
                 }
             }
@@ -278,23 +315,24 @@ var BackendCalendar = {
                     
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, 
+                        		GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
 
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, 
+                        		GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
                     
-                    Backend.displayNotification('Google synchronization completed successfully!');
+                    Backend.displayNotification(EALang['google_sync_completed']);
                     $('#reload-appointments').trigger('click');
                 },
                 'error': function(jqXHR, textStatus, errorThrown) {
-                    Backend.displayNotification('Google synchronization failed: Could not establish '
-                            + 'server connection.');
+                    Backend.displayNotification(EALang['google_sync_failed']);
                 }
             });
         });
@@ -335,7 +373,7 @@ var BackendCalendar = {
                 BackendCalendar.resetAppointmentDialog();
 
                 // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
-                $dialog.find('.modal-header h3').text('Edit Appointment');
+                $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
                 $dialog.find('#appointment-id').val(appointment['id']);
                 $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
@@ -358,7 +396,8 @@ var BackendCalendar = {
                 $dialog.find('#address').val(customer['address']);
                 $dialog.find('#city').val(customer['city']);
                 $dialog.find('#zip-code').val(customer['zip_code']);
-                $dialog.find('#notes').val(appointment['notes']);
+                $dialog.find('#appointment-notes').val(appointment['notes']);
+                $dialog.find('#customer-notes').val(customer['notes']);
             } else {
                 var unavailable = BackendCalendar.lastFocusedEventData.data;
                 
@@ -392,46 +431,46 @@ var BackendCalendar = {
             $(this).parents().eq(2).remove(); // Hide the popover
             
             if (BackendCalendar.lastFocusedEventData.data.is_unavailable == false) {
-                var messageButtons = {
-                    'OK': function() {
-                        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_appointment';
+                var messageButtons = {};
+                messageButtons['OK'] = function() {
+                    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_appointment';
 
-                        var postData = { 
-                            'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
-                            'delete_reason': $('#delete-reason').val()
-                        };
+                    var postData = { 
+                        'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
+                        'delete_reason': $('#delete-reason').val()
+                    };
 
-                        $.post(postUrl, postData, function(response) {
-                            /////////////////////////////////////////////////////////
-                            console.log('Delete Appointment Response :', response);
-                            /////////////////////////////////////////////////////////
+                    $.post(postUrl, postData, function(response) {
+                        /////////////////////////////////////////////////////////
+                        console.log('Delete Appointment Response :', response);
+                        /////////////////////////////////////////////////////////
 
-                            $('#message_box').dialog('close');
-
-                            if (response.exceptions) {
-                                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                                return;
-                            }
-
-                            if (response.warnings) {
-                                response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                                GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
-                                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                            }
-
-                            // Refresh calendar event items.                        
-                            $('#select-filter-item').trigger('change');
-                        }, 'json');
-                    },
-                    'Cancel': function() {
                         $('#message_box').dialog('close');
-                    }
+
+                        if (response.exceptions) {
+                            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                            GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                            return;
+                        }
+
+                        if (response.warnings) {
+                            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                            GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                        }
+
+                        // Refresh calendar event items.                        
+                        $('#select-filter-item').trigger('change');
+                    }, 'json');
+                };
+                
+                messageButtons[EALang['cancel']] = function() {
+                    $('#message_box').dialog('close');
                 };
 
-                GeneralFunctions.displayMessageBox('Delete Appointment', 'Please take a minute '
-                        + 'to write the reason you are deleting the appointment:', messageButtons);
+                GeneralFunctions.displayMessageBox(EALang['delete_appointment_title'], 
+                        EALang['write_appointment_removal_reason'], messageButtons);
                 $('#message_box').append('&lt;textarea id="delete-reason" rows="3">&lt;/textarea>');
                 $('#delete-reason').css('width', '353px');
             } else {
@@ -458,7 +497,7 @@ var BackendCalendar = {
 
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
 
@@ -505,7 +544,7 @@ var BackendCalendar = {
                 'id_users_provider': $dialog.find('#select-provider').val(),
                 'start_datetime': startDatetime,
                 'end_datetime': endDatetime,
-                'notes': $dialog.find('#notes').val(),
+                'notes': $dialog.find('#appointment-notes').val(),
                 'is_unavailable': false
             };
             
@@ -521,7 +560,8 @@ var BackendCalendar = {
                 'phone_number': $dialog.find('#phone-number').val(),
                 'address': $dialog.find('#address').val(),
                 'city': $dialog.find('#city').val(),
-                'zip_code': $dialog.find('#zip-code').val()
+                'zip_code': $dialog.find('#zip-code').val(),
+                'notes': $dialog.find('#customer-notes').val()
             };
             
             if ($dialog.find('#customer-id').val() !== '') {
@@ -531,28 +571,24 @@ var BackendCalendar = {
             }
             
             // :: DEFINE SUCCESS EVENT CALLBACK
-            var successCallback = function(response) {
-                if (response.exceptions) {             
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#messsage_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    
-                    $dialog.find('.modal-message').text('Unexpected issues occured!');
+            var successCallback = function(response) {                
+                if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                    $dialog.find('.modal-message').text(EALang['unexpected_issues_occurred']);
                     $dialog.find('.modal-message').addClass('alert-error');
                     $dialog.find('.modal-message').fadeIn();
-                    
-                    return;
+                    return false;
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').text(EALang['appointment_saved']);
                 $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-body').scrollTop(0);
                 
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
                 setTimeout(function() {
-                    $dialog.find('.alert').remove();
+                    $dialog.find('.alert').fadeOut();
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -560,9 +596,10 @@ var BackendCalendar = {
             
             // :: DEFINE AJAX ERROR EVENT CALLBACK
             var errorCallback = function() {
-                $dialog.find('.modal-message').text('A server communication error occured, please try again.');
+                $dialog.find('.modal-message').text(EALang['server_communication_error']);
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-body').scrollTop(0);
             };
             
             // :: CALL THE UPDATE APPOINTMENT METHOD
@@ -583,7 +620,7 @@ var BackendCalendar = {
             
             if (start > end) {
                 // Start time is after end time - display message to user.
-                $dialog.find('.modal-message').text('Start date value is bigger than end date!');
+                $dialog.find('.modal-message').text(EALang['start_date_before_end_error']);
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
                 return;
@@ -612,7 +649,7 @@ var BackendCalendar = {
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     
-                    $dialog.find('.modal-message').text('Unexpected issues occured!');
+                    $dialog.find('.modal-message').text(EALang['unexpected_issues_occurred']);
                     $dialog.find('.modal-message').addClass('alert-error');
                     $dialog.find('.modal-message').fadeIn();
                     
@@ -621,12 +658,12 @@ var BackendCalendar = {
 
                 if (response.warnings) {
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text('Appointment saved successfully!');
+                $dialog.find('.modal-message').text(EALang['unavailable_saved']);
                 $dialog.find('.modal-message').removeClass('alert-error');
                 $dialog.find('.modal-message').addClass('alert-success');
                 $dialog.find('.modal-message').fadeIn();
@@ -634,7 +671,7 @@ var BackendCalendar = {
                 // Close the modal dialog and refresh the calendar appointments 
                 // after one second.
                 setTimeout(function() {
-                    $dialog.find('.alert').remove();
+                    $dialog.find('.alert').fadeOut();
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -648,7 +685,7 @@ var BackendCalendar = {
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
                         'the operation could not complete due to server communication errors.');
                 
-                $dialog.find('.modal-message').txt('A server communication error occured, please try again.');
+                $dialog.find('.modal-message').txt(EALang['service_communication_error']);
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
             };
@@ -694,8 +731,33 @@ var BackendCalendar = {
                             window.clearInterval(authInterval);
                             $('#enable-sync').addClass('btn-success enabled');
                             $('#enable-sync i').addClass('icon-white');
-                            $('#enable-sync span').text('Disable Sync');
+                            $('#enable-sync span').text(EALang['disable_sync']);
                             $('#google-sync').prop('disabled', false);
+                            $('#select-filter-item option:selected').attr('google-sync', 'true');
+                            
+                            // Display the calendar selection dialog. First we will get a list 
+                            // of the available user's calendars and then we will display a selection
+                            // modal so the user can select the sync calendar.
+                            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_get_google_calendars';
+                            var postData = { 
+                                'provider_id': $('#select-filter-item').val()
+                            };
+                            $.post(postUrl, postData, function(response) {
+                                ///////////////////////////////////////////////////////////////////
+                                console.log('Get Available Google Calendars Response', response);
+                                ///////////////////////////////////////////////////////////////////
+                                
+                                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                                
+                                $('#google-calendar').empty();
+                                $.each(response, function() {
+                                    var option = '&lt;option value="' + this.id  + '">' + this.summary + '&lt;/option>';
+                                    $('#google-calendar').append(option);
+                                });
+                                
+                                $('#select-google-calendar').modal('show');
+                                
+                            }, 'json');
                         }
                     }
                 }, 100);
@@ -713,8 +775,9 @@ var BackendCalendar = {
                         
                         $('#enable-sync').removeClass('btn-success enabled');
                         $('#enable-sync i').removeClass('icon-white');
-                        $('#enable-sync span').text('Enable Sync');
+                        $('#enable-sync span').text(EALang['enable_sync']);
                         $('#google-sync').prop('disabled', true);
+                        $('#select-filter-item option:selected').attr('google-sync', 'false');
                         
                         return false;
                     }
@@ -731,7 +794,50 @@ var BackendCalendar = {
         $('#insert-appointment').click(function() {
             BackendCalendar.resetAppointmentDialog();
             var $dialog = $('#manage-appointment');
-            $dialog.find('.modal-header h3').text('New Appointment');
+            
+            // Set the selected filter item and find the next appointment time
+            // as the default modal values.
+            if ($('#select-filter-item option:selected').attr('type') == 'provider') {
+                var $providerOption = $dialog.find('#select-provider option[value="' 
+                        + $('#select-filter-item').val() + '"]');
+                if ($providerOption.length == 0) { // Change the services until you find the correct.
+                    $.each($dialog.find('#select-service option'), function() {
+                        $(this).prop('selected', true).parent().change();
+                        if ($providerOption.length > 0) 
+                            return false;
+                    });
+                }
+                $providerOption.prop('selected', true);
+            } else {
+                $dialog.find('#select-service option[value="' 
+                        + $('#select-filter-item').val() + '"]').prop('selected', true);
+            }            
+            
+            var serviceDuration = 0;
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                if (service['id'] == $dialog.find('#select-service').val()) {
+                    serviceDuration = service['duration'];
+                    return false; // exit loop
+                }
+            });
+            
+            var start = new Date();
+            var currentMin = parseInt(start.toString('mm'));
+            
+            if (currentMin > 0 &amp;&amp; currentMin &lt; 15) 
+                start.set({ 'minute': 15 });
+            else if (currentMin > 15 &amp;&amp; currentMin &lt; 30)
+                start.set({ 'minute': 30 });
+            else if (currentMin > 30 &amp;&amp; currentMin &lt; 45)
+                start.set({ 'minute': 45 });
+            else 
+                start.addHours(1).set({ 'minute': 0 });
+            
+            $dialog.find('#start-datetime').val(start.toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#end-datetime').val(start.addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm'));
+            
+            // Display modal form.
+            $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
             $dialog.modal('show');
         });
         
@@ -744,7 +850,24 @@ var BackendCalendar = {
         $('#insert-unavailable').click(function() {
             BackendCalendar.resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
-            $dialog.find('.modal-header h3').text('New Unavailable Period');
+            
+            // Set the default datetime values.
+            var start = new Date();
+            var currentMin = parseInt(start.toString('mm'));
+            
+            if (currentMin > 0 &amp;&amp; currentMin &lt; 15) 
+                start.set({ 'minute': 15 });
+            else if (currentMin > 15 &amp;&amp; currentMin &lt; 30)
+                start.set({ 'minute': 30 });
+            else if (currentMin > 30 &amp;&amp; currentMin &lt; 45)
+                start.set({ 'minute': 45 });
+            else 
+                start.addHours(1).set({ 'minute': 0 });
+            
+            $dialog.find('#unavailable-start').val(start.toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#unavailable-end').val(start.addHours(1).toString('dd/MM/yyyy HH:mm'));
+            
+            $dialog.find('.modal-header h3').text(EALang['new_unavailable_title']);
             $dialog.modal('show');
         });
         
@@ -755,7 +878,7 @@ var BackendCalendar = {
             var $list = $('#existing-customers-list');
             
             if (!$list.is(':visible')) {
-                $(this).text('Hide');
+                $(this).text(EALang['hide']);
                 $list.empty();
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
@@ -767,7 +890,7 @@ var BackendCalendar = {
             } else {
                 $list.slideUp('slow');
                 $('#filter-existing-customers').fadeOut('slow');
-                $(this).text('Select');
+                $(this).text(EALang['select']);
             }
         });
         
@@ -787,6 +910,7 @@ var BackendCalendar = {
                     $('#address').val(c.address);
                     $('#city').val(c.city);
                     $('#zip-code').val(c.zip_code);
+                    $('#customer-notes').val(c.notes);
                     return false;
                 }
             });
@@ -798,17 +922,17 @@ var BackendCalendar = {
          * Event: Filter Existing Customers "Change"
          */
         $('#filter-existing-customers').keyup(function() {
-            var key = $(this).val();
+            var key = $(this).val().toLowerCase();
             var $list = $('#existing-customers-list');
             $list.empty();
             $.each(GlobalVariables.customers, function(index, c) {
-                if (c.first_name.indexOf(key) != -1 
-                        || c.last_name.indexOf(key) != -1
-                        || c.email.indexOf(key) != -1
-                        || c.phone_number.indexOf(key) != -1
-                        || c.address.indexOf(key) != -1
-                        || c.city.indexOf(key) != -1
-                        || c.zip_code.indexOf(key) != -1) {
+                if (c.first_name.toLowerCase().indexOf(key) != -1 
+                        || c.last_name.toLowerCase().indexOf(key) != -1
+                        || c.email.toLowerCase().indexOf(key) != -1
+                        || c.phone_number.toLowerCase().indexOf(key) != -1
+                        || c.address.toLowerCase().indexOf(key) != -1
+                        || c.city.toLowerCase().indexOf(key) != -1
+                        || c.zip_code.toLowerCase().indexOf(key) != -1) {
                     $list.append('&lt;div data-id="' + c.id + '">' 
                             + c.first_name + ' ' + c.last_name + '&lt;/div>');
                 }
@@ -831,7 +955,7 @@ var BackendCalendar = {
                     // add him to the listbox. 
                     if (serviceId == sid) { 
                         var optionHtml = '&lt;option value="' + provider['id'] + '">' 
-                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + provider['first_name']  + ' ' + provider['last_name'] 
                                 + '&lt;/option>';
                         $('#select-provider').append(optionHtml);
                     }
@@ -844,7 +968,33 @@ var BackendCalendar = {
          */
         $('#new-customer').click(function() {
             $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
-                    + '#phone-number, #address, #city, #zip-code').val('');
+                    + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
+        });
+        
+        /**
+         * Event: Select Google Calendar "Click"
+         */
+        $('#select-calendar').click(function() {
+            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_select_google_calendar';
+            var postData = {
+                'provider_id': $('#select-filter-item').val(),
+                'calendar_id': $('#google-calendar').val()
+            };
+            $.post(postUrl, postData, function(response){
+                ///////////////////////////////////////////////////////////
+                console.log('Select Google Calendar Response', response);
+                ///////////////////////////////////////////////////////////
+                if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                Backend.displayNotification(EALang['google_calendar_selected']);
+                $('#select-google-calendar').modal('hide');
+            });
+        });
+        
+        /**
+         * Event: Close Google Calendar "Click"
+         */
+        $('#close-calendar').click(function() {
+            $('#select-google-calendar').modal('hide');
         });
     },
             
@@ -867,14 +1017,12 @@ var BackendCalendar = {
      * @param {object} $calendar The calendar jQuery object.
      * @param {int} recordId The selected record id.
      * @param {string} filterType The filter type, could be either FILTER_TYPE_PROVIDER
-     * or FILTER_TYPE_SERVICE
+     * or FILTER_TYPE_SERVICE.
      * @param {date} startDate Visible start date of the calendar.
      * @param {type} endDate Visible end date of the calendar.
      */
-    refreshCalendarAppointments: function($calendar, recordId, filterType, 
-            startDate, endDate) {
+    refreshCalendarAppointments: function($calendar, recordId, filterType, startDate, endDate) {
         var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_get_calendar_appointments';
-            
         var postData = {
             'record_id': recordId,
             'start_date': startDate.toString('yyyy-MM-dd'),
@@ -884,21 +1032,10 @@ var BackendCalendar = {
 
         $.post(postUrl, postData, function(response) {
             ////////////////////////////////////////////////////////////////////
-            //console.log('Refresh Calendar Appointments Response :', response);
+            console.log('Refresh Calendar Appointments Response :', response);
             ////////////////////////////////////////////////////////////////////
             
-            if (response.exceptions) {
-                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                return;
-            }
-            
-            if (response.warnings) {
-            	response.warnings = GeneralFunctions.parseExceptions(response.exceptions);
-            	GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
-            	$('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-            }
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
             
             // :: ADD APPOINTMENTS TO CALENDAR
             var calendarEvents = [];
@@ -925,12 +1062,10 @@ var BackendCalendar = {
             // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
             var calendarView = $calendar.fullCalendar('getView').name;
             
-            if (filterType === BackendCalendar.FILTER_TYPE_PROVIDER 
-                    && calendarView !== 'month') {
-                
+            if (filterType === BackendCalendar.FILTER_TYPE_PROVIDER &amp;&amp; calendarView !== 'month') {
                 $.each(GlobalVariables.availableProviders, function(index, provider) {
                     if (provider['id'] == recordId) {
-                        var workingPlan = jQuery.parseJSON(provider['settings']['working_plan']);
+                        var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
                         var unavailablePeriod;
                         
                         switch(calendarView) {
@@ -938,7 +1073,37 @@ var BackendCalendar = {
                                 var selDayName = $calendar.fullCalendar('getView')
                                         .start.toString('dddd').toLowerCase();
                                 
-                                if (workingPlan[selDayName] == null) return; // go to next loop
+                                // Add custom unavailable periods.
+                                $.each(response.unavailables, function(index, unavailable) {
+                                    var unavailablePeriod = {
+                                        'title': EALang['unavailable'] + ' &lt;br>&lt;small>' + ((unavailable.notes.length > 30) 
+                                                        ? unavailable.notes.substring(0, 30) + '...'
+                                                        : unavailable.notes) + '&lt;/small>',
+                                        'start': Date.parse(unavailable.start_datetime),
+                                        'end': Date.parse(unavailable.end_datetime),
+                                        'allDay': false,
+                                        'color': '#879DB4',
+                                        'editable': true,
+                                        'className': 'fc-unavailable fc-custom',
+                                        'data': unavailable
+                                    };
+                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                });
+                                
+                                // non working day
+                                if (workingPlan[selDayName] == null) { 
+                                    unavailablePeriod = {
+                                            'title': EALang['not_working'],
+                                            'start': GeneralFunctions.clone($calendar.fullCalendar('getView').start),
+                                            'end': GeneralFunctions.clone($calendar.fullCalendar('getView').end),
+                                            'allDay': false,
+                                            'color': '#BEBEBE',
+                                            'editable': false,
+                                            'className': 'fc-unavailable'
+                                        };
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
+                                    return; // go to next loop
+                                } 
                                 
                                 // Add unavailable period before work starts.
                                 var calendarDateStart = $calendar.fullCalendar('getView').start;
@@ -949,7 +1114,7 @@ var BackendCalendar = {
                                 
                                 if (calendarDateStart &lt; workDateStart) {
                                     unavailablePeriod = {
-                                        'title': 'Unavailable',
+                                        'title': EALang['not_working'],
                                         'start': calendarDateStart,
                                         'end': workDateStart,
                                         'allDay': false,
@@ -968,7 +1133,7 @@ var BackendCalendar = {
                                         'dd/MM/yyyy HH:mm'); // Use calendarDateStart ***
                                 if (calendarDateEnd > workDateEnd) {
                                     var unavailablePeriod = {
-                                        'title': 'Unavailable',
+                                        'title': EALang['not_working'],
                                         'start': workDateEnd,
                                         'end': calendarDateEnd,
                                         'allDay': false,
@@ -987,7 +1152,7 @@ var BackendCalendar = {
                                     breakEnd = Date.parseExact(calendarDateStart.toString('dd/MM/yyyy') 
                                             + ' ' + currBreak.end, 'dd/MM/yyyy HH:mm');
                                     var unavailablePeriod = {
-                                        'title': 'Break',
+                                        'title': EALang['break'],
                                         'start': breakStart,
                                         'end': breakEnd,
                                         'allDay': false,
@@ -998,29 +1163,52 @@ var BackendCalendar = {
                                     $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
                                 });
                                 
-                                // Add custom unavailable periods.
-                                $.each(response.unavailables, function(index, unavailable) {
-                                    var unavailablePeriod = {
-                                        'title': 'Unavailable',
-                                        'start': Date.parse(unavailable.start_datetime),
-                                        'end': Date.parse(unavailable.end_datetime),
-                                        'allDay': false,
-                                        'color': '#879DB4',
-                                        'editable': true,
-                                        'className': 'fc-unavailable fc-custom',
-                                        'data': unavailable
-                                    };
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                });
-                                
                                 break;
                                 
                             case 'agendaWeek':
                                 var currDateStart = GeneralFunctions.clone($calendar.fullCalendar('getView').start);
                                 var currDateEnd = GeneralFunctions.clone(currDateStart).addDays(1);
                                 
-                                $.each(workingPlan, function(index, workingDay) {
-                                    if (workingDay == null) return; // Go to the next loop.
+                                // Add custom unavailable periods (they are always displayed
+                                // on the calendar, even if the provider won't work on that day).
+                                $.each(response.unavailables, function(index, unavailable) {
+                                   //if (currDateStart.toString('dd/MM/yyyy') 
+                                   //        === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
+                                        unavailablePeriod = {
+                                            'title': EALang['unavailable'] + ' &lt;br>&lt;small>' + ((unavailable.notes.length > 30) 
+                                                    ? unavailable.notes.substring(0, 30) + '...'
+                                                    : unavailable.notes) + '&lt;/small>',
+                                            'start': Date.parse(unavailable.start_datetime),
+                                            'end': Date.parse(unavailable.end_datetime),
+                                            'allDay': false,
+                                            'color': '#879DB4',
+                                            'editable': true,
+                                            'className': 'fc-unavailable fc-custom',
+                                            'data': unavailable
+                                        };
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                   //}
+                                });
+                                
+                                $.each(workingPlan, function(index, workingDay) { 
+                                    
+                                    if (workingDay == null) {
+                                        // Add a full day unavailable event.
+                                        unavailablePeriod = {
+                                            'title': EALang['not_working'],
+                                            'start': GeneralFunctions.clone(currDateStart),
+                                            'end': GeneralFunctions.clone(currDateEnd),
+                                            'allDay': false,
+                                            'color': '#BEBEBE',
+                                            'editable': false,
+                                            'className': 'fc-unavailable'
+                                        };
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
+                                        currDateStart.addDays(1);
+                                        currDateEnd.addDays(1);
+                                        return; // Go to the next loop.
+                                    }
+                                
                                     var start, end; 
                                     
                                     // Add unavailable period before work starts.
@@ -1028,7 +1216,7 @@ var BackendCalendar = {
                                             + ' ' + workingDay.start, 'dd/MM/yyyy HH:mm');
                                     if (currDateStart &lt; start) {
                                         unavailablePeriod = {
-                                            'title': 'Unavailable',
+                                            'title': EALang['not_working'],
                                             'start': GeneralFunctions.clone(currDateStart),
                                             'end': GeneralFunctions.clone(start),
                                             'allDay': false,
@@ -1036,8 +1224,7 @@ var BackendCalendar = {
                                             'editable': false,
                                             'className': 'fc-unavailable'
                                         };
-                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, 
-                                                true);
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
                                     }
 
                                     // Add unavailable period after work ends.
@@ -1045,7 +1232,7 @@ var BackendCalendar = {
                                             + ' ' + workingDay.end, 'dd/MM/yyyy HH:mm');
                                     if (currDateEnd > end) {
                                         unavailablePeriod = {
-                                            'title': 'Unavailable',
+                                            'title': EALang['not_working'],
                                             'start': GeneralFunctions.clone(end),
                                             'end': GeneralFunctions.clone(currDateEnd),
                                             'allDay': false,
@@ -1064,7 +1251,7 @@ var BackendCalendar = {
                                         breakEnd = Date.parseExact(currDateStart.toString('dd/MM/yyyy') 
                                                 + ' ' + currBreak.end, 'dd/MM/yyyy HH:mm');
                                         var unavailablePeriod = {
-                                            'title': 'Break',
+                                            'title': EALang['break'],
                                             'start': breakStart,
                                             'end': breakEnd,
                                             'allDay': false,
@@ -1075,24 +1262,6 @@ var BackendCalendar = {
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
                                     });
                                     
-                                    // Add custom unavailable periods.
-                                    $.each(response.unavailables, function(index, unavailable) {
-                                        if (currDateStart.toString('dd/MM/yyyy') 
-                                            === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
-                                            var unavailablePeriod = {
-                                                'title': 'Unavailable',
-                                                'start': Date.parse(unavailable.start_datetime),
-                                                'end': Date.parse(unavailable.end_datetime),
-                                                'allDay': false,
-                                                'color': '#879DB4',
-                                                'editable': true,
-                                                'className': 'fc-unavailable fc-custom',
-                                                'data': unavailable
-                                            };
-                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                        }
-                                    });
-                                    
                                     currDateStart.addDays(1);
                                     currDateEnd.addDays(1);
                                 });
@@ -1100,6 +1269,8 @@ var BackendCalendar = {
                         }   
                     } 
                 });
+                // Convert the titles to html code.
+                //BackendCalendar.convertTitlesToHtml();
             }
         }, 'json');
     },
@@ -1191,8 +1362,7 @@ var BackendCalendar = {
             jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
-            Backend.displayNotification('You do not have the required privileges to '
-                    + 'edit appointments.');
+            Backend.displayNotification(EALang['no_privileges_edit_appointments']);
             return;
         }
                 
@@ -1227,7 +1397,7 @@ var BackendCalendar = {
                 if (response.warnings) {
                     // Display warning information to the user.
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
 
@@ -1247,7 +1417,7 @@ var BackendCalendar = {
                     });
                 };
 
-                Backend.displayNotification('Appointment updated successfully!', [
+                Backend.displayNotification(EALang['appointment_updated'], [
                     {
                         'label': 'Undo',
                         'function': undoFunction
@@ -1280,7 +1450,7 @@ var BackendCalendar = {
                 if (response.warnings) {
                     // Display warning information to the user.
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
 
@@ -1300,7 +1470,7 @@ var BackendCalendar = {
                     });
                 };
 
-                Backend.displayNotification('Unavailable time period updated successfully!', [
+                Backend.displayNotification(EALang['unavailable_updated'], [
                     {
                         'label': 'Undo',
                         'function': undoFunction
@@ -1324,7 +1494,7 @@ var BackendCalendar = {
      */
     calendarWindowResize: function(view) {
         $('#calendar').fullCalendar('option', 'height', 
-                BackendCalendar.getCalendarHeight());
+                BackendCalendar.getCalendarHeight());      
     },
     
     /**
@@ -1358,10 +1528,10 @@ var BackendCalendar = {
         
         if ($parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                    && GlobalVariables.user.privileges.appointments.edit == true) 
+                    &amp;&amp; GlobalVariables.user.privileges.appointments.edit == true) 
                     ? '' : 'hide';
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                    && GlobalVariables.user.privileges.appointments.delete == true) 
+                    &amp;&amp; GlobalVariables.user.privileges.appointments.delete == true) 
                     ? '' : 'hide'; // Same value at the time.
             
             var notes = ''; 
@@ -1374,18 +1544,18 @@ var BackendCalendar = {
                         + '.popover-content strong {min-width: 80px; display:inline-block;}' 
                         + '.popover-content button {margin-right: 10px;}'
                         + '&lt;/style>' +
-                    '&lt;strong>Start&lt;/strong> ' 
+                    '&lt;strong>' + EALang['start'] + '&lt;/strong> ' 
                         + event.start.toString('dd/MM/yyyy HH:mm') 
                         + '&lt;br>' + 
-                    '&lt;strong>End&lt;/strong> ' 
+                    '&lt;strong>' + EALang['end'] + '&lt;/strong> ' 
                         + event.end.toString('dd/MM/yyyy HH:mm') 
                         + '&lt;br>'  
                         + notes 
                         + '&lt;hr>' +
                     '&lt;center>' + 
-                        '&lt;button class="edit-popover btn btn-primary ' + displayEdit + '">Edit&lt;/button>' +
-                        '&lt;button class="delete-popover btn btn-danger ' + displayDelete + '">Delete&lt;/button>' +
-                        '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>Close&lt;/button>' +
+                        '&lt;button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '&lt;/button>' +
+                        '&lt;button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang['delete'] + '&lt;/button>' +
+                        '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>' + EALang['close'] + '&lt;/button>' +
                     '&lt;/center>';
         } else {   
             displayEdit = (GlobalVariables.user.privileges.appointments.edit == true) 
@@ -1398,27 +1568,27 @@ var BackendCalendar = {
                         + '.popover-content strong {min-width: 80px; display:inline-block;}' 
                         + '.popover-content button {margin-right: 10px;}'
                         + '&lt;/style>' +
-                    '&lt;strong>Start&lt;/strong> ' 
+                    '&lt;strong>' + EALang['start'] + '&lt;/strong> ' 
                         + event.start.toString('dd/MM/yyyy HH:mm') 
                         + '&lt;br>' + 
-                    '&lt;strong>End&lt;/strong> ' 
+                    '&lt;strong>' + EALang['end'] + '&lt;/strong> ' 
                         + event.end.toString('dd/MM/yyyy HH:mm') 
                         + '&lt;br>' + 
-                    '&lt;strong>Service&lt;/strong> ' 
+                    '&lt;strong>' + EALang['service'] + '&lt;/strong> ' 
                         + event.data['service']['name'] 
                         + '&lt;br>' +  
-                    '&lt;strong>Provider&lt;/strong> ' 
+                    '&lt;strong>' + EALang['provider'] + '&lt;/strong> ' 
                         + event.data['provider']['first_name'] + ' ' 
                         + event.data['provider']['last_name'] 
                         + '&lt;br>' +
-                    '&lt;strong>Customer&lt;/strong> ' 
+                    '&lt;strong>' + EALang['customer'] + '&lt;/strong> ' 
                         + event.data['customer']['first_name'] + ' ' 
                         + event.data['customer']['last_name'] 
                         + '&lt;hr>' +
                     '&lt;center>' + 
-                        '&lt;button class="edit-popover btn btn-primary ' + displayEdit + '">Edit&lt;/button>' +
-                        '&lt;button class="delete-popover btn btn-danger ' + displayDelete + '">Delete&lt;/button>' +
-                        '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>Close&lt;/button>' +
+                        '&lt;button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '&lt;/button>' +
+                        '&lt;button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang['delete'] + '&lt;/button>' +
+                        '&lt;button class="close-popover btn" data-po=' + jsEvent.target + '>' + EALang['close'] + '&lt;/button>' +
                     '&lt;/center>';
         }
                 
@@ -1432,10 +1602,12 @@ var BackendCalendar = {
         });
         
         BackendCalendar.lastFocusedEventData = event;
-        $(jsEvent.target).popover('show');
+        $(jsEvent.target).popover('toggle');
         
         // Fix popover position
-        if ($('.popover').position().top &lt; 200) $('.popover').css('top', '200px');
+        if ($('.popover').length > 0) {
+            if ($('.popover').position().top &lt; 200) $('.popover').css('top', '200px');
+        }
     },
     
     /**
@@ -1449,8 +1621,7 @@ var BackendCalendar = {
             revertFunc, jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
-            Backend.displayNotification('You do not have the required privileges to '
-                    + 'edit appointments.');
+            Backend.displayNotification(EALang['no_privileges_edit_appointments']);
             return;
         }
                 
@@ -1494,7 +1665,7 @@ var BackendCalendar = {
                 if (response.warnings) {
                     // Display warning information to the user.
                     response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
 
@@ -1523,7 +1694,7 @@ var BackendCalendar = {
                     });
                 };
 
-                Backend.displayNotification('Appointment updated successfully!', [
+                Backend.displayNotification(EALang['appointment_updated'], [
                     {
                         'label': 'Undo',
                         'function': undoFunction
@@ -1549,15 +1720,15 @@ var BackendCalendar = {
                 console.log('Drop Unavailable Event Response:', response);
                 
                 if (response.exceptions) {
-                    reponse.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                     return;
                 }
                 
                 if (response.warnings) {
-                    reponse.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(Backend.WARNINGS_TITLE, Backend.WARNINGS_MESSAGE);
+                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                 }
                 
@@ -1585,7 +1756,7 @@ var BackendCalendar = {
                     });
                 };
                 
-                Backend.displayNotification('Unavailable period updated successfully!', [
+                Backend.displayNotification(EALang['unavailable_updated'], [
                     {
                         'label': 'Undo',
                         'function': undoFunction
@@ -1616,8 +1787,14 @@ var BackendCalendar = {
                 $('#select-filter-item option:selected').attr('type'), 
                 $('#calendar').fullCalendar('getView').visStart,
                 $('#calendar').fullCalendar('getView').visEnd);
-        $(window).trigger('resize'); 
-
+        $(window).trigger('resize'); // Places the footer on the bottom.
+                
+        // Remove all open popovers.
+        $('.close-popover').each(function() {
+            $(this).parents().eq(2).remove();
+        });
+        
+        // Add new pop overs.
         $('.fv-events').each(function(index, eventHandle) {
             $(eventHandle).popover();
         });
@@ -1659,18 +1836,14 @@ var BackendCalendar = {
         // :: EMPTY FORM FIELDS
         $dialog.find('input, textarea').val('');
         $dialog.find('.modal-message').fadeOut();
-        $dialog.find('#select-service, #select-provider').empty();
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
-        $.each(GlobalVariables.availableServices, function(index, service) {
-            var option = new Option(service['name'], service['id']);
-            $dialog.find('#select-service').append(option);
-        });
         $dialog.find('#select-service').val(
                 $dialog.find('#select-service').eq(0).attr('value'));
         
         // Fill the providers listbox with providers that can serve the appointment's 
         // service and then select the user's provider.
+        $dialog.find('#select-provider').empty();
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var canProvideService = false; 
 
@@ -1687,6 +1860,11 @@ var BackendCalendar = {
                 $dialog.find('#select-provider').append(option);
             }
         });
+        
+        // :: CLOSE EXISTING CUSTOMERS FILTER FRAME
+        $('#existing-customers-list').slideUp('slow');
+        $('#filter-existing-customers').fadeOut('slow');
+        $('#select-customer').text(EALang['select']);
             
         // :: SETUP START AND END DATETIME PICKERS
         // Get the selected service duration. It will be needed in order to calculate
@@ -1705,12 +1883,58 @@ var BackendCalendar = {
                 .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
         
         $dialog.find('#start-datetime').datetimepicker({
-            'dateFormat': 'dd/mm/yy'
+            'dateFormat': 'dd/mm/yy',
+            // Translation
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+                    EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                    EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                    EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+                    EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#start-datetime').val(startDatetime);
         
         $dialog.find('#end-datetime').datetimepicker({
-            'dateFormat': 'dd/mm/yy'
+            'dateFormat': 'dd/mm/yy',
+            // Translation
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+                    EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                    EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                    EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+                    EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#end-datetime').val(endDatetime);
     },
@@ -1738,13 +1962,22 @@ var BackendCalendar = {
                 }
             }); 
             if (missingRequiredField) {
-                throw 'Fields with * are required!';                       
+                throw EALang['fields_are_required'];                       
             }
              
             // :: CHECK EMAIL ADDRESS
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
                 $dialog.find('#email').parents().eq(1).addClass('error');
-                throw 'Invalid email address!';
+                throw EALang['invalid_email'];
+            }
+            
+            // :: CHECK APPOINTMENT START AND END TIME
+            var start = Date.parseExact($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var end = Date.parseExact($('#end-datetime').val(), 'dd/MM/yyyy HH:mm');
+            if (start > end) {
+                $dialog.find('#start-datetime').parents().eq(1).addClass('error');
+                $dialog.find('#end-datetime').parents().eq(1).addClass('error');
+                throw EALang['start_date_before_end_error'];
             }
             
             return true;
@@ -1761,22 +1994,87 @@ var BackendCalendar = {
     resetUnavailableDialog: function() {
         var $dialog = $('#manage-unavailable');
         
+        $dialog.find('#unavailable-id').val('');
+
         // Set default time values
         var start = new Date().toString('dd/MM/yyyy HH:mm');
         var end = new Date().addHours(1).toString('dd/MM/yyyy HH:mm');
         
         $dialog.find('#unavailable-start').datetimepicker({
-            'dateFormat': 'dd/mm/yy'
+            'dateFormat': 'dd/mm/yy',
+            // Translation
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+                    EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                    EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                    EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+                    EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#unavailable-start').val(start);
         
         $dialog.find('#unavailable-end').datetimepicker({
-            'dateFormat': 'dd/mm/yy'
+            'dateFormat': 'dd/mm/yy',
+            // Translation
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], 
+                    EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                    EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                    EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+                    EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            timeOnlyTitle: EALang['select_time'],
+            timeText: EALang['time'],
+            hourText: EALang['hour'],
+            minuteText: EALang['minutes'],
+            firstDay: 1
         });
         $dialog.find('#unavailable-end').val(end);
         
         // Clear the unavailable notes field.
         $dialog.find('#unavailable-notes').val('');
+    },
+           
+    /**
+     * On some calendar events the titles contain html markup that is not 
+     * displayed properly due to the fullcalendar plugin. This plugin sets
+     * the .fc-event-title value by using the $.text() method and not the 
+     * $.html() method. So in order for the title to displya the html properly
+     * we convert all the .fc-event-titles where needed into html.
+     */
+    convertTitlesToHtml: function() {
+        // Convert the titles to html code.
+        $('.fc-custom').each(function() {
+            var title = $(this).find('.fc-event-title').text();
+            $(this).find('.fc-event-title').html(title);
+            var time = $(this).find('.fc-event-time').text();
+            $(this).find('.fc-event-time').html(time);
+        });
     }
 };</code></pre>
         </article>
@@ -1788,13 +2086,13 @@ var BackendCalendar = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Wed Jan 21 2015 23:15:07 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: backend_users_providers.js</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,16 +16,17 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Source: backend_users_providers.js</h1>
+
     
-    
+
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
+            <pre class="prettyprint source linenums"><code>/**
  * This class contains the Providers helper class declaration, along with the "Providers" tab 
  * event handlers. By deviding the backend/users tab functionality into separate files
  * it is easier to maintain the code.
@@ -45,12 +46,12 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      * 
      * Filter the provider records with the given key string.
      */
-    $('#filter-providers form').submit(function() {
-        event.preventDefault();
+    $('#filter-providers form').submit(function(event) {
         var key = $('#filter-providers .key').val();
         $('.selected-row').removeClass('selected-row');
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter(key);
+        return false;
     });
 
     /**
@@ -131,18 +132,17 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
     $('#delete-provider').click(function() {
         var providerId = $('#provider-id').val();
 
-        var messageBtns = {
-            'Delete': function() {
-                BackendUsers.helper.delete(providerId);
-                $('#message_box').dialog('close');
-            },
-            'Cancel': function() {
-                $('#message_box').dialog('close');
-            }
+        var messageBtns = {};
+        messageBtns[EALang['delete']] = function() {
+            BackendUsers.helper.delete(providerId);
+            $('#message_box').dialog('close');
+        };
+        messageBtns[EALang['cancel']] = function() {
+            $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox('Delete Provider', 'Are you sure that you want '
-                + 'to delete this record? This action cannot be undone.', messageBtns);
+        GeneralFunctions.displayMessageBox(EALang['delete_provider'], 
+                EALang['delete_record_prompt'], messageBtns);
     });
 
     /**
@@ -230,6 +230,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
      */
     $('#reset-working-plan').click(function() {
         $('.breaks').empty();
+        $('.work-start, .work-end').val('');
         BackendUsers.wp.setup(GlobalVariables.workingPlan);
         BackendUsers.wp.timepickers(false);
     });
@@ -254,7 +255,7 @@ ProvidersHelper.prototype.save = function(provider) {
         //console.log('Save Provider Response:', response);
         ///////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Provider saved successfully!');
+        Backend.displayNotification(EALang['provider_saved']);
         BackendUsers.helper.resetForm();
         $('#filter-providers .key').val('');
         BackendUsers.helper.filter('', response.id, true); 
@@ -275,7 +276,7 @@ ProvidersHelper.prototype.delete = function(id) {
         //console.log('Delete provider response:', response);
         /////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        Backend.displayNotification('Provider deleted successfully!');
+        Backend.displayNotification(EALang['provider_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-providers .key').val());
     }, 'json');
@@ -301,27 +302,32 @@ ProvidersHelper.prototype.validate = function(provider) {
             }
         });
         if (missingRequired) {
-            throw 'Fields with * are  required.';
+            throw EALang['fields_are_required'];
         }
         
         // Validate passwords.
         if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-            throw 'Passwords mismatch!';
+            throw EALang['passwords_mismatch'];
         }
         
         if ($('#provider-password').val().length &lt; BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#provider-password').val() != '') {
+                &amp;&amp; $('#provider-password').val() != '') {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
-                    + ' characters long.';
+            throw EALang['password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
         }
         
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
             $('#provider-email').css('border', '2px solid red');
-            throw 'Invalid email address!';
+            throw EALang['invalid_email'];
         }
+        
+        // Check if username exists
+        if ($('#provider-username').attr('already-exists') ==  'true') {
+            $('#provider-username').css('border', '2px solid red');
+            throw EALang['username_already_exists'];
+        } 
         
         return true;
     } catch(exc) {
@@ -437,7 +443,7 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
         $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
         
         if (response.length == 0) {
-            $('#filter-providers .results').html('&lt;em>No results found ...&lt;/em>')
+            $('#filter-providers .results').html('&lt;em>' + EALang['no_records_found'] + '&lt;/em>')
         }
         
         if (selectId != undefined) {
@@ -453,10 +459,17 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
  * @returns {string} The html code that represents the record on the filter results list.
  */
 ProvidersHelper.prototype.getFilterHtml = function(provider) {
+    var name = provider.first_name + ' ' + provider.last_name;
+    var info = provider.email;
+    info = (provider.mobile_number != '' &amp;&amp; provider.mobile_number != null)
+            ? info + ', ' + provider.mobile_number : info;
+    info = (provider.phone_number != '' &amp;&amp; provider.phone_number != null)
+            ? info + ', ' + provider.phone_number : info;        
+    
     var html =
             '&lt;div class="provider-row" data-id="' + provider.id + '">' + 
-                '&lt;strong>' + provider.first_name + ' ' + provider.last_name + '&lt;/strong>&lt;br>' +
-                provider.email + ', ' + provider.mobile_number + ', ' + provider.phone_number + '&lt;br>' + 
+                '&lt;strong>' + name + '&lt;/strong>&lt;br>' +
+                info + '&lt;br>' + 
             '&lt;/div>&lt;hr>';
 
     return html;
@@ -468,13 +481,24 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
  * @param {object} $selector The cells to be initialized.
  */
 ProvidersHelper.prototype.editableBreakDay = function($selector) {
+    var weekDays = {};
+    weekDays[EALang['monday']] = 'Monday';
+    weekDays[EALang['tuesday']] = 'Tuesday';
+    weekDays[EALang['wednesday']] = 'Wednesday';
+    weekDays[EALang['thursday']] = 'Thursday';
+    weekDays[EALang['friday']] = 'Friday';
+    weekDays[EALang['saturday']] = 'Saturday';
+    weekDays[EALang['sunday']] = 'Sunday';
+
+
     $selector.editable(function(value, settings) {
         return value;
     }, {
         'type': 'select',
-        'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
-                + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
-                + '"Sunday": "Sunday", "selected": "Monday"}',
+        // 'data': '{ "Monday": "Monday", "Tuesday": "Tuesday", "Wednesday": "Wednesday", '
+        //         + '"Thursday": "Thursday", "Friday": "Friday", "Saturday": "Saturday", '
+        //         + '"Sunday": "Sunday", "selected": "Monday"}',
+        'data': weekDays,
         'event': 'edit',
         'height': '30px',
         'submit': '&lt;button type="button" class="hidden submit-editable">Submit&lt;/button>',
@@ -550,13 +574,13 @@ ProvidersHelper.prototype.select = function(id, display) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Wed Jan 21 2015 23:15:07 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

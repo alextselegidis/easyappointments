@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: frontend_book.js</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,16 +16,17 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Source: frontend_book.js</h1>
+
     
-    
+
 
 
     
     <section>
         <article>
-            <pre class="prettyprint source"><code>/**
+            <pre class="prettyprint source linenums"><code>/**
  * This namespace contains functions that implement the book appointment page 
  * functionality. Once the initialize() method is called the page is fully 
  * functional and can serve the appointment booking process.
@@ -75,11 +76,30 @@ var FrontendBook = {
             firstDay: 1, // Monday
             minDate: 0,
             defaultDate: Date.today(),
+           
+            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3), 
+                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3), 
+                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                    EALang['saturday'].substr(0,3)],
+            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2), 
+                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2), 
+                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                    EALang['saturday'].substr(0,2)],
+            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
+                    EALang['october'], EALang['november'], EALang['december']],
+            prevText: EALang['previous'],
+            nextText: EALang['next'],
+            currentText: EALang['now'],
+            closeText: EALang['close'],
+            
             onSelect: function(dateText, instance) {
                 FrontendBook.getAvailableHours(dateText);
                 FrontendBook.updateConfirmFrame();
             }
         });
+
        
         // Bind the event handlers (might not be necessary every time
         // we use this class).
@@ -129,14 +149,14 @@ var FrontendBook = {
                     // add him to the listbox. 
                     if (serviceId == currServiceId) { 
                         var optionHtml = '&lt;option value="' + provider['id'] + '">' 
-                                + provider['last_name']  + ' ' + provider['first_name'] 
+                                + provider['first_name']  + ' ' + provider['last_name'] 
                                 + '&lt;/option>';
                         $('#select-provider').append(optionHtml);
                     }
                 });
             });
 
-            FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            FrontendBook.getAvailableHours($('#select-date').val());
             FrontendBook.updateConfirmFrame();
             FrontendBook.updateServiceDescription($('#select-service').val(), $('#service-description'));
         });
@@ -156,7 +176,7 @@ var FrontendBook = {
                     if ($('#select-hour-prompt').length == 0) {
                         $('#available-hours').append('&lt;br>&lt;br>'
                                 + '&lt;strong id="select-hour-prompt" class="text-error">'
-                                + 'Please select an appointment hour before continuing!' 
+                                + EALang['appointment_hour_missing'] 
                                 + '&lt;/strong>');
                     }
                     return;
@@ -220,29 +240,27 @@ var FrontendBook = {
              * once the appointment is cancelled, it will be delete from the 
              * database.
              */
-            $('#cancel-appointment').click(function() {
-                event.preventDefault();
-                
-                var dialogButtons = {
-                    'OK': function() {
-                        if ($('#cancel-reason').val() === '') {
-                            $('#cancel-reason').css('border', '2px solid red');
-                            return;
-                        }
-                        $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
-                        $('#cancel-appointment-form').submit();
-                    },
-                    'Cancel': function() {
-                        $('#message_box').dialog('close');
+            $('#cancel-appointment').click(function(event) {
+                var dialogButtons = {};
+                dialogButtons['OK'] = function() {
+                    if ($('#cancel-reason').val() === '') {
+                        $('#cancel-reason').css('border', '2px solid red');
+                        return;
                     }
+                    $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
+                    $('#cancel-appointment-form').submit();
+                };
+                    
+                dialogButtons[EALang['cancel']] = function() {
+                    $('#message_box').dialog('close');
                 };
                 
-                GeneralFunctions.displayMessageBox('Cancel Appointment', 'Please take a '
-                        + 'minute to write the reason you are cancelling the appointment:',
-                        dialogButtons);
+                GeneralFunctions.displayMessageBox(EALang['cancel_appointment_title'], 
+                        EALang['write_appointment_removal_reason'], dialogButtons);
                         
-                $('#message_box').append('&lt;textarea id="cancel-reason">&lt;/textarea>');
-                $('#cancel-reason').css('width', '300px');
+                $('#message_box').append('&lt;textarea id="cancel-reason" rows="3">&lt;/textarea>');
+                $('#cancel-reason').css('width', '353px');
+                return false;
             });
         }
         
@@ -253,16 +271,18 @@ var FrontendBook = {
          * in the meantime the selected appointment date/time wasn't reserved by
          * another customer or event. 
          */
-        $('#book-appointment-form').submit(function() {
-            event.preventDefault();
-            
+        $('#book-appointment-submit').click(function(event) {
             var formData = jQuery.parseJSON($('input[name="post_data"]').val());
             
             var postData = {
                 'id_users_provider': formData['appointment']['id_users_provider'],
                 'id_services': formData['appointment']['id_services'],
-                'start_datetime': formData['appointment']['start_datetime']
+                'start_datetime': formData['appointment']['start_datetime'],
             };
+            
+            if (GlobalVariables.manageMode) {
+                postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
+            }
             
             var postUrl = GlobalVariables.baseUrl + 'appointments/ajax_check_datetime_availability';
             
@@ -275,9 +295,9 @@ var FrontendBook = {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
                             + 'the check appointment time availability could not be completed. '
-                            + 'The following issues occured:');
+                            + 'The following issues occurred:');
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return;
+                    return false;
                 } 
                 
                 if (response === true) {
@@ -303,7 +323,7 @@ var FrontendBook = {
         $('#available-hours').empty();
         
         // Find the selected service duration (it is going to 
-        // be send within the "postData" object.
+        // be send within the "postData" object).
         var selServiceDuration = 15; // Default value of duration (in minutes).
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service['id'] == $('#select-service').val()) {
@@ -323,15 +343,15 @@ var FrontendBook = {
             'service_duration': selServiceDuration,
             'manage_mode': FrontendBook.manageMode,
             'appointment_id': appointmentId
-        }
+        };
 
         // Make ajax post request and get the available hours.
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
-            //console.log('Get Available Hours JSON Response:', response);
+            console.log('Get Available Hours JSON Response:', response);
             ///////////////////////////////////////////////////////////////
-
+            
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
             // The response contains the available hours for the selected provider and
@@ -366,8 +386,7 @@ var FrontendBook = {
                 FrontendBook.updateConfirmFrame();
                 
             } else {
-                $('#available-hours').text('There are no available appointment '
-                        + 'hours for the selected date. Please choose another date.');
+                $('#available-hours').text(EALang['no_available_hours']);
             }
         }, 'json');
     },
@@ -391,13 +410,13 @@ var FrontendBook = {
                 }
             });
             if (missingRequiredField) {
-                throw 'Fields with * are required!';
+                throw EALang['fields_are_required'];
             }
             
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').css('border', '2px solid red');
-                throw 'Invalid email address!';
+                throw EALang['invalid_email'];
             }
             
             return true;
@@ -444,15 +463,15 @@ var FrontendBook = {
         $('#customer-details').html(
             '&lt;h4>' + $('#first-name').val() + ' ' + $('#last-name').val() + '&lt;/h4>' + 
             '&lt;p>' + 
-            	'Phone: ' + $('#phone-number').val() + 
+            	EALang['phone'] + ': ' + $('#phone-number').val() + 
             	'&lt;br/>' + 
-            	'Email: ' + $('#email').val() + 
+            	EALang['email'] + ': ' + $('#email').val() + 
             	'&lt;br/>' + 
-            	'Address: ' + $('#address').val() + 
+            	EALang['address'] + ': ' + $('#address').val() + 
             	'&lt;br/>' + 
-            	'City: ' + $('#city').val() + 
+            	EALang['city'] + ': ' + $('#city').val() + 
             	'&lt;br/>' + 
-            	'Zip Code: ' + $('#zip-code').val() + 
+            	EALang['zip_code'] + ': ' + $('#zip-code').val() + 
         	'&lt;/p>'
         );
             
@@ -513,7 +532,7 @@ var FrontendBook = {
         startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
         var endDatetime = undefined;
         
-        if (selServiceDuration !== undefined && startDatetime !== null) {
+        if (selServiceDuration !== undefined &amp;&amp; startDatetime !== null) {
             endDatetime = startDatetime.add({ 'minutes' : parseInt(selServiceDuration) });
         } else {
             endDatetime = new Date();
@@ -533,13 +552,13 @@ var FrontendBook = {
      */
     applyAppointmentData: function(appointment, provider, customer) {
         try {
-            // Select Service & Provider
+            // Select Service &amp; Provider
             $('#select-service').val(appointment['id_services']).trigger('change');
             $('#select-provider').val(appointment['id_users_provider']);
             
             // Set Appointment Date
-            $('#select-date').datepicker('setDate', Date.parseExact(
-                    appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
+            $('#select-date').datepicker('setDate', 
+                    Date.parseExact(appointment['start_datetime'], 'yyyy-MM-dd HH:mm:ss'));
             FrontendBook.getAvailableHours($('#select-date').val());
             
             // Apply Customer's Data
@@ -577,14 +596,19 @@ var FrontendBook = {
         
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == serviceId) { // Just found the service.
-                html = '&lt;strong>' + service.name + ':&lt;/strong> ';
+                html = '&lt;strong>' + service.name + ' &lt;/strong>';
                 
-                if (service.description != '' && service.description != null) {
-                    html += service.description;
+                if (service.description != '' &amp;&amp; service.description != null) {
+                    html += '&lt;br>' + service.description + '&lt;br>';
                 }
                 
-                if (service.price != '' && service.price != null) {
-                    html += ' [Price ' + service.price + ' ' + service.currency  + ']';
+                if (service.duration != '' &amp;&amp; service.duration != null) {
+                    html += '[' + EALang['duration'] + ' ' + service.duration 
+                            + ' ' + EALang['minutes'] + '] ';
+                }
+                
+                if (service.price != '' &amp;&amp; service.price != null) {
+                    html += '[' + EALang['price'] + ' ' + service.price + ' ' + service.currency  + ']';
                 }   
                 
                 html += '&lt;br>';
@@ -613,13 +637,13 @@ var FrontendBook = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdminsHelper.html">AdminsHelper</a></li><li><a href="CategoriesHelper.html">CategoriesHelper</a></li><li><a href="CustomersHelper.html">CustomersHelper</a></li><li><a href="ProvidersHelper.html">ProvidersHelper</a></li><li><a href="SecretariesHelper.html">SecretariesHelper</a></li><li><a href="ServicesHelper.html">ServicesHelper</a></li><li><a href="SystemSettings.html">SystemSettings</a></li><li><a href="UserSettings.html">UserSettings</a></li><li><a href="WorkingPlan.html">WorkingPlan</a></li></ul><h3>Namespaces</h3><ul><li><a href="Backend.html">Backend</a></li><li><a href="BackendCalendar.html">BackendCalendar</a></li><li><a href="BackendCustomers.html">BackendCustomers</a></li><li><a href="BackendServices.html">BackendServices</a></li><li><a href="BackendSettings.html">BackendSettings</a></li><li><a href="BackendUsers.html">BackendUsers</a></li><li><a href="FrontendBook.html">FrontendBook</a></li><li><a href="GeneralFunctions.html">GeneralFunctions</a></li></ul><h3>Global</h3><ul><li><a href="global.html#enableCancel">enableCancel</a></li><li><a href="global.html#enableSubmit">enableSubmit</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a> on Sat Oct 19 2013 11:58:41 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Wed Jan 21 2015 23:15:07 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
