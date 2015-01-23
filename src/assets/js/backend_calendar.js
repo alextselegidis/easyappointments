@@ -196,7 +196,11 @@ var BackendCalendar = {
             $dialog.find('#appointment-notes').val(appointment['notes']);
             $dialog.find('#customer-notes').val(customer['notes']);
             
+
             $dialog.modal('show');
+            $dialog.on('hide.bs.modal', function (e) {
+                $dialog.find('.modal-body').scrollTop(0);
+            })
         }
         
         // Apply qtip to control tooltips.
@@ -387,7 +391,7 @@ var BackendCalendar = {
                 BackendCalendar.resetUnavailableDialog();
                 
                 // :: APPLY UNAVAILABLE DATA TO DIALOG
-                $dialog.find('.modal-header h3').text('Edit Unavailable Period');
+                $dialog.find('.modal-header h3').text(EALang['edit_unavailable_title']);
                 $dialog.find('#unavailable-id').val(unavailable.id);
                 $dialog.find('#unavailable-start').val(GeneralFunctions.getDisplayDateTime(unavailable.start_datetime));
                 $dialog.find('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(unavailable.end_datetime));
@@ -396,6 +400,9 @@ var BackendCalendar = {
             
             // :: DISPLAY EDIT DIALOG
             $dialog.modal('show');
+            $dialog.on('hide.bs.modal', function (e) {
+                $dialog.find('.modal-body').scrollTop(0);
+            })
         });
         
         /**
@@ -601,8 +608,15 @@ var BackendCalendar = {
                 $dialog.find('.modal-message').text(EALang['start_date_before_end_error']);
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
+                $dialog.find('#unavailable-start').parents().eq(1).addClass('error');
+                $dialog.find('#unavailable-end').parents().eq(1).addClass('error');
                 return;
             }
+			else
+			{
+                $dialog.find('#unavailable-start').parents().eq(1).removeClass('error');
+                $dialog.find('#unavailable-end').parents().eq(1).removeClass('error');
+			}
             
             // Unavailable period records go to the appointments table.
             var unavailable = {
@@ -663,7 +677,7 @@ var BackendCalendar = {
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
                         'the operation could not complete due to server communication errors.');
                 
-                $dialog.find('.modal-message').txt(EALang['service_communication_error']);
+                $dialog.find('.modal-message').text(EALang['service_communication_error']);
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
             };
@@ -817,6 +831,9 @@ var BackendCalendar = {
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
             $dialog.modal('show');
+            $dialog.on('hide.bs.modal', function (e) {
+                $dialog.find('.modal-body').scrollTop(0);
+            })
         });
         
         /**
@@ -847,6 +864,9 @@ var BackendCalendar = {
             
             $dialog.find('.modal-header h3').text(EALang['new_unavailable_title']);
             $dialog.modal('show');
+            $dialog.on('hide.bs.modal', function (e) {
+                $dialog.find('.modal-body').scrollTop(0);
+            })
         });
         
         /**
@@ -960,6 +980,17 @@ var BackendCalendar = {
             });
 
             $('#end-datetime').val(GeneralFunctions.getDisplayDateTime(start.addMinutes(serviceDuration)));
+        });
+        /**
+         * Event: Start Date / Time "Change"
+         *
+         * When the user changes the start date/time, the end date/time is
+         * automatically set to one hour after the start date/time
+         */
+        $('#unavailable-start').change(function() {
+            var start = Date.parseExact($('#unavailable-start').val(), GeneralFunctions.getDisplayDateTimeFormat());
+
+            $('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
         });
         
         /**
@@ -1848,7 +1879,14 @@ var BackendCalendar = {
         
         // :: EMPTY FORM FIELDS
         $dialog.find('input, textarea').val('');
-        $dialog.find('.modal-message').fadeOut();
+        $dialog.find('.modal-message').hide();
+
+        $dialog.find('.required').each(function() {
+            $(this).parents().eq(1).removeClass('error');
+        }); 
+        $dialog.find('#email').parents().eq(1).removeClass('error');
+        $dialog.find('#start-datetime').parents().eq(1).removeClass('error');
+        $dialog.find('#end-datetime').parents().eq(1).removeClass('error');
         
         // :: PREPARE SERVICE AND PROVIDER LISTBOXES
         $dialog.find('#select-service').val(
@@ -1954,8 +1992,14 @@ var BackendCalendar = {
      */
     resetUnavailableDialog: function() {
         var $dialog = $('#manage-unavailable');
+
+        // :: EMPTY FORM FIELDS
+        $dialog.find('.modal-message').hide();
         
         $dialog.find('#unavailable-id').val('');
+
+        $dialog.find('#unavailable-start').parents().eq(1).removeClass('error');
+        $dialog.find('#unavailable-end').parents().eq(1).removeClass('error');
 
         // Set default time values
         var start = GeneralFunctions.getDisplayDateTime(new Date());
