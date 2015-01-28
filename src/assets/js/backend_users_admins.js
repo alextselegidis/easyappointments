@@ -168,7 +168,7 @@ AdminsHelper.prototype.save = function(admin) {
     //console.log('Admin data to save:', admin);
     ////////////////////////////////////////////
     
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_admin';
+    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_admin';
     var postData = { 'admin': JSON.stringify(admin) };
     
     $.post(postUrl, postData, function(response) {
@@ -189,7 +189,7 @@ AdminsHelper.prototype.save = function(admin) {
  * @param {int} id Record id to be deleted. 
  */
 AdminsHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_admin';
+    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_admin';
     var postData = { 'admin_id': id };
     
     $.post(postUrl, postData, function(response) {
@@ -317,7 +317,7 @@ AdminsHelper.prototype.display = function(admin) {
 AdminsHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_admins';
+    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_admins';
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {

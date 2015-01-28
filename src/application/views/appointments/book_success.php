@@ -7,29 +7,29 @@
     <?php // INCLUDE JS FILES ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
         
     <?php // INCLUDE CSS FILES ?>
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>assets/img/favicon.ico">
+        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
     
     <style>
         body {
@@ -180,7 +180,7 @@
 </head>
 <body>
     <div id="success-frame" class="frame-container">
-        <img id="success-icon" src="<?php echo $this->config->base_url(); ?>assets/img/success.png" />
+        <img id="success-icon" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
 
         <h3><?php echo $this->lang->line('appointment_registered'); ?></h3>
         <p><?php echo $this->lang->line('appointment_details_was_sent_to_you'); ?></p>
@@ -206,6 +206,6 @@
     </div>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

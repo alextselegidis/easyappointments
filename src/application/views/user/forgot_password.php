@@ -7,13 +7,13 @@
     <?php // INCLUDE JS FILES ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
     
     <script type="text/javascript">
         var EALang = <?php echo json_encode($this->lang->language); ?>;
@@ -23,17 +23,17 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>assets/img/favicon.ico">
+        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
     
     <style>
         body {
@@ -76,7 +76,7 @@
             $('form').submit(function(event) {
                 event.preventDefault(); 
                 
-                var postUrl = GlobalVariables.baseUrl + 'user/ajax_forgot_password';
+                var postUrl = GlobalVariables.baseUrl + '/user/ajax_forgot_password';
                 var postData = {
                     'username': $('#username').val(),
                     'email': $('#email').val()
@@ -132,6 +132,6 @@
     </div>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

@@ -11,27 +11,27 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/jquery/jquery-ui.min.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/jquery/jquery-ui.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/libs/jquery/jquery.qtip.min.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/jquery/jquery.qtip.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/frontend.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/frontend.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>assets/css/general.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/css/general.css">
 
     <?php
         // ------------------------------------------------------------
@@ -39,22 +39,22 @@
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery-ui.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery-ui.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/jquery/jquery.qtip.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.qtip.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>assets/js/frontend_book.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/js/frontend_book.js"></script>
     
     <?php
         // ------------------------------------------------------------
@@ -63,7 +63,7 @@
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>assets/img/favicon.ico">
+        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
     
     <?php
         // ------------------------------------------------------------
@@ -132,7 +132,7 @@
                             '</p>
                             <form id="cancel-appointment-form" method="post" class="pull-right"  
                                     action="' . $this->config->item('base_url') 
-                                    . 'appointments/cancel/' . $appointment_data['hash'] . '">
+                                    . '/appointments/cancel/' . $appointment_data['hash'] . '">
                                 <textarea name="cancel_reason" style="display:none"></textarea>
                                 <button id="cancel-appointment" class="btn btn-inverse">' .
                                         $this->lang->line('cancel') . '</button>
@@ -379,6 +379,6 @@
     </div>
 <script 
     type="text/javascript" 
-    src="<?php echo $this->config->base_url(); ?>assets/js/general_functions.js"></script>
+    src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

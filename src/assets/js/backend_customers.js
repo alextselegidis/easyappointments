@@ -215,7 +215,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
  * @param {object} customer Contains the customer data.
  */
 CustomersHelper.prototype.save = function(customer) {
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_customer';
+    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_customer';
     var postData = { 'customer': JSON.stringify(customer) };
     
     $.post(postUrl, postData, function(response) {
@@ -238,7 +238,7 @@ CustomersHelper.prototype.save = function(customer) {
  * @param {numeric} id Record id to be deleted. 
  */
 CustomersHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_customer';
+    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_customer';
     var postData = { 'customer_id': id };
     
     $.post(postUrl, postData, function(response) {
@@ -357,7 +357,7 @@ CustomersHelper.prototype.display = function(customer) {
 CustomersHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_filter_customers';
+    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_customers';
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {

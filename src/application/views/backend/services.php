@@ -1,5 +1,5 @@
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend_services.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/backend_services.js"></script>
         
 <script type="text/javascript">    
     var GlobalVariables = {

@@ -1,8 +1,8 @@
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
         
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend_customers.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/backend_customers.js"></script>
         
 <script type="text/javascript">    
     var GlobalVariables = {

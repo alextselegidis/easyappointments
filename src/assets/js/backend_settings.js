@@ -168,7 +168,7 @@ var BackendSettings = {
             
             if ($input.prop('readonly') == true || $input.val() == '') return;
             
-            var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_validate_username';
+            var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_validate_username';
             var postData = { 
                 'username': $input.val(), 
                 'user_id': $input.parents().eq(2).find('#user-id').val()

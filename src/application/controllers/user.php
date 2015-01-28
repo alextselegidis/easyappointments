@@ -15,7 +15,7 @@ class User extends CI_Controller {
     }
     
     public function index() {
-        header('Location: ' . $this->config->item('base_url') . 'user/login');
+        header('Location: ' . $this->config->item('base_url') . '/user/login');
     }
     
     public function login() {
@@ -25,7 +25,7 @@ class User extends CI_Controller {
         $view['dest_url'] = $this->session->userdata('dest_url');
         
         if (!$view['dest_url']) {
-            $view['dest_url'] = $view['base_url'] . 'backend';
+            $view['dest_url'] = $view['base_url'] . '/backend';
         }
         
         $view['company_name'] = $this->settings_model->get_setting('company_name');

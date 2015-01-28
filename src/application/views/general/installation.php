@@ -9,28 +9,28 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $base_url; ?>/assets/css/libs/bootstrap/bootstrap.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $base_url; ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $base_url; ?>assets/img/favicon.ico">       
+        href="<?php echo $base_url; ?>/assets/img/favicon.ico">       
 
     <?php // INCLUDE SCRIPTS ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/libs/date.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/libs/date.js"></script>
     
     <script type="text/javascript">
 	    var GlobalVariables = {
@@ -58,7 +58,7 @@
             $('#install').click(function() {
                 if (!validate()) return;
         
-                var postUrl = GlobalVariables.baseUrl + 'index.php/appointments/ajax_install';
+                var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_install';
                 var postData = {
                     'admin': JSON.stringify(getAdminData()),
                     'company': JSON.stringify(getCompanyData())
@@ -76,7 +76,7 @@
                         $('.alert').addClass('alert-success');
                         $('.alert').show();
                         setTimeout(function() {
-                            window.location.href = GlobalVariables.baseUrl + 'backend';
+                            window.location.href = GlobalVariables.baseUrl + '/backend';
                         }, 1000);
                     }
                 }, 'json');
@@ -211,12 +211,12 @@
 </head>
 <body>
     <div id="loading" style="display: none;">
-        <img src="<?php echo $base_url; ?>assets/img/loading.gif" />
+        <img src="<?php echo $base_url; ?>/assets/img/loading.gif" />
     </div>
     
     <header>
         <a href="http://easyappointments.org" target="_blank">
-            <img src="<?php echo $base_url; ?>assets/img/installation-banner.png" alt="Easy!Appointents Installation Banner">
+            <img src="<?php echo $base_url; ?>/assets/img/installation-banner.png" alt="Easy!Appointents Installation Banner">
         </a>
     </header>
     
@@ -312,6 +312,6 @@
     
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/general_functions.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

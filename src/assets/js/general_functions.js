@@ -305,7 +305,7 @@ var GeneralFunctions = {
         
         $(document).on('click', 'li.language', function() {
         	// Change language with ajax call and refresh page.
-        	var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_change_language';
+        	var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_change_language';
         	var postData = { 'language': $(this).attr('data-language') };
         	$.post(postUrl, postData, function(response) {
         		////////////////////////////////////////////////////

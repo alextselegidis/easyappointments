@@ -53,7 +53,7 @@ class Appointments extends CI_Controller {
                             'message_title' => $this->lang->line('appointment_not_found'),
                             'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
                             'message_icon'  => $this->config->item('base_url') 
-                                             . 'assets/img/error.png',
+                                             . '/assets/img/error.png',
                             'company_name'  => $company_name
                         );
                         $this->load->view('appointments/message', $view);                        
@@ -161,22 +161,22 @@ class Appointments extends CI_Controller {
                     if (!$post_data['manage_mode']) {
                         $customer_title = $this->lang->line('appointment_booked');
                         $customer_message = $this->lang->line('thank_your_for_appointment');
-                        $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                        $customer_link = $this->config->item('base_url') . '/appointments/index/' 
                                 . $appointment['hash'];
 
                         $provider_title = $this->lang->line('appointment_added_to_your_plan');
                         $provider_message = $this->lang->line('appointment_link_description');
-                        $provider_link = $this->config->item('base_url') . 'backend/index/' 
+                        $provider_link = $this->config->item('base_url') . '/backend/index/' 
                                 . $appointment['hash'];
                     } else {
                         $customer_title = $this->lang->line('appointment_changes_saved');
                         $customer_message = '';
-                        $customer_link = $this->config->item('base_url') . 'appointments/index/' 
+                        $customer_link = $this->config->item('base_url') . '/appointments/index/' 
                                 . $appointment['hash'];
 
                         $provider_title = $this->lang->line('appointment_details_changed');
                         $provider_message = '';
-                        $provider_link = $this->config->item('base_url') . 'backend/index/' 
+                        $provider_link = $this->config->item('base_url') . '/backend/index/' 
                                 . $appointment['hash'];
                     }
 
@@ -620,7 +620,7 @@ class Appointments extends CI_Controller {
     public function ajax_install() {
         try {
             // Create E!A database structure.
-            $file_contents = file_get_contents($this->config->item('base_url') . 'assets/sql/structure.sql');
+            $file_contents = file_get_contents($this->config->item('base_url') . '/assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach($sql_queries as $query) {

@@ -48,13 +48,13 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+require_once __DIR__ . '/../../config.php';
 
-$db['default']['hostname'] = SystemConfiguration::$db_host;     
-$db['default']['username'] = SystemConfiguration::$db_username; 
-$db['default']['password'] = SystemConfiguration::$db_password; 
-$db['default']['database'] = SystemConfiguration::$db_name;     
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['hostname'] = Config::DB_HOST;     
+$db['default']['username'] = Config::DB_USERNAME; 
+$db['default']['password'] = Config::DB_PASSWORD; 
+$db['default']['database'] = Config::DB_NAME;     
+$db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

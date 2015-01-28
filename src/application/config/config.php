@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// Include the app "configuration.php" file.
-require dirname(dirname(__DIR__)) . '/configuration.php';
+// Include E!A configuration file. 
+require_once __DIR__ . '/../../config.php'; 
 
 /*
 |--------------------------------------------------------------------------
@@ -12,9 +12,14 @@ require dirname(dirname(__DIR__)) . '/configuration.php';
 | the global "config" variable.
 |
 */
-$config['ea_version'] = '1.1'; // This must be changed manually.
+$config['easyappointmenst'] = array(
+	'version' => '1.1.0', 	// This must be changed manually.
+	'title' => 'Develop' 	// Leave empty for no title or add BETA, TEST etc ...
+);
+
+$config['ea_version'] = '1.1.0'; // This must be changed manually.
 $config['ea_release_title'] = 'Develop'; // Leave empty for no title or add BETA, TEST etc ...
-$config['ea_google_sync_feature'] = SystemConfiguration::$google_sync_feature;
+$config['ea_google_sync_feature'] = Config::$google_sync_feature;
 
 
 /*
@@ -31,8 +36,7 @@ $config['ea_google_sync_feature'] = SystemConfiguration::$google_sync_feature;
 | path to your installation.
 |
 */
-require_once dirname(dirname(__DIR__)) . '/configuration.php';
-$config['base_url']	= SystemConfiguration::$base_url; 
+$config['base_url']	= Config::BASE_URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -200,7 +204,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -244,7 +248,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = SystemConfiguration::$base_url;
+$config['encryption_key'] = Config::BASE_URL;
 
 /*
 |--------------------------------------------------------------------------

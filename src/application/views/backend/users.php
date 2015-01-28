@@ -1,20 +1,20 @@
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend_users.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
         
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend_users_admins.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/backend_users_admins.js"></script>
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend_users_providers.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/backend_users_providers.js"></script>
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/backend_users_secretaries.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/backend_users_secretaries.js"></script>
 
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/working_plan.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
         
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>assets/js/libs/jquery/jquery.jeditable.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.jeditable.min.js"></script>
         
 <script type="text/javascript">    
     var GlobalVariables = {
