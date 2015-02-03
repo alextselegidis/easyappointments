@@ -183,7 +183,7 @@ class Services_Model extends CI_Model {
      */
     public function get_row($service_id) {
         if (!is_numeric($service_id)) {
-            throw new Exception('$service_id argument is not an numeric (value: "' . $service_id . '")');
+            throw new Exception('$service_id argument is not a numeric (value: "' . $service_id . '")');
         }
         return $this->db->get_where('ea_services', array('id' => $service_id))->row_array();
     }
