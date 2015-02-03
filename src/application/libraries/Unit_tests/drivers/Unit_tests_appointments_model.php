@@ -393,7 +393,7 @@ class Unit_tests_appointments_model extends CI_Driver {
      */
     private function test_get_batch() {
         // Get all the appointment records (without using the model).
-        $db_data = $this->ci->db->get('ea_appointments')->result_array();
+        $db_data = $this->ci->db->order_by('start_datetime','asc')->get('ea_appointments')->result_array();
         
         // Get all the appointment records (by using the model).
         $model_data = $this->ci->appointments_model->get_batch();

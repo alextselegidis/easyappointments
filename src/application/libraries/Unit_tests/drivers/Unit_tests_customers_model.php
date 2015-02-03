@@ -409,7 +409,7 @@ class Unit_tests_customers_model extends CI_Driver {
     // TEST GET BATCH METHOD    ---------------------------------------------------
     private function test_get_batch() {
         // Get all the customer rows without using the model.
-        $db_data = $this->CI->db->get_where('ea_users', 
+        $db_data = $this->CI->db->order_by('first_name','asc')->get_where('ea_users', 
                 array('id_roles' => $this->customer_role_id))->result_array();
         // Get all the customer rows by using the model.
         $model_data = $this->CI->customers_model->get_batch();
