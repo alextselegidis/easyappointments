@@ -92,7 +92,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -128,7 +128,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -163,7 +163,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-0WRONG5-01 12:30WRONG:00',
             'end_datetime' => '2013-0WRONG5-01WRONG 13:00WRONG:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -191,7 +191,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -213,7 +213,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 08:33:45',
             'end_datetime' => '2013-05-02 13:13:13',
             'notes' => 'This is totally random!',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => '198678',
             'id_users_customer' => '194702',
             'id_services' => '8766293'
@@ -229,7 +229,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2WRONG013-05-01 0WRONG8:33:45',
             'end_datetime' => '2013-0WRONG5-02 13:13:WRONG13',
             'notes' => 'This is totally random!',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => '1986WRONG78',
             'id_users_customer' => '1WRONG94702',
             'id_services' => '876WRONG6293'
@@ -249,7 +249,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -279,7 +279,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -311,7 +311,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013WRONG-05-0WRONG1 12:WRONG30:00',
             'end_datetime' => '2013-05-01 13:00:00WRONG',
             'notes' => 'Some notes righWRONGt here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => 'WRONG',
             'id_users_customer' => 'WRONG',
             'id_services' => 'WRONG'
@@ -340,7 +340,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -412,7 +412,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',  
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -465,7 +465,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'hash' => '91de2d31f5cbb6d26a5b1b3e710d38d1',
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
@@ -526,7 +526,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -577,7 +577,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -607,7 +607,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -621,7 +621,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '20WRONG13-05-01 12WRONG:30:00',
             'end_datetime' => '2013-05WRONG-01 13:00WRONG:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -644,7 +644,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => 'THIS IS WRONG',
             'id_users_customer' => $this->customer_id,
             'id_services' => $this->service_id
@@ -666,7 +666,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => 'THIS IS WRONG',
             'id_services' => $this->service_id
@@ -688,7 +688,7 @@ class Unit_tests_appointments_model extends CI_Driver {
             'start_datetime' => '2013-05-01 12:30:00',
             'end_datetime' => '2013-05-01 13:00:00',
             'notes' => 'Some notes right here...',
-            'is_unavailable' => FALSE,
+            'type' => 0,
             'id_users_provider' => $this->provider_id,
             'id_users_customer' => $this->customer_id,
             'id_services' => 'THIS IS WRONG'

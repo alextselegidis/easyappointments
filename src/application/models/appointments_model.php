@@ -178,7 +178,7 @@ class Appointments_Model extends CI_Model {
             throw new Exception('Appointment provider id is invalid.');
         }
 
-        if ($appointment['is_unavailable'] == FALSE) { 
+        if ($appointment['type'] == 0) { 
             // Check if the customer's id is valid.
             $num_rows = $this->db
                     ->select('*')
@@ -313,22 +313,22 @@ class Appointments_Model extends CI_Model {
     }
     
     /**
-     * Inserts or updates an unavailable period record in the database.
+     * Inserts or updates a special period record in the database.
      * 
-     * @param array $unavailable Contains the unavaible data.
+     * @param array $special Contains the special appointment data.
      * @return int Returns the record id.
      */
-    public function add_unavailable($unavailable) {
+    public function add_special($special) {
         // Validate period
-        $start = strtotime($unavailable['start_datetime']);
-        $end = strtotime($unavailable['end_datetime']);
+        $start = strtotime($special['start_datetime']);
+        $end = strtotime($special['end_datetime']);
         if ($start > $end) {
             throw new Exception('Unavailable period start must be prior to end.');
         }
         
         // Validate provider record
         $where_clause = array(
-            'id' => $unavailable['id_users_provider'],
+            'id' => $special['id_users_provider'],
             'id_roles' => $this->db->get_where('ea_roles', array('slug' => DB_SLUG_PROVIDER))->row()->id
         );
         
@@ -337,38 +337,41 @@ class Appointments_Model extends CI_Model {
         }
         
         // Add record to database (insert or update).
-        if (!isset($unavailable['id'])) {
-            $unavailable['book_datetime'] = date('Y-m-d H:i:s');
-            $unavailable['is_unavailable'] = true;
+        if (!isset($special['id'])) {
+            $special['book_datetime'] = date('Y-m-d H:i:s');
+
+            if (!isset($special['type'])) {
+                $special['type'] = 1;
+            }
             
-            $this->db->insert('ea_appointments', $unavailable); 
-            $unavailable['id'] = $this->db->insert_id();
+            $this->db->insert('ea_appointments', $special); 
+            $special['id'] = $this->db->insert_id();
         } else {
-            $this->db->where(array('id' => $unavailable['id']));
-            $this->db->update('ea_appointments', $unavailable);
+            $this->db->where(array('id' => $special['id']));
+            $this->db->update('ea_appointments', $special);
         }
         
-        return $unavailable['id'];
+        return $special['id'];
     }
     
     /**
-     * Delete an unavailable period.
+     * Delete a special period.
      * 
-     * @param numeric $unavailable_id Record id to be deleted.
+     * @param numeric $special_id Record id to be deleted.
      */
-    public function delete_unavailable($unavailable_id) {
-        if (!is_numeric($unavailable_id)) { 
-            throw new Exception('Invalid argument type $unavailable_id (value:"' . 
-                    $unavailable_id . '")');
+    public function delete_special($special_id) {
+        if (!is_numeric($special_id)) { 
+            throw new Exception('Invalid argument type $special_id (value:"' . 
+                    $special_id . '")');
         }
         
-        $num_rows = $this->db->get_where('ea_appointments', array('id' => $unavailable_id))
+        $num_rows = $this->db->get_where('ea_appointments', array('id' => $special_id))
                 ->num_rows();
         if ($num_rows == 0) {
             return FALSE; // Record does not exist.
         }
         
-        $this->db->where('id', $unavailable_id);
+        $this->db->where('id', $special_id);
         return $this->db->delete('ea_appointments');
     }
     

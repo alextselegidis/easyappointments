@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `notified` BOOLEAN NOT NULL DEFAULT FALSE,
   `notes` text,
   `hash` text,
-  `is_unavailable` tinyint(4) DEFAULT '0',
+  `type` tinyint(4) DEFAULT '0',
   `id_users_provider` bigint(20) unsigned DEFAULT NULL,
   `id_users_customer` bigint(20) unsigned DEFAULT NULL,
   `id_services` bigint(20) unsigned DEFAULT NULL,

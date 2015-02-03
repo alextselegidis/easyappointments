@@ -257,11 +257,11 @@ var BackendCalendar = {
             // disabled.
             if ($('#select-filter-item option:selected').attr('type') 
                     === BackendCalendar.FILTER_TYPE_SERVICE) {
-                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-one-off-availability, #insert-unavailable')
                         .prop('disabled', true);
             } else {
                 
-                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-one-off-availability, #insert-unavailable')
                         .prop('disabled', false);
                 // If the user has already the sync enabled then apply the proper
                 // style changes.
@@ -348,7 +348,7 @@ var BackendCalendar = {
             
             var $dialog; 
             
-            if (BackendCalendar.lastFocusedEventData.data.is_unavailable == false) {
+            if (BackendCalendar.lastFocusedEventData.data.type == 0) {
                 var appointment = BackendCalendar.lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
 
@@ -381,28 +381,34 @@ var BackendCalendar = {
                 $dialog.find('#appointment-notes').val(appointment['notes']);
                 $dialog.find('#customer-notes').val(customer['notes']);
             } else {
-                var unavailable = BackendCalendar.lastFocusedEventData.data;
+                var special_period = BackendCalendar.lastFocusedEventData.data;
                 
                 // Replace string date values with actual date objects.
-                unavailable.start_datetime = GeneralFunctions.clone(BackendCalendar.lastFocusedEventData.start);
-                unavailable.end_datetime = GeneralFunctions.clone(BackendCalendar.lastFocusedEventData.end);
+                special_period.start_datetime = GeneralFunctions.clone(BackendCalendar.lastFocusedEventData.start);
+                special_period.end_datetime = GeneralFunctions.clone(BackendCalendar.lastFocusedEventData.end);
                 
-                $dialog = $('#manage-unavailable');
-                BackendCalendar.resetUnavailableDialog();
+                $dialog = $('#manage-special');
+                BackendCalendar.resetSpecialDialog();
                 
                 // :: APPLY UNAVAILABLE DATA TO DIALOG
-                $dialog.find('.modal-header h3').text(EALang['edit_unavailable_title']);
-                $dialog.find('#unavailable-id').val(unavailable.id);
-                $dialog.find('#unavailable-start').val(GeneralFunctions.getDisplayDateTime(unavailable.start_datetime));
-                $dialog.find('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(unavailable.end_datetime));
-                $dialog.find('#unavailable-notes').val(unavailable.notes);
+				if (special_period.type == 1) {
+					$dialog.find('.modal-header h3').text(EALang['edit_unavailable_title']);
+				}
+				else if (special_period.type == 2) {
+					$dialog.find('.modal-header h3').text(EALang['edit_one_off_availability_title']);
+				}
+                $dialog.find('#special-id').val(special_period.id);
+                $dialog.find('#special-type').val(special_period.type);
+                $dialog.find('#special-start').val(GeneralFunctions.getDisplayDateTime(special_period.start_datetime));
+                $dialog.find('#special-end').val(GeneralFunctions.getDisplayDateTime(special_period.end_datetime));
+                $dialog.find('#special-notes').val(special_period.notes);
             }
             
             // :: DISPLAY EDIT DIALOG
             $dialog.modal('show');
             $dialog.on('hide.bs.modal', function (e) {
                 $dialog.find('.modal-body').scrollTop(0);
-            })
+            });
         });
         
         /**
@@ -415,7 +421,7 @@ var BackendCalendar = {
         $(document).on('click', '.delete-popover', function() {
             $(this).parents().eq(2).remove(); // Hide the popover
             
-            if (BackendCalendar.lastFocusedEventData.data.is_unavailable == false) {
+            if (BackendCalendar.lastFocusedEventData.data.type == 0) {
                 var messageButtons = {};
                 messageButtons['OK'] = function() {
                     var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_appointment';
@@ -460,10 +466,10 @@ var BackendCalendar = {
                 $('#delete-reason').css('width', '353px');
             } else {
                 // Do not display confirmation promt.
-                var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_unavailable';
+                var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_delete_special_period';
                 
                 var postData = { 
-                    'unavailable_id' : BackendCalendar.lastFocusedEventData.data.id
+                    'appointment_id' : BackendCalendar.lastFocusedEventData.data.id
                 };
 
                 $.post(postUrl, postData, function(response) {
@@ -530,7 +536,7 @@ var BackendCalendar = {
                 'start_datetime': startDatetime,
                 'end_datetime': endDatetime,
                 'notes': $dialog.find('#appointment-notes').val(),
-                'is_unavailable': false
+                'type': 0
             };
             
             if ($dialog.find('#appointment-id').val() !== '') {
@@ -593,47 +599,51 @@ var BackendCalendar = {
         }); 
         
         /**
-         * Event: Manage Unavailable Dialog Save Button "Click"
+         * Event: Manage Unavailable/One-off availability Dialog Save Button "Click"
          * 
-         * Stores the unavailable period changes or inserts a new record.
+         * Stores the period changes or inserts a new record.
          */
-        $('#manage-unavailable #save-unavailable').click(function() {
-            var $dialog = $('#manage-unavailable');
+        $('#manage-special #save-special').click(function() {
+            var $dialog = $('#manage-special');
             
-            var start = GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#unavailable-start').val());
-            var end = GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#unavailable-end').val());
+            var start = GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#special-start').val());
+            var end = GeneralFunctions.getDateFromDisplayDateTime($dialog.find('#special-end').val());
             
             if (start > end) {
                 // Start time is after end time - display message to user.
                 $dialog.find('.modal-message').text(EALang['start_date_before_end_error']);
                 $dialog.find('.modal-message').addClass('alert-error');
                 $dialog.find('.modal-message').fadeIn();
-                $dialog.find('#unavailable-start').parents().eq(1).addClass('error');
-                $dialog.find('#unavailable-end').parents().eq(1).addClass('error');
+                $dialog.find('#special-start').parents().eq(1).addClass('error');
+                $dialog.find('#special-end').parents().eq(1).addClass('error');
                 return;
             }
 			else
 			{
-                $dialog.find('#unavailable-start').parents().eq(1).removeClass('error');
-                $dialog.find('#unavailable-end').parents().eq(1).removeClass('error');
+                $dialog.find('#special-start').parents().eq(1).removeClass('error');
+                $dialog.find('#special-end').parents().eq(1).removeClass('error');
 			}
             
             // Unavailable period records go to the appointments table.
-            var unavailable = {
+            var specialPeriod = {
                 'start_datetime': GeneralFunctions.getStorageDateTime(start),
                 'end_datetime': GeneralFunctions.getStorageDateTime(end),
-                'notes': $dialog.find('#unavailable-notes').val(),
+                'notes': $dialog.find('#special-notes').val(),
                 'id_users_provider': $('#select-filter-item').val() // curr provider
             };
             
-            if ($dialog.find('#unavailable-id').val() !== '') {
+            if ($dialog.find('#special-id').val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                unavailable.id = $dialog.find('#unavailable-id').val();
+                specialPeriod.id = $dialog.find('#special-id').val();
+            }
+            if ($dialog.find('#special-type').val() !== '') {
+                // Set the id value, only if we are editing an appointment.
+                specialPeriod.type = $dialog.find('#special-type').val();
             }
             
             var successCallback = function(response) {
                 ///////////////////////////////////////////////////////////////////
-                console.log('Save Unavailable Time Period Response:', response);
+                console.log('Save Unavailable/One-off Time Period Response:', response);
                 ///////////////////////////////////////////////////////////////////
 
                 if (response.exceptions) {
@@ -655,7 +665,7 @@ var BackendCalendar = {
                 }
                 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text(EALang['unavailable_saved']);
+                $dialog.find('.modal-message').text( (specialPeriod['type'] == 1) ?  EALang['unavailable_saved'] : EALang['one_off_availability_saved']);
                 $dialog.find('.modal-message').removeClass('alert-error');
                 $dialog.find('.modal-message').addClass('alert-success');
                 $dialog.find('.modal-message').fadeIn();
@@ -682,7 +692,7 @@ var BackendCalendar = {
                 $dialog.find('.modal-message').fadeIn();
             };
             
-            BackendCalendar.saveUnavailable(unavailable, successCallback, errorCallback);
+            BackendCalendar.saveSpecialPeriod(specialPeriod, successCallback, errorCallback);
         });
         
         /**
@@ -690,8 +700,8 @@ var BackendCalendar = {
          * 
          * Closes the dialog without saveing any changes to the database.
          */
-        $('#manage-unavailable #cancel-unavailable').click(function() {
-            $('#manage-unavailable').modal('hide');
+        $('#manage-special #cancel-special').click(function() {
+            $('#manage-special').modal('hide');
         });
         
         /**
@@ -833,7 +843,7 @@ var BackendCalendar = {
             $dialog.modal('show');
             $dialog.on('hide.bs.modal', function (e) {
                 $dialog.find('.modal-body').scrollTop(0);
-            })
+            });
         });
         
         /**
@@ -842,9 +852,9 @@ var BackendCalendar = {
          * When the user clicks this button a popup dialog appears and the use can set 
          * a time period where he cannot accept any appointments.
          */
-        $('#insert-unavailable').click(function() {
-            BackendCalendar.resetUnavailableDialog();
-            var $dialog = $('#manage-unavailable');
+        $('#insert-one-off-availability').click(function() {
+            BackendCalendar.resetSpecialDialog();
+            var $dialog = $('#manage-special');
             
             // Set the default datetime values.
             var start = new Date();
@@ -859,8 +869,43 @@ var BackendCalendar = {
             else 
                 start.addHours(1).set({ 'minute': 0 });
             
-            $dialog.find('#unavailable-start').val(GeneralFunctions.getDisplayDateTime(start));
-            $dialog.find('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
+            $dialog.find('#special-type').val(2);
+            $dialog.find('#special-start').val(GeneralFunctions.getDisplayDateTime(start));
+            $dialog.find('#special-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
+            
+            $dialog.find('.modal-header h3').text(EALang['new_one_off_availability_title']);
+            $dialog.modal('show');
+            $dialog.on('hide.bs.modal', function (e) {
+                $dialog.find('.modal-body').scrollTop(0);
+            })
+        });
+
+        /**
+         * Event : Insert Unavailable Time Period Button "Click"
+         * 
+         * When the user clicks this button a popup dialog appears and the use can set 
+         * a time period where he cannot accept any appointments.
+         */
+        $('#insert-unavailable').click(function() {
+            BackendCalendar.resetSpecialDialog();
+            var $dialog = $('#manage-special');
+            
+            // Set the default datetime values.
+            var start = new Date();
+            var currentMin = parseInt(start.toString('mm'));
+            
+            if (currentMin > 0 && currentMin < 15) 
+                start.set({ 'minute': 15 });
+            else if (currentMin > 15 && currentMin < 30)
+                start.set({ 'minute': 30 });
+            else if (currentMin > 30 && currentMin < 45)
+                start.set({ 'minute': 45 });
+            else 
+                start.addHours(1).set({ 'minute': 0 });
+            
+            $dialog.find('#special-type').val(1);
+            $dialog.find('#special-start').val(GeneralFunctions.getDisplayDateTime(start));
+            $dialog.find('#special-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
             
             $dialog.find('.modal-header h3').text(EALang['new_unavailable_title']);
             $dialog.modal('show');
@@ -987,10 +1032,10 @@ var BackendCalendar = {
          * When the user changes the start date/time, the end date/time is
          * automatically set to one hour after the start date/time
          */
-        $('#unavailable-start').change(function() {
-            var start = Date.parseExact($('#unavailable-start').val(), GeneralFunctions.getDisplayDateTimeFormat());
+        $('#special-start').change(function() {
+            var start = Date.parseExact($('#special-start').val(), GeneralFunctions.getDisplayDateTimeFormat());
 
-            $('#unavailable-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
+            $('#special-end').val(GeneralFunctions.getDisplayDateTime(start.addHours(1)));
         });
         
         /**
@@ -1072,18 +1117,20 @@ var BackendCalendar = {
             var $calendar = $('#calendar');
             
             $.each(response.appointments, function(index, appointment){
-                var event = {
-                    'id': appointment['id'],
-                    'title': appointment['service']['name'] + ' - ' 
-                            + appointment['customer']['first_name'] + ' ' 
-                            + appointment['customer']['last_name'],
-                    'start': appointment['start_datetime'],
-                    'end': appointment['end_datetime'],
-                    'allDay': false,
-                    'data': appointment // Store appointment data for later use.
-                };
-                
-                calendarEvents.push(event);
+                if (appointment['type'] == 0) {
+                    var event = {
+                        'id': appointment['id'],
+                        'title': appointment['service']['name'] + ' - ' 
+                                + appointment['customer']['first_name'] + ' ' 
+                                + appointment['customer']['last_name'],
+                        'start': appointment['start_datetime'],
+                        'end': appointment['end_datetime'],
+                        'allDay': false,
+                        'data': appointment // Store appointment data for later use.
+                    };
+                    
+                    calendarEvents.push(event);
+                }
             });
             
             $calendar.fullCalendar('removeEvents');
@@ -1104,20 +1151,23 @@ var BackendCalendar = {
                                         .start.toString('dddd').toLowerCase();
                                 
                                 // Add custom unavailable periods.
-                                $.each(response.unavailables, function(index, unavailable) {
-                                    var unavailablePeriod = {
-                                        'title': EALang['unavailable'] + ' <br><small>' + ((unavailable.notes.length > 30) 
-                                                        ? unavailable.notes.substring(0, 30) + '...'
-                                                        : unavailable.notes) + '</small>',
-                                        'start': Date.parse(unavailable.start_datetime),
-                                        'end': Date.parse(unavailable.end_datetime),
-                                        'allDay': false,
-                                        'color': '#879DB4',
-                                        'editable': true,
-                                        'className': 'fc-unavailable fc-custom',
-                                        'data': unavailable
-                                    };
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                $.each(response.appointments, function(index, appointment) {
+                                    if (appointment['type'] != 0) {
+                                        var title = (appointment['type'] == 1) ? EALang['unavailable'] : EALang['one_off_availability'];
+                                        var specialPeriod = {
+                                            'title': title + ' <br><small>' + ((appointments.notes.length > 30) 
+                                                            ? appointment.notes.substring(0, 30) + '...'
+                                                            : appointment.notes) + '</small>',
+                                            'start': Date.parse(appointment.start_datetime),
+                                            'end': Date.parse(appointment.end_datetime),
+                                            'allDay': false,
+                                            'color': (appointment['type'] == 1) ? '#879DB4':'#ffb',
+                                            'editable': true,
+                                            'className': (appointment['type'] == 1) ? 'fc-unavailable fc-custom' : 'fc-available',
+                                            'data': appointment
+                                        };
+                                        $calendar.fullCalendar('renderEvent', specialPeriod, false);
+                                    }
                                 });
                                 
                                 // non working day
@@ -1198,22 +1248,25 @@ var BackendCalendar = {
                             case 'agendaWeek':
                                 // Add custom unavailable periods (they are always displayed
                                 // on the calendar, even if the provider won't work on that day).
-                                $.each(response.unavailables, function(index, unavailable) {
+                                $.each(response.appointments, function(index, appointment) {
                                    //if (currDateStart.toString('dd/MM/yyyy') 
-                                   //        === Date.parse(unavailable.start_datetime).toString('dd/MM/yyyy')) {
-                                        unavailablePeriod = {
-                                            'title': EALang['unavailable'] + ' <br><small>' + ((unavailable.notes.length > 30) 
-                                                    ? unavailable.notes.substring(0, 30) + '...'
-                                                    : unavailable.notes) + '</small>',
-                                            'start': Date.parse(unavailable.start_datetime),
-                                            'end': Date.parse(unavailable.end_datetime),
+                                   //        === Date.parse(appointment.start_datetime).toString('dd/MM/yyyy')) {
+                                    if (appointment['type'] != 0) {
+                                        var title = (appointment['type'] == 1) ? EALang['unavailable'] : EALang['one_off_availability'];
+                                        specialPeriod = {
+                                            'title': title + ' <br><small>' + ((appointment.notes.length > 30) 
+                                                    ? appointment.notes.substring(0, 30) + '...'
+                                                    : appointment.notes) + '</small>',
+                                            'start': Date.parse(appointment.start_datetime),
+                                            'end': Date.parse(appointment.end_datetime),
                                             'allDay': false,
-                                            'color': '#879DB4',
+                                            'color': (appointment['type'] == 1) ? '#879DB4':'#ffb',
                                             'editable': true,
-                                            'className': 'fc-unavailable fc-custom',
-                                            'data': unavailable
+                                            'className': (appointment['type'] == 1) ? 'fc-unavailable fc-custom' : 'fc-available',
+                                            'data': appointment
                                         };
-                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                        $calendar.fullCalendar('renderEvent', specialPeriod, false);
+                                    }
                                    //}
                                 });
                                 
@@ -1369,17 +1422,17 @@ var BackendCalendar = {
     },
     
     /**
-     * Save unavailable period to database. 
+     * Save one-off-availabile or unavailable period to database. 
      * 
-     * @param {object} unavailable Containts the unavailable period data.
+     * @param {object} special Containts the period data.
      * @param {function} successCallback The ajax success callback function.
      * @param {function} errorCallback The ajax failure callback function.
      */
-    saveUnavailable: function(unavailable, successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_unavailable';
+    saveSpecialPeriod: function(specialPeriod, successCallback, errorCallback) {
+        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_special_period';
         
         var postData = {
-            'unavailable': JSON.stringify(unavailable)
+            'appointment': JSON.stringify(specialPeriod)
         };
         
         $.ajax({
@@ -1412,7 +1465,7 @@ var BackendCalendar = {
             $('#notification').hide('bind');
         }  
         
-        if (event.data.is_unavailable == false) {
+        if (event.data.type == 0) {
             // :: PREPARE THE APPOINTMENT DATA
             var appointment = GeneralFunctions.clone(event.data);
 
@@ -1472,9 +1525,10 @@ var BackendCalendar = {
             BackendCalendar.saveAppointment(appointment, undefined, 
                     successCallback, undefined);
         } else {
-            // :: UPDATE UNAVAILABLE TIME PERIOD
-            var unavailable = {
+            // :: UPDATE SPECIAL TIME PERIOD
+            var specialPeriod = {
                 'id': event.data.id,
+                'type' : event.data.type,
                 'start_datetime': event.start.toString('yyyy-MM-dd HH:mm:ss'),
                 'end_datetime': event.end.toString('yyyy-MM-dd HH:mm:ss'),
                 'id_users_provider': event.data.id_users_provider
@@ -1498,13 +1552,13 @@ var BackendCalendar = {
 
                 // Display success notification to user.
                 var undoFunction = function() {
-                    unavailable['end_datetime'] = Date.parseExact(
-                            unavailable['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
+                    specialPeriod['end_datetime'] = Date.parseExact(
+                            specialPeriod['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                             .add({ minutes: -minuteDelta })
                             .toString('yyyy-MM-dd HH:mm:ss');
 
-                    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_unavailable';                     
-                    var postData = { 'unavailable': JSON.stringify(unavailable) };
+                    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_special_period';                     
+                    var postData = { 'appointment': JSON.stringify(specialPeriod) };
 
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
@@ -1512,7 +1566,7 @@ var BackendCalendar = {
                     });
                 };
 
-                Backend.displayNotification(EALang['unavailable_updated'], [
+                Backend.displayNotification((specialPeriod.type == 1) ? EALang['unavailable_updated'] : EALang['one_off_availability_updated'], [
                     {
                         'label': 'Undo',
                         'function': undoFunction
@@ -1521,7 +1575,7 @@ var BackendCalendar = {
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            BackendCalendar.saveUnavailable(unavailable, successCallback, undefined);
+            BackendCalendar.saveSpecialPeriod(specialPeriod, successCallback, undefined);
         }
     },
             
@@ -1568,11 +1622,14 @@ var BackendCalendar = {
         var $parent = $(jsEvent.target.offsetParent);
         var $altParent = $(jsEvent.target).parents().eq(1);
         
-        if ($parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
-            displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+        if ($parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable') || 
+            $parent.hasClass('fc-available') || $altParent.hasClass('fc-available')) {
+            displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom') ||
+                            $parent.hasClass('fc-available') || $altParent.hasClass('fc-available'))
                     && GlobalVariables.user.privileges.appointments.edit == true) 
                     ? '' : 'hide';
-            displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+            displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom') ||
+                              $parent.hasClass('fc-available') || $altParent.hasClass('fc-available'))
                     && GlobalVariables.user.privileges.appointments.delete == true) 
                     ? '' : 'hide'; // Same value at the time.
             
@@ -1671,7 +1728,7 @@ var BackendCalendar = {
             $('#notification').hide('bind');
         }    
         
-        if (event.data.is_unavailable == false) {
+        if (event.data.type == 0) {
                 
             // :: PREPARE THE APPOINTMENT DATA        
             var appointment = GeneralFunctions.clone(event.data);
@@ -1752,9 +1809,10 @@ var BackendCalendar = {
             BackendCalendar.saveAppointment(appointment, undefined, 
                     successCallback, undefined);
         } else {
-            // :: UPDATE UNAVAILABLE TIME PERIOD
-            var unavailable = {
+            // :: UPDATE UNAVAILABLE/ONE-OFF TIME PERIOD
+            var specialPeriod = {
                 'id': event.data.id,
+                'type': event.data.type,
                 'start_datetime': event.start.toString('yyyy-MM-dd HH:mm:ss'),
                 'end_datetime': event.end.toString('yyyy-MM-dd HH:mm:ss'),
                 'id_users_provider': event.data.id_users_provider
@@ -1777,22 +1835,22 @@ var BackendCalendar = {
                 }
                 
                 var undoFunction = function() {
-                    unavailable['start_datetime'] = Date.parseExact(
-                            unavailable['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
+                    specialPeriod['start_datetime'] = Date.parseExact(
+                            specialPeriod['start_datetime'], 'yyyy-MM-dd HH:mm:ss')
                             .add({ days: -dayDelta, minutes: -minuteDelta })
                             .toString('yyyy-MM-dd HH:mm:ss');
 
-                    unavailable['end_datetime'] = Date.parseExact(
-                            unavailable['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
+                    specialPeriod['end_datetime'] = Date.parseExact(
+                            specialPeriod['end_datetime'], 'yyyy-MM-dd HH:mm:ss')
                             .add({ days: -dayDelta, minutes: -minuteDelta })
                             .toString('yyyy-MM-dd HH:mm:ss');
 
-                    event.data['start_datetime'] = unavailable['start_datetime'];
-                    event.data['end_datetime'] = unavailable['end_datetime'];
+                    event.data['start_datetime'] = specialPeriod['start_datetime'];
+                    event.data['end_datetime'] = specialPeriod['end_datetime'];
 
-                    var postUrl  = GlobalVariables.baseUrl + 'backend_api/ajax_save_unavailable';
+                    var postUrl  = GlobalVariables.baseUrl + 'backend_api/ajax_save_special_period';
 
-                    var postData = { 'unavailable': JSON.stringify(unavailable) };
+                    var postData = { 'appointment': JSON.stringify(specialPeriod) };
 
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
@@ -1800,7 +1858,7 @@ var BackendCalendar = {
                     });
                 };
                 
-                Backend.displayNotification(EALang['unavailable_updated'], [
+                Backend.displayNotification((specialPeriod['type'] == 1) ? EALang['unavailable_updated'] : EALang['one_off_availability_updated'], [
                     {
                         'label': 'Undo',
                         'function': undoFunction
@@ -1810,7 +1868,7 @@ var BackendCalendar = {
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
             
-            BackendCalendar.saveUnavailable(unavailable, successCallback, undefined);
+            BackendCalendar.saveSpecialPeriod(specialPeriod, successCallback, undefined);
         }
     },
     
@@ -1987,32 +2045,33 @@ var BackendCalendar = {
     },
         
     /**
-     * Reset the "#manage-unavailable" dialog. Use this method to bring the dialog
+     * Reset the "#manage-special" dialog. Use this method to bring the dialog
      * to the initial state before it becomes visible to the user.
      */
-    resetUnavailableDialog: function() {
-        var $dialog = $('#manage-unavailable');
+    resetSpecialDialog: function() {
+        var $dialog = $('#manage-special');
 
         // :: EMPTY FORM FIELDS
         $dialog.find('.modal-message').hide();
         
-        $dialog.find('#unavailable-id').val('');
+        $dialog.find('#special-id').val('');
+        $dialog.find('#special-type').val('');
 
-        $dialog.find('#unavailable-start').parents().eq(1).removeClass('error');
-        $dialog.find('#unavailable-end').parents().eq(1).removeClass('error');
+        $dialog.find('#special-start').parents().eq(1).removeClass('error');
+        $dialog.find('#special-end').parents().eq(1).removeClass('error');
 
         // Set default time values
         var start = GeneralFunctions.getDisplayDateTime(new Date());
         var end = GeneralFunctions.getDisplayDateTime(new Date().addHours(1));
         
-        $dialog.find('#unavailable-start').datetimepicker(this.getDateTimePickerOptions());
-        $dialog.find('#unavailable-start').val(start);
+        $dialog.find('#special-start').datetimepicker(this.getDateTimePickerOptions());
+        $dialog.find('#special-start').val(start);
         
-        $dialog.find('#unavailable-end').datetimepicker(this.getDateTimePickerOptions());
-        $dialog.find('#unavailable-end').val(end);
+        $dialog.find('#special-end').datetimepicker(this.getDateTimePickerOptions());
+        $dialog.find('#special-end').val(end);
         
         // Clear the unavailable notes field.
-        $dialog.find('#unavailable-notes').val('');
+        $dialog.find('#special-notes').val('');
     },
            
     /**
@@ -2025,6 +2084,12 @@ var BackendCalendar = {
     convertTitlesToHtml: function() {
         // Convert the titles to html code.
         $('.fc-custom').each(function() {
+            var title = $(this).find('.fc-event-title').text();
+            $(this).find('.fc-event-title').html(title);
+            var time = $(this).find('.fc-event-time').text();
+            $(this).find('.fc-event-time').html(time);
+        });
+        $('.fc-available').each(function() {
             var title = $(this).find('.fc-event-title').text();
             $(this).find('.fc-event-title').html(title);
             var time = $(this).find('.fc-event-time').text();

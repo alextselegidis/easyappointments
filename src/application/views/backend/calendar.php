@@ -82,9 +82,15 @@
                     <span><?php echo $this->lang->line('appointment'); ?></span>
                 </button>
 
+                <button id="insert-one-off-availability" class="btn" 
+                        title="<?php echo $this->lang->line('one_off_availability_hint'); ?>">
+                    <i class="icon-plus"></i>
+                    <span><?php echo $this->lang->line('one_off_availability'); ?></span>
+                </button>
+
                 <button id="insert-unavailable" class="btn" 
                         title="<?php echo $this->lang->line('unavailable_periods_hint'); ?>">
-                    <i class="icon-plus"></i>
+                    <i class="icon-remove"></i>
                     <span><?php echo $this->lang->line('unavailable'); ?></span>
                 </button>
             </div>
@@ -316,7 +322,7 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-unavailable" class="modal hide fade" data-keyboard="true" tabindex="-1">
+<div id="manage-special" class="modal hide fade" data-keyboard="true" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
@@ -328,32 +334,33 @@
         
         <form class="form-horizontal">
             <fieldset>
-                <input id="unavailable-id" type="hidden" />
+                <input id="special-id" type="hidden" />
+                <input id="special-type" type="hidden" />
                 
                 <div class="control-group">
-                    <label for="unavailable-start" class="control-label">
+                    <label for="special-start" class="control-label">
                         <?php echo $this->lang->line('start'); ?>
                     </label>
                     <div class="controls">
-                        <input type="text" id="unavailable-start" />
+                        <input type="text" id="special-start" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="unavailable-end" class="control-label">
+                    <label for="special-end" class="control-label">
                         <?php echo $this->lang->line('end'); ?>
                     </label>
                     <div class="controls">
-                        <input type="text" id="unavailable-end" />
+                        <input type="text" id="special-end" />
                     </div>
                 </div>
                 
                 <div class="control-group">
-                    <label for="unavailable-notes" class="control-label">
+                    <label for="special-notes" class="control-label">
                         <?php echo $this->lang->line('notes'); ?>
                     </label>
                     <div class="controls">
-                        <textarea id="unavailable-notes" rows="3" class="span3"></textarea>
+                        <textarea id="special-notes" rows="3" class="span3"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -361,10 +368,10 @@
     </div>
     
     <div class="modal-footer">
-        <button id="save-unavailable" class="btn btn-primary">
+        <button id="save-special" class="btn btn-primary">
             <?php echo $this->lang->line('save'); ?>
         </button>
-        <button id="cancel-unavailable" class="btn">
+        <button id="cancel-special" class="btn">
             <?php echo $this->lang->line('cancel'); ?>
         </button>
     </div>

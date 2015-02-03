@@ -568,7 +568,7 @@ var FrontendBook = {
             'start_datetime': GeneralFunctions.getStorageDateTime(startDatetime),
             'end_datetime': FrontendBook.calcEndDatetime(),
             'notes': $('#notes').val(),
-            'is_unavailable': false,
+            'type': 0,
             'id_users_provider': $('#select-provider').val(),
             'id_services': $('#select-service').val()
         };

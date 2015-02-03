@@ -186,6 +186,25 @@ body .jspTrack {
     opacity: 0.7;
 }
 
+#calendar-page #calendar .fc-unavailable { 
+    background-image: url('../img/unavailable.jpg');   
+    font-size: 12px; 
+    border-radius: 0; 
+    font-weight: bold; 
+    color: #333;
+    text-shadow: 0px 1px 0px #E6E6E6;
+    opacity: 0.7;
+}
+
+#calendar-page #calendar .fc-available { 
+    font-size: 12px; 
+    border-radius: 0; 
+    font-weight: bold; 
+    color: #333;
+    text-shadow: 0px 1px 0px #E6E6E6;
+    opacity: 1.0;
+}
+
 #calendar-page #calendar .fc-event-title small {
     font-weight: normal;
     font-size: 12px;

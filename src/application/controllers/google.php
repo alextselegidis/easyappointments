@@ -127,7 +127,7 @@ class Google extends CI_Controller {
             // Sync each appointment with Google Calendar by following the project's sync
             // protocol (see documentation).
             foreach($appointments as $appointment) {
-                if ($appointment['is_unavailable'] == FALSE) {
+                if ($appointment['type'] == 0) {
                     $service = $this->services_model->get_row($appointment['id_services']);
                     $customer = $this->customers_model->get_row($appointment['id_users_customer']);
                 } else {
@@ -186,7 +186,7 @@ class Google extends CI_Controller {
                     $appointment = array(
                         'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
                         'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
-                        'is_unavailable' => TRUE,
+                        'type' => 1,
                         'notes' => $event->getSummary() . ' ' . $event->getDescription(),
                         'id_users_provider' => $provider_id,
                         'id_google_calendar' => $event->getId(),
