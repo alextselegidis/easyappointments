@@ -816,6 +816,7 @@ class Appointments extends CI_Controller {
                 }
             }
         }
+        unset ($period); // unlink the period reference
         
         $available_periods_text = array();
         foreach ($available_periods as $period)
