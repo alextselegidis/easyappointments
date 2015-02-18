@@ -95,7 +95,7 @@ var FrontendBook = {
                     }
                 }
                 return [false,"","no openings available"];
-            },
+            }
         });
 
        
@@ -286,7 +286,7 @@ var FrontendBook = {
             var postData = {
                 'id_users_provider': formData['appointment']['id_users_provider'],
                 'id_services': formData['appointment']['id_services'],
-                'start_datetime': formData['appointment']['start_datetime'],
+                'start_datetime': formData['appointment']['start_datetime']
             };
             
             if (GlobalVariables.manageMode) {

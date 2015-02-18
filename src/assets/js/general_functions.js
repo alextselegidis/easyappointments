@@ -406,6 +406,6 @@ var GeneralFunctions = {
     },
     getDateFromDisplayDateTime: function(str){
         return Date.parseExact(str, this.getDisplayDateTimeFormat());
-    },
+    }
 
 };

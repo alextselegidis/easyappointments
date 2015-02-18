@@ -80,7 +80,7 @@
             manageMode          : <?php echo ($manage_mode) ? 'true' : 'false'; ?>,
             appointmentData     : <?php echo json_encode($appointment_data); ?>,
             providerData        : <?php echo json_encode($provider_data); ?>,
-            customerData        : <?php echo json_encode($customer_data); ?>,
+            customerData        : <?php echo json_encode($customer_data); ?>
         };
 
         var EALang = <?php echo json_encode($this->lang->language); ?>;
