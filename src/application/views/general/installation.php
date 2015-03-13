@@ -66,7 +66,7 @@
                 
                 $.post(postUrl, postData, function(response) {
                     //////////////////////////////////////////////////////
-                    console.log('Ajax Install E!A Response:', response);
+                    //console.log('Ajax Install E!A Response:', response);
                     //////////////////////////////////////////////////////
                     
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;

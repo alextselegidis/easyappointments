@@ -87,7 +87,7 @@ var FrontendBook = {
                 FrontendBook.getAvailableDays(calDate);
             },
             beforeShowDay: function(date, instance) {
-                console.log("beforeShowDay()");
+                //console.log("beforeShowDay()");
                 for (i = 0; i < FrontendBook.availableDays.length; i++){
                     var dateStr = $.datepicker.formatDate('yy-mm-dd',date);
                     if (dateStr == FrontendBook.availableDays[i]) {
@@ -297,7 +297,7 @@ var FrontendBook = {
             
             $.post(postUrl, postData, function(response) {
                 ////////////////////////////////////////////////////////////////////////
-                console.log('Check Date/Time Availability Post Response :', response);
+                //console.log('Check Date/Time Availability Post Response :', response);
                 ////////////////////////////////////////////////////////////////////////
                 
                 if (response.exceptions) {
@@ -363,7 +363,7 @@ var FrontendBook = {
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_days';
         jQuery.post(ajaxurl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
-            console.log('Get Available Days JSON Response:', response);
+            //console.log('Get Available Days JSON Response:', response);
             ///////////////////////////////////////////////////////////////
             
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -418,7 +418,7 @@ var FrontendBook = {
         var ajaxurl = GlobalVariables.baseUrl + 'appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
-            console.log('Get Available Hours JSON Response:', response);
+            //console.log('Get Available Hours JSON Response:', response);
             ///////////////////////////////////////////////////////////////
             
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -651,7 +651,7 @@ var FrontendBook = {
             
             return true;
         } catch(exc) {
-            console.log(exc); // log exception
+            //console.log(exc); // log exception
             return false;
         }
     },

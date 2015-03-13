@@ -309,7 +309,7 @@ var GeneralFunctions = {
         	var postData = { 'language': $(this).attr('data-language') };
         	$.post(postUrl, postData, function(response) {
         		////////////////////////////////////////////////////
-        		console.log('Change Language Response', response);
+        		//console.log('Change Language Response', response);
     			////////////////////////////////////////////////////
         		
         		if (!GeneralFunctions.handleAjaxExceptions(response)) return;

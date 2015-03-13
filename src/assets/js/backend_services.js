@@ -87,7 +87,7 @@ var BackendServices = {
         
         $.post(postUrl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
-            console.log('Update Available Categories Response:', response);
+            //console.log('Update Available Categories Response:', response);
             ///////////////////////////////////////////////////////////////
             
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -599,7 +599,7 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////
-        console.log('Filter Categories Response:', response);
+        //console.log('Filter Categories Response:', response);
         ///////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -636,7 +636,7 @@ CategoriesHelper.prototype.save = function(category) {
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
-        console.log('Save Service Category Response:', response);
+        //console.log('Save Service Category Response:', response);
         ///////////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -660,7 +660,7 @@ CategoriesHelper.prototype.delete = function(id) {
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
-        console.log('Delete category response:', response);
+        //console.log('Delete category response:', response);
         ////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -705,7 +705,7 @@ CategoriesHelper.prototype.validate = function(category) {
         return true;
         
     } catch(exc) {
-        console.log('Category Record Validation Exc:', exc);
+        //console.log('Category Record Validation Exc:', exc);
         return false;
     }
 };

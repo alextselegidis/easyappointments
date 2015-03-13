@@ -220,7 +220,7 @@ CustomersHelper.prototype.save = function(customer) {
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
-        console.log('Save Customer Response:', response);
+        //console.log('Save Customer Response:', response);
         ///////////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -366,7 +366,7 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////
-        console.log('Filter Customers Response:', response);
+        //console.log('Filter Customers Response:', response);
         ///////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;

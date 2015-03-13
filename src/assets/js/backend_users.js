@@ -149,7 +149,7 @@ var BackendUsers = {
             
             $.post(postUrl, postData, function(response) {
                 ///////////////////////////////////////////////////////
-                console.log('Validate Username Response:', response);
+                //console.log('Validate Username Response:', response);
                 ///////////////////////////////////////////////////////
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 if (response == false) {

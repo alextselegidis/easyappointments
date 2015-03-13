@@ -217,7 +217,7 @@ SystemSettings.prototype.save = function(settings) {
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
-        console.log('Save General Settings Response:', response);
+        //console.log('Save General Settings Response:', response);
         ///////////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -365,7 +365,7 @@ UserSettings.prototype.save = function(settings) {
     
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////////////
-        console.log('Save User Settings Response: ', response);
+        //console.log('Save User Settings Response: ', response);
         //////////////////////////////////////////////////////////
         
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;

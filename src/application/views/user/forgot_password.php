@@ -87,7 +87,7 @@
         
                 $.post(postUrl, postData, function(response) {
                     //////////////////////////////////////////////////////////
-                    console.log('Regenerate Password Response: ', response);
+                    //console.log('Regenerate Password Response: ', response);
                     //////////////////////////////////////////////////////////
                     
                     $('#get-new-password').prop('disabled', false);

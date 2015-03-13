@@ -95,7 +95,7 @@
         
                 $.post(postUrl, postData, function(response) {
                     //////////////////////////////////////////////////
-                    console.log('Check Login Response: ', response);
+                    //console.log('Check Login Response: ', response);
                     //////////////////////////////////////////////////
                     
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;

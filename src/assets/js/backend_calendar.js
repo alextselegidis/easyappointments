@@ -292,7 +292,7 @@ var BackendCalendar = {
                 'dataType': 'json',
                 'success': function(response) {
                     /////////////////////////////////////////////////
-                    console.log('Google Sync Response:', response);
+                    //console.log('Google Sync Response:', response);
                     /////////////////////////////////////////////////
                     
                     if (response.exceptions) {
@@ -433,7 +433,7 @@ var BackendCalendar = {
 
                     $.post(postUrl, postData, function(response) {
                         /////////////////////////////////////////////////////////
-                        console.log('Delete Appointment Response :', response);
+                        //console.log('Delete Appointment Response :', response);
                         /////////////////////////////////////////////////////////
 
                         $('#message_box').dialog('close');
@@ -474,7 +474,7 @@ var BackendCalendar = {
 
                 $.post(postUrl, postData, function(response) {
                     /////////////////////////////////////////////////////////
-                    console.log('Delete Unavailable Response :', response);
+                    //console.log('Delete Unavailable Response :', response);
                     /////////////////////////////////////////////////////////
 
                     $('#message_box').dialog('close');
@@ -643,7 +643,7 @@ var BackendCalendar = {
             
             var successCallback = function(response) {
                 ///////////////////////////////////////////////////////////////////
-                console.log('Save Unavailable/One-off Time Period Response:', response);
+                //console.log('Save Unavailable/One-off Time Period Response:', response);
                 ///////////////////////////////////////////////////////////////////
 
                 if (response.exceptions) {
@@ -681,7 +681,7 @@ var BackendCalendar = {
             
             var errorCallback = function(jqXHR, textStatus, errorThrown) {
                 ////////////////////////////////////////////////////////////////////////
-                console.log('Save Unavailable Error:', jqXHR, textStatus, errorThrown);
+                //console.log('Save Unavailable Error:', jqXHR, textStatus, errorThrown);
                 ////////////////////////////////////////////////////////////////////////
                 
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
@@ -746,7 +746,7 @@ var BackendCalendar = {
                             };
                             $.post(postUrl, postData, function(response) {
                                 ///////////////////////////////////////////////////////////////////
-                                console.log('Get Available Google Calendars Response', response);
+                                //console.log('Get Available Google Calendars Response', response);
                                 ///////////////////////////////////////////////////////////////////
                                 
                                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -1057,7 +1057,7 @@ var BackendCalendar = {
             };
             $.post(postUrl, postData, function(response){
                 ///////////////////////////////////////////////////////////
-                console.log('Select Google Calendar Response', response);
+                //console.log('Select Google Calendar Response', response);
                 ///////////////////////////////////////////////////////////
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 Backend.displayNotification(EALang['google_calendar_selected']);
@@ -1107,7 +1107,7 @@ var BackendCalendar = {
 
         $.post(postUrl, postData, function(response) {
             ////////////////////////////////////////////////////////////////////
-            console.log('Refresh Calendar Appointments Response :', response);
+            //console.log('Refresh Calendar Appointments Response :', response);
             ////////////////////////////////////////////////////////////////////
             
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
@@ -1401,7 +1401,7 @@ var BackendCalendar = {
             'dataType': 'json',
             'success': function(response) {
                 /////////////////////////////////////////////////////////////
-                console.log('Save Appointment Data Response:', response);
+                //console.log('Save Appointment Data Response:', response);
                 /////////////////////////////////////////////////////////////            
                 
                 if (successCallback !== undefined) {
@@ -1410,8 +1410,7 @@ var BackendCalendar = {
             },
             'error': function(jqXHR, textStatus, errorThrown) {
                 //////////////////////////////////////////////////////////////////
-                console.log('Save Appointment Data Error:', jqXHR, textStatus, 
-                        errorThrown);
+                //console.log('Save Appointment Data Error:', jqXHR, textStatus, errorThrown);
                 //////////////////////////////////////////////////////////////////
                 
                 if (errorCallback !== undefined) {
@@ -1749,7 +1748,7 @@ var BackendCalendar = {
                     .add({ days: dayDelta, minutes: minuteDelta })
                     .toString('yyyy-MM-dd HH:mm:ss');
 
-            console.log(appointment['start_datetime'] + "->" + appointment['end_datetime']);
+            //console.log(appointment['start_datetime'] + "->" + appointment['end_datetime']);
 
             event.data['start_datetime'] = appointment['start_datetime'];
             event.data['end_datetime'] = appointment['end_datetime'];
@@ -1819,7 +1818,7 @@ var BackendCalendar = {
             }
             
             var successCallback = function(response) {
-                console.log('Drop Unavailable Event Response:', response);
+                //console.log('Drop Unavailable Event Response:', response);
                 
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);

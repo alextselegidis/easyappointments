@@ -91,7 +91,7 @@
             function handleAuthResult(authResult) {
                 try {
                     ///////////////////////////////////////////////////////////
-                    console.log('Google Authorization Result: ', authResult);
+                    //console.log('Google Authorization Result: ', authResult);
                     ///////////////////////////////////////////////////////////
                     
                     if (authResult.error) {
@@ -137,7 +137,7 @@
 
                         request.execute(function(response) {
                             /////////////////////////////////////////////////
-                            console.log('Google API Response:', response);
+                            //console.log('Google API Response:', response);
                             /////////////////////////////////////////////////
                             
                             if (!response.error) {
@@ -172,7 +172,7 @@
                                 '<pre>' + exc + '</pre>' +
                             '</p>' +
                         '</div>');
-                    console.log('Add To Google Calendar Exception', exc);
+                    //console.log('Add To Google Calendar Exception', exc);
                 }
             }   
         });
