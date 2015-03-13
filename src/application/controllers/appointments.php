@@ -720,6 +720,10 @@ class Appointments extends CI_Controller {
                         );
                         $changed = TRUE;
                     }
+                    if ($break_start <= $s && $e <= $break_end)
+                    {
+                        $changed = TRUE;
+                    }
                     if ($changed)
                     {
                         unset($available_periods[$key]);
