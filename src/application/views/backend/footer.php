@@ -1,8 +1,7 @@
 <div id="footer">
     <div id="footer-content">
         Powered by 
-        <a href="http://easyappointments.org">
-            Easy!Appointments
+        <a href="http://easyappointments.org">Easy!Appointments
             <?php 
                 echo 'v' . $this->config->item('ea_version');
             
@@ -10,8 +9,7 @@
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }
-            ?>
-        </a> | 
+            ?></a> | 
         <?php echo $this->lang->line('licensed_under'); ?> GPLv3 |
         <span id="select-language" class="badge badge-inverse">
         	<?php echo ucfirst($this->config->item('language')); ?>
