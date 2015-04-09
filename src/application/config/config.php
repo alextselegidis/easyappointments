@@ -1,18 +1,18 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Include E!A configuration file. 
-require_once __DIR__ . '/../../config.php'; 
+//require_once __DIR__ . '/../../config.php'; 
 
 /*
 |--------------------------------------------------------------------------
-| Easy!Appointments Configuration
+| Easy!Appointments - Internal Configuration
 |--------------------------------------------------------------------------
 | 
 | Declare some of the global config values of Easy!Appointments.  
 | the global "config" variable.
 |
 */
-$config['easyappointmenst'] = array(
+$config['easyappointments'] = array(
 	'version' => '1.1.0', 	// This must be changed manually.
 	'title' => 'Develop' 	// Leave empty for no title or add BETA, TEST etc ...
 );
@@ -93,7 +93,7 @@ $config['url_suffix'] = '';
 */
 $config['language'] = 'english'; // default language
 $config['available_languages'] = array('english', 'german', 'greek', 'hungarian', 'portuguese',
-        'chinese', 'dutch', 'french', 'japanese', 'polish', 'spanish');
+        'chinese', 'dutch', 'french', 'japanese', 'polish', 'spanish', 'italian', 'danish');
 
 /*
 |--------------------------------------------------------------------------

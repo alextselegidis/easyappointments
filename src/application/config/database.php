@@ -48,8 +48,6 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-require_once __DIR__ . '/../../config.php';
-
 $db['default']['hostname'] = Config::DB_HOST;     
 $db['default']['username'] = Config::DB_USERNAME; 
 $db['default']['password'] = Config::DB_PASSWORD; 

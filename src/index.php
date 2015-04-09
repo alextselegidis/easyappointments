@@ -2,6 +2,20 @@
 
 /*
  *---------------------------------------------------------------
+ * EASY!APPOINTMENST CONFIGURATION
+ *---------------------------------------------------------------
+ *
+ * Include Easy!Appointments configuration file so that it is available
+ * globally in the application. You can access configuration information
+ * through the static Config class.
+ *
+ */
+
+require_once __DIR__ . '/config.php';
+
+
+/*
+ *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
  *
@@ -18,7 +32,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+	define('ENVIRONMENT', (Config::DEBUG_MODE) ? 'development' : 'production');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
