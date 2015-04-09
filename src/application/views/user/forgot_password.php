@@ -125,9 +125,8 @@
                 <?php echo $this->lang->line('regenerate_password'); ?>
             </button> 
             
-            <a href="<?php echo $base_url; ?>user/login" class="user-login">
-                <?php echo $this->lang->line('go_to_login'); ?>
-            </a>
+            <a href="<?php echo $base_url; ?>/user/login" class="user-login">
+                <?php echo $this->lang->line('go_to_login'); ?></a>
         </form>
     </div>
     <script 
