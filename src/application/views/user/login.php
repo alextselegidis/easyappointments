@@ -136,9 +136,8 @@
             
             <br><br>
             
-            <a href="<?php echo $base_url; ?>user/forgot_password" class="forgot-password">
-            	<?php echo $this->lang->line('forgot_your_password'); ?>
-            </a>
+            <a href="<?php echo $base_url; ?>/user/forgot_password" class="forgot-password">
+            	<?php echo $this->lang->line('forgot_your_password'); ?></a>
             |
             <span id="select-language" class="badge badge-inverse">
 	        	<?php echo ucfirst($this->config->item('language')); ?>
