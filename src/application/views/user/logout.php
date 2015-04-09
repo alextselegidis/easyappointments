@@ -73,7 +73,7 @@
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
         
-        <a href="<?php echo $this->config->base_url(); ?>backend" class="btn btn-danger btn-large">
+        <a href="<?php echo $this->config->base_url(); ?>/backend" class="btn btn-danger btn-large">
             <i class="icon-home icon-white"></i>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>
