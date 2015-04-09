@@ -3,7 +3,9 @@
 <head>
     <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#35A768">
+
     <?php // INCLUDE JS FILES ?>
     <script 
         type="text/javascript" 
@@ -19,17 +21,13 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     
     <?php // SET FAVICON FOR PAGE ?>
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
+    <link rel="icon" type="image/x-icon" 
         href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+    <link rel="icon" sizes="192x192" 
+        href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
     
     <style>
         body {
@@ -57,8 +55,8 @@
             'providerData'      : <?php echo json_encode($provider_data); ?>,
             'serviceData'       : <?php echo json_encode($service_data); ?>,
             'companyName'       : <?php echo '"' . $company_name . '"'; ?>,  
-            'googleApiKey'      : <?php echo '"' . SystemConfiguration::$google_api_key . '"'; ?>,
-            'googleClientId'    : <?php echo '"' . SystemConfiguration::$google_client_id . '"'; ?>,
+            'googleApiKey'      : <?php echo '"' . Config::$google_api_key . '"'; ?>,
+            'googleClientId'    : <?php echo '"' . Config::$google_client_id . '"'; ?>,
             'googleApiScope'    : 'https://www.googleapis.com/auth/calendar'
         };
         
@@ -165,7 +163,7 @@
                     // corresponding message on the screen.
                     $('#success-frame').append(
                         '<br><br>' +
-                        '<div class="alert alert-error">' + 
+                        '<div class="alert alert-danger">' + 
                             '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' + 
                             '<p>' + 
                                 EALang['could_not_add_to_google_calendar'] +

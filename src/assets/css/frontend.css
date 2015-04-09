@@ -1,6 +1,14 @@
-/**
- * MAIN CSS FILE FOR EASY!APPOINTMENTS
- */
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        http://easyappointments.org
+ * @since       v1.0.0
+ * ---------------------------------------------------------------------------- */
+
 root { 
     display: block;
 }
@@ -21,7 +29,7 @@ body {
 
 #book-appointment-wizard #header {
     padding: 5px;
-    height: 70px;
+    height: 80px;
     background: #3DD481;
     border-bottom: 4px solid #1A865F;
 }
@@ -30,26 +38,26 @@ body {
     font-weight: bold;
     color: #FFF;
     font-size: 22px;
-    margin: 27px 10px 0 14px;
+    margin: 18px 10px 0 14px;
     display: inline-block;
     text-shadow: 0px 1px 1px #8F8888;
     float: left;
 }
 
 #book-appointment-wizard #steps {
-    width: 204px;
+    width: 180px;
     display: inline-block;
     float: right;
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 #book-appointment-wizard .wizard-frame {
     padding: 10px 20px;
-    height: 434px;
+    height: 485px;
 }
 
 #book-appointment-wizard .wizard-frame .frame-container {
-    height: 370px;
+    height: 395px;
     margin-bottom: 10px;
 }
 
@@ -74,38 +82,38 @@ body {
 
 #book-appointment-wizard .book-step {
     display: inline-block;
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     float: left;
     background: #FFF;
-    padding: 3px;
-    margin-right: 15px;
-    margin-top: 10px;
+    padding: 1px;
+    margin-right: 10px;
+    margin-top: 9px;
     border: 3px solid #38A07A;
 }
 
 #book-appointment-wizard .book-step strong {
-    font-size: 18px;
+    font-size: 15px;
     display: block;
     text-align: center;
-    color: #B6DFC6;
+    color: #A9C5BB;
 }
 
 #book-appointment-wizard .active-step {
     display: inline-block;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
     float: left;
     background: #FFF;
-    padding: 10px;
-    margin-right: 15px;
-    margin-top: 0px;
+    padding: 1px;
+    margin-right: 10px;
+    margin-top: 3px;
     border: 3px solid #38A07A;
 }
 
 #book-appointment-wizard .active-step strong {
-    color: #396946;
-    font-size: 25px;
+    color: #38A07A;
+    font-size: 22px;
 }
 
 #book-appointment-wizard #frame-footer {
@@ -165,11 +173,16 @@ body {
     margin-bottom: 25px;
 }
 
+#language-list {
+    list-style: none;
+    padding-left: 0px;
+}
+
 
 /* CANCEL APPOINTMENT 
    ------------------------------------------------------------------------- */
 #cancel-appointment-frame {
-    padding: 12px 17px 0;
+    padding: 15px;
     background: #FAFAFA;
     border-bottom: 1px solid #E2E2E2;
     overflow: auto;
@@ -177,15 +190,10 @@ body {
 
 #cancel-appointment-frame p {
     display: inline-block;
-    margin-right: 10px;
-    margin-bottom: 0;
+    margin: 6px 10px 0;
     width: 515px;
 }
 
 #cancel-appointment-frame form {
     display: inline;
 }
-
-
-
-

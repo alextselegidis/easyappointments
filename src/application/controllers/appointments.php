@@ -160,7 +160,7 @@ class Appointments extends CI_Controller {
                     
                     if (!$post_data['manage_mode']) {
                         $customer_title = $this->lang->line('appointment_booked');
-                        $customer_message = $this->lang->line('thank_your_for_appointment');
+                        $customer_message = $this->lang->line('thank_you_for_appointment');
                         $customer_link = $this->config->item('base_url') . '/appointments/index/' 
                                 . $appointment['hash'];
 

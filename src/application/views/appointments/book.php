@@ -3,6 +3,9 @@
 <head>
     <title><?php echo $this->lang->line('page_title') . ' ' .  $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#35A768">
+
     
     <?php
         // ------------------------------------------------------------
@@ -11,11 +14,7 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
@@ -60,11 +59,12 @@
         // ------------------------------------------------------------
         // WEBPAGE FAVICON
         // ------------------------------------------------------------ ?>
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
-    
+    <link rel="icon" type="image/x-icon" 
+            href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+
+    <link rel="icon" sizes="192x192" 
+            href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
+
     <?php
         // ------------------------------------------------------------
         // VIEW FILE JAVASCRIPT CODE
@@ -73,7 +73,7 @@
         var GlobalVariables = {
             availableServices   : <?php echo json_encode($available_services); ?>,
             availableProviders  : <?php echo json_encode($available_providers); ?>,
-            baseUrl             : <?php echo '"' . $this->config->base_url() . '"'; ?>,
+            baseUrl             : <?php echo '"' . $this->config->item('base_url') . '"'; ?>,
             manageMode          : <?php echo ($manage_mode) ? 'true' : 'false'; ?>,
             appointmentData     : <?php echo json_encode($appointment_data); ?>,
             providerData        : <?php echo json_encode($provider_data); ?>,
@@ -167,7 +167,7 @@
                             <strong><?php echo $this->lang->line('select_service'); ?></strong>
                         </label>
                         
-                        <select id="select-service" class="span4">
+                        <select id="select-service" class="col-md-4 form-control">
                             <?php 
                                 // Group services by category, only if there is at least one service 
                                 // with a parent category.
@@ -226,7 +226,7 @@
                             <strong><?php echo $this->lang->line('select_provider'); ?></strong>
                         </label>
                         
-                        <select id="select-provider" class="span4"></select>
+                        <select id="select-provider" class="cold-md-4 form-control"></select>
                         
                         <div id="service-description" style="display:none;"></div>
                     </div>
@@ -249,12 +249,12 @@
                     
                     <h3 class="frame-title"><?php echo $this->lang->line('step_two_title'); ?></h3>
                     
-                    <div class="frame-content" style="width:600px">
-                        <div class="span3">
+                    <div class="frame-content row" style="width:600px">
+                        <div class="col-md-6">
                             <div id="select-date"></div>
                         </div>
 
-                        <div class="span3">
+                        <div class="col-md-6">
                             <?php // Available hours are going to be fetched via ajax call. ?>
                             <div id="available-hours"></div>
                         </div>
@@ -283,36 +283,44 @@
                     
                     <h3 class="frame-title"><?php echo $this->lang->line('step_three_title'); ?></h3>
                     
-                    <div class="frame-content" style="width:600px">
-                        <div class="span3">
-                            <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
-                            <input type="text" id="first-name" class="required" maxlength="100" />
-                            
-                            <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
-                            <input type="text" id="last-name" class="required" maxlength="250" />
-
-                            <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
-                            <input type="text" id="email" class="required" maxlength="250" />
-
-                            <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                            <input type="text" id="phone-number" class="required" maxlength="60" />
-
-                            <br/><br/>
-                            <em id="form-message" class="text-error"><?php echo $this->lang->line('fields_are_required'); ?></em>
+                    <div class="frame-content row" style="width:600px">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="first-name" class="control-label"><?php echo $this->lang->line('first_name'); ?> *</label>
+                                <input type="text" id="first-name" class="required form-control" maxlength="100" />
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name" class="control-label"><?php echo $this->lang->line('last_name'); ?> *</label>
+                                <input type="text" id="last-name" class="required form-control" maxlength="250" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="control-label"><?php echo $this->lang->line('email'); ?> *</label>
+                                <input type="text" id="email" class="required form-control" maxlength="250" />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone-number" class="control-label"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                                <input type="text" id="phone-number" class="required form-control" maxlength="60" />
+                            </div>
+                            <em id="form-message" class="text-danger"><?php echo $this->lang->line('fields_are_required'); ?></em>
                         </div>
 
-                        <div class="span3">
-                            <label for="address"><?php echo $this->lang->line('address'); ?></label>
-                            <input type="text" id="address" maxlength="250" />
-
-                            <label for="city"><?php echo $this->lang->line('city'); ?></label>
-                            <input type="text" id="city" maxlength="120" />
-
-                            <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-                            <input type="text" id="zip-code" maxlength="120" />
-
-                            <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
-                            <textarea id="notes" maxlength="500" rows="3"></textarea>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="address" class="control-label"><?php echo $this->lang->line('address'); ?></label>
+                                <input type="text" id="address" class="form-control" maxlength="250" />
+                            </div>
+                            <div class="form-group">
+                                <label for="city" class="control-label"><?php echo $this->lang->line('city'); ?></label>
+                                <input type="text" id="city" class="form-control" maxlength="120" />
+                            </div>
+                            <div class="form-group">
+                                <label for="zip-code" class="control-label"><?php echo $this->lang->line('zip_code'); ?></label>
+                                <input type="text" id="zip-code" class="form-control" maxlength="120" />
+                            </div>
+                            <div class="form-group">
+                                <label for="notes" class="control-label"><?php echo $this->lang->line('notes'); ?></label>
+                                <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -337,9 +345,9 @@
             <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
                     <h3 class="frame-title"><?php echo $this->lang->line('step_four_title'); ?></h3>
-                    <div class="frame-content" style="width:600px">
-                        <div id="appointment-details" class="span3"></div>
-                        <div id="customer-details" class="span3"></div>
+                    <div class="frame-content row" style="width:600px">
+                        <div id="appointment-details" class="col-md-6"></div>
+                        <div id="customer-details" class="col-md-6"></div>
                     </div>
                 </div>
                 
@@ -367,11 +375,9 @@
                 // ------------------------------------------------------ ?>
             <div id="frame-footer">
                 Powered By 
-                <a href="http://easyappointments.org" target="_blank">
-                    Easy!Appointments
-                </a>
+                <a href="http://easyappointments.org" target="_blank">Easy!Appointments</a>
                 |
-                <span id="select-language" class="badge badge-inverse">
+                <span id="select-language" class="label label-success">
 		        	<?php echo ucfirst($this->config->item('language')); ?>
 		        </span>
             </div>

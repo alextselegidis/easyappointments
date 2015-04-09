@@ -147,7 +147,7 @@ var FrontendBook = {
                 if ($('.selected-hour').length == 0) {
                     if ($('#select-hour-prompt').length == 0) {
                         $('#available-hours').append('<br><br>'
-                                + '<strong id="select-hour-prompt" class="text-error">'
+                                + '<strong id="select-hour-prompt" class="text-danger">'
                                 + EALang['appointment_hour_missing'] 
                                 + '</strong>');
                     }
@@ -333,7 +333,7 @@ var FrontendBook = {
                 $('#available-hours').html('<div style="width:50px; float:left;"></div>');
 
                 $.each(response, function(index, availableHour) {
-                    if ((currColumn * 10) < (index + 1)) {
+                    if ((currColumn * 13) < (index + 1)) {
                         currColumn++;
                         $('#available-hours').append('<div style="width:50px; float:left;"></div>');
                     }
@@ -377,7 +377,8 @@ var FrontendBook = {
             var missingRequiredField = false;
             $('.required').each(function() {
                 if ($(this).val() == '') {
-                    $(this).css('border', '2px solid red');
+                    $(this).parents('.form-group').addClass('has-error');
+                    // $(this).css('border', '2px solid red');
                     missingRequiredField = true;
                 }
             });
@@ -387,7 +388,8 @@ var FrontendBook = {
             
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').css('border', '2px solid red');
+                $('#email').parents('.form-group').addClass('has-error');
+                // $('#email').css('border', '2px solid red');
                 throw EALang['invalid_email'];
             }
             
