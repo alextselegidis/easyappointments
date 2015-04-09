@@ -1,8 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// Include E!A configuration file. 
-//require_once __DIR__ . '/../../config.php'; 
-
 /*
 |--------------------------------------------------------------------------
 | Easy!Appointments - Internal Configuration
