@@ -1,9 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 // Google API PHP Client is necessary to perform sync operations.
-require_once dirname(__FILE__) . '/external/google-api-php-client/Google_Client.php';
-require_once dirname(__FILE__) . '/external/google-api-php-client/contrib/Google_CalendarService.php';
-require_once dirname(dirname(dirname(__FILE__))) . '/configuration.php';
+require_once __DIR__ . '/external/google-api-php-client/Google_Client.php';
+require_once __DIR__ . '/external/google-api-php-client/contrib/Google_CalendarService.php';
 
 /**
  * Google Synchronization Class
@@ -34,10 +33,10 @@ class Google_Sync {
         $this->client = new Google_Client();
         $this->client->setUseObjects(true);                
         
-        $this->client->setApplicationName(SystemConfiguration::$google_product_name);
-        $this->client->setClientId(SystemConfiguration::$google_client_id);
-        $this->client->setClientSecret(SystemConfiguration::$google_client_secret);
-        $this->client->setDeveloperKey(SystemConfiguration::$google_api_key);
+        $this->client->setApplicationName(Config::$google_product_name);
+        $this->client->setClientId(Config::$google_client_id);
+        $this->client->setClientSecret(Config::$google_client_secret);
+        $this->client->setDeveloperKey(Config::$google_api_key);
         $this->client->setRedirectUri($this->CI->config->item('base_url') . '/google/oauth_callback');
         
         $this->service = new Google_CalendarService($this->client);
