@@ -3,6 +3,8 @@
 <head>
     <title><?php echo $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#35A768">
     
     <?php // INCLUDE JS FILES ?>
     <script 
@@ -10,7 +12,7 @@
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
@@ -19,20 +21,16 @@
         src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
         
     <?php // INCLUDE CSS FILES ?>
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+    <link rel="stylesheet" type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/css/bootstrap.css">
+   
     
     <?php // SET FAVICON FOR PAGE ?>
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
+    <link rel="icon" type="image/x-icon" 
         href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+
+    <link rel="icon" sizes="192x192" 
+        href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
     
     <style>
         body {

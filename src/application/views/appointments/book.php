@@ -47,7 +47,7 @@
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.qtip.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
