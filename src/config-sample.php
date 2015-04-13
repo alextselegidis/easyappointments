@@ -36,6 +36,15 @@ class Config {
     const DB_USERNAME 	= '';
     const DB_PASSWORD 	= '';
     const TABLE_PREFIX 	= '';
+
+    // ------------------------------------------------------------------------
+    // Google Calendar Sync
+    // ------------------------------------------------------------------------
+    const GOOGLE_SYNC_FEATURE   = FALSE; // Enter TRUE or FALSE
+    const GOOGLE_PRODUCT_NAME   = '';
+    const GOOGLE_CLIENT_ID      = ''; 
+    const GOOGLE_CLIENT_SECRET  = ''; 
+    const GOOGLE_API_KEY        = '';
 }
 /* End of file config.php */
 /* Location: ./config.php */
