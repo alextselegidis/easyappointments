@@ -33,10 +33,10 @@ class Google_Sync {
         $this->client = new Google_Client();
         $this->client->setUseObjects(true);                
         
-        $this->client->setApplicationName(Config::$google_product_name);
-        $this->client->setClientId(Config::$google_client_id);
-        $this->client->setClientSecret(Config::$google_client_secret);
-        $this->client->setDeveloperKey(Config::$google_api_key);
+        $this->client->setApplicationName(Config::GOOGLE_PRODUCT_NAME);
+        $this->client->setClientId(Config::GOOGLE_CLIENT_ID);
+        $this->client->setClientSecret(Config::GOOGLE_CLIENT_SECRET);
+        $this->client->setDeveloperKey(Config::GOOGLE_API_KEY);
         $this->client->setRedirectUri($this->CI->config->item('base_url') . '/google/oauth_callback');
         
         $this->service = new Google_CalendarService($this->client);

@@ -16,7 +16,7 @@ $config['easyappointments'] = array(
 
 $config['ea_version'] = '1.1.0'; // This must be changed manually.
 $config['ea_release_title'] = 'Develop'; // Leave empty for no title or add BETA, TEST etc ...
-$config['ea_google_sync_feature'] = Config::$google_sync_feature;
+$config['ea_google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 
 /*
