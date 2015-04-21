@@ -2,12 +2,12 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  * 
- * @package 	EasyAppointments
- * @author 		A.Tselegidis <alextselegidis@gmail.com>
- * @copyright 	Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license 	http://opensource.org/licenses/GPL-3.0 - GPLv3 
- * @link 		http://easyappointments.org
- * @since 		v1.0.0
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @link        http://easyappointments.org
+ * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
@@ -22,20 +22,20 @@
  * file because the old "configuration.php" is not used anymore.
  */
 class Config {
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
     // General Settings
-	// ------------------------------------------------------------------------
-	const BASE_URL 		= 'http://url-to-easyappointments-directory';
-    const DEBUG_MODE 	= FALSE;
+    // ------------------------------------------------------------------------
+    const BASE_URL      = 'http://url-to-easyappointments-directory';
+    const DEBUG_MODE    = FALSE;
      
     // ------------------------------------------------------------------------
     // Database Settings
     // ------------------------------------------------------------------------
-    const DB_HOST 		= '';    
-    const DB_NAME 		= '';
-    const DB_USERNAME 	= '';
-    const DB_PASSWORD 	= '';
-    const TABLE_PREFIX 	= '';
+    const DB_HOST       = '';    
+    const DB_NAME       = '';
+    const DB_USERNAME   = '';
+    const DB_PASSWORD   = '';
+    const TABLE_PREFIX  = '';
 
     // ------------------------------------------------------------------------
     // Google Calendar Sync
