@@ -13,18 +13,35 @@ root {
     display: block;
 }
 
+
+html, 
+body {
+    height: 100%;
+}
+
 body {  
     background-color: #CAEDF3;
+}
+
+#main {
+    display: table;
+    vertical-align: middle;
+}
+
+#main .wrapper {
+    height: 100vh;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 
 /* BOOK APPOINTMENT WIZARD
  ------------------------------------------------------------------------------ */
 #book-appointment-wizard {
-    width: 660px;
     background: #FFF;
     box-shadow: 0px 1px 1px #B6B6B6;
     min-height: 480px;
+    padding: 0;
 }
 
 #book-appointment-wizard #header {
