@@ -94,7 +94,7 @@
 <body>
     <div id="main" class="container">
         <div class="wrapper row">
-            <div id="book-appointment-wizard" class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+            <div id="book-appointment-wizard" class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 
                 <?php 
                     // ------------------------------------------------------
@@ -162,7 +162,7 @@
                     <div class="frame-container">
                         <h3 class="frame-title"><?php echo $this->lang->line('step_one_title'); ?></h3>
                         
-                        <div class="frame-content" style="width:520px">
+                        <div class="frame-content">
                             <div class="form-group">
                                 <label for="select-service">
                                     <strong><?php echo $this->lang->line('select_service'); ?></strong>
@@ -253,7 +253,7 @@
                         
                         <h3 class="frame-title"><?php echo $this->lang->line('step_two_title'); ?></h3>
                         
-                        <div class="frame-content row" style="width:600px">
+                        <div class="frame-content row">
                             <div class="col-md-6">
                                 <div id="select-date"></div>
                             </div>
@@ -287,7 +287,7 @@
                         
                         <h3 class="frame-title"><?php echo $this->lang->line('step_three_title'); ?></h3>
                         
-                        <div class="frame-content row" style="width:600px">
+                        <div class="frame-content row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label"><?php echo $this->lang->line('first_name'); ?> *</label>
@@ -305,7 +305,6 @@
                                     <label for="phone-number" class="control-label"><?php echo $this->lang->line('phone_number'); ?> *</label>
                                     <input type="text" id="phone-number" class="required form-control" maxlength="60" />
                                 </div>
-                                <em id="form-message" class="text-danger"><?php echo $this->lang->line('fields_are_required'); ?></em>
                             </div>
 
                             <div class="col-md-6">
@@ -326,6 +325,8 @@
                                     <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
+
+                            <em id="form-message" class="text-danger"><?php echo $this->lang->line('fields_are_required'); ?></em>
                         </div>
                     </div>
                     
@@ -349,7 +350,7 @@
                 <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                     <div class="frame-container">
                         <h3 class="frame-title"><?php echo $this->lang->line('step_four_title'); ?></h3>
-                        <div class="frame-content row" style="width:600px">
+                        <div class="frame-content row">
                             <div id="appointment-details" class="col-md-6"></div>
                             <div id="customer-details" class="col-md-6"></div>
                         </div>

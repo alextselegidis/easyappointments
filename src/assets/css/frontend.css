@@ -214,3 +214,96 @@ body {
 #cancel-appointment-frame form {
     display: inline;
 }
+
+/* Mobile Devices
+   ------------------------------------------------------------------------- */
+@media(max-width:400px) {
+    html, 
+    body {
+        height: auto;
+    }
+
+    #main {
+        display: block; /* reset display */
+    }
+
+    #main .wrapper {
+        height: auto;
+        display: block; /* reset display */
+    }
+
+    #book-appointment-wizard #header {
+        overflow: auto;
+        height: auto;
+    }
+
+    #book-appointment-wizard #company-name { 
+        float: none;
+        display: block;
+        text-align: center;    
+    }
+
+    #book-appointment-wizard #steps { 
+        float: none; 
+        display: block;
+        overflow: auto; 
+        margin: 20px auto; 
+    }
+
+    #book-appointment-wizard .wizard-frame {
+        padding: 0 10px;
+        height: auto;
+    }
+
+    #book-appointment-wizard .wizard-frame .frame-container {
+        height: auto;
+    }
+
+    #book-appointment-wizard .wizard-frame .command-buttons {
+        float: none;
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    #book-appointment-wizard .wizard-frame .command-buttons .btn {
+        width: 45%;
+    }
+
+    #book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
+        width: 100%;
+    }
+
+    #book-appointment-wizard #available-hours {
+        overflow: auto;
+        margin: 20px 0;
+    }
+
+    #book-appointment-wizard #available-hours div {
+        margin-right: 30px;
+    }
+
+    #book-appointment-wizard #available-hours .available-hour {
+        padding: 8px 3px;
+    }
+
+    #book-appointment-wizard #form-message {
+        display: block;
+        text-align: center;
+    }
+
+    #book-appointment-wizard #book-appointment-form {
+        width: 45%;
+    }
+
+    #book-appointment-wizard #book-appointment-form  #book-appointment-submit{
+        width: 100%;
+    }
+
+    .popover .popover-title {
+        text-align: center;   
+    }
+
+    .popover .popover-content #language-list .language {
+        margin: 10px 0;
+    }
+}
