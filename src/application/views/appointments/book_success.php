@@ -7,27 +7,6 @@
     <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
 
-    <?php
-        // ------------------------------------------------------------
-        // INCLUDE JS FILES 
-        // ------------------------------------------------------------ ?>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
-
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
-
-    <script 
-        type="text/javascript"
-        src="https://apis.google.com/js/client.js"></script>
         
     <?php
         // ------------------------------------------------------------
@@ -48,7 +27,65 @@
 
     <link rel="icon" sizes="192x192" 
         href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
-    
+</head>
+<body>
+    <div id="main" class="container">
+        <div class="wrapper row">
+            <div id="success-frame" class="frame-container 
+                    col-xs-12 
+                    col-sm-offset-1 col-sm-10 
+                    col-md-offset-2 col-md-8 
+                    col-lg-offset-2 col-lg-8">
+                
+                <div class="col-xs-12 col-sm-2">
+                    <img id="success-icon" class="pull-right" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
+                </div>
+                <div class="col-xs-12 col-sm-10">
+                    <?php 
+                        echo '<h3>' . $this->lang->line('appointment_registered') . '</h3>'; 
+                        echo '<p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>';
+
+                        if ($this->config->item('ea_google_sync_feature')) { 
+                            echo '
+                                <button id="add-to-google-calendar" class="btn btn-primary">
+                                    <i class="icon-plus icon-white"></i>
+                                    ' . $this->lang->line('add_to_google_calendar') . '
+                                </button>';
+                        }
+                     
+                        // Display exceptions (if any).
+                        if (isset($exceptions)) {
+                            echo '<div class="col-xs-12" style="margin:10px">';
+                            echo '<h4>Unexpected Errors</h4>';
+                            foreach($exceptions as $exc) {
+                                echo exceptionToHtml($exc);
+                            }
+                            echo '</div>';
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE JS FILES 
+        // ------------------------------------------------------------ ?>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
+    <script 
+        type="text/javascript"
+        src="https://apis.google.com/js/client.js"></script>
+
     <?php
         // ------------------------------------------------------------
         // CUSTOM PAGE JS
@@ -145,7 +182,7 @@
                             if (!response.error) {
                                 $('#success-frame').append(
                                     '<br><br>' +
-                                    '<div class="alert alert-success">' +
+                                    '<div class="alert alert-success col-xs-12">' +
                                         '<h4>' + EALang['success'] + '</h4>' +
                                         '<p>' +
                                             EALang['appointment_added_to_google_calendar'] + 
@@ -166,8 +203,7 @@
                     // The user denied access or something else happened, display 
                     // corresponding message on the screen.
                     $('#success-frame').append(
-                        '<br><br>' +
-                        '<div class="alert alert-danger">' + 
+                        '<div class="alert alert-danger col-xs-12">' + 
                             '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' + 
                             '<p>' + 
                                 EALang['could_not_add_to_google_calendar'] +
@@ -179,45 +215,9 @@
             }   
         });
     </script>
-</head>
-<body>
-    <div id="main" class="container">
-        <div class="wrapper row">
-            <div id="success-frame" class="frame-container 
-                    col-xs-12 
-                    col-sm-offset-1 col-sm-10 
-                    col-md-offset-2 col-md-8 
-                    col-lg-offset-2 col-lg-8">
-                
-                <div class="col-xs-12 col-sm-2">
-                    <img id="success-icon" class="pull-right" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
-                </div>
-                <div class="col-xs-12 col-sm-10">
-                    <?php 
-                        echo '<h3>' . $this->lang->line('appointment_registered') . '</h3>'; 
-                        echo '<p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>';
 
-                        if ($this->config->item('ea_google_sync_feature')) { 
-                            echo '
-                                <button id="add-to-google-calendar" class="btn btn-primary">
-                                    <i class="icon-plus icon-white"></i>
-                                    ' . $this->lang->line('add_to_google_calendar') . '
-                                </button>';
-                        }
-                     
-                        // Display exceptions (if any).
-                        if (isset($exceptions)) {
-                            echo '<div style="margin:10px">';
-                            echo '<h4>Unexpected Errors</h4>';
-                            foreach($exceptions as $exc) {
-                                echo exceptionToHtml($exc);
-                            }
-                            echo '</div>';
-                        }
-                    ?>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

@@ -207,6 +207,10 @@ body {
     margin-top: 20px;
 }
 
+#success-frame .alert {
+    margin-top: 20px;
+}
+
 
 /* CANCEL APPOINTMENT 
    ------------------------------------------------------------------------- */
