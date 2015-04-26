@@ -26,46 +26,46 @@ var GeneralFunctions = {
      */
     displayMessageBox: function(title, message, messageButtons) {
         // Check arguments integrity.
-        if (title == undefined || title == "") {
-            title = "<No Title Given>";
+        if (title == undefined || title == '') {
+            title = '<No Title Given>';
         }   
 
-        if (message == undefined || message == "") {
-            message = "<No Message Given>";
+        if (message == undefined || message == '') {
+            message = '<No Message Given>';
         } 
 
         if (messageButtons == undefined) {
             messageButtons = {};
             messageButtons[EALang['close']] = function() {
-                jQuery("#message_box").dialog("close");
+                $('#message_box').dialog('close');
             };
         }
 
         // Destroy previous dialog instances.
-        jQuery("#message_box").dialog("destroy");
-        jQuery("#message_box").remove();
+        $('#message_box').dialog('destroy');
+        $('#message_box').remove();
 
         // Create the html of the message box.
-        jQuery("body").append(
-            "<div id='message_box' title='" + title + "'>" +
-            "<p>" + message + "</p>" +
-            "</div>"
+        $('body').append(
+            '<div id="message_box" title="' + title + '">' +
+            '<p>' + message + '</p>' +
+            '</div>'
         );    
 
-        jQuery("#message_box").dialog({
+        $("#message_box").dialog({
             autoOpen: false,
             modal: true,
-            resize: "auto",
-            width: 400,
-            height: "auto",
+            resize: 'auto',
+            width: 'auto',
+            height: 'auto',
             resizable: false,
             buttons: messageButtons,
             closeOnEscape: true
         });
 
-        jQuery("#message_box").dialog("open"); 
-        jQuery(".ui-dialog .ui-dialog-buttonset button").addClass('btn');
-        jQuery("#message_box .ui-dialog-titlebar-close").hide();
+        $('#message_box').dialog('open'); 
+        $('.ui-dialog .ui-dialog-buttonset button').addClass('btn');
+        $('#message_box .ui-dialog-titlebar-close').hide();
     },
 
     /**
@@ -101,12 +101,12 @@ var GeneralFunctions = {
      * @returns {String} Returns the parameter value.         
      */
     getUrlParameter: function(url, parameterName) {
-       parameterName = parameterName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-       var regexS = "[\\#&]"+parameterName+"=([^&#]*)";
+       parameterName = parameterName.replace(/[\[]/,'\\\[').replace(/[\]]/,'\\\]');
+       var regexS = '[\\#&]' + parameterName + '=([^&#]*)';
        var regex = new RegExp( regexS );
        var results = regex.exec( url );
        if( results == null )
-           return "";
+           return '';
        else
            return results[1];
     },
@@ -119,7 +119,7 @@ var GeneralFunctions = {
      * @returns {String} Returns the transformed string.
      */
     ISODateString: function(dt){
-        function pad(n){return n<10 ? '0'+n : n;}
+        function pad(n) { return n<10 ? '0'+n : n; }
 
         return dt.getUTCFullYear()+'-'
              + pad(dt.getUTCMonth()+1)+'-'
@@ -141,7 +141,7 @@ var GeneralFunctions = {
      */
     clone: function(originalObject) {
         // Handle the 3 simple types, and null or undefined
-        if (null == originalObject || "object" != typeof originalObject) 
+        if (null == originalObject || 'object' != typeof originalObject) 
             return originalObject;
 
         // Handle Date
@@ -170,7 +170,7 @@ var GeneralFunctions = {
             return copy;
         }
 
-        throw new Error("Unable to copy obj! Its type isn't supported.");
+        throw new Error('Unable to copy obj! Its type isn\'t supported.');
     },
     
     /**
@@ -228,7 +228,7 @@ var GeneralFunctions = {
         var parsedExceptions = new Array();
         
         $.each(exceptions, function(index, exception) {
-            parsedExceptions.push(jQuery.parseJSON(exception));
+            parsedExceptions.push($.parseJSON(exception));
         });
         
         return parsedExceptions;
