@@ -126,17 +126,21 @@
                     // ------------------------------------------------------
                     if ($manage_mode === TRUE) {
                         echo '
-                            <div id="cancel-appointment-frame">
-                                <p class="pull-left">' . 
-                                    $this->lang->line('cancel_appointment_hint') .
-                                '</p>
-                                <form id="cancel-appointment-form" method="post" class="pull-right"  
-                                        action="' . $this->config->item('base_url') 
-                                        . '/appointments/cancel/' . $appointment_data['hash'] . '">
-                                    <textarea name="cancel_reason" style="display:none"></textarea>
-                                    <button id="cancel-appointment" class="btn btn-inverse">' .
-                                            $this->lang->line('cancel') . '</button>
-                                </form>
+                            <div id="cancel-appointment-frame" class="row">
+                                <div class="col-xs-12 col-sm-10">
+                                    <p>' . 
+                                        $this->lang->line('cancel_appointment_hint') .
+                                    '</p>
+                                </div>
+                                <div class="col-xs-12 col-sm-2">
+                                    <form id="cancel-appointment-form" method="post"
+                                            action="' . $this->config->item('base_url') 
+                                            . '/appointments/cancel/' . $appointment_data['hash'] . '">
+                                        <textarea name="cancel_reason" style="display:none"></textarea>
+                                        <button id="cancel-appointment" class="btn btn-inverse">' .
+                                                $this->lang->line('cancel') . '</button>
+                                    </form>
+                                </div>
                             </div>';
                     }   
                 ?>

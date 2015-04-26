@@ -215,20 +215,14 @@ body {
 /* CANCEL APPOINTMENT 
    ------------------------------------------------------------------------- */
 #cancel-appointment-frame {
-    padding: 15px;
+    padding: 15px 0;
+    margin: 0;
     background: #FAFAFA;
     border-bottom: 1px solid #E2E2E2;
-    overflow: auto;
 }
 
 #cancel-appointment-frame p {
-    display: inline-block;
-    margin: 6px 10px 0;
-    width: 515px;
-}
-
-#cancel-appointment-frame form {
-    display: inline;
+    margin-top: 8px;
 }
 
 /* MOBILE DEVICES
@@ -342,5 +336,12 @@ body {
         display: block;
         margin: auto;
         float: none !important;
+    }
+
+    /**
+     * CANCEL APPOINTMENT
+     */
+    #cancel-appointment-frame {
+        text-align: center;
     }
 }

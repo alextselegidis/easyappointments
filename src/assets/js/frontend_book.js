@@ -231,7 +231,7 @@ var FrontendBook = {
                         EALang['write_appointment_removal_reason'], dialogButtons);
                         
                 $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
-                $('#cancel-reason').css('width', '353px');
+                $('#cancel-reason').css('width', '100%');
                 return false;
             });
         }
