@@ -195,18 +195,21 @@ body {
     padding-left: 0px;
 }
 
-/* BOOK SUCCESS
+/* BOOK SUCCESS & MESSAGE
    ------------------------------------------------------------------------- */
+#message-frame, 
 #success-frame { 
     background: #FFF;
     border: 1px solid #DDDADA;
     padding: 70px;
 }
 
+#message-frame #message-icon,
 #success-frame #success-icon {
     margin-top: 20px;
 }
 
+#message-frame .alert,
 #success-frame .alert {
     margin-top: 20px;
 }
@@ -324,6 +327,7 @@ body {
     /** 
      * BOOK SUCCESS
      */
+    #message-frame,
     #success-frame { 
         text-align: center;
         height: 100%;
@@ -331,6 +335,7 @@ body {
         padding: 35px;
     }
 
+    #message-frame #message-icon,
     #success-frame #success-icon {
         width: 64px;
         display: block;
