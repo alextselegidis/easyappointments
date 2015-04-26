@@ -245,11 +245,11 @@ body {
     #main {
         min-height: 100%;
         display: block; /* reset display */
+        padding: 0;
     }
 
     #main .wrapper {
-        min-height: 100%;
-        display: block; /* reset display */
+        width: 100vw;
     }
 
     #book-appointment-wizard #header {
