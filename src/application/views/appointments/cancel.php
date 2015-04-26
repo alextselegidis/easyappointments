@@ -37,23 +37,37 @@
             href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
 </head>
 <body>
-    <div id="success-frame" class="frame-container">
-        
-        <img id="success-icon" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
-        
-        <?php 
-            echo '<h3>' . $this->lang->line('appointment_cancelled') . '</h3>';
-        
-            // Display exceptions (if any).
-            if (isset($exceptions)) {
-                echo '<div style="margin: 10px">';
-                echo '<h4>Unexpected Errors</h4>';
-                foreach($exceptions as $exception) {
-                    echo exceptionToHtml($exception);
-                }
-                echo '</div>';
-            }
-        ?>
+    <div id="main" class="container">
+        <div class="wrapper row">
+
+            <div id="success-frame" class="frame-container
+                    col-xs-12 
+                    col-sm-offset-1 col-sm-10 
+                    col-md-offset-2 col-md-8 
+                    col-lg-offset-2 col-lg-8">
+                
+                <div class="col-xs-12 col-sm-2">          
+                    <img id="success-icon" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
+                </div>
+                
+                <div class="col-xs-12 col-sm-10">
+                    <?php 
+                        echo '<h3>' . $this->lang->line('appointment_cancelled') . '</h3>';
+                    
+                        // Display exceptions (if any).
+                        if (isset($exceptions)) {
+                            echo '<div style="margin: 10px">';
+                            echo '<h4>Unexpected Errors</h4>';
+                            foreach($exceptions as $exception) {
+                                echo exceptionToHtml($exception);
+                            }
+                            echo '</div>';
+                        }
+                    ?>
+                </div>
+            </div>
+
+        </div>
     </div>
 </body>
 </html>
