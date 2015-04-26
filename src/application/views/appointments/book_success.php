@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
+    <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
 
-    <?php // INCLUDE JS FILES ?>
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE JS FILES 
+        // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
@@ -16,38 +20,39 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
+
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
+
+    <script 
+        type="text/javascript"
+        src="https://apis.google.com/js/client.js"></script>
         
-    <?php // INCLUDE CSS FILES ?>
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE CSS FILES 
+        // ------------------------------------------------------------ ?>
     <link rel="stylesheet" type="text/css" 
         href="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
-    
-    <?php // SET FAVICON FOR PAGE ?>
+    <link rel="stylesheet" type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>/assets/css/frontend.css">
+
+
+    <?php
+        // ------------------------------------------------------------
+        // SET PAGE FAVICON 
+        // ------------------------------------------------------------ ?>
     <link rel="icon" type="image/x-icon" 
         href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
 
     <link rel="icon" sizes="192x192" 
         href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
     
-    <style>
-        body {
-            background-color: #CAEDF3;
-        }
-        
-        #success-frame {
-            width: 630px;
-            margin: 150px auto 0 auto;
-            background: #FFF;
-            border: 1px solid #DDDADA;
-            padding: 70px;
-        }
-        
-        #success-icon {
-            float: right;
-            margin-top: 17px;
-        }
-    </style>
-    
-    <script src="https://apis.google.com/js/client.js"></script>
+    <?php
+        // ------------------------------------------------------------
+        // CUSTOM PAGE JS
+        // ------------------------------------------------------------ ?>
     <script type="text/javascript">
         var GlobalVariables = {
             'appointmentData'   : <?php echo json_encode($appointment_data); ?>,
@@ -176,33 +181,43 @@
     </script>
 </head>
 <body>
-    <div id="success-frame" class="frame-container">
-        <img id="success-icon" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
+    <div id="main" class="container">
+        <div class="wrapper row">
+            <div id="success-frame" class="frame-container 
+                    col-xs-12 
+                    col-sm-offset-1 col-sm-10 
+                    col-md-offset-2 col-md-8 
+                    col-lg-offset-2 col-lg-8">
+                
+                <div class="col-xs-12 col-sm-2">
+                    <img id="success-icon" class="pull-right" src="<?php echo $this->config->base_url(); ?>/assets/img/success.png" />
+                </div>
+                <div class="col-xs-12 col-sm-10">
+                    <?php 
+                        echo '<h3>' . $this->lang->line('appointment_registered') . '</h3>'; 
+                        echo '<p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>';
 
-        <h3><?php echo $this->lang->line('appointment_registered'); ?></h3>
-        <p><?php echo $this->lang->line('appointment_details_was_sent_to_you'); ?></p>
-
-        <?php if ($this->config->item('ea_google_sync_feature')) { ?>
-        <button id="add-to-google-calendar" class="btn btn-primary">
-            <i class="icon-plus icon-white"></i>
-            <?php echo $this->lang->line('add_to_google_calendar'); ?>
-        </button>
-        <?php } ?>
-        
-        <?php 
-            // Display exceptions (if any).
-            if (isset($exceptions)) {
-                echo '<div style="margin: 10px">';
-                echo '<h4>Unexpected Errors</h4>';
-                foreach($exceptions as $exc) {
-                    echo exceptionToHtml($exc);
-                }
-                echo '</div>';
-            }
-        ?>
+                        if ($this->config->item('ea_google_sync_feature')) { 
+                            echo '
+                                <button id="add-to-google-calendar" class="btn btn-primary">
+                                    <i class="icon-plus icon-white"></i>
+                                    ' . $this->lang->line('add_to_google_calendar') . '
+                                </button>';
+                        }
+                     
+                        // Display exceptions (if any).
+                        if (isset($exceptions)) {
+                            echo '<div style="margin:10px">';
+                            echo '<h4>Unexpected Errors</h4>';
+                            foreach($exceptions as $exc) {
+                                echo exceptionToHtml($exc);
+                            }
+                            echo '</div>';
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
     </div>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

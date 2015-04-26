@@ -195,6 +195,18 @@ body {
     padding-left: 0px;
 }
 
+/* BOOK SUCCESS
+   ------------------------------------------------------------------------- */
+#success-frame { 
+    background: #FFF;
+    border: 1px solid #DDDADA;
+    padding: 70px;
+}
+
+#success-frame #success-icon {
+    margin-top: 20px;
+}
+
 
 /* CANCEL APPOINTMENT 
    ------------------------------------------------------------------------- */
@@ -215,20 +227,24 @@ body {
     display: inline;
 }
 
-/* Mobile Devices
+/* MOBILE DEVICES
    ------------------------------------------------------------------------- */
-@media(max-width:400px) {
+@media(max-width:768px) {
+    /**
+     * BOOKING WIZARD
+     */
     html, 
     body {
-        height: auto;
+        min-height: 100%;
     }
 
     #main {
+        min-height: 100%;
         display: block; /* reset display */
     }
 
     #main .wrapper {
-        height: auto;
+        min-height: 100%;
         display: block; /* reset display */
     }
 
@@ -305,5 +321,22 @@ body {
 
     .popover .popover-content #language-list .language {
         margin: 10px 0;
+    }
+
+    /** 
+     * BOOK SUCCESS
+     */
+    #success-frame { 
+        text-align: center;
+        height: 100%;
+        border: none;
+        padding: 35px;
+    }
+
+    #success-frame #success-icon {
+        width: 64px;
+        display: block;
+        margin: auto;
+        float: none !important;
     }
 }
