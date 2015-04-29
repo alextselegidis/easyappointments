@@ -4,4 +4,4 @@ This file contains the code changes that were introduced into each release (star
 ### Version 1.1 
 - Renamed `configuration.php` file to `config.php` and changed the `SystemConfiguration` class to `Config`. This class will contain constants with the project configuration and will be statically used.
 - Updated project to Bootstrap v3.3.4 and modified frontend CSS so that it is responsive.
-- Removed `book_success.php` and `cancel.php` files. Frontend must use the `message.php` file for displaying messages to user.
+- Removed `cancel.php` file. Frontend must use the `message.php` file for displaying simple messages to user.
