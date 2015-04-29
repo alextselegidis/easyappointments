@@ -1,0 +1,7 @@
+# Easy!Appointments - Changelog 
+This file contains the code changes that were introduced into each release (starting from v1.1) so that is easy for developers to maintain and readjust their custom modifications on the main project codebase.
+
+### Version 1.1 
+- Renamed `configuration.php` file to `config.php` and changed the `SystemConfiguration` class to `Config`. This class will contain constants with the project configuration and will be statically used.
+- Updated project to Bootstrap v3.3.4 and modified frontend CSS so that it is responsive.
+- Removed `book_success.php` and `cancel.php` files. Frontend must use the `message.php` file for displaying messages to user.
