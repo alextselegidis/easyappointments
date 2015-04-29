@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $company_name; ?></title>
+    <title><?php echo $message_title ?></title>
     
     <?php
         // ------------------------------------------------------------
