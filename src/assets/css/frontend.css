@@ -290,9 +290,16 @@ body {
         width: 100%;
     }
 
+    #book-appointment-wizard .wizard-frame #select-date {
+        width: 260px;
+        margin: auto; /* center */
+    }
+
     #book-appointment-wizard #available-hours {
         overflow: auto;
-        margin: 20px 0;
+        margin: 20px auto;
+        width: 260px;
+        padding-left: 20px; /* center at the bottom of datepicker */
     }
 
     #book-appointment-wizard #available-hours div {
