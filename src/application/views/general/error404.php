@@ -4,7 +4,40 @@
     <title><?php echo $this->lang->line('page_not_found') . ' - ' . $company_name; ?></title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
-    <?php // INCLUDE JS FILES ?>
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE CSS FILES
+        // ------------------------------------------------------------ ?>
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+    
+    <?php
+        // ------------------------------------------------------------
+        // SET PAGE FAVICON
+        // ------------------------------------------------------------ ?>
+    <link 
+        rel="icon" 
+        type="image/x-icon" 
+        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+    
+    <?php
+        // ------------------------------------------------------------
+        // CUSTOM PAGE JS
+        // ------------------------------------------------------------ ?>
+    <script type="text/javascript">
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+    </script>
+
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE JS FILES
+        // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
@@ -17,23 +50,11 @@
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
-        
-    <?php // INCLUDE CSS FILES ?>
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
-    
-    <?php // SET FAVICON FOR PAGE ?>
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
-    
+
+    <?php
+        // ------------------------------------------------------------
+        // CUSTOM PAGE CSS
+        // ------------------------------------------------------------ ?>
     <style>
         body {
             background-color: #CAEDF3;

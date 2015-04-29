@@ -6,23 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
     <title><?php echo $message_title ?></title>
-    
-    <?php
-        // ------------------------------------------------------------
-        // INCLUDE JS FILES 
-        // ------------------------------------------------------------ ?>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
-    <script 
-        type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
         
     <?php
         // ------------------------------------------------------------
@@ -42,6 +25,31 @@
 
     <link rel="icon" sizes="192x192" 
         href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
+
+    <?php
+        // ------------------------------------------------------------
+        // CUSTOM PAGE JS
+        // ------------------------------------------------------------ ?>
+    <script type="text/javascript">
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+    </script>
+
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE JS FILES 
+        // ------------------------------------------------------------ ?>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
 </head>
 
 <body>
