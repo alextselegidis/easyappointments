@@ -5,3 +5,4 @@ This file contains the code changes that were introduced into each release (star
 - Renamed `configuration.php` file to `config.php` and changed the `SystemConfiguration` class to `Config`. This class will contain constants with the project configuration and will be statically used.
 - Updated project to Bootstrap v3.3.4 and modified frontend CSS so that it is responsive.
 - Removed `cancel.php` file. Frontend must use the `message.php` file for displaying simple messages to user.
+- Added new translations to project (japanese, polish, luxembourgish, protuguese-br, french, chinese, italian, spanish, dutch, danish).
