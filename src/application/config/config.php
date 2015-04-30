@@ -90,7 +90,7 @@ $config['url_suffix'] = '';
 */
 $config['language'] = 'english'; // default language
 $config['available_languages'] = array('english', 'german', 'greek', 'hungarian', 'portuguese',
-        'chinese', 'dutch', 'french', 'japanese', 'polish', 'spanish', 'italian', 'danish');
+        'chinese', 'dutch', 'french', 'japanese', 'polish', 'spanish', 'italian', 'danish', 'luxembourgish');
 
 /*
 |--------------------------------------------------------------------------
