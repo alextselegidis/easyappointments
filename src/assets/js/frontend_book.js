@@ -256,7 +256,7 @@ var FrontendBook = {
                 postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
             }
             
-            var postUrl = GlobalVariables.baseUrl + '/appointments/ajax_check_datetime_availability';
+            var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_check_datetime_availability';
             
             $.post(postUrl, postData, function(response) {
                 ////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ var FrontendBook = {
         };
 
         // Make ajax post request and get the available hours.
-        var ajaxurl = GlobalVariables.baseUrl + '/appointments/ajax_get_available_hours';
+        var ajaxurl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
         jQuery.post(ajaxurl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
             console.log('Get Available Hours JSON Response:', response);

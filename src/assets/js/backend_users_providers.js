@@ -219,7 +219,7 @@ ProvidersHelper.prototype.save = function(provider) {
     //console.log('Provider data to save:', provider);
     //////////////////////////////////////////////////
     
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_provider';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
     var postData = { 'provider': JSON.stringify(provider) };
     
     $.post(postUrl, postData, function(response) {
@@ -240,7 +240,7 @@ ProvidersHelper.prototype.save = function(provider) {
  * @param {numeric} id Record id to be deleted. 
  */
 ProvidersHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_provider';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
     var postData = { 'provider_id': id };
     
     $.post(postUrl, postData, function(response) {
@@ -393,7 +393,7 @@ ProvidersHelper.prototype.display = function(provider) {
 ProvidersHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_providers';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {

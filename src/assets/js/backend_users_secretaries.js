@@ -179,7 +179,7 @@ SecretariesHelper.prototype.save = function(secretary) {
     //console.log('Secretary data to save:', secretary);
     ////////////////////////////////////////////////////
     
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_secretary';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
     var postData = { 'secretary': JSON.stringify(secretary) };
     
     $.post(postUrl, postData, function(response) {
@@ -200,7 +200,7 @@ SecretariesHelper.prototype.save = function(secretary) {
  * @param {int} id Record id to be deleted. 
  */
 SecretariesHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_secretary';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
     var postData = { 'secretary_id': id };
     
     $.post(postUrl, postData, function(response) {
@@ -338,7 +338,7 @@ SecretariesHelper.prototype.display = function(secretary) {
 SecretariesHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_secretaries';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_secretaries';
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {

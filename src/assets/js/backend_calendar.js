@@ -275,7 +275,7 @@ var BackendCalendar = {
          * Trigger the synchronization algorithm. 
          */
         $('#google-sync').click(function() {
-            var getUrl = GlobalVariables.baseUrl + '/google/sync/' + $('#select-filter-item').val();
+            var getUrl = GlobalVariables.baseUrl + '/index.php/google/sync/' + $('#select-filter-item').val();
             $.ajax({
                 'type': 'GET',
                 'url': getUrl,
@@ -405,7 +405,7 @@ var BackendCalendar = {
             if (BackendCalendar.lastFocusedEventData.data.is_unavailable == false) {
                 var messageButtons = {};
                 messageButtons['OK'] = function() {
-                    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_appointment';
+                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
 
                     var postData = { 
                         'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
@@ -447,7 +447,7 @@ var BackendCalendar = {
                 $('#delete-reason').css('width', '353px');
             } else {
                 // Do not display confirmation promt.
-                var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_unavailable';
+                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
                 
                 var postData = { 
                     'unavailable_id' : BackendCalendar.lastFocusedEventData.data.id
@@ -683,10 +683,10 @@ var BackendCalendar = {
         $('#enable-sync').click(function() {
             if ($('#enable-sync').hasClass('enabled') === false) {
                 // :: ENABLE SYNCHRONIZATION FOR SELECTED PROVIDER
-                var authUrl = GlobalVariables.baseUrl + '/google/oauth/' 
+                var authUrl = GlobalVariables.baseUrl + '/index.php/google/oauth/' 
                         + $('#select-filter-item').val();
                 
-                var redirectUrl = GlobalVariables.baseUrl + '/google/oauth_callback';
+                var redirectUrl = GlobalVariables.baseUrl + '/index.php/google/oauth_callback';
 
                 var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments',
                         'width=800, height=600');
@@ -710,7 +710,7 @@ var BackendCalendar = {
                             // Display the calendar selection dialog. First we will get a list 
                             // of the available user's calendars and then we will display a selection
                             // modal so the user can select the sync calendar.
-                            var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_get_google_calendars';
+                            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_google_calendars';
                             var postData = { 
                                 'provider_id': $('#select-filter-item').val()
                             };
@@ -947,7 +947,7 @@ var BackendCalendar = {
          * Event: Select Google Calendar "Click"
          */
         $('#select-calendar').click(function() {
-            var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_select_google_calendar';
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
             var postData = {
                 'provider_id': $('#select-filter-item').val(),
                 'calendar_id': $('#google-calendar').val()
@@ -994,7 +994,7 @@ var BackendCalendar = {
      * @param {type} endDate Visible end date of the calendar.
      */
     refreshCalendarAppointments: function($calendar, recordId, filterType, startDate, endDate) {
-        var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_get_calendar_appointments';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments';
         var postData = {
             'record_id': recordId,
             'start_date': startDate.toString('yyyy-MM-dd'),
@@ -1261,7 +1261,7 @@ var BackendCalendar = {
      * going to be executed on post failure.
      */
     saveAppointment: function(appointment, customer, successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_appointment';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
         
         var postData = {};
         
@@ -1306,7 +1306,7 @@ var BackendCalendar = {
      * @param {function} errorCallback The ajax failure callback function.
      */
     saveUnavailable: function(unavailable, successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_unavailable';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
         
         var postData = {
             'unavailable': JSON.stringify(unavailable)
@@ -1380,7 +1380,7 @@ var BackendCalendar = {
                             .add({ minutes: -minuteDelta })
                             .toString('yyyy-MM-dd HH:mm:ss');
 
-                    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_appointment';                     
+                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';                     
                     var postData = { 'appointment_data': JSON.stringify(appointment) };
 
                     $.post(postUrl, postData, function(response) {
@@ -1433,7 +1433,7 @@ var BackendCalendar = {
                             .add({ minutes: -minuteDelta })
                             .toString('yyyy-MM-dd HH:mm:ss');
 
-                    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_unavailable';                     
+                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';                     
                     var postData = { 'unavailable': JSON.stringify(unavailable) };
 
                     $.post(postUrl, postData, function(response) {
@@ -1656,7 +1656,7 @@ var BackendCalendar = {
                     event.data['start_datetime'] = appointment['start_datetime'];
                     event.data['end_datetime'] = appointment['end_datetime'];
 
-                    var postUrl  = GlobalVariables.baseUrl + '/backend_api/ajax_save_appointment';
+                    var postUrl  = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
 
                     var postData = { 'appointment_data': JSON.stringify(appointment) };
 
@@ -1718,7 +1718,7 @@ var BackendCalendar = {
                     event.data['start_datetime'] = unavailable['start_datetime'];
                     event.data['end_datetime'] = unavailable['end_datetime'];
 
-                    var postUrl  = GlobalVariables.baseUrl + '/backend_api/ajax_save_unavailable';
+                    var postUrl  = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
 
                     var postData = { 'unavailable': JSON.stringify(unavailable) };
 
@@ -1780,7 +1780,7 @@ var BackendCalendar = {
     disableProviderSync: function(providerId) {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
-        var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_disable_provider_sync';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
         var postData = { 'provider_id': providerId };
         
         $.post(postUrl, postData, function(response) {
