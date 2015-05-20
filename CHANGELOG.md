@@ -6,3 +6,4 @@ This file contains the code changes that were introduced into each release (star
 - Updated project to Bootstrap v3.3.4 and modified frontend CSS so that it is responsive.
 - Removed `cancel.php` file. Frontend must use the `message.php` file for displaying simple messages to user.
 - Added new translations to project (japanese, polish, luxembourgish, protuguese-br, french, chinese, italian, spanish, dutch, danish).
+- Removed `.htaccess` file and updated all the URLs with the `index.php` file so that mod_rewrite problems are eliminated.
