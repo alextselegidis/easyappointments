@@ -35,7 +35,6 @@ class Config {
     const DB_NAME       = '';
     const DB_USERNAME   = '';
     const DB_PASSWORD   = '';
-    const TABLE_PREFIX  = '';
 
     // ------------------------------------------------------------------------
     // Google Calendar Sync
