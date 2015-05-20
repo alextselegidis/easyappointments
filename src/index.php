@@ -2,7 +2,7 @@
 
 /*
  *---------------------------------------------------------------
- * EASY!APPOINTMENST CONFIGURATION
+ * EASY!APPOINTMENTS CONFIGURATION
  *---------------------------------------------------------------
  *
  * Include Easy!Appointments configuration file so that it is available
