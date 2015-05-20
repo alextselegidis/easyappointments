@@ -160,22 +160,22 @@ class Appointments extends CI_Controller {
                     if (!$post_data['manage_mode']) {
                         $customer_title = $this->lang->line('appointment_booked');
                         $customer_message = $this->lang->line('thank_you_for_appointment');
-                        $customer_link = $this->config->item('base_url') . '/appointments/index/' 
+                        $customer_link = $this->config->item('base_url') . '/index.php/appointments/index/' 
                                 . $appointment['hash'];
 
                         $provider_title = $this->lang->line('appointment_added_to_your_plan');
                         $provider_message = $this->lang->line('appointment_link_description');
-                        $provider_link = $this->config->item('base_url') . '/backend/index/' 
+                        $provider_link = $this->config->item('base_url') . '/index.php/backend/index/' 
                                 . $appointment['hash'];
                     } else {
                         $customer_title = $this->lang->line('appointment_changes_saved');
                         $customer_message = '';
-                        $customer_link = $this->config->item('base_url') . '/appointments/index/' 
+                        $customer_link = $this->config->item('base_url') . '/index.php/appointments/index/' 
                                 . $appointment['hash'];
 
                         $provider_title = $this->lang->line('appointment_details_changed');
                         $provider_message = '';
-                        $provider_link = $this->config->item('base_url') . '/backend/index/' 
+                        $provider_link = $this->config->item('base_url') . '/index.php/backend/index/' 
                                 . $appointment['hash'];
                     }
 
