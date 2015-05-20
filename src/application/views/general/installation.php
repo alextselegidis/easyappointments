@@ -76,7 +76,7 @@
                         $('.alert').addClass('alert-success');
                         $('.alert').show();
                         setTimeout(function() {
-                            window.location.href = GlobalVariables.baseUrl + '/backend';
+                            window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
                         }, 1000);
                     }
                 }, 'json');

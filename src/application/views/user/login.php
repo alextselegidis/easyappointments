@@ -85,7 +85,7 @@
             $('#login-form').submit(function(event) {
                 event.preventDefault(); 
                 
-                var postUrl = GlobalVariables.baseUrl + '/user/ajax_check_login';
+                var postUrl = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
                 var postData = {
                     'username': $('#username').val(),
                     'password': $('#password').val()
@@ -136,7 +136,7 @@
             
             <br><br>
             
-            <a href="<?php echo $base_url; ?>/user/forgot_password" class="forgot-password">
+            <a href="<?php echo $base_url; ?>/index.php/user/forgot_password" class="forgot-password">
             	<?php echo $this->lang->line('forgot_your_password'); ?></a>
             |
             <span id="select-language" class="badge badge-inverse">

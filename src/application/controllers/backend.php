@@ -26,7 +26,7 @@ class Backend extends CI_Controller {
      * appear when the page loads.
      */
     public function index($appointment_hash = '') {
-        $this->session->set_userdata('dest_url', $this->config->item('base_url') . '/backend');
+        $this->session->set_userdata('dest_url', $this->config->item('base_url') . '/index.php/backend');
         if (!$this->hasPrivileges(PRIV_APPOINTMENTS)) return;
         
         $this->load->model('appointments_model');
@@ -220,7 +220,7 @@ class Backend extends CI_Controller {
         $user_id = $this->session->userdata('user_id');
         if ($user_id == FALSE) { // User not logged in, display the login view.
             if ($redirect) {
-                header('Location: ' . $this->config->item('base_url') . '/user/login');
+                header('Location: ' . $this->config->item('base_url') . '/index.php/user/login');
             }
             return FALSE;
         }
@@ -230,7 +230,7 @@ class Backend extends CI_Controller {
         $role_priv = $this->db->get_where('ea_roles', array('slug' => $role_slug))->row_array();
         if ($role_priv[$page] < PRIV_VIEW) { // User does not have the permission to view the page.
              if ($redirect) {
-                header('Location: ' . $this->config->item('base_url') . '/user/no_privileges');
+                header('Location: ' . $this->config->item('base_url') . '/index.php/user/no_privileges');
             }
             return FALSE;
         }
