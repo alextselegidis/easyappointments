@@ -135,7 +135,7 @@
                                 <div class="col-xs-12 col-sm-2">
                                     <form id="cancel-appointment-form" method="post"
                                             action="' . $this->config->item('base_url') 
-                                            . '/appointments/cancel/' . $appointment_data['hash'] . '">
+                                            . '/index.php/appointments/cancel/' . $appointment_data['hash'] . '">
                                         <textarea name="cancel_reason" style="display:none"></textarea>
                                         <button id="cancel-appointment" class="btn btn-inverse">' .
                                                 $this->lang->line('cancel') . '</button>

@@ -168,7 +168,7 @@ var BackendSettings = {
             
             if ($input.prop('readonly') == true || $input.val() == '') return;
             
-            var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_validate_username';
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
             var postData = { 
                 'username': $input.val(), 
                 'user_id': $input.parents().eq(2).find('#user-id').val()
@@ -205,7 +205,7 @@ var SystemSettings = function() {};
  * @param {array} settings Contains the system settings data.
  */
 SystemSettings.prototype.save = function(settings) {
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_settings';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
     var postData = {
         'settings': JSON.stringify(settings),
         'type': BackendSettings.SETTINGS_SYSTEM
@@ -346,7 +346,7 @@ UserSettings.prototype.save = function(settings) {
         return; // Validation failed, do not procceed.
     }
     
-    var postUrl = GlobalVariables.baseUrl + 'backend_api/ajax_save_settings';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
     var postData = {
         'type': BackendSettings.SETTINGS_USER,
         'settings': JSON.stringify(settings)

@@ -82,7 +82,7 @@ var BackendServices = {
      * to the service categories db table.
      */
     updateAvailableCategories: function() {
-        var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_service_categories';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
         var postData = { 'key': '' };
         
         $.post(postUrl, postData, function(response) {
@@ -259,7 +259,7 @@ ServicesHelper.prototype.save = function(service) {
     //console.log('Service data to save:', service);
     ////////////////////////////////////////////////
     
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_service';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
     var postData = { 'service': JSON.stringify(service) };
     
     $.post(postUrl, postData, function(response) {
@@ -281,7 +281,7 @@ ServicesHelper.prototype.save = function(service) {
  * @param {numeric} id Record id to be deleted. 
  */
 ServicesHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_service';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
     var postData = { 'service_id': id };
     
     $.post(postUrl, postData, function(response) {
@@ -374,7 +374,7 @@ ServicesHelper.prototype.display = function(service) {
 ServicesHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_services';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {
@@ -594,7 +594,7 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
  * be displayed on the form.
  */
 CategoriesHelper.prototype.filter = function(key, selectId, display) {
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_service_categories';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
     var postData = { 'key': key };
     
     $.post(postUrl, postData, function(response) {
@@ -631,7 +631,7 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
  * @param {object} category Contains the category data.
  */
 CategoriesHelper.prototype.save = function(category) {
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_save_service_category';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
     var postData = { 'category': JSON.stringify(category) };
     
     $.post(postUrl, postData, function(response) {
@@ -655,7 +655,7 @@ CategoriesHelper.prototype.save = function(category) {
  * @param {int} id Record id to be deleted.
  */
 CategoriesHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_delete_service_category';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
     var postData = { 'category_id': id };
     
     $.post(postUrl, postData, function(response) {

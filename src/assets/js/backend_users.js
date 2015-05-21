@@ -100,7 +100,7 @@ var BackendUsers = {
                 BackendUsers.helper = new SecretariesHelper();
                 
                 // Update the list with the all the available providers.
-                var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_filter_providers';
+                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
                 var postData = { 'key': '' };
                 $.post(postUrl, postData, function(response) {
                     //////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@ var BackendUsers = {
                 return;
             }
             
-            var postUrl = GlobalVariables.baseUrl + '/backend_api/ajax_validate_username';
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
             var postData = { 
                 'username': $input.val(), 
                 'user_id': $input.parents().eq(2).find('.record-id').val()

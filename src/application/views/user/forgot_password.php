@@ -76,7 +76,7 @@
             $('form').submit(function(event) {
                 event.preventDefault(); 
                 
-                var postUrl = GlobalVariables.baseUrl + '/user/ajax_forgot_password';
+                var postUrl = GlobalVariables.baseUrl + '/index.php/user/ajax_forgot_password';
                 var postData = {
                     'username': $('#username').val(),
                     'email': $('#email').val()
@@ -125,7 +125,7 @@
                 <?php echo $this->lang->line('regenerate_password'); ?>
             </button> 
             
-            <a href="<?php echo $base_url; ?>/user/login" class="user-login">
+            <a href="<?php echo $base_url; ?>/index.php/user/login" class="user-login">
                 <?php echo $this->lang->line('go_to_login'); ?></a>
         </form>
     </div>
