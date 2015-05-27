@@ -374,6 +374,7 @@
                                             : $this->lang->line('update');
                                 ?>
                             </button>
+                            <input type="hidden" name="csrfToken" />
                             <input type="hidden" name="post_data" />
                         </form>
                     </div>

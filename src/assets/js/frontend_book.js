@@ -481,7 +481,7 @@ var FrontendBook = {
             postData['appointment']['id'] = GlobalVariables.appointmentData['id'];
             postData['customer']['id'] = GlobalVariables.customerData['id'];
         }
-        
+        $('input[name="csrfToken"]').val(GlobalVariables.csrfToken);
         $('input[name="post_data"]').val(JSON.stringify(postData));
     },
     
