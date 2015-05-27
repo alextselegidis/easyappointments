@@ -92,6 +92,7 @@
         // ------------------------------------------------------------ ?>
     <script type="text/javascript">
         var GlobalVariables = {
+            'csrfToken'         : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
             'appointmentData'   : <?php echo json_encode($appointment_data); ?>,
             'providerData'      : <?php echo json_encode($provider_data); ?>,
             'serviceData'       : <?php echo json_encode($service_data); ?>,

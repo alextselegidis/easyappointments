@@ -64,6 +64,7 @@
     
     <script type="text/javascript">
         var GlobalVariables = {
+            'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
             'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
             'destUrl': <?php echo '"' . $dest_url . '"'; ?>,
             'AJAX_SUCCESS': 'SUCCESS',
@@ -87,6 +88,7 @@
                 
                 var postUrl = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
                 var postData = {
+                    'csrfToken': GlobalVariables.csrfToken,
                     'username': $('#username').val(),
                     'password': $('#password').val()
                 };

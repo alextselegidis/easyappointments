@@ -18,6 +18,7 @@
         
 <script type="text/javascript">    
     var GlobalVariables = {
+        'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
         'admins': <?php echo json_encode($admins); ?>,
         'providers': <?php echo json_encode($providers); ?>,

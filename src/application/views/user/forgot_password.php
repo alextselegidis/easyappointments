@@ -60,6 +60,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             var GlobalVariables = {
+                'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
                 'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
                 'AJAX_SUCCESS': 'SUCCESS',
                 'AJAX_FAILURE': 'FAILURE'
@@ -78,6 +79,7 @@
                 
                 var postUrl = GlobalVariables.baseUrl + '/index.php/user/ajax_forgot_password';
                 var postData = {
+                    'csrfToken': GlobalVariables.csrfToken,
                     'username': $('#username').val(),
                     'email': $('#email').val()
                 };

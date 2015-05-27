@@ -34,6 +34,7 @@
     
     <script type="text/javascript">
 	    var GlobalVariables = {
+            'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
             'baseUrl': <?php echo '"' . $base_url . '"'; ?>
         };
 
@@ -60,6 +61,7 @@
         
                 var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_install';
                 var postData = {
+                    'csrfToken': GlobalVariables.csrfToken,
                     'admin': JSON.stringify(getAdminData()),
                     'company': JSON.stringify(getCompanyData())
                 };

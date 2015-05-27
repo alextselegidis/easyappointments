@@ -9,6 +9,7 @@
         
 <script type="text/javascript">    
     var GlobalVariables = {
+        'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
         'userSlug': <?php echo '"' . $role_slug . '"'; ?>,
         'settings': {
