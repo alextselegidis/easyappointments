@@ -321,7 +321,7 @@ var FrontendBook = {
 
         // Make ajax post request and get the available hours.
         var ajaxurl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
-        jQuery.post(ajaxurl, postData, function(response) {
+        $.post(ajaxurl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
             console.log('Get Available Hours JSON Response:', response);
             ///////////////////////////////////////////////////////////////

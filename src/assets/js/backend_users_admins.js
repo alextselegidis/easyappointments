@@ -169,7 +169,10 @@ AdminsHelper.prototype.save = function(admin) {
     ////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
-    var postData = { 'admin': JSON.stringify(admin) };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'admin': JSON.stringify(admin) 
+    };
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////
@@ -190,7 +193,10 @@ AdminsHelper.prototype.save = function(admin) {
  */
 AdminsHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin';
-    var postData = { 'admin_id': id };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'admin_id': id 
+    };
     
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////
@@ -318,7 +324,10 @@ AdminsHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_admins';
-    var postData = { 'key': key };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'key': key 
+    };
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////

@@ -306,7 +306,10 @@ var GeneralFunctions = {
         $(document).on('click', 'li.language', function() {
         	// Change language with ajax call and refresh page.
         	var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
-        	var postData = { 'language': $(this).attr('data-language') };
+        	var postData = { 
+                'csrfToken': GlobalVariables.csrfToken,
+                'language': $(this).attr('data-language'),
+            };
         	$.post(postUrl, postData, function(response) {
         		////////////////////////////////////////////////////
         		console.log('Change Language Response', response);

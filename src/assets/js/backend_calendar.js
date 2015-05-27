@@ -408,6 +408,7 @@ var BackendCalendar = {
                     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
 
                     var postData = { 
+                        'csrfToken': GlobalVariables.csrfToken,
                         'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
                         'delete_reason': $('#delete-reason').val()
                     };
@@ -450,6 +451,7 @@ var BackendCalendar = {
                 var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
                 
                 var postData = { 
+                    'csrfToken': GlobalVariables.csrfToken,
                     'unavailable_id' : BackendCalendar.lastFocusedEventData.data.id
                 };
 
@@ -712,6 +714,7 @@ var BackendCalendar = {
                             // modal so the user can select the sync calendar.
                             var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_google_calendars';
                             var postData = { 
+                                'csrfToken': GlobalVariables.csrfToken,
                                 'provider_id': $('#select-filter-item').val()
                             };
                             $.post(postUrl, postData, function(response) {
@@ -949,6 +952,7 @@ var BackendCalendar = {
         $('#select-calendar').click(function() {
             var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
             var postData = {
+                'csrfToken': GlobalVariables.csrfToken,
                 'provider_id': $('#select-filter-item').val(),
                 'calendar_id': $('#google-calendar').val()
             };
@@ -996,6 +1000,7 @@ var BackendCalendar = {
     refreshCalendarAppointments: function($calendar, recordId, filterType, startDate, endDate) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments';
         var postData = {
+            'csrfToken': GlobalVariables.csrfToken,
             'record_id': recordId,
             'start_date': startDate.toString('yyyy-MM-dd'),
             'end_date': endDate.toString('yyyy-MM-dd'),
@@ -1381,7 +1386,10 @@ var BackendCalendar = {
                             .toString('yyyy-MM-dd HH:mm:ss');
 
                     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';                     
-                    var postData = { 'appointment_data': JSON.stringify(appointment) };
+                    var postData = { 
+                        'csrfToken': GlobalVariables.csrfToken,
+                        'appointment_data': JSON.stringify(appointment) 
+                    };
 
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
@@ -1434,7 +1442,10 @@ var BackendCalendar = {
                             .toString('yyyy-MM-dd HH:mm:ss');
 
                     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';                     
-                    var postData = { 'unavailable': JSON.stringify(unavailable) };
+                    var postData = { 
+                        'csrfToken': GlobalVariables.csrfToken,
+                        'unavailable': JSON.stringify(unavailable) 
+                    };
 
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
@@ -1658,7 +1669,10 @@ var BackendCalendar = {
 
                     var postUrl  = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
 
-                    var postData = { 'appointment_data': JSON.stringify(appointment) };
+                    var postData = { 
+                        'csrfToken': GlobalVariables.csrfToken,
+                        'appointment_data': JSON.stringify(appointment) 
+                    };
 
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
@@ -1720,7 +1734,10 @@ var BackendCalendar = {
 
                     var postUrl  = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
 
-                    var postData = { 'unavailable': JSON.stringify(unavailable) };
+                    var postData = { 
+                        'csrfToken': GlobalVariables.csrfToken,
+                        'unavailable': JSON.stringify(unavailable) 
+                    };
 
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
@@ -1781,7 +1798,10 @@ var BackendCalendar = {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
-        var postData = { 'provider_id': providerId };
+        var postData = { 
+            'csrfToken': GlobalVariables.csrfToken,
+            'provider_id': providerId 
+        };
         
         $.post(postUrl, postData, function(response) {
             ////////////////////////////////////////////////////////////

@@ -180,7 +180,10 @@ SecretariesHelper.prototype.save = function(secretary) {
     ////////////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
-    var postData = { 'secretary': JSON.stringify(secretary) };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'secretary': JSON.stringify(secretary) 
+    };
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
@@ -201,7 +204,10 @@ SecretariesHelper.prototype.save = function(secretary) {
  */
 SecretariesHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
-    var postData = { 'secretary_id': id };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'secretary_id': id 
+    };
     
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////////
@@ -339,7 +345,10 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_secretaries';
-    var postData = { 'key': key };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'key': key 
+    };
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////////

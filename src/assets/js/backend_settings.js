@@ -170,6 +170,7 @@ var BackendSettings = {
             
             var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
             var postData = { 
+                'csrfToken': GlobalVariables.csrfToken,
                 'username': $input.val(), 
                 'user_id': $input.parents().eq(2).find('#user-id').val()
             };
@@ -207,6 +208,7 @@ var SystemSettings = function() {};
 SystemSettings.prototype.save = function(settings) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
     var postData = {
+        'csrfToken': GlobalVariables.csrfToken,
         'settings': JSON.stringify(settings),
         'type': BackendSettings.SETTINGS_SYSTEM
     };
@@ -348,6 +350,7 @@ UserSettings.prototype.save = function(settings) {
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
     var postData = {
+        'csrfToken': GlobalVariables.csrfToken,
         'type': BackendSettings.SETTINGS_USER,
         'settings': JSON.stringify(settings)
     };

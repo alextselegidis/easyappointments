@@ -220,7 +220,10 @@ ProvidersHelper.prototype.save = function(provider) {
     //////////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
-    var postData = { 'provider': JSON.stringify(provider) };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'provider': JSON.stringify(provider) 
+    };
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////
@@ -241,7 +244,10 @@ ProvidersHelper.prototype.save = function(provider) {
  */
 ProvidersHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
-    var postData = { 'provider_id': id };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'provider_id': id 
+    };
     
     $.post(postUrl, postData, function(response) {
         /////////////////////////////////////////////////////
@@ -394,7 +400,10 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
-    var postData = { 'key': key };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'key': key 
+    };
     
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////////

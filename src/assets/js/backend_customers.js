@@ -216,7 +216,10 @@ CustomersHelper.prototype.bindEventHandlers = function() {
  */
 CustomersHelper.prototype.save = function(customer) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/index.php/backend_api/ajax_save_customer';
-    var postData = { 'customer': JSON.stringify(customer) };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'customer': JSON.stringify(customer) 
+    };
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
@@ -239,7 +242,10 @@ CustomersHelper.prototype.save = function(customer) {
  */
 CustomersHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer';
-    var postData = { 'customer_id': id };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'customer_id': id 
+    };
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
@@ -358,7 +364,10 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
-    var postData = { 'key': key };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'key': key 
+    };
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////

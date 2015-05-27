@@ -83,7 +83,10 @@ var BackendServices = {
      */
     updateAvailableCategories: function() {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
-        var postData = { 'key': '' };
+        var postData = { 
+            'csrfToken': GlobalVariables.csrfToken,
+            'key': '' 
+        };
         
         $.post(postUrl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
@@ -260,7 +263,10 @@ ServicesHelper.prototype.save = function(service) {
     ////////////////////////////////////////////////
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
-    var postData = { 'service': JSON.stringify(service) };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'service': JSON.stringify(service) 
+    };
     
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////
@@ -282,7 +288,10 @@ ServicesHelper.prototype.save = function(service) {
  */
 ServicesHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
-    var postData = { 'service_id': id };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'service_id': id 
+    };
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
@@ -375,7 +384,10 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
     
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
-    var postData = { 'key': key };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'key': key 
+    };
     
     $.post(postUrl, postData, function(response) {
         /////////////////////////////////////////////////////
@@ -595,7 +607,10 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
  */
 CategoriesHelper.prototype.filter = function(key, selectId, display) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
-    var postData = { 'key': key };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'key': key 
+    };
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////
@@ -632,7 +647,10 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
  */
 CategoriesHelper.prototype.save = function(category) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
-    var postData = { 'category': JSON.stringify(category) };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'category': JSON.stringify(category) 
+    };
     
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
@@ -656,7 +674,10 @@ CategoriesHelper.prototype.save = function(category) {
  */
 CategoriesHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
-    var postData = { 'category_id': id };
+    var postData = { 
+        'csrfToken': GlobalVariables.csrfToken,
+        'category_id': id 
+    };
     
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
