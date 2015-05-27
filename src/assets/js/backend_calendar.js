@@ -1268,9 +1268,10 @@ var BackendCalendar = {
     saveAppointment: function(appointment, customer, successCallback, errorCallback) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
         
-        var postData = {};
-        
-        postData['appointment_data'] = JSON.stringify(appointment);
+        var postData = {
+            'csrfToken': GlobalVariables.csrfToken,
+            'appointment_data': JSON.stringify(appointment)
+        };
         
         if (customer !== undefined) {
             postData['customer_data'] = JSON.stringify(customer);
