@@ -247,6 +247,7 @@ var FrontendBook = {
             var formData = jQuery.parseJSON($('input[name="post_data"]').val());
             
             var postData = {
+                'csrfToken': GlobalVariables.csrfToken,
                 'id_users_provider': formData['appointment']['id_users_provider'],
                 'id_services': formData['appointment']['id_services'],
                 'start_datetime': formData['appointment']['start_datetime'],
@@ -309,6 +310,7 @@ var FrontendBook = {
                 ? GlobalVariables.appointmentData['id'] : undefined;
 
         var postData = {
+            'csrfToken': GlobalVariables.csrfToken,
             'service_id': $('#select-service').val(),
             'provider_id': $('#select-provider').val(),
             'selected_date': selDate,

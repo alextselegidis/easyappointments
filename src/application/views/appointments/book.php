@@ -78,6 +78,7 @@
             appointmentData     : <?php echo json_encode($appointment_data); ?>,
             providerData        : <?php echo json_encode($provider_data); ?>,
             customerData        : <?php echo json_encode($customer_data); ?>,
+            csrfToken           : <?php echo json_encode($this->security->get_csrf_hash()); ?>
         };
 
         var EALang = <?php echo json_encode($this->lang->language); ?>;
