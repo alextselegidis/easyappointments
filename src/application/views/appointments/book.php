@@ -137,6 +137,7 @@
                                     <form id="cancel-appointment-form" method="post"
                                             action="' . $this->config->item('base_url') 
                                             . '/index.php/appointments/cancel/' . $appointment_data['hash'] . '">
+                                        <input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
                                         <textarea name="cancel_reason" style="display:none"></textarea>
                                         <button id="cancel-appointment" class="btn btn-inverse">' .
                                                 $this->lang->line('cancel') . '</button>
