@@ -11,11 +11,11 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/bootstrap/bootstrap.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
     
     <?php
         // ------------------------------------------------------------
@@ -24,7 +24,7 @@
     <link 
         rel="icon" 
         type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
     
     <?php
         // ------------------------------------------------------------
@@ -40,16 +40,16 @@
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
 
     <?php
         // ------------------------------------------------------------
@@ -83,12 +83,12 @@
         
         <br>
         
-        <a href="<?php echo $this->config->base_url(); ?>" class="btn btn-primary btn-large">
+        <a href="<?php echo $this->config->item('base_url'); ?>" class="btn btn-primary btn-large">
             <i class="icon-calendar icon-white"></i>
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
         
-        <a href="<?php echo $this->config->base_url(); ?>/index.php/backend" class="btn btn-danger btn-large">
+        <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend" class="btn btn-danger btn-large">
             <i class="icon-wrench icon-white"></i>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>

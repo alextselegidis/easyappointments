@@ -90,7 +90,7 @@
 
                     <br>
 
-                    <a href="<?php echo $this->config->base_url(); ?>" target="_blank" class="btn btn-info">
+                    <a href="<?php echo $this->config->item('base_url'); ?>" target="_blank" class="btn btn-info">
                         <i class="icon-calendar icon-white"></i>
                         <?php echo $this->lang->line('go_to_booking_page'); ?>
                     </a>

@@ -12,19 +12,19 @@
         // INCLUDE CSS FILES 
         // ------------------------------------------------------------ ?>
     <link rel="stylesheet" type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/css/bootstrap.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/frontend.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/frontend.css">
     
     <?php
         // ------------------------------------------------------------
         // SET PAGE FAVICON 
         // ------------------------------------------------------------ ?>
     <link rel="icon" type="image/x-icon" 
-        href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
 
     <link rel="icon" sizes="192x192" 
-        href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/img/logo.png">
 
     <?php
         // ------------------------------------------------------------
@@ -40,16 +40,16 @@
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
 </head>
 
 <body>
