@@ -9,6 +9,11 @@ class Backend_api extends CI_Controller {
     public function __construct() {
         parent::__construct();
         
+        // All the methods in this class must be accessible through a POST request. 
+        if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST') {
+            $this->security->csrf_show_error();
+        }
+
         $this->load->library('session');
         $this->load->model('roles_model');
         $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
