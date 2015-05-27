@@ -14,23 +14,23 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/jquery/jquery-ui.min.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/jquery/jquery-ui.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/libs/jquery/jquery.qtip.min.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/jquery/jquery.qtip.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/frontend.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/frontend.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->base_url(); ?>/assets/css/general.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/css/general.css">
 
     <?php
         // ------------------------------------------------------------
@@ -38,32 +38,32 @@
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery-ui.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery-ui.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/jquery/jquery.qtip.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.qtip.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->base_url(); ?>/assets/js/frontend_book.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/frontend_book.js"></script>
     
     <?php
         // ------------------------------------------------------------
         // WEBPAGE FAVICON
         // ------------------------------------------------------------ ?>
     <link rel="icon" type="image/x-icon" 
-            href="<?php echo $this->config->base_url(); ?>/assets/img/favicon.ico">
+            href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
 
     <link rel="icon" sizes="192x192" 
-            href="<?php echo $this->config->base_url(); ?>/assets/img/logo.png">
+            href="<?php echo $this->config->item('base_url'); ?>/assets/img/logo.png">
 
     <?php
         // ------------------------------------------------------------
@@ -396,6 +396,6 @@
     </div>
 <script 
     type="text/javascript" 
-    src="<?php echo $this->config->base_url(); ?>/assets/js/general_functions.js"></script>
+    src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>
