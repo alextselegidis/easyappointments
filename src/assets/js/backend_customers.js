@@ -215,7 +215,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
  * @param {object} customer Contains the customer data.
  */
 CustomersHelper.prototype.save = function(customer) {
-    var postUrl = GlobalVariables.baseUrl + '/index.php/index.php/backend_api/ajax_save_customer';
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer';
     var postData = { 
         'csrfToken': GlobalVariables.csrfToken,
         'customer': JSON.stringify(customer) 
