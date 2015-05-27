@@ -226,14 +226,14 @@
             <p>
                 This page will help you set the main settings of your Easy!Appointments installation.
                 You will be able to edit these settings and many more in the backend session of your 
-                system. Remember to use the <span class="text-error"><?php echo $base_url; ?>/backend</span> 
+                system. Remember to use the <span class="text-error"><?php echo $base_url; ?>/index.php/backend</span> 
                 url to connect to the backend section of Easy!Appointments.
 
                 If you face any problems during the usage of Easy!Appointments you can always check
-                the official <a href="https://code.google.com/p/easy-appointments/w/list">Wiki Pages</a> 
+                the official <a href="https://github.com/alextselegidis/easyappointments/wiki">Wiki Pages</a> 
                 and <a href="http://groups.google.com/group/easy-appointments">Support Group</a>
                 for getting help. You may also submit new issues on
-                <a href="https://code.google.com/p/easy-appointments/issues/list">Google Code</a>
+                <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
                 in order to help our development process.
             </p>
         </div>
@@ -294,7 +294,7 @@
         <p>
             <h3>License</h3>
             Easy!Appointments is licensed under the GPLv3 license. By using 
-            the code of Easy!Appointments in any way <br> you are agreeing to the 
+            the code of Easy!Appointments in any way <br> you agree with the 
             terms described in the following url:
             <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
         </p>
