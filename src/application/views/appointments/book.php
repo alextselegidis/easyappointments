@@ -18,11 +18,11 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/jquery/jquery-ui.min.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-ui/jquery-ui.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/jquery/jquery.qtip.min.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-qtip/jquery.qtip.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
@@ -38,19 +38,19 @@
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery-ui.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-ui/jquery-ui.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.qtip.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-qtip/jquery.qtip.min.js"></script>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/datejs/date.js"></script>
     <script 
         type="text/javascript" 
         src="<?php echo $this->config->item('base_url'); ?>/assets/js/frontend_book.js"></script>
@@ -396,8 +396,8 @@
             </div>
         </div>
     </div>
-<script 
-    type="text/javascript" 
-    src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
+    <script 
+        type="text/javascript" 
+        src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
 </body>
 </html>

@@ -41,10 +41,6 @@ body .ui-dialog .ui-dialog-buttonpane {
     vertical-align: middle;
 }
 
-body .ui-icon, .ui-widget-content .ui-icon {
-    background-image: url(libs/jquery/img/ui-icons_52b799_256x240.png);
-}
-
 li.language:hover {
 	cursor: pointer;
 	color: #005580;

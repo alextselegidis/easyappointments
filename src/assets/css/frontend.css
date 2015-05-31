@@ -356,4 +356,8 @@ body {
     #cancel-appointment-frame {
         text-align: center;
     }
+
+    .ui-dialog .ui-dialog-title {
+        font-size: 1.2em;
+    }
 }
