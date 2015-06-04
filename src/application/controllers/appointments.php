@@ -82,6 +82,13 @@ class Appointments extends CI_Controller {
                     'provider_data'         => $provider,
                     'customer_data'         => $customer
                 );
+
+                // Removes the password and salt elements for each
+                // available provider from the $view array.
+                foreach($view['available_providers'] as $pro => $data){
+                    unset($view['available_providers'][$pro]['settings']['password'],
+                          $view['available_providers'][$pro]['settings']['salt']);
+                }      
                 
             } catch(Exception $exc) {
                 $view['exceptions'][] = $exc;
@@ -199,6 +206,11 @@ class Appointments extends CI_Controller {
                     'service_data'      => $service,
                     'company_name'      => $company_settings['company_name']
                 );
+
+                // Removes the password and salt elements for provider.
+                unset($view['provider_data']['settings']['password'], 
+                      $view['provider_data']['settings']['salt']);
+                
 
             } catch(Exception $exc) {
                 $view['exceptions'][] = $exc;
