@@ -429,7 +429,8 @@ class CI_Session {
 					($this->now - 31500000),
 					$this->cookie_path,
 					$this->cookie_domain,
-					0
+					0,
+                    true
 				);
 
 		// Kill session data
@@ -685,7 +686,8 @@ class CI_Session {
 			$expire,
 			$this->cookie_path,
 			$this->cookie_domain,
-			$this->cookie_secure
+			$this->cookie_secure,
+            true
 		);
 	}
 

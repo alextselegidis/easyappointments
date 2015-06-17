@@ -190,7 +190,7 @@ class CI_Security {
 			return FALSE;
 		}
 
-		setcookie($this->_csrf_cookie_name, $this->_csrf_hash, $expire, config_item('cookie_path'), config_item('cookie_domain'), $secure_cookie);
+		setcookie($this->_csrf_cookie_name, $this->_csrf_hash, $expire, config_item('cookie_path'), config_item('cookie_domain'), $secure_cookie, true);
 
 		log_message('debug', "CRSF cookie Set");
 
