@@ -1,5 +1,5 @@
 <?php
-// Finnish
+// English
 $lang['page_title'] = 'Varaa aika';
 $lang['step_one_title'] = 'Valitse palvelu ja henkilö';
 $lang['select_service'] = 'Valitse palvelupaketti';
@@ -185,12 +185,12 @@ $lang['about_ea_license'] = 'Easy!Appointments on GPLv3 lisensoitu. Käyttämäl
 $lang['logout_success'] = 'Sinut on kirjattu ulos! Paina jotakin seuraavista painikkeista siirtyäksesi toiselle sivulle.';
 $lang['book_appointment_title'] = 'Tee varaus';
 $lang['backend_section'] = 'Taustajärjestelmä';
-$lang['you_need_to_login'] = 'Tervetuloa! Sinun täytyy kirjautua sisään käyttääksesi taustajärjestelmää.'
+$lang['you_need_to_login'] = 'Tervetuloa! Sinun täytyy kirjautua sisään käyttääksesi taustajärjestelmää.';
 $lang['enter_username_here'] = 'Syötä käyttäjänimesi ...';
 $lang['enter_password_here'] = 'Syötä salasanasi ...';
 $lang['login'] = 'Kirjaudu';
 $lang['forgot_your_password'] = 'Unohditko salasanasi';
-$lang['login_failed'] = 'Kirjautuminen epäonnistui, tarkista tiedot ja kokeile uudelleen.'
+$lang['login_failed'] = 'Kirjautuminen epäonnistui, tarkista tiedot ja kokeile uudelleen.';
 $lang['type_username_and_email_for_new_password'] = 'Syötä tunnus ja sähköpostiosoite saadaksesi uuden salasanan.';
 $lang['enter_email_here'] = 'Syötä sähköposti ...';
 $lang['regenerate_password'] = 'Luo uusi salasana';
@@ -262,5 +262,5 @@ $lang['select_google_calendar'] = 'Valitse Google-kalenteri';
 $lang['select_google_calendar_prompt'] = 'Valitse kalenteri johon varauksesi synkronoidaan. Jos et valitse kalenteria, käytetään oletuskalenteria.';
 $lang['google_calendar_selected'] = 'Google-kalenteri valittiin onnistuneesti!';
 $lang['oops_something_went_wrong'] = 'Oho! Jotain meni pieleen!';
-$lang['could_not_add_to_google_calendar'] = 'Varaustasi ei pystytty lisäämään Google-kalenteri tiliisi.'
+$lang['could_not_add_to_google_calendar'] = 'Varaustasi ei pystytty lisäämään Google-kalenteri tiliisi.';
 $lang['ea_update_success'] = 'Easy!Appointments päivitettiin onnistuneesti!';
