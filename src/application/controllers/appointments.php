@@ -623,7 +623,7 @@ class Appointments extends CI_Controller {
     public function ajax_install() {
         try {
             // Create E!A database structure.
-            $file_contents = file_get_contents($this->config->item('base_url') . '/assets/sql/structure.sql');
+            $file_contents = file_get_contents(__DIR__ . '/../../assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach($sql_queries as $query) {
