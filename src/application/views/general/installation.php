@@ -13,8 +13,7 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/ls
-        /bootstrap/css/cd j	bootstrap-responsive.css">
+        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap-responsive.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
