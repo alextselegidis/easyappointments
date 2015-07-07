@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
+/**
+ * Customers Model
+ *
+ * @package Models
+ */
 class Customers_Model extends CI_Model {
     /**
      * Class Constructor

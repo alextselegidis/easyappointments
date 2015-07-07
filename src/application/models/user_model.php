@@ -1,7 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.'); 
 
 /**
+ * User Model
+ * 
  * Contains current user's methods.
+ *
+ * @package Model
  */
 class User_Model extends CI_Model {
     /**

@@ -19,6 +19,8 @@
  *      'id_roles'
  *      'providers' >> array with provider ids that the secretary handles
  *      'settings' >> array with the secretary settings
+ * 
+ * @package Models
  */
 class Secretaries_Model extends CI_Model {
     /**

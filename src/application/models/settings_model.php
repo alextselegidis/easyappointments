@@ -1,4 +1,10 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.'); 
+
+/**
+ * Settings Model 
+ *
+ * @package Models
+ */
 class Settings_Model extends CI_Model {
     /**
      * Class Constructor

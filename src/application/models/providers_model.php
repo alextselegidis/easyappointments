@@ -29,6 +29,8 @@
  *          'google_calendar'
  *          'sync_past_days'
  *          'sync_future_days'
+ * 
+ * @package Models         
  */
 class Providers_Model extends CI_Model {
     /**

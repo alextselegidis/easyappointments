@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
+/**
+ * Roles Model
+ *
+ * @package Models
+ */
 class Roles_Model extends CI_Model {
     /**
      * Class Constructor

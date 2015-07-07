@@ -18,6 +18,8 @@
  *      'notes'
  *      'id_roles'
  *      'settings' >>> array that contains user settings (username, password etc)
+ *
+ * @package Models
  */
 class Admins_Model extends CI_Model {
     /**
