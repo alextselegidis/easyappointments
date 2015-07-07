@@ -1,5 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
+/**
+ * Admins Model Unit Tests
+ *
+ * @package Libraries
+ * @subpackage Tests
+ */
 class Unit_tests_admins_model extends CI_Driver {
     private $ci;
     private $admin_role_id;

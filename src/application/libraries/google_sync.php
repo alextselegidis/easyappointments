@@ -10,6 +10,8 @@ require_once __DIR__ . '/external/google-api-php-client/contrib/Google_CalendarS
  * This class implements all the core synchronization between the Google Calendar
  * and the Easy!Appointments system. Do not place any model handling inside this 
  * library.
+ *
+ * @package Libraries
  */
 class Google_Sync {
     private $CI;

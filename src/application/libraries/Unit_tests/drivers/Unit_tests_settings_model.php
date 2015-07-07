@@ -1,5 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
+/**
+ * Settings Model Unit Tests 
+ *
+ * @package Libraries
+ * @subpackage Tests
+ */
 class Unit_tests_settings_model extends CI_Driver {
     private $CI;
     

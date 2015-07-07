@@ -1,5 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
+/**
+ * Secretaries Model Unit Tests 
+ *
+ * @package Libraries
+ * @subpackage Tests
+ */
 class Unit_tests_secretaries_model extends CI_Driver {
     private $ci;
     private $secretary_role_id;

@@ -6,6 +6,9 @@
  * This driver handles all the unit testing of the application. 
  * Custom methods (test categories) can be created in order to 
  * use different test groups on each testing
+ *
+ * @package Libraries
+ * @subpackage Tests
  */
 class Unit_tests extends CI_Driver_Library {
     public $CI;

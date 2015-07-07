@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . '/external/class.phpmailer.php';
  * 
  * Custom system settings for the notification section are loaded 
  * during the execution of each class methods.
+ *
+ * @package Libraries
  */
 class Notifications {
     private $ci;
