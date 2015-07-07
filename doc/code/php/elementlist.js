@@ -1,3 +1,0 @@
-
-var ApiGen = ApiGen || {};
-ApiGen.elements = [["c","Admins_Model"],["c","Appointments"],["c","Appointments_Model"],["c","Backend"],["c","Backend_api"],["c","Customers_Model"],["c","Errors"],["c","Google"],["c","Google_Sync"],["c","Notifications"],["c","Providers_Model"],["c","Roles_Model"],["c","Secretaries_Model"],["c","Services_Model"],["c","Settings_Model"],["c","Test"],["c","Unit_tests"],["c","Unit_tests_admins_model"],["c","Unit_tests_appointments_model"],["c","Unit_tests_customers_model"],["c","Unit_tests_providers_model"],["c","Unit_tests_secretaries_model"],["c","Unit_tests_services_model"],["c","Unit_tests_settings_model"],["c","User"],["c","User_Model"]];
