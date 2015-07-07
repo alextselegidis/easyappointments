@@ -81,7 +81,7 @@
         src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/datejs/date.js"></script>
     <script 
         type="text/javascript"
         src="https://apis.google.com/js/client.js"></script>
