@@ -1,7 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Contains all the backend ajax calls.
+ * Backend API Controller 
+ *
+ * Contains all the backend AJAX callbacks.
+ * 
+ * @package Controllers
  */
 class Backend_api extends CI_Controller {
     private $privileges;

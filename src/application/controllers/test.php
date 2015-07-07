@@ -1,5 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+/**
+ * Test Controller 
+ *
+ * @package Controllers
+ */
 class Test extends CI_Controller {
     /**
      * Class Constructor
