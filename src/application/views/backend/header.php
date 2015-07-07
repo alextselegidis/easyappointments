@@ -14,19 +14,23 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap-theme.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/jquery/jquery-ui.min.css">
+        href="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/jquery/jquery.qtip.min.css">
+        href="<?php echo $base_url; ?>/assets/ext/jquery-qtip/jquery.qtip.min.css">
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="<?php echo $base_url; ?>/assets/ext/jquery-jscrollpane/jquery.jscrollpane.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
@@ -35,35 +39,32 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $base_url; ?>/assets/css/general.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/jquery/jquery.jscrollpane.css">
+    
     <?php
         // ------------------------------------------------------------
         // INCLUDE JAVASCRIPT FILES 
         // ------------------------------------------------------------ ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery-ui.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.qtip.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery-qtip/jquery.qtip.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/datejs/date.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.jscrollpane.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery-jscrollpane/jquery.jscrollpane.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.mousewheel.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery-mousewheel/jquery.mousewheel.js"></script>
         
     <script type="text/javascript">
     	// Global JavaScript Variables - Used in all backend pages.

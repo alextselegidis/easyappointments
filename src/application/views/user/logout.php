@@ -7,10 +7,10 @@
     <?php // INCLUDE JS FILES ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>   
+        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>   
     
     <script type="text/javascript">
         var EALang = <?php echo json_encode($this->lang->language); ?>;
@@ -20,11 +20,11 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $this->config->item('base_url'); ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap-theme.min.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 

@@ -1,11 +1,11 @@
 <link rel="stylesheet" type="text/css"
-        href="<?php echo $base_url; ?>/assets/css/libs/jquery/fullcalendar.css" />
+        href="<?php echo $base_url; ?>/assets/ext/jquery-fullcalendar/jquery.fullcalendar.css" />
 
 <script type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/fullcalendar.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery-fullcalendar/jquery.fullcalendar.min.js"></script>
 
         <script type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery-ui-timepicker-addon.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
         
 <script type="text/javascript" 
         src="<?php echo $base_url; ?>/assets/js/backend_calendar.js"></script>

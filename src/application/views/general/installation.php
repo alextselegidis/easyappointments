@@ -9,11 +9,11 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/bootstrap/bootstrap.css">
+        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/css/libs/bootstrap/bootstrap-responsive.css">
+        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap-theme.min.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
@@ -24,13 +24,13 @@
     <?php // INCLUDE SCRIPTS ?>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/jquery/jquery.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/jquery/jquery.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/bootstrap/bootstrap.min.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo $base_url; ?>/assets/js/libs/date.js"></script>
+        src="<?php echo $base_url; ?>/assets/ext/datejs/date.js"></script>
     
     <script type="text/javascript">
 	    var GlobalVariables = {
