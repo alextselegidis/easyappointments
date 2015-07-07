@@ -20,10 +20,6 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap-theme.min.css">
 	<link 
         rel="stylesheet" 
         type="text/css" 

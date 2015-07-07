@@ -18,10 +18,6 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap-theme.min.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
         href="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui.min.css">
     <link 
         rel="stylesheet" 

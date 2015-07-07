@@ -10,10 +10,6 @@
         rel="stylesheet" 
         type="text/css" 
         href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap.min.css">
-    <link 
-        rel="stylesheet" 
-        type="text/css" 
-        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap-theme.min.css">
     
     <?php // SET FAVICON FOR PAGE ?>
     <link 
