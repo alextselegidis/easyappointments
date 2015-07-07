@@ -235,10 +235,10 @@
                                     <strong><?php echo $this->lang->line('select_provider'); ?></strong>
                                 </label>
                                 
-                                <select id="select-provider" class="cold-md-4 form-control"></select>
+                                <select id="select-provider" class="col-md-4 form-control"></select>
                             </div>
                             
-                            <div id="service-description" style="display:none;"></div>
+                            <div id="service-description" class="well" style="display:none;"></div>
                         </div>
                     </div>
                     

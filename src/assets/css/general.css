@@ -27,6 +27,7 @@ body .ui-dialog {
 
 body .ui-dialog .ui-dialog-buttonpane {
     padding: .3em 1em .3em .4em;
+    border: none;
 }
 
 .breaks tr:hover td {

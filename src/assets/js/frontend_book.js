@@ -335,7 +335,7 @@ var FrontendBook = {
                 $('#available-hours').html('<div style="width:50px; float:left;"></div>');
 
                 $.each(response, function(index, availableHour) {
-                    if ((currColumn * 13) < (index + 1)) {
+                    if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
                         $('#available-hours').append('<div style="width:50px; float:left;"></div>');
                     }
@@ -427,7 +427,7 @@ var FrontendBook = {
         $('#appointment-details').html(
             '<h4>' + $('#select-service option:selected').text() + '</h4>' +  
             '<p>' 
-        		+ '<strong class="text-info">' 
+        		+ '<strong class="text-primary">' 
                     + $('#select-provider option:selected').text() + '<br>'
         			+ selectedDate + ' ' +  $('.selected-hour').text() 
                     + servicePrice + ' ' + serviceCurrency

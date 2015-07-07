@@ -110,7 +110,7 @@ body {
 }
 
 #book-appointment-wizard .book-step strong {
-    font-size: 15px;
+    font-size: 12px;
     display: block;
     text-align: center;
     color: #A9C5BB;
@@ -130,7 +130,7 @@ body {
 
 #book-appointment-wizard .active-step strong {
     color: #38A07A;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 #book-appointment-wizard #frame-footer {
