@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('login') . ' - ' . $company_name; ?></title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
     
     <?php // INCLUDE JS FILES ?>
     <script 
@@ -42,6 +46,19 @@
             background: #FFF;
             border: 1px solid #DDDADA;
             padding: 70px;
+        }
+
+        @media(max-width: 640px) {
+            body {
+                width: 100%;
+            }   
+
+            #login-frame {
+                width: 100%;
+                margin-top: 5vh;
+                height: 90vh;
+                padding: 25px;
+            }
         }
     </style>
     
