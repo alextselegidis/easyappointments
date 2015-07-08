@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('no_privileges') . ' - ' . $company_name; ?></title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    
+        
     <?php // INCLUDE JS FILES ?>
     <script 
         type="text/javascript" 
@@ -26,29 +29,36 @@
     
     <style>
         body {
+            width: 100vw;
+            height: 100vh;
+            display: table-cell;
+            vertical-align: middle;
             background-color: #CAEDF3;
         }
         
         #no-priv-frame {
             width: 630px;
-            margin: 150px auto 0 auto;
+            margin: auto;
             background: #FFF;
             border: 1px solid #DDDADA;
             padding: 70px;
         }
         
-        #login-icon {
-            float: right;
-            margin-top: 17px;
-        }
-        
-        label {
-            font-weight: bold;
-        }
-        
         .btn {
             margin-right: 10px;
         }
+
+        @media(max-width: 640px) { 
+            #no-priv-frame {
+                width: 100%;
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }  
     </style>
 </head>
 <body>

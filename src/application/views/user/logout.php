@@ -30,12 +30,16 @@
     
     <style>
         body {
+            width: 100vw;
+            height: 100vh;
+            display: table-cell;
+            vertical-align: middle;
             background-color: #CAEDF3;
         }
         
         #logout-frame {
             width: 630px;
-            margin: 150px auto 0 auto;
+            margin: auto;
             background: #FFF;
             border: 1px solid #DDDADA;
             padding: 70px;
@@ -45,16 +49,10 @@
             margin-right: 10px;
         }
 
-        @media(max-width: 640px) {
-            body {
-                width: 100%;
-            }   
-
+        @media(max-width: 640px) { 
             #logout-frame {
                 width: 100%;
-                margin-top: 5vh;
-                height: 90vh;
-                padding: 25px;
+                padding: 20px;
             }
 
             .btn {

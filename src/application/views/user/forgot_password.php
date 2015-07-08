@@ -58,8 +58,7 @@
         @media(max-width: 640px) {
             #forgot-password-frame {
                 width: 100%;
-                
-                padding: 15px;
+                padding: 20px;
             }
         }
     </style>
