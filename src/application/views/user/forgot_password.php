@@ -44,11 +44,7 @@
             padding: 70px;
         }
         
-        label {
-            font-weight: bold;
-        }
-        
-        .user-login{
+        .user-login {
             margin-left: 20px;
         }
     </style>
@@ -111,13 +107,16 @@
         <hr>
         <div class="alert hidden"></div>  
         <form>
-            <label for="username"><?php echo $this->lang->line('username'); ?></label>
-            <input type="text" id="username" placeholder="<?php echo $this->lang->line('enter_username_here'); ?>" class="span3" />
+            <div class="form-group">
+                <label for="username"><?php echo $this->lang->line('username'); ?></label>
+                <input type="text" id="username" placeholder="<?php echo $this->lang->line('enter_username_here'); ?>" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="email"><?php echo $this->lang->line('email'); ?></label>
+                <input type="text" id="email" placeholder="<?php echo $this->lang->line('enter_email_here'); ?>" class="form-control" />    
+            </div>
             
-            <label for="email"><?php echo $this->lang->line('email'); ?></label>
-            <input type="text" id="email" placeholder="<?php echo $this->lang->line('enter_email_here'); ?>" class="span3" />    
-            
-            <br><br>
+            <br>
             
             <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
                 <?php echo $this->lang->line('regenerate_password'); ?>
