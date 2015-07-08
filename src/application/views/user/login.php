@@ -42,7 +42,8 @@
         
         #login-frame {
             width: 630px;
-            margin: 150px auto 0 auto;
+            height: 80hv;
+            margin: 10vh auto 0 auto;
             background: #FFF;
             border: 1px solid #DDDADA;
             padding: 70px;
