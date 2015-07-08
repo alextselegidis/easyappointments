@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" /> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('log_out') . ' - ' . $company_name; ?></title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <?php // SET FAVICON FOR PAGE ?>
+    <link rel="icon" type="image/x-icon" href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
     
     <?php // INCLUDE JS FILES ?>
     <script 
@@ -22,12 +28,6 @@
         type="text/css" 
         href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     
-    <?php // SET FAVICON FOR PAGE ?>
-    <link 
-        rel="icon" 
-        type="image/x-icon" 
-        href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
-    
     <style>
         body {
             background-color: #CAEDF3;
@@ -41,18 +41,27 @@
             padding: 70px;
         }
         
-        #login-icon {
-            float: right;
-            margin-top: 17px;
-        }
-        
-        label {
-            font-weight: bold;
-        }
-        
         .btn {
             margin-right: 10px;
         }
+
+        @media(max-width: 640px) {
+            body {
+                width: 100%;
+            }   
+
+            #logout-frame {
+                width: 100%;
+                margin-top: 5vh;
+                height: 90vh;
+                padding: 25px;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }   
     </style>
 </head>
 <body>
@@ -65,12 +74,12 @@
         <br>
         
         <a href="<?php echo $this->config->item('base_url'); ?>" class="btn btn-primary btn-large">
-            <i class="icon-calendar icon-white"></i>
+            <span class="glyphicon glyphicon-calendar"></span>
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
         
         <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend" class="btn btn-danger btn-large">
-            <i class="icon-home icon-white"></i>
+            <span class="glyphicon glyphicon-home"></span>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>
     </div>
