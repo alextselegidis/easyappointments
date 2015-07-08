@@ -43,19 +43,6 @@
             border: 1px solid #DDDADA;
             padding: 70px;
         }
-        
-        #login-icon {
-            float: right;
-            margin-top: 17px;
-        }
-        
-        label {
-            font-weight: bold;
-        }
-        
-        .forgot-password {
-/*             margin-left: 20px; */
-        }
     </style>
     
     <script type="text/javascript">
@@ -116,16 +103,18 @@
         <hr>
         <div class="alert hidden"></div>  
         <form id="login-form">
-            <label for="username"><?php echo $this->lang->line('username'); ?></label>
-            <input type="text" id="username" 
-            		placeholder="<?php echo $this->lang->line('enter_username_here'); ?>"  
-            		class="span3" />
-            
-            <label for="password"><?php echo $this->lang->line('password'); ?></label>
-            <input type="password" id="password" 
-            		placeholder="<?php echo $this->lang->line('enter_password_here'); ?>" 
-            		class="span3" />    
-            
+            <div class="form-group">
+                <label for="username"><?php echo $this->lang->line('username'); ?></label>
+                <input type="text" id="username" 
+                		placeholder="<?php echo $this->lang->line('enter_username_here'); ?>"  
+                		class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="password"><?php echo $this->lang->line('password'); ?></label>
+                <input type="password" id="password" 
+                		placeholder="<?php echo $this->lang->line('enter_password_here'); ?>" 
+                		class="form-control" />    
+            </div>
             <br>
             
             <button type="submit" id="login" class="btn btn-primary">
@@ -137,7 +126,7 @@
             <a href="<?php echo $base_url; ?>/index.php/user/forgot_password" class="forgot-password">
             	<?php echo $this->lang->line('forgot_your_password'); ?></a>
             |
-            <span id="select-language" class="badge badge-inverse">
+            <span id="select-language" class="label label-success">
 	        	<?php echo ucfirst($this->config->item('language')); ?>
 	        </span>
         </form>
