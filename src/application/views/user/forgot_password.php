@@ -108,7 +108,9 @@
                         $('.alert').text('The operation failed! Please enter a valid username '
                                 + 'and email address in order to get a new password.');
                     }
-                    $('.alert').removeClass('hidden');
+                    $('.alert')
+                        .removeClass('hidden alert-danger alert-success')
+                        .addClass('alert-danger');
                 }, 'json');
             });
         });
