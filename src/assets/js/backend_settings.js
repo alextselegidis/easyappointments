@@ -1,3 +1,14 @@
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ * 
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @link        http://easyappointments.org
+ * @since       v1.0.0
+ * ---------------------------------------------------------------------------- */
+
 /**
  * Contains the functionality of the backend settings page. Can either work for 
  * system or user settings, but the actions allowed to the user are restricted to

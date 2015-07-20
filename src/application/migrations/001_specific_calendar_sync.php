@@ -1,5 +1,16 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ * 
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @link        http://easyappointments.org
+ * @since       v1.0.0
+ * ---------------------------------------------------------------------------- */
+
 class Migration_Specific_calendar_sync extends CI_Migration {
 
 	public function up() {

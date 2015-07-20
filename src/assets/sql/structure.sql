@@ -1,30 +1,17 @@
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- Φιλοξενητής: localhost
--- Χρόνος δημιουργίας: 11 Οκτ 2013 στις 16:58:08
--- Έκδοση διακομιστή: 5.5.24-log
--- Έκδοση PHP: 5.4.3
+-- ----------------------------------------------------------------------------
+-- Easy!Appointments - Open Source Web Scheduler
+-- 
+-- @package     EasyAppointments
+-- @author      A.Tselegidis <alextselegidis@gmail.com>
+-- @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+-- @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+-- @link        http://easyappointments.org
+-- @since       v1.0.0
+-- ----------------------------------------------------------------------------
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Βάση: `easy_appointments`
---
-
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_appointments`
---
 
 CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -44,11 +31,6 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   KEY `id_users_provider` (`id_users_provider`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_roles`
---
 
 CREATE TABLE IF NOT EXISTS `ea_roles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -64,11 +46,6 @@ CREATE TABLE IF NOT EXISTS `ea_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_secretaries_providers`
---
 
 CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
   `id_users_secretary` bigint(20) unsigned NOT NULL,
@@ -78,11 +55,6 @@ CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
   KEY `fk_ea_secretaries_providers_2` (`id_users_provider`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_services`
---
 
 CREATE TABLE IF NOT EXISTS `ea_services` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -96,11 +68,6 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   KEY `id_service_categories` (`id_service_categories`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_services_providers`
---
 
 CREATE TABLE IF NOT EXISTS `ea_services_providers` (
   `id_users` bigint(20) unsigned NOT NULL,
@@ -109,11 +76,6 @@ CREATE TABLE IF NOT EXISTS `ea_services_providers` (
   KEY `id_services` (`id_services`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_service_categories`
---
 
 CREATE TABLE IF NOT EXISTS `ea_service_categories` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -122,11 +84,6 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_settings`
---
 
 CREATE TABLE IF NOT EXISTS `ea_settings` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -135,11 +92,6 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_users`
---
 
 CREATE TABLE IF NOT EXISTS `ea_users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -158,11 +110,6 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   KEY `id_roles` (`id_roles`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
 
--- --------------------------------------------------------
-
---
--- Δομή πίνακα για τον πίνακα `ea_user_settings`
---
 
 CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `id_users` bigint(20) unsigned NOT NULL,
@@ -179,53 +126,34 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   PRIMARY KEY (`id_users`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Περιορισμοί για άχρηστους πίνακες
---
 
---
--- Περιορισμοί για πίνακα `ea_appointments`
---
 ALTER TABLE `ea_appointments`
   ADD CONSTRAINT `ea_appointments_ibfk_2` FOREIGN KEY (`id_users_customer`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ea_appointments_ibfk_3` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ea_appointments_ibfk_4` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Περιορισμοί για πίνακα `ea_secretaries_providers`
---
+
 ALTER TABLE `ea_secretaries_providers`
   ADD CONSTRAINT `fk_ea_secretaries_providers_1` FOREIGN KEY (`id_users_secretary`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ea_secretaries_providers_2` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Περιορισμοί για πίνακα `ea_services`
---
+
 ALTER TABLE `ea_services`
   ADD CONSTRAINT `ea_services_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
---
--- Περιορισμοί για πίνακα `ea_services_providers`
---
+
 ALTER TABLE `ea_services_providers`
   ADD CONSTRAINT `ea_services_providers_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ea_services_providers_ibfk_2` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Περιορισμοί για πίνακα `ea_users`
---
+
 ALTER TABLE `ea_users`
   ADD CONSTRAINT `ea_users_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Περιορισμοί για πίνακα `ea_user_settings`
---
+
 ALTER TABLE `ea_user_settings`
   ADD CONSTRAINT `ea_user_settings_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 INSERT INTO `ea_roles` (`id`, `name`, `slug`, `is_admin`, `appointments`, `customers`, `services`, `users`, `system_settings`, `user_settings`) VALUES
 (1, 'Administrator', 'admin', 1, 15, 15, 15, 15, 15, 15),

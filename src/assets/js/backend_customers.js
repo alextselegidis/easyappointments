@@ -1,3 +1,14 @@
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ * 
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @link        http://easyappointments.org
+ * @since       v1.0.0
+ * ---------------------------------------------------------------------------- */
+
 /**
  * Backend Customers javasript namespace. Contains the main functionality 
  * of the backend customers page. If you need to use this namespace in a 
