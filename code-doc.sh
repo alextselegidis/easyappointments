@@ -1,8 +1,8 @@
 #!/bin/bash 
 
 # 
-# Bash script for the generation of code documentation. 
-#
+# Bash script for the code documentation generation.
+# 
  
 rm -rf doc 
 
@@ -15,4 +15,4 @@ php rsc/apigen.phar generate \
     -d "doc/apigen" --exclude "*external*" --tree --todo --template-theme "bootstrap"
 
 
-#jsdoc "src/assets/js" -d "doc/jsdoc"
+node node_modules/.bin/jsdoc "src/assets/js" -d "doc/jsdoc"
