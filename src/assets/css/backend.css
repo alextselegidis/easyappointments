@@ -27,8 +27,7 @@ root {
 
 #header #header-logo { 
     display: inline-block; 
-    height: 60px; 
-    margin: 10px 15px 0px 15px; 
+    margin: 6px 12px; 
 }
 
 #header #header-logo img { 
@@ -42,9 +41,9 @@ root {
     float: left;
     font-size: 20px;
     color: white;
-    margin-top: 16px;
+    margin-top: 9px;
     font-weight: bold;
-    text-shadow: 1px 1px 0px rgb(32, 99, 48);
+    /*text-shadow: 1px 1px 0px rgb(32, 99, 48);*/
 }
 
 #header #header-menu { 
@@ -55,21 +54,17 @@ root {
 
 #header #header-menu .menu-item { 
     float: left;
-    margin-right: 8px;
-    margin-top: 11px;
-    padding: 13px 12px;
-    min-width: 68px;
+    padding: 18px 18px 19px;
+    min-width: 100px;
     text-align: center;
     font-weight: bold;
     color: #FFF;
     text-decoration: none;
     font-size: 16px;
-    border-radius: 3px;
 }
 
 #header #header-menu .menu-item:hover:not(.active) { 
     background-color: #2A8F57;
-    border-bottom: 2px solid #2E7244;
 }
 
 #header #header-menu .active { 
