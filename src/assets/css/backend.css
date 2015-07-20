@@ -145,14 +145,12 @@ body .jspTrack {
 #calendar-page #calendar-toolbar { 
     border-bottom: 1px solid #D6D6D6;
     background: #3A3A3A;
-    /*background: #FAFAFA;*/
     padding: 10px;
-    height: 39px;
+    overflow: auto;
     color: white;
 }
 
 #calendar-page #calendar-filter { 
-    display: inline-block;  
     float: left; 
 }
 
@@ -163,19 +161,13 @@ body .jspTrack {
     font-size: 18px; 
 }
 
-#calendar-page #calendar-filter select { 
-    margin-top: 5px; 
-}
-
 #calendar-page #calendar-filter select:disabled { 
     background: white;
     cursor: auto;
 }
 
 #calendar-page #calendar-actions { 
-    display: inline-block; 
     float: right; 
-    margin-top: 4px; 
 }
 
 #calendar-page #calendar { 

@@ -51,21 +51,21 @@
                         && $this->config->item('ea_google_sync_feature') == TRUE) { ?>
                 <button id="google-sync" class="btn btn-primary" 
                         title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
-                    <i class="icon-refresh icon-white"></i>
-                    <span><?php echo $this->lang->line('synchronize'); ?></span>
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    <?php echo $this->lang->line('synchronize'); ?>
                 </button>
 
                 <button id="enable-sync" class="btn" data-toggle="button" 
                         title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
-                    <i class="icon-calendar"></i>
-                    <span><?php echo $this->lang->line('enable_sync'); ?></span>
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <?php echo $this->lang->line('enable_sync'); ?>
                 </button>
                 <?php } ?>
                 
                 <button id="reload-appointments" class="btn" 
                         title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
-                    <i class="icon-repeat"></i>
-                    <span><?php echo $this->lang->line('reload'); ?></span>
+                    <span class="glyphicon glyphicon-repeat"></span>
+                    <?php echo $this->lang->line('reload'); ?>
                 </button>
             </div>
             
@@ -73,14 +73,14 @@
             <div class="btn-group">
                 <button id="insert-appointment" class="btn btn-info" 
                         title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
-                    <i class="icon-plus icon-white"></i>
-                    <span><?php echo $this->lang->line('appointment'); ?></span>
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <?php echo $this->lang->line('appointment'); ?>
                 </button>
 
                 <button id="insert-unavailable" class="btn" 
                         title="<?php echo $this->lang->line('unavailable_periods_hint'); ?>">
-                    <i class="icon-plus"></i>
-                    <span><?php echo $this->lang->line('unavailable'); ?></span>
+                    <span class="glyphicon glyphicon-plus"></i>
+                    <?php echo $this->lang->line('unavailable'); ?>
                 </button>
             </div>
             <?php } ?>
@@ -97,7 +97,7 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-appointment" class="modal hide fade" data-keyboard="true" tabindex="-1">
+<div id="manage-appointment" class="modal hidden fade" data-keyboard="true" tabindex="-1">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" 
                 aria-hidden="true">&times;</button>
@@ -311,57 +311,62 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-unavailable" class="modal hide fade" data-keyboard="true" tabindex="-1">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" 
-                aria-hidden="true">&times;</button>
-        <h3><?php echo $this->lang->line('new_unavailable_title'); ?></h3>
-    </div>
+<div id="manage-unavailable" class="modal hidden fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" 
+                        aria-hidden="true">&times;</button>
+                <h3><?php echo $this->lang->line('new_unavailable_title'); ?></h3>
+            </div>
     
-    <div class="modal-body">
-        <div class="modal-message alert" style="display: none;"></div>
-        
-        <form class="form-horizontal">
-            <fieldset>
-                <input id="unavailable-id" type="hidden" />
+            <div class="modal-body">
+                <div class="modal-message alert" style="display: none;"></div>
                 
-                <div class="control-group">
-                    <label for="unavailable-start" class="control-label">
-                        <?php echo $this->lang->line('start'); ?>
-                    </label>
-                    <div class="controls">
-                        <input type="text" id="unavailable-start" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="unavailable-end" class="control-label">
-                        <?php echo $this->lang->line('end'); ?>
-                    </label>
-                    <div class="controls">
-                        <input type="text" id="unavailable-end" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="unavailable-notes" class="control-label">
-                        <?php echo $this->lang->line('notes'); ?>
-                    </label>
-                    <div class="controls">
-                        <textarea id="unavailable-notes" rows="3" class="span3"></textarea>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+                <form class="form-horizontal">
+                    <fieldset>
+                        <input id="unavailable-id" type="hidden" />
+                        
+                        <div class="control-group">
+                            <label for="unavailable-start" class="control-label">
+                                <?php echo $this->lang->line('start'); ?>
+                            </label>
+                            <div class="controls">
+                                <input type="text" id="unavailable-start" />
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="unavailable-end" class="control-label">
+                                <?php echo $this->lang->line('end'); ?>
+                            </label>
+                            <div class="controls">
+                                <input type="text" id="unavailable-end" />
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="unavailable-notes" class="control-label">
+                                <?php echo $this->lang->line('notes'); ?>
+                            </label>
+                            <div class="controls">
+                                <textarea id="unavailable-notes" rows="3" class="span3"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
     
-    <div class="modal-footer">
-        <button id="save-unavailable" class="btn btn-primary">
-            <?php echo $this->lang->line('save'); ?>
-        </button>
-        <button id="cancel-unavailable" class="btn">
-            <?php echo $this->lang->line('cancel'); ?>
-        </button>
+            <div class="modal-footer">
+                <button id="save-unavailable" class="btn btn-primary">
+                    <?php echo $this->lang->line('save'); ?>
+                </button>
+                <button id="cancel-unavailable" class="btn">
+                    <?php echo $this->lang->line('cancel'); ?>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -372,26 +377,30 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="select-google-calendar" class="modal hide fade" data-keyboard="true" tabindex="-1">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" 
-                aria-hidden="true">&times;</button>
-        <h3><?php echo $this->lang->line('select_google_calendar'); ?></h3>
-    </div>
-    
-    <div class="modal-body">
-        <p>
-            <?php echo $this->lang->line('select_google_calendar_prompt'); ?>
-        </p>
-        <select id="google-calendar"></select>
-    </div>
-    
-    <div class="modal-footer">
-        <button id="select-calendar" class="btn btn-primary">
-            <?php echo $this->lang->line('select'); ?>
-        </button>
-        <button id="close-calendar" class="btn">
-            <?php echo $this->lang->line('close'); ?>
-        </button>
-    </div>
+<div id="select-google-calendar" class="modal hidden fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" 
+                        aria-hidden="true">&times;</button>
+                <h3><?php echo $this->lang->line('select_google_calendar'); ?></h3>
+            </div>
+            
+            <div class="modal-body">
+                <p>
+                    <?php echo $this->lang->line('select_google_calendar_prompt'); ?>
+                </p>
+                <select id="google-calendar"></select>
+            </div>
+            
+            <div class="modal-footer">
+                <button id="select-calendar" class="btn btn-primary">
+                    <?php echo $this->lang->line('select'); ?>
+                </button>
+                <button id="close-calendar" class="btn">
+                    <?php echo $this->lang->line('close'); ?>
+                </button>
+            </div>
+        </div>
+    </div>  
 </div>
