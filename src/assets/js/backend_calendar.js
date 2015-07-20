@@ -1315,6 +1315,7 @@ var BackendCalendar = {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
         
         var postData = {
+            'csrfToken': GlobalVariables.csrfToken,
             'unavailable': JSON.stringify(unavailable)
         };
         
