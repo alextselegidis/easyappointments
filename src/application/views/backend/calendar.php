@@ -293,7 +293,7 @@
                         </fieldset>
                     </form>
                 </div>
-                
+
             </div>    
             <div class="modal-footer footer">
                 <button id="save-appointment" class="btn btn-primary">
@@ -333,29 +333,29 @@
                         <input id="unavailable-id" type="hidden" />
                         
                         <div class="form-group">
-                            <label for="unavailable-start" >
+                            <label for="unavailable-start" class="control-label col-sm-3">
                                 <?php echo $this->lang->line('start'); ?>
                             </label>
-                            <div class="controls">
-                                <input type="text" id="unavailable-start" />
+                            <div class="col-sm-8">
+                                <input type="text" id="unavailable-start" class="form-control" />
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="unavailable-end" >
+                            <label for="unavailable-end" class="control-label col-sm-3">
                                 <?php echo $this->lang->line('end'); ?>
                             </label>
-                            <div class="controls">
-                                <input type="text" id="unavailable-end" />
+                            <div class="col-sm-8">
+                                <input type="text" id="unavailable-end" class="form-control" />
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="unavailable-notes" >
+                            <label for="unavailable-notes" class="control-label col-sm-3">
                                 <?php echo $this->lang->line('notes'); ?>
                             </label>
-                            <div class="controls">
-                                <textarea id="unavailable-notes" rows="3" class="span3"></textarea>
+                            <div class="col-sm-8">
+                                <textarea id="unavailable-notes" rows="3" class="form-control"></textarea>
                             </div>
                         </div>
                     </fieldset>
