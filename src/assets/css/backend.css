@@ -120,16 +120,49 @@ root {
     margin: 10px; 
 }
 
+body .modal .modal-title {
+    color: white;
+}
+
 body .modal-header {
     padding: 12px 15px;
     background: #3DD481;
     border-bottom: 4px solid #3A8154;
-    color: #FFF;
 }
 
 body .modal-header h3 {
+    color: #FFF;
     font-size: 20px;
     text-shadow: 1px 1px 1px #134D13;
+}
+
+
+/* Full screen modal */
+body .modal.full-screen .modal-dialog {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body .modal.full-screen .modal-content {
+    height: 100%;
+    border: none;
+    box-shadow: none;
+    overflow-y: auto;
+}
+
+body .modal.full-screen .wrapper {
+    min-height: 100%;
+    margin-bottom: -67px; /* modal-footer height */
+}
+
+body .modal.full-screen .modal-footer {
+    background-color: #f5f5f5;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 67px;
 }
 
 body .jspDrag {
@@ -223,11 +256,6 @@ body .jspTrack {
     vertical-align: middle;
     padding: 2px 0;
     color: #555;
-}
-
-#manage-appointment {
-    width: 860px;
-    margin-left: -430px;
 }
 
 #existing-customers-list { 

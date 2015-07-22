@@ -97,210 +97,214 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-appointment" class="modal hidden fade" data-keyboard="true" tabindex="-1">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" 
-                aria-hidden="true">&times;</button>
-        <h3><?php echo $this->lang->line('edit_appointment_title'); ?></h3>
-    </div>
-    
-    <div class="modal-body">
-        <div class="modal-message alert" style="display: none;"></div>
-        
-        <form class="form-horizontal">
-            <fieldset>
-                <legend><?php echo $this->lang->line('appointment_details_title'); ?></legend>
-                
-                <input id="appointment-id" type="hidden" />
-                
-                <div class="control-group">
-                    <label for="select-service" class="control-label"><?php echo $this->lang->line('service'); ?> *</label>
-                    <div class="controls">
-                        <select id="select-service" class="required span4">
-                            <?php 
-                                // Group services by category, only if there is at least one service 
-                                // with a parent category.
-                                foreach($available_services as $service) {
-                                    if ($service['category_id'] != NULL) {
-                                        $has_category = TRUE;
-                                        break;
-                                    }
-                                }
-                                
-                                if ($has_category) {
-                                    $grouped_services = array();
-
-                                    foreach($available_services as $service) {
-                                        if ($service['category_id'] != NULL) {
-                                            if (!isset($grouped_services[$service['category_name']])) {
-                                                $grouped_services[$service['category_name']] = array();
-                                            }
-
-                                            $grouped_services[$service['category_name']][] = $service;
-                                        } 
-                                    }
-
-                                    // We need the uncategorized services at the end of the list so
-                                    // we will use another iteration only for the uncategorized services.
-                                    $grouped_services['uncategorized'] = array();
-                                    foreach($available_services as $service) {
-                                        if ($service['category_id'] == NULL) {
-                                            $grouped_services['uncategorized'][] = $service;
-                                        }
-                                    }
-
-                                    foreach($grouped_services as $key => $group) {
-                                        $group_label = ($key != 'uncategorized')
-                                                ? $group[0]['category_name'] : 'Uncategorized';
-                                        
-                                        if (count($group) > 0) {
-                                            echo '<optgroup label="' . $group_label . '">';
-                                            foreach($group as $service) {
-                                                echo '<option value="' . $service['id'] . '">' 
-                                                    . $service['name'] . '</option>';
-                                            }
-                                            echo '</optgroup>';
-                                        }
-                                    }
-                                }  else {
-                                    foreach($available_services as $service) {
-                                        echo '<option value="' . $service['id'] . '">' 
-                                                    . $service['name'] . '</option>';
-                                    }
-                                }
-                            ?>
-                        </select>
-                    </div>
+<div id="manage-appointment" class="modal fade full-screen" data-keyboard="true" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="wrapper">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" 
+                            aria-hidden="true">&times;</button>
+                    <h3 class="modal-title"><?php echo $this->lang->line('edit_appointment_title'); ?></h3>
                 </div>
                 
-                <div class="control-group">
-                    <label for="select-provider" class="control-label"><?php echo $this->lang->line('provider'); ?> *</label>
-                    <div class="controls">
-                        <select id="select-provider" class="required span4"></select>
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="start-datetime" class="control-label"><?php echo $this->lang->line('start_date_time'); ?></label>
-                    <div class="controls">
-                        <input type="text" id="start-datetime" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="end-datetime" class="control-label"><?php echo $this->lang->line('end_date_time'); ?></label>
-                    <div class="controls">
-                        <input type="text" id="end-datetime" />
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="appointment-notes" class="control-label"><?php echo $this->lang->line('notes'); ?></label>
-                    <div class="controls">
-                        <textarea id="appointment-notes" class="span4" rows="3"></textarea>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset class="row-fluid">
-                <legend>
-                    <?php echo $this->lang->line('customer_details_title'); ?>
-                    <button id="new-customer" class="btn btn-mini" 
-                            title="<?php echo $this->lang->line('clear_fields_add_existing_customer_hint'); ?>"
-                            type="button"><?php echo $this->lang->line('new'); ?>
-                    </button>
-                    <button id="select-customer" class="btn btn-primary btn-mini" 
-                            title="<?php echo $this->lang->line('pick_existing_customer_hint'); ?>" 
-                            type="button"><?php echo $this->lang->line('select'); ?>
-                    </button>
-                    <input type="text" id="filter-existing-customers"
-                           placeholder="<?php echo $this->lang->line('type_to_filter_customers'); ?>" 
-                           style="display: none;" class="input-medium span4"/>
-                    <div id="existing-customers-list" style="display: none;"></div>
-                </legend>
-
-                <input id="customer-id" type="hidden" />
-                
-                <div class="span5">
-                    <div class="control-group">
-                        <label for="first-name" class="control-label">
-                            <?php echo $this->lang->line('first_name'); ?> *</label>
-                        <div class="controls">
-                            <input type="text" id="first-name" class="required" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="last-name" class="control-label">
-                            <?php echo $this->lang->line('last_name'); ?>*</label>
-                        <div class="controls">
-                            <input type="text" id="last-name" class="required" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="email" class="control-label">
-                            <?php echo $this->lang->line('email'); ?>*</label>
-                        <div class="controls">
-                            <input type="text" id="email" class="required" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="phone-number" class="control-label">
-                            <?php echo $this->lang->line('phone_number'); ?>*</label>
-                        <div class="controls">
-                            <input type="text" id="phone-number" class="required" />
-                        </div>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="control-group">
-                        <label for="address" class="control-label">
-                            <?php echo $this->lang->line('address'); ?>
-                        </label>
-                        <div class="controls">
-                            <input type="text" id="address" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="city" class="control-label">
-                            <?php echo $this->lang->line('city'); ?>
-                        </label>
-                        <div class="controls">
-                            <input type="text" id="city" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label for="zip-code" class="control-label">
-                            <?php echo $this->lang->line('zip_code'); ?>
-                        </label>
-                        <div class="controls">
-                            <input type="text" id="zip-code" />
-                        </div>
-                    </div>
+                <div class="modal-body">
+                    <div class="modal-message alert hidden"></div>
                     
-                    <div class="control-group">
-                        <label for="customer-notes" class="control-label">
-                            <?php echo $this->lang->line('notes'); ?></label>
-                        <div class="controls">
-                            <textarea id="customer-notes" rows="3"></textarea>
-                        </div>
-                    </div>
+                    <form class="form-horizontal">
+                        <fieldset class="container">
+                            <legend><?php echo $this->lang->line('appointment_details_title'); ?></legend>
+                            
+                            <input id="appointment-id" type="hidden" />
+                            
+                            <div class="form-group">
+                                <label for="select-service" class="col-sm-3 control-label"><?php echo $this->lang->line('service'); ?> *</label>
+                                <div class="col-sm-7">
+                                    <select id="select-service" class="required form-control">
+                                        <?php 
+                                            // Group services by category, only if there is at least one service 
+                                            // with a parent category.
+                                            foreach($available_services as $service) {
+                                                if ($service['category_id'] != NULL) {
+                                                    $has_category = TRUE;
+                                                    break;
+                                                }
+                                            }
+                                            
+                                            if ($has_category) {
+                                                $grouped_services = array();
+
+                                                foreach($available_services as $service) {
+                                                    if ($service['category_id'] != NULL) {
+                                                        if (!isset($grouped_services[$service['category_name']])) {
+                                                            $grouped_services[$service['category_name']] = array();
+                                                        }
+
+                                                        $grouped_services[$service['category_name']][] = $service;
+                                                    } 
+                                                }
+
+                                                // We need the uncategorized services at the end of the list so
+                                                // we will use another iteration only for the uncategorized services.
+                                                $grouped_services['uncategorized'] = array();
+                                                foreach($available_services as $service) {
+                                                    if ($service['category_id'] == NULL) {
+                                                        $grouped_services['uncategorized'][] = $service;
+                                                    }
+                                                }
+
+                                                foreach($grouped_services as $key => $group) {
+                                                    $group_label = ($key != 'uncategorized')
+                                                            ? $group[0]['category_name'] : 'Uncategorized';
+                                                    
+                                                    if (count($group) > 0) {
+                                                        echo '<optgroup label="' . $group_label . '">';
+                                                        foreach($group as $service) {
+                                                            echo '<option value="' . $service['id'] . '">' 
+                                                                . $service['name'] . '</option>';
+                                                        }
+                                                        echo '</optgroup>';
+                                                    }
+                                                }
+                                            }  else {
+                                                foreach($available_services as $service) {
+                                                    echo '<option value="' . $service['id'] . '">' 
+                                                                . $service['name'] . '</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
+                                <div class="col-md-7">
+                                    <select id="select-provider" class="required form-control"></select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="start-datetime" class="col-sm-3 control-label" ><?php echo $this->lang->line('start_date_time'); ?></label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="start-datetime" class="form-control" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="end-datetime" class="control-label col-sm-3" ><?php echo $this->lang->line('end_date_time'); ?></label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="end-datetime" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="appointment-notes" class="control-label col-sm-3" ><?php echo $this->lang->line('notes'); ?></label>
+                                <div class="col-sm-7">
+                                    <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="container">
+                            <legend>
+                                <?php echo $this->lang->line('customer_details_title'); ?>
+                                <button id="new-customer" class="btn btn-xs" 
+                                        title="<?php echo $this->lang->line('clear_fields_add_existing_customer_hint'); ?>"
+                                        type="button"><?php echo $this->lang->line('new'); ?>
+                                </button>
+                                <button id="select-customer" class="btn btn-primary btn-xs" 
+                                        title="<?php echo $this->lang->line('pick_existing_customer_hint'); ?>" 
+                                        type="button"><?php echo $this->lang->line('select'); ?>
+                                </button>
+                                <input type="text" id="filter-existing-customers"
+                                       placeholder="<?php echo $this->lang->line('type_to_filter_customers'); ?>" 
+                                       style="display: none;" class="input-medium span4"/>
+                                <div id="existing-customers-list" style="display: none;"></div>
+                            </legend>
+
+                            <input id="customer-id" type="hidden" />
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="first-name" class="control-label col-sm-2">
+                                        <?php echo $this->lang->line('first_name'); ?> *</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="first-name" class="required form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="last-name" class="control-label col-sm-2">
+                                        <?php echo $this->lang->line('last_name'); ?>*</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="last-name" class="required form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="control-label col-sm-2">
+                                        <?php echo $this->lang->line('email'); ?>*</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="email" class="required form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone-number" class="control-label col-sm-3">
+                                        <?php echo $this->lang->line('phone_number'); ?>*</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="phone-number" class="required form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address" class="control-label col-sm-3">
+                                        <?php echo $this->lang->line('address'); ?></label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="address" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city" class="control-label col-sm-3">
+                                        <?php echo $this->lang->line('city'); ?></label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="city" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="zip-code" class="control-label col-sm-3">
+                                        <?php echo $this->lang->line('zip_code'); ?></label>
+                                    <div class="col-md-8">
+                                        <input type="text" id="zip-code" class="form-control" />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="customer-notes" class="control-label col-sm-3">
+                                        <?php echo $this->lang->line('notes'); ?></label>
+                                    <div class="col-md-8">
+                                        <textarea id="customer-notes" rows="3" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
-            </fieldset>
-        </form>
-    </div>
-    
-    <div class="modal-footer">
-        <button id="save-appointment" class="btn btn-primary">
-            <?php echo $this->lang->line('save'); ?>
-        </button>
-        <button id="cancel-appointment" class="btn">
-            <?php echo $this->lang->line('cancel'); ?>
-        </button>
+                
+            </div>    
+            <div class="modal-footer footer">
+                <button id="save-appointment" class="btn btn-primary">
+                    <?php echo $this->lang->line('save'); ?>
+                </button>
+                <button id="cancel-appointment" class="btn" data-dismiss="modal">
+                    <?php echo $this->lang->line('cancel'); ?>
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -311,14 +315,14 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="manage-unavailable" class="modal hidden fade">
+<div id="manage-unavailable" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" 
                         aria-hidden="true">&times;</button>
-                <h3><?php echo $this->lang->line('new_unavailable_title'); ?></h3>
+                <h3 class="modal-title"><?php echo $this->lang->line('new_unavailable_title'); ?></h3>
             </div>
     
             <div class="modal-body">
@@ -328,8 +332,8 @@
                     <fieldset>
                         <input id="unavailable-id" type="hidden" />
                         
-                        <div class="control-group">
-                            <label for="unavailable-start" class="control-label">
+                        <div class="form-group">
+                            <label for="unavailable-start" >
                                 <?php echo $this->lang->line('start'); ?>
                             </label>
                             <div class="controls">
@@ -337,8 +341,8 @@
                             </div>
                         </div>
                         
-                        <div class="control-group">
-                            <label for="unavailable-end" class="control-label">
+                        <div class="form-group">
+                            <label for="unavailable-end" >
                                 <?php echo $this->lang->line('end'); ?>
                             </label>
                             <div class="controls">
@@ -346,8 +350,8 @@
                             </div>
                         </div>
                         
-                        <div class="control-group">
-                            <label for="unavailable-notes" class="control-label">
+                        <div class="form-group">
+                            <label for="unavailable-notes" >
                                 <?php echo $this->lang->line('notes'); ?>
                             </label>
                             <div class="controls">
@@ -362,10 +366,11 @@
                 <button id="save-unavailable" class="btn btn-primary">
                     <?php echo $this->lang->line('save'); ?>
                 </button>
-                <button id="cancel-unavailable" class="btn">
+                <button id="cancel-unavailable" class="btn" data-dismiss="modal">
                     <?php echo $this->lang->line('cancel'); ?>
                 </button>
             </div>
+
         </div>
     </div>
 </div>
@@ -377,13 +382,14 @@
     //
     // --------------------------------------------------------------------
 ?>
-<div id="select-google-calendar" class="modal hidden fade">
+<div id="select-google-calendar" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" 
                         aria-hidden="true">&times;</button>
-                <h3><?php echo $this->lang->line('select_google_calendar'); ?></h3>
+                <h3 class="modal-title"><?php echo $this->lang->line('select_google_calendar'); ?></h3>
             </div>
             
             <div class="modal-body">
@@ -397,10 +403,11 @@
                 <button id="select-calendar" class="btn btn-primary">
                     <?php echo $this->lang->line('select'); ?>
                 </button>
-                <button id="close-calendar" class="btn">
+                <button id="close-calendar" class="btn" data-dismiss="modal">
                     <?php echo $this->lang->line('close'); ?>
                 </button>
             </div>
+
         </div>
     </div>  
 </div>
