@@ -114,7 +114,7 @@ var Backend = {
         
         $.each(actions, function(index, action) {
             var actionId = action['label'].toLowerCase().replace(' ', '-');
-            notificationHtml += '<button id="' + actionId + '" class="btn btn-small">' 
+            notificationHtml += '<button id="' + actionId + '" class="btn btn-xs">' 
                     + action['label'] + '</button>';
             
             $(document).off('click', '#' + actionId);

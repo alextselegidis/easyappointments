@@ -99,6 +99,14 @@ root {
 
 #notification .alert {
     margin-bottom: 0px;
+    background-color: #FCF8E3;
+    color: #9E9980;
+}
+
+#notification .close {
+    color: #9E9980;
+    font-size: 25px;
+    line-height: 0.8;
 }
 
 #loading { 
