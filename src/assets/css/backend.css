@@ -398,6 +398,8 @@ body .form-horizontal .controls {
 
 #services-page .nav { 
     margin: 15px; 
+    background-color: #F4F4F4;
+    border-radius: 4px;
 }
 
 #services-page .nav li { 
