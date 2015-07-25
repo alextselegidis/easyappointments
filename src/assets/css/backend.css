@@ -22,7 +22,7 @@ root {
 #header {
     height: 70px;
     background-color: #35B66F;
-    border-bottom: 4px solid #247A4B;
+    border-bottom: 4px solid #2B995D;
 }
 
 #header #header-logo { 
@@ -65,12 +65,13 @@ root {
 
 #header #header-menu .menu-item:hover:not(.active) { 
     background-color: #2A8F57;
+    border-bottom: 4px solid #236C48;
 }
 
 #header #header-menu .active { 
     color: #C5FFD6;
     background: #29A067;
-    border-bottom: 2px solid #2A7751;
+    border-bottom: 4px solid #2A7751;
 }
 
 #footer {
