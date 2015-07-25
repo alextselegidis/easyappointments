@@ -60,6 +60,13 @@ li.language:hover {
 
 #select-language {
 	cursor: pointer;
+    display: inline-block;
+    padding: 4px 5px;
+}
+
+#language-list {
+    list-style: none;
+    padding-left: 0px;
 }
 
 /* JQUERY UI DATETIME PICKER ADDON

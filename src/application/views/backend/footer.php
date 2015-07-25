@@ -11,7 +11,7 @@
                 }
             ?></a> | 
         <?php echo $this->lang->line('licensed_under'); ?> GPLv3 |
-        <span id="select-language" class="badge badge-inverse">
+        <span id="select-language" class="label label-success">
         	<?php echo ucfirst($this->config->item('language')); ?>
         </span>
     </div>
