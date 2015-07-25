@@ -181,11 +181,6 @@ body {
     margin-bottom: 25px;
 }
 
-#language-list {
-    list-style: none;
-    padding-left: 0px;
-}
-
 /* BOOK SUCCESS & MESSAGE
    ------------------------------------------------------------------------- */
 #message-frame, 
