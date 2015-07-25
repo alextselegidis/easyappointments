@@ -32,18 +32,18 @@
 <div id="settings-page" class="row-fluid">
     <ul class="nav nav-tabs">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
+        <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
         <?php } ?>
         
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
+        <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
         <?php } ?>
         
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
-        <li class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
+        <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
         <?php } ?>
         
-        <li class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
+        <li role="representation" class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
     </ul>
     
     <?php 
@@ -60,39 +60,40 @@
                 <legend>
                     <?php echo $this->lang->line('general_settings'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-mini">
+                    <button type="button" class="save-settings btn btn-primary btn-sm">
                         <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
                 
                 <div class="wrapper">
-                    <label for="company-name"><?php echo $this->lang->line('company_name'); ?> *</label>
-                    <input type="text" id="company-name" data-field="company_name" class="required span12">
-                    <span class="help-block">
-                        <?php echo $this->lang->line('company_name_hint'); ?>
-                    </span>
+                    <div class="form-group">
+                        <label for="company-name"><?php echo $this->lang->line('company_name'); ?> *</label>
+                        <input type="text" id="company-name" data-field="company_name" class="required form-control">
+                        <span class="help-block">
+                            <?php echo $this->lang->line('company_name_hint'); ?>
+                        </span>
+                    </div>
 
-                    <br>
+                    <div class="form-group">
+                        <label for="company-email"><?php echo $this->lang->line('company_email'); ?> *</label>
+                        <input type="text" id="company-email" data-field="company_email" class="required form-control">
+                        <span class="help-block">
+                            <?php echo $this->lang->line('company_email_hint'); ?>
+                        </span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company-link"><?php echo $this->lang->line('company_link'); ?> *</label>
+                        <input type="text" id="company-link" data-field="company_link" class="required form-control">
+                        <span class="help-block">
+                            <?php echo $this->lang->line('company_link_hint'); ?>
+                        </span>
+                    </div>
 
-                    <label for="company-email"><?php echo $this->lang->line('company_email'); ?> *</label>
-                    <input type="text" id="company-email" data-field="company_email" class="required span12">
-                    <span class="help-block">
-                        <?php echo $this->lang->line('company_email_hint'); ?>
-                    </span>
-
-                    <br>
-
-                    <label for="company-link"><?php echo $this->lang->line('company_link'); ?> *</label>
-                    <input type="text" id="company-link" data-field="company_link" class="required span12">
-                    <span class="help-block">
-                        <?php echo $this->lang->line('company_link_hint'); ?>
-                    </span>
-
-                    <br>
 
                     <a href="<?php echo $this->config->item('base_url'); ?>" target="_blank" class="btn btn-info">
-                        <i class="icon-calendar icon-white"></i>
+                        <span class="glyphicon glyphicon-calendar"></span>
                         <?php echo $this->lang->line('go_to_booking_page'); ?>
                     </a>
                 </div>
@@ -114,7 +115,7 @@
                 <legend>
                     <?php echo $this->lang->line('business_logic'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-mini">
+                    <button type="button" class="save-settings btn btn-primary btn-sm">
                         <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
@@ -137,37 +138,86 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="monday" /><?php echo $this->lang->line('monday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="monday" />
+                                                    <?php echo $this->lang->line('monday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="monday-start" class="work-start" /></td>
                                     <td><input type="text" id="monday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="tuesday" /><?php echo $this->lang->line('tuesday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="tuesday" />
+                                                    <?php echo $this->lang->line('tuesday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="tuesday-start" class="work-start" /></td>
                                     <td><input type="text" id="tuesday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="wednesday" /><?php echo $this->lang->line('wednesday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="wednesday" />
+                                                    <?php echo $this->lang->line('wednesday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="wednesday-start" class="work-start" /></td>
                                     <td><input type="text" id="wednesday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="thursday" /><?php echo $this->lang->line('thursday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="tuesday" />
+                                                    <?php echo $this->lang->line('tuesday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="thursday-start" class="work-start" /></td>
                                     <td><input type="text" id="thursday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="friday" /><?php echo $this->lang->line('friday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="friday" />
+                                                    <?php echo $this->lang->line('friday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="friday-start" class="work-start" /></td>
                                     <td><input type="text" id="friday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="saturday" /><?php echo $this->lang->line('saturday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="saturday" />
+                                                    <?php echo $this->lang->line('saturday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="saturday-start" class="work-start" /></td>
                                     <td><input type="text" id="saturday-end" class="work-end" /></td>
                                 </tr>
                                 <tr>
-                                    <td><label class="checkbox"><input type="checkbox" id="sunday" /><?php echo $this->lang->line('sunday'); ?></label></td>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="sunday" />
+                                                    <?php echo $this->lang->line('sunday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td><input type="text" id="sunday-start" class="work-start" /></td>
                                     <td><input type="text" id="sunday-end" class="work-end" /></td>
                                 </tr>
@@ -180,10 +230,10 @@
                         <span class="help-block">
                             <?php echo $this->lang->line('book_advance_timeout_hint'); ?> 
                         </span>
-                        
-                        <label for="book-advance-timeout"><?php echo $this->lang->line('timeout_minutes'); ?></label>
-                        <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" />
-                        
+                        <div class="form-group">
+                            <label for="book-advance-timeout"><?php echo $this->lang->line('timeout_minutes'); ?></label>
+                            <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" />
+                        </div>
                     </div>
                     <div class="span5 breaks-wrapper">
                         <h4><?php echo $this->lang->line('breaks'); ?></h4>
@@ -194,7 +244,7 @@
 
                         <div>
                             <button type="button" class="add-break btn btn-primary">
-                                <i class="icon-white icon-plus"></i>
+                                <span class="glyphicon glyphicon-white glyphicon glyphicon-plus"></span>
                                 <?php echo $this->lang->line('add_break');?>
                             </button>
                         </div>
@@ -228,12 +278,12 @@
     ?>
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="user" class="tab-content <?php echo $hidden; ?>">
-        <form class="row-fluid">
-            <fieldset class="span5 personal-info-wrapper">
+        <form class="container-fluid">
+            <fieldset class="col-md-5 personal-info-wrapper">
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
                     <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-mini">
+                    <button type="button" class="save-settings btn btn-primary btn-sm">
                         <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
@@ -241,53 +291,77 @@
                 
                 <input type="hidden" id="user-id" />
                 
-                <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
-                <input type="text" id="first-name" class="span9 required" />
-                
-                <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
-                <input type="text" id="last-name" class="span9 required" />
-                
-                <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
-                <input type="text" id="email" class="span9 required" />
-                
-                <label for="mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
-                <input type="text" id="mobile-number" class="span9" />
-                
-                <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                <input type="text" id="phone-number" class="span9 required" />
-                
-                <label for="address"><?php echo $this->lang->line('address'); ?></label>
-                <input type="text" id="address" class="span9" />
-                
-                <label for="city"><?php echo $this->lang->line('city'); ?></label>
-                <input type="text" id="city" class="span9" />
-                
-                <label for="state"><?php echo $this->lang->line('state'); ?></label>
-                <input type="text" id="state" class="span9" />
-                
-                <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-                <input type="text" id="zip-code" class="span9" />
-                
-                <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
-                <textarea id="notes" class="span9" rows="3"></textarea>
+                <div class="form-group">
+                    <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
+                    <input type="text" id="first-name" class="form-control required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
+                    <input type="text" id="last-name" class="form-control required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
+                    <input type="text" id="email" class="form-control required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
+                    <input type="text" id="mobile-number" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                    <input type="text" id="phone-number" class="form-control required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="address"><?php echo $this->lang->line('address'); ?></label>
+                    <input type="text" id="address" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="city"><?php echo $this->lang->line('city'); ?></label>
+                    <input type="text" id="city" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="state"><?php echo $this->lang->line('state'); ?></label>
+                    <input type="text" id="state" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
+                    <input type="text" id="zip-code" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
+                    <textarea id="notes" class="form-control" rows="3"></textarea>
+                </div>
             </fieldset>
             
-            <fieldset class="span5 miscellaneous-wrapper">
+            <fieldset class="col-md-5 miscellaneous-wrapper">
                 <legend><?php echo $this->lang->line('system_login'); ?></legend>
                 
-                <label for="username"><?php echo $this->lang->line('username'); ?> *</label>
-                <input type="text" id="username" class="required" />
-                
-                <label for="password"><?php echo $this->lang->line('password'); ?></label>
-                <input type="password" id="password" />
-                
-                <label for="retype-password"><?php echo $this->lang->line('retype_password'); ?></label>
-                <input type="password" id="retype-password" />
-                
-                <br>
+                <div class="form-group">
+                    <label for="username"><?php echo $this->lang->line('username'); ?> *</label>
+                    <input type="text" id="username" class="form-control required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><?php echo $this->lang->line('password'); ?></label>
+                    <input type="password" id="password" class="form-control" />
+                </div>                
+
+                <div class="form-group">
+                    <label for="retype-password"><?php echo $this->lang->line('retype_password'); ?></label>
+                    <input type="password" id="retype-password" class="form-control" />
+                </div>
                 
                 <button type="button" id="user-notifications" class="btn" data-toggle="button">
-                    <i class="icon-envelope"></i>
+                    <span class="glyphicon glyphicon-envelope"></span>
                     <?php echo $this->lang->line('receive_notifications'); ?>
                 </button>
             </fieldset>

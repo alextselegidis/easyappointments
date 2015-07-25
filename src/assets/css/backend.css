@@ -629,6 +629,8 @@ padding: 4px 7px;
 
 #settings-page .nav {
     margin: 15px;
+    background-color: #F4F4F4;
+    border-radius: 4px;
 }
 
 #settings-page .nav li { 
