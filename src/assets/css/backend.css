@@ -489,6 +489,8 @@ body .form-horizontal .controls {
 
 #users-page .nav { 
     margin: 15px; 
+    background-color: #F4F4F4;
+    border-radius: 4px;
 }
 
 #users-page .nav li { 
