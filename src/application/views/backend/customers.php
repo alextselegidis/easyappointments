@@ -24,42 +24,42 @@
     });
 </script>
 
-<div id="customers-page" class="row-fluid">
-	<div id="filter-customers" class="filter-records column span4">
+<div id="customers-page" class="row">
+	<div id="filter-customers" class="filter-records column col-md-4">
 		<form class="input-append">
 			<input class="key span12" type="text" />
-            <button class="filter btn" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
-                    <i class="icon-search"></i>
-                </button>
-                <button class="clear btn" type="button" title="<?php echo $this->lang->line('clear'); ?>">
-                    <i class="icon-repeat"></i>
-                </button>
+            <button class="filter btn btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            <button class="clear btn btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                <span class="glyphicon glyphicon-repeat"></span>
+            </button>
 		</form>
         
         <h2><?php echo $this->lang->line('customers'); ?></h2>
         <div class="results"></div>
 	</div>
 
-	<div class="details span7 row-fluid">
+	<div class="details col-md-7 row">
         <div class="btn-toolbar">
             <div id="add-edit-delete-group" class="btn-group">
                 <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
                 <button id="add-customer" class="btn btn-primary">
-                    <i class="icon-plus icon-white"></i>
+                    <span class="glyphicon glyphicon-plus"></span>
                     <?php echo $this->lang->line('add'); ?>
                 </button>
                 <?php } ?>
                 
                 <?php if ($privileges[PRIV_CUSTOMERS]['edit'] == TRUE) { ?>
                 <button id="edit-customer" class="btn" disabled="disabled">
-                    <i class="icon-pencil"></i>
+                    <span class="glyphicon glyphicon-pencil"></span>
                     <?php echo $this->lang->line('edit'); ?>
                 </button>
                 <?php }?>
                 
                 <?php if ($privileges[PRIV_CUSTOMERS]['delete'] == TRUE) { ?>
                 <button id="delete-customer" class="btn" disabled="disabled">
-                    <i class="icon-remove"></i>
+                    <span class="glyphicon glyphicon-remove"></span>
                     <?php echo $this->lang->line('delete'); ?>
                 </button>
                 <?php } ?>
@@ -67,11 +67,11 @@
             
             <div id="save-cancel-group" class="btn-group" style="display:none;">
                 <button id="save-customer" class="btn btn-primary">
-                    <i class="icon-ok icon-white"></i>
+                    <span class="glyphicon glyphicon-ok"></span>
                     <?php echo $this->lang->line('save'); ?>
                 </button>
                 <button id="cancel-customer" class="btn">
-                    <i class="icon-ban-circle"></i>
+                    <i class="glyphicon glyphicon-ban-circle"></i>
                     <?php echo $this->lang->line('cancel'); ?>
                 </button>
             </div>
@@ -79,40 +79,55 @@
         
         <input id="customer-id" type="hidden" />
         
-        <div class="span6" style="margin-left: 0;">
+        <div class="col-md-6" style="margin-left: 0;">
             <h2><?php echo $this->lang->line('details'); ?></h2>
             <div id="form-message" class="alert" style="display:none;"></div>
             
-            <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
-            <input type="text" id="first-name" class="span11 required" />
+            <div class="form-group">
+                <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
+                <input type="text" id="first-name" class="form-control required" />
+            </div>
 
-            <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
-            <input type="text" id="last-name" class="span11 required" />
+            <div class="form-group">
+                <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
+                <input type="text" id="last-name" class="form-control required" />
+            </div>
 
-            <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
-            <input type="text" id="email" class="span11 required" />
+            <div class="form-group">
+                <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
+                <input type="text" id="email" class="form-control required" />
+            </div>
 
-            <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-            <input type="text" id="phone-number" class="span11 required" />
+            <div class="form-group">
+                <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                <input type="text" id="phone-number" class="form-control required" />
+            </div>
             
-            <label for="address"><?php echo $this->lang->line('address'); ?></label>
-            <input type="text" id="address" class="span11" />
+            <div class="form-group">
+                <label for="address"><?php echo $this->lang->line('address'); ?></label>
+                <input type="text" id="address" class="form-control" />
+            </div>
 
-            <label for="city"><?php echo $this->lang->line('city'); ?></label>
-            <input type="text" id="city" class="span11" />
+            <div class="form-group">
+                <label for="city"><?php echo $this->lang->line('city'); ?></label>
+                <input type="text" id="city" class="form-control" />
+            </div>
 
-            <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-            <input type="text" id="zip-code" class="span11" />
+            <div class="form-group">
+                <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
+                <input type="text" id="zip-code" class="form-control" />
+            </div>
 
-            <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
-            <textarea id="notes" rows="4" class="span11"></textarea>
+            <div class="form-group">
+                <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
+                <textarea id="notes" rows="4" class="form-control"></textarea>
+            </div>
             
-            <br/><br/>
             <center><em id="form-message" class="text-error">
                 <?php echo $this->lang->line('fields_are_required'); ?></em></center>
         </div> 
         
-        <div class="span5">
+        <div class="col-md-5">
             <h2><?php echo $this->lang->line('appointments'); ?></h2>
             <div id="customer-appointments"></div>
             <div id="appointment-details"></div>
