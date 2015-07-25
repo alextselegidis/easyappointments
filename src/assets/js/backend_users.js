@@ -55,18 +55,34 @@ var BackendUsers = {
         BackendUsers.wp.bindEventHandlers();
         
         // Fill the services and providers list boxes.
+        var html = '<div class="col-md-12">';
         $.each(GlobalVariables.services, function(index, service) {
-            var html = '<label class="checkbox"><input type="checkbox" data-id="' + service.id + '" />' 
-                    + service.name + '</label>'; 
-            $('#provider-services').append(html);
+            html += 
+                '<div class="checkbox">' +
+                    '<label class="checkbox">' +
+                        '<input type="checkbox" data-id="' + service.id + '" />' +
+                        service.name + 
+                    '</label>' +
+                '</div>';
+            
         });
+        html += '</div>';
+        $('#provider-services').html(html);
         $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
                 
+        var html = '<div class="col-md-12">';
         $.each(GlobalVariables.providers, function(index, provider) {
-           var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
-                   + provider.first_name + ' ' + provider.last_name + '</label>';
-            $('#secretary-providers').append(html);
+           html += 
+                '<div class="checkbox">' +
+                    '<label class="checkbox">'  +
+                        '<input type="checkbox" data-id="' + provider.id + '" />' +
+                        provider.first_name + ' ' + provider.last_name + 
+                    '</label>' +
+                '</div>';
+            
         });
+        html += '</div>';
+        $('#secretary-providers').html(html);
         $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
         
         $('#reset-working-plan').qtip({
@@ -126,14 +142,23 @@ var BackendUsers = {
                     GlobalVariables.providers = response;
                 
                     $('#secretary-providers').data('jsp').destroy();
-                    $('#secretary-providers').html('');
+
+                    var html = '<div class="col-md-12">';
                     $.each(GlobalVariables.providers, function(index, provider) {
-                        var html = '<label class="checkbox"><input type="checkbox" data-id="' + provider.id + '" />' 
-                                + provider.first_name + ' ' + provider.last_name + '</label>';
-                         $('#secretary-providers').append(html);
-                     });
-                     $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
-                     $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
+                       html += 
+                            '<div class="checkbox">' +
+                                '<label class="checkbox">'  +
+                                    '<input type="checkbox" data-id="' + provider.id + '" />' +
+                                    provider.first_name + ' ' + provider.last_name + 
+                                '</label>' +
+                            '</div>';
+                        
+                    });
+                    html += '</div>';
+                    $('#secretary-providers').html(html);
+                    
+                    $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
+                    $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
                 }, 'json');
             }
             

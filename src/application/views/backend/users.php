@@ -214,7 +214,7 @@
         </div>
         
         <div class="details column col-md-7">
-            <div class="btn-toolbar col-md-5">
+            <div>
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn btn-primary">
                         <span class="glyphicon glyphicon-plus"></span>
@@ -356,44 +356,72 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="monday" />
-                                    <?php echo $this->lang->line('monday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="monday" />
+                                        <?php echo $this->lang->line('monday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="monday-start" class="work-start" /></td>
                             <td><input type="text" id="monday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="tuesday" />
-                                    <?php echo $this->lang->line('tuesday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="tuesday" />
+                                        <?php echo $this->lang->line('tuesday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="tuesday-start" class="work-start" /></td>
                             <td><input type="text" id="tuesday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="wednesday" />
-                                    <?php echo $this->lang->line('wednesday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="wednesday" />
+                                        <?php echo $this->lang->line('wednesday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="wednesday-start" class="work-start" /></td>
                             <td><input type="text" id="wednesday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="thursday" />
-                                    <?php echo $this->lang->line('thursday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="thursday" />
+                                        <?php echo $this->lang->line('thursday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="thursday-start" class="work-start" /></td>
                             <td><input type="text" id="thursday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="friday" />
-                                    <?php echo $this->lang->line('friday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="friday" />
+                                        <?php echo $this->lang->line('friday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="friday-start" class="work-start" /></td>
                             <td><input type="text" id="friday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="saturday" />
-                                    <?php echo $this->lang->line('saturday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="saturday" />
+                                        <?php echo $this->lang->line('saturday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="saturday-start" class="work-start" /></td>
                             <td><input type="text" id="saturday-end" class="work-end" /></td>
                         </tr>
                         <tr>
-                            <td><label class="checkbox"><input type="checkbox" id="sunday" />
-                                    <?php echo $this->lang->line('sunday'); ?></label></td>
+                            <td>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="sunday" />
+                                        <?php echo $this->lang->line('sunday'); ?></label>
+                                </div>
+                            </td>
                             <td><input type="text" id="sunday-start" class="work-start" /></td>
                             <td><input type="text" id="sunday-end" class="work-end" /></td>
                         </tr>

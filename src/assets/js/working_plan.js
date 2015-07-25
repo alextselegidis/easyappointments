@@ -55,17 +55,17 @@ WorkingPlan.prototype.setup = function(workingPlan) {
                             '<td class="break-start editable">' + brk.start + '</td>' +
                             '<td class="break-end editable">' + brk.end + '</td>' +
                             '<td>' + 
-                                '<button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
-                                    '<i class="icon-pencil"></i>' +
+                                '<button type="button" class="btn btn-sm edit-break" title="' + EALang['edit'] + '">' +
+                                    '<span class="glyphicon glyphicon-pencil"></span>' +
                                 '</button>' +
-                                '<button type="button" class="btn delete-break" title="' + EALang['delete'] + '">' +
-                                    '<i class="icon-remove"></i>' +
+                                '<button type="button" class="btn btn-sm delete-break" title="' + EALang['delete'] + '">' +
+                                    '<span class="glyphicon glyphicon-remove"></span>' +
                                 '</button>' +
-                                '<button type="button" class="btn save-break hidden" title="' + EALang['save'] + '">' +
-                                    '<i class="icon-ok"></i>' +
+                                '<button type="button" class="btn btn-sm save-break hidden" title="' + EALang['save'] + '">' +
+                                    '<span class="glyphicon glyphicon-ok"></span>' +
                                 '</button>' +
-                                '<button type="button" class="btn cancel-break hidden" title="' + EALang['cancel'] + '">' +
-                                    '<i class="icon-ban-circle"></i>' +
+                                '<button type="button" class="btn btn-sm cancel-break hidden" title="' + EALang['cancel'] + '">' +
+                                    '<span class="glyphicon glyphicon-ban-circle"></span>' +
                                 '</button>' +
                             '</td>' +
                         '</tr>';
@@ -178,17 +178,17 @@ WorkingPlan.prototype.bindEventHandlers = function() {
                     '<td class="break-start editable">09:00</td>' +
                     '<td class="break-end editable">10:00</td>' +
                     '<td>' + 
-                        '<button type="button" class="btn edit-break" title="' + EALang['edit'] + '">' +
-                            '<i class="icon-pencil"></i>' +
+                        '<button type="button" class="btn btn-sm edit-break" title="' + EALang['edit'] + '">' +
+                            '<span class="glyphicon glyphicon-pencil"></span>' +
                         '</button>' +
-                        '<button type="button" class="btn delete-break" title="' + EALang['delete'] + '">' +
-                            '<i class="icon-remove"></i>' +
+                        '<button type="button" class="btn btn-sm delete-break" title="' + EALang['delete'] + '">' +
+                            '<span class="glyphicon glyphicon-remove"></span>' +
                         '</button>' +
-                        '<button type="button" class="btn save-break hidden" title="' + EALang['save'] + '">' +
-                            '<i class="icon-ok"></i>' +
+                        '<button type="button" class="btn btn-sm save-break hidden" title="' + EALang['save'] + '">' +
+                            '<span class="glyphicon glyphicon-ok"></span>' +
                         '</button>' +
-                        '<button type="button" class="btn cancel-break hidden" title="' + EALang['cancel'] + '">' +
-                            '<i class="icon-ban-circle"></i>' +
+                        '<button type="button" class="btn btn-sm cancel-break hidden" title="' + EALang['cancel'] + '">' +
+                            '<span class="glyphicon glyphicon-ban-circle"></span>' +
                         '</button>' +
                     '</td>' +
                 '</tr>';
