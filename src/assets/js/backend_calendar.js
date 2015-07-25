@@ -268,13 +268,13 @@ var BackendCalendar = {
                 // style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').addClass('btn-success enabled');
-                    $('#enable-sync i').addClass('icon-white');
-                    $('#enable-sync span').text(EALang['disable_sync']);
+                    $('#enable-sync span:eq(1)').addClass('icon-white');
+                    $('#enable-sync span:eq(2)').text(EALang['disable_sync']);
                     $('#google-sync').prop('disabled', false);
                 } else {
                     $('#enable-sync').removeClass('btn-success enabled');
-                    $('#enable-sync i').removeClass('icon-white');
-                    $('#enable-sync span').text(EALang['enable_sync']);
+                    $('#enable-sync span:eq(1)').removeClass('icon-white');
+                    $('#enable-sync span:eq(2)').text(EALang['enable_sync']);
                     $('#google-sync').prop('disabled', true);
                 }
             }
@@ -715,8 +715,8 @@ var BackendCalendar = {
                             windowHandle.close();
                             window.clearInterval(authInterval);
                             $('#enable-sync').addClass('btn-success enabled');
-                            $('#enable-sync i').addClass('icon-white');
-                            $('#enable-sync span').text(EALang['disable_sync']);
+                            $('#enable-sync span:eq(1)').addClass('icon-white');
+                            $('#enable-sync span:eq(2)').text(EALang['disable_sync']);
                             $('#google-sync').prop('disabled', false);
                             $('#select-filter-item option:selected').attr('google-sync', 'true');
                             
@@ -760,8 +760,8 @@ var BackendCalendar = {
                         BackendCalendar.disableProviderSync(provider['id']);
                         
                         $('#enable-sync').removeClass('btn-success enabled');
-                        $('#enable-sync i').removeClass('icon-white');
-                        $('#enable-sync span').text(EALang['enable_sync']);
+                        $('#enable-sync span:eq(1)').removeClass('icon-white');
+                        $('#enable-sync span:eq(2)').text(EALang['enable_sync']);
                         $('#google-sync').prop('disabled', true);
                         $('#select-filter-item option:selected').attr('google-sync', 'false');
                         
