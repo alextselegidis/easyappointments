@@ -57,7 +57,7 @@
                     <button id="enable-sync" class="btn" data-toggle="button" 
                             title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
                         <span class="glyphicon glyphicon-calendar"></span>
-                        <?php echo $this->lang->line('enable_sync'); ?>
+                        <span><?php echo $this->lang->line('enable_sync'); ?></span>
                     </button>
                 <?php } ?>
                 
