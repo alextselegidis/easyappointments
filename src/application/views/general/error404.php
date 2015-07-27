@@ -99,12 +99,12 @@
         <br>
         
         <a href="<?php echo $this->config->item('base_url'); ?>" class="btn btn-primary btn-large">
-            <i class="icon-calendar icon-white"></i>
+            <span class="glyphicon glyphicon-calendar"></span>
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
         
         <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend" class="btn btn-danger btn-large">
-            <i class="icon-wrench icon-white"></i>
+            <span class="glyphicon glyphicon-wrench"></span>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>
         
