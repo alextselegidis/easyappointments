@@ -10,12 +10,14 @@
  * ---------------------------------------------------------------------------- */
 
 body .custom-qtip {
-    border: 2px solid #AFD8C1;
+    border: none;
+    border-radius: 0;
+    padding: 10px;
+    box-shadow: 1px 1px 3px #767676;
     background: #EFFDF6;
     font-size: 12px;
     line-height: 20px;
     color: #258D53;
-    border-radius: 6px;
 }
 
 body .ui-dialog .ui-dialog-titlebar-close {
