@@ -194,13 +194,24 @@ body .jspTrack {
 
 #calendar-page #calendar-filter { 
     float: left; 
+    margin-bottom: 0;
 }
 
 #calendar-page #calendar-filter label { 
+    float: left;
     display: inline-block; 
-    margin-right: 7px; 
-    font-weight: bold; 
+    margin: 2px 10px 0 0;
+    margin-right: 7px;  
+    margin-bottom: 0;
     font-size: 18px; 
+}
+
+#calendar-page #calendar-filter select { 
+    background-color: #FFF;
+    padding: 0 10px;
+    background-position-x: 95%;
+    height: 36px;
+    min-width: 270px;
 }
 
 #calendar-page #calendar-filter select:disabled { 
