@@ -48,7 +48,7 @@
                         if ($this->config->item('ea_google_sync_feature')) { 
                             echo '
                                 <button id="add-to-google-calendar" class="btn btn-primary">
-                                    <i class="icon-plus icon-white"></i>
+                                    <span class="glyphicon glyphicon-plus"></span>
                                     ' . $this->lang->line('add_to_google_calendar') . '
                                 </button>';
                         }

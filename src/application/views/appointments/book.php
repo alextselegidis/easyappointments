@@ -139,7 +139,7 @@
                                             . '/index.php/appointments/cancel/' . $appointment_data['hash'] . '">
                                         <input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
                                         <textarea name="cancel_reason" style="display:none"></textarea>
-                                        <button id="cancel-appointment" class="btn btn-inverse">' .
+                                        <button id="cancel-appointment" class="btn btn-default">' .
                                                 $this->lang->line('cancel') . '</button>
                                     </form>
                                 </div>
@@ -247,7 +247,8 @@
                         <button type="button" id="button-next-1" class="btn button-next btn-primary" 
                                 data-step_index="1">
                             <?php echo $this->lang->line('next'); ?> 
-                            <i class="icon-forward icon-white"></i></button>
+                            <span class="glyphicon glyphicon-forward"></span>
+                        </button>
                     </div>
                 </div>
 
@@ -274,13 +275,14 @@
                     
                     <div class="command-buttons">
                         <button type="button" id="button-back-2" class="btn button-back" 
-                                data-step_index="2"><i class="icon-backward"></i> 
+                                data-step_index="2">
+                            <span class="glyphicon glyphicon-backward"></span> 
                             <?php echo $this->lang->line('back'); ?>
                         </button>
                         <button type="button" id="button-next-2" class="btn button-next btn-primary" 
                                 data-step_index="2">
                             <?php echo $this->lang->line('next'); ?>
-                            <i class="icon-forward icon-white"></i>
+                            <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </div>
                 </div>
@@ -339,13 +341,13 @@
                     
                     <div class="command-buttons">
                         <button type="button" id="button-back-3" class="btn button-back" 
-                                data-step_index="3"><i class="icon-backward"></i> 
+                                data-step_index="3"><span class="glyphicon glyphicon-backward"></span> 
                             <?php echo $this->lang->line('back'); ?>
                         </button>
                         <button type="button" id="button-next-3" class="btn button-next btn-primary" 
                                 data-step_index="3">
                             <?php echo $this->lang->line('next'); ?>
-                            <i class="icon-forward icon-white"></i>
+                            <span class="glyphicon glyphicon-forward"></span>
                         </button>
                     </div>
                 </div>
@@ -365,12 +367,13 @@
                     
                     <div class="command-buttons">
                         <button type="button" id="button-back-4" class="btn button-back" 
-                                data-step_index="4"><i class="icon-backward"></i> 
+                                data-step_index="4">
+                            <span class="glyphicon glyphicon-backward"></span> 
                             <?php echo $this->lang->line('back'); ?>
                         </button>
                         <form id="book-appointment-form" style="display:inline-block" method="post">
                             <button id="book-appointment-submit" type="button" class="btn btn-success">
-                                <i class="icon-ok icon-white"></i>
+                                <span class="glyphicon glyphicon-ok"></span>
                                 <?php
                                     echo (!$manage_mode) ? $this->lang->line('confirm')
                                             : $this->lang->line('update');

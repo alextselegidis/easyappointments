@@ -117,3 +117,10 @@ li.language:hover {
 .ui-timepicker-rtl{ direction: rtl; }
 .ui-timepicker-rtl dl { text-align: right; }
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+
+/* BOOTSTRAP THEME FIXES
+   ------------------------------------------------------------------------- */
+.btn-danger:active, .btn-danger.active, .open>.dropdown-toggle.btn-danger {
+    background-color: #E24C52;
+}

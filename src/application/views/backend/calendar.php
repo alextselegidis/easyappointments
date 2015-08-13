@@ -51,7 +51,7 @@
                     <button id="google-sync" class="btn btn-primary" 
                             title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
                         <span class="glyphicon glyphicon-refresh"></span>
-                            <?php echo $this->lang->line('synchronize'); ?>
+                        <span><?php echo $this->lang->line('synchronize'); ?></span>
                     </button>
                 
                     <button id="enable-sync" class="btn" data-toggle="button" 
@@ -70,7 +70,7 @@
             
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE) { ?>
             <div class="btn-group">
-                <button id="insert-appointment" class="btn btn-info" 
+                <button id="insert-appointment" class="btn btn-primary" 
                         title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
                     <span class="glyphicon glyphicon-plus"></span>
                     <?php echo $this->lang->line('appointment'); ?>
