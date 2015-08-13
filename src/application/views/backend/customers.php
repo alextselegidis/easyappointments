@@ -29,10 +29,10 @@
     	<div id="filter-customers" class="filter-records column col-md-4">
     		<form class="input-append">
     			<input class="key span12" type="text" />
-                <button class="filter btn btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                <button class="filter btn btn-default btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
-                <button class="clear btn btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                <button class="clear btn btn-default btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>
     		</form>
@@ -52,14 +52,14 @@
                     <?php } ?>
                     
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] == TRUE) { ?>
-                    <button id="edit-customer" class="btn" disabled="disabled">
+                    <button id="edit-customer" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?php echo $this->lang->line('edit'); ?>
                     </button>
                     <?php }?>
                     
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] == TRUE) { ?>
-                    <button id="delete-customer" class="btn" disabled="disabled">
+                    <button id="delete-customer" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?php echo $this->lang->line('delete'); ?>
                     </button>
@@ -71,7 +71,7 @@
                         <span class="glyphicon glyphicon-ok"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <button id="cancel-customer" class="btn">
+                    <button id="cancel-customer" class="btn btn-default">
                         <i class="glyphicon glyphicon-ban-circle"></i>
                         <?php echo $this->lang->line('cancel'); ?>
                     </button>
