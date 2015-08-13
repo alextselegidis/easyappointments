@@ -54,14 +54,14 @@
                         <span><?php echo $this->lang->line('synchronize'); ?></span>
                     </button>
                 
-                    <button id="enable-sync" class="btn" data-toggle="button" 
+                    <button id="enable-sync" class="btn btn-default" data-toggle="button" 
                             title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
                         <span class="glyphicon glyphicon-calendar"></span>
                         <span><?php echo $this->lang->line('enable_sync'); ?></span>
                     </button>
                 <?php } ?>
                 
-                <button id="reload-appointments" class="btn" 
+                <button id="reload-appointments" class="btn btn-default" 
                         title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
                     <span class="glyphicon glyphicon-repeat"></span>
                     <?php echo $this->lang->line('reload'); ?>
@@ -76,7 +76,7 @@
                     <?php echo $this->lang->line('appointment'); ?>
                 </button>
 
-                <button id="insert-unavailable" class="btn" 
+                <button id="insert-unavailable" class="btn btn-default" 
                         title="<?php echo $this->lang->line('unavailable_periods_hint'); ?>">
                     <span class="glyphicon glyphicon-plus"></i>
                     <?php echo $this->lang->line('unavailable'); ?>
@@ -207,7 +207,7 @@
                         <fieldset class="container">
                             <legend>
                                 <?php echo $this->lang->line('customer_details_title'); ?>
-                                <button id="new-customer" class="btn btn-xs" 
+                                <button id="new-customer" class="btn btn-default btn-xs" 
                                         title="<?php echo $this->lang->line('clear_fields_add_existing_customer_hint'); ?>"
                                         type="button"><?php echo $this->lang->line('new'); ?>
                                 </button>
@@ -298,7 +298,7 @@
                 <button id="save-appointment" class="btn btn-primary">
                     <?php echo $this->lang->line('save'); ?>
                 </button>
-                <button id="cancel-appointment" class="btn" data-dismiss="modal">
+                <button id="cancel-appointment" class="btn btn-default" data-dismiss="modal">
                     <?php echo $this->lang->line('cancel'); ?>
                 </button>
             </div>
@@ -365,7 +365,7 @@
                 <button id="save-unavailable" class="btn btn-primary">
                     <?php echo $this->lang->line('save'); ?>
                 </button>
-                <button id="cancel-unavailable" class="btn" data-dismiss="modal">
+                <button id="cancel-unavailable" class="btn btn-default" data-dismiss="modal">
                     <?php echo $this->lang->line('cancel'); ?>
                 </button>
             </div>
@@ -402,7 +402,7 @@
                 <button id="select-calendar" class="btn btn-primary">
                     <?php echo $this->lang->line('select'); ?>
                 </button>
-                <button id="close-calendar" class="btn" data-dismiss="modal">
+                <button id="close-calendar" class="btn btn-default" data-dismiss="modal">
                     <?php echo $this->lang->line('close'); ?>
                 </button>
             </div>
