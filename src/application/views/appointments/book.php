@@ -274,7 +274,7 @@
                     </div>
                     
                     <div class="command-buttons">
-                        <button type="button" id="button-back-2" class="btn button-back" 
+                        <button type="button" id="button-back-2" class="btn button-back btn-default" 
                                 data-step_index="2">
                             <span class="glyphicon glyphicon-backward"></span> 
                             <?php echo $this->lang->line('back'); ?>
@@ -340,7 +340,7 @@
                     </div>
                     
                     <div class="command-buttons">
-                        <button type="button" id="button-back-3" class="btn button-back" 
+                        <button type="button" id="button-back-3" class="btn button-back btn-default" 
                                 data-step_index="3"><span class="glyphicon glyphicon-backward"></span> 
                             <?php echo $this->lang->line('back'); ?>
                         </button>
@@ -366,7 +366,7 @@
                     </div>
                     
                     <div class="command-buttons">
-                        <button type="button" id="button-back-4" class="btn button-back" 
+                        <button type="button" id="button-back-4" class="btn button-back btn-default" 
                                 data-step_index="4">
                             <span class="glyphicon glyphicon-backward"></span> 
                             <?php echo $this->lang->line('back'); ?>
