@@ -208,7 +208,7 @@
     </style>
 </head>
 <body>
-    <div id="loading" style="display: none;">
+    <div id="loading" class="hidden">
         <img src="<?php echo $base_url; ?>/assets/img/loading.gif" />
     </div>
     
@@ -218,13 +218,13 @@
         </a>
     </header>
     
-    <div class="content">
+    <div class="content container-fluid">
         <div class="welcome">
-            <h2>Welcome to the Easy!Appointments installation page.</h2>
+            <h3>Welcome to the Easy!Appointments installation page.</h3>
             <p>
                 This page will help you set the main settings of your Easy!Appointments installation.
                 You will be able to edit these settings and many more in the backend session of your 
-                system. Remember to use the <span class="text-error"><?php echo $base_url; ?>/index.php/backend</span> 
+                system. Remember to use the <strong class="text-primary"><?php echo $base_url; ?>/index.php/backend</strong> 
                 url to connect to the backend section of Easy!Appointments.
 
                 If you face any problems during the usage of Easy!Appointments you can always check
@@ -236,45 +236,65 @@
             </p>
         </div>
         
-        <div class="alert" style="display:none"></div>
+        <div class="alert hidden"></div>
 
-        <div class="row-fluid">
-            <div class="admin-settings span5">
+        <div class="row">
+            <div class="admin-settings col-md-5">
                 <h3>Administrator</h3>
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" class="span10" />
 
-                <label for="last-name">Last Name</label>
-                <input type="text" id="last-name" class="span10" />
+                <div class="form-group">
+                    <label for="first-name" class="control-label">First Name</label>
+                    <input type="text" id="first-name" class="form-control" />
+                </div>
 
-                <label for="email">Email</label>
-                <input type="text" id="email" class="span10" />
+                <div class="form-group">
+                <label for="last-name" class="control-label">Last Name</label>
+                <input type="text" id="last-name" class="form-control" />
+                </div>
 
-                <label for="phone-number">Phone Number</label>
-                <input type="text" id="phone-number" class="span10" />
+                <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input type="text" id="email" class="form-control" />
+                </div>
 
-                <label for="username">Username</label>
-                <input type="text" id="username" class="span10" />
+                <div class="form-group">
+                    <label for="phone-number" class="control-label">Phone Number</label>
+                    <input type="text" id="phone-number" class="form-control" />
+                </div>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" class="span10" />
+                <div class="form-group">
+                    <label for="username" class="control-label">Username</label>
+                    <input type="text" id="username" class="form-control" />
+                </div>
 
-                <label for="retype-password">Retype Password</label>
-                <input type="password" id="retype-password" class="span10" />
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input type="password" id="password" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="retype-password" class="control-label">Retype Password</label>
+                    <input type="password" id="retype-password" class="form-control" />
+                </div>
             </div>
 
-            <div class="company-settings span5">
+            <div class="company-settings col-md-5">
                 <h3>Company</h3>
-                <label for="company-name">Company Name</label>
-                <input type="text" id="company-name" class="span10" />
 
-                <label for="company-email">Company Email</label>
-                <input type="text" id="company-email" class="span10" />
+                <div class="form-group">
+                    <label for="company-name" class="control-label">Company Name</label>
+                    <input type="text" id="company-name" class="form-control" />
+                </div>
 
-                <label for="company-link">Company Link</label>
-                <input type="text" id="company-link" class="span10" />
+                <div class="form-group">
+                    <label for="company-email" class="control-label">Company Email</label>
+                    <input type="text" id="company-email" class="form-control" />
+                </div>
 
-                
+                <div class="form-group">
+                    <label for="company-link" class="control-label">Company Link</label>
+                    <input type="text" id="company-link" class="form-control" />        
+                </div>
             </div>
         </div>
         
@@ -291,9 +311,9 @@
         
         <p>
             <h3>License</h3>
-            Easy!Appointments is licensed under the GPLv3 license. By using 
-            the code of Easy!Appointments in any way <br> you agree with the 
-            terms described in the following url:
+            Easy!Appointments is licensed under the <span class="label label-default">GPLv3 license</span>. 
+            By using the code of Easy!Appointments in any way <br> you agree with the terms described in the 
+            following url:
             <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
         </p>
         
