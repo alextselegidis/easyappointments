@@ -177,8 +177,8 @@
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="tuesday" />
-                                                    <?php echo $this->lang->line('tuesday'); ?>
+                                                <input type="checkbox" id="thursday" />
+                                                    <?php echo $this->lang->line('thursday'); ?>
                                             </label>
                                         </div>
                                     </td>
