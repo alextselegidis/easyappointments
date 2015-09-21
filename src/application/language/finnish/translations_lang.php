@@ -1,5 +1,5 @@
 <?php
-// English
+// Finnish
 $lang['page_title'] = 'Varaa aika';
 $lang['step_one_title'] = 'Valitse palvelu ja henkilö';
 $lang['select_service'] = 'Valitse palvelupaketti';

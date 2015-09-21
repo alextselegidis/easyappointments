@@ -1,5 +1,5 @@
 <?php
-// English
+// French
 $lang['page_title'] = 'Prendre rendez-vous avec ...';
 $lang['step_one_title'] = 'Choisissez une prestation et un exécutant';
 $lang['select_service'] = 'Choisissez une prestation';

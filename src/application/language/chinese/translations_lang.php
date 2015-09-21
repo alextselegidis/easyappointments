@@ -1,5 +1,5 @@
 <?php
-// English
+// Chinese
 $lang['page_title'] = '准备预约';
 $lang['step_one_title'] = '选择服务人员以及服务项目';
 $lang['select_service'] = '选择您需要的服务项目';
