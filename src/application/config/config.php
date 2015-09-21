@@ -106,7 +106,8 @@ $config['available_languages'] = array(
     'danish', 
     'luxembourgish', 
     'slovak',
-    'finnish'
+    'finnish',
+    'russian'
 );
 
 /*
