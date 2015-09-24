@@ -66,7 +66,7 @@ class Unit_tests_appointments_model extends CI_Driver {
         $customer = array(
             'last_name' => 'Doe',
             'first_name' => 'John',
-            'email' => 'alextselegidis@gmail.com',
+            'email' => 'john@doe.com',
             'phone_number' => '0123456789',
             'address' => 'Abbey Road 18',
             'city' => 'London',
