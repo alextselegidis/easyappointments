@@ -1,13 +1,13 @@
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_settings.js"></script>
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-jeditable/jquery.jeditable.min.js"></script>
-        
-<script type="text/javascript">    
+
+<script type="text/javascript">
     var GlobalVariables = {
         'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
@@ -23,7 +23,7 @@
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
-    
+
     $(document).ready(function() {
         BackendSettings.initialize(true);
     });
@@ -34,23 +34,23 @@
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
         <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
         <?php } ?>
-        
+
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
         <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
         <?php } ?>
-        
+
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
         <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
         <?php } ?>
-        
+
         <li role="representation" class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
     </ul>
-    
-    <?php 
-        // -------------------------------------------------------------- 
-        //        
-        // GENERAL TAB 
-        // 
+
+    <?php
+        // --------------------------------------------------------------
+        //
+        // GENERAL TAB
+        //
         // --------------------------------------------------------------
     ?>
     <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
@@ -60,12 +60,12 @@
                 <legend>
                     <?php echo $this->lang->line('general_settings'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-sm">
+                    <button type="button" class="save-settings btn btn-primary btn-xs">
                         <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
-                
+
                 <div class="wrapper">
                     <div class="form-group">
                         <label for="company-name"><?php echo $this->lang->line('company_name'); ?> *</label>
@@ -82,7 +82,7 @@
                             <?php echo $this->lang->line('company_email_hint'); ?>
                         </span>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="company-link"><?php echo $this->lang->line('company_link'); ?> *</label>
                         <input type="text" id="company-link" data-field="company_link" class="required form-control">
@@ -100,12 +100,12 @@
             </fieldset>
         </form>
     </div>
-    
-    <?php 
-        // -------------------------------------------------------------- 
-        //        
-        // BUSINESS LOGIC TAB 
-        // 
+
+    <?php
+        // --------------------------------------------------------------
+        //
+        // BUSINESS LOGIC TAB
+        //
         // --------------------------------------------------------------
     ?>
     <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
@@ -115,19 +115,19 @@
                 <legend>
                     <?php echo $this->lang->line('business_logic'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-sm">
+                    <button type="button" class="save-settings btn btn-primary btn-xs">
                         <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
-                
+
                 <div class="row-fluid">
                     <div class="span7 working-plan-wrapper">
                         <h4><?php echo $this->lang->line('working_plan'); ?></h4>
                         <span class="help-block">
                             <?php echo $this->lang->line('edit_working_plan_hint'); ?>
                         </span>
-                        
+
                         <table class="working-plan table table-striped">
                             <thead>
                                 <tr>
@@ -223,12 +223,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        
+
                         <br>
-                        
+
                         <h4><?php echo $this->lang->line('book_advance_timeout'); ?></h4>
                         <span class="help-block">
-                            <?php echo $this->lang->line('book_advance_timeout_hint'); ?> 
+                            <?php echo $this->lang->line('book_advance_timeout_hint'); ?>
                         </span>
                         <div class="form-group">
                             <label for="book-advance-timeout"><?php echo $this->lang->line('timeout_minutes'); ?></label>
@@ -268,12 +268,12 @@
             </fieldset>
         </form>
     </div>
-    
-    <?php 
-        // -------------------------------------------------------------- 
-        //        
-        // USER TAB 
-        // 
+
+    <?php
+        // --------------------------------------------------------------
+        //
+        // USER TAB
+        //
         // --------------------------------------------------------------
     ?>
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
@@ -283,14 +283,14 @@
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
                     <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-sm">
+                    <button type="button" class="save-settings btn btn-primary btn-xs">
                         <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
-                
+
                 <input type="hidden" id="user-id" />
-                
+
                 <div class="form-group">
                     <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
                     <input type="text" id="first-name" class="form-control required" />
@@ -341,10 +341,10 @@
                     <textarea id="notes" class="form-control" rows="3"></textarea>
                 </div>
             </fieldset>
-            
+
             <fieldset class="col-md-5 miscellaneous-wrapper">
                 <legend><?php echo $this->lang->line('system_login'); ?></legend>
-                
+
                 <div class="form-group">
                     <label for="username"><?php echo $this->lang->line('username'); ?> *</label>
                     <input type="text" id="username" class="form-control required" />
@@ -353,13 +353,13 @@
                 <div class="form-group">
                     <label for="password"><?php echo $this->lang->line('password'); ?></label>
                     <input type="password" id="password" class="form-control" />
-                </div>                
+                </div>
 
                 <div class="form-group">
                     <label for="retype-password"><?php echo $this->lang->line('retype_password'); ?></label>
                     <input type="password" id="retype-password" class="form-control" />
                 </div>
-                
+
                 <button type="button" id="user-notifications" class="btn" data-toggle="button">
                     <span class="glyphicon glyphicon-envelope"></span>
                     <?php echo $this->lang->line('receive_notifications'); ?>
@@ -367,12 +367,12 @@
             </fieldset>
         </form>
     </div>
-    
-    <?php 
-        // -------------------------------------------------------------- 
-        //        
-        // ABOUT TAB 
-        // 
+
+    <?php
+        // --------------------------------------------------------------
+        //
+        // ABOUT TAB
+        //
         // --------------------------------------------------------------
     ?>
     <div id="about" class="tab-content">
@@ -380,11 +380,11 @@
         <p>
             <?php echo $this->lang->line('about_ea_info'); ?>
         </p>
-        
+
         <br>
-        
-        <div class="current-version"> 
-            <?php 
+
+        <div class="current-version">
+            <?php
                 echo $this->lang->line('current_version') . ' ';
                 echo $this->config->item('ea_version');
                 $release_title = $this->config->item('ea_release_title');
@@ -393,9 +393,9 @@
                 }
             ?>
         </div>
-        
+
 		<br>
-		
+
         <h3><?php echo $this->lang->line('support'); ?></h3>
         <p>
             <?php echo $this->lang->line('about_ea_support'); ?>
@@ -403,7 +403,7 @@
             <a href="http://easyappointments.org">
                 <?php echo $this->lang->line('official_website'); ?>
             </a>
-            | 
+            |
             <a href="https://groups.google.com/forum/#!forum/easy-appointments">
                 <?php echo $this->lang->line('support_group'); ?>
             </a>
@@ -415,14 +415,14 @@
             <a href="http://easyappointments.wordpress.com">
                 E!A Blog
             </a>
-            | 
+            |
             <a href="https://plus.google.com/communities/105333709485142846840">
                 <?php echo $this->lang->line('google_plus_community'); ?>
             </a>
         </p>
-		
+
 		<br>
-		
+
 		<h3><?php echo $this->lang->line('license'); ?></h3>
 		<p>
             <?php echo $this->lang->line('about_ea_license'); ?>
