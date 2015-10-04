@@ -376,7 +376,7 @@
         // --------------------------------------------------------------
     ?>
     <div id="about" class="tab-content">
-        <h2>Easy!Appointments</h2>
+        <h3>Easy!Appointments</h3>
         <p>
             <?php echo $this->lang->line('about_ea_info'); ?>
         </p>

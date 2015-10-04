@@ -1,22 +1,22 @@
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
-        
-<script type="text/javascript" 
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_admins.js"></script>
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_providers.js"></script>
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_secretaries.js"></script>
 
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
-        
-<script type="text/javascript" 
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" 
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-jeditable/jquery.jeditable.min.js"></script>
-        
-<script type="text/javascript">    
+
+<script type="text/javascript">
     var GlobalVariables = {
         'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
@@ -32,15 +32,15 @@
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
-    
+
     $(document).ready(function() {
         BackendUsers.initialize(true);
     });
 </script>
 
 <div id="users-page" class="container-fluid">
-    
-    <?php 
+
+    <?php
         // ---------------------------------------------------------------------
         //
         // Page Navigation
@@ -52,11 +52,11 @@
         <li role="presentation" class="providers-tab tab"><a><?php echo $this->lang->line('providers'); ?></a></li>
         <li role="presentation" class="secretaries-tab tab"><a><?php echo $this->lang->line('secretaries'); ?></a></li>
     </ul>
-    
-    <?php 
+
+    <?php
         // ---------------------------------------------------------------------
         //
-        // Admins Tab 
+        // Admins Tab
         //
         // ---------------------------------------------------------------------
     ?>
@@ -64,18 +64,18 @@
         <div id="filter-admins" class="filter-records column col-md-4">
             <form class="input-append">
                 <input class="key" type="text" />
-                <button class="filter btn btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
-                <button class="clear btn btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear'); ?>">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>
             </form>
-            
-            <h2><?php echo $this->lang->line('admins'); ?></h2>
+
+            <h3><?php echo $this->lang->line('admins'); ?></h3>
             <div class="results"></div>
         </div>
-        
+
         <div class="details column col-md-7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
@@ -83,11 +83,11 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         <?php echo $this->lang->line('add'); ?>
                     </button>
-                    <button id="edit-admin" class="btn" disabled="disabled">
+                    <button id="edit-admin" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?php echo $this->lang->line('edit'); ?>
                     </button>
-                    <button id="delete-admin" class="btn" disabled="disabled">
+                    <button id="delete-admin" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?php echo $this->lang->line('delete'); ?>
                     </button>
@@ -98,19 +98,19 @@
                         <span class="glyphicon glyphicon-ok"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <button id="cancel-admin" class="btn">
+                    <button id="cancel-admin" class="btn btn-default">
                         <span class="glyphicon glyphicon-ban-circle"></span>
                         <?php echo $this->lang->line('cancel'); ?>
                     </button>
                 </div>
             </div>
-            
-            <h2><?php echo $this->lang->line('details'); ?></h2>
-            
+
+            <h3><?php echo $this->lang->line('details'); ?></h3>
+
             <div class="form-message alert" style="display:none;"></div>
-            
+
             <input type="hidden" id="admin-id" class="record-id" />
-            
+
             <div class="">
                 <div class="admin-details col-md-6">
                     <div class="form-group">
@@ -180,8 +180,8 @@
                     </div>
 
                     <br>
-                    
-                    <button type="button" id="admin-notifications" class="btn" data-toggle="button">
+
+                    <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
                         <span class="glyphicon glyphicon-envelope"></span>
                         <span><?php echo $this->lang->line('receive_notifications'); ?></span>
                     </button>
@@ -189,11 +189,11 @@
             </div>
         </div>
     </div>
-    
-    <?php 
+
+    <?php
         // ---------------------------------------------------------------------
         //
-        // Providers Tab 
+        // Providers Tab
         //
         // ---------------------------------------------------------------------
     ?>
@@ -201,30 +201,30 @@
         <div id="filter-providers" class="filter-records column col-md-7">
             <form class="input-append">
                 <input class="key" type="text" />
-                <button class="filter btn btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
-                <button class="clear btn btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear'); ?>">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>
             </form>
-            
-            <h2><?php echo $this->lang->line('providers'); ?></h2>
+
+            <h3><?php echo $this->lang->line('providers'); ?></h3>
             <div class="results"></div>
         </div>
-        
+
         <div class="details column col-md-7">
-            <div>
+            <div class="pull-left">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn btn-primary">
                         <span class="glyphicon glyphicon-plus"></span>
                         <?php echo $this->lang->line('add'); ?>
                     </button>
-                    <button id="edit-provider" class="btn" disabled="disabled">
+                    <button id="edit-provider" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?php echo $this->lang->line('edit'); ?>
                     </button>
-                    <button id="delete-provider" class="btn" disabled="disabled">
+                    <button id="delete-provider" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?php echo $this->lang->line('delete'); ?>
                     </button>
@@ -235,25 +235,25 @@
                         <span class="glyphicon glyphicon-ok"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <button id="cancel-provider" class="btn">
+                    <button id="cancel-provider" class="btn btn-default">
                         <span class="glyphicon glyphicon-ban-circle"></span>
                         <?php echo $this->lang->line('cancel'); ?>
                     </button>
                 </div>
             </div>
-            
+
             <div class="switch-view pull-right">
                 <strong><?php echo $this->lang->line('current_view'); ?></strong>
                 <div class="display-details current"><?php echo $this->lang->line('details'); ?></div>
                 <div class="display-working-plan"><?php echo $this->lang->line('working_plan'); ?></div>
             </div>
-            
-            <?php // This form message is outside the details view, so that it can be 
+
+            <?php // This form message is outside the details view, so that it can be
                   // visible when the user has working plan view active. ?>
             <div class="form-message alert" style="display:none;"></div>
-            
-            <div class="details-view provider-view"> 
-                <h2><?php echo $this->lang->line('details'); ?></h2>
+
+            <div class="details-view provider-view">
+                <h3><?php echo $this->lang->line('details'); ?></h3>
 
                 <input type="hidden" id="provider-id" class="record-id" />
 
@@ -327,7 +327,7 @@
 
                         <br>
 
-                        <button type="button" id="provider-notifications" class="btn" data-toggle="button">
+                        <button type="button" id="provider-notifications" class="btn btn-default" data-toggle="button">
                             <span class="glyphicon glyphicon-envelope"></span>
                             <span><?php echo $this->lang->line('receive_notifications'); ?></span>
                         </button>
@@ -339,9 +339,9 @@
                     </div>
                 </div>
             </div>
-                
+
             <div class="working-plan-view provider-view" style="display: none;">
-                <h2><?php echo $this->lang->line('working_plan'); ?></h2>
+                <h3><?php echo $this->lang->line('working_plan'); ?></h3>
                 <button id="reset-working-plan" class="btn btn-primary"
                         title="Reset the working plan back to the default values.">
                     <span class="glyphicon glyphicon-repeat"></span>
@@ -429,8 +429,8 @@
                 </table>
 
                 <br>
-                
-                <h2><?php echo $this->lang->line('breaks');?></h2>
+
+                <h3><?php echo $this->lang->line('breaks');?></h3>
 
                 <span class="help-block">
                     <?php echo $this->lang->line('add_breaks_during_each_day');?>
@@ -459,11 +459,11 @@
             </div>
         </div>
     </div>
-    
-    <?php 
+
+    <?php
         // ---------------------------------------------------------------------
         //
-        // Secretaries Tab 
+        // Secretaries Tab
         //
         // ---------------------------------------------------------------------
     ?>
@@ -471,18 +471,18 @@
         <div id="filter-secretaries" class="filter-records column col-md-4">
             <form class="input-append">
                 <input class="key" type="text" />
-                <button class="filter btn btn-sm" type="submit" title="<?php echo $this->lang->line('filter');?>">
+                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter');?>">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
-                <button class="clear btn btn-sm" type="button" title="<?php echo $this->lang->line('clear');?>">
+                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear');?>">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>
             </form>
-            
-            <h2><?php echo $this->lang->line('secretaries');?></h2>
+
+            <h3><?php echo $this->lang->line('secretaries');?></h3>
             <div class="results"></div>
         </div>
-        
+
         <div class="details column col-md-7">
             <div class="btn-toolbar">
                 <div class="add-edit-delete-group btn-group">
@@ -490,11 +490,11 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         <?php echo $this->lang->line('add');?>
                     </button>
-                    <button id="edit-secretary" class="btn" disabled="disabled">
+                    <button id="edit-secretary" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?php echo $this->lang->line('edit');?>
                     </button>
-                    <button id="delete-secretary" class="btn" disabled="disabled">
+                    <button id="delete-secretary" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?php echo $this->lang->line('delete');?>
                     </button>
@@ -505,19 +505,19 @@
                         <span class="glyphicon glyphicon-ok"></span>
                         <?php echo $this->lang->line('save');?>
                     </button>
-                    <button id="cancel-secretary" class="btn">
+                    <button id="cancel-secretary" class="btn btn-default">
                         <span class="glyphicon glyphicon-ban-circle"></span>
                         <?php echo $this->lang->line('cancel');?>
                     </button>
                 </div>
             </div>
-            
-            <h2><?php echo $this->lang->line('details');?></h2>
-            
+
+            <h3><?php echo $this->lang->line('details');?></h3>
+
             <div class="form-message alert" style="display:none;"></div>
-            
+
             <input type="hidden" id="secretary-id" class="record-id" />
-            
+
             <div class="">
                 <div class="secretary-details col-md-6">
                     <div class="form-group">
@@ -587,14 +587,14 @@
                     </div>
 
                     <br>
-                    
-                    <button type="button" id="secretary-notifications" class="btn" data-toggle="button">
+
+                    <button type="button" id="secretary-notifications" class="btn btn-default" data-toggle="button">
                         <span class="glyphicon glyphicon-envelope"></span>
                         <span><?php echo $this->lang->line('receive_notifications');?></span>
                     </button>
-                    
+
                     <br><br>
-                    
+
                     <h4><?php echo $this->lang->line('providers');?></h4>
                     <div id="secretary-providers"></div>
                 </div>

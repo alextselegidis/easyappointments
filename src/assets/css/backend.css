@@ -289,14 +289,15 @@ body .jspTrack {
 #existing-customers-list div {
     display: inline-block;
     width: 250px;
-    margin: 0 5px 5px 0;
-    padding: 3px 5px;
+    margin: 0 7px 7px 0;
+    padding: 5px;
     border-radius: 3px;
 }
 
 #existing-customers-list div:hover {
-    background: #B8F0C1;
+    background: #3DD481;
     font-weight: bold;
+    color: #FFF;
     cursor: pointer;
 }
 

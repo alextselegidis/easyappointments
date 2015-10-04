@@ -57,10 +57,18 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                    GeneralFunctions.EXCEPTIONS_MESSAGE);
-                console.log('The installation could be completed due to AJAX issues: ',
-                    jqXHR, textStatus, errorThrown);
+                // Treat the error the same way as php exceptions.
+                var exc = {
+                    exceptions: [
+                        JSON.stringify({
+                            message: 'The installation could not be completed due to an ' +
+                                'unexpected issue. Please check the browser\'s console for ' +
+                                'more information.'
+                        })
+                    ]
+                };
+                GeneralFunctions.handleAjaxExceptions(exc);
+                console.log(exc.exceptions[0].message, jqXHR, textStatus, errorThrown);
             }
         });
     });
