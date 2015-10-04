@@ -1,0 +1,15 @@
+{
+    "name": "alextselegidis/easyappointments",
+    "description": "Open Source Web Scheduler",
+    "require-dev": {
+        "apigen/apigen": "~4.1",
+        "halleck45/phpmetrics": "~1.3"
+    },
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Alex Tselegidis",
+            "email": "alextselegidis@gmail.com"
+        }
+    ]
+}

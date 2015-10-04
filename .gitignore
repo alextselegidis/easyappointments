@@ -4,3 +4,4 @@ easyappointments.zip
 src/config.php
 src/application/logs/*
 node_modules
+/vendor/
