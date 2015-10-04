@@ -11,10 +11,9 @@ mkdir doc/apigen
 mkdir doc/jsdoc
 mkdir doc/plato
 
-php rsc/apigen.phar generate \
+php vendor/bin/apigen generate \
     -s "src/application/controllers,src/application/models,src/application/libraries" \
     -d "doc/apigen" --exclude "*external*" --tree --todo --template-theme "bootstrap"
-
 
 node node_modules/.bin/jsdoc "src/assets/js" -d "doc/jsdoc"
 
