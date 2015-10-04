@@ -19,6 +19,7 @@
   },
   "homepage": "http://easyappointments.org",
   "devDependencies": {
-    "jsdoc": "^3.3.2"
+    "jsdoc": "^3.3.2",
+    "plato": "^1.5.0"
   }
 }
