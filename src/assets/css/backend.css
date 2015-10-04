@@ -1,10 +1,10 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
@@ -13,7 +13,7 @@
  * BACKEND CSS FILE FOR EASY!APPOINTMENTS
  */
 
-root { 
+root {
     display: block;
 }
 
@@ -25,34 +25,33 @@ root {
     border-bottom: 4px solid #2B995D;
 }
 
-#header #header-logo { 
-    display: inline-block; 
-    margin: 6px 12px; 
+#header #header-logo {
+    display: inline-block;
+    margin: 6px 12px;
 }
 
-#header #header-logo img { 
-    float: left; 
-    width: 50px; 
-    height: 50px; 
-    margin-right: 6px; 
+#header #header-logo img {
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin-right: 6px;
 }
 
-#header #header-logo span { 
+#header #header-logo span {
     float: left;
     font-size: 20px;
     color: white;
     margin-top: 9px;
     font-weight: bold;
-    /*text-shadow: 1px 1px 0px rgb(32, 99, 48);*/
 }
 
-#header #header-menu { 
-    display: inline-block; 
-    float: right; 
-    height: 100%; 
+#header #header-menu {
+    display: inline-block;
+    float: right;
+    height: 100%;
 }
 
-#header #header-menu .menu-item { 
+#header #header-menu .menu-item {
     float: left;
     padding: 18px 18px 19px;
     min-width: 100px;
@@ -61,14 +60,15 @@ root {
     color: #FFF;
     text-decoration: none;
     font-size: 16px;
+    transition: none;
 }
 
-#header #header-menu .menu-item:hover:not(.active) { 
+#header #header-menu .menu-item:hover:not(.active) {
     background-color: #2A8F57;
     border-bottom: 4px solid #236C48;
 }
 
-#header #header-menu .active { 
+#header #header-menu .active {
     color: #C5FFD6;
     background: #29A067;
     border-bottom: 4px solid #2A7751;
@@ -81,21 +81,21 @@ root {
     overflow: auto;
 }
 
-#footer #footer-content { 
-    padding: 10px 15px; 
+#footer #footer-content {
+    padding: 10px 15px;
     display: inline-block;
     float: left;
 }
 
-#footer #footer-user-display-name { 
+#footer #footer-user-display-name {
     display: inline-block;
     float: right;
     padding: 10px 15px;
     font-weight: bold;
 }
 
-#notification strong { 
-    margin-right: 15px; 
+#notification strong {
+    margin-right: 15px;
 }
 
 #notification .alert {
@@ -110,23 +110,23 @@ root {
     line-height: 0.8;
 }
 
-#loading { 
-    position: fixed; 
-    top: 0px; 
-    left: 0px; 
-    width: 100%; 
-    height: 100%; 
+#loading {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
     z-index: 999999;
     background: rgba(255, 255, 255, 0.75);
 }
 
-#loading img { 
-    margin: auto; 
-    display: block; 
+#loading img {
+    margin: auto;
+    display: block;
 }
 
-#modal-message { 
-    margin: 10px; 
+#modal-message {
+    margin: 10px;
 }
 
 body .modal .modal-title {
@@ -184,7 +184,7 @@ body .jspTrack {
 
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
-#calendar-page #calendar-toolbar { 
+#calendar-page #calendar-toolbar {
     border-bottom: 1px solid #D6D6D6;
     background: #3A3A3A;
     padding: 10px;
@@ -192,21 +192,21 @@ body .jspTrack {
     color: white;
 }
 
-#calendar-page #calendar-filter { 
-    float: left; 
-    margin-bottom: 0;
-}
-
-#calendar-page #calendar-filter label { 
+#calendar-page #calendar-filter {
     float: left;
-    display: inline-block; 
-    margin: 2px 10px 0 0;
-    margin-right: 7px;  
     margin-bottom: 0;
-    font-size: 18px; 
 }
 
-#calendar-page #calendar-filter select { 
+#calendar-page #calendar-filter label {
+    float: left;
+    display: inline-block;
+    margin: 2px 10px 0 0;
+    margin-right: 7px;
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
+#calendar-page #calendar-filter select {
     background-color: #FFF;
     padding: 0 10px;
     background-position-x: 95%;
@@ -214,24 +214,24 @@ body .jspTrack {
     min-width: 270px;
 }
 
-#calendar-page #calendar-filter select:disabled { 
+#calendar-page #calendar-filter select:disabled {
     background: white;
     cursor: auto;
 }
 
-#calendar-page #calendar-actions { 
-    float: right; 
+#calendar-page #calendar-actions {
+    float: right;
 }
 
-#calendar-page #calendar { 
-    margin: 6px 12px; 
+#calendar-page #calendar {
+    margin: 6px 12px;
 }
 
-#calendar-page #calendar .fc-unavailable { 
-    background-image: url('../img/unavailable.jpg');   
-    font-size: 17px; 
-    border-radius: 0; 
-    font-weight: bold; 
+#calendar-page #calendar .fc-unavailable {
+    background-image: url('../img/unavailable.jpg');
+    font-size: 17px;
+    border-radius: 0;
+    font-weight: bold;
     color: #333;
     text-shadow: 0px 1px 0px #E6E6E6;
     opacity: 0.7;
@@ -242,12 +242,12 @@ body .jspTrack {
     font-size: 12px;
 }
 
-#calendar-page #calendar .fc-break { 
-    background-image: url('../img/break.jpg'); 
+#calendar-page #calendar .fc-break {
+    background-image: url('../img/break.jpg');
 }
 
-#calendar-page #calendar .fc-custom { 
-    background-image: url('../img/custom.jpg'); 
+#calendar-page #calendar .fc-custom {
+    background-image: url('../img/custom.jpg');
 }
 
 #calendar .fc-header-title h2 {
@@ -268,7 +268,7 @@ body .jspTrack {
     height: 3px;
 }
 
-#calendar table thead .fc-first { 
+#calendar table thead .fc-first {
     background: #DFDFDF;
 }
 
@@ -278,7 +278,7 @@ body .jspTrack {
     color: #555;
 }
 
-#existing-customers-list { 
+#existing-customers-list {
     height: 110px;
     overflow-y: auto;
     margin-bottom: 8px;
@@ -322,58 +322,58 @@ body .form-horizontal .controls {
 }
 
 #customers-page #filter-customers {
-    margin: 15px 0px 15px 15px; 
+    margin: 15px 0px 15px 15px;
     width: 350px;
 }
 
-#customers-page .filter-records .results { 
-    overflow-y: auto; 
+#customers-page .filter-records .results {
+    overflow-y: auto;
     max-height: 650px;
     outline: none;
 }
 
-#customers-page #filter-customers .results .customer-row { 
-    padding: 10px 7px; 
+#customers-page #filter-customers .results .customer-row {
+    padding: 10px 7px;
 }
 
-#customers-page #filter-customers .results .customer-row:hover:not(.selected-row) { 
-    background-color: #F3F3F3; 
-    cursor: pointer; 
+#customers-page #filter-customers .results .customer-row:hover:not(.selected-row) {
+    background-color: #F3F3F3;
+    cursor: pointer;
 }
 
-#customers-page #filter-customers .results hr { 
-    margin: 5px 0; 
+#customers-page #filter-customers .results hr {
+    margin: 5px 0;
 }
 
-#customers-page .details { 
-    margin: 15px 0 15px 15px; 
+#customers-page .details {
+    margin: 15px 0 15px 15px;
     max-width: 710px;
 }
 
-#customers-page .details .btn-toolbar { 
-    margin-top: 0px; 
+#customers-page .details .btn-toolbar {
+    margin-top: 0px;
 }
 
-#customers-page .details div.span5 { 
-    margin-left: 0; 
+#customers-page .details div.span5 {
+    margin-left: 0;
 }
 
-#customers-page #customer-appointments { 
-    height: 370px; 
+#customers-page #customer-appointments {
+    height: 370px;
     width: 330px;
-    border: 4px solid #E2E2E2; 
-    margin-bottom: 20px; 
-    overflow-y: auto; 
+    border: 4px solid #E2E2E2;
+    margin-bottom: 20px;
+    overflow-y: auto;
 }
 
-#customers-page #customer-appointments .appointment-row { 
-    padding: 7px; 
+#customers-page #customer-appointments .appointment-row {
+    padding: 7px;
     border-bottom: 4px solid #E2E2E2;
 }
 
-#customers-page #customer-appointments .appointment-row:hover:not(.selected-row) { 
-    background-color: #F3F3F3; 
-    cursor: pointer; 
+#customers-page #customer-appointments .appointment-row:hover:not(.selected-row) {
+    background-color: #F3F3F3;
+    cursor: pointer;
 }
 
 #customers-page #appointment-details {
@@ -387,13 +387,13 @@ body .form-horizontal .controls {
 }
 
 #customers-page .details input,
-#customers-page .details textarea { 
-    background-color: white; 
-    cursor: default; 
+#customers-page .details textarea {
+    background-color: white;
+    cursor: default;
 }
 
-#customers-page .selected-row { 
-    background-color: #CBFFD8; 
+#customers-page .selected-row {
+    background-color: #CBFFD8;
 }
 
 
@@ -403,18 +403,18 @@ body .form-horizontal .controls {
     color: #525252;
 }
 
-#services-page .tab-content { 
-    margin: 15px; 
+#services-page .tab-content {
+    margin: 15px;
 }
 
-#services-page .nav { 
-    margin: 15px; 
+#services-page .nav {
+    margin: 15px;
     background-color: #F4F4F4;
     border-radius: 4px;
 }
 
-#services-page .nav li { 
-    cursor: pointer; 
+#services-page .nav li {
+    cursor: pointer;
 }
 
 #services-page .filter-records {
@@ -427,54 +427,54 @@ body .form-horizontal .controls {
     outline: none;
 }
 
-#services-page .service-row { 
-    padding: 10px 7px; 
+#services-page .service-row {
+    padding: 10px 7px;
 }
 
-#services-page .service-row:hover:not(.selected-row) { 
-    cursor: pointer; 
-    background-color: #F3F3F3; 
+#services-page .service-row:hover:not(.selected-row) {
+    cursor: pointer;
+    background-color: #F3F3F3;
 }
 
-#services-page .selected-row { 
-    background-color: #CBFFD8; 
+#services-page .selected-row {
+    background-color: #CBFFD8;
 }
 
-#services-page .filter-records .results hr { 
-    margin: 5px 0; 
+#services-page .filter-records .results hr {
+    margin: 5px 0;
 }
 
-#services-page .details .ui-spinner { 
-    border: none; 
-    margin-bottom: 10px; 
+#services-page .details .ui-spinner {
+    border: none;
+    margin-bottom: 10px;
 }
 
 #services-page .details .ui-state-disabled {
     opacity: 1;
 }
 
-#services-page #service-duration { 
-    margin: 0px; 
+#services-page #service-duration {
+    margin: 0px;
 }
 
-#services-page .details .ui-spinner a { 
-    cursor: pointer; 
+#services-page .details .ui-spinner a {
+    cursor: pointer;
 }
 
-#services-page .details input, 
-#services-page .details select, 
-#services-page .details textarea { 
-    background-color: white; 
-    cursor: pointer; 
+#services-page .details input,
+#services-page .details select,
+#services-page .details textarea {
+    background-color: white;
+    cursor: pointer;
 }
 
-#services-page #categories .category-row { 
-    padding: 10px 7px; 
+#services-page #categories .category-row {
+    padding: 10px 7px;
 }
 
-#services-page #categories .category-row:hover:not(.selected-row) { 
-    background-color: #F3F3F3; 
-    cursor: pointer; 
+#services-page #categories .category-row:hover:not(.selected-row) {
+    background-color: #F3F3F3;
+    cursor: pointer;
 }
 
 .details input:read-only,
@@ -494,18 +494,18 @@ body .form-horizontal .controls {
     color: #525252;
 }
 
-#users-page .tab-content { 
-    margin: 15px; 
+#users-page .tab-content {
+    margin: 15px;
 }
 
-#users-page .nav { 
-    margin: 15px; 
+#users-page .nav {
+    margin: 15px;
     background-color: #F4F4F4;
     border-radius: 4px;
 }
 
-#users-page .nav li { 
-    cursor: pointer; 
+#users-page .nav li {
+    cursor: pointer;
 }
 
 #users-page .filter-records {
@@ -520,25 +520,25 @@ body .form-horizontal .controls {
 
 #users-page .secretary-row,
 #users-page .provider-row,
-#users-page .admin-row { 
-    padding: 10px 7px; 
+#users-page .admin-row {
+    padding: 10px 7px;
 }
 
 #users-page .secretary-row:hover:not(.selected-row),
 #users-page .provider-row:hover:not(.selected-row),
-#users-page .admin-row:hover:not(.selected-row) { 
-    cursor: pointer; 
-    background-color: #F3F3F3; 
+#users-page .admin-row:hover:not(.selected-row) {
+    cursor: pointer;
+    background-color: #F3F3F3;
 }
 
-#users-page .selected-row { 
-    background-color: #CBFFD8; 
+#users-page .selected-row {
+    background-color: #CBFFD8;
 }
 
-#users-page .details input, 
-#users-page .details select, 
-#users-page .details textarea { 
-    background-color: white; 
+#users-page .details input,
+#users-page .details select,
+#users-page .details textarea {
+    background-color: white;
     cursor: pointer;
 }
 
@@ -550,11 +550,11 @@ body .form-horizontal .controls {
 }
 
 #users-page #secretary-providers,
-#users-page #provider-services { 
-    border: 4px solid #ccc; 
-    width: 340px; 
-    height: 387px; 
-    overflow-y: scroll; 
+#users-page #provider-services {
+    border: 4px solid #ccc;
+    width: 340px;
+    height: 387px;
+    overflow-y: scroll;
     padding: 7px;
 }
 
@@ -609,8 +609,8 @@ padding: 4px 7px;
 }
 
 
-#users-page .filter-records .results hr { 
-    margin: 5px 0; 
+#users-page .filter-records .results hr {
+    margin: 5px 0;
 }
 
 #users-page .details {
@@ -623,7 +623,7 @@ padding: 4px 7px;
 }
 
 #users-page .editable form,
-#users-page .editable select, 
+#users-page .editable select,
 #users-page .editable input {
 	margin: 0px;
 }
@@ -644,8 +644,8 @@ padding: 4px 7px;
     border-radius: 4px;
 }
 
-#settings-page .nav li { 
-    cursor: pointer; 
+#settings-page .nav li {
+    cursor: pointer;
 }
 
 #business-logic .working-plan td input[type="text"] {
@@ -678,12 +678,12 @@ padding: 4px 7px;
     cursor: pointer;
 }
 
-#business-logic #book-advance-timeout { 
+#business-logic #book-advance-timeout {
     margin: 0;
     width: 131px;
 }
 
-#business-logic .ui-spinner { 
+#business-logic .ui-spinner {
     border: none;
     width: 145px;
 }
@@ -722,7 +722,7 @@ padding: 4px 7px;
     background: #F7F7F7;
     font-size: 15px;
     color: #7E7E7E;
-    box-shadow: inset 0px 0px 5px #E0E0E0;  
+    box-shadow: inset 0px 0px 5px #E0E0E0;
 }
 
 #settings-page #update-ea {
