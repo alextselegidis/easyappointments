@@ -312,6 +312,8 @@ var GeneralFunctions = {
         	} else {
         		$(this).popover('hide');
         	}
+
+            $(this).toggleClass('active');
         });
 
         $(document).on('click', 'li.language', function() {

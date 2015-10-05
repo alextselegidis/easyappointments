@@ -1547,7 +1547,7 @@ var BackendCalendar = {
                     '<center>' +
                         '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '</button>' +
                         '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang['delete'] + '</button>' +
-                        '<button class="close-popover btn" data-po=' + jsEvent.target + '>' + EALang['close'] + '</button>' +
+                        '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang['close'] + '</button>' +
                     '</center>';
         } else {
             displayEdit = (GlobalVariables.user.privileges.appointments.edit == true)
@@ -1580,7 +1580,7 @@ var BackendCalendar = {
                     '<center>' +
                         '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '</button>' +
                         '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang['delete'] + '</button>' +
-                        '<button class="close-popover btn" data-po=' + jsEvent.target + '>' + EALang['close'] + '</button>' +
+                        '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang['close'] + '</button>' +
                     '</center>';
         }
 
