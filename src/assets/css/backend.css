@@ -43,6 +43,7 @@ root {
     color: white;
     margin-top: 9px;
     font-weight: bold;
+    text-shadow: 0px 1px 1px #8F8888;
 }
 
 #header #header-menu {
@@ -373,8 +374,8 @@ body .form-horizontal .controls {
 }
 
 #customers-page #customer-appointments .appointment-row:hover:not(.selected-row) {
-    background-color: #F3F3F3;
-    cursor: pointer;
+    background-color: #F4F4F4;
+    border-right: 5px solid #35B66F;
 }
 
 #customers-page #appointment-details {
@@ -394,7 +395,8 @@ body .form-horizontal .controls {
 }
 
 #customers-page .selected-row {
-    background-color: #CBFFD8;
+    background-color: #F4F4F4;
+    border-right: 5px solid #35B66F;
 }
 
 
@@ -438,7 +440,8 @@ body .form-horizontal .controls {
 }
 
 #services-page .selected-row {
-    background-color: #CBFFD8;
+    background-color: #F4F4F4;
+    border-right: 5px solid #35B66F;
 }
 
 #services-page .filter-records .results hr {
@@ -533,7 +536,8 @@ body .form-horizontal .controls {
 }
 
 #users-page .selected-row {
-    background-color: #CBFFD8;
+    background-color: #F4F4F4;
+    border-right: 5px solid #35B66F;
 }
 
 #users-page .details input,
@@ -567,11 +571,12 @@ body .form-horizontal .controls {
 #users-page #providers .switch-view div {
     display: inline-block;
     padding: 6px 13px;
-    border-radius: 4px;
     color: #333;
     float: left;
     margin-right: 3px;
     cursor: pointer;
+    min-width: 100px;
+    text-align: center;
 }
 
 #users-page #providers .switch-view div:hover:not(.current) {
@@ -620,7 +625,7 @@ padding: 4px 7px;
 
 #users-page .working-plan td input[type="text"] {
     width: 85px;
-    margin-bottom: 0px;
+    margin: 10px 0;
 }
 
 #users-page .editable form,
