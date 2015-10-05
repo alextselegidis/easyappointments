@@ -55,7 +55,7 @@ body {
     font-weight: bold;
     color: #FFF;
     font-size: 22px;
-    margin: 14px 10px 0 14px;
+    margin: 20px 10px 0 15px;
     display: inline-block;
     text-shadow: 0px 1px 1px #8F8888;
     float: left;
@@ -65,7 +65,7 @@ body {
     width: 180px;
     display: inline-block;
     float: right;
-    margin-top: 12px;
+    margin-top: 17px;
 }
 
 #book-appointment-wizard .wizard-frame {
