@@ -371,11 +371,12 @@ body .form-horizontal .controls {
 #customers-page #customer-appointments .appointment-row {
     padding: 7px;
     border-bottom: 4px solid #E2E2E2;
+    border-right: none;
 }
 
 #customers-page #customer-appointments .appointment-row:hover:not(.selected-row) {
-    background-color: #F4F4F4;
-    border-right: 5px solid #35B66F;
+    background-color: #F3F3F3;
+    cursor: pointer;
 }
 
 #customers-page #appointment-details {
