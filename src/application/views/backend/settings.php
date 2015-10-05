@@ -122,7 +122,7 @@
                 </legend>
 
                 <div class="row-fluid">
-                    <div class="span7 working-plan-wrapper">
+                    <div class="col-md-7 working-plan-wrapper">
                         <h4><?php echo $this->lang->line('working_plan'); ?></h4>
                         <span class="help-block">
                             <?php echo $this->lang->line('edit_working_plan_hint'); ?>
@@ -235,7 +235,7 @@
                             <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" />
                         </div>
                     </div>
-                    <div class="span5 breaks-wrapper">
+                    <div class="col-md-5 breaks-wrapper">
                         <h4><?php echo $this->lang->line('breaks'); ?></h4>
 
                         <span class="help-block">
