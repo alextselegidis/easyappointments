@@ -9,17 +9,17 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-root { 
+root {
     display: block;
 }
 
 
-html, 
+html,
 body {
     height: 100%;
 }
 
-body {  
+body {
     background-color: #CAEDF3;
 }
 
@@ -46,12 +46,12 @@ body {
 
 #book-appointment-wizard #header {
     padding: 5px;
-    height: 80px;
+    height: 90px;
     background: #3DD481;
     border-bottom: 4px solid #1A865F;
 }
 
-#book-appointment-wizard #company-name { 
+#book-appointment-wizard #company-name {
     font-weight: bold;
     color: #FFF;
     font-size: 22px;
@@ -167,9 +167,9 @@ body {
 }
 
 #book-appointment-wizard #appointment-details p,
-#book-appointment-wizard #customer-details p { 
-    font-size: 16px; 
-    line-height: 28px; 
+#book-appointment-wizard #customer-details p {
+    font-size: 16px;
+    line-height: 28px;
 }
 
 #book-appointment-wizard #wizard-frame-1 label {
@@ -183,8 +183,8 @@ body {
 
 /* BOOK SUCCESS & MESSAGE
    ------------------------------------------------------------------------- */
-#message-frame, 
-#success-frame { 
+#message-frame,
+#success-frame {
     background: #FFF;
     border: 1px solid #DDDADA;
     padding: 70px;
@@ -201,7 +201,7 @@ body {
 }
 
 
-/* CANCEL APPOINTMENT 
+/* CANCEL APPOINTMENT
    ------------------------------------------------------------------------- */
 #cancel-appointment-frame {
     padding: 15px 0;
@@ -220,7 +220,7 @@ body {
     /**
      * BOOKING WIZARD
      */
-    html, 
+    html,
     body {
         min-height: 100%;
     }
@@ -240,17 +240,17 @@ body {
         height: auto;
     }
 
-    #book-appointment-wizard #company-name { 
+    #book-appointment-wizard #company-name {
         float: none;
         display: block;
-        text-align: center;    
+        text-align: center;
     }
 
-    #book-appointment-wizard #steps { 
-        float: none; 
+    #book-appointment-wizard #steps {
+        float: none;
         display: block;
-        overflow: auto; 
-        margin: 20px auto; 
+        overflow: auto;
+        margin: 20px auto;
     }
 
     #book-appointment-wizard .wizard-frame {
@@ -310,18 +310,18 @@ body {
     }
 
     .popover .popover-title {
-        text-align: center;   
+        text-align: center;
     }
 
     .popover .popover-content #language-list .language {
         margin: 10px 0;
     }
 
-    /** 
+    /**
      * BOOK SUCCESS
      */
     #message-frame,
-    #success-frame { 
+    #success-frame {
         text-align: center;
         height: 100%;
         border: none;
