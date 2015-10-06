@@ -44,6 +44,7 @@
                     <?php 
                         echo '<h3>' . $this->lang->line('appointment_registered') . '</h3>'; 
                         echo '<p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>';
+                        echo '<p><a href="'.$this->config->item('base_url').'">Book a new appointment</a></p>';
 
                         if ($this->config->item('ea_google_sync_feature')) { 
                             echo '

@@ -207,20 +207,11 @@ class Appointments extends CI_Controller {
                 } catch(Exception $exc) {
                     $view['exceptions'][] = $exc;
                 }
-
-                // :: LOAD THE BOOK SUCCESS VIEW
-                $view = array(
-                    'appointment_data'  => $appointment,
-                    'provider_data'     => $provider,
-                    'service_data'      => $service,
-                    'company_name'      => $company_settings['company_name']
-                );
-
             } catch(Exception $exc) {
                 $view['exceptions'][] = $exc;
             }
-
-            $this->load->view('appointments/book_success', $view);
+            $this->session->set_flashdata('book_exceptions', $view['exceptions']);
+            redirect('appointments/book_success/'.$appointment['id']);
         }
     }
 
@@ -674,6 +665,39 @@ class Appointments extends CI_Controller {
                 'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
+    }
+    /**
+     * GET an specific appointment book and redirect to the success screen.
+     *
+     * @param int $appointment_id Contains the id of the appointment to retrieve.
+     */
+    public function book_success($appointment_id) {
+        //if the appointment id doesn't exist or zero redirect to index
+        if(!$appointment_id){
+            redirect('appointments');
+        }
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
+        //retrieve the data needed in the view
+        $appointment =  $this->appointments_model->get_row($appointment_id);
+        $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+        $service = $this->services_model->get_row($appointment['id_services']);
+        $company_name = $this->settings_model->get_setting('company_name');
+        //get the exceptions
+        $exceptions = $this->session->flashdata('book_success');
+         // :: LOAD THE BOOK SUCCESS VIEW
+        $view = array(
+            'appointment_data'  => $appointment,
+            'provider_data'     => $provider,
+            'service_data'      => $service,
+            'company_name'      => $company_name,
+        );
+        if($exceptions){
+            $view['exceptions'] = $exceptions;
+        }
+        $this->load->view('appointments/book_success', $view);
     }
 }
 
