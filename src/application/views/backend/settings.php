@@ -66,36 +66,45 @@
                     <?php } ?>
                 </legend>
 
-                <div class="wrapper">
-                    <div class="form-group">
-                        <label for="company-name"><?php echo $this->lang->line('company_name'); ?> *</label>
-                        <input type="text" id="company-name" data-field="company_name" class="required form-control">
-                        <span class="help-block">
-                            <?php echo $this->lang->line('company_name_hint'); ?>
-                        </span>
+                <div class="wrapper row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="company-name"><?php echo $this->lang->line('company_name'); ?> *</label>
+                            <input type="text" id="company-name" data-field="company_name" class="required form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('company_name_hint'); ?>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company-email"><?php echo $this->lang->line('company_email'); ?> *</label>
+                            <input type="text" id="company-email" data-field="company_email" class="required form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('company_email_hint'); ?>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company-link"><?php echo $this->lang->line('company_link'); ?> *</label>
+                            <input type="text" id="company-link" data-field="company_link" class="required form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('company_link_hint'); ?>
+                            </span>
+                        </div>
+
+                        <a href="<?php echo $this->config->item('base_url'); ?>" target="_blank" class="btn btn-info">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            <?php echo $this->lang->line('go_to_booking_page'); ?>
+                        </a>
                     </div>
-
-                    <div class="form-group">
-                        <label for="company-email"><?php echo $this->lang->line('company_email'); ?> *</label>
-                        <input type="text" id="company-email" data-field="company_email" class="required form-control">
-                        <span class="help-block">
-                            <?php echo $this->lang->line('company_email_hint'); ?>
-                        </span>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="google-analytics-code">
+                                Google Analytics ID</label>
+                            <input type="text" id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
+                                data-field="google_analytics_code" class="form-control">
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="company-link"><?php echo $this->lang->line('company_link'); ?> *</label>
-                        <input type="text" id="company-link" data-field="company_link" class="required form-control">
-                        <span class="help-block">
-                            <?php echo $this->lang->line('company_link_hint'); ?>
-                        </span>
-                    </div>
-
-
-                    <a href="<?php echo $this->config->item('base_url'); ?>" target="_blank" class="btn btn-info">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        <?php echo $this->lang->line('go_to_booking_page'); ?>
-                    </a>
                 </div>
             </fieldset>
         </form>

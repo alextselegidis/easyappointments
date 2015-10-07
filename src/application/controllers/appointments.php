@@ -88,6 +88,8 @@ class Appointments extends CI_Controller {
                     $customer      = array();
                 }
 
+                $google_analytics_code = $this->settings_model->get_setting('google_analytics_code');
+
                 // Load the book appointment view.
                 $view = array (
                     'available_services'    => $available_services,
@@ -96,7 +98,8 @@ class Appointments extends CI_Controller {
                     'manage_mode'           => $manage_mode,
                     'appointment_data'      => $appointment,
                     'provider_data'         => $provider,
-                    'customer_data'         => $customer
+                    'customer_data'         => $customer,
+                    'google_analytics_code' => $google_analytics_code
                 );
 
             } catch(Exception $exc) {
