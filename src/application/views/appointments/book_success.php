@@ -44,7 +44,9 @@
                     <?php 
                         echo '<h3>' . $this->lang->line('appointment_registered') . '</h3>'; 
                         echo '<p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>';
-
+                        echo '<a href="'.$this->config->item('base_url').'" class="btn btn-primary btn-large">
+                            <span class="glyphicon glyphicon-calendar"></span>'.$this->lang->line('go_to_booking_page').'</a>';
+                        
                         if ($this->config->item('ea_google_sync_feature')) { 
                             echo '
                                 <button id="add-to-google-calendar" class="btn btn-primary">
