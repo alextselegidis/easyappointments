@@ -114,6 +114,7 @@ class Appointments extends CI_Controller {
             // sync is enabled then add the appointment to the provider's account.
 
             try {
+                $view = array();
                 $post_data = json_decode($_POST['post_data'], true);
                 $appointment = $post_data['appointment'];
                 $customer = $post_data['customer'];
@@ -213,6 +214,11 @@ class Appointments extends CI_Controller {
             } catch(Exception $exc) {
                 $view['exceptions'][] = $exc;
             }
+
+            // Save any exceptions to the session and redirect to another page so that the user
+            // will not add a new appointment on page reload.
+            $this->load->helper('url');
+            $view['exceptions'] =  (!empty($view['exceptions'])) ? $view['exceptions'] : array();
             $this->session->set_flashdata('book_exceptions', $view['exceptions']);
             redirect('appointments/book_success/'.$appointment['id']);
         }
