@@ -1,59 +1,59 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
  * This namespace handles the js functionality of the backend services page.
- * 
+ *
  * @namespace BackendServices
  */
 var BackendServices = {
     /**
      * Contains the basic record methods for the page.
-     * 
+     *
      * @type ServicesHelper|CategoriesHelper
      */
     helper: {},
-    
+
     /**
      * Default initialize method of the page.
-     * 
-     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether to bind the 
+     *
+     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether to bind the
      * default event handlers (default: true).
      */
     initialize: function(bindEventHandlers) {
         if (bindEventHandlers === undefined) bindEventHandlers = true;
-        
+
         // Fill available service categories listbox.
         $.each(GlobalVariables.categories, function(index, category) {
             var option = new Option(category.name, category.id);
             $('#service-category').append(option);
         });
         $('#service-category').append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
-        
+
         $('#service-duration').spinner({
             'min': 0,
             'disabled': true //default
         });
-        
+
         // Instantiate helper object (service helper by default).
         BackendServices.helper = new ServicesHelper();
         BackendServices.helper.resetForm();
         BackendServices.helper.filter('');
-        
+
         $('#filter-services .results').jScrollPane();
         $('#filter-categories .results').jScrollPane();
-        
-        if (bindEventHandlers) BackendServices.bindEventHandlers();        
+
+        if (bindEventHandlers) BackendServices.bindEventHandlers();
     },
-        
+
     /**
      * Binds the default event handlers of the backend services page. Do not use this method
      * if you include the "BackendServices" namespace on another page.
@@ -61,14 +61,14 @@ var BackendServices = {
     bindEventHandlers: function() {
         /**
          * Event: Page Tab Button "Click"
-         * 
+         *
          * Changes the displayed tab.
          */
         $('.tab').click(function() {
             $(this).parent().find('.active').removeClass('active');
             $(this).addClass('active');
             $('.tab-content').hide();
-            
+
             if ($(this).hasClass('services-tab')) { // display services tab
                 $('#services').show();
                 BackendServices.helper = new ServicesHelper();
@@ -76,36 +76,36 @@ var BackendServices = {
                 $('#categories').show();
                 BackendServices.helper = new CategoriesHelper();
             }
-            
+
             BackendServices.helper.resetForm();
             BackendServices.helper.filter('');
             $('.filter-key').val('');
             Backend.placeFooterToBottom();
         });
-        
+
         ServicesHelper.prototype.bindEventHandlers();
         CategoriesHelper.prototype.bindEventHandlers();
-        
+
     },
-    
+
     /**
      * Update the service category listbox. Use this method every time a change is made
      * to the service categories db table.
      */
     updateAvailableCategories: function() {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
-        var postData = { 
+        var postData = {
             'csrfToken': GlobalVariables.csrfToken,
-            'key': '' 
+            'key': ''
         };
-        
+
         $.post(postUrl, postData, function(response) {
             ///////////////////////////////////////////////////////////////
             console.log('Update Available Categories Response:', response);
             ///////////////////////////////////////////////////////////////
-            
+
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-            
+
             GlobalVariables.categories = response;
             var $select = $('#service-category');
             $select.empty();
@@ -114,7 +114,7 @@ var BackendServices = {
                 $select.append(option);
             });
             $select.append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
-        }, 'json');
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     }
 };
 
@@ -148,7 +148,7 @@ ServicesHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Filter Service Row "Click"
-     * 
+     *
      * Display the selected service data to the user.
      */
     $(document).on('click', '.service-row', function() {
@@ -157,7 +157,7 @@ ServicesHelper.prototype.bindEventHandlers = function() {
             return; // exit because we are on edit mode
         }
 
-        var serviceId = $(this).attr('data-id'); 
+        var serviceId = $(this).attr('data-id');
         var service = {};
         $.each(BackendServices.helper.filterResults, function(index, item) {
             if (item.id === serviceId) {
@@ -189,7 +189,7 @@ ServicesHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Cancel Service Button "Click"
-     * 
+     *
      * Cancel add or edit of a service record.
      */
     $('#cancel-service').click(function() {
@@ -257,14 +257,14 @@ ServicesHelper.prototype.bindEventHandlers = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['delete_service'], 
+        GeneralFunctions.displayMessageBox(EALang['delete_service'],
                 EALang['delete_record_prompt'], messageBtns);
     });
 };
 
 /**
  * Save service record to database.
- * 
+ *
  * @param {object} service Contains the service record data. If an 'id' value is provided
  * then the update operation is going to be executed.
  */
@@ -272,61 +272,61 @@ ServicesHelper.prototype.save = function(service) {
     ////////////////////////////////////////////////
     //console.log('Service data to save:', service);
     ////////////////////////////////////////////////
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'service': JSON.stringify(service) 
+        'service': JSON.stringify(service)
     };
-    
+
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////
         //console.log('Save Service Response:', response);
         //////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         Backend.displayNotification(EALang['service_saved']);
         BackendServices.helper.resetForm();
         $('#filter-services .key').val('');
         BackendServices.helper.filter('', response.id, true);
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Delete a service record from database.
- * 
- * @param {numeric} id Record id to be deleted. 
+ *
+ * @param {numeric} id Record id to be deleted.
  */
 ServicesHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'service_id': id 
+        'service_id': id
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
         //console.log('Delete service response:', response);
         ////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         Backend.displayNotification(EALang['service_deleted']);
-        
+
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-services .key').val());
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Validates a service record.
- * 
+ *
  * @param {object} service Contains the service data.
  * @returns {bool} Returns the validation result.
  */
 ServicesHelper.prototype.validate = function(service) {
     $('#services .required').css('border', '');
-    
+
     try {
         // validate required fields.
         var missingRequired = false;
@@ -336,11 +336,11 @@ ServicesHelper.prototype.validate = function(service) {
                 missingRequired = true;
             }
         });
-        
-        if (missingRequired) 
+
+        if (missingRequired)
             throw EALang['fields_are_required'];
-        
-        
+
+
         return true;
     } catch(exc) {
         return false;
@@ -348,7 +348,7 @@ ServicesHelper.prototype.validate = function(service) {
 };
 
 /**
- * Resets the service tab form back to its initial state. 
+ * Resets the service tab form back to its initial state.
  */
 ServicesHelper.prototype.resetForm = function() {
     $('#services .details').find('input, textarea').val('');
@@ -359,7 +359,7 @@ ServicesHelper.prototype.resetForm = function() {
     $('#services .details').find('input, textarea').prop('readonly', true);
     $('#service-category').prop('disabled', true);
     $('#service-duration').spinner('disable');
-    
+
     $('#filter-services .selected-row').removeClass('selected-row');
     $('#filter-services button').prop('disabled', false);
     $('#filter-services .results').css('color', '');
@@ -367,7 +367,7 @@ ServicesHelper.prototype.resetForm = function() {
 
 /**
  * Display a service record into the service form.
- * 
+ *
  * @param {object} service Contains the service record data.
  */
 ServicesHelper.prototype.display = function(service) {
@@ -377,67 +377,67 @@ ServicesHelper.prototype.display = function(service) {
     $('#service-price').val(service.price);
     $('#service-currency').val(service.currency);
     $('#service-description').val(service.description);
-    
+
     var categoryId = (service.id_service_categories != null) ? service.id_service_categories : 'null';
     $('#service-category').val(categoryId);
 };
 
 /**
  * Filters service records depending a string key.
- * 
+ *
  * @param {string} key This is used to filter the service records of the database.
- * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter 
+ * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter
  * operation the record with this id will be selected (but not displayed).
- * @param {bool} display (OPTIONAL = false) If true then the selected record will 
+ * @param {bool} display (OPTIONAL = false) If true then the selected record will
  * be displayed on the form.
  */
 ServicesHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'key': key 
+        'key': key
     };
-    
+
     $.post(postUrl, postData, function(response) {
         /////////////////////////////////////////////////////
         //console.log('Filter services response:', response);
         /////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendServices.helper.filterResults = response;
-        
+
         $('#filter-services .results').data('jsp').destroy();
         $('#filter-services .results').html('');
         $.each(response, function(index, service) {
             var html = ServicesHelper.prototype.getFilterHtml(service);
             $('#filter-services .results').append(html);
-        });        
+        });
         $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
-        
+
         if (response.length == 0) {
             $('#filter-services .results').html('<em>' + EALang['no_records_found'] + '</em>');
         }
-        
+
         if (selectId != undefined) {
             BackendServices.helper.select(selectId, display);
         }
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Get a service row html code that is going to be displayed on the filter results list.
- * 
+ *
  * @param {object} service Contains the service record data.
  * @returns {string} The html code that represents the record on the filter results list.
  */
 ServicesHelper.prototype.getFilterHtml = function(service) {
     var html =
-            '<div class="service-row" data-id="' + service.id + '">' + 
+            '<div class="service-row" data-id="' + service.id + '">' +
                 '<strong>' + service.name + '</strong><br>' +
-                service.duration + ' min - ' + 
+                service.duration + ' min - ' +
                 service.price + ' ' + service.currency + '<br>' +
             '</div><hr>';
 
@@ -445,26 +445,26 @@ ServicesHelper.prototype.getFilterHtml = function(service) {
 };
 
 /**
- * Select a specific record from the current filter results. If the service id does not exist 
- * in the list then no record will be selected. 
- * 
+ * Select a specific record from the current filter results. If the service id does not exist
+ * in the list then no record will be selected.
+ *
  * @param {numeric} id The record id to be selected from the filter results.
  * @param {bool} display (OPTIONAL = false) If true then the method will display the record
  * on the form.
  */
 ServicesHelper.prototype.select = function(id, display) {
     if (display == undefined) display = false;
-    
+
     $('#filter-services .selected-row').removeClass('selected-row');
-    
+
     $('#filter-services .service-row').each(function() {
         if ($(this).attr('data-id') == id) {
             $(this).addClass('selected-row');
             return false;
         }
     });
-    
-    if (display) { 
+
+    if (display) {
         $.each(BackendServices.helper.filterResults, function(index, service) {
             if (service.id == id) {
                 BackendServices.helper.display(service);
@@ -478,7 +478,7 @@ ServicesHelper.prototype.select = function(id, display) {
 /**
  * This class contains the core method implementations that belong to the categories tab
  * of the backend services page.
- * 
+ *
  * @class CategoriesHelper
  */
 var CategoriesHelper = function() {
@@ -507,10 +507,10 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
         BackendServices.helper.filter(key);
         return false;
     });
-    
+
     /**
      * Event: Filter Categories Row "Click"
-     * 
+     *
      * Displays the selected row data on the right side of the page.
      */
     $(document).on('click', '.category-row', function() {
@@ -533,7 +533,7 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
         $(this).addClass('selected-row');
         $('#edit-category, #delete-category').prop('disabled', false);
     });
-    
+
     /**
      * Event: Add Category Button "Click"
      */
@@ -545,7 +545,7 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
         $('#filter-categories button').prop('disabled', true);
         $('#filter-categories .results').css('color', '#AAA');
     });
-    
+
     /**
      * Event: Edit Category Button "Click"
      */
@@ -557,7 +557,7 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
         $('#filter-categories button').prop('disabled', true);
         $('#filter-categories .results').css('color', '#AAA');
     });
-    
+
     /**
      * Event: Delete Category Button "Click"
      */
@@ -573,10 +573,10 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['delete_category'], 
+        GeneralFunctions.displayMessageBox(EALang['delete_category'],
                 EALang['delete_record_prompt'], messageBtns);
     });
-    
+
     /**
      * Event: Categories Save Button "Click"
      */
@@ -594,7 +594,7 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
 
         BackendServices.helper.save(category);
     });
-    
+
     /**
      * Event: Cancel Category Button "Click"
      */
@@ -609,29 +609,29 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
 
 /**
  * Filter service categories records.
- * 
+ *
  * @param {string} key This key string is used to filter the category records.
- * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter 
+ * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter
  * operation the record with the given id will be selected (but not displayed).
  * @param {bool} display (OPTIONAL = false) If true then the selected record will
  * be displayed on the form.
  */
 CategoriesHelper.prototype.filter = function(key, selectId, display) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'key': key 
+        'key': key
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////
         console.log('Filter Categories Response:', response);
         ///////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         BackendServices.helper.filterResults = response;
-        
+
         $('#filter-categories .results').data('jsp').destroy();
         $('#filter-categories .results').html('');
         $.each(response, function(index, category) {
@@ -639,75 +639,75 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
            $('#filter-categories .results').append(html);
         });
         $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
-        
+
         if (response.length == 0) {
             $('#filter-categories .results').html('<em>' + EALang['no_records_found'] + '</em>');
         }
-        
+
         if (selectId != undefined) {
             BackendServices.helper.select(selectId, display);
         }
-        
-    }, 'json');
+
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Save a category record to the database (via ajax post).
- * 
+ *
  * @param {object} category Contains the category data.
  */
 CategoriesHelper.prototype.save = function(category) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'category': JSON.stringify(category) 
+        'category': JSON.stringify(category)
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
         console.log('Save Service Category Response:', response);
         ///////////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         Backend.displayNotification(EALang['service_category_saved']);
         BackendServices.helper.resetForm();
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('', response.id, true);
         BackendServices.updateAvailableCategories();
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Delete category record.
- * 
+ *
  * @param {int} id Record id to be deleted.
  */
 CategoriesHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'category_id': id 
+        'category_id': id
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
         console.log('Delete category response:', response);
         ////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         Backend.displayNotification(EALang['service_category_deleted']);
-        
+
         BackendServices.helper.resetForm();
         BackendServices.helper.filter($('#filter-categories .key').val());
         BackendServices.updateAvailableCategories();
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Display a category record on the form.
- * 
+ *
  * @param {object} category Contains the category data.
  */
 CategoriesHelper.prototype.display = function(category) {
@@ -718,12 +718,12 @@ CategoriesHelper.prototype.display = function(category) {
 
 /**
  * Validate category data before save (insert or update).
- * 
+ *
  * @param {object} category Contains the category data.
  */
 CategoriesHelper.prototype.validate = function(category) {
     $('#categories .details').find('input, textarea').css('border', '');
-    
+
     try {
         var missingRequired = false;
         $('#categories .required').each(function() {
@@ -733,9 +733,9 @@ CategoriesHelper.prototype.validate = function(category) {
             }
         });
         if (missingRequired) throw EALang['fields_are_required'];
-        
+
         return true;
-        
+
     } catch(exc) {
         console.log('Category Record Validation Exc:', exc);
         return false;
@@ -751,7 +751,7 @@ CategoriesHelper.prototype.resetForm = function() {
     $('#categories .details').find('input, textarea').val('');
     $('#categories .details').find('input, textarea').prop('readonly', true);
     $('#edit-category, #delete-category').prop('disabled', true);
-    
+
     $('#filter-categories .selected-row').removeClass('selected-row');
     $('#filter-categories .results').css('color', '');
     $('#filter-categories button').prop('disabled', false);
@@ -759,13 +759,13 @@ CategoriesHelper.prototype.resetForm = function() {
 
 /**
  * Get the filter results row html code.
- * 
+ *
  * @param {object} category Contains the category data.
  * @return {string} Returns the record html code.
  */
-CategoriesHelper.prototype.getFilterHtml = function(category) {    
+CategoriesHelper.prototype.getFilterHtml = function(category) {
     var html =
-            '<div class="category-row" data-id="' + category.id + '">' + 
+            '<div class="category-row" data-id="' + category.id + '">' +
                 '<strong>' + category.name + '</strong>' +
             '</div><hr>';
 
@@ -773,26 +773,26 @@ CategoriesHelper.prototype.getFilterHtml = function(category) {
 };
 
 /**
- * Select a specific record from the current filter results. If the category id does not exist 
- * in the list then no record will be selected. 
- * 
+ * Select a specific record from the current filter results. If the category id does not exist
+ * in the list then no record will be selected.
+ *
  * @param {numeric} id The record id to be selected from the filter results.
  * @param {bool} display (OPTIONAL = false) If true then the method will display the record
  * on the form.
  */
 CategoriesHelper.prototype.select = function(id, display) {
     if (display == undefined) display = false;
-    
+
     $('#filter-categories .selected-row').removeClass('selected-row');
-    
+
     $('#filter-categories .category-row').each(function() {
         if ($(this).attr('data-id') == id) {
             $(this).addClass('selected-row');
             return false;
         }
     });
-    
-    if (display) { 
+
+    if (display) {
         $.each(BackendServices.helper.filterResults, function(index, category) {
             if (category.id == id) {
                 BackendServices.helper.display(category);

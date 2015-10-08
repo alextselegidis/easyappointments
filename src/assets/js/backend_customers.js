@@ -1,52 +1,52 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Customers javasript namespace. Contains the main functionality 
- * of the backend customers page. If you need to use this namespace in a 
+ * Backend Customers javasript namespace. Contains the main functionality
+ * of the backend customers page. If you need to use this namespace in a
  * different page, do not bind the default event handlers during initialization.
  *
  * @namespace BackendCustomers
  */
 var BackendCustomers = {
     /**
-     * The page helper contains methods that implement each record type functionality 
+     * The page helper contains methods that implement each record type functionality
      * (for now there is only the CustomersHelper).
-     * 
+     *
      * @type {object{
      */
     helper: {},
-            
+
 	/**
 	 * This method initializes the backend customers page. If you use this namespace
-	 * in a different page do not use this method. 
-	 * 
-	 * @param {bool} defaultEventHandlers (OPTIONAL = false) Whether to bind the default 
-	 * event handlers or not.  
+	 * in a different page do not use this method.
+	 *
+	 * @param {bool} defaultEventHandlers (OPTIONAL = false) Whether to bind the default
+	 * event handlers or not.
 	 */
 	initialize: function(defaultEventHandlers) {
-		if (defaultEventHandlers == undefined) defaultEventHandlers = false; 
-		
+		if (defaultEventHandlers == undefined) defaultEventHandlers = false;
+
         BackendCustomers.helper = new CustomersHelper();
 		BackendCustomers.helper.resetForm();
 		BackendCustomers.helper.filter('');
-        
+
         $('#filter-customers .results').jScrollPane();
         $('#customer-appointments').jScrollPane();
-        
+
 		if (defaultEventHandlers) {
 			BackendCustomers.bindEventHandlers();
 		}
 	},
-    
+
     /**
      * Default event handlers declaration for backend customers page.
      */
@@ -57,7 +57,7 @@ var BackendCustomers = {
 
 /**
  * This class contains the methods that are used in the backend customers page.
- * 
+ *
  * @class CustomersHelper
  */
 var CustomersHelper = function() {
@@ -78,7 +78,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
         BackendCustomers.helper.filter(key);
         return false;
     });
-    
+
     /**
      * Event: Filter Customers Clear Button "Click"
      */
@@ -86,17 +86,17 @@ CustomersHelper.prototype.bindEventHandlers = function() {
         $('#filter-customers .key').val('');
         BackendCustomers.helper.filter('');
     });
-    
+
     /**
      * Event: Customer Row "Click"
-     * 
+     *
      * Display the customer data of the selected row.
      */
     $(document).on('click', '.customer-row', function() {
         if ($('#filter-customers .filter').prop('disabled')) {
             return; // Do nothing when user edits a customer record.
         }
-        
+
         var customerId = $(this).attr('data-id');
         var customer = {};
         $.each(BackendCustomers.helper.filterResults, function(index, item) {
@@ -105,7 +105,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
                 return false;
             }
         });
-        
+
         BackendCustomers.helper.display(customer);
         $('#filter-customers .selected-row').removeClass('selected-row');
         $(this).addClass('selected-row');
@@ -114,7 +114,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Appointment Row "Click"
-     * 
+     *
      * Display appointment data of the selected row.
      */
     $(document).on('click', '.appointment-row', function() {
@@ -194,9 +194,9 @@ CustomersHelper.prototype.bindEventHandlers = function() {
         if ($('#customer-id').val() != '') {
             customer.id = $('#customer-id').val();
         }
-        
+
         if (!BackendCustomers.helper.validate(customer)) return;
-            
+
         BackendCustomers.helper.save(customer);
     });
 
@@ -205,9 +205,9 @@ CustomersHelper.prototype.bindEventHandlers = function() {
      */
     $('#delete-customer').click(function() {
         var customerId = $('#customer-id').val();
-        
+
         var messageBtns = {};
-        messageBtns[EALang['delete']] = function() {        
+        messageBtns[EALang['delete']] = function() {
             BackendCustomers.helper.delete(customerId);
             $('#message_box').dialog('close');
         };
@@ -215,71 +215,71 @@ CustomersHelper.prototype.bindEventHandlers = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['delete_customer'], 
+        GeneralFunctions.displayMessageBox(EALang['delete_customer'],
                 EALang['delete_record_prompt'], messageBtns);
     });
 };
 
 /**
  * Save a customer record to the database (via ajax post).
- * 
+ *
  * @param {object} customer Contains the customer data.
  */
 CustomersHelper.prototype.save = function(customer) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'customer': JSON.stringify(customer) 
+        'customer': JSON.stringify(customer)
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////////
         console.log('Save Customer Response:', response);
         ///////////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         Backend.displayNotification(EALang['customer_saved']);
         BackendCustomers.helper.resetForm();
         $('#filter-customers .key').val('');
         BackendCustomers.helper.filter('', response.id, true);
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Delete a customer record from database.
- * 
- * @param {numeric} id Record id to be deleted. 
+ *
+ * @param {numeric} id Record id to be deleted.
  */
 CustomersHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'customer_id': id 
+        'customer_id': id
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
         //console.log('Delete customer response:', response);
         ////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         Backend.displayNotification(EALang['customer_deleted']);
         BackendCustomers.helper.resetForm();
         BackendCustomers.helper.filter($('#filter-customers .key').val());
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Validate customer data before save (insert or update).
- * 
+ *
  * @param {object} customer Contains the customer data.
  */
 CustomersHelper.prototype.validate = function(customer) {
     $('#form-message').hide();
     $('.required').css('border', '');
-    
+
     try {
         // Validate required fields.
         var missingRequired = false;
@@ -311,18 +311,18 @@ CustomersHelper.prototype.validate = function(customer) {
  * Bring the customer form back to its initial state.
  */
 CustomersHelper.prototype.resetForm = function() {
-    $('.details').find('input, textarea').val(''); 
-    $('.details').find('input, textarea').prop('readonly', true); 
-    
+    $('.details').find('input, textarea').val('');
+    $('.details').find('input, textarea').prop('readonly', true);
+
     $('#customer-appointments').html('');
     $('#appointment-details').html('');
     $('#edit-customer, #delete-customer').prop('disabled', true);
     $('#add-edit-delete-group').show();
     $('#save-cancel-group').hide();
-    
+
     $('.details .required').css('border', '');
     $('.details #form-message').hide();
-    
+
     $('#filter-customers button').prop('disabled', false);
     $('#filter-customers .selected-row').removeClass('selected-row');
     $('#filter-customers .results').css('color', '');
@@ -330,7 +330,7 @@ CustomersHelper.prototype.resetForm = function() {
 
 /**
  * Display a customer record into the form.
- * 
+ *
  * @param {object} customer Contains the customer record data.
  */
 CustomersHelper.prototype.display = function(customer) {
@@ -349,109 +349,109 @@ CustomersHelper.prototype.display = function(customer) {
     $.each(customer.appointments, function(index, appointment) {
         var start = Date.parse(appointment.start_datetime).toString('dd/MM/yyyy HH:mm');
         var end = Date.parse(appointment.end_datetime).toString('dd/MM/yyyy HH:mm');
-        var html = 
-                '<div class="appointment-row" data-id="' + appointment.id + '">' + 
+        var html =
+                '<div class="appointment-row" data-id="' + appointment.id + '">' +
                     start + ' - ' + end + '<br>' +
-                    appointment.service.name + ', ' + 
+                    appointment.service.name + ', ' +
                     appointment.provider.first_name + ' ' + appointment.provider.last_name +
-                '</div>';   
+                '</div>';
         $('#customer-appointments').append(html);
     });
     $('#customer-appointments').jScrollPane({ mouseWheelSpeed: 70 });
-    
+
     $('#appointment-details').empty();
 };
 
 /**
  * Filter customer records.
- * 
+ *
  * @param {string} key This key string is used to filter the customer records.
- * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter 
+ * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter
  * operation the record with the given id will be selected (but not displayed).
  * @param {bool} display (OPTIONAL = false) If true then the selected record will
  * be displayed on the form.
  */
 CustomersHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'key': key 
+        'key': key
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////////
         console.log('Filter Customers Response:', response);
         ///////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         BackendCustomers.helper.filterResults = response;
-        
-        $('#filter-customers .results').data('jsp').destroy(); 
+
+        $('#filter-customers .results').data('jsp').destroy();
         $('#filter-customers .results').html('');
         $.each(response, function(index, customer) {
            var html = BackendCustomers.helper.getFilterHtml(customer);
            $('#filter-customers .results').append(html);
         });
         $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
-        
+
         if (response.length == 0) {
             $('#filter-customers .results').html('<em>' + EALang['no_records_found'] + '</em>');
         }
-        
+
         if (selectId != undefined) {
             BackendCustomers.helper.select(selectId, display);
         }
-        
-    }, 'json');
+
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Get the filter results row html code.
- * 
+ *
  * @param {object} customer Contains the customer data.
  * @return {string} Returns the record html code.
  */
 CustomersHelper.prototype.getFilterHtml = function(customer) {
     var name = customer.first_name + ' ' + customer.last_name;
-    var info = customer.email; 
-    info = (customer.phone_number != '' && customer.phone_number != null) 
+    var info = customer.email;
+    info = (customer.phone_number != '' && customer.phone_number != null)
             ? info + ', ' + customer.phone_number : info;
-    
-    var html = 
+
+    var html =
             '<div class="customer-row" data-id="' + customer.id + '">' +
-                '<strong>' + 
-                    name + 
-                '</strong><br>' + 
+                '<strong>' +
+                    name +
+                '</strong><br>' +
                 info +
             '</div><hr>';
-    
+
     return html;
 };
- 
+
 /**
- * Select a specific record from the current filter results. If the customer id does not exist 
- * in the list then no record will be selected. 
- * 
+ * Select a specific record from the current filter results. If the customer id does not exist
+ * in the list then no record will be selected.
+ *
  * @param {numeric} id The record id to be selected from the filter results.
  * @param {bool} display (OPTIONAL = false) If true then the method will display the record
  * on the form.
  */
 CustomersHelper.prototype.select = function(id, display) {
     if (display == undefined) display = false;
-    
+
     $('#filter-customers .selected-row').removeClass('selected-row');
-    
+
     $('#filter-customers .customer-row').each(function() {
         if ($(this).attr('data-id') == id) {
             $(this).addClass('selected-row');
             return false;
         }
     });
-    
-    if (display) { 
+
+    if (display) {
         $.each(BackendCustomers.helper.filterResults, function(index, customer) {
             if (customer.id == id) {
                 BackendCustomers.helper.display(customer);
@@ -460,20 +460,20 @@ CustomersHelper.prototype.select = function(id, display) {
             }
         });
     }
-}; 
- 
+};
+
 /**
  * Display appointment details on customers backend page.
- * 
+ *
  * @param {object} appointment Appointment data
  */
 CustomersHelper.prototype.displayAppointment = function(appointment) {
     var start = Date.parse(appointment.start_datetime).toString('dd/MM/yyyy HH:mm');
     var end = Date.parse(appointment.end_datetime).toString('dd/MM/yyyy HH:mm');
 
-    var html = 
-            '<div>' + 
-                '<strong>' + appointment.service.name + '</strong><br>' + 
+    var html =
+            '<div>' +
+                '<strong>' + appointment.service.name + '</strong><br>' +
                 appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
                 start + ' - ' + end + '<br>' +
             '</div>';

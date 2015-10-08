@@ -331,7 +331,27 @@ var GeneralFunctions = {
         		if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         		document.location.reload(true);
 
-        	}, 'json');
+        	}, 'json').fail(GeneralFunctions.ajaxFailureHandler);
         });
+    },
+
+    /**
+     * Use this method for common error handling between
+     *
+     * @param {object} jqxhr
+     * @param {string} textStatus
+     * @param {object} errorThrown
+     */
+    ajaxFailureHandler: function(jqxhr, textStatus, errorThrown) {
+        var exceptions = [
+            {
+                message: 'AJAX Error: ' + textStatus
+            }
+        ];
+
+        console.log('AJAX Failure Handler:', jqxhr, textStatus, errorThrown);
+        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
+            GeneralFunctions.EXCEPTIONS_MESSAGE);
+        $('#message_box').append(GeneralFunctions.exceptionsToHtml(exceptions));
     }
 };

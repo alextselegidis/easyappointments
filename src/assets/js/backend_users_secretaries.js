@@ -1,19 +1,19 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * This class contains the Secretaries helper class declaration, along with the "Secretaries"  
+ * This class contains the Secretaries helper class declaration, along with the "Secretaries"
  * tab event handlers. By deviding the backend/users tab functionality into separate files
  * it is easier to maintain the code.
- * 
+ *
  * @class SecretariesHelper
  */
 var SecretariesHelper = function() {
@@ -26,7 +26,7 @@ var SecretariesHelper = function() {
 SecretariesHelper.prototype.bindEventHandlers = function() {
     /**
      * Event: Filter Secretaries Form "Submit"
-     * 
+     *
      * Filter the secretary records with the given key string.
      */
     $('#filter-secretaries form').submit(function(event) {
@@ -47,7 +47,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Filter Secretary Row "Click"
-     * 
+     *
      * Display the selected secretary data to the user.
      */
     $(document).on('click', '.secretary-row', function() {
@@ -56,7 +56,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
             return; // exit because we are currently on edit mode
         }
 
-        var secretaryId = $(this).attr('data-id'); 
+        var secretaryId = $(this).attr('data-id');
         var secretary = {};
         $.each(BackendUsers.helper.filterResults, function(index, item) {
             if (item.id === secretaryId) {
@@ -64,7 +64,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
                 return false;
             }
         });
-        
+
         BackendUsers.helper.display(secretary);
         $('#filter-secretaries .selected-row').removeClass('selected-row');
         $(this).addClass('selected-row');
@@ -78,7 +78,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
         BackendUsers.helper.resetForm();
         $('#filter-secretaries button').prop('disabled', true);
         $('#filter-secretaries .results').css('color', '#AAA');
-        
+
         $('#secretaries .add-edit-delete-group').hide();
         $('#secretaries .save-cancel-group').show();
         $('#secretaries .details').find('input, textarea').prop('readonly', false);
@@ -93,7 +93,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
     $('#edit-secretary').click(function() {
         $('#filter-secretaries button').prop('disabled', true);
         $('#filter-secretaries .results').css('color', '#AAA');
-        
+
         $('#secretaries .add-edit-delete-group').hide();
         $('#secretaries .save-cancel-group').show();
         $('#secretaries .details').find('input, textarea').prop('readonly', false);
@@ -117,7 +117,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['delete_secretary'], 
+        GeneralFunctions.displayMessageBox(EALang['delete_secretary'],
                 EALang['delete_record_prompt'], messageBtns);
     });
 
@@ -137,7 +137,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
             'zip_code': $('#secretary-zip-code').val(),
             'notes': $('#secretary-notes').val(),
             'settings': {
-                'username': $('#secretary-username').val(),                    
+                'username': $('#secretary-username').val(),
                 'notifications': $('#secretary-notifications').hasClass('active')
             }
         };
@@ -167,7 +167,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Cancel Secretary Button "Click"
-     * 
+     *
      * Cancel add or edit of an secretary record.
      */
     $('#cancel-secretary').click(function() {
@@ -181,7 +181,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
 
 /**
  * Save secretary record to database.
- * 
+ *
  * @param {object} secretary Contains the admin record data. If an 'id' value is provided
  * then the update operation is going to be executed.
  */
@@ -189,13 +189,13 @@ SecretariesHelper.prototype.save = function(secretary) {
     ////////////////////////////////////////////////////
     //console.log('Secretary data to save:', secretary);
     ////////////////////////////////////////////////////
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'secretary': JSON.stringify(secretary) 
+        'secretary': JSON.stringify(secretary)
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////
         //console.log('Save Secretary Response:', response);
@@ -205,21 +205,21 @@ SecretariesHelper.prototype.save = function(secretary) {
         BackendUsers.helper.resetForm();
         $('#filter-secretaries .key').val('');
         BackendUsers.helper.filter('', response.id, true);
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Delete a secretary record from database.
- * 
- * @param {int} id Record id to be deleted. 
+ *
+ * @param {int} id Record id to be deleted.
  */
 SecretariesHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'secretary_id': id 
+        'secretary_id': id
     };
-    
+
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////////
         //console.log('Delete secretary response:', response);
@@ -228,19 +228,19 @@ SecretariesHelper.prototype.delete = function(id) {
         Backend.displayNotification(EALang['secretary_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-secretaries .key').val());
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Validates a secretary record.
- * 
+ *
  * @param {object} secretary Contains the admin data to be validated.
  * @returns {bool} Returns the validation result.
  */
 SecretariesHelper.prototype.validate = function(secretary) {
     $('#secretaries .required').css('border', '');
     $('#secretary-password, #secretary-password-confirm').css('border', '');
-    
+
     try {
         // Validate required fields.
         var missingRequired = false;
@@ -253,32 +253,32 @@ SecretariesHelper.prototype.validate = function(secretary) {
         if (missingRequired) {
             throw 'Fields with * are  required.';
         }
-        
+
         // Validate passwords.
         if ($('#secretary-password').val() != $('#secretary-password-confirm').val()) {
             $('#secretary-password, #secretary-password-confirm').css('border', '2px solid red');
             throw 'Passwords mismatch!';
         }
-        
+
         if ($('#secretary-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                 && $('#secretary-password').val() != '') {
             $('#secretary-password, #secretary-password-confirm').css('border', '2px solid red');
-            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH 
+            throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH
                     + ' characters long.';
         }
-        
+
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
             $('#secretary-email').css('border', '2px solid red');
             throw 'Invalid email address!';
         }
-        
+
         // Check if username exists
         if ($('#secretary-username').attr('already-exists') ==  'true') {
             $('#secretary-username').css('border', '2px solid red');
             throw 'Username already exists.';
-        } 
-        
+        }
+
         return true;
     } catch(exc) {
         $('#secretaries .form-message').text(exc);
@@ -288,7 +288,7 @@ SecretariesHelper.prototype.validate = function(secretary) {
 };
 
 /**
- * Resets the admin tab form back to its initial state. 
+ * Resets the admin tab form back to its initial state.
  */
 SecretariesHelper.prototype.resetForm = function() {
     $('#secretaries .details').find('input, textarea').val('');
@@ -296,14 +296,14 @@ SecretariesHelper.prototype.resetForm = function() {
     $('#secretaries .save-cancel-group').hide();
     $('#edit-secretary, #delete-secretary').prop('disabled', true);
     $('#secretaries .details').find('input, textarea').prop('readonly', true);
-    $('#secretaries .form-message').hide();    
+    $('#secretaries .form-message').hide();
     $('#secretary-notifications').removeClass('active');
     $('#secretary-notifications').prop('disabled', true);
     $('#secretary-providers input[type="checkbox"]').prop('checked', false);
     $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
     $('#secretaries .required').css('border', '');
     $('#secretary-password, #secretary-password-confirm').css('border', '');
-    
+
     $('#filter-secretaries .selected-row').removeClass('selected-row');
     $('#filter-secretaries button').prop('disabled', false);
     $('#filter-secretaries .results').css('color', '');
@@ -311,7 +311,7 @@ SecretariesHelper.prototype.resetForm = function() {
 
 /**
  * Display a secretary record into the admin form.
- * 
+ *
  * @param {object} secretary Contains the secretary record data.
  */
 SecretariesHelper.prototype.display = function(secretary) {
@@ -326,14 +326,14 @@ SecretariesHelper.prototype.display = function(secretary) {
     $('#secretary-state').val(secretary.state);
     $('#secretary-zip-code').val(secretary.zip_code);
     $('#secretary-notes').val(secretary.notes);
-    
+
     $('#secretary-username').val(secretary.settings.username);
     if (secretary.settings.notifications == true) {
         $('#secretary-notifications').addClass('active');
     } else {
         $('#secretary-notifications').removeClass('active');
     }
-    
+
     $('#secretary-providers input[type="checkbox"]').prop('checked', false);
     $.each(secretary.providers, function(index, providerId) {
         $('#secretary-providers input[type="checkbox"]').each(function() {
@@ -346,30 +346,30 @@ SecretariesHelper.prototype.display = function(secretary) {
 
 /**
  * Filters secretary records depending a string key.
- * 
+ *
  * @param {string} key This is used to filter the secretary records of the database.
- * @param {numeric} selectId (OPTIONAL = undefined) If provided then the given id will be 
+ * @param {numeric} selectId (OPTIONAL = undefined) If provided then the given id will be
  * selected in the filter results (only selected, not displayed).
  * @param {bool} display (OPTIONAL = false)
  */
 SecretariesHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_secretaries';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'key': key 
+        'key': key
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ////////////////////////////////////////////////////////
         //console.log('Filter secretaries response:', response);
         ////////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         BackendUsers.helper.filterResults = response;
-        
+
         $('#filter-secretaries .results').data('jsp').destroy();
         $('#filter-secretaries .results').html('');
         $.each(response, function(index, secretary) {
@@ -377,20 +377,20 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
             $('#filter-secretaries .results').append(html);
         });
         $('#filter-secretaries .results').jScrollPane({ mouseWheelSpeed: 70 });
-        
+
         if (response.length == 0) {
             $('#filter-secretaries .results').html('<em>' + EALang['no_records_found'] + '</em>')
         }
-        
+
         if (selectId != undefined) {
             BackendUsers.helper.select(selectId, display);
         }
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Get an secretary row html code that is going to be displayed on the filter results list.
- * 
+ *
  * @param {object} secretary Contains the secretary record data.
  * @returns {string} The html code that represents the record on the filter results list.
  */
@@ -400,38 +400,38 @@ SecretariesHelper.prototype.getFilterHtml = function(secretary) {
     info = (secretary.mobile_number != '' && secretary.mobile_number != null)
             ? info + ', ' + secretary.mobile_number : info;
     info = (secretary.phone_number != '' && secretary.phone_number != null)
-            ? info + ', ' + secretary.phone_number : info;   
-            
+            ? info + ', ' + secretary.phone_number : info;
+
     var html =
-            '<div class="secretary-row" data-id="' + secretary.id + '">' + 
+            '<div class="secretary-row" data-id="' + secretary.id + '">' +
                 '<strong>' + name + '</strong><br>' +
-                info + '<br>' + 
+                info + '<br>' +
             '</div><hr>';
 
     return html;
 };
 
 /**
- * Select a specific record from the current filter results. If the secretary id does not exist 
- * in the list then no record will be selected. 
- * 
+ * Select a specific record from the current filter results. If the secretary id does not exist
+ * in the list then no record will be selected.
+ *
  * @param {numeric} id The record id to be selected from the filter results.
  * @param {bool} display (OPTIONAL = false) If true then the method will display the record
  * on the form.
  */
 SecretariesHelper.prototype.select = function(id, display) {
     if (display == undefined) display = false;
-    
+
     $('#filter-secretaries .selected-row').removeClass('selected-row');
-    
+
     $('#filter-secretaries .secretary-row').each(function() {
         if ($(this).attr('data-id') == id) {
             $(this).addClass('selected-row');
             return false;
         }
     });
-    
-    if (display) { 
+
+    if (display) {
         $.each(BackendUsers.helper.filterResults, function(index, admin) {
             if (admin.id == id) {
                 BackendUsers.helper.display(admin);

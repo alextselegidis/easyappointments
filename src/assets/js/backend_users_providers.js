@@ -1,19 +1,19 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * This class contains the Providers helper class declaration, along with the "Providers" tab 
+ * This class contains the Providers helper class declaration, along with the "Providers" tab
  * event handlers. By deviding the backend/users tab functionality into separate files
  * it is easier to maintain the code.
- * 
+ *
  * @class ProvidersHelper
  */
 var ProvidersHelper = function() {
@@ -26,7 +26,7 @@ var ProvidersHelper = function() {
 ProvidersHelper.prototype.bindEventHandlers = function() {
     /**
      * Event: Filter Providers Form "Submit"
-     * 
+     *
      * Filter the provider records with the given key string.
      */
     $('#filter-providers form').submit(function(event) {
@@ -47,7 +47,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Filter Provider Row "Click"
-     * 
+     *
      * Display the selected provider data to the user.
      */
     $(document).on('click', '.provider-row', function() {
@@ -55,7 +55,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
             $('#filter-providers .results').css('color', '#AAA');
             return; // Exit because we are currently on edit mode.
         }
-        
+
         var providerId = $(this).attr('data-id');
         var provider = {};
         $.each(BackendUsers.helper.filterResults, function(index, item) {
@@ -64,7 +64,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
                 return false;
             }
         });
-        
+
         BackendUsers.helper.display(provider);
         $('#filter-providers .selected-row').removeClass('selected-row');
         $(this).addClass('selected-row');
@@ -124,7 +124,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
             $('#message_box').dialog('close');
         };
 
-        GeneralFunctions.displayMessageBox(EALang['delete_provider'], 
+        GeneralFunctions.displayMessageBox(EALang['delete_provider'],
                 EALang['delete_record_prompt'], messageBtns);
     });
 
@@ -144,7 +144,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
             'zip_code': $('#provider-zip-code').val(),
             'notes': $('#provider-notes').val(),
             'settings': {
-                'username': $('#provider-username').val(),  
+                'username': $('#provider-username').val(),
                 'working_plan': JSON.stringify(BackendUsers.wp.get()),
                 'notifications': $('#provider-notifications').hasClass('active')
             }
@@ -175,7 +175,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
 
     /**
      * Event: Cancel Provider Button "Click"
-     * 
+     *
      * Cancel add or edit of an provider record.
      */
     $('#cancel-provider').click(function() {
@@ -207,7 +207,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
             $('.working-plan-view').show('fade');
         });
     });
-    
+
     /**
      * Event: Reset Working Plan Button "Click".
      */
@@ -221,7 +221,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
 
 /**
  * Save provider record to database.
- * 
+ *
  * @param {object} provider Contains the admin record data. If an 'id' value is provided
  * then the update operation is going to be executed.
  */
@@ -229,13 +229,13 @@ ProvidersHelper.prototype.save = function(provider) {
     //////////////////////////////////////////////////
     //console.log('Provider data to save:', provider);
     //////////////////////////////////////////////////
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'provider': JSON.stringify(provider) 
+        'provider': JSON.stringify(provider)
     };
-    
+
     $.post(postUrl, postData, function(response) {
         ///////////////////////////////////////////////////
         //console.log('Save Provider Response:', response);
@@ -244,22 +244,22 @@ ProvidersHelper.prototype.save = function(provider) {
         Backend.displayNotification(EALang['provider_saved']);
         BackendUsers.helper.resetForm();
         $('#filter-providers .key').val('');
-        BackendUsers.helper.filter('', response.id, true); 
-    }, 'json');
+        BackendUsers.helper.filter('', response.id, true);
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Delete a provider record from database.
- * 
- * @param {numeric} id Record id to be deleted. 
+ *
+ * @param {numeric} id Record id to be deleted.
  */
 ProvidersHelper.prototype.delete = function(id) {
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'provider_id': id 
+        'provider_id': id
     };
-    
+
     $.post(postUrl, postData, function(response) {
         /////////////////////////////////////////////////////
         //console.log('Delete provider response:', response);
@@ -268,19 +268,19 @@ ProvidersHelper.prototype.delete = function(id) {
         Backend.displayNotification(EALang['provider_deleted']);
         BackendUsers.helper.resetForm();
         BackendUsers.helper.filter($('#filter-providers .key').val());
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Validates a provider record.
- * 
+ *
  * @param {object} provider Contains the admin data to be validated.
  * @returns {bool} Returns the validation result.
  */
 ProvidersHelper.prototype.validate = function(provider) {
     $('#providers .required').css('border', '');
     $('#provider-password, #provider-password-confirm').css('border', '');
-    
+
     try {
         // Validate required fields.
         var missingRequired = false;
@@ -293,31 +293,31 @@ ProvidersHelper.prototype.validate = function(provider) {
         if (missingRequired) {
             throw EALang['fields_are_required'];
         }
-        
+
         // Validate passwords.
         if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
             throw EALang['passwords_mismatch'];
         }
-        
+
         if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                 && $('#provider-password').val() != '') {
             $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
             throw EALang['password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
         }
-        
+
         // Validate user email.
         if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
             $('#provider-email').css('border', '2px solid red');
             throw EALang['invalid_email'];
         }
-        
+
         // Check if username exists
         if ($('#provider-username').attr('already-exists') ==  'true') {
             $('#provider-username').css('border', '2px solid red');
             throw EALang['username_already_exists'];
-        } 
-        
+        }
+
         return true;
     } catch(exc) {
         $('#providers .form-message').text(exc);
@@ -327,17 +327,17 @@ ProvidersHelper.prototype.validate = function(provider) {
 };
 
 /**
- * Resets the admin tab form back to its initial state. 
+ * Resets the admin tab form back to its initial state.
  */
 ProvidersHelper.prototype.resetForm = function() {
     $('#filter-providers .selected-row').removeClass('selected-row');
     $('#filter-providers button').prop('disabled', false);
     $('#filter-providers .results').css('color', '');
-    
+
     $('#providers .add-edit-delete-group').show();
     $('#providers .save-cancel-group').hide();
     $('#providers .details').find('input, textarea').prop('readonly', true);
-    $('#providers .form-message').hide();    
+    $('#providers .form-message').hide();
     $('#provider-notifications').removeClass('active');
     $('#provider-notifications').prop('disabled', true);
     $('#provider-services input[type="checkbox"]').prop('disabled', true);
@@ -359,7 +359,7 @@ ProvidersHelper.prototype.resetForm = function() {
 
 /**
  * Display a provider record into the admin form.
- * 
+ *
  * @param {object} provider Contains the provider record data.
  */
 ProvidersHelper.prototype.display = function(provider) {
@@ -374,14 +374,14 @@ ProvidersHelper.prototype.display = function(provider) {
     $('#provider-state').val(provider.state);
     $('#provider-zip-code').val(provider.zip_code);
     $('#provider-notes').val(provider.notes);
-    
+
     $('#provider-username').val(provider.settings.username);
     if (provider.settings.notifications == true) {
         $('#provider-notifications').addClass('active');
     } else {
         $('#provider-notifications').removeClass('active');
     }
-    
+
     $('#provider-services input[type="checkbox"]').prop('checked', false);
     $.each(provider.services, function(index, serviceId) {
         $('#provider-services input[type="checkbox"]').each(function() {
@@ -390,7 +390,7 @@ ProvidersHelper.prototype.display = function(provider) {
             }
         });
     });
-    
+
     // Display working plan
     $('#providers .breaks tbody').empty();
     var workingPlan = $.parseJSON(provider.settings.working_plan);
@@ -400,32 +400,32 @@ ProvidersHelper.prototype.display = function(provider) {
 
 /**
  * Filters provider records depending a string key.
- * 
+ *
  * @param {string} key This is used to filter the provider records of the database.
  * @param {numeric} selectId (OPTIONAL = undefined) If set, when the function is complete
- * a result row can be set as selected. 
- * @param {bool} display (OPTIONAL = false) If true then the selected record will be also 
+ * a result row can be set as selected.
+ * @param {bool} display (OPTIONAL = false) If true then the selected record will be also
  * displayed.
  */
 ProvidersHelper.prototype.filter = function(key, selectId, display) {
     if (display == undefined) display = false;
-    
+
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
-    var postData = { 
+    var postData = {
         'csrfToken': GlobalVariables.csrfToken,
-        'key': key 
+        'key': key
     };
-    
+
     $.post(postUrl, postData, function(response) {
         //////////////////////////////////////////////////////
         //console.log('Filter providers response:', response);
         //////////////////////////////////////////////////////
-        
+
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-        
+
         BackendUsers.helper.filterResults = response;
-        
-        
+
+
         $('#filter-providers .results').data('jsp').destroy;
         $('#filter-providers .results').html('');
         $.each(response, function(index, provider) {
@@ -433,20 +433,20 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
             $('#filter-providers .results').append(html);
         });
         $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
-        
+
         if (response.length == 0) {
             $('#filter-providers .results').html('<em>' + EALang['no_records_found'] + '</em>')
         }
-        
+
         if (selectId != undefined) {
             BackendUsers.helper.select(selectId, display);
         }
-    }, 'json');
+    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
 /**
  * Get an provider row html code that is going to be displayed on the filter results list.
- * 
+ *
  * @param {object} provider Contains the provider record data.
  * @returns {string} The html code that represents the record on the filter results list.
  */
@@ -456,12 +456,12 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
     info = (provider.mobile_number != '' && provider.mobile_number != null)
             ? info + ', ' + provider.mobile_number : info;
     info = (provider.phone_number != '' && provider.phone_number != null)
-            ? info + ', ' + provider.phone_number : info;        
-    
+            ? info + ', ' + provider.phone_number : info;
+
     var html =
-            '<div class="provider-row" data-id="' + provider.id + '">' + 
+            '<div class="provider-row" data-id="' + provider.id + '">' +
                 '<strong>' + name + '</strong><br>' +
-                info + '<br>' + 
+                info + '<br>' +
             '</div><hr>';
 
     return html;
@@ -469,7 +469,7 @@ ProvidersHelper.prototype.getFilterHtml = function(provider) {
 
 /**
  * Initialize the editable functionality to the break day table cells.
- * 
+ *
  * @param {object} $selector The cells to be initialized.
  */
 ProvidersHelper.prototype.editableBreakDay = function($selector) {
@@ -507,9 +507,9 @@ ProvidersHelper.prototype.editableBreakDay = function($selector) {
 
 /**
  * Initialize the editable functionality to the break time table cells.
- * 
+ *
  * @param {object} $selector The cells to be initialized.
- */        
+ */
 ProvidersHelper.prototype.editableBreakTime = function($selector) {
     $selector.editable(function(value, settings) {
         // Do not return the value because the user needs to press the "Save" button.
@@ -531,13 +531,13 @@ ProvidersHelper.prototype.editableBreakTime = function($selector) {
 
 /**
  * Select and display a providers filter result on the form.
- * 
+ *
  * @param {numeric} id Record id to be selected.
  * @param {bool} display (OPTIONAL = false) If true the record will be displayed on the form.
  */
 ProvidersHelper.prototype.select = function(id, display) {
     if (display == undefined) display = false;
-    
+
     // Select record in filter results.
     $('#filter-providers .provider-row').each(function() {
         if ($(this).attr('data-id') == id) {
@@ -545,7 +545,7 @@ ProvidersHelper.prototype.select = function(id, display) {
             return false;
         }
     });
-    
+
     // Display record in form (if display = true).
     if (display) {
         $.each(BackendUsers.helper.filterResults, function(index, provider) {

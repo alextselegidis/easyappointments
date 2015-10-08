@@ -444,7 +444,7 @@ var BackendCalendar = {
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    }, 'json');
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 messageButtons[EALang['cancel']] = function() {
@@ -486,7 +486,7 @@ var BackendCalendar = {
 
                     // Refresh calendar event items.
                     $('#select-filter-item').trigger('change');
-                }, 'json');
+                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
             }
         });
 
@@ -740,7 +740,7 @@ var BackendCalendar = {
 
                                 $('#select-google-calendar').modal('show');
 
-                            }, 'json');
+                            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                         }
                     }
                 }, 100);
@@ -970,7 +970,7 @@ var BackendCalendar = {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 Backend.displayNotification(EALang['google_calendar_selected']);
                 $('#select-google-calendar').modal('hide');
-            });
+            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
         });
 
         /**
@@ -1038,7 +1038,7 @@ var BackendCalendar = {
                 };
 
                 calendarEvents.push(event);
-            });
+            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 
             $calendar.fullCalendar('removeEvents');
             $calendar.fullCalendar('addEventSource', calendarEvents);
@@ -1403,7 +1403,7 @@ var BackendCalendar = {
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
                         revertFunc();
-                    });
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang['appointment_updated'], [
@@ -1459,7 +1459,7 @@ var BackendCalendar = {
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
                         revertFunc();
-                    });
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang['unavailable_updated'], [
@@ -1686,7 +1686,7 @@ var BackendCalendar = {
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
                         revertFunc();
-                    });
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang['appointment_updated'], [
@@ -1751,7 +1751,7 @@ var BackendCalendar = {
                     $.post(postUrl, postData, function(response) {
                         $('#notification').hide('blind');
                         revertFunc();
-                    });
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang['unavailable_updated'], [
@@ -1823,7 +1823,7 @@ var BackendCalendar = {
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                 return;
             }
-        }, 'json');
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     },
 
     /**
