@@ -188,12 +188,14 @@ var GeneralFunctions = {
      * This method validates an email address. If the address is not on the proper
      * form then the result is FALSE.
      *
+     * @link http://stackoverflow.com/a/46181
+     *
      * @param {string} email The email address to be checked.
      * @returns {bool} Returns the validation result.
      */
-    validateEmail: function(email) {
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        return reg.test(email);
+    validateEmail: function (email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     },
 
     /**
