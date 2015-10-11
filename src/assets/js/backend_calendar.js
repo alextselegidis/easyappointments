@@ -1256,7 +1256,7 @@ var BackendCalendar = {
                 // Convert the titles to html code.
                 //BackendCalendar.convertTitlesToHtml();
             }
-        }, 'json').fail(GeneralFunction.ajaxFailureHandler);
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     },
 
     /**
