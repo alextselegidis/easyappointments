@@ -1025,7 +1025,7 @@ var BackendCalendar = {
             var calendarEvents = [];
             var $calendar = $('#calendar');
 
-            $.each(response.appointments, function(index, appointment){
+            $.each(response.appointments, function(index, appointment) {
                 var event = {
                     'id': appointment['id'],
                     'title': appointment['service']['name'] + ' - '
@@ -1038,7 +1038,7 @@ var BackendCalendar = {
                 };
 
                 calendarEvents.push(event);
-            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            });
 
             $calendar.fullCalendar('removeEvents');
             $calendar.fullCalendar('addEventSource', calendarEvents);
@@ -1256,7 +1256,7 @@ var BackendCalendar = {
                 // Convert the titles to html code.
                 //BackendCalendar.convertTitlesToHtml();
             }
-        }, 'json');
+        }, 'json').fail(GeneralFunction.ajaxFailureHandler);
     },
 
     /**
