@@ -1,14 +1,14 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
- 
+
 /**
  * Main javascript code for the backend of Easy!Appointments.
  */
@@ -16,15 +16,15 @@ $(document).ready(function() {
     $(window).resize(function() {
         Backend.placeFooterToBottom();
     }).trigger('resize');
-    
+
     $(document).ajaxStart(function() {
         $('#loading').show();
     });
-    
+
     $(document).ajaxStop(function() {
         $('#loading').hide();
     });
-    
+
     $('.menu-item').qtip({
         position: {
             my: 'top center',
@@ -34,14 +34,14 @@ $(document).ready(function() {
             classes: 'qtip-green qtip-shadow custom-qtip'
         }
     });
-    
+
     GeneralFunctions.enableLanguageSelection($('#select-language'));
 });
 
 /**
  * This namespace contains functions that are used in the backend section of
  * the applications.
- * 
+ *
  * @namespace Backend
  */
 var Backend = {
@@ -52,19 +52,19 @@ var Backend = {
     DB_SLUG_PROVIDER: 'provider',
     DB_SLUG_SECRETARY: 'secretary',
     DB_SLUG_CUSTOMER: 'customer',
-    
+
     PRIV_VIEW: 1,
     PRIV_ADD: 2,
     PRIV_EDIT: 4,
     PRIV_DELETE: 8,
-    
+
     PRIV_APPOINTMENTS: 'appointments',
     PRIV_CUSTOMERS: 'customers',
     PRIV_SERVICES: 'services',
     PRIV_USERS: 'users',
     PRIV_SYSTEM_SETTINGS: 'system_settings',
     PRIV_USER_SETTINGS: 'user_settings',
-    
+
     /**
      * Place the backend footer always on the bottom of the page.
      */
@@ -85,44 +85,44 @@ var Backend = {
     },
 
     /**
-     * Display backend notifications to user. 
-     * 
+     * Display backend notifications to user.
+     *
      * Using this method you can display notifications to the use with custom
-     * messages. If the 'actions' array is provided then an action link will 
+     * messages. If the 'actions' array is provided then an action link will
      * be displayed too.
-     * 
+     *
      * @param {string} message Notification message
      * @param {array} actions An array with custom actions that will be available
-     * to the user. Every array item is an object that contains the 'label' and 
+     * to the user. Every array item is an object that contains the 'label' and
      * 'function' key values.
      */
     displayNotification: function(message, actions) {
         if (message == undefined) {
             message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
         }
-        
+
         if (actions == undefined) {
             actions = [];
             setTimeout(function() {
                 $('#notification').slideUp('slow');
             }, 7000);
         }
-        
-        var notificationHtml = 
-                '<div class="notification alert">' + 
+
+        var notificationHtml =
+                '<div class="notification alert">' +
                 '<strong>' + message + '</strong>';
-        
+
         $.each(actions, function(index, action) {
             var actionId = action['label'].toLowerCase().replace(' ', '-');
-            notificationHtml += '<button id="' + actionId + '" class="btn btn-xs">' 
+            notificationHtml += '<button id="' + actionId + '" class="btn btn-default btn-xs">'
                     + action['label'] + '</button>';
-            
+
             $(document).off('click', '#' + actionId);
             $(document).on('click', '#' + actionId, action['function']);
         });
-        
+
         notificationHtml += '<a class="close" data-dismiss="alert" href="#">&times;</a></div>';
-        
+
         $('#notification').html(notificationHtml);
         $('#notification').show('blind');
     }
