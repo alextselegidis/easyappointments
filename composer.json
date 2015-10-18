@@ -13,5 +13,8 @@
     },
     "require-dev": {
         "apigen/apigen": "~4.1"
+    },
+    "require": {
+        "gregwar/captcha": "^1.1"
     }
 }
