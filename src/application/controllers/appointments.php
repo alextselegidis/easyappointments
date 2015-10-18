@@ -40,7 +40,10 @@ class Appointments extends CI_Controller {
      * record.
      */
     public function index($appointment_hash = '') {
-        if (!$this->check_installation()) return;
+        if (!$this->check_installation()) {
+            redirect('installation/index');
+            return;
+        }
 
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
@@ -217,7 +220,6 @@ class Appointments extends CI_Controller {
 
             // Save any exceptions to the session and redirect to another page so that the user
             // will not add a new appointment on page reload.
-            $this->load->helper('url');
             $view['exceptions'] =  (!empty($view['exceptions'])) ? $view['exceptions'] : array();
             $this->session->set_flashdata('book_exceptions', $view['exceptions']);
             redirect('appointments/book_success/'.$appointment['id']);
@@ -610,71 +612,15 @@ class Appointments extends CI_Controller {
      *
      * This method resides in this controller because the "index()" function will
      * be the first to be launched after the files are on the server. NOTE that the
-     * "configuration.php" file must be already set because we won't be able to
-     * connect to the database otherwise.
+     * "config.php" file must be already set because we won't be able to connect to
+     * the database otherwise.
+     *
+     * @return bool Returns false if an installation is required.
      */
     public function check_installation() {
-        try {
-            if (!$this->db->table_exists('ea_users')) {
-                // This is the first time the website is launched an the user needs to set
-                // the basic settings. Display the installation view page.
-                $view['base_url'] = $this->config->item('base_url');
-                $this->load->view('general/installation', $view);
-                return FALSE; // Do not display the book appointment view file.
-            } else {
-                return TRUE; // Application installed, continue ...
-            }
-        } catch(Exception $exc) {
-            echo $exc->getTrace();
-        }
+        return $this->db->table_exists('ea_users');
     }
 
-    /**
-     * Installs Easy!Appointments on server.
-     *
-     * @param array $_POST['admin'] Contains the initial admin user data. System needs at least
-     * one admin user to work.
-     * @param array $_POST['company'] Contains the basic company data.
-     */
-    public function ajax_install() {
-        try {
-            // Create E!A database structure.
-            $file_contents = file_get_contents(__DIR__ . '/../../assets/sql/structure.sql');
-            $sql_queries = explode(';', $file_contents);
-            array_pop($sql_queries);
-            foreach($sql_queries as $query) {
-                $this->db->query($query);
-            }
-
-            // Insert admin
-            $this->load->model('admins_model');
-            $admin = json_decode($_POST['admin'], true);
-            $admin['settings']['username'] = $admin['username'];
-            $admin['settings']['password'] = $admin['password'];
-            unset($admin['username'], $admin['password']);
-            $admin['id'] = $this->admins_model->add($admin);
-
-            $this->load->library('session');
-            $this->session->set_userdata('user_id', $admin['id']);
-            $this->session->set_userdata('user_email', $admin['email']);
-            $this->session->set_userdata('role_slug', DB_SLUG_ADMIN);
-            $this->session->set_userdata('username', $admin['settings']['username']);
-
-            // Save company settings
-            $this->load->model('settings_model');
-            $company = json_decode($_POST['company'], true);
-            $this->settings_model->set_setting('company_name', $company['company_name']);
-            $this->settings_model->set_setting('company_email', $company['company_email']);
-            $this->settings_model->set_setting('company_link', $company['company_link']);
-
-            echo json_encode(AJAX_SUCCESS);
-
-        } catch (Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
-        }
-    }
     /**
      * GET an specific appointment book and redirect to the success screen.
      *
