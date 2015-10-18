@@ -21,11 +21,26 @@
 class Installation extends CI_Controller {
 
     /**
+     * Class Constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->helper('installation');
+    }
+
+
+    /**
      * Display the installation page.
      */
     public function index() {
-        $view['base_url'] = $this->config->item('base_url');
-        $this->load->view('general/installation', $view);
+        if (is_ea_installed()) {
+            redirect('appointments/index');
+            return;
+        }
+
+        $this->load->view('general/installation', array(
+            'base_url' => $this->config->item('base_url')
+        ));
     }
 
     /**
@@ -37,6 +52,10 @@ class Installation extends CI_Controller {
      */
     public function ajax_install() {
         try {
+            if (is_ea_installed()) {
+                return;
+            }
+
             // Create E!A database structure.
             $file_contents = file_get_contents(BASEPATH . 'assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
@@ -74,6 +93,8 @@ class Installation extends CI_Controller {
             ));
         }
     }
+
+
 
 }
 

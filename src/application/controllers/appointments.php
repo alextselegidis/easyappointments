@@ -17,16 +17,28 @@
  * @package Controllers
  */
 class Appointments extends CI_Controller {
+
+    /**
+     * Class Constructor
+     */
 	public function __construct() {
 		parent::__construct();
+
 		$this->load->library('session');
-		// Set user's selected language.
+        $this->load->helper('installation');
+
+        // Set user's selected language.
 		if ($this->session->userdata('language')) {
 			$this->config->set_item('language', $this->session->userdata('language'));
 			$this->lang->load('translations', $this->session->userdata('language'));
 		} else {
 			$this->lang->load('translations', $this->config->item('language')); // default
 		}
+
+        // Create a new captcha builder instance and store it to the session vars.
+        if ($this->session->userdata('captcha_builder') === FALSE) {
+            $this->session->userdata('captcha_builder', new Gregwar\Captcha\CaptchaBuilder());
+        }
 	}
 
     /**
@@ -40,7 +52,7 @@ class Appointments extends CI_Controller {
      * record.
      */
     public function index($appointment_hash = '') {
-        if (!$this->check_installation()) {
+        if (!is_ea_installed()) {
             redirect('installation/index');
             return;
         }
@@ -51,179 +63,64 @@ class Appointments extends CI_Controller {
         $this->load->model('customers_model');
         $this->load->model('settings_model');
 
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST') {
-            try {
-                $available_services  = $this->services_model->get_available_services();
-                $available_providers = $this->providers_model->get_available_providers();
-                $company_name        = $this->settings_model->get_setting('company_name');
+        try {
+            $available_services  = $this->services_model->get_available_services();
+            $available_providers = $this->providers_model->get_available_providers();
+            $company_name        = $this->settings_model->get_setting('company_name');
 
-                // If an appointment hash is provided then it means that the customer
-                // is trying to edit a registered appointment record.
-                if ($appointment_hash !== ''){
-                    // Load the appointments data and enable the manage mode of the page.
-                    $manage_mode = TRUE;
+            // If an appointment hash is provided then it means that the customer
+            // is trying to edit a registered appointment record.
+            if ($appointment_hash !== ''){
+                // Load the appointments data and enable the manage mode of the page.
+                $manage_mode = TRUE;
 
-                    $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
+                $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
 
-                    if (count($results) === 0) {
-                        // The requested appointment doesn't exist in the database. Display
-                        // a message to the customer.
-                        $view = array(
-                            'message_title' => $this->lang->line('appointment_not_found'),
-                            'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
-                            'message_icon'  => $this->config->item('base_url')
-                                             . '/assets/img/error.png'
-                        );
-                        $this->load->view('appointments/message', $view);
-                        return;
-                    }
-
-                    $appointment = $results[0];
-                    $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-                    $customer = $this->customers_model->get_row($appointment['id_users_customer']);
-
-                } else {
-                    // The customer is going to book a new appointment so there is no
-                    // need for the manage functionality to be initialized.
-                    $manage_mode        = FALSE;
-                    $appointment   = array();
-                    $provider      = array();
-                    $customer      = array();
+                if (count($results) === 0) {
+                    // The requested appointment doesn't exist in the database. Display
+                    // a message to the customer.
+                    $view = array(
+                        'message_title' => $this->lang->line('appointment_not_found'),
+                        'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
+                        'message_icon'  => $this->config->item('base_url')
+                                         . '/assets/img/error.png'
+                    );
+                    $this->load->view('appointments/message', $view);
+                    return;
                 }
 
-                $google_analytics_code = $this->settings_model->get_setting('google_analytics_code');
-
-                // Load the book appointment view.
-                $view = array (
-                    'available_services'    => $available_services,
-                    'available_providers'   => $available_providers,
-                    'company_name'          => $company_name,
-                    'manage_mode'           => $manage_mode,
-                    'appointment_data'      => $appointment,
-                    'provider_data'         => $provider,
-                    'customer_data'         => $customer,
-                    'google_analytics_code' => $google_analytics_code
-                );
-
-            } catch(Exception $exc) {
-                $view['exceptions'][] = $exc;
-            }
-
-            $this->load->view('appointments/book', $view);
-
-        } else {
-            // The page is a post-back. Register the appointment and send notification emails
-            // to the provider and the customer that are related to the appointment. If google
-            // sync is enabled then add the appointment to the provider's account.
-
-            try {
-                $view = array();
-                $post_data = json_decode($_POST['post_data'], true);
-                $appointment = $post_data['appointment'];
-                $customer = $post_data['customer'];
-
-                if ($this->customers_model->exists($customer))
-                        $customer['id'] = $this->customers_model->find_record_id($customer);
-
-                $customer_id = $this->customers_model->add($customer);
-                $appointment['id_users_customer'] = $customer_id;
-
-                $appointment['id'] = $this->appointments_model->add($appointment);
-                $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
-
+                $appointment = $results[0];
                 $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-                $service = $this->services_model->get_row($appointment['id_services']);
+                $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
-                $company_settings = array(
-                    'company_name'  => $this->settings_model->get_setting('company_name'),
-                    'company_link'  => $this->settings_model->get_setting('company_link'),
-                    'company_email' => $this->settings_model->get_setting('company_email')
-                );
-
-                // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
-                // The provider must have previously granted access to his google calendar account
-                // in order to sync the appointment.
-                try {
-                    $google_sync = $this->providers_model->get_setting('google_sync',
-                            $appointment['id_users_provider']);
-
-                    if ($google_sync == TRUE) {
-                        $google_token = json_decode($this->providers_model
-                                ->get_setting('google_token', $appointment['id_users_provider']));
-
-                        $this->load->library('google_sync');
-                        $this->google_sync->refresh_token($google_token->refresh_token);
-
-                        if ($post_data['manage_mode'] === FALSE) {
-                            // Add appointment to Google Calendar.
-                            $google_event = $this->google_sync->add_appointment($appointment, $provider,
-                                    $service, $customer, $company_settings);
-                            $appointment['id_google_calendar'] = $google_event->id;
-                            $this->appointments_model->add($appointment);
-                        } else {
-                            // Update appointment to Google Calendar.
-                            $appointment['id_google_calendar'] = $this->appointments_model
-                                    ->get_value('id_google_calendar', $appointment['id']);
-
-                            $this->google_sync->update_appointment($appointment, $provider,
-                                    $service, $customer, $company_settings);
-                        }
-                    }
-                } catch(Exception $exc) {
-                    $view['exceptions'][] = $exc;
-                }
-
-                // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
-                try {
-                    $this->load->library('Notifications');
-
-                    $send_provider = $this->providers_model
-                            ->get_setting('notifications', $provider['id']);
-
-                    if (!$post_data['manage_mode']) {
-                        $customer_title = $this->lang->line('appointment_booked');
-                        $customer_message = $this->lang->line('thank_you_for_appointment');
-                        $customer_link = $this->config->item('base_url') . '/index.php/appointments/index/'
-                                . $appointment['hash'];
-
-                        $provider_title = $this->lang->line('appointment_added_to_your_plan');
-                        $provider_message = $this->lang->line('appointment_link_description');
-                        $provider_link = $this->config->item('base_url') . '/index.php/backend/index/'
-                                . $appointment['hash'];
-                    } else {
-                        $customer_title = $this->lang->line('appointment_changes_saved');
-                        $customer_message = '';
-                        $customer_link = $this->config->item('base_url') . '/index.php/appointments/index/'
-                                . $appointment['hash'];
-
-                        $provider_title = $this->lang->line('appointment_details_changed');
-                        $provider_message = '';
-                        $provider_link = $this->config->item('base_url') . '/index.php/backend/index/'
-                                . $appointment['hash'];
-                    }
-
-                    $this->notifications->send_appointment_details($appointment, $provider,
-                            $service, $customer,$company_settings, $customer_title,
-                            $customer_message, $customer_link, $customer['email']);
-
-                    if ($send_provider == TRUE) {
-                        $this->notifications->send_appointment_details($appointment, $provider,
-                                $service, $customer, $company_settings, $provider_title,
-                                $provider_message, $provider_link, $provider['email']);
-                    }
-                } catch(Exception $exc) {
-                    $view['exceptions'][] = $exc;
-                }
-            } catch(Exception $exc) {
-                $view['exceptions'][] = $exc;
+            } else {
+                // The customer is going to book a new appointment so there is no
+                // need for the manage functionality to be initialized.
+                $manage_mode        = FALSE;
+                $appointment   = array();
+                $provider      = array();
+                $customer      = array();
             }
 
-            // Save any exceptions to the session and redirect to another page so that the user
-            // will not add a new appointment on page reload.
-            $view['exceptions'] =  (!empty($view['exceptions'])) ? $view['exceptions'] : array();
-            $this->session->set_flashdata('book_exceptions', $view['exceptions']);
-            redirect('appointments/book_success/'.$appointment['id']);
+            $google_analytics_code = $this->settings_model->get_setting('google_analytics_code');
+
+            // Load the book appointment view.
+            $view = array (
+                'available_services'    => $available_services,
+                'available_providers'   => $available_providers,
+                'company_name'          => $company_name,
+                'manage_mode'           => $manage_mode,
+                'appointment_data'      => $appointment,
+                'provider_data'         => $provider,
+                'customer_data'         => $customer,
+                'google_analytics_code' => $google_analytics_code
+            );
+
+        } catch(Exception $exc) {
+            $view['exceptions'][] = $exc;
         }
+
+        $this->load->view('appointments/book', $view);
     }
 
     /**
@@ -608,20 +505,6 @@ class Appointments extends CI_Controller {
     }
 
     /**
-     * This method checks whether the application is installed.
-     *
-     * This method resides in this controller because the "index()" function will
-     * be the first to be launched after the files are on the server. NOTE that the
-     * "config.php" file must be already set because we won't be able to connect to
-     * the database otherwise.
-     *
-     * @return bool Returns false if an installation is required.
-     */
-    public function check_installation() {
-        return $this->db->table_exists('ea_users');
-    }
-
-    /**
      * GET an specific appointment book and redirect to the success screen.
      *
      * @param int $appointment_id Contains the id of the appointment to retrieve.
@@ -653,6 +536,120 @@ class Appointments extends CI_Controller {
             $view['exceptions'] = $exceptions;
         }
         $this->load->view('appointments/book_success', $view);
+    }
+
+    /**
+     * [AJAX] Register the appointment to the database.
+     */
+    public function ajax_register_appointment() {
+        try {
+            $view = array();
+            $post_data = json_decode($_POST['post_data'], true);
+            $appointment = $post_data['appointment'];
+            $customer = $post_data['customer'];
+
+            if ($this->customers_model->exists($customer))
+                    $customer['id'] = $this->customers_model->find_record_id($customer);
+
+            $customer_id = $this->customers_model->add($customer);
+            $appointment['id_users_customer'] = $customer_id;
+
+            $appointment['id'] = $this->appointments_model->add($appointment);
+            $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
+
+            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+            $service = $this->services_model->get_row($appointment['id_services']);
+
+            $company_settings = array(
+                'company_name'  => $this->settings_model->get_setting('company_name'),
+                'company_link'  => $this->settings_model->get_setting('company_link'),
+                'company_email' => $this->settings_model->get_setting('company_email')
+            );
+
+            // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
+            // The provider must have previously granted access to his google calendar account
+            // in order to sync the appointment.
+            try {
+                $google_sync = $this->providers_model->get_setting('google_sync',
+                        $appointment['id_users_provider']);
+
+                if ($google_sync == TRUE) {
+                    $google_token = json_decode($this->providers_model
+                            ->get_setting('google_token', $appointment['id_users_provider']));
+
+                    $this->load->library('google_sync');
+                    $this->google_sync->refresh_token($google_token->refresh_token);
+
+                    if ($post_data['manage_mode'] === FALSE) {
+                        // Add appointment to Google Calendar.
+                        $google_event = $this->google_sync->add_appointment($appointment, $provider,
+                                $service, $customer, $company_settings);
+                        $appointment['id_google_calendar'] = $google_event->id;
+                        $this->appointments_model->add($appointment);
+                    } else {
+                        // Update appointment to Google Calendar.
+                        $appointment['id_google_calendar'] = $this->appointments_model
+                                ->get_value('id_google_calendar', $appointment['id']);
+
+                        $this->google_sync->update_appointment($appointment, $provider,
+                                $service, $customer, $company_settings);
+                    }
+                }
+            } catch(Exception $exc) {
+                log_message('error', $exc->getMessage());
+                log_message('error', $exc->getTraceAsString());
+            }
+
+            // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
+            try {
+                $this->load->library('Notifications');
+
+                $send_provider = $this->providers_model
+                        ->get_setting('notifications', $provider['id']);
+
+                if (!$post_data['manage_mode']) {
+                    $customer_title = $this->lang->line('appointment_booked');
+                    $customer_message = $this->lang->line('thank_you_for_appointment');
+                    $customer_link = $this->config->item('base_url') . '/index.php/appointments/index/'
+                            . $appointment['hash'];
+
+                    $provider_title = $this->lang->line('appointment_added_to_your_plan');
+                    $provider_message = $this->lang->line('appointment_link_description');
+                    $provider_link = $this->config->item('base_url') . '/index.php/backend/index/'
+                            . $appointment['hash'];
+                } else {
+                    $customer_title = $this->lang->line('appointment_changes_saved');
+                    $customer_message = '';
+                    $customer_link = $this->config->item('base_url') . '/index.php/appointments/index/'
+                            . $appointment['hash'];
+
+                    $provider_title = $this->lang->line('appointment_details_changed');
+                    $provider_message = '';
+                    $provider_link = $this->config->item('base_url') . '/index.php/backend/index/'
+                            . $appointment['hash'];
+                }
+
+                $this->notifications->send_appointment_details($appointment, $provider,
+                        $service, $customer,$company_settings, $customer_title,
+                        $customer_message, $customer_link, $customer['email']);
+
+                if ($send_provider == TRUE) {
+                    $this->notifications->send_appointment_details($appointment, $provider,
+                            $service, $customer, $company_settings, $provider_title,
+                            $provider_message, $provider_link, $provider['email']);
+                }
+            } catch(Exception $exc) {
+                log_message('error', $exc->getMessage());
+                log_message('error', $exc->getTraceAsString());
+            }
+
+            echo AJAX_SUCCESS;
+
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
     }
 }
 
