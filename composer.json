@@ -1,14 +1,17 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
-    "require-dev": {
-        "apigen/apigen": "~4.1"
-    },
     "license": "GPL-3.0",
     "authors": [
         {
             "name": "Alex Tselegidis",
             "email": "alextselegidis@gmail.com"
         }
-    ]
+    ],
+    "config": {
+        "vendor-dir": "src/application/third_party"
+    },
+    "require-dev": {
+        "apigen/apigen": "~4.1"
+    }
 }

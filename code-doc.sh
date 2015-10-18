@@ -1,17 +1,17 @@
-#!/bin/bash 
+#!/bin/bash
 
-# 
+#
 # Bash script for the code documentation generation.
-# 
- 
-rm -rf doc 
+#
 
-mkdir doc 
+rm -rf doc
+
+mkdir doc
 mkdir doc/apigen
 mkdir doc/jsdoc
 mkdir doc/plato
 
-php vendor/bin/apigen generate \
+php src/application/third_party/bin/apigen generate \
     -s "src/application/controllers,src/application/models,src/application/libraries" \
     -d "doc/apigen" --exclude "*external*" --tree --todo --template-theme "bootstrap"
 
