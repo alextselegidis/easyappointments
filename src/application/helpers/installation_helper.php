@@ -13,6 +13,6 @@
  * @return bool Returns whether E!A is installed or not.
  */
 function is_ea_installed() {
-    return $this->db->table_exists('ea_users');
-
+    $ci =& get_instance();
+    return $ci->db->table_exists('ea_users');
 }
