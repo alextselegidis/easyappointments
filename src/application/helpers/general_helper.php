@@ -1,10 +1,22 @@
-<?php 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        http://easyappointments.org
+ * @since       v1.0.0
+ * ---------------------------------------------------------------------------- */
+
 /**
  * Get date in RFC3339
  * For example used in XML/Atom
- * 
+ *
  * @link http://stackoverflow.com/questions/5671433/php-time-to-google-calendar-dates-time-format
- * 
+ *
  * @param integer $timestamp
  * @return string date in RFC3339
  * @author Boris Korobkov
@@ -27,11 +39,11 @@ function date3339($timestamp=0) {
 
 /**
  * Generate a hash of password string.
- * 
+ *
  * For user security, all system passwords are stored in hash string into the database. Use
- * this method to produce the hashed password. 
- * 
- * @param string $salt Salt value for current user. This value is stored on the database and 
+ * this method to produce the hashed password.
+ *
+ * @param string $salt Salt value for current user. This value is stored on the database and
  * is used when generating the password hash.
  * @param string $password Given string password.
  * @return string Returns the hash string of the given password.
@@ -39,20 +51,20 @@ function date3339($timestamp=0) {
 function hash_password($salt, $password) {
     $half = (int)(strlen($salt) / 2);
     $hash = hash('sha256', substr($salt, 0, $half ) . $password . substr($salt, $half));
-    
+
     for ($i = 0; $i < 100000; $i++) {
         $hash = hash('sha256', $hash);
-    } 
-    
-    return $hash; 
+    }
+
+    return $hash;
 }
 
 /**
  * Generate a new password salt.
- * 
- * This method will not check if the salt is unique in database. This must be done 
+ *
+ * This method will not check if the salt is unique in database. This must be done
  * from the calling procedure.
- * 
+ *
  * @return string Returns a salt string.
  */
 function generate_salt() {
@@ -63,7 +75,7 @@ function generate_salt() {
 
 /**
  * This method generates a random string.
- * 
+ *
  * @param int $length (OPTIONAL = 10) The length of the generated string.
  * @return string Returns the randomly generated string.
  * @link http://stackoverflow.com/a/4356295/1718162
