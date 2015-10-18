@@ -16,6 +16,19 @@ require_once __DIR__ . '/config.php';
 
 /*
  *---------------------------------------------------------------
+ * COMPOSER AUTOLOAD FILE
+ *---------------------------------------------------------------
+ *
+ * Include Composer's autoload.php file so that I can use external
+ * libraries directly in every section of the application.
+ *
+ */
+
+require_once __DIR__ . '/application/third_party/autoload.php';
+
+
+/*
+ *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
  *
