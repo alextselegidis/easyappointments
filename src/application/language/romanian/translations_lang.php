@@ -270,3 +270,4 @@ $lang['google_calendar_selected'] = 'Calendarul Google a fost selectat!';
 $lang['oops_something_went_wrong'] = 'Oops! Ceva nu a funtionat corect!';
 $lang['could_not_add_to_google_calendar'] = 'Întâlnirea nu a putut fi adaugata în Calendarul Google.';
 $lang['ea_update_success'] = 'Easy!Appointments a fost actualizat!';
+$lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';

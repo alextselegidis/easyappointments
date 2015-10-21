@@ -264,3 +264,4 @@ $lang['google_calendar_selected'] ='Google Agenda is met succes geselecteerd!';
 $lang['oops_something_went_wrong'] ='Oeps! Er is iets misgegaan!';
 $lang['could_not_add_to_google_calendar'] ='Uw afspraak kon niet toegevoegd worden aan het Google Agenda-account.';
 $lang['ea_update_success'] ='Easy!Appointments is succesvol bijgewerkt!';
+$lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';

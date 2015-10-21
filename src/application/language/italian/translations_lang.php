@@ -270,3 +270,4 @@ $lang['google_calendar_selected'] = 'Il calendario Google è stato selezionato c
 $lang['oops_something_went_wrong'] = 'Oops! Qualcosa è andato storto!';
 $lang['could_not_add_to_google_calendar'] = 'Il tuo appuntamento potrebbe non essere stato aggiunto al tuo account Google Calendar.';
 $lang['ea_update_success'] = 'Easy!Appointments è stato aggiornato con successo!';
+$lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';

@@ -264,3 +264,4 @@ $lang['google_calendar_selected'] = 'Google-Kalender ausgewählt wurde erfolgrei
 $lang['oops_something_went_wrong'] = 'Oops! Etwas ist schiefgelaufen!';
 $lang['could_not_add_to_google_calendar'] = 'Ihr Termin konnte nicht in den Google-Kalender-Konto hinzugefügt werden.';
 $lang['ea_update_success'] = 'Easy!Appointments wurde erfolgreich aktualisiert!';
+$lang['captcha_is_wrong'] = 'CAPTCHA Überprüfung fehlgeschlagen, bitte versuchen Sie es wieder.';

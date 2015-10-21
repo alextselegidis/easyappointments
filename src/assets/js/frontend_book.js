@@ -285,7 +285,7 @@ var FrontendBook = {
                 }
 
                 if (response === true) {
-                    $('#book-appointment-form').submit();
+                    FrontendBook.registerAppointment();
                 } else {
                     GeneralFunctions.displayMessageBox('Appointment Hour Taken', 'Unfortunately '
                             + 'the selected appointment hour is not available anymore. Please select '
@@ -293,6 +293,13 @@ var FrontendBook = {
                     FrontendBook.getAvailableHours($('#select-date').val());
                 }
             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        });
+
+        /**
+         * Event: Refresh captcha image.
+         */
+        $('.captcha-title small').click(function(event) {
+            $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
     },
 
@@ -612,7 +619,56 @@ var FrontendBook = {
         } else {
             $div.hide();
         }
+    },
 
+    /**
+     * Register an appointment to the database.
+     *
+     * This method will make an ajax call to the appointments controller that will register
+     * the appointment to the database.
+     */
+    registerAppointment: function() {
+        if ($('.captcha-text').val() === '') {
+            $('.captcha-text').css('border', '1px solid red');
+            return;
+        }
+
+        var formData = jQuery.parseJSON($('input[name="post_data"]').val());
+
+        var postData = {
+            'csrfToken': GlobalVariables.csrfToken,
+            'post_data': formData,
+            'captcha': $('.captcha-text').val()
+        };
+
+        if (GlobalVariables.manageMode) {
+            postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
+        }
+
+        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment';
+
+        $.ajax({
+            url: postUrl,
+            method: 'post',
+            data: postData,
+            dataType: 'json'
+        })
+            .done(function(response) {
+               if (response.exceptions) {
+                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                    GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
+                            + 'the check appointment time availability could not be completed. '
+                            + 'The following issues occurred:');
+                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                    $('.captcha-title small').trigger('click');
+                    return false;
+                }
+
+                window.location.replace(GlobalVariables.baseUrl + '/index.php/appointments/book_success');
+            })
+            .fail(function(jqxhr, textStatus, errorThrown) {
+                $('.captcha-title small').trigger('click');
+                GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
+            });
     }
-
 };

@@ -264,3 +264,4 @@ $lang['google_calendar_selected'] = 'Google-kalenteri valittiin onnistuneesti!';
 $lang['oops_something_went_wrong'] = 'Oho! Jotain meni pieleen!';
 $lang['could_not_add_to_google_calendar'] = 'Varaustasi ei pystytty lisäämään Google-kalenteri tiliisi.';
 $lang['ea_update_success'] = 'Easy!Appointments päivitettiin onnistuneesti!';
+$lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';

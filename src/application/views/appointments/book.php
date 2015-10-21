@@ -363,6 +363,16 @@
                             <div id="appointment-details" class="col-md-6"></div>
                             <div id="customer-details" class="col-md-6"></div>
                         </div>
+                        <div class="frame-content row">
+                            <div class="col-md-6 col-sm-12">
+                                <h4 class="captcha-title">
+                                    Captcha
+                                    <small class="glyphicon glyphicon-refresh"></small>
+                                </h4>
+                                <img class="captcha-image" src="<?php echo $this->config->item('base_url'); ?>/index.php/captcha">
+                                <input class="captcha-text" type="text" value="" />
+                            </div>
+                        </div>
                     </div>
 
                     <div class="command-buttons">
@@ -400,6 +410,7 @@
             </div>
         </div>
     </div>
+
     <script
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>

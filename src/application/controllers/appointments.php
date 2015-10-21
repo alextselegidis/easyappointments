@@ -34,11 +34,6 @@ class Appointments extends CI_Controller {
 		} else {
 			$this->lang->load('translations', $this->config->item('language')); // default
 		}
-
-        // Create a new captcha builder instance and store it to the session vars.
-        if ($this->session->userdata('captcha_builder') === FALSE) {
-            $this->session->userdata('captcha_builder', new Gregwar\Captcha\CaptchaBuilder());
-        }
 	}
 
     /**
@@ -543,10 +538,22 @@ class Appointments extends CI_Controller {
      */
     public function ajax_register_appointment() {
         try {
-            $view = array();
-            $post_data = json_decode($_POST['post_data'], true);
+
+            $post_data = $_POST['post_data']; // alias
+
+            // Validate the CAPTCHA string.
+            if ($this->session->userdata('captcha_phrase') !== $_POST['captcha']) {
+                throw new Exception($this->lang->line('captcha_is_wrong'));
+            }
+
             $appointment = $post_data['appointment'];
             $customer = $post_data['customer'];
+
+            $this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            $this->load->model('services_model');
+            $this->load->model('customers_model');
+            $this->load->model('settings_model');
 
             if ($this->customers_model->exists($customer))
                     $customer['id'] = $this->customers_model->find_record_id($customer);
@@ -643,7 +650,9 @@ class Appointments extends CI_Controller {
                 log_message('error', $exc->getTraceAsString());
             }
 
-            echo AJAX_SUCCESS;
+            echo json_encode(array(
+                    'appointment_id' => $appointment['id']
+                ));
 
         } catch(Exception $exc) {
             echo json_encode(array(

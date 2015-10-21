@@ -264,3 +264,4 @@ $lang['google_calendar_selected'] = 'Auswiele vum Google Kalenner erfollegräich
 $lang['oops_something_went_wrong'] = 'Oops! Et ass eppes schif gaang!';
 $lang['could_not_add_to_google_calendar'] = 'Ären Termäin konnt nët am Google Kalenner bäigesat ginn.';
 $lang['ea_update_success'] = 'Easy!Appointments gouf erfollegräich aktualiséiert!';
+$lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';

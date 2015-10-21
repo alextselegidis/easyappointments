@@ -264,3 +264,4 @@ $lang['google_calendar_selected'] = 'Το ημερολόγιο της Google ε�
 $lang['oops_something_went_wrong'] = 'Ώχ! Κάτι πήγε στραβά!';
 $lang['could_not_add_to_google_calendar'] = 'Το ραντεβού σας δεν μπόρεσε να προστεθεί στον λογαριασμό σας στο Google Calendar.';
 $lang['ea_update_success'] = 'Το Easy!Appointments ενημερώθηκε με επιτυχία!';
+$lang['captcha_is_wrong'] = 'Η επαλήθευση του CAPTCHA απέτυχε, παρακαλώ δοκιμάστε πάλι.';
