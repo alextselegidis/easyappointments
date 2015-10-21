@@ -631,6 +631,8 @@ var FrontendBook = {
         if ($('.captcha-text').val() === '') {
             $('.captcha-text').css('border', '1px solid red');
             return;
+        } else {
+            $('.captcha-text').css('border', '');
         }
 
         var formData = jQuery.parseJSON($('input[name="post_data"]').val());
@@ -645,13 +647,27 @@ var FrontendBook = {
             postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
         }
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment',
+            $layer = $('<div/>');
 
         $.ajax({
             url: postUrl,
             method: 'post',
             data: postData,
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend: function(jqxhr, settings) {
+                $layer
+                    .appendTo('body')
+                    .css({
+                        'background': 'white',
+                        'position': 'fixed',
+                        'top': '0',
+                        'left': '0',
+                        'height': '100vh',
+                        'width': '100vw',
+                        'opacity': '0.5'
+                    });
+            }
         })
             .done(function(response) {
                if (response.exceptions) {
@@ -664,11 +680,15 @@ var FrontendBook = {
                     return false;
                 }
 
-                window.location.replace(GlobalVariables.baseUrl + '/index.php/appointments/book_success');
+                window.location.replace(GlobalVariables.baseUrl
+                    + '/index.php/appointments/book_success/' + response.appointment_id);
             })
             .fail(function(jqxhr, textStatus, errorThrown) {
                 $('.captcha-title small').trigger('click');
                 GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
-            });
+            })
+            .always(function() {
+                $layer.remove();
+            })
     }
 };
