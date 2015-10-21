@@ -15,6 +15,7 @@
         "apigen/apigen": "~4.1"
     },
     "require": {
-        "gregwar/captcha": "^1.1"
+        "gregwar/captcha": "^1.1",
+        "phpmailer/phpmailer": "^5.2"
     }
 }
