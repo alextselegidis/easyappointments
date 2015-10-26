@@ -925,12 +925,23 @@ var BackendCalendar = {
          * Event: Selected Service "Change"
          *
          * When the user clicks on a service, its available providers should
-         * become visible.
+         * become visible. Also we need to update the start and end time of the
+         * appointment.
          */
         $('#select-service').change(function() {
             var sid = $('#select-service').val();
             $('#select-provider').empty();
 
+            // Automatically update the service duration.
+            $.each(GlobalVariables.availableServices, function(indexService, service) {
+                if (service.id == sid) {
+                    var start = $('#start-datetime').datepicker('getDate');
+                    $('#end-datetime').datepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+                    return false; // break loop
+                }
+            });
+
+            // Update the providers select box.
             $.each(GlobalVariables.availableProviders, function(indexProvider, provider) {
                 $.each(provider.services, function(indexService, serviceId) {
                     // If the current provider is able to provide the selected service,
