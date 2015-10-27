@@ -265,3 +265,4 @@ $lang['oops_something_went_wrong'] = 'Oops! Noget gik galt!';
 $lang['could_not_add_to_google_calendar'] = 'Din tid kunne ikke tilføjes din Google kalender konto';
 $lang['ea_update_success'] = 'Easy!Appointments er blevet opdateret.';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';

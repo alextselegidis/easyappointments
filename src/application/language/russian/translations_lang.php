@@ -265,3 +265,4 @@ $lang['oops_something_went_wrong'] = 'Сорри! Возникла неопре�
 $lang['could_not_add_to_google_calendar'] = 'Ваше событие не было добавлено в указанный Google-календарь.';
 $lang['ea_update_success'] = 'Готово! Успешно обновлено!';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';

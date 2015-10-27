@@ -265,3 +265,4 @@ $lang['oops_something_went_wrong'] = 'Oops! Une erreur s\'est produite !';
 $lang['could_not_add_to_google_calendar'] = 'Votre rendez-vous ne peux pas être ajoutée à votre compte calendrier Google.';
 $lang['ea_update_success'] = 'Easy!Appointments à été mis à jour avec succès !';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';

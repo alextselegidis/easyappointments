@@ -265,3 +265,4 @@ $lang['oops_something_went_wrong'] = 'Úups! Niečo sa pokazilo!';
 $lang['could_not_add_to_google_calendar'] = 'Vaše rezervácie nemoholi byť pridané do vášho účtu služby Google Kalendár.';
 $lang['ea_update_success'] = 'Easy!Appointments bolo úspešne aktualizované!';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';

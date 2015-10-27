@@ -265,3 +265,4 @@ $lang['oops_something_went_wrong'] = 'Hoppá! Valami balul sült el!';
 $lang['could_not_add_to_google_calendar'] = 'Az időpontot nem tudtuk hozzá adni a Google naptáradhoz.';
 $lang['ea_update_success'] = 'Foglalj időpontot a ...';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';

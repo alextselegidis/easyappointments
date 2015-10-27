@@ -265,3 +265,4 @@ $lang['oops_something_went_wrong'] = 'Ojj! Coś poszło nie tak!';
 $lang['could_not_add_to_google_calendar'] = 'Nie można dodać wizyty do Twojego Kalendarza Google';
 $lang['ea_update_success'] = 'Easy!Appointment zaktualizowany pomyślnie';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';
