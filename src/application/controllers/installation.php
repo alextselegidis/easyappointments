@@ -85,7 +85,7 @@ class Installation extends CI_Controller {
             $this->settings_model->set_setting('company_email', $company['company_email']);
             $this->settings_model->set_setting('company_link', $company['company_link']);
 
-            echo json_encode(AJAX_SUCCESS);
+            echo AJAX_SUCCESS;
 
         } catch (Exception $exc) {
             echo json_encode(array(
