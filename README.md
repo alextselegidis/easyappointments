@@ -30,7 +30,7 @@ perform the following steps in order to install the system on your server:
 * Make sure that your server has Apache, PHP and MySQL installed.
 * Create a new database (or use an existing).
 * Copy the "easyappointments" source folder on your server.
-* Edit the "configuration.php" file and set your server properties.
+* Rename the "config-sample.php" file to "config.php" and set your server properties.
 * Open your browser on the Easy!Appointments URL and follow the installation guide.
 * That's it! You can now use Easy!Appointments at your will.
 
