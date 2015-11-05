@@ -73,6 +73,14 @@ class Installation extends CI_Controller {
                 $this->db->query($query);
             }
 
+            // Insert default E!A entries into the database.
+            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/data.sql');
+            $sql_queries = explode(';', $file_contents);
+            array_pop($sql_queries);
+            foreach($sql_queries as $query) {
+                $this->db->query($query);
+            }
+
             // Insert admin
             $this->load->model('admins_model');
             $admin = json_decode($_POST['admin'], true);
