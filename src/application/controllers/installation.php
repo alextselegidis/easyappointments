@@ -66,7 +66,7 @@ class Installation extends CI_Controller {
             }
 
             // Create E!A database structure.
-            $file_contents = file_get_contents(BASEPATH . 'assets/sql/structure.sql');
+            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach($sql_queries as $query) {

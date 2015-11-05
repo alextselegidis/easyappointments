@@ -47,14 +47,12 @@ $(document).ready(function() {
 
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
-                if (response == AJAX_SUCCESS) {
-                    $('.alert').text('Easy!Appointments has been successfully installed!');
-                    $('.alert').addClass('alert-success');
-                    $('.alert').show();
-                    setTimeout(function() {
-                        window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
-                    }, 1000);
-                }
+                $('.alert').text('Easy!Appointments has been successfully installed!');
+                $('.alert').addClass('alert-success');
+                $('.alert').show();
+                setTimeout(function() {
+                    window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
+                }, 1000);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Treat the error the same way as php exceptions.
