@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css"
         href="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-ui/jquery-ui.min.css">
 
+    <link rel="stylesheet" type="text/css"
+        href="<?php echo $base_url; ?>/assets/css/general.css">
+
     <style>
         header {
             background: #DAFFEB;

@@ -52,6 +52,10 @@ body .ui-dialog .ui-dialog-buttonpane {
     border: none;
 }
 
+body .ui-dialog #error-technical {
+    max-width: 500px;
+}
+
 body .ui-datepicker {
     border: 1px solid #3DD481;
     border-radius: 2px;
