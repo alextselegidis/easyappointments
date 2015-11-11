@@ -5,6 +5,9 @@ Easy!Appointments
 
 ### Organize your business! Exploit human resources that can be used in other tasks more efficiently.
 
+> IMPORTANT NOTICE: THIS REPOSITORY HOSTS THE V1.1 DEV CODE WHICH IS NOT READY
+> FOR PRODUCTION USE. PLEASE DOWNLOAD V1.0 FROM THE OFFICIAL WEBSITE.
+
 **Easy!Appointments** is a highly customizable web application that allows your customers to book
 appointments with you via the web. Moreover, it provides the ability to sync your data with
 Google Calendar so you can use them with other services. It is an open source project and you
