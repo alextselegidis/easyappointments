@@ -28,7 +28,7 @@ $(document).ready(function() {
     $('#install').click(function() {
         if (!validate()) return;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_install';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
         var postData = {
             'csrfToken': GlobalVariables.csrfToken,
             'admin': JSON.stringify(getAdminData()),
