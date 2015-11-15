@@ -66,7 +66,7 @@ class Installation extends CI_Controller {
             }
 
             // Create E!A database structure.
-            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/structure.sql');
+            $file_contents = file_get_contents(dirname(BASEPATH) . '../assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach($sql_queries as $query) {
@@ -94,7 +94,7 @@ class Installation extends CI_Controller {
             $this->settings_model->set_setting('company_email', $company['company_email']);
             $this->settings_model->set_setting('company_link', $company['company_link']);
 
-            echo json_encode(AJAX_SUCCESS);
+            echo AJAX_SUCCESS;
 
         } catch (Exception $exc) {
             echo json_encode(array(
