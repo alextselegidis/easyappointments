@@ -28,7 +28,7 @@ $(document).ready(function() {
     $('#install').click(function() {
         if (!validate()) return;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_install';
+        var postUrl = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
         var postData = {
             'csrfToken': GlobalVariables.csrfToken,
             'admin': JSON.stringify(getAdminData()),
@@ -39,7 +39,7 @@ $(document).ready(function() {
             url: postUrl,
             type: 'POST',
             data: postData,
-            datatype: 'json',
+            dataType: 'json',
             success: function(response) {
                 //////////////////////////////////////////////////////
                 console.log('Ajax Install E!A Response:', response);
@@ -47,14 +47,14 @@ $(document).ready(function() {
 
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
-                if (response == AJAX_SUCCESS) {
+                if (response['status'] == AJAX_SUCCESS) {
                     $('.alert').text('Easy!Appointments has been successfully installed!');
                     $('.alert').addClass('alert-success');
                     $('.alert').show();
                     setTimeout(function() {
                         window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
                     }, 1000);
-                }
+                } 
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 // Treat the error the same way as php exceptions.
