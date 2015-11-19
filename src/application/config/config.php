@@ -4,8 +4,8 @@
 |--------------------------------------------------------------------------
 | Easy!Appointments - Internal Configuration
 |--------------------------------------------------------------------------
-| 
-| Declare some of the global config values of Easy!Appointments.  
+|
+| Declare some of the global config values of Easy!Appointments.
 | the global "config" variable.
 |
 */
@@ -91,20 +91,20 @@ $config['url_suffix'] = '';
 $config['language'] = 'english'; // default language
 
 $config['available_languages'] = array(
-    'english', 
-    'german', 
-    'greek', 
-    'hungarian', 
+    'english',
+    'german',
+    'greek',
+    'hungarian',
     'portuguese',
     'chinese',
-    'dutch', 
-    'french', 
-    'japanese', 
-    'polish', 
-    'spanish', 
-    'italian', 
-    'danish', 
-    'luxembourgish', 
+    'dutch',
+    'french',
+    'japanese',
+    'polish',
+    'spanish',
+    'italian',
+    'danish',
+    'luxembourgish',
     'slovak',
     'finnish',
     'russian',
@@ -221,7 +221,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 1;
+$config['log_threshold'] = 4;
 
 /*
 |--------------------------------------------------------------------------
