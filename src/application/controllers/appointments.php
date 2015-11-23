@@ -216,6 +216,40 @@ class Appointments extends CI_Controller {
         $this->load->view('appointments/message', $view);
     }
 
+	/**
+     * GET an specific appointment book and redirect to the success screen.
+     *
+     * @param int $appointment_id Contains the id of the appointment to retrieve.
+     */
+    public function book_success($appointment_id) {
+        //if the appointment id doesn't exist or zero redirect to index
+        if(!$appointment_id){
+            redirect('appointments');
+        }
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
+        //retrieve the data needed in the view
+        $appointment =  $this->appointments_model->get_row($appointment_id);
+        $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+        $service = $this->services_model->get_row($appointment['id_services']);
+        $company_name = $this->settings_model->get_setting('company_name');
+        //get the exceptions
+        $exceptions = $this->session->flashdata('book_success');
+         // :: LOAD THE BOOK SUCCESS VIEW
+        $view = array(
+            'appointment_data'  => $appointment,
+            'provider_data'     => $provider,
+            'service_data'      => $service,
+            'company_name'      => $company_name,
+        );
+        if($exceptions){
+            $view['exceptions'] = $exceptions;
+        }
+        $this->load->view('appointments/book_success', $view);
+    }
+
     /**
      * [AJAX] Get the available appointment hours for the given date.
      *
@@ -317,223 +351,6 @@ class Appointments extends CI_Controller {
     }
 
     /**
-     * Check whether the provider is still available in the selected appointment date.
-     *
-     * It might be times where two or more customers select the same appointment date and time.
-     * This shouldn't be allowed to happen, so one of the two customers will eventually get the
-     * prefered date and the other one will have to choose for another date. Use this method
-     * just before the customer confirms the appointment details. If the selected date was taken
-     * in the mean time, the customer must be prompted to select another time for his appointment.
-     *
-     * @param int $_POST['id_users_provider'] The selected provider's record id.
-     * @param int $_POST['id_services'] The selected service's record id.
-     * @param string $_POST['start_datetime'] This is a mysql formed string.
-     * @return bool Returns whether the selected datetime is still available.
-     */
-    public function ajax_check_datetime_availability() {
-        try {
-            $this->load->model('services_model');
-
-            $service_duration = $this->services_model->get_value('duration', $_POST['id_services']);
-
-            $exclude_appointments = (isset($_POST['exclude_appointment_id']))
-                    ? array($_POST['exclude_appointment_id']) : array();
-
-            $available_periods = $this->get_provider_available_time_periods(
-                    $_POST['id_users_provider'], $_POST['start_datetime'], $exclude_appointments);
-
-            $is_still_available = FALSE;
-
-            foreach($available_periods as $period) {
-                $appt_start = new DateTime($_POST['start_datetime']);
-                $appt_start = $appt_start->format('H:i');
-
-                $appt_end = new DateTime($_POST['start_datetime']);
-                $appt_end->add(new DateInterval('PT' . $service_duration . 'M'));
-                $appt_end = $appt_end->format('H:i');
-
-                $period_start = date('H:i', strtotime($period['start']));
-                $period_end = date('H:i', strtotime($period['end']));
-
-                if ($period_start <= $appt_start && $period_end >= $appt_end) {
-                    $is_still_available = TRUE;
-                    break;
-                }
-            }
-
-            echo json_encode($is_still_available);
-
-        } catch(Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
-        }
-    }
-
-    /**
-     * Get an array containing the free time periods (start - end) of a selected date.
-     *
-     * This method is very important because there are many cases where the system needs to
-     * know when a provider is avaible for an appointment. This method will return an array
-     * that belongs to the selected date and contains values that have the start and the end
-     * time of an available time period.
-     *
-     * @param numeric $provider_id The provider's record id.
-     * @param string $selected_date The date to be checked (MySQL formatted string).
-     * @param array $exclude_appointments This array contains the ids of the appointments that
-     * will not be taken into consideration when the available time periods are calculated.
-     * @return array Returns an array with the available time periods of the provider.
-     */
-    private function get_provider_available_time_periods($provider_id, $selected_date,
-            $exclude_appointments = array()) {
-        $this->load->model('appointments_model');
-        $this->load->model('providers_model');
-
-        // Get the provider's working plan and reserved appointments.
-        $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), true);
-
-        $where_clause = array(
-            //'DATE(start_datetime)' => date('Y-m-d', strtotime($selected_date)),
-            'id_users_provider' => $provider_id
-        );
-
-        $reserved_appointments = $this->appointments_model->get_batch($where_clause);
-
-        // Sometimes it might be necessary to not take into account some appointment records
-        // in order to display what the providers' available time periods would be without them.
-        foreach ($exclude_appointments as $excluded_id) {
-            foreach ($reserved_appointments as $index => $reserved) {
-                if ($reserved['id'] == $excluded_id) {
-                    unset($reserved_appointments[$index]);
-                }
-            }
-        }
-
-        // Find the empty spaces on the plan. The first split between the plan is due to
-        // a break (if exist). After that every reserved appointment is considered to be
-        // a taken space in the plan.
-        $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
-        $available_periods_with_breaks = array();
-
-        if (isset($selected_date_working_plan['breaks'])) {
-            if (count($selected_date_working_plan['breaks'])) {
-                foreach($selected_date_working_plan['breaks'] as $index=>$break) {
-                    // Split the working plan to available time periods that do not
-                    // contain the breaks in them.
-                    $last_break_index = $index - 1;
-
-                    if (count($available_periods_with_breaks) === 0) {
-                        $start_hour = $selected_date_working_plan['start'];
-                        $end_hour = $break['start'];
-                    } else {
-                        $start_hour = $selected_date_working_plan['breaks'][$last_break_index]['end'];
-                        $end_hour = $break['start'];
-                    }
-
-                    $available_periods_with_breaks[] = array(
-                        'start' => $start_hour,
-                        'end' => $end_hour
-                    );
-                }
-
-                // Add the period from the last break to the end of the day.
-                $available_periods_with_breaks[] = array(
-                    'start' => $selected_date_working_plan['breaks'][$index]['end'],
-                    'end' => $selected_date_working_plan['end']
-                );
-            } else {
-                $available_periods_with_breaks[] = array(
-                    'start' => $selected_date_working_plan['start'],
-                    'end' => $selected_date_working_plan['end']
-                );
-            }
-        }
-
-        // Break the empty periods with the reserved appointments.
-        $available_periods_with_appointments = $available_periods_with_breaks;
-
-        foreach($reserved_appointments as $appointment) {
-            foreach($available_periods_with_appointments as $index => &$period) {
-
-                $a_start = strtotime($appointment['start_datetime']);
-                $a_end =  strtotime($appointment['end_datetime']);
-                $p_start = strtotime($selected_date .  ' ' . $period['start']);
-                $p_end = strtotime($selected_date .  ' ' .$period['end']);
-
-                if ($a_start <= $p_start && $a_end <= $p_end && $a_end <= $p_start) {
-                    // The appointment does not belong in this time period, so we
-                    // will not change anything.
-                } else if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start) {
-                    // The appointment starts before the period and finishes somewhere inside.
-                    // We will need to break this period and leave the available part.
-                    $period['start'] = date('H:i', $a_end);
-
-                } else if ($a_start >= $p_start && $a_end <= $p_end) {
-                    // The appointment is inside the time period, so we will split the period
-                    // into two new others.
-                    unset($available_periods_with_appointments[$index]);
-                    $available_periods_with_appointments[] = array(
-                        'start' => date('H:i', $p_start),
-                        'end' => date('H:i', $a_start)
-                    );
-                    $available_periods_with_appointments[] = array(
-                        'start' => date('H:i', $a_end),
-                        'end' => date('H:i', $p_end)
-                    );
-
-                } else if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end) {
-                    // The appointment starts in the period and finishes out of it. We will
-                    // need to remove the time that is taken from the appointment.
-                    $period['end'] = date('H:i', $a_start);
-
-                } else if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end) {
-                    // The appointment does not belong in the period so do not change anything.
-                } else if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end) {
-                    // The appointment is bigger than the period, so this period needs to be
-                    // removed.
-                    unset($available_periods_with_appointments[$index]);
-                }
-            }
-        }
-
-        return array_values($available_periods_with_appointments);
-    }
-
-    /**
-     * GET an specific appointment book and redirect to the success screen.
-     *
-     * @param int $appointment_id Contains the id of the appointment to retrieve.
-     */
-    public function book_success($appointment_id) {
-        //if the appointment id doesn't exist or zero redirect to index
-        if(!$appointment_id){
-            redirect('appointments');
-        }
-        $this->load->model('appointments_model');
-        $this->load->model('providers_model');
-        $this->load->model('services_model');
-        $this->load->model('settings_model');
-        //retrieve the data needed in the view
-        $appointment =  $this->appointments_model->get_row($appointment_id);
-        $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-        $service = $this->services_model->get_row($appointment['id_services']);
-        $company_name = $this->settings_model->get_setting('company_name');
-        //get the exceptions
-        $exceptions = $this->session->flashdata('book_success');
-         // :: LOAD THE BOOK SUCCESS VIEW
-        $view = array(
-            'appointment_data'  => $appointment,
-            'provider_data'     => $provider,
-            'service_data'      => $service,
-            'company_name'      => $company_name,
-        );
-        if($exceptions){
-            $view['exceptions'] = $exceptions;
-        }
-        $this->load->view('appointments/book_success', $view);
-    }
-
-    /**
      * [AJAX] Register the appointment to the database.
      */
     public function ajax_register_appointment() {
@@ -544,6 +361,11 @@ class Appointments extends CI_Controller {
             // Validate the CAPTCHA string.
             if ($this->session->userdata('captcha_phrase') !== $_POST['captcha']) {
                 throw new Exception($this->lang->line('captcha_is_wrong'));
+            }
+
+            // Check appointment availability.
+            if (!$this->check_datetime_availability()) {
+                throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
 
             $appointment = $post_data['appointment'];
@@ -660,6 +482,183 @@ class Appointments extends CI_Controller {
             ));
         }
     }
+
+	/**
+	 * Check whether the provider is still available in the selected appointment date.
+	 *
+	 * It might be times where two or more customers select the same appointment date and time.
+	 * This shouldn't be allowed to happen, so one of the two customers will eventually get the
+	 * prefered date and the other one will have to choose for another date. Use this method
+	 * just before the customer confirms the appointment details. If the selected date was taken
+	 * in the mean time, the customer must be prompted to select another time for his appointment.
+	 *
+	 * @return bool Returns whether the selected datetime is still available.
+	 */
+	private function check_datetime_availability() {
+		$this->load->model('services_model');
+
+		$appointment  = $_POST['post_data']['appointment'];
+
+		$service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
+
+		$exclude_appointments = (isset($appointment['appointment_id']))
+				? array($appointment['appointment_id']) : array();
+
+		$available_periods = $this->get_provider_available_time_periods(
+				$appointment['id_users_provider'], date('Y-m-d', strtotime($appointment['start_datetime'])),
+				$exclude_appointments);
+
+		$is_still_available = FALSE;
+
+		foreach($available_periods as $period) {
+			$appt_start = new DateTime($appointment['start_datetime']);
+			$appt_start = $appt_start->format('H:i');
+
+			$appt_end = new DateTime($appointment['start_datetime']);
+			$appt_end->add(new DateInterval('PT' . $service_duration . 'M'));
+			$appt_end = $appt_end->format('H:i');
+
+			$period_start = date('H:i', strtotime($period['start']));
+			$period_end = date('H:i', strtotime($period['end']));
+
+			if ($period_start <= $appt_start && $period_end >= $appt_end) {
+				$is_still_available = TRUE;
+				break;
+			}
+		}
+
+		return $is_still_available;
+	}
+
+	/**
+	 * Get an array containing the free time periods (start - end) of a selected date.
+	 *
+	 * This method is very important because there are many cases where the system needs to
+	 * know when a provider is avaible for an appointment. This method will return an array
+	 * that belongs to the selected date and contains values that have the start and the end
+	 * time of an available time period.
+	 *
+	 * @param numeric $provider_id The provider's record id.
+	 * @param string $selected_date The date to be checked (MySQL formatted string).
+	 * @param array $exclude_appointments This array contains the ids of the appointments that
+	 * will not be taken into consideration when the available time periods are calculated.
+	 * @return array Returns an array with the available time periods of the provider.
+	 */
+	private function get_provider_available_time_periods($provider_id, $selected_date,
+			$exclude_appointments = array()) {
+		$this->load->model('appointments_model');
+		$this->load->model('providers_model');
+
+		// Get the provider's working plan and reserved appointments.
+		$working_plan = json_decode($this->providers_model
+										 ->get_setting('working_plan', $provider_id), true);
+
+		$where_clause = array(
+			'DATE(start_datetime)' => date('Y-m-d', strtotime($selected_date)),
+			'id_users_provider' => $provider_id
+		);
+
+		$reserved_appointments = $this->appointments_model->get_batch($where_clause);
+
+		// Sometimes it might be necessary to not take into account some appointment records
+		// in order to display what the providers' available time periods would be without them.
+		foreach ($exclude_appointments as $excluded_id) {
+			foreach ($reserved_appointments as $index => $reserved) {
+				if ($reserved['id'] == $excluded_id) {
+					unset($reserved_appointments[$index]);
+				}
+			}
+		}
+
+		// Find the empty spaces on the plan. The first split between the plan is due to
+		// a break (if exist). After that every reserved appointment is considered to be
+		// a taken space in the plan.
+		$selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
+		$available_periods_with_breaks = array();
+
+		if (isset($selected_date_working_plan['breaks'])) {
+			if (count($selected_date_working_plan['breaks'])) {
+				foreach($selected_date_working_plan['breaks'] as $index=>$break) {
+					// Split the working plan to available time periods that do not
+					// contain the breaks in them.
+					$last_break_index = $index - 1;
+
+					if (count($available_periods_with_breaks) === 0) {
+						$start_hour = $selected_date_working_plan['start'];
+						$end_hour = $break['start'];
+					} else {
+						$start_hour = $selected_date_working_plan['breaks'][$last_break_index]['end'];
+						$end_hour = $break['start'];
+					}
+
+					$available_periods_with_breaks[] = array(
+						'start' => $start_hour,
+						'end' => $end_hour
+					);
+				}
+
+				// Add the period from the last break to the end of the day.
+				$available_periods_with_breaks[] = array(
+					'start' => $selected_date_working_plan['breaks'][$index]['end'],
+					'end' => $selected_date_working_plan['end']
+				);
+			} else {
+				$available_periods_with_breaks[] = array(
+					'start' => $selected_date_working_plan['start'],
+					'end' => $selected_date_working_plan['end']
+				);
+			}
+		}
+
+		// Break the empty periods with the reserved appointments.
+		$available_periods_with_appointments = $available_periods_with_breaks;
+
+		foreach($reserved_appointments as $appointment) {
+			foreach($available_periods_with_appointments as $index => &$period) {
+
+				$a_start = strtotime($appointment['start_datetime']);
+				$a_end =  strtotime($appointment['end_datetime']);
+				$p_start = strtotime($selected_date .  ' ' . $period['start']);
+				$p_end = strtotime($selected_date .  ' ' .$period['end']);
+
+				if ($a_start <= $p_start && $a_end <= $p_end && $a_end <= $p_start) {
+					// The appointment does not belong in this time period, so we
+					// will not change anything.
+				} else if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start) {
+					// The appointment starts before the period and finishes somewhere inside.
+					// We will need to break this period and leave the available part.
+					$period['start'] = date('H:i', $a_end);
+
+				} else if ($a_start >= $p_start && $a_end <= $p_end) {
+					// The appointment is inside the time period, so we will split the period
+					// into two new others.
+					unset($available_periods_with_appointments[$index]);
+					$available_periods_with_appointments[] = array(
+						'start' => date('H:i', $p_start),
+						'end' => date('H:i', $a_start)
+					);
+					$available_periods_with_appointments[] = array(
+						'start' => date('H:i', $a_end),
+						'end' => date('H:i', $p_end)
+					);
+
+				} else if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end) {
+					// The appointment starts in the period and finishes out of it. We will
+					// need to remove the time that is taken from the appointment.
+					$period['end'] = date('H:i', $a_start);
+
+				} else if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end) {
+					// The appointment does not belong in the period so do not change anything.
+				} else if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end) {
+					// The appointment is bigger than the period, so this period needs to be
+					// removed.
+					unset($available_periods_with_appointments[$index]);
+				}
+			}
+		}
+
+		return array_values($available_periods_with_appointments);
+	}
 }
 
 /* End of file appointments.php */

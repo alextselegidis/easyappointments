@@ -261,44 +261,7 @@ var FrontendBook = {
          * another customer or event.
          */
         $('#book-appointment-submit').click(function(event) {
-            var formData = jQuery.parseJSON($('input[name="post_data"]').val());
-
-            var postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'id_users_provider': formData['appointment']['id_users_provider'],
-                'id_services': formData['appointment']['id_services'],
-                'start_datetime': formData['appointment']['start_datetime'],
-            };
-
-            if (GlobalVariables.manageMode) {
-                postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
-            }
-
-            var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_check_datetime_availability';
-
-            $.post(postUrl, postData, function(response) {
-                ////////////////////////////////////////////////////////////////////////
-                console.log('Check Date/Time Availability Post Response :', response);
-                ////////////////////////////////////////////////////////////////////////
-
-                if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
-                            + 'the check appointment time availability could not be completed. '
-                            + 'The following issues occurred:');
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return false;
-                }
-
-                if (response === true) {
-                    FrontendBook.registerAppointment();
-                } else {
-                    GeneralFunctions.displayMessageBox('Appointment Hour Taken', 'Unfortunately '
-                            + 'the selected appointment hour is not available anymore. Please select '
-                            + 'another hour.');
-                    FrontendBook.getAvailableHours($('#select-date').val());
-                }
-            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            FrontendBook.registerAppointment();
         });
 
         /**
@@ -676,12 +639,7 @@ var FrontendBook = {
             }
         })
             .done(function(response) {
-               if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox('Unexpected Issues', 'Unfortunately '
-                            + 'the check appointment time availability could not be completed. '
-                            + 'The following issues occurred:');
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $('.captcha-title small').trigger('click');
                     return false;
                 }
