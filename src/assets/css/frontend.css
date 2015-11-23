@@ -187,6 +187,15 @@ body {
     margin-top: 7px;
 }
 
+#book-appointment-wizard .captcha-title .glyphicon-refresh {
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+
+#book-appointment-wizard .captcha-title .glyphicon-refresh:hover {
+    color: #1A865F;
+}
+
 #book-appointment-wizard .captcha-image {
     float: right;
     margin-bottom: 20px;
