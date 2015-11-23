@@ -353,6 +353,11 @@ body {
         float: none !important;
     }
 
+    #success-frame .btn {
+        margin-bottom: 10px;
+        width: 80%;
+    }
+
     /**
      * CANCEL APPOINTMENT
      */
