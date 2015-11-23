@@ -266,3 +266,4 @@ $lang['could_not_add_to_google_calendar'] = 'Ihr Termin konnte nicht in den Goog
 $lang['ea_update_success'] = 'Easy!Appointments wurde erfolgreich aktualisiert!';
 $lang['captcha_is_wrong'] = 'CAPTCHA Überprüfung fehlgeschlagen, bitte versuchen Sie es wieder.';
 $lang['any_provider'] = 'Jeder Anbieter';
+$lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';

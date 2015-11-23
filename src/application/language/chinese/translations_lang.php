@@ -266,3 +266,4 @@ $lang['could_not_add_to_google_calendar'] = '您的预约不能添加到谷歌�
 $lang['ea_update_success'] = '预约系统已经成功更新!';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
 $lang['any_provider'] = 'Any Provider';
+$lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';

@@ -266,3 +266,4 @@ $lang['could_not_add_to_google_calendar'] = 'Το ραντεβού σας δεν
 $lang['ea_update_success'] = 'Το Easy!Appointments ενημερώθηκε με επιτυχία!';
 $lang['captcha_is_wrong'] = 'Η επαλήθευση του CAPTCHA απέτυχε, παρακαλώ δοκιμάστε πάλι.';
 $lang['any_provider'] = 'Οποιοσδήποτε Πάροχος';
+$lang['requested_hour_is_unavailable'] = 'Το απαιτούμενο ραντεβού δεν είναι δυστυχώς διαθέσιμο. Παρακαλώ επιλέξτε κάποια άλλη ώρα για το ραντεβού σας.';
