@@ -180,11 +180,17 @@ var BackendUsers = {
                 return;
             }
 
+            var userId = $input.parents().eq(2).find('.record-id').val();
+
+            if (userId == undefined) {
+                return;
+            }
+
             var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
             var postData = {
                 'csrfToken': GlobalVariables.csrfToken,
                 'username': $input.val(),
-                'user_id': $input.parents().eq(2).find('.record-id').val()
+                'user_id': userId
             };
 
             $.post(postUrl, postData, function(response) {
