@@ -265,3 +265,5 @@ $lang['oops_something_went_wrong'] = 'Ops! Algo deu errado!';
 $lang['could_not_add_to_google_calendar'] = 'Sua nomeação não pode ser adicionado à sua conta do Google Calendar.';
 $lang['ea_update_success'] = 'Nomeações fáceis! Foi atualizado com sucesso!';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';
+$lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';

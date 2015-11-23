@@ -265,3 +265,5 @@ $lang['oops_something_went_wrong'] ='&#161Ups! &#161Algo ha salido mal!';
 $lang['could_not_add_to_google_calendar'] = 'No se ha podido agregar el turno a su cuenta de Google Calendar.';
 $lang['ea_update_success'] = 'Easy!Appointments ha sido actualizado exitosamente';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';
+$lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';

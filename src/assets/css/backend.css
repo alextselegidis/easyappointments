@@ -55,13 +55,13 @@ root {
 #header #header-menu .menu-item {
     float: left;
     padding: 18px 18px 19px;
-    min-width: 100px;
+    min-width: 130px;
     text-align: center;
     font-weight: bold;
     color: #FFF;
     text-decoration: none;
     font-size: 16px;
-    transition: none;
+    transition: background-color 0.2s;
 }
 
 #header #header-menu .menu-item:hover:not(.active) {

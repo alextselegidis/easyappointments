@@ -406,6 +406,12 @@
                     <span id="select-language" class="label label-success">
     		        	<?php echo ucfirst($this->config->item('language')); ?>
     		        </span>
+                    |
+                    <?php if ($this->session->userdata('user_id')): ?>
+                        <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend">
+                            <?php echo $this->lang->line('backend_section'); ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -421,7 +427,6 @@
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
             ga('create', '<?php echo $google_analytics_code; ?>', 'auto');
             ga('send', 'pageview');
         </script>

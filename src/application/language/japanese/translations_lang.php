@@ -265,3 +265,5 @@ $lang['oops_something_went_wrong'] = 'おっと、なにか が うまく 行っ
 $lang['could_not_add_to_google_calendar'] = 'あなたの予約をGoogleカレンダーに　追加することができませんでした。';
 $lang['ea_update_success'] = 'Easy!Appointments の　アップデートが成功しました。';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['any_provider'] = 'Any Provider';
+$lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';

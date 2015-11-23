@@ -26,6 +26,15 @@ class Installation extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->helper('installation');
+        $this->load->library('session');
+
+        // Set user's selected language.
+        if ($this->session->userdata('language')) {
+            $this->config->set_item('language', $this->session->userdata('language'));
+            $this->lang->load('translations', $this->session->userdata('language'));
+        } else {
+            $this->lang->load('translations', $this->config->item('language')); // default
+        }
     }
 
 
@@ -57,7 +66,15 @@ class Installation extends CI_Controller {
             }
 
             // Create E!A database structure.
-            $file_contents = file_get_contents(BASEPATH . 'assets/sql/structure.sql');
+            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/structure.sql');
+            $sql_queries = explode(';', $file_contents);
+            array_pop($sql_queries);
+            foreach($sql_queries as $query) {
+                $this->db->query($query);
+            }
+
+            // Insert default E!A entries into the database.
+            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/data.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach($sql_queries as $query) {
@@ -93,9 +110,6 @@ class Installation extends CI_Controller {
             ));
         }
     }
-
-
-
 }
 
 /* End of file installation.php */
