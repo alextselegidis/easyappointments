@@ -61,7 +61,7 @@ root {
     color: #FFF;
     text-decoration: none;
     font-size: 16px;
-    transition: none;
+    transition: background-color 0.2s;
 }
 
 #header #header-menu .menu-item:hover:not(.active) {
