@@ -192,9 +192,14 @@ class Appointments extends CI_Controller {
                             $_POST['cancel_reason']);
                 }
 
-                $this->notifications->send_delete_appointment($appointment, $provider,
-                        $service, $customer, $company_settings, $customer['email'],
-                        $_POST['cancel_reason']);
+				$send_customer = $this->settings_model->get_setting('customer_notifications');
+
+				if ((bool)$send_customer === TRUE) {
+					$this->notifications->send_delete_appointment($appointment, $provider,
+							$service, $customer, $company_settings, $customer['email'],
+							$_POST['cancel_reason']);
+				}
+
             } catch(Exception $exc) {
                 $exceptions[] = $exc;
             }
@@ -458,9 +463,13 @@ class Appointments extends CI_Controller {
                             . $appointment['hash'];
                 }
 
-                $this->notifications->send_appointment_details($appointment, $provider,
-                        $service, $customer,$company_settings, $customer_title,
-                        $customer_message, $customer_link, $customer['email']);
+				$send_customer = $this->settings_model->get_setting('customer_notifications');
+
+				if ((bool)$send_customer === TRUE) {
+					$this->notifications->send_appointment_details($appointment, $provider,
+							$service, $customer,$company_settings, $customer_title,
+							$customer_message, $customer_link, $customer['email']);
+				}
 
                 if ($send_provider == TRUE) {
                     $this->notifications->send_appointment_details($appointment, $provider,
