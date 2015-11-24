@@ -243,6 +243,19 @@
                             <label for="book-advance-timeout"><?php echo $this->lang->line('timeout_minutes'); ?></label>
                             <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" />
                         </div>
+
+                        <br>
+
+                        <h4><?php echo $this->lang->line('customer_notifications'); ?></h4>
+                        <span class="help-block">
+                            <?php echo $this->lang->line('customer_notifications_hint'); ?>
+                        </span>
+                        <div class="form-group">
+                            <button type="button" id="customer-notifications" class="btn" data-toggle="button" aria-pressed="false">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <?php echo $this->lang->line('receive_notifications'); ?>
+                            </button>
+                        </div>
                     </div>
                     <div class="col-md-5 breaks-wrapper">
                         <h4><?php echo $this->lang->line('breaks'); ?></h4>

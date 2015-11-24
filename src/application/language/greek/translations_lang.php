@@ -267,3 +267,5 @@ $lang['ea_update_success'] = 'Το Easy!Appointments ενημερώθηκε με
 $lang['captcha_is_wrong'] = 'Η επαλήθευση του CAPTCHA απέτυχε, παρακαλώ δοκιμάστε πάλι.';
 $lang['any_provider'] = 'Οποιοσδήποτε Πάροχος';
 $lang['requested_hour_is_unavailable'] = 'Το απαιτούμενο ραντεβού δεν είναι δυστυχώς διαθέσιμο. Παρακαλώ επιλέξτε κάποια άλλη ώρα για το ραντεβού σας.';
+$lang['customer_notifications'] = 'Customer Notifications';
+$lang['customer_notifications_hint'] = 'Defines whether the customer will receive email notifications whenever there is a schedule change on one of his appointments.';

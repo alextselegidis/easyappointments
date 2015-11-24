@@ -267,3 +267,5 @@ $lang['ea_update_success'] = 'Easy!Appointments wurde erfolgreich aktualisiert!'
 $lang['captcha_is_wrong'] = 'CAPTCHA Überprüfung fehlgeschlagen, bitte versuchen Sie es wieder.';
 $lang['any_provider'] = 'Jeder Anbieter';
 $lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';
+$lang['customer_notifications'] = 'Customer Notifications';
+$lang['customer_notifications_hint'] = 'Defines whether the customer will receive email notifications whenever there is a schedule change on one of his appointments.';

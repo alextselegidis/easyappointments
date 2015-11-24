@@ -52,7 +52,10 @@ var BackendSettings = {
         $.each(GlobalVariables.settings.system, function(index, setting) {
             if (setting.name == 'company_working_plan') {
                 workingPlan = $.parseJSON(setting.value);
-                return false;
+            }
+
+            if (setting.name == 'customer_notifications' && setting.value == '1') {
+                $('#customer-notifications').addClass('active');
             }
         });
 
@@ -138,6 +141,7 @@ var BackendSettings = {
             } else if ($(this).hasClass('business-logic-tab')) {
                 $('#business-logic').show();
                 BackendSettings.settings = new SystemSettings();
+
             } else if ($(this).hasClass('user-tab')) {
                 $('#user').show();
                 BackendSettings.settings = new UserSettings();
@@ -148,7 +152,7 @@ var BackendSettings = {
                 } else {
                     $('#user-notifications').removeClass('active');
                 }
-            } else if ($(this).hasClass('about-tab')) {
+            } else if ($(this).hasClass('about-tab')) {0
                 $('#about').show();
             }
 
@@ -272,6 +276,11 @@ SystemSettings.prototype.get = function() {
         'name': 'book_advance_timeout',
         'value': $('#book-advance-timeout').val()
     });
+
+    settings.push({
+        'name': 'customer_notifications',
+        'value': $('#customer-notifications').hasClass('active') === true ? '1' : '0'
+    })
 
     return settings;
 };

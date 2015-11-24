@@ -701,9 +701,11 @@ padding: 4px 7px;
     width: 145px;
 }
 
-#settings-page #user-notifications.active {
+#settings-page #user-notifications.active,
+#settings-page #customer-notifications.active {
     background: #B6DCFF;
     box-shadow: none;
+    outline: none;
 }
 
 #settings-page #general fieldset .wrapper {
