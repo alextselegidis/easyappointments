@@ -406,8 +406,8 @@
                     <span id="select-language" class="label label-success">
     		        	<?php echo ucfirst($this->config->item('language')); ?>
     		        </span>
-                    |
                     <?php if ($this->session->userdata('user_id')): ?>
+                        |
                         <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend">
                             <?php echo $this->lang->line('backend_section'); ?>
                         </a>
