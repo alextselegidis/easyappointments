@@ -731,11 +731,10 @@ padding: 4px 7px;
 }
 
 #settings-page #about .current-version {
-    padding: 9px 10px;
-    background: #F7F7F7;
-    font-size: 15px;
-    color: #7E7E7E;
-    box-shadow: inset 0px 0px 5px #E0E0E0;
+    padding: 15px;
+    background: #F4F4F4;
+    font-size: 12px;
+    color: #444;
 }
 
 #settings-page #update-ea {
