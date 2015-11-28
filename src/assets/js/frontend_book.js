@@ -412,32 +412,44 @@ var FrontendBook = {
             }
         });
 
-        $('#appointment-details').html(
+
+        var html =
             '<h4>' + $('#select-service option:selected').text() + '</h4>' +
             '<p>'
-        		+ '<strong class="text-primary">'
+                + '<strong class="text-primary">'
                     + $('#select-provider option:selected').text() + '<br>'
-        			+ selectedDate + ' ' +  $('.selected-hour').text()
+                    + selectedDate + ' ' +  $('.selected-hour').text()
                     + servicePrice + ' ' + serviceCurrency
-    			+ '</strong>' +
-            '</p>'
-        );
+                + '</strong>' +
+            '</p>';
+
+        $('#appointment-details').html(html);
 
         // Customer Details
-        $('#customer-details').html(
-            '<h4>' + $('#first-name').val() + ' ' + $('#last-name').val() + '</h4>' +
+
+        var firstname = GeneralFunctions.escapeHtml($('#first-name').val()),
+            lastname = GeneralFunctions.escapeHtml($('#last-name').val()),
+            phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val()),
+            email = GeneralFunctions.escapeHtml($('#email').val()),
+            address = GeneralFunctions.escapeHtml($('#address').val()),
+            city = GeneralFunctions.escapeHtml($('#city').val()),
+            zipCode = GeneralFunctions.escapeHtml($('#zip-code').val()),
+
+        html =
+            '<h4>' + firstname + ' ' + lastname + '</h4>' +
             '<p>' +
-            	EALang['phone'] + ': ' + $('#phone-number').val() +
-            	'<br/>' +
-            	EALang['email'] + ': ' + $('#email').val() +
-            	'<br/>' +
-            	EALang['address'] + ': ' + $('#address').val() +
-            	'<br/>' +
-            	EALang['city'] + ': ' + $('#city').val() +
-            	'<br/>' +
-            	EALang['zip_code'] + ': ' + $('#zip-code').val() +
-        	'</p>'
-        );
+                EALang['phone'] + ': ' + phoneNumber +
+                '<br/>' +
+                EALang['email'] + ': ' + email +
+                '<br/>' +
+                EALang['address'] + ': ' + address +
+                '<br/>' +
+                EALang['city'] + ': ' + city +
+                '<br/>' +
+                EALang['zip_code'] + ': ' + zipCode +
+            '</p>';
+
+        $('#customer-details').html(html);
 
         // Update appointment form data for submission to server when the user confirms
         // the appointment.

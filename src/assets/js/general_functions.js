@@ -355,5 +355,15 @@ var GeneralFunctions = {
         GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
             GeneralFunctions.EXCEPTIONS_MESSAGE);
         $('#message_box').append(GeneralFunctions.exceptionsToHtml(exceptions));
+    },
+
+    /**
+     * Escape JS HTML string values for XSS prevention.
+     *
+     * @param {string} str String to be escaped.
+     * @returns {string} Returns the escaped string.
+     */
+    escapeHtml: function(str) {
+        return $('<div/>').text(str).html();
     }
 };
