@@ -510,8 +510,7 @@ class Appointments extends CI_Controller {
 
 		$service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
 
-		$exclude_appointments = (isset($appointment['appointment_id']))
-				? array($appointment['appointment_id']) : array();
+		$exclude_appointments = (isset($appointment['id'])) ? array($appointment['id']) : array();
 
 		$available_periods = $this->get_provider_available_time_periods(
 				$appointment['id_users_provider'], date('Y-m-d', strtotime($appointment['start_datetime'])),
