@@ -323,6 +323,14 @@ body .form-horizontal .controls {
     margin-left: 158px;
 }
 
+/* BACKEND COMPONENTS
+   -------------------------------------------------------------------- */
+.filter-records .key {
+    margin-right: 15px;
+    float: left;
+}
+
+
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
 #customers-page h2 {

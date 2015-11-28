@@ -28,13 +28,15 @@
     <div class="row">
     	<div id="filter-customers" class="filter-records column col-md-4">
     		<form class="input-append">
-    			<input class="key span12" type="text" />
-                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear'); ?>">
-                    <span class="glyphicon glyphicon-repeat"></span>
-                </button>
+    			<input class="key" type="text" />
+                <div class="btn-group">
+                    <button class="filter btn btn-default btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <button class="clear btn btn-default btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                    </button>
+                </div>
     		</form>
 
             <h3><?php echo $this->lang->line('customers'); ?></h3>

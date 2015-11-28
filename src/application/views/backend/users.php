@@ -64,12 +64,14 @@
         <div id="filter-admins" class="filter-records column col-md-4">
             <form class="input-append">
                 <input class="key" type="text" />
-                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear'); ?>">
-                    <span class="glyphicon glyphicon-repeat"></span>
-                </button>
+                <div class="btn-group">
+                    <button class="filter btn btn-default btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <button class="clear btn btn-default btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                    </button>
+                </div>
             </form>
 
             <h3><?php echo $this->lang->line('admins'); ?></h3>
@@ -201,12 +203,14 @@
         <div id="filter-providers" class="filter-records column col-md-7">
             <form class="input-append">
                 <input class="key" type="text" />
-                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear'); ?>">
-                    <span class="glyphicon glyphicon-repeat"></span>
-                </button>
+                <div class="btn-group">
+                    <button class="filter btn btn-default btn-sm" type="submit" title="<?php echo $this->lang->line('filter'); ?>">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <button class="clear btn btn-default btn-sm" type="button" title="<?php echo $this->lang->line('clear'); ?>">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                    </button>
+                </div>
             </form>
 
             <h3><?php echo $this->lang->line('providers'); ?></h3>
@@ -471,12 +475,14 @@
         <div id="filter-secretaries" class="filter-records column col-md-4">
             <form class="input-append">
                 <input class="key" type="text" />
-                <button class="filter btn btn-default btn-xs" type="submit" title="<?php echo $this->lang->line('filter');?>">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-                <button class="clear btn btn-default btn-xs" type="button" title="<?php echo $this->lang->line('clear');?>">
-                    <span class="glyphicon glyphicon-repeat"></span>
-                </button>
+                <div class="btn-group">
+                    <button class="filter btn btn-default btn-sm" type="submit" title="<?php echo $this->lang->line('filter');?>">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <button class="clear btn btn-default btn-sm" type="button" title="<?php echo $this->lang->line('clear');?>">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                    </button>
+                </div>
             </form>
 
             <h3><?php echo $this->lang->line('secretaries');?></h3>
