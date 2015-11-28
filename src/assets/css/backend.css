@@ -325,7 +325,12 @@ body .form-horizontal .controls {
 
 /* BACKEND COMPONENTS
    -------------------------------------------------------------------- */
-.filter-records .key {
+.filter-records form {
+    height: 35px;
+    padding-top: 5px
+}
+
+.filter-records form .key {
     margin-right: 15px;
     float: left;
 }
@@ -394,7 +399,7 @@ body .form-horizontal .controls {
 }
 
 #customers-page #appointment-details {
-    width: 338px;
+    width: 330px;
 }
 
 #customers-page #appointment-details div {
@@ -572,7 +577,7 @@ body .form-horizontal .controls {
 #users-page #secretary-providers,
 #users-page #provider-services {
     border: 4px solid #ccc;
-    width: 340px;
+    width: 315px;
     height: 387px;
     overflow-y: scroll;
     padding: 7px;
@@ -613,6 +618,7 @@ body .form-horizontal .controls {
 #users-page #providers .details-view,
 #users-page #providers .working-plan-view {
     clear: both;
+    overflow: auto;
 }
 
 #users-page .btn-toolbar {

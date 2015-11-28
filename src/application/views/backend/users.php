@@ -261,7 +261,7 @@
 
                 <input type="hidden" id="provider-id" class="record-id" />
 
-                <div class="">
+                <div>
                     <div class="provider-details col-md-6">
                         <div class="form-group">
                             <label for="provider-first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
