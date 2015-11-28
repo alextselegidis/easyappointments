@@ -60,8 +60,9 @@
                 <legend>
                     <?php echo $this->lang->line('general_settings'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-xs">
-                        <?php echo $this->lang->line('save'); ?>
+                    <button type="button" class="save-settings btn btn-primary btn-xs"
+                            title="<?php echo $this->lang->line('save'); ?>">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
                     </button>
                     <?php } ?>
                 </legend>
@@ -124,8 +125,9 @@
                 <legend>
                     <?php echo $this->lang->line('business_logic'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-xs">
-                        <?php echo $this->lang->line('save'); ?>
+                    <button type="button" class="save-settings btn btn-primary btn-xs"
+                            title="<?php echo $this->lang->line('save'); ?>">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
                     </button>
                     <?php } ?>
                 </legend>
@@ -251,7 +253,7 @@
                             <?php echo $this->lang->line('customer_notifications_hint'); ?>
                         </span>
                         <div class="form-group">
-                            <button type="button" id="customer-notifications" class="btn" data-toggle="button" aria-pressed="false">
+                            <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">
                                 <span class="glyphicon glyphicon-envelope"></span>
                                 <?php echo $this->lang->line('receive_notifications'); ?>
                             </button>
@@ -305,8 +307,9 @@
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
                     <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
-                    <button type="button" class="save-settings btn btn-primary btn-xs">
-                        <?php echo $this->lang->line('save'); ?>
+                    <button type="button" class="save-settings btn btn-primary btn-xs"
+                            title="<?php echo $this->lang->line('save'); ?>">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
                     </button>
                     <?php } ?>
                 </legend>
@@ -382,7 +385,7 @@
                     <input type="password" id="retype-password" class="form-control" />
                 </div>
 
-                <button type="button" id="user-notifications" class="btn" data-toggle="button">
+                <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
                     <span class="glyphicon glyphicon-envelope"></span>
                     <?php echo $this->lang->line('receive_notifications'); ?>
                 </button>
