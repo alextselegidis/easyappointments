@@ -60,11 +60,11 @@
                             <span class="glyphicon glyphicon-plus"></span>
                             <?php echo $this->lang->line('add'); ?>
                         </button>
-                        <button id="edit-service" class="btn" disabled="disabled">
+                        <button id="edit-service" class="btn btn-default" disabled="disabled">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <?php echo $this->lang->line('edit'); ?>
                         </button>
-                        <button id="delete-service" class="btn" disabled="disabled">
+                        <button id="delete-service" class="btn btn-default" disabled="disabled">
                             <span class="glyphicon glyphicon-remove"></span>
                             <?php echo $this->lang->line('delete'); ?>
                         </button>
@@ -75,7 +75,7 @@
                             <span class="glyphicon glyphicon-ok"></span>
                             <?php echo $this->lang->line('save'); ?>
                         </button>
-                        <button id="cancel-service" class="btn">
+                        <button id="cancel-service" class="btn btn-default">
                             <span class="glyphicon glyphicon-ban-circle"></span>
                             <?php echo $this->lang->line('cancel'); ?>
                         </button>
@@ -157,11 +157,11 @@
                         <span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span>
                         <?php echo $this->lang->line('add'); ?>
                     </button>
-                    <button id="edit-category" class="btn" disabled="disabled">
+                    <button id="edit-category" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?php echo $this->lang->line('edit'); ?>
                     </button>
-                    <button id="delete-category" class="btn" disabled="disabled">
+                    <button id="delete-category" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?php echo $this->lang->line('delete'); ?>
                     </button>
@@ -172,7 +172,7 @@
                         <span class="glyphicon glyphicon-ok glyphicon glyphicon-white"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <button id="cancel-category" class="btn">
+                    <button id="cancel-category" class="btn btn-default">
                         <span class="glyphicon glyphicon-ban-circle"></span>
                         <?php echo $this->lang->line('cancel'); ?>
                     </button>
