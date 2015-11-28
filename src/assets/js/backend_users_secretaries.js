@@ -43,6 +43,7 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
     $('#filter-secretaries .clear').click(function() {
         BackendUsers.helper.filter('');
         $('#filter-secretaries .key').val('');
+        BackendUsers.helper.resetForm();
     });
 
     /**

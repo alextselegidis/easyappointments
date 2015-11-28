@@ -43,6 +43,7 @@ AdminsHelper.prototype.bindEventHandlers = function() {
     $('#filter-admins .clear').click(function() {
         BackendUsers.helper.filter('');
         $('#filter-admins .key').val('');
+        BackendUsers.helper.resetForm();
     });
 
     /**
@@ -420,4 +421,3 @@ AdminsHelper.prototype.select = function(id, display) {
         });
     }
 };
-

@@ -85,6 +85,7 @@ CustomersHelper.prototype.bindEventHandlers = function() {
     $('#filter-customers .clear').click(function() {
         $('#filter-customers .key').val('');
         BackendCustomers.helper.filter('');
+        BackendCustomers.helper.resetForm();
     });
 
     /**

@@ -43,6 +43,7 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
     $('#filter-providers .clear').click(function() {
         BackendUsers.helper.filter('');
         $('#filter-providers .key').val('');
+        BackendUsers.helper.resetForm();
     });
 
     /**

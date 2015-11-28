@@ -144,6 +144,7 @@ ServicesHelper.prototype.bindEventHandlers = function() {
     $('#filter-services .clear').click(function() {
         $('#filter-services .key').val('');
         BackendServices.helper.filter('');
+        BackendServices.helper.resetForm();
     });
 
     /**
@@ -495,6 +496,7 @@ CategoriesHelper.prototype.bindEventHandlers = function() {
     $('#filter-categories .clear').click(function() {
         $('#filter-categories .key').val('');
         BackendServices.helper.filter('');
+        BackendServices.helper.resetForm();
     });
 
     /**
