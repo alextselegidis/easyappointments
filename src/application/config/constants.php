@@ -72,5 +72,6 @@ define('PRIV_SYSTEM_SETTINGS', 'system_settings');
 define('PRIV_USER_SETTINGS', 'user_settings');
 
 define('MIN_PASSWORD_LENGTH', 7);
+define('ANY_PROVIDER', 'any-provider');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

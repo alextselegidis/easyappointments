@@ -283,6 +283,16 @@ class Appointments extends CI_Controller {
                     ? array($_POST['appointment_id'])
                     : array();
 
+			// If the user has selected the "any-provider" option then we will need to search
+			// for an available provider that provides the requested service.
+			if ($_POST['provider_id'] === ANY_PROVIDER) {
+				$_POST['provider_id'] = $this->search_any_provider($_POST['service_id'], $_POST['selected_date']);
+				if ($_POST['provider_id'] === NULL) {
+					echo json_encode(array());
+					return;
+				}
+			}
+
             $empty_periods = $this->get_provider_available_time_periods($_POST['provider_id'],
                     $_POST['selected_date'], $exclude_appointments);
 
@@ -373,8 +383,8 @@ class Appointments extends CI_Controller {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
 
-            $appointment = $post_data['appointment'];
-            $customer = $post_data['customer'];
+            $appointment = $_POST['post_data']['appointment'];
+            $customer = $_POST['post_data']['customer'];
 
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
@@ -383,7 +393,7 @@ class Appointments extends CI_Controller {
             $this->load->model('settings_model');
 
             if ($this->customers_model->exists($customer))
-                    $customer['id'] = $this->customers_model->find_record_id($customer);
+                $customer['id'] = $this->customers_model->find_record_id($customer);
 
             $customer_id = $this->customers_model->add($customer);
             $appointment['id_users_customer'] = $customer_id;
@@ -511,6 +521,12 @@ class Appointments extends CI_Controller {
 		$service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
 
 		$exclude_appointments = (isset($appointment['id'])) ? array($appointment['id']) : array();
+
+		if ($appointment['id_users_provider'] === ANY_PROVIDER) {
+			$appointment['id_users_provider'] = $this->search_any_provider($appointment['id_services'],
+				date('Y-m-d', strtotime($appointment['start_datetime'])));
+			$_POST['post_data']['appointment']['id_users_provider'] = $appointment['id_users_provider'];
+		}
 
 		$available_periods = $this->get_provider_available_time_periods(
 				$appointment['id_users_provider'], date('Y-m-d', strtotime($appointment['start_datetime'])),
@@ -681,6 +697,34 @@ class Appointments extends CI_Controller {
 	    }
 
 	    return array_values($available_periods_with_appointments);
+	}
+
+	/**
+	 * Search for any provider that can handle the requested service.
+	 *
+	 * @param numeric $service_id The requested service ID.
+	 * @param string $selected_date The date to be searched.
+	 *
+	 * @return int Returns the ID of the provider that can provide the service at the selected date.
+	 */
+	private function search_any_provider($service_id, $selected_date) {
+		$this->load->model('providers_model');
+		$available_providers = $this->providers_model->get_available_providers();
+		$provider_id = NULL;
+
+		foreach($available_providers as $provider) {
+			foreach($provider['services'] as $provider_service_id) {
+				if ($provider_service_id == $service_id) { // Check if the provider is available for the requested date.
+					$available_periods = $this->get_provider_available_time_periods($provider['id'], $selected_date);
+					if (count($available_periods) > 0) {
+						$provider_id = $provider['id'];
+						break 2;
+					}
+				}
+			}
+		}
+
+		return $provider_id;
 	}
 }
 
