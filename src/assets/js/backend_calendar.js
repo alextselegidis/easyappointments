@@ -33,6 +33,31 @@ var BackendCalendar = {
     initialize: function(defaultEventHandlers) {
         if (defaultEventHandlers === undefined) defaultEventHandlers = true;
 
+        // Dynamic Date Formats
+        var columnFormat = {};
+
+        switch(GlobalVariables.dateFormat) {
+            case 'DMY':
+                columnFormat = {
+                    'month': 'ddd',
+                    'week': 'ddd dd/MM',
+                    'day': 'dddd dd/MM'
+                };
+
+                break;
+            case 'MDY':
+            case 'YMD':
+                columnFormat = {
+                    'month': 'ddd',
+                    'week': 'ddd MM/dd',
+                    'day': 'dddd MM/dd'
+                };
+                break;
+            default:
+                throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
+        }
+
+
         // Initialize page calendar
         $('#calendar').fullCalendar({
             'defaultView': 'agendaWeek',
@@ -44,11 +69,7 @@ var BackendCalendar = {
             'axisFormat': 'HH:mm',
             'timeFormat': 'HH:mm{ - HH:mm}',
             'allDayText': EALang['all_day'],
-            'columnFormat': {
-                'month': 'ddd',
-                'week': 'ddd d/M',
-                'day': 'dddd d/M'
-            },
+            'columnFormat': columnFormat,
             'titleFormat': {
                 'month': 'MMMM yyyy',
                 'week': "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",

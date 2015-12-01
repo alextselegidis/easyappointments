@@ -9,14 +9,15 @@
 
 <script type="text/javascript">
     var GlobalVariables = {
-        'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'baseUrl': <?php echo '"' . $base_url . '"'; ?>,
-        'userSlug': <?php echo '"' . $role_slug . '"'; ?>,
-        'settings': {
-            'system': <?php echo json_encode($system_settings); ?>,
-            'user': <?php echo json_encode($user_settings); ?>
+        'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
+        'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
+        'dateFormat'    : <?php echo json_encode($date_format); ?>,
+        'userSlug'      : <?php echo '"' . $role_slug . '"'; ?>,
+        'settings'      : {
+            'system'    : <?php echo json_encode($system_settings); ?>,
+            'user'      : <?php echo json_encode($user_settings); ?>
         },
-        'user'                  : {
+        'user'          : {
             'id'        : <?php echo $user_id; ?>,
             'email'     : <?php echo '"' . $user_email . '"'; ?>,
             'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
