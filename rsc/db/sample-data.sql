@@ -24,6 +24,7 @@ INSERT INTO `ea_settings` (`id`, `name`, `value`) VALUES
 (5, 'company_link', 'http://www.abc-company.ea'),
 (6, 'google_analytics_code', '');
 (7, 'customer_notifications', '1');
+(8, 'date_format', 'DMY');
 
 --
 -- Dumping data for table `ea_roles`

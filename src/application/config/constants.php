@@ -71,6 +71,10 @@ define('PRIV_USERS', 'users');
 define('PRIV_SYSTEM_SETTINGS', 'system_settings');
 define('PRIV_USER_SETTINGS', 'user_settings');
 
+define('DATE_FORMAT_DMY', 'DMY');
+define('DATE_FORMAT_MDY', 'MDY');
+define('DATE_FORMAT_YMD', 'YMD');
+
 define('MIN_PASSWORD_LENGTH', 7);
 define('ANY_PROVIDER', 'any-provider');
 /* End of file constants.php */
