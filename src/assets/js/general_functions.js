@@ -112,14 +112,11 @@ var GeneralFunctions = {
      * @returns {String} Returns the parameter value.
      */
     getUrlParameter: function(url, parameterName) {
-       parameterName = parameterName.replace(/[\[]/,'\\\[').replace(/[\]]/,'\\\]');
-       var regexS = '[\\#&]' + parameterName + '=([^&#]*)';
-       var regex = new RegExp( regexS );
-       var results = regex.exec( url );
-       if( results == null )
-           return '';
-       else
-           return results[1];
+        parameterName = parameterName.replace(/[\[]/,'\\\[').replace(/[\]]/,'\\\]');
+        var regexS = '[\\#&]' + parameterName + '=([^&#]*)',
+            regex = new RegExp(regexS),
+            results = regex.exec(url);
+        return (results == null) ? '' : results[1];
     },
 
     /**
@@ -129,8 +126,10 @@ var GeneralFunctions = {
      * @param {date} dt The given date that will be transformed
      * @returns {String} Returns the transformed string.
      */
-    ISODateString: function(dt){
-        function pad(n) { return n<10 ? '0'+n : n; }
+    ISODateString: function(dt) {
+        function pad(n) {
+            return n<10 ? '0'+n : n;
+        }
 
         return dt.getUTCFullYear()+'-'
              + pad(dt.getUTCMonth()+1)+'-'
@@ -365,5 +364,33 @@ var GeneralFunctions = {
      */
     escapeHtml: function(str) {
         return $('<div/>').text(str).html();
+    },
+
+    /**
+     * Format a given date according to the date format setting.
+     *
+     * @param  {Date]} date The date to be formatted.
+     * @param  {string} dateFormatSetting The setting provided by PHP must be one of
+     * the "DMY", "MDY" or "YMD".
+     * @returns {string} Returns the formatted date string.
+     */
+    formatDate: function(date, dateFormatSetting) {
+        var result;
+
+        switch(dateFormatSetting) {
+            case 'DMY':
+                result = Date.parse(date).toString('dd/MM/yyyy');
+                break;
+            case 'MDY':
+                result = Date.parse(date).toString('MM/dd/yyyy');
+                break;
+            case 'YMD':
+                result = Date.parse(date).toString('yyyy/MM/dd');
+                break;
+            default:
+                throw new Error('Invalid date format setting provided!', dateFormatSetting);
+        }
+
+        return result;
     }
 };
