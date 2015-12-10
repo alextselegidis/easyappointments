@@ -279,6 +279,12 @@ class Appointments extends CI_Controller {
         $this->load->model('settings_model');
 
         try {
+			// Do not continue if there was no provider selected.
+			if (empty($_POST['provider_id'])) {
+				echo json_encode(array());
+				return;
+			}
+
             // If manage mode is TRUE then the following we should not consider the selected
             // appointment when calculating the available time periods of the provider.
             $exclude_appointments = ($_POST['manage_mode'] === 'true')

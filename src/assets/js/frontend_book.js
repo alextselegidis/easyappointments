@@ -158,6 +158,12 @@ var FrontendBook = {
          * be perfomed, depending the current wizard step.
          */
         $('.button-next').click(function() {
+            // If we are on the first step and there is not provider selected do not continue
+            // with the next step.
+            if ($(this).attr('data-step_index') === '1' && $('#select-provider').val() == null) {
+                return;
+            }
+
             // If we are on the 2nd tab then the user should have an appointment hour
             // selected.
             if ($(this).attr('data-step_index') === '2') {
