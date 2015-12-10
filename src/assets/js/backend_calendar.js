@@ -203,12 +203,12 @@ var BackendCalendar = {
 
             // Set the start and end datetime of the appointment.
             var startDatetime = Date.parseExact(appointment['start_datetime'],
-                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-            $dialog.find('#start-datetime').val(startDatetime);
+                    'yyyy-MM-dd HH:mm:ss');
+            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
 
             var endDatetime = Date.parseExact(appointment['end_datetime'],
-                    'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-            $dialog.find('#end-datetime').val(endDatetime);
+                    'yyyy-MM-dd HH:mm:ss');
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
 
             var customer = appointment['customer'];
             $dialog.find('#customer-id').val(appointment['id_users_customer']);
@@ -275,8 +275,7 @@ var BackendCalendar = {
                     $('#calendar').fullCalendar('getView').visStart,
                     $('#calendar').fullCalendar('getView').visEnd);
 
-            // If current value is service, then the sync buttons must be
-            // disabled.
+            // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type')
                     === BackendCalendar.FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
@@ -382,12 +381,12 @@ var BackendCalendar = {
 
                 // Set the start and end datetime of the appointment.
                 var startDatetime = Date.parseExact(appointment['start_datetime'],
-                        'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-                $dialog.find('#start-datetime').val(startDatetime);
+                        'yyyy-MM-dd HH:mm:ss');
+                $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
 
                 var endDatetime = Date.parseExact(appointment['end_datetime'],
-                        'yyyy-MM-dd HH:mm:ss').toString('dd/MM/yyyy HH:mm');
-                $dialog.find('#end-datetime').val(endDatetime);
+                        'yyyy-MM-dd HH:mm:ss');
+                $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
 
                 var customer = appointment['customer'];
                 $dialog.find('#customer-id').val(appointment['id_users_customer']);
@@ -538,9 +537,9 @@ var BackendCalendar = {
             // Id must exist on the object in order for the model to update
             // the record and not to perform an insert operation.
 
-            var startDatetime = Date.parseExact($dialog.find('#start-datetime').val(),
+            var startDatetime = Date.parse($dialog.find('#start-datetime').val(),
                     'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
-            var endDatetime = Date.parseExact($dialog.find('#end-datetime').val(),
+            var endDatetime = Date.parse($dialog.find('#end-datetime').val(),
                     'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
 
             var appointment = {
@@ -836,8 +835,9 @@ var BackendCalendar = {
             else
                 start.addHours(1).set({ 'minute': 0 });
 
-            $dialog.find('#start-datetime').val(start.toString('dd/MM/yyyy HH:mm'));
-            $dialog.find('#end-datetime').val(start.addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm'));
+            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration), 
+                    GlobalVariables.dateFormat, true));
 
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
@@ -1910,13 +1910,28 @@ var BackendCalendar = {
             }
         });
 
-        var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                .toString('dd/MM/yyyy HH:mm');
+        var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout),
+            formattedStartDatetime = GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true);
         var endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                .addMinutes(serviceDuration).toString('dd/MM/yyyy HH:mm');
+                .addMinutes(serviceDuration),
+            formattedEndDatetime = GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true);
+
+        var dateFormat;
+
+        switch(GlobalVariables.dateFormat) {
+            case 'DMY':
+                dateFormat = 'dd/mm/yy';
+                break;
+            case 'MDY':
+                dateFormat = 'mm/dd/yy';
+                break;
+            case 'YMD':
+                dateFormat = 'yy/mm/dd';
+                break;
+        }
 
         $dialog.find('#start-datetime').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
+            'dateFormat': dateFormat,
             // Translation
             dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
                     EALang['thursday'], EALang['friday'], EALang['saturday']],
@@ -1941,10 +1956,10 @@ var BackendCalendar = {
             minuteText: EALang['minutes'],
             firstDay: 1
         });
-        $dialog.find('#start-datetime').val(startDatetime);
+        $dialog.find('#start-datetime').val(formattedStartDatetime);
 
         $dialog.find('#end-datetime').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
+            'dateFormat': dateFormat,
             // Translation
             dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
                     EALang['thursday'], EALang['friday'], EALang['saturday']],
@@ -1969,7 +1984,7 @@ var BackendCalendar = {
             minuteText: EALang['minutes'],
             firstDay: 1
         });
-        $dialog.find('#end-datetime').val(endDatetime);
+        $dialog.find('#end-datetime').val(formattedEndDatetime);
     },
 
     /**
@@ -2005,8 +2020,8 @@ var BackendCalendar = {
             }
 
             // :: CHECK APPOINTMENT START AND END TIME
-            var start = Date.parseExact($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
-            var end = Date.parseExact($('#end-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var start = Date.parse($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var end = Date.parse($('#end-datetime').val(), 'dd/MM/yyyy HH:mm');
             if (start > end) {
                 $dialog.find('#start-datetime').parents().eq(1).addClass('error');
                 $dialog.find('#end-datetime').parents().eq(1).addClass('error');

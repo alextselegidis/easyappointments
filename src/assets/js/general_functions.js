@@ -369,23 +369,25 @@ var GeneralFunctions = {
     /**
      * Format a given date according to the date format setting.
      *
-     * @param  {Date]} date The date to be formatted.
-     * @param  {string} dateFormatSetting The setting provided by PHP must be one of
+     * @param {Date]} date The date to be formatted.
+     * @param {string} dateFormatSetting The setting provided by PHP must be one of
      * the "DMY", "MDY" or "YMD".
+     * @param {bool} addHours (optional) Whether to add hours to the result.
      * @returns {string} Returns the formatted date string.
      */
-    formatDate: function(date, dateFormatSetting) {
-        var result;
+    formatDate: function(date, dateFormatSetting, addHours) {
+        var format, result,
+            hours = addHours ? ' HH:mm' : '';
 
         switch(dateFormatSetting) {
             case 'DMY':
-                result = Date.parse(date).toString('dd/MM/yyyy');
+                result = Date.parse(date).toString('dd/MM/yyyy' + hours);
                 break;
             case 'MDY':
-                result = Date.parse(date).toString('MM/dd/yyyy');
+                result = Date.parse(date).toString('MM/dd/yyyy' + hours);
                 break;
             case 'YMD':
-                result = Date.parse(date).toString('yyyy/MM/dd');
+                result = Date.parse(date).toString('yyyy/MM/dd' + hours);
                 break;
             default:
                 throw new Error('Invalid date format setting provided!', dateFormatSetting);
