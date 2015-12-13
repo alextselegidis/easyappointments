@@ -135,14 +135,18 @@ body .modal .modal-title {
 
 body .modal-header {
     padding: 12px 15px;
-    background: #3DD481;
-    border-bottom: 4px solid #3A8154;
+    background: #35B66F;
+    border-bottom: 4px solid #2B995D;
 }
 
 body .modal-header h3 {
     color: #FFF;
     font-size: 20px;
-    text-shadow: 1px 1px 1px #134D13;
+    font-weight: bold;
+}
+
+body .modal-header .close {
+    margin-top: 2px;
 }
 
 
