@@ -132,13 +132,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="admin-mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
-                        <input type="text" id="admin-mobile-number" class="form-control" />
+                        <label for="admin-phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                        <input type="text" id="admin-phone-number" class="form-control required" />
                     </div>
 
                     <div class="form-group">
-                        <label for="admin-phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                        <input type="text" id="admin-phone-number" class="form-control required" />
+                        <label for="admin-mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
+                        <input type="text" id="admin-mobile-number" class="form-control" />
                     </div>
 
                     <div class="form-group">
@@ -280,13 +280,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="provider-mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
-                            <input type="text" id="provider-mobile-number" class="form-control" />
+                            <label for="provider-phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                            <input type="text" id="provider-phone-number" class="form-control required" />
                         </div>
 
                         <div class="form-group">
-                            <label for="provider-phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                            <input type="text" id="provider-phone-number" class="form-control required" />
+                            <label for="provider-mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
+                            <input type="text" id="provider-mobile-number" class="form-control" />
                         </div>
 
                         <div class="form-group">
@@ -543,13 +543,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="secretary-mobile-number"><?php echo $this->lang->line('mobile_number');?></label>
-                        <input type="text" id="secretary-mobile-number" class="form-control" />
+                        <label for="secretary-phone-number"><?php echo $this->lang->line('phone_number');?> *</label>
+                        <input type="text" id="secretary-phone-number" class="form-control required" />
                     </div>
 
                     <div class="form-group">
-                        <label for="secretary-phone-number"><?php echo $this->lang->line('phone_number');?> *</label>
-                        <input type="text" id="secretary-phone-number" class="form-control required" />
+                        <label for="secretary-mobile-number"><?php echo $this->lang->line('mobile_number');?></label>
+                        <input type="text" id="secretary-mobile-number" class="form-control" />
                     </div>
 
                     <div class="form-group">

@@ -351,13 +351,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
-                    <input type="text" id="mobile-number" class="form-control" />
+                    <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                    <input type="text" id="phone-number" class="form-control required" />
                 </div>
 
                 <div class="form-group">
-                    <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                    <input type="text" id="phone-number" class="form-control required" />
+                    <label for="mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
+                    <input type="text" id="mobile-number" class="form-control" />
                 </div>
 
                 <div class="form-group">
