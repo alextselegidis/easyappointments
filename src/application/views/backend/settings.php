@@ -105,6 +105,24 @@
                                 Google Analytics ID</label>
                             <input type="text" id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
                                 data-field="google_analytics_code" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('google_analytics_code_hint'); ?>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="date-format">
+                                <?php echo $this->lang->line('date_format'); ?>
+                            </label>
+                            <select class="form-control" id="date-format" data-field="date_format">
+                                <option value="DMY">DMY</option>
+                                <option value="MDY">MDY</option>
+                                <option value="YMD">YMD</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('date_format_hint'); ?>
+                            </span>
                         </div>
                     </div>
                 </div>
