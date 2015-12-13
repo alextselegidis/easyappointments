@@ -618,8 +618,8 @@ var BackendCalendar = {
         $('#manage-unavailable #save-unavailable').click(function() {
             var $dialog = $('#manage-unavailable');
 
-            var start = Date.parseExact($dialog.find('#unavailable-start').val(), 'dd/MM/yyyy HH:mm');
-            var end = Date.parseExact($dialog.find('#unavailable-end').val(), 'dd/MM/yyyy HH:mm');
+            var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
+            var end = $dialog.find('#unavailable-end').datetimepicker('getDate');
 
             if (start > end) {
                 // Start time is after end time - display message to user.
@@ -836,7 +836,7 @@ var BackendCalendar = {
                 start.addHours(1).set({ 'minute': 0 });
 
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration), 
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration),
                     GlobalVariables.dateFormat, true));
 
             // Display modal form.
@@ -867,9 +867,8 @@ var BackendCalendar = {
             else
                 start.addHours(1).set({ 'minute': 0 });
 
-            $dialog.find('#unavailable-start').val(start.toString('dd/MM/yyyy HH:mm'));
-            $dialog.find('#unavailable-end').val(start.addHours(1).toString('dd/MM/yyyy HH:mm'));
-
+            $dialog.find('#unavailable-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
+            $dialog.find('#unavailable-end').val(GeneralFunctions.formatDate(start.addHours(1), GlobalVariables.dateFormat, true));
             $dialog.find('.modal-header h3').text(EALang['new_unavailable_title']);
             $dialog.modal('show');
         });
@@ -1569,10 +1568,10 @@ var BackendCalendar = {
                         + '.popover-content button {margin-right: 10px;}'
                         + '</style>' +
                     '<strong>' + EALang['start'] + '</strong> '
-                        + event.start.toString('dd/MM/yyyy HH:mm')
+                        + GeneralFunctions.formatDate(event.start, GlobalVariables.dateFormat, true)
                         + '<br>' +
                     '<strong>' + EALang['end'] + '</strong> '
-                        + event.end.toString('dd/MM/yyyy HH:mm')
+                        + GeneralFunctions.formatDate(event.end, GlobalVariables.dateFormat, true)
                         + '<br>'
                         + notes
                         + '<hr>' +
@@ -1593,10 +1592,10 @@ var BackendCalendar = {
                         + '.popover-content button {margin-right: 10px;}'
                         + '</style>' +
                     '<strong>' + EALang['start'] + '</strong> '
-                        + event.start.toString('dd/MM/yyyy HH:mm')
+                        + GeneralFunctions.formatDate(event.start, GlobalVariables.dateFormat, true)
                         + '<br>' +
                     '<strong>' + EALang['end'] + '</strong> '
-                        + event.end.toString('dd/MM/yyyy HH:mm')
+                        + GeneralFunctions.formatDate(event.end, GlobalVariables.dateFormat, true)
                         + '<br>' +
                     '<strong>' + EALang['service'] + '</strong> '
                         + event.data['service']['name']
@@ -1931,7 +1930,8 @@ var BackendCalendar = {
         }
 
         $dialog.find('#start-datetime').datetimepicker({
-            'dateFormat': dateFormat,
+            dateFormat: dateFormat,
+
             // Translation
             dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
                     EALang['thursday'], EALang['friday'], EALang['saturday']],
@@ -1960,6 +1960,7 @@ var BackendCalendar = {
 
         $dialog.find('#end-datetime').datetimepicker({
             'dateFormat': dateFormat,
+
             // Translation
             dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
                     EALang['thursday'], EALang['friday'], EALang['saturday']],
@@ -2045,11 +2046,26 @@ var BackendCalendar = {
         $dialog.find('#unavailable-id').val('');
 
         // Set default time values
-        var start = new Date().toString('dd/MM/yyyy HH:mm');
-        var end = new Date().addHours(1).toString('dd/MM/yyyy HH:mm');
+        var start = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, true),
+            end = GeneralFunctions.formatDate(new Date().addHours(1), GlobalVariables.dateFormat, true),
+            dateFormat;
+
+        switch(GlobalVariables.dateFormat) {
+            case 'DMY':
+                dateFormat = 'dd/mm/yy';
+                break;
+            case 'MDY':
+                dateFormat = 'mm/dd/yy';
+                break;
+            case 'YMD':
+                dateFormat = 'yy/mm/dd';
+                break;
+        }
+
 
         $dialog.find('#unavailable-start').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
+            dateFormat: dateFormat,
+
             // Translation
             dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
                     EALang['thursday'], EALang['friday'], EALang['saturday']],
@@ -2077,7 +2093,8 @@ var BackendCalendar = {
         $dialog.find('#unavailable-start').val(start);
 
         $dialog.find('#unavailable-end').datetimepicker({
-            'dateFormat': 'dd/mm/yy',
+            dateFormat: dateFormat,
+
             // Translation
             dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
                     EALang['thursday'], EALang['friday'], EALang['saturday']],
