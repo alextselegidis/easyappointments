@@ -742,6 +742,7 @@ padding: 4px 7px;
 
 #settings-page .personal-info-wrapper {
     max-width: 400px;
+    padding-left: 0;
 }
 
 #settings-page .miscellaneous-wrapper {

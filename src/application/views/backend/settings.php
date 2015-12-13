@@ -321,7 +321,7 @@
     ?>
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="user" class="tab-content <?php echo $hidden; ?>">
-        <form class="container-fluid">
+        <form>
             <fieldset class="col-md-5 personal-info-wrapper">
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
