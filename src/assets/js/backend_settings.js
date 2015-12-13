@@ -46,6 +46,7 @@ var BackendSettings = {
         // Apply setting values from database.
         $.each(GlobalVariables.settings.system, function(index, setting) {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
+            $('select[data-field="' + setting.name + '"]').val(setting.value);
         });
 
         var workingPlan = {};
@@ -259,7 +260,7 @@ SystemSettings.prototype.get = function() {
     var settings = [];
 
     // General Settings Tab
-    $('#general input').each(function() {
+    $('#general').find('input, select').each(function() {
         settings.push({
             'name': $(this).attr('data-field'),
             'value': $(this).val()

@@ -269,3 +269,6 @@ $lang['any_provider'] = 'Jeder Anbieter';
 $lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';
 $lang['customer_notifications'] = 'Customer Notifications';
 $lang['customer_notifications_hint'] = 'Defines whether the customer will receive email notifications whenever there is a schedule change on one of his appointments.';
+$lang['date_format'] = 'Datumsformat';
+$lang['date_format_hint'] = 'Ändern Sie das Datumsanzeigeformat (D - Datum, M - Monat, Y - Jahr).';
+$lang['google_analytics_code_hint'] = 'Fügen Sie Ihre Google Analytics-ID hinzu, das auf der Buchungsseite enthalten wird.';

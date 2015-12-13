@@ -269,3 +269,6 @@ $lang['any_provider'] = 'Οποιοσδήποτε Πάροχος';
 $lang['requested_hour_is_unavailable'] = 'Το απαιτούμενο ραντεβού δεν είναι δυστυχώς διαθέσιμο. Παρακαλώ επιλέξτε κάποια άλλη ώρα για το ραντεβού σας.';
 $lang['customer_notifications'] = 'Customer Notifications';
 $lang['customer_notifications_hint'] = 'Defines whether the customer will receive email notifications whenever there is a schedule change on one of his appointments.';
+$lang['date_format'] = 'Μορφή Ημερομηνίας';
+$lang['date_format_hint'] = 'Αλλάξτε την μορφή ημερομηνίας (D - Ημέρα, M - Μήνας, Y - Χρόνος).';
+$lang['google_analytics_code_hint'] = 'Προσθέστε τον Google Analytics ID σας το οποίο θα συμπεριληφθεί στην σελίδα κράτησης.';
