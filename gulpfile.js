@@ -59,6 +59,29 @@ gulp.task('build', function(done) {
 /**
  * Generate code documentation.
  */
-gulp.task('doc', function() {
+gulp.task('doc', function(done) {
+    fs.removeSync('doc');
+    fs.mkdirSync('doc');
+    fs.mkdirSync('doc/apigen');
+    fs.mkdirSync('doc/jsdoc');
+    fs.mkdirSync('doc/plato');
 
+    var commands = [
+        'php rsc/apigen.phar generate ' +
+            '-s "src/application/controllers,src/application/models,src/application/libraries" ' +
+            '-d "doc/apigen" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
+
+        'node node_modules/.bin/jsdoc "src/assets/js" -d "doc/jsdoc"',
+
+        'node node_modules/.bin/plato -r -d "doc/plato" "src/assets/js"'
+    ];
+
+    commands.forEach(function(command) {
+        exec(command, function (err, stdout, stderr) {
+            console.log(stdout);
+            console.log(stderr);
+        });
+    });
+
+    done();
 });
