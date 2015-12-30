@@ -14,9 +14,14 @@
 /**
  * Google Controller
  *
+ * This controller handles the Google Calendar synchronization operations.
+ *
  * @package Controllers
  */
 class Google extends CI_Controller {
+	/**
+	 * Class Constructor
+	 */
 	public function __construct() {
 		parent::__construct();
 	}

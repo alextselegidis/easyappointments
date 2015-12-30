@@ -72,7 +72,6 @@ class Backend extends CI_Controller {
             $view['secretary_providers'] = array();
         }
 
-
         $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
         if ($appointment_hash != '' && count($results) > 0) {
             $appointment = $results[0];
@@ -232,6 +231,7 @@ class Backend extends CI_Controller {
      * @param bool $redirect (OPTIONAL - TRUE) If the user has not the required privileges
      * (either not logged in or insufficient role privileges) then the user will be redirected
      * to another page. Set this argument to FALSE when using ajax.
+     *
      * @return bool Returns whether the user has the required privileges to view the page or
      * not. If the user is not logged in then he will be prompted to log in. If he hasn't the
      * required privileges then an info message will be displayed.

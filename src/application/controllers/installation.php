@@ -19,7 +19,6 @@
  * @package Controllers
  */
 class Installation extends CI_Controller {
-
     /**
      * Class Constructor
      */
@@ -36,7 +35,6 @@ class Installation extends CI_Controller {
             $this->lang->load('translations', $this->config->item('language')); // default
         }
     }
-
 
     /**
      * Display the installation page.

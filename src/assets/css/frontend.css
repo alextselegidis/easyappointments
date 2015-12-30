@@ -13,7 +13,6 @@ root {
     display: block;
 }
 
-
 html,
 body {
     height: 100%;
@@ -240,6 +239,7 @@ body {
     margin-top: 8px;
     margin-bottom: 0;
 }
+
 
 /* MOBILE DEVICES
    ------------------------------------------------------------------------- */

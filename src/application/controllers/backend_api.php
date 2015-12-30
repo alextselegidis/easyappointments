@@ -48,10 +48,10 @@ class Backend_api extends CI_Controller {
      * This method returns the database appointments and unavailable periods for the
      * user selected date period and record type (provider or service).
      *
-     * @param {numeric} $_POST['record_id'] Selected record id.
-     * @param {string} $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
-     * @param {string} $_POST['start_date'] The user selected start date.
-     * @param {string} $_POST['end_date'] The user selected end date.
+     * @param numeric $_POST['record_id'] Selected record id.
+     * @param string $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
+     * @param string $_POST['start_date'] The user selected start date.
+     * @param string $_POST['end_date'] The user selected end date.
      */
     public function ajax_get_calendar_appointments() {
         try {
@@ -113,13 +113,10 @@ class Backend_api extends CI_Controller {
     }
 
     /**
-     * [AJAX] Save appointment changes that are made from the backend calendar
-     * page.
+     * [AJAX] Save appointment changes that are made from the backend calendar page.
      *
-     * @param array $_POST['appointment_data'] (OPTIONAL) Array with the
-     * appointment data.
-     * @param array $_POST['customer_data'] (OPTIONAL) Array with the customer
-     * data.
+     * @param array $_POST['appointment_data'] (OPTIONAL) Array with the appointment data.
+     * @param array $_POST['customer_data'] (OPTIONAL) Array with the customer data.
      */
     public function ajax_save_appointment() {
         try {
@@ -374,7 +371,6 @@ class Backend_api extends CI_Controller {
             if (!isset($_POST['provider_id']))
                 throw new Exception('Provider id not specified.');
 
-
             if ($this->privileges[PRIV_USERS]['edit'] == FALSE
                     && $this->session->userdata('user_id') != $_POST['provider_id']) {
                 throw new Exception('You do not have the required privileges for this task.');
@@ -398,7 +394,8 @@ class Backend_api extends CI_Controller {
     /**
      * [AJAX] Filter the customer records with the given key string.
      *
-     * @param string $_POST['key'] The filter key string
+     * @param string $_POST['key'] The filter key string.
+     *
      * @return array Returns the search results.
      */
     public function ajax_filter_customers() {
@@ -666,6 +663,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Filter service records by given key string.
      *
      * @param string $_POST['key'] Key string used to filter the records.
+     *
      * @return array Returns a json encoded array back to client.
      */
     public function ajax_filter_services() {
@@ -744,6 +742,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Filter services categories with key string.
      *
      * @param string $_POST['key'] The key string used to filter the records.
+     *
      * @return array Returns a json encoded array back to client with the category records.
      */
     public function ajax_filter_service_categories() {
@@ -768,6 +767,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Filter admin records with string key.
      *
      * @param string $_POST['key'] The key string used to filter the records.
+     *
      * @return array Returns a json encoded array back to client with the admin records.
      */
     public function ajax_filter_admins() {
@@ -798,6 +798,7 @@ class Backend_api extends CI_Controller {
      *
      * @param array $_POST['admin'] A json encoded array that contains the admin data. If an 'id'
      * value is provided then the record is going to be updated.
+     *
      * @return array Returns an array with the operation status and the record id that was
      * saved into the database.
      */
@@ -832,6 +833,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Delete an admin record from the database.
      *
      * @param numeric $_POST['admin_id'] The id of the record to be deleted.
+     *
      * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
      */
     public function ajax_delete_admin() {
@@ -854,6 +856,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Filter provider records with string key.
      *
      * @param string $_POST['key'] The key string used to filter the records.
+     *
      * @return array Returns a json encoded array back to client with the provider records.
      */
     public function ajax_filter_providers() {
@@ -884,6 +887,7 @@ class Backend_api extends CI_Controller {
      *
      * @param array $_POST['provider'] A json encoded array that contains the provider data. If an 'id'
      * value is provided then the record is going to be updated.
+     *
      * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that
      * everything completed successfully.
      */
@@ -923,6 +927,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Delete a provider record from the database.
      *
      * @param numeric $_POST['provider_id'] The id of the record to be deleted.
+     *
      * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
      */
     public function ajax_delete_provider() {
@@ -945,6 +950,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Filter secretary records with string key.
      *
      * @param string $_POST['key'] The key string used to filter the records.
+     *
      * @return array Returns a json encoded array back to client with the secretary records.
      */
     public function ajax_filter_secretaries() {
@@ -975,6 +981,7 @@ class Backend_api extends CI_Controller {
      *
      * @param array $_POST['secretary'] A json encoded array that contains the secretary data.
      * If an 'id' value is provided then the record is going to be updated.
+     *
      * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that
      * everything completed successfully.
      */
@@ -1007,6 +1014,7 @@ class Backend_api extends CI_Controller {
      * [AJAX] Delete a secretary record from the database.
      *
      * @param numeric $_POST['secretary_id'] The id of the record to be deleted.
+     *
      * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
      */
     public function ajax_delete_secretary() {
