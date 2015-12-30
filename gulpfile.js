@@ -23,7 +23,7 @@ gulp.task('composer', function() {
     return gulp.src([
         'composer/**/*',
         '!composer/**/demo{,/**}',
-        '!composer/**/{demo,docs,examples,test,extras}{,/**}',
+        '!composer/**/{demo,docs,examples,test,extras,language}{,/**}',
         '!composer/**/{composer.json,composer.lock,.gitignore}',
         '!composer/**/*.yml',
         '!composer/**/*.md'
