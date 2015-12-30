@@ -238,6 +238,7 @@ body {
 
 #cancel-appointment-frame p {
     margin-top: 8px;
+    margin-bottom: 0;
 }
 
 /* MOBILE DEVICES
