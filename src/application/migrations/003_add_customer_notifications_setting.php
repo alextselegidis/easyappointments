@@ -11,7 +11,7 @@
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_google_analytics_setting extends CI_Migration {
+class Migration_Add_customer_notifications_setting extends CI_Migration {
     public function up() {
         $this->load->model('settings_model');
         $this->settings_model->set_setting('customer_notifications', '1');
