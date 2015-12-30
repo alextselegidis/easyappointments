@@ -369,7 +369,7 @@ var GeneralFunctions = {
     /**
      * Format a given date according to the date format setting.
      *
-     * @param {Date]} date The date to be formatted.
+     * @param {Date} date The date to be formatted.
      * @param {string} dateFormatSetting The setting provided by PHP must be one of
      * the "DMY", "MDY" or "YMD".
      * @param {bool} addHours (optional) Whether to add hours to the result.

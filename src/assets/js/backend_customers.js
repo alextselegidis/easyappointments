@@ -21,7 +21,7 @@ var BackendCustomers = {
      * The page helper contains methods that implement each record type functionality
      * (for now there is only the CustomersHelper).
      *
-     * @type {object{
+     * @type {object}
      */
     helper: {},
 
