@@ -93,11 +93,6 @@
                                 <?php echo $this->lang->line('company_link_hint'); ?>
                             </span>
                         </div>
-
-                        <a href="<?php echo $this->config->item('base_url'); ?>" target="_blank" class="btn btn-info">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                            <?php echo $this->lang->line('go_to_booking_page'); ?>
-                        </a>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -109,8 +104,6 @@
                                 <?php echo $this->lang->line('google_analytics_code_hint'); ?>
                             </span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="date-format">
                                 <?php echo $this->lang->line('date_format'); ?>
@@ -122,6 +115,19 @@
                             </select>
                             <span class="help-block">
                                 <?php echo $this->lang->line('date_format_hint'); ?>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="require-captcha">
+                                CAPTCHA
+                            </label>
+                            <br>
+                            <button type="button" id="require-captcha" class="btn btn-default" data-toggle="button" aria-pressed="false">
+                                <span class="glyphicon glyphicon-lock"></span>
+                                <?php echo $this->lang->line('require_captcha'); ?>
+                            </button>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('require_captcha_hint'); ?>
                             </span>
                         </div>
                     </div>
