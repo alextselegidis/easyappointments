@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
     exec = require('child_process').execSync,
-    del = require('del');
+    del = require('del'),
+    fs = require('fs-extra'),
+    zip = require('zip-dir');
 
 /**
  * Install and copy the required files from the "composer" directory.
@@ -25,8 +27,7 @@ gulp.task('composer', function() {
         '!composer/**/demo{,/**}',
         '!composer/**/{demo,docs,examples,test,extras,language}{,/**}',
         '!composer/**/{composer.json,composer.lock,.gitignore}',
-        '!composer/**/*.yml',
-        '!composer/**/*.md'
+        '!composer/**/{*.yml,*.md}'
     ])
         .pipe(gulp.dest('./src/application/third_party/'));
 });
@@ -34,8 +35,25 @@ gulp.task('composer', function() {
 /**
  * Build the project and create an easyappointments.zip file ready for distribution.
  */
-gulp.task('build', function() {
+gulp.task('build', function(done) {
+    del.sync([
+        '.tmp-package',
+        'easyappointments.zip'
+    ]);
 
+    fs.copySync('src', '.tmp-package');
+    fs.copySync('.tmp-package/config-sample.php', '.tmp-package/config.php');
+    fs.removeSync('.tmp-package/config-sample.php');
+    fs.copySync('CHANGELOG.md', '.tmp-package/CHANGELOG.md');
+    fs.copySync('README.md', '.tmp-package/README.md');
+    fs.copySync('LICENSE', '.tmp-package/LICENSE');
+
+    zip('.tmp-package', { saveTo: 'easyappointments.zip' }, function (err, buffer) {
+        if (err)
+            console.log('Zip Error', err);
+
+        done();
+    });
 });
 
 /**
