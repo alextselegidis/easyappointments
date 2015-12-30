@@ -319,8 +319,15 @@ class Appointments extends CI_Controller {
         try {
             $post_data = $_POST['post_data']; // alias
 
+			$this->load->model('appointments_model');
+            $this->load->model('providers_model');
+            $this->load->model('services_model');
+            $this->load->model('customers_model');
+            $this->load->model('settings_model');
+
             // Validate the CAPTCHA string.
-            if ($this->session->userdata('captcha_phrase') !== $_POST['captcha']) {
+            if ($this->settings_model->get_setting('require_captcha') === '1'
+					&&  $this->session->userdata('captcha_phrase') !== $_POST['captcha']) {
                 throw new Exception($this->lang->line('captcha_is_wrong'));
             }
 
@@ -331,12 +338,6 @@ class Appointments extends CI_Controller {
 
             $appointment = $_POST['post_data']['appointment'];
             $customer = $_POST['post_data']['customer'];
-
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('services_model');
-            $this->load->model('customers_model');
-            $this->load->model('settings_model');
 
             if ($this->customers_model->exists($customer)) {
                 $customer['id'] = $this->customers_model->find_record_id($customer);
@@ -703,7 +704,7 @@ class Appointments extends CI_Controller {
 	private function calculate_available_hours(array $empty_periods, $selected_date, $service_duration,
 			$manage_mode = FALSE) {
 		$this->load->model('settings_model');
-				
+
 		$available_hours = array();
 
 		foreach ($empty_periods as $period) {

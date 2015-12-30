@@ -615,20 +615,26 @@ var FrontendBook = {
      * the appointment to the database.
      */
     registerAppointment: function() {
-        if ($('.captcha-text').val() === '') {
-            $('.captcha-text').css('border', '1px solid red');
-            return;
-        } else {
-            $('.captcha-text').css('border', '');
+        var $captchaText = $('.captcha-text');
+
+        if ($captchaText.length > 0) {
+            $captchaText.css('border', '');
+            if ($captchaText.val() === '') {
+                $captchaText.css('border', '1px solid red');
+                return;
+            }
         }
 
         var formData = jQuery.parseJSON($('input[name="post_data"]').val());
 
         var postData = {
             'csrfToken': GlobalVariables.csrfToken,
-            'post_data': formData,
-            'captcha': $('.captcha-text').val()
+            'post_data': formData
         };
+
+        if ($captchaText.length > 0) {
+            postData.captcha = $captchaText.val();
+        }
 
         if (GlobalVariables.manageMode) {
             postData.exclude_appointment_id = GlobalVariables.appointmentData.id;

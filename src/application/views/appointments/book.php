@@ -364,16 +364,18 @@
                             <div id="appointment-details" class="col-md-6"></div>
                             <div id="customer-details" class="col-md-6"></div>
                         </div>
+                        <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
                         <div class="frame-content row">
                             <div class="col-md-6 col-sm-12">
                                 <h4 class="captcha-title">
-                                    Captcha
+                                    CAPTCHA
                                     <small class="glyphicon glyphicon-refresh"></small>
                                 </h4>
                                 <img class="captcha-image" src="<?php echo $this->config->item('base_url'); ?>/index.php/captcha">
                                 <input class="captcha-text" type="text" value="" />
                             </div>
                         </div>
+                        <?php endif; ?>
                     </div>
 
                     <div class="command-buttons">
