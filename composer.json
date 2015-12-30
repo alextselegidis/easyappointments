@@ -9,7 +9,7 @@
         }
     ],
     "config": {
-        "vendor-dir": "src/application/third_party"
+        "vendor-dir": "composer"
     },
     "require-dev": {
         "apigen/apigen": "~4.1"
