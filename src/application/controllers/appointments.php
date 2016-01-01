@@ -62,6 +62,17 @@ class Appointments extends CI_Controller {
             $company_name        = $this->settings_model->get_setting('company_name');
             $date_format         = $this->settings_model->get_setting('date_format');
 
+			// Remove the data that are not needed inside the $available_providers array.
+			foreach ($available_providers as $index=>$provider) {
+				$stripped_data = array(
+					'id' => $provider['id'],
+					'first_name' => $provider['first_name'],
+					'last_name' => $provider['last_name'],
+					'services' => $provider['services']
+				);
+				$available_providers[$index] = $stripped_data;
+			}
+
             // If an appointment hash is provided then it means that the customer
             // is trying to edit a registered appointment record.
             if ($appointment_hash !== ''){

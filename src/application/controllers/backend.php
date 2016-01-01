@@ -260,21 +260,6 @@ class Backend extends CI_Controller {
     }
 
     /**
-     * Set the user data in order to be available at the view and js code.
-     *
-     * @param array $view Contains the view data.
-     */
-    public function set_user_data(&$view) {
-        $this->load->model('roles_model');
-
-        // Get privileges
-        $view['user_id'] = $this->session->userdata('user_id');
-        $view['user_email'] = $this->session->userdata('user_email');
-        $view['role_slug'] = $this->session->userdata('role_slug');
-        $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
-    }
-
-    /**
      * This method will update the installation to the latest available
      * version in the server. IMPORTANT: The code files must exist in the
      * server, this method will not fetch any new files but will update
@@ -300,6 +285,21 @@ class Backend extends CI_Controller {
                 'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
+    }
+
+    /**
+     * Set the user data in order to be available at the view and js code.
+     *
+     * @param array $view Contains the view data.
+     */
+    private function set_user_data(&$view) {
+        $this->load->model('roles_model');
+
+        // Get privileges
+        $view['user_id'] = $this->session->userdata('user_id');
+        $view['user_email'] = $this->session->userdata('user_email');
+        $view['role_slug'] = $this->session->userdata('role_slug');
+        $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
 }
 
