@@ -634,8 +634,8 @@ body .form-horizontal .controls {
 }
 
 #users-page #providers .breaks .btn {
-margin-right: 5px;
-padding: 4px 7px;
+    margin-right: 5px;
+    padding: 4px 7px;
 }
 
 
@@ -666,6 +666,7 @@ padding: 4px 7px;
 
 #settings-page .tab-content {
     margin: 15px;
+    overflow: auto;
 }
 
 #settings-page .nav {
