@@ -620,7 +620,7 @@ var FrontendBook = {
         if ($captchaText.length > 0) {
             $captchaText.css('border', '');
             if ($captchaText.val() === '') {
-                $captchaText.css('border', '1px solid red');
+                $captchaText.css('border', '1px solid #dc3b40');
                 return;
             }
         }
@@ -665,6 +665,22 @@ var FrontendBook = {
             .done(function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $('.captcha-title small').trigger('click');
+                    return false;
+                }
+
+                if (response.captcha_verification === false) {
+                    $('#captcha-hint')
+                        .text(EALang['captcha_is_wrong'] + '(' + response.expected_phrase + ')')
+                        .fadeTo(400, 1);
+
+                    setTimeout(function() {
+                        $('#captcha-hint').fadeTo(400, 0);
+                    }, 3000);
+
+                    $('.captcha-title small').trigger('click');
+
+                    $captchaText.css('border', '1px solid #dc3b40');
+
                     return false;
                 }
 
