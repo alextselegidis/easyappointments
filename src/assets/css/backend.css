@@ -54,6 +54,7 @@ root {
 #header #header-menu .menu-item {
     float: left;
     padding: 18px 18px 19px;
+    height: 70px;
     min-width: 130px;
     text-align: center;
     font-weight: bold;
