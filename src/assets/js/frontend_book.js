@@ -41,6 +41,10 @@ var FrontendBook = {
             manageMode = false; // Default Value
         }
 
+        if (window.console === undefined) {
+            window.console = function() {} // IE compatibility
+        }
+
         FrontendBook.manageMode = manageMode;
 
         // Initialize page's components (tooltips, datepickers etc).

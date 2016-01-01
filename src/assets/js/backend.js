@@ -13,6 +13,10 @@
  * Main javascript code for the backend of Easy!Appointments.
  */
 $(document).ready(function() {
+    if (window.console === undefined) {
+        window.console = function() {} // IE compatibility
+    }
+
     $(window).resize(function() {
         Backend.placeFooterToBottom();
     }).trigger('resize');
