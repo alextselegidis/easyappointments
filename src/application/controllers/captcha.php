@@ -32,8 +32,9 @@ class Captcha extends CI_Controller {
     public function index() {
         header('Content-type: image/jpeg');
         $builder = new Gregwar\Captcha\CaptchaBuilder;
-        $builder->build()->output();
+        $builder->build();
         $this->session->set_userdata('captcha_phrase', $builder->getPhrase());
+        $builder->output();
     }
 }
 
