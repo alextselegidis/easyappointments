@@ -118,6 +118,17 @@
                             </span>
                         </div>
                         <div class="form-group">
+                            <label><?php echo $this->lang->line('customer_notifications'); ?></label>
+                            <br>
+                            <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <?php echo $this->lang->line('receive_notifications'); ?>
+                            </button>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('customer_notifications_hint'); ?>
+                            </span>
+                        </div>
+                        <div class="form-group">
                             <label for="require-captcha">
                                 CAPTCHA
                             </label>
@@ -269,19 +280,6 @@
                         <div class="form-group">
                             <label for="book-advance-timeout"><?php echo $this->lang->line('timeout_minutes'); ?></label>
                             <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" />
-                        </div>
-
-                        <br>
-
-                        <h4><?php echo $this->lang->line('customer_notifications'); ?></h4>
-                        <span class="help-block">
-                            <?php echo $this->lang->line('customer_notifications_hint'); ?>
-                        </span>
-                        <div class="form-group">
-                            <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                <span class="glyphicon glyphicon-envelope"></span>
-                                <?php echo $this->lang->line('receive_notifications'); ?>
-                            </button>
                         </div>
                     </div>
                     <div class="col-md-5 breaks-wrapper">
