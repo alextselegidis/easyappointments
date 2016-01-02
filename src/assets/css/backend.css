@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -54,6 +54,7 @@ root {
 #header #header-menu .menu-item {
     float: left;
     padding: 18px 18px 19px;
+    height: 70px;
     min-width: 130px;
     text-align: center;
     font-weight: bold;
@@ -634,8 +635,8 @@ body .form-horizontal .controls {
 }
 
 #users-page #providers .breaks .btn {
-margin-right: 5px;
-padding: 4px 7px;
+    margin-right: 5px;
+    padding: 4px 7px;
 }
 
 
@@ -666,6 +667,7 @@ padding: 4px 7px;
 
 #settings-page .tab-content {
     margin: 15px;
+    overflow: auto;
 }
 
 #settings-page .nav {

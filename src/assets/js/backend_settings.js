@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -272,6 +272,11 @@ SystemSettings.prototype.get = function() {
     });
 
     settings.push({
+        'name': 'customer_notifications',
+        'value': $('#customer-notifications').hasClass('active') === true ? '1' : '0'
+    });
+
+    settings.push({
         'name': 'require_captcha',
         'value': $('#require-captcha').hasClass('active') === true ? '1' : '0'
     });
@@ -285,11 +290,6 @@ SystemSettings.prototype.get = function() {
     settings.push({
         'name': 'book_advance_timeout',
         'value': $('#book-advance-timeout').val()
-    });
-
-    settings.push({
-        'name': 'customer_notifications',
-        'value': $('#customer-notifications').hasClass('active') === true ? '1' : '0'
     });
 
     return settings;

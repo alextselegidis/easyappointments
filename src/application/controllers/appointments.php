@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -61,6 +61,17 @@ class Appointments extends CI_Controller {
             $available_providers = $this->providers_model->get_available_providers();
             $company_name        = $this->settings_model->get_setting('company_name');
             $date_format         = $this->settings_model->get_setting('date_format');
+
+			// Remove the data that are not needed inside the $available_providers array.
+			foreach ($available_providers as $index=>$provider) {
+				$stripped_data = array(
+					'id' => $provider['id'],
+					'first_name' => $provider['first_name'],
+					'last_name' => $provider['last_name'],
+					'services' => $provider['services']
+				);
+				$available_providers[$index] = $stripped_data;
+			}
 
             // If an appointment hash is provided then it means that the customer
             // is trying to edit a registered appointment record.
@@ -328,7 +339,11 @@ class Appointments extends CI_Controller {
             // Validate the CAPTCHA string.
             if ($this->settings_model->get_setting('require_captcha') === '1'
 					&&  $this->session->userdata('captcha_phrase') !== $_POST['captcha']) {
-                throw new Exception($this->lang->line('captcha_is_wrong'));
+				echo json_encode(array(
+					'captcha_verification' => FALSE,
+					'expected_phrase' => $this->session->userdata('captcha_phrase')
+				));
+				return;
             }
 
             // Check appointment availability.

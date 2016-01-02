@@ -373,6 +373,7 @@
                                 </h4>
                                 <img class="captcha-image" src="<?php echo $this->config->item('base_url'); ?>/index.php/captcha">
                                 <input class="captcha-text" type="text" value="" />
+                                <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
                             </div>
                         </div>
                         <?php endif; ?>

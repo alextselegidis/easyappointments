@@ -5,13 +5,13 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_google_analytics_setting extends CI_Migration {
+class Migration_Add_customer_notifications_setting extends CI_Migration {
     public function up() {
         $this->load->model('settings_model');
         $this->settings_model->set_setting('customer_notifications', '1');

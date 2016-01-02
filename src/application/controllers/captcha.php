@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -32,8 +32,9 @@ class Captcha extends CI_Controller {
     public function index() {
         header('Content-type: image/jpeg');
         $builder = new Gregwar\Captcha\CaptchaBuilder;
-        $builder->build()->output();
+        $builder->build();
         $this->session->set_userdata('captcha_phrase', $builder->getPhrase());
+        $builder->output();
     }
 }
 

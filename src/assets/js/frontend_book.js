@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2015, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -39,6 +39,10 @@ var FrontendBook = {
 
         if (manageMode === undefined) {
             manageMode = false; // Default Value
+        }
+
+        if (window.console === undefined) {
+            window.console = function() {} // IE compatibility
         }
 
         FrontendBook.manageMode = manageMode;
@@ -620,7 +624,7 @@ var FrontendBook = {
         if ($captchaText.length > 0) {
             $captchaText.css('border', '');
             if ($captchaText.val() === '') {
-                $captchaText.css('border', '1px solid red');
+                $captchaText.css('border', '1px solid #dc3b40');
                 return;
             }
         }
@@ -665,6 +669,22 @@ var FrontendBook = {
             .done(function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $('.captcha-title small').trigger('click');
+                    return false;
+                }
+
+                if (response.captcha_verification === false) {
+                    $('#captcha-hint')
+                        .text(EALang['captcha_is_wrong'] + '(' + response.expected_phrase + ')')
+                        .fadeTo(400, 1);
+
+                    setTimeout(function() {
+                        $('#captcha-hint').fadeTo(400, 0);
+                    }, 3000);
+
+                    $('.captcha-title small').trigger('click');
+
+                    $captchaText.css('border', '1px solid #dc3b40');
+
                     return false;
                 }
 
