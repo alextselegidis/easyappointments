@@ -300,6 +300,11 @@ body {
         width: 45%;
     }
 
+    #book-appointment-wizard .wizard-frame .command-buttons #button-next-2,
+    #book-appointment-wizard .wizard-frame .command-buttons #button-next-3 {
+        float: right;
+    }
+
     #book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
         width: 100%;
         max-width: 300px;
@@ -334,6 +339,7 @@ body {
 
     #book-appointment-wizard #book-appointment-form {
         width: 45%;
+        float: right;
     }
 
     #book-appointment-wizard #book-appointment-form  #book-appointment-submit{
