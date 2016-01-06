@@ -256,8 +256,7 @@ body {
 
     #main {
         min-height: 100%;
-        display: block; /* reset display */
-        padding: 5vw;
+        padding: 0 5vw;
     }
 
     #main .wrapper {
