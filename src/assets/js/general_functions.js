@@ -346,7 +346,7 @@ var GeneralFunctions = {
     ajaxFailureHandler: function(jqxhr, textStatus, errorThrown) {
         var exceptions = [
             {
-                message: 'AJAX Error: ' + textStatus
+                message: 'AJAX Error: ' + errorThrown
             }
         ];
 
