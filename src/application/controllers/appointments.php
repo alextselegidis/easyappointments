@@ -360,7 +360,7 @@ class Appointments extends CI_Controller {
 
             $customer_id = $this->customers_model->add($customer);
             $appointment['id_users_customer'] = $customer_id;
-
+			$appointment['is_unavailable'] = (int)$appointment['is_unavailable']; // needs to be type casted
             $appointment['id'] = $this->appointments_model->add($appointment);
             $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
 
