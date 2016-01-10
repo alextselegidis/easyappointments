@@ -537,10 +537,10 @@ var BackendCalendar = {
             // Id must exist on the object in order for the model to update
             // the record and not to perform an insert operation.
 
-            var startDatetime = Date.parse($dialog.find('#start-datetime').val(),
-                    'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
-            var endDatetime = Date.parse($dialog.find('#end-datetime').val(),
-                    'dd/MM/yyyy HH:mm').toString('yyyy-MM-dd HH:mm:ss');
+            var startDatetime = $dialog.find('#start-datetime')
+                    .datepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
+            var endDatetime = $dialog.find('#end-datetime')
+                    .datepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
 
             var appointment = {
                 'id_services': $dialog.find('#select-service').val(),
@@ -1910,12 +1910,8 @@ var BackendCalendar = {
         });
 
         var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout),
-            formattedStartDatetime = GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true);
-        var endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout)
-                .addMinutes(serviceDuration),
-            formattedEndDatetime = GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true);
-
-        var dateFormat;
+            endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(serviceDuration),
+            dateFormat;
 
         switch(GlobalVariables.dateFormat) {
             case 'DMY':
@@ -1927,6 +1923,8 @@ var BackendCalendar = {
             case 'YMD':
                 dateFormat = 'yy/mm/dd';
                 break;
+            default:
+                throw new Error('Invalid GlobalVariables.dateFormat value.');
         }
 
         $dialog.find('#start-datetime').datetimepicker({
@@ -1956,7 +1954,8 @@ var BackendCalendar = {
             minuteText: EALang['minutes'],
             firstDay: 1
         });
-        $dialog.find('#start-datetime').val(formattedStartDatetime);
+        // $dialog.find('#start-datetime').val(formattedStartDatetime);
+        $dialog.find('#start-datetime').datepicker('setDate', startDatetime);
 
         $dialog.find('#end-datetime').datetimepicker({
             'dateFormat': dateFormat,
@@ -1985,7 +1984,8 @@ var BackendCalendar = {
             minuteText: EALang['minutes'],
             firstDay: 1
         });
-        $dialog.find('#end-datetime').val(formattedEndDatetime);
+        // $dialog.find('#end-datetime').val(formattedEndDatetime);
+        $dialog.find('#end-datetime').datepicker('setDate', endDatetime);
     },
 
     /**
@@ -2021,8 +2021,8 @@ var BackendCalendar = {
             }
 
             // :: CHECK APPOINTMENT START AND END TIME
-            var start = Date.parse($('#start-datetime').val(), 'dd/MM/yyyy HH:mm');
-            var end = Date.parse($('#end-datetime').val(), 'dd/MM/yyyy HH:mm');
+            var start = $('#start-datetime').datepicker('getDate');
+            var end = $('#end-datetime').datepicker('getDate');
             if (start > end) {
                 $dialog.find('#start-datetime').parents().eq(1).addClass('error');
                 $dialog.find('#end-datetime').parents().eq(1).addClass('error');
