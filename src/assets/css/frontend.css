@@ -360,7 +360,7 @@ body {
     #message-frame,
     #success-frame {
         text-align: center;
-        height: 100%;
+        height: auto;
         border: none;
         padding: 35px;
     }
@@ -376,6 +376,7 @@ body {
     #success-frame .btn {
         margin-bottom: 10px;
         width: 80%;
+        max-width: 250px;
     }
 
     /**
@@ -417,7 +418,8 @@ body {
         float: left;
     }
 
-    #book-appointment-wizard #frame-footer {
-
+    #message-frame,
+    #success-frame {
+        height: 100%;
     }
 }
