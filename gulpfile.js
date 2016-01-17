@@ -48,6 +48,11 @@ gulp.task('build', function(done) {
     fs.copySync('README.md', '.tmp-package/README.md');
     fs.copySync('LICENSE', '.tmp-package/LICENSE');
 
+    del.sync([
+        '.tmp-package/application/logs/*',
+        '!.tmp-package/application/logs/index.html'
+    ])
+
     zip('.tmp-package', { saveTo: 'easyappointments.zip' }, function (err, buffer) {
         if (err)
             console.log('Zip Error', err);
