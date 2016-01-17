@@ -7,21 +7,21 @@
     <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
 
-
     <?php
         // ------------------------------------------------------------
         // INCLUDE CSS FILES
         // ------------------------------------------------------------ ?>
+
     <link rel="stylesheet" type="text/css"
         href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"
         href="<?php echo $this->config->item('base_url'); ?>/assets/css/frontend.css">
 
-
     <?php
         // ------------------------------------------------------------
         // SET PAGE FAVICON
         // ------------------------------------------------------------ ?>
+
     <link rel="icon" type="image/x-icon"
         href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
 
@@ -74,11 +74,11 @@
         </div>
     </div>
 
-
     <?php
         // ------------------------------------------------------------
         // INCLUDE JS FILES
         // ------------------------------------------------------------ ?>
+
     <script
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
@@ -96,6 +96,7 @@
         // ------------------------------------------------------------
         // CUSTOM PAGE JS
         // ------------------------------------------------------------ ?>
+
     <script type="text/javascript">
         var GlobalVariables = {
             'csrfToken'         : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
@@ -118,5 +119,7 @@
     <script
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
+
+    <?php google_analytics_script(); ?>
 </body>
 </html>

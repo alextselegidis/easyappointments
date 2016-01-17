@@ -11,6 +11,7 @@
         // ------------------------------------------------------------
         // INCLUDE CSS FILES
         // ------------------------------------------------------------ ?>
+
     <link
         rel="stylesheet"
         type="text/css"
@@ -36,6 +37,7 @@
         // ------------------------------------------------------------
         // INCLUDE JAVASCRIPT FILES
         // ------------------------------------------------------------ ?>
+
     <script
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
@@ -59,6 +61,7 @@
         // ------------------------------------------------------------
         // WEBPAGE FAVICON
         // ------------------------------------------------------------ ?>
+
     <link rel="icon" type="image/x-icon"
             href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
 
@@ -69,6 +72,7 @@
         // ------------------------------------------------------------
         // VIEW FILE JAVASCRIPT CODE
         // ------------------------------------------------------------ ?>
+
     <script type="text/javascript">
         var GlobalVariables = {
             availableServices   : <?php echo json_encode($available_services); ?>,
@@ -102,6 +106,7 @@
                     // ------------------------------------------------------
                     // FRAME TOP BAR
                     // ------------------------------------------------------ ?>
+
                 <div id="header">
                     <span id="company-name"><?php echo $company_name; ?></span>
 
@@ -161,10 +166,12 @@
                         echo '</div>';
                     }
                 ?>
+
                 <?php
                     // ------------------------------------------------------
                     // SELECT SERVICE AND PROVIDER
                     // ------------------------------------------------------ ?>
+
                 <div id="wizard-frame-1" class="wizard-frame">
                     <div class="frame-container">
                         <h3 class="frame-title"><?php echo $this->lang->line('step_one_title'); ?></h3>
@@ -257,6 +264,7 @@
                     // ------------------------------------------------------
                     // SELECT APPOINTMENT DATE
                     // ------------------------------------------------------ ?>
+
                 <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
                     <div class="frame-container">
 
@@ -292,6 +300,7 @@
                     // ------------------------------------------------------
                     // ENTER CUSTOMER DATA
                     // ------------------------------------------------------ ?>
+
                 <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
                     <div class="frame-container">
 
@@ -357,6 +366,7 @@
                     // ------------------------------------------------------
                     // APPOINTMENT DATA CONFIRMATION
                     // ------------------------------------------------------ ?>
+
                 <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                     <div class="frame-container">
                         <h3 class="frame-title"><?php echo $this->lang->line('step_four_title'); ?></h3>
@@ -403,6 +413,7 @@
                     // ------------------------------------------------------
                     // FRAME FOOTER
                     // ------------------------------------------------------ ?>
+
                 <div id="frame-footer">
                     Powered By
                     <a href="http://easyappointments.org" target="_blank">Easy!Appointments</a>
@@ -425,15 +436,6 @@
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
 
-    <?php if ($google_analytics_code !== ''): ?>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-            ga('create', '<?php echo $google_analytics_code; ?>', 'auto');
-            ga('send', 'pageview');
-        </script>
-    <?php endif; ?>
+    <?php google_analytics_script(); ?>
 </body>
 </html>

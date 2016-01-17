@@ -33,6 +33,9 @@ class Appointments extends CI_Controller {
 		} else {
 			$this->lang->load('translations', $this->config->item('language')); // default
 		}
+
+		// Common helpers
+		$this->load->helper('google_analytics');
 	}
 
     /**
@@ -75,7 +78,7 @@ class Appointments extends CI_Controller {
 
             // If an appointment hash is provided then it means that the customer
             // is trying to edit a registered appointment record.
-            if ($appointment_hash !== ''){
+            if ($appointment_hash !== '') {
                 // Load the appointments data and enable the manage mode of the page.
                 $manage_mode = TRUE;
 
@@ -107,8 +110,6 @@ class Appointments extends CI_Controller {
                 $customer      = array();
             }
 
-            $google_analytics_code = $this->settings_model->get_setting('google_analytics_code');
-
             // Load the book appointment view.
             $view = array (
                 'available_services'    => $available_services,
@@ -118,8 +119,7 @@ class Appointments extends CI_Controller {
 				'date_format'           => $date_format,
                 'appointment_data'      => $appointment,
                 'provider_data'         => $provider,
-                'customer_data'         => $customer,
-                'google_analytics_code' => $google_analytics_code
+                'customer_data'         => $customer
             );
         } catch(Exception $exc) {
             $view['exceptions'][] = $exc;

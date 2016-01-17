@@ -11,6 +11,7 @@
         // ------------------------------------------------------------
         // INCLUDE CSS FILES
         // ------------------------------------------------------------ ?>
+
     <link
         rel="stylesheet"
         type="text/css"
@@ -20,6 +21,7 @@
         // ------------------------------------------------------------
         // SET PAGE FAVICON
         // ------------------------------------------------------------ ?>
+
     <link
         rel="icon"
         type="image/x-icon"
@@ -29,6 +31,7 @@
         // ------------------------------------------------------------
         // CUSTOM PAGE JS
         // ------------------------------------------------------------ ?>
+
     <script type="text/javascript">
         var EALang = <?php echo json_encode($this->lang->language); ?>;
     </script>
@@ -37,6 +40,7 @@
         // ------------------------------------------------------------
         // INCLUDE JS FILES
         // ------------------------------------------------------------ ?>
+
     <script
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
@@ -54,6 +58,7 @@
         // ------------------------------------------------------------
         // CUSTOM PAGE CSS
         // ------------------------------------------------------------ ?>
+
     <style>
         body {
             width: 100vw;
@@ -112,7 +117,8 @@
             <span class="glyphicon glyphicon-wrench"></span>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>
-
     </div>
+
+    <?php google_analytics_script(); ?>
 </body>
 </html>

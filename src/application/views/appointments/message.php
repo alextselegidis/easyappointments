@@ -11,6 +11,7 @@
         // ------------------------------------------------------------
         // INCLUDE CSS FILES
         // ------------------------------------------------------------ ?>
+
     <link rel="stylesheet" type="text/css"
         href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" type="text/css"
@@ -20,6 +21,7 @@
         // ------------------------------------------------------------
         // SET PAGE FAVICON
         // ------------------------------------------------------------ ?>
+
     <link rel="icon" type="image/x-icon"
         href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
 
@@ -30,6 +32,7 @@
         // ------------------------------------------------------------
         // CUSTOM PAGE JS
         // ------------------------------------------------------------ ?>
+
     <script type="text/javascript">
         var EALang = <?php echo json_encode($this->lang->language); ?>;
     </script>
@@ -38,6 +41,7 @@
         // ------------------------------------------------------------
         // INCLUDE JS FILES
         // ------------------------------------------------------------ ?>
+
     <script
         type="text/javascript"
         src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
@@ -68,7 +72,6 @@
 
                 <div class="col-xs-12 col-sm-10">
                     <?php
-
                         echo '<h3>' . $message_title . '</h3>';
                         echo '<p>' . $message_text . '</p>';
 
@@ -87,5 +90,7 @@
 
         </div>
     </div>
+    
+    <?php google_analytics_script(); ?>
 </body>
 </html>
