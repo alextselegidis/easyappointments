@@ -27,6 +27,8 @@ class Config {
     // ------------------------------------------------------------------------
     const BASE_URL      = 'http://url-to-easyappointments-directory';
     const DEBUG_MODE    = FALSE;
+    const LANGUAGE      = 'english';
+    const INDEX_PAGE    = 'index.php';
      
     // ------------------------------------------------------------------------
     // Database Settings

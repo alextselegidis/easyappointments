@@ -39,7 +39,7 @@ $config['base_url']	= Config::BASE_URL;
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = Config::INDEX_PAGE;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,7 +82,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language'] = 'english'; // default language
+$config['language'] = Config::LANGUAGE; // default language
 
 $config['available_languages'] = array(
     'english',
