@@ -44,6 +44,13 @@ class Config {
     const GOOGLE_CLIENT_ID      = ''; 
     const GOOGLE_CLIENT_SECRET  = ''; 
     const GOOGLE_API_KEY        = '';
+
+    // ------------------------------------------------------------------------
+    // PHPMailer default settings
+    // ------------------------------------------------------------------------
+    public static function PHPMailer() {
+        return array();
+    }
 }
 /* End of file config.php */
 /* Location: ./config.php */
