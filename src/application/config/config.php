@@ -82,7 +82,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language'] = 'english'; // default language
+$config['language'] = Config::DEFAULT_LANGUAGE; // default language
 
 $config['available_languages'] = array(
     'english',
