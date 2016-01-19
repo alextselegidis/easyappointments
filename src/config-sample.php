@@ -28,6 +28,10 @@ class Config {
     const BASE_URL      = 'http://url-to-easyappointments-directory';
     const DEBUG_MODE    = FALSE;
     
+    // options: 'english','german','greek','hungarian','portuguese',
+	// 'chinese','dutch','french','japanese','polish','spanish','italian',
+    // 'danish','luxembourgish','slovak','finnish','russian','romanian',
+    // 'turkish','hindi'
     const DEFAULT_LANGUAGE = english;
      
     // ------------------------------------------------------------------------
