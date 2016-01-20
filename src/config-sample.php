@@ -26,10 +26,19 @@ class Config {
     // General Settings
     // ------------------------------------------------------------------------
     const BASE_URL      = 'http://url-to-easyappointments-directory';
-    const DEBUG_MODE    = FALSE;
-    const LANGUAGE      = 'english';
     const INDEX_PAGE    = 'index.php';
-     
+    const DEBUG_MODE    = FALSE;
+
+    // ------------------------------------------------------------------------
+    // Default Language
+    // ------------------------------------------------------------------------
+    // options: 'english','german','greek','hungarian','portuguese', 'chinese',
+    //          'dutch','french','japanese','polish','spanish','italian',
+    //          'danish','luxembourgish','slovak','finnish','russian',
+    //          'romanian','turkish','hindi'
+    // ------------------------------------------------------------------------
+    const LANGUAGE      = 'english';
+
     // ------------------------------------------------------------------------
     // Database Settings
     // ------------------------------------------------------------------------
@@ -49,6 +58,18 @@ class Config {
 
     // ------------------------------------------------------------------------
     // PHPMailer default settings
+    // ------------------------------------------------------------------------
+    // Example to use smtp server:
+    //
+    // return array('Mailer'     => 'smtp',
+    //              'Host'       => 'smtp1.example.com;smtp2.example.com',
+    //              'SMTPAuth'   => true,
+    //              'Username'   => 'user@example.com',
+    //              'Password'   => 'secret',
+    //              'SMTPSecure' => 'tls',
+    //              'Port'       => 587);
+    //
+    // For options please refer to PHPMailer documentation
     // ------------------------------------------------------------------------
     public static function PHPMailer() {
         return array();
