@@ -52,6 +52,29 @@ class Notifications {
     }
 
     /**
+     * Retrieve default PHPMailer instance
+     *
+     * @param array $company_settings Contains settings of the company. By the time the
+     * "company_name", "company_link" and "company_email" values are required in the array.
+     *
+     * @return PHPMailer
+     */
+    private function get_phpmailer_instance($company_settings)
+    {
+        $mail = new PHPMailer();
+        $mail->IsHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->From = $company_settings['company_email'];
+        $mail->FromName = $company_settings['company_name'];
+
+        $mailer_settings = $this->ci->config->item('php_mailer');
+        foreach ($mailer_settings as $key => $value) {
+            $mail->$key = $value;
+        }
+        return $mail;
+    }
+
+    /**
      * Send an email with the appointment details.
      *
      * This email template also needs an email title and an email text in order to complete
@@ -113,12 +136,8 @@ class Notifications {
         $email_html = $this->replace_template_variables($replace_array, $email_html);
 
         // :: INSTANTIATE EMAIL OBJECT AND SEND EMAIL
-        $mail = new PHPMailer();
-        $mail->From = $company_settings['company_email'];
-        $mail->FromName = $company_settings['company_name'];
+        $mail = $this->get_phpmailer_instance($company_settings);
         $mail->AddAddress($receiver_address); // "Name" argument crushes the phpmailer class.
-        $mail->IsHTML(true);
-        $mail->CharSet = 'UTF-8';
         $mail->Subject = $title;
         $mail->Body    = $email_html;
 
@@ -186,12 +205,8 @@ class Notifications {
         $email_html = $this->replace_template_variables($replace_array, $email_html);
 
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
-        $mail = new PHPMailer();
-        $mail->From         = $company_settings['company_email'];
-        $mail->FromName     = $company_settings['company_name'];
+        $mail = $this->get_phpmailer_instance($company_settings);
         $mail->AddAddress($to_address); // "Name" argument crushes the phpmailer class.
-        $mail->IsHTML(true);
-        $mail->CharSet      = 'UTF-8';
         $mail->Subject      = $this->ci->lang->line('appointment_cancelled_title');
         $mail->Body         = $email_html;
 
@@ -224,12 +239,8 @@ class Notifications {
         $email_html = $this->replace_template_variables($replace_array, $email_html);
 
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
-        $mail = new PHPMailer();
-        $mail->From = $company_settings['company_email'];
-        $mail->FromName = $company_settings['company_name'];
+        $mail = $this->get_phpmailer_instance($company_settings);
         $mail->AddAddress($email); // "Name" argument crushes the phpmailer class.
-        $mail->IsHTML(true);
-        $mail->CharSet = 'UTF-8';
         $mail->Subject = $this->ci->lang->line('new_account_password');
         $mail->Body = $email_html;
 
