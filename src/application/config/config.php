@@ -82,8 +82,19 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language'] = Config::DEFAULT_LANGUAGE; // default language
+$config['language'] = Config::LANGUAGE; // Default Language
 
+
+/*
+|--------------------------------------------------------------------------
+| Available Languages
+|--------------------------------------------------------------------------
+|
+| Each item of this array must be a directory with the translation files in
+| the /application/language directory. The users will be able to select one
+| of these languages.
+|
+*/
 $config['available_languages'] = array(
     'english',
     'german',
