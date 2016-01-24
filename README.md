@@ -3,8 +3,6 @@ Easy!Appointments
 
 <img src="https://dl.dropboxusercontent.com/u/27545985/easyappointments/google-code-banner.png">
 
-> UPDATE December 2015: The new BETA for version 1.1 is available for download. Try it out!
-
 ### Organize your business! Exploit human resources that can be used in other tasks more efficiently.
 
 **Easy!Appointments** is a highly customizable web application that allows your customers to book
