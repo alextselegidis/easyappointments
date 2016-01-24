@@ -98,19 +98,19 @@
                     console.log('Regenerate Password Response: ', response);
                     //////////////////////////////////////////////////////////
 
+                    $('.alert').removeClass('hidden alert-danger alert-success');
                     $('#get-new-password').prop('disabled', false);
+                    
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
                     if (response == GlobalVariables.AJAX_SUCCESS) {
                         $('.alert').addClass('alert-success');
                         $('.alert').text(EALang['new_password_sent_with_email']);
                     } else {
+                        $('.alert').addClass('alert-danger');
                         $('.alert').text('The operation failed! Please enter a valid username '
                                 + 'and email address in order to get a new password.');
                     }
-                    $('.alert')
-                        .removeClass('hidden alert-danger alert-success')
-                        .addClass('alert-danger');
                 }, 'json');
             });
         });
