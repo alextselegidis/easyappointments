@@ -126,7 +126,7 @@ root {
     display: block;
 }
 
-#modal-message {
+.modal-message {
     margin: 10px;
 }
 

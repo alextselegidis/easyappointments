@@ -327,7 +327,7 @@
             </div>
 
             <div class="modal-body">
-                <div class="modal-message alert" style="display: none;"></div>
+                <div class="modal-message alert hidden"></div>
 
                 <form class="form-horizontal">
                     <fieldset>

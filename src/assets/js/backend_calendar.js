@@ -577,21 +577,19 @@ var BackendCalendar = {
             var successCallback = function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $dialog.find('.modal-message').text(EALang['unexpected_issues_occurred']);
-                    $dialog.find('.modal-message').addClass('alert-error');
-                    $dialog.find('.modal-message').fadeIn();
+                    $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
                     return false;
                 }
 
                 // Display success message to the user.
                 $dialog.find('.modal-message').text(EALang['appointment_saved']);
-                $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-error');
-                $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-danger hidden');
                 $dialog.find('.modal-body').scrollTop(0);
 
                 // Close the modal dialog and refresh the calendar appointments
                 // after one second.
                 setTimeout(function() {
-                    $dialog.find('.alert').fadeOut();
+                    $dialog.find('.alert').addClass('hidden');
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -600,8 +598,7 @@ var BackendCalendar = {
             // :: DEFINE AJAX ERROR EVENT CALLBACK
             var errorCallback = function() {
                 $dialog.find('.modal-message').text(EALang['server_communication_error']);
-                $dialog.find('.modal-message').addClass('alert-error');
-                $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
                 $dialog.find('.modal-body').scrollTop(0);
             };
 
@@ -616,16 +613,16 @@ var BackendCalendar = {
          * Stores the unavailable period changes or inserts a new record.
          */
         $('#manage-unavailable #save-unavailable').click(function() {
-            var $dialog = $('#manage-unavailable');
-
-            var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
-            var end = $dialog.find('#unavailable-end').datetimepicker('getDate');
+            var $dialog = $('#manage-unavailable'),
+                start = $dialog.find('#unavailable-start').datetimepicker('getDate'),
+                end = $dialog.find('#unavailable-end').datetimepicker('getDate');
 
             if (start > end) {
                 // Start time is after end time - display message to user.
-                $dialog.find('.modal-message').text(EALang['start_date_before_end_error']);
-                $dialog.find('.modal-message').addClass('alert-error');
-                $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-message')
+                    .text(EALang['start_date_before_end_error'])
+                    .addClass('alert-danger')
+                    .removeClass('hidden');
                 return;
             }
 
@@ -644,7 +641,7 @@ var BackendCalendar = {
 
             var successCallback = function(response) {
                 ///////////////////////////////////////////////////////////////////
-                console.log('Save Unavailable Time Period Response:', response);
+                //console.log('Save Unavailable Time Period Response:', response);
                 ///////////////////////////////////////////////////////////////////
 
                 if (response.exceptions) {
@@ -652,9 +649,10 @@ var BackendCalendar = {
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                     $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
 
-                    $dialog.find('.modal-message').text(EALang['unexpected_issues_occurred']);
-                    $dialog.find('.modal-message').addClass('alert-error');
-                    $dialog.find('.modal-message').fadeIn();
+                    $dialog.find('.modal-message')
+                        .text(EALang['unexpected_issues_occurred'])
+                        .addClass('alert-danger')
+                        .removeClass('hidden');
 
                     return;
                 }
@@ -666,15 +664,16 @@ var BackendCalendar = {
                 }
 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text(EALang['unavailable_saved']);
-                $dialog.find('.modal-message').removeClass('alert-error');
-                $dialog.find('.modal-message').addClass('alert-success');
-                $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-message')
+                    .text(EALang['unavailable_saved'])
+                    .addClass('alert-success')
+                    .removeClass('alert-danger hidden');
+
 
                 // Close the modal dialog and refresh the calendar appointments
                 // after one second.
                 setTimeout(function() {
-                    $dialog.find('.alert').fadeOut();
+                    $dialog.find('.alert').addClass('hidden');
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -689,8 +688,7 @@ var BackendCalendar = {
                         'the operation could not complete due to server communication errors.');
 
                 $dialog.find('.modal-message').txt(EALang['service_communication_error']);
-                $dialog.find('.modal-message').addClass('alert-error');
-                $dialog.find('.modal-message').fadeIn();
+                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
             };
 
             BackendCalendar.saveUnavailable(unavailable, successCallback, errorCallback);
@@ -1998,15 +1996,15 @@ var BackendCalendar = {
         var $dialog = $('#manage-appointment');
 
         // Reset previous validation css formating.
-        $dialog.find('.control-group').removeClass('error');
-        $dialog.find('.modal-message').fadeOut();
+        $dialog.find('.form-group').removeClass('has-error');
+        $dialog.find('.modal-message').addClass('hidden');
 
         try {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
             $dialog.find('.required').each(function() {
                 if ($(this).val() == '' || $(this).val() == null) {
-                    $(this).parents().eq(1).addClass('error');
+                    $(this).parents('.form-group').addClass('has-error');
                     missingRequiredField = true;
                 }
             });
@@ -2016,7 +2014,7 @@ var BackendCalendar = {
 
             // :: CHECK EMAIL ADDRESS
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
-                $dialog.find('#email').parents().eq(1).addClass('error');
+                $dialog.find('#email').parents('.form-group').eq(1).addClass('has-error');
                 throw EALang['invalid_email'];
             }
 
@@ -2024,14 +2022,14 @@ var BackendCalendar = {
             var start = $('#start-datetime').datepicker('getDate');
             var end = $('#end-datetime').datepicker('getDate');
             if (start > end) {
-                $dialog.find('#start-datetime').parents().eq(1).addClass('error');
-                $dialog.find('#end-datetime').parents().eq(1).addClass('error');
+                $dialog.find('#start-datetime').parents('.form-group').addClass('has-error');
+                $dialog.find('#end-datetime').parents('.form-group').addClass('has-error');
                 throw EALang['start_date_before_end_error'];
             }
 
             return true;
         } catch(exc) {
-            $dialog.find('.modal-message').addClass('alert-error').text(exc).show('fade');
+            $dialog.find('.modal-message').addClass('alert-danger').text(exc).removeClass('hidden');
             return false;
         }
     },
