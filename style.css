@@ -348,7 +348,7 @@ ol {
 
 .screenshots img {
     width: 448px;
-    height: 310px;
+    height: auto;
     margin-right: 20px;
 }
 
