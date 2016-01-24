@@ -82,8 +82,8 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language'] = Config::LANGUAGE; // Default Language
 
+$config['language'] = defined('Config::LANGUAGE') ? Config::LANGUAGE : 'english';
 
 /*
 |--------------------------------------------------------------------------
