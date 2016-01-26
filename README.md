@@ -14,7 +14,7 @@ both sites can share the same database.
 
 ### Features
 The project was designed to be flexible and reliable so as to be able to meet the needs of any
-kind of enterprise. You can the read the main features of the system below:
+kind of enterprise. You can read the main features of the system below:
 
 * Full customers and appointments management.
 * Services and service providers organization.
