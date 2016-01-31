@@ -104,10 +104,10 @@ class Appointments extends CI_Controller {
             } else {
                 // The customer is going to book a new appointment so there is no
                 // need for the manage functionality to be initialized.
-                $manage_mode        = FALSE;
-                $appointment   = array();
-                $provider      = array();
-                $customer      = array();
+                $manage_mode = FALSE;
+                $appointment = array();
+                $provider = array();
+                $customer = array();
             }
 
             // Load the book appointment view.
@@ -310,7 +310,7 @@ class Appointments extends CI_Controller {
 					$_POST['selected_date'], $exclude_appointments);
 
             $available_hours = $this->calculate_available_hours($empty_periods, $_POST['selected_date'],
-					$_POST['service_duration'], (bool)$_POST['manage_mode']);
+					$_POST['service_duration'], filter_var($_POST['manage_mode'], FILTER_VALIDATE_BOOLEAN));
 
             echo json_encode($available_hours);
 
@@ -756,11 +756,7 @@ class Appointments extends CI_Controller {
 		// booking that is set in the backoffice the system. Normally we might want the customer to book
 		// an appointment that is at least half or one hour from now. The setting is stored in minutes.
 		if (date('m/d/Y', strtotime($selected_date)) === date('m/d/Y')) {
-			if ($manage_mode) {
-				$book_advance_timeout = 0;
-			} else {
-				$book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
-			}
+			$book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
 
 			foreach($available_hours as $index => $value) {
 				$available_hour = strtotime($value);
