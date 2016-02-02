@@ -200,6 +200,11 @@ ol {
     box-sizing: border-box;
 }
 
+.upcoming-feature .upcoming-logo {
+    overflow: auto;
+    float: left;
+}
+
 .upcoming-feature .upcoming-logo img {
     float: left;
     margin-right: 25px;
@@ -231,7 +236,7 @@ ol {
     text-align: left;
     line-height: 1.5;
     color: white;
-    margin-top: 31px
+    margin-top: 36px
 }
 
 /* http://codepen.io/green-plastic/pen/fmgnt */
@@ -461,6 +466,10 @@ ol {
         font-size: 47px;
     }
 
+    .upcoming-feature .upcoming-title {
+        margin-top: 18px;
+    }
+
     .section {
         width: initial;
         margin: 22px auto;
@@ -538,7 +547,21 @@ ol {
         font-size: 16px;
     }
 
+    .upcoming-feature .upcoming-logo {
+        float: none;
+    }
+
+    .upcoming-feature .upcoming-logo a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        left: 50%;
+        margin-left: -64px;
+    }
+
     .upcoming-feature .upcoming-title {
+        font-size: 20px;
         text-align: center;
     }
 
@@ -645,21 +668,6 @@ ol {
 
     .jumbotron h1 {
         font-size: 44px;
-    }
-
-    .upcoming-feature .upcoming-logo a {
-        display: block;
-        width: 100%;
-        text-align: center;
-        position: relative;
-        left: 50%;
-        margin-left: -64px;
-    }
-
-    .upcoming-feature .upcoming-title {
-        font-size: 20px;
-        text-align: center;
-        margin-top: 150px;
     }
 
     .section {
