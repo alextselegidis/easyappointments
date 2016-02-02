@@ -200,22 +200,18 @@ ol {
     box-sizing: border-box;
 }
 
-.upcoming-feature .container .row-fluid {
-    max-width: 897px;
-}
-
 .upcoming-feature .upcoming-logo img {
     float: left;
-    margin-right: 20px;
-    cursor: pointer;
+    margin-right: 25px;
+    height: 115px;
+    width: 115px;
+    transition: opacity 0.3s linear;
+}
 
+.upcoming-feature .upcoming-logo img.animation {
     -moz-box-shadow: 0 0 0 20px rgba(14, 157, 168, 0), inset 0 0 5px #0C8A90, 0 1px 1px 1px rgba(255, 255, 255, 0.4);
     -webkit-box-shadow: 0 0 0 20px rgba(14, 157, 168, 0), inset 0 0 5px #0C8A90, 0 1px 1px 1px rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 0 20px rgba(14, 157, 168, 0), inset 0 0 5px #0C8A90, 0 1px 1px 1px rgba(255, 255, 255, 0.4);
-
-    -moz-border-radius: 100px;
-    -webkit-border-radius: 100px;
-    border-radius: 100px;
 
     -webkit-animation: loading 2s infinite ease-in-out;
     -moz-animation: loading 2s infinite ease-in-out;
@@ -230,12 +226,12 @@ ol {
 }
 
 .upcoming-feature .upcoming-title {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: lighter;
     text-align: left;
     line-height: 1.5;
     color: white;
-    margin-top: 15px
+    margin-top: 31px
 }
 
 /* http://codepen.io/green-plastic/pen/fmgnt */
