@@ -200,11 +200,6 @@ ol {
     box-sizing: border-box;
 }
 
-.upcoming-feature .upcoming-logo {
-    overflow: auto;
-    float: left;
-}
-
 .upcoming-feature .upcoming-logo img {
     float: left;
     margin-right: 25px;
@@ -547,7 +542,7 @@ ol {
         font-size: 16px;
     }
 
-    .upcoming-feature .upcoming-logo {
+    .upcoming-feature .upcoming-logo img {
         float: none;
     }
 
@@ -556,8 +551,6 @@ ol {
         width: 100%;
         text-align: center;
         position: relative;
-        left: 50%;
-        margin-left: -64px;
     }
 
     .upcoming-feature .upcoming-title {
