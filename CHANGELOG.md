@@ -6,6 +6,7 @@ their custom modifications on the main project codebase.
 ### Version 1.1.1
 - Issue #116: Book advance timeout not taken into account for proposed appointments.
 - Issue #118: Google Calendar and notification mail problem bug.
+- Issue #120: Invalid appointment date set after editing an existing appointment.
 
 ### Version 1.1.0
 - Issue #4: Raising more useful exceptions and enable error logging by default.
