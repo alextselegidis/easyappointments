@@ -382,11 +382,13 @@ var BackendCalendar = {
                 // Set the start and end datetime of the appointment.
                 var startDatetime = Date.parseExact(appointment['start_datetime'],
                         'yyyy-MM-dd HH:mm:ss');
-                $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
+                // $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
+                $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
                 var endDatetime = Date.parseExact(appointment['end_datetime'],
                         'yyyy-MM-dd HH:mm:ss');
-                $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
+                // $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
+                $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
 
                 var customer = appointment['customer'];
                 $dialog.find('#customer-id').val(appointment['id_users_customer']);
@@ -411,9 +413,9 @@ var BackendCalendar = {
 
                 // :: APPLY UNAVAILABLE DATA TO DIALOG
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
+                $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
                 $dialog.find('#unavailable-id').val(unavailable.id);
-                $dialog.find('#unavailable-start').val(unavailable.start_datetime.toString('dd/MM/yyyy HH:mm'));
-                $dialog.find('#unavailable-end').val(unavailable.end_datetime.toString('dd/MM/yyyy HH:mm'));
+                $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
 
@@ -1952,7 +1954,6 @@ var BackendCalendar = {
             minuteText: EALang['minutes'],
             firstDay: 1
         });
-        // $dialog.find('#start-datetime').val(formattedStartDatetime);
         $dialog.find('#start-datetime').datepicker('setDate', startDatetime);
 
         $dialog.find('#end-datetime').datetimepicker({
@@ -1982,7 +1983,6 @@ var BackendCalendar = {
             minuteText: EALang['minutes'],
             firstDay: 1
         });
-        // $dialog.find('#end-datetime').val(formattedEndDatetime);
         $dialog.find('#end-datetime').datepicker('setDate', endDatetime);
     },
 
