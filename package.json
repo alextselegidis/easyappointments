@@ -1,0 +1,12 @@
+{
+  "name": "easyappointments.org",
+  "version": "2.0.0",
+  "description": "Official Website of Easy!Appointments",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alextselegidis/easyappointments.git"
+  },
+  "author": "Alex Tselegidis <alextselegidis@gmail.com>",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/alextselegidis/easyappointments#readme"
+}
