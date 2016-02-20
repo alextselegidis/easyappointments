@@ -19,5 +19,10 @@
     "precss": "^1.4.0",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.13"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "fancybox": "^3.0.0",
+    "jquery": "^2.2.0"
   }
 }
