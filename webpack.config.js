@@ -7,6 +7,7 @@ module.exports = {
         path: __dirname,
         filename: 'script.min.js'
     },
+    devtool: 'inline-source-map',
     module: {
         loaders: [
             { test: /\.css$/, loader: 'style!css!postcss' },
