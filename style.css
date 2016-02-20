@@ -1,0 +1,14 @@
+// Colors
+$primary: #3DD481; 
+$dark-green: #1A865F; 
+$dark-blue: #062126; 
+$light-blue: #CAEDF3; 
+
+// Miscellaneous
+$font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+body {
+    font-family: $font-family;
+}
+
