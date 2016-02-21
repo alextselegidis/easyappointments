@@ -31,9 +31,11 @@ body {
 
 a {
     color: $link-color;
+    transition: color 0.2s linear;
 
     &:hover {
-        color: lighten($link-color. 0.5);
+        text-decoration: none;
+        color: color($link-color lightness(50%));
     }
 }
 
@@ -46,12 +48,17 @@ a {
     font-size: 16px;
     border-radius: 50px;
     cursor: pointer;
+    transition: background 0.2s linear;
+
+    &:hover {
+        color: #FFF;
+    }
 
     &.primary {
         background: $primary-color-dark;
 
         &:hover {
-            background: lighten($primary-color-dark, 0.5);            
+            background: color($primary-color-dark lightness(40%));            
         }
     }
 
@@ -59,7 +66,7 @@ a {
         background: $secondary-color-dark;
 
         &:hover {
-            background: lighten($secondary-color-dark, 0.5);            
+            background: color($secondary-color-dark lightness(25%));            
         }
     }
 }
@@ -110,6 +117,7 @@ a {
                 &:focus,
                 &:hover {
                     background: none; 
+                    color: $primary-color-dark;
                 }
             }
         }
@@ -202,6 +210,7 @@ a {
                     
                     .title {
                         font-size: 1.8em; 
+                        margin-bottom: 5px;
                     }
 
                     .subtitle {
@@ -244,7 +253,8 @@ a {
         .title {
             h3 {
                 text-align: left;
-                margin: 18px 0;
+                margin: 3px 0;
+                line-height: 1.7;
             }
         }
     }
@@ -269,7 +279,6 @@ a {
                 .logo {
                     .title {
                         font-size: 2.3em;
-                        margin-bottom: 5px;
                     }
                     .subtitle {
                         font-size: 1.1em;
@@ -286,7 +295,7 @@ a {
             }
 
             p {
-                    font-size: 3em;
+                font-size: 3em;
             }
         }   
     }
@@ -300,7 +309,11 @@ a {
         }
     }
 
-    .section {
+    .section, .footer .container {
         max-width: 1024px;
+    }
+
+    .footer .container {
+        padding: 0;
     }
 }

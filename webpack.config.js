@@ -1,6 +1,7 @@
 var autoprefixer = require('autoprefixer'),
     precss = require('precss'),
-    nesting = require('postcss-nesting');
+    nesting = require('postcss-nesting'),
+    color = require('postcss-color-function');
 
 module.exports = {
     entry: './script.js',
@@ -10,7 +11,8 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: 'style!css!postcss' },
+            { test: /style.css$/, loader: 'style!css!postcss' },
+            { test: /node_modules\/.*.css$/, loader: 'style!css' },
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel?presets[]=es2015' },
             { test: /\.(woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/, 
                 loader: 'url?limit=100000&name=assets/asset-[hash].[ext]' },
@@ -18,6 +20,6 @@ module.exports = {
         ]
     },
     postcss: function() {
-        return [precss, autoprefixer, nesting]; 
+        return [precss, color, autoprefixer, nesting]; 
     }
 };
