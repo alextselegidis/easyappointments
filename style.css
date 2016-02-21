@@ -65,11 +65,12 @@ a {
 }
 
 .section {
-
+    margin-bottom: 25px;
+    
     .section-title {
         font-weight: bold; 
         color: $primary-color-light;
-
+        margin: 25px 0;
     }
 }
 
@@ -84,16 +85,16 @@ a {
 
     .topbar {
         .logo {
-            h1 {
-                text-align: center; 
+            text-align: center; 
+
+            .title {
                 font-size: 2em;
                 font-weight: 300;
                 color: #FFF; 
-
-                small {
-                    color: $primary-color-dark; 
-                    font-size: 0.5em;
-                }
+            }
+            .subtitle {
+                color: $primary-color-dark; 
+                font-size: 1em;
             }
         }
 
@@ -135,8 +136,8 @@ a {
     overflow: auto;
 
     .image img {
-        max-width: 128px; 
-        max-height: 128px; 
+        max-width: 92px; 
+        max-height: 92px; 
         display: block; 
         margin: auto;
     }
@@ -185,45 +186,121 @@ a {
 /* Small Devices, Tablets */
 @media only screen and (min-width : $breakpoint-sm) {
     .jumbotron {
-        .topbar {
-            .logo {
-                display: inline-block;
-                width: 300px;
-                text-align: left;
-                float: left;
-                
-                h1 {
-                    font-size: 2em; 
+        padding-top: 28px;
+        padding-bottom: 28px;
+
+        .container {
+            width: 95%;
+
+            .topbar {
+                overflow: auto;
+
+                .logo {
+                    display: inline-block;
+                    text-align: left;
+                    float: left;
+                    
+                    .title {
+                        font-size: 1.8em; 
+                    }
+
+                    .subtitle {
+                        font-size: 0.8em;
+                    }
+                }
+
+                .nav {
+                    display: inline-block;
+                    float: right;
+                    margin-top: 10px;
+                    font-size: 1em;
+
+                    li {
+                        display: inline-block;
+                        float: left; 
+                        margin-right: 10px;
+                    }
                 }
             }
 
-            .nav {
-                display: block;
-                font-size: 1em;
-
-                a {
-                    color: #FFF;    
-                }
+            h1 {
+                margin-top: 50px;
+            }
+            
+            p {
+                margin-bottom: 50px;
+                font-size: 2em;
             }
         }
     }
 
     .upcoming {
+        .image {
+            img {
+                float: right;
+            }
+        }
+
         .title {
             h3 {
                 text-align: left;
-                margin-top: 5%;
+                margin: 18px 0;
             }
+        }
+    }
+
+    .footer {
+        .message {
+            text-align: right;
         }
     }
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : $breakpoint-md) {
+    .ea-button {
+        min-width: 250px;
+        margin-bottom: 22px;        
+    }
 
+    .jumbotron {
+        .container {
+            .topbar {
+                .logo {
+                    .title {
+                        font-size: 2.3em;
+                        margin-bottom: 5px;
+                    }
+                    .subtitle {
+                        font-size: 1.1em;
+                    }
+                }
+
+                .nav {
+                    font-size: 1.3em;
+                }
+            }
+
+            h1 {
+                margin-bottom: 20px;
+            }
+
+            p {
+                    font-size: 3em;
+            }
+        }   
+    }
 }
 
 /* Large Devices, Wide Screens */
 @media only screen and (min-width : $breakpoint-lg) {
+    .jumbotron {
+        .container {
+            max-width: 1128px;
+        }
+    }
 
+    .section {
+        max-width: 1024px;
+    }
 }
