@@ -124,6 +124,7 @@ a {
     background: $upcoming-background-color; 
     padding-top: 15px; 
     padding-bottom: 15px; 
+    overflow: auto;
 
     .image img {
         max-width: 128px; 

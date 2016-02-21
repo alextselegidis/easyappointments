@@ -11,9 +11,7 @@
 
     .footer {
         .message {
-            small {
-                text-align: right;
-            }
+            text-align: right;
         }
     }
 }
