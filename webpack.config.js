@@ -1,5 +1,6 @@
 var autoprefixer = require('autoprefixer'),
-    precss = require('precss');
+    precss = require('precss'),
+    nesting = require('postcss-nesting');
 
 module.exports = {
     entry: './script.js',
@@ -18,6 +19,6 @@ module.exports = {
         ]
     },
     postcss: function() {
-        return [autoprefixer, precss]; 
+        return [autoprefixer, precss, nesting]; 
     }
 };
