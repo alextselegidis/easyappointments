@@ -1,14 +1,181 @@
-// Colors
-$primary: #3DD481; 
-$dark-green: #1A865F; 
-$dark-blue: #062126; 
-$light-blue: #CAEDF3; 
 
-// Miscellaneous
-$font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
 
+/* VARIABLES
+ ----------------------------------------------------------------------------- */
+
+$primary-color-light: #3DD481; 
+$primary-color-dark: #1A865F; 
+$secondary-color-light: #CAEDF3; 
+$secondary-color-dark: #062126;
+$text-color: #696969; 
+$link-color: #0F4852; 
+$upcoming-background-color: #0F4852; 
+$upcoming-text-color: #FFF; 
+$footer-background-color: #F5F5F5; 
+
+$font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+
+$breakpoint-xs: 480px;
+$breakpoint-sm: 768px; 
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+
+
+/* GENERAL
+ ----------------------------------------------------------------------------- */
 
 body {
     font-family: $font-family;
+    color: $text-color;
 }
 
+a {
+    color: $link-color;
+
+    &:hover {
+        color: lighten($link-color. 0.5);
+    }
+}
+
+.ea-button {
+    display: inline-block;
+    min-width: 200px;
+    padding: 12px 20px;
+    margin: 0 0 15px 0;
+    color: #FFF;
+    font-size: 16px;
+    border-radius: 50px;
+    cursor: pointer;
+
+    &.primary {
+        background: $primary-color-dark;
+
+        &:hover {
+            background: lighten($primary-color-dark, 0.5);            
+        }
+    }
+
+    &.secondary {
+        background: $secondary-color-dark;
+
+        &:hover {
+            background: lighten($secondary-color-dark, 0.5);            
+        }
+    }
+}
+
+.section {
+
+    .section-title {
+        font-weight: bold; 
+        color: $primary-color-light;
+
+    }
+}
+
+
+/* JUMBOTRON
+ ----------------------------------------------------------------------------- */
+
+.jumbotron {
+    background: $primary-color-light; 
+    text-align: center;
+    margin-bottom: 0;
+
+    .topbar {
+        .logo {
+            h1 {
+                text-align: center; 
+                font-weight: 300;
+                color: #FFF; 
+
+                small {
+                    color: $primary-color-dark; 
+                    font-size: 0.5em;
+                }
+            }
+        }
+
+        .menu-toggle {
+            color: $primary-color-dark;
+            margin: 10px 0;
+        }
+
+        .nav {
+            font-size: 1.2em;
+        }
+    }
+
+    h1 {
+        color: #FFF;
+        font-weight: bold;
+    }
+
+    p {
+        color: $primary-color-dark; 
+    }
+}
+
+
+/* UPCOMING
+ ----------------------------------------------------------------------------- */
+
+.upcoming {
+    background: $upcoming-background-color; 
+    padding-top: 15px; 
+    padding-bottom: 15px; 
+
+    .image img {
+        max-width: 128px; 
+        max-height: 128px; 
+        display: block; 
+        margin: auto;
+    }
+
+    .title {
+        h3, small {
+            font-weight: 300;
+            text-align: center;
+            color: #FFF !important; 
+        }
+    }
+}
+
+
+/* APPOINTMENT SCHEDULER
+ ----------------------------------------------------------------------------- */
+
+#appointment-scheduler {
+    .screenshots {
+        margin-top: 25px;
+    }
+}
+
+
+/* FOOTER
+ ----------------------------------------------------------------------------- */
+
+.footer {
+    background: $footer-background-color; 
+    margin-top: 15px;
+    padding: 10px 0;
+    overflow: auto; 
+
+    .credits {
+        img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+    }
+
+    .message {
+        small {
+            color: $primary-color-dark;
+        }
+    }
+}
+
+/* MEDIA QUERIES
+ ----------------------------------------------------------------------------- */
+@import './media-queries.css';

@@ -29,5 +29,9 @@
     "font-awesome": "^4.5.0",
     "jquery": "^2.2.0",
     "open-sans-fontface": "^1.4.0"
+  },
+  "scripts": {
+    "watch": "webpack -d --watch --progress",
+    "build": "webpack -p"
   }
 }
