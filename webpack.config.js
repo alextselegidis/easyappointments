@@ -1,5 +1,4 @@
-var webpack = require('webpack'),
-    autoprefixer = require('autoprefixer'),
+var autoprefixer = require('autoprefixer'),
     precss = require('precss'),
     nesting = require('postcss-nesting');
 
@@ -9,10 +8,9 @@ module.exports = {
         path: __dirname,
         filename: 'bundle.js'
     },
-    devtool: 'eval',
     module: {
         loaders: [
-            { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader' },
+            { test: /\.css$/, loader: 'style!css!postcss' },
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel?presets[]=es2015' },
             { test: /\.(woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/, 
                 loader: 'url?limit=100000&name=assets/asset-[hash].[ext]' },
@@ -20,15 +18,6 @@ module.exports = {
         ]
     },
     postcss: function() {
-        return [autoprefixer, precss, nesting]; 
-    },
-    plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.DefinePlugin({
-          'process.env': {
-            'NODE_ENV': JSON.stringify('production')
-          }
-        }),
-        new webpack.optimize.UglifyJsPlugin({minimize: true, compressor: { warnings: false}})
-    ]
+        return [precss, autoprefixer, nesting]; 
+    }
 };

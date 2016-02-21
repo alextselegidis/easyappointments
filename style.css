@@ -86,6 +86,7 @@ a {
         .logo {
             h1 {
                 text-align: center; 
+                font-size: 2em;
                 font-weight: 300;
                 color: #FFF; 
 
@@ -98,11 +99,18 @@ a {
 
         .menu-toggle {
             color: $primary-color-dark;
-            margin: 10px 0;
+            margin: 25px 0;
         }
 
         .nav {
             font-size: 1.2em;
+            a {
+                color: white; 
+                &:focus,
+                &:hover {
+                    background: none; 
+                }
+            }
         }
     }
 
@@ -169,14 +177,53 @@ a {
             margin-right: 10px;
         }
     }
-
-    .message {
-        small {
-            color: $primary-color-dark;
-        }
-    }
 }
 
 /* MEDIA QUERIES
  ----------------------------------------------------------------------------- */
-@import './media-queries.css';
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : $breakpoint-sm) {
+    .jumbotron {
+        .topbar {
+            .logo {
+                display: inline-block;
+                width: 300px;
+                text-align: left;
+                float: left;
+                
+                h1 {
+                    font-size: 2em; 
+                }
+            }
+
+            .nav {
+                display: block;
+                font-size: 1em;
+
+                a {
+                    color: #FFF;    
+                }
+            }
+        }
+    }
+
+    .upcoming {
+        .title {
+            h3 {
+                text-align: left;
+                margin-top: 5%;
+            }
+        }
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : $breakpoint-md) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : $breakpoint-lg) {
+
+}
