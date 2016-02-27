@@ -17,4 +17,17 @@ require('./style.css');
 
 $(function() {
     $('.fancybox').fancybox();
+
+    $('body').on('click', 'a:not(.fancybox)', function(e) {
+        e.preventDefault(); 
+
+        $('body').fadeOut('fast', 'linear', () => {
+            location.href = $(this).attr('href');
+        });
+    });
+    
+    // Give Webpack some time to load the styles.
+    setTimeout(() => {
+        $('body').fadeIn('slow');
+    }, 200);
 });
