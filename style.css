@@ -90,7 +90,7 @@ a {
 
 .header {
     background: $primary-color-light;
-    border-bottom: 4px solid color($primary-color-light lightness(45%));
+    border-bottom: 4px solid color($primary-color-light lightness(85%));
     padding: 10px; 
     text-align: center;
 }
