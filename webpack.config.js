@@ -1,4 +1,6 @@
-var autoprefixer = require('autoprefixer'),
+var debug = process.env.NODE_ENV !== 'production',
+    webpack = require('webpack'),
+    autoprefixer = require('autoprefixer'),
     precss = require('precss'),
     nesting = require('postcss-nesting'),
     color = require('postcss-color-function');
@@ -19,6 +21,11 @@ module.exports = {
             { test: /\.(eot)(\?\S*)?$/, loader: 'file?name=assets/asset-[hash].[ext]'}
         ]
     },
+    plugins: debug ? [] : [
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin({ sourcemap: false })
+    ],
     postcss: function() {
         return [precss, color, autoprefixer, nesting]; 
     }
