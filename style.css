@@ -168,7 +168,16 @@ a {
         h3, small {
             font-weight: 300;
             text-align: center;
-            color: #FFF !important; 
+            color: #FFF; 
+        }
+
+        h3 a small {
+            color: color($link-color lightness(50%)) !important;
+            transition: color 0.2s linear;
+            
+            &:hover {
+                color: color($link-color lightness(75%)) !important;
+            }
         }
     }
 }
