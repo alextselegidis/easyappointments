@@ -15,19 +15,26 @@ require('./node_modules/font-awesome/css/font-awesome.css');
 require('./node_modules/open-sans-fontface/open-sans.css');
 require('./style.css'); 
 
-$(function() {
+$(() => {
     $('.fancybox').fancybox();
 
-    $('body').on('click', 'a:not(.fancybox)', function(e) {
+    // Fade the body out whenever we click on an external link.
+    let excluded = [
+        '.fancybox', 
+        '.fancybox-nav', 
+        '.fancybox-item',
+        '.ea-button.primary',
+        '.upcoming a'
+    ];
+
+    $('body').on('click', 'a:not(' + excluded.join(',') + ')', function(e) {
         e.preventDefault(); 
 
         $('body').fadeOut('fast', 'linear', () => {
             location.href = $(this).attr('href');
         });
     });
-    
+
     // Give Webpack some time to load the styles.
-    setTimeout(() => {
-        $('body').fadeIn('slow');
-    }, 200);
+    $('body').fadeIn('slow');
 });
