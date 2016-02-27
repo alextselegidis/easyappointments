@@ -236,6 +236,7 @@ a {
         display: inline-block;
         text-align: left;
         float: left;
+        margin: 3px 0;
         
         .title {
             font-size: 1.8em; 
@@ -314,10 +315,10 @@ a {
 
     .logo {
         .title {
-            font-size: 2.3em;
+            font-size: 2.1em;
         }
         .subtitle {
-            font-size: 1.1em;
+            font-size: 1em;
         }
     }
 
