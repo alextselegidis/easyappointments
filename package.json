@@ -32,7 +32,7 @@
     "open-sans-fontface": "^1.4.0"
   },
   "scripts": {
-    "watch": "webpack -d --watch --progress",
+    "dev": "webpack -d --watch --progress",
     "build": "webpack -p"
   }
 }
