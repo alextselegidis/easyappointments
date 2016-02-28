@@ -1,82 +1,39 @@
-// Check user agent device type.
-// @link http://stackoverflow.com/a/16755700/1718162
-var Environment = {
-    // Mobile or desktop compatible event name, to be used with '.on' function.
-    TOUCH_DOWN_EVENT_NAME: 'mousedown touchstart',
-    TOUCH_UP_EVENT_NAME: 'mouseup touchend',
-    TOUCH_MOVE_EVENT_NAME: 'mousemove touchmove',
-    TOUCH_DOUBLE_TAB_EVENT_NAME: 'dblclick dbltap',
+'use strict';
 
-    isAndroid: function() {
-        return navigator.userAgent.match(/Android/i);
-    },
-    isBlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-    },
-    isIOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    isOpera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-    isWindows: function() {
-        return navigator.userAgent.match(/IEMobile/i);
-    },
-    isMobile: function() {
-        return (Environment.isAndroid() || Environment.isBlackBerry() || Environment.isIOS() || Environment.isOpera()
-            || Environment.isWindows());
-    }
-};
+// Require Assets
+require('./node_modules/bootstrap/dist/css/bootstrap.min.css');
+require('./style.css');
+require('./node_modules/fancybox/dist/css/jquery.fancybox.css');
+require('./node_modules/fancybox/dist/helpers/css/jquery.fancybox-buttons.css');
+require('./node_modules/fancybox/dist/helpers/css/jquery.fancybox-thumbs.css');
+window.jQuery = window.$ = require('./node_modules/jquery/dist/jquery.min.js');
+require('./node_modules/bootstrap/dist/js/bootstrap.min.js');
+require('./node_modules/fancybox/dist/js/jquery.fancybox.js');
+require('./node_modules/fancybox/dist/helpers/js/jquery.fancybox-buttons.js');
+require('./node_modules/fancybox/dist/helpers/js/jquery.fancybox-media.js');
+require('./node_modules/fancybox/dist/helpers/js/jquery.fancybox-thumbs.js');
 
-$(document).ready(function() {
-    $(".fancybox").fancybox();
+// Page Initialization
+$(() => {
+    $('.fancybox').fancybox();
 
-    var shareUrl = encodeURIComponent('http://easyappointments.org');
-    var shareTitle = encodeURIComponent('Easy!Appointments - Open Source Appointment Scheduler')
-    var shareText = encodeURIComponent('Use Easy!Appointments as your online appointment '
-            + 'scheduler. It is Easy! & Free!');
+    // Fade out the body whenever we click on an external link.
+    let excluded = [
+        '.fancybox',
+        '.fancybox-nav',
+        '.fancybox-item',
+        '.ea-button.primary',
+        '.upcoming a'
+    ];
 
-    $('#facebook').click(function() {
-        window.open(
-            'https://www.facebook.com/sharer/sharer.php?u=' + shareUrl
-                + '&p[title]=' + shareTitle + '&p[summary]=' + shareText,
-            'facebook-share-dialog',
-            'width=626,height=436');
-    });
+    $('body').on('click', 'a:not(' + excluded.join(',') + ')', function(e) {
+        e.preventDefault();
 
-    $('#google-plus').click(function() {
-        window.open(
-            'https://plus.google.com/share?url=' + shareUrl,
-            '',
-            'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-    });
-
-    $('#twitter').click(function() {
-        window.open(
-            'https://twitter.com/share?url=' + shareUrl
-                + '&text=' + shareText,
-            '',
-            'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-    });
-
-    $('#linkedin').click(function() {
-        window.open(
-            'http://www.linkedin.com/shareArticle?mini=true&url='+ shareUrl
-                + '&title=' + shareTitle + '&summary=' + shareText,
-            '',
-            'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-    });
-
-    if (Environment.isMobile()) {
-        $('.fadeIn').removeClass('fadeIn'); // mobile devices do not support fade in sections
-    }
-
-    $fadeIn = $('.fadeIn');
-
-    if ($fadeIn.length > 0) {
-        $fadeIn.viewportChecker({
-            classToAdd: 'show',
-            offset: 100
+        $('body').fadeOut('fast', 'linear', () => {
+            location.href = $(this).attr('href');
         });
-    }
+    });
+
+    // Give Webpack some time to load the styles.
+    $('.loading').fadeOut(850);
 });
