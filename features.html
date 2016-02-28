@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,10 +9,34 @@
               scheduling system. It is free even for commercial use. Let's start with easy!">
         <link rel="shortcut icon" href="img/favicon.ico">
         <link rel="icon" sizes="192x192" href="img/ea-logo.png">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,600' rel='stylesheet' type='text/css'>
+        <style>
+            @keyframes fade {
+                0%,100% { opacity: 0 }
+                50% { opacity: 1 }
+            }
+            .loading {
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                background: #FFF;
+                z-index: 999;
+                text-align: center;
+                font: 7vh sans-serif;
+                color: #3DD481;
+                padding-top: 47vh;
+            }
+            .loading::after {
+                opacity: 0;
+                content: 'Loading...';
+                animation: fade 2s 3s infinite;
+            }
+        </style>
     </head>
-    <body style="display:none">
-        
-        <!-- 
+    <body>
+        <div class="loading"></div>
+
+        <!--
             HEADER
          -->
         <div class="header">
@@ -21,8 +45,8 @@
                     <div class="title">Easy!Appointments</div>
                     <div class="subtitle">Open Source Appointment Scheduler</div>
                 </div>
-                <i class="menu-toggle fa fa-bars fa-3x visible-xs" data-toggle="collapse" 
-                    data-target=".nav"></i>
+                 <span class="menu-toggle glyphicon glyphicon-menu-hamburger visible-xs" data-toggle="collapse"
+                        data-target=".nav"></span>
                 <ul class="nav collapse">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="https://github.com/alextselegidis/easyappointments/wiki">Documentation</a></li>
@@ -32,7 +56,7 @@
             </div>
         </div>
 
-        <!-- 
+        <!--
             #FEATURES
          -->
         <div id="features" class="section container">
@@ -129,7 +153,7 @@
             </div>
         </div>
 
-         <!-- 
+         <!--
             #TRANSLATIONS
           -->
         <div id="translations" class="section container">
@@ -145,7 +169,7 @@
 
         </div>
 
-         <!-- 
+         <!--
             FOOTER
          -->
          <div class="footer">
@@ -159,7 +183,7 @@
                     </p>
                 </div>
                 <div class="message col-xs-12 col-sm-6">
-                    <small>This project was developed for my BSc Thesis and is still maintained 
+                    <small>This project was developed for my BSc Thesis and is still maintained
                     as an offer to the generous open source community :)</small>
                 </div>
             </div>

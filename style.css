@@ -72,6 +72,10 @@ a {
             background: color($secondary-color-dark lightness(25%));            
         }
     }
+
+    .glyphicon {
+        font-size: 14px;
+    }
 }
 
 .section {
@@ -113,6 +117,8 @@ a {
 .menu-toggle {
     color: $primary-color-dark;
     margin: 25px 0;
+    font-size: 24px;
+    cursor: pointer;
 }
 
 .nav {

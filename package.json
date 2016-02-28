@@ -27,9 +27,8 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "fancybox": "^3.0.0",
-    "font-awesome": "^4.5.0",
     "jquery": "^2.2.0",
-    "open-sans-fontface": "^1.4.0"
+    "pace-progress": "^1.0.2"
   },
   "scripts": {
     "dev": "webpack -d --watch --progress",

@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -9,10 +9,34 @@
               scheduling system. It is free even for commercial use. Let's start with easy!">
         <link rel="shortcut icon" href="img/favicon.ico">
         <link rel="icon" sizes="192x192" href="img/ea-logo.png">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,600' rel='stylesheet' type='text/css'>
+        <style>
+            @keyframes fade {
+                0%,100% { opacity: 0 }
+                50% { opacity: 1 }
+            }
+            .loading {
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                background: #FFF;
+                z-index: 999;
+                text-align: center;
+                font: 7vh sans-serif;
+                color: #3DD481;
+                padding-top: 47vh;
+            }
+            .loading::after {
+                opacity: 0;
+                content: 'Loading...';
+                animation: fade 2s 3s infinite;
+            }
+        </style>
     </head>
-    <body style="display:none">
+    <body>
+        <div class="loading"></div>
 
-        <!--  
+        <!--
             JUMBOTRON
         -->
 
@@ -23,8 +47,8 @@
                         <div class="title">Easy!Appointments</div>
                         <div class="subtitle">Open Source Appointment Scheduler</div>
                     </div>
-                    <i class="menu-toggle fa fa-bars fa-3x visible-xs" data-toggle="collapse" 
-                        data-target=".nav"></i>
+                    <span class="menu-toggle glyphicon glyphicon-menu-hamburger visible-xs" data-toggle="collapse"
+                        data-target=".nav"></span>
                     <ul class="nav collapse">
                         <li><a href="features.html">Features</a></li>
                         <li><a href="https://github.com/alextselegidis/easyappointments/wiki">Documentation</a></li>
@@ -38,20 +62,20 @@
                 </p>
 
                 <a href="https://github.com/alextselegidis/easyappointments/releases/download/1.1.1/easyappointments_1.1.1.zip" class="ea-button primary">
-                    <i class="fa fa-arrow-down"></i>
+                    <span class="glyphicon glyphicon-download-alt"></span>
                     Latest Version
                 </a>
-                
+
                 <br>
-                
+
                 <a href="https://github.com/alextselegidis/easyappointments" class="ea-button secondary">
-                    <i class="fa fa-github"></i>
+                    <span class="glyphicon glyphicon-link"></span>
                     Source Code
                 </a>
             </div>
         </div>
 
-        <!-- 
+        <!--
             UPCOMING
          -->
 
@@ -71,20 +95,20 @@
             </div>
         </div>
 
-        <!-- 
+        <!--
             #APPOINTMENT SCHEDULER
          -->
 
         <div id="appointment-scheduler" class="section container">
-            <h2 class="section-title">#Appointment Scheduler</h2>                
+            <h2 class="section-title">#Appointment Scheduler</h2>
             <p>
-                Easy!Appointments is a highly customizable web application that allows your 
-                customers to book appointments with you via the web. Moreover, it provides the 
-                ability to sync your data with Google Calendar so you can use them with other 
-                services. It is an open source project and you can download and install it <strong> even 
-                for  commercial use</strong>. Easy!Appointments will run smoothly with your existing 
-                website, because it can be installed in a single folder of the server and of course, 
-                both sites can share the same database. Learn more about the project in the Features page. 
+                Easy!Appointments is a highly customizable web application that allows your
+                customers to book appointments with you via the web. Moreover, it provides the
+                ability to sync your data with Google Calendar so you can use them with other
+                services. It is an open source project and you can download and install it <strong> even
+                for  commercial use</strong>. Easy!Appointments will run smoothly with your existing
+                website, because it can be installed in a single folder of the server and of course,
+                both sites can share the same database. Learn more about the project in the Features page.
             </p>
             <div class="screenshots row">
                 <div class="col-xs-6">
@@ -112,14 +136,14 @@
             </div>
         </div>
 
-        <!-- 
+        <!--
             #INSTALLATION
          -->
-        
+
         <div id="installation" class="section container">
             <h2 class="section-title">#Installation</h2>
             <p>
-                Easy!Appointments is a web application and it needs a web server (Apache or Nginx) 
+                Easy!Appointments is a web application and it needs a web server (Apache or Nginx)
                 with PHP and MySQL to run on. Perform the following steps for a successful installation:
             </p>
 
@@ -132,19 +156,19 @@
             </ol>
 
             <p>
-                <strong>That's it! You can now use Easy!Appointments at your will!</strong> You can 
+                <strong>That's it! You can now use Easy!Appointments at your will!</strong> You can
                 find a more detailed installation guide in the GitHub wiki pages of the project.
             </p>
         </div>
 
-         <!-- 
+         <!--
             #UPDATES
          -->
 
         <div id="updates" class="section container">
             <h2 class="section-title">#Updates</h2>
             <p>
-                here are three things that you will need to do in order to update an existing 
+                here are three things that you will need to do in order to update an existing
                 Easy!Appointments installation.
             </p>
 
@@ -155,22 +179,22 @@
             </ol>
 
             <p>
-                You should get a "Success" string as a response which means that your database tables were 
+                You should get a "Success" string as a response which means that your database tables were
                 updated successfully. Read the detailed update guide on this GitHub wiki page.
             </p>
         </div>
 
-         <!-- 
+         <!--
             #SUPPORT
          -->
 
         <div id="support" class="section container">
             <h2 class="section-title">#Support</h2>
             <p>
-                If you encounter any problems when using Easy!Appointments you can search the official 
-                Support Group for answers. You can also create new issues on GitHub and get involved 
-                in the development progress with pull requests or other suggesions. Follow Easy!Appointments 
-                on WordPress, Facebook, Google+, Twitter and get the latest updates! 
+                If you encounter any problems when using Easy!Appointments you can search the official
+                Support Group for answers. You can also create new issues on GitHub and get involved
+                in the development progress with pull requests or other suggesions. Follow Easy!Appointments
+                on WordPress, Facebook, Google+, Twitter and get the latest updates!
             </p>
             <p>
                 <a href="https://groups.google.com/forum/#!forum/easy-appointments">
@@ -196,7 +220,7 @@
             </p>
         </div>
 
-         <!-- 
+         <!--
             FOOTER
          -->
          <div class="footer">
@@ -210,7 +234,7 @@
                     </p>
                 </div>
                 <div class="message col-xs-12 col-sm-6">
-                    <small>This project was developed for my BSc Thesis and is still maintained 
+                    <small>This project was developed for my BSc Thesis and is still maintained
                     as an offer to the generous open source community :)</small>
                 </div>
             </div>
