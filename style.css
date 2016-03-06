@@ -3,20 +3,20 @@
 /* VARIABLES
  ----------------------------------------------------------------------------- */
 
-$primary-color-light: #3DD481; 
-$primary-color-dark: #1A865F; 
-$secondary-color-light: #CAEDF3; 
+$primary-color-light: #3DD481;
+$primary-color-dark: #1A865F;
+$secondary-color-light: #CAEDF3;
 $secondary-color-dark: #062126;
-$text-color: #696969; 
-$link-color: #0F4852; 
-$upcoming-background-color: #0F4852; 
-$upcoming-text-color: #FFF; 
-$footer-background-color: #F5F5F5; 
+$text-color: #696969;
+$link-color: #0F4852;
+$upcoming-background-color: #0F4852;
+$upcoming-text-color: #FFF;
+$footer-background-color: #F5F5F5;
 
-$font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+$font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 $breakpoint-xs: 480px;
-$breakpoint-sm: 768px; 
+$breakpoint-sm: 768px;
 $breakpoint-md: 992px;
 $breakpoint-lg: 1200px;
 
@@ -61,7 +61,7 @@ a {
         background: $primary-color-dark;
 
         &:hover {
-            background: color($primary-color-dark lightness(40%));            
+            background: color($primary-color-dark lightness(40%));
         }
     }
 
@@ -69,7 +69,7 @@ a {
         background: $secondary-color-dark;
 
         &:hover {
-            background: color($secondary-color-dark lightness(25%));            
+            background: color($secondary-color-dark lightness(25%));
         }
     }
 
@@ -80,9 +80,9 @@ a {
 
 .section {
     margin-bottom: 25px;
-    
+
     .section-title {
-        font-weight: bold; 
+        font-weight: bold;
         color: $primary-color-light;
         margin: 25px 0;
     }
@@ -95,21 +95,21 @@ a {
 .header {
     background: $primary-color-light;
     border-bottom: 4px solid color($primary-color-light lightness(85%));
-    padding: 10px; 
+    padding: 10px;
     text-align: center;
 }
 
 .logo {
-    text-align: center; 
+    text-align: center;
 
     .title {
         font-size: 2em;
         font-weight: 300;
-        color: #FFF; 
+        color: #FFF;
     }
 
     .subtitle {
-        color: $primary-color-dark; 
+        color: $primary-color-dark;
         font-size: 1em;
     }
 }
@@ -124,11 +124,11 @@ a {
 .nav {
     font-size: 1.2em;
     a {
-        color: white; 
+        color: white;
 
         &:focus,
         &:hover {
-            background: none !important; 
+            background: none !important;
             color: $primary-color-dark;
         }
     }
@@ -139,7 +139,7 @@ a {
  ----------------------------------------------------------------------------- */
 
 .jumbotron {
-    background: $primary-color-light; 
+    background: $primary-color-light;
     text-align: center;
     margin-bottom: 0;
 
@@ -149,7 +149,7 @@ a {
     }
 
     p {
-        color: $primary-color-dark; 
+        color: $primary-color-dark;
     }
 }
 
@@ -158,15 +158,15 @@ a {
  ----------------------------------------------------------------------------- */
 
 .upcoming {
-    background: $upcoming-background-color; 
-    padding-top: 15px; 
-    padding-bottom: 15px; 
+    background: $upcoming-background-color;
+    padding-top: 15px;
+    padding-bottom: 15px;
     overflow: auto;
 
     .image img {
-        max-width: 92px; 
-        max-height: 92px; 
-        display: block; 
+        max-width: 92px;
+        max-height: 92px;
+        display: block;
         margin: auto;
     }
 
@@ -174,13 +174,13 @@ a {
         h3, small {
             font-weight: 300;
             text-align: center;
-            color: #FFF; 
+            color: #FFF;
         }
 
         h3 a small {
             color: color($link-color lightness(50%)) !important;
             transition: color 0.2s linear;
-            
+
             &:hover {
                 color: color($link-color lightness(75%)) !important;
             }
@@ -207,7 +207,7 @@ a {
             margin-bottom: 35px;
 
             img {
-                margin: 10px; 
+                margin: 10px;
                 width: 75px;
             }
         }
@@ -219,10 +219,10 @@ a {
  ----------------------------------------------------------------------------- */
 
 .footer {
-    background: $footer-background-color; 
+    background: $footer-background-color;
     margin-top: 15px;
     padding: 10px 0;
-    overflow: auto; 
+    overflow: auto;
 
     .credits {
         img {
@@ -242,10 +242,10 @@ a {
         display: inline-block;
         text-align: left;
         float: left;
-        margin: 3px 0;
-        
+        margin: 0 0 3px 0;
+
         .title {
-            font-size: 1.8em; 
+            font-size: 1.8em;
             margin-bottom: 5px;
         }
 
@@ -262,7 +262,7 @@ a {
 
         li {
             display: inline-block;
-            float: left; 
+            float: left;
             margin-right: 10px;
         }
     }
@@ -281,7 +281,7 @@ a {
             h1 {
                 margin-top: 50px;
             }
-            
+
             p {
                 margin-bottom: 50px;
                 font-size: 2em;
@@ -316,12 +316,12 @@ a {
 @media only screen and (min-width : $breakpoint-md) {
     .ea-button {
         min-width: 250px;
-        margin-bottom: 22px;        
+        margin-bottom: 22px;
     }
 
     .logo {
         .title {
-            font-size: 2.1em;
+            font-size: 2em;
         }
         .subtitle {
             font-size: 1em;
@@ -342,7 +342,7 @@ a {
             p {
                 font-size: 3em;
             }
-        }   
+        }
     }
 }
 

@@ -12,29 +12,61 @@
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,600' rel='stylesheet' type='text/css'>
         <style>
             @keyframes fade {
-                0%,100% { opacity: 0 }
-                50% { opacity: 1 }
+                100% {opacity: 1}
             }
+
+            @keyframes spin {
+                100% {transform: rotate(360deg);}
+            }
+
+            @keyframes bounce  {
+              0%, 100% {transform: scale(0.0);}
+              50% {transform: scale(1.0);}
+            }
+
             .loading {
                 position: fixed;
                 width: 100vw;
                 height: 100vh;
                 background: #FFF;
                 z-index: 999;
-                text-align: center;
-                font: 7vh sans-serif;
-                color: #3DD481;
-                padding-top: 47vh;
+                padding-top: 45vh;
             }
-            .loading::after {
+
+            .spinner {
                 opacity: 0;
-                content: 'Loading...';
-                animation: fade 2s 3s infinite;
+                position: relative;
+                width: 45px;
+                height: 45px;
+                margin: 0 auto;
+                animation: spin 2s linear infinite, fade 1s 3s linear forwards;
+            }
+
+            .bubble-1,
+            .bubble-2 {
+                position: absolute;
+                top: 0;
+                width: 25px;
+                height: 25px;
+                border-radius: 100%;
+                background-color: #3DD481;
+                animation: bounce 2s ease-in-out infinite;
+            }
+
+            .bubble-2 {
+                top: auto;
+                bottom: 0;
+                animation-delay: -1.0s;
             }
         </style>
     </head>
     <body>
-        <div class="loading"></div>
+        <div class="loading">
+            <div class="spinner">
+                <div class="bubble-1"></div>
+                <div class="bubble-2"></div>
+             </div>
+         </div>
 
         <!--
             JUMBOTRON
@@ -202,9 +234,6 @@
                 |
                 <a href="https://github.com/alextselegidis/easyappointments/issues">
                     Project Issues</a>
-                |
-                <a href="http://easyappointments.wordpress.com">
-                    E!A Blog</a>
                 |
                 <a href="https://www.facebook.com/easyappointments.org">
                     Facebook</a>
