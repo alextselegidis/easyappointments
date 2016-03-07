@@ -90,8 +90,7 @@ class Appointments extends CI_Controller {
                     $view = array(
                         'message_title' => $this->lang->line('appointment_not_found'),
                         'message_text'  => $this->lang->line('appointment_does_not_exist_in_db'),
-                        'message_icon'  => $this->config->item('base_url')
-                                         . '/assets/img/error.png'
+                        'message_icon'  => base_url('assets/img/error.png')
                     );
                     $this->load->view('appointments/message', $view);
                     return;
@@ -222,7 +221,7 @@ class Appointments extends CI_Controller {
         $view = array(
             'message_title' => $this->lang->line('appointment_cancelled_title'),
             'message_text' => $this->lang->line('appointment_cancelled'),
-            'message_icon' => $this->config->item('base_url') . '/assets/img/success.png'
+            'message_icon' => base_url('assets/img/success.png')
         );
 
         if (isset($exceptions)) {

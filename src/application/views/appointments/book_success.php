@@ -13,9 +13,9 @@
         // ------------------------------------------------------------ ?>
 
     <link rel="stylesheet" type="text/css"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
+        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" type="text/css"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/css/frontend.css">
+        href="<?php echo base_url('assets/css/frontend.css'); ?>">
 
     <?php
         // ------------------------------------------------------------
@@ -23,10 +23,10 @@
         // ------------------------------------------------------------ ?>
 
     <link rel="icon" type="image/x-icon"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
+        href="<?php echo base_url('assets/img/favicon.ico'); ?>">
 
     <link rel="icon" sizes="192x192"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/img/logo.png">
+        href="<?php echo base_url('assets/img/logo.png'); ?>">
 </head>
 <body>
     <div id="main" class="container">
@@ -38,7 +38,7 @@
                     col-lg-offset-2 col-lg-8">
 
                 <div class="col-xs-12 col-sm-2">
-                    <img id="success-icon" class="pull-right" src="<?php echo $this->config->item('base_url'); ?>/assets/img/success.png" />
+                    <img id="success-icon" class="pull-right" src="<?php echo base_url('assets/img/success.png'); ?>" />
                 </div>
                 <div class="col-xs-12 col-sm-10">
                     <?php
@@ -81,13 +81,13 @@
 
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
+        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/datejs/date.js"></script>
+        src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
     <script
         type="text/javascript"
         src="https://apis.google.com/js/client.js"></script>
@@ -114,11 +114,11 @@
 
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/frontend_book_success.js"></script>
+        src="<?php echo base_url('assets/js/frontend_book_success.js'); ?>"></script>
 
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/js/general_functions.js"></script>
+        src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
 
     <?php google_analytics_script(); ?>
 </body>

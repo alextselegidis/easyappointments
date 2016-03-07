@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         var passedTestsNumber = $('span').filter(function() {
@@ -30,8 +30,6 @@
         display: inline-block;
         margin-right: 21px;
         color: #DBFFA6;
-/*        color: #C0FFD9;
-        text-shadow: 0px 1px 1px #0D9E41;*/
     }
 
     #test-results {
