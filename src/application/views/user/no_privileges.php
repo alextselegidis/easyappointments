@@ -70,7 +70,7 @@
 
         <br>
 
-        <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend" class="btn btn-success btn-large">
+        <a href="<?php echo site_url('backend') ?>" class="btn btn-success btn-large">
             <i class="icon-calendar icon-white"></i>
             <?php echo $this->lang->line('backend_calendar'); ?>
         </a>

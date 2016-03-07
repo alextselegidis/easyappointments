@@ -100,7 +100,7 @@
 
                     $('.alert').removeClass('hidden alert-danger alert-success');
                     $('#get-new-password').prop('disabled', false);
-                    
+
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
                     if (response == GlobalVariables.AJAX_SUCCESS) {
@@ -138,7 +138,7 @@
                 <?php echo $this->lang->line('regenerate_password'); ?>
             </button>
 
-            <a href="<?php echo $base_url; ?>/index.php/user/login" class="user-login">
+            <a href="<?php echo site_url('user/login'); ?>" class="user-login">
                 <?php echo $this->lang->line('go_to_login'); ?></a>
         </form>
     </div>

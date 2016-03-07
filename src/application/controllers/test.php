@@ -38,9 +38,9 @@ class Test extends CI_Controller {
     public function index() {
         // User must be logged in as an admin in order to run the tests.
         $this->load->library('session');
-        $this->session->set_userdata('dest_url', $this->config->item('base_url') . '/index.php/test');
+        $this->session->set_userdata('dest_url', site_url('test'));
         if ($this->session->userdata('role_slug') != DB_SLUG_ADMIN) {
-            header('Location: ' . $this->config->item('base_url') . '/index.php/user/login');
+            header('Location: ' . site_url('user/login'));
             return;
         }
 

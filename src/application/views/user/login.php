@@ -140,7 +140,7 @@
 
             <br><br>
 
-            <a href="<?php echo $base_url; ?>/index.php/user/forgot_password" class="forgot-password">
+            <a href="<?php echo site_url('user/forgot_password'); ?>" class="forgot-password">
             	<?php echo $this->lang->line('forgot_your_password'); ?></a>
             |
             <span id="select-language" class="label label-success">

@@ -39,7 +39,7 @@ class User extends CI_Controller {
      * The default method will redirect the browser to the user/login URL.
      */
     public function index() {
-        header('Location: ' . $this->config->item('base_url') . '/index.php/user/login');
+        header('Location: ' . site_url('user/login'));
     }
 
     /**
@@ -52,7 +52,7 @@ class User extends CI_Controller {
         $view['dest_url'] = $this->session->userdata('dest_url');
 
         if (!$view['dest_url']) {
-            $view['dest_url'] = $view['base_url'] . '/index.php/backend';
+            $view['dest_url'] = site_url('backend');
         }
 
         $view['company_name'] = $this->settings_model->get_setting('company_name');

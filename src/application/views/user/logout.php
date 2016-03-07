@@ -71,12 +71,12 @@
 
         <br>
 
-        <a href="<?php echo $this->config->item('base_url'); ?>" class="btn btn-primary btn-large">
+        <a href="<?php echo site_url(); ?>" class="btn btn-primary btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
 
-        <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend" class="btn btn-danger btn-large">
+        <a href="<?php echo site_url('backend'); ?>" class="btn btn-danger btn-large">
             <span class="glyphicon glyphicon-home"></span>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>
