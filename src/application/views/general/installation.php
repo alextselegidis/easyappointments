@@ -72,7 +72,7 @@
             <p>
                 This page will help you set the main settings of your Easy!Appointments installation.
                 You will be able to edit these settings and many more in the backend session of your
-                system. Remember to use the <strong class="text-primary"><?php echo $base_url; ?>/index.php/backend</strong>
+                system. Remember to use the <strong class="text-primary"><?php echo site_url('backend'); ?>/strong>
                 url to connect to the backend section of Easy!Appointments.
 
                 If you face any problems during the usage of Easy!Appointments you can always check
