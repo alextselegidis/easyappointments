@@ -935,33 +935,6 @@ var BackendCalendar = {
                 'key': key
             };
 
-            // $.post(postUrl, postData, function(response) {
-            //     ///////////////////////////////////////////////////////
-            //     console.log('Filter Customers Response:', response);
-            //     ///////////////////////////////////////////////////////
-
-            //     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
-
-            //     BackendCustomers.helper.filterResults = response;
-
-            //     $('#filter-customers .results').data('jsp').destroy();
-            //     $('#filter-customers .results').html('');
-            //     $.each(response, function(index, customer) {
-            //        var html = BackendCustomers.helper.getFilterHtml(customer);
-            //        $('#filter-customers .results').append(html);
-            //     });
-            //     $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
-
-            //     if (response.length == 0) {
-            //         $('#filter-customers .results').html('<em>' + EALang['no_records_found'] + '</em>');
-            //     }
-
-            //     if (selectId != undefined) {
-            //         BackendCustomers.helper.select(selectId, display);
-            //     }
-
-            // }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
-
             // Try to get the updated customer list
             $.ajax({
                 'type': 'POST',
