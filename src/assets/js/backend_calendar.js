@@ -842,8 +842,6 @@ var BackendCalendar = {
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
             $dialog.modal('show');
-
-
         });
 
         /**
@@ -926,51 +924,48 @@ var BackendCalendar = {
          * Event: Filter Existing Customers "Change"
          */
         $('#filter-existing-customers').keyup(function() {
-            var key = $(this).val().toLowerCase();
-            var $list = $('#existing-customers-list');
+            var key = $(this).val().toLowerCase(),
+                $list = $('#existing-customers-list'),
+                postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers',
+                postData = {
+                    'csrfToken': GlobalVariables.csrfToken,
+                    'key': key
+                };
 
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
-            var postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'key': key
-            };
-
-            // Try to get the updated customer list
+            // Try to get the updated customer list.
             $.ajax({
-                'type': 'POST',
-                'url': postUrl,
-                'data': postData,
-                'dataType': 'json',
-                'timeout': 1000,
-                'global': false,
-                'success': function(response) {
+                type: 'POST',
+                url: postUrl,
+                data: postData,
+                dataType: 'json',
+                timeout: 1000,
+                global: false,
+                success: function(response) {
                     /////////////////////////////////////////////////////////////
-                    console.log('Filter Customers Appointment Response:', response);
+                    // console.log('Filter Customers Appointment Response:', response);
                     /////////////////////////////////////////////////////////////
 
                     $list.empty();
                     $.each(response, function(index, c) {
                         $list.append('<div data-id="' + c.id + '">'
-                                    + c.first_name + ' ' + c.last_name + '</div>');
+                                + c.first_name + ' ' + c.last_name + '</div>');
 
-                        // Verify if this customer is on the old customer list
-                        var result = $.grep(GlobalVariables.customers, 
-                            function(e){ return e.id == c.id; });
+                        // Verify if this customer is on the old customer list.
+                        var result = $.grep(GlobalVariables.customers,
+                                function(e){ return e.id == c.id; });
 
-                        // Add it to the customer list
+                        // Add it to the customer list.
                         if(result.length == 0){
                             GlobalVariables.customers.push(c);
                         }
                     });
                 },
-                'error': function(jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     //////////////////////////////////////////////////////////////////
-                    console.log('Filter Customers Appointment Error:', jqXHR, textStatus,
-                            errorThrown);
+                    // console.log('Filter Customers Appointment Error:', jqXHR, textStatus, errorThrown);
                     //////////////////////////////////////////////////////////////////
 
-                    // If there is any error on the request, search by the local 
-                    // client database
+                    // If there is any error on the request, search by the local client database.
                     $list.empty();
                     $.each(GlobalVariables.customers, function(index, c) {
                         if (c.first_name.toLowerCase().indexOf(key) != -1
