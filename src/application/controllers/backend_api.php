@@ -402,15 +402,17 @@ class Backend_api extends CI_Controller {
 	    	$this->load->model('customers_model');
 
 	    	$key = $this->db->escape_str($_POST['key']);
+            $key = strtoupper($key);
 
 	    	$where_clause =
-	    			'(first_name LIKE "%' . $key . '%" OR ' .
-	    			'last_name LIKE "%' . $key . '%" OR ' .
-	    			'email LIKE "%' . $key . '%" OR ' .
-	    			'phone_number LIKE "%' . $key . '%" OR ' .
-	    			'address LIKE "%' . $key . '%" OR ' .
-	    			'city LIKE "%' . $key . '%" OR ' .
-	    			'zip_code LIKE "%' . $key . '%")';
+	    			'(first_name LIKE upper("%' . $key . '%") OR ' .
+	    			'last_name  LIKE upper("%' . $key . '%") OR ' .
+	    			'email LIKE upper("%' . $key . '%") OR ' .
+	    			'phone_number LIKE upper("%' . $key . '%") OR ' .
+	    			'address LIKE upper("%' . $key . '%") OR ' .
+	    			'city LIKE upper("%' . $key . '%") OR ' .
+	    			'zip_code LIKE upper("%' . $key . '%") OR ' .
+                    'notes LIKE upper("%' . $key . '%"))';
 
             $customers = $this->customers_model->get_batch($where_clause);
 
