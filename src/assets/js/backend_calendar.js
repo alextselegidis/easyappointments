@@ -842,6 +842,8 @@ var BackendCalendar = {
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
             $dialog.modal('show');
+
+
         });
 
         /**
@@ -926,17 +928,63 @@ var BackendCalendar = {
         $('#filter-existing-customers').keyup(function() {
             var key = $(this).val().toLowerCase();
             var $list = $('#existing-customers-list');
-            $list.empty();
-            $.each(GlobalVariables.customers, function(index, c) {
-                if (c.first_name.toLowerCase().indexOf(key) != -1
-                        || c.last_name.toLowerCase().indexOf(key) != -1
-                        || c.email.toLowerCase().indexOf(key) != -1
-                        || c.phone_number.toLowerCase().indexOf(key) != -1
-                        || c.address.toLowerCase().indexOf(key) != -1
-                        || c.city.toLowerCase().indexOf(key) != -1
-                        || c.zip_code.toLowerCase().indexOf(key) != -1) {
-                    $list.append('<div data-id="' + c.id + '">'
-                            + c.first_name + ' ' + c.last_name + '</div>');
+
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+            var postData = {
+                'csrfToken': GlobalVariables.csrfToken,
+                'key': key
+            };
+
+            // Try to get the updated customer list
+            $.ajax({
+                'type': 'POST',
+                'url': postUrl,
+                'data': postData,
+                'dataType': 'json',
+                'timeout': 1000,
+                'global': false,
+                'success': function(response) {
+                    /////////////////////////////////////////////////////////////
+                    console.log('Filter Customers Appointment Response:', response);
+                    /////////////////////////////////////////////////////////////
+
+                    $list.empty();
+                    $.each(response, function(index, c) {
+                        $list.append('<div data-id="' + c.id + '">'
+                                    + c.first_name + ' ' + c.last_name + '</div>');
+
+                        // Verify if this customer is on the old customer list
+                        var result = $.grep(GlobalVariables.customers, 
+                            function(e){ return e.id == c.id; });
+
+                        // Add it to the customer list
+                        if(result.length == 0){
+                            GlobalVariables.customers.push(c);
+                        }
+                    });
+                },
+                'error': function(jqXHR, textStatus, errorThrown) {
+                    //////////////////////////////////////////////////////////////////
+                    console.log('Filter Customers Appointment Error:', jqXHR, textStatus,
+                            errorThrown);
+                    //////////////////////////////////////////////////////////////////
+
+                    // If there is any error on the request, search by the local 
+                    // client database
+                    $list.empty();
+                    $.each(GlobalVariables.customers, function(index, c) {
+                        if (c.first_name.toLowerCase().indexOf(key) != -1
+                                || c.last_name.toLowerCase().indexOf(key) != -1
+                                || c.email.toLowerCase().indexOf(key) != -1
+                                || c.phone_number.toLowerCase().indexOf(key) != -1
+                                || c.address.toLowerCase().indexOf(key) != -1
+                                || c.city.toLowerCase().indexOf(key) != -1
+                                || c.zip_code.toLowerCase().indexOf(key) != -1
+                                || c.notes.toLowerCase().indexOf(key) != -1) {
+                            $list.append('<div data-id="' + c.id + '">'
+                                    + c.first_name + ' ' + c.last_name + '</div>');
+                        }
+                    });
                 }
             });
         });
