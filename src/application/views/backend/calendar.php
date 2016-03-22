@@ -101,6 +101,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="wrapper">
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"
                             aria-hidden="true">&times;</button>
@@ -294,17 +295,19 @@
                         </fieldset>
                     </form>
                 </div>
-                <div class="modal-footer footer">
-                    <button id="save-appointment" class="btn btn-primary">
-                        <?php echo $this->lang->line('save'); ?>
-                    </button>
-                    <button id="cancel-appointment" class="btn btn-default" data-dismiss="modal">
-                        <?php echo $this->lang->line('cancel'); ?>
-                    </button>
-                </div>
+
+                <div class="modal-push"></div>
+            </div>
+
+            <div class="modal-footer footer">
+                <button id="save-appointment" class="btn btn-primary">
+                    <?php echo $this->lang->line('save'); ?>
+                </button>
+                <button id="cancel-appointment" class="btn btn-default" data-dismiss="modal">
+                    <?php echo $this->lang->line('cancel'); ?>
+                </button>
             </div>
         </div>
-
     </div>
 </div>
 
