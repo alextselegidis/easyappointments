@@ -770,6 +770,67 @@ class Appointments extends CI_Controller {
 
 		return $available_hours;
 	}
+
+	/**
+	 * [AJAX] Get Unavailable Dates
+	 *
+	 * Get an array with the available dates of a specific provider, service and month
+	 * of the year. Provide the "provider_id", "service_id" and "selected_date" as GET
+	 * parameters to the request. The "selected_date" parameter must have the Y-m-d format.
+	 *
+	 * @return string Returns a JSON array with the dates that are unavailable.
+	 */
+	public function ajax_get_unavailable_dates() {
+		try {
+			$provider_id = $this->input->get('provider_id');
+			$service_id = $this->input->get('service_id');
+			$selected_date = new DateTime($this->input->get('selected_date'));
+			$number_of_days = (int)$selected_date->format('t');
+			$unavailable_dates = array();
+
+			// Handle the "Any Provider" case.
+			if ($provider_id === ANY_PROVIDER) {
+				$provider_id = $this->search_any_provider($service_id, $this->input->get('selected_date'));
+				if ($provider_id === NULL) { // No provider is available in the selected date.
+					for ($i=1; $i<=$number_of_days; $i++) {
+						$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+						$unavailable_dates[] = $current_date->format('Y-m-d');
+					}
+					echo json_encode($unavailable_dates);
+					return;
+				}
+			}
+
+			// Get the available time periods for every day of this month.
+			$this->load->model('services_model');
+			$service_duration = (int)$this->services_model->get_value('duration', $service_id);
+
+			for ($i=1; $i<=$number_of_days; $i++) {
+				$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+
+				if ($current_date < new DateTime()) { // Past dates become immediatelly unavailable.
+					$unavailable_dates[] = $current_date->format('Y-m-d');
+					continue;
+				}
+
+				$empty_periods = $this->get_provider_available_time_periods($provider_id,
+						$current_date->format('Y-m-d'));
+
+	            $available_hours = $this->calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
+						$service_duration);
+
+				if (empty($available_hours)) {
+					$unavailable_dates[] = $current_date->format('Y-m-d');
+				}
+			}
+
+			echo json_encode($unavailable_dates);
+		} catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+	}
 }
 
 /* End of file appointments.php */

@@ -84,6 +84,12 @@ var FrontendBook = {
             onSelect: function(dateText, instance) {
                 FrontendBook.getAvailableHours(dateText);
                 FrontendBook.updateConfirmFrame();
+            },
+
+            onChangeMonthYear: function(year, month, instance) {
+                var currentDate = new Date(year, month - 1, 1);
+                FrontendBook.getUnavailableDates($('#select-provider').val(), $('#select-service').val(),
+                        currentDate.toString('yyyy-MM-dd'));
             }
         });
 
@@ -116,7 +122,8 @@ var FrontendBook = {
          * date - time periods must be updated.
          */
         $('#select-provider').change(function() {
-            FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
+            FrontendBook.getUnavailableDates($(this).val(), $('#select-service').val(),
+                    $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
         });
 
@@ -148,8 +155,8 @@ var FrontendBook = {
                 $('#select-provider').append(new Option('- ' +EALang['any_provider'] + ' -', 'any-provider'));
             }
 
-
-            FrontendBook.getAvailableHours($('#select-date').val());
+            FrontendBook.getUnavailableDates($('#select-provider').val(), $(this).val(),
+                    $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
             FrontendBook.updateServiceDescription($('#select-service').val(), $('#service-description'));
         });
@@ -698,5 +705,63 @@ var FrontendBook = {
             .always(function() {
                 $layer.remove();
             })
+    },
+
+    /**
+     * Get the unavailable dates of a provider.
+     *
+     * This method will fetch the unavailable dates of the selected provider and service and then it will
+     * select the first available date (if any). It uses the "getAvailableHours" method to fetch the appointment
+     * hours of the selected date.
+     *
+     * @param {int} providerId The selected provider ID.
+     * @param {int} serviceId The selected service ID.
+     * @param {string} selectedDateString Y-m-d value of the selected date.
+     */
+    getUnavailableDates: function(providerId, serviceId, selectedDateString) {
+        var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates',
+            data = {
+                provider_id: providerId,
+                service_id: serviceId,
+                selected_date: encodeURIComponent(selectedDateString),
+                csrfToken: GlobalVariables.csrfToken
+            };
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: data,
+            dataType: 'json'
+        })
+            .done(function(response) {
+                // Select first enabled date.
+                var selectedDate = Date.parse(selectedDateString),
+                    numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+
+                for (var i=1; i<=numberOfDays; i++) {
+                    var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+                    if ($.inArray(currentDate.toString('yyyy-MM-dd'), response) === -1) {
+                        $('#select-date').datepicker('setDate', currentDate);
+                        FrontendBook.getAvailableHours(currentDate.toString('yyyy-MM-dd'));
+                        break;
+                    }
+                }
+
+                // If all the days are unavailable then hide the appointments hours.
+                if (response.length === numberOfDays) {
+                    $('#available-hours').text(EALang['no_available_hours']);
+                }
+
+                // Apply the new beforeShowDayHandler method to the #select-date datepicker.
+                var beforeShowDayHandler = function(date) {
+                    if ($.inArray(date.toString('yyyy-MM-dd'), response) != -1) {
+                        return [false];
+                    }
+                    return [true];
+                };
+
+                $('#select-date').datepicker('option', 'beforeShowDay', beforeShowDayHandler);
+            })
+            .fail(GeneralFunctions.ajaxFailureHandler);
     }
 };
