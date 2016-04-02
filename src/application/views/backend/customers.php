@@ -2,6 +2,9 @@
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
 
 <script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_customers_helper.js"></script>
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_customers.js"></script>
 
 <script type="text/javascript">
