@@ -325,10 +325,6 @@ var GeneralFunctions = {
                 'language': $(this).attr('data-language'),
             };
         	$.post(postUrl, postData, function(response) {
-        		////////////////////////////////////////////////////
-        		console.log('Change Language Response', response);
-    			////////////////////////////////////////////////////
-
         		if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         		document.location.reload(true);
 
@@ -349,8 +345,6 @@ var GeneralFunctions = {
                 message: 'AJAX Error: ' + errorThrown
             }
         ];
-
-        console.log('AJAX Failure Handler:', jqxhr, textStatus, errorThrown);
         GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
             GeneralFunctions.EXCEPTIONS_MESSAGE);
         $('#message_box').append(GeneralFunctions.exceptionsToHtml(exceptions));

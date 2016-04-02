@@ -187,20 +187,13 @@ SecretariesHelper.prototype.bindEventHandlers = function() {
  * then the update operation is going to be executed.
  */
 SecretariesHelper.prototype.save = function(secretary) {
-    ////////////////////////////////////////////////////
-    //console.log('Secretary data to save:', secretary);
-    ////////////////////////////////////////////////////
-
-    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
-    var postData = {
-        'csrfToken': GlobalVariables.csrfToken,
-        'secretary': JSON.stringify(secretary)
-    };
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary',
+        postData = {
+            'csrfToken': GlobalVariables.csrfToken,
+            'secretary': JSON.stringify(secretary)
+        };
 
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
-        //console.log('Save Secretary Response:', response);
-        ////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['secretary_saved']);
         BackendUsers.helper.resetForm();
@@ -215,16 +208,13 @@ SecretariesHelper.prototype.save = function(secretary) {
  * @param {int} id Record id to be deleted.
  */
 SecretariesHelper.prototype.delete = function(id) {
-    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
-    var postData = {
-        'csrfToken': GlobalVariables.csrfToken,
-        'secretary_id': id
-    };
+    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary',
+        postData = {
+            'csrfToken': GlobalVariables.csrfToken,
+            'secretary_id': id
+        };
 
     $.post(postUrl, postData, function(response) {
-        //////////////////////////////////////////////////////
-        //console.log('Delete secretary response:', response);
-        //////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['secretary_deleted']);
         BackendUsers.helper.resetForm();
@@ -363,10 +353,6 @@ SecretariesHelper.prototype.filter = function(key, selectId, display) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////////
-        //console.log('Filter secretaries response:', response);
-        ////////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendUsers.helper.filterResults = response;

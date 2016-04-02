@@ -234,10 +234,6 @@ CustomersHelper.prototype.save = function(customer) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////////////
-        console.log('Save Customer Response:', response);
-        ///////////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['customer_saved']);
@@ -260,10 +256,6 @@ CustomersHelper.prototype.delete = function(id) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
-        //console.log('Delete customer response:', response);
-        ////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['customer_deleted']);
@@ -382,10 +374,6 @@ CustomersHelper.prototype.filter = function(key, selectId, display) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////////
-        console.log('Filter Customers Response:', response);
-        ///////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendCustomers.helper.filterResults = response;

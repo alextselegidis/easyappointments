@@ -227,10 +227,6 @@ ProvidersHelper.prototype.bindEventHandlers = function() {
  * then the update operation is going to be executed.
  */
 ProvidersHelper.prototype.save = function(provider) {
-    //////////////////////////////////////////////////
-    //console.log('Provider data to save:', provider);
-    //////////////////////////////////////////////////
-
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
     var postData = {
         'csrfToken': GlobalVariables.csrfToken,
@@ -238,9 +234,6 @@ ProvidersHelper.prototype.save = function(provider) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////
-        //console.log('Save Provider Response:', response);
-        ///////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['provider_saved']);
         BackendUsers.helper.resetForm();
@@ -262,9 +255,6 @@ ProvidersHelper.prototype.delete = function(id) {
     };
 
     $.post(postUrl, postData, function(response) {
-        /////////////////////////////////////////////////////
-        //console.log('Delete provider response:', response);
-        /////////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['provider_deleted']);
         BackendUsers.helper.resetForm();
@@ -418,10 +408,6 @@ ProvidersHelper.prototype.filter = function(key, selectId, display) {
     };
 
     $.post(postUrl, postData, function(response) {
-        //////////////////////////////////////////////////////
-        //console.log('Filter providers response:', response);
-        //////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendUsers.helper.filterResults = response;

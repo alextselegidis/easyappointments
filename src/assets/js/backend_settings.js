@@ -172,9 +172,6 @@ var BackendSettings = {
         $('.save-settings').click(function() {
             var settings = BackendSettings.settings.get();
             BackendSettings.settings.save(settings);
-            //////////////////////////////////////////////
-            //console.log('Settings To Save: ', settings);
-            //////////////////////////////////////////////
         });
 
         /**
@@ -196,9 +193,6 @@ var BackendSettings = {
             };
 
             $.post(postUrl, postData, function(response) {
-                ///////////////////////////////////////////////////////
-                //console.log('Validate Username Response:', response);
-                ///////////////////////////////////////////////////////
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 if (response == false) {
                     $input.css('border', '2px solid red');
@@ -234,10 +228,6 @@ SystemSettings.prototype.save = function(settings) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////////////
-        console.log('Save General Settings Response:', response);
-        ///////////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['settings_saved']);
@@ -386,10 +376,6 @@ UserSettings.prototype.save = function(settings) {
     };
 
     $.post(postUrl, postData, function(response) {
-        //////////////////////////////////////////////////////////
-        console.log('Save User Settings Response: ', response);
-        //////////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['settings_saved']);
 

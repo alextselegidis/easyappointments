@@ -100,10 +100,6 @@ var BackendServices = {
         };
 
         $.post(postUrl, postData, function(response) {
-            ///////////////////////////////////////////////////////////////
-            console.log('Update Available Categories Response:', response);
-            ///////////////////////////////////////////////////////////////
-
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
             GlobalVariables.categories = response;
@@ -270,10 +266,6 @@ ServicesHelper.prototype.bindEventHandlers = function() {
  * then the update operation is going to be executed.
  */
 ServicesHelper.prototype.save = function(service) {
-    ////////////////////////////////////////////////
-    //console.log('Service data to save:', service);
-    ////////////////////////////////////////////////
-
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
     var postData = {
         'csrfToken': GlobalVariables.csrfToken,
@@ -281,9 +273,6 @@ ServicesHelper.prototype.save = function(service) {
     };
 
     $.post(postUrl, postData, function(response) {
-        //////////////////////////////////////////////////
-        //console.log('Save Service Response:', response);
-        //////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['service_saved']);
@@ -306,10 +295,6 @@ ServicesHelper.prototype.delete = function(id) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
-        //console.log('Delete service response:', response);
-        ////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['service_deleted']);
@@ -402,10 +387,6 @@ ServicesHelper.prototype.filter = function(key, selectId, display) {
     };
 
     $.post(postUrl, postData, function(response) {
-        /////////////////////////////////////////////////////
-        //console.log('Filter services response:', response);
-        /////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendServices.helper.filterResults = response;
@@ -626,10 +607,6 @@ CategoriesHelper.prototype.filter = function(key, selectId, display) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////////
-        console.log('Filter Categories Response:', response);
-        ///////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendServices.helper.filterResults = response;
@@ -666,10 +643,6 @@ CategoriesHelper.prototype.save = function(category) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////////////
-        console.log('Save Service Category Response:', response);
-        ///////////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['service_category_saved']);
@@ -693,10 +666,6 @@ CategoriesHelper.prototype.delete = function(id) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////////
-        console.log('Delete category response:', response);
-        ////////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         Backend.displayNotification(EALang['service_category_deleted']);
@@ -739,7 +708,6 @@ CategoriesHelper.prototype.validate = function(category) {
         return true;
 
     } catch(exc) {
-        console.log('Category Record Validation Exc:', exc);
         return false;
     }
 };

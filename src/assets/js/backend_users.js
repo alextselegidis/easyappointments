@@ -133,10 +133,6 @@ var BackendUsers = {
                     'key': ''
                 };
                 $.post(postUrl, postData, function(response) {
-                    //////////////////////////////////////////////////////////
-                    //console.log('Get all db providers response:', response);
-                    //////////////////////////////////////////////////////////
-
                     if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
                     GlobalVariables.providers = response;
@@ -194,9 +190,6 @@ var BackendUsers = {
             };
 
             $.post(postUrl, postData, function(response) {
-                ///////////////////////////////////////////////////////
-                console.log('Validate Username Response:', response);
-                ///////////////////////////////////////////////////////
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 if (response == false) {
                     $input.css('border', '2px solid red');

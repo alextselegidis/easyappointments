@@ -1,10 +1,10 @@
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
@@ -12,10 +12,10 @@
 $(document).ready(function() {
     /**
      * Event: Add Appointment to Google Calendar "Click"
-     * 
+     *
      * This event handler adds the appointment to the users Google
      * Calendar Account. The event is going to be added to the "primary"
-     * calendar. In order to use the API the javascript client library 
+     * calendar. In order to use the API the javascript client library
      * provided by Google is necessary.
      */
     $('#add-to-google-calendar').click(function() {
@@ -26,33 +26,29 @@ $(document).ready(function() {
             'immediate'     : false
         }, handleAuthResult);
     });
-    
+
     /**
      * This method handles the authorization result. If the user granted access
      * to his data, then the appointment is going to be added to his calendar.
-     * 
+     *
      * @param {bool} authResult The user's auth result.
      */
     function handleAuthResult(authResult) {
         try {
-            ///////////////////////////////////////////////////////////
-            console.log('Google Authorization Result: ', authResult);
-            ///////////////////////////////////////////////////////////
-            
             if (authResult.error) {
                 throw 'Could not authorize user.';
             }
-            
+
             // The user has granted access, add the appointment to his calendar.
             // Before making the event.insert request the the event resource data
             // must be prepared.
             var appointmentData = GlobalVariables.appointmentData;
-            
+
             appointmentData['start_datetime'] = GeneralFunctions.ISODateString(
-                    Date.parseExact(appointmentData['start_datetime'], 
+                    Date.parseExact(appointmentData['start_datetime'],
                     'yyyy-MM-dd HH:mm:ss'));
             appointmentData['end_datetime'] = GeneralFunctions.ISODateString(
-                    Date.parseExact(appointmentData['end_datetime'], 
+                    Date.parseExact(appointmentData['end_datetime'],
                     'yyyy-MM-dd HH:mm:ss'));
 
             // Create a valid Google Calendar API resource for the new event.
@@ -81,21 +77,17 @@ $(document).ready(function() {
                 });
 
                 request.execute(function(response) {
-                    /////////////////////////////////////////////////
-                    console.log('Google API Response:', response);
-                    /////////////////////////////////////////////////
-                    
                     if (!response.error) {
                         $('#success-frame').append(
                             '<br><br>' +
                             '<div class="alert alert-success col-xs-12">' +
                                 '<h4>' + EALang['success'] + '</h4>' +
                                 '<p>' +
-                                    EALang['appointment_added_to_google_calendar'] + 
-                                    '<br>' + 
-                                    '<a href="' + response.htmlLink + '" target="_blank">' + 
+                                    EALang['appointment_added_to_google_calendar'] +
+                                    '<br>' +
+                                    '<a href="' + response.htmlLink + '" target="_blank">' +
                                         EALang['view_appointment_in_google_calendar'] +
-                                    '</a>' + 
+                                    '</a>' +
                                 '</p>' +
                             '</div>'
                         );
@@ -106,17 +98,16 @@ $(document).ready(function() {
                 });
             });
         } catch(exc) {
-            // The user denied access or something else happened, display 
+            // The user denied access or something else happened, display
             // corresponding message on the screen.
             $('#success-frame').append(
-                '<div class="alert alert-danger col-xs-12">' + 
-                    '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' + 
-                    '<p>' + 
+                '<div class="alert alert-danger col-xs-12">' +
+                    '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' +
+                    '<p>' +
                         EALang['could_not_add_to_google_calendar'] +
                         '<pre>' + exc + '</pre>' +
                     '</p>' +
                 '</div>');
-            console.log('Add To Google Calendar Exception', exc);
         }
-    }   
+    }
 });

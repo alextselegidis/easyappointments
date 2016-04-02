@@ -310,10 +310,6 @@ var BackendCalendar = {
                 'url': getUrl,
                 'dataType': 'json',
                 'success': function(response) {
-                    /////////////////////////////////////////////////
-                    console.log('Google Sync Response:', response);
-                    /////////////////////////////////////////////////
-
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                         GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
@@ -445,10 +441,6 @@ var BackendCalendar = {
                     };
 
                     $.post(postUrl, postData, function(response) {
-                        /////////////////////////////////////////////////////////
-                        console.log('Delete Appointment Response :', response);
-                        /////////////////////////////////////////////////////////
-
                         $('#message_box').dialog('close');
 
                         if (response.exceptions) {
@@ -487,10 +479,6 @@ var BackendCalendar = {
                 };
 
                 $.post(postUrl, postData, function(response) {
-                    /////////////////////////////////////////////////////////
-                    console.log('Delete Unavailable Response :', response);
-                    /////////////////////////////////////////////////////////
-
                     $('#message_box').dialog('close');
 
                     if (response.exceptions) {
@@ -642,10 +630,6 @@ var BackendCalendar = {
             }
 
             var successCallback = function(response) {
-                ///////////////////////////////////////////////////////////////////
-                //console.log('Save Unavailable Time Period Response:', response);
-                ///////////////////////////////////////////////////////////////////
-
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
@@ -682,10 +666,6 @@ var BackendCalendar = {
             };
 
             var errorCallback = function(jqXHR, textStatus, errorThrown) {
-                ////////////////////////////////////////////////////////////////////////
-                console.log('Save Unavailable Error:', jqXHR, textStatus, errorThrown);
-                ////////////////////////////////////////////////////////////////////////
-
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
                         'the operation could not complete due to server communication errors.');
 
@@ -746,10 +726,6 @@ var BackendCalendar = {
                                 'provider_id': $('#select-filter-item').val()
                             };
                             $.post(postUrl, postData, function(response) {
-                                ///////////////////////////////////////////////////////////////////
-                                console.log('Get Available Google Calendars Response', response);
-                                ///////////////////////////////////////////////////////////////////
-
                                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
                                 $('#google-calendar').empty();
@@ -941,10 +917,6 @@ var BackendCalendar = {
                 timeout: 1000,
                 global: false,
                 success: function(response) {
-                    /////////////////////////////////////////////////////////////
-                    // console.log('Filter Customers Appointment Response:', response);
-                    /////////////////////////////////////////////////////////////
-
                     $list.empty();
                     $.each(response, function(index, c) {
                         $list.append('<div data-id="' + c.id + '">'
@@ -961,10 +933,6 @@ var BackendCalendar = {
                     });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    //////////////////////////////////////////////////////////////////
-                    // console.log('Filter Customers Appointment Error:', jqXHR, textStatus, errorThrown);
-                    //////////////////////////////////////////////////////////////////
-
                     // If there is any error on the request, search by the local client database.
                     $list.empty();
                     $.each(GlobalVariables.customers, function(index, c) {
@@ -1037,10 +1005,7 @@ var BackendCalendar = {
                 'provider_id': $('#select-filter-item').val(),
                 'calendar_id': $('#google-calendar').val()
             };
-            $.post(postUrl, postData, function(response){
-                ///////////////////////////////////////////////////////////
-                console.log('Select Google Calendar Response', response);
-                ///////////////////////////////////////////////////////////
+            $.post(postUrl, postData, function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) return;
                 Backend.displayNotification(EALang['google_calendar_selected']);
                 $('#select-google-calendar').modal('hide');
@@ -1089,10 +1054,6 @@ var BackendCalendar = {
         };
 
         $.post(postUrl, postData, function(response) {
-            ////////////////////////////////////////////////////////////////////
-            console.log('Refresh Calendar Appointments Response :', response);
-            ////////////////////////////////////////////////////////////////////
-
             if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
             // :: ADD APPOINTMENTS TO CALENDAR
@@ -1364,20 +1325,11 @@ var BackendCalendar = {
             'data': postData,
             'dataType': 'json',
             'success': function(response) {
-                /////////////////////////////////////////////////////////////
-                console.log('Save Appointment Data Response:', response);
-                /////////////////////////////////////////////////////////////
-
                 if (successCallback !== undefined) {
                     successCallback(response);
                 }
             },
             'error': function(jqXHR, textStatus, errorThrown) {
-                //////////////////////////////////////////////////////////////////
-                console.log('Save Appointment Data Error:', jqXHR, textStatus,
-                        errorThrown);
-                //////////////////////////////////////////////////////////////////
-
                 if (errorCallback !== undefined) {
                     errorCallback();
                 }
@@ -1786,8 +1738,6 @@ var BackendCalendar = {
             }
 
             var successCallback = function(response) {
-                console.log('Drop Unavailable Event Response:', response);
-
                 if (response.exceptions) {
                     response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                     GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
@@ -1887,10 +1837,6 @@ var BackendCalendar = {
         };
 
         $.post(postUrl, postData, function(response) {
-            ////////////////////////////////////////////////////////////
-            //console.log('Disable Provider Sync Response :', response);
-            ////////////////////////////////////////////////////////////
-
             if (response.exceptions) {
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                 GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);

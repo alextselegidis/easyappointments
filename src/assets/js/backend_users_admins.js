@@ -176,10 +176,6 @@ AdminsHelper.prototype.bindEventHandlers = function() {
  * then the update operation is going to be executed.
  */
 AdminsHelper.prototype.save = function(admin) {
-    ////////////////////////////////////////////
-    //console.log('Admin data to save:', admin);
-    ////////////////////////////////////////////
-
     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
     var postData = {
         'csrfToken': GlobalVariables.csrfToken,
@@ -187,9 +183,6 @@ AdminsHelper.prototype.save = function(admin) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ////////////////////////////////////////////////
-        //console.log('Save Admin Response:', response);
-        ////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['admin_saved']);
         BackendUsers.helper.resetForm();
@@ -211,9 +204,6 @@ AdminsHelper.prototype.delete = function(id) {
     };
 
     $.post(postUrl, postData, function(response) {
-        //////////////////////////////////////////////////
-        //console.log('Delete admin response:', response);
-        //////////////////////////////////////////////////
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
         Backend.displayNotification(EALang['admin_deleted']);
         BackendUsers.helper.resetForm();
@@ -342,10 +332,6 @@ AdminsHelper.prototype.filter = function(key, selectId, display) {
     };
 
     $.post(postUrl, postData, function(response) {
-        ///////////////////////////////////////////////////
-        //console.log('Filter admins response:', response);
-        ///////////////////////////////////////////////////
-
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
         BackendUsers.helper.filterResults = response;
