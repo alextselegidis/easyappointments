@@ -10,257 +10,31 @@
  * ---------------------------------------------------------------------------- */
 
 /**
+ * Backend Calendar
+ *
  * This namespace contains functions that are used by the backend calendar page.
  *
  * @namespace BackendCalendar
  */
-var BackendCalendar = {
-    // :: CONSTANTS
-    FILTER_TYPE_PROVIDER: 'provider',
-    FILTER_TYPE_SERVICE: 'service',
+window.BackendCalendar = window.BackendCalendar || {};
 
-    // :: VALIABLES
-    lastFocusedEventData: undefined, // Contain event data for later use.
+(function(exports) {
 
-    /**
-     * This function makes the necessary initialization for the default backend
-     * calendar page. If this namespace is used in another page then this function
-     * might not be needed.
-     *
-     * @param {bool} defaultEventHandlers (OPTIONAL = TRUE) Determines whether the
-     * default event handlers will be set for the current page.
-     */
-    initialize: function(defaultEventHandlers) {
-        if (defaultEventHandlers === undefined) defaultEventHandlers = true;
+    'use strict';
 
-        // Dynamic Date Formats
-        var columnFormat = {};
+    // Constants
+    var FILTER_TYPE_PROVIDER =  'provider',
+        FILTER_TYPE_SERVICE = 'service';
 
-        switch(GlobalVariables.dateFormat) {
-            case 'DMY':
-                columnFormat = {
-                    'month': 'ddd',
-                    'week': 'ddd dd/MM',
-                    'day': 'dddd dd/MM'
-                };
-
-                break;
-            case 'MDY':
-            case 'YMD':
-                columnFormat = {
-                    'month': 'ddd',
-                    'week': 'ddd MM/dd',
-                    'day': 'dddd MM/dd'
-                };
-                break;
-            default:
-                throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
-        }
-
-
-        // Initialize page calendar
-        $('#calendar').fullCalendar({
-            'defaultView': 'agendaWeek',
-            'height': BackendCalendar.getCalendarHeight(),
-            'editable': true,
-            'firstDay': 1, // Monday
-            'slotMinutes': 30,
-            'snapMinutes': 15,
-            'axisFormat': 'HH:mm',
-            'timeFormat': 'HH:mm{ - HH:mm}',
-            'allDayText': EALang['all_day'],
-            'columnFormat': columnFormat,
-            'titleFormat': {
-                'month': 'MMMM yyyy',
-                'week': "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",
-                'day': 'dddd, MMMM d, yyyy'
-            },
-            'header': {
-                'left': 'prev,next today',
-                'center': 'title',
-                'right': 'agendaDay,agendaWeek,month'
-            },
-
-            // Translations
-            'monthNames': [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                           EALang['may'], EALang['june'], EALang['july'], EALang['august'],
-                           EALang['september'],EALang['october'], EALang['november'],
-                           EALang['december']],
-           	'monthNamesShort': [EALang['january'].substr(0,3), EALang['february'].substr(0,3),
-           	        EALang['march'].substr(0,3), EALang['april'].substr(0,3),
-                    EALang['may'].substr(0,3), EALang['june'].substr(0,3),
-                    EALang['july'].substr(0,3), EALang['august'].substr(0,3),
-                    EALang['september'].substr(0,3),EALang['october'].substr(0,3),
-                    EALang['november'].substr(0,3), EALang['december'].substr(0,3)],
-            'dayNames': [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
-	                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-	        'dayNamesShort': [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3),
-	               EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3),
-	               EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-	               EALang['saturday'].substr(0,3)],
-	        'dayNamesMin': [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2),
-	               EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2),
-	               EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-	               EALang['saturday'].substr(0,2)],
-            'buttonText': {
-            	'today': EALang['today'],
-            	'day': EALang['day'],
-            	'week': EALang['week'],
-            	'month': EALang['month']
-            },
-
-            // Calendar events need to be declared on initialization.
-            'windowResize': BackendCalendar.calendarWindowResize,
-            'viewDisplay': BackendCalendar.calendarViewDisplay,
-            'dayClick': BackendCalendar.calendarDayClick,
-            'eventClick': BackendCalendar.calendarEventClick,
-            'eventResize': BackendCalendar.calendarEventResize,
-            'eventDrop': BackendCalendar.calendarEventDrop,
-            'eventAfterAllRender': function(view) {
-                BackendCalendar.convertTitlesToHtml();
-            }
-        });
-
-        // Trigger once to set the proper footer position after calendar
-        // initialization.
-        BackendCalendar.calendarWindowResize();
-
-        // Fill the select listboxes of the page.
-        if (GlobalVariables.availableProviders.length > 0) {
-            var optgroupHtml = '<optgroup label="' + EALang['providers'] + '" type="providers-group">';
-            $.each(GlobalVariables.availableProviders, function(index, provider) {
-                var hasGoogleSync = (provider['settings']['google_sync'] === '1')
-                        ? 'true' : 'false';
-
-                optgroupHtml += '<option value="' + provider['id'] + '" '
-                        + 'type="' + BackendCalendar.FILTER_TYPE_PROVIDER + '" '
-                        + 'google-sync="' + hasGoogleSync + '">'
-                        + provider['first_name'] + ' ' + provider['last_name']
-                        + '</option>';
-            });
-            optgroupHtml += '</optgroup>';
-            $('#select-filter-item').append(optgroupHtml);
-        }
-
-        if (GlobalVariables.availableServices.length > 0) {
-            optgroupHtml = '<optgroup label="' + EALang['services'] + '" type="services-group">';
-            $.each(GlobalVariables.availableServices, function(index, service) {
-                optgroupHtml += '<option value="' + service['id'] + '" ' +
-                        'type="' + BackendCalendar.FILTER_TYPE_SERVICE + '">' +
-                        service['name'] + '</option>';
-            });
-            optgroupHtml += '</optgroup>';
-            $('#select-filter-item').append(optgroupHtml);
-        }
-
-        // Privileges Checks
-        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
-            $('#select-filter-item optgroup:eq(0)')
-                    .find('option[value="' + GlobalVariables.user.id + '"]').prop('selected', true);
-            $('#select-filter-item').prop('disabled', true);
-        }
-
-        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
-            $('#select-filter-item optgroup:eq(1)').remove();
-        }
-
-        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
-            // Remove the providers that are not connected to the secretary.
-            $('#select-filter-item option[type="provider"]').each(function(index, option) {
-                var found = false;
-                $.each(GlobalVariables.secretaryProviders, function(index, id) {
-                    if ($(option).val() == id) {
-                        found = true;
-                        return false;
-                    }
-                });
-
-                if (!found)
-                    $(option).remove();
-            });
-
-            if ($('#select-filter-item option[type="provider"]').length == 0) {
-                $('#select-filter-item optgroup[type="providers-group"]').remove();
-            }
-        }
-
-        // :: BIND THE DEFAULT EVENT HANDLERS (IF NEEDED)
-        if (defaultEventHandlers === true) {
-            BackendCalendar.bindEventHandlers();
-            $('#select-filter-item').trigger('change');
-        }
-
-        // :: DISPLAY EDIT DIALOG IF APPOINTMENT HASH IS PROVIDED
-        if (GlobalVariables.editAppointment != null) {
-            var $dialog = $('#manage-appointment');
-            var appointment = GlobalVariables.editAppointment;
-            BackendCalendar.resetAppointmentDialog();
-
-            $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
-            $dialog.find('#appointment-id').val(appointment['id']);
-            $dialog.find('#select-service').val(appointment['id_services']).change();
-            $dialog.find('#select-provider').val(appointment['id_users_provider']);
-
-            // Set the start and end datetime of the appointment.
-            var startDatetime = Date.parseExact(appointment['start_datetime'],
-                    'yyyy-MM-dd HH:mm:ss');
-            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
-
-            var endDatetime = Date.parseExact(appointment['end_datetime'],
-                    'yyyy-MM-dd HH:mm:ss');
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
-
-            var customer = appointment['customer'];
-            $dialog.find('#customer-id').val(appointment['id_users_customer']);
-            $dialog.find('#first-name').val(customer['first_name']);
-            $dialog.find('#last-name').val(customer['last_name']);
-            $dialog.find('#email').val(customer['email']);
-            $dialog.find('#phone-number').val(customer['phone_number']);
-            $dialog.find('#address').val(customer['address']);
-            $dialog.find('#city').val(customer['city']);
-            $dialog.find('#zip-code').val(customer['zip_code']);
-            $dialog.find('#appointment-notes').val(appointment['notes']);
-            $dialog.find('#customer-notes').val(customer['notes']);
-
-            $dialog.modal('show');
-        }
-
-        // Apply qtip to control tooltips.
-        $('#calendar-toolbar button').qtip({
-            position: {
-                my: 'top center',
-                at: 'bottom center'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
-
-        $('#select-filter-item').qtip({
-            position: {
-                my: 'middle left',
-                at: 'middle right'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
-
-        // Fine tune the footer's position only for this page.
-        if (window.innerHeight < 700) {
-            $('#footer').css('position', 'static');
-        }
-
-        if ($('#select-filter-item option').length == 0)
-            $('#calendar-actions button').prop('disabled', true);
-    },
+    // Variables
+    var lastFocusedEventData; // Contains event data for later use.
 
     /**
      * This method binds the default event handlers for the backend calendar
      * page. If you do not need the default handlers then initialize the page
      * by setting the "defaultEventHandlers" argument to "false".
      */
-    bindEventHandlers: function() {
+    function _bindEventHandlers() {
         /**
          * Event: Calendar Filter Item "Change"
          *
@@ -268,7 +42,7 @@ var BackendCalendar = {
          * display them on the calendar.
          */
         $('#select-filter-item').change(function() {
-            BackendCalendar.refreshCalendarAppointments(
+            _refreshCalendarAppointments(
                     $('#calendar'),
                     $('#select-filter-item').val(),
                     $('#select-filter-item option:selected').attr('type'),
@@ -277,15 +51,14 @@ var BackendCalendar = {
 
             // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type')
-                    === BackendCalendar.FILTER_TYPE_SERVICE) {
+                    === FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
-                		.prop('disabled', true);
+                        .prop('disabled', true);
             } else {
 
-            	$('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
-            			.prop('disabled', false);
-                // If the user has already the sync enabled then apply the proper
-                // style changes.
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable')
+                        .prop('disabled', false);
+                // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').addClass('btn-danger enabled');
                     $('#enable-sync span:eq(1)').text(EALang['disable_sync']);
@@ -304,16 +77,17 @@ var BackendCalendar = {
          * Trigger the synchronization algorithm.
          */
         $('#google-sync').click(function() {
-            var getUrl = GlobalVariables.baseUrl + '/index.php/google/sync/' + $('#select-filter-item').val();
+            var url = GlobalVariables.baseUrl + '/index.php/google/sync/' + $('#select-filter-item').val();
             $.ajax({
-                'type': 'GET',
-                'url': getUrl,
-                'dataType': 'json',
-                'success': function(response) {
+                url: url,
+                type: 'GET',
+                dataType: 'json'
+            })
+                .done(function(response) {
                     if (response.exceptions) {
                         response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                         GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                        		GeneralFunctions.EXCEPTIONS_MESSAGE);
+                                GeneralFunctions.EXCEPTIONS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
                         return;
                     }
@@ -321,17 +95,16 @@ var BackendCalendar = {
                     if (response.warnings) {
                         response.warnings = GeneralFunctions.parseExceptions(response.warnings);
                         GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
-                        		GeneralFunctions.WARNINGS_MESSAGE);
+                                GeneralFunctions.WARNINGS_MESSAGE);
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
 
                     Backend.displayNotification(EALang['google_sync_completed']);
                     $('#reload-appointments').trigger('click');
-                },
-                'error': function(jqXHR, textStatus, errorThrown) {
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
                     Backend.displayNotification(EALang['google_sync_failed']);
-                }
-            });
+                });
         });
 
         /**
@@ -363,11 +136,11 @@ var BackendCalendar = {
 
             var $dialog;
 
-            if (BackendCalendar.lastFocusedEventData.data.is_unavailable == false) {
-                var appointment = BackendCalendar.lastFocusedEventData.data;
+            if (lastFocusedEventData.data.is_unavailable == false) {
+                var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
 
-                BackendCalendar.resetAppointmentDialog();
+                _resetAppointmentDialog();
 
                 // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
                 $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
@@ -398,14 +171,14 @@ var BackendCalendar = {
                 $dialog.find('#appointment-notes').val(appointment['notes']);
                 $dialog.find('#customer-notes').val(customer['notes']);
             } else {
-                var unavailable = BackendCalendar.lastFocusedEventData.data;
+                var unavailable = lastFocusedEventData.data;
 
                 // Replace string date values with actual date objects.
-                unavailable.start_datetime = GeneralFunctions.clone(BackendCalendar.lastFocusedEventData.start);
-                unavailable.end_datetime = GeneralFunctions.clone(BackendCalendar.lastFocusedEventData.end);
+                unavailable.start_datetime = GeneralFunctions.clone(lastFocusedEventData.start);
+                unavailable.end_datetime = GeneralFunctions.clone(lastFocusedEventData.end);
 
                 $dialog = $('#manage-unavailable');
-                BackendCalendar.resetUnavailableDialog();
+                _resetUnavailableDialog();
 
                 // :: APPLY UNAVAILABLE DATA TO DIALOG
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
@@ -429,14 +202,14 @@ var BackendCalendar = {
         $(document).on('click', '.delete-popover', function() {
             $(this).parents().eq(2).remove(); // Hide the popover
 
-            if (BackendCalendar.lastFocusedEventData.data.is_unavailable == false) {
+            if (lastFocusedEventData.data.is_unavailable == false) {
                 var messageButtons = {};
                 messageButtons['OK'] = function() {
                     var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
 
                     var postData = {
                         'csrfToken': GlobalVariables.csrfToken,
-                        'appointment_id' : BackendCalendar.lastFocusedEventData.data['id'],
+                        'appointment_id' : lastFocusedEventData.data['id'],
                         'delete_reason': $('#delete-reason').val()
                     };
 
@@ -475,7 +248,7 @@ var BackendCalendar = {
 
                 var postData = {
                     'csrfToken': GlobalVariables.csrfToken,
-                    'unavailable_id' : BackendCalendar.lastFocusedEventData.data.id
+                    'unavailable_id' : lastFocusedEventData.data.id
                 };
 
                 $.post(postUrl, postData, function(response) {
@@ -517,7 +290,7 @@ var BackendCalendar = {
          */
         $('#manage-appointment #save-appointment').click(function() {
             // Before doing anything the appointment data need to be validated.
-            if (!BackendCalendar.validateAppointmentForm()) {
+            if (!_validateAppointmentForm()) {
                 return; // validation failed
             }
 
@@ -593,8 +366,7 @@ var BackendCalendar = {
             };
 
             // :: CALL THE UPDATE APPOINTMENT METHOD
-            BackendCalendar.saveAppointment(appointment, customer,
-                    successCallback, errorCallback);
+            _saveAppointment(appointment, customer, successCallback, errorCallback);
         });
 
         /**
@@ -673,7 +445,7 @@ var BackendCalendar = {
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
             };
 
-            BackendCalendar.saveUnavailable(unavailable, successCallback, errorCallback);
+            _saveUnavailable(unavailable, successCallback, errorCallback);
         });
 
         /**
@@ -750,7 +522,7 @@ var BackendCalendar = {
                         provider['settings']['google_sync'] = '0';
                         provider['settings']['google_token'] = null;
 
-                        BackendCalendar.disableProviderSync(provider['id']);
+                        _disableProviderSync(provider['id']);
 
                         $('#enable-sync').removeClass('btn-danger enabled');
                         $('#enable-sync span:eq(1)').text(EALang['enable_sync']);
@@ -770,7 +542,7 @@ var BackendCalendar = {
          * the user to create a new appointment.
          */
         $('#insert-appointment').click(function() {
-            BackendCalendar.resetAppointmentDialog();
+            _resetAppointmentDialog();
             var $dialog = $('#manage-appointment');
 
             // Set the selected filter item and find the next appointment time
@@ -827,7 +599,7 @@ var BackendCalendar = {
          * a time period where he cannot accept any appointments.
          */
         $('#insert-unavailable').click(function() {
-            BackendCalendar.resetUnavailableDialog();
+            _resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
 
             // Set the default datetime values.
@@ -1018,7 +790,7 @@ var BackendCalendar = {
         $('#close-calendar').click(function() {
             $('#select-google-calendar').modal('hide');
         });
-    },
+    }
 
     /**
      * This method calculates the proper calendar height, in order to be displayed
@@ -1026,11 +798,11 @@ var BackendCalendar = {
      *
      * @return {int} Returns the calendar element height in pixels.
      */
-    getCalendarHeight: function () {
+    function _getCalendarHeight() {
         var result = window.innerHeight - $('#footer').height() - $('#header').height()
                 - $('#calendar-toolbar').height() - 50; // 80 for fine tuning
         return (result > 500) ? result : 500; // Minimum height is 500px
-    },
+    }
 
     /**
      * This method reloads the registered appointments for the selected date period
@@ -1038,14 +810,13 @@ var BackendCalendar = {
      *
      * @param {object} $calendar The calendar jQuery object.
      * @param {int} recordId The selected record id.
-     * @param {string} filterType The filter type, could be either FILTER_TYPE_PROVIDER
-     * or FILTER_TYPE_SERVICE.
+     * @param {string} filterType The filter type, could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
      * @param {date} startDate Visible start date of the calendar.
      * @param {type} endDate Visible end date of the calendar.
      */
-    refreshCalendarAppointments: function($calendar, recordId, filterType, startDate, endDate) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments';
-        var postData = {
+    function _refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments',
+            postData = {
             'csrfToken': GlobalVariables.csrfToken,
             'record_id': recordId,
             'start_date': startDate.toString('yyyy-MM-dd'),
@@ -1081,7 +852,7 @@ var BackendCalendar = {
             // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
             var calendarView = $calendar.fullCalendar('getView').name;
 
-            if (filterType === BackendCalendar.FILTER_TYPE_PROVIDER && calendarView !== 'month') {
+            if (filterType === FILTER_TYPE_PROVIDER && calendarView !== 'month') {
                 $.each(GlobalVariables.availableProviders, function(index, provider) {
                     if (provider['id'] == recordId) {
                         var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
@@ -1288,11 +1059,9 @@ var BackendCalendar = {
                         }
                     }
                 });
-                // Convert the titles to html code.
-                //BackendCalendar.convertTitlesToHtml();
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
-    },
+    }
 
     /**
      * This method stores the changes of an already registered appointment
@@ -1307,35 +1076,34 @@ var BackendCalendar = {
      * @param {function} errorCallback (OPTIONAL) If defined, this function is
      * going to be executed on post failure.
      */
-    saveAppointment: function(appointment, customer, successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
-
-        var postData = {
-            'csrfToken': GlobalVariables.csrfToken,
-            'appointment_data': JSON.stringify(appointment)
-        };
+    function _saveAppointment(appointment, customer, successCallback, errorCallback) {
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment',
+            postData = {
+                'csrfToken': GlobalVariables.csrfToken,
+                'appointment_data': JSON.stringify(appointment)
+            };
 
         if (customer !== undefined) {
             postData['customer_data'] = JSON.stringify(customer);
         }
 
         $.ajax({
-            'type': 'POST',
-            'url': postUrl,
-            'data': postData,
-            'dataType': 'json',
-            'success': function(response) {
+            url: postUrl,
+            type: 'POST',
+            data: postData,
+            dataType: 'json'
+        })
+            .done(function(response) {
                 if (successCallback !== undefined) {
                     successCallback(response);
                 }
-            },
-            'error': function(jqXHR, textStatus, errorThrown) {
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
                 if (errorCallback !== undefined) {
                     errorCallback();
                 }
-            }
-        });
-    },
+            });
+    }
 
     /**
      * Save unavailable period to database.
@@ -1344,7 +1112,7 @@ var BackendCalendar = {
      * @param {function} successCallback The ajax success callback function.
      * @param {function} errorCallback The ajax failure callback function.
      */
-    saveUnavailable: function(unavailable, successCallback, errorCallback) {
+    function _saveUnavailable(unavailable, successCallback, errorCallback) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
 
         var postData = {
@@ -1359,7 +1127,7 @@ var BackendCalendar = {
             'success': successCallback,
             'error': errorCallback
         });
-    },
+    }
 
     /**
      * Calendar Event "Resize" Callback
@@ -1370,7 +1138,7 @@ var BackendCalendar = {
      *
      * @see updateAppointmentData()
      */
-    calendarEventResize: function(event, dayDelta, minuteDelta, revertFunc,
+    function _calendarEventResize(event, dayDelta, minuteDelta, revertFunc,
             jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
@@ -1442,8 +1210,7 @@ var BackendCalendar = {
             };
 
             // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-            BackendCalendar.saveAppointment(appointment, undefined,
-                    successCallback, undefined);
+            _saveAppointment(appointment, undefined, successCallback, undefined);
         } else {
             // :: UPDATE UNAVAILABLE TIME PERIOD
             var unavailable = {
@@ -1497,9 +1264,9 @@ var BackendCalendar = {
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            BackendCalendar.saveUnavailable(unavailable, successCallback, undefined);
+            _saveUnavailable(unavailable, successCallback, undefined);
         }
-    },
+    }
 
     /**
      * Calendar Window "Resize" Callback
@@ -1508,12 +1275,11 @@ var BackendCalendar = {
      * window. Nevertheless, if the window becomes very small the the calendar
      * won't shrink anymore.
      *
-     * @see getCalendarHeight()
+     * @see _getCalendarHeight()
      */
-    calendarWindowResize: function(view) {
-        $('#calendar').fullCalendar('option', 'height',
-                BackendCalendar.getCalendarHeight());
-    },
+    function _calendarWindowResize(view) {
+        $('#calendar').fullCalendar('option', 'height', _getCalendarHeight());
+    }
 
     /**
      * Calendar Day "Click" Callback
@@ -1521,12 +1287,12 @@ var BackendCalendar = {
      * When the user clicks on a day square on the calendar, then he will
      * automatically be transfered to that day view calendar.
      */
-    calendarDayClick: function(date, allDay, jsEvent, view) {
+    function _calendarDayClick(date, allDay, jsEvent, view) {
         if (allDay) {
             $('#calendar').fullCalendar('gotoDate', date);
             $('#calendar').fullCalendar('changeView', 'agendaDay');
         }
-    },
+    }
 
     /**
      * Calendar Event "Click" Callback
@@ -1534,7 +1300,7 @@ var BackendCalendar = {
      * When the user clicks on an appointment object on the calendar, then
      * a data preview popover is display above the calendar item.
      */
-    calendarEventClick: function(event, jsEvent, view) {
+    function _calendarEventClick(event, jsEvent, view) {
         $('.popover').remove(); // Close all open popovers.
 
         var html, displayEdit, displayDelete;
@@ -1619,14 +1385,14 @@ var BackendCalendar = {
             'trigger': 'manual'
         });
 
-        BackendCalendar.lastFocusedEventData = event;
+        lastFocusedEventData = event;
         $(jsEvent.target).popover('toggle');
 
         // Fix popover position
         if ($('.popover').length > 0) {
             if ($('.popover').position().top < 200) $('.popover').css('top', '200px');
         }
-    },
+    }
 
     /**
      * Calendar Event "Drop" Callback
@@ -1635,7 +1401,7 @@ var BackendCalendar = {
      * an event into a different position on the calendar. We need to update
      * the database with this change. This is done via an ajax call.
      */
-    calendarEventDrop : function(event, dayDelta, minuteDelta, allDay,
+    function _calendarEventDrop(event, dayDelta, minuteDelta, allDay,
             revertFunc, jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
@@ -1726,8 +1492,7 @@ var BackendCalendar = {
             };
 
             // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-            BackendCalendar.saveAppointment(appointment, undefined,
-                    successCallback, undefined);
+            _saveAppointment(appointment, undefined, successCallback, undefined);
         } else {
             // :: UPDATE UNAVAILABLE TIME PERIOD
             var unavailable = {
@@ -1788,9 +1553,9 @@ var BackendCalendar = {
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            BackendCalendar.saveUnavailable(unavailable, successCallback, undefined);
+            _saveUnavailable(unavailable, successCallback, undefined);
         }
-    },
+    }
 
     /**
      * Calendar "View Display" Callback
@@ -1798,12 +1563,12 @@ var BackendCalendar = {
      * Whenever the calendar changes or refreshes its view certain actions
      * need to be made, in order to display proper information to the user.
      */
-    calendarViewDisplay : function(view) {
+    function _calendarViewDisplay(view) {
         if ($('#select-filter-item').val() === null) {
              return;
         }
 
-        BackendCalendar.refreshCalendarAppointments(
+        _refreshCalendarAppointments(
                 $('#calendar'),
                 $('#select-filter-item').val(),
                 $('#select-filter-item option:selected').attr('type'),
@@ -1820,14 +1585,14 @@ var BackendCalendar = {
         $('.fv-events').each(function(index, eventHandle) {
             $(eventHandle).popover();
         });
-    },
+    }
 
     /**
      * This method disables the google synchronization for a specific provider.
      *
      * @param {int} providerId The selected provider record id.
      */
-    disableProviderSync: function(providerId) {
+    function _disableProviderSync(providerId) {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
@@ -1844,14 +1609,14 @@ var BackendCalendar = {
                 return;
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
-    },
+    }
 
     /**
      * This method resets the manage appointment dialog modal to its initial
      * state. After that you can make any modification might be necessary in
      * order to bring the dialog to the desired state.
      */
-    resetAppointmentDialog: function() {
+    function _resetAppointmentDialog() {
         var $dialog = $('#manage-appointment');
 
         // :: EMPTY FORM FIELDS
@@ -1973,7 +1738,7 @@ var BackendCalendar = {
             firstDay: 1
         });
         $dialog.find('#end-datetime').datepicker('setDate', endDatetime);
-    },
+    }
 
     /**
      * Validate the manage appointment dialog data. Validation checks need to
@@ -1981,7 +1746,7 @@ var BackendCalendar = {
      *
      * @returns {bool} Returns the validation result.
      */
-    validateAppointmentForm: function() {
+    function _validateAppointmentForm() {
         var $dialog = $('#manage-appointment');
 
         // Reset previous validation css formating.
@@ -2021,13 +1786,13 @@ var BackendCalendar = {
             $dialog.find('.modal-message').addClass('alert-danger').text(exc).removeClass('hidden');
             return false;
         }
-    },
+    }
 
     /**
      * Reset the "#manage-unavailable" dialog. Use this method to bring the dialog
      * to the initial state before it becomes visible to the user.
      */
-    resetUnavailableDialog: function() {
+    function _resetUnavailableDialog() {
         var $dialog = $('#manage-unavailable');
 
         $dialog.find('#unavailable-id').val('');
@@ -2110,7 +1875,7 @@ var BackendCalendar = {
 
         // Clear the unavailable notes field.
         $dialog.find('#unavailable-notes').val('');
-    },
+    }
 
     /**
      * On some calendar events the titles contain html markup that is not
@@ -2119,7 +1884,7 @@ var BackendCalendar = {
      * $.html() method. So in order for the title to displya the html properly
      * we convert all the .fc-event-titles where needed into html.
      */
-    convertTitlesToHtml: function() {
+    function _convertTitlesToHtml() {
         // Convert the titles to html code.
         $('.fc-custom').each(function() {
             var title = $(this).find('.fc-event-title').text();
@@ -2128,4 +1893,239 @@ var BackendCalendar = {
             $(this).find('.fc-event-time').html(time);
         });
     }
-};
+
+    /**
+     * This function makes the necessary initialization for the default backend
+     * calendar page. If this namespace is used in another page then this function
+     * might not be needed.
+     *
+     * @param {bool} defaultEventHandlers (OPTIONAL = TRUE) Determines whether the
+     * default event handlers will be set for the current page.
+     */
+    exports.initialize = function(defaultEventHandlers) {
+        if (defaultEventHandlers === undefined) defaultEventHandlers = true;
+
+        // Dynamic Date Formats
+        var columnFormat = {};
+
+        switch(GlobalVariables.dateFormat) {
+            case 'DMY':
+                columnFormat = {
+                    'month': 'ddd',
+                    'week': 'ddd dd/MM',
+                    'day': 'dddd dd/MM'
+                };
+
+                break;
+            case 'MDY':
+            case 'YMD':
+                columnFormat = {
+                    'month': 'ddd',
+                    'week': 'ddd MM/dd',
+                    'day': 'dddd MM/dd'
+                };
+                break;
+            default:
+                throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
+        }
+
+
+        // Initialize page calendar
+        $('#calendar').fullCalendar({
+            'defaultView': 'agendaWeek',
+            'height': _getCalendarHeight(),
+            'editable': true,
+            'firstDay': 1, // Monday
+            'slotMinutes': 30,
+            'snapMinutes': 15,
+            'axisFormat': 'HH:mm',
+            'timeFormat': 'HH:mm{ - HH:mm}',
+            'allDayText': EALang['all_day'],
+            'columnFormat': columnFormat,
+            'titleFormat': {
+                'month': 'MMMM yyyy',
+                'week': "MMMM d[ yyyy]{ '&#8212;'[ MMM] d, yyyy}",
+                'day': 'dddd, MMMM d, yyyy'
+            },
+            'header': {
+                'left': 'prev,next today',
+                'center': 'title',
+                'right': 'agendaDay,agendaWeek,month'
+            },
+
+            // Translations
+            'monthNames': [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
+                           EALang['may'], EALang['june'], EALang['july'], EALang['august'],
+                           EALang['september'],EALang['october'], EALang['november'],
+                           EALang['december']],
+            'monthNamesShort': [EALang['january'].substr(0,3), EALang['february'].substr(0,3),
+                    EALang['march'].substr(0,3), EALang['april'].substr(0,3),
+                    EALang['may'].substr(0,3), EALang['june'].substr(0,3),
+                    EALang['july'].substr(0,3), EALang['august'].substr(0,3),
+                    EALang['september'].substr(0,3),EALang['october'].substr(0,3),
+                    EALang['november'].substr(0,3), EALang['december'].substr(0,3)],
+            'dayNames': [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
+                        EALang['thursday'], EALang['friday'], EALang['saturday']],
+            'dayNamesShort': [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3),
+                   EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3),
+                   EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
+                   EALang['saturday'].substr(0,3)],
+            'dayNamesMin': [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2),
+                   EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2),
+                   EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
+                   EALang['saturday'].substr(0,2)],
+            'buttonText': {
+                'today': EALang['today'],
+                'day': EALang['day'],
+                'week': EALang['week'],
+                'month': EALang['month']
+            },
+
+            // Calendar events need to be declared on initialization.
+            'windowResize': _calendarWindowResize,
+            'viewDisplay': _calendarViewDisplay,
+            'dayClick': _calendarDayClick,
+            'eventClick': _calendarEventClick,
+            'eventResize': _calendarEventResize,
+            'eventDrop': _calendarEventDrop,
+            'eventAfterAllRender': function(view) {
+                _convertTitlesToHtml();
+            }
+        });
+
+        // Trigger once to set the proper footer position after calendar
+        // initialization.
+        _calendarWindowResize();
+
+        // Fill the select listboxes of the page.
+        if (GlobalVariables.availableProviders.length > 0) {
+            var optgroupHtml = '<optgroup label="' + EALang['providers'] + '" type="providers-group">';
+            $.each(GlobalVariables.availableProviders, function(index, provider) {
+                var hasGoogleSync = (provider['settings']['google_sync'] === '1')
+                        ? 'true' : 'false';
+
+                optgroupHtml += '<option value="' + provider['id'] + '" '
+                        + 'type="' + FILTER_TYPE_PROVIDER + '" '
+                        + 'google-sync="' + hasGoogleSync + '">'
+                        + provider['first_name'] + ' ' + provider['last_name']
+                        + '</option>';
+            });
+            optgroupHtml += '</optgroup>';
+            $('#select-filter-item').append(optgroupHtml);
+        }
+
+        if (GlobalVariables.availableServices.length > 0) {
+            optgroupHtml = '<optgroup label="' + EALang['services'] + '" type="services-group">';
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                optgroupHtml += '<option value="' + service['id'] + '" ' +
+                        'type="' + FILTER_TYPE_SERVICE + '">' +
+                        service['name'] + '</option>';
+            });
+            optgroupHtml += '</optgroup>';
+            $('#select-filter-item').append(optgroupHtml);
+        }
+
+        // Privileges Checks
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
+            $('#select-filter-item optgroup:eq(0)')
+                    .find('option[value="' + GlobalVariables.user.id + '"]').prop('selected', true);
+            $('#select-filter-item').prop('disabled', true);
+        }
+
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+            $('#select-filter-item optgroup:eq(1)').remove();
+        }
+
+        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+            // Remove the providers that are not connected to the secretary.
+            $('#select-filter-item option[type="provider"]').each(function(index, option) {
+                var found = false;
+                $.each(GlobalVariables.secretaryProviders, function(index, id) {
+                    if ($(option).val() == id) {
+                        found = true;
+                        return false;
+                    }
+                });
+
+                if (!found)
+                    $(option).remove();
+            });
+
+            if ($('#select-filter-item option[type="provider"]').length == 0) {
+                $('#select-filter-item optgroup[type="providers-group"]').remove();
+            }
+        }
+
+        // :: BIND THE DEFAULT EVENT HANDLERS (IF NEEDED)
+        if (defaultEventHandlers === true) {
+            _bindEventHandlers();
+            $('#select-filter-item').trigger('change');
+        }
+
+        // :: DISPLAY EDIT DIALOG IF APPOINTMENT HASH IS PROVIDED
+        if (GlobalVariables.editAppointment != null) {
+            var $dialog = $('#manage-appointment');
+            var appointment = GlobalVariables.editAppointment;
+            _resetAppointmentDialog();
+
+            $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
+            $dialog.find('#appointment-id').val(appointment['id']);
+            $dialog.find('#select-service').val(appointment['id_services']).change();
+            $dialog.find('#select-provider').val(appointment['id_users_provider']);
+
+            // Set the start and end datetime of the appointment.
+            var startDatetime = Date.parseExact(appointment['start_datetime'],
+                    'yyyy-MM-dd HH:mm:ss');
+            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
+
+            var endDatetime = Date.parseExact(appointment['end_datetime'],
+                    'yyyy-MM-dd HH:mm:ss');
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
+
+            var customer = appointment['customer'];
+            $dialog.find('#customer-id').val(appointment['id_users_customer']);
+            $dialog.find('#first-name').val(customer['first_name']);
+            $dialog.find('#last-name').val(customer['last_name']);
+            $dialog.find('#email').val(customer['email']);
+            $dialog.find('#phone-number').val(customer['phone_number']);
+            $dialog.find('#address').val(customer['address']);
+            $dialog.find('#city').val(customer['city']);
+            $dialog.find('#zip-code').val(customer['zip_code']);
+            $dialog.find('#appointment-notes').val(appointment['notes']);
+            $dialog.find('#customer-notes').val(customer['notes']);
+
+            $dialog.modal('show');
+        }
+
+        // Apply qtip to control tooltips.
+        $('#calendar-toolbar button').qtip({
+            position: {
+                my: 'top center',
+                at: 'bottom center'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
+
+        $('#select-filter-item').qtip({
+            position: {
+                my: 'middle left',
+                at: 'middle right'
+            },
+            style: {
+                classes: 'qtip-green qtip-shadow custom-qtip'
+            }
+        });
+
+        // Fine tune the footer's position only for this page.
+        if (window.innerHeight < 700) {
+            $('#footer').css('position', 'static');
+        }
+
+        if ($('#select-filter-item option').length == 0) {
+            $('#calendar-actions button').prop('disabled', true);
+        }
+    };
+
+})(window.BackendCalendar);
