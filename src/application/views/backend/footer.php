@@ -3,9 +3,9 @@
         Powered by
         <a href="http://easyappointments.org">Easy!Appointments
             <?php
-                echo 'v' . $this->config->item('ea_version');
+                echo 'v' . $this->config->item('version');
 
-                $release_title = $this->config->item('ea_release_title');
+                $release_title = $this->config->item('release_label');
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }

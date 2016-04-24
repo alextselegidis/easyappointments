@@ -6,12 +6,11 @@
 |--------------------------------------------------------------------------
 |
 | Declare some of the global config values of Easy!Appointments.
-| the global "config" variable.
 |
 */
-$config['ea_version'] = '1.2'; // This must be changed manually.
-$config['ea_release_title'] = 'Dev'; // Leave empty for no title or add BETA, TEST etc ...
-$config['ea_google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
+$config['version']             = '1.2'; // This must be changed manually.
+$config['release_label']       = 'Dev'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 /*
 |--------------------------------------------------------------------------
