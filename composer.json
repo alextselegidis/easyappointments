@@ -12,7 +12,7 @@
         "vendor-dir": "composer"
     },
     "require-dev": {
-        "apigen/apigen": "~4.1"
+        "codeigniter/framework": "^3.0"
     },
     "require": {
         "gregwar/captcha": "^1.1",
