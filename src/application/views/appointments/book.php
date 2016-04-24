@@ -35,30 +35,6 @@
 
     <?php
         // ------------------------------------------------------------
-        // INCLUDE JAVASCRIPT FILES
-        // ------------------------------------------------------------ ?>
-
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery-qtip/jquery.qtip.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/js/frontend_book.js'); ?>"></script>
-
-    <?php
-        // ------------------------------------------------------------
         // WEBPAGE FAVICON
         // ------------------------------------------------------------ ?>
 
@@ -67,34 +43,6 @@
 
     <link rel="icon" sizes="192x192"
             href="<?php echo base_url('assets/img/logo.png'); ?>">
-
-    <?php
-        // ------------------------------------------------------------
-        // VIEW FILE JAVASCRIPT CODE
-        // ------------------------------------------------------------ ?>
-
-    <script type="text/javascript">
-        var GlobalVariables = {
-            availableServices   : <?php echo json_encode($available_services); ?>,
-            availableProviders  : <?php echo json_encode($available_providers); ?>,
-            baseUrl             : <?php echo json_encode($this->config->item('base_url')); ?>,
-            manageMode          : <?php echo ($manage_mode) ? 'true' : 'false'; ?>,
-            dateFormat          : <?php echo json_encode($date_format); ?>,
-            appointmentData     : <?php echo json_encode($appointment_data); ?>,
-            providerData        : <?php echo json_encode($provider_data); ?>,
-            customerData        : <?php echo json_encode($customer_data); ?>,
-            csrfToken           : <?php echo json_encode($this->security->get_csrf_hash()); ?>
-        };
-
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
-        var availableLanguages = <?php echo json_encode($this->config->item('available_languages')); ?>;
-
-        $(document).ready(function() {
-            FrontendBook.initialize(true, GlobalVariables.manageMode);
-            // GeneralFunctions.centerElementOnPage($('#book-appointment-wizard'));
-            GeneralFunctions.enableLanguageSelection($('#select-language'));
-        });
-    </script>
 </head>
 
 <body>
@@ -431,9 +379,66 @@
         </div>
     </div>
 
+    <?php
+        // ------------------------------------------------------------
+        // GLOBAL JAVASCRIPT VARIABLES
+        // ------------------------------------------------------------ ?>
+
+    <script type="text/javascript">
+        var GlobalVariables = {
+            availableServices   : <?php echo json_encode($available_services); ?>,
+            availableProviders  : <?php echo json_encode($available_providers); ?>,
+            baseUrl             : <?php echo json_encode($this->config->item('base_url')); ?>,
+            manageMode          : <?php echo ($manage_mode) ? 'true' : 'false'; ?>,
+            dateFormat          : <?php echo json_encode($date_format); ?>,
+            appointmentData     : <?php echo json_encode($appointment_data); ?>,
+            providerData        : <?php echo json_encode($provider_data); ?>,
+            customerData        : <?php echo json_encode($customer_data); ?>,
+            csrfToken           : <?php echo json_encode($this->security->get_csrf_hash()); ?>
+        };
+
+        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var availableLanguages = <?php echo json_encode($this->config->item('available_languages')); ?>;
+    </script>
+
+    <?php
+        // ------------------------------------------------------------
+        // INCLUDE JAVASCRIPT FILES
+        // ------------------------------------------------------------ ?>
+
     <script
         type="text/javascript"
         src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
+    <script
+        type="text/javascript"
+        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
+    <script
+        type="text/javascript"
+        src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
+    <script
+        type="text/javascript"
+        src="<?php echo base_url('assets/ext/jquery-qtip/jquery.qtip.min.js'); ?>"></script>
+    <script
+        type="text/javascript"
+        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script
+        type="text/javascript"
+        src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
+    <script
+        type="text/javascript"
+        src="<?php echo base_url('assets/js/frontend_book.js'); ?>"></script>
+
+    <?php
+        // ------------------------------------------------------------
+        // VIEW FILE JAVASCRIPT CODE
+        // ------------------------------------------------------------ ?>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+            FrontendBook.initialize(true, GlobalVariables.manageMode);
+            GeneralFunctions.enableLanguageSelection($('#select-language'));
+        });
+    </script>
 
     <?php google_analytics_script(); ?>
 </body>
