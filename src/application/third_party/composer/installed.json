@@ -51,17 +51,17 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v5.2.13",
-        "version_normalized": "5.2.13.0",
+        "version": "v5.2.14",
+        "version_normalized": "5.2.14.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "45df3a88f7f46071e10d0b600f228d19f95911b3"
+            "reference": "e774bc9152de85547336e22b8926189e582ece95"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/45df3a88f7f46071e10d0b600f228d19f95911b3",
-            "reference": "45df3a88f7f46071e10d0b600f228d19f95911b3",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e774bc9152de85547336e22b8926189e582ece95",
+            "reference": "e774bc9152de85547336e22b8926189e582ece95",
             "shasum": ""
         },
         "require": {
@@ -72,9 +72,10 @@
             "phpunit/phpunit": "4.7.*"
         },
         "suggest": {
-            "league/oauth2-client": "Needed for Gmail's XOAUTH2 authentication system"
+            "league/oauth2-client": "Needed for XOAUTH2 authentication",
+            "league/oauth2-google": "Needed for Gmail XOAUTH2"
         },
-        "time": "2015-09-14 09:18:12",
+        "time": "2015-11-01 10:15:28",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -110,5 +111,39 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "codeigniter/framework",
+        "version": "3.0.6",
+        "version_normalized": "3.0.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bcit-ci/CodeIgniter.git",
+            "reference": "8082544c5b4b33175790f505587e202e3ca9e488"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/8082544c5b4b33175790f505587e202e3ca9e488",
+            "reference": "8082544c5b4b33175790f505587e202e3ca9e488",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "mikey179/vfsstream": "1.1.*"
+        },
+        "suggest": {
+            "paragonie/random_compat": "Provides better randomness in PHP 5.x"
+        },
+        "time": "2016-03-21 16:26:30",
+        "type": "project",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "The CodeIgniter framework",
+        "homepage": "https://codeigniter.com"
     }
 ]

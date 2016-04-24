@@ -46,12 +46,12 @@
 */
 
 $active_group = 'default';
-$active_record = TRUE;
+$query_builder = TRUE;
 
 $db['default']['hostname'] = Config::DB_HOST;     
-$db['default']['username'] = Config::DB_USERNAME; 
-$db['default']['password'] = Config::DB_PASSWORD; 
-$db['default']['database'] = Config::DB_NAME;     
+$db['default']['username'] = Config::DB_USERNAME;
+$db['default']['password'] = Config::DB_PASSWORD;
+$db['default']['database'] = Config::DB_NAME;
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

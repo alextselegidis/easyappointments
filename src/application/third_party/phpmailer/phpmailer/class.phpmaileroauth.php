@@ -27,38 +27,38 @@ class PHPMailerOAuth extends PHPMailer
 {
     /**
      * The OAuth user's email address
-     * @type string
+     * @var string
      */
     public $oauthUserEmail = '';
 
     /**
      * The OAuth refresh token
-     * @type string
+     * @var string
      */
     public $oauthRefreshToken = '';
 
     /**
      * The OAuth client ID
-     * @type string
+     * @var string
      */
     public $oauthClientId = '';
 
     /**
      * The OAuth client secret
-     * @type string
+     * @var string
      */
     public $oauthClientSecret = '';
 
     /**
-     * An instance of the OAuth class.
-     * @type OAuth
+     * An instance of the PHPMailerOAuthGoogle class.
+     * @var PHPMailerOAuthGoogle
      * @access protected
      */
     protected $oauth = null;
-    
+
     /**
-     * Get an OAuth instance to use.
-     * @return OAuth
+     * Get a PHPMailerOAuthGoogle instance to use.
+     * @return PHPMailerOAuthGoogle
      */
     public function getOAUTHInstance()
     {
@@ -79,19 +79,18 @@ class PHPMailerOAuth extends PHPMailer
      * @param array $options An array of options compatible with stream_context_create()
      * @uses SMTP
      * @access public
-     * @throws phpmailerException
-     * @return boolean
+     * @return bool
      */
     public function smtpConnect($options = array())
     {
         if (is_null($this->smtp)) {
             $this->smtp = $this->getSMTPInstance();
         }
-        
+
         if (is_null($this->oauth)) {
             $this->oauth = $this->getOAUTHInstance();
         }
-       
+
         // Already connected?
         if ($this->smtp->connected()) {
             return true;
