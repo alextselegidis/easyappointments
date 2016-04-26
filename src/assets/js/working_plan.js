@@ -323,7 +323,7 @@
             } else {
                 workingPlan[id] = null;
             }
-        });
+        }.bind(this));
 
         return workingPlan;
     };
