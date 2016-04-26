@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9376f6dce837c49ec0467c91adc7dd0e",
-    "content-hash": "f1caee945fa2c3ffed8c56511645dce9",
+    "hash": "c484aff175b14ee6c9810d6f4476c3c9",
+    "content-hash": "066f48bf5bdce6c78e3e440b892865f2",
     "packages": [
         {
             "name": "gregwar/captcha",
@@ -117,7 +117,40 @@
             "time": "2015-11-01 10:15:28"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "codeigniter/framework",
+            "version": "3.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bcit-ci/CodeIgniter.git",
+                "reference": "8082544c5b4b33175790f505587e202e3ca9e488"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/8082544c5b4b33175790f505587e202e3ca9e488",
+                "reference": "8082544c5b4b33175790f505587e202e3ca9e488",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.*"
+            },
+            "suggest": {
+                "paragonie/random_compat": "Provides better randomness in PHP 5.x"
+            },
+            "type": "project",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The CodeIgniter framework",
+            "homepage": "https://codeigniter.com",
+            "time": "2016-03-21 16:26:30"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

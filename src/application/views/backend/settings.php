@@ -438,8 +438,8 @@
         <div class="current-version">
             <?php
                 echo $this->lang->line('current_version') . ' ';
-                echo $this->config->item('ea_version');
-                $release_title = $this->config->item('ea_release_title');
+                echo $this->config->item('version');
+                $release_title = $this->config->item('release_label');
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }

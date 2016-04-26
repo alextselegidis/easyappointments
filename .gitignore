@@ -1,7 +1,8 @@
-/.tmp-package
-/composer
-/doc
-/easyappointments.zip
-/node_modules
-/src/application/logs/*
-/src/config.php
+.tmp-package
+composer
+doc
+easyappointments.zip
+node_modules
+src/application/logs/*
+!src/application/logs/index.html
+src/config.php

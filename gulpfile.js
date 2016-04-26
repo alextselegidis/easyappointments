@@ -17,7 +17,7 @@ gulp.task('composer', function() {
         '!./src/application/third_party/index.html',
     ]);
 
-    exec('composer install --no-dev --prefer-dist', function (err, stdout, stderr) {
+    exec('composer update && composer install --prefer-dist', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
     });
@@ -27,7 +27,8 @@ gulp.task('composer', function() {
         '!composer/**/demo{,/**}',
         '!composer/**/{demo,docs,examples,test,extras,language}{,/**}',
         '!composer/**/{composer.json,composer.lock,.gitignore}',
-        '!composer/**/{*.yml,*.md}'
+        '!composer/**/{*.yml,*.md}',
+        '!composer/codeigniter{,/**}'
     ])
         .pipe(gulp.dest('./src/application/third_party/'));
 });
