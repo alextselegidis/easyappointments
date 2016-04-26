@@ -1,16 +1,13 @@
 <script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
-
-<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_admins.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_providers.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_secretaries.js"></script>
-
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
-
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript"
@@ -18,19 +15,19 @@
 
 <script type="text/javascript">
     var GlobalVariables = {
-        'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
-        'dateFormat'    : <?php echo json_encode($date_format); ?>,
-        'admins'        : <?php echo json_encode($admins); ?>,
-        'providers'     : <?php echo json_encode($providers); ?>,
-        'secretaries'   : <?php echo json_encode($secretaries); ?>,
-        'services'      : <?php echo json_encode($services); ?>,
-        'workingPlan'   : $.parseJSON(<?php echo json_encode($working_plan); ?>),
-        'user'          : {
-            'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
-            'privileges': <?php echo json_encode($privileges); ?>
+        csrfToken     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
+        baseUrl       : <?php echo json_encode($base_url); ?>,
+        dateFormat    : <?php echo json_encode($date_format); ?>,
+        admins        : <?php echo json_encode($admins); ?>,
+        providers     : <?php echo json_encode($providers); ?>,
+        secretaries   : <?php echo json_encode($secretaries); ?>,
+        services      : <?php echo json_encode($services); ?>,
+        workingPlan   : <?php echo json_encode(json_decode($working_plan)); ?>,
+        user          : {
+            id        : <?php echo $user_id; ?>,
+            email     : <?php echo json_encode($user_email); ?>,
+            role_slug : <?php echo json_encode($role_slug); ?>,
+            privileges: <?php echo json_encode($privileges); ?>
         }
     };
 
