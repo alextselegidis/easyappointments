@@ -277,6 +277,7 @@ class Appointments extends CI_Controller {
      * @param numeric $_POST['service_duration'] The selected service duration in minutes.
      * @param string $_POST['manage_mode'] Contains either 'true' or 'false' and determines the if current user
      * is managing an already booked appointment or not.
+     *
      * @return Returns a json object with the available hours.
      */
     public function ajax_get_available_hours() {
@@ -300,17 +301,17 @@ class Appointments extends CI_Controller {
 			// If the user has selected the "any-provider" option then we will need to search
 			// for an available provider that will provide the requested service.
 			if ($_POST['provider_id'] === ANY_PROVIDER) {
-				$_POST['provider_id'] = $this->search_any_provider($_POST['service_id'], $_POST['selected_date']);
+				$_POST['provider_id'] = $this->_search_any_provider($_POST['service_id'], $_POST['selected_date']);
 				if ($_POST['provider_id'] === NULL) {
 					echo json_encode(array());
 					return;
 				}
 			}
 
-			$empty_periods = $this->get_provider_available_time_periods($_POST['provider_id'],
+			$empty_periods = $this->_get_provider_available_time_periods($_POST['provider_id'],
 					$_POST['selected_date'], $exclude_appointments);
 
-            $available_hours = $this->calculate_available_hours($empty_periods, $_POST['selected_date'],
+            $available_hours = $this->_calculate_available_hours($empty_periods, $_POST['selected_date'],
 					$_POST['service_duration'], filter_var($_POST['manage_mode'], FILTER_VALIDATE_BOOLEAN));
 
             echo json_encode($available_hours);
@@ -349,7 +350,7 @@ class Appointments extends CI_Controller {
             }
 
             // Check appointment availability.
-            if (!$this->check_datetime_availability()) {
+            if (!$this->_check_datetime_availability()) {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
 
@@ -462,6 +463,67 @@ class Appointments extends CI_Controller {
         }
     }
 
+    /**
+	 * [AJAX] Get Unavailable Dates
+	 *
+	 * Get an array with the available dates of a specific provider, service and month
+	 * of the year. Provide the "provider_id", "service_id" and "selected_date" as GET
+	 * parameters to the request. The "selected_date" parameter must have the Y-m-d format.
+	 *
+	 * @return string Returns a JSON array with the dates that are unavailable.
+	 */
+	public function ajax_get_unavailable_dates() {
+		try {
+			$provider_id = $this->input->get('provider_id');
+			$service_id = $this->input->get('service_id');
+			$selected_date = new DateTime($this->input->get('selected_date'));
+			$number_of_days = (int)$selected_date->format('t');
+			$unavailable_dates = array();
+
+			// Handle the "Any Provider" case.
+			if ($provider_id === ANY_PROVIDER) {
+				$provider_id = $this->_search_any_provider($service_id, $this->input->get('selected_date'));
+				if ($provider_id === NULL) { // No provider is available in the selected date.
+					for ($i=1; $i<=$number_of_days; $i++) {
+						$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+						$unavailable_dates[] = $current_date->format('Y-m-d');
+					}
+					echo json_encode($unavailable_dates);
+					return;
+				}
+			}
+
+			// Get the available time periods for every day of this month.
+			$this->load->model('services_model');
+			$service_duration = (int)$this->services_model->get_value('duration', $service_id);
+
+			for ($i=1; $i<=$number_of_days; $i++) {
+				$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
+
+				if ($current_date < new DateTime()) { // Past dates become immediatelly unavailable.
+					$unavailable_dates[] = $current_date->format('Y-m-d');
+					continue;
+				}
+
+				$empty_periods = $this->_get_provider_available_time_periods($provider_id,
+						$current_date->format('Y-m-d'));
+
+	            $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
+						$service_duration);
+
+				if (empty($available_hours)) {
+					$unavailable_dates[] = $current_date->format('Y-m-d');
+				}
+			}
+
+			echo json_encode($unavailable_dates);
+		} catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+	}
+
 	/**
 	 * Check whether the provider is still available in the selected appointment date.
 	 *
@@ -473,7 +535,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * @return bool Returns whether the selected datetime is still available.
 	 */
-	private function check_datetime_availability() {
+	protected function _check_datetime_availability() {
 		$this->load->model('services_model');
 
 		$appointment  = $_POST['post_data']['appointment'];
@@ -483,13 +545,13 @@ class Appointments extends CI_Controller {
 		$exclude_appointments = (isset($appointment['id'])) ? array($appointment['id']) : array();
 
 		if ($appointment['id_users_provider'] === ANY_PROVIDER) {
-			$appointment['id_users_provider'] = $this->search_any_provider($appointment['id_services'],
+			$appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'],
 				date('Y-m-d', strtotime($appointment['start_datetime'])));
 			$_POST['post_data']['appointment']['id_users_provider'] = $appointment['id_users_provider'];
 			return TRUE; // The selected provider is always available.
 		}
 
-		$available_periods = $this->get_provider_available_time_periods(
+		$available_periods = $this->_get_provider_available_time_periods(
 				$appointment['id_users_provider'], date('Y-m-d', strtotime($appointment['start_datetime'])),
 				$exclude_appointments);
 
@@ -530,7 +592,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * @return array Returns an array with the available time periods of the provider.
 	 */
-	private function get_provider_available_time_periods($provider_id, $selected_date,
+	protected function _get_provider_available_time_periods($provider_id, $selected_date,
 			$exclude_appointments = array()) {
 		$this->load->model('appointments_model');
 	    $this->load->model('providers_model');
@@ -674,7 +736,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * @return int Returns the ID of the provider that can provide the service at the selected date.
 	 */
-	private function search_any_provider($service_id, $selected_date) {
+	protected function _search_any_provider($service_id, $selected_date) {
 		$this->load->model('providers_model');
 		$this->load->model('services_model');
 		$available_providers = $this->providers_model->get_available_providers();
@@ -685,8 +747,8 @@ class Appointments extends CI_Controller {
 		foreach($available_providers as $provider) {
 			foreach($provider['services'] as $provider_service_id) {
 				if ($provider_service_id == $service_id) { // Check if the provider is available for the requested date.
-					$empty_periods = $this->get_provider_available_time_periods($provider['id'], $selected_date);
-					$available_hours = $this->calculate_available_hours($empty_periods, $selected_date, $service['duration']);
+					$empty_periods = $this->_get_provider_available_time_periods($provider['id'], $selected_date);
+					$available_hours = $this->_calculate_available_hours($empty_periods, $selected_date, $service['duration']);
 					if (count($available_hours) > $max_hours_count) {
 						$provider_id = $provider['id'];
 						$max_hours_count = count($available_hours);
@@ -706,14 +768,14 @@ class Appointments extends CI_Controller {
 	 * available hour is added to the "$available_hours" array.
 	 *
 	 * @param array $empty_periods Contains the empty periods as generated by the
-	 * "get_provider_available_time_periods" method.
+	 * "_get_provider_available_time_periods" method.
 	 * @param string $selected_date The selected date to be search (format )
 	 * @param numeric $service_duration The service duration is required for the hour calculation.
 	 * @param bool $manage_mode (optional) Whether we are currently on manage mode (editing an existing appointment).
 	 *
 	 * @return array Returns an array with the available hours for the appointment.
 	 */
-	private function calculate_available_hours(array $empty_periods, $selected_date, $service_duration,
+	protected function _calculate_available_hours(array $empty_periods, $selected_date, $service_duration,
 			$manage_mode = FALSE) {
 		$this->load->model('settings_model');
 
@@ -769,67 +831,6 @@ class Appointments extends CI_Controller {
 		$available_hours = array_values($available_hours);
 
 		return $available_hours;
-	}
-
-	/**
-	 * [AJAX] Get Unavailable Dates
-	 *
-	 * Get an array with the available dates of a specific provider, service and month
-	 * of the year. Provide the "provider_id", "service_id" and "selected_date" as GET
-	 * parameters to the request. The "selected_date" parameter must have the Y-m-d format.
-	 *
-	 * @return string Returns a JSON array with the dates that are unavailable.
-	 */
-	public function ajax_get_unavailable_dates() {
-		try {
-			$provider_id = $this->input->get('provider_id');
-			$service_id = $this->input->get('service_id');
-			$selected_date = new DateTime($this->input->get('selected_date'));
-			$number_of_days = (int)$selected_date->format('t');
-			$unavailable_dates = array();
-
-			// Handle the "Any Provider" case.
-			if ($provider_id === ANY_PROVIDER) {
-				$provider_id = $this->search_any_provider($service_id, $this->input->get('selected_date'));
-				if ($provider_id === NULL) { // No provider is available in the selected date.
-					for ($i=1; $i<=$number_of_days; $i++) {
-						$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
-						$unavailable_dates[] = $current_date->format('Y-m-d');
-					}
-					echo json_encode($unavailable_dates);
-					return;
-				}
-			}
-
-			// Get the available time periods for every day of this month.
-			$this->load->model('services_model');
-			$service_duration = (int)$this->services_model->get_value('duration', $service_id);
-
-			for ($i=1; $i<=$number_of_days; $i++) {
-				$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
-
-				if ($current_date < new DateTime()) { // Past dates become immediatelly unavailable.
-					$unavailable_dates[] = $current_date->format('Y-m-d');
-					continue;
-				}
-
-				$empty_periods = $this->get_provider_available_time_periods($provider_id,
-						$current_date->format('Y-m-d'));
-
-	            $available_hours = $this->calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
-						$service_duration);
-
-				if (empty($available_hours)) {
-					$unavailable_dates[] = $current_date->format('Y-m-d');
-				}
-			}
-
-			echo json_encode($unavailable_dates);
-		} catch(Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
-        }
 	}
 }
 

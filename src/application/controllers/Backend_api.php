@@ -19,8 +19,14 @@
  * @package Controllers
  */
 class Backend_api extends CI_Controller {
-    private $privileges;
+    /**
+     * @var array
+     */
+    protected $privileges;
 
+    /**
+     * Class Constructor
+     */
     public function __construct() {
         parent::__construct();
 
@@ -442,8 +448,7 @@ class Backend_api extends CI_Controller {
     /**
      * [AJAX] Insert of update unavailable time period to database.
      *
-     * @param array $_POST['unavailable'] JSON encoded array that contains the unavailable
-     * period data.
+     * @param array $_POST['unavailable'] JSON encoded array that contains the unavailable period data.
      */
     public function ajax_save_unavailable() {
         try {

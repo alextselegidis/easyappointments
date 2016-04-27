@@ -30,6 +30,7 @@ class User_Model extends CI_Model {
      * Returns the user settings from the database.
      *
      * @param numeric $user_id User record id of which the settings will be returned.
+     *
      * @return array Returns an array with user settings.
      */
     public function get_settings($user_id) {
@@ -43,6 +44,7 @@ class User_Model extends CI_Model {
      * This method saves the user settings into the database.
      *
      * @param array $user Contains the current users settings.
+     *
      * @return bool Returns the operation result.
      */
     public function save_settings($user) {
@@ -72,6 +74,7 @@ class User_Model extends CI_Model {
      * Retrieve user's salt from database.
      *
      * @param string $username This will be used to find the user record.
+     *
      * @return string Returns the salt db value.
      */
     public function get_salt($username) {
@@ -84,8 +87,8 @@ class User_Model extends CI_Model {
      *
      * @param string $username Given user's name.
      * @param type $password Given user's password (not hashed yet).
-     * @return array|null Returns the session data of the logged in user or null on
-     * failure.
+     *
+     * @return array|null Returns the session data of the logged in user or null on failure.
      */
     public function check_login($username, $password) {
         $this->load->helper('general');
@@ -109,6 +112,7 @@ class User_Model extends CI_Model {
      * Get the given user's display name (first + last name).
      *
      * @param numeric $user_id The given user record id.
+     *
      * @return string Returns the user display name.
      */
     public function get_user_display_name($user_id) {
@@ -124,6 +128,7 @@ class User_Model extends CI_Model {
      *
      * @param string $username
      * @param string $email
+     *
      * @return string|bool Returns the new password on success or FALSE on failure.
      */
     public function regenerate_password($username, $email) {

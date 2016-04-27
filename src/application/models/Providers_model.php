@@ -69,9 +69,9 @@ class Providers_Model extends CI_Model {
         }
 
         if (!isset($provider['id'])) {
-            $provider['id'] = $this->insert($provider);
+            $provider['id'] = $this->_insert($provider);
         } else {
-            $provider['id'] = $this->update($provider);
+            $provider['id'] = $this->_update($provider);
         }
 
         return intval($provider['id']);
@@ -109,7 +109,7 @@ class Providers_Model extends CI_Model {
      * @return int Returns the new record id.
      * @throws Exception When the insert operation fails.
      */
-    public function insert($provider) {
+    protected function _insert($provider) {
         $this->load->helper('general');
 
         // Get provider role id.
@@ -144,7 +144,7 @@ class Providers_Model extends CI_Model {
      * @return int Returns the record id.
      * @throws Exception When the update operation fails.
      */
-    public function update($provider) {
+    protected function _update($provider) {
         $this->load->helper('general');
 
         // Store service and settings (must not be present on the $provider array).
@@ -507,7 +507,7 @@ class Providers_Model extends CI_Model {
      * @param array $settings Contains the setting values.
      * @param numeric $provider_id Record id of the provider.
      */
-    private function save_settings($settings, $provider_id) {
+    protected function save_settings($settings, $provider_id) {
         if (!is_numeric($provider_id)) {
             throw new Exception('Invalid $provider_id argument given :' . $provider_id);
         }
@@ -535,7 +535,7 @@ class Providers_Model extends CI_Model {
      * @throws Exception When the $services argument type is not array.
      * @throws Exception When the $provider_id argumetn type is not numeric.
      */
-    private function save_services($services, $provider_id) {
+    protected function save_services($services, $provider_id) {
         // Validate method arguments.
         if (!is_array($services)) {
             throw new Exception('Invalid argument type $services: ' . $services);

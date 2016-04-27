@@ -27,7 +27,7 @@ class Appointments_Model extends CI_Model {
     /**
      * Add an appointment record to the database.
      *
-     * This method adds a new appointment to the database. If the 
+     * This method adds a new appointment to the database. If the
      * appointment doesn't exists it is going to be inserted, otherwise
      * the record is going to be updated.
      *
@@ -41,9 +41,9 @@ class Appointments_Model extends CI_Model {
 
         // Perform insert() or update() operation.
         if (!isset($appointment['id'])) {
-            $appointment['id'] = $this->insert($appointment);
+            $appointment['id'] = $this->_insert($appointment);
         } else {
-            $this->update($appointment);
+            $this->_update($appointment);
         }
 
         return $appointment['id'];
@@ -89,7 +89,7 @@ class Appointments_Model extends CI_Model {
      * data. Each key has the same name with the database fields.
      * @return int Returns the id of the new record.
      */
-    private function insert($appointment) {
+    protected function _insert($appointment) {
         $appointment['book_datetime'] = date('Y-m-d H:i:s');
         $appointment['hash'] = $this->generate_hash();
 
@@ -112,7 +112,7 @@ class Appointments_Model extends CI_Model {
      * @param array $appointment Associative array with the appointment's
      * data. Each key has the same name with the database fields.
      */
-    private function update($appointment) {
+    protected function _update($appointment) {
         $this->db->where('id', $appointment['id']);
         if (!$this->db->update('ea_appointments', $appointment)) {
             throw new Exception('Could not update appointment record.');

@@ -77,7 +77,7 @@ class User extends CI_Controller {
     }
 
     /**
-     * Display the forgot password page.
+     * Display the "forgot password" page.
      */
     public function forgot_password() {
         $this->load->model('settings_model');
@@ -86,6 +86,9 @@ class User extends CI_Controller {
         $this->load->view('user/forgot_password', $view);
     }
 
+    /**
+     * Display the "not authorized" page.
+     */
     public function no_privileges() {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');

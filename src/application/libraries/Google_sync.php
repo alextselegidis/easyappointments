@@ -25,9 +25,26 @@ require_once __DIR__ . '/external/google-api-php-client/contrib/Google_CalendarS
  * @package Libraries
  */
 class Google_Sync {
-    private $CI;
-    private $client;
-    private $service;
+    /**
+     * CodeIgniter Instance
+     *
+     * @var CodeIgniter
+     */
+    protected $CI;
+
+    /**
+     * Google API Client
+     *
+     * @var Google_Client
+     */
+    protected $client;
+
+    /**
+     * Google Calendar Service
+     *
+     * @var Google_CalendarService
+     */
+    protected $service;
 
     /**
      * Class Constructor
@@ -114,6 +131,7 @@ class Google_Sync {
      * @parma array $company_settings Contains some company settings that are used
      * by this method. By the time the following values must be in the array:
      * 'company_name'.
+     *
      * @return Google_Event Returns the Google_Event class object.
      */
     public function add_appointment($appointment, $provider, $service, $customer, $company_settings) {
@@ -166,6 +184,7 @@ class Google_Sync {
      * @parma array $company_settings Contains some company settings that are used
      * by this method. By the time the following values must be in the array:
      * 'company_name'.
+     *
      * @return Google_Event Returns the Google_Event class object.
      */
     public function update_appointment($appointment, $provider, $service, $customer, $company_settings) {
@@ -222,6 +241,7 @@ class Google_Sync {
      *
      * @param array $provider Contains the provider record data.
      * @param array $unavailable Contains unavailable period's data.
+     *
      * @return Google_Event Returns the google event's object.
      */
     public function add_unavailable($provider, $unavailable) {
@@ -251,6 +271,7 @@ class Google_Sync {
      *
      * @param array $provider Contains the provider record data.
      * @param array $unavailable Contains the unavailable period data.
+     *
      * @return Google_Event Returns the Google_Event object.
      */
     public function update_unavailable($provider, $unavailable) {
@@ -287,7 +308,8 @@ class Google_Sync {
      * Get an event object from gcal
      *
      * @param array $provider Contains the provider record data.
-     * @param string $google_event_id Id of the google calendar event
+     * @param string $google_event_id Id of the google calendar event.
+     *
      * @return Google_Event Returns the google event object.
      */
     public function get_event($provider, $google_event_id) {
@@ -300,6 +322,7 @@ class Google_Sync {
      * @param string $google_calendar The name of the google calendar to be used.
      * @param date $start The start date of sync period.
      * @param date $end The end date of sync period.
+     *
      * @return object Returns an array with Google_Event objects that belong on the given
      * sync period (start, end).
      */
@@ -321,6 +344,7 @@ class Google_Sync {
      * Google Calendar account.
      *
      * @param string $google_token The user's token will be used to grant access to google calendar.
+     *
      * @return array Returns an array with the available calendars.
      */
     public function get_google_calendars() {

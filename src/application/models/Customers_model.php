@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -47,9 +47,9 @@ class Customers_Model extends CI_Model {
 
         // :: INSERT OR UPDATE CUSTOMER RECORD
         if (!isset($customer['id'])) {
-            $customer['id'] = $this->insert($customer);
+            $customer['id'] = $this->_insert($customer);
         } else {
-            $this->update($customer);
+            $this->_update($customer);
         }
 
         return $customer['id'];
@@ -90,7 +90,7 @@ class Customers_Model extends CI_Model {
      * data. Each key has the same name with the database fields.
      * @return int Returns the id of the new record.
      */
-    private function insert($customer) {
+    protected function _insert($customer) {
         // Before inserting the customer we need to get the customer's role id
         // from the database and assign it to the new record as a foreign key.
         $customer_role_id = $this->db
@@ -118,7 +118,7 @@ class Customers_Model extends CI_Model {
      * data. Each key has the same name with the database fields.
      * @return int Returns the updated record id.
      */
-    private function update($customer) {
+    protected function _update($customer) {
         // Do not update empty string values.
         foreach ($customer as $key => $value) {
             if ($value === '')

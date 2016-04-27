@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.'); 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -27,16 +27,15 @@ class Settings_Model extends CI_Model {
     /**
      * Get setting value from database.
      *
-     * This method returns a system setting from the
-     * database.
+     * This method returns a system setting from the database.
      *
      * @expectedException Exception
      *
      * @param string $name The database setting name.
-     * @return string Returns the database value for
-     * the selected setting.
+     *
+     * @return string Returns the database value for the selected setting.
      */
-    function get_setting($name) {
+    public function get_setting($name) {
         if (!is_string($name)) { // Check argument type.
             throw new Exception('$name argument is not a string : ' . $name);
         }
@@ -59,9 +58,10 @@ class Settings_Model extends CI_Model {
      *
      * @param string $name The setting name.
      * @param type $value The setting value.
+     *
      * @return int Returns the setting database id.
      */
-    function set_setting($name, $value) {
+    public function set_setting($name, $value) {
         if (!is_string($name)) {
             throw new Exception('$name argument is not a string : ' . $name);
         }
@@ -94,9 +94,10 @@ class Settings_Model extends CI_Model {
      * @expectedException Exception
      *
      * @param string $name The setting name to be removed.
+     *
      * @return bool Returns the delete operation result.
      */
-    function remove_setting($name) {
+    public function remove_setting($name) {
         if (!is_string($name)) {
             throw new Exception('$name is not a string : ' . $name);
         }
@@ -115,6 +116,7 @@ class Settings_Model extends CI_Model {
      * saving them one by one.
      *
      * @param array $settings Contains all the system settings.
+     *
      * @return bool Returns the save operation result.
      *
      * @throws Exception When the update operation won't work for a specific setting.

@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.'); 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -29,15 +29,16 @@ class Services_Model extends CI_Model {
      *
      * @param array $service Contains the service data. If an 'id' value is provided then
      * the record will be updated.
+     *
      * @return numeric Returns the record id.
      */
     public function add($service) {
         $this->validate($service);
 
         if (!isset($service['id'])) {
-            $service['id'] = $this->insert($service);
+            $service['id'] = $this->_insert($service);
         } else {
-            $this->update($service);
+            $this->_update($service);
         }
 
         return intval($service['id']);
@@ -47,9 +48,10 @@ class Services_Model extends CI_Model {
      * Insert service record into database.
      *
      * @param array $service Contains the service record data.
+     *
      * @return int Returns the new service record id.
      */
-    public function insert($service) {
+    protected function _insert($service) {
         if (!$this->db->insert('ea_services', $service)) {
             throw new Exception('Could not insert service record.');
         }
@@ -62,7 +64,7 @@ class Services_Model extends CI_Model {
      * @param array $service Contains the service data. The record id needs to be included in
      * the array.
      */
-    public function update($service) {
+    protected function _update($service) {
        $this->db->where('id', $service['id']);
        if (!$this->db->update('ea_services', $service)) {
            throw new Exception('Could not update service record');
@@ -96,6 +98,7 @@ class Services_Model extends CI_Model {
      * Validate a service record data.
      *
      * @param array $service Contains the service data.
+     *
      * @return bool Returns the validation result.
      */
     public function validate($service) {
@@ -175,6 +178,7 @@ class Services_Model extends CI_Model {
      * Delete a service record from database.
      *
      * @param numeric $service_id Record id to be deleted.
+     *
      * @return bool Returns the delete operation result.
      */
     public function delete($service_id) {
@@ -194,9 +198,9 @@ class Services_Model extends CI_Model {
      * Get a specific row from the services db table.
      *
      * @param numeric $service_id The record's id to be returned.
-     * @return array Returns an associative array with the selected
-     * record's data. Each key has the same name as the database
-     * field names.
+     *
+     * @return array Returns an associative array with the selected record's data. Each key
+     * has the same name as the database field names.
      */
     public function get_row($service_id) {
         if (!is_numeric($service_id)) {
@@ -211,6 +215,7 @@ class Services_Model extends CI_Model {
      * @param string $field_name The field name of the value to be
      * returned.
      * @param int $service_id The selected record's id.
+     *
      * @return string Returns the records value from the database.
      */
     public function get_value($field_name, $service_id) {
@@ -242,6 +247,7 @@ class Services_Model extends CI_Model {
      *
      * @param string $whereClause (OPTIONAL) The WHERE clause of
      * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
+     *
      * @return array Returns the rows from the database.
      */
     public function get_batch($where_clause = NULL) {
@@ -255,8 +261,7 @@ class Services_Model extends CI_Model {
     /**
      * This method returns all the services from the database.
      *
-     * @return array Returns an object array with all the
-     * database services.
+     * @return array Returns an object array with all the database services.
      */
     public function get_available_services() {
     	$this->db->distinct();
@@ -275,6 +280,7 @@ class Services_Model extends CI_Model {
      * Add (insert or update) a service category record into database.
      *
      * @param array $category Containst the service category data.
+     *
      * @return int Returns the record id.s
      */
     public function add_category($category) {
@@ -297,6 +303,7 @@ class Services_Model extends CI_Model {
      * Delete a service category record from the database.
      *
      * @param numeric $category_id Record id to be deleted.
+     *
      * @return bool Returns the delete operation result.
      */
     public function delete_category($category_id) {
@@ -318,6 +325,7 @@ class Services_Model extends CI_Model {
      * Get a service category record data.
      *
      * @param numeric $category_id Record id to be retrieved.
+     *
      * @return array Returns the record data from the database.
      */
     public function get_category($category_id) {
@@ -349,6 +357,7 @@ class Services_Model extends CI_Model {
      * a service category record into database in order to secure the record integrity.
      *
      * @param array $category Contains the service category data.
+     *
      * @return bool Returns the validation result.
      */
     public function validate_category($category) {
