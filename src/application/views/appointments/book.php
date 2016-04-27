@@ -426,6 +426,9 @@
         src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
     <script
         type="text/javascript"
+        src="<?php echo base_url('assets/js/frontend_book_api.js'); ?>"></script>
+    <script
+        type="text/javascript"
         src="<?php echo base_url('assets/js/frontend_book.js'); ?>"></script>
 
     <?php
