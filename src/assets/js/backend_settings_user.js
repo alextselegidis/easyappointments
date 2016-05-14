@@ -14,7 +14,8 @@
     'use strict';
 
     /**
-     * "User Settings" Tab Helper
+     * "User Settings" Tab Helper Class
+     *
      * @class UserSettings
      */
     var UserSettings = function() {};
@@ -22,7 +23,7 @@
     /**
      * Get the settings data for the user settings.
      *
-     * @returns {object} Returns the user settings array.
+     * @returns {Object} Returns the user settings array.
      */
     UserSettings.prototype.get = function() {
         var user = {
@@ -53,7 +54,7 @@
     /**
      * Store the user settings into the database.
      *
-     * @param {array} settings Contains the user settings.
+     * @param {Array} settings Contains the user settings.
      */
     UserSettings.prototype.save = function(settings) {
         if (!this.validate(settings)) {
@@ -82,10 +83,11 @@
     };
 
     /**
-     * Validate the settings data. If the validation fails then display a
-     * message to the user.
+     * Validate the settings data.
      *
-     * @returns {bool} Returns the validation result.
+     * If the validation fails then display a message to the user.
+     *
+     * @return {Boolean} Returns the validation result.
      */
     UserSettings.prototype.validate = function() {
         $('#user .required').css('border', '');
@@ -95,7 +97,7 @@
             // Validate required fields.
             var missingRequired = false;
             $('#user .required').each(function() {
-                if ($(this).val() == '' || $(this).val() == undefined) {
+                if ($(this).val() === '' || $(this).val() === undefined) {
                     $(this).css('border', '2px solid red');
                     missingRequired = true;
                 }
