@@ -26,29 +26,28 @@ window.BackendUsers = window.BackendUsers || {};
     /**
      * Minimum Password Length
      *
-     * @type {int}
+     * @type {Number}
      */
     exports.MIN_PASSWORD_LENGTH = 7;
 
     /**
      * Contains the current tab record methods for the page.
      *
-     * @type AdminsHelper|ProvidersHelper|SecretariesHelper
+     * @type {AdminsHelper|ProvidersHelper|SecretariesHelper}
      */
     var helper = {};
 
     /**
      * Use this class instance for performing actions on the working plan.
      *
-     * @type {object}
+     * @type {WorkingPlan}
      */
     exports.wp = {};
 
     /**
      * Initialize the backend users page.
      *
-     * @param {bool} defaultEventHandlers (OPTIONAL) Whether to bind the default event handlers
-     * (default: true).
+     * @param {Boolean} defaultEventHandlers (OPTIONAL) Whether to bind the default event handlers.
      */
     exports.initialize = function(defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
@@ -83,7 +82,7 @@ window.BackendUsers = window.BackendUsers || {};
         $('#provider-services').html(html);
         $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
 
-        var html = '<div class="col-md-12">';
+        html = '<div class="col-md-12">';
         $.each(GlobalVariables.providers, function(index, provider) {
            html +=
                 '<div class="checkbox">' +
