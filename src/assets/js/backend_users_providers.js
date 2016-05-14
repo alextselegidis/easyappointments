@@ -35,7 +35,7 @@
          *
          * Filter the provider records with the given key string.
          */
-        $('#providers').on('submit', '#filter-providers form', function(event) {
+        $('#providers').on('submit', '#filter-providers form', function() {
             var key = $('#filter-providers .key').val();
             $('.selected-row').removeClass('selected-row');
             this.resetForm();
@@ -57,7 +57,7 @@
          *
          * Display the selected provider data to the user.
          */
-        $('#providers').on('click', '.provider-row', function(e) {
+        $('#providers').on('click', '.provider-row', function() {
             if ($('#filter-providers .filter').prop('disabled')) {
                 $('#filter-providers .results').css('color', '#AAA');
                 return; // Exit because we are currently on edit mode.
@@ -65,6 +65,7 @@
 
             var providerId = $(e.currentTarget).attr('data-id'),
                 provider = {};
+
             $.each(this.filterResults, function(index, item) {
                 if (item.id === providerId) {
                     provider = item;
@@ -231,7 +232,7 @@
     /**
      * Save provider record to database.
      *
-     * @param {object} provider Contains the admin record data. If an 'id' value is provided
+     * @param {Object} provider Contains the admin record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
     ProvidersHelper.prototype.save = function(provider) {
@@ -255,7 +256,7 @@
     /**
      * Delete a provider record from database.
      *
-     * @param {numeric} id Record id to be deleted.
+     * @param {Number} id Record id to be deleted.
      */
     ProvidersHelper.prototype.delete = function(id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider',
@@ -277,8 +278,9 @@
     /**
      * Validates a provider record.
      *
-     * @param {object} provider Contains the admin data to be validated.
-     * @returns {bool} Returns the validation result.
+     * @param {Object} provider Contains the admin data to be validated.
+     *
+     * @return {Boolean} Returns the validation result.
      */
     ProvidersHelper.prototype.validate = function(provider) {
         $('#providers .required').css('border', '');
@@ -362,7 +364,7 @@
     /**
      * Display a provider record into the admin form.
      *
-     * @param {object} provider Contains the provider record data.
+     * @param {Object} provider Contains the provider record data.
      */
     ProvidersHelper.prototype.display = function(provider) {
         $('#provider-id').val(provider.id);
@@ -404,10 +406,8 @@
      * Filters provider records depending a string key.
      *
      * @param {string} key This is used to filter the provider records of the database.
-     * @param {numeric} selectId (OPTIONAL = undefined) If set, when the function is complete
-     * a result row can be set as selected.
-     * @param {bool} display (OPTIONAL = false) If true then the selected record will be also
-     * displayed.
+     * @param {numeric} selectId Optional, if set, when the function is complete a result row can be set as selected.
+     * @param {bool} display Optional (false), if true the selected record will be also displayed.
      */
     ProvidersHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
@@ -446,8 +446,9 @@
     /**
      * Get an provider row html code that is going to be displayed on the filter results list.
      *
-     * @param {object} provider Contains the provider record data.
-     * @returns {string} The html code that represents the record on the filter results list.
+     * @param {Object} provider Contains the provider record data.
+     *
+     * @return {String} The html code that represents the record on the filter results list.
      */
     ProvidersHelper.prototype.getFilterHtml = function(provider) {
         var name = provider.first_name + ' ' + provider.last_name,
@@ -471,7 +472,7 @@
     /**
      * Initialize the editable functionality to the break day table cells.
      *
-     * @param {object} $selector The cells to be initialized.
+     * @param {Object} $selector The cells to be initialized.
      */
     ProvidersHelper.prototype.editableBreakDay = function($selector) {
         var weekDays = {};
@@ -510,7 +511,7 @@
     /**
      * Initialize the editable functionality to the break time table cells.
      *
-     * @param {object} $selector The cells to be initialized.
+     * @param {jQuery} $selector The cells to be initialized.
      */
     ProvidersHelper.prototype.editableBreakTime = function($selector) {
         $selector.editable(function(value, settings) {
@@ -538,8 +539,8 @@
     /**
      * Select and display a providers filter result on the form.
      *
-     * @param {numeric} id Record id to be selected.
-     * @param {bool} display (OPTIONAL = false) If true the record will be displayed on the form.
+     * @param {Number} id Record id to be selected.
+     * @param {Boolean} display Optional (false), if true the record will be displayed on the form.
      */
     ProvidersHelper.prototype.select = function(id, display) {
         display = display || false;
