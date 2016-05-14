@@ -90,7 +90,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('.available-hour:eq(0)').addClass('selected-hour');
                 }
 
-                _updateConfirmFrame();
+                FrontendBook.updateConfirmFrame();
 
             } else {
                 $('#available-hours').text(EALang['no_available_hours']);

@@ -85,7 +85,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             onSelect: function(dateText, instance) {
                 FrontendBookApi.getAvailableHours(dateText);
-                _updateConfirmFrame();
+                FrontendBook.updateConfirmFrame();
             },
 
             onChangeMonthYear: function(year, month, instance) {
@@ -125,7 +125,7 @@ window.FrontendBook = window.FrontendBook || {};
         $('#select-provider').change(function() {
             FrontendBookApi.getUnavailableDates($(this).val(), $('#select-service').val(),
                     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
-            _updateConfirmFrame();
+            FrontendBook.updateConfirmFrame();
         });
 
         /**
@@ -158,7 +158,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
                     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
-            _updateConfirmFrame();
+            FrontendBook.updateConfirmFrame();
              _updateServiceDescription($('#select-service').val(), $('#service-description'));
         });
 
@@ -196,7 +196,7 @@ window.FrontendBook = window.FrontendBook || {};
                 if (!_validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
-                    _updateConfirmFrame();
+                    FrontendBook.updateConfirmFrame();
                 }
             }
 
@@ -235,7 +235,7 @@ window.FrontendBook = window.FrontendBook || {};
         $('#available-hours').on('click', '.available-hour', function() {
             $('.selected-hour').removeClass('selected-hour');
             $(this).addClass('selected-hour');
-            _updateConfirmFrame();
+            FrontendBook.updateConfirmFrame();
         });
 
         if (FrontendBook.manageMode) {
@@ -328,11 +328,10 @@ window.FrontendBook = window.FrontendBook || {};
     }
 
     /**
-     * Every time this function is executed, it updates the confirmation
-     * page with the latest customer settigns and input for the appointment
-     * booking.
+     * Every time this function is executed, it updates the confirmation page with the latest
+     * customer settigns and input for the appointment booking.
      */
-    function _updateConfirmFrame() {
+    exports.updateConfirmFrame = function() {
         // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
         if (selectedDate !== null) {
@@ -363,7 +362,6 @@ window.FrontendBook = window.FrontendBook || {};
         $('#appointment-details').html(html);
 
         // Customer Details
-
         var firstname = GeneralFunctions.escapeHtml($('#first-name').val()),
             lastname = GeneralFunctions.escapeHtml($('#last-name').val()),
             phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val()),
@@ -390,7 +388,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         // Update appointment form data for submission to server when the user confirms
         // the appointment.
-        var postData = new Object();
+        var postData = {};
 
         postData['customer'] = {
             last_name: $('#last-name').val(),
@@ -486,7 +484,7 @@ window.FrontendBook = window.FrontendBook || {};
                     ? appointment['notes'] : '';
             $('#notes').val(appointmentNotes);
 
-            _updateConfirmFrame();
+            FrontendBook.updateConfirmFrame();
 
             return true;
         } catch(exc) {
