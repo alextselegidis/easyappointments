@@ -35,7 +35,7 @@
          *
          * Filter the secretary records with the given key string.
          */
-        $('#secretaries').on('submit', '#filter-secretaries form', function(event) {
+        $('#secretaries').on('submit', '#filter-secretaries form', function() {
             var key = $('#filter-secretaries .key').val();
             $('#filter-secretaries .selected-row').removeClass('selected-row');
             this.resetForm();
@@ -57,7 +57,7 @@
          *
          * Display the selected secretary data to the user.
          */
-        $('#secretaries').on('click', '.secretary-row', function(e) {
+        $('#secretaries').on('click', '.secretary-row', function() {
             if ($('#filter-secretaries .filter').prop('disabled')) {
                 $('#filter-secretaries .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
@@ -65,6 +65,7 @@
 
             var secretaryId = $(e.currentTarget).attr('data-id'),
                 secretary = {};
+
             $.each(this.filterResults, function(index, item) {
                 if (item.id === secretaryId) {
                     secretary = item;
@@ -73,6 +74,7 @@
             });
 
             this.display(secretary);
+
             $('#filter-secretaries .selected-row').removeClass('selected-row');
             $(e.currentTarget).addClass('selected-row');
             $('#edit-secretary, #delete-secretary').prop('disabled', false);
@@ -100,7 +102,6 @@
         $('#secretaries').on('click', '#edit-secretary', function() {
             $('#filter-secretaries button').prop('disabled', true);
             $('#filter-secretaries .results').css('color', '#AAA');
-
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
             $('#secretaries .details').find('input, textarea').prop('readonly', false);
@@ -113,13 +114,14 @@
          * Event: Delete Secretary Button "Click"
          */
         $('#secretaries').on('click', '#delete-secretary', function() {
-            var secretaryId = $('#secretary-id').val();
+            var secretaryId = $('#secretary-id').val(),
+                messageBtns = {};
 
-            var messageBtns = {};
             messageBtns[EALang['delete']] = function() {
                 this.delete(secretaryId);
                 $('#message_box').dialog('close');
             }.bind(this);
+
             messageBtns[EALang['cancel']] = function() {
                 $('#message_box').dialog('close');
             };
@@ -162,7 +164,7 @@
                 secretary.settings.password = $('#secretary-password').val();
             }
 
-            // Include id if changed.
+            // Include ID if changed.
             if ($('#secretary-id').val() !== '') {
                 secretary.id = $('#secretary-id').val();
             }
@@ -191,7 +193,7 @@
     /**
      * Save secretary record to database.
      *
-     * @param {object} secretary Contains the admin record data. If an 'id' value is provided
+     * @param {Object} secretary Contains the admin record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
     SecretariesHelper.prototype.save = function(secretary) {
@@ -215,7 +217,7 @@
     /**
      * Delete a secretary record from database.
      *
-     * @param {int} id Record id to be deleted.
+     * @param {Number} id Record id to be deleted.
      */
     SecretariesHelper.prototype.delete = function(id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary',
@@ -237,8 +239,9 @@
     /**
      * Validates a secretary record.
      *
-     * @param {object} secretary Contains the admin data to be validated.
-     * @returns {bool} Returns the validation result.
+     * @param {Object} secretary Contains the admin data to be validated.
+     *
+     * @return {Boolean} Returns the validation result.
      */
     SecretariesHelper.prototype.validate = function(secretary) {
         $('#secretaries .required').css('border', '');
@@ -315,7 +318,7 @@
     /**
      * Display a secretary record into the admin form.
      *
-     * @param {object} secretary Contains the secretary record data.
+     * @param {Object} secretary Contains the secretary record data.
      */
     SecretariesHelper.prototype.display = function(secretary) {
         $('#secretary-id').val(secretary.id);
@@ -350,10 +353,10 @@
     /**
      * Filters secretary records depending a string key.
      *
-     * @param {string} key This is used to filter the secretary records of the database.
-     * @param {numeric} selectId (OPTIONAL = undefined) If provided then the given id will be
-     * selected in the filter results (only selected, not displayed).
-     * @param {bool} display (OPTIONAL = false)
+     * @param {String} key This is used to filter the secretary records of the database.
+     * @param {Numeric} selectId Optional, if provided the given ID will be selected in the filter results
+     * (only selected, not displayed).
+     * @param {Bool} display Optional (false).
      */
     SecretariesHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
@@ -392,8 +395,9 @@
     /**
      * Get an secretary row html code that is going to be displayed on the filter results list.
      *
-     * @param {object} secretary Contains the secretary record data.
-     * @returns {string} The html code that represents the record on the filter results list.
+     * @param {Object} secretary Contains the secretary record data.
+     *
+     * @return {String} The html code that represents the record on the filter results list.
      */
     SecretariesHelper.prototype.getFilterHtml = function(secretary) {
         var name = secretary.first_name + ' ' + secretary.last_name,
@@ -418,9 +422,8 @@
      * Select a specific record from the current filter results. If the secretary id does not exist
      * in the list then no record will be selected.
      *
-     * @param {numeric} id The record id to be selected from the filter results.
-     * @param {bool} display (OPTIONAL = false) If true then the method will display the record
-     * on the form.
+     * @param {Number} id The record id to be selected from the filter results.
+     * @param {Boolean} display Optional (false), if true the method will display the record in the form.
      */
     SecretariesHelper.prototype.select = function(id, display) {
         display = display || false;
