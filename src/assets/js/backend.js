@@ -12,8 +12,9 @@
 window.Backend = window.Backend || {};
 
  /**
-  * This module contains functions that are used in the backend section of
-  * the application.
+  * Backend
+  *
+  * This module contains functions that are used in the backend section of the application.
   *
   * @module Backend
   */
@@ -25,13 +26,13 @@ window.Backend = window.Backend || {};
      * Main javascript code for the backend of Easy!Appointments.
      */
     $(document).ready(function() {
-        if (window.console === undefined) {
-            window.console = function() {} // IE compatibility
-        }
+        window.console = window.console || function() {}; // IE compatibility
 
-        $(window).resize(function() {
-            Backend.placeFooterToBottom();
-        }).trigger('resize');
+        $(window)
+            .resize(function() {
+                Backend.placeFooterToBottom();
+            })
+            .trigger('resize');
 
         $(document).ajaxStart(function() {
             $('#loading').show();
@@ -96,21 +97,17 @@ window.Backend = window.Backend || {};
     /**
      * Display backend notifications to user.
      *
-     * Using this method you can display notifications to the use with custom
-     * messages. If the 'actions' array is provided then an action link will
-     * be displayed too.
+     * Using this method you can display notifications to the use with custom messages. If the
+     * 'actions' array is provided then an action link will be displayed too.
      *
-     * @param {string} message Notification message
-     * @param {array} actions An array with custom actions that will be available
-     * to the user. Every array item is an object that contains the 'label' and
-     * 'function' key values.
+     * @param {String} message Notification message
+     * @param {Array} actions An array with custom actions that will be available to the user. Every
+     * array item is an object that contains the 'label' and 'function' key values.
      */
     exports.displayNotification = function(message, actions) {
-        if (message == undefined) {
-            message = 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
-        }
+        message = message || 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
 
-        if (actions == undefined) {
+        if (actions === undefined) {
             actions = [];
             setTimeout(function() {
                 $('#notification').slideUp('slow');
