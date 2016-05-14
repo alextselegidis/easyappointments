@@ -33,7 +33,7 @@
          *
          * Filter the admin records with the given key string.
          */
-        $('#admins').on('submit', '#filter-admins form', function(event) {
+        $('#admins').on('submit', '#filter-admins form', function() {
             var key = $('#filter-admins .key').val();
             $('#filter-admins .selected-row').removeClass('selected-row');
             this.resetForm();
@@ -55,7 +55,7 @@
          *
          * Display the selected admin data to the user.
          */
-        $('#admins').on('click', '.admin-row', function(e) {
+        $('#admins').on('click', '.admin-row', function() {
             if ($('#filter-admins .filter').prop('disabled')) {
                 $('#filter-admins .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
@@ -63,6 +63,7 @@
 
             var adminId = $(e.currentTarget).attr('data-id'),
                 admin = {};
+
             $.each(this.filterResults, function(index, item) {
                 if (item.id === adminId) {
                     admin = item;
@@ -108,13 +109,14 @@
          * Event: Delete Admin Button "Click"
          */
         $('#admins').on('click', '#delete-admin', function() {
-            var adminId = $('#admin-id').val();
+            var adminId = $('#admin-id').val(),
+                messageBtns = {};
 
-            var messageBtns = {};
             messageBtns[EALang['delete']] = function() {
                 this.delete(adminId);
                 $('#message_box').dialog('close');
             }.bind(this);
+
             messageBtns[EALang['cancel']] = function() {
                 $('#message_box').dialog('close');
             };
@@ -178,7 +180,7 @@
     /**
      * Save admin record to database.
      *
-     * @param {object} admin Contains the admin record data. If an 'id' value is provided
+     * @param {Object} admin Contains the admin record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
     AdminsHelper.prototype.save = function(admin) {
@@ -202,7 +204,7 @@
     /**
      * Delete an admin record from database.
      *
-     * @param {int} id Record id to be deleted.
+     * @param {Number} id Record id to be deleted.
      */
     AdminsHelper.prototype.delete = function(id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin',
@@ -224,8 +226,9 @@
     /**
      * Validates an admin record.
      *
-     * @param {object} admin Contains the admin data to be validated.
-     * @returns {bool} Returns the validation result.
+     * @param {Object} admin Contains the admin data to be validated.
+     *
+     * @return {Boolean} Returns the validation result.
      */
     AdminsHelper.prototype.validate = function(admin) {
         $('#admins .required').css('border', '');
@@ -234,12 +237,14 @@
         try {
             // Validate required fields.
             var missingRequired = false;
+
             $('#admins .required').each(function() {
                 if ($(this).val() == '' || $(this).val() == undefined) {
                     $(this).css('border', '2px solid red');
                     missingRequired = true;
                 }
             });
+
             if (missingRequired) {
                 throw 'Fields with * are  required.';
             }
@@ -299,7 +304,7 @@
     /**
      * Display a admin record into the admin form.
      *
-     * @param {object} admin Contains the admin record data.
+     * @param {Object} admin Contains the admin record data.
      */
     AdminsHelper.prototype.display = function(admin) {
         $('#admin-id').val(admin.id);
@@ -325,10 +330,10 @@
     /**
      * Filters admin records depending a key string.
      *
-     * @param {string} key This string is used to filter the admin records of the database.
-     * @param {numeric} selectId (OPTIONAL = undefined) This record id will be selected when
+     * @param {String} key This string is used to filter the admin records of the database.
+     * @param {Number} selectId (OPTIONAL = undefined) This record id will be selected when
      * the filter operation is finished.
-     * @param {bool} display (OPTIONAL = false) If true the selected record data are going
+     * @param {Boolean} display (OPTIONAL = false) If true the selected record data are going
      * to be displayed on the details column (requires a selected record though).
      */
     AdminsHelper.prototype.filter = function(key, selectId, display) {
@@ -368,8 +373,9 @@
     /**
      * Get an admin row html code that is going to be displayed on the filter results list.
      *
-     * @param {object} admin Contains the admin record data.
-     * @returns {string} The html code that represents the record on the filter results list.
+     * @param {Object} admin Contains the admin record data.
+     *
+     * @return {String} The html code that represents the record on the filter results list.
      */
     AdminsHelper.prototype.getFilterHtml = function(admin) {
         var name = admin.first_name + ' ' + admin.last_name,
@@ -394,8 +400,8 @@
      * Select a specific record from the current filter results. If the admin id does not exist
      * in the list then no record will be selected.
      *
-     * @param {numeric} id The record id to be selected from the filter results.
-     * @param {bool} display (OPTIONAL = false) If true then the method will display the record
+     * @param {Number} id The record id to be selected from the filter results.
+     * @param {Boolean} display Optional (false), if true then the method will display the record
      * on the form.
      */
     AdminsHelper.prototype.select = function(id, display) {
