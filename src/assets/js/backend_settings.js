@@ -12,9 +12,10 @@
 window.BackendSettings = window.BackendSettings || {};
 
 /**
- * Contains the functionality of the backend settings page. Can either work for
- * system or user settings, but the actions allowed to the user are restricted to
- * his role (only admin has full privileges).
+ * Backend Settings
+ *
+ * Contains the functionality of the backend settings page. Can either work for system or user settings,
+ * but the actions allowed to the user are restricted to his role (only admin has full privileges).
  *
  * @module BackendSettings
  */
@@ -27,24 +28,23 @@ window.BackendSettings = window.BackendSettings || {};
     exports.SETTINGS_USER = 'SETTINGS_USER';
 
     /**
-     * Use this WorkingPlan class instance to perform actions on the page's working plan
-     * tables.
+     * Use this WorkingPlan class instance to perform actions on the page's working plan tables.
+     *
+     * @type {WorkingPlan}
      */
     exports.wp = {};
 
     /**
      * Tab settings object.
      *
-     * @type {object}
+     * @type {Object}
      */
     var settings = {};
 
     /**
      * Initialize Page
      *
-     * @param {bool} bindEventHandlers (OPTIONAL)Determines whether to bind the default event
-     * handlers (default = true).
-     * @returns {undefined}
+     * @param {bool} bindEventHandlers Optional (true), determines whether to bind the default event handlers.
      */
     exports.initialize = function(bindEventHandlers) {
         bindEventHandlers = bindEventHandlers || true;
@@ -125,8 +125,9 @@ window.BackendSettings = window.BackendSettings || {};
     };
 
     /**
-     * Bind the backend/settings default event handlers. This method depends on the
-     * backend/settings html, so do not use this method on a different page.
+     * Bind the backend/settings default event handlers.
+     *
+     * This method depends on the backend/settings html, so do not use this method on a different page.
      */
     function _bindEventHandlers() {
         exports.wp.bindEventHandlers();
