@@ -14,16 +14,18 @@
     'use strict';
 
     /**
-     * "System Settings" Tab Helper
+     * "System Settings" Tab Helper Class
+     *
      * @class SystemSettings
      */
     var SystemSettings = function() {};
 
     /**
-     * Save the system settings. This method is run after changes are detected on the
-     * tab input fields.
+     * Save the system settings.
      *
-     * @param {array} settings Contains the system settings data.
+     * This method is run after changes are detected on the tab input fields.
+     *
+     * @param {Array} settings Contains the system settings data.
      */
     SystemSettings.prototype.save = function(settings) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings',
@@ -52,10 +54,11 @@
     };
 
     /**
-     * Prepare the system settings array. This method uses the DOM elements of the
-     * backend/settings page, so it can't be used in another page.
+     * Prepare the system settings array.
      *
-     * @returns {array} Returns the system settings array.
+     * This method uses the DOM elements of the backend/settings page, so it can't be used in another page.
+     *
+     * @return {Array} Returns the system settings array.
      */
     SystemSettings.prototype.get = function() {
         var settings = [];
@@ -93,10 +96,11 @@
     };
 
     /**
-     * Validate the settings data. If the validation fails then display a
-     * message to the user.
+     * Validate the settings data.
      *
-     * @returns {bool} Returns the validation result.
+     * If the validation fails then display a message to the user.
+     *
+     * @return {Boolean} Returns the validation result.
      */
     SystemSettings.prototype.validate = function() {
         $('#general .required').css('border', '');
