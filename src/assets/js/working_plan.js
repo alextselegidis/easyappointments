@@ -14,6 +14,8 @@
     'use strict';
 
     /**
+     * Class WorkingPlan
+     *
      * Contains the working plan functionality. The working plan DOM elements must be same
      * in every page this class is used.
      *
@@ -24,7 +26,7 @@
          * This flag is used when trying to cancel row editing. It is
          * true only whenever the user presses the cancel button.
          *
-         * @type {bool}
+         * @type {Boolean}
          */
         this.enableCancel = false;
 
@@ -32,7 +34,7 @@
          * This flag determines whether the jeditables are allowed to submit. It is
          * true only whenever the user presses the save button.
          *
-         * @type {bool}
+         * @type {Boolean}
          */
         this.enableSubmit = false;
     };
@@ -40,7 +42,7 @@
     /**
      * Setup the dom elements of a given working plan.
      *
-     * @param {object} workingPlan Contains the working hours and breaks for each day of the week.
+     * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function(workingPlan) {
         $.each(workingPlan, function(index, workingDay) {
@@ -88,9 +90,11 @@
     };
 
     /**
+     * Enable editable break day.
+     *
      * This method makes editable the break day cells.
      *
-     * @param {object} $selector The jquery selector ready for use.
+     * @param {Object} $selector The jquery selector ready for use.
      */
     WorkingPlan.prototype.editableBreakDay = function($selector) {
         var weekDays = {};
@@ -126,9 +130,11 @@
     };
 
     /**
+     * Enable editable break time.
+     *
      * This method makes editable the break time cells.
      *
-     * @param {object} $selector The jquery selector ready for use.
+     * @param {Object} $selector The jquery selector ready for use.
      */
     WorkingPlan.prototype.editableBreakTime = function($selector) {
         $selector.editable(function(value, settings) {
@@ -219,9 +225,9 @@
         $(document).on('click', '.edit-break', function() {
             // Reset previous editable tds
             var $previousEdt = $(this).closest('table').find('.editable').get();
-            $.each($previousEdt, function(index, edt) {
-                if (edt.reset !== undefined) {
-                    edt.reset();
+            $.each($previousEdt, function(index, editable) {
+                if (editable.reset !== undefined) {
+                    editable.reset();
                 }
             });
 
@@ -257,6 +263,8 @@
          * Event: Cancel Break Button "Click"
          *
          * Bring the ".breaks" table back to its initial state.
+         *
+         * @param {jQuery.Event} e
          */
         $(document).on('click', '.cancel-break', function(e) {
             var element = e.target;
@@ -273,6 +281,8 @@
          * Event: Save Break Button "Click"
          *
          * Save the editable values and restore the table to its initial state.
+         *
+         * @param {jQuery.Event} e
          */
         $(document).on('click', '.save-break', function(e) {
             // Break's start time must always be prior to break's end.
@@ -296,7 +306,7 @@
     /**
      * Get the working plan settings.
      *
-     * @returns {object} Returns the working plan settings object.
+     * @return {Object} Returns the working plan settings object.
      */
     WorkingPlan.prototype.get = function() {
         var workingPlan = {};
@@ -329,11 +339,9 @@
     };
 
     /**
-     * Enables or disabled the timepicker functionality from the working plan input
-     * text fields.
+     * Enables or disables the timepicker functionality from the working plan input text fields.
      *
-     * @param {bool} disabled (OPTIONAL = false) If true then the timepickers will be
-     * disabled.
+     * @param {Boolean} disabled (OPTIONAL = false) If true then the timepickers will be disabled.
      */
     WorkingPlan.prototype.timepickers = function(disabled) {
         disabled = disabled || false;
@@ -375,7 +383,7 @@
     /**
      * This is necessary for translated days.
      *
-     * @param {string} value Day value could be like "monday", "tuesday" etc.
+     * @param {String} value Day value could be like "monday", "tuesday" etc.
      */
     WorkingPlan.prototype.convertValueToDay = function(value) {
         switch (value) {
@@ -406,7 +414,7 @@
     /**
      * This is necessary for translated days.
      *
-     * @param {string} value Day value could be like "Monday", "Tuesday" etc.
+     * @param {String} value Day value could be like "Monday", "Tuesday" etc.
      */
     WorkingPlan.prototype.convertDayToValue = function(day) {
         switch (day) {
