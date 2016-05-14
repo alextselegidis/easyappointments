@@ -74,9 +74,11 @@ $(document).ready(function() {
     });
 
     /**
-     * Validates the user input. Use this before executing the installation procedure.
+     * Validates the user input.
      *
-     * @returns {bool} Returns the validation result.
+     *   Use this before executing the installation procedure.
+     *
+     * @returns {Boolean} Returns the validation result.
      */
     function validate() {
         try {
@@ -131,7 +133,7 @@ $(document).ready(function() {
     /**
      * Get the admin data as an object.
      *
-     * @returns {object}
+     * @return {Object}
      */
     function getAdminData() {
         var admin = {
@@ -149,7 +151,7 @@ $(document).ready(function() {
     /**
      * Get the company data as an object.
      *
-     * @returns {object}
+     * @return {Object}
      */
     function getCompanyData() {
         var company = {
