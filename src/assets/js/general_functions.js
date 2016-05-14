@@ -34,9 +34,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * This functions displays a message box in the admin array. It is usefull when user
      * decisions or verifications are needed.
      *
-     * @param {string} title The title of the message box.
-     * @param {string} message The message of the dialog.
-     * @param {array} messageButtons Contains the dialog buttons along with their functions.
+     * @param {String} title The title of the message box.
+     * @param {String} message The message of the dialog.
+     * @param {Array} messageButtons Contains the dialog buttons along with their functions.
      */
     exports.displayMessageBox = function(title, message, messageButtons) {
         // Check arguments integrity.
@@ -85,7 +85,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * This method centers a DOM element vertically and horizontally on the page.
      *
-     * @param {object} elementHandle The object that is going to be centered.
+     * @param {Object} elementHandle The object that is going to be centered.
      */
     exports.centerElementOnPage = function(elementHandle) {
         // Center main frame vertical middle
@@ -106,12 +106,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * This function retrieves a parameter from a "GET" formed url.
      *
-     * @link http://www.netlobo.com/url_query_string_javascript.html
+     * {@link http://www.netlobo.com/url_query_string_javascript.html}
      *
-     * @param {string} url The selected url.
-     * @param {string} name The parameter name.
+     * @param {String} url The selected url.
+     * @param {String} name The parameter name.
 
-     * @return {string} Returns the parameter value.
+     * @return {String} Returns the parameter value.
      */
     exports.getUrlParameter = function(url, parameterName) {
         parameterName = parameterName.replace(/[\[]/,'\\\[').replace(/[\]]/,'\\\]');
@@ -122,37 +122,39 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
-     * This function creates a RFC 3339 date string. This string is needed by the Google Calendar API
-     in order to pass dates as parameters.
+     * Convert date to ISO date string.
      *
-     * @param {date} dt The given date that will be transformed.
+     * This function creates a RFC 3339 date string. This string is needed by the Google Calendar API
+     * in order to pass dates as parameters.
+     *
+     * @param {Date} date The given date that will be transformed.
 
      * @return {String} Returns the transformed string.
      */
-    exports.ISODateString = function(dt) {
+    exports.ISODateString = function(date) {
         function pad(n) {
-            return n<10 ? '0'+n : n;
+            return n < 10 ? '0' + n : n;
         }
 
-        return dt.getUTCFullYear()+'-'
-             + pad(dt.getUTCMonth()+1)+'-'
-             + pad(dt.getUTCDate())+'T'
-             + pad(dt.getUTCHours())+':'
-             + pad(dt.getUTCMinutes())+':'
-             + pad(dt.getUTCSeconds())+'Z';
+        return date.getUTCFullYear()+'-'
+             + pad(date.getUTCMonth()+1)+'-'
+             + pad(date.getUTCDate())+'T'
+             + pad(date.getUTCHours())+':'
+             + pad(date.getUTCMinutes())+':'
+             + pad(date.getUTCSeconds())+'Z';
     };
 
     /**
-     * This method creates and returns an exact copy of the provided object.
-
-     * It is very usefull whenever changes need to be made to an object without
-     * modyfing the original data.
+     * Clone JS Object
      *
-     * @link http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
+     * This method creates and returns an exact copy of the provided object. It is very usefull whenever
+     * changes need to be made to an object without modyfing the original data.
      *
-     * @param {object} originalObject Object to be copied.
+     * {@link http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object}
+     *
+     * @param {Object} originalObject Object to be copied.
 
-     * @return {object} Returns an exact copy of the provided element.
+     * @return {Object} Returns an exact copy of the provided element.
      */
     exports.clone = function(originalObject) {
         // Handle the 3 simple types, and null or undefined
@@ -189,14 +191,16 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
+     * Validate Email Address
+     *
      * This method validates an email address. If the address is not on the proper
      * form then the result is FALSE.
      *
-     * @link http://badsyntax.co/post/javascript-email-validation-rfc822
+     * {@link http://badsyntax.co/post/javascript-email-validation-rfc822}
      *
-     * @param {string} email The email address to be checked.
+     * @param {String} email The email address to be checked.
 
-     * @return {bool} Returns the validation result.
+     * @return {Boolean} Returns the validation result.
      */
     exports.validateEmail = function (email) {
         var re = /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/;
@@ -204,14 +208,14 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
-     * This method returns the exception HTML display for javascript ajax calls.
-
-     * It uses the Bootstrap collapse module to show exception messages when the
-     * user opens the "Details" collapse component.
+     * Convert AJAX exceptions to HTML.
      *
-     * @param {array} exceptions Contains the exceptions to be displayed.
+     * This method returns the exception HTML display for javascript ajax calls. It uses the Bootstrap collapse
+     * module to show exception messages when the user opens the "Details" collapse component.
      *
-     * @return {string} Returns the html markup for the exceptions.
+     * @param {Array} exceptions Contains the exceptions to be displayed.
+     *
+     * @return {String} Returns the html markup for the exceptions.
      */
     exports.exceptionsToHtml = function(exceptions) {
         var html =
@@ -239,10 +243,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
-     * This method parse the json encoded strings that are fetched by ajax calls.
+     * Parse AJAX Exceptions
      *
-     * @param {array} exceptions Exception array returned by an ajax call.
-     * @returns {array} Returns the parsed js objects.
+     * This method parse the JSON encoded strings that are fetched by AJAX calls.
+     *
+     * @param {Array} exceptions Exception array returned by an ajax call.
+     *
+     * @return {Array} Returns the parsed js objects.
      */
     exports.parseExceptions = function(exceptions) {
         var parsedExceptions = new Array();
@@ -257,21 +264,24 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Makes the first letter of the string upper case.
      *
-     * @param {string} str The string to be converted.
-     * @returns {string} Returns the capitalized string.
+     * @param {String} str The string to be converted.
+     *
+     * @return {String} Returns the capitalized string.
      */
     exports.ucaseFirstLetter = function(str){
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
     /**
+     * Handle AJAX Exceptions Callback
+     *
      * All backend js code has the same way of dislaying exceptions that are raised on the
      * server during an ajax call.
      *
-     * @param {object} response Contains the server response. If exceptions or warnings are
+     * @param {Object} response Contains the server response. If exceptions or warnings are
      * found, user friendly messages are going to be displayed to the user.4
      *
-     * @return {bool} Returns whether the the ajax callback should continue the execution or
+     * @return {Boolean} Returns whether the the ajax callback should continue the execution or
      * stop, due to critical server exceptions.
      */
     exports.handleAjaxExceptions = function(response) {
@@ -292,11 +302,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
+     * Enable Language Selection
+     *
      * Enables the language selection functionality. Must be called on every page has a
      * language selection button. This method requires the global variable 'availableLanguages'
      * to be initialized before the execution.
      *
-     * @param {object} $element Selected element button for the language selection.
+     * @param {Object} $element Selected element button for the language selection.
      */
     exports.enableLanguageSelection = function($element) {
     	// Select Language
@@ -308,16 +320,16 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         html += '</ul>';
 
         $element.popover({
-            'placement': 'top',
-            'title': 'Select Language',
-            'content': html,
-            'html': true,
-            'container': 'body',
-            'trigger': 'manual'
+            placement: 'top',
+            title: 'Select Language',
+            content: html,
+            html: true,
+            container: 'body',
+            trigger: 'manual'
         });
 
         $element.click(function() {
-        	if ($('#language-list').length == 0) {
+        	if ($('#language-list').length === 0) {
         		$(this).popover('show');
         	} else {
         		$(this).popover('hide');
@@ -328,13 +340,15 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         $(document).on('click', 'li.language', function() {
         	// Change language with ajax call and refresh page.
-        	var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
-        	var postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'language': $(this).attr('data-language'),
-            };
+        	var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language',
+                postData = {
+                    csrfToken: GlobalVariables.csrfToken,
+                    language: $(this).attr('data-language'),
+                };
         	$.post(postUrl, postData, function(response) {
-        		if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+        		if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                    return;
+                }
         		document.location.reload(true);
 
         	}, 'json').fail(GeneralFunctions.ajaxFailureHandler);
@@ -342,11 +356,11 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
-     * Use this method for common error handling between
+     * AJAX Failure Handler
      *
-     * @param {object} jqxhr
-     * @param {string} textStatus
-     * @param {object} errorThrown
+     * @param {jqXHR} jqxhr
+     * @param {String} textStatus
+     * @param {Object} errorThrown
      */
     exports.ajaxFailureHandler = function(jqxhr, textStatus, errorThrown) {
         var exceptions = [
@@ -354,16 +368,16 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 message: 'AJAX Error: ' + errorThrown
             }
         ];
-        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-            GeneralFunctions.EXCEPTIONS_MESSAGE);
+        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
         $('#message_box').append(GeneralFunctions.exceptionsToHtml(exceptions));
     };
 
     /**
      * Escape JS HTML string values for XSS prevention.
      *
-     * @param {string} str String to be escaped.
-     * @returns {string} Returns the escaped string.
+     * @param {String} str String to be escaped.
+     *
+     * @return {String} Returns the escaped string.
      */
     exports.escapeHtml = function(str) {
         return $('<div/>').text(str).html();
@@ -373,11 +387,11 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * Format a given date according to the date format setting.
      *
      * @param {Date} date The date to be formatted.
-     * @param {string} dateFormatSetting The setting provided by PHP must be one of
+     * @param {String} dateFormatSetting The setting provided by PHP must be one of
      * the "DMY", "MDY" or "YMD".
-     * @param {bool} addHours (optional) Whether to add hours to the result.
+     * @param {Boolean} addHours (optional) Whether to add hours to the result.
 
-     * @return {string} Returns the formatted date string.
+     * @return {String} Returns the formatted date string.
      */
     exports.formatDate = function(date, dateFormatSetting, addHours) {
         var format, result,
