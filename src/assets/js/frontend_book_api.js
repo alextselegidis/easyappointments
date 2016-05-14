@@ -23,11 +23,12 @@ window.FrontendBookApi = window.FrontendBookApi || {};
     'use strict';
 
     /**
-     * This function makes an ajax call and returns the available
-     * hours for the selected service, provider and date.
+     * Get Available Hours
      *
-     * @param {string} selDate The selected date of which the available
-     * hours we need to receive.
+     * This function makes an AJAX call and returns the available hours for the selected service,
+     * provider and date.
+     *
+     * @param {String} selDate The selected date of which the available hours we need to receive.
      */
     exports.getAvailableHours = function(selDate) {
         $('#available-hours').empty();
@@ -40,9 +41,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         });
 
-        // If the manage mode is true then the appointment's start
-        // date should return as available too.
-        var appointmentId = (FrontendBook.manageMode) ? GlobalVariables.appointmentData['id'] : undefined;
+        // If the manage mode is true then the appointment's start date should return as available too.
+        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData['id'] : undefined;
 
         // Make ajax post request and get the available hours.
         var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours',
@@ -115,12 +115,11 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         }
 
-        var formData = jQuery.parseJSON($('input[name="post_data"]').val());
-
-        var postData = {
-            'csrfToken': GlobalVariables.csrfToken,
-            'post_data': formData
-        };
+        var formData = jQuery.parseJSON($('input[name="post_data"]').val()),
+            postData = {
+                csrfToken: GlobalVariables.csrfToken,
+                post_data: formData
+            };
 
         if ($captchaText.length > 0) {
             postData.captcha = $captchaText.val();
@@ -190,12 +189,12 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * Get the unavailable dates of a provider.
      *
      * This method will fetch the unavailable dates of the selected provider and service and then it will
-     * select the first available date (if any). It uses the "FrontendBookApi.getAvailableHours" method to fetch the appointment
-     * hours of the selected date.
+     * select the first available date (if any). It uses the "FrontendBookApi.getAvailableHours" method to
+     * fetch the appointment* hours of the selected date.
      *
-     * @param {int} providerId The selected provider ID.
-     * @param {int} serviceId The selected service ID.
-     * @param {string} selectedDateString Y-m-d value of the selected date.
+     * @param {Number} providerId The selected provider ID.
+     * @param {Number} serviceId The selected service ID.
+     * @param {String} selectedDateString Y-m-d value of the selected date.
      */
     exports.getUnavailableDates = function(providerId, serviceId, selectedDateString) {
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates',
