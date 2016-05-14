@@ -14,9 +14,9 @@ window.FrontendBook = window.FrontendBook || {};
 /**
  * Frontend Book
  *
- * This module contains functions that implement the book appointment page
- * functionality. Once the initialize() method is called the page is fully
- * functional and can serve the appointment booking process.
+ * This module contains functions that implement the book appointment page functionality. Once the
+ * initialize() method is called the page is fully functional and can serve the appointment booking
+ * process.
  *
  * @module FrontendBook
  */
@@ -27,16 +27,16 @@ window.FrontendBook = window.FrontendBook || {};
     /**
      * Determines the functionality of the page.
      *
-     * @type {bool}
+     * @type {Boolean}
      */
     exports.manageMode = false;
 
     /**
      * This method initializes the book appointment page.
      *
-     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether the default
+     * @param {Boolean} bindEventHandlers (OPTIONAL) Determines whether the default
      * event handlers will be binded to the dom elements.
-     * @param {bool} manageMode (OPTIONAL) Determines whether the customer is going
+     * @param {Boolean} manageMode (OPTIONAL) Determines whether the customer is going
      * to make  changes to an existing appointment rather than booking a new one.
      */
     exports.initialize = function(bindEventHandlers, manageMode) {
@@ -66,7 +66,9 @@ window.FrontendBook = window.FrontendBook || {};
             minDate: 0,
             defaultDate: Date.today(),
 
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'], EALang['thursday'], EALang['friday'], EALang['saturday']],
+            dayNames: [
+                    EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
+                    EALang['thursday'], EALang['friday'], EALang['saturday']],
             dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3),
                     EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3),
                     EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
@@ -119,8 +121,7 @@ window.FrontendBook = window.FrontendBook || {};
         /**
          * Event: Selected Provider "Changed"
          *
-         * Whenever the provider changes the available appointment
-         * date - time periods must be updated.
+         * Whenever the provider changes the available appointment date - time periods must be updated.
          */
         $('#select-provider').change(function() {
             FrontendBookApi.getUnavailableDates($(this).val(), $('#select-service').val(),
@@ -165,9 +166,8 @@ window.FrontendBook = window.FrontendBook || {};
         /**
          * Event: Next Step Button "Clicked"
          *
-         * This handler is triggered every time the user pressed the
-         * "next" button on the book wizard. Some special tasks might
-         * be perfomed, depending the current wizard step.
+         * This handler is triggered every time the user pressed the "next" button on the book wizard.
+         * Some special tasks might be perfomed, depending the current wizard step.
          */
         $('.button-next').click(function() {
             // If we are on the first step and there is not provider selected do not continue
@@ -213,8 +213,8 @@ window.FrontendBook = window.FrontendBook || {};
         /**
          * Event: Back Step Button "Clicked"
          *
-         * This handler is triggered every time the user pressed the
-         * "back" button on the book wizard.
+         * This handler is triggered every time the user pressed the "back" button on the
+         * book wizard.
          */
         $('.button-back').click(function() {
             var prevTabIndex = parseInt($(this).attr('data-step_index')) - 1;
@@ -242,10 +242,11 @@ window.FrontendBook = window.FrontendBook || {};
             /**
              * Event: Cancel Appointment Button "Click"
              *
-             * When the user clicks the "Cancel" button this form is going to
-             * be submitted. We need the user to confirm this action because
-             * once the appointment is cancelled, it will be delete from the
-             * database.
+             * When the user clicks the "Cancel" button this form is going to be submitted. We need
+             * the user to confirm this action because once the appointment is cancelled, it will be
+             * delete from the database.
+             *
+             * @param {jQuery.Event} event
              */
             $('#cancel-appointment').click(function(event) {
                 var dialogButtons = {};
@@ -277,6 +278,8 @@ window.FrontendBook = window.FrontendBook || {};
          * Before the form is submitted to the server we need to make sure that
          * in the meantime the selected appointment date/time wasn't reserved by
          * another customer or event.
+         *
+         * @param {jQuery.Event} event
          */
         $('#book-appointment-submit').click(function(event) {
             FrontendBookApi.registerAppointment();
@@ -284,6 +287,8 @@ window.FrontendBook = window.FrontendBook || {};
 
         /**
          * Event: Refresh captcha image.
+         *
+         * @param {jQuery.Event} event
          */
         $('.captcha-title small').click(function(event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
@@ -294,7 +299,7 @@ window.FrontendBook = window.FrontendBook || {};
      * This function validates the customer's data input. The user cannot contiue
      * without passing all the validation checks.
      *
-     * @return {bool} Returns the validation result.
+     * @return {Boolean} Returns the validation result.
      */
     function _validateCustomerForm() {
         $('#wizard-frame-3 input').css('border', '');
@@ -334,12 +339,15 @@ window.FrontendBook = window.FrontendBook || {};
     exports.updateConfirmFrame = function() {
         // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
+
         if (selectedDate !== null) {
             selectedDate = GeneralFunctions.formatDate(selectedDate, GlobalVariables.dateFormat);
         }
 
-        var selServiceId = $('#select-service').val();
-        var servicePrice, serviceCurrency;
+        var selServiceId = $('#select-service').val(),
+            servicePrice,
+            serviceCurrency;
+
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == selServiceId) {
                 servicePrice = '<br>' + service.price;
@@ -347,7 +355,6 @@ window.FrontendBook = window.FrontendBook || {};
                 return false; // break loop
             }
         });
-
 
         var html =
             '<h4>' + $('#select-service option:selected').text() + '</h4>' +
@@ -424,7 +431,7 @@ window.FrontendBook = window.FrontendBook || {};
      * This method calculates the end datetime of the current appointment.
      * End datetime is depending on the service and start datetime fieldss.
      *
-     * @return {string} Returns the end datetime in string format.
+     * @return {String} Returns the end datetime in string format.
      */
     function _calcEndDatetime() {
         // Find selected service duration.
@@ -456,10 +463,11 @@ window.FrontendBook = window.FrontendBook || {};
      * This method applies the appointment's data to the wizard so
      * that the user can start making changes on an existing record.
      *
-     * @param {object} appointment Selected appointment's data.
-     * @param {object} provider Selected provider's data.
-     * @param {object} customer Selected customer's data.
-     * @returns {bool} Returns the operation result.
+     * @param {Object} appointment Selected appointment's data.
+     * @param {Object} provider Selected provider's data.
+     * @param {Object} customer Selected customer's data.
+     *
+     * @return {Boolean} Returns the operation result.
      */
     function _applyAppointmentData(appointment, provider, customer) {
         try {
@@ -497,8 +505,8 @@ window.FrontendBook = window.FrontendBook || {};
      * user selected service (only if available in db). This is usefull for the
      * customers upon selecting the correct service.
      *
-     * @param {int} serviceId The selected service record id.
-     * @param {object} $div The destination div jquery object (e.g. provide $('#div-id')
+     * @param {Number} serviceId The selected service record id.
+     * @param {Object} $div The destination div jquery object (e.g. provide $('#div-id')
      * object as value).
      */
     function _updateServiceDescription(serviceId, $div) {
