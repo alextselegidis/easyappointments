@@ -14,9 +14,9 @@
 /**
  * Backend Customers
  *
- * Backend Customers javasript namespace. Contains the main functionality
- * of the backend customers page. If you need to use this namespace in a
- * different page, do not bind the default event handlers during initialization.
+ * Backend Customers javasript namespace. Contains the main functionality of the backend customers
+ * page. If you need to use this namespace in a different page, do not bind the default event handlers
+ * during initialization.
  *
  * @module BackendCustomers
  */
@@ -28,7 +28,7 @@
      * The page helper contains methods that implement each record type functionality
      * (for now there is only the CustomersHelper).
      *
-     * @type {object}
+     * @type {Object}
      */
     var helper = {};
 
@@ -36,7 +36,7 @@
     * This method initializes the backend customers page. If you use this namespace
     * in a different page do not use this method.
     *
-    * @param {bool} defaultEventHandlers (OPTIONAL = false) Whether to bind the default
+    * @param {Boolean} defaultEventHandlers Optional (false), whether to bind the default
     * event handlers or not.
     */
    exports.initialize = function(defaultEventHandlers) {
