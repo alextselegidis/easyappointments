@@ -12,6 +12,8 @@
 window.BackendServices = window.BackendServices || {};
 
 /**
+ * Backend Services
+ *
  * This namespace handles the js functionality of the backend services page.
  *
  * @module BackendServices
@@ -23,15 +25,14 @@ window.BackendServices = window.BackendServices || {};
     /**
      * Contains the basic record methods for the page.
      *
-     * @type ServicesHelper|CategoriesHelper
+     * @type {ServicesHelper|CategoriesHelper}
      */
     var helper;
 
     /**
      * Default initialize method of the page.
      *
-     * @param {bool} bindEventHandlers (OPTIONAL) Determines whether to bind the
-     * default event handlers (default: true).
+     * @param {Boolean} bindEventHandlers Optional (true), determines whether to bind the  default event handlers.
      */
     exports.initialize =  function(bindEventHandlers) {
         bindEventHandlers = bindEventHandlers || true;
@@ -62,8 +63,9 @@ window.BackendServices = window.BackendServices || {};
     };
 
     /**
-     * Binds the default event handlers of the backend services page. Do not use this method
-     * if you include the "BackendServices" namespace on another page.
+     * Binds the default event handlers of the backend services page.
+     *
+     * Do not use this method if you include the "BackendServices" namespace on another page.
      */
     function _bindEventHandlers() {
         /**
@@ -98,8 +100,9 @@ window.BackendServices = window.BackendServices || {};
     }
 
     /**
-     * Update the service category listbox. Use this method every time a change is made
-     * to the service categories db table.
+     * Update the service category listbox.
+     *
+     * Use this method every time a change is made to the service categories db table.
      */
     exports.updateAvailableCategories = function() {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories',
