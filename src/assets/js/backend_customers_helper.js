@@ -9,15 +9,17 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * This class contains the methods that are used in the backend customers page.
- *
- * @class CustomersHelper
- */
 (function() {
 
     'use strict';
 
+    /**
+     * CustomersHelper Class
+     *
+     * This class contains the methods that are used in the backend customers page.
+     *
+     * @class CustomersHelper
+     */
     function CustomersHelper() {
         this.filterResults = {};
     };
@@ -185,7 +187,7 @@
     /**
      * Save a customer record to the database (via ajax post).
      *
-     * @param {object} customer Contains the customer data.
+     * @param {Object} customer Contains the customer data.
      */
     CustomersHelper.prototype.save = function(customer) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer',
@@ -195,7 +197,9 @@
             };
 
         $.post(postUrl, postData, function(response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                return;
+            }
 
             Backend.displayNotification(EALang['customer_saved']);
             this.resetForm();
@@ -207,7 +211,7 @@
     /**
      * Delete a customer record from database.
      *
-     * @param {numeric} id Record id to be deleted.
+     * @param {Number} id Record id to be deleted.
      */
     CustomersHelper.prototype.delete = function(id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer',
@@ -217,7 +221,9 @@
             };
 
         $.post(postUrl, postData, function(response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                return;
+            }
 
             Backend.displayNotification(EALang['customer_deleted']);
             this.resetForm();
@@ -228,7 +234,7 @@
     /**
      * Validate customer data before save (insert or update).
      *
-     * @param {object} customer Contains the customer data.
+     * @param {Object} customer Contains the customer data.
      */
     CustomersHelper.prototype.validate = function(customer) {
         $('#form-message').hide();
@@ -287,7 +293,7 @@
     /**
      * Display a customer record into the form.
      *
-     * @param {object} customer Contains the customer record data.
+     * @param {Object} customer Contains the customer record data.
      */
     CustomersHelper.prototype.display = function(customer) {
         $('#customer-id').val(customer.id);
@@ -304,8 +310,8 @@
         $('#customer-appointments').empty();
         $.each(customer.appointments, function(index, appointment) {
             var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true),
-                end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
-            var html =
+                end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true),
+                html =
                     '<div class="appointment-row" data-id="' + appointment.id + '">' +
                         start + ' - ' + end + '<br>' +
                         appointment.service.name + ', ' +
@@ -321,24 +327,24 @@
     /**
      * Filter customer records.
      *
-     * @param {string} key This key string is used to filter the customer records.
-     * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter
-     * operation the record with the given id will be selected (but not displayed).
-     * @param {bool} display (OPTIONAL = false) If true then the selected record will
-     * be displayed on the form.
+     * @param {String} key This key string is used to filter the customer records.
+     * @param {Number} selectId Optional, if set then after the filter operation the record with the given
+     * ID will be selected (but not displayed).
+     * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
     CustomersHelper.prototype.filter = function(key, selectId, display) {
-
         display = display || false;
 
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers',
             postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'key': key
+                csrfToken: GlobalVariables.csrfToken,
+                key: key
             };
 
         $.post(postUrl, postData, function(response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                return;
+            }
 
             this.filterResults = response;
 
@@ -362,10 +368,11 @@
     };
 
     /**
-     * Get the filter results row html code.
+     * Get the filter results row HTML code.
      *
-     * @param {object} customer Contains the customer data.
-     * @return {string} Returns the record html code.
+     * @param {Object} customer Contains the customer data.
+     *
+     * @return {String} Returns the record HTML code.
      */
     CustomersHelper.prototype.getFilterHtml = function(customer) {
         var name = customer.first_name + ' ' + customer.last_name;
@@ -385,11 +392,12 @@
     };
 
     /**
-     * Select a specific record from the current filter results. If the customer id does not exist
-     * in the list then no record will be selected.
+     * Select a specific record from the current filter results.
      *
-     * @param {numeric} id The record id to be selected from the filter results.
-     * @param {bool} display (OPTIONAL = false) If true then the method will display the record
+     * If the customer id does not exist in the list then no record will be selected.
+     *
+     * @param {Number} id The record id to be selected from the filter results.
+     * @param {Boolean} display Optional (false), if true then the method will display the record
      * on the form.
      */
     CustomersHelper.prototype.select = function(id, display) {
@@ -418,7 +426,7 @@
     /**
      * Display appointment details on customers backend page.
      *
-     * @param {object} appointment Appointment data
+     * @param {Object} appointment Appointment data
      */
     CustomersHelper.prototype.displayAppointment = function(appointment) {
         var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true),
