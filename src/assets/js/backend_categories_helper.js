@@ -9,16 +9,18 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
- /**
-  * This class contains the core method implementations that belong to the categories tab
-  * of the backend services page.
-  *
-  * @class CategoriesHelper
-  */
 (function() {
 
     'use strict';
 
+    /**
+     * CategoriesHelper Class
+     *
+     * This class contains the core method implementations that belong to the categories tab
+     * of the backend services page.
+     *
+     * @class CategoriesHelper
+     */
     function CategoriesHelper() {
         this.filterResults = {};
     };
@@ -41,7 +43,7 @@
         /**
          * Event: Filter Categories Form "Submit"
          */
-        $('#filter-categories form').submit(function(event) {
+        $('#filter-categories form').submit(function() {
             var key = $('#filter-categories .key').val();
             $('.selected-row').removeClass('selected-row');
             instance.resetForm();
@@ -123,8 +125,8 @@
          */
         $('#save-category').click(function() {
             var category = {
-                'name': $('#category-name').val(),
-                'description': $('#category-description').val()
+                name: $('#category-name').val(),
+                description: $('#category-description').val()
             };
 
             if ($('#category-id').val() !== '') {
@@ -153,17 +155,16 @@
     /**
      * Filter service categories records.
      *
-     * @param {string} key This key string is used to filter the category records.
-     * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter
-     * operation the record with the given id will be selected (but not displayed).
-     * @param {bool} display (OPTIONAL = false) If true then the selected record will
-     * be displayed on the form.
+     * @param {String} key This key string is used to filter the category records.
+     * @param {Number} selectId Optional, if set then after the filter operation the record with the given
+     * ID will be selected (but not displayed).
+     * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
     CategoriesHelper.prototype.filter = function(key, selectId, display) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories',
             postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'key': key
+                csrfToken: GlobalVariables.csrfToken,
+                key: key
             };
 
         $.post(postUrl, postData, function(response) {
@@ -176,9 +177,9 @@
             $('#filter-categories .results').data('jsp').destroy();
             $('#filter-categories .results').html('');
             $.each(response, function(index, category) {
-               var html = this.getFilterHtml(category);
-               $('#filter-categories .results').append(html);
-           }.bind(this));
+                var html = this.getFilterHtml(category);
+                $('#filter-categories .results').append(html);
+            }.bind(this));
             $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length === 0) {
@@ -188,20 +189,19 @@
             if (selectId !== undefined) {
                 this.select(selectId, display);
             }
-
         }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
-     * Save a category record to the database (via ajax post).
+     * Save a category record to the database (via AJAX post).
      *
-     * @param {object} category Contains the category data.
+     * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.save = function(category) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category',
             postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'category': JSON.stringify(category)
+                csrfToken: GlobalVariables.csrfToken,
+                category: JSON.stringify(category)
             };
 
         $.post(postUrl, postData, function(response) {
@@ -220,7 +220,7 @@
     /**
      * Delete category record.
      *
-     * @param {int} id Record id to be deleted.
+     * @param Number} id Record ID to be deleted.
      */
     CategoriesHelper.prototype.delete = function(id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category',
@@ -245,7 +245,7 @@
     /**
      * Display a category record on the form.
      *
-     * @param {object} category Contains the category data.
+     * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.display = function(category) {
         $('#category-id').val(category.id);
@@ -256,7 +256,7 @@
     /**
      * Validate category data before save (insert or update).
      *
-     * @param {object} category Contains the category data.
+     * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.validate = function(category) {
         $('#categories .details').find('input, textarea').css('border', '');
@@ -297,10 +297,11 @@
     };
 
     /**
-     * Get the filter results row html code.
+     * Get the filter results row HTML code.
      *
-     * @param {object} category Contains the category data.
-     * @return {string} Returns the record html code.
+     * @param {Object} category Contains the category data.
+     *
+     * @return {String} Returns the record HTML code.
      */
     CategoriesHelper.prototype.getFilterHtml = function(category) {
         var html =
@@ -312,11 +313,12 @@
     };
 
     /**
-     * Select a specific record from the current filter results. If the category id does not exist
-     * in the list then no record will be selected.
+     * Select a specific record from the current filter results.
      *
-     * @param {numeric} id The record id to be selected from the filter results.
-     * @param {bool} display (OPTIONAL = false) If true then the method will display the record
+     * If the category ID does not exist in the list then no record will be selected.
+     *
+     * @param {Number} id The record ID to be selected from the filter results.
+     * @param {Boolean} display Optional (false), if true then the method will display the record
      * on the form.
      */
     CategoriesHelper.prototype.select = function(id, display) {
