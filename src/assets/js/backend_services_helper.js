@@ -9,17 +9,17 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
- /**
-  * ServicesHelper
-  *
-  * This class contains the methods that will be used by the "Services" tab of the page.
-  *
-  * @class ServicesHelper
-  */
 (function() {
 
     'use strict';
 
+    /**
+     * ServicesHelper
+     *
+     * This class contains the methods that will be used by the "Services" tab of the page.
+     *
+     * @class ServicesHelper
+     */
     function ServicesHelper() {
         this.filterResults = {};
     };
@@ -29,6 +29,8 @@
 
         /**
          * Event: Filter Services Form "Submit"
+         *
+         * @param {jQuery.Event} event
          */
         $('#filter-services form').submit(function(event) {
             var key = $('#filter-services .key').val();
@@ -168,7 +170,7 @@
     /**
      * Save service record to database.
      *
-     * @param {object} service Contains the service record data. If an 'id' value is provided
+     * @param {Object} service Contains the service record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
     ServicesHelper.prototype.save = function(service) {
@@ -193,13 +195,13 @@
     /**
      * Delete a service record from database.
      *
-     * @param {numeric} id Record id to be deleted.
+     * @param {Number} id Record ID to be deleted.
      */
     ServicesHelper.prototype.delete = function(id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service',
             postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'service_id': id
+                csrfToken: GlobalVariables.csrfToken,
+                service_id: id
             };
 
         $.post(postUrl, postData, function(response) {
@@ -217,8 +219,9 @@
     /**
      * Validates a service record.
      *
-     * @param {object} service Contains the service data.
-     * @returns {bool} Returns the validation result.
+     * @param {Object} service Contains the service data.
+     *
+     * @return {Boolean} Returns the validation result.
      */
     ServicesHelper.prototype.validate = function(service) {
         $('#services .required').css('border', '');
@@ -265,7 +268,7 @@
     /**
      * Display a service record into the service form.
      *
-     * @param {object} service Contains the service record data.
+     * @param {Object} service Contains the service record data.
      */
     ServicesHelper.prototype.display = function(service) {
         $('#service-id').val(service.id);
@@ -282,11 +285,10 @@
     /**
      * Filters service records depending a string key.
      *
-     * @param {string} key This is used to filter the service records of the database.
-     * @param {numeric} selectId (OPTIONAL = undefined) If set then after the filter
-     * operation the record with this id will be selected (but not displayed).
-     * @param {bool} display (OPTIONAL = false) If true then the selected record will
-     * be displayed on the form.
+     * @param {String} key This is used to filter the service records of the database.
+     * @param {Number} selectId Optional, if set then after the filter operation the record with this
+     * ID will be selected (but not displayed).
+     * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
     ServicesHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
@@ -323,10 +325,13 @@
     };
 
     /**
-     * Get a service row html code that is going to be displayed on the filter results list.
+     * Get Filter HTML
      *
-     * @param {object} service Contains the service record data.
-     * @returns {string} The html code that represents the record on the filter results list.
+     * Get a service row HTML code that is going to be displayed on the filter results list.
+     *
+     * @param {Object} service Contains the service record data.
+     *
+     * @return {String} The HTML code that represents the record on the filter results list.
      */
     ServicesHelper.prototype.getFilterHtml = function(service) {
         var html =
@@ -343,9 +348,8 @@
      * Select a specific record from the current filter results. If the service id does not exist
      * in the list then no record will be selected.
      *
-     * @param {numeric} id The record id to be selected from the filter results.
-     * @param {bool} display (OPTIONAL = false) If true then the method will display the record
-     * on the form.
+     * @param {Number} id The record id to be selected from the filter results.
+     * @param {Boolean} display Optional (false), if true then the method will display the record on the form.
      */
     ServicesHelper.prototype.select = function(id, display) {
         display = display || false;
