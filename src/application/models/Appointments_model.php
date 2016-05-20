@@ -211,7 +211,7 @@ class Appointments_Model extends CI_Model {
             $num_rows = $this->db->get_where('ea_services',
                     array('id' => $appointment['id_services']))->num_rows();
             if ($num_rows == 0) {
-                throw new Exception('Appointment customer id is invalid.');
+                throw new Exception('Appointment service id is invalid.');
             }
         }
 
