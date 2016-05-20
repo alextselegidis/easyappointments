@@ -189,6 +189,61 @@ body .jspTrack {
     background: #EBEBEB;
 }
 
+
+/* BACKEND COMPONENTS
+   -------------------------------------------------------------------- */
+
+.backend-page .filter-records {
+    margin: 15px 0px 15px 15px;
+    width: 350px;
+}
+
+.backend-page .filter-records form {
+    height: 35px;
+    padding-top: 5px
+}
+
+.backend-page .filter-records form .key {
+    margin-right: 15px;
+    float: left;
+}
+
+.backend-page .filter-records .results {
+    overflow-y: auto;
+    max-height: 650px;
+    outline: none;
+}
+
+.backend-page .filter-records .results .entry {
+    padding: 10px 7px;
+}
+
+.backend-page .filter-records .results .entry:hover:not(.selected) {
+    background-color: #F3F3F3;
+    cursor: pointer;
+}
+
+.backend-page .filter-records .results .entry.selected {
+    background-color: #F4F4F4;
+    border-right: 5px solid #35B66F;
+}
+
+.backend-page .filter-records .results hr {
+    margin: 5px 0;
+}
+
+.record-details {
+    margin: 15px 0 15px 15px;
+    max-width: 710px;
+}
+
+.record-details input,
+.record-details textarea {
+    background-color: white;
+    cursor: default;
+}
+
+
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar {
@@ -329,61 +384,9 @@ body .form-horizontal .controls {
     margin-left: 158px;
 }
 
-/* BACKEND COMPONENTS
-   -------------------------------------------------------------------- */
-.filter-records form {
-    height: 35px;
-    padding-top: 5px
-}
-
-.filter-records form .key {
-    margin-right: 15px;
-    float: left;
-}
-
 
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
-#customers-page h2 {
-    color: #525252;
-}
-
-#customers-page #filter-customers {
-    margin: 15px 0px 15px 15px;
-    width: 350px;
-}
-
-#customers-page .filter-records .results {
-    overflow-y: auto;
-    max-height: 650px;
-    outline: none;
-}
-
-#customers-page #filter-customers .results .customer-row {
-    padding: 10px 7px;
-}
-
-#customers-page #filter-customers .results .customer-row:hover:not(.selected-row) {
-    background-color: #F3F3F3;
-    cursor: pointer;
-}
-
-#customers-page #filter-customers .results hr {
-    margin: 5px 0;
-}
-
-#customers-page .details {
-    margin: 15px 0 15px 15px;
-    max-width: 710px;
-}
-
-#customers-page .details .btn-toolbar {
-    margin-top: 0px;
-}
-
-#customers-page .details div.span5 {
-    margin-left: 0;
-}
 
 #customers-page #customer-appointments {
     height: 370px;
@@ -399,9 +402,13 @@ body .form-horizontal .controls {
     border-right: none;
 }
 
-#customers-page #customer-appointments .appointment-row:hover:not(.selected-row) {
+#customers-page #customer-appointments .appointment-row:hover:not(.selected) {
     background-color: #F3F3F3;
     cursor: pointer;
+}
+
+#customers-page #customer-appointments .appointment-row.selected {
+    background-color: #F4F4F4;
 }
 
 #customers-page #appointment-details {
@@ -412,17 +419,6 @@ body .form-horizontal .controls {
     padding: 10px;
     background: #F8F8F8;
     border-bottom: 4px solid #EEE;
-}
-
-#customers-page .details input,
-#customers-page .details textarea {
-    background-color: white;
-    cursor: default;
-}
-
-#customers-page .selected-row {
-    background-color: #F4F4F4;
-    border-right: 5px solid #35B66F;
 }
 
 

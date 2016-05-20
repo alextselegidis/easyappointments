@@ -32,33 +32,33 @@
      */
     var helper = {};
 
-   /**
-    * This method initializes the backend customers page. If you use this namespace
-    * in a different page do not use this method.
-    *
-    * @param {Boolean} defaultEventHandlers Optional (false), whether to bind the default
-    * event handlers or not.
-    */
-   exports.initialize = function(defaultEventHandlers) {
-       if (defaultEventHandlers == undefined) defaultEventHandlers = false;
+    /**
+     * This method initializes the backend customers page. If you use this namespace
+     * in a different page do not use this method.
+     *
+     * @param {Boolean} defaultEventHandlers Optional (false), whether to bind the default
+     * event handlers or not.
+     */
+    exports.initialize = function(defaultEventHandlers) {
+        defaultEventHandlers = defaultEventHandlers || false;
 
-       helper = new CustomersHelper();
-       helper.resetForm();
-       helper.filter('');
+        helper = new CustomersHelper();
+        helper.resetForm();
+        helper.filter('');
 
         $('#filter-customers .results').jScrollPane();
         $('#customer-appointments').jScrollPane();
 
-       if (defaultEventHandlers) {
+        if (defaultEventHandlers) {
            _bindEventHandlers();
-       }
-   };
+        }
+    };
 
     /**
      * Default event handlers declaration for backend customers page.
      */
-   function _bindEventHandlers() {
-       helper.bindEventHandlers();
-   }
+    function _bindEventHandlers() {
+        helper.bindEventHandlers();
+    }
 
 })(window.BackendCustomers);

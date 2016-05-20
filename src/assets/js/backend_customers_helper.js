@@ -35,7 +35,7 @@
          */
         $('#filter-customers form').submit(function(event) {
             var key = $('#filter-customers .key').val();
-            $('#filter-customers .selected-row').removeClass('selected-row');
+            $('#filter-customers .selected').removeClass('selected');
             instance.resetForm();
             instance.filter(key);
             return false;
@@ -51,11 +51,11 @@
         });
 
         /**
-         * Event: Customer Row "Click"
+         * Event: Filter Entry "Click"
          *
          * Display the customer data of the selected row.
          */
-        $(document).on('click', '.customer-row', function() {
+        $(document).on('click', '.entry', function() {
             if ($('#filter-customers .filter').prop('disabled')) {
                 return; // Do nothing when user edits a customer record.
             }
@@ -70,8 +70,8 @@
             });
 
             instance.display(customer);
-            $('#filter-customers .selected-row').removeClass('selected-row');
-            $(this).addClass('selected-row');
+            $('#filter-customers .selected').removeClass('selected');
+            $(this).addClass('selected');
             $('#edit-customer, #delete-customer').prop('disabled', false);
         });
 
@@ -81,10 +81,10 @@
          * Display appointment data of the selected row.
          */
         $(document).on('click', '.appointment-row', function() {
-            $('#customer-appointments .selected-row').removeClass('selected-row');
-            $(this).addClass('selected-row');
+            $('#customer-appointments .selected').removeClass('selected');
+            $(this).addClass('selected');
 
-            var customerId = $('#filter-customers .selected-row').attr('data-id'),
+            var customerId = $('#filter-customers .selected').attr('data-id'),
                 appointmentId = $(this).attr('data-id'),
                 appointment = {};
 
@@ -110,7 +110,7 @@
             instance.resetForm();
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
-            $('.details').find('input, textarea').prop('readonly', false);
+            $('.record-details').find('input, textarea').prop('readonly', false);
 
             $('#filter-customers button').prop('disabled', true);
             $('#filter-customers .results').css('color', '#AAA');
@@ -120,7 +120,7 @@
          * Event: Edit Customer Button "Click"
          */
         $('#edit-customer').click(function() {
-            $('.details').find('input, textarea').prop('readonly', false);
+            $('.record-details').find('input, textarea').prop('readonly', false);
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
 
@@ -273,8 +273,8 @@
      * Bring the customer form back to its initial state.
      */
     CustomersHelper.prototype.resetForm = function() {
-        $('.details').find('input, textarea').val('');
-        $('.details').find('input, textarea').prop('readonly', true);
+        $('.record-details').find('input, textarea').val('');
+        $('.record-details').find('input, textarea').prop('readonly', true);
 
         $('#customer-appointments').html('');
         $('#appointment-details').html('');
@@ -282,11 +282,11 @@
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
 
-        $('.details .required').css('border', '');
-        $('.details #form-message').hide();
+        $('.record-details .required').css('border', '');
+        $('.record-details #form-message').hide();
 
         $('#filter-customers button').prop('disabled', false);
-        $('#filter-customers .selected-row').removeClass('selected-row');
+        $('#filter-customers .selected').removeClass('selected');
         $('#filter-customers .results').css('color', '');
     };
 
@@ -381,7 +381,7 @@
                 ? info + ', ' + customer.phone_number : info;
 
         var html =
-                '<div class="customer-row" data-id="' + customer.id + '">' +
+                '<div class="entry" data-id="' + customer.id + '">' +
                     '<strong>' +
                         name +
                     '</strong><br>' +
@@ -403,11 +403,11 @@
     CustomersHelper.prototype.select = function(id, display) {
         display = display || false
 
-        $('#filter-customers .selected-row').removeClass('selected-row');
+        $('#filter-customers .selected').removeClass('selected');
 
-        $('#filter-customers .customer-row').each(function() {
+        $('#filter-customers .entry').each(function() {
             if ($(this).attr('data-id') == id) {
-                $(this).addClass('selected-row');
+                $(this).addClass('selected');
                 return false;
             }
         });
