@@ -97,6 +97,65 @@
                                 <?php echo $this->lang->line('company_link_hint'); ?>
                             </span>
                         </div>
+                        <div class="form-group">
+                            <label for="email-type"><?php echo $this->lang->line('email_type'); ?></label>
+                            <select class="form-control" id="email_type" data-field="email_type">
+                                <option value="mail">Default</option>
+                                <option value="smtp">SMTP</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_type_hint'); ?>
+                            </span>
+                        </div> 
+                        <div class="form-group">
+                            <label for="email-host"><?php echo $this->lang->line('email_host'); ?></label>
+                            <input type="text" id="email_host" data-field="email_host" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_host_hint'); ?>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-port"><?php echo $this->lang->line('email_port'); ?></label>
+                            <input type="text" id="email_port" data-field="email_port" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_port_hint'); ?>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-auth-status"><?php echo $this->lang->line('email_auth_status'); ?></label>
+                            <select class="form-control" id="email_auth_status" data-field="email_auth_status">
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_auth_status_hint'); ?>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-auth-mode"><?php echo $this->lang->line('email_auth_mode'); ?></label>
+                            <select class="form-control" id="email_auth_mode" data-field="email_auth_mode">
+                                <option value="">None</option>
+                                <option value="ssl">SSL</option>
+                                <option value="tls">TLS</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_auth_mode_hint'); ?>
+                            </span>
+                        </div>     
+                        <div class="form-group">
+                            <label for="email-username"><?php echo $this->lang->line('email_username'); ?></label>
+                            <input type="text" id="email_username" data-field="email_username" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_username_hint'); ?>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-password"><?php echo $this->lang->line('email_password'); ?></label>
+                            <input type="password" id="email_password" data-field="email_password" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_password_hint'); ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
