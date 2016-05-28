@@ -128,12 +128,15 @@ class Notifications {
         $mail->CharSet = 'UTF-8';
         $mail->Subject = $title;
         $mail->Body    = $email_html;
-        $mail->Host    = $company_settings['email_host'];
-        $mail->SMTPAuth    = $company_settings['email_auth_status'];
-        $mail->SMTPSecure    = $company_settings['email_auth_mode'];
-        $mail->Port    = $company_settings['email_port'];
-        $mail->Username    = $company_settings['email_username'];
-        $mail->Password    = $company_settings['email_password'];
+        if($company_settings['email_type'] == 'smtp'){
+            $mail->IsSMTP();
+            $mail->Host    = $company_settings['email_host'];
+            $mail->SMTPAuth    = $company_settings['email_auth_status'];
+            $mail->SMTPSecure    = $company_settings['email_auth_mode'];
+            $mail->Port    = $company_settings['email_port'];
+            $mail->Username    = $company_settings['email_username'];
+            $mail->Password    = $company_settings['email_password'];
+        }
 
         if (!$mail->Send()) {
             throw new Exception('Email could not been sent. Mailer Error (Line '
@@ -207,12 +210,15 @@ class Notifications {
         $mail->CharSet      = 'UTF-8';
         $mail->Subject      = $this->ci->lang->line('appointment_cancelled_title');
         $mail->Body         = $email_html;
-        $mail->Host    = $company_settings['email_host'];
-        $mail->SMTPAuth    = $company_settings['email_auth_status'];
-        $mail->SMTPSecure    = $company_settings['email_auth_mode'];
-        $mail->Port    = $company_settings['email_port'];
-        $mail->Username    = $company_settings['email_username'];
-        $mail->Password    = $company_settings['email_password'];
+        if($company_settings['email_type'] == 'smtp'){
+            $mail->IsSMTP();
+            $mail->Host    = $company_settings['email_host'];
+            $mail->SMTPAuth    = $company_settings['email_auth_status'];
+            $mail->SMTPSecure    = $company_settings['email_auth_mode'];
+            $mail->Port    = $company_settings['email_port'];
+            $mail->Username    = $company_settings['email_username'];
+            $mail->Password    = $company_settings['email_password'];
+        }
 
         if (!$mail->Send()) {
             throw new Exception('Email could not been sent. '
@@ -251,13 +257,16 @@ class Notifications {
         $mail->CharSet = 'UTF-8';
         $mail->Subject = $this->ci->lang->line('new_account_password');
         $mail->Body = $email_html;
-        $mail->Host    = $company_settings['email_host'];
-        $mail->SMTPAuth    = $company_settings['email_auth_status'];
-        $mail->SMTPSecure    = $company_settings['email_auth_mode'];
-        $mail->Port    = $company_settings['email_port'];
-        $mail->Username    = $company_settings['email_username'];
-        $mail->Password    = $company_settings['email_password'];
-
+        if($company_settings['email_type'] == 'smtp'){
+            $mail->IsSMTP();
+            $mail->Host    = $company_settings['email_host'];
+            $mail->SMTPAuth    = $company_settings['email_auth_status'];
+            $mail->SMTPSecure    = $company_settings['email_auth_mode'];
+            $mail->Port    = $company_settings['email_port'];
+            $mail->Username    = $company_settings['email_username'];
+            $mail->Password    = $company_settings['email_password'];
+        }
+        
         if (!$mail->Send()) {
             throw new Exception('Email could not been sent. '
                     . 'Mailer Error (Line ' . __LINE__ . '): ' . $mail->ErrorInfo);
