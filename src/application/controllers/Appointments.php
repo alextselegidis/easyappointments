@@ -162,7 +162,13 @@ class Appointments extends CI_Controller {
             $company_settings = array(
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link')
+                'company_link' => $this->settings_model->get_setting('company_link'),
+            	'email_host' => $this->settings_model->get_setting('email_host'),
+            	'email_auth_status' => $this->settings_model->get_setting('email_auth_status'),
+            	'email_auth_mode' => $this->settings_model->get_setting('email_auth_mode'),
+            	'email_port' => $this->settings_model->get_setting('email_port'),
+            	'email_username' => $this->settings_model->get_setting('email_username'),
+            	'email_password' => $this->settings_model->get_setting('email_password')
             );
 
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
@@ -373,7 +379,13 @@ class Appointments extends CI_Controller {
             $company_settings = array(
                 'company_name'  => $this->settings_model->get_setting('company_name'),
                 'company_link'  => $this->settings_model->get_setting('company_link'),
-                'company_email' => $this->settings_model->get_setting('company_email')
+                'company_email' => $this->settings_model->get_setting('company_email'),
+            	'email_host' => $this->settings_model->get_setting('email_host'),
+            	'email_auth_status' => $this->settings_model->get_setting('email_auth_status'),
+            	'email_auth_mode' => $this->settings_model->get_setting('email_auth_mode'),
+            	'email_port' => $this->settings_model->get_setting('email_port'),
+            	'email_username' => $this->settings_model->get_setting('email_username'),
+            	'email_password' => $this->settings_model->get_setting('email_password')
             );
 
             // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
