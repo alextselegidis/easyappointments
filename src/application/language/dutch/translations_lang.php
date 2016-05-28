@@ -1,16 +1,16 @@
 <?php
 // Dutch
 $lang['page_title'] ='Boek afspraak met';
-$lang['step_one_title'] ='Selecteer Service & Provider';
-$lang['select_service'] ='Selecteer Dienst';
-$lang['select_provider'] ='Selecteer Provider';
+$lang['step_one_title'] ='Selecteer dienst & provider';
+$lang['select_service'] ='Selecteer dienst';
+$lang['select_provider'] ='Selecteer provider';
 $lang['duration'] ='Duur';
-$lang['minutes'] ='Minuten';
+$lang['minutes'] ='minuten';
 $lang['price'] ='Prijs';
 $lang['back'] ='Terug';
-$lang['step_two_title'] ='Selecteer Afspraak datum en tijd';
-$lang['no_available_hours'] ='Het is momenteel niet mogelijk een afspraak te maken op die datum. Kies dan een andere datum.';
-$lang['appointment_hour_missing'] ='Kiest u een tijd voordat u verder gaat!';
+$lang['step_two_title'] ='Selecteer een datum en tijd';
+$lang['no_available_hours'] ='Het is momenteel niet mogelijk een afspraak te maken op die datum. Kies een andere datum.';
+$lang['appointment_hour_missing'] ='Kies een tijd voordat u verder gaat!';
 $lang['step_three_title'] ='Vul uw informatie in';
 $lang['first_name'] ='Voornaam';
 $lang['last_name'] ='Achternaam';
@@ -26,7 +26,7 @@ $lang['confirm'] ='Bevestigen';
 $lang['update'] ='Update';
 $lang['cancel_appointment_hint'] ='Druk op de knop "Annuleren" om de afspraak van de agenda van de organisatie te verwijderen.';
 $lang['cancel'] ='Annuleren';
-$lang['appointment_registered'] ='Uw afspraak is succesvol geregistreerd!';
+$lang['appointment_registered'] ='Uw afspraak is succesvol geboekt!';
 $lang['cancel_appointment_title'] ='Afspraak annuleren';
 $lang['appointment_cancelled'] ='Uw afspraak is met succes geannuleerd!';
 $lang['appointment_cancelled_title'] ='Afspraak geannuleerd';
