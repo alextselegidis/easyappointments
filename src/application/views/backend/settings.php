@@ -98,6 +98,16 @@
                             </span>
                         </div>
                         <div class="form-group">
+                            <label for="email-type"><?php echo $this->lang->line('email_type'); ?></label>
+                            <select class="form-control" id="email_type" data-field="email_type">
+                                <option value="mail">Default</option>
+                                <option value="smtp">SMTP</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('email_type_hint'); ?>
+                            </span>
+                        </div> 
+                        <div class="form-group">
                             <label for="email-host"><?php echo $this->lang->line('email_host'); ?></label>
                             <input type="text" id="email_host" data-field="email_host" class="form-control">
                             <span class="help-block">
