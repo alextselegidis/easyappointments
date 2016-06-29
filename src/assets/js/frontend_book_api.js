@@ -230,15 +230,13 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('#available-hours').text(EALang['no_available_hours']);
                 }
 
-                // Apply the new beforeShowDayHandler method to the #select-date datepicker.
-                var beforeShowDayHandler = function(date) {
-                    if ($.inArray(date.toString('yyyy-MM-dd'), response) != -1) {
-                        return [false];
+                // Grey out unavailable dates.
+                $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function(index, td) {
+                    selectedDate.set({day: index + 1});
+                    if ($.inArray(selectedDate.toString('yyyy-MM-dd'), response) != -1) {
+                        $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
                     }
-                    return [true];
-                };
-
-                $('#select-date').datepicker('option', 'beforeShowDay', beforeShowDayHandler);
+                });
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     };
