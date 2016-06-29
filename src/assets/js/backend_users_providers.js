@@ -57,7 +57,7 @@
          *
          * Display the selected provider data to the user.
          */
-        $('#providers').on('click', '.provider-row', function() {
+        $('#providers').on('click', '.provider-row', function(e) {
             if ($('#filter-providers .filter').prop('disabled')) {
                 $('#filter-providers .results').css('color', '#AAA');
                 return; // Exit because we are currently on edit mode.

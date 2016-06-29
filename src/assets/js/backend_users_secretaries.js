@@ -57,7 +57,7 @@
          *
          * Display the selected secretary data to the user.
          */
-        $('#secretaries').on('click', '.secretary-row', function() {
+        $('#secretaries').on('click', '.secretary-row', function(e) {
             if ($('#filter-secretaries .filter').prop('disabled')) {
                 $('#filter-secretaries .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode

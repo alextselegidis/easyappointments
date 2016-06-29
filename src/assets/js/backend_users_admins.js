@@ -55,7 +55,7 @@
          *
          * Display the selected admin data to the user.
          */
-        $('#admins').on('click', '.admin-row', function() {
+        $('#admins').on('click', '.admin-row', function(e) {
             if ($('#filter-admins .filter').prop('disabled')) {
                 $('#filter-admins .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
