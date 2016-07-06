@@ -28,5 +28,14 @@
   },
   "engines": {
     "node": ">=0.12"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "datatables": "^1.10.12",
+    "datejs": "0.0.2",
+    "fullcalendar": "^2.8.0",
+    "jquery": "^3.0.0",
+    "jquery-ui": "^1.10.5",
+    "qtip2": "^3.0.3"
   }
 }
