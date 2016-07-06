@@ -3,6 +3,18 @@ This file contains the code changes that were introduced into each release
 (starting from v1.1.0) so that is easy for developers to maintain and readjust
 their custom modifications on the main project codebase.
 
+
+### Version 1.2.0
+- Issue #174: Implementation of a REST API.
+- Issue #175: The backend must be responsive as well.
+- Issue #22: Google Calendar Sync - Time Zone Issue
+- Issue #152: American Time Format (AM/PM)
+- Issue #136: Loading spinner is not shown in during the installation.
+- Issue #112: Remove PHPmailer from the project and use the CodeIgniter class.
+- Issue #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
+- Issue #45: Add secure flag to CI_SESSION when HTTPS is enabled.
+- Issue #54: Default auto-complete for the appointment end time according to service duration.
+
 ### Version 1.1.1
 - Issue #116: Book advance timeout not taken into account for proposed appointments.
 - Issue #118: Google Calendar and notification mail problem bug.
