@@ -42,5 +42,21 @@ $route['default_controller'] = "appointments";
 $route['404_override'] = 'errors/error404';
 
 
+/*
+| -------------------------------------------------------------------------
+| REST API ROUTING
+| -------------------------------------------------------------------------
+| The following routes will point the API calls into the correct controller
+| callback methods. This routes also define the HTTP verbs that they are 
+| used for each operation.
+|
+*/
+
+$route['api/appointments']['get'] = 'api/appointments/get/$1';
+$route['api/appointments']['post'] = 'api/appointments/insert';
+$route['api/appointments']['put'] = 'api/appointments/update/$1';
+$route['api/appointments']['delete'] = 'api/appointments/delete/$1';
+
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
