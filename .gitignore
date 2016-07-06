@@ -3,6 +3,7 @@ composer
 doc
 easyappointments.zip
 node_modules
+npm-debug.log
 src/application/logs/*
 !src/application/logs/index.html
 src/config.php
