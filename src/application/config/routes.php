@@ -52,11 +52,29 @@ $route['404_override'] = 'errors/error404';
 |
 */
 
-$route['api/appointments']['get'] = 'api/appointments/get/$1';
-$route['api/appointments']['post'] = 'api/appointments/insert';
-$route['api/appointments']['put'] = 'api/appointments/update/$1';
-$route['api/appointments']['delete'] = 'api/appointments/delete/$1';
+$resources = [
+    'appointments',
+    'customers', 
+    'services'
+    'providers', 
+    'secretaries'
+];
 
+foreach($resouces as $resource) {
+    $route['api/v1/' . $resource]['post'] = 'api/v1/' . $resource . '/post';
+    $route['api/v1/' . $resource . '/(:num)']['put'] = 'api/v1/' . $resource . '/put/$1';
+    $route['api/v1/' . $resource . '/(:num)']['delete'] = 'api/v1/' . $resource . '/delete/$1';
+    $route['api/v1/' + $resource]['get'] = 'api/v1/' . $resource . '/get';    
+    $route['api/v1/' . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '/get/$1';
+}
+
+$route['api/v1/appointments']['get'] = 'api/v1/appointments/get';
+$route['api/v1/appointments/(:num)']['get'] = 'api/v1/appointments/get/$1';
+
+// $route['api/v1/(:any)']['post'] = 'api/v1/$1/post/';
+// $route['api/v1/(:any)/$2']['put'] = 'api/v1/$1/put/$2';
+// $route['api/v1/(:any)/$2']['delete'] = 'api/v1/$1/delete/$2';
+// $route['api/v1/(:any)/$2']['get'] = 'api/v1/$1/get/$2';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
