@@ -32,7 +32,7 @@ class Categories extends API_V1_Controller {
      * 
      * @param int $id Optional (null), the record ID to be returned.
      * 
-     * @return \Engine\Api\V1\Response Returns data response. 
+     * @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function get($id = null) {
         
@@ -41,7 +41,7 @@ class Categories extends API_V1_Controller {
     /**
      * POST API Method 
      * 
-     * @return @return \Engine\Api\V1\Response Returns data response. 
+     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function post() {
         
@@ -52,7 +52,7 @@ class Categories extends API_V1_Controller {
      *
      * @param int $id The record ID to be updated.
      * 
-     * @return @return \Engine\Api\V1\Response Returns data response. 
+     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function put($id) {
 
@@ -63,7 +63,7 @@ class Categories extends API_V1_Controller {
      *
      * @param int $id The record ID to be deleted.
      * 
-     * @return @return \Engine\Api\V1\Response Returns data response. 
+     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function delete($id) {
 
