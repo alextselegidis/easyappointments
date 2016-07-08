@@ -49,6 +49,18 @@
 
  require_once __DIR__ . '/config.php';
 
+ /*
+  *---------------------------------------------------------------
+  * EASY!APPOINTMENTS AUTOLOAD FILE
+  *---------------------------------------------------------------
+  *
+  * Include Easy!Appointments autoload file so that namespace 
+  * classes are loaded automatically.
+  *
+  */
+
+ require_once __DIR__ . '/autoload.php';
+
 
  /*
   *---------------------------------------------------------------
