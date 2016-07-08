@@ -11,20 +11,62 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
+require_once __DIR__ . '/API_V1_Controller.php';
+
 /**
  * Appointments Controller
  *
  * @package Controllers
- * @subpackage  API
+ * @subpackage API
  */
-class Appointments extends CI_Controller {
-
-    public function get($id = null) {
-        echo 'hello ' . $id;
+class Appointments extends API_V1_Controller {
+    /**
+     * Class Constructor
+     */
+    public function __construct() {
+        parent::__construct();
     }
 
+    /**
+     * GET API Method 
+     * 
+     * @param int $id Optional (null), the record ID to be returned.
+     * 
+     * @return \Engine\Api\V1\Response Returns data response. 
+     */
+    public function get($id = null) {
+        
+    }
+
+    /**
+     * POST API Method 
+     * 
+     * @return @return \Engine\Api\V1\Response Returns data response. 
+     */
     public function post() {
-        echo 'post';
+        
+    }
+
+    /**
+     * PUT API Method 
+     *
+     * @param int $id The record ID to be updated.
+     * 
+     * @return @return \Engine\Api\V1\Response Returns data response. 
+     */
+    public function put($id) {
+
+    }
+
+    /**
+     * DELETE API Method 
+     *
+     * @param int $id The record ID to be deleted.
+     * 
+     * @return @return \Engine\Api\V1\Response Returns data response. 
+     */
+    public function delete($id) {
+
     }
 }
 
