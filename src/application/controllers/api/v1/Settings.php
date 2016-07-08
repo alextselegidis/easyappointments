@@ -14,12 +14,12 @@
 require_once __DIR__ . '/API_V1_Controller.php';
 
 /**
- * Appointments Controller
+ * Settings Controller
  *
  * @package Controllers
  * @subpackage API
  */
-class Appointments extends API_V1_Controller {
+class Settings extends API_V1_Controller {
     /**
      * Class Constructor
      */
@@ -70,5 +70,5 @@ class Appointments extends API_V1_Controller {
     }
 }
 
-/* End of file Appointments.php */
-/* Location: ./application/controllers/api/v1/Appointments.php */
+/* End of file Settings.php */
+/* Location: ./application/controllers/api/v1/Settings.php */
