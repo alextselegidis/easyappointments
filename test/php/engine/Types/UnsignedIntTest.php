@@ -13,19 +13,19 @@
 
 namespace EA\Engine\Types; 
 
-class IntTest extends \PHPUnit_Framework_TestCase {
-    public function testIntType() {
-        $type = new Int(1); 
+class UnsignedIntTest extends \PHPUnit_Framework_TestCase {
+    public function testUnsignedIntType() {
+        $type = new UnsignedInt(1); 
         $this->assertEquals(1, $type->get()); 
     } 
 
-    public function testIntTypeThrowsExceptionWithFloat() {
+    public function testUnsignedIntTypeThrowsExceptionWithNegative() {
         $this->setExpectedException('\InvalidArgumentException');
-        new Int(100.00);
+        new UnsignedInt(-1);
     }
 
-    public function testIntTypeThrowsExceptionWithWithString() {
+    public function testUnsignedIntTypeThrowsExceptionWithWithString() {
         $this->setExpectedException('\InvalidArgumentException');
-        new Int('invalid');
+        new UnsignedInt('invalid');
     }
 }

@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Types; 
 
-class String extends Type {
+class Url extends NonEmptyString {
     protected function _validate($value) {
-        return is_string($value);
+        return parent::_validate($value) && filter_var($value, FILTER_VALIDATE_URL);
     }
 }

@@ -13,8 +13,19 @@
 
 namespace EA\Engine\Types; 
 
-class String extends Type {
-    protected function _validate($value) {
-        return is_string($value);
+class UrlTest extends \PHPUnit_Framework_TestCase {
+    public function testUrlType() {
+        $type = new Url('http://localhost'); 
+        $this->assertEquals('http://localhost', $type->get()); 
+    } 
+
+    public function testUrlTypeThrowsExceptionWithInvalidUrl() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Url('abcdef');
+    }
+
+    public function testUrlTypeThrowsExceptionWithInvalidValue() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Url(null);
     }
 }

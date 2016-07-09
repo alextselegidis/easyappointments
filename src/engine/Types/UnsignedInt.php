@@ -11,8 +11,10 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace \EA\Engine\Types; 
+namespace EA\Engine\Types; 
 
 class UnsignedInt extends Int {
-    
+    protected function _validate($value) {
+        return parent::_validate($value) && $value > -1; 
+    }   
 }

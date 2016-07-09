@@ -14,9 +14,7 @@
 namespace EA\Engine\Types; 
 
 class Int extends Type {
-    protected function _validate() {
-        if (!is_numeric($this->value) && (int)$this->value !== (float)$this->value) {
-            throw new \InvalidArgumentException('Invalid type value provided (expected int): ' . $this->value); 
-        }
+    protected function _validate($value) {
+        return is_numeric($value) && !is_float($value);
     }
 }

@@ -13,8 +13,14 @@
 
 namespace EA\Engine\Types; 
 
-class String extends Type {
-    protected function _validate($value) {
-        return is_string($value);
+class StringTest extends \PHPUnit_Framework_TestCase {
+    public function testStringType() {
+        $type = new String('Hello!'); 
+        $this->assertEquals('Hello!', $type->get()); 
+    } 
+
+    public function testStringTypeThrowsExceptionWithInvalidValue() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new String(null);
     }
 }

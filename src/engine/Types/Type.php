@@ -25,8 +25,11 @@ abstract class Type {
      * @param mixed $value The type value to be validated.
      */
     public function __construct($value) {
+        if (!$this->_validate($value)) {
+            throw new \InvalidArgumentException(__CLASS__ . ': Invalid argument value provided (' . $value . ')'); 
+        }
+
         $this->value = $value; 
-        $this->_validate($value);
     }
 
     /**
@@ -40,8 +43,10 @@ abstract class Type {
 
     /**
      * Implement the validation logic in the children classes.
+     *
+     * @param mixed $value The value to be validated.
      * 
-     * @throws \InvalidArgumentException If the validation fails.
+     * @return bool Returns whether the value is valid or not.
      */
-    abstract protected function _validate();
+    abstract protected function _validate($value);
 }

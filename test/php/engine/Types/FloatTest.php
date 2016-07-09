@@ -11,8 +11,16 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace \EA\Engine\Types; 
+namespace EA\Engine\Types; 
 
-class Double extends Type {
+class FloatTest extends \PHPUnit_Framework_TestCase {
+    public function testFloatType() {
+        $type = new Float(100.00); 
+        $this->assertEquals(100.00, $type->get()); 
+    } 
 
+    public function testFloatTypeThrowsExceptionWithInvalidValue() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Float(null);
+    }
 }

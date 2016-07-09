@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Types; 
 
-class String extends Type {
+class Float extends Type {
     protected function _validate($value) {
-        return is_string($value);
+        return is_float($value);
     }
 }

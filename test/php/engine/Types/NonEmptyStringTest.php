@@ -13,19 +13,19 @@
 
 namespace EA\Engine\Types; 
 
-class IntTest extends \PHPUnit_Framework_TestCase {
-    public function testIntType() {
-        $type = new Int(1); 
-        $this->assertEquals(1, $type->get()); 
+class NonEmptyStringTest extends \PHPUnit_Framework_TestCase {
+    public function testNonEmptyStringType() {
+        $type = new NonEmptyString('Hello!'); 
+        $this->assertEquals('Hello!', $type->get()); 
     } 
 
-    public function testIntTypeThrowsExceptionWithFloat() {
+    public function testNonEmptyStringTypeThrowsExceptionWithEmptyString() {
         $this->setExpectedException('\InvalidArgumentException');
-        new Int(100.00);
+        new NonEmptyString('');
     }
 
-    public function testIntTypeThrowsExceptionWithWithString() {
+    public function testNonEmptyStringTypeThrowsExceptionWithInvalidValue() {
         $this->setExpectedException('\InvalidArgumentException');
-        new Int('invalid');
+        new NonEmptyString(null);
     }
 }

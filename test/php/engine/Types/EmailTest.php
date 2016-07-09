@@ -13,8 +13,19 @@
 
 namespace EA\Engine\Types; 
 
-class String extends Type {
-    protected function _validate($value) {
-        return is_string($value);
+class EmailTest extends \PHPUnit_Framework_TestCase {
+    public function testEmailType() {
+        $type = new Email('john@doe.com'); 
+        $this->assertEquals('john@doe.com', $type->get()); 
+    } 
+
+    public function testEmailTypeThrowsExceptionWithInvalidEmail() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Email('abcdef');
+    }
+
+    public function testEmailTypeThrowsExceptionWithInvalidValue() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Email(null);
     }
 }
