@@ -1,12 +1,9 @@
 {
     "id": 1, 
-    "hash": "asdf809a8sdf987a9d8f7", 
     "book": "2016-07-08 12:57:00", 
     "start": "2016-07-08 18:00:00", 
     "end": "2016-07-08 18:30:00", 
     "notes": "These are some test notes.",
-    "customerId": 56,
     "providerId": 4,
-    "serviceId": 7,
-    "googleCalendarId": 134
+    "googleCalendarId": 474
 }

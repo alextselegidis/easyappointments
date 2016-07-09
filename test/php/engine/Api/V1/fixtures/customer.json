@@ -1,0 +1,12 @@
+{
+    "id": 97,
+    "firstname": "John", 
+    "lastname": "Doe", 
+    "email": "john@doe.com", 
+    "mobile": "012345679-0",
+    "phone": "0123456789-1",
+    "address": "Some Str. 123", 
+    "city": "Some City", 
+    "zip": "12345", 
+    "notes": "Test customer notes."
+}
