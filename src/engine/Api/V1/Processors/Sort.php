@@ -14,7 +14,7 @@
 namespace EA\Engine\Api\V1\Processors; 
 
 class Sort implements ProcessorsInterface {
-    public static function process(array $response) {
+    public static function process(array &$response) {
         
     }
 }

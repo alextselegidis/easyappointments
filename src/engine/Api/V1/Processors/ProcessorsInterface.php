@@ -14,5 +14,5 @@
 namespace EA\Engine\Api\V1\Processors;
 
 interface ProcessorsInterface {
-    public static function process(array $response);
+    public static function process(array &$response);
 } 

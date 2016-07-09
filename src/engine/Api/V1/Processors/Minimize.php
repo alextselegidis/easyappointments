@@ -14,7 +14,27 @@
 namespace EA\Engine\Api\V1\Processors; 
 
 class Minimize implements ProcessorsInterface {
-    public static function process(array $response) {
-        
+    public static function process(array &$response) {
+        if (!isset($_GET['fields'])) {
+            return; 
+        }
+
+        $fields = explode(',', $_GET['fields']);
+
+        $temporaryResponse = []; 
+
+        foreach ($response as &$entry) {
+            $temporaryEntry = []; 
+            
+            foreach ($fields as $field) {
+                if (isset($entry[$field])) {
+                    $temporaryEntry[$field] = $entry[$field]; 
+                }
+            } 
+               
+            $temporaryResponse[] = $temporaryEntry;
+        }
+
+        $response = $temporaryResponse;
     }
 }
