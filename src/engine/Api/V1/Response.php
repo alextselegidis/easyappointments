@@ -13,6 +13,8 @@
 
 namespace EA\Engine\Api\V1; 
 
+use EA\Engine\Types\NonEmptyString;
+
 /**
  * API v1 Response 
  *
@@ -42,14 +44,16 @@ class Response {
     }
 
     /**
-     * Format the response entries to the API compatible structure. 
+     * Encode the response entries to the API compatible structure. 
      * 
-     * @param \Formatters\FormattersInterface $formatter Provide the corresponding formatter class. 
+     * @param \Parsers\ParsersInterface $parser Provide the corresponding parser class. 
      *
      * @return \EA\Engine\Api\V1\Response
      */
-    public function format(Formatters\FormattersInterface $formatter) {
-        $formatter->format($this->response);
+    public function encode(Parsers\ParsersInterface $parser) {
+        foreach ($this->response as &$entry) {
+            $parser->encode($entry);
+        }
 
         return $this;
     }

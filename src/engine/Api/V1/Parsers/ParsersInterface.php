@@ -11,8 +11,9 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Api\V1\Formatters;
+namespace EA\Engine\Api\V1\Parsers;
 
-interface FormattersInterface {
-    public function format(array &$response);
+interface ParsersInterface {
+    public function encode(array &$response);
+    public function decode(array &$request);
 } 

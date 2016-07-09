@@ -24,11 +24,11 @@ use \EA\Engine\Types\NonEmptyString;
  */
 class Appointments extends API_V1_Controller {
     /**
-     * Appointments Resource Formatter
+     * Appointments Resource Parser
      * 
-     * @var \EA\Engine\Api\V1\Formatters\Appointments
+     * @var \EA\Engine\Api\V1\Parsers\Appointments
      */
-    protected $formatter; 
+    protected $parser; 
 
     /**
      * Class Constructor
@@ -36,7 +36,7 @@ class Appointments extends API_V1_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('appointments_model');
-        $this->formatter = new \EA\Engine\Api\V1\Formatters\Appointments;
+        $this->parser = new \EA\Engine\Api\V1\Parsers\Appointments;
     }
 
     /**
@@ -46,12 +46,10 @@ class Appointments extends API_V1_Controller {
      */
     public function get($id = null) {
         $condition = $id !== null ? 'id = ' . $id : null;
-        
         $appointments = $this->appointments_model->get_batch($condition); 
-        
-        $response = new Response($appointments); 
 
-        $response->format($this->formatter)->search()->sort()->paginate()->minimize();
+        $response = new Response($appointments); 
+        $response->encode($this->parser)->search()->sort()->paginate()->minimize();
 
         if ($id !== null) {
             $response->singleEntry();
@@ -64,7 +62,13 @@ class Appointments extends API_V1_Controller {
      * POST API Method 
      */
     public function post() {
-        
+        $request = json_decode(file_get_contents('php://input'), true); 
+        $this->parser->decode($request); 
+        $id = $this->appointments_model->add($request);
+        $appointments = $this->appointments_model->get_batch('id = ' . $id); 
+        $response = new Response($appointments); 
+        $status = new NonEmptyString('201 Created');
+        $response->encode($this->parser)->singleEntry()->output($status); 
     }
 
     /**
