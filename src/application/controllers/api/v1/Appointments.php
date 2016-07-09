@@ -13,6 +13,9 @@
 
 require_once __DIR__ . '/API_V1_Controller.php';
 
+use \EA\Engine\Api\V1\Response;
+use \EA\Engine\Types\NonEmptyString; 
+
 /**
  * Appointments Controller
  *
@@ -21,27 +24,38 @@ require_once __DIR__ . '/API_V1_Controller.php';
  */
 class Appointments extends API_V1_Controller {
     /**
+     * Appointments Resource Formatter
+     * 
+     * @var \EA\Engine\Api\V1\Formatters\Appointments
+     */
+    protected $formatter; 
+
+    /**
      * Class Constructor
      */
     public function __construct() {
         parent::__construct();
+        $this->load->model('appointments_model');
+        $this->formatter = new \EA\Engine\Api\V1\Formatters\Appointments;
     }
 
     /**
      * GET API Method 
      * 
      * @param int $id Optional (null), the record ID to be returned.
-     * 
-     * @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function get($id = null) {
-        
+        $appointments = $this->appointments_model->get_batch(); 
+
+        $response = new Response($appointments); 
+
+        $status = new NonEmptyString('200 OK');
+
+        $response->format($this->formatter)->search()->sort()->paginate()->minimize()->output();
     }
 
     /**
      * POST API Method 
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function post() {
         
@@ -51,8 +65,6 @@ class Appointments extends API_V1_Controller {
      * PUT API Method 
      *
      * @param int $id The record ID to be updated.
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function put($id) {
 
@@ -62,8 +74,6 @@ class Appointments extends API_V1_Controller {
      * DELETE API Method 
      *
      * @param int $id The record ID to be deleted.
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function delete($id) {
 

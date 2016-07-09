@@ -11,8 +11,10 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace \EA\Engine\Api\V1; 
+namespace EA\Engine\Api\V1\Processors; 
 
-class Response {
-    
+class Search implements ProcessorsInterface {
+    public static function process(array $response) {
+        
+    }
 }

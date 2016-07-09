@@ -11,8 +11,8 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace \EA\Engine\Api\V1; 
+namespace EA\Engine\Api\V1\Formatters;
 
-class Response {
-    
-}
+interface FormattersInterface {
+    public function format(array &$response);
+} 
