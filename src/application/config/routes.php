@@ -54,6 +54,7 @@ $route['404_override'] = 'errors/error404';
 
 $resources = [
     'appointments',
+    'unavailabilities',
     'customers', 
     'services',
     'categories',
