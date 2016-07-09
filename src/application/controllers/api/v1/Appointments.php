@@ -45,13 +45,19 @@ class Appointments extends API_V1_Controller {
      * @param int $id Optional (null), the record ID to be returned.
      */
     public function get($id = null) {
-        $appointments = $this->appointments_model->get_batch(); 
-
+        $condition = $id !== null ? 'id = ' . $id : null;
+        
+        $appointments = $this->appointments_model->get_batch($condition); 
+        
         $response = new Response($appointments); 
 
-        $status = new NonEmptyString('200 OK');
+        $response->format($this->formatter)->search()->sort()->paginate()->minimize();
 
-        $response->format($this->formatter)->search()->sort()->paginate()->minimize()->output();
+        if ($id !== null) {
+            $response->singleEntry();
+        }
+
+        $response->output();
     }
 
     /**

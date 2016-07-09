@@ -99,6 +99,19 @@ class Response {
     }
 
     /**
+     * Return a single entry instead of an array of entries. 
+     *
+     * This is useful whenever the client requests only a single entry. 
+     *
+     * @return \EA\Engine\Api\V1\Response
+     */
+    public function singleEntry() {
+        $this->response = array_shift($this->response);
+
+        return $this;
+    }
+
+    /**
      * Output the response as a JSON with the provided status header. 
      *
      * @param \EA\Engine\Types\NonEmptyString $status Optional (null), if provided it must contain the status  
