@@ -49,6 +49,11 @@ class Appointments extends API_V1_Controller {
             $condition = $id !== null ? 'id = ' . $id : null;
             $appointments = $this->appointments_model->get_batch($condition); 
 
+            if ($id !== null && count($appointments) === 0) {
+                throw new \EA\Engine\Api\V1\Exception('The requested appointment record was not found!', 404, 
+                        'Not Found');
+            }
+
             $response = new Response($appointments); 
             $response->encode($this->parser)->search()->sort()->paginate()->minimize();
 
@@ -86,11 +91,13 @@ class Appointments extends API_V1_Controller {
      */
     public function put($id) {
         try {
-            if (empty($id) || !is_numeric($id)) {
-                throw new \EA\Engine\Api\V1\Exception('The provided URI ID is not a numeric value: ' . $id);
-            }
+            $appointment = $this->appointments_model->get_batch('id = ' . $id); 
 
-            $appointment = $this->appointments_model->get_row($id); 
+            if ($id !== null && count($appointments) === 0) {
+                throw new \EA\Engine\Api\V1\Exception('The requested appointment record was not found!', 404, 
+                        'Not Found');
+            }
+            
             $request = json_decode(file_get_contents('php://input'), true); 
             $this->parser->decode($request, $appointment); 
             $request['id'] = $id; 
@@ -111,6 +118,14 @@ class Appointments extends API_V1_Controller {
      */
     public function delete($id) {
         try {
+            $result = $this->appointments_model->delete($id);
+
+            $response = new Response([
+                'code' => 200, 
+                'message' => 'Appointment was deleted successfully!'
+            ]);
+
+            $response->output();
 
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
