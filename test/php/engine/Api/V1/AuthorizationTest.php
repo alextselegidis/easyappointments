@@ -11,10 +11,16 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
  
-namespace \EA\Engine\Api\V1;
+namespace EA\Engine\Api\V1;
 
-use PHPUnit\Framework\TestCase;
+use \EA\Engine\Types\NonEmptyString;
 
-class AuthorizationTest extends \TestCase {
-    
+class AuthorizationTest extends \PHPUnit_Framework_TestCase {
+    public function testBasicMethodPerformsBasicAuthentication() {
+        $this->markTestIncomplete();
+    }   
+
+    public function testBasicMethodReturnsForbiddenResponse() {
+        $this->markTestIncomplete();
+    } 
 }

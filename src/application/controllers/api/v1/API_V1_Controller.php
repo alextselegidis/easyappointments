@@ -38,11 +38,16 @@ class API_V1_Controller extends CI_Controller {
             return $this->_requestAuthentication();
         }
 
-        $username = new NonEmptyString($_SERVER['PHP_AUTH_USER']);
-        $password = new NonEmptyString($_SERVER['PHP_AUTH_PW']);
-        $authorization = new \EA\Engine\Api\V1\Authorization($this); 
-        $authorization->basic($username, $password); 
         parent::__construct();
+
+        try {
+            $username = new NonEmptyString($_SERVER['PHP_AUTH_USER']);
+            $password = new NonEmptyString($_SERVER['PHP_AUTH_PW']);
+            $authorization = new \EA\Engine\Api\V1\Authorization($this); 
+            $authorization->basic($username, $password); 
+        } catch(\Exception $exception) {
+            $this->_handleException($exception); 
+        }
     }
 
     /**
@@ -52,6 +57,29 @@ class API_V1_Controller extends CI_Controller {
         header('WWW-Authenticate: Basic realm="Easy!Appointments"');
         header('HTTP/1.0 401 Unauthorized');
         echo 'You are not authorized to use the API.';
+    }
+
+    /**
+     * Outputs the required headers and messages for exception handling.
+     *
+     * Call this method from catch blocks of child controller callbacks.
+     * 
+     * @param \Exception $exception Thrown exception to be outputed.
+     */
+    protected function _handleException(\Exception $exception) {
+        $error = [
+            'code' => $exception->getCode() ?: 500,
+            'message'=> $exception->getMessage(), 
+        ];   
+
+        $header = $exception instanceof \EA\Engine\Api\V1\Exception 
+            ? $exception->getCode() . ' ' . $exception->getHeader() 
+            : '500 Internal Server Error';
+
+        header('HTTP/1.0 ' . $header);
+        header('Content-Type: application/json');
+
+        echo json_encode($error, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
     }
 }
 
