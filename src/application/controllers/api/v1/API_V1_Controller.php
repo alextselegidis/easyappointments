@@ -46,7 +46,7 @@ class API_V1_Controller extends CI_Controller {
             $authorization = new \EA\Engine\Api\V1\Authorization($this); 
             $authorization->basic($username, $password); 
         } catch(\Exception $exception) {
-            $this->_handleException($exception); 
+            exit($this->_handleException($exception)); 
         }
     }
 
@@ -56,7 +56,7 @@ class API_V1_Controller extends CI_Controller {
     protected function _requestAuthentication() {
         header('WWW-Authenticate: Basic realm="Easy!Appointments"');
         header('HTTP/1.0 401 Unauthorized');
-        echo 'You are not authorized to use the API.';
+        exit('You are not authorized to use the API.');
     }
 
     /**
