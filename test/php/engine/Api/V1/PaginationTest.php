@@ -13,7 +13,7 @@
  
 namespace EA\Engine\Api\V1;
 
-class MinimizeTest extends \PHPUnit_Framework_TestCase {
+class PaginationTest extends \PHPUnit_Framework_TestCase {
     public function test() {
         $this->markTestIncomplete();
     }

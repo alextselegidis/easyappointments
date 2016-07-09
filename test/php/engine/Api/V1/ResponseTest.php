@@ -11,10 +11,10 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
  
-namespace \EA\Engine\Api\V1;
+namespace EA\Engine\Api\V1;
 
-use PHPUnit\Framework\TestCase;
-
-class ResponseTest extends TestCase {
-    
+class ResponseTest extends \PHPUnit_Framework_TestCase {
+    public function test() {
+        $this->markTestIncomplete();
+    }
 }

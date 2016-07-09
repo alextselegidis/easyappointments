@@ -10,11 +10,9 @@
  * @link        http://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
- 
-namespace EA\Engine\Api\V1;
 
-class MinimizeTest extends \PHPUnit_Framework_TestCase {
-    public function test() {
-        $this->markTestIncomplete();
-    }
+namespace \EA\Engine\Api\V1; 
+
+class Pagination {
+    
 }
