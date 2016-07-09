@@ -16,6 +16,6 @@ namespace EA\Engine\Api\V1\Processors;
 class Filter implements ProcessorsInterface {
  {
     public static function process(array &$response) {
-        
+        // will be implemented at a later point
     }
 }
