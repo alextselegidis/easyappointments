@@ -15,6 +15,15 @@ namespace EA\Engine\Api\V1\Processors;
 
 class Paginate implements ProcessorsInterface {
     public static function process(array &$response) {
-        
+        if (!isset($_GET['page'])) {
+            return; 
+        }
+
+        $page = (int)$_GET['page']; 
+        $length = isset($_GET['length']) ? (int)$_GET['length'] : 20; 
+
+        $chunks = array_chunk($response, $length); 
+
+        $response = isset($chunks[$page]) ? $chunks[$page] : [];
     }
 }
