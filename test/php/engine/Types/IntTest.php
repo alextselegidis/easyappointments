@@ -13,10 +13,14 @@
 
 namespace EA\Engine\Types; 
 
-class Int extends Type {
-    protected function _validate() {
-        if (!is_numeric($this->value) && (int)$this->value !== (float)$this->value) {
-            throw new \InvalidArgumentException('Invalid type value provided (expected int): ' . $this->value); 
-        }
+class AuthorizationTest extends \PHPUnit_Framework_TestCase {
+    public function testIntType() {
+        $type = new Int(1); 
+        $this->assertEquals(1, $type->get()); 
+    } 
+
+    public function testIntTypeThrowsExceptionWithInvalidValue() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Int('invalid');
     }
 }

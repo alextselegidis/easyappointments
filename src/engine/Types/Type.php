@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace \EA\Engine\Types; 
+namespace EA\Engine\Types; 
 
 /**
  * Abstract Type Class 
@@ -25,8 +25,8 @@ abstract class Type {
      * @param mixed $value The type value to be validated.
      */
     public function __construct($value) {
-        $this->_validate($value);
         $this->value = $value; 
+        $this->_validate($value);
     }
 
     /**
