@@ -12,12 +12,9 @@
  * ---------------------------------------------------------------------------- */
 
 function register($namespace, $path) { 
-    spl_autoload_register(function ($class) {
+    spl_autoload_register(function ($class) use ($namespace, $path) {
         // project-specific namespace prefix
         $prefix = 'EA\\' . $namespace . '\\';
-
-        // base directory for the namespace prefix
-        $base_dir = __DIR__ . '/' . $path;
 
         // does the class use the namespace prefix?
         $len = strlen($prefix);
@@ -32,7 +29,7 @@ function register($namespace, $path) {
         // replace the namespace prefix with the base directory, replace namespace
         // separators with directory separators in the relative class name, append
         // with .php
-        $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+        $file = $path . '/' . str_replace('\\', '/', $relative_class) . '.php';
 
         // if the file exists, require it
         if (file_exists($file)) {
