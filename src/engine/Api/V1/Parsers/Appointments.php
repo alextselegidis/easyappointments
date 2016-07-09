@@ -31,8 +31,8 @@ class Appointments implements ParsersInterface {
         $response = $encodedResponse; 
     }
 
-    public function decode(array &$request) {
-        $decodedRequest = []; 
+    public function decode(array &$request, array $base = null) {
+        $decodedRequest = $base ?: []; 
 
         if (!empty($request['id'])) {
             $decodedRequest['id'] = $request['id']; 
