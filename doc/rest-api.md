@@ -342,7 +342,17 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `PUT /api/v1/settings/:name` Insert or update a setting in the database. Provide a snake_case name in order to keep the conventions. 
 - `DELETE /api/v1/settings/:name` Remove a setting from the database. **Notice:** Be careful when removing settings that are required by the application because this will cause error later on.
 
+## API Roadmap 
 
+Although the current state should be sufficient for working with the application data there are some other features of that will make the consume more flexible and powerfull. These will be added gradually with the future releases of Easy!Appointments. 
+
+[ ] Add auto-generated links whenever external resource IDs are provided.
+[ ] Add pagination header links when the client provides pagination parameters.
+[ ] Add support for sub-resourcing e.g. /api/v1/customers/:id/appointments must return all the appointments of a specific customer. 
+[ ] Add custom filtering parameters e.g. /api/v1/appointments?book=>2016-07-10
+[ ] Improved exception handling. 
+
+Feel free to make pull requests if you have the time to develop one of those. 
 
 ## Troubleshooting
 
