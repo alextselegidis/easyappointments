@@ -13,6 +13,10 @@
 
 require_once __DIR__ . '/API_V1_Controller.php';
 
+use \EA\Engine\Api\V1\Response;
+use \EA\Engine\Api\V1\Request;
+use \EA\Engine\Types\NonEmptyString; 
+
 /**
  * Settings Controller
  *
@@ -21,52 +25,108 @@ require_once __DIR__ . '/API_V1_Controller.php';
  */
 class Settings extends API_V1_Controller {
     /**
+     * Settings Resource Parser
+     * 
+     * @var \EA\Engine\Api\V1\Parsers\Settings
+     */
+    protected $parser; 
+
+    /**
      * Class Constructor
      */
     public function __construct() {
         parent::__construct();
+        $this->load->model('settings_model');
+        $this->parser = new \EA\Engine\Api\V1\Parsers\Settings;
     }
 
     /**
      * GET API Method 
      * 
-     * @param int $id Optional (null), the record ID to be returned.
-     * 
-     * @return \EA\Engine\Api\V1\Response Returns data response. 
+     * @param string $name Optional (null), the setting name to be returned.
      */
-    public function get($id = null) {
-        
-    }
+    public function get($name = null) {
+        try {
+            $settings = $this->settings_model->get_settings(); 
 
-    /**
-     * POST API Method 
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
-     */
-    public function post() {
-        
+            if ($name !== null) {
+                $setting = null; 
+
+                foreach ($settings as $entry) {
+                    if ($entry['name'] === $name) {
+                        $setting = $entry;
+                        break;
+                    }
+                }
+
+                if (empty($setting)) {
+                    $this->_throwRecordNotFound();
+                }
+
+                unset($setting['id']);
+
+                $settings = [
+                    $setting
+                ]; 
+            } 
+
+            $response = new Response($settings); 
+
+            $response->encode($this->parser)
+                    ->search()
+                    ->sort()
+                    ->paginate()
+                    ->minimize()
+                    ->singleEntry($name)
+                    ->output();
+
+        } catch(\Exception $exception) {
+            exit($this->_handleException($exception)); 
+        }
     }
 
     /**
      * PUT API Method 
      *
-     * @param int $id The record ID to be updated.
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
+     * @param string $name The setting name to be updated.
      */
-    public function put($id) {
-
+    public function put($name) {
+        try {            
+            $request = new Request(); 
+            $value = $request->getBody()['value']; 
+            $this->settings_model->set_setting($name, $value); 
+            
+            // Fetch the updated object from the database and return it to the client.
+            $response = new Response([
+                [
+                    'name' => $name,
+                    'value' => $value
+                ]
+            ]); 
+            $response->encode($this->parser)->singleEntry($name)->output(); 
+        } catch(\Exception $exception) {
+            exit($this->_handleException($exception)); 
+        } 
     }
 
     /**
      * DELETE API Method 
      *
-     * @param int $id The record ID to be deleted.
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
+     * @param string $name The setting name to be deleted. 
      */
-    public function delete($id) {
+    public function delete($name) {
+        try {
+            $result = $this->settings_model->remove_setting($name);
 
+            $response = new Response([
+                'code' => 200, 
+                'message' => 'Record was deleted successfully!'
+            ]);
+
+            $response->output();
+        } catch(\Exception $exception) {
+            exit($this->_handleException($exception)); 
+        }  
     }
 }
 

@@ -60,8 +60,7 @@ $resources = [
     'categories',
     'admins',
     'providers', 
-    'secretaries',
-    'settings'
+    'secretaries'
 ];
 
 foreach($resources as $resource) {
@@ -71,6 +70,11 @@ foreach($resources as $resource) {
     $route['api/v1/' . $resource]['get'] = 'api/v1/' . $resource . '/get';    
     $route['api/v1/' . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '/get/$1';
 }
+
+$route['api/v1/settings']['get'] = 'api/v1/settings/get';
+$route['api/v1/settings/(:any)']['get'] = 'api/v1/settings/get/$1';
+$route['api/v1/settings/(:any)']['put'] = 'api/v1/settings/put/$1';
+$route['api/v1/settings/(:any)']['delete'] = 'api/v1/settings/delete/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
