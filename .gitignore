@@ -1,6 +1,5 @@
 .tmp-package
 composer
-doc
 easyappointments.zip
 node_modules
 npm-debug.log
