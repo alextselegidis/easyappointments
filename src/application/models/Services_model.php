@@ -114,8 +114,8 @@ class Services_Model extends CI_Model {
             }
         }
 
-        // Check if service category id is valid (only when present)
-        if ($service['id_service_categories'] != NULL) {
+        // Check if service category id is valid (only when present).
+        if (!empty($service['id_service_categories'])) {
             $num_rows = $this->db->get_where('ea_service_categories',
                     array('id' => $service['id_service_categories']))->num_rows();
             if ($num_rows == 0) {
