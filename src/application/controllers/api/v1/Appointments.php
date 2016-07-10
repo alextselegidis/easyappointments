@@ -51,11 +51,11 @@ class Appointments extends API_V1_Controller {
             $appointments = $this->appointments_model->get_batch($condition); 
 
             if ($id !== null && count($appointments) === 0) {
-                throw new \EA\Engine\Api\V1\Exception('The requested appointment record was not found!', 404, 
-                        'Not Found');
+                $this->_throwRecordNotFound();
             }
 
             $response = new Response($appointments); 
+
             $response->encode($this->parser)
                     ->search()
                     ->sort()
@@ -86,10 +86,10 @@ class Appointments extends API_V1_Controller {
             $id = $this->appointments_model->add($appointment);
 
             // Fetch the new object from the database and return it to the client.
-            $appointments = $this->appointments_model->get_batch('id = ' . $id); 
-            $response = new Response($appointments); 
+            $batch = $this->appointments_model->get_batch('id = ' . $id); 
+            $response = new Response($batch); 
             $status = new NonEmptyString('201 Created');
-            $response->encode($this->parser)->singleEntry()->output($status); 
+            $response->encode($this->parser)->singleEntry(true)->output($status); 
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
         }  
@@ -106,8 +106,7 @@ class Appointments extends API_V1_Controller {
             $batch = $this->appointments_model->get_batch('id = ' . $id); 
 
             if ($id !== null && count($batch) === 0) {
-                throw new \EA\Engine\Api\V1\Exception('The requested appointment record was not found!', 404, 
-                        'Not Found');
+                $this->_throwRecordNotFound();
             }
             
             $request = new Request(); 
@@ -118,10 +117,9 @@ class Appointments extends API_V1_Controller {
             $id = $this->appointments_model->add($updatedAppointment);
             
             // Fetch the updated object from the database and return it to the client.
-            $appointments = $this->appointments_model->get_batch('id = ' . $id); 
-            $response = new Response($appointments); 
-            $status = new NonEmptyString('201 Created');
-            $response->encode($this->parser)->singleEntry()->output($status); 
+            $batch = $this->appointments_model->get_batch('id = ' . $id); 
+            $response = new Response($batch); 
+            $response->encode($this->parser)->singleEntry($id)->output(); 
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
         }  
@@ -142,7 +140,6 @@ class Appointments extends API_V1_Controller {
             ]);
 
             $response->output();
-
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
         }  
