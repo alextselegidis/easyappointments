@@ -42,6 +42,6 @@ class Paginate implements ProcessorsInterface {
 
         $chunks = array_chunk($response, $length); 
 
-        $response = isset($chunks[$page]) ? $chunks[$page] : [];
+        $response = isset($chunks[$page - 1]) ? $chunks[$page - 1] : [];
     }
 }
