@@ -16,16 +16,16 @@ namespace EA\Engine\Api\V1\Parsers;
 class Appointments implements ParsersInterface {
     public function encode(array &$response) {
         $encodedResponse = [
-            'id' => $response['id'],
+            'id' => $response['id'] !== null ? (int)$response['id'] : null,
             'book' => $response['book_datetime'],
             'start' => $response['start_datetime'],
             'end' => $response['end_datetime'],
             'hash' => $response['hash'],
             'notes' => $response['notes'],
-            'customerId' => $response['id_users_customer'],
-            'providerId' => $response['id_users_provider'],
-            'serviceId' => $response['id_services'],
-            'googleCalendarId' => $response['id_google_calendar']
+            'customerId' => $response['id_users_customer'] !== null ? (int)$response['id_users_customer'] : null,
+            'providerId' => $response['id_users_provider'] !== null ? (int)$response['id_users_provider'] : null,
+            'serviceId' => $response['id_services'] !== null ? (int)$response['id_services'] : null,
+            'googleCalendarId' => $response['id_google_calendar'] !== null ? (int)$response['id_google_calendar'] : null
         ];
 
         $response = $encodedResponse; 
