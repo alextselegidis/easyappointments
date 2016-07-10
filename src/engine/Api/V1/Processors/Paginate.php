@@ -33,7 +33,7 @@ class Paginate implements ProcessorsInterface {
      * @param array &$response The response array to be processed.
      */
     public static function process(array &$response) {
-        if (!isset($_GET['page'])) {
+        if (!isset($_GET['page']) || empty($response)) {
             return; 
         }
 

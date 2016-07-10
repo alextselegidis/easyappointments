@@ -34,7 +34,7 @@ class Minimize implements ProcessorsInterface {
      * @param array &$response The response array to be processed.
      */
     public static function process(array &$response) {
-        if (!isset($_GET['fields'])) {
+        if (!isset($_GET['fields']) || empty($response)) {
             return; 
         }
 
