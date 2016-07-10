@@ -7,6 +7,7 @@
     "phone": "0123456789-1",
     "address": "Some Str. 123",
     "city": "Some City",
+    "state": "Some State",
     "zip": "12345",
     "notes": "Test provider notes.",
     "services": [
