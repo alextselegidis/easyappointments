@@ -99,8 +99,6 @@ class Customers extends API_V1_Controller {
      * PUT API Method 
      *
      * @param int $id The record ID to be updated.
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function put($id) {
         try {
@@ -131,8 +129,6 @@ class Customers extends API_V1_Controller {
      * DELETE API Method 
      *
      * @param int $id The record ID to be deleted.
-     * 
-     * @return @return \EA\Engine\Api\V1\Response Returns data response. 
      */
     public function delete($id) {
         try {
