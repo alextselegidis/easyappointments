@@ -81,6 +81,15 @@ class API_V1_Controller extends CI_Controller {
 
         echo json_encode($error, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
     }
+
+    /**
+     * Throw an API exception stating that the requested record was not found. 
+     * 
+     * @throws \EA\Engine\Api\V1\Exception
+     */
+    protected function _throwRecordNotFound() {
+        throw new \EA\Engine\Api\V1\Exception('The requested record was not found!', 404,  'Not Found');
+    }
 }
 
 /* End of file API_V1_Controller.php */
