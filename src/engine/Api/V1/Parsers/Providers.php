@@ -123,12 +123,12 @@ class Providers implements ParsersInterface {
                 $decodedRequest['settings']['password'] = $request['settings']['password']; 
             }
 
-            if (!empty($request['settings']['notifications'])) {
+            if ($request['settings']['notifications'] !== null) {
                 $decodedRequest['settings']['notifications'] = filter_var($request['settings']['notifications'], 
                         FILTER_VALIDATE_BOOLEAN); 
             }
 
-            if (!empty($request['settings']['googleSync'])) {
+            if ($request['settings']['googleSync'] !== null) {
                 $decodedRequest['settings']['google_sync'] = filter_var($request['settings']['googleSync'], 
                         FILTER_VALIDATE_BOOLEAN);
             }
