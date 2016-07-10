@@ -7,10 +7,11 @@
     "phone": "0123456789-1",
     "address": "Some Str. 123",
     "city": "Some City",
+    "state": "Some City",
     "zip": "12345",
     "notes": "Test admin notes.",
     "settings":{  
-        "username":"chrisdoe",
+        "username": "chrisdoe",
         "notifications": true
     }
 }
