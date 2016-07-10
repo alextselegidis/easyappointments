@@ -88,7 +88,7 @@ class Settings extends API_V1_Controller {
     /**
      * PUT API Method 
      *
-     * @param string $name The setting name to be updated.
+     * @param string $name The setting name to be inserted/updated.
      */
     public function put($name) {
         try {            
