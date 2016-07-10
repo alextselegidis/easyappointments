@@ -14,6 +14,7 @@
 require_once __DIR__ . '/API_V1_Controller.php';
 
 use \EA\Engine\Api\V1\Response;
+use \EA\Engine\Api\V1\Request;
 use \EA\Engine\Types\NonEmptyString; 
 
 /**
@@ -72,9 +73,18 @@ class Appointments extends API_V1_Controller {
      */
     public function post() {
         try {
-            $request = json_decode(file_get_contents('php://input'), true); 
-            $this->parser->decode($request); 
-            $id = $this->appointments_model->add($request);
+            // Insert the appointment to the database. 
+            $request = new Request(); 
+            $appointment = $request->getBody();
+            $this->parser->decode($appointment); 
+
+            if (isset($appointment['id'])) {
+                unset($appointment['id']);
+            }
+
+            $id = $this->appointments_model->add($appointment);
+
+            // Fetch the new object from the database and return it to the client.
             $appointments = $this->appointments_model->get_batch('id = ' . $id); 
             $response = new Response($appointments); 
             $status = new NonEmptyString('201 Created');
@@ -91,17 +101,22 @@ class Appointments extends API_V1_Controller {
      */
     public function put($id) {
         try {
-            $appointment = $this->appointments_model->get_batch('id = ' . $id); 
+            // Update the appointment record. 
+            $batch = $this->appointments_model->get_batch('id = ' . $id); 
 
-            if ($id !== null && count($appointments) === 0) {
+            if ($id !== null && count($batch) === 0) {
                 throw new \EA\Engine\Api\V1\Exception('The requested appointment record was not found!', 404, 
                         'Not Found');
             }
             
-            $request = json_decode(file_get_contents('php://input'), true); 
-            $this->parser->decode($request, $appointment); 
-            $request['id'] = $id; 
-            $id = $this->appointments_model->add($request);
+            $request = new Request(); 
+            $updatedAppointment = $request->getBody(); 
+            $baseAppointment = $batch[0];
+            $this->parser->decode($updatedAppointment, $baseAppointment); 
+            $updatedAppointment['id'] = $id; 
+            $id = $this->appointments_model->add($updatedAppointment);
+            
+            // Fetch the updated object from the database and return it to the client.
             $appointments = $this->appointments_model->get_batch('id = ' . $id); 
             $response = new Response($appointments); 
             $status = new NonEmptyString('201 Created');
