@@ -46,6 +46,7 @@ class Minimize implements ProcessorsInterface {
             $temporaryEntry = []; 
             
             foreach ($fields as $field) {
+                $field = trim($field); 
                 if (isset($entry[$field])) {
                     $temporaryEntry[$field] = $entry[$field]; 
                 }
