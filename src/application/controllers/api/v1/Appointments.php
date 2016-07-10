@@ -56,13 +56,14 @@ class Appointments extends API_V1_Controller {
             }
 
             $response = new Response($appointments); 
-            $response->encode($this->parser)->search()->sort()->paginate()->minimize();
+            $response->encode($this->parser)
+                    ->search()
+                    ->sort()
+                    ->paginate()
+                    ->minimize()
+                    ->singleEntry($id)
+                    ->output();
 
-            if ($id !== null) {
-                $response->singleEntry();
-            }
-
-            $response->output();
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
         }   

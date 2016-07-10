@@ -105,13 +105,19 @@ class Response {
     /**
      * Return a single entry instead of an array of entries. 
      *
-     * This is useful whenever the client requests only a single entry. 
+     * This is useful whenever the client requests only a single entry. Make sure that you call this method
+     * right before the output() in order to avoid side-effects with the other processor methods of this class. 
      *
+     * @param int $id Provide the ID value of the request UI and if is not null the response will be 
+     * converted into an associative array.
+     * 
      * @return \EA\Engine\Api\V1\Response
      */
-    public function singleEntry() {
-        $this->response = array_shift($this->response);
-
+    public function singleEntry($id) {
+        if ($id !== null) {
+            $this->response = array_shift($this->response);
+        }
+        
         return $this;
     }
 
