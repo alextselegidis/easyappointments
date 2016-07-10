@@ -13,9 +13,19 @@
 
 namespace EA\Engine\Api\V1\Processors; 
 
+/**
+ * Sort Processor
+ *
+ * This class will sort the response array with the provided GET parameters. Make sure that the 
+ * response parameter is a sequential array and not a single entry by the time this processor is
+ * executed.
+ */
 class Sort implements ProcessorsInterface {
     /**
-     * Supports up to 3 fields.
+     * Supports up to 3 columns for sorting.
+     *
+     * Example: 
+     *   http://ea-installation.com/api/v1/appointments?sort=-start,+notes,-hash
      * 
      * @param array &$response The response array to be processed.
      */

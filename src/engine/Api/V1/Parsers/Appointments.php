@@ -13,7 +13,17 @@
 
 namespace EA\Engine\Api\V1\Parsers; 
 
+/**
+ * Appointments Parser 
+ *
+ * This class will handle the encoding and decoding from the API requests. 
+ */
 class Appointments implements ParsersInterface {
+    /**
+     * Encode Response Array 
+     * 
+     * @param array &$response The response to be encoded.
+     */
     public function encode(array &$response) {
         $encodedResponse = [
             'id' => $response['id'] !== null ? (int)$response['id'] : null,
@@ -31,6 +41,12 @@ class Appointments implements ParsersInterface {
         $response = $encodedResponse; 
     }
 
+    /**
+     * Decode Request 
+     * 
+     * @param array &$request The request to be decoded. 
+     * @param array $base Optional (null), if provided it will be used as a base array. 
+     */
     public function decode(array &$request, array $base = null) {
         $decodedRequest = $base ?: []; 
 

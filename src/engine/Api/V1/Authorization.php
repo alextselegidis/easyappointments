@@ -18,7 +18,7 @@ use \EA\Engine\Types\NonEmptyString;
 /**
  * API v1 Authorization Class 
  *
- * This class will handle the authorization procedure.
+ * This class will handle the authorization procedure of the API.
  */
 class Authorization {
     /**
