@@ -136,7 +136,7 @@ class Appointments extends API_V1_Controller {
 
             $response = new Response([
                 'code' => 200, 
-                'message' => 'Appointment was deleted successfully!'
+                'message' => 'Record was deleted successfully!'
             ]);
 
             $response->output();
