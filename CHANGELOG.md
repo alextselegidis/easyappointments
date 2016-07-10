@@ -15,6 +15,7 @@ their custom modifications on the main project codebase.
 - Issue #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
 - Issue #45: Add secure flag to CI_SESSION when HTTPS is enabled.
 - Issue #54: Default auto-complete for the appointment end time according to service duration.
+- ISsue #24: Provide dedicated URL for separate provider/service bookings.
 
 ### Version 1.1.1
 - Issue #116: Book advance timeout not taken into account for proposed appointments.
