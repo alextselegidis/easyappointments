@@ -53,20 +53,21 @@ class Sort implements ProcessorsInterface {
         }
 
         $arguments = [
-            $response, 
-            $sortDirection1,
-            $sortOrder1
+            &$sortOrder1,
+            &$sortDirection1
         ]; 
 
         if ($sortDirection2) {
-            $arguments[] = $sortDirection2;
             $arguments[] = $sortOrder2;
+            $arguments[] = $sortDirection2;
         }
 
         if ($sortDirection3) {
-            $arguments[] = $sortDirection3;
             $arguments[] = $sortOrder3;
+            $arguments[] = $sortDirection3;
         }
+
+        $arguments[] = &$response;
 
         call_user_func_array('array_multisort', $arguments);        
     }
