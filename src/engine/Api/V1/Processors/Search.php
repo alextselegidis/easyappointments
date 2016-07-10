@@ -55,7 +55,7 @@ class Search implements ProcessorsInterface {
         foreach ($haystack as $key => $value) {
             $currentKey = $key;
 
-            if ($needle === $value || (is_array($value) && self::_recursiveArraySearch($value, $needle) !== false)) {
+            if (strpos($value, $needle) !== false || (is_array($value) && self::_recursiveArraySearch($value, $needle) !== false)) {
                 return $currentKey;
             }
         }
