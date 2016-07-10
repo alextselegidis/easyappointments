@@ -7,6 +7,7 @@ their custom modifications on the main project codebase.
 ### Version 1.2.0
 - Issue #174: Implementation of a REST API.
 - Issue #175: The backend must be responsive as well.
+- Issue #173: JS Scrollbars do not work for backend/users entries.
 - Issue #22: Google Calendar Sync - Time Zone Issue
 - Issue #152: American Time Format (AM/PM)
 - Issue #136: Loading spinner is not shown in during the installation.
