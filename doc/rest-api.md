@@ -46,6 +46,19 @@ If you need to get only specific values from each JSON resource provide the `fie
 http://ea-installation/index.php/api/v1/appointments?fields=id,book,hash,notes
 ```
 
+### Expected Responses
+ 
+Most of the times the API will return the complete requested data in a JSON string but there are some cases that the responses will contain a simple message like the following: 
+
+```
+{
+    "code": 404,
+    "message": "The requested record was not found!"
+}
+```
+
+Such simple messages contain the HTTP code and a message stating a problem or a success to an operation.
+
 ### Try it out!
 
 At this point you can start experimenting with the API and your intallation. The following section of this document describes the available resources and how they can be used. Before building your API consumer you can use [cURL](https://en.wikipedia.org/wiki/CURL) or [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) to try out the API. 
@@ -116,8 +129,12 @@ You can also try the GET requests with your browser by navigating to the respeci
     "providerId": 4,
     "googleCalendarId": 474
 }
-
 ```
+
+- `GET /api/v1/unavailabilities[/:id]` Get all the unavailabilities or a specific one by providing the ID in the URI. 
+- `POST /api/v1/unavailabilities` Provide the new unavailability JSON in the request body to insert a new record. 
+- `PUT /api/v1/unavailabilities/:id` Provide the updated unavailability JSON in the request body to update an existing record. The ID in the URI is required. 
+- `DELETLE /api/v1/unavailabilities/:id` Remove an existing unavailability record.
 
 ### Customers
 
