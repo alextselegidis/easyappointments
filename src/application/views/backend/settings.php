@@ -36,17 +36,17 @@
 
 <div id="settings-page" class="row-fluid">
     <ul class="nav nav-tabs">
-        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
-        <?php } ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
+        <?php endif ?>
 
-        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
-        <?php } ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
+        <?php endif ?>
 
-        <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
-        <?php } ?>
+        <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
+            <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
+        <?php endif ?>
 
         <li role="representation" class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
     </ul>
@@ -64,13 +64,13 @@
             <fieldset>
                 <legend>
                     <?php echo $this->lang->line('general_settings'); ?>
-                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <?php } ?>
+                    <?php endif ?>
                 </legend>
 
                 <div class="wrapper row">
@@ -165,13 +165,13 @@
             <fieldset>
                 <legend>
                     <?php echo $this->lang->line('business_logic'); ?>
-                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <?php } ?>
+                    <?php endif ?>
                 </legend>
 
                 <div class="row-fluid">
@@ -335,13 +335,13 @@
             <fieldset class="col-md-5 personal-info-wrapper">
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
-                    <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <?php } ?>
+                    <?php endif; ?>
                 </legend>
 
                 <input type="hidden" id="user-id" />
