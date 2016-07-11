@@ -237,7 +237,7 @@ $config['log_threshold'] = 1;
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = __DIR__ . '/../../storage/cache';
 
 /*
 |--------------------------------------------------------------------------
@@ -259,7 +259,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 | system/cache/ folder.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = '';
+$config['cache_path'] = __DIR__ . '/../../storage/cache';
 
 /*
 |--------------------------------------------------------------------------
