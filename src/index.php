@@ -72,7 +72,7 @@
   *
   */
 
- require_once __DIR__ . '/application/third_party/autoload.php';
+ require_once __DIR__ . '/vendor/autoload.php';
 
 /*
  *---------------------------------------------------------------

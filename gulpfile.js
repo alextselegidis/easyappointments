@@ -13,8 +13,8 @@ var gulp = require('gulp'),
 gulp.task('composer', function() {
     del.sync([
         './composer',
-        './src/application/third_party/**/*',
-        '!./src/application/third_party/index.html',
+        './src/vendor/**/*',
+        '!./src/vendor/index.html',
     ]);
 
     exec('composer update && composer install --prefer-dist', function (err, stdout, stderr) {
@@ -30,7 +30,7 @@ gulp.task('composer', function() {
         '!composer/**/{*.yml,*.md}',
         '!composer/codeigniter{,/**}'
     ])
-        .pipe(gulp.dest('./src/application/third_party/'));
+        .pipe(gulp.dest('./src/vendor/'));
 });
 
 /**
