@@ -68,6 +68,7 @@
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
@@ -168,6 +169,7 @@
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
@@ -337,6 +339,7 @@
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <?php echo $this->lang->line('save'); ?>
                     </button>
                     <?php } ?>
                 </legend>
