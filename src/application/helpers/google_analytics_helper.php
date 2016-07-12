@@ -23,7 +23,7 @@ function google_analytics_script() {
 
     $ci->load->model('settings_model');
 
-    $google_analytics_code = $ci->settings_model->get_setting('google_analytics_code');
+    $google_analytics_code = $ci->settings_model->get_setting('google_analytics_code', $this->config->item('id_shop'));
 
     if ($google_analytics_code !== '') {
         echo '

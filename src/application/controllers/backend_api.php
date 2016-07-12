@@ -167,9 +167,9 @@ class Backend_api extends CI_Controller {
             $service = $this->services_model->get_row($appointment['id_services']);
 
             $company_settings = array(
-            	'company_name' => $this->settings_model->get_setting('company_name'),
-            	'company_link' => $this->settings_model->get_setting('company_link'),
-            	'company_email' => $this->settings_model->get_setting('company_email')
+            	'company_name' => $this->settings_model->get_setting('company_name', $this->config->item('id_shop')),
+            	'company_link' => $this->settings_model->get_setting('company_link', $this->config->item('id_shop')),
+            	'company_email' => $this->settings_model->get_setting('company_email', $this->config->item('id_shop'))
             );
 
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
@@ -228,7 +228,7 @@ class Backend_api extends CI_Controller {
                 }
 
 
-                $send_customer = $this->settings_model->get_setting('customer_notifications');
+                $send_customer = $this->settings_model->get_setting('customer_notifications', $this->config->item('id_shop'));
 
 				if ((bool)$send_customer === TRUE) {
                     $this->notifications->send_appointment_details($appointment, $provider,
@@ -293,9 +293,9 @@ class Backend_api extends CI_Controller {
             $service = $this->services_model->get_row($appointment['id_services']);
 
             $company_settings = array(
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link')
+                'company_name' => $this->settings_model->get_setting('company_name', $this->config->item('id_shop')),
+                'company_email' => $this->settings_model->get_setting('company_email', $this->config->item('id_shop')),
+                'company_link' => $this->settings_model->get_setting('company_link', $this->config->item('id_shop'))
             );
 
             // :: DELETE APPOINTMENT RECORD FROM DATABASE
@@ -331,7 +331,7 @@ class Backend_api extends CI_Controller {
                             $_POST['delete_reason']);
                 }
 
-                $send_customer = $this->settings_model->get_setting('customer_notifications');
+                $send_customer = $this->settings_model->get_setting('customer_notifications', $this->config->item('id_shop'));
 
 				if ((bool)$send_customer === TRUE) {
                     $this->notifications->send_delete_appointment($appointment, $provider,
@@ -906,7 +906,7 @@ class Backend_api extends CI_Controller {
             if (!isset($provider['settings']['working_plan'])) {
                 $this->load->model('settings_model');
                 $provider['settings']['working_plan'] = $this->settings_model
-                        ->get_setting('company_working_plan');
+                        ->get_setting('company_working_plan', $this->config->item('id_shop'));
             }
 
             $provider_id = $this->providers_model->add($provider);

@@ -258,7 +258,7 @@ class Services_Model extends CI_Model {
      * @return array Returns an object array with all the
      * database services.
      */
-    public function get_available_services() {
+    public function get_available_services($id_shop = 0) {
     	$this->db->distinct();
         return $this->db
         		->select('ea_services.*, ea_service_categories.name AS category_name, '
@@ -268,6 +268,7 @@ class Services_Model extends CI_Model {
         				'ea_services_providers.id_services = ea_services.id', 'inner')
                 ->join('ea_service_categories',
                         'ea_service_categories.id = ea_services.id_service_categories', 'left')
+                ->where('ea_services.id_shop', $id_shop)
         		->get()->result_array();
     }
 

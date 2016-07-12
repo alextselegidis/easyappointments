@@ -70,7 +70,7 @@ class Unit_tests_settings_model extends CI_Driver {
         $invalid_argument = 564658765;
         $has_thrown_exception = FALSE;
         try {
-            $this->CI->settings_model->get_setting($invalid_argument);
+            $this->CI->settings_model->get_setting($invalid_argument, 1);
         } catch (Exception $exc) {
             $has_thrown_exception = TRUE;
         }
@@ -82,7 +82,7 @@ class Unit_tests_settings_model extends CI_Driver {
         $setting_name = 'THIS NAME DOES NOT EXIST IN DB';
         $has_thrown_exception = FALSE;
         try {
-            $this->CI->settings_model->get_setting($setting_name);
+            $this->CI->settings_model->get_setting($setting_name, 1);
         } catch (Exception $exc) {
             $has_thrown_exception = TRUE;
         }
