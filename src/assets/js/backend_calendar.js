@@ -1927,9 +1927,12 @@ window.BackendCalendar = window.BackendCalendar || {};
         }
 
 
+        var defaultView = window.innerWidth < 468 ? 'agendaDay' : 'agendaWeek';
+
+
         // Initialize page calendar
         $('#calendar').fullCalendar({
-            defaultView: 'agendaWeek',
+            defaultView: defaultView,
             height: _getCalendarHeight(),
             editable: true,
             firstDay: 1, // Monday

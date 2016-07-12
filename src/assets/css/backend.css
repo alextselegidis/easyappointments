@@ -24,6 +24,7 @@ root {
     border-bottom: 4px solid #c0f1d6;
     box-shadow: none;
     border-radius: 0;
+    margin-bottom: 15px;
 }
 
 #header #header-logo {
@@ -135,13 +136,13 @@ body .modal .modal-title {
 body .modal-header {
     padding: 12px 15px;
     background: #35B66F;
-    border-bottom: 4px solid #2B995D;
+    border-bottom: 4px solid #c0f1d6;
 }
 
 body .modal-header h3 {
     color: #FFF;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: lighter;
 }
 
 body .modal-header .close {
@@ -246,24 +247,26 @@ body .jspTrack {
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar {
     border-bottom: 1px solid #D6D6D6;
+    border-radius: 3px; 
     background: #3A3A3A;
     padding: 10px;
+    margin-bottom: 15px;
     overflow: auto;
     color: white;
 }
 
-#calendar-page #calendar-filter {
-    float: left;
-    margin-bottom: 0;
+#calendar-page #calendar-filter > div {
+    margin: 5px 0;
 }
 
 #calendar-page #calendar-filter label {
     float: left;
     display: inline-block;
-    margin: 2px 10px 0 0;
+    margin: 0 10px 0 0;
     margin-right: 7px;
     margin-bottom: 0;
     font-size: 18px;
+    font-weight: lighter;
 }
 
 #calendar-page #calendar-filter select {
@@ -271,7 +274,6 @@ body .jspTrack {
     padding: 0 10px;
     background-position-x: 95%;
     height: 36px;
-    min-width: 270px;
 }
 
 #calendar-page #calendar-filter select:disabled {
@@ -279,12 +281,12 @@ body .jspTrack {
     cursor: auto;
 }
 
-#calendar-page #calendar-actions {
-    float: right;
+#calendar-page #calendar-actions > div {
+    margin: 5px 0;
 }
 
 #calendar-page #calendar {
-    margin: 6px 12px;
+    margin-bottom: 15px;
 }
 
 #calendar-page #calendar .fc-unavailable {
@@ -311,9 +313,9 @@ body .jspTrack {
 }
 
 #calendar .fc-header-title h2 {
-    font-size: 18px;
+    font-size: 16px;
     margin: 0px;
-    line-height: 32px;
+    line-height: 26px;
 }
 
 #calendar .fc-header .fc-button {
@@ -764,3 +766,7 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
+
+@media(max-width: 468px) {
+    #calendar .fc-header-title
+}

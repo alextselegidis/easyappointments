@@ -34,18 +34,20 @@
     });
 </script>
 
-<div id="calendar-page">
+<div id="calendar-page" class="container-fluid">
     <div id="calendar-toolbar">
-        <div id="calendar-filter" class="form-group form-inline">
-            <label for="select-filter-item">
-                <?php echo $this->lang->line('display_calendar'); ?>
-            </label>
-            <select id="select-filter-item" class="form-control">
-                    title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
-            </select>
+        <div id="calendar-filter" class="form-inline col-xs-12 col-md-5">
+            <div class="form-group">
+                <label for="select-filter-item">
+                    <?php echo $this->lang->line('display_calendar'); ?>
+                </label>
+                <select id="select-filter-item" class="form-control">
+                        title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
+                </select>
+            </div>
         </div>
 
-        <div id="calendar-actions">
+        <div id="calendar-actions" class="col-xs-12 col-md-7">
             <div class="btn-group">
                 <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
                         && Config::GOOGLE_SYNC_FEATURE == TRUE) { ?>
@@ -69,7 +71,7 @@
                 </button>
             </div>
 
-            <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE) { ?>
+            <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
             <div class="btn-group">
                 <button id="insert-appointment" class="btn btn-primary"
                         title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
@@ -83,7 +85,7 @@
                     <?php echo $this->lang->line('unavailable'); ?>
                 </button>
             </div>
-            <?php } ?>
+            <?php endif ?>
         </div>
     </div>
 
