@@ -39,7 +39,7 @@ class Errors extends CI_Controller {
     public function error404() {
 		$this->load->helper('google_analytics'); 
         $this->load->model('settings_model');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_name'] = $this->settings_model->get_setting('company_name', $this->config->item('id_shop'));
         $this->load->view('general/error404', $view);
     }
 }

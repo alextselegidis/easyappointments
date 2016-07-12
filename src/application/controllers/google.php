@@ -140,9 +140,9 @@ class Google extends CI_Controller {
             $appointments = $this->appointments_model->get_batch($where_clause);
 
             $company_settings = array(
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'company_email' => $this->settings_model->get_setting('company_email')
+                'company_name' => $this->settings_model->get_setting('company_name', $this->config->item('id_shop')),
+                'company_link' => $this->settings_model->get_setting('company_link', $this->config->item('id_shop')),
+                'company_email' => $this->settings_model->get_setting('company_email', $this->config->item('id_shop'))
             );
 
             // Sync each appointment with Google Calendar by following the project's sync

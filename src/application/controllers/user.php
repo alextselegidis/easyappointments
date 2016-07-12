@@ -55,7 +55,7 @@ class User extends CI_Controller {
             $view['dest_url'] = $view['base_url'] . '/index.php/backend';
         }
 
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_name'] = $this->settings_model->get_setting('company_name', $this->config->item('id_shop'));
         $this->load->view('user/login', $view);
     }
 
@@ -72,7 +72,7 @@ class User extends CI_Controller {
         $this->session->unset_userdata('dest_url');
 
         $view['base_url'] = $this->config->item('base_url');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_name'] = $this->settings_model->get_setting('company_name', $this->config->item('id_shop'));
         $this->load->view('user/logout', $view);
     }
 
@@ -82,14 +82,14 @@ class User extends CI_Controller {
     public function forgot_password() {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_name'] = $this->settings_model->get_setting('company_name', $this->config->item('id_shop'));
         $this->load->view('user/forgot_password', $view);
     }
 
     public function no_privileges() {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_name'] = $this->settings_model->get_setting('company_name', $this->config->item('id_shop'));
         $this->load->view('user/no_privileges', $view);
     }
 
@@ -147,9 +147,9 @@ class User extends CI_Controller {
             if ($new_password != FALSE) {
                 $this->load->library('notifications');
                 $company_settings = array(
-                    'company_name' => $this->settings_model->get_setting('company_name'),
-                    'company_link' => $this->settings_model->get_setting('company_link'),
-                    'company_email' => $this->settings_model->get_setting('company_email')
+                    'company_name' => $this->settings_model->get_setting('company_name', $this->config->item('id_shop')),
+                    'company_link' => $this->settings_model->get_setting('company_link', $this->config->item('id_shop')),
+                    'company_email' => $this->settings_model->get_setting('company_email', $this->config->item('id_shop'))
                 );
                 $this->notifications->send_password($new_password, $_POST['email'], $company_settings);
             }

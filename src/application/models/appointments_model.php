@@ -93,6 +93,7 @@ class Appointments_Model extends CI_Model {
         $appointment['book_datetime'] = date('Y-m-d H:i:s');
         $appointment['hash'] = $this->generate_hash();
 
+      
         if (!$this->db->insert('ea_appointments', $appointment)) {
             throw new Exception('Could not insert appointment record.');
         }

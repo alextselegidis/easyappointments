@@ -108,7 +108,7 @@
                     // ------------------------------------------------------ ?>
 
                 <div id="header">
-                    <span id="company-name"><?php echo $company_name; ?></span>
+                    <span id="company-name"><?php echo $company_name; ?> N°<?php echo $this->config->item('id_shop'); ?></span>
 
                     <div id="steps">
                         <div id="step-1" class="book-step active-step" title="<?php echo $this->lang->line('step_one_title'); ?>">
@@ -374,7 +374,7 @@
                             <div id="appointment-details" class="col-md-6"></div>
                             <div id="customer-details" class="col-md-6"></div>
                         </div>
-                        <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
+                        <?php if ($this->settings_model->get_setting('require_captcha', $this->config->item('id_shop')) === '1'): ?>
                         <div class="frame-content row">
                             <div class="col-md-6 col-sm-12">
                                 <h4 class="captcha-title">
