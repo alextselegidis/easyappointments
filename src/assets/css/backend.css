@@ -20,14 +20,14 @@ root {
 /* BACKEND GENERAL ELEMENTS
    -------------------------------------------------------------------- */
 #header {
-    height: 70px;
     background-color: #35B66F;
-    border-bottom: 4px solid #2B995D;
+    border-bottom: 4px solid #c0f1d6;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 #header #header-logo {
-    display: inline-block;
-    margin: 6px 12px;
+    padding: 6px;
 }
 
 #header #header-logo img {
@@ -41,38 +41,36 @@ root {
     float: left;
     font-size: 20px;
     color: white;
-    margin-top: 9px;
-    font-weight: bold;
+    margin-top: 14px;
+    font-weight: lighter;
 }
 
+#header .navbar-header .navbar-toggle .icon-bar {
+    background: white;
+}
+
+
 #header #header-menu {
-    display: inline-block;
-    float: right;
-    height: 100%;
+    background: #35b66f;
 }
 
 #header #header-menu .menu-item {
-    float: left;
-    padding: 18px 18px 19px;
-    height: 70px;
-    min-width: 130px;
-    text-align: center;
-    font-weight: bold;
+    cursor: pointer;
+    min-width: 100px;
     color: #FFF;
+    text-align: center;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     transition: background-color 0.2s;
 }
 
 #header #header-menu .menu-item:hover:not(.active) {
     background-color: #2A8F57;
-    border-bottom: 4px solid #236C48;
 }
 
 #header #header-menu .active {
     color: #C5FFD6;
     background: #29A067;
-    border-bottom: 4px solid #2A7751;
 }
 
 #footer {
@@ -765,3 +763,4 @@ body .form-horizontal .controls {
 #settings-page #update-ea {
     margin-left: 12px;
 }
+

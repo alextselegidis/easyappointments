@@ -70,68 +70,94 @@
 </head>
 
 <body>
-<div id="header">
-    <div id="header-logo">
-        <img src="<?php echo $base_url; ?>/assets/img/logo.png">
-        <span><?php echo $company_name; ?></span>
+<nav id="header" class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu" 
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div id="header-logo" class="navbar-brand">
+                <img src="<?php echo $base_url; ?>/assets/img/logo.png">
+                <span><?php echo $company_name; ?></span>
+            </div>
+        </div>
+        
+
+        <div id="header-menu" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <?php // CALENDAR MENU ITEM
+                      // ------------------------------------------------------ ?>
+                <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden'; ?>
+                <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : ''; ?>
+                <li class="<?php echo $active . $hidden; ?>">
+                    <a href="<?php echo site_url('backend'); ?>" class="menu-item"
+                            title="<?php echo $this->lang->line('manage_appointment_record_hint'); ?>">
+                        <?php echo $this->lang->line('calendar'); ?>
+                    </a>
+                </li>
+
+                <?php // CUSTOMERS MENU ITEM
+                      // ------------------------------------------------------ ?>
+                <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden'; ?>
+                <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : ''; ?>
+                <li class="<?php echo $active . $hidden; ?>">
+                    <a href="<?php echo site_url('backend/customers'); ?>" class="menu-item"
+                            title="<?php echo $this->lang->line('manage_customers_hint'); ?>">
+                        <?php echo $this->lang->line('customers'); ?>
+                    </a>
+                </li>
+
+                <?php // SERVICES MENU ITEM
+                      // ------------------------------------------------------ ?>
+                <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
+                <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
+                <li class="<?php echo $active . $hidden; ?>">
+                    <a href="<?php echo site_url('backend/services'); ?>" class="menu-item"
+                            title="<?php echo $this->lang->line('manage_services_hint'); ?>">
+                        <?php echo $this->lang->line('services'); ?>
+                    </a>
+                </li>
+
+                <?php // USERS MENU ITEM
+                      // ------------------------------------------------------ ?>
+                <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden'; ?>
+                <?php $active = ($active_menu == PRIV_USERS) ? 'active' : ''; ?>
+                <li class="<?php echo $active . $hidden; ?>">
+                    <a href="<?php echo site_url('backend/users'); ?>" class="menu-item"
+                            title="<?php echo $this->lang->line('manage_users_hint'); ?>">
+                        <?php echo $this->lang->line('users'); ?>
+                    </a>
+                </li>
+
+                <?php // SETTINGS MENU ITEM
+                      // ------------------------------------------------------ ?>
+                <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
+                        || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
+                <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : ''; ?>
+                <li class="<?php echo $active . $hidden; ?>">
+                    <a href="<?php echo site_url('backend/settings'); ?>" class="menu-item"
+                            title="<?php echo $this->lang->line('settings_hint'); ?>">
+                        <?php echo $this->lang->line('settings'); ?>
+                    </a>
+                </li>
+
+                <?php // LOGOUT MENU ITEM
+                      // ------------------------------------------------------ ?>
+                <li>
+                    <a href="<?php echo site_url('user/logout') ?>" class="menu-item"
+                            title="<?php echo $this->lang->line('log_out_hint'); ?>">
+                        <?php echo $this->lang->line('log_out'); ?>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-
-    <div id="header-menu">
-        <?php // CALENDAR MENU ITEM
-              // ------------------------------------------------------ ?>
-        <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : ''; ?>
-        <a href="<?php echo site_url('backend'); ?>" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('manage_appointment_record_hint'); ?>">
-            <?php echo $this->lang->line('calendar'); ?>
-        </a>
-
-        <?php // CUSTOMERS MENU ITEM
-              // ------------------------------------------------------ ?>
-        <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : ''; ?>
-        <a href="<?php echo site_url('backend/customers'); ?>" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('manage_customers_hint'); ?>">
-            <?php echo $this->lang->line('customers'); ?>
-        </a>
-
-        <?php // SERVICES MENU ITEM
-              // ------------------------------------------------------ ?>
-        <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
-        <a href="<?php echo site_url('backend/services'); ?>" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('manage_services_hint'); ?>">
-            <?php echo $this->lang->line('services'); ?>
-        </a>
-
-        <?php // USERS MENU ITEM
-              // ------------------------------------------------------ ?>
-        <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden'; ?>
-        <?php $active = ($active_menu == PRIV_USERS) ? 'active' : ''; ?>
-        <a href="<?php echo site_url('backend/users'); ?>" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('manage_users_hint'); ?>">
-            <?php echo $this->lang->line('users'); ?>
-        </a>
-
-        <?php // SETTINGS MENU ITEM
-              // ------------------------------------------------------ ?>
-        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
-                || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : ''; ?>
-        <a href="<?php echo site_url('backend/settings'); ?>" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('settings_hint'); ?>">
-            <?php echo $this->lang->line('settings'); ?>
-        </a>
-
-        <?php // LOGOUT MENU ITEM
-              // ------------------------------------------------------ ?>
-        <a href="<?php echo site_url('user/logout') ?>" class="menu-item"
-                title="<?php echo $this->lang->line('log_out_hint'); ?>">
-            <?php echo $this->lang->line('log_out'); ?>
-        </a>
-
-    </div>
-</div>
+</nav>
 
 <div id="notification" style="display: none;"></div>
 
