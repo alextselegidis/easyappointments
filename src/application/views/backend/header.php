@@ -74,6 +74,11 @@
 <nav id="header" class="navbar">
     <div class="container-fluid">
         <div class="navbar-header">
+            <div id="header-logo" class="navbar-brand">
+                <img src="<?php echo $base_url; ?>/assets/img/logo.png">
+                <span><?php echo $company_name; ?></span>
+            </div>
+            
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu" 
                     aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -81,11 +86,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
-            <div id="header-logo" class="navbar-brand">
-                <img src="<?php echo $base_url; ?>/assets/img/logo.png">
-                <span><?php echo $company_name; ?></span>
-            </div>
         </div>
         
 

@@ -797,8 +797,8 @@ window.BackendCalendar = window.BackendCalendar || {};
      * @return {Number} Returns the calendar element height in pixels.
      */
     function _getCalendarHeight() {
-        var result = window.innerHeight - $('#footer').height() - $('#header').height()
-                - $('#calendar-toolbar').height() - 50; // 80 for fine tuning
+        var result = window.innerHeight - $('#footer').outerHeight() - $('#header').outerHeight()
+                - $('#calendar-toolbar').outerHeight() - 60; // 60 for fine tuning
         return (result > 500) ? result : 500; // Minimum height is 500px
     }
 

@@ -48,31 +48,22 @@
         </div>
 
         <div id="calendar-actions" class="col-xs-12 col-md-7">
-            <div class="btn-group">
-                <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
-                        && Config::GOOGLE_SYNC_FEATURE == TRUE) { ?>
-                    <button id="google-sync" class="btn btn-primary"
-                            title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
-                        <span class="glyphicon glyphicon-refresh"></span>
-                        <span><?php echo $this->lang->line('synchronize'); ?></span>
-                    </button>
-
-                    <button id="enable-sync" class="btn btn-default" data-toggle="button"
-                            title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        <span><?php echo $this->lang->line('enable_sync'); ?></span>
-                    </button>
-                <?php } ?>
-
-                <button id="reload-appointments" class="btn btn-default"
-                        title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
-                    <span class="glyphicon glyphicon-repeat"></span>
-                    <?php echo $this->lang->line('reload'); ?>
+            <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
+                    && Config::GOOGLE_SYNC_FEATURE == TRUE): ?>
+                <button id="google-sync" class="btn btn-primary"
+                        title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    <span><?php echo $this->lang->line('synchronize'); ?></span>
                 </button>
-            </div>
+
+                <button id="enable-sync" class="btn btn-default" data-toggle="button"
+                        title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <span><?php echo $this->lang->line('enable_sync'); ?></span>
+                </button>
+            <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-            <div class="btn-group">
                 <button id="insert-appointment" class="btn btn-primary"
                         title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
                     <span class="glyphicon glyphicon-plus"></span>
@@ -84,8 +75,13 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     <?php echo $this->lang->line('unavailable'); ?>
                 </button>
-            </div>
             <?php endif ?>
+
+            <button id="reload-appointments" class="btn btn-default"
+                    title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
+                <span class="glyphicon glyphicon-repeat"></span>
+                <?php echo $this->lang->line('reload'); ?>
+            </button>
         </div>
     </div>
 

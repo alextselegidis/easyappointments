@@ -3,6 +3,11 @@ composer
 easyappointments.zip
 node_modules
 npm-debug.log
-src/application/logs/*
-!src/application/logs/index.html
+src/storage/cache/*
+!src/storage/cache/.htaccess
+!src/storage/cache/index.html
+src/storage/logs/*
+!src/storage/logs/index.html
+src/storage/uploads/*
+!src/storage/uploads/index.html
 src/config.php

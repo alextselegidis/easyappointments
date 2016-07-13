@@ -40,7 +40,7 @@ root {
 
 #header #header-logo span {
     float: left;
-    font-size: 20px;
+    font-size: 16px;
     color: white;
     margin-top: 14px;
     font-weight: lighter;
@@ -57,7 +57,7 @@ root {
 
 #header #header-menu .menu-item {
     cursor: pointer;
-    min-width: 100px;
+    min-width: 130px;
     color: #FFF;
     text-align: center;
     text-decoration: none;
@@ -85,11 +85,13 @@ root {
     padding: 10px 15px;
     display: inline-block;
     float: left;
+    line-height: 2;
 }
 
 #footer #footer-user-display-name {
     display: inline-block;
     float: right;
+    text-align: right;
     padding: 10px 15px;
     font-weight: bold;
 }
@@ -147,6 +149,7 @@ body .modal-header h3 {
 
 body .modal-header .close {
     margin-top: 2px;
+    color: #12482a;
 }
 
 
@@ -255,7 +258,7 @@ body .jspTrack {
     color: white;
 }
 
-#calendar-page #calendar-filter > div {
+#calendar-page #calendar-filter .form-group {
     margin: 5px 0;
 }
 
@@ -273,7 +276,7 @@ body .jspTrack {
     background-color: #FFF;
     padding: 0 10px;
     background-position-x: 95%;
-    height: 36px;
+    min-width: 240px;
 }
 
 #calendar-page #calendar-filter select:disabled {
@@ -281,7 +284,11 @@ body .jspTrack {
     cursor: auto;
 }
 
-#calendar-page #calendar-actions > div {
+#calendar-page #calendar-actions {
+    text-align: right;
+}
+
+#calendar-page #calendar-actions > .btn {
     margin: 5px 0;
 }
 
@@ -310,6 +317,10 @@ body .jspTrack {
 
 #calendar-page #calendar .fc-custom {
     background-image: url('../img/custom.jpg');
+}
+
+#calendar-page .fc-header {
+    margin-bottom: 10px;
 }
 
 #calendar .fc-header-title h2 {
@@ -766,7 +777,50 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
+@media(max-width: 1200px) {
+    #header #header-menu .menu-item {
+        min-width: 100px;
+    }
+
+    #calendar-page #calendar-actions {
+        text-align: left;
+    }
+}
+
+@media(max-width: 860px) {
+    #header #header-menu .menu-item {
+        min-width: 85px;
+    }
+
+    #footer #footer-user-display-name {
+        text-align: left;
+    }
+
+    #calendar-page #calendar-filter label {
+        margin-bottom: 5px;
+    }
+}
+
 
 @media(max-width: 468px) {
-    #calendar .fc-header-title
+    #calendar-page .fc-header td {
+        display: block;
+        width: 70vw;
+        float: left;
+        margin: 10px auto;
+        text-align: left;
+    }
+
+    #calendar-page #calendar-actions .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .ui-dialog {
+        margin: 0 12px;
+    }
+
+    #calendar-page #calendar-filter select {
+        min-width: auto;
+    }
 }

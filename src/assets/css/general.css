@@ -20,6 +20,10 @@ body .custom-qtip {
     color: #258D53;
 }
 
+body .ui-widget {
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif
+}
+
 body .ui-widget-overlay {
     background: #000 50% 50% repeat-x;
     opacity: .5;
@@ -34,9 +38,10 @@ body .ui-draggable .ui-dialog-titlebar {
     background: #35B66F;
     color: #FFF;
     font-size: 1.5em;
-    padding: 14px 10px;
+    font-weight: lighter;
+    padding: 12px 10px;
     border: none;
-    border-bottom: 4px solid #1A865F;
+    border-bottom: 4px solid #c0f1d6;
     margin-bottom: 10px;
 }
 
