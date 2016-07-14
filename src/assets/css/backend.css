@@ -680,14 +680,12 @@ body .form-horizontal .controls {
 }
 
 #settings-page .tab-content {
-    margin: 15px;
     overflow: auto;
 }
 
 #settings-page .nav {
-    margin: 15px;
     background-color: #F4F4F4;
-    border-radius: 4px;
+    margin-bottom: 15px;
 }
 
 #settings-page .nav li {
@@ -697,7 +695,7 @@ body .form-horizontal .controls {
 #business-logic .working-plan td input[type="text"] {
     margin-bottom: 0;
     cursor: pointer;
-    width: 85px;
+    width: 55px;
 }
 
 #business-logic .working-plan label.checkbox {
@@ -727,6 +725,7 @@ body .form-horizontal .controls {
 #business-logic #book-advance-timeout {
     margin: 0 0 0 10px;
     width: 50px;
+    color: #666;
 }
 
 #business-logic .ui-spinner {
@@ -760,11 +759,12 @@ body .form-horizontal .controls {
 
 #settings-page .personal-info-wrapper {
     max-width: 400px;
-    padding-left: 0;
+    margin-bottom: 20px;
 }
 
 #settings-page .miscellaneous-wrapper {
     max-width:  400px;
+    margin-bottom: 20px;
 }
 
 #settings-page #about {

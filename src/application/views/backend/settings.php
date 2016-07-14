@@ -34,7 +34,7 @@
     });
 </script>
 
-<div id="settings-page" class="row-fluid">
+<div id="settings-page" class="container-fluid">
     <ul class="nav nav-tabs">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
             <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
@@ -174,7 +174,7 @@
                     <?php endif ?>
                 </legend>
 
-                <div class="row-fluid">
+                <div class="row">
                     <div class="col-md-7 working-plan-wrapper">
                         <h4><?php echo $this->lang->line('working_plan'); ?></h4>
                         <span class="help-block">
@@ -331,8 +331,8 @@
     ?>
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="user" class="tab-content <?php echo $hidden; ?>">
-        <form>
-            <fieldset class="col-md-5 personal-info-wrapper">
+        <form class="row">
+            <fieldset class="col-xs-12 col-sm-6 personal-info-wrapper">
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
                     <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
@@ -397,7 +397,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="col-md-5 miscellaneous-wrapper">
+            <fieldset class="col-xs-12 col-sm-6 miscellaneous-wrapper">
                 <legend><?php echo $this->lang->line('system_login'); ?></legend>
 
                 <div class="form-group">
