@@ -218,11 +218,11 @@
                         <h3 class="frame-title"><?php echo $this->lang->line('step_two_title'); ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-md-6">
+                            <div class="col-sm-6">
                                 <div id="select-date"></div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-6">
                                 <?php // Available hours are going to be fetched via ajax call. ?>
                                 <div id="available-hours"></div>
                             </div>

@@ -10,12 +10,13 @@ their custom modifications on the main project codebase.
 - Issue #173: JS Scrollbars do not work for backend/users entries.
 - Issue #22: Google Calendar Sync - Time Zone Issue
 - Issue #152: American Time Format (AM/PM)
+- Issue #137: Invalid responsive behavior in frontend booking wizard (step #2 - appointment date & time).
 - Issue #136: Loading spinner is not shown in during the installation.
 - Issue #112: Remove PHPmailer from the project and use the CodeIgniter class.
 - Issue #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
 - Issue #45: Add secure flag to CI_SESSION when HTTPS is enabled.
 - Issue #54: Default auto-complete for the appointment end time according to service duration.
-- ISsue #24: Provide dedicated URL for separate provider/service bookings.
+- Issue #24: Provide dedicated URL for separate provider/service bookings.
 
 ### Version 1.1.1
 - Issue #116: Book advance timeout not taken into account for proposed appointments.
