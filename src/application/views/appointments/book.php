@@ -218,11 +218,11 @@
                         <h3 class="frame-title"><?php echo $this->lang->line('step_two_title'); ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-sm-6">
+                            <div class="col-xs-12 col-sm-6">
                                 <div id="select-date"></div>
                             </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-xs-12 col-sm-6">
                                 <?php // Available hours are going to be fetched via ajax call. ?>
                                 <div id="available-hours"></div>
                             </div>
@@ -254,7 +254,7 @@
                         <h3 class="frame-title"><?php echo $this->lang->line('step_three_title'); ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-md-6">
+                            <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label"><?php echo $this->lang->line('first_name'); ?> *</label>
                                     <input type="text" id="first-name" class="required form-control" maxlength="100" />
@@ -273,7 +273,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="address" class="control-label"><?php echo $this->lang->line('address'); ?></label>
                                     <input type="text" id="address" class="form-control" maxlength="250" />
@@ -318,12 +318,12 @@
                     <div class="frame-container">
                         <h3 class="frame-title"><?php echo $this->lang->line('step_four_title'); ?></h3>
                         <div class="frame-content row">
-                            <div id="appointment-details" class="col-md-6"></div>
-                            <div id="customer-details" class="col-md-6"></div>
+                            <div id="appointment-details" class="col-xs-12 col-sm-6"></div>
+                            <div id="customer-details" class="col-xs-12 col-sm-6"></div>
                         </div>
                         <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
                         <div class="frame-content row">
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-sm-12 col-md-6">
                                 <h4 class="captcha-title">
                                     CAPTCHA
                                     <small class="glyphicon glyphicon-refresh"></small>
