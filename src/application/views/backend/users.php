@@ -60,7 +60,7 @@
     ?>
     <div id="admins" class="tab-content">
         <div class="row">
-            <div id="filter-admins" class="filter-records column col-md-4">
+            <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -77,7 +77,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-admin" class="btn btn-primary">
@@ -112,7 +112,7 @@
 
                 <input type="hidden" id="admin-id" class="record-id" />
 
-                <div class="">
+                <div class="row">
                     <div class="admin-details col-md-6">
                         <div class="form-group">
                             <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
@@ -201,7 +201,7 @@
     ?>
     <div id="providers" class="tab-content" style="display:none;">
         <div class="row">
-            <div id="filter-providers" class="filter-records column col-md-7">
+            <div id="filter-providers" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -218,7 +218,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="details column col-xs-12 col-sm-7">
                 <div class="pull-left">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-provider" class="btn btn-primary">
@@ -262,7 +262,7 @@
 
                     <input type="hidden" id="provider-id" class="record-id" />
 
-                    <div>
+                    <div class="row">
                         <div class="provider-details col-md-6">
                             <div class="form-group">
                                 <label for="provider-first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
@@ -475,7 +475,7 @@
     ?>
     <div id="secretaries" class="tab-content" style="display:none;">
         <div class="row">
-            <div id="filter-secretaries" class="filter-records column col-md-4">
+            <div id="filter-secretaries" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -492,7 +492,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-secretary" class="btn btn-primary">
@@ -527,7 +527,7 @@
 
                 <input type="hidden" id="secretary-id" class="record-id" />
 
-                <div class="">
+                <div class="row">
                     <div class="secretary-details col-md-6">
                         <div class="form-group">
                             <label for="secretary-first-name"><?php echo $this->lang->line('first_name');?> *</label>

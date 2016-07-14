@@ -201,6 +201,7 @@ body .jspTrack {
 
 .backend-page .filter-records {
     max-width: 350px;
+    margin-bottom: 20px;
 }
 
 .backend-page .filter-records form {
@@ -239,6 +240,7 @@ body .jspTrack {
 
 .record-details {
     max-width: 800px;
+    margin-bottom: 20px;
 }
 
 .record-details input,
@@ -455,6 +457,7 @@ body .form-horizontal .controls {
 
 #services-page .filter-records {
     max-width: 350px;
+    margin-bottom: 20px;
 }
 
 #services-page .filter-records .results {
@@ -525,6 +528,7 @@ body .form-horizontal .controls {
 
 #services-page .details {
     max-width:  450px;
+    margin-bottom: 20px;
 }
 
 /* BACKEND USERS PAGE
@@ -533,14 +537,9 @@ body .form-horizontal .controls {
     color: #525252;
 }
 
-#users-page .tab-content {
-    margin: 15px;
-}
-
 #users-page .nav {
-    margin: 15px;
     background-color: #F4F4F4;
-    border-radius: 4px;
+    margin-bottom: 15px;
 }
 
 #users-page .nav li {
@@ -548,7 +547,8 @@ body .form-horizontal .controls {
 }
 
 #users-page .filter-records {
-    width: 380px;
+    max-width: 380px;
+    margin-bottom: 20px;
 }
 
 #users-page .filter-records .results {
@@ -592,10 +592,12 @@ body .form-horizontal .controls {
 #users-page #secretary-providers,
 #users-page #provider-services {
     border: 4px solid #ccc;
-    width: 315px;
+    max-width: 315px;
+    width: 100%;
     height: 387px;
     overflow-y: scroll;
     padding: 7px;
+    margin-bottom: 20px;
 }
 
 #users-page #providers .switch-view {
@@ -656,11 +658,12 @@ body .form-horizontal .controls {
 }
 
 #users-page .details {
-    max-width: 700px;
+    max-width: 800px;
+    margin-bottom: 20px;
 }
 
 #users-page .working-plan td input[type="text"] {
-    width: 85px;
+    width: 55px;
     margin: 10px 0;
 }
 
@@ -824,5 +827,20 @@ body .form-horizontal .controls {
 
     #calendar-page #calendar-filter select {
         min-width: auto;
+    }
+
+    #users-page #providers .switch-view {
+        margin: 20px 0;
+    }
+
+    #users-page #providers .switch-view strong {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 16px 0;
+    }
+
+    #users-page #providers .switch-view div {
+        width: 48%;
     }
 }
