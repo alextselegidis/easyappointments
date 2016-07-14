@@ -97,7 +97,7 @@ root {
 }
 
 #notification {
-    margin-bottom: 15px;
+    margin: 15px;
 }
 
 #notification strong {
@@ -444,14 +444,9 @@ body .form-horizontal .controls {
     color: #525252;
 }
 
-#services-page .tab-content {
-    margin: 15px;
-}
-
 #services-page .nav {
-    margin: 15px;
     background-color: #F4F4F4;
-    border-radius: 4px;
+    margin-bottom: 15px;
 }
 
 #services-page .nav li {
@@ -459,7 +454,7 @@ body .form-horizontal .controls {
 }
 
 #services-page .filter-records {
-    width: 350px;
+    max-width: 350px;
 }
 
 #services-page .filter-records .results {
@@ -489,6 +484,8 @@ body .form-horizontal .controls {
 #services-page .details .ui-spinner {
     border: none;
     margin-bottom: 10px;
+    display: block;
+    color: #666;
 }
 
 #services-page .details .ui-state-disabled {

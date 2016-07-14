@@ -124,10 +124,9 @@
                     <textarea id="service-description" rows="4" class="form-control"></textarea>
                 </div>
 
-
-                <br/><br/>
-                <em id="form-message" class="text-error">
-                    <?php echo $this->lang->line('fields_are_required'); ?></em>
+                <p id="form-message" class="text-danger">
+                    <em><?php echo $this->lang->line('fields_are_required'); ?></em>
+                </p>
             </div>
         </div>
     </div>
