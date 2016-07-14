@@ -43,7 +43,7 @@
     <div id="services" class="tab-content">
         <?php // FILTER SERVICES ?>
         <div class="row">
-            <div id="filter-services" class="filter-records column col-md-4">
+            <div id="filter-services" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -60,7 +60,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-service" class="btn btn-primary">
@@ -140,7 +140,7 @@
     ?>
     <div id="categories" class="tab-content" style="display:none;">
         <div class="row">
-            <div id="filter-categories" class="filter-records column col-md-4">
+            <div id="filter-categories" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -157,7 +157,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details col-md-7">
+            <div class="details col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-category" class="btn btn-primary">

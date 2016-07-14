@@ -30,7 +30,7 @@
 
 <div id="customers-page" class="container-fluid backend-page">
     <div class="row">
-    	<div id="filter-customers" class="filter-records column col-xs-12 col-md-4">
+    	<div id="filter-customers" class="filter-records column col-xs-12 col-sm-5">
     		<form class="input-append">
     			<input class="key" type="text" />
                 <div class="btn-group">
@@ -47,7 +47,7 @@
             <div class="results"></div>
     	</div>
 
-    	<div class="record-details col-xs-12 col-md-7">
+    	<div class="record-details col-xs-12 col-sm-7">
             <div class="btn-toolbar">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
