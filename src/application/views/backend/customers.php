@@ -30,7 +30,7 @@
 
 <div id="customers-page" class="container-fluid backend-page">
     <div class="row">
-    	<div id="filter-customers" class="filter-records column col-md-4">
+    	<div id="filter-customers" class="filter-records column col-xs-12 col-md-4">
     		<form class="input-append">
     			<input class="key" type="text" />
                 <div class="btn-group">
@@ -47,7 +47,7 @@
             <div class="results"></div>
     	</div>
 
-    	<div class="record-details col-md-7 row">
+    	<div class="record-details col-xs-12 col-md-7">
             <div class="btn-toolbar">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
@@ -86,58 +86,60 @@
 
             <input id="customer-id" type="hidden" />
 
-            <div class="col-md-6" style="margin-left: 0;">
-                <h3><?php echo $this->lang->line('details'); ?></h3>
-                <div id="form-message" class="alert" style="display:none;"></div>
+            <div class="row">
+                <div class="col-md-6" style="margin-left: 0;">
+                    <h3><?php echo $this->lang->line('details'); ?></h3>
+                    <div id="form-message" class="alert" style="display:none;"></div>
 
-                <div class="form-group">
-                    <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
-                    <input type="text" id="first-name" class="form-control required" />
+                    <div class="form-group">
+                        <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
+                        <input type="text" id="first-name" class="form-control required" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
+                        <input type="text" id="last-name" class="form-control required" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
+                        <input type="text" id="email" class="form-control required" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
+                        <input type="text" id="phone-number" class="form-control required" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address"><?php echo $this->lang->line('address'); ?></label>
+                        <input type="text" id="address" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city"><?php echo $this->lang->line('city'); ?></label>
+                        <input type="text" id="city" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
+                        <input type="text" id="zip-code" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
+                        <textarea id="notes" rows="4" class="form-control"></textarea>
+                    </div>
+
+                    <center><em id="form-message" class="text-error">
+                        <?php echo $this->lang->line('fields_are_required'); ?></em></center>
                 </div>
 
-                <div class="form-group">
-                    <label for="last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
-                    <input type="text" id="last-name" class="form-control required" />
+                <div class="col-md-5">
+                    <h3><?php echo $this->lang->line('appointments'); ?></h3>
+                    <div id="customer-appointments"></div>
+                    <div id="appointment-details"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
-                    <input type="text" id="email" class="form-control required" />
-                </div>
-
-                <div class="form-group">
-                    <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                    <input type="text" id="phone-number" class="form-control required" />
-                </div>
-
-                <div class="form-group">
-                    <label for="address"><?php echo $this->lang->line('address'); ?></label>
-                    <input type="text" id="address" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="city"><?php echo $this->lang->line('city'); ?></label>
-                    <input type="text" id="city" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-                    <input type="text" id="zip-code" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
-                    <textarea id="notes" rows="4" class="form-control"></textarea>
-                </div>
-
-                <center><em id="form-message" class="text-error">
-                    <?php echo $this->lang->line('fields_are_required'); ?></em></center>
-            </div>
-
-            <div class="col-md-5">
-                <h3><?php echo $this->lang->line('appointments'); ?></h3>
-                <div id="customer-appointments"></div>
-                <div id="appointment-details"></div>
             </div>
     	</div>
     </div>

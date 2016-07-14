@@ -96,6 +96,10 @@ root {
     font-weight: bold;
 }
 
+#notification {
+    margin-bottom: 15px;
+}
+
 #notification strong {
     margin-right: 15px;
 }
@@ -196,8 +200,7 @@ body .jspTrack {
    -------------------------------------------------------------------- */
 
 .backend-page .filter-records {
-    margin: 15px 0px 15px 15px;
-    width: 350px;
+    max-width: 350px;
 }
 
 .backend-page .filter-records form {
@@ -235,8 +238,7 @@ body .jspTrack {
 }
 
 .record-details {
-    margin: 15px 0 15px 15px;
-    max-width: 710px;
+    max-width: 800px;
 }
 
 .record-details input,
@@ -401,10 +403,12 @@ body .form-horizontal .controls {
 
 #customers-page #customer-appointments {
     height: 370px;
-    width: 330px;
+    max-width: 330px;
+    width: 100%;
     border: 4px solid #E2E2E2;
     margin-bottom: 20px;
     overflow-y: auto;
+    outline: none;
 }
 
 #customers-page #customer-appointments .appointment-row {
@@ -423,7 +427,8 @@ body .form-horizontal .controls {
 }
 
 #customers-page #appointment-details {
-    width: 330px;
+    max-width: 330px;
+    margin-bottom: 20px;
 }
 
 #customers-page #appointment-details div {
