@@ -53,7 +53,7 @@ window.BackendServices = window.BackendServices || {};
         });
 
         // Instantiate helper object (service helper by default).
-        helper = new ServicesHelper();
+        helper = servicesHelper;
         helper.resetForm();
         helper.filter('');
 

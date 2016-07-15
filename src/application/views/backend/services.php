@@ -27,7 +27,7 @@
     });
 </script>
 
-<div id="services-page" class="container-fluid">
+<div id="services-page" class="container-fluid backend-page">
     <ul class="nav nav-tabs">
         <li role="presentation" class="services-tab tab active"><a><?php echo $this->lang->line('services'); ?></a></li>
         <li role="presentation" class="categories-tab tab"><a><?php echo $this->lang->line('categories'); ?></a></li>
@@ -60,7 +60,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-xs-12 col-sm-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-service" class="btn btn-primary">
@@ -157,7 +157,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details col-xs-12 col-sm-7">
+            <div class="record-details col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-category" class="btn btn-primary">

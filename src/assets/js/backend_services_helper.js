@@ -34,7 +34,7 @@
          */
         $('#filter-services form').submit(function(event) {
             var key = $('#filter-services .key').val();
-            $('#filter-services .selected-row').removeClass('selected-row');
+            $('#filter-services .selected').removeClass('selected');
             instance.resetForm();
             instance.filter(key);
             return false;
@@ -70,8 +70,8 @@
             });
 
             instance.display(service);
-            $('#filter-services .selected-row').removeClass('selected-row');
-            $(this).addClass('selected-row');
+            $('#filter-services .selected').removeClass('selected');
+            $(this).addClass('selected');
             $('#edit-service, #delete-service').prop('disabled', false);
         });
 
@@ -82,8 +82,8 @@
             instance.resetForm();
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .details').find('input, textarea').prop('readonly', false);
-            $('#services .details').find('select').prop('disabled', false);
+            $('#services .record-details').find('input, textarea').prop('readonly', false);
+            $('#services .record-details').find('select').prop('disabled', false);
             $('#service-duration').spinner('enable');
 
             $('#filter-services button').prop('disabled', true);
@@ -138,8 +138,8 @@
         $('#edit-service').click(function() {
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .details').find('input, textarea').prop('readonly', false);
-            $('#services .details select').prop('disabled', false);
+            $('#services .record-details').find('input, textarea').prop('readonly', false);
+            $('#services .record-details select').prop('disabled', false);
             $('#service-duration').spinner('enable');
 
             $('#filter-services button').prop('disabled', true);
@@ -251,16 +251,16 @@
      * Resets the service tab form back to its initial state.
      */
     ServicesHelper.prototype.resetForm = function() {
-        $('#services .details').find('input, textarea').val('');
+        $('#services .record-details').find('input, textarea').val('');
         $('#service-category').val('null');
         $('#services .add-edit-delete-group').show();
         $('#services .save-cancel-group').hide();
         $('#edit-service, #delete-service').prop('disabled', true);
-        $('#services .details').find('input, textarea').prop('readonly', true);
+        $('#services .record-details').find('input, textarea').prop('readonly', true);
         $('#service-category').prop('disabled', true);
         $('#service-duration').spinner('disable');
 
-        $('#filter-services .selected-row').removeClass('selected-row');
+        $('#filter-services .selected').removeClass('selected');
         $('#filter-services button').prop('disabled', false);
         $('#filter-services .results').css('color', '');
     };
@@ -335,7 +335,7 @@
      */
     ServicesHelper.prototype.getFilterHtml = function(service) {
         var html =
-                '<div class="service-row" data-id="' + service.id + '">' +
+                '<div class="service-row entry" data-id="' + service.id + '">' +
                     '<strong>' + service.name + '</strong><br>' +
                     service.duration + ' min - ' +
                     service.price + ' ' + service.currency + '<br>' +
@@ -354,11 +354,11 @@
     ServicesHelper.prototype.select = function(id, display) {
         display = display || false;
 
-        $('#filter-services .selected-row').removeClass('selected-row');
+        $('#filter-services .selected').removeClass('selected');
 
         $('#filter-services .service-row').each(function() {
             if ($(this).attr('data-id') === id) {
-                $(this).addClass('selected-row');
+                $(this).addClass('selected');
                 return false;
             }
         });

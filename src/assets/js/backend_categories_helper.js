@@ -45,7 +45,7 @@
          */
         $('#filter-categories form').submit(function() {
             var key = $('#filter-categories .key').val();
-            $('.selected-row').removeClass('selected-row');
+            $('.selected').removeClass('selected');
             instance.resetForm();
             instance.filter(key);
             return false;
@@ -72,8 +72,8 @@
             });
 
             instance.display(category);
-            $('#filter-categories .selected-row').removeClass('selected-row');
-            $(this).addClass('selected-row');
+            $('#filter-categories .selected').removeClass('selected');
+            $(this).addClass('selected');
             $('#edit-category, #delete-category').prop('disabled', false);
         });
 
@@ -84,7 +84,7 @@
             instance.resetForm();
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
-            $('#categories .details').find('input, textarea').prop('readonly', false);
+            $('#categories .record-details').find('input, textarea').prop('readonly', false);
             $('#filter-categories button').prop('disabled', true);
             $('#filter-categories .results').css('color', '#AAA');
         });
@@ -95,7 +95,7 @@
         $('#edit-category').click(function() {
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
-            $('#categories .details').find('input, textarea').prop('readonly', false);
+            $('#categories .record-details').find('input, textarea').prop('readonly', false);
 
             $('#filter-categories button').prop('disabled', true);
             $('#filter-categories .results').css('color', '#AAA');
@@ -259,7 +259,7 @@
      * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.validate = function(category) {
-        $('#categories .details').find('input, textarea').css('border', '');
+        $('#categories .record-details').find('input, textarea').css('border', '');
 
         try {
             var missingRequired = false;
@@ -287,11 +287,11 @@
     CategoriesHelper.prototype.resetForm = function() {
         $('#categories .add-edit-delete-group').show();
         $('#categories .save-cancel-group').hide();
-        $('#categories .details').find('input, textarea').val('');
-        $('#categories .details').find('input, textarea').prop('readonly', true);
+        $('#categories .record-details').find('input, textarea').val('');
+        $('#categories .record-details').find('input, textarea').prop('readonly', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
-        $('#filter-categories .selected-row').removeClass('selected-row');
+        $('#filter-categories .selected').removeClass('selected');
         $('#filter-categories .results').css('color', '');
         $('#filter-categories button').prop('disabled', false);
     };
@@ -305,7 +305,7 @@
      */
     CategoriesHelper.prototype.getFilterHtml = function(category) {
         var html =
-                '<div class="category-row" data-id="' + category.id + '">' +
+                '<div class="category-row entry" data-id="' + category.id + '">' +
                     '<strong>' + category.name + '</strong>' +
                 '</div><hr>';
 
@@ -324,11 +324,11 @@
     CategoriesHelper.prototype.select = function(id, display) {
         display = display || false;
 
-        $('#filter-categories .selected-row').removeClass('selected-row');
+        $('#filter-categories .selected').removeClass('selected');
 
         $('#filter-categories .category-row').each(function() {
             if ($(this).attr('data-id') === id) {
-                $(this).addClass('selected-row');
+                $(this).addClass('selected');
                 return false;
             }
         });
