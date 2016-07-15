@@ -60,8 +60,8 @@
                 return; // exit because we are on edit mode
             }
 
-            var serviceId = $(this).attr('data-id'),
-                service = {};
+            var serviceId = $(this).attr('data-id');
+            var service = {};
             $.each(instance.filterResults, function(index, item) {
                 if (item.id === serviceId) {
                     service = item;
@@ -150,8 +150,8 @@
          * Event: Delete Service Button "Click"
          */
         $('#delete-service').click(function() {
-            var serviceId = $('#service-id').val(),
-                messageBtns = {};
+            var serviceId = $('#service-id').val();
+            var messageBtns = {};
 
             messageBtns[EALang['delete']] = function() {
                 instance.delete(serviceId);
@@ -174,11 +174,11 @@
      * then the update operation is going to be executed.
      */
     ServicesHelper.prototype.save = function(service) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service',
-            postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'service': JSON.stringify(service)
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            service: JSON.stringify(service)
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -198,11 +198,11 @@
      * @param {Number} id Record ID to be deleted.
      */
     ServicesHelper.prototype.delete = function(id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                service_id: id
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            service_id: id
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -293,11 +293,11 @@
     ServicesHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services',
-            postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'key': key
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            key: key
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {

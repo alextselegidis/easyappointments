@@ -62,12 +62,12 @@
             return; // Validation failed, do not procceed.
         }
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                type: BackendSettings.SETTINGS_USER,
-                settings: JSON.stringify(settings)
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            type: BackendSettings.SETTINGS_USER,
+            settings: JSON.stringify(settings)
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {

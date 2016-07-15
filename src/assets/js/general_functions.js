@@ -115,9 +115,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      */
     exports.getUrlParameter = function(url, parameterName) {
         parameterName = parameterName.replace(/[\[]/,'\\\[').replace(/[\]]/,'\\\]');
-        var regexS = '[\\#&]' + parameterName + '=([^&#]*)',
-            regex = new RegExp(regexS),
-            results = regex.exec(url);
+        var regexS = '[\\#&]' + parameterName + '=([^&#]*)';
+        var regex = new RegExp(regexS);
+        var results = regex.exec(url);
         return (results == null) ? '' : results[1];
     };
 
@@ -340,11 +340,11 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         $(document).on('click', 'li.language', function() {
         	// Change language with ajax call and refresh page.
-        	var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language',
-                postData = {
-                    csrfToken: GlobalVariables.csrfToken,
-                    language: $(this).attr('data-language'),
-                };
+        	var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+            var postData = {
+                csrfToken: GlobalVariables.csrfToken,
+                language: $(this).attr('data-language'),
+            };
         	$.post(postUrl, postData, function(response) {
         		if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
@@ -394,8 +394,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {String} Returns the formatted date string.
      */
     exports.formatDate = function(date, dateFormatSetting, addHours) {
-        var format, result,
-            hours = addHours ? ' HH:mm' : '';
+        var format, result;
+        var hours = addHours ? ' HH:mm' : '';
 
         switch(dateFormatSetting) {
             case 'DMY':

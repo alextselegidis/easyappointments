@@ -45,16 +45,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData['id'] : undefined;
 
         // Make ajax post request and get the available hours.
-        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                service_id: $('#select-service').val(),
-                provider_id: $('#select-provider').val(),
-                selected_date: selDate,
-                service_duration: selServiceDuration,
-                manage_mode: FrontendBook.manageMode,
-                appointment_id: appointmentId
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            service_id: $('#select-service').val(),
+            provider_id: $('#select-provider').val(),
+            selected_date: selDate,
+            service_duration: selServiceDuration,
+            manage_mode: FrontendBook.manageMode,
+            appointment_id: appointmentId
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -115,11 +115,11 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         }
 
-        var formData = jQuery.parseJSON($('input[name="post_data"]').val()),
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                post_data: formData
-            };
+        var formData = jQuery.parseJSON($('input[name="post_data"]').val());
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            post_data: formData
+        };
 
         if ($captchaText.length > 0) {
             postData.captcha = $captchaText.val();
@@ -129,8 +129,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             postData.exclude_appointment_id = GlobalVariables.appointmentData.id;
         }
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment',
-            $layer = $('<div/>');
+        var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment';
+        var $layer = $('<div/>');
 
         $.ajax({
             url: postUrl,
@@ -197,13 +197,13 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * @param {String} selectedDateString Y-m-d value of the selected date.
      */
     exports.getUnavailableDates = function(providerId, serviceId, selectedDateString) {
-        var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates',
-            data = {
-                provider_id: providerId,
-                service_id: serviceId,
-                selected_date: encodeURIComponent(selectedDateString),
-                csrfToken: GlobalVariables.csrfToken
-            };
+        var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
+        var data = {
+            provider_id: providerId,
+            service_id: serviceId,
+            selected_date: encodeURIComponent(selectedDateString),
+            csrfToken: GlobalVariables.csrfToken
+        };
 
         $.ajax({
             url: url,
@@ -213,8 +213,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         })
             .done(function(response) {
                 // Select first enabled date.
-                var selectedDate = Date.parse(selectedDateString),
-                    numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+                var selectedDate = Date.parse(selectedDateString);
+                var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
 
                 for (var i=1; i<=numberOfDays; i++) {
                     var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);

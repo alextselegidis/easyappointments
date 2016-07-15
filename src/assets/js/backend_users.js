@@ -142,11 +142,11 @@ window.BackendUsers = window.BackendUsers || {};
                 helper = new SecretariesHelper();
 
                 // Update the list with the all the available providers.
-                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers',
-                    postData = {
-                        csrfToken: GlobalVariables.csrfToken,
-                        key: ''
-                    };
+                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
+                var postData = {
+                    csrfToken: GlobalVariables.csrfToken,
+                    key: ''
+                };
                 $.post(postUrl, postData, function(response) {
                     if (!GeneralFunctions.handleAjaxExceptions(response)) {
                         return;
@@ -200,12 +200,12 @@ window.BackendUsers = window.BackendUsers || {};
                 return;
             }
 
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username',
-                postData = {
-                    csrfToken: GlobalVariables.csrfToken,
-                    username: $input.val(),
-                    user_id: userId
-                };
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
+            var postData = {
+                csrfToken: GlobalVariables.csrfToken,
+                username: $input.val(),
+                user_id: userId
+            };
 
             $.post(postUrl, postData, function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {

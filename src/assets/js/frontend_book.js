@@ -344,9 +344,9 @@ window.FrontendBook = window.FrontendBook || {};
             selectedDate = GeneralFunctions.formatDate(selectedDate, GlobalVariables.dateFormat);
         }
 
-        var selServiceId = $('#select-service').val(),
-            servicePrice,
-            serviceCurrency;
+        var selServiceId = $('#select-service').val();
+        var servicePrice;
+        var serviceCurrency;
 
         $.each(GlobalVariables.availableServices, function(index, service) {
             if (service.id == selServiceId) {
@@ -369,13 +369,13 @@ window.FrontendBook = window.FrontendBook || {};
         $('#appointment-details').html(html);
 
         // Customer Details
-        var firstname = GeneralFunctions.escapeHtml($('#first-name').val()),
-            lastname = GeneralFunctions.escapeHtml($('#last-name').val()),
-            phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val()),
-            email = GeneralFunctions.escapeHtml($('#email').val()),
-            address = GeneralFunctions.escapeHtml($('#address').val()),
-            city = GeneralFunctions.escapeHtml($('#city').val()),
-            zipCode = GeneralFunctions.escapeHtml($('#zip-code').val()),
+        var firstname = GeneralFunctions.escapeHtml($('#first-name').val());
+        var lastname = GeneralFunctions.escapeHtml($('#last-name').val());
+        var phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val());
+        var email = GeneralFunctions.escapeHtml($('#email').val());
+        var address = GeneralFunctions.escapeHtml($('#address').val());
+        var city = GeneralFunctions.escapeHtml($('#city').val());
+        var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
 
         html =
             '<h4>' + firstname + ' ' + lastname + '</h4>' +

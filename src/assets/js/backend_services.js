@@ -105,11 +105,11 @@ window.BackendServices = window.BackendServices || {};
      * Use this method every time a change is made to the service categories db table.
      */
     exports.updateAvailableCategories = function() {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: ''
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            key: ''
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {

@@ -61,8 +61,8 @@
                 return; // exit because we are currently on edit mode
             }
 
-            var adminId = $(e.currentTarget).attr('data-id'),
-                admin = {};
+            var adminId = $(e.currentTarget).attr('data-id');
+            var admin = {};
 
             $.each(this.filterResults, function(index, item) {
                 if (item.id === adminId) {
@@ -109,8 +109,8 @@
          * Event: Delete Admin Button "Click"
          */
         $('#admins').on('click', '#delete-admin', function() {
-            var adminId = $('#admin-id').val(),
-                messageBtns = {};
+            var adminId = $('#admin-id').val();
+            var messageBtns = {};
 
             messageBtns[EALang['delete']] = function() {
                 this.delete(adminId);
@@ -184,11 +184,11 @@
      * then the update operation is going to be executed.
      */
     AdminsHelper.prototype.save = function(admin) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                admin: JSON.stringify(admin)
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            admin: JSON.stringify(admin)
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -207,11 +207,11 @@
      * @param {Number} id Record id to be deleted.
      */
     AdminsHelper.prototype.delete = function(id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                admin_id: id
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            admin_id: id
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -339,11 +339,11 @@
     AdminsHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_admins',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: key
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_admins';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            key: key
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -378,8 +378,8 @@
      * @return {String} The html code that represents the record on the filter results list.
      */
     AdminsHelper.prototype.getFilterHtml = function(admin) {
-        var name = admin.first_name + ' ' + admin.last_name,
-            info = admin.email;
+        var name = admin.first_name + ' ' + admin.last_name;
+        var info = admin.email;
 
         info = (admin.mobile_number != '' && admin.mobile_number != null)
                 ? info + ', ' + admin.mobile_number : info;

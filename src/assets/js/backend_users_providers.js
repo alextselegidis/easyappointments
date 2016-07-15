@@ -63,8 +63,8 @@
                 return; // Exit because we are currently on edit mode.
             }
 
-            var providerId = $(e.currentTarget).attr('data-id'),
-                provider = {};
+            var providerId = $(e.currentTarget).attr('data-id');
+            var provider = {};
 
             $.each(this.filterResults, function(index, item) {
                 if (item.id === providerId) {
@@ -236,11 +236,11 @@
      * then the update operation is going to be executed.
      */
     ProvidersHelper.prototype.save = function(provider) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                provider: JSON.stringify(provider)
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            provider: JSON.stringify(provider)
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -259,11 +259,11 @@
      * @param {Number} id Record id to be deleted.
      */
     ProvidersHelper.prototype.delete = function(id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                provider_id: id
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            provider_id: id
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -412,11 +412,11 @@
     ProvidersHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: key
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            key: key
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {

@@ -60,8 +60,8 @@
                 return; // Do nothing when user edits a customer record.
             }
 
-            var customerId = $(this).attr('data-id'),
-                customer = {};
+            var customerId = $(this).attr('data-id');
+            var customer = {};
             $.each(instance.filterResults, function(index, item) {
                 if (item.id == customerId) {
                     customer = item;
@@ -84,9 +84,9 @@
             $('#customer-appointments .selected').removeClass('selected');
             $(this).addClass('selected');
 
-            var customerId = $('#filter-customers .selected').attr('data-id'),
-                appointmentId = $(this).attr('data-id'),
-                appointment = {};
+            var customerId = $('#filter-customers .selected').attr('data-id');
+            var appointmentId = $(this).attr('data-id');
+            var appointment = {};
 
             $.each(instance.filterResults, function(index, c) {
                 if (c.id === customerId) {
@@ -144,14 +144,14 @@
          */
         $('#save-customer').click(function() {
             var customer = {
-                'first_name': $('#first-name').val(),
-                'last_name': $('#last-name').val(),
-                'email': $('#email').val(),
-                'phone_number': $('#phone-number').val(),
-                'address': $('#address').val(),
-                'city': $('#city').val(),
-                'zip_code': $('#zip-code').val(),
-                'notes': $('#notes').val()
+                first_name: $('#first-name').val(),
+                last_name: $('#last-name').val(),
+                email: $('#email').val(),
+                phone_number: $('#phone-number').val(),
+                address: $('#address').val(),
+                city: $('#city').val(),
+                zip_code: $('#zip-code').val(),
+                notes: $('#notes').val()
             };
 
             if ($('#customer-id').val() != '') {
@@ -167,8 +167,8 @@
          * Event: Delete Customer Button "Click"
          */
         $('#delete-customer').click(function() {
-            var customerId = $('#customer-id').val(),
-                messageBtns = {};
+            var customerId = $('#customer-id').val();
+            var messageBtns = {};
 
             messageBtns[EALang['delete']] = function() {
                 instance.delete(customerId);
@@ -190,11 +190,11 @@
      * @param {Object} customer Contains the customer data.
      */
     CustomersHelper.prototype.save = function(customer) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer',
-            postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'customer': JSON.stringify(customer)
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            customer: JSON.stringify(customer)
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -214,11 +214,11 @@
      * @param {Number} id Record id to be deleted.
      */
     CustomersHelper.prototype.delete = function(id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer',
-            postData = {
-                'csrfToken': GlobalVariables.csrfToken,
-                'customer_id': id
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            customer_id: id
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -309,9 +309,9 @@
         $('#customer-appointments').data('jsp').destroy();
         $('#customer-appointments').empty();
         $.each(customer.appointments, function(index, appointment) {
-            var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true),
-                end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true),
-                html =
+            var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
+            var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
+            var html =
                     '<div class="appointment-row" data-id="' + appointment.id + '">' +
                         start + ' - ' + end + '<br>' +
                         appointment.service.name + ', ' +
@@ -335,11 +335,11 @@
     CustomersHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: key
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            key: key
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -429,8 +429,8 @@
      * @param {Object} appointment Appointment data
      */
     CustomersHelper.prototype.displayAppointment = function(appointment) {
-        var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true),
-            end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
+        var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
+        var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
 
         var html =
                 '<div>' +

@@ -63,8 +63,8 @@
                 return; // exit because we are currently on edit mode
             }
 
-            var secretaryId = $(e.currentTarget).attr('data-id'),
-                secretary = {};
+            var secretaryId = $(e.currentTarget).attr('data-id');
+            var secretary = {};
 
             $.each(this.filterResults, function(index, item) {
                 if (item.id === secretaryId) {
@@ -114,8 +114,8 @@
          * Event: Delete Secretary Button "Click"
          */
         $('#secretaries').on('click', '#delete-secretary', function() {
-            var secretaryId = $('#secretary-id').val(),
-                messageBtns = {};
+            var secretaryId = $('#secretary-id').val();
+            var messageBtns = {};
 
             messageBtns[EALang['delete']] = function() {
                 this.delete(secretaryId);
@@ -197,11 +197,11 @@
      * then the update operation is going to be executed.
      */
     SecretariesHelper.prototype.save = function(secretary) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                secretary: JSON.stringify(secretary)
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            secretary: JSON.stringify(secretary)
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -220,11 +220,11 @@
      * @param {Number} id Record id to be deleted.
      */
     SecretariesHelper.prototype.delete = function(id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                secretary_id: id
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            secretary_id: id
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -361,11 +361,11 @@
     SecretariesHelper.prototype.filter = function(key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_secretaries',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: key
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_secretaries';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            key: key
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -400,8 +400,8 @@
      * @return {String} The html code that represents the record on the filter results list.
      */
     SecretariesHelper.prototype.getFilterHtml = function(secretary) {
-        var name = secretary.first_name + ' ' + secretary.last_name,
-            info = secretary.email;
+        var name = secretary.first_name + ' ' + secretary.last_name;
+        var info = secretary.email;
 
         info = (secretary.mobile_number != '' && secretary.mobile_number != null)
                 ? info + ', ' + secretary.mobile_number : info;

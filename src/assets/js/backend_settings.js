@@ -194,12 +194,12 @@ window.BackendSettings = window.BackendSettings || {};
                 return;
             }
 
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username',
-                postData = {
-                    csrfToken: GlobalVariables.csrfToken,
-                    username: $input.val(),
-                    user_id: $input.parents().eq(2).find('#user-id').val()
-                };
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
+            var postData = {
+                csrfToken: GlobalVariables.csrfToken,
+                username: $input.val(),
+                user_id: $input.parents().eq(2).find('#user-id').val()
+            };
 
             $.post(postUrl, postData, function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {

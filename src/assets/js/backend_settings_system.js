@@ -28,12 +28,12 @@
      * @param {Array} settings Contains the system settings data.
      */
     SystemSettings.prototype.save = function(settings) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                settings: JSON.stringify(settings),
-                type: BackendSettings.SETTINGS_SYSTEM
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            settings: JSON.stringify(settings),
+            type: BackendSettings.SETTINGS_SYSTEM
+        };
 
         $.post(postUrl, postData, function(response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
