@@ -29,6 +29,9 @@ window.BackendServices = window.BackendServices || {};
      */
     var helper;
 
+    var servicesHelper = new ServicesHelper(); 
+    var categoriesHelper = new CategoriesHelper();
+
     /**
      * Default initialize method of the page.
      *
@@ -80,10 +83,10 @@ window.BackendServices = window.BackendServices || {};
 
             if ($(this).hasClass('services-tab')) { // display services tab
                 $('#services').show();
-                helper = new ServicesHelper();
+                helper = servicesHelper;
             } else if ($(this).hasClass('categories-tab')) { // display categories tab
                 $('#categories').show();
-                helper = new CategoriesHelper();
+                helper = categoriesHelper;
             }
 
             helper.resetForm();
@@ -92,11 +95,8 @@ window.BackendServices = window.BackendServices || {};
             Backend.placeFooterToBottom();
         });
 
-        helper.bindEventHandlers();
-
-        // @todo Bind and unbind the events dynamically on tab click.
-        var tmpHelper = new CategoriesHelper();
-        tmpHelper.bindEventHandlers();
+        servicesHelper.bindEventHandlers(); 
+        categoriesHelper.bindEventHandlers(); 
     }
 
     /**
