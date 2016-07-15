@@ -635,7 +635,6 @@ body .form-horizontal .controls {
 #users-page #providers .details-view,
 #users-page #providers .working-plan-view {
     clear: both;
-    overflow: auto;
 }
 
 #users-page .btn-toolbar {
@@ -831,6 +830,7 @@ body .form-horizontal .controls {
 
     #users-page #providers .switch-view {
         margin: 20px 0;
+        width: 100%;
     }
 
     #users-page #providers .switch-view strong {
