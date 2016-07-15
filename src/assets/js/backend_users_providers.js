@@ -37,7 +37,7 @@
          */
         $('#providers').on('submit', '#filter-providers form', function() {
             var key = $('#filter-providers .key').val();
-            $('.selected-row').removeClass('selected-row');
+            $('.selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
             return false;
@@ -74,8 +74,8 @@
             });
 
             this.display(provider);
-            $('#filter-providers .selected-row').removeClass('selected-row');
-            $(e.currentTarget).addClass('selected-row');
+            $('#filter-providers .selected').removeClass('selected');
+            $(e.currentTarget).addClass('selected');
             $('#edit-provider, #delete-provider').prop('disabled', false);
         }.bind(this));
 
@@ -88,7 +88,7 @@
             $('#filter-providers .results').css('color', '#AAA');
             $('#providers .add-edit-delete-group').hide();
             $('#providers .save-cancel-group').show();
-            $('#providers .details').find('input, textarea').prop('readonly', false);
+            $('#providers .record-details').find('input, textarea').prop('readonly', false);
             $('#provider-password, #provider-password-confirm').addClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
@@ -108,7 +108,7 @@
             $('#providers .save-cancel-group').show();
             $('#filter-providers button').prop('disabled', true);
             $('#filter-providers .results').css('color', '#AAA');
-            $('#providers .details').find('input, textarea').prop('readonly', false);
+            $('#providers .record-details').find('input, textarea').prop('readonly', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#provider-services input[type="checkbox"]').prop('disabled', false);
@@ -189,7 +189,7 @@
          * Cancel add or edit of an provider record.
          */
         $('#providers').on('click', '#cancel-provider', function() {
-            var id = $('#filter-providers .selected-row').attr('data-id');
+            var id = $('#filter-providers .selected').attr('data-id');
             this.resetForm();
             if (id != '') {
                 this.select(id, true);
@@ -335,13 +335,13 @@
      * Resets the admin tab form back to its initial state.
      */
     ProvidersHelper.prototype.resetForm = function() {
-        $('#filter-providers .selected-row').removeClass('selected-row');
+        $('#filter-providers .selected').removeClass('selected');
         $('#filter-providers button').prop('disabled', false);
         $('#filter-providers .results').css('color', '');
 
         $('#providers .add-edit-delete-group').show();
         $('#providers .save-cancel-group').hide();
-        $('#providers .details').find('input, textarea').prop('readonly', true);
+        $('#providers .record-details').find('input, textarea').prop('readonly', true);
         $('#providers .form-message').hide();
         $('#provider-notifications').removeClass('active');
         $('#provider-notifications').prop('disabled', true);
@@ -355,7 +355,7 @@
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
-        $('#providers .details').find('input, textarea').val('');
+        $('#providers .record-details').find('input, textarea').val('');
         $('#providers input[type="checkbox"]').prop('checked', false);
         $('#provider-services input[type="checkbox"]').prop('checked', false);
         $('#providers .breaks tbody').empty();
@@ -461,7 +461,7 @@
                 ? info + ', ' + provider.phone_number : info;
 
         var html =
-                '<div class="provider-row" data-id="' + provider.id + '">' +
+                '<div class="provider-row entry" data-id="' + provider.id + '">' +
                     '<strong>' + name + '</strong><br>' +
                     info + '<br>' +
                 '</div><hr>';
@@ -548,7 +548,7 @@
         // Select record in filter results.
         $('#filter-providers .provider-row').each(function() {
             if ($(this).attr('data-id') == id) {
-                $(this).addClass('selected-row');
+                $(this).addClass('selected');
                 return false;
             }
         });

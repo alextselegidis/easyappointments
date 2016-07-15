@@ -36,7 +36,7 @@
     });
 </script>
 
-<div id="users-page" class="container-fluid">
+<div id="users-page" class="container-fluid backend-page">
 
     <?php
         // ---------------------------------------------------------------------
@@ -77,7 +77,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-xs-12 col-sm-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-admin" class="btn btn-primary">
@@ -218,7 +218,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-xs-12 col-sm-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="pull-left">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-provider" class="btn btn-primary">
@@ -492,7 +492,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-xs-12 col-sm-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-secretary" class="btn btn-primary">

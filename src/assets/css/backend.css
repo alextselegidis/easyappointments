@@ -496,42 +496,6 @@ body .form-horizontal .controls {
     cursor: pointer;
 }
 
-#users-page .filter-records {
-    max-width: 380px;
-    margin-bottom: 20px;
-}
-
-#users-page .filter-records .results {
-    overflow-y: auto;
-    max-height: 650px;
-    outline: none;
-}
-
-#users-page .secretary-row,
-#users-page .provider-row,
-#users-page .admin-row {
-    padding: 10px 7px;
-}
-
-#users-page .secretary-row:hover:not(.selected-row),
-#users-page .provider-row:hover:not(.selected-row),
-#users-page .admin-row:hover:not(.selected-row) {
-    cursor: pointer;
-    background-color: #F3F3F3;
-}
-
-#users-page .selected-row {
-    background-color: #F4F4F4;
-    border-right: 5px solid #35B66F;
-}
-
-#users-page .details input,
-#users-page .details select,
-#users-page .details textarea {
-    background-color: white;
-    cursor: pointer;
-}
-
 #users-page #secretary-notifications.active,
 #users-page #provider-notifications.active,
 #users-page #admin-notifications.active {

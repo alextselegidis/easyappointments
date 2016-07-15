@@ -37,7 +37,7 @@
          */
         $('#secretaries').on('submit', '#filter-secretaries form', function() {
             var key = $('#filter-secretaries .key').val();
-            $('#filter-secretaries .selected-row').removeClass('selected-row');
+            $('#filter-secretaries .selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
             return false;
@@ -75,8 +75,8 @@
 
             this.display(secretary);
 
-            $('#filter-secretaries .selected-row').removeClass('selected-row');
-            $(e.currentTarget).addClass('selected-row');
+            $('#filter-secretaries .selected').removeClass('selected');
+            $(e.currentTarget).addClass('selected');
             $('#edit-secretary, #delete-secretary').prop('disabled', false);
         }.bind(this));
 
@@ -90,7 +90,7 @@
 
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
-            $('#secretaries .details').find('input, textarea').prop('readonly', false);
+            $('#secretaries .record-details').find('input, textarea').prop('readonly', false);
             $('#secretary-password, #secretary-password-confirm').addClass('required');
             $('#secretary-notifications').prop('disabled', false);
             $('#secretary-providers input[type="checkbox"]').prop('disabled', false);
@@ -104,7 +104,7 @@
             $('#filter-secretaries .results').css('color', '#AAA');
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
-            $('#secretaries .details').find('input, textarea').prop('readonly', false);
+            $('#secretaries .record-details').find('input, textarea').prop('readonly', false);
             $('#secretary-password, #secretary-password-confirm').removeClass('required');
             $('#secretary-notifications').prop('disabled', false);
             $('#secretary-providers input[type="checkbox"]').prop('disabled', false);
@@ -297,11 +297,11 @@
      * Resets the admin tab form back to its initial state.
      */
     SecretariesHelper.prototype.resetForm = function() {
-        $('#secretaries .details').find('input, textarea').val('');
+        $('#secretaries .record-details').find('input, textarea').val('');
         $('#secretaries .add-edit-delete-group').show();
         $('#secretaries .save-cancel-group').hide();
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
-        $('#secretaries .details').find('input, textarea').prop('readonly', true);
+        $('#secretaries .record-details').find('input, textarea').prop('readonly', true);
         $('#secretaries .form-message').hide();
         $('#secretary-notifications').removeClass('active');
         $('#secretary-notifications').prop('disabled', true);
@@ -310,7 +310,7 @@
         $('#secretaries .required').css('border', '');
         $('#secretary-password, #secretary-password-confirm').css('border', '');
 
-        $('#filter-secretaries .selected-row').removeClass('selected-row');
+        $('#filter-secretaries .selected').removeClass('selected');
         $('#filter-secretaries button').prop('disabled', false);
         $('#filter-secretaries .results').css('color', '');
     };
@@ -410,7 +410,7 @@
                 ? info + ', ' + secretary.phone_number : info;
 
         var html =
-                '<div class="secretary-row" data-id="' + secretary.id + '">' +
+                '<div class="secretary-row entry" data-id="' + secretary.id + '">' +
                     '<strong>' + name + '</strong><br>' +
                     info + '<br>' +
                 '</div><hr>';
@@ -428,11 +428,11 @@
     SecretariesHelper.prototype.select = function(id, display) {
         display = display || false;
 
-        $('#filter-secretaries .selected-row').removeClass('selected-row');
+        $('#filter-secretaries .selected').removeClass('selected');
 
         $('#filter-secretaries .secretary-row').each(function() {
             if ($(this).attr('data-id') == id) {
-                $(this).addClass('selected-row');
+                $(this).addClass('selected');
                 return false;
             }
         });

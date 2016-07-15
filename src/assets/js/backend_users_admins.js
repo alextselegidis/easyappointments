@@ -35,7 +35,7 @@
          */
         $('#admins').on('submit', '#filter-admins form', function() {
             var key = $('#filter-admins .key').val();
-            $('#filter-admins .selected-row').removeClass('selected-row');
+            $('#filter-admins .selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
             return false;
@@ -72,8 +72,8 @@
             });
 
             this.display(admin);
-            $('#filter-admins .selected-row').removeClass('selected-row');
-            $(e.currentTarget).addClass('selected-row');
+            $('#filter-admins .selected').removeClass('selected');
+            $(e.currentTarget).addClass('selected');
             $('#edit-admin, #delete-admin').prop('disabled', false);
         }.bind(this));
 
@@ -84,7 +84,7 @@
             this.resetForm();
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
-            $('#admins .details').find('input, textarea').prop('readonly', false);
+            $('#admins .record-details').find('input, textarea').prop('readonly', false);
             $('#admin-password, #admin-password-confirm').addClass('required');
             $('#admin-notifications').prop('disabled', false);
             $('#filter-admins button').prop('disabled', true);
@@ -97,7 +97,7 @@
         $('#admins').on('click', '#edit-admin', function() {
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
-            $('#admins .details').find('input, textarea').prop('readonly', false);
+            $('#admins .record-details').find('input, textarea').prop('readonly', false);
             $('#admin-password, #admin-password-confirm').removeClass('required');
             $('#admin-notifications').prop('disabled', false);
 
@@ -287,16 +287,16 @@
     AdminsHelper.prototype.resetForm = function() {
         $('#admins .add-edit-delete-group').show();
         $('#admins .save-cancel-group').hide();
-        $('#admins .details').find('input, textarea').prop('readonly', true);
+        $('#admins .record-details').find('input, textarea').prop('readonly', true);
         $('#admins .form-message').hide();
         $('#admin-notifications').prop('disabled', true);
         $('#admins .required').css('border', '');
         $('#admin-password, #admin-password-confirm').css('border', '');
-        $('#admins .details').find('input, textarea').val('');
+        $('#admins .record-details').find('input, textarea').val('');
         $('#admin-notifications').removeClass('active');
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
-        $('#filter-admins .selected-row').removeClass('selected-row');
+        $('#filter-admins .selected').removeClass('selected');
         $('#filter-admins button').prop('disabled', false);
         $('#filter-admins .results').css('color', '');
     };
@@ -388,7 +388,7 @@
                 ? info + ', ' + admin.phone_number : info;
 
         var html =
-                '<div class="admin-row" data-id="' + admin.id + '">' +
+                '<div class="admin-row entry" data-id="' + admin.id + '">' +
                     '<strong>' + name + '</strong><br>' +
                     info + '<br>' +
                 '</div><hr>';
@@ -407,11 +407,11 @@
     AdminsHelper.prototype.select = function(id, display) {
         display = display || false;
 
-        $('#filter-admins .selected-row').removeClass('selected-row');
+        $('#filter-admins .selected').removeClass('selected');
 
         $('.admin-row').each(function() {
             if ($(this).attr('data-id') == id) {
-                $(this).addClass('selected-row');
+                $(this).addClass('selected');
                 return false;
             }
         });
