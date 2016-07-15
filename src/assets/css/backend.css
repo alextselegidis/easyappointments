@@ -678,10 +678,6 @@ body .form-horizontal .controls {
     color: #525252;
 }
 
-#settings-page .tab-content {
-    overflow: auto;
-}
-
 #settings-page .nav {
     background-color: #F4F4F4;
     margin-bottom: 15px;
