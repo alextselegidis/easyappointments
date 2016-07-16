@@ -46,13 +46,13 @@
         src="<?php echo $base_url; ?>/assets/ext/jquery/jquery.min.js"></script>
     <script
         type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+    <script
+        type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui.min.js"></script>
     <script
         type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-qtip/jquery.qtip.min.js"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
     <script
         type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/datejs/date.js"></script>

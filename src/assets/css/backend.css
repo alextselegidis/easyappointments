@@ -200,6 +200,10 @@ body .jspTrack {
     background: #EBEBEB;
 }
 
+body legend {
+    color: #666;
+}
+
 
 /* BACKEND COMPONENTS
    -------------------------------------------------------------------- */
@@ -484,6 +488,8 @@ body .form-horizontal .controls {
 
 #services-page .record-details .ui-spinner a {
     cursor: pointer;
+    background: none;   
+    border: none;
 }
 
 /* BACKEND USERS PAGE
@@ -645,6 +651,17 @@ body .form-horizontal .controls {
 #business-logic .ui-spinner {
     border: none;
     width: 80px;
+    color: #666;
+}
+
+#business-logic .ui-state-disabled {
+    opacity: 1;
+}
+
+#business-logic .ui-spinner a {
+    cursor: pointer;
+    background: none;   
+    border: none;
 }
 
 #settings-page #user-notifications,

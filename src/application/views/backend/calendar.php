@@ -64,7 +64,7 @@
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-                <button id="insert-appointment" class="btn btn-primary"
+                <button id="insert-appointment" class="btn btn-default"
                         title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
                     <span class="glyphicon glyphicon-plus"></span>
                     <?php echo $this->lang->line('appointment'); ?>
@@ -223,70 +223,72 @@
                             </legend>
 
                             <input id="customer-id" type="hidden" />
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first-name" class="control-label col-sm-2">
+                                            <?php echo $this->lang->line('first_name'); ?> *</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="first-name" class="required form-control" />
+                                        </div>
+                                    </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="first-name" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('first_name'); ?> *</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="first-name" class="required form-control" />
+                                    <div class="form-group">
+                                        <label for="last-name" class="control-label col-sm-2">
+                                            <?php echo $this->lang->line('last_name'); ?>*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="last-name" class="required form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email" class="control-label col-sm-2">
+                                            <?php echo $this->lang->line('email'); ?>*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="email" class="required form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phone-number" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('phone_number'); ?>*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="phone-number" class="required form-control" />
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="last-name" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('last_name'); ?>*</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="last-name" class="required form-control" />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('address'); ?></label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="address" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="email" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('email'); ?>*</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="email" class="required form-control" />
+                                    <div class="form-group">
+                                        <label for="city" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('city'); ?></label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="city" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="phone-number" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('phone_number'); ?>*</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="phone-number" class="required form-control" />
+                                    <div class="form-group">
+                                        <label for="zip-code" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('zip_code'); ?></label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="zip-code" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="address" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('address'); ?></label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="address" class="form-control" />
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="city" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('city'); ?></label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="city" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="zip-code" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('zip_code'); ?></label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="zip-code" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="customer-notes" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('notes'); ?></label>
-                                    <div class="col-md-8">
-                                        <textarea id="customer-notes" rows="3" class="form-control"></textarea>
+                                    <div class="form-group">
+                                        <label for="customer-notes" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('notes'); ?></label>
+                                        <div class="col-md-8">
+                                            <textarea id="customer-notes" rows="3" class="form-control"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
