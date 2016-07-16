@@ -19,6 +19,7 @@ their custom modifications on the main project codebase.
 - Issue #24: Provide dedicated URL for separate provider/service bookings.
 - Issue #127: Links in header contain index.php
 - Issue #109: Accept multiple attendants in a single service session.
+- Issue #178: Load the application/config/email.php settings to PHPMailer instance.
 
 ### Version 1.1.1
 - Issue #116: Book advance timeout not taken into account for proposed appointments.
