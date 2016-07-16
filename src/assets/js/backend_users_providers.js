@@ -358,6 +358,7 @@
         $('#providers .record-details').find('input, textarea').val('');
         $('#providers input[type="checkbox"]').prop('checked', false);
         $('#provider-services input[type="checkbox"]').prop('checked', false);
+        $('#provider-services a').remove();
         $('#providers .breaks tbody').empty();
     };
 
@@ -386,11 +387,26 @@
             $('#provider-notifications').removeClass('active');
         }
 
+         // Add dedicated provider link. 
+        var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id); 
+        var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+        $('#providers .record-details h3')
+            .find('a')
+            .remove()
+            .end()
+            .append(linkHtml);
+
+        $('#provider-services a').remove();
         $('#provider-services input[type="checkbox"]').prop('checked', false);
         $.each(provider.services, function(index, serviceId) {
             $('#provider-services input[type="checkbox"]').each(function() {
                 if ($(this).attr('data-id') == serviceId) {
                     $(this).prop('checked', true);
+                    // Add dedicated service-provider link.
+                    dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id) 
+                            + '&service=' + encodeURIComponent(serviceId);
+                    linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+                    $(this).parent().append(linkHtml);
                 }
             });
         });
