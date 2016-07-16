@@ -368,12 +368,12 @@
                     <span id="select-language" class="label label-success">
     		        	<?php echo ucfirst($this->config->item('language')); ?>
     		        </span>
-                    <?php if ($this->session->userdata('user_id')): ?>
-                        |
-                        <a href="<?php echo site_url('backend'); ?>">
-                            <?php echo $this->lang->line('backend_section'); ?>
-                        </a>
-                    <?php endif; ?>
+                    |
+                    <a href="<?php echo site_url('backend'); ?>">
+                        <?php echo $this->session->userdata('user_id')
+                            ? $this->lang->line('backend_section') 
+                            : $this->lang->line('login'); ?>
+                    </a>
                 </div>
             </div>
         </div>
