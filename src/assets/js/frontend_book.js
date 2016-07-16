@@ -97,20 +97,42 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
-
-        // Bind the event handlers (might not be necessary every time
-        // we use this class).
+        // Bind the event handlers (might not be necessary every time we use this class).
         if (bindEventHandlers) {
             _bindEventHandlers();
         }
 
-        // If the manage mode is true, the appointments data should be
-        // loaded by default.
+        // If the manage mode is true, the appointments data should be loaded by default.
         if (FrontendBook.manageMode) {
             _applyAppointmentData(GlobalVariables.appointmentData,
                     GlobalVariables.providerData, GlobalVariables.customerData);
         } else {
-            $('#select-service').trigger('change'); // Load the available hours.
+            var $selectProvider = $('#select-provider');
+            var $selectService = $('#select-service'); 
+
+            // Check if a specific service was selected.
+            var selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
+
+            if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
+                $selectService
+                    .val(selectedServiceId)
+                    .prop('disabled', true)
+                    .css('opacity', '0.5');
+            }
+
+            $selectService.trigger('change'); // Load the available hours.
+
+            // Check if a specific provider was selected. 
+            var selectedProviderId = GeneralFunctions.getUrlParameter(location.href, 'provider');
+            
+            if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length > 0) {
+                $selectProvider
+                    .val(selectedProviderId)
+                    .prop('disabled', true)
+                    .css('opacity', '0.5')
+                    .trigger('change');
+            }
+
         }
     };
 

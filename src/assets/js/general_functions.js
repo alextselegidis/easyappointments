@@ -114,11 +114,21 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {String} Returns the parameter value.
      */
     exports.getUrlParameter = function(url, parameterName) {
-        parameterName = parameterName.replace(/[\[]/,'\\\[').replace(/[\]]/,'\\\]');
-        var regexS = '[\\#&]' + parameterName + '=([^&#]*)';
-        var regex = new RegExp(regexS);
-        var results = regex.exec(url);
-        return (results == null) ? '' : results[1];
+        var parsedUrl = url.substr(url.indexOf('?')).slice(1).split('&');
+
+        for (var index in parsedUrl) {
+            var parsedValue = parsedUrl[index].split('='); 
+
+            if (parsedValue.length === 1 && parsedValue[0] === parameterName) {
+                return ''; 
+            }
+
+            if (parsedValue.length === 2 && parsedValue[0] === parameterName) {
+                return decodeURIComponent(parsedValue[1]); 
+            }
+        }
+
+        return '';
     };
 
     /**
