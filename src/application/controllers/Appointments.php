@@ -11,6 +11,10 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use \EA\Engine\Types\String; 
+use \EA\Engine\Types\Email; 
+use \EA\Engine\Types\Url; 
+
 /**
  * Appointments Controller
  *
@@ -190,24 +194,25 @@ class Appointments extends CI_Controller {
 
             // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER
             try {
-                $this->load->library('Notifications');
+                $this->config->load('email'); 
+                $email = new \EA\Engine\Notifications\Email($this, $this->config->config); 
 
                 $send_provider = filter_var($this->providers_model
                             ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
 
-                if ($send_provider == TRUE) {
-                    $this->notifications->send_delete_appointment($appointment, $provider,
-                            $service, $customer, $company_settings, $provider['email'],
-                            $_POST['cancel_reason']);
+                if ($send_provider === TRUE) {
+                    $email->sendDeleteAppointment($appointment, $provider,
+                            $service, $customer, $company_settings, new Email($provider['email']),
+                            new String($_POST['cancel_reason']));
                 }
 
 				$send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
 						FILTER_VALIDATE_BOOLEAN);
 
 				if ($send_customer === TRUE) {
-					$this->notifications->send_delete_appointment($appointment, $provider,
-							$service, $customer, $company_settings, $customer['email'],
-							$_POST['cancel_reason']);
+					$email->sendDeleteAppointment($appointment, $provider,
+							$service, $customer, $company_settings, new Email($customer['email']),
+							new String($_POST['cancel_reason']));
 				}
 
             } catch(Exception $exc) {
@@ -412,40 +417,41 @@ class Appointments extends CI_Controller {
 
             // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
             try {
-                $this->load->library('Notifications');
+                $this->config->load('email');
+                $email = new \EA\Engine\Notifications\Email($this, $this->config->config); 
 
                 if ($post_data['manage_mode'] == FALSE) {
-                    $customer_title = $this->lang->line('appointment_booked');
-                    $customer_message = $this->lang->line('thank_you_for_appointment');
-                    $provider_title = $this->lang->line('appointment_added_to_your_plan');
-                    $provider_message = $this->lang->line('appointment_link_description');
+                    $customer_title = new String($this->lang->line('appointment_booked'));
+                    $customer_message = new String($this->lang->line('thank_you_for_appointment'));
+                    $provider_title = new String($this->lang->line('appointment_added_to_your_plan'));
+                    $provider_message = new String($this->lang->line('appointment_link_description'));
 
                 } else {
-                    $customer_title = $this->lang->line('appointment_changes_saved');
-                    $customer_message = '';
-                    $provider_title = $this->lang->line('appointment_details_changed');
-                    $provider_message = '';
+                    $customer_title = new String($this->lang->line('appointment_changes_saved'));
+                    $customer_message = new String('');
+                    $provider_title = new String($this->lang->line('appointment_details_changed'));
+                    $provider_message = new String('');
                 }
 
-				$customer_link = site_url('appointments/index/' . $appointment['hash']);
-				$provider_link = site_url('backend/index/' . $appointment['hash']);
+				$customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
+				$provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
 
 				$send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
 						FILTER_VALIDATE_BOOLEAN);
 
-				if ($send_customer == TRUE) {
-					$this->notifications->send_appointment_details($appointment, $provider,
+				if ($send_customer === TRUE) {
+					$email->sendAppointmentDetails($appointment, $provider,
 							$service, $customer,$company_settings, $customer_title,
-							$customer_message, $customer_link, $customer['email']);
+							$customer_message, $customer_link, new Email($customer['email']));
 				}
 
 				$send_provider = filter_var($this->providers_model ->get_setting('notifications', $provider['id']),
 						FILTER_VALIDATE_BOOLEAN);
 
-                if ($send_provider == TRUE) {
-                    $this->notifications->send_appointment_details($appointment, $provider,
+                if ($send_provider === TRUE) {
+                    $email->sendAppointmentDetails($appointment, $provider,
                             $service, $customer, $company_settings, $provider_title,
-                            $provider_message, $provider_link, $provider['email']);
+                            $provider_message, $provider_link, new Email($provider['email']));
                 }
             } catch(Exception $exc) {
                 log_message('error', $exc->getMessage());

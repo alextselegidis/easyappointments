@@ -11,6 +11,9 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use \EA\Engine\Types\NonEmptyString;
+use \EA\Engine\Types\Email;
+
 /**
  * User Controller
  *
@@ -148,13 +151,15 @@ class User extends CI_Controller {
             $new_password = $this->user_model->regenerate_password($_POST['username'], $_POST['email']);
 
             if ($new_password != FALSE) {
-                $this->load->library('notifications');
+                $this->config->load('email'); 
+                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
                 $company_settings = array(
                     'company_name' => $this->settings_model->get_setting('company_name'),
                     'company_link' => $this->settings_model->get_setting('company_link'),
                     'company_email' => $this->settings_model->get_setting('company_email')
                 );
-                $this->notifications->send_password($new_password, $_POST['email'], $company_settings);
+
+                $email->sendPassword(new NonEmptyString($new_password), new Email($_POST['email']), $company_settings);
             }
 
             echo ($new_password != FALSE) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);

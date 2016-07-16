@@ -14,6 +14,7 @@
 namespace EA\Engine\Notifications; 
 
 use \EA\Engine\Types\String;
+use \EA\Engine\Types\NonEmptyString;
 use \EA\Engine\Types\Url;
 use \EA\Engine\Types\Email as EmailAddress;
 
@@ -222,11 +223,11 @@ class Email {
     /**
      * This method sends an email with the new password of a user.
      *
-     * @param \EA\Engine\Types\String $password Contains the new password.
+     * @param \EA\Engine\Types\NonEmptyString $password Contains the new password.
      * @param \EA\Engine\Types\Email $email The receiver's email address.
      * @param array $company The company settings to be included in the email.
      */
-    public function sendPassword(String $password, EmailAddress $recipientEmail, array $company) {
+    public function sendPassword(NonEmptyString $password, EmailAddress $recipientEmail, array $company) {
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
