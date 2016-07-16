@@ -193,7 +193,7 @@
                             <div class="form-group">
                                 <label for="end-datetime" class="control-label col-sm-3" ><?php echo $this->lang->line('end_date_time'); ?></label>
                                 <div class="col-sm-7">
-                                    <input type="text" id="end-datetime" />
+                                    <input type="text" id="end-datetime" class="form-control" />
                                 </div>
                             </div>
 
