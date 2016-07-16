@@ -12,16 +12,16 @@
 $(document).ready(function() {
     'use strict';
 
-    var MIN_PASSWORD_LENGTH = 7,
-        AJAX_SUCCESS = 'SUCCESS',
-        AJAX_FAILURE = 'FAILURE';
+    var MIN_PASSWORD_LENGTH = 7;
+    var AJAX_SUCCESS = 'SUCCESS';
+    var AJAX_FAILURE = 'FAILURE';
 
     $(document).ajaxStart(function() {
-        $('#loading').show();
+        $('#loading').removeClass('hidden');
     });
 
     $(document).ajaxStop(function() {
-        $('#loading').hide();
+        $('#loading').addClass('hidden');
     });
 
     /**
@@ -32,12 +32,12 @@ $(document).ready(function() {
             return;
         }
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/installation/ajax_install',
-            postData = {
-                csrfToken: GlobalVariables.csrfToken,
-                admin: JSON.stringify(getAdminData()),
-                company: JSON.stringify(getCompanyData())
-            };
+        var postUrl = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            admin: JSON.stringify(getAdminData()),
+            company: JSON.stringify(getCompanyData())
+        };
 
         $.ajax({
             url: postUrl,

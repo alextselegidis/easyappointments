@@ -11,7 +11,7 @@
         href="<?php echo $base_url; ?>/assets/img/favicon.ico">
 
     <link rel="stylesheet" type="text/css"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-ui/jquery-ui.min.css">
+        href="<?php echo $base_url ?>/assets/ext/jquery-ui/jquery-ui.min.css">
 
     <link rel="stylesheet" type="text/css"
         href="<?php echo $base_url; ?>/assets/css/general.css">
@@ -72,13 +72,13 @@
             <p>
                 This page will help you set the main settings of your Easy!Appointments installation.
                 You will be able to edit these settings and many more in the backend session of your
-                system. Remember to use the <strong class="text-primary"><?php echo site_url('backend'); ?>/strong>
+                system. Remember to use the <strong class="text-primary"><?php echo site_url('backend'); ?></strong>
                 url to connect to the backend section of Easy!Appointments.
 
-                If you face any problems during the usage of Easy!Appointments you can always check
-                the official <a href="https://github.com/alextselegidis/easyappointments/wiki">Wiki Pages</a>
-                and <a href="http://groups.google.com/group/easy-appointments">Support Group</a>
-                for getting help. You may also submit new issues on
+                If you face any problems during the usage of Easy!Appointments you can always check the 
+                <a href="https://github.com/alextselegidis/easyappointments/tree/master/doc">GitHub Documentation</a>
+                and <a href="http://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You 
+                may also submit new issues on
                 <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
                 in order to help our development process.
             </p>
