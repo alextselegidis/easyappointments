@@ -425,7 +425,7 @@
 
             this.filterResults = response;
 
-            $('#filter-providers .results').data('jsp').destroy;
+            $('#filter-providers .results').data('jsp').destroy();
             $('#filter-providers .results').html('');
             $.each(response, function(index, provider) {
                 var html = this.getFilterHtml(provider);
