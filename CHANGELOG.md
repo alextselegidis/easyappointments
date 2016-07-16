@@ -5,21 +5,21 @@ their custom modifications on the main project codebase.
 
 
 ### Version 1.2.0
-- Issue #174: Implementation of a REST API.
+- Issue #180: Add login link to booking footer. 
+- Issue #178: Load the application/config/email.php settings to PHPMailer instance.
 - Issue #175: The backend must be responsive as well.
+- Issue #174: Implementation of a REST API.
 - Issue #173: JS Scrollbars do not work for backend/users entries.
-- Issue #22: Google Calendar Sync - Time Zone Issue
 - Issue #152: American Time Format (AM/PM)
 - Issue #137: Invalid responsive behavior in frontend booking wizard (step #2 - appointment date & time).
 - Issue #136: Loading spinner is not shown in during the installation.
-- Issue #178: Load the application/config/email.php settings to PHPMailer instance.
-- Issue #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
-- Issue #45: Add secure flag to CI_SESSION when HTTPS is enabled.
-- Issue #54: Default auto-complete for the appointment end time according to service duration.
-- Issue #24: Provide dedicated URL for separate provider/service bookings.
 - Issue #127: Links in header contain index.php
 - Issue #109: Accept multiple attendants in a single service session.
-- Issue #178: Load the application/config/email.php settings to PHPMailer instance.
+- Issue #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
+- Issue #54: Default auto-complete for the appointment end time according to service duration.
+- Issue #45: Add secure flag to CI_SESSION when HTTPS is enabled.
+- Issue #24: Provide dedicated URL for separate provider/service bookings.
+- Issue #22: Google Calendar Sync - Time Zone Issue
 
 ### Version 1.1.1
 - Issue #116: Book advance timeout not taken into account for proposed appointments.
