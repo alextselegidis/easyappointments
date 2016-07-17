@@ -18,13 +18,6 @@
  */
 class Customers_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Add a customer record to the database.
      *
      * This method adds a customer to the database. If the customer
@@ -148,7 +141,7 @@ class Customers_Model extends CI_Model {
      */
     public function find_record_id($customer) {
         if (!isset($customer['email'])) {
-            throw new Exception('Customer\'s email was not provided : '
+            throw new Exception('Customer\'s email was not provided: '
                     . print_r($customer, TRUE));
         }
 
@@ -191,13 +184,13 @@ class Customers_Model extends CI_Model {
         if (!isset($customer['last_name'])
                 || !isset($customer['email'])
                 || !isset($customer['phone_number'])) {
-            throw new Exception('Not all required fields are provided : '
+            throw new Exception('Not all required fields are provided: '
                     . print_r($customer, TRUE));
         }
 
         // Validate email address
         if (!filter_var($customer['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Invalid email address provided : '
+            throw new Exception('Invalid email address provided: '
                     . $customer['email']);
         }
 
@@ -230,7 +223,7 @@ class Customers_Model extends CI_Model {
      */
     public function delete($customer_id) {
         if (!is_numeric($customer_id)) {
-            throw new Exception('Invalid argument type $customer_id : ' . $customer_id);
+            throw new Exception('Invalid argument type $customer_id: ' . $customer_id);
         }
 
         $num_rows = $this->db->get_where('ea_users', array('id' => $customer_id))->num_rows();
@@ -266,25 +259,25 @@ class Customers_Model extends CI_Model {
      */
     public function get_value($field_name, $customer_id) {
         if (!is_numeric($customer_id)) {
-            throw new Exception('Invalid argument provided as $customer_id : '
+            throw new Exception('Invalid argument provided as $customer_id: '
                     . $customer_id);
         }
 
         if (!is_string($field_name)) {
-            throw new Exception('$field_name argument is not a string : '
+            throw new Exception('$field_name argument is not a string: '
                     . $field_name);
         }
 
         if ($this->db->get_where('ea_users', array('id' => $customer_id))->num_rows() == 0) {
             throw new Exception('The record with the $customer_id argument '
-                    . 'does not exist in the database : ' . $customer_id);
+                    . 'does not exist in the database: ' . $customer_id);
         }
 
         $row_data = $this->db->get_where('ea_users', array('id' => $customer_id)
                 )->row_array();
         if (!isset($row_data[$field_name])) {
             throw new Exception('The given $field_name argument does not'
-                    . 'exist in the database : ' . $field_name);
+                    . 'exist in the database: ' . $field_name);
         }
 
         $customer = $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();

@@ -20,18 +20,13 @@
  */
 class User_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * Returns the user settings from the database.
+     * Returns the user from the database for the "settings" page.
      *
-     * @param numeric $user_id User record id of which the settings will be returned.
+     * @param numeric $user_id User record id.
      *
-     * @return array Returns an array with user settings.
+     * @return array Returns an array with user data.
+     *
+     * @todo Refactor this method as it does not do as it states. 
      */
     public function get_settings($user_id) {
         $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
@@ -41,11 +36,13 @@ class User_Model extends CI_Model {
     }
 
     /**
-     * This method saves the user settings into the database.
+     * This method saves the user record into the database (used in backend settings page).
      *
-     * @param array $user Contains the current users settings.
+     * @param array $user Contains the current users data.
      *
      * @return bool Returns the operation result.
+     *
+     * @todo Refactor this method as it does not do as it states. 
      */
     public function save_settings($user) {
         $user_settings = $user['settings'];

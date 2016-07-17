@@ -18,13 +18,6 @@
  */
 class Services_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Add (insert or update) a service record on the database
      *
      * @param array $service Contains the service data. If an 'id' value is provided then
@@ -220,20 +213,20 @@ class Services_Model extends CI_Model {
      */
     public function get_value($field_name, $service_id) {
         if (!is_numeric($service_id)) {
-            throw new Exception('Invalid argument provided as $service_id : ' . $service_id);
+            throw new Exception('Invalid argument provided as $service_id: ' . $service_id);
         }
 
         if (!is_string($field_name)) {
-            throw new Exception('$field_name argument is not a string : ' . $field_name);
+            throw new Exception('$field_name argument is not a string: ' . $field_name);
         }
 
         if ($this->db->get_where('ea_services', array('id' => $service_id))->num_rows() == 0) {
-            throw new Exception('The record with the $service_id argument does not exist in the database : ' . $service_id);
+            throw new Exception('The record with the $service_id argument does not exist in the database: ' . $service_id);
         }
 
         $row_data = $this->db->get_where('ea_services', array('id' => $service_id))->row_array();
         if (!isset($row_data[$field_name])) {
-            throw new Exception('The given $field_name argument does not exist in the database : ' . $field_name);
+            throw new Exception('The given $field_name argument does not exist in the database: ' . $field_name);
         }
 
         $setting = $this->db->get_where('ea_services', array('id' => $service_id))->row_array();

@@ -34,13 +34,6 @@
  */
 class Admins_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-    
-    /**
      * Add (insert or update) an admin user record into database.
      * 
      * @param array $admin Contains the admin user data.

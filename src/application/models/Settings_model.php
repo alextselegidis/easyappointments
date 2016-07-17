@@ -18,13 +18,6 @@
  */
 class Settings_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Get setting value from database.
      *
      * This method returns a system setting from the database.
@@ -37,11 +30,11 @@ class Settings_Model extends CI_Model {
      */
     public function get_setting($name) {
         if (!is_string($name)) { // Check argument type.
-            throw new Exception('$name argument is not a string : ' . $name);
+            throw new Exception('$name argument is not a string: ' . $name);
         }
 
         if ($this->db->get_where('ea_settings', array('name' => $name))->num_rows() == 0) { // Check if setting exists in db.
-            throw new Exception('$name setting does not exist in database : ' . $name);
+            throw new Exception('$name setting does not exist in database: ' . $name);
         }
 
         $query = $this->db->get_where('ea_settings', array('name' => $name));
@@ -63,7 +56,7 @@ class Settings_Model extends CI_Model {
      */
     public function set_setting($name, $value) {
         if (!is_string($name)) {
-            throw new Exception('$name argument is not a string : ' . $name);
+            throw new Exception('$name argument is not a string: ' . $name);
         }
 
         $query = $this->db->get_where('ea_settings', array('name' => $name));
@@ -99,7 +92,7 @@ class Settings_Model extends CI_Model {
      */
     public function remove_setting($name) {
         if (!is_string($name)) {
-            throw new Exception('$name is not a string : ' . $name);
+            throw new Exception('$name is not a string: ' . $name);
         }
 
         if ($this->db->get_where('ea_settings', array('name' => $name))->num_rows() == 0) {

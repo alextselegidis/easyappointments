@@ -18,13 +18,6 @@
  */
 class Roles_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Get the record id of a particular role.
      *
      * @param string $role_slug The selected role slug. Slugs are

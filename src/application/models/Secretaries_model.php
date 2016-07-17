@@ -35,13 +35,6 @@
  */
 class Secretaries_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Add (insert or update) a secretary user record into database.
      *
      * @param array $secretary Contains the secretary user data.

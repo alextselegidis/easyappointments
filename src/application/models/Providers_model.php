@@ -46,13 +46,6 @@
  */
 class Providers_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Add (insert - update) a service provider record.
      *
      * If the record already exists (id value provided) then it is going to be updated,

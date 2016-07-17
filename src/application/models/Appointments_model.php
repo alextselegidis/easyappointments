@@ -18,13 +18,6 @@
  */
 class Appointments_Model extends CI_Model {
     /**
-     * Class Constructor
-     */
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
      * Add an appointment record to the database.
      *
      * This method adds a new appointment to the database. If the
@@ -68,7 +61,7 @@ class Appointments_Model extends CI_Model {
                 || !isset($appointment['id_users_customer'])
                 || !isset($appointment['id_services'])) {
             throw new Exception('Not all appointment field values '
-                    . 'are provided : ' . print_r($appointment, TRUE));
+                    . 'are provided: ' . print_r($appointment, TRUE));
         }
 
         $num_rows = $this->db->get_where('ea_appointments', array(
@@ -253,7 +246,7 @@ class Appointments_Model extends CI_Model {
     public function get_row($appointment_id) {
         if (!is_numeric($appointment_id)) {
             throw new Exception('Invalid argument given. Expected '
-                    . 'integer for the $appointment_id : ' . $appointment_id);
+                    . 'integer for the $appointment_id: ' . $appointment_id);
         }
         return $this->db->get_where('ea_appointments',
                 array('id' => $appointment_id))->row_array();
@@ -269,18 +262,18 @@ class Appointments_Model extends CI_Model {
     public function get_value($field_name, $appointment_id) {
         if (!is_numeric($appointment_id)) {
             throw new Exception('Invalid argument given, expected '
-                    . 'integer for the $appointment_id : ' . $appointment_id);
+                    . 'integer for the $appointment_id: ' . $appointment_id);
         }
 
         if (!is_string($field_name)) {
             throw new Exception('Invalid argument given, expected '
-                    . 'string for the $field_name : ' . $field_name);
+                    . 'string for the $field_name: ' . $field_name);
         }
 
         if ($this->db->get_where('ea_appointments',
                 array('id' => $appointment_id))->num_rows() == 0) {
             throw new Exception('The record with the provided id '
-                    . 'does not exist in the database : ' . $appointment_id);
+                    . 'does not exist in the database: ' . $appointment_id);
         }
 
         $row_data = $this->db->get_where('ea_appointments',
@@ -288,7 +281,7 @@ class Appointments_Model extends CI_Model {
 
         if (!isset($row_data[$field_name])) {
             throw new Exception('The given field name does not '
-                    . 'exist in the database : ' . $field_name);
+                    . 'exist in the database: ' . $field_name);
         }
 
         return $row_data[$field_name];
