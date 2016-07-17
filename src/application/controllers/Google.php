@@ -43,7 +43,7 @@ class Google extends CI_Controller {
     	$_SESSION['oauth_provider_id'] = $provider_id;
 
         // Redirect browser to google user content page.
-        $this->load->library('Google_Sync');
+        $this->load->library('Google_sync');
         header('Location: ' . $this->google_sync->get_auth_url());
     }
 
