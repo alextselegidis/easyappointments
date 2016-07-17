@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Admins_Model Class
+ * Admins Model Class
  * 
  * Handles the database actions for admin users management.
  * 
@@ -208,12 +208,12 @@ class Admins_Model extends CI_Model {
         if (!isset($admin['last_name'])
                 || !isset($admin['email'])
                 || !isset($admin['phone_number'])) { 
-            throw new Exception('Not all required fields are provided : ' . print_r($admin, TRUE));
+            throw new Exception('Not all required fields are provided: ' . print_r($admin, TRUE));
         }
 
         // Validate admin email address.
         if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Invalid email address provided : ' . $admin['email']);
+            throw new Exception('Invalid email address provided: ' . $admin['email']);
         }
         
         // Check if username exists.
@@ -231,6 +231,13 @@ class Admins_Model extends CI_Model {
                 throw new Exception('The user password must be at least ' 
                         . MIN_PASSWORD_LENGTH . ' characters long.');
             }
+        }
+
+        // Validate calendar view mode. 
+        if (isset($admin['settings']['calendar_view']) && ($admin['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT 
+                || $admin['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE)) {
+             throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT 
+                    . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' .  $admin['settings']['calendar_view']);
         }
         
         // When inserting a record the email address must be unique.
@@ -265,7 +272,7 @@ class Admins_Model extends CI_Model {
      */
     public function delete($admin_id) {
         if (!is_numeric($admin_id)) {
-            throw new Exception('Invalid argument type $admin_id : ' . $admin_id);
+            throw new Exception('Invalid argument type $admin_id: ' . $admin_id);
         }
         
         // There must be always at least one admin user. If this is the only admin
@@ -325,7 +332,7 @@ class Admins_Model extends CI_Model {
      */
     public function get_value($field_name, $admin_id) {
         if (!is_string($field_name)) {
-            throw new Exception('$field_name argument is not a string : ' . $field_name);
+            throw new Exception('$field_name argument is not a string: ' . $field_name);
         }
         
         if (!is_numeric($admin_id)) {
@@ -336,7 +343,7 @@ class Admins_Model extends CI_Model {
         $result = $this->db->get_where('ea_users', array('id' => $admin_id));
         if ($result->num_rows() == 0) {
             throw new Exception('The record with the given id does not exist in the '
-                    . 'database : ' . $admin_id);
+                    . 'database: ' . $admin_id);
         }
         
         // Check if the required field name exist in database.

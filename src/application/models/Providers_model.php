@@ -39,7 +39,8 @@
  *          'google_token'
  *          'google_calendar'
  *          'sync_past_days'
- *          'sync_future_days'
+ *          'sync_future_days',
+ *          'calendar_view'
  *
  * @package Models
  */
@@ -87,7 +88,7 @@ class Providers_Model extends CI_Model {
      */
     public function exists($provider) {
         if (!isset($provider['email'])) {
-            throw new Exception('Provider email is not provided :' . print_r($provider, TRUE));
+            throw new Exception('Provider email is not provided:' . print_r($provider, TRUE));
         }
 
         // This method shouldn't depend on another method of this class.
@@ -181,7 +182,7 @@ class Providers_Model extends CI_Model {
      */
     public function find_record_id($provider) {
         if (!isset($provider['email'])) {
-            throw new Exception('Provider email was not provided :' . print_r($provider, TRUE));
+            throw new Exception('Provider email was not provided:' . print_r($provider, TRUE));
         }
 
         $result = $this->db
@@ -221,12 +222,12 @@ class Providers_Model extends CI_Model {
         if (!isset($provider['last_name'])
                 || !isset($provider['email'])
                 || !isset($provider['phone_number'])) {
-            throw new Exception('Not all required fields are provided : ' . print_r($provider, TRUE));
+            throw new Exception('Not all required fields are provided: ' . print_r($provider, TRUE));
         }
 
         // Validate provider email address.
         if (!filter_var($provider['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Invalid email address provided : ' . $provider['email']);
+            throw new Exception('Invalid email address provided: ' . $provider['email']);
         }
 
         // Validate provider services.
@@ -264,6 +265,13 @@ class Providers_Model extends CI_Model {
             }
         }
 
+        // Validate calendar view mode. 
+        if (isset($provider['settings']['calendar_view']) && ($provider['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT 
+                || $provider['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE)) {
+             throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT 
+                    . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' .  $provider['settings']['calendar_view']);
+        }
+
         // When inserting a record the email address must be unique.
         $provider_id = (isset($provider['id'])) ? $provider['id'] : '';
 
@@ -294,7 +302,7 @@ class Providers_Model extends CI_Model {
      */
     public function delete($provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new Exception('Invalid argument type $provider_id : ' . $provider_id);
+            throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
         }
 
         $num_rows = $this->db->get_where('ea_users', array('id' => $provider_id))->num_rows();
@@ -350,31 +358,32 @@ class Providers_Model extends CI_Model {
      * @param string $field_name The field name of the value to be returned.
      * @param numeric $provider_id Record id of the value to be returned.
      * @return string Returns the selected record value from the database.
+     * 
      * @throws Exception When the $field_name argument is not a valid string.
-     * @throws Exception When the $admin_id is not a valid numeric.
-     * @throws Exception When the admin record does not exist in the database.
+     * @throws Exception When the $provider_id is not a valid numeric.
+     * @throws Exception When the provider record does not exist in the database.
      * @throws Exception When the selected field value is not present on database.
      */
     public function get_value($field_name, $provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new Exception('Invalid argument provided as $provider_id : ' . $provider_id);
+            throw new Exception('Invalid argument provided as $provider_id: ' . $provider_id);
         }
 
         if (!is_string($field_name)) {
-            throw new Exception('$field_name argument is not a string : ' . $field_name);
+            throw new Exception('$field_name argument is not a string: ' . $field_name);
         }
 
-        // Check whether the admin record exists in database.
+        // Check whether the provider record exists in database.
         $result = $this->db->get_where('ea_users', array('id' => $provider_id));
         if ($result->num_rows() == 0) {
             throw new Exception('The record with the $provider_id argument does not exist in '
-                    . 'the database : ' . $provider_id);
+                    . 'the database: ' . $provider_id);
         }
 
         $provider = $result->row_array();
         if (!isset($provider[$field_name])) {
             throw new Exception('The given $field_name argument does not exist in the '
-                    . 'database : ' . $field_name);
+                    . 'database: ' . $field_name);
         }
 
         return $provider[$field_name];
@@ -509,7 +518,7 @@ class Providers_Model extends CI_Model {
      */
     protected function save_settings($settings, $provider_id) {
         if (!is_numeric($provider_id)) {
-            throw new Exception('Invalid $provider_id argument given :' . $provider_id);
+            throw new Exception('Invalid $provider_id argument given:' . $provider_id);
         }
 
         if (count($settings) == 0 || !is_array($settings)) {

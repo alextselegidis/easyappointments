@@ -206,12 +206,12 @@ class Secretaries_Model extends CI_Model {
         if (!isset($secretary['last_name'])
                 || !isset($secretary['email'])
                 || !isset($secretary['phone_number'])) {
-            throw new Exception('Not all required fields are provided : ' . print_r($secretary, TRUE));
+            throw new Exception('Not all required fields are provided: ' . print_r($secretary, TRUE));
         }
 
         // Validate secretary email address.
         if (!filter_var($secretary['email'], FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Invalid email address provided : ' . $secretary['email']);
+            throw new Exception('Invalid email address provided: ' . $secretary['email']);
         }
 
         // Check if username exists.
@@ -229,6 +229,13 @@ class Secretaries_Model extends CI_Model {
                 throw new Exception('The user password must be at least '
                         . MIN_PASSWORD_LENGTH . ' characters long.');
             }
+        }
+
+        // Validate calendar view mode. 
+        if (isset($secretary['settings']['calendar_view']) && ($secretary['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT 
+                || $secretary['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE)) {
+             throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT 
+                    . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' .  $secretary['settings']['calendar_view']);
         }
 
         // When inserting a record the email address must be unique.
@@ -261,7 +268,7 @@ class Secretaries_Model extends CI_Model {
      */
     public function delete($secretary_id) {
         if (!is_numeric($secretary_id)) {
-            throw new Exception('Invalid argument type $secretary_id : ' . $secretary_id);
+            throw new Exception('Invalid argument type $secretary_id: ' . $secretary_id);
         }
 
         $num_rows = $this->db->get_where('ea_users', array('id' => $secretary_id))->num_rows();
@@ -319,7 +326,7 @@ class Secretaries_Model extends CI_Model {
      */
     public function get_value($field_name, $secretary_id) {
         if (!is_string($field_name)) {
-            throw new Exception('$field_name argument is not a string : ' . $field_name);
+            throw new Exception('$field_name argument is not a string: ' . $field_name);
         }
 
         if (!is_numeric($secretary_id)) {
@@ -330,7 +337,7 @@ class Secretaries_Model extends CI_Model {
         $result = $this->db->get_where('ea_users', array('id' => $secretary_id));
         if ($result->num_rows() == 0) {
             throw new Exception('The record with the given id does not exist in the '
-                    . 'database : ' . $secretary_id);
+                    . 'database: ' . $secretary_id);
         }
 
         // Check if the required field name exist in database.
@@ -418,7 +425,7 @@ class Secretaries_Model extends CI_Model {
      */
     protected function save_settings($settings, $secretary_id) {
         if (!is_numeric($secretary_id)) {
-            throw new Exception('Invalid $provider_id argument given :' . $secretary_id);
+            throw new Exception('Invalid $provider_id argument given:' . $secretary_id);
         }
 
         if (count($settings) == 0 || !is_array($settings)) {
