@@ -134,6 +134,7 @@ root {
 #loading img {
     margin: auto;
     display: block;
+    max-width: 100%;
 }
 
 .modal-message {
