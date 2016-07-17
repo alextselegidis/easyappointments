@@ -16,6 +16,18 @@
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_calendar_table_view.js"></script>
 
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_google_sync.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_appointments_modal.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_unavailabilities_modal.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_api.js"></script>
+
 <script type="text/javascript">
     var GlobalVariables = {
         'csrfToken'             : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
