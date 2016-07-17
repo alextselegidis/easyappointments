@@ -77,5 +77,9 @@ define('DATE_FORMAT_YMD', 'YMD');
 
 define('MIN_PASSWORD_LENGTH', 7);
 define('ANY_PROVIDER', 'any-provider');
+
+define('CALENDAR_VIEW_DEFAULT', 'default'); 
+define('CALENDAR_VIEW_TABLE', 'table'); 
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

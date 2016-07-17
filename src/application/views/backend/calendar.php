@@ -10,21 +10,28 @@
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_calendar.js"></script>
 
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_default_view.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_table_view.js"></script>
+
 <script type="text/javascript">
     var GlobalVariables = {
         'csrfToken'             : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'availableProviders'    : <?php echo json_encode($available_providers); ?>,
         'availableServices'     : <?php echo json_encode($available_services); ?>,
-        'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,
+        'baseUrl'               : <?php echo json_encode($base_url); ?>,
         'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>,
         'dateFormat'            : <?php echo json_encode($date_format); ?>,
         'editAppointment'       : <?php echo json_encode($edit_appointment); ?>,
         'customers'             : <?php echo json_encode($customers); ?>,
         'secretaryProviders'    : <?php echo json_encode($secretary_providers); ?>,
+        'calendarView'          : <?php echo json_encode($calendar_view); ?>,
         'user'                  : {
             'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'email'     : <?php echo json_encode($user_email); ?>,
+            'role_slug' : <?php echo json_encode($role_slug); ?>,
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
