@@ -1064,9 +1064,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             eventClick: _calendarEventClick,
             eventResize: _calendarEventResize,
             eventDrop: _calendarEventDrop,
-            eventAfterAllRender: function() {
-                _convertTitlesToHtml();
-            }
+            eventAfterAllRender: _convertTitlesToHtml
         });
 
         // Trigger once to set the proper footer position after calendar initialization.

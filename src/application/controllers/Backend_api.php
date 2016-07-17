@@ -53,6 +53,49 @@ class Backend_api extends CI_Controller {
     }
 
     /**
+     * Get Calendar Events 
+     *
+     * This method will return all the calendar events within a specified period.
+     */
+    public function ajax_get_calendar_events() {
+        try {
+            $this->output->set_content_type('application/json');
+            $this->load->model('appointments_model');
+            $this->load->model('customers_model');
+            $this->load->model('services_model');
+            $this->load->model('providers_model');
+
+            $startDate = $_POST['startDate'] . ' 00:00:00';
+            $endDate = $_POST['endDate'] . ' 23:59:59';
+
+            $response = [
+                'appointments' => $this->appointments_model->get_batch([
+                    'is_unavailable' => false,
+                    'start_datetime >=' => $startDate,
+                    'end_datetime <=' => $endDate
+                ]),
+                'unavailabilities' => $this->appointments_model->get_batch([
+                    'is_unavailable' => true,
+                    'start_datetime >=' => $startDate,
+                    'end_datetime <=' => $endDate
+                ])
+            ];
+
+            foreach($response['appointments'] as &$appointment) {
+                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
+                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+            }
+
+            $this->output->set_output(json_encode($response));
+        } catch(Exception $exc) {
+            $this->output->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
+                ]));
+        }
+    }
+
+    /**
      * [AJAX] Get the registered appointments for the given date period and record.
      *
      * This method returns the database appointments and unavailable periods for the
