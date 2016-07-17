@@ -26,10 +26,178 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
     var FILTER_TYPE_PROVIDER =  'provider';
     var FILTER_TYPE_SERVICE = 'service';
 
+    // Variables
+    var lastFocusedEventData; // Contains event data for later use.
+
     /**
      * Bind event handlers for the calendar view. 
      */
     function _bindEventHandlers() {
+        var $calendarPage = $('#calendar-page'); 
+
+        /**
+         * Event: Reload Button "Click"
+         *
+         * When the user clicks the reload button an the calendar items need to be refreshed.
+         */
+        $('#reload-appointments').click(function() {
+            $('#select-filter-item').trigger('change');
+        });
+
+        /**
+         * Event: Popover Close Button "Click"
+         *
+         * Hides the open popover element.
+         */
+        $calendarPage.on('click', '.close-popover', function() {
+            $(this).parents().eq(2).remove();
+        });
+
+        /**
+         * Event: Popover Edit Button "Click"
+         *
+         * Enables the edit dialog of the selected calendar event.
+         */
+        $calendarPage.on('click', '.edit-popover', function() {
+            $(this).parents().eq(2).remove(); // Hide the popover
+
+            var $dialog;
+
+            if (lastFocusedEventData.data.is_unavailable == false) {
+                var appointment = lastFocusedEventData.data;
+                $dialog = $('#manage-appointment');
+
+                _resetAppointmentDialog();
+
+                // Apply appointment data and show modal dialog.
+                $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
+                $dialog.find('#appointment-id').val(appointment['id']);
+                $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
+                $dialog.find('#select-provider').val(appointment['id_users_provider']);
+
+                // Set the start and end datetime of the appointment.
+                var startDatetime = Date.parseExact(appointment['start_datetime'],
+                        'yyyy-MM-dd HH:mm:ss');
+                $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
+
+                var endDatetime = Date.parseExact(appointment['end_datetime'],
+                        'yyyy-MM-dd HH:mm:ss');
+                $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
+
+                var customer = appointment['customer'];
+                $dialog.find('#customer-id').val(appointment['id_users_customer']);
+                $dialog.find('#first-name').val(customer['first_name']);
+                $dialog.find('#last-name').val(customer['last_name']);
+                $dialog.find('#email').val(customer['email']);
+                $dialog.find('#phone-number').val(customer['phone_number']);
+                $dialog.find('#address').val(customer['address']);
+                $dialog.find('#city').val(customer['city']);
+                $dialog.find('#zip-code').val(customer['zip_code']);
+                $dialog.find('#appointment-notes').val(appointment['notes']);
+                $dialog.find('#customer-notes').val(customer['notes']);
+            } else {
+                var unavailable = lastFocusedEventData.data;
+
+                // Replace string date values with actual date objects.
+                unavailable.start_datetime = GeneralFunctions.clone(lastFocusedEventData.start);
+                unavailable.end_datetime = GeneralFunctions.clone(lastFocusedEventData.end);
+
+                $dialog = $('#manage-unavailable');
+                _resetUnavailableDialog();
+
+                // Apply unvailable data to dialog.
+                $dialog.find('.modal-header h3').text('Edit Unavailable Period');
+                $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
+                $dialog.find('#unavailable-id').val(unavailable.id);
+                $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
+                $dialog.find('#unavailable-notes').val(unavailable.notes);
+            }
+
+            // :: DISPLAY EDIT DIALOG
+            $dialog.modal('show');
+        });
+
+        /**
+         * Event: Popover Delete Button "Click"
+         *
+         * Displays a prompt on whether the user wants the appoinmtent to be deleted. If he confirms the
+         * deletion then an ajax call is made to the server and deletes the appointment from the database.
+         */
+        $calendarPage.on('click', '.delete-popover', function() {
+            $(this).parents().eq(2).remove(); // Hide the popover
+
+            if (lastFocusedEventData.data.is_unavailable == false) {
+                var messageButtons = {};
+                messageButtons['OK'] = function() {
+                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
+                    var postData = {
+                        csrfToken: GlobalVariables.csrfToken,
+                        appointment_id : lastFocusedEventData.data['id'],
+                        delete_reason: $('#delete-reason').val()
+                    };
+
+                    $.post(postUrl, postData, function(response) {
+                        $('#message_box').dialog('close');
+
+                        if (response.exceptions) {
+                            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                            GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
+                                    GeneralFunctions.EXCEPTIONS_MESSAGE);
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                            return;
+                        }
+
+                        if (response.warnings) {
+                            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                            GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
+                                    GeneralFunctions.WARNINGS_MESSAGE);
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                        }
+
+                        // Refresh calendar event items.
+                        $('#select-filter-item').trigger('change');
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                };
+
+                messageButtons[EALang['cancel']] = function() {
+                    $('#message_box').dialog('close');
+                };
+
+                GeneralFunctions.displayMessageBox(EALang['delete_appointment_title'],
+                        EALang['write_appointment_removal_reason'], messageButtons);
+
+                $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
+                $('#delete-reason').css('width', '100%');
+            } else {
+                // Do not display confirmation promt.
+                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
+                var postData = {
+                    csrfToken: GlobalVariables.csrfToken,
+                    unavailable_id : lastFocusedEventData.data.id
+                };
+
+                $.post(postUrl, postData, function(response) {
+                    $('#message_box').dialog('close');
+
+                    if (response.exceptions) {
+                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
+                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                        return;
+                    }
+
+                    if (response.warnings) {
+                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
+                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                    }
+
+                    // Refresh calendar event items.
+                    $('#select-filter-item').trigger('change');
+                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            }
+        });
+
         /**
          * Event: Calendar Filter Item "Change"
          *
@@ -257,7 +425,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             };
 
             // Update appointment data.
-            _saveAppointment(appointment, undefined, successCallback, undefined);
+            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback, undefined);
         } else {
             // Update unvailable time period.
             var unavailable = {
@@ -311,7 +479,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            _saveUnavailable(unavailable, successCallback, undefined);
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback, undefined);
         }
     }
 
@@ -433,7 +601,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             };
 
             // Update appointment data.
-            _saveAppointment(appointment, undefined, successCallback, undefined);
+            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback, undefined);
         } else {
             // Update unavailable time period.
             var unavailable = {
@@ -493,7 +661,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            _saveUnavailable(unavailable, successCallback, undefined);
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback, undefined);
         }
     }
 
