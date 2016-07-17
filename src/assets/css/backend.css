@@ -577,15 +577,6 @@ body .form-horizontal .controls {
 }
 
 
-#users-page .filter-records .results hr {
-    margin: 5px 0;
-}
-
-#users-page .details {
-    max-width: 800px;
-    margin-bottom: 20px;
-}
-
 #users-page .working-plan td input[type="text"] {
     width: 55px;
     margin: 10px 0;
@@ -595,6 +586,15 @@ body .form-horizontal .controls {
 #users-page .editable select,
 #users-page .editable input {
 	margin: 0px;
+}
+
+#users-page #providers .record-details h3 a {
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+#users-page #providers .record-details #provider-services .checkbox a {
+    margin-left: 5px;
 }
 
 /* BACKEND SETTINGS PAGE

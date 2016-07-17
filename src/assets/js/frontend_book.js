@@ -110,7 +110,7 @@ window.FrontendBook = window.FrontendBook || {};
             var $selectProvider = $('#select-provider');
             var $selectService = $('#select-service'); 
 
-            // Check if a specific service was selected.
+            // Check if a specific service was selected (via URL parameter).
             var selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
 
             if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
@@ -125,6 +125,19 @@ window.FrontendBook = window.FrontendBook || {};
             // Check if a specific provider was selected. 
             var selectedProviderId = GeneralFunctions.getUrlParameter(location.href, 'provider');
             
+            if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length === 0) {
+                // Select a service of this provider in order to make the provider available in the select box. 
+                for (var index in GlobalVariables.availableProviders) {
+                    var provider = GlobalVariables.availableProviders[index]; 
+
+                    if (provider.id === selectedProviderId && provider.services.length > 0) {
+                        $selectService
+                            .val(provider.services[0])
+                            .trigger('change');
+                    }
+                }
+            }
+
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length > 0) {
                 $selectProvider
                     .val(selectedProviderId)

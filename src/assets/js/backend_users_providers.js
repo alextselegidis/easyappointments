@@ -341,6 +341,7 @@
 
         $('#providers .add-edit-delete-group').show();
         $('#providers .save-cancel-group').hide();
+        $('#providers .record-details h3 a').remove();
         $('#providers .record-details').find('input, textarea').prop('readonly', true);
         $('#providers .form-message').hide();
         $('#provider-notifications').removeClass('active');
