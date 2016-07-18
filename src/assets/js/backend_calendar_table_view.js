@@ -266,6 +266,36 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         if (unavailabilities.length === 0) {
             return;
         }
+
+        var currentDate = new Date($providerColumn.parents('.date-column').data('date')); 
+        var $tbody = $providerColumn.find('table tbody');
+
+        for (var index in unavailabilities) {
+            var unavailability = unavailabilities[index]; 
+
+            if (unavailability.id_users_provider !== $providerColumn.data('provider').id) {
+                continue;
+            }
+
+            var eventDate = Date.parse(unavailability.start_datetime); 
+            var $event = $('<div class="event unavailability" />'); 
+
+            $event.html(unavailability.notes || 'Unavailability');
+
+            $tbody.find('tr').each(function(index, tr) {
+                var $td = $(tr).find('td:first'); 
+
+                var cellDate = new Date(currentDate.getTime()).set({
+                    hour: parseInt($td.text().split(':')[0]),
+                    minute: parseInt($td.text().split(':')[1])
+                }); 
+
+                if (eventDate < cellDate) {
+                    $event.appendTo($(tr).prev().find('td').eq(1));
+                    return false;
+                }
+            }); 
+        }
     }
 
     function _setCalendarSize() {
