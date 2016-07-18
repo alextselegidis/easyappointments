@@ -153,6 +153,7 @@ $lang['sunday'] = 'Søndag';
 $lang['breaks'] = 'Pause';
 $lang['add_breaks_during_each_day'] = 'Tilføj pause hver dag, i pausen acceptere leverandøren ikke nogen tids bestilling';
 $lang['day'] = 'Dag';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Aktivere';
 $lang['reset_working_plan_hint'] = 'Gendan arbejdsplanen tilbage til normalen.';
 $lang['company_name'] = 'Firma navn';

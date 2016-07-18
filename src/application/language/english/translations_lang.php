@@ -153,6 +153,7 @@ $lang['sunday'] = 'Sunday';
 $lang['breaks'] = 'Breaks';
 $lang['add_breaks_during_each_day'] = 'Add the working breaks during each day. During breaks the provider will not accept any appointments.';
 $lang['day'] = 'Day';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Actions';
 $lang['reset_working_plan_hint'] = 'Reset the working plan back to the default values.';
 $lang['company_name'] = 'Company Name';

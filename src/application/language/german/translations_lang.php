@@ -153,6 +153,7 @@ $lang['sunday'] = 'Sonntag';
 $lang['breaks'] = 'Pausen';
 $lang['add_breaks_during_each_day'] = 'Fügen Sie die Arbeitspausen für jeden Tag hinzu. Während der Pausen kann der Dienstleister keine Termin akzeptieren.';
 $lang['day'] = 'Tag';
+$lang['days'] = 'Tage';
 $lang['actions'] = 'Aktionen';
 $lang['reset_working_plan_hint'] = 'Setzen Sie den Arbeitsplan auf die Standardwerte zurück.';
 $lang['company_name'] = 'Name der Firma';

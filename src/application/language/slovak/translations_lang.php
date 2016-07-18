@@ -153,6 +153,7 @@ $lang['sunday'] = 'Nedeľa';
 $lang['breaks'] = 'Prestávky';
 $lang['add_breaks_during_each_day'] = 'Pridajte pracovné prestávky počas každého dňa. Počas prestávok pracovník nebude prijímať žiadne rezervácie.';
 $lang['day'] = 'Deň';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Akcia';
 $lang['reset_working_plan_hint'] = 'Obnoviť pracovnú dobu späť na predvolené hodnoty.';
 $lang['company_name'] = 'Názov spoločnosti';

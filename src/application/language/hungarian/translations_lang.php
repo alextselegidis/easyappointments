@@ -153,6 +153,7 @@ $lang['sunday'] = 'Vasárnap';
 $lang['breaks'] = 'Szünetek';
 $lang['add_breaks_during_each_day'] = 'Állítsd be a szünet időket. Ezen időszak alatt a szolgáltatónál nem lehet időpontot foglalni.';
 $lang['day'] = 'Nap';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Teendők';
 $lang['reset_working_plan_hint'] = 'A munkarend visszaállítása az alap értékekre.';
 $lang['company_name'] = 'Vállalkozás neve';

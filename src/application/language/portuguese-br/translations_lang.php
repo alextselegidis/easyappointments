@@ -153,6 +153,7 @@ $lang['sunday'] = 'Domingo';
 $lang['breaks'] = 'Pausas';
 $lang['add_breaks_during_each_day'] = 'Adicionar as pausas de trabalho durante cada dia. Durante os intervalos o atendente não aceitará quaisquer compromissos.';
 $lang['day'] = 'Dia';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Ações';
 $lang['reset_working_plan_hint'] = 'Repor o plano de trabalho para os valores padrões.';
 $lang['company_name'] = 'Nome da empresa';

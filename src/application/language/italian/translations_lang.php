@@ -159,6 +159,7 @@ $lang['sunday'] = 'Domenica';
 $lang['breaks'] = 'Pause';
 $lang['add_breaks_during_each_day'] = 'Aggiunti pause di lavoro durante il giorno. Durante le pause il fornitore non accetta alcun appuntamento.';
 $lang['day'] = 'Giorno';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Azioni';
 $lang['reset_working_plan_hint'] = 'Ripristina il piano di lavoro ai valori standard.';
 $lang['company_name'] = 'Nome azienda';

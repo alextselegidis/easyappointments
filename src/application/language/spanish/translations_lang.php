@@ -153,6 +153,7 @@ $lang['sunday'] = 'Domingo';
 $lang['breaks'] = 'Periodos de descanso';
 $lang['add_breaks_during_each_day'] ='Agregar periodos de descanso para cada d&iacute;a. Durante los periodos de descanso los proveedores no podr&aacute;n aceptar ninguna cita.';
 $lang['day'] = 'D&iacute;a';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Acciones';
 $lang['reset_working_plan_hint'] = 'Restaurar el esquema del horario laboral a los valores por defecto.';
 $lang['company_name'] = 'Nombre de la empresa';

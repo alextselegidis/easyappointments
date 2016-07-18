@@ -153,6 +153,7 @@ $lang['sunday'] = 'Niedziela';
 $lang['breaks'] = 'Przerwa';
 $lang['add_breaks_during_each_day'] = 'Dodaj przerwę. W tym czasie nie są dostępne terminy wizyt.';
 $lang['day'] = 'Dzień';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Czynność';
 $lang['reset_working_plan_hint'] = 'Zresetuj plan pracy do wartości domyślnych.';
 $lang['company_name'] = 'Nazwa Firmy';

@@ -153,6 +153,7 @@ $lang['sunday'] = 'Dimanche';
 $lang['breaks'] = 'Pauses';
 $lang['add_breaks_during_each_day'] = 'Ajoutez ici les périodes de pause pour chaque jour. Pendant ces pauses l\'exécutant n\'acceptera pas de rendez-vous...';
 $lang['day'] = 'Jour';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Actions';
 $lang['reset_working_plan_hint'] = 'Restaurer les valeurs d\'origine du planning de travail.';
 $lang['company_name'] = 'Nom de la société';

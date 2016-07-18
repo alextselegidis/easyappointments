@@ -153,6 +153,7 @@ $lang['sunday'] = 'Pazar';
 $lang['breaks'] = 'Aralar';
 $lang['add_breaks_during_each_day'] = 'Her gün için çalışma aralarını ekleyin. Aralarda hizmet sağlayıcı randevu kabul etmeyecektir.';
 $lang['day'] = 'Gün';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Eylemler';
 $lang['reset_working_plan_hint'] = 'Çalışma planını varsayılan değerlere sıfırlar.';
 $lang['company_name'] = 'Şirket Adı';

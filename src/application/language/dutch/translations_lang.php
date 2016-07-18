@@ -153,6 +153,7 @@ $lang['sunday'] ='Zondag';
 $lang['breaks'] ='Pauzes';
 $lang['add_breaks_during_each_day'] ='Voeg de werkonderbrekingen van elke dag toe. Tijdens de pauzes zal de aanbieder geen afspraken zal accepteren.';
 $lang['day'] ='Dag';
+$lang['days'] = 'Days';
 $lang['actions'] ='Acties';
 $lang['reset_working_plan_hint'] ='Reset de werkagenda naar de standaardwaarden.';
 $lang['company_name'] ='Bedrijfsnaam';

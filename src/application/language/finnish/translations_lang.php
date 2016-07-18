@@ -153,6 +153,7 @@ $lang['sunday'] = 'Sunnuntai';
 $lang['breaks'] = 'Tauot';
 $lang['add_breaks_during_each_day'] = 'Lisää tauot jokaiselle päivälle. Taukojen aikana palveluntarjoaja ei vastaanota varauksia';
 $lang['day'] = 'Päivä';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Toimenpiteet';
 $lang['reset_working_plan_hint'] = 'Palauta työsuunnitelma oletusarvoihin.';
 $lang['company_name'] = 'Yrityksen nimi';

@@ -83,8 +83,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $calendarFilter
             .find('select')
             .empty()
-            .append(new Option('1 Days', 1))
-            .append(new Option('4 Days', 4));
+            .append(new Option('1 ' + EALang['day'] , 1))
+            .append(new Option('4 ' + EALang['days'], 4));
         
         var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar'); 
 
@@ -172,7 +172,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         if (!plan) {
             $providerColumn.append('<div class="not-working">' 
-                    + (provider.first_name + ' ' + provider.last_name).trim() +' <br> Not Working</div>');
+                    + (provider.first_name + ' ' + provider.last_name).trim() +' <br> ' + EALang['not_working'] 
+                    + '</div>');
             return;
         }
 
@@ -187,7 +188,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         '</th>' +
                     '</tr>' + 
                     '<tr>' +
-                        '<th>Time</th>' +
+                        '<th>' + EALang['time'] + '</th>' +
                     '</tr>' + 
                 '</thead>' +
                 '<tbody></tbody>'
@@ -280,7 +281,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDate = Date.parse(unavailability.start_datetime); 
             var $event = $('<div class="event unavailability" />'); 
 
-            $event.html(unavailability.notes || 'Unavailability');
+            $event.html(unavailability.notes || EALang['unavailable']);
 
             $tbody.find('tr').each(function(index, tr) {
                 var $td = $(tr).find('td:first'); 

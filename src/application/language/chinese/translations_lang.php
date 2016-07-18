@@ -153,6 +153,7 @@ $lang['sunday'] = '星期日';
 $lang['breaks'] = '休息';
 $lang['add_breaks_during_each_day'] = '在每天中加入休息时间，在此时间服务人员不能接受任何预约.';
 $lang['day'] = '日';
+$lang['days'] = 'Days';
 $lang['actions'] = '动作';
 $lang['reset_working_plan_hint'] = '重置工作计划到初始数值.';
 $lang['company_name'] = '公司名称';

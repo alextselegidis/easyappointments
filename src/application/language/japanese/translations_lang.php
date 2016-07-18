@@ -153,6 +153,7 @@ $lang['sunday'] = '日曜';
 $lang['breaks'] = '休憩時間';
 $lang['add_breaks_during_each_day'] = '各曜日に休憩時間を入れてください。休憩時間は、予約を受け付けません。';
 $lang['day'] = '日';
+$lang['days'] = 'Days';
 $lang['actions'] = '編集方法';
 $lang['reset_working_plan_hint'] = 'デフォルトの勤務時間にリセットします。';
 $lang['company_name'] = '会社名';

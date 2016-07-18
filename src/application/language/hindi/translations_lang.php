@@ -153,6 +153,7 @@ $lang['sunday'] = 'रविवार';
 $lang['breaks'] = 'ब्रेक';
 $lang['add_breaks_during_each_day'] = 'प्रत्येक दिन के दौरान काम पर ब्रेक जोड़ें। ब्रेक के दौरान प्रदाता किसी भी नियुक्तियों को स्वीकार नहीं करेगा।';
 $lang['day'] = 'दिन';
+$lang['days'] = 'Days';
 $lang['actions'] = 'ऐक्शन्ज़';
 $lang['reset_working_plan_hint'] = 'काम की योजना के मूलभूत मूल्यों को रीसेट करें.';
 $lang['company_name'] = 'कंपनी का नाम';

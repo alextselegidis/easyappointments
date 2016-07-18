@@ -159,6 +159,7 @@ $lang['sunday'] = 'Duminica';
 $lang['breaks'] = 'Pauze';
 $lang['add_breaks_during_each_day'] = 'Adauga pauzele de lucru în fiecare zi. În pauze furnizorul nu va accepta nici o întâlnire.';
 $lang['day'] = 'Zi';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Actiuni';
 $lang['reset_working_plan_hint'] = 'Reseteaza planul de lucru la valorile initiale.';
 $lang['company_name'] = 'Numele Companiei';

@@ -154,6 +154,7 @@ $lang['sunday'] = 'Sonndeg';
 $lang['breaks'] = 'Pausen';
 $lang['add_breaks_during_each_day'] = 'Setzt d\'Aarbechtspausen fir all Dag bäi. Während de Pause kënne keng Termäiner ugeholl ginn.';
 $lang['day'] = 'Dag';
+$lang['days'] = 'Days';
 $lang['actions'] = 'Aktiounen';
 $lang['reset_working_plan_hint'] = 'Setzt den Aarbechtsplang op Standardwerter zeréck.';
 $lang['company_name'] = 'Numm vun der Firma';
