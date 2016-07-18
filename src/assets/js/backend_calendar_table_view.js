@@ -134,9 +134,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         '</center>';
             }
 
+            var title = entry.is_unavailable ? EALang['unavailable'] : entry.service.name + ' - ' 
+                    + entry.customer.first_name + ' ' + entry.customer.last_name;
+
             $(event.target).popover({
                 placement: 'top',
-                title: entry.service.name + ' - ' + entry.customer.first_name + ' ' + entry.customer.last_name,
+                title: title,
                 content: html,
                 html: true,
                 container: '#calendar',
@@ -206,19 +209,20 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $dialog.find('#appointment-notes').val(appointment['notes']);
                 $dialog.find('#customer-notes').val(customer['notes']);
             } else {
-                var unavailable = lastFocusedEventData.data;
+                var unavailable = lastFocusedEventData;
 
                 // Replace string date values with actual date objects.
-                unavailable.start_datetime = GeneralFunctions.clone(lastFocusedEventData.start_datetime);
-                unavailable.end_datetime = GeneralFunctions.clone(lastFocusedEventData.end_datetime);
+                unavailable.start_datetime = Date.parse(lastFocusedEventData.start_datetime);
+                unavailable.end_datetime = Date.parse(lastFocusedEventData.end_datetime);
 
                 $dialog = $('#manage-unavailable');
-                BackendCalendarUnavailbilities.resetUnavailableDialog();
+                BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
 
                 // Apply unvailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
                 $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
                 $dialog.find('#unavailable-id').val(unavailable.id);
+                $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
                 $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
@@ -538,6 +542,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     function _setCalendarSize() {
         var height = window.innerHeight - $('#header').outerHeight() - $('#footer').outerHeight() 
                 - $('#calendar-toolbar').outerHeight() - $('.calendar-header').outerHeight() - 50;
+
+        if (height < 500) {
+            height = 500;
+        }
+
         $('.calendar-view').height(height); 
 
         $('.calendar-view > div').css('min-width', '1000%');

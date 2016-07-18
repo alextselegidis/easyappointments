@@ -67,7 +67,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
 
-                _resetAppointmentDialog();
+                BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
                 // Apply appointment data and show modal dialog.
                 $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
@@ -103,12 +103,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 unavailable.end_datetime = GeneralFunctions.clone(lastFocusedEventData.end);
 
                 $dialog = $('#manage-unavailable');
-                _resetUnavailableDialog();
+                BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
 
                 // Apply unvailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
                 $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
                 $dialog.find('#unavailable-id').val(unavailable.id);
+                $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
                 $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
@@ -334,7 +335,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             title: event.title,
             content: html,
             html: true,
-            container: 'body',
+            container: '#calendar',
             trigger: 'manual'
         });
 
@@ -1138,7 +1139,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         if (GlobalVariables.editAppointment != null) {
             var $dialog = $('#manage-appointment');
             var appointment = GlobalVariables.editAppointment;
-            _resetAppointmentDialog();
+            BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
             $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
             $dialog.find('#appointment-id').val(appointment['id']);

@@ -47,7 +47,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 start_datetime: start.toString('yyyy-MM-dd HH:mm'),
                 end_datetime: end.toString('yyyy-MM-dd HH:mm'),
                 notes: $dialog.find('#unavailable-notes').val(),
-                id_users_provider: $('#select-filter-item').val() // curr provider
+                id_users_provider: $('#unavailable-provider').val() // curr provider
             };
 
             if ($dialog.find('#unavailable-id').val() !== '') {
@@ -118,7 +118,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          * he cannot accept any appointments.
          */
         $('#insert-unavailable').click(function() {
-            BackendCalendarUnavailbilities.resetUnavailableDialog();
+            BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
 
             // Set the default datetime values.
@@ -133,6 +133,12 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 start.set({ 'minute': 45 });
             } else {
                 start.addHours(1).set({ 'minute': 0 });
+            }
+
+            if ($('.calendar-view').length === 0) {
+                $dialog.find('#unavailable-provider').val($('#select-filter-item').val())
+                    .parents('.form-group')
+                    .hide();
             }
 
             $dialog.find('#unavailable-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
@@ -234,6 +240,14 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
     }
 
     exports.initialize = function() {
+        var $unavailabilityProvider = $('#unavailable-provider'); 
+
+        for (var index in GlobalVariables.availableProviders) {
+            var provider = GlobalVariables.availableProviders[index]; 
+
+            $unavailabilityProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+        }
+
         _bindEventHandlers();
     };
 

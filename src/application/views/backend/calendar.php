@@ -353,6 +353,15 @@
                 <form class="form-horizontal">
                     <fieldset>
                         <input id="unavailable-id" type="hidden" />
+                        
+                        <div class="form-group">
+                            <label for="unavailable-provider" class="control-label col-sm-3">
+                                <?php echo $this->lang->line('provider'); ?>
+                            </label>
+                            <div class="col-sm-8">
+                                <select type="text" id="unavailable-provider" class="form-control"></select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="unavailable-start" class="control-label col-sm-3">
