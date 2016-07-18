@@ -118,7 +118,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          * he cannot accept any appointments.
          */
         $('#insert-unavailable').click(function() {
-            _resetUnavailableDialog();
+            BackendCalendarUnavailbilities.resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
 
             // Set the default datetime values.
@@ -148,7 +148,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
      * Reset the "#manage-unavailable" dialog. Use this method to bring the dialog to the initial state
      * before it becomes visible to the user.
      */
-    function _resetUnavailableDialog() {
+    exports.resetUnavailableDialog = function() {
         var $dialog = $('#manage-unavailable');
 
         $dialog.find('#unavailable-id').val('');

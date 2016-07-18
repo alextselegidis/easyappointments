@@ -74,7 +74,239 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $('#select-provider').val(providerId).trigger('change');
         }); 
 
+        var lastFocusedEventData;
+        $calendar.on('click', '.event', function(event) {
+            event.stopPropagation(); 
+
+            $('.popover').remove(); // Close all open popovers.
+
+            var html;
+            var entry = $(this).data(); 
+
+            if ($(this).hasClass('unavailability')) {                
+                var notes = '<strong>Notes</strong> ' + entry.notes;
+
+                html =
+                        '<style type="text/css">'
+                            + '.popover-content strong {min-width: 80px; display:inline-block;}'
+                            + '.popover-content button {margin-right: 10px;}'
+                            + '</style>' +
+                        '<strong>' + EALang['start'] + '</strong> '
+                            + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
+                            + '<br>' +
+                        '<strong>' + EALang['end'] + '</strong> '
+                            + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
+                            + '<br>'
+                            + notes
+                            + '<hr>' +
+                        '<center>' +
+                            '<button class="edit-popover btn btn-primary">' + EALang['edit'] + '</button>' +
+                            '<button class="delete-popover btn btn-danger">' + EALang['delete'] + '</button>' +
+                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang['close'] + '</button>' +
+                        '</center>';
+            } else {
+                html =
+                        '<style type="text/css">'
+                            + '.popover-content strong {min-width: 80px; display:inline-block;}'
+                            + '.popover-content button {margin-right: 10px;}'
+                            + '</style>' +
+                        '<strong>' + EALang['start'] + '</strong> '
+                            + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
+                            + '<br>' +
+                        '<strong>' + EALang['end'] + '</strong> '
+                            + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
+                            + '<br>' +
+                        '<strong>' + EALang['service'] + '</strong> '
+                            + entry.service.name
+                            + '<br>' +
+                        '<strong>' + EALang['provider'] + '</strong> '
+                            + entry.provider.first_name + ' '
+                            + entry.provider.last_name
+                            + '<br>' +
+                        '<strong>' + EALang['customer'] + '</strong> '
+                            + entry.customer.first_name + ' '
+                            + entry.customer.last_name
+                            + '<hr>' +
+                        '<center>' +
+                            '<button class="edit-popover btn btn-primary">' + EALang['edit'] + '</button>' +
+                            '<button class="delete-popover btn btn-danger">' + EALang['delete'] + '</button>' +
+                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang['close'] + '</button>' +
+                        '</center>';
+            }
+
+            $(event.target).popover({
+                placement: 'top',
+                title: entry.service.name + ' - ' + entry.customer.first_name + ' ' + entry.customer.last_name,
+                content: html,
+                html: true,
+                container: '#calendar',
+                trigger: 'manual'
+            });
+
+            lastFocusedEventData = entry;
+            $(event.target).popover('toggle');
+
+            // Fix popover position
+            if ($('.popover').length > 0) {
+                if ($('.popover').position().top < 200) $('.popover').css('top', '200px');
+            }
+        });
+
         $(window).on('resize', _setCalendarSize);
+
+        /**
+         * Event: Popover Close Button "Click"
+         *
+         * Hides the open popover element.
+         */
+        $calendar.on('click', '.close-popover', function() {
+            $(this).parents().eq(2).popover('destroy');
+        });
+
+        /**
+         * Event: Popover Edit Button "Click"
+         *
+         * Enables the edit dialog of the selected calendar event.
+         */
+        $calendar.on('click', '.edit-popover', function() {
+            $(this).parents().eq(2).popover('destroy'); // Hide the popover
+
+            var $dialog;
+
+            if (lastFocusedEventData.is_unavailable == false) {
+                var appointment = lastFocusedEventData;
+                $dialog = $('#manage-appointment');
+
+                BackendCalendarAppointmentsModal.resetAppointmentDialog();
+
+                // Apply appointment data and show modal dialog.
+                $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
+                $dialog.find('#appointment-id').val(appointment['id']);
+                $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
+                $dialog.find('#select-provider').val(appointment['id_users_provider']);
+
+                // Set the start and end datetime of the appointment.
+                var startDatetime = Date.parseExact(appointment['start_datetime'],
+                        'yyyy-MM-dd HH:mm:ss');
+                $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
+
+                var endDatetime = Date.parseExact(appointment['end_datetime'],
+                        'yyyy-MM-dd HH:mm:ss');
+                $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
+
+                var customer = appointment['customer'];
+                $dialog.find('#customer-id').val(appointment['id_users_customer']);
+                $dialog.find('#first-name').val(customer['first_name']);
+                $dialog.find('#last-name').val(customer['last_name']);
+                $dialog.find('#email').val(customer['email']);
+                $dialog.find('#phone-number').val(customer['phone_number']);
+                $dialog.find('#address').val(customer['address']);
+                $dialog.find('#city').val(customer['city']);
+                $dialog.find('#zip-code').val(customer['zip_code']);
+                $dialog.find('#appointment-notes').val(appointment['notes']);
+                $dialog.find('#customer-notes').val(customer['notes']);
+            } else {
+                var unavailable = lastFocusedEventData.data;
+
+                // Replace string date values with actual date objects.
+                unavailable.start_datetime = GeneralFunctions.clone(lastFocusedEventData.start_datetime);
+                unavailable.end_datetime = GeneralFunctions.clone(lastFocusedEventData.end_datetime);
+
+                $dialog = $('#manage-unavailable');
+                BackendCalendarUnavailbilities.resetUnavailableDialog();
+
+                // Apply unvailable data to dialog.
+                $dialog.find('.modal-header h3').text('Edit Unavailable Period');
+                $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
+                $dialog.find('#unavailable-id').val(unavailable.id);
+                $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
+                $dialog.find('#unavailable-notes').val(unavailable.notes);
+            }
+
+            // :: DISPLAY EDIT DIALOG
+            $dialog.modal('show');
+        });
+
+        /**
+         * Event: Popover Delete Button "Click"
+         *
+         * Displays a prompt on whether the user wants the appoinmtent to be deleted. If he confirms the
+         * deletion then an ajax call is made to the server and deletes the appointment from the database.
+         */
+        $calendar.on('click', '.delete-popover', function() {
+            $(this).parents().eq(2).popover('destroy'); // Hide the popover
+
+            if (lastFocusedEventData.is_unavailable == false) {
+                var messageButtons = {};
+                messageButtons['OK'] = function() {
+                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
+                    var postData = {
+                        csrfToken: GlobalVariables.csrfToken,
+                        appointment_id : lastFocusedEventData['id'],
+                        delete_reason: $('#delete-reason').val()
+                    };
+
+                    $.post(postUrl, postData, function(response) {
+                        $('#message_box').dialog('close');
+
+                        if (response.exceptions) {
+                            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                            GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
+                                    GeneralFunctions.EXCEPTIONS_MESSAGE);
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                            return;
+                        }
+
+                        if (response.warnings) {
+                            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                            GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
+                                    GeneralFunctions.WARNINGS_MESSAGE);
+                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                        }
+
+                        // Refresh calendar event items.
+                        $('#select-filter-item').trigger('change');
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                };
+
+                messageButtons[EALang['cancel']] = function() {
+                    $('#message_box').dialog('close');
+                };
+
+                GeneralFunctions.displayMessageBox(EALang['delete_appointment_title'],
+                        EALang['write_appointment_removal_reason'], messageButtons);
+
+                $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
+                $('#delete-reason').css('width', '100%');
+            } else {
+                // Do not display confirmation promt.
+                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
+                var postData = {
+                    csrfToken: GlobalVariables.csrfToken,
+                    unavailable_id : lastFocusedEventData.id
+                };
+
+                $.post(postUrl, postData, function(response) {
+                    $('#message_box').dialog('close');
+
+                    if (response.exceptions) {
+                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
+                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                        return;
+                    }
+
+                    if (response.warnings) {
+                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
+                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                    }
+
+                    // Refresh calendar event items.
+                    $('#select-filter-item').trigger('change');
+                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            }
+        });
     }
 
     function _createHeader() {
@@ -243,6 +475,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 (appointment.customer.first_name + ' ' + appointment.customer.last_name).trim()
             );
 
+            $event.data(appointment);
+
             $tbody.find('tr').each(function(index, tr) {
                 var $td = $(tr).find('td:first'); 
 
@@ -282,6 +516,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var $event = $('<div class="event unavailability" />'); 
 
             $event.html(unavailability.notes || EALang['unavailable']);
+
+            $event.data(unavailability);
 
             $tbody.find('tr').each(function(index, tr) {
                 var $td = $(tr).find('td:first'); 

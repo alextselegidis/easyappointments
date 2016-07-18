@@ -124,7 +124,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * create a new appointment.
          */
         $('#insert-appointment').click(function() {
-            _resetAppointmentDialog();
+            BackendCalendarAppointmentsModal.resetAppointmentDialog();
             var $dialog = $('#manage-appointment');
 
             // Set the selected filter item and find the next appointment time as the default modal values.
@@ -325,7 +325,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
      * This method resets the manage appointment dialog modal to its initial state. After that you can make
      * any modification might be necessary in order to bring the dialog to the desired state.
      */
-    function _resetAppointmentDialog() {
+    exports.resetAppointmentDialog = function() {
         var $dialog = $('#manage-appointment');
 
         // Empty form fields.
