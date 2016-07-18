@@ -41,6 +41,7 @@ class Providers implements ParsersInterface {
             'settings' => [
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
+                'calendarView' => $response['settings']['calendar_view'],
                 'googleSync' => filter_var($response['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN),
                 'googleCalendar' => $response['settings']['google_calendar'],
                 'googleToken' => $response['settings']['google_token'],
@@ -121,6 +122,10 @@ class Providers implements ParsersInterface {
 
             if (!empty($request['settings']['password'])) {
                 $decodedRequest['settings']['password'] = $request['settings']['password']; 
+            }
+
+            if (!empty($request['settings']['calendrView'])) {
+                $decodedRequest['settings']['calendr_view'] = $request['settings']['calendrView']; 
             }
 
             if ($request['settings']['notifications'] !== null) {

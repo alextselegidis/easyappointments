@@ -216,7 +216,8 @@ You can also try the GET requests with your browser by navigating to the respeci
     "notes": "Test admin notes.",
     "settings":{  
         "username": "chrisdoe",
-        "notifications": true
+        "notifications": true,
+        "calendarView": "default"
     }
 }
 ```
@@ -256,6 +257,7 @@ You can also try the GET requests with your browser by navigating to the respeci
         "googleToken": "23897dfasdf7a98gas98d9",
         "syncFutureDays":10,
         "syncPastDays":10,
+        "calendarView": "default",
         "workingPlan":{  
             "monday":{  
                 "start": "09:00",
@@ -332,7 +334,8 @@ You can also try the GET requests with your browser by navigating to the respeci
     ],
     "settings":{  
         "username":"chrisdoe",
-        "notifications": true
+        "notifications": true,
+        "calendarView": "default"
     }
 }
 ```

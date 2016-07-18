@@ -40,7 +40,8 @@ class Secretaries implements ParsersInterface {
             'providers' => $response['providers'],
             'settings' => [
                 'username' => $response['settings']['username'],
-                'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN)
+                'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
+                'calendarView' => $response['settings']['calendar_view']
             ]
         ];
 
@@ -120,6 +121,10 @@ class Secretaries implements ParsersInterface {
             if ($request['settings']['notifications'] !== null) {
                 $decodedRequest['settings']['notifications'] = filter_var($request['settings']['notifications'], 
                         FILTER_VALIDATE_BOOLEAN); 
+            }
+
+            if (!empty($request['settings']['calendarView'])) {
+                $decodedRequest['settings']['calendar_view'] = $request['settings']['calendarView']; 
             }
         }
 
