@@ -38,9 +38,41 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             _createView(startDate, endDate);
         });
 
-        // @todo reload appts event
+        $calendarToolbar.on('change', '#select-filter-item', function() {
+            var startDate = new Date($('.calendar-view .date-column:first').data('date')); 
+            var endDate = new Date(startDate.getTime()).add({days: parseInt($(this).val()) - 1}); 
+            _createView(startDate, endDate);
+        });
+
+        $calendarToolbar.on('click', '#reload-appointments', function() {
+            var startDate = new Date($('.calendar-view .date-column:first').data('date'));
+            var endDate = new Date($('.calendar-view .date-column:last').data('date'));
+            _createView(startDate, endDate);
+        }); 
         
-        // @todo click slot shows appointments modal
+        $calendar.on('click', '.calendar-view table td', function() {
+            if ($(this).index() === 0) {
+                return; // Clicked on an hour slot. 
+            }
+
+            // Open the appointments modal in the selected hour. 
+            var hour = $(this).parent().find('td:first').text().split(':'); 
+            var date = new Date($(this).parents('.date-column').data('date'));
+            date.set({hour: parseInt(hour[0]), minute: parseInt(hour[1])});
+
+            // Open the appointments dialog. 
+            $('#insert-appointment').trigger('click');
+
+            // Update start date field.
+            $('#start-datetime').datepicker('setDate', date); 
+
+            // Select Service and provider. 
+            var $providerColumn = $(this).parents('.provider-column');
+            var serviceId = $providerColumn.find('thead tr:last th').eq($(this).index()).data('id');
+            var providerId = $providerColumn.data('provider').id; 
+            $('#select-service').val(serviceId).trigger('change');
+            $('#select-provider').val(providerId).trigger('change');
+        }); 
     }
 
     function _createHeader() {
@@ -75,7 +107,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Date} endDate End date to be displayed. 
      */
     function _createView(startDate, endDate) {
-        $('#calendar .calendar-view').remove();
+        $('#calendar .calendar-view').empty();
 
         var $calendarView = $('<div class="calendar-view" />').appendTo('#calendar'); 
 
