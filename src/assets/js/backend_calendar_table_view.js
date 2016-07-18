@@ -73,6 +73,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $('#select-service').val(serviceId).trigger('change');
             $('#select-provider').val(providerId).trigger('change');
         }); 
+
+        $(window).on('resize', _setCalendarSize);
     }
 
     function _createHeader() {
@@ -107,7 +109,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Date} endDate End date to be displayed. 
      */
     function _createView(startDate, endDate) {
-        $('#calendar .calendar-view').empty();
+        $('#calendar .calendar-view').remove();
 
         var $calendarView = $('<div class="calendar-view" />').appendTo('#calendar'); 
 
@@ -115,6 +117,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             startDate: startDate.toString('yyyy-MM-dd'),
             endDate: endDate.toString('yyyy-MM-dd')
         });
+
+        var $wrapper = $('<div />').appendTo($calendarView);
 
         _getCalendarEvents(startDate, endDate)
             .done(function(response) {
@@ -125,21 +129,21 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var currentDate = startDate; 
 
                 while(currentDate <= endDate) {
-                    _createDateColumn($calendarView, currentDate, response); 
+                    _createDateColumn($wrapper, currentDate, response); 
                     currentDate.add({days: 1}); 
                 }
+
+                _setCalendarSize();
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
-
-
     }
 
-    function _createDateColumn($calendarView, date, events) {
-        var $dateColumn = $('<div class="date-column" />').appendTo($calendarView); 
+    function _createDateColumn($wrapper, date, events) {
+        var $dateColumn = $('<div class="date-column" />').appendTo($wrapper); 
 
         $dateColumn
             .data('date', date.getTime())
-            .append('<h3>' + GeneralFunctions.formatDate(date, GlobalVariables.dateFormat) + '</h3>');
+            .append('<h5>' + GeneralFunctions.formatDate(date, GlobalVariables.dateFormat) + '</h5>');
 
         for (var index in GlobalVariables.availableProviders) {
             var provider = GlobalVariables.availableProviders[index]; 
@@ -148,7 +152,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     function _createProviderColumn($dateColumn, date, provider, events) {
-        var $providerColumn = $('<div class="provider-column col-xs-12 col-sm-2" />').appendTo($dateColumn); 
+        var $providerColumn = $('<div class="provider-column" />').appendTo($dateColumn); 
 
         $providerColumn.data('provider', provider); 
 
@@ -167,7 +171,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var plan = JSON.parse(provider.settings.working_plan)[day]; 
 
         if (!plan) {
-            $providerColumn.append('<div class="not-working">Not Working</div>');
+            $providerColumn.append('<div class="not-working">' 
+                    + (provider.first_name + ' ' + provider.last_name).trim() +' <br> Not Working</div>');
             return;
         }
 
@@ -261,6 +266,24 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         if (unavailabilities.length === 0) {
             return;
         }
+    }
+
+    function _setCalendarSize() {
+        var height = window.innerHeight - $('#header').outerHeight() - $('#footer').outerHeight() 
+                - $('#calendar-toolbar').outerHeight() - $('.calendar-header').outerHeight() - 50;
+        $('.calendar-view').height(height); 
+
+        $('.calendar-view > div').css('min-width', '1000%');
+        var width = 0; 
+
+        $('.date-column').each(function(index, dateColumn) {
+            width += $(dateColumn).outerWidth();
+        });
+
+        $('.calendar-view > div').css('min-width', width + 50);
+
+        $('.calendar-view .not-working').outerHeight(height - 70);
+
     }
 
     /**

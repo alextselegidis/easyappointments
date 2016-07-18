@@ -416,6 +416,53 @@ body .form-horizontal .controls {
     margin-left: 158px;
 }
 
+#calendar .calendar-view {
+    overflow-x: scroll;   
+}
+
+#calendar .calendar-view > div {
+    width: 100%; 
+    min-width: 1000%;
+    overflow: auto;
+}
+
+#calendar .calendar-view .date-column {
+    overflow: auto;
+    float: left;
+    margin-right: 20px;
+}
+
+#calendar .calendar-view .date-column .provider-column .not-working {
+    background: #eaeaea;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+}
+
+#calendar .calendar-view .date-column .provider-column {
+    overflow: auto;
+    float: left;
+    margin-right: 10px;
+}
+
+#calendar .calendar-view .date-column .provider-column .event {
+    font-size: 10px;
+    border-radius: 3px;
+    padding: 2px 3px;
+    cursor: pointer;
+}
+
+#calendar .calendar-view .date-column .provider-column .event.appointment {
+    background: #4790CA;
+    color: #fff;
+    
+}
+
+#calendar .calendar-view .date-column .provider-column .event.unavailability {
+    background: #409482;
+    color: #fff;
+    
+}
 
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
