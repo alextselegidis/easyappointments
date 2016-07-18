@@ -328,6 +328,13 @@ window.FrontendBook = window.FrontendBook || {};
         $('.captcha-title small').click(function(event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
+
+
+        $('#select-date').on('mousedown', '.ui-datepicker-calendar td', function(event) {
+            setTimeout(function() {
+                FrontendBookApi.applyPreviousUnavailableDates(); // New jQuery UI version will replace the td elements.
+            }, 300); // There is no draw event unfortunately.
+        })
     };
 
     /**

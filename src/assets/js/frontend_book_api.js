@@ -22,6 +22,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
     'use strict';
 
+    var unavailableDatesBackup;
+    var selectedDateStringBackup;
+
     /**
      * Get Available Hours
      *
@@ -212,33 +215,47 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             dataType: 'json'
         })
             .done(function(response) {
-                // Select first enabled date.
-                var selectedDate = Date.parse(selectedDateString);
-                var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
-
-                for (var i=1; i<=numberOfDays; i++) {
-                    var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-                    if ($.inArray(currentDate.toString('yyyy-MM-dd'), response) === -1) {
-                        $('#select-date').datepicker('setDate', currentDate);
-                        FrontendBookApi.getAvailableHours(currentDate.toString('yyyy-MM-dd'));
-                        break;
-                    }
-                }
-
-                // If all the days are unavailable then hide the appointments hours.
-                if (response.length === numberOfDays) {
-                    $('#available-hours').text(EALang['no_available_hours']);
-                }
-
-                // Grey out unavailable dates.
-                $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function(index, td) {
-                    selectedDate.set({day: index + 1});
-                    if ($.inArray(selectedDate.toString('yyyy-MM-dd'), response) != -1) {
-                        $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
-                    }
-                });
+                unavailableDatesBackup = response;
+                selectedDateStringBackup = selectedDateString;
+                _applyUnavailableDates(response, selectedDateString); 
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     };
+
+    exports.applyPreviousUnavailableDates = function() {
+        _applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
+    };
+
+    function _applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
+        setDate = setDate || false;
+
+        // Select first enabled date.
+        var selectedDate = Date.parse(selectedDateString);
+        var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+
+        if (setDate) {
+            for (var i=1; i<=numberOfDays; i++) {
+                var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+                if ($.inArray(currentDate.toString('yyyy-MM-dd'), unavailableDates) === -1) {
+                    $('#select-date').datepicker('setDate', currentDate);
+                    FrontendBookApi.getAvailableHours(currentDate.toString('yyyy-MM-dd'));
+                    break;
+                }
+            }
+        }
+
+        // If all the days are unavailable then hide the appointments hours.
+        if (unavailableDates.length === numberOfDays) {
+            $('#available-hours').text(EALang['no_available_hours']);
+        }
+
+        // Grey out unavailable dates.
+        $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function(index, td) {
+            selectedDate.set({day: index + 1});
+            if ($.inArray(selectedDate.toString('yyyy-MM-dd'), unavailableDates) != -1) {
+                $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
+            }
+        });
+    }
 
 })(window.FrontendBookApi);
