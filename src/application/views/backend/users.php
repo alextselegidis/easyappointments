@@ -180,6 +180,14 @@
                             <input type="password" id="admin-password-confirm" class="form-control required" />
                         </div>
 
+                        <div class="form-group">
+                            <label for="admin-calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                            <select id="admin-calendar-view" class="form-control required">
+                                <option value="default">Default</option>
+                                <option value="table">Table</option>
+                            </select>
+                        </div>
+
                         <br>
 
                         <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
@@ -328,6 +336,14 @@
                             <div class="form-group">
                                 <label for="provider-password-confirm"><?php echo $this->lang->line('retype_password'); ?> *</label>
                                 <input type="password" id="provider-password-confirm" class="form-control required" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="provider-calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                                <select id="provider-calendar-view" class="form-control required">
+                                    <option value="default">Default</option>
+                                    <option value="table">Table</option>
+                                </select>
                             </div>
 
                             <br>
@@ -593,6 +609,14 @@
                         <div class="form-group">
                             <label for="secretary-password-confirm"><?php echo $this->lang->line('retype_password');?> *</label>
                             <input type="password" id="secretary-password-confirm" class="form-control required" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secretary-calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                            <select id="secretary-calendar-view" class="form-control required">
+                                <option value="default">Default</option>
+                                <option value="table">Table</option>
+                            </select>
                         </div>
 
                         <br>

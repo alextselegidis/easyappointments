@@ -40,7 +40,8 @@
             notes: $('#notes').val(),
             settings: {
                 username: $('#username').val(),
-                notifications: $('#user-notifications').hasClass('active')
+                notifications: $('#user-notifications').hasClass('active'),
+                calendar_view: $('#calendar-view').val()
             }
         };
 

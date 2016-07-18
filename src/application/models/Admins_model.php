@@ -228,7 +228,7 @@ class Admins_Model extends CI_Model {
 
         // Validate calendar view mode. 
         if (isset($admin['settings']['calendar_view']) && ($admin['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT 
-                || $admin['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE)) {
+                && $admin['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE)) {
              throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT 
                     . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' .  $admin['settings']['calendar_view']);
         }

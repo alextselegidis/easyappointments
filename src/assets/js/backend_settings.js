@@ -94,6 +94,7 @@ window.BackendSettings = window.BackendSettings || {};
 
         $('#username').val(GlobalVariables.settings.user.settings.username);
         $('#password, #retype-password').val('');
+        $('#calendar-view').val(GlobalVariables.settings.user.settings.calendar_view);
 
         if (GlobalVariables.settings.user.settings.notifications == true) {
             $('#user-notifications').addClass('active');

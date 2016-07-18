@@ -415,6 +415,14 @@
                     <input type="password" id="retype-password" class="form-control" />
                 </div>
 
+                <div class="form-group">
+                    <label for="calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                    <select id="calendar-view" class="form-control required">
+                        <option value="default">Default</option>
+                        <option value="table">Table</option>
+                    </select>
+                </div>
+
                 <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
                     <span class="glyphicon glyphicon-envelope"></span>
                     <?php echo $this->lang->line('receive_notifications'); ?>

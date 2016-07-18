@@ -89,6 +89,7 @@
             $('#providers .add-edit-delete-group').hide();
             $('#providers .save-cancel-group').show();
             $('#providers .record-details').find('input, textarea').prop('readonly', false);
+            $('#providers .record-details').find('select').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').addClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
@@ -109,6 +110,7 @@
             $('#filter-providers button').prop('disabled', true);
             $('#filter-providers .results').css('color', '#AAA');
             $('#providers .record-details').find('input, textarea').prop('readonly', false);
+            $('#providers .record-details').find('select').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#provider-services input[type="checkbox"]').prop('disabled', false);
@@ -154,7 +156,8 @@
                 settings: {
                     username: $('#provider-username').val(),
                     working_plan: JSON.stringify(BackendUsers.wp.get()),
-                    notifications: $('#provider-notifications').hasClass('active')
+                    notifications: $('#provider-notifications').hasClass('active'),
+                    calendar_view: $('#provider-calendar-view').val()
                 }
             };
 
@@ -343,6 +346,7 @@
         $('#providers .save-cancel-group').hide();
         $('#providers .record-details h3 a').remove();
         $('#providers .record-details').find('input, textarea').prop('readonly', true);
+        $('#providers .record-details').find('select').prop('disabled', true);
         $('#providers .form-message').hide();
         $('#provider-notifications').removeClass('active');
         $('#provider-notifications').prop('disabled', true);
@@ -382,6 +386,7 @@
         $('#provider-notes').val(provider.notes);
 
         $('#provider-username').val(provider.settings.username);
+        $('#provider-calendar-view').val(provider.settings.calendar_view);
         if (provider.settings.notifications == true) {
             $('#provider-notifications').addClass('active');
         } else {

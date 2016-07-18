@@ -91,6 +91,7 @@
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
             $('#secretaries .record-details').find('input, textarea').prop('readonly', false);
+            $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').addClass('required');
             $('#secretary-notifications').prop('disabled', false);
             $('#secretary-providers input[type="checkbox"]').prop('disabled', false);
@@ -105,6 +106,7 @@
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
             $('#secretaries .record-details').find('input, textarea').prop('readonly', false);
+            $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').removeClass('required');
             $('#secretary-notifications').prop('disabled', false);
             $('#secretary-providers input[type="checkbox"]').prop('disabled', false);
@@ -147,7 +149,8 @@
                 notes: $('#secretary-notes').val(),
                 settings: {
                     username: $('#secretary-username').val(),
-                    notifications: $('#secretary-notifications').hasClass('active')
+                    notifications: $('#secretary-notifications').hasClass('active'),
+                    calendar_view: $('#secretary-calendar-view').val()
                 }
             };
 
@@ -302,6 +305,7 @@
         $('#secretaries .save-cancel-group').hide();
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
         $('#secretaries .record-details').find('input, textarea').prop('readonly', true);
+        $('#secretaries .record-details').find('select').prop('disabled', true);
         $('#secretaries .form-message').hide();
         $('#secretary-notifications').removeClass('active');
         $('#secretary-notifications').prop('disabled', true);
@@ -334,6 +338,7 @@
         $('#secretary-notes').val(secretary.notes);
 
         $('#secretary-username').val(secretary.settings.username);
+        $('#secretary-calendar-view').val(secretary.settings.calendar_view);
         if (secretary.settings.notifications == true) {
             $('#secretary-notifications').addClass('active');
         } else {

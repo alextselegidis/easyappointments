@@ -85,6 +85,7 @@
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
             $('#admins .record-details').find('input, textarea').prop('readonly', false);
+            $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').addClass('required');
             $('#admin-notifications').prop('disabled', false);
             $('#filter-admins button').prop('disabled', true);
@@ -98,6 +99,7 @@
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
             $('#admins .record-details').find('input, textarea').prop('readonly', false);
+            $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').removeClass('required');
             $('#admin-notifications').prop('disabled', false);
 
@@ -142,7 +144,8 @@
                 notes: $('#admin-notes').val(),
                 settings: {
                     username: $('#admin-username').val(),
-                    notifications: $('#admin-notifications').hasClass('active')
+                    notifications: $('#admin-notifications').hasClass('active'),
+                    calendar_view: $('#admin-calendar-view').val()
                 }
             };
 
@@ -288,6 +291,7 @@
         $('#admins .add-edit-delete-group').show();
         $('#admins .save-cancel-group').hide();
         $('#admins .record-details').find('input, textarea').prop('readonly', true);
+        $('#admins .record-details').find('select').prop('disabled', true);
         $('#admins .form-message').hide();
         $('#admin-notifications').prop('disabled', true);
         $('#admins .required').css('border', '');
@@ -320,6 +324,7 @@
         $('#admin-notes').val(admin.notes);
 
         $('#admin-username').val(admin.settings.username);
+        $('#admin-calendar-view').val(admin.settings.calendar_view);
         if (admin.settings.notifications == true) {
             $('#admin-notifications').addClass('active');
         } else {
