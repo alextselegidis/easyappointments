@@ -217,7 +217,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             .done(function(response) {
                 unavailableDatesBackup = response;
                 selectedDateStringBackup = selectedDateString;
-                _applyUnavailableDates(response, selectedDateString); 
+                _applyUnavailableDates(response, selectedDateString, true); 
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     };
