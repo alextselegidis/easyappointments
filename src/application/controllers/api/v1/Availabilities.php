@@ -55,10 +55,10 @@ class Availabilities extends API_V1_Controller {
 
             $service = $this->services_model->get_row($serviceId->get()); 
 
-            $emptyPeriods = $this->_get_provider_available_time_periods($providerId->get(),
+            $emptyPeriods = $this->_getProviderAvailableTimePeriods($providerId->get(),
                     $date->format('Y-m-d'), []);
             
-            $availableHours = $this->_calculate_available_hours($emptyPeriods, 
+            $availableHours = $this->_calculateAvailableHours($emptyPeriods, 
                     $date->format('Y-m-d'), $service['duration'], false);
 
             $this->output
@@ -68,59 +68,6 @@ class Availabilities extends API_V1_Controller {
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
         }   
-    }
-
-    /**
-     * Check whether the provider is still available in the selected appointment date.
-     *
-     * It might be times where two or more customers select the same appointment date and time.
-     * This shouldn't be allowed to happen, so one of the two customers will eventually get the
-     * prefered date and the other one will have to choose for another date. Use this method
-     * just before the customer confirms the appointment details. If the selected date was taken
-     * in the mean time, the customer must be prompted to select another time for his appointment.
-     *
-     * @return bool Returns whether the selected datetime is still available.
-     */
-    protected function _check_datetime_availability() {
-        $this->load->model('services_model');
-
-        $appointment  = $_POST['post_data']['appointment'];
-
-        $service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
-
-        $exclude_appointments = (isset($appointment['id'])) ? array($appointment['id']) : array();
-
-        if ($appointment['id_users_provider'] === ANY_PROVIDER) {
-            $appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'],
-                date('Y-m-d', strtotime($appointment['start_datetime'])));
-            $_POST['post_data']['appointment']['id_users_provider'] = $appointment['id_users_provider'];
-            return TRUE; // The selected provider is always available.
-        }
-
-        $available_periods = $this->_get_provider_available_time_periods(
-                $appointment['id_users_provider'], date('Y-m-d', strtotime($appointment['start_datetime'])),
-                $exclude_appointments);
-
-        $is_still_available = FALSE;
-
-        foreach($available_periods as $period) {
-            $appt_start = new DateTime($appointment['start_datetime']);
-            $appt_start = $appt_start->format('H:i');
-
-            $appt_end = new DateTime($appointment['start_datetime']);
-            $appt_end->add(new DateInterval('PT' . $service_duration . 'M'));
-            $appt_end = $appt_end->format('H:i');
-
-            $period_start = date('H:i', strtotime($period['start']));
-            $period_end = date('H:i', strtotime($period['end']));
-
-            if ($period_start <= $appt_start && $period_end >= $appt_end) {
-                $is_still_available = TRUE;
-                break;
-            }
-        }
-
-        return $is_still_available;
     }
 
     /**
@@ -138,7 +85,7 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns an array with the available time periods of the provider.
      */
-    protected function _get_provider_available_time_periods($provider_id, $selected_date,
+    protected function _getProviderAvailableTimePeriods($provider_id, $selected_date,
             $exclude_appointments = array()) {
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
@@ -273,40 +220,6 @@ class Availabilities extends API_V1_Controller {
     }
 
     /**
-     * Search for any provider that can handle the requested service.
-     *
-     * This method will return the database ID of the provider with the most available periods.
-     *
-     * @param numeric $service_id The requested service ID.
-     * @param string $selected_date The date to be searched.
-     *
-     * @return int Returns the ID of the provider that can provide the service at the selected date.
-     */
-    protected function _search_any_provider($service_id, $selected_date) {
-        $this->load->model('providers_model');
-        $this->load->model('services_model');
-        $available_providers = $this->providers_model->get_available_providers();
-        $service = $this->services_model->get_row($service_id);
-        $provider_id = NULL;
-        $max_hours_count = 0;
-
-        foreach($available_providers as $provider) {
-            foreach($provider['services'] as $provider_service_id) {
-                if ($provider_service_id == $service_id) { // Check if the provider is available for the requested date.
-                    $empty_periods = $this->_get_provider_available_time_periods($provider['id'], $selected_date);
-                    $available_hours = $this->_calculate_available_hours($empty_periods, $selected_date, $service['duration']);
-                    if (count($available_hours) > $max_hours_count) {
-                        $provider_id = $provider['id'];
-                        $max_hours_count = count($available_hours);
-                    }
-                }
-            }
-        }
-
-        return $provider_id;
-    }
-
-    /**
      * Calculate the avaialble appointment hours.
      *
      * Calculate the available appointment hours for the given date. The empty spaces
@@ -314,14 +227,14 @@ class Availabilities extends API_V1_Controller {
      * available hour is added to the "$available_hours" array.
      *
      * @param array $empty_periods Contains the empty periods as generated by the
-     * "_get_provider_available_time_periods" method.
+     * "_getProviderAvailableTimePeriods" method.
      * @param string $selected_date The selected date to be search (format )
      * @param numeric $service_duration The service duration is required for the hour calculation.
      * @param bool $manage_mode (optional) Whether we are currently on manage mode (editing an existing appointment).
      *
      * @return array Returns an array with the available hours for the appointment.
      */
-    protected function _calculate_available_hours(array $empty_periods, $selected_date, $service_duration,
+    protected function _calculateAvailableHours(array $empty_periods, $selected_date, $service_duration,
             $manage_mode = FALSE) {
         $this->load->model('settings_model');
 
