@@ -91,6 +91,21 @@ You can also try the GET requests with your browser by navigating to the respeci
 
 ## Resources & URIs
 
+### Availabilities 
+
+**Resource JSON**
+
+```
+[
+    "09:30",
+    "13:00",
+    "13:15",
+    "14:00"
+]
+```
+
+- `GET /api/v1/availabilities?providerId=:id&serviceId=:id[&date=:date]` Get the available appointment hours for a specific provider, service and date. The date must be in the following format `Y-m-d` e.g. `2016-07-19`.
+
 ### Appointments
 
 **Resource JSON**
