@@ -506,7 +506,7 @@ class Appointments extends CI_Controller {
 			for ($i=1; $i<=$number_of_days; $i++) {
 				$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
 
-				if ($current_date < new DateTime()) { // Past dates become immediatelly unavailable.
+				if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediatelly unavailable.
 					$unavailable_dates[] = $current_date->format('Y-m-d');
 					continue;
 				}
