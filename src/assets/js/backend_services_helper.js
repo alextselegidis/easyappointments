@@ -112,7 +112,8 @@
                 duration: $('#service-duration').val(),
                 price: $('#service-price').val(),
                 currency: $('#service-currency').val(),
-                description: $('#service-description').val()
+                description: $('#service-description').val(),
+                availabilities_type: $('#service-availabilities-type').val()
             };
 
             if ($('#service-category').val() !== 'null') {
@@ -277,6 +278,7 @@
         $('#service-price').val(service.price);
         $('#service-currency').val(service.currency);
         $('#service-description').val(service.description);
+        $('#service-availabilities-type').val(service.availabilities_type);
 
         var categoryId = (service.id_service_categories !== null) ? service.id_service_categories : 'null';
         $('#service-category').val(categoryId);

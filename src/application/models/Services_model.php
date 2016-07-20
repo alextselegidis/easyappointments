@@ -135,6 +135,13 @@ class Services_Model extends CI_Model {
             }
         }
 
+        // Availabilities type must have the correct value. 
+        if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE 
+                && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED) {
+            throw new Exception('Service availabilities type must be either ' . AVAILABILITIES_TYPE_FLEXIBLE 
+                        . ' or ' . AVAILABILITIES_TYPE_FIXED . ' (given ' .  $service['availabilities_type'] . ')');
+        }
+
         return TRUE;
     }
 

@@ -120,6 +120,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="service-availabilities-type"><?php echo $this->lang->line('availabilities_type'); ?></label>
+                    <select id="service-availabilities-type" class="form-control">
+                        <option value="<?php echo AVAILABILITIES_TYPE_FLEXIBLE; ?>">
+                            <?php echo $this->lang->line('flexible'); ?>
+                        </option>
+                        <option value="<?php echo AVAILABILITIES_TYPE_FIXED; ?>">
+                            <?php echo $this->lang->line('fixed'); ?>
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="service-description"><?php echo $this->lang->line('description'); ?></label>
                     <textarea id="service-description" rows="4" class="form-control"></textarea>
                 </div>
