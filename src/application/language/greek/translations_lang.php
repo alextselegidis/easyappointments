@@ -275,3 +275,4 @@ $lang['customer_notifications_hint'] = 'Ορίζει αν οι πελάτες θ
 $lang['date_format'] = 'Μορφή Ημερομηνίας';
 $lang['date_format_hint'] = 'Αλλάξτε την μορφή ημερομηνίας (D - Ημέρα, M - Μήνας, Y - Χρόνος).';
 $lang['google_analytics_code_hint'] = 'Προσθέστε τον Google Analytics ID σας το οποίο θα συμπεριληφθεί στην σελίδα κράτησης.';
+$lang['availabilities_type'] = 'Τύπος Διαθεσιμοτήτων';

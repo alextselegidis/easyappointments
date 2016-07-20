@@ -275,3 +275,4 @@ $lang['customer_notifications_hint'] = 'Jos aktivoitu, asiakkaalle lähetetään
 $lang['date_format'] = 'Päiväyksen muoto';
 $lang['date_format_hint'] = 'Vaihda päiväyksen esitysmuoto (D - Päivä, M - Kuukausi, Y - Vuosi).';
 $lang['google_analytics_code_hint'] = 'Lisää Google Analytics ID varaussivulle.';
+$lang['availabilities_type'] = 'Availabilities Type';

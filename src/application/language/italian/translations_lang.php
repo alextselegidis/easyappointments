@@ -281,3 +281,4 @@ $lang['customer_notifications_hint'] = 'Definisce se il cliente riceverà notifi
 $lang['date_format'] = 'Formato data';
 $lang['date_format_hint'] = 'Cambia il formato di visualizzazione della data (D - Giorno, M - Mese, Y - Anno).';
 $lang['google_analytics_code_hint'] = 'Aggiunti il tuo ID di Google Analytics per includerlo nella pagina di prenotazione.';
+$lang['availabilities_type'] = 'Availabilities Type';

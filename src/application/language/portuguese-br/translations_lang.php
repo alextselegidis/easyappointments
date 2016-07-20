@@ -275,3 +275,4 @@ $lang['customer_notifications_hint'] = 'Define se o cliente receberá ou não, n
 $lang['date_format'] = 'Formato da Data';
 $lang['date_format_hint'] = 'Altera o formato de visualização da Data (D - Data, M - Mes, Y - Ano).';
 $lang['google_analytics_code_hint'] = 'Adicione o seu ID do Google Analytics para ser incluido na pagina de agendamentos.';
+$lang['availabilities_type'] = 'Availabilities Type';
