@@ -32,6 +32,7 @@ class Services implements ParsersInterface {
             'price' => $response['price'],
             'currency' => $response['currency'],
             'description' => $response['description'],
+            'availabilitiesType' => $response['availabilities_type'],
             'categoryId' => $response['id_service_categories'] !== null ? (int)$response['id_service_categories'] : null
         ];
 
@@ -69,6 +70,10 @@ class Services implements ParsersInterface {
 
         if (!empty($request['description'])) {
             $decodedRequest['description'] = $request['description']; 
+        }
+
+        if (!empty($request['availabilitiesType'])) {
+            $decodedRequest['availabilities_type'] = $request['availabilitiesType']; 
         }
 
         if (!empty($request['categoryId'])) {

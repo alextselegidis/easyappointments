@@ -186,6 +186,7 @@ You can also try the GET requests with your browser by navigating to the respeci
     "price": 10.00,
     "currency": "Euro", 
     "description": "Male haircut trends.",
+    "availabilitiesType": "flexible",
     "categoryId": null
 }
 ```
@@ -194,6 +195,8 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `POST /api/v1/services` Provide the new service JSON in the request body to insert a new record. 
 - `PUT /api/v1/services/:id` Provide the updated service JSON in the request body to update an existing record. The ID in the URI is required. 
 - `DELETLE /api/v1/services/:id` Remove an existing service record.
+
+* The `availabilitiesType` must be either `flexible` or `fixed`.
 
 ### Categories
 
