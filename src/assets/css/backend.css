@@ -426,7 +426,7 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-view {
-    overflow-x: scroll;   
+    overflow-x: auto;   
 }
 
 #calendar .calendar-view > div {

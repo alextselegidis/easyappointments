@@ -421,6 +421,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     function _createProviderColumn($dateColumn, date, provider, events) {
+        if (provider.services.length === 0) {
+            return;
+        }
+
         var $providerColumn = $('<div class="provider-column" />').appendTo($dateColumn); 
 
         $providerColumn.data('provider', provider); 
@@ -591,7 +595,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $('.calendar-view > div').css('min-width', width + 50);
 
-        $('.calendar-view .not-working').outerHeight($('.date-column').outerHeight() - 70);
+
+        var dateColumnHeight = $('.date-column').outerHeight();
+  
+        $('.calendar-view .not-working').outerHeight((dateColumnHeight > height ? dateColumnHeight : height ) - 70);
 
     }
 
