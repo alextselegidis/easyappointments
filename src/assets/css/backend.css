@@ -416,6 +416,15 @@ body .form-horizontal .controls {
     margin-left: 158px;
 }
 
+#calendar .calendar-header {
+    padding: 10px 0;
+}
+
+#calendar .calendar-header .btn,
+#calendar .calendar-header input {
+    margin-right: 10px;
+}
+
 #calendar .calendar-view {
     overflow-x: scroll;   
 }

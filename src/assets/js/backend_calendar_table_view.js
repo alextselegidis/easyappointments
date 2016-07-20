@@ -29,12 +29,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $calendar.on('click', '.calendar-header .btn.previous', function() {
             var endDate = new Date($('#calendar .date-column:first').data('date')).add({days: -1}); 
             var startDate = new Date(endDate.getTime()).add({days: -1 * (parseInt($('#select-filter-item').val()) - 1)});
+            $('.select-date').datepicker('setDate', startDate);
             _createView(startDate, endDate);
         });
 
         $calendar.on('click', '.calendar-header .btn.next', function() {
             var startDate = new Date($('#calendar .date-column:last').data('date')).add({days: 1}); 
             var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1}); 
+            $('.select-date').datepicker('setDate', startDate);
             _createView(startDate, endDate);
         });
 
@@ -329,10 +331,41 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 '<button class="btn btn-xs btn-default previous">' +
                     '<span class="glyphicon glyphicon-chevron-left"></span>' +
                 '</button>' +
+                '<input type="text" class="select-date" value="' + GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat) + '" />' +
                 '<button class="btn btn-xs btn-default next">' +
                     '<span class="glyphicon glyphicon-chevron-right"></span>' +
                 '</button>'
             );
+
+            var dateFormat; 
+
+            switch(GlobalVariables.dateFormat) {
+                case 'DMY':
+                    dateFormat = 'dd/mm/yy';
+                    break;
+
+                case 'MDY':
+                    dateFormat = 'mm/dd/yy';
+                    break;
+
+                case 'YMD':
+                    dateFormat = 'yy/mm/dd';
+                    break;
+
+                default:
+                    throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
+            }   
+
+
+            $calendarHeader.find('.select-date').datepicker({
+                defaultDate: new Date(),
+                dateFormat: dateFormat,
+                onSelect: function(dateText, instance) { 
+                    var startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
+                    var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1}); 
+                    _createView(startDate, endDate);
+                } 
+            });
     }
 
     /**
