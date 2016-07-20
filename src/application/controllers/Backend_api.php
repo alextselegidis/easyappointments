@@ -87,6 +87,41 @@ class Backend_api extends CI_Controller {
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
 
+            $userId = $this->session->userdata('user_id');
+            $roleSlug = $this->session->userdata('role_slug');
+
+            // If the current user is a provider he must only see his own appointments. 
+            if ($roleSlug === DB_SLUG_PROVIDER) {
+                foreach($response['appointments']  as $index => $appointment) {
+                    if ((int)$appointment['id_users_provider'] !== (int)$userId) {
+                        unset($response['appointments'][$index]);
+                    }
+                }
+
+                foreach($response['unavailabilities']  as $index => $unavailability) {
+                    if ((int)$unavailability['id_users_provider'] !== (int)$userId) {
+                        unset($response['unavailabilities'][$index]);
+                    }
+                }
+            }
+
+            // If the current user is a secretary he must only see the appointments of his providers.
+            if ($roleSlug === DB_SLUG_SECRETARY) {
+                $this->load->model('secretaries_model');
+                $providers = $this->secretaries_model->get_row($userId)['providers'];
+                foreach($response['appointments']  as $index => $appointment) {
+                    if (!in_array((int)$appointment['id_users_provider'], $providers)) {
+                        unset($response['appointments'][$index]);
+                    }
+                }
+
+                foreach($response['unavailabilities']  as $index => $unavailability) {
+                    if (!in_array((int)$unavailability['id_users_provider'], $providers)) {
+                        unset($response['unavailabilities'][$index]);
+                    }
+                }
+            }
+
             $this->output->set_output(json_encode($response));
         } catch(Exception $exc) {
             $this->output->set_output(json_encode([
@@ -234,7 +269,7 @@ class Backend_api extends CI_Controller {
                     $google_token = json_decode($this->providers_model->get_setting('google_token',
                             $appointment['id_users_provider']));
 
-                    $this->load->library('Google_Sync');
+                    $this->load->library('Google_sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
 
                     if ($appointment['id_google_calendar'] == NULL) {
