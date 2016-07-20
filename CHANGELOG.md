@@ -5,7 +5,7 @@ their custom modifications on the main project codebase.
 
 
 ### Version 1.2.0
-- #185: Enable fixed availabilities settings for services.
+- #185: Enable fixed availabilities setting for services.
 - #183: Display the appointments modal when the user clicks in an empty calendar slot.
 - #182: Add new appointment dashboard view: Table Scheduler
 - #180: Add login link to booking footer. 
