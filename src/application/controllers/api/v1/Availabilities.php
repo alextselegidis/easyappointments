@@ -59,7 +59,7 @@ class Availabilities extends API_V1_Controller {
                     $date->format('Y-m-d'), []);
             
             $availableHours = $this->_calculateAvailableHours($emptyPeriods, 
-                    $date->format('Y-m-d'), $service['duration'], false);
+                    $date->format('Y-m-d'), $service['duration'], false, $service['availabilities_type']);
 
             $this->output
                 ->set_content_type('application/json') 
@@ -231,11 +231,12 @@ class Availabilities extends API_V1_Controller {
      * @param string $selected_date The selected date to be search (format )
      * @param numeric $service_duration The service duration is required for the hour calculation.
      * @param bool $manage_mode (optional) Whether we are currently on manage mode (editing an existing appointment).
+     * @param string $availlabilities_type Optional ('flexible'), the service availabilities type.
      *
      * @return array Returns an array with the available hours for the appointment.
      */
     protected function _calculateAvailableHours(array $empty_periods, $selected_date, $service_duration,
-            $manage_mode = FALSE) {
+            $manage_mode = FALSE, $availabilities_type = 'flexible') {
         $this->load->model('settings_model');
 
         $available_hours = array();
@@ -243,29 +244,14 @@ class Availabilities extends API_V1_Controller {
         foreach ($empty_periods as $period) {
             $start_hour = new DateTime($selected_date . ' ' . $period['start']);
             $end_hour = new DateTime($selected_date . ' ' . $period['end']);
-
-            $minutes = $start_hour->format('i');
-
-            if ($minutes % 15 != 0) {
-                // Change the start hour of the current space in order to be
-                // on of the following: 00, 15, 30, 45.
-                if ($minutes < 15) {
-                    $start_hour->setTime($start_hour->format('H'), 15);
-                } else if ($minutes < 30) {
-                    $start_hour->setTime($start_hour->format('H'), 30);
-                } else if ($minutes < 45) {
-                    $start_hour->setTime($start_hour->format('H'), 45);
-                } else {
-                    $start_hour->setTime($start_hour->format('H') + 1, 00);
-                }
-            }
+            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15; 
 
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
 
             while (($diff->h * 60 + $diff->i) >= intval($service_duration)) {
                 $available_hours[] = $current_hour->format('H:i');
-                $current_hour->add(new DateInterval("PT15M"));
+                $current_hour->add(new DateInterval('PT' . $interval . 'M'));
                 $diff = $current_hour->diff($end_hour);
             }
         }
