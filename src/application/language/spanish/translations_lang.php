@@ -276,3 +276,5 @@ $lang['date_format'] = 'Formato de Fecha';
 $lang['date_format_hint'] = 'Cambia el formato de fecha para mostrar (D - D&iacute;a, M - Mes, Y - A&ntilde;o).';
 $lang['google_analytics_code_hint'] = 'Agrega tu ID de Google Analytics para ser incluido en la p&aacute;gina de reservas.';
 $lang['availabilities_type'] = 'Availabilities Type';
+$lang['flexible'] = 'Flexible';
+$lang['fixed'] = 'Fixed';

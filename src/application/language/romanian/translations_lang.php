@@ -282,3 +282,5 @@ $lang['date_format'] = 'Date Format';
 $lang['date_format_hint'] = 'Change the date display format (D - Date, M - Month, Y - Year).';
 $lang['google_analytics_code_hint'] = 'Add your Google Analytics ID to be included in the booking page.';
 $lang['availabilities_type'] = 'Availabilities Type';
+$lang['flexible'] = 'Flexible';
+$lang['fixed'] = 'Fixed';

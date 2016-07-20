@@ -276,3 +276,5 @@ $lang['date_format'] = 'Datum formaat';
 $lang['date_format_hint'] = 'Verander het datum formaat (D - Date, M - Month, Y - Year).';
 $lang['google_analytics_code_hint'] = 'Voeg je Google Analytics ID toe om in te sluiten in je boekings pagina.';
 $lang['availabilities_type'] = 'Availabilities Type';
+$lang['flexible'] = 'Flexible';
+$lang['fixed'] = 'Fixed';

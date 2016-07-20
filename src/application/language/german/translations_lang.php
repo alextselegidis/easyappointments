@@ -276,3 +276,5 @@ $lang['date_format'] = 'Datumsformat';
 $lang['date_format_hint'] = 'Ändern Sie das Datumsanzeigeformat (D - Datum, M - Monat, Y - Jahr).';
 $lang['google_analytics_code_hint'] = 'Fügen Sie Ihre Google Analytics-ID hinzu, das auf der Buchungsseite enthalten wird.';
 $lang['availabilities_type'] = 'Verfügungstyp';
+$lang['flexible'] = 'Flexibel';
+$lang['fixed'] = 'Fest';
