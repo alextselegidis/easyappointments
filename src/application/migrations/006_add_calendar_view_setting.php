@@ -26,7 +26,7 @@ class Migration_Add_calendar_view_setting extends CI_Migration {
 
         $this->dbforge->add_column('ea_user_settings', $fields); 
 
-        $this->db->update('ea_user_settings', ['ea_user_settings' => 'default']);
+        $this->db->update('ea_user_settings', ['calendar_view' => 'default']);
     }
 
     public function down() {
