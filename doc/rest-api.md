@@ -187,6 +187,7 @@ You can also try the GET requests with your browser by navigating to the respeci
     "currency": "Euro", 
     "description": "Male haircut trends.",
     "availabilitiesType": "flexible",
+    "attendantsNumber": 1,
     "categoryId": null
 }
 ```

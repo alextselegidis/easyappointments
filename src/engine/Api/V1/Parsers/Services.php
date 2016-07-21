@@ -28,11 +28,12 @@ class Services implements ParsersInterface {
         $encodedResponse = [
             'id' => $response['id'] !== null ? (int)$response['id'] : null,
             'name' => $response['name'],
-            'duration' => $response['duration'],
-            'price' => $response['price'],
+            'duration' => (int)$response['duration'],
+            'price' => (float)$response['price'],
             'currency' => $response['currency'],
             'description' => $response['description'],
             'availabilitiesType' => $response['availabilities_type'],
+            'attendantsNumber' => (int)$response['attendants_number'],
             'categoryId' => $response['id_service_categories'] !== null ? (int)$response['id_service_categories'] : null
         ];
 
@@ -74,6 +75,10 @@ class Services implements ParsersInterface {
 
         if (!empty($request['availabilitiesType'])) {
             $decodedRequest['availabilities_type'] = $request['availabilitiesType']; 
+        }
+
+        if (!empty($request['attendantsNumber'])) {
+            $decodedRequest['attendants_number'] = $request['attendantsNumber']; 
         }
 
         if (!empty($request['categoryId'])) {
