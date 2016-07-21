@@ -277,3 +277,4 @@ $lang['google_analytics_code_hint'] = 'Renseignez l\'ID Google Analytics à util
 $lang['availabilities_type'] = 'Availabilities Type';
 $lang['flexible'] = 'Flexible';
 $lang['fixed'] = 'Fixed';
+$lang['attendants_number'] = 'Attendants Number';

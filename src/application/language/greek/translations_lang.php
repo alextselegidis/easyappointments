@@ -278,3 +278,4 @@ $lang['google_analytics_code_hint'] = 'Προσθέστε τον Google Analytic
 $lang['availabilities_type'] = 'Τύπος Διαθεσιμοτήτων';
 $lang['flexible'] = 'Ευέλικτος';
 $lang['fixed'] = 'Σταθερός';
+$lang['attendants_number'] = 'Αριθμός Παραστατών';

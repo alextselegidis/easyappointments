@@ -278,3 +278,4 @@ $lang['google_analytics_code_hint'] = 'Lisää Google Analytics ID varaussivulle
 $lang['availabilities_type'] = 'Availabilities Type';
 $lang['flexible'] = 'Flexible';
 $lang['fixed'] = 'Fixed';
+$lang['attendants_number'] = 'Attendants Number';

@@ -278,3 +278,4 @@ $lang['google_analytics_code_hint'] = 'Voeg je Google Analytics ID toe om in te 
 $lang['availabilities_type'] = 'Availabilities Type';
 $lang['flexible'] = 'Flexible';
 $lang['fixed'] = 'Fixed';
+$lang['attendants_number'] = 'Attendants Number';

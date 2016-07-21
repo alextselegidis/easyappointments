@@ -278,3 +278,4 @@ $lang['google_analytics_code_hint'] = 'Fügen Sie Ihre Google Analytics-ID hinzu
 $lang['availabilities_type'] = 'Verfügungstyp';
 $lang['flexible'] = 'Flexibel';
 $lang['fixed'] = 'Fest';
+$lang['attendants_number'] = 'Begleiternummer';
