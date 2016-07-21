@@ -84,7 +84,7 @@
             $('#services .save-cancel-group').show();
             $('#services .record-details').find('input, textarea').prop('readonly', false);
             $('#services .record-details').find('select').prop('disabled', false);
-            $('#service-duration').spinner('enable');
+            $('#service-duration, #service-attendants-number').spinner('enable');
 
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
@@ -113,7 +113,8 @@
                 price: $('#service-price').val(),
                 currency: $('#service-currency').val(),
                 description: $('#service-description').val(),
-                availabilities_type: $('#service-availabilities-type').val()
+                availabilities_type: $('#service-availabilities-type').val(),
+                attendants_number: $('#service-attendants-number').val()
             };
 
             if ($('#service-category').val() !== 'null') {
@@ -141,7 +142,7 @@
             $('#services .save-cancel-group').show();
             $('#services .record-details').find('input, textarea').prop('readonly', false);
             $('#services .record-details select').prop('disabled', false);
-            $('#service-duration').spinner('enable');
+            $('#service-duration, #service-attendants-number').spinner('enable');
 
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
@@ -259,7 +260,7 @@
         $('#edit-service, #delete-service').prop('disabled', true);
         $('#services .record-details').find('input, textarea').prop('readonly', true);
         $('#service-category').prop('disabled', true);
-        $('#service-duration').spinner('disable');
+        $('#service-duration, #service-attendants-number').spinner('disable');
 
         $('#filter-services .selected').removeClass('selected');
         $('#filter-services button').prop('disabled', false);
@@ -279,6 +280,7 @@
         $('#service-currency').val(service.currency);
         $('#service-description').val(service.description);
         $('#service-availabilities-type').val(service.availabilities_type);
+        $('#service-attendants-number').val(service.attendants_number);
 
         var categoryId = (service.id_service_categories !== null) ? service.id_service_categories : 'null';
         $('#service-category').val(categoryId);

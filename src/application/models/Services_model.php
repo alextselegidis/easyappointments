@@ -142,6 +142,12 @@ class Services_Model extends CI_Model {
                         . ' or ' . AVAILABILITIES_TYPE_FIXED . ' (given ' .  $service['availabilities_type'] . ')');
         }
 
+        if ($service['attendants_number'] !== NULL && (!is_numeric($service['attendants_number']) 
+                        || $service['attendants_number'] < 1)) {
+            throw new Exception('Service attendants number must be numeric and greater or equal to one: ' 
+                    . $service['attendants_number']);
+        }
+
         return TRUE;
     }
 

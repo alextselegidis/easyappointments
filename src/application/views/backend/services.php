@@ -132,6 +132,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="service-attendants-number"><?php echo $this->lang->line('attendants_number'); ?> *</label>
+                    <input type="text" id="service-attendants-number" class="form-control required"  />
+                </div>
+
+                <div class="form-group">
                     <label for="service-description"><?php echo $this->lang->line('description'); ?></label>
                     <textarea id="service-description" rows="4" class="form-control"></textarea>
                 </div>

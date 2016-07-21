@@ -47,8 +47,8 @@ window.BackendServices = window.BackendServices || {};
         });
         $('#service-category').append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
 
-        $('#service-duration').spinner({
-            min: 0,
+        $('#service-duration, #service-attendants-number').spinner({
+            min: 1,
             disabled: true // default
         });
 
