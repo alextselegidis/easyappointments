@@ -393,6 +393,22 @@ class Appointments_Model extends CI_Model {
         $this->db->update('ea_appointments', array('id_google_calendar' => NULL),
                 array('id_users_provider' => $provider_id));
     }
+
+    /**
+     * Get appointment count for the provided start datetime.
+     *
+     * @param int $service_id Selected service ID.
+     * @param string $selected_date Selected date string.
+     * @param string $hour Selected hour string.
+     *
+     * @return int Returns the appointment number at the selected start time.
+     */
+    public function appointment_count_for_hour($service_id, $selected_date, $hour) {
+        return $this->db->get_where('ea_appointments', [
+            'id_services' => $service_id,
+            'start_datetime' => date('Y-m-d H:i:s', strtotime($selected_date . ' ' . $hour . ':00'))
+        ])->num_rows();
+    }
 }
 
 /* End of file appointments_model.php */

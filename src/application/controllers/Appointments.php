@@ -11,9 +11,9 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\String; 
-use \EA\Engine\Types\Email; 
-use \EA\Engine\Types\Url; 
+use \EA\Engine\Types\String;
+use \EA\Engine\Types\Email;
+use \EA\Engine\Types\Url;
 
 /**
  * Appointments Controller
@@ -194,8 +194,8 @@ class Appointments extends CI_Controller {
 
             // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER
             try {
-                $this->config->load('email'); 
-                $email = new \EA\Engine\Notifications\Email($this, $this->config->config); 
+                $this->config->load('email');
+                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
 
                 $send_provider = filter_var($this->providers_model
                             ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
@@ -315,13 +315,19 @@ class Appointments extends CI_Controller {
 			}
 
             $availabilities_type = $this->services_model->get_value('availabilities_type', $_POST['service_id']);
+            $attendants_number = $this->services_model->get_value('attendants_number', $_POST['service_id']);
 
 			$empty_periods = $this->_get_provider_available_time_periods($_POST['provider_id'],
 					$_POST['selected_date'], $exclude_appointments);
 
             $available_hours = $this->_calculate_available_hours($empty_periods, $_POST['selected_date'],
-					$_POST['service_duration'], filter_var($_POST['manage_mode'], FILTER_VALIDATE_BOOLEAN), 
+					$_POST['service_duration'], filter_var($_POST['manage_mode'], FILTER_VALIDATE_BOOLEAN),
                     $availabilities_type);
+
+            if ($attendants_number > 1) {
+                $this->_get_multiple_attendants_hours($available_hours, $attendants_number, $_POST['service_id'],
+                    $_POST['selected_date']);
+            }
 
             echo json_encode($available_hours);
 
@@ -422,7 +428,7 @@ class Appointments extends CI_Controller {
             // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
             try {
                 $this->config->load('email');
-                $email = new \EA\Engine\Notifications\Email($this, $this->config->config); 
+                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
 
                 if ($post_data['manage_mode'] == FALSE) {
                     $customer_title = new String($this->lang->line('appointment_booked'));
@@ -548,12 +554,29 @@ class Appointments extends CI_Controller {
 	 */
 	protected function _check_datetime_availability() {
 		$this->load->model('services_model');
+		$this->load->model('appointments_model');
 
 		$appointment  = $_POST['post_data']['appointment'];
 
 		$service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
 
 		$exclude_appointments = (isset($appointment['id'])) ? array($appointment['id']) : array();
+
+        $attendants_number = $this->services_model->get_value('attendants_number', $appointment['id_services']);
+
+        if ($attendants_number > 1) {
+            // Exclude all the appointments that will are currently registered.
+            $exclude = $this->appointments_model->get_batch([
+                'id_services' => $appointment['id_services'],
+                'start_datetime' => $appointment['start_datetime']
+            ]);
+
+            if (!empty($exclude) && count($exclude) < $attendants_number) {
+                foreach ($exclude as $entry) {
+                    $exclude_appointments[] = $entry['id'];
+                }
+            }
+        }
 
 		if ($appointment['id_users_provider'] === ANY_PROVIDER) {
 			$appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'],
@@ -759,7 +782,7 @@ class Appointments extends CI_Controller {
 			foreach($provider['services'] as $provider_service_id) {
 				if ($provider_service_id == $service_id) { // Check if the provider is available for the requested date.
 					$empty_periods = $this->_get_provider_available_time_periods($provider['id'], $selected_date);
-					$available_hours = $this->_calculate_available_hours($empty_periods, $selected_date, 
+					$available_hours = $this->_calculate_available_hours($empty_periods, $selected_date,
                             $service['duration'], false, $service['availabilities_type']);
 					if (count($available_hours) > $max_hours_count) {
 						$provider_id = $provider['id'];
@@ -797,7 +820,7 @@ class Appointments extends CI_Controller {
 		foreach ($empty_periods as $period) {
 			$start_hour = new DateTime($selected_date . ' ' . $period['start']);
 			$end_hour = new DateTime($selected_date . ' ' . $period['end']);
-            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15; 
+            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15;
 
 			$current_hour = $start_hour;
 			$diff = $current_hour->diff($end_hour);
@@ -830,6 +853,40 @@ class Appointments extends CI_Controller {
 
 		return $available_hours;
 	}
+
+    /**
+     * Get multiple attendants hours.
+     *
+     * This method will add the extra appointment hours whenever a service accepts multiple attendants.
+     *
+     * @param array $available_hours The previously calculated appointment hours.
+     * @param int $attendants_number Service attendants number.
+     * @param int $service_id Selected service ID.
+     * @param string $selected_date The selected appointment date.
+     */
+    protected function _get_multiple_attendants_hours(&$available_hours, $attendants_number, $service_id,
+            $selected_date) {
+        $this->load->model('appointments_model');
+
+        $appointments = $this->appointments_model->get_batch(
+            'id_services = ' . $this->db->escape($service_id) . ' AND DATE(start_datetime) = DATE('
+            . $this->db->escape(date('Y-m-d', strtotime($selected_date))) . ')');
+
+        $hours = [];
+
+        foreach($appointments as $appointment) {
+            $hour = date('H:i', strtotime($appointment['start_datetime']));
+            $current_attendants_number = $this->appointments_model->appointment_count_for_hour($service_id,
+                    $selected_date, $hour);
+            if ($current_attendants_number < $attendants_number && !in_array($hour, $available_hours)) {
+                $available_hours[] = $hour;
+            }
+        }
+
+        $available_hours = array_values($available_hours);
+		sort($available_hours, SORT_STRING );
+		$available_hours = array_values($available_hours);
+    }
 }
 
 /* End of file appointments.php */

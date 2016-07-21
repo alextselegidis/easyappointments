@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../Appointments.php';
 
 use \EA\Engine\Api\V1\Response;
 use \EA\Engine\Api\V1\Request;
-use \EA\Engine\Types\UnsignedInt; 
+use \EA\Engine\Types\UnsignedInt;
 
 /**
  * Availabilities Controller
@@ -32,7 +32,7 @@ class Availabilities extends API_V1_Controller {
         parent::__construct();
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
-        $this->load->model('services_model'); 
+        $this->load->model('services_model');
         $this->load->model('settings_model');
     }
 
@@ -44,30 +44,35 @@ class Availabilities extends API_V1_Controller {
      */
     public function get() {
         try {
-            $providerId = new UnsignedInt($this->input->get('providerId')); 
-            $serviceId = new UnsignedInt($this->input->get('serviceId')); 
+            $providerId = new UnsignedInt($this->input->get('providerId'));
+            $serviceId = new UnsignedInt($this->input->get('serviceId'));
 
             if ($this->input->get('date')) {
-                $date = new DateTime($this->input->get('date')); 
+                $date = new DateTime($this->input->get('date'));
             } else {
                 $date = new DateTime();
             }
 
-            $service = $this->services_model->get_row($serviceId->get()); 
+            $service = $this->services_model->get_row($serviceId->get());
 
             $emptyPeriods = $this->_getProviderAvailableTimePeriods($providerId->get(),
                     $date->format('Y-m-d'), []);
-            
-            $availableHours = $this->_calculateAvailableHours($emptyPeriods, 
+
+            $availableHours = $this->_calculateAvailableHours($emptyPeriods,
                     $date->format('Y-m-d'), $service['duration'], false, $service['availabilities_type']);
 
+            if ($service['attendants_number'] > 1) {
+                $this->_getMultipleAttendantsHours($availableHours, $service['attendants_number'], $service['id'],
+                    $date->format('Y-m-d'));
+            }
+
             $this->output
-                ->set_content_type('application/json') 
+                ->set_content_type('application/json')
                 ->set_output(json_encode($availableHours));
 
         } catch(\Exception $exception) {
-            exit($this->_handleException($exception)); 
-        }   
+            exit($this->_handleException($exception));
+        }
     }
 
     /**
@@ -244,7 +249,7 @@ class Availabilities extends API_V1_Controller {
         foreach ($empty_periods as $period) {
             $start_hour = new DateTime($selected_date . ' ' . $period['start']);
             $end_hour = new DateTime($selected_date . ' ' . $period['end']);
-            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15; 
+            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15;
 
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
@@ -277,7 +282,41 @@ class Availabilities extends API_V1_Controller {
 
         return $available_hours;
     }
+
+    /**
+     * Get multiple attendants hours.
+     *
+     * This method will add the extra appointment hours whenever a service accepts multiple attendants.
+     *
+     * @param array $available_hours The previously calculated appointment hours.
+     * @param int $attendants_number Service attendants number.
+     * @param int $service_id Selected service ID.
+     * @param string $selected_date The selected appointment date.
+     */
+    protected function _getMultipleAttendantsHours(&$available_hours, $attendants_number, $service_id,
+            $selected_date) {
+        $this->load->model('appointments_model');
+
+        $appointments = $this->appointments_model->get_batch(
+            'id_services = ' . $this->db->escape($service_id) . ' AND DATE(start_datetime) = DATE('
+            . $this->db->escape(date('Y-m-d', strtotime($selected_date))) . ')');
+
+        $hours = [];
+
+        foreach($appointments as $appointment) {
+            $hour = date('H:i', strtotime($appointment['start_datetime']));
+            $current_attendants_number = $this->appointments_model->appointment_count_for_hour($service_id,
+                    $selected_date, $hour);
+            if ($current_attendants_number < $attendants_number && !in_array($hour, $available_hours)) {
+                $available_hours[] = $hour;
+            }
+        }
+
+        $available_hours = array_values($available_hours);
+		sort($available_hours, SORT_STRING );
+		$available_hours = array_values($available_hours);
+    }
 }
 
-/* End of file Appointments.php */
-/* Location: ./application/controllers/api/v1/Appointments.php */
+/* End of file Availabilities.php */
+/* Location: ./application/controllers/api/v1/Availabilities.php */
