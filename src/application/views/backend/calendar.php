@@ -296,14 +296,14 @@
                 </div>
 
             </div>
-            <div class="modal-footer footer">
-                <button id="save-appointment" class="btn btn-primary">
-                    <?php echo $this->lang->line('save'); ?>
-                </button>
-                <button id="cancel-appointment" class="btn btn-default" data-dismiss="modal">
-                    <?php echo $this->lang->line('cancel'); ?>
-                </button>
-            </div>
+        </div>
+        <div class="modal-footer footer">
+            <button id="save-appointment" class="btn btn-primary">
+                <?php echo $this->lang->line('save'); ?>
+            </button>
+            <button id="cancel-appointment" class="btn btn-default" data-dismiss="modal">
+                <?php echo $this->lang->line('cancel'); ?>
+            </button>
         </div>
 
     </div>
