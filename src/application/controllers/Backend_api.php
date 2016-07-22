@@ -390,7 +390,7 @@ class Backend_api extends CI_Controller {
                     if ($google_sync == TRUE) {
                         $google_token = json_decode($this->providers_model
                                 ->get_setting('google_token', $provider['id']));
-                        $this->load->library('Google_Sync');
+                        $this->load->library('Google_sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
                         $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }
