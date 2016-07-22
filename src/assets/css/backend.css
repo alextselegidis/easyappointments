@@ -420,9 +420,13 @@ body .form-horizontal .controls {
     padding: 10px 0;
 }
 
+#calendar .calendar-header input {
+    width: 120px;
+}
+
 #calendar .calendar-header .btn,
 #calendar .calendar-header input {
-    margin-right: 10px;
+    margin: 10px 10px 10px 0;
 }
 
 #calendar .calendar-view {
@@ -446,6 +450,8 @@ body .form-horizontal .controls {
     border-radius: 3px;
     padding: 10px;
     text-align: center;
+    background-image: url('../img/unavailable.jpg');
+    opacity: 0.7;
 }
 
 #calendar .calendar-view .date-column .provider-column {
