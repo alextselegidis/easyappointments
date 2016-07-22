@@ -13,7 +13,6 @@ their custom modifications on the main project codebase.
 - #175: The backend must be responsive as well.
 - #174: Implementation of a REST API.
 - #173: JS Scrollbars do not work for backend/users entries.
-- #152: American Time Format (AM/PM)
 - #137: Invalid responsive behavior in frontend booking wizard (step #2 - appointment date & time).
 - #136: Loading spinner is not shown in during the installation.
 - #127: Links in header contain index.php
