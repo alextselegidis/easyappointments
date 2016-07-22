@@ -446,6 +446,7 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-view .date-column .provider-column .not-working {
+    width: 115px;
     background: #eaeaea;
     border-radius: 3px;
     padding: 10px;

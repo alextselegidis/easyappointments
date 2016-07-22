@@ -9,6 +9,8 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
+window.BackendCalendarTableView = window.BackendCalendarTableView || {};
+
 /**
  * Backend Calendar
  *
@@ -16,12 +18,13 @@
  *
  * @module BackendCalendarTableView
  */
-window.BackendCalendarTableView = window.BackendCalendarTableView || {};
-
 (function(exports) {
 
     'use strict';
 
+    /**
+     * Bind page event handlers. 
+     */
     function _bindEventHandlers() {
         var $calendarToolbar = $('#calendar-toolbar'); 
         var $calendar = $('#calendar'); 
@@ -77,6 +80,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }); 
 
         var lastFocusedEventData;
+        
+        /**
+         * Event: On Table Event Click
+         * 
+         * @param {jQuery.Event} event
+         */
         $calendar.on('click', '.event', function(event) {
             event.stopPropagation(); 
 
@@ -157,6 +166,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             }
         });
 
+        /**
+         * Event: On Window Resize
+         */
         $(window).on('resize', _setCalendarSize);
 
         /**
@@ -171,7 +183,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         /**
          * Event: Popover Edit Button "Click"
          *
-         * Enables the edit dialog of the selected calendar event.
+         * Enables the edit dialog of the selected table event.
          */
         $calendar.on('click', '.edit-popover', function() {
             $(this).parents().eq(2).popover('destroy'); // Hide the popover
@@ -315,6 +327,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         });
     }
 
+    /**
+     * Create table view header container. 
+     *
+     * The header contains the date navigation elements (buttons and datepicker).
+     */
     function _createHeader() {
         var $calendarFilter = $('#calendar-filter'); 
 
@@ -337,35 +354,35 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 '</button>'
             );
 
-            var dateFormat; 
+        var dateFormat; 
 
-            switch(GlobalVariables.dateFormat) {
-                case 'DMY':
-                    dateFormat = 'dd/mm/yy';
-                    break;
+        switch(GlobalVariables.dateFormat) {
+            case 'DMY':
+                dateFormat = 'dd/mm/yy';
+                break;
 
-                case 'MDY':
-                    dateFormat = 'mm/dd/yy';
-                    break;
+            case 'MDY':
+                dateFormat = 'mm/dd/yy';
+                break;
 
-                case 'YMD':
-                    dateFormat = 'yy/mm/dd';
-                    break;
+            case 'YMD':
+                dateFormat = 'yy/mm/dd';
+                break;
 
-                default:
-                    throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
-            }   
+            default:
+                throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
+        }   
 
 
-            $calendarHeader.find('.select-date').datepicker({
-                defaultDate: new Date(),
-                dateFormat: dateFormat,
-                onSelect: function(dateText, instance) { 
-                    var startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
-                    var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1}); 
-                    _createView(startDate, endDate);
-                } 
-            });
+        $calendarHeader.find('.select-date').datepicker({
+            defaultDate: new Date(),
+            dateFormat: dateFormat,
+            onSelect: function(dateText, instance) { 
+                var startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
+                var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1}); 
+                _createView(startDate, endDate);
+            } 
+        });
     }
 
     /**
@@ -407,6 +424,15 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .fail(GeneralFunctions.ajaxFailureHandler);
     }
 
+    /**
+     * Create Date Column Container 
+     *
+     * This element will contain the provider columns. 
+     * 
+     * @param {jQuery} $wrapper The wrapper div element of the table view. 
+     * @param {Date} date Selected date for the column.
+     * @param {Object[]} events Events to be displayed on this date. 
+     */
     function _createDateColumn($wrapper, date, events) {
         var $dateColumn = $('<div class="date-column" />').appendTo($wrapper); 
 
@@ -414,12 +440,39 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .data('date', date.getTime())
             .append('<h5>' + GeneralFunctions.formatDate(date, GlobalVariables.dateFormat) + '</h5>');
 
-        for (var index in GlobalVariables.availableProviders) {
+        var providers = GlobalVariables.availableProviders;
+
+        if (GlobalVariables.user.role_slug === 'provider') {
+            GlobalVariables.availableProviders.forEach(function (provider) {
+                if (provider.id == GlobalVariables.user.id) {
+                    providers = [provider]; 
+                }
+            });
+        }
+
+        if (GlobalVariables.user.role_slug === 'secretary') {
+            providers = [];
+            GlobalVariables.availableProviders.forEach(function (provider) {
+                if (GlobalVariables.secretaryProviders.indexOf(provider.id) > -1) {
+                    providers.push(provider)
+                }
+            });
+        }
+
+        for (var index in providers) {
             var provider = GlobalVariables.availableProviders[index]; 
             _createProviderColumn($dateColumn, date, provider, events);
         }
     }
 
+    /**
+     * Create Provider Column Container 
+     * 
+     * @param {jQuery} $dateColumn Element to container the provider's column.
+     * @param {Date} date Selected date for the column.
+     * @param {Object} provider Contains the provider data. 
+     * {Object[]} events Events to be displayed on this date. 
+     */
     function _createProviderColumn($dateColumn, date, provider, events) {
         if (provider.services.length === 0) {
             return;
@@ -439,6 +492,15 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         _createUnavailabilities($providerColumn, events.unavailabilities); 
     }
 
+    /**
+     * Create Table View Slots 
+     *
+     * The time slots will be added to a specific provider's column. 
+     * 
+     * @param {jQuery} $providerColumn The selected provider column.
+     * @param {Date} date Selected date for the slot.
+     * @param {Object} provider Contains the provider data.
+     */
     function _createSlots($providerColumn, date, provider) {
         var day = date.toString('dddd').toLowerCase(); 
         var plan = JSON.parse(provider.settings.working_plan)[day]; 
@@ -493,6 +555,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }
     }
 
+    /**
+     * Create Appointment Events 
+     *
+     * This method will add the appointment events on the table view. 
+     * 
+     * @param {jQuery} $providerColumn The provider column container.
+     * @param {Object[]} appointments Contains the appointment events data. 
+     */
     function _createAppointments($providerColumn, appointments) {
         if (appointments.length === 0) {
             return;
@@ -510,10 +580,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             var eventDate = Date.parse(appointment.start_datetime); 
             var $event = $('<div class="event appointment" />'); 
+            var startDate = Date.parse(appointment.start_datetime);
+            var endDate = Date.parse(appointment.end_datetime);
+            var eventDuration = Math.round((endDate - startDate) / 60000);
 
-            $event.html(
-                appointment.service.name + ' - ' + 
-                (appointment.customer.first_name + ' ' + appointment.customer.last_name).trim()
+            $event.html(            
+                (appointment.customer.first_name + ' ' + appointment.customer.last_name).trim() + 
+                ' ' + startDate.toString('HH:mm') + ' (' + eventDuration + '\')' 
             );
 
             $event.data(appointment);
@@ -532,12 +605,21 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .index();
 
                     $event.appendTo($(tr).prev().find('td').eq(cellIndex));
+
                     return false;
                 }
             }); 
         }
     }
 
+    /**
+     * Create Unavailabilities Events 
+     *
+     * This method will add the unavailability events on the table view. 
+     * 
+     * @param {jQuery} $providerColumn The provider column container.
+     * @param {Object[]} unavailabilities Contains the unavailability events data. 
+     */
     function _createUnavailabilities($providerColumn, unavailabilities) {
         if (unavailabilities.length === 0) {
             return;
@@ -576,6 +658,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }
     }
 
+    /**
+     * Set Table Calendar View 
+     *
+     * This method will set the optimal size in the calendar view elements in order to fit in the page without
+     * using scrollbars.
+     */
     function _setCalendarSize() {
         var height = window.innerHeight - $('#header').outerHeight() - $('#footer').outerHeight() 
                 - $('#calendar-toolbar').outerHeight() - $('.calendar-header').outerHeight() - 50;
@@ -587,6 +675,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $('.calendar-view').height(height); 
 
         $('.calendar-view > div').css('min-width', '1000%');
+
         var width = 0; 
 
         $('.date-column').each(function(index, dateColumn) {
@@ -595,11 +684,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $('.calendar-view > div').css('min-width', width + 50);
 
-
         var dateColumnHeight = $('.date-column').outerHeight();
   
         $('.calendar-view .not-working').outerHeight((dateColumnHeight > height ? dateColumnHeight : height ) - 70);
-
     }
 
     /**
@@ -621,6 +708,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         return $.post(url, data); 
     }
 
+    /**
+     * Initialize Page 
+     */
     exports.initialize = function() {
         _createHeader(); 
         _createView(Date.today(), Date.today().add({days: parseInt($('#select-filter-item').val() - 1)}));
