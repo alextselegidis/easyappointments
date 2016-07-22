@@ -715,6 +715,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         _createHeader(); 
         _createView(Date.today(), Date.today().add({days: parseInt($('#select-filter-item').val() - 1)}));
         _bindEventHandlers();
+        
+        // Hide Google Calendar Sync buttons cause they can not be used within this view. 
+        $('#enable-sync, #google-sync').hide();
     };
 
 })(window.BackendCalendarTableView);
