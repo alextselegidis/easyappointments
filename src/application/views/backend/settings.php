@@ -479,6 +479,18 @@
                 E!A Blog
             </a>
             |
+            <a href="https://www.facebook.com/easyappointments.org">
+                Facebook
+            </a>
+            |
+            <a href="https://plus.google.com/+EasyappointmentsOrg">
+                Google+
+            </a>
+            |
+            <a href="https://twitter.com/EasyAppts">
+                Twitter
+            </a>
+            |
             <a href="https://plus.google.com/communities/105333709485142846840">
                 <?php echo $this->lang->line('google_plus_community'); ?>
             </a>
