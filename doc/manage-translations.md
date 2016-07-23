@@ -1,3 +1,5 @@
+# Manage Translations 
+
 > This page will guide you through the management of Easy!Appointments translations.
 
 ### Introduction 
@@ -36,3 +38,5 @@ Follow these steps in order to add or adjust your translations and modify the me
 - <a href="https://www.dropbox.com/s/eg43v35ehuxmz5b/romanian.zip?dl=1" target="_blank">Romanian (Cosmin Raducanu)</a>
 - <a href="https://www.dropbox.com/s/i6fsufcgrvoc945/turkish.zip?dl=1" target="_blank">Turkish (Burak Inal)</a>
 - <a href="https://www.dropbox.com/s/fnd2ka43j26yg1c/hindi.zip?dl=1" target="_blank">Hindi (Sharon S.K. Nathaniel)</a>
+
+*This document applies to Easy!Appointments v1.2*.

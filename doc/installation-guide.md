@@ -1,3 +1,5 @@
+# Installation Guide
+
 > This page will guide you through the installation and configuration of Easy!Appointments.
 
 ### Introduction
@@ -25,3 +27,5 @@ When you finish the installation, Easy!Appointments will only contain an adminis
 Finally just add a link in your website that points to your Easy!Appointments installation with a caption similar to "Book Appointment". Whenever a customer clicks on that link he will be redirected the booking page.
 
 Happy Bookin'!
+
+*This document applies to Easy!Appointments v1.2*.

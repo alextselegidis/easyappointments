@@ -1,3 +1,5 @@
+# Google Calendar Sync
+
 > This page will guide you through the activation of the Google Calendar synchronization feature.
 
 Since version 1.0 Easy!Appointments supports two way synchronization with the Google Calendar API. Every provider can link his Google Calendar account with the application and make sure that any modification made on the schedule is synced between both systems. Easy!Appointments will add extra information (if available) to Google Calendar events so that users can check event participants, reply whether they will come or not etc. Once the events are on Google Calendar they can then be synced and used by other services that support Google’s API. 
@@ -11,7 +13,6 @@ So, these are the required steps for enabling the Google Calendar Sync feature o
   - Click on the "Credentials" menu item and create a client ID for your installation and a public API access key ("Create new Client ID" and "Create new Key" buttons). When editing the client ID the redirect URI to http://url/to/easyappointments/index.php/google/oauth_callback.
 3. **Enable the Sync Feature**: Go to your config.php file and update the Google Calendar Sync section with your API credentials.
 4. **Link Google Calendar and Easy!Appointments**: Go to backend/calendar page, select a provider and click on the "Enable Sync" button. A new window will pop up asking you to grant concern.
- 
 
 #### Note that ...
 
@@ -21,10 +22,10 @@ So, these are the required steps for enabling the Google Calendar Sync feature o
 
 * Recursive events are not supported yet.
 
- 
-
 #### Useful Links ...
 
 Google Developers – https://developers.google.com/google-apps/calendar
 
 E!A Support Group – https://groups.google.com/forum/#!forum/easy-appointments
+
+*This document applies to Easy!Appointments v1.2*.
