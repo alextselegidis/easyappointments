@@ -641,9 +641,14 @@ body .form-horizontal .controls {
 }
 
 
+#users-page .working-plan .checkbox,
+#users-page .working-plan input[type="text"],
+#users-page .working-plan button {
+    margin: 2px 0;
+}
+
 #users-page .working-plan td input[type="text"] {
     width: 55px;
-    margin: 10px 0;
 }
 
 #users-page .editable form,
@@ -676,8 +681,13 @@ body .form-horizontal .controls {
     cursor: pointer;
 }
 
+#business-logic .working-plan .checkbox,
+#business-logic .working-plan input[type="text"],
+#business-logic .working-plan button {
+    margin: 2px 0;
+}
+
 #business-logic .working-plan td input[type="text"] {
-    margin-bottom: 0;
     cursor: pointer;
     width: 55px;
 }
