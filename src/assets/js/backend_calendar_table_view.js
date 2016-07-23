@@ -682,7 +682,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             width += $(dateColumn).outerWidth();
         });
 
-        $('.calendar-view > div').css('min-width', width + 50);
+        $('.calendar-view > div').css('min-width', width + 200);
 
         var dateColumnHeight = $('.date-column').outerHeight();
   
