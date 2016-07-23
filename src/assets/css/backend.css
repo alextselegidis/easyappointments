@@ -466,7 +466,7 @@ body .form-horizontal .controls {
     border-radius: 3px;
     padding: 2px 3px;
     cursor: pointer;
-    margin-bottom: 2px;
+    margin: 1px 15px 1px 1px;
 }
 
 #calendar .calendar-view .date-column .provider-column .event.appointment {

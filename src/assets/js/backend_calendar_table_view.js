@@ -89,6 +89,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $calendar.on('click', '.event', function(event) {
             event.stopPropagation(); 
 
+            if ($(this).hasClass('break')) {
+                return; // Do nothing with break events.
+            }
+
             $('.popover').remove(); // Close all open popovers.
 
             var html;
@@ -490,6 +494,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         
         // Add the unavailabilities to the column. 
         _createUnavailabilities($providerColumn, events.unavailabilities); 
+
+        // Add the provider breaks to the column. 
+        var workingPlan = JSON.parse(provider.settings.working_plan); 
+        var day = date.toString('dddd').toLowerCase();
+        if (workingPlan[day]) {
+            var breaks = workingPlan[day].breaks;
+            _createBreaks($providerColumn, breaks);
+        }
     }
 
     /**
@@ -636,9 +648,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             }
 
             var eventDate = Date.parse(unavailability.start_datetime); 
+            var endDate = Date.parse(unavailability.end_datetime);
+            var eventDuration = Math.round((endDate - eventDate) / 60000);
             var $event = $('<div class="event unavailability" />'); 
 
-            $event.html(unavailability.notes || EALang['unavailable']);
+            $event.html((unavailability.notes || EALang['unavailable']) + ' ' + eventDate.toString('HH:mm') 
+                    + ' (' + eventDuration + '\')');
 
             $event.data(unavailability);
 
@@ -652,6 +667,51 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 if (eventDate < cellDate) {
                     $event.appendTo($(tr).prev().find('td').eq(1));
+                    return false;
+                }
+            }); 
+        }
+    }
+
+    /**
+     * Create break events in the table view. 
+     * 
+     * @param {jQuery} $providerColumn The provider column container.
+     * @param {Object[]} breaks Contains the break events data.
+     */
+    function _createBreaks($providerColumn, breaks) {
+        if (breaks.length === 0) {
+            return;
+        }
+
+        var currentDate = new Date($providerColumn.parents('.date-column').data('date')); 
+        var $tbody = $providerColumn.find('table tbody');
+
+        for (var index in breaks) {
+            var entry = breaks[index];
+            var startHour = entry.start.split(':');
+            var eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), startHour[0], startHour[1]); 
+            var endHour = entry.end.split(':');
+            var endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), endHour[0], endHour[1]); 
+            var eventDuration = Math.round((endDate - eventDate) / 60000);
+            var $event = $('<div class="event unavailability break" />'); 
+
+            $event.html(EALang['break'] + ' ' + eventDate.toString('HH:mm') + ' (' + eventDuration + '\')');
+
+            $event.data(entry);
+
+            $tbody.find('tr').each(function(index, tr) {
+                var $td = $(tr).find('td:first'); 
+
+                var cellDate = new Date(currentDate.getTime()).set({
+                    hour: parseInt($td.text().split(':')[0]),
+                    minute: parseInt($td.text().split(':')[1])
+                }); 
+
+                if (eventDate < cellDate) {
+                    $(tr).prev().find('td:gt(0)').each(function(index, td) {
+                        $event.clone().appendTo($(td));
+                    });
                     return false;
                 }
             }); 
