@@ -466,12 +466,12 @@ body .form-horizontal .controls {
     border-radius: 3px;
     padding: 2px 3px;
     cursor: pointer;
+    margin-bottom: 2px;
 }
 
 #calendar .calendar-view .date-column .provider-column .event.appointment {
     background: #4790CA;
     color: #fff;
-    
 }
 
 #calendar .calendar-view .date-column .provider-column .event.unavailability {
