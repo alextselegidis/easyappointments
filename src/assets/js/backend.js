@@ -114,20 +114,25 @@ window.Backend = window.Backend || {};
             }, 7000);
         }
 
-        var notificationHtml =
-                '<div class="notification alert">' +
-                '<strong>' + message + '</strong>';
+        var customActionsHtml = '';
 
         $.each(actions, function(index, action) {
             var actionId = action['label'].toLowerCase().replace(' ', '-');
-            notificationHtml += '<button id="' + actionId + '" class="btn btn-default btn-xs">'
+            customActionsHtml += '<button id="' + actionId + '" class="btn btn-default btn-xs">'
                     + action['label'] + '</button>';
 
             $(document).off('click', '#' + actionId);
             $(document).on('click', '#' + actionId, action['function']);
         });
 
-        notificationHtml += '<a class="close" data-dismiss="alert" href="#">&times;</a></div>';
+        var notificationHtml =
+                '<div class="notification alert">' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                        '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    '<strong>' + message + '</strong>' + 
+                    customActionsHtml + 
+                '</div>';
 
         $('#notification').html(notificationHtml);
         $('#notification').show('blind');
