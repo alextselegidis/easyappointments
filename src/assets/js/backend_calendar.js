@@ -37,13 +37,6 @@ window.BackendCalendar = window.BackendCalendar || {};
             
             if (isFullScreen) { 
                 // Exit fullscreen mode. 
-                // var exitFullScreen = element.exitFullScreen 
-                //         || element.msExitFullscreen
-                //         || element.mozCancelFullScreen
-                //         || element.webkitExitFullscreen;
-
-                // exitFullScreen.call(element);
-
                 if (document.exitFullscreen)
                     document.exitFullscreen();
                 else if (document.msExitFullscreen)
