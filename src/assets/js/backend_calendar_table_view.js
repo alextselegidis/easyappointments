@@ -149,7 +149,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         '</center>';
             }
 
-            var title = entry.is_unavailable ? EALang['unavailable'] : entry.service.name + ' - ' 
+            var title = entry.is_unavailable !== '0' ? EALang['unavailable'] : entry.service.name + ' - ' 
                     + entry.customer.first_name + ' ' + entry.customer.last_name;
 
             $(event.target).popover({
@@ -803,7 +803,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         // Auto-reload the results every one minute.
         var interval = setInterval(function() {
-            $('#reload-appointments').trigger('click');
+            // $('#reload-appointments').trigger('click');
         }, 15000); 
     };
 
