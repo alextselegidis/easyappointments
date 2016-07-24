@@ -101,6 +101,10 @@
                 <span class="glyphicon glyphicon-repeat"></span>
                 <?php echo $this->lang->line('reload'); ?>
             </button>
+
+            <button id="toggle-fullscreen" class="btn btn-default">
+                <span class="glyphicon glyphicon-fullscreen"></span>
+            </button>
         </div>
     </div>
 

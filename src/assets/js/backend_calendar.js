@@ -23,6 +23,59 @@ window.BackendCalendar = window.BackendCalendar || {};
     'use strict';
 
     /**
+     * Bind common event handlers.
+     */
+    function _bindEventHandlers() {
+        var $calendarPage = $('#calendar-page'); 
+
+        $calendarPage.on('click', '#toggle-fullscreen', function() {
+            var $target = $(this);
+            var element = document.documentElement; 
+            var isFullScreen = (document.fullScreenElement && document.fullScreenElement !== null)
+                || document.mozFullScreen
+                || document.webkitIsFullScreen;
+            
+            if (isFullScreen) { 
+                // Exit fullscreen mode. 
+                // var exitFullScreen = element.exitFullScreen 
+                //         || element.msExitFullscreen
+                //         || element.mozCancelFullScreen
+                //         || element.webkitExitFullscreen;
+
+                // exitFullScreen.call(element);
+
+                if (document.exitFullscreen)
+                    document.exitFullscreen();
+                else if (document.msExitFullscreen)
+                    document.msExitFullscreen();
+                else if (document.mozCancelFullScreen)
+                    document.mozCancelFullScreen();
+                else if (document.webkitExitFullscreen)
+                    document.webkitExitFullscreen()
+
+                $target
+                    .removeClass('btn-success')
+                    .addClass('btn-default');
+                
+            } else {
+                // Switch to fullscreen mode.
+                if (element.requestFullscreen)
+                    element.requestFullscreen();
+                else if (element.msRequestFullscreen)
+                    element.msRequestFullscreen();
+                else if (element.mozRequestFullScreen)
+                    element.mozRequestFullScreen();
+                else if (element.webkitRequestFullscreen)
+                    element.webkitRequestFullscreen();
+
+                $target
+                    .removeClass('btn-default')
+                    .addClass('btn-success');
+            }
+        });
+    }
+
+    /**
      * Initialize Module
      *
      * This function makes the necessary initialization for the default backend calendar page. If this module
@@ -41,6 +94,8 @@ window.BackendCalendar = window.BackendCalendar || {};
         BackendCalendarGoogleSync.initialize();
         BackendCalendarAppointmentsModal.initialize();
         BackendCalendarUnavailabilitiesModal.initialize();
+
+        _bindEventHandlers();
     };
 
 })(window.BackendCalendar);
