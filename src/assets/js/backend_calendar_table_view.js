@@ -343,7 +343,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .find('select')
             .empty()
             .append(new Option('1 ' + EALang['day'] , 1))
-            .append(new Option('4 ' + EALang['days'], 4));
+            .append(new Option('3 ' + EALang['days'], 3));
         
         var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar'); 
 
