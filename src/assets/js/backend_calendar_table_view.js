@@ -601,8 +601,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDuration = Math.round((endDate - startDate) / 60000);
 
             $event.html(            
-                (appointment.customer.first_name + ' ' + appointment.customer.last_name).trim() + 
-                ' ' + startDate.toString('HH:mm') + ' (' + eventDuration + '\')' 
+                appointment.customer.last_name + 
+                ' <span class="hour">' + startDate.toString('HH:mm') + '</span> (' + eventDuration + '\')' 
             );
 
             $event.data(appointment);
@@ -621,6 +621,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .index();
 
                     $event.appendTo($(tr).prev().find('td').eq(cellIndex));
+
+                    // Remove the hour from the event if it is the same as the row. 
+                    if (eventDate.toString('HH:mm') === $(tr).prev().find('td').eq(0).text()) {
+                        $event.find('.hour').remove();
+                    }
 
                     return false;
                 }
@@ -656,8 +661,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDuration = Math.round((endDate - eventDate) / 60000);
             var $event = $('<div class="event unavailability" />'); 
 
-            $event.html((unavailability.notes || EALang['unavailable']) + ' ' + eventDate.toString('HH:mm') 
-                    + ' (' + eventDuration + '\')');
+            $event.html((unavailability.notes || EALang['unavailable']) + 
+                ' <span class="hour">' + eventDate.toString('HH:mm') + '</span> (' + eventDuration + '\')');
 
             $event.data(unavailability);
 
@@ -671,6 +676,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 if (eventDate < cellDate) {
                     $event.appendTo($(tr).prev().find('td').eq(1));
+
+                    // Remove the hour from the event if it is the same as the row. 
+                    if (eventDate.toString('HH:mm') === $(tr).prev().find('td').eq(0).text()) {
+                        $event.find('.hour').remove();
+                    }
+
                     return false;
                 }
             }); 
@@ -700,7 +711,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDuration = Math.round((endDate - eventDate) / 60000);
             var $event = $('<div class="event unavailability break" />'); 
 
-            $event.html(EALang['break'] + ' ' + eventDate.toString('HH:mm') + ' (' + eventDuration + '\')');
+            $event.html(
+                EALang['break'] + 
+                ' <span class="hour">' + eventDate.toString('HH:mm') + '</span> (' + eventDuration + '\')');
 
             $event.data(entry);
 
@@ -713,6 +726,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 }); 
 
                 if (eventDate < cellDate) {
+                    // Remove the hour from the event if it is the same as the row. 
+                    if (eventDate.toString('HH:mm') === $(tr).prev().find('td').eq(0).text()) {
+                        $event.find('.hour').remove();
+                    }
+
                     $(tr).prev().find('td:gt(0)').each(function(index, td) {
                         $event.clone().appendTo($(td));
                     });
