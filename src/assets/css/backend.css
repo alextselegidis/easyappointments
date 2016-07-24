@@ -273,7 +273,7 @@ body legend {
     border-bottom: 1px solid #D6D6D6;
     border-radius: 3px; 
     background: #3A3A3A;
-    padding: 10px;
+    padding: 5px;
     margin-bottom: 15px;
     overflow: auto;
     color: white;
@@ -417,7 +417,7 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-header {
-    padding: 10px 0;
+    padding-bottom: 15px;
 }
 
 #calendar .calendar-header input {
@@ -460,6 +460,21 @@ body .form-horizontal .controls {
     float: left;
     margin-right: 10px;
 }
+
+// #calendar .calendar-view .date-column .provider-column table {
+//     width: 350px;
+// }
+
+// #calendar .calendar-view .date-column .provider-column table thead {
+//     display: block;
+//     background: #fff;
+// }
+
+// #calendar .calendar-view .date-column .provider-column table tbody { 
+//     display: block;
+//     overflow: auto;
+//     min-height: 500px;
+// }
 
 #calendar .calendar-view .date-column .provider-column .event {
     font-size: 10px;
