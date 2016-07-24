@@ -20,7 +20,6 @@ class Migration_Add_service_attendants_number extends CI_Migration {
                 'type' => 'INT',
                 'constraint' => '11', 
                 'default' => '1', 
-                'null' => true,
                 'after' => 'availabilities_type'
             ]
         ]; 

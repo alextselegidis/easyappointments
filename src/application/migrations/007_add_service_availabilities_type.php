@@ -19,8 +19,7 @@ class Migration_Add_service_availabilities_type extends CI_Migration {
             'availabilities_type' => [ 
                 'type' => 'VARCHAR',
                 'constraint' => '32', 
-                'default' => 'flexible', 
-                'null' => true,
+                'default' => 'flexible',
                 'after' => 'description'
             ]
         ]; 

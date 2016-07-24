@@ -19,8 +19,7 @@ class Migration_Add_calendar_view_setting extends CI_Migration {
             'calendar_view' => [ 
                 'type' => 'VARCHAR',
                 'constraint' => '32', 
-                'default' => 'default', 
-                'null' => true
+                'default' => 'default'
             ]
         ]; 
 
