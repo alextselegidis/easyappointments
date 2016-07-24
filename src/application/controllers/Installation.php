@@ -84,6 +84,7 @@ class Installation extends CI_Controller {
             $admin = json_decode($_POST['admin'], true);
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
+            $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
             unset($admin['username'], $admin['password']);
             $admin['id'] = $this->admins_model->add($admin);
 
