@@ -401,6 +401,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     function _createView(startDate, endDate) {
         $('#calendar .calendar-view').remove();
 
+        var displayDate = startDate.getTime() !== endDate.getTime();
         var $calendarView = $('<div class="calendar-view" />').appendTo('#calendar'); 
 
         $calendarView.data({
@@ -419,7 +420,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var currentDate = startDate; 
 
                 while(currentDate <= endDate) {
-                    _createDateColumn($wrapper, currentDate, response); 
+                    _createDateColumn($wrapper, currentDate, response, displayDate); 
                     currentDate.add({days: 1}); 
                 }
 
@@ -436,13 +437,16 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {jQuery} $wrapper The wrapper div element of the table view. 
      * @param {Date} date Selected date for the column.
      * @param {Object[]} events Events to be displayed on this date. 
+     * @param {Boolean} displayDate Whether to display the date in the column container. 
      */
-    function _createDateColumn($wrapper, date, events) {
+    function _createDateColumn($wrapper, date, events, displayDate) {
         var $dateColumn = $('<div class="date-column" />').appendTo($wrapper); 
 
-        $dateColumn
-            .data('date', date.getTime())
-            .append('<h5>' + GeneralFunctions.formatDate(date, GlobalVariables.dateFormat) + '</h5>');
+        $dateColumn.data('date', date.getTime());
+
+        if (displayDate) {
+            $dateColumn.append('<h5>' + GeneralFunctions.formatDate(date, GlobalVariables.dateFormat) + '</h5>');
+        }
 
         var providers = GlobalVariables.availableProviders;
 
