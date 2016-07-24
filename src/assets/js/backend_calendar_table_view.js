@@ -26,7 +26,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * Bind page event handlers. 
      */
     function _bindEventHandlers() {
-        var $calendarToolbar = $('#calendar-toolbar'); 
+        var $calendarToolbar = $('#calendar-toolbar');
         var $calendar = $('#calendar'); 
 
         $calendar.on('click', '.calendar-header .btn.previous', function() {
@@ -804,7 +804,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         // Auto-reload the results every one minute.
         var interval = setInterval(function() {
             $('#reload-appointments').trigger('click');
-        }, 60000); 
+        }, 15000); 
     };
 
 })(window.BackendCalendarTableView);
