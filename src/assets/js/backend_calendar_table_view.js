@@ -778,6 +778,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         
         // Hide Google Calendar Sync buttons cause they can not be used within this view. 
         $('#enable-sync, #google-sync').hide();
+
+        // Auto-reload the results every one minute.
+        var interval = setInterval(function() {
+            $('#reload-appointments').trigger('click');
+        }, 60000); 
     };
 
 })(window.BackendCalendarTableView);
