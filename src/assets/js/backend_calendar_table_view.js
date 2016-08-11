@@ -814,7 +814,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         // Auto-reload the results every one minute.
         var interval = setInterval(function() {
             $('#reload-appointments').trigger('click');
-        }, 15000); 
+        }, 20000); 
     };
 
 })(window.BackendCalendarTableView);
