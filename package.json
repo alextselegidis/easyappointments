@@ -36,6 +36,7 @@
     "fullcalendar": "^2.8.0",
     "jquery": "^3.0.0",
     "jquery-ui": "^1.12.0",
-    "qtip2": "^3.0.3"
+    "qtip2": "^3.0.3",
+    "sticky-table-headers": "^0.1.19"
   }
 }
