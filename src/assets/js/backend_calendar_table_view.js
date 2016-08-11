@@ -399,6 +399,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Date} endDate End date to be displayed. 
      */
     function _createView(startDate, endDate) {
+        $('#calendar .calendar-view table').stickyTableHeaders('destroy');
         $('#calendar .calendar-view').remove();
 
         var displayDate = startDate.getTime() !== endDate.getTime();
@@ -425,6 +426,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 }
 
                 _setCalendarSize();
+                Backend.placeFooterToBottom();
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     }
@@ -569,6 +571,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             current += 0.5; 
         }
+
+        $table.stickyTableHeaders();
     }
 
     /**
@@ -754,7 +758,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             height = 500;
         }
 
-        $('.calendar-view').height(height); 
+        // $('.calendar-view').height(height); 
 
         $('.calendar-view > div').css('min-width', '1000%');
 
@@ -774,8 +778,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     /**
      * Get the calendar events. 
      * 
-     * @param {Date} startDate
-     * @param {Date} endDate
+     * @param {Date} startDate The start date of the selected period.
+     * @param {Date} endDate The end date of the selected period.
      * 
      * @return {jQuery.jqXHR}
      */
@@ -812,9 +816,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $('#enable-sync, #google-sync').hide();
 
         // Auto-reload the results every one minute.
-        var interval = setInterval(function() {
-            $('#reload-appointments').trigger('click');
-        }, 20000); 
+        // var interval = setInterval(function() {
+        //     $('#reload-appointments').trigger('click');
+        // }, 20000); 
     };
 
 })(window.BackendCalendarTableView);

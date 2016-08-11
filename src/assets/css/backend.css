@@ -461,20 +461,9 @@ body .form-horizontal .controls {
     margin-right: 10px;
 }
 
-// #calendar .calendar-view .date-column .provider-column table {
-//     width: 350px;
-// }
-
-// #calendar .calendar-view .date-column .provider-column table thead {
-//     display: block;
-//     background: #fff;
-// }
-
-// #calendar .calendar-view .date-column .provider-column table tbody { 
-//     display: block;
-//     overflow: auto;
-//     min-height: 500px;
-// }
+#calendar .calendar-view .date-column .provider-column table thead{
+    background-color: #FFF;
+}
 
 #calendar .calendar-view .date-column .provider-column .event {
     font-size: 10px;

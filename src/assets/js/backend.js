@@ -29,7 +29,7 @@ window.Backend = window.Backend || {};
         window.console = window.console || function() {}; // IE compatibility
 
         $(window)
-            .resize(function() {
+            .on('resize', function() { 
                 Backend.placeFooterToBottom();
             })
             .trigger('resize');

@@ -4,7 +4,10 @@
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-fullcalendar/jquery.fullcalendar.min.js"></script>
 
-        <script type="text/javascript"
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js"></script>
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
 
 <script type="text/javascript"
