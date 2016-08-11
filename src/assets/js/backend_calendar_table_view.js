@@ -329,6 +329,29 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
             }
         });
+
+        $calendar.on('mouseenter', 'table.slots tbody td', function() {
+            if ($(this).index() === 0) {
+                return; // Do not add the button to the time column.
+            }
+
+            var $button  = $('<button class="add-appointment-shortcut btn btn-sm btn-default" />'); 
+
+            $button.html('<span class="glyphicon glyphicon-plus"></span>'); 
+
+            $(this).append($button); 
+        }); 
+
+        $calendar.on('mouseleave', 'table.slots tbody td', function() {
+            $(this).find('.add-appointment-shortcut').remove();
+        });  
+
+        $calendar.on('click', '.add-appointment-shortcut', function() {
+            $(this)
+                .remove()
+                .parent()
+                .trigger('click');
+        });     
     }
 
     /**
@@ -816,9 +839,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $('#enable-sync, #google-sync').hide();
 
         // Auto-reload the results every one minute.
-        // var interval = setInterval(function() {
-        //     $('#reload-appointments').trigger('click');
-        // }, 20000); 
+        var interval = setInterval(function() {
+            $('#reload-appointments').trigger('click');
+        }, 20000); 
     };
 
 })(window.BackendCalendarTableView);
