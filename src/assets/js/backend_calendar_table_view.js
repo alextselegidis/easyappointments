@@ -787,7 +787,17 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             endDate: endDate.toString('yyyy-MM-dd')
         };
 
-        return $.post(url, data); 
+        return $.ajax({
+            url: url, 
+            data: data, 
+            method: 'POST',
+            beforeSend: function() {
+                $('#loading').css('visibility', 'hidden');
+            }, 
+            complete: function() {
+               $('#loading').css('visibility', ''); 
+            }
+        }); 
     }
 
     /**
