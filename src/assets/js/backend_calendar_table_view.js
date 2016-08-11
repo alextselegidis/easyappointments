@@ -165,8 +165,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $(event.target).popover('toggle');
 
             // Fix popover position
-            if ($('.popover').length > 0) {
-                if ($('.popover').position().top < 200) $('.popover').css('top', '200px');
+            if ($('.popover').length > 0 && $('.popover').position().top < 200) {
+                $('.popover').css('top', '200px');  
             }
         });
 
@@ -606,7 +606,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             $event.html(            
                 appointment.customer.last_name + 
-                ' <span class="hour">' + startDate.toString('HH:mm') + '</span> (' + eventDuration + '\')' 
+                ' <span class="hour">' + startDate.toString('HH:mm') + '</span> '
+                + (eventDuration !== parseInt(appointment.service.duration) ? '(' + eventDuration + '\')' : '') 
             );
 
             $event.data(appointment);
