@@ -23,6 +23,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     'use strict';
 
     /**
+     * Sticky Table Header Fix 
+     * 
+     * @type {Number}
+     */
+    var stickyTableHeaderInterval; 
+
+    /**
      * Bind page event handlers. 
      */
     function _bindEventHandlers() {
@@ -47,6 +54,15 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var startDate = new Date($('.calendar-view .date-column:first').data('date')); 
             var endDate = new Date(startDate.getTime()).add({days: parseInt($(this).val()) - 1}); 
             _createView(startDate, endDate);
+
+            // Horizontal scrolling fix for sticky table headers. 
+            if ($(this).val() === 1) {
+                clearInterval(stickyTableHeaderInterval);
+            } else {
+                stickyTableHeaderInterval = setInterval(function() {
+                    $(window).trigger('resize.stickyTableHeaders');
+                }, 1000);
+            }
         });
 
         $calendarToolbar.on('click', '#reload-appointments', function() {
@@ -860,7 +876,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $('#enable-sync, #google-sync').hide();
 
         // Auto-reload the results every one minute.
-        var interval = setInterval(function() {
+        setInterval(function() {
             $('#reload-appointments').trigger('click');
         }, 20000); 
     };
