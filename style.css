@@ -164,13 +164,17 @@ a {
     overflow: auto;
 
     .image img {
-        max-width: 92px;
-        max-height: 92px;
+        max-width: 125px;
+        max-height: 125px;
         display: block;
         margin: auto;
     }
 
     .title {
+        h3 {
+            line-height: 1.7;
+        }
+
         h3, small {
             font-weight: 300;
             text-align: center;
