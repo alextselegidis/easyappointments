@@ -50,9 +50,52 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         });
 
         $calendarToolbar.on('click', '#reload-appointments', function() {
+            // Remove all the events from the tables. 
+            $('.calendar-view .event').remove(); 
+
+            // Fetch the events and place them in the existing HTML format. 
             var startDate = new Date($('.calendar-view .date-column:first').data('date'));
             var endDate = new Date($('.calendar-view .date-column:last').data('date'));
-            _createView(startDate, endDate);
+            _getCalendarEvents(startDate, endDate)
+                .done(function(response) {
+                    if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                        return;
+                    }
+
+                    var currentDate = startDate; 
+
+                    while(currentDate <= endDate) {
+                        $('.calendar-view .date-column').each(function(index, dateColumn) {
+                            var $dateColumn = $(dateColumn); 
+                            var date = new Date($dateColumn.data('date'));
+
+                            $(dateColumn).find('.provider-column').each(function(index, providerColumn) {
+                                var $providerColumn = $(providerColumn);
+                                var provider = $providerColumn.data('provider');
+
+                                // Add the appointments to the column. 
+                                _createAppointments($providerColumn, response.appointments); 
+                                
+                                // Add the unavailabilities to the column. 
+                                _createUnavailabilities($providerColumn, response.unavailabilities); 
+
+                                // Add the provider breaks to the column. 
+                                var workingPlan = JSON.parse(provider.settings.working_plan); 
+                                var day = date.toString('dddd').toLowerCase();
+                                if (workingPlan[day]) {
+                                    var breaks = workingPlan[day].breaks;
+                                    _createBreaks($providerColumn, breaks);
+                                }
+                            });
+                        });
+
+                        currentDate.add({days: 1}); 
+                    }
+
+                    _setCalendarSize();
+                    Backend.placeFooterToBottom();
+                })
+                .fail(GeneralFunctions.ajaxFailureHandler);
         }); 
         
         $calendar.on('click', '.calendar-view table td', function() {
