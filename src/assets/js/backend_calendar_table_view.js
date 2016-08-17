@@ -56,13 +56,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             _createView(startDate, endDate);
 
             // Horizontal scrolling fix for sticky table headers. 
-            if ($(this).val() === 1) {
-                clearInterval(stickyTableHeaderInterval);
-            } else {
-                stickyTableHeaderInterval = setInterval(function() {
-                    $(window).trigger('resize.stickyTableHeaders');
-                }, 1000);
-            }
+            stickyTableHeaderInterval = setInterval(function() {
+                $(window).trigger('resize.stickyTableHeaders');
+            }, 1000);
         });
 
         $calendarToolbar.on('click', '#reload-appointments', function() {
