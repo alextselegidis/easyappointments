@@ -1,6 +1,6 @@
 <?php
 // Româna
-$lang['page_title'] = 'Programeaza întâlniri cu';
+$lang['page_title'] = 'Programeaza întâlnire cu';
 $lang['step_one_title'] = 'Selecteaza Serviciul si Furnizorul';
 $lang['select_service'] = 'Selecteaza Serviciul';
 $lang['select_provider'] = 'Selecteaza Furnizor';
@@ -271,17 +271,17 @@ $lang['google_calendar_selected'] = 'Calendarul Google a fost selectat!';
 $lang['oops_something_went_wrong'] = 'Oops! Ceva nu a funtionat corect!';
 $lang['could_not_add_to_google_calendar'] = 'Întâlnirea nu a putut fi adaugata în Calendarul Google.';
 $lang['ea_update_success'] = 'Easy!Appointments a fost actualizat!';
-$lang['require_captcha'] = 'Require CAPTCHA';
-$lang['require_captcha_hint'] = 'When enabled, the customers will have to type a random generated CAPTCHA string before booking/updating an appointment.';
-$lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
-$lang['any_provider'] = 'Any Provider';
+$lang['require_captcha'] = 'CAPTCHA este solicitat';
+$lang['require_captcha_hint'] = 'Cand este insemnat clientii vor trebui sa tasteze caracterele generate de CAPTCHA inainte de a adauga sau schimba o intalnire.';
+$lang['captcha_is_wrong'] = 'Verificarea CAPTCHA a esuat, va rugam sa incercati din nou.';
+$lang['any_provider'] = 'Orice furnizor';
 $lang['requested_hour_is_unavailable'] = 'The requested appointment is unfornately not available. Please select a different hour for your appointment.';
 $lang['customer_notifications'] = 'Customer Notifications';
 $lang['customer_notifications_hint'] = 'Defines whether the customer will receive email notifications whenever there is a schedule change on one of his appointments.';
-$lang['date_format'] = 'Date Format';
+$lang['date_format'] = 'Format data';
 $lang['date_format_hint'] = 'Change the date display format (D - Date, M - Month, Y - Year).';
 $lang['google_analytics_code_hint'] = 'Add your Google Analytics ID to be included in the booking page.';
 $lang['availabilities_type'] = 'Availabilities Type';
-$lang['flexible'] = 'Flexible';
-$lang['fixed'] = 'Fixed';
+$lang['flexible'] = 'Flexibil';
+$lang['fixed'] = 'Corectat';
 $lang['attendants_number'] = 'Attendants Number';
