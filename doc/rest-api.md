@@ -397,7 +397,7 @@ Feel free to make pull requests if you have the time to develop one of those.
 
 ### Authorization Issues
 
-If your server runs PHP through FastCGI you will the authorization will not work because the `Authorization` header is not available to the PHP scripts. You can easily fix this by applying the following adjustments depending your server sortware: 
+If your server runs PHP through FastCGI you will the authorization will not work because the `Authorization` header is not available to the PHP scripts. You can easily fix this by applying the following adjustments depending your server software: 
 
 ### Apache
 
