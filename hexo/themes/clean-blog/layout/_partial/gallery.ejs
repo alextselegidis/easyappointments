@@ -1,0 +1,14 @@
+
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <div class="row">
+        <% if (item.photos.length){ %>
+            <% item.photos.forEach(function(photo){ %>
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                    <a href="#" data-featherlight="<%- photo %>">
+                        <img src="<%- photo %>" class="img-thumbnail img-responsive" />
+                    </a>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</div>

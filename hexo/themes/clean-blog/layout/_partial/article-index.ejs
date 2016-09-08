@@ -1,0 +1,20 @@
+<div class="post-preview">
+    <a href="<%- config.root %><%- item.path %>">
+        <h2 class="post-title">
+            <%- item.title || theme.default_post_title || "Untitled" %>
+        </h2>
+        <% if (item.subtitle && item.subtitle.length) { %>
+            <h3 class="post-subtitle">
+                <%- item.subtitle %>
+            </h3>
+        <% } %>
+    </a>
+    <p class="post-meta">
+        <!-- Date and Author -->
+        <% if(item.author) { %>
+            Posted by <%- item.author %> on
+        <% } %>
+        <%= item.date.format(config.date_format) %>
+    </p>
+</div>
+<hr>

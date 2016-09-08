@@ -1,0 +1,24 @@
+<% if(page.comments && theme.comments && theme.comments.disqus_shortname){ %>
+    <hr />
+    <h3><%- __('comment')%>:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+<% } %>
+
+<% if(page.comments && theme.comments && theme.comments.facebook && theme.comments.facebook.appid) { %>
+    <hr />
+    <h3><%- __('comment')%>:</h3>
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%= theme.comments.facebook.appid %>";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div class="fb-comments" data-href="<%= url %>" data-num-posts="<%= theme.comments.facebook.comment_count %>" data-width="100%" data-colorscheme="<%= theme.comments.facebook.comment_colorscheme %>"></div>
+<% } %>

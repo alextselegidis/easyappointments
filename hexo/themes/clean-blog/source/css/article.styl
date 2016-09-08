@@ -1,0 +1,168 @@
+article
+  .container
+    .row
+      // Responsive Images
+      img
+        max-width 100% !important
+        height auto
+        display inline-block
+      // Video Containers
+      .video-container
+        position relative
+        padding-bottom 56.25%
+        padding-top 30px
+        height 0
+        overflow hidden
+        iframe, object, embed
+          position absolute
+          top 0
+          left 0
+          width 100%
+          height 100%
+          margin-top 0
+      blockquote
+        font-style italic
+        font-family font-serif
+        font-size 1.2em
+        padding 0 30px 15px
+        text-align center
+        footer
+          border-top none
+          font-size 0.8em
+          line-height 1
+          margin 20px 0 0
+          padding-top 0
+          cite
+            &:before
+              content '—'
+              color #ccc
+              padding 0 0.5em
+
+      .pullquote
+        float right
+        border none
+        padding 0
+        margin 1em 0 0.5em 1.5em
+        text-align left
+        width 45%
+        font-size 1.5em
+        &.left
+          float left
+
+figure.highlight
+  background #eee
+  border 1px solid color-border
+  margin-top 15px
+  padding 7px 15px
+  border-radius 2px
+  text-shadow 0 0 1px #fff
+  line-height 1.6
+  overflow auto
+  position relative
+  font-size 0.9em
+  figcaption
+    color color-meta
+    font-family font-mono
+    margin-bottom 5px
+    text-shadow 0 0 1px #fff
+    a
+      position absolute
+      right 15px
+
+  pre
+    border none
+    padding 0
+    margin 0
+    background none
+
+  table
+    margin-top 0
+    border-spacing 0
+
+    .gutter
+      color color-meta
+      padding-right 15px
+      border-right 1px solid color-border
+      text-align right
+
+    .code
+      padding-left 15px
+      border-left 1px solid #fff
+      color #666
+
+    .line
+      height: 20px
+
+    .line.marked
+      background: #d6d6d6
+
+pre
+  // Theme: Solarized - Light
+  // More theme here: http://softwaremaniacs.org/media/soft/highlight/test.html
+  .comment
+  .template_comment
+  .diff .header
+  .doctype
+  .pi
+  .lisp .string
+  .javadoc
+    color #93a1a1
+    font-style italic
+
+  .keyword
+  .winutils
+  .method
+  .addition
+  .css .tag
+  .request
+  .status
+  .nginx .title
+    color #859900
+
+  .number
+  .command
+  .string
+  .tag .value
+  .phpdoc
+  .tex .formula
+  .regexp
+  .hexcolor
+    color #2aa198
+
+  .title
+  .localvars
+  .chunk
+  .decorator
+  .built_in
+  .identifier
+  .vhdl
+  .literal
+  .id
+    color #268bd2
+
+  .attribute
+  .variable
+  .lisp .body
+  .smalltalk .number
+  .constant
+  .class .title
+  .parent
+  .haskell .type
+    color #b58900
+
+  .preprocessor
+  .preprocessor .keyword
+  .shebang
+  .symbol
+  .symbol .string
+  .diff .change
+  .special
+  .attr_selector
+  .important
+  .subst
+  .cdata
+  .clojure .title
+    color #cb4b16
+
+  .deletion
+    color #dc322f

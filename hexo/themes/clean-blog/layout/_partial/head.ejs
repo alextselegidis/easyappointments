@@ -1,0 +1,98 @@
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    <% if (page.description){ %>
+        <meta name="description" content="<%= page.description %>">
+    <% } else if (config.description){ %>
+        <meta name="description" content="<%= config.description %>">
+    <% } else if (page.excerpt){ %>
+        <meta name="description" content="<%= strip_html(page.excerpt).replace(/^\s*/, '').replace(/\s*$/, '') %>">
+    <% } else if (page.content){ %>
+        <meta name="description" content="<%= strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150) %>">
+    <% } %>
+
+    <!--Author-->
+    <% if (config.author){ %>
+        <meta name="author" content="<%= config.author %>">
+    <% } %>
+
+    <!--Open Graph Title-->
+    <% if (page.title){ %>
+        <meta property="og:title" content="<%= page.title %>"/>
+    <% } else { %>
+        <meta property="og:title" content="<%= config.title %>"/>
+    <% } %>
+
+    <!--Open Graph Description-->
+    <% if (page.description){ %>
+        <meta property="og:description" content="<%= page.description %>" />
+    <% } else if (config.description) { %>
+        <meta property="og:description" content="<%= config.description %>" />
+    <% } %>
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="<%= config.title %>"/>
+
+    <!--Type page-->
+    <% if(page.title) { %>
+        <meta property="og:type" content="article" />
+    <% } else { %>
+        <meta property="og:type" content="website" />
+    <% } %>
+
+    <!--Page Cover-->
+    <% if (page.share_cover) { %>
+        <meta property="og:image" content="<%= config.url %><%= page.share_cover %>" />
+    <% } else if (config.cover) { %>
+        <meta property="og:image" content="<%= config.url %><%= config.cover %>"/>
+    <% } %>
+
+        <meta name="twitter:card" content="summary" />
+    <% if(theme.twitter_handle) { %>
+        <meta name="twitter:site" content="<%= theme.twitter_handle %>>" />
+    <% } %>
+
+    <!-- Title -->
+    <%
+    var title = [];
+    if (page.current > 1) title.push(__('page', page.current));
+    if (page.title) title.push(page.title);
+    if (page.category) title.push(page.category);
+    if (page.tag) title.push(page.tag);
+    if (page.archive) {
+        if (page.year) title.push(__('archive_b', page.year + (page.month ? '/' + page.month : '')));
+        else title.push(__('archive_a'));
+    }
+    title.push(config.title);
+    %>
+    <title><%= title.join(' - ') %></title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <%- css('css/style.css') %>
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    <%- partial('google-analytics') %>
+
+</head>
