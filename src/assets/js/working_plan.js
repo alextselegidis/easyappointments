@@ -154,8 +154,8 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         var id = $(this).attr('id');
 
         if ($(this).prop('checked') == true) {
-            $('#' + id + '-start').prop('disabled', false).val('09:00');
-            $('#' + id + '-end').prop('disabled', false).val('18:00');
+            $('#' + id + '-start').prop('disabled', false).val('09:00 AM');
+            $('#' + id + '-end').prop('disabled', false).val('06:00 PM');
         } else {
             $('#' + id + '-start').prop('disabled', true).val('');
             $('#' + id + '-end').prop('disabled', true).val('');
@@ -264,7 +264,7 @@ WorkingPlan.prototype.bindEventHandlers = function() {
         var start = Date.parse($(this).parent().parent().find('.break-start input').val());
         var end = Date.parse($(this).parent().parent().find('.break-end input').val());
         if (start > end) {
-            $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
+            $(this).parent().parent().find('.break-end  input').val(start.addHours(1).toString('hh:mm TT'));
         }
 
         WorkingPlan.prototype.enableSubmit = true;
@@ -327,7 +327,7 @@ WorkingPlan.prototype.timepickers = function(disabled) {
     if (disabled == false) {
         // Set timepickers where needed.
         $('.working-plan input[type="text"]').timepicker({
-            'timeFormat': 'HH:mm',
+            'timeFormat': 'hh:mm TT',
 
             currentText: EALang['now'],
             closeText: EALang['close'],
@@ -342,7 +342,7 @@ WorkingPlan.prototype.timepickers = function(disabled) {
                 var end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                 if (start > end) {
-                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
+                    $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('hh:mm TT'));
                 }
             }
         });

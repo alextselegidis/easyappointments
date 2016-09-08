@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `book_datetime` datetime DEFAULT NULL,
   `start_datetime` datetime DEFAULT NULL,
   `end_datetime` datetime DEFAULT NULL,
+  `location` text,
   `notes` text,
   `hash` text,
   `is_unavailable` tinyint(4) DEFAULT '0',
@@ -150,5 +151,5 @@ INSERT INTO `ea_roles` (`id`, `name`, `slug`, `is_admin`, `appointments`, `custo
 (4, 'Secretary', 'secretary', 0, 15, 15, 0, 0, 0, 15);
 
 INSERT INTO `ea_settings` (`name`, `value`) VALUES
-('company_working_plan', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'),
+('company_working_plan', '{"monday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM AM","end":"11:30 AM AM"},{"start":"2:30 PM","end":"3:00 PM"}]},"tuesday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM","end":"11:30 AM"},{"start":"2:30 PM","end":"3:00 PM"}]},"wednesday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM","end":"11:30 AM"},{"start":"2:30 PM","end":"3:00 PM"}]},"thursday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM","end":"11:30 AM"},{"start":"2:30 PM","end":"3:00 PM"}]},"friday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM","end":"11:30 AM"},{"start":"2:30 PM","end":"3:00 PM"}]},"saturday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM","end":"11:30 AM"},{"start":"2:30 PM","end":"3:00 PM"}]},"sunday":{"start":"9:00 AM","end":"6:00 PM","breaks":[{"start":"11:20 AM","end":"11:30 AM"},{"start":"2:30 PM","end":"3:00 PM"}]}}'),
 ('book_advance_timeout', '30');

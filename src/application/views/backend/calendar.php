@@ -197,6 +197,12 @@
                                     <input type="text" id="end-datetime" />
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="appointment-location" class="control-label col-sm-3" ><?php echo $this->lang->line('location'); ?></label>
+                                <div class="col-sm-7">
+                                    <textarea id="appointment-location" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label for="appointment-notes" class="control-label col-sm-3" ><?php echo $this->lang->line('notes'); ?></label>

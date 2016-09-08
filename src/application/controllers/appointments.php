@@ -366,7 +366,8 @@ class Appointments extends CI_Controller {
 			$appointment['is_unavailable'] = (int)$appointment['is_unavailable']; // needs to be type casted
             $appointment['id'] = $this->appointments_model->add($appointment);
             $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
-
+			$appointment['notes'] =  $this->appointments_model->get_value('notes', $appointment['id']);
+			$appointment['location'] =  $this->appointments_model->get_value('location', $appointment['id']);
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
             $service = $this->services_model->get_row($appointment['id_services']);
 
@@ -537,8 +538,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * @return array Returns an array with the available time periods of the provider.
 	 */
-	private function get_provider_available_time_periods($provider_id, $selected_date,
-			$exclude_appointments = array()) {
+	private function get_provider_available_time_periods($provider_id, $selected_date, $exclude_appointments = array()) {
 		$this->load->model('appointments_model');
 	    $this->load->model('providers_model');
 
@@ -720,8 +720,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * @return array Returns an array with the available hours for the appointment.
 	 */
-	private function calculate_available_hours(array $empty_periods, $selected_date, $service_duration,
-			$manage_mode = FALSE) {
+	private function calculate_available_hours(array $empty_periods, $selected_date, $service_duration, $manage_mode = FALSE) {
 		$this->load->model('settings_model');
 
 		$available_hours = array();

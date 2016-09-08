@@ -274,3 +274,4 @@ $lang['customer_notifications_hint'] = 'Defines whether the customer will receiv
 $lang['date_format'] = 'Date Format';
 $lang['date_format_hint'] = 'Change the date display format (D - Date, M - Month, Y - Year).';
 $lang['google_analytics_code_hint'] = 'Add your Google Analytics ID to be included in the booking page.';
+$lang['location']= 'Enter Location of the Appointment - Street Address, City, State and Zip Code';

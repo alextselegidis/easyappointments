@@ -248,6 +248,10 @@
                             </div>
 
                             <div id="service-description" style="display:none;"></div>
+                                                                <div class="form-group">
+                                    <label for="location" class="control-label"><?php echo $this->lang->line('location'); ?></label>
+                                    <textarea id="location" maxlength="500" class="form-control" rows="3"></textarea>
+                                </div> 
                         </div>
                     </div>
 

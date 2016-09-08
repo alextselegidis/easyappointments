@@ -64,6 +64,8 @@ class Appointments_Model extends CI_Model {
     public function exists($appointment) {
         if (!isset($appointment['start_datetime'])
                 || !isset($appointment['end_datetime'])
+                || !isset($appointment['notes'])
+                || !isset($appointment['location'])
                 || !isset($appointment['id_users_provider'])
                 || !isset($appointment['id_users_customer'])
                 || !isset($appointment['id_services'])) {
@@ -72,11 +74,13 @@ class Appointments_Model extends CI_Model {
         }
 
         $num_rows = $this->db->get_where('ea_appointments', array(
-                'start_datetime'    => $appointment['start_datetime'],
-                'end_datetime'      => $appointment['end_datetime'],
-                'id_users_provider' => $appointment['id_users_provider'],
-                'id_users_customer' => $appointment['id_users_customer'],
-                'id_services'       => $appointment['id_services'],))
+                'start_datetime'          => $appointment['start_datetime'],
+                'end_datetime'           => $appointment['end_datetime'],
+                'notes'      				     => $appointment['notes'],
+                'location'     			     => $appointment['location'],
+                'id_users_provider'   => $appointment['id_users_provider'],
+                'id_users_customer'  => $appointment['id_users_customer'],
+                'id_services'       	     => $appointment['id_services'],))
                 ->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
@@ -138,6 +142,7 @@ class Appointments_Model extends CI_Model {
         $this->db->where(array(
             'start_datetime'    => $appointment['start_datetime'],
             'end_datetime'      => $appointment['end_datetime'],
+            'notes'      => $appointment['notes'],
             'id_users_provider' => $appointment['id_users_provider'],
             'id_users_customer' => $appointment['id_users_customer'],
             'id_services'       => $appointment['id_services']

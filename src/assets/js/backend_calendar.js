@@ -63,11 +63,11 @@ var BackendCalendar = {
             'defaultView': 'agendaWeek',
             'height': BackendCalendar.getCalendarHeight(),
             'editable': true,
-            'firstDay': 1, // Monday
+            'firstDay': 0, // Sunday
             'slotMinutes': 30,
             'snapMinutes': 15,
-            'axisFormat': 'HH:mm',
-            'timeFormat': 'HH:mm{ - HH:mm}',
+            'axisFormat': 'hh:mm TT',
+            'timeFormat': 'hh:mm TT',
             'allDayText': EALang['all_day'],
             'columnFormat': columnFormat,
             'titleFormat': {

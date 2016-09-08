@@ -377,7 +377,7 @@ var GeneralFunctions = {
      */
     formatDate: function(date, dateFormatSetting, addHours) {
         var format, result,
-            hours = addHours ? ' HH:mm' : '';
+            hours = addHours ? ' hh:mm TT' : '';
 
         switch(dateFormatSetting) {
             case 'DMY':

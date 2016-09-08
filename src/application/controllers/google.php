@@ -175,16 +175,21 @@ class Google extends CI_Controller {
                         $is_different = FALSE;
                         $appt_start = strtotime($appointment['start_datetime']);
                         $appt_end = strtotime($appointment['end_datetime']);
+                        $appt_notes = $appointment['notes'];
+
+                         $event_notes= $google_event->getDescription();
+
                         $event_start = strtotime($google_event->getStart()->getDateTime());
                         $event_end = strtotime($google_event->getEnd()->getDateTime());
 
-                        if ($appt_start != $event_start || $appt_end != $event_end) {
+                        if ($appt_start != $event_start || $appt_end != $event_end || $appt_notes!=$event_notes)  {
                             $is_different = TRUE;
                         }
 
                         if ($is_different) {
                             $appointment['start_datetime'] = date('Y-m-d H:i:s', $event_start);
                             $appointment['end_datetime'] = date('Y-m-d H:i:s', $event_end);
+                             $appointment['notes'] = $event_notes;
                             $this->appointments_model->add($appointment);
                         }
 
@@ -208,7 +213,7 @@ class Google extends CI_Controller {
                         'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
                         'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
                         'is_unavailable' => TRUE,
-                        'notes' => $event->getSummary() . ' ' . $event->getDescription(),
+                        'notes' => $event->getSummary() . ' ' . $event->setDescription(),
                         'id_users_provider' => $provider_id,
                         'id_google_calendar' => $event->getId(),
                         'id_users_customer' => NULL,

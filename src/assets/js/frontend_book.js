@@ -348,7 +348,7 @@ var FrontendBook = {
                     $('.available-hour').filter(function() {
                         return $(this).text() === Date.parseExact(
                                 GlobalVariables.appointmentData['start_datetime'],
-                                'yyyy-MM-dd HH:mm:ss').toString('HH:mm');
+                                'yyyy-MM-dd HH:mm:ss').toString('hh:mm TT');
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.
@@ -479,6 +479,7 @@ var FrontendBook = {
             'start_datetime': $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
                                     + ' ' + $('.selected-hour').text() + ':00',
             'end_datetime': FrontendBook.calcEndDatetime(),
+             'location': $('#location').val(),
             'notes': $('#notes').val(),
             'is_unavailable': false,
             'id_users_provider': $('#select-provider').val(),
@@ -555,9 +556,13 @@ var FrontendBook = {
             $('#address').val(customer['address']);
             $('#city').val(customer['city']);
             $('#zip-code').val(customer['zip_code']);
+            var appointmentLocation = (appointment['location'] !== null)
+                    ? appointment['location'] : '';
+            $('#location').val(appointmentLocation);
             var appointmentNotes = (appointment['notes'] !== null)
                     ? appointment['notes'] : '';
             $('#notes').val(appointmentNotes);
+
 
             FrontendBook.updateConfirmFrame();
 
