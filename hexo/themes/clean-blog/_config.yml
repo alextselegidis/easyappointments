@@ -2,15 +2,14 @@
 menu:
   Home: /
   Archives: /archives
-  Github:
-    url: https://github.com/klugjo/hexo-theme-clean-blog
-    icon: github
+  EasyAppointments.org: http://easyappointments.org
 
 # Title on top left of menu. Leave empty to use main blog title
-menu_title: Configurable Title
+menu_title: Easy!Appointments
 
 # URL of the Home page image
-index_cover: http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg
+# index_cover: http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg
+index_cover:
 
 # Default post title
 default_post_title: Untitled
@@ -26,16 +25,16 @@ comments:
     comment_colorscheme: light
 
 # Google Analytics Tracking ID
-google_analytics:
+google_analytics: UA-41795706-4
 
 # Addthis ID
 addthis:
 
 # Social Accounts
-twitter_url:
-twitter_handle:
-facebook_url:
-github_url: https://github.com/klugjo/hexo-theme-clean-blog
+twitter_url: https://twitter.com/EasyAppts
+twitter_handle: EasyAppts
+facebook_url: https://www.facebook.com/easyappointments.org
+github_url: https://github.com/alextselegidis/easyappointments
 gitlab_url:
 linkedin_url:
-mailto:
+mailto: alextselegidis@gmail.com
