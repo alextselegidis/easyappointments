@@ -2,6 +2,7 @@
 menu:
   Home: /
   Archives: /archives
+  About: /about
   EasyAppointments.org: http://easyappointments.org
 
 # Title on top left of menu. Leave empty to use main blog title
