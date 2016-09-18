@@ -9,7 +9,7 @@ tags:
 - Documentation
 ---
 
-The upcoming version features the integration of a flexible REST API which you can use to manipulate every aspect of the applications data. You can developing your clients right now by installing the Alpha release and taking a look at the API documentation in the following link! 
+The upcoming version features the integration of a flexible REST API which you can use to manipulate every aspect of the applications data. You can start developing your clients right now by installing the Alpha release and taking a look at the API documentation in the following link! 
 
 https://github.com/alextselegidis/easyappointments/blob/develop/doc/rest-api.md
 
