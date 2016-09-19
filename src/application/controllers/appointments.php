@@ -267,6 +267,75 @@ class Appointments extends CI_Controller {
     }
 
     /**
+     * [AJAX] Get count of available appointment hours for the month the given date is in.
+     *
+     * This method answers to an AJAX request. It calculates the count of available hours for each day
+     *
+     * @param numeric $_POST['service_id'] The selected service's record id.
+     * @param numeric|string $_POST['provider_id'] The selected provider's record id, defaults to 'any-provider'.
+     * @param string $_POST['selected_date'] The selected day. 
+     *   Available hours are calculated for each day of month the original date is in
+     * @param string $_POST['manage_mode'] Contains either 'true' or 'false' and determines if the current user
+     *   is managing an already booked appointment or not.
+     * @return Returns an associative array with all days in the selected date's month as keys 
+     *   and the respective number of available hours as values.
+     */
+    public function ajax_get_available_hours_count() {
+        $this->load->model('providers_model');
+        $this->load->model('appointments_model');
+        $this->load->model('settings_model');
+
+        $available = array();
+
+        try {
+            // Do not continue if there was no provider selected (more likely there is no provider in the system).
+            if (empty($_POST['provider_id'])) {
+                echo json_encode($available);
+                return;
+            }
+
+            // If manage mode is TRUE then we don't consider the selected
+            // appointment when calculating the available time periods of the provider.
+            $exclude_appointments = ($_POST['manage_mode'] === 'true') ? array($_POST['appointment_id']) : array();
+
+            $service_id = $_POST['service_id'];
+            $service_duration = $_POST['service_duration'];
+            $filtered_manage_mode = filter_var($_POST['manage_mode'], FILTER_VALIDATE_BOOLEAN);
+            $selected_date = $_POST['selected_date'];
+            $d = explode("-", $selected_date);
+            $month = $d[1];
+            $year = $d[2];
+            for ($day = 1; $day <= 31; $day++) {
+                if ( ! checkdate($month, $day, $year) ) continue;
+
+                $date = sprintf("%02d-%02d-%04d", $day, $month, $year);
+                $provider_id = $_POST['provider_id'];
+                // If the user has selected the "any-provider" option then we will need to search
+                // for an available provider that will provide the requested service.
+                if ($provider_id === ANY_PROVIDER) {
+                    $provider_id = $this->search_any_provider($service_id, $date);
+                    if ($provider_id === NULL) {
+                        $available[$date] = 0;
+                        continue;
+                    }
+                }
+                $empty_periods = $this->get_provider_available_time_periods($provider_id, $date, $exclude_appointments);
+                $available_hours = $this->calculate_available_hours($empty_periods, $date, $service_duration, $filtered_manage_mode);
+                $available_count = count($available_hours);
+
+                $available[$date] = $available_count;
+            }
+
+            echo json_encode($available);
+        } catch(Exception $exc) {
+            echo json_encode(array(
+                'exceptions' => array(exceptionToJavaScript($exc))
+            ));
+        }
+    }
+
+
+    /**
      * [AJAX] Get the available appointment hours for the given date.
      *
      * This method answers to an AJAX request. It calculates the available hours
