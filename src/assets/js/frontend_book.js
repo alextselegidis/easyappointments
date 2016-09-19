@@ -58,6 +58,8 @@ var FrontendBook = {
             }
         });
 
+        window.cachedAvailableDays = new Array();
+
         $('#select-date').datepicker({
             dateFormat: 'dd-mm-yy',
             firstDay: 1, // Monday
@@ -84,6 +86,9 @@ var FrontendBook = {
             onSelect: function(dateText, instance) {
                 FrontendBook.getAvailableHours(dateText);
                 FrontendBook.updateConfirmFrame();
+            },
+            beforeShowDay: function(date) {
+                return FrontendBook.checkAvailableDays(date.toString('dd-MM-yyyy'));
             }
         });
 
@@ -118,6 +123,9 @@ var FrontendBook = {
         $('#select-provider').change(function() {
             FrontendBook.getAvailableHours(Date.today().toString('dd-MM-yyyy'));
             FrontendBook.updateConfirmFrame();
+            // reset cache of days with available hours
+            window.cachedAvailableDays = new Array();
+            FrontendBook.checkAvailableDays(Date.today().toString('dd-MM-yyyy'));
         });
 
         /**
@@ -152,6 +160,9 @@ var FrontendBook = {
             FrontendBook.getAvailableHours($('#select-date').val());
             FrontendBook.updateConfirmFrame();
             FrontendBook.updateServiceDescription($('#select-service').val(), $('#service-description'));
+            // reset cache of days with available hours
+            window.cachedAvailableDays = new Array();
+            FrontendBook.checkAvailableDays(Date.today().toString('dd-MM-yyyy'));
         });
 
         /**
@@ -362,6 +373,74 @@ var FrontendBook = {
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     },
+
+    /**
+     * This function checks, if there are available hours for the given date.
+     * It checks if the information is cached already. If not, it makes
+     * a (synchronous!) ajax call to get the available hours count 
+     * for all days of the month the given date is in. 
+     * The result of that call is fed to the cache.
+     * For the given date it returns [true, ""] if there are available hours 
+     * and [false, ""] if not. This makes is directly usable as a callback for beforeShowDay()
+     *
+     * @param {string} date The day 
+     *
+     * @return (array) [true, ""] if hours are available, [false, ""] if not - see http://api.jqueryui.com/datepicker/#option-beforeShowDay
+     */
+    checkAvailableDays: function(date) {
+        // make the (expensive) ajax call only if there is no cached value for this date
+	if ( window.cachedAvailableDays[date] === undefined ) { 
+            // Find the selected service duration (it is going to
+            // be sent within the "postData" object).
+            var selServiceDuration = 15; // Default value of duration (in minutes).
+            $.each(GlobalVariables.availableServices, function(index, service) {
+                if (service['id'] == $('#select-service').val()) {
+                    selServiceDuration = service['duration'];
+                }
+            });
+
+            // If the manage mode is true then the appointment's start
+            // date should return as available too.
+            var appointmentId = (FrontendBook.manageMode)
+                    ? GlobalVariables.appointmentData['id'] : undefined;
+
+            // Make ajax post request and get the available hours.
+            var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours_count';
+
+            var provider_id = $('#select-provider').val();
+            if (typeof provider_id === 'undefined' || provider_id === null || provider_id === '') provider_id = 'any-provider';
+            var postData = {
+                'csrfToken': GlobalVariables.csrfToken,
+                'service_id': $('#select-service').val(),
+                'provider_id': provider_id,
+                'selected_date': date,
+                'service_duration': selServiceDuration,
+                'manage_mode': FrontendBook.manageMode,
+                'appointment_id': appointmentId
+            };
+
+            $.ajax({
+              type: "POST",
+              url: postUrl,
+              data: postData,
+              success: function(response) {
+                for (var d in response) {
+                   window.cachedAvailableDays[d] = (response[d] > 0);
+                }
+              },
+              dataType: 'json',
+              async: false
+            });
+        }
+
+        if (window.cachedAvailableDays[date] === true) {
+            return [true, ""];
+        }
+        else {
+            return [false, ""];
+        }
+
+     },
 
     /**
      * This function validates the customer's data input. The user cannot contiue
