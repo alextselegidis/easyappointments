@@ -76,6 +76,12 @@ a {
     .glyphicon {
         font-size: 14px;
     }
+
+    img {
+        width: 16px;
+        height: 16px;
+        margin-top: -3px;
+    }
 }
 
 .section {
