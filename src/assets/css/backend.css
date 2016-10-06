@@ -623,6 +623,7 @@ body .form-horizontal .controls {
 #users-page #providers .details-view,
 #users-page #providers .working-plan-view {
     clear: both;
+    overflow: auto;
 }
 
 #users-page .btn-toolbar {
