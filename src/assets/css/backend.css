@@ -20,7 +20,7 @@ root {
 /* BACKEND GENERAL ELEMENTS
    -------------------------------------------------------------------- */
 #header {
-    background-color: #35B66F;
+    background-color: #39c678;
     border-bottom: 4px solid #c0f1d6;
     box-shadow: none;
     border-radius: 0;
@@ -48,11 +48,6 @@ root {
 
 #header .navbar-header .navbar-toggle .icon-bar {
     background: white;
-}
-
-
-#header #header-menu {
-    background: #35b66f;
 }
 
 #header #header-menu .menu-item {
@@ -147,7 +142,7 @@ body .modal .modal-title {
 
 body .modal-header {
     padding: 12px 15px;
-    background: #35B66F;
+    background: #39c678;
     border-bottom: 4px solid #c0f1d6;
 }
 
@@ -241,7 +236,7 @@ body legend {
 
 .backend-page .filter-records .results .entry.selected {
     background-color: #F4F4F4;
-    border-right: 5px solid #35B66F;
+    border-right: 5px solid #39c678;
 }
 
 .backend-page .filter-records .results hr {
@@ -622,7 +617,7 @@ body .form-horizontal .controls {
 
 #users-page #providers .switch-view .current {
     color: #FFF;
-    background: #35B66F;
+    background: #39c678;
 }
 
 #users-page #providers .details-view,

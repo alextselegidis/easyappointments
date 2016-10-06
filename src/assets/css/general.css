@@ -21,7 +21,7 @@ body .custom-qtip {
 }
 
 body .ui-widget {
-    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 1.1em;
 }
 
@@ -36,7 +36,7 @@ body .ui-dialog .ui-dialog-titlebar-close {
 }
 
 body .ui-draggable .ui-dialog-titlebar {
-    background: #35B66F;
+    background: #39c678;
     color: #FFF;
     font-size: 1.5em;
     font-weight: lighter;
