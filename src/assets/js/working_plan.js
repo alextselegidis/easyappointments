@@ -75,7 +75,7 @@
                                     '</button>' +
                                 '</td>' +
                             '</tr>';
-                    $('.breaks').append(tr);
+                    $('.breaks tbody').append(tr);
                 }.bind(this));
             } else {
                 $('#' + index).prop('checked', false);
