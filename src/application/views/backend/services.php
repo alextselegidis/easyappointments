@@ -10,14 +10,14 @@
 <script type="text/javascript">
     var GlobalVariables = {
         'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
+        'baseUrl'       : <?php echo json_encode($base_url); ?>,
         'dateFormat'    : <?php echo json_encode($date_format); ?>,
         'services'      : <?php echo json_encode($services); ?>,
         'categories'    : <?php echo json_encode($categories); ?>,
         'user'          : {
             'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'email'     : <?php echo json_encode($user_email); ?>,
+            'role_slug' : <?php echo json_encode($role_slug); ?>,
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
