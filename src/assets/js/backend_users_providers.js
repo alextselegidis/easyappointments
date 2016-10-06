@@ -17,7 +17,7 @@
      * Providers Helper
      *
      * This class contains the Providers helper class declaration, along with the "Providers" tab
-     * event handlers. By deviding the backend/users tab functionality into separate files
+     * event handlers. By dividing the backend/users tab functionality into separate files
      * it is easier to maintain the code.
      *
      * @class ProvidersHelper
@@ -396,7 +396,7 @@
          // Add dedicated provider link. 
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id); 
         var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
-        $('#providers .record-details h3')
+        $('#providers .details-view h3')
             .find('a')
             .remove()
             .end()
