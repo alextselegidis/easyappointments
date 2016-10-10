@@ -133,7 +133,7 @@ class User extends CI_Controller {
 
     /**
      * Regenerate a new password for the current user, only if the username and
-     * email address given corresond to an existing user in db.
+     * email address given correspond to an existing user in db.
      *
      * @param string $_POST['username']
      * @param string $_POST['email']

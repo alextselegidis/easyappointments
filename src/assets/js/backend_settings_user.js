@@ -60,7 +60,7 @@
     UserSettings.prototype.save = function(settings) {
         if (!this.validate(settings)) {
             Backend.displayNotification(EALang['user_settings_are_invalid']);
-            return; // Validation failed, do not procceed.
+            return; // Validation failed, do not proceed.
         }
 
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';

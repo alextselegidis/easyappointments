@@ -83,7 +83,7 @@ class Secretaries_Model extends CI_Model {
     }
 
      /**
-     * Insert a new sercretary record into the database.
+     * Insert a new secretary record into the database.
      *
      * @param array $secretary Contains the secretary data.
      * @return int Returns the new record id.
@@ -117,7 +117,7 @@ class Secretaries_Model extends CI_Model {
      * Update an existing secretary record in the database.
      *
      * @param array $secretary Contains the secretary record data.
-     * @return int Retuns the record id.
+     * @return int Returns the record id.
      * @throws Exception When the update operation fails.
      */
     protected function _update($secretary) {
@@ -190,7 +190,7 @@ class Secretaries_Model extends CI_Model {
             }
         }
 
-        // Validate 'providers' value datatype (must be array)
+        // Validate 'providers' value data type (must be array)
         if (isset($secretary['providers']) && !is_array($secretary['providers'])) {
             throw new Exception('Secretary providers value is not an array.');
         }
@@ -388,7 +388,7 @@ class Secretaries_Model extends CI_Model {
     }
 
     /**
-     * Save a secretary hasndling users.
+     * Save a secretary handling users.
      * @param array $providers Contains the provider ids that are handled by the secretary.
      * @param numeric $secretary_id The selected secretary record.
      */
@@ -442,7 +442,7 @@ class Secretaries_Model extends CI_Model {
      *
      * @param string $setting_name The setting name that is going to be returned.
      * @param int $secretary_id The selected provider id.
-     * @return string Returs the value of the selected user setting.
+     * @return string Returns the value of the selected user setting.
      */
     public function get_setting($setting_name, $secretary_id) {
         $provider_settings = $this->db->get_where('ea_user_settings',

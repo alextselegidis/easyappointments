@@ -64,7 +64,7 @@ class API_V1_Controller extends CI_Controller {
      *
      * Call this method from catch blocks of child controller callbacks.
      * 
-     * @param \Exception $exception Thrown exception to be outputed.
+     * @param \Exception $exception Thrown exception to be outputted.
      */
     protected function _handleException(\Exception $exception) {
         $error = [

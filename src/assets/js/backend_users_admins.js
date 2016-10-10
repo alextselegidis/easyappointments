@@ -15,7 +15,7 @@
 
     /**
      * This class contains the Admins helper class declaration, along with the "Admins" tab
-     * event handlers. By deviding the backend/users tab functionality into separate files
+     * event handlers. By dividing the backend/users tab functionality into separate files
      * it is easier to maintain the code.
      *
      * @class AdminsHelper
@@ -29,7 +29,7 @@
      */
     AdminsHelper.prototype.bindEventHandlers = function() {
         /**
-         * Event: Filter Admins Form "Sumbit"
+         * Event: Filter Admins Form "Submit"
          *
          * Filter the admin records with the given key string.
          */

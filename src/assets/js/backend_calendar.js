@@ -44,7 +44,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                 else if (document.mozCancelFullScreen)
                     document.mozCancelFullScreen();
                 else if (document.webkitExitFullscreen)
-                    document.webkitExitFullscreen()
+                    document.webkitExitFullscreen();
 
                 $target
                     .removeClass('btn-success')

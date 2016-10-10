@@ -121,7 +121,7 @@ class Admins_Model extends CI_Model {
      * Update an existing admin record in the database.
      * 
      * @param array $admin Contains the admin record data.
-     * @return int Retuns the record id.
+     * @return int Returns the record id.
      * @throws Exception When the update operation fails.
      */
     public function update($admin) {

@@ -274,7 +274,7 @@ class Appointments extends CI_Controller {
      * [AJAX] Get the available appointment hours for the given date.
      *
      * This method answers to an AJAX request. It calculates the available hours
-     * for thegiven service, provider and date.
+     * for the given service, provider and date.
      *
      * @param numeric $_POST['service_id'] The selected service's record id.
      * @param numeric|string $_POST['provider_id'] The selected provider's record id, can also be 'any-provider'.
@@ -517,7 +517,7 @@ class Appointments extends CI_Controller {
 			for ($i=1; $i<=$number_of_days; $i++) {
 				$current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
 
-				if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediatelly unavailable.
+				if ($current_date < new DateTime(date('Y-m-d 00:00:00'))) { // Past dates become immediately unavailable.
 					$unavailable_dates[] = $current_date->format('Y-m-d');
 					continue;
 				}
@@ -546,7 +546,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * It might be times where two or more customers select the same appointment date and time.
 	 * This shouldn't be allowed to happen, so one of the two customers will eventually get the
-	 * prefered date and the other one will have to choose for another date. Use this method
+	 * preferred date and the other one will have to choose for another date. Use this method
 	 * just before the customer confirms the appointment details. If the selected date was taken
 	 * in the mean time, the customer must be prompted to select another time for his appointment.
 	 *
@@ -615,7 +615,7 @@ class Appointments extends CI_Controller {
 	 * Get an array containing the free time periods (start - end) of a selected date.
 	 *
 	 * This method is very important because there are many cases where the system needs to
-	 * know when a provider is avaible for an appointment. This method will return an array
+	 * know when a provider is available for an appointment. This method will return an array
 	 * that belongs to the selected date and contains values that have the start and the end
 	 * time of an available time period.
 	 *
@@ -796,7 +796,7 @@ class Appointments extends CI_Controller {
 	}
 
 	/**
-	 * Calculate the avaialble appointment hours.
+	 * Calculate the available appointment hours.
 	 *
 	 * Calculate the available appointment hours for the given date. The empty spaces
 	 * are broken down to 15 min and if the service fit in each quarter then a new
@@ -807,7 +807,7 @@ class Appointments extends CI_Controller {
 	 * @param string $selected_date The selected date to be search (format )
 	 * @param numeric $service_duration The service duration is required for the hour calculation.
 	 * @param bool $manage_mode (optional) Whether we are currently on manage mode (editing an existing appointment).
-     * @param string $availlabilities_type Optional ('flexible'), the service availabilities type.
+     * @param string $availabilities_type Optional ('flexible'), the service availabilities type.
 	 *
 	 * @return array Returns an array with the available hours for the appointment.
 	 */
@@ -833,7 +833,7 @@ class Appointments extends CI_Controller {
 		}
 
 		// If the selected date is today, remove past hours. It is important  include the timeout before
-		// booking that is set in the backoffice the system. Normally we might want the customer to book
+		// booking that is set in the back-office the system. Normally we might want the customer to book
 		// an appointment that is at least half or one hour from now. The setting is stored in minutes.
 		if (date('m/d/Y', strtotime($selected_date)) === date('m/d/Y')) {
 			$book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');

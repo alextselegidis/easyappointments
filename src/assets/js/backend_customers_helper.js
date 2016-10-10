@@ -401,7 +401,7 @@
      * on the form.
      */
     CustomersHelper.prototype.select = function(id, display) {
-        display = display || false
+        display = display || false;
 
         $('#filter-customers .selected').removeClass('selected');
 

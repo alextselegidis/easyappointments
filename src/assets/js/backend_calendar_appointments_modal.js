@@ -320,7 +320,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     }
 
     /**
-     * Reset Apppointment Dialog
+     * Reset Appointment Dialog
      *
      * This method resets the manage appointment dialog modal to its initial state. After that you can make
      * any modification might be necessary in order to bring the dialog to the desired state.
@@ -457,7 +457,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     function _validateAppointmentForm() {
         var $dialog = $('#manage-appointment');
 
-        // Reset previous validation css formating.
+        // Reset previous validation css formatting.
         $dialog.find('.form-group').removeClass('has-error');
         $dialog.find('.modal-message').addClass('hidden');
 

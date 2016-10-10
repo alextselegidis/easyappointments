@@ -190,7 +190,6 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
                 GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
                 $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                return;
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     }

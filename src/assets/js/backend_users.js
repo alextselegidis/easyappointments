@@ -57,7 +57,7 @@ window.BackendUsers = window.BackendUsers || {};
         $('#filter-providers .results').jScrollPane();
         $('#filter-secretaries .results').jScrollPane();
 
-        // Instanciate default helper object (admin).
+        // Instantiate default helper object (admin).
         helper = new AdminsHelper();
         helper.resetForm();
         helper.filter('');
@@ -114,7 +114,7 @@ window.BackendUsers = window.BackendUsers || {};
     };
 
     /**
-     * Binds the defauly backend users event handlers. Do not use this method on a different
+     * Binds the default backend users event handlers. Do not use this method on a different
      * page because it needs the backend users page DOM.
      */
     function _bindEventHandlers() {

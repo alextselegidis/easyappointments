@@ -51,13 +51,13 @@ class Customers_Model extends CI_Model {
     /**
      * Check if a particular customer record already exists.
      *
-     * This method checks wether the given customer already exists in
+     * This method checks whether the given customer already exists in
      * the database. It doesn't search with the id, but with the following
      * fields: "email"
      *
      * @param array $customer Associative array with the customer's
      * data. Each key has the same name with the database fields.
-     * @return bool Returns wether the record exists or not.
+     * @return bool Returns whether the record exists or not.
      */
     public function exists($customer) {
         if (!isset($customer['email'])) {
