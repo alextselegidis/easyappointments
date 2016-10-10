@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Types; 
 
-class Url extends NonEmptyAlphanumeric {
+class NonEmptyAlphanumeric extends Alphanumeric {
     protected function _validate($value) {
-        return parent::_validate($value) && filter_var($value, FILTER_VALIDATE_URL);
+        return parent::_validate($value) && $value !== '';
     }
 }

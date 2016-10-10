@@ -13,14 +13,19 @@
 
 namespace EA\Engine\Types; 
 
-class BoolTest extends \PHPUnit_Framework_TestCase {
-    public function testBoolType() {
-        $type = new Bool(true); 
-        $this->assertEquals(true, $type->get()); 
+class UnsignedIntegerTest extends \PHPUnit_Framework_TestCase {
+    public function testUnsignedIntType() {
+        $type = new UnsignedInteger(1);
+        $this->assertEquals(1, $type->get()); 
     } 
 
-    public function testBoolTypeThrowsExceptionWithInvalidValue() {
+    public function testUnsignedIntTypeThrowsExceptionWithNegative() {
         $this->setExpectedException('\InvalidArgumentException');
-        new Bool(null);
+        new UnsignedInteger(-1);
+    }
+
+    public function testUnsignedIntTypeThrowsExceptionWithWithString() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new UnsignedInteger('invalid');
     }
 }

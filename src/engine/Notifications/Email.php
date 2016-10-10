@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Notifications; 
 
-use \EA\Engine\Types\String;
-use \EA\Engine\Types\NonEmptyString;
+use \EA\Engine\Types\Alphanumeric;
+use \EA\Engine\Types\NonEmptyAlphanumeric;
 use \EA\Engine\Types\Url;
 use \EA\Engine\Types\Email as EmailAddress;
 
@@ -98,15 +98,15 @@ class Email {
      * @param array $customer Contains the customer data.
      * @param array $company Contains settings of the company. By the time the
      * "company_name", "company_link" and "company_email" values are required in the array.
-     * @param \EA\Engine\Types\String $title The email title may vary depending the receiver.
-     * @param \EA\Engine\Types\String $message The email message may vary depending the receiver.
+     * @param \EA\Engine\Types\Alphanumeric $title The email title may vary depending the receiver.
+     * @param \EA\Engine\Types\Alphanumeric $message The email message may vary depending the receiver.
      * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes
      * to the appointment record.
      * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
      */
     public function sendAppointmentDetails(array $appointment, array $provider, array $service,
-            array $customer, array $company, String $title, String $message, Url $appointmentLink,
-            EmailAddress $recipientEmail) {
+                                           array $customer, array $company, Alphanumeric $title, Alphanumeric $message, Url $appointmentLink,
+                                           EmailAddress $recipientEmail) {
 
         // Prepare template replace array.
         $replaceArray = array(
@@ -172,8 +172,8 @@ class Email {
      * @param \EA\Engine\Tyeps\String $reason The reason why the appointment is deleted.
      */
     public function sendDeleteAppointment(array $appointment, array $provider,
-            array $service, array $customer, array $company, EmailAddress $recipientEmail, 
-            String $reason) {
+                                          array $service, array $customer, array $company, EmailAddress $recipientEmail,
+                                          Alphanumeric $reason) {
         // Prepare email template data. 
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
@@ -223,11 +223,11 @@ class Email {
     /**
      * This method sends an email with the new password of a user.
      *
-     * @param \EA\Engine\Types\NonEmptyString $password Contains the new password.
+     * @param \EA\Engine\Types\NonEmptyAlphanumeric $password Contains the new password.
      * @param \EA\Engine\Types\Email $email The receiver's email address.
      * @param array $company The company settings to be included in the email.
      */
-    public function sendPassword(NonEmptyString $password, EmailAddress $recipientEmail, array $company) {
+    public function sendPassword(NonEmptyAlphanumeric $password, EmailAddress $recipientEmail, array $company) {
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),

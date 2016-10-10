@@ -13,8 +13,19 @@
 
 namespace EA\Engine\Types; 
 
-class Float extends Type {
-    protected function _validate($value) {
-        return is_float($value);
+class IntegerTest extends \PHPUnit_Framework_TestCase {
+    public function testIntType() {
+        $type = new Integer(1);
+        $this->assertEquals(1, $type->get()); 
+    } 
+
+    public function testIntTypeThrowsExceptionWithFloat() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Integer(100.00);
+    }
+
+    public function testIntTypeThrowsExceptionWithWithString() {
+        $this->setExpectedException('\InvalidArgumentException');
+        new Integer('invalid');
     }
 }

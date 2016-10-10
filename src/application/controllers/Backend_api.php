@@ -11,8 +11,9 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\String; 
-use \EA\Engine\Types\Email; 
+use \EA\Engine\Types\Decimal;
+use \EA\Engine\Types\Alphanumeric;
+use \EA\Engine\Types\Email;
 use \EA\Engine\Types\Url; 
 
 /**
@@ -295,15 +296,15 @@ class Backend_api extends CI_Controller {
                             ->get_setting('notifications', $provider['id']);
 
                 if (!$manage_mode) {
-                    $customer_title = new String($this->lang->line('appointment_booked'));
-                    $customer_message = new String($this->lang->line('thank_you_for_appointment'));
-                    $provider_title = new String($this->lang->line('appointment_added_to_your_plan'));
-                    $provider_message = new String($this->lang->line('appointment_link_description'));
+                    $customer_title = new Alphanumeric($this->lang->line('appointment_booked'));
+                    $customer_message = new Alphanumeric($this->lang->line('thank_you_for_appointment'));
+                    $provider_title = new Alphanumeric($this->lang->line('appointment_added_to_your_plan'));
+                    $provider_message = new Alphanumeric($this->lang->line('appointment_link_description'));
                 } else {
-                    $customer_title = new String($this->lang->line('appointment_changes_saved'));
-                    $customer_message = new String('');
-                    $provider_title = new String($this->lang->line('appointment_details_changed'));
-                    $provider_message = new String('');
+                    $customer_title = new Alphanumeric($this->lang->line('appointment_changes_saved'));
+                    $customer_message = new Alphanumeric('');
+                    $provider_title = new Alphanumeric($this->lang->line('appointment_details_changed'));
+                    $provider_message = new Alphanumeric('');
                 }
 
                 $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
@@ -410,7 +411,7 @@ class Backend_api extends CI_Controller {
                 if ((bool)$send_provider === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider,
                             $service, $customer, $company_settings, new Email($provider['email']),
-                            new String($_POST['delete_reason']));
+                            new Alphanumeric($_POST['delete_reason']));
                 }
 
                 $send_customer = $this->settings_model->get_setting('customer_notifications');
@@ -418,7 +419,7 @@ class Backend_api extends CI_Controller {
 				if ((bool)$send_customer === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider,
                             $service, $customer, $company_settings, new Email($customer['email']),
-                            new String($_POST['delete_reason']));
+                            new Alphanumeric($_POST['delete_reason']));
                 }
             } catch(Exception $exc) {
                 $warnings[] = exceptionToJavaScript($exc);

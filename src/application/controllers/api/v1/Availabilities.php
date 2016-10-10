@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../Appointments.php';
 
 use \EA\Engine\Api\V1\Response;
 use \EA\Engine\Api\V1\Request;
-use \EA\Engine\Types\UnsignedInt;
+use \EA\Engine\Types\UnsignedInteger;
 
 /**
  * Availabilities Controller
@@ -44,8 +44,8 @@ class Availabilities extends API_V1_Controller {
      */
     public function get() {
         try {
-            $providerId = new UnsignedInt($this->input->get('providerId'));
-            $serviceId = new UnsignedInt($this->input->get('serviceId'));
+            $providerId = new UnsignedInteger($this->input->get('providerId'));
+            $serviceId = new UnsignedInteger($this->input->get('serviceId'));
 
             if ($this->input->get('date')) {
                 $date = new DateTime($this->input->get('date'));

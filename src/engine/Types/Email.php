@@ -13,7 +13,7 @@
 
 namespace EA\Engine\Types; 
 
-class Email extends NonEmptyString {
+class Email extends NonEmptyAlphanumeric {
     protected function _validate($value) {
         return parent::_validate($value) && filter_var($value, FILTER_VALIDATE_EMAIL);
     }
