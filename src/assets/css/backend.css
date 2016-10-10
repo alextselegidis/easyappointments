@@ -555,6 +555,11 @@ body .form-horizontal .controls {
     border: none;
 }
 
+#services-page .record-details h3 a {
+    font-size: 24px;
+    margin-left: 10px;
+}
+
 /* BACKEND USERS PAGE
    -------------------------------------------------------------------- */
 #users-page h2 {

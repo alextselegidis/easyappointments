@@ -393,7 +393,7 @@
             $('#provider-notifications').removeClass('active');
         }
 
-         // Add dedicated provider link. 
+        // Add dedicated provider link.
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id); 
         var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
         $('#providers .details-view h3')
