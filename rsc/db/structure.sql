@@ -1,140 +1,75 @@
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `easyappointments`
---
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_appointments`
---
-
-CREATE TABLE IF NOT EXISTS `ea_appointments` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ea_appointments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `book_datetime` datetime DEFAULT NULL,
   `start_datetime` datetime DEFAULT NULL,
   `end_datetime` datetime DEFAULT NULL,
   `notes` text,
   `hash` text,
   `is_unavailable` tinyint(4) DEFAULT '0',
-  `id_users_provider` bigint(20) unsigned DEFAULT NULL,
-  `id_users_customer` bigint(20) unsigned DEFAULT NULL,
-  `id_services` bigint(20) unsigned DEFAULT NULL,
-  `id_google_calendar` text,
-  PRIMARY KEY (`id`),
-  KEY `id_users_customer` (`id_users_customer`),
-  KEY `id_services` (`id_services`),
-  KEY `id_users_provider` (`id_users_provider`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `id_users_provider` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_users_customer` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_services` bigint(20) UNSIGNED DEFAULT NULL,
+  `id_google_calendar` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_roles`
---
-
-CREATE TABLE IF NOT EXISTS `ea_roles` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ea_roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(256) DEFAULT NULL,
   `slug` varchar(256) DEFAULT NULL,
-  `is_admin` tinyint(4) DEFAULT NULL COMMENT '0',
-  `appointments` int(4) DEFAULT NULL COMMENT '0',
-  `customers` int(4) DEFAULT NULL COMMENT '0',
-  `services` int(4) DEFAULT NULL COMMENT '0',
-  `users` int(4) DEFAULT NULL COMMENT '0',
-  `system_settings` int(4) DEFAULT NULL COMMENT '0',
-  `user_settings` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `is_admin` tinyint(4) DEFAULT NULL COMMENT,
+  `appointments` int(4) DEFAULT NULL COMMENT,
+  `customers` int(4) DEFAULT NULL COMMENT,
+  `services` int(4) DEFAULT NULL COMMENT,
+  `users` int(4) DEFAULT NULL COMMENT,
+  `system_settings` int(4) DEFAULT NULL COMMENT,
+  `user_settings` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_secretaries_providers`
---
-
-CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
-  `id_users_secretary` bigint(20) unsigned NOT NULL,
-  `id_users_provider` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`id_users_secretary`,`id_users_provider`),
-  KEY `fk_ea_secretaries_providers_1` (`id_users_secretary`),
-  KEY `fk_ea_secretaries_providers_2` (`id_users_provider`)
+CREATE TABLE `ea_secretaries_providers` (
+  `id_users_secretary` bigint(20) UNSIGNED NOT NULL,
+  `id_users_provider` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_services`
---
-
-CREATE TABLE IF NOT EXISTS `ea_services` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ea_services` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(256) DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `currency` varchar(32) DEFAULT NULL,
   `description` text,
-  `id_service_categories` bigint(20) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_service_categories` (`id_service_categories`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_services_providers`
---
-
-CREATE TABLE IF NOT EXISTS `ea_services_providers` (
-  `id_users` bigint(20) unsigned NOT NULL,
-  `id_services` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`id_users`,`id_services`),
-  KEY `id_services` (`id_services`)
+  `availabilities_type` varchar(32) DEFAULT 'flexible',
+  `attendants_number` int(11) DEFAULT '1',
+  `id_service_categories` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+CREATE TABLE `ea_services_providers` (
+  `id_users` bigint(20) UNSIGNED NOT NULL,
+  `id_services` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Table structure for table `ea_service_categories`
---
-
-CREATE TABLE IF NOT EXISTS `ea_service_categories` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ea_service_categories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(256) DEFAULT NULL,
-  `description` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_settings`
---
-
-CREATE TABLE IF NOT EXISTS `ea_settings` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ea_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(512) DEFAULT NULL,
-  `value` longtext,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+  `value` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_users`
---
-
-CREATE TABLE IF NOT EXISTS `ea_users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ea_users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `first_name` varchar(256) DEFAULT NULL,
   `last_name` varchar(512) DEFAULT NULL,
   `email` varchar(512) DEFAULT NULL,
@@ -145,19 +80,11 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   `state` varchar(128) DEFAULT NULL,
   `zip_code` varchar(64) DEFAULT NULL,
   `notes` text,
-  `id_roles` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_roles` (`id_roles`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=85 ;
+  `id_roles` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ea_user_settings`
---
-
-CREATE TABLE IF NOT EXISTS `ea_user_settings` (
-  `id_users` bigint(20) unsigned NOT NULL,
+CREATE TABLE `ea_user_settings` (
+  `id_users` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(256) DEFAULT NULL,
   `password` varchar(512) DEFAULT NULL,
   `salt` varchar(512) DEFAULT NULL,
@@ -168,50 +95,78 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `google_calendar` varchar(128) DEFAULT NULL,
   `sync_past_days` int(11) DEFAULT '5',
   `sync_future_days` int(11) DEFAULT '5',
-  PRIMARY KEY (`id_users`)
+  `calendar_view` varchar(32) DEFAULT 'default'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `ea_appointments`
---
+ALTER TABLE `ea_appointments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_users_customer` (`id_users_customer`),
+  ADD KEY `id_services` (`id_services`),
+  ADD KEY `id_users_provider` (`id_users_provider`);
+
+ALTER TABLE `ea_roles`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `ea_secretaries_providers`
+  ADD PRIMARY KEY (`id_users_secretary`,`id_users_provider`),
+  ADD KEY `fk_ea_secretaries_providers_1` (`id_users_secretary`),
+  ADD KEY `fk_ea_secretaries_providers_2` (`id_users_provider`);
+
+ALTER TABLE `ea_services`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_service_categories` (`id_service_categories`);
+
+ALTER TABLE `ea_services_providers`
+  ADD PRIMARY KEY (`id_users`,`id_services`),
+  ADD KEY `id_services` (`id_services`);
+
+ALTER TABLE `ea_service_categories`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `ea_settings`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `ea_users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_roles` (`id_roles`);
+
+ALTER TABLE `ea_user_settings`
+  ADD PRIMARY KEY (`id_users`);
+
+
+ALTER TABLE `ea_appointments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+ALTER TABLE `ea_roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `ea_services`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+ALTER TABLE `ea_service_categories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+ALTER TABLE `ea_settings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+ALTER TABLE `ea_users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+
 ALTER TABLE `ea_appointments`
   ADD CONSTRAINT `ea_appointments_ibfk_2` FOREIGN KEY (`id_users_customer`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ea_appointments_ibfk_3` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ea_appointments_ibfk_4` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ea_secretaries_providers`
---
 ALTER TABLE `ea_secretaries_providers`
   ADD CONSTRAINT `fk_ea_secretaries_providers_1` FOREIGN KEY (`id_users_secretary`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ea_secretaries_providers_2` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ea_services`
---
 ALTER TABLE `ea_services`
   ADD CONSTRAINT `ea_services_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
---
--- Constraints for table `ea_services_providers`
---
 ALTER TABLE `ea_services_providers`
   ADD CONSTRAINT `ea_services_providers_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ea_services_providers_ibfk_2` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ea_users`
---
 ALTER TABLE `ea_users`
   ADD CONSTRAINT `ea_users_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `ea_user_settings`
---
 ALTER TABLE `ea_user_settings`
   ADD CONSTRAINT `ea_user_settings_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
