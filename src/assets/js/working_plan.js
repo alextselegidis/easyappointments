@@ -301,7 +301,7 @@
             $editedTr.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $(element).closest('table').find('.save-break, .cancel-break').addClass('hidden');
+            $editedTr.find('.save-break, .cancel-break').addClass('hidden');
             $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
             $('.add-break').prop('disabled', false);
         }.bind(this));
