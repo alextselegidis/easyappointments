@@ -204,7 +204,7 @@
 
                             <div class="form-group">
                                 <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
-                                <div class="col-md-7">
+                                <div class="col-sm-7">
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
                             </div>
@@ -288,7 +288,7 @@
                                     <div class="form-group">
                                         <label for="address" class="control-label col-sm-3">
                                             <?php echo $this->lang->line('address'); ?></label>
-                                        <div class="col-md-8">
+                                        <div class="col-sm-8">
                                             <input type="text" id="address" class="form-control" />
                                         </div>
                                     </div>
@@ -296,7 +296,7 @@
                                     <div class="form-group">
                                         <label for="city" class="control-label col-sm-3">
                                             <?php echo $this->lang->line('city'); ?></label>
-                                        <div class="col-md-8">
+                                        <div class="col-sm-8">
                                             <input type="text" id="city" class="form-control" />
                                         </div>
                                     </div>
@@ -304,7 +304,7 @@
                                     <div class="form-group">
                                         <label for="zip-code" class="control-label col-sm-3">
                                             <?php echo $this->lang->line('zip_code'); ?></label>
-                                        <div class="col-md-8">
+                                        <div class="col-sm-8">
                                             <input type="text" id="zip-code" class="form-control" />
                                         </div>
                                     </div>
@@ -312,7 +312,7 @@
                                     <div class="form-group">
                                         <label for="customer-notes" class="control-label col-sm-3">
                                             <?php echo $this->lang->line('notes'); ?></label>
-                                        <div class="col-md-8">
+                                        <div class="col-sm-8">
                                             <textarea id="customer-notes" rows="3" class="form-control"></textarea>
                                         </div>
                                     </div>
