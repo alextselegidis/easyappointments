@@ -283,21 +283,25 @@
          * Save the editable values and restore the table to its initial state.
          *
          * @param {jQuery.Event} e
+         *
+         * @todo: Prevent from adding interrelated breaks
          */
         $(document).on('click', '.save-break', function(e) {
             // Break's start time must always be prior to break's end.
             var element = e.target,
-                start = Date.parse($(element).parent().parent().find('.break-start input').val()),
-                end = Date.parse($(element).parent().parent().find('.break-end input').val());
+                $editedTr = $(element).closest('tr'),
+                start = Date.parse($editedTr.find('.break-start input').val()),
+                end = Date.parse($editedTr.find('.break-end input').val());
+
             if (start > end) {
-                $(element).parent().parent().find('.break-end  input').val(start.addHours(1).toString('HH:mm'));
+                $editedTr.find('.break-end input').val(start.addHours(1).toString('HH:mm'));
             }
 
             this.enableSubmit = true;
-            $(element).parent().parent().find('.editable .submit-editable').trigger('click');
+            $editedTr.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $(element).parent().find('.save-break, .cancel-break').addClass('hidden');
+            $(element).closest('table').find('.save-break, .cancel-break').addClass('hidden');
             $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
             $('.add-break').prop('disabled', false);
         }.bind(this));
@@ -307,6 +311,8 @@
      * Get the working plan settings.
      *
      * @return {Object} Returns the working plan settings object.
+     *
+     * @todo: Add sorting by range within day breaks
      */
     WorkingPlan.prototype.get = function() {
         var workingPlan = {};
@@ -329,6 +335,11 @@
                             'end': end
                         });
                     }
+
+                    workingPlan[id].breaks.sort(function(break1, break2) {
+                        // We can do a direct string comparison since we have time based on 24 hours clock
+                        return break1.start - break2.start;
+                    });
                 }.bind(this));
             } else {
                 workingPlan[id] = null;
