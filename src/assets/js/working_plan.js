@@ -268,12 +268,13 @@
          */
         $(document).on('click', '.cancel-break', function(e) {
             var element = e.target;
+            var $modifiedRow = $(element).closest('tr');
             this.enableCancel = true;
-            $(element).parent().parent().find('.cancel-editable').trigger('click');
+            $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
             $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-            $(element).parent().find('.save-break, .cancel-break').addClass('hidden');
+            $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
             $('.add-break').prop('disabled', false);
         }.bind(this));
 
@@ -283,25 +284,23 @@
          * Save the editable values and restore the table to its initial state.
          *
          * @param {jQuery.Event} e
-         *
-         * @todo: Prevent from adding interrelated breaks
          */
         $(document).on('click', '.save-break', function(e) {
             // Break's start time must always be prior to break's end.
             var element = e.target,
-                $editedTr = $(element).closest('tr'),
-                start = Date.parse($editedTr.find('.break-start input').val()),
-                end = Date.parse($editedTr.find('.break-end input').val());
+                $modifiedRow = $(element).closest('tr'),
+                start = Date.parse($modifiedRow.find('.break-start input').val()),
+                end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
-                $editedTr.find('.break-end input').val(start.addHours(1).toString('HH:mm'));
+                $modifiedRow.find('.break-end input').val(start.addHours(1).toString('HH:mm'));
             }
 
             this.enableSubmit = true;
-            $editedTr.find('.editable .submit-editable').trigger('click');
+            $modifiedRow.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $editedTr.find('.save-break, .cancel-break').addClass('hidden');
+            $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
             $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
             $('.add-break').prop('disabled', false);
         }.bind(this));
@@ -311,8 +310,6 @@
      * Get the working plan settings.
      *
      * @return {Object} Returns the working plan settings object.
-     *
-     * @todo: Add sorting by range within day breaks
      */
     WorkingPlan.prototype.get = function() {
         var workingPlan = {};
