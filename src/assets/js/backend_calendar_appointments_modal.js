@@ -288,7 +288,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Automatically update the service duration.
             $.each(GlobalVariables.availableServices, function(indexService, service) {
                 if (service.id == sid) {
-                    var start = $('#start-datetime').datepicker('getDate');
+                    var start = Date.parse($('#start-datetime').val());
                     $('#end-datetime').datepicker('setDate', new Date(start.getTime() + service.duration * 60000));
                     return false; // break loop
                 }
