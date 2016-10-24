@@ -292,7 +292,7 @@
                 start = Date.parse($modifiedRow.find('.break-start input').val()),
                 end = Date.parse($modifiedRow.find('.break-end input').val());
 
-            if (start > end) {
+            if (start >= end) {
                 $modifiedRow.find('.break-end input').val(start.addHours(1).toString('HH:mm'));
             }
 
@@ -332,12 +332,13 @@
                             'end': end
                         });
                     }
-
-                    workingPlan[id].breaks.sort(function(break1, break2) {
-                        // We can do a direct string comparison since we have time based on 24 hours clock
-                        return break1.start - break2.start;
-                    });
                 }.bind(this));
+
+                // Sort breaks increasingly by hour within day
+                workingPlan[id].breaks.sort(function(break1, break2) {
+                    // We can do a direct string comparison since we have time based on 24 hours clock
+                    return break1.start > break2.start;
+                });
             } else {
                 workingPlan[id] = null;
             }
@@ -371,7 +372,7 @@
                     var start = Date.parse($(this).parent().parent().find('.work-start').val()),
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
-                    if (start > end) {
+                    if (start >= end) {
                         $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
                     }
                 }
