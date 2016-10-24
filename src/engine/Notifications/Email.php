@@ -135,7 +135,7 @@ class Email {
 
         if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                    . $this->mailer->ErrorInfo);
+                    . $mailer->ErrorInfo);
         }
     }
 
@@ -193,16 +193,18 @@ class Email {
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/delete_appointment.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
 
-        // Send email to recipient.
-        $this->mailer->From = $company['company_email'];
-        $this->mailer->FromName = $company['company_name'];
-        $this->mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
-        $this->mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
-        $this->mailer->Body = $html;
+        $mailer = $this->_createMailer();
 
-        if (!$this->mailer->Send()) {
+        // Send email to recipient.
+        $mailer->From = $company['company_email'];
+        $mailer->FromName = $company['company_name'];
+        $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
+        $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
+        $mailer->Body = $html;
+
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                    . $this->mailer->ErrorInfo);
+                    . $mailer->ErrorInfo);
         }
     }
 
@@ -236,7 +238,7 @@ class Email {
 
         if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                . $this->mailer->ErrorInfo);
+                . $mailer->ErrorInfo);
         }
     }
 
