@@ -65,6 +65,12 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: clean-blog
 
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:

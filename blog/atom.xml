@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>E!A Blog</title>
+  <subtitle>Open Source Appointment Scheduler</subtitle>
+  <link href="/blog/atom.xml" rel="self"/>
+  
+  <link href="http://easyappointments.org/"/>
+  <updated>2016-09-25T14:22:23.502Z</updated>
+  <id>http://easyappointments.org/</id>
+  
+  <author>
+    <name>Alex Tselegidis</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Backend is now responsive!</title>
+    <link href="http://easyappointments.org/2016/09/25/Backend-is-now-responsive/"/>
+    <id>http://easyappointments.org/2016/09/25/Backend-is-now-responsive/</id>
+    <published>2016-09-25T14:03:25.000Z</published>
+    <updated>2016-09-25T14:22:23.502Z</updated>
+    
+    <content type="html"><![CDATA[<p>One of the key features of the upcoming v1.2 release is the redesign of the backend which will now be responsive and also includes some optical enhancements.  </p>
+<p>Bringing responsiveness to backend was a feature that many users requested and will make the use of the Easy!Appointments a lot easier for mobile devices.  </p>
+<p>Try the new backend by <a href="https://github.com/alextselegidis/easyappointments/releases/download/1.2.0-alpha.1/easyappointments_1.2.0_alpha.1.zip" target="_blank" rel="external">installing the Alpha package of Easy!Appointments v1.2</a>. </p>
+<center><br><img src="backend-calendar.png" alt=""><br><br><img src="backend-customers.png" alt=""><br><br><img src="backend-providers.png" alt=""><br></center>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;One of the key features of the upcoming v1.2 release is the redesign of the backend which will now be responsive and also includes some o
+    
+    </summary>
+    
+      <category term="Announcements" scheme="http://easyappointments.org/categories/Announcements/"/>
+    
+    
+      <category term="Design" scheme="http://easyappointments.org/tags/Design/"/>
+    
+      <category term="Responsive" scheme="http://easyappointments.org/tags/Responsive/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Check out the REST API Docs</title>
+    <link href="http://easyappointments.org/2016/09/17/Check-out-the-REST-API-Docs/"/>
+    <id>http://easyappointments.org/2016/09/17/Check-out-the-REST-API-Docs/</id>
+    <published>2016-09-17T05:49:31.000Z</published>
+    <updated>2016-09-18T16:48:01.907Z</updated>
+    
+    <content type="html"><![CDATA[<p>The upcoming version features the integration of a flexible REST API which you can use to manipulate every aspect of the applications data. You can start developing your clients right now by installing the Alpha release and taking a look at the API documentation in the following link! </p>
+<p><a href="https://github.com/alextselegidis/easyappointments/blob/develop/doc/rest-api.md" target="_blank" rel="external">https://github.com/alextselegidis/easyappointments/blob/develop/doc/rest-api.md</a></p>
+<p>Here are some key features of the API: </p>
+<ul>
+<li>it uses basic authorization schema for client</li>
+<li>follows the REST pattern with clear resource structures and correct HTTP verbs and status codes</li>
+<li>the data must are exchanged in JSON format</li>
+<li>you can sort, paginate, filter and minimize any GET request</li>
+<li>it can manipulate all the possible data of the application</li>
+</ul>
+<p>and this is only the start! More features will be coming with the future releases such as token based authentication, pagination headers, sub-resources, resource linking and custom filtering. </p>
+<p>Try it out now and spread the word! </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;The upcoming version features the integration of a flexible REST API which you can use to manipulate every aspect of the applications dat
+    
+    </summary>
+    
+      <category term="Announcements" scheme="http://easyappointments.org/categories/Announcements/"/>
+    
+    
+      <category term="REST API" scheme="http://easyappointments.org/tags/REST-API/"/>
+    
+      <category term="Documentation" scheme="http://easyappointments.org/tags/Documentation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Easy!Appointments v1.2 Alpha.1 Released</title>
+    <link href="http://easyappointments.org/2016/09/11/Easy-Appointments-v1-2-Alpha-1-Released/"/>
+    <id>http://easyappointments.org/2016/09/11/Easy-Appointments-v1-2-Alpha-1-Released/</id>
+    <published>2016-09-11T07:25:21.000Z</published>
+    <updated>2016-09-11T07:58:54.009Z</updated>
+    
+    <content type="html"><![CDATA[<p>The first preview of the newest Easy!Appointments features is here! Download and install the first Alpha release of the upcoming v1.2 and experience the responsive backend design, use the new backend calendar view, consume the flexible REST API and get hands on many other enhancements and bug fixes. </p>
+<p><a href="https://github.com/alextselegidis/easyappointments/releases/download/1.2.0-alpha.1/easyappointments_1.2.0_alpha.1.zip" target="_blank" rel="external"><strong>Click here to download the v1.2 Alpha.1 package</strong></a></p>
+<p>More posts about the new features are coming soon. </p>
+<h4 id="Notice"><a href="#Notice" class="headerlink" title="Notice"></a>Notice</h4><p>This is a pre-release which means that it is not advised to be used in production environments. Use it only for testing and for checking out what is about to come in the future. Feel free to report any <a href="https://github.com/alextselegidis/easyappointments/issues" target="_blank" rel="external">issues on GitHub</a> and provide suggestions about improvements for the upcoming version. </p>
+<p><img src="ea-1.2-alpha-1-released.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;The first preview of the newest Easy!Appointments features is here! Download and install the first Alpha release of the upcoming v1.2 and
+    
+    </summary>
+    
+      <category term="Announcements" scheme="http://easyappointments.org/categories/Announcements/"/>
+    
+    
+      <category term="Release" scheme="http://easyappointments.org/tags/Release/"/>
+    
+      <category term="Alpha Version" scheme="http://easyappointments.org/tags/Alpha-Version/"/>
+    
+      <category term="Features" scheme="http://easyappointments.org/tags/Features/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>E!A Blog Migration</title>
+    <link href="http://easyappointments.org/2016/09/10/E-A-Blog-Migration/"/>
+    <id>http://easyappointments.org/2016/09/10/E-A-Blog-Migration/</id>
+    <published>2016-09-10T12:52:36.000Z</published>
+    <updated>2016-09-11T07:19:37.957Z</updated>
+    
+    <content type="html"><![CDATA[<p>After many years of using the WordPress blogging platform the blog of Easy!Appointments has finally moved to<br>GitHub Pages and now is a part of the official website. This practically means that you will not have to leave<br>the website to read its contents. </p>
+<p>The new blog theme is also responsive and will be gradually improved in order to match the original website experience.<br>Old posts can be read from the old blog address at <a href="http://easyappointments.wordpress.com" target="_blank" rel="external">http://easyappointments.wordpress.com</a>. At this point it is<br>important to give credits to <a href="https://hexo.io" target="_blank" rel="external">Hexo</a>, a fast, simple &amp; powerful blogging tool which now powers this site.</p>
+<p>You are more than welcome to provide feedback with suggestions or issues that you may find on this blog. </p>
+<p>Happy Bookin’</p>
+<p><img src="ea-blog-migration.png" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;After many years of using the WordPress blogging platform the blog of Easy!Appointments has finally moved to&lt;br&gt;GitHub Pages and now is a
+    
+    </summary>
+    
+      <category term="Announcements" scheme="http://easyappointments.org/categories/Announcements/"/>
+    
+    
+      <category term="E!A Blog" scheme="http://easyappointments.org/tags/E-A-Blog/"/>
+    
+      <category term="Migration" scheme="http://easyappointments.org/tags/Migration/"/>
+    
+      <category term="GitHub Pages" scheme="http://easyappointments.org/tags/GitHub-Pages/"/>
+    
+  </entry>
+  
+</feed>
