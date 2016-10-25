@@ -8,6 +8,7 @@ tags:
 - E!A Blog
 - Migration
 - GitHub Pages
+share_cover: /blog/2016/09/10/E-A-Blog-Migration/ea-blog-migration.png
 ---
 
 After many years of using the WordPress blogging platform the blog of Easy!Appointments has finally moved to 
