@@ -105,7 +105,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $dialog = $('#manage-unavailable');
                 BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
 
-                // Apply unvailable data to dialog.
+                // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
                 $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
                 $dialog.find('#unavailable-id').val(unavailable.id);
@@ -121,7 +121,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         /**
          * Event: Popover Delete Button "Click"
          *
-         * Displays a prompt on whether the user wants the appoinmtent to be deleted. If he confirms the
+         * Displays a prompt on whether the user wants the appointment to be deleted. If he confirms the
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendarPage.on('click', '.delete-popover', function() {
@@ -170,7 +170,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
                 $('#delete-reason').css('width', '100%');
             } else {
-                // Do not display confirmation promt.
+                // Do not display confirmation prompt.
                 var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
                 var postData = {
                     csrfToken: GlobalVariables.csrfToken,
@@ -428,7 +428,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             // Update appointment data.
             BackendCalendarApi.saveAppointment(appointment, undefined, successCallback, undefined);
         } else {
-            // Update unvailable time period.
+            // Update unavailable time period.
             var unavailable = {
                 id: event.data.id,
                 start_datetime: event.start.toString('yyyy-MM-dd HH:mm:ss'),
@@ -487,7 +487,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
     /**
      * Calendar Window "Resize" Callback
      *
-     * The calendar element needs to be resized too in order to fit into the window. Nevertheless, if the window
+     * The calendar element needs to be re-sized too in order to fit into the window. Nevertheless, if the window
      * becomes very small the the calendar won't shrink anymore.
      *
      * @see _getCalendarHeight()
@@ -499,7 +499,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
     /**
      * Calendar Day "Click" Callback
      *
-     * When the user clicks on a day square on the calendar, then he will automatically be transfered to that
+     * When the user clicks on a day square on the calendar, then he will automatically be transferred to that
      * day view calendar.
      */
     function _calendarDayClick(date, allDay, jsEvent, view) {
@@ -702,7 +702,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      *
      * On some calendar events the titles contain html markup that is not displayed properly due to the
      * fullcalendar plugin. This plugin sets the .fc-event-title value by using the $.text() method and
-     * not the $.html() method. So in order for the title to displya the html properly we convert all the
+     * not the $.html() method. So in order for the title to display the html properly we convert all the
      * .fc-event-titles where needed into html.
      */
     function _convertTitlesToHtml() {

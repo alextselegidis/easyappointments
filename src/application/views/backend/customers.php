@@ -9,16 +9,16 @@
 
 <script type="text/javascript">
     var GlobalVariables = {
-        'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
+        'csrfToken'         : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'availableProviders': <?php echo json_encode($available_providers); ?>,
         'availableServices' : <?php echo json_encode($available_services); ?>,
         'dateFormat'        : <?php echo json_encode($date_format); ?>,
-        'baseUrl'           : <?php echo '"' . $base_url . '"'; ?>,
+        'baseUrl'           : <?php echo json_encode($base_url); ?>,
         'customers'         : <?php echo json_encode($customers); ?>,
         'user'              : {
             'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'email'     : <?php echo json_encode($user_email); ?>,
+            'role_slug' : <?php echo json_encode($role_slug); ?>,
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };

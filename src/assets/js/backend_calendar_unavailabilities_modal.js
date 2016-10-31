@@ -31,7 +31,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
         $('#manage-unavailable #save-unavailable').click(function() {
             var $dialog = $('#manage-unavailable');
             var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
-            var end = $dialog.find('#unavailable-end').datetimepicker('getDate');
+            var end = Date.parse($dialog.find('#unavailable-end').datetimepicker('getDate'));
 
             if (start > end) {
                 // Start time is after end time - display message to user.

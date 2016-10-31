@@ -45,14 +45,14 @@ class Appointments_Model extends CI_Model {
     /**
      * Check if a particular appointment record already exists.
      *
-     * This method checks wether the given appointment already exists
+     * This method checks whether the given appointment already exists
      * in the database. It doesn't search with the id, but by using the
      * following fields: "start_datetime", "end_datetime", "id_users_provider",
      * "id_users_customer", "id_services".
      *
      * @param array $appointment Associative array with the appointment's
      * data. Each key has the same name with the database fields.
-     * @return bool Returns wether the record exists or not.
+     * @return bool Returns whether the record exists or not.
      */
     public function exists($appointment) {
         if (!isset($appointment['start_datetime'])
@@ -100,7 +100,7 @@ class Appointments_Model extends CI_Model {
      * id in order to process the update operation.
      *
      * @expectedException DatabaseException Raises when the update operation
-     * failes to complete successfully.
+     * fails to complete successfully.
      *
      * @param array $appointment Associative array with the appointment's
      * data. Each key has the same name with the database fields.
@@ -124,7 +124,7 @@ class Appointments_Model extends CI_Model {
      *
      * @param array $appointment Array with the appointment data. The
      * keys of the array should have the same names as the db fields.
-     * @return int Returns the db id of the record that matches the apppointment
+     * @return int Returns the db id of the record that matches the appointment
      * data.
      */
     public function find_record_id($appointment) {
@@ -155,7 +155,7 @@ class Appointments_Model extends CI_Model {
     public function validate($appointment) {
         $this->load->helper('data_validation');
 
-        // If a appointment id is given, check wether the record exists
+        // If a appointment id is given, check whether the record exists
         // in the database.
         if (isset($appointment['id'])) {
             $num_rows = $this->db->get_where('ea_appointments',
@@ -322,7 +322,7 @@ class Appointments_Model extends CI_Model {
     /**
      * Inserts or updates an unavailable period record in the database.
      *
-     * @param array $unavailable Contains the unavaible data.
+     * @param array $unavailable Contains the unavailable data.
      * @return int Returns the record id.
      */
     public function add_unavailable($unavailable) {

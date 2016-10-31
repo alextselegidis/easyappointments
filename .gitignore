@@ -12,3 +12,6 @@ src/storage/logs/*
 src/storage/uploads/*
 !src/storage/uploads/index.html
 src/config.php
+doc/apigen
+doc/jsdoc
+doc/plato

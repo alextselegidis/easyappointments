@@ -24,6 +24,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
     var unavailableDatesBackup;
     var selectedDateStringBackup;
+    var processingUnavailabilities = false;
 
     /**
      * Get Available Hours
@@ -200,6 +201,10 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * @param {String} selectedDateString Y-m-d value of the selected date.
      */
     exports.getUnavailableDates = function(providerId, serviceId, selectedDateString) {
+        if (processingUnavailabilities) {
+            return;
+        }
+
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
         var data = {
             provider_id: providerId,
@@ -229,6 +234,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
     function _applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
         setDate = setDate || false;
 
+        processingUnavailabilities = true;
+
         // Select first enabled date.
         var selectedDate = Date.parse(selectedDateString);
         var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
@@ -236,7 +243,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         if (setDate) {
             for (var i=1; i<=numberOfDays; i++) {
                 var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-                if ($.inArray(currentDate.toString('yyyy-MM-dd'), unavailableDates) === -1) {
+                if (unavailableDates.indexOf(currentDate.toString('yyyy-MM-dd')) === -1) {
                     $('#select-date').datepicker('setDate', currentDate);
                     FrontendBookApi.getAvailableHours(currentDate.toString('yyyy-MM-dd'));
                     break;
@@ -256,6 +263,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
             }
         });
+
+        processingUnavailabilities = false;
     }
 
 })(window.FrontendBookApi);

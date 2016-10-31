@@ -15,7 +15,7 @@
  * Providers_Model Class
  *
  * Contains the database operations for the service provider users of
- * Easy!Appointmenst.
+ * Easy!Appointments.
  *
  * Data Structure:
  *      'fist_name'
@@ -405,7 +405,7 @@ class Providers_Model extends CI_Model {
         $batch = $this->db->get_where('ea_users',
                 array('id_roles' => $role_id))->result_array();
 
-        // Include each provider sevices and settings.
+        // Include each provider services and settings.
         foreach($batch as &$provider) {
             // Services
             $services = $this->db->get_where('ea_services_providers',
@@ -481,7 +481,7 @@ class Providers_Model extends CI_Model {
      * @param string $setting_name The setting name that is going to be
      * returned.
      * @param int $provider_id The selected provider id.
-     * @return string Returs the value of the selected user setting.
+     * @return string Returns the value of the selected user setting.
      */
     public function get_setting($setting_name, $provider_id) {
         $provider_settings = $this->db->get_where('ea_user_settings',
@@ -535,7 +535,7 @@ class Providers_Model extends CI_Model {
      * @param array $services Contains the service ids that the selected provider can provide.
      * @param numeric $provider_id The selected provider record id.
      * @throws Exception When the $services argument type is not array.
-     * @throws Exception When the $provider_id argumetn type is not numeric.
+     * @throws Exception When the $provider_id argument type is not numeric.
      */
     protected function save_services($services, $provider_id) {
         // Validate method arguments.

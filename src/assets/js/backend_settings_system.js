@@ -47,7 +47,7 @@
 
             // We need to refresh the working plan.
             var workingPlan = BackendSettings.wp.get();
-            $('.breaks').empty();
+            $('.breaks tbody').empty();
             BackendSettings.wp.setup(workingPlan);
             BackendSettings.wp.timepickers(false);
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);

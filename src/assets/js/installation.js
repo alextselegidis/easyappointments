@@ -43,7 +43,7 @@ $(document).ready(function() {
             url: postUrl,
             type: 'POST',
             data: postData,
-            datatype: 'json',
+            dataType: 'json',
             success: function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;

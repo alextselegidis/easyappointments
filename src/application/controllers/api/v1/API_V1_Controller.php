@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\NonEmptyString;
+use \EA\Engine\Types\NonEmptyAlphanumeric;
 
 /**
  * API V1 Controller 
@@ -41,8 +41,8 @@ class API_V1_Controller extends CI_Controller {
         parent::__construct();
 
         try {
-            $username = new NonEmptyString($_SERVER['PHP_AUTH_USER']);
-            $password = new NonEmptyString($_SERVER['PHP_AUTH_PW']);
+            $username = new NonEmptyAlphanumeric($_SERVER['PHP_AUTH_USER']);
+            $password = new NonEmptyAlphanumeric($_SERVER['PHP_AUTH_PW']);
             $authorization = new \EA\Engine\Api\V1\Authorization($this); 
             $authorization->basic($username, $password); 
         } catch(\Exception $exception) {
@@ -64,7 +64,7 @@ class API_V1_Controller extends CI_Controller {
      *
      * Call this method from catch blocks of child controller callbacks.
      * 
-     * @param \Exception $exception Thrown exception to be outputed.
+     * @param \Exception $exception Thrown exception to be outputted.
      */
     protected function _handleException(\Exception $exception) {
         $error = [

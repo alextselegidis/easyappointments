@@ -13,7 +13,7 @@
 
 namespace EA\Engine\Api\V1; 
 
-use EA\Engine\Types\NonEmptyString;
+use EA\Engine\Types\NonEmptyAlphanumeric;
 
 /**
  * API v1 Response 
@@ -124,12 +124,12 @@ class Response {
     /**
      * Output the response as a JSON with the provided status header. 
      *
-     * @param \EA\Engine\Types\NonEmptyString $status Optional (null), if provided it must contain the status  
+     * @param \EA\Engine\Types\NonEmptyAlphanumeric $status Optional (null), if provided it must contain the status
      * header value. Default string: '200 OK'.
      *
      * @return \EA\Engine\Api\V1\Response
      */
-    public function output(NonEmptyString $status = null) {
+    public function output(NonEmptyAlphanumeric $status = null) {
         $header = $status ? $status->get() : '200 OK'; 
 
         header('HTTP/1.0 ' . $header); 

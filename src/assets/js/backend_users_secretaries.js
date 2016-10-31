@@ -17,7 +17,7 @@
      * Secretaries Helper
      *
      * This class contains the Secretaries helper class declaration, along with the "Secretaries"
-     * tab event handlers. By deviding the backend/users tab functionality into separate files
+     * tab event handlers. By dividing the backend/users tab functionality into separate files
      * it is easier to maintain the code.
      *
      * @class SecretariesHelper

@@ -38,7 +38,7 @@ class Backend extends CI_Controller {
      *
      * This method displays the main backend page. All users login permission can
      * view this page which displays a calendar with the events of the selected
-     * provider or service. If a user has more priviledges he will see more menus
+     * provider or service. If a user has more privileges he will see more menus
      * at the top of the page.
      *
      * @param string $appointment_hash If given, the appointment edit dialog will
@@ -226,7 +226,7 @@ class Backend extends CI_Controller {
      * view a page.
      *
      * The backend page requires different privileges from the users to display pages. Not all
-     * pages are avaiable to all users. For example secretaries should not be able to edit the
+     * pages are available to all users. For example secretaries should not be able to edit the
      * system users.
      *
      * @see Constant Definition In application/config/constants.php

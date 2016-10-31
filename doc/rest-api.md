@@ -61,7 +61,7 @@ Such simple messages contain the HTTP code and a message stating a problem or a 
 
 ### Try it out!
 
-At this point you can start experimenting with the API and your intallation. The following section of this document describes the available resources and how they can be used. Before building your API consumer you can use [cURL](https://en.wikipedia.org/wiki/CURL) or [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) to try out the API. 
+At this point you can start experimenting with the API and your installation. The following section of this document describes the available resources and how they can be used. Before building your API consumer you can use [cURL](https://en.wikipedia.org/wiki/CURL) or [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) to try out the API. 
 
 Get all the registered appointments: 
 
@@ -87,7 +87,7 @@ Delete the service with ID 15:
 curl -X DELETE http://ea-installation/index.php/api/v1/services/15 --user username:password
 ```
 
-You can also try the GET requests with your browser by navigating to the respecive URLs.
+You can also try the GET requests with your browser by navigating to the respective URLs.
 
 ## Resources & URIs
 
@@ -128,7 +128,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/appointments[/:id]` Get all the appointments or a specific one by providing the ID in the URI. 
 - `POST /api/v1/appointments` Provide the new appointment JSON in the request body to insert a new record. 
 - `PUT /api/v1/appointments/:id` Provide the updated appointment JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/appointments/:id` Remove an existing appointment record.
+- `DELETE /api/v1/appointments/:id` Remove an existing appointment record.
 
 ### Unavailabilities
 
@@ -149,7 +149,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/unavailabilities[/:id]` Get all the unavailabilities or a specific one by providing the ID in the URI. 
 - `POST /api/v1/unavailabilities` Provide the new unavailability JSON in the request body to insert a new record. 
 - `PUT /api/v1/unavailabilities/:id` Provide the updated unavailability JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/unavailabilities/:id` Remove an existing unavailability record.
+- `DELETE /api/v1/unavailabilities/:id` Remove an existing unavailability record.
 
 ### Customers
 
@@ -172,7 +172,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/customers[/:id]` Get all the customers or a specific one by providing the ID in the URI. 
 - `POST /api/v1/customers` Provide the new customer JSON in the request body to insert a new record. 
 - `PUT /api/v1/customers/:id` Provide the updated customer JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/customers/:id` Remove an existing customer record.
+- `DELETE /api/v1/customers/:id` Remove an existing customer record.
 
 ### Services
 
@@ -195,7 +195,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/services[/:id]` Get all the services or a specific one by providing the ID in the URI. 
 - `POST /api/v1/services` Provide the new service JSON in the request body to insert a new record. 
 - `PUT /api/v1/services/:id` Provide the updated service JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/services/:id` Remove an existing service record.
+- `DELETE /api/v1/services/:id` Remove an existing service record.
 
 * The `availabilitiesType` must be either `flexible` or `fixed`.
 
@@ -214,7 +214,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/categories[/:id]` Get all the categories or a specific one by providing the ID in the URI. 
 - `POST /api/v1/categories` Provide the new category JSON in the request body to insert a new record. 
 - `PUT /api/v1/categories/:id` Provide the updated category JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/categories/:id` Remove an existing category record.
+- `DELETE /api/v1/categories/:id` Remove an existing category record.
 
 ### Admins
 
@@ -244,7 +244,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/admins[/:id]` Get all the admins or a specific one by providing the ID in the URI. 
 - `POST /api/v1/admins` Provide the new admin JSON in the request body to insert a new record. 
 - `PUT /api/v1/admins/:id` Provide the updated admin JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/admins/:id` Remove an existing admin record.
+- `DELETE /api/v1/admins/:id` Remove an existing admin record.
 
 ### Providers
 
@@ -329,7 +329,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/providers[/:id]` Get all the providers or a specific one by providing the ID in the URI. 
 - `POST /api/v1/providers` Provide the new provider JSON in the request body to insert a new record. 
 - `PUT /api/v1/providers/:id` Provide the updated provider JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/providers/:id` Remove an existing provider record.
+- `DELETE /api/v1/providers/:id` Remove an existing provider record.
 
 ### Secretaries
 
@@ -362,7 +362,7 @@ You can also try the GET requests with your browser by navigating to the respeci
 - `GET /api/v1/secretaries[/:id]` Get all the secretaries or a specific one by providing the ID in the URI. 
 - `POST /api/v1/secretaries` Provide the new secretary JSON in the request body to insert a new record. 
 - `PUT /api/v1/secretaries/:id` Provide the updated secretary JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETLE /api/v1/secretaries/:id` Remove an existing secretary record.
+- `DELETE /api/v1/secretaries/:id` Remove an existing secretary record.
 
 ### Settings
 
@@ -383,12 +383,16 @@ You can also try the GET requests with your browser by navigating to the respeci
 
 ## API Roadmap 
 
-Although the current state should be sufficient for working with the application data there are some other features of that will make the consume more flexible and powerfull. These will be added gradually with the future releases of Easy!Appointments. 
+Although the current state should be sufficient for working with the application data there are some other features of that will make the consume more flexible and powerful. These will be added gradually with the future releases of Easy!Appointments. 
 
 [ ] Add auto-generated links whenever external resource IDs are provided.
+
 [ ] Add pagination header links when the client provides pagination parameters.
+
 [ ] Add support for sub-resourcing e.g. /api/v1/customers/:id/appointments must return all the appointments of a specific customer. 
+
 [ ] Add custom filtering parameters e.g. /api/v1/appointments?book=>2016-07-10
+
 [ ] Improved exception handling. 
 
 Feel free to make pull requests if you have the time to develop one of those. 

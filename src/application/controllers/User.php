@@ -11,7 +11,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\NonEmptyString;
+use \EA\Engine\Types\NonEmptyAlphanumeric;
 use \EA\Engine\Types\Email;
 
 /**
@@ -133,7 +133,7 @@ class User extends CI_Controller {
 
     /**
      * Regenerate a new password for the current user, only if the username and
-     * email address given corresond to an existing user in db.
+     * email address given correspond to an existing user in db.
      *
      * @param string $_POST['username']
      * @param string $_POST['email']
@@ -159,7 +159,7 @@ class User extends CI_Controller {
                     'company_email' => $this->settings_model->get_setting('company_email')
                 );
 
-                $email->sendPassword(new NonEmptyString($new_password), new Email($_POST['email']), $company_settings);
+                $email->sendPassword(new NonEmptyAlphanumeric($new_password), new Email($_POST['email']), $company_settings);
             }
 
             echo ($new_password != FALSE) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);

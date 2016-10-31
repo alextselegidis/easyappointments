@@ -165,7 +165,7 @@ window.BackendSettings = window.BackendSettings || {};
                 } else {
                     $('#user-notifications').removeClass('active');
                 }
-            } else if ($(this).hasClass('about-tab')) {0
+            } else if ($(this).hasClass('about-tab')) {
                 $('#about').show();
             }
 

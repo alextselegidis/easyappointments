@@ -14,7 +14,7 @@
 /**
  * Backend Customers
  *
- * Backend Customers javasript namespace. Contains the main functionality of the backend customers
+ * Backend Customers javascript namespace. Contains the main functionality of the backend customers
  * page. If you need to use this namespace in a different page, do not bind the default event handlers
  * during initialization.
  *

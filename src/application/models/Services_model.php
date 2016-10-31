@@ -154,7 +154,7 @@ class Services_Model extends CI_Model {
     /**
      * Get the record id of an existing record.
      *
-     * NOTICE! The record must exist, otherwise an exeption will be raised.
+     * NOTICE! The record must exist, otherwise an exception will be raised.
      *
      * @param array $service Contains the service record data. Name, duration and price values
      * are mandatory for this method to complete.
@@ -174,7 +174,7 @@ class Services_Model extends CI_Model {
         ));
 
         if ($result->num_rows() == 0) {
-            throw new Exception('Cound not find service record id');
+            throw new Exception('Could not find service record id');
         }
 
         return $result->row()->id;
@@ -285,7 +285,7 @@ class Services_Model extends CI_Model {
     /**
      * Add (insert or update) a service category record into database.
      *
-     * @param array $category Containst the service category data.
+     * @param array $category Contains the service category data.
      *
      * @return int Returns the record id.s
      */

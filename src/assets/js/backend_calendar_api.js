@@ -65,7 +65,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
     /**
      * Save unavailable period to database.
      *
-     * @param {Object} unavailable Containts the unavailable period data.
+     * @param {Object} unavailable Contains the unavailable period data.
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */

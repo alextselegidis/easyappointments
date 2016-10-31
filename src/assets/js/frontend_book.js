@@ -35,7 +35,7 @@ window.FrontendBook = window.FrontendBook || {};
      * This method initializes the book appointment page.
      *
      * @param {Boolean} bindEventHandlers (OPTIONAL) Determines whether the default
-     * event handlers will be binded to the dom elements.
+     * event handlers will be bound to the dom elements.
      * @param {Boolean} manageMode (OPTIONAL) Determines whether the customer is going
      * to make  changes to an existing appointment rather than booking a new one.
      */
@@ -44,7 +44,7 @@ window.FrontendBook = window.FrontendBook || {};
         manageMode = manageMode || false;
 
         if (window.console === undefined) {
-            window.console = function() {} // IE compatibility
+            window.console = function() {}; // IE compatibility
         }
 
         FrontendBook.manageMode = manageMode;
@@ -202,7 +202,7 @@ window.FrontendBook = window.FrontendBook || {};
          * Event: Next Step Button "Clicked"
          *
          * This handler is triggered every time the user pressed the "next" button on the book wizard.
-         * Some special tasks might be perfomed, depending the current wizard step.
+         * Some special tasks might be performed, depending the current wizard step.
          */
         $('.button-next').click(function() {
             // If we are on the first step and there is not provider selected do not continue
@@ -338,7 +338,7 @@ window.FrontendBook = window.FrontendBook || {};
     };
 
     /**
-     * This function validates the customer's data input. The user cannot contiue
+     * This function validates the customer's data input. The user cannot continue
      * without passing all the validation checks.
      *
      * @return {Boolean} Returns the validation result.
@@ -376,7 +376,7 @@ window.FrontendBook = window.FrontendBook || {};
 
     /**
      * Every time this function is executed, it updates the confirmation page with the latest
-     * customer settigns and input for the appointment booking.
+     * customer settings and input for the appointment booking.
      */
     exports.updateConfirmFrame = function() {
         // Appointment Details
@@ -411,8 +411,8 @@ window.FrontendBook = window.FrontendBook || {};
         $('#appointment-details').html(html);
 
         // Customer Details
-        var firstname = GeneralFunctions.escapeHtml($('#first-name').val());
-        var lastname = GeneralFunctions.escapeHtml($('#last-name').val());
+        var firstName = GeneralFunctions.escapeHtml($('#first-name').val());
+        var lastName = GeneralFunctions.escapeHtml($('#last-name').val());
         var phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val());
         var email = GeneralFunctions.escapeHtml($('#email').val());
         var address = GeneralFunctions.escapeHtml($('#address').val());
@@ -420,7 +420,7 @@ window.FrontendBook = window.FrontendBook || {};
         var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
 
         html =
-            '<h4>' + firstname + ' ' + lastname + '</h4>' +
+            '<h4>' + firstName + ' ' + lastName + '</h4>' +
             '<p>' +
                 EALang['phone'] + ': ' + phoneNumber +
                 '<br/>' +
@@ -467,11 +467,11 @@ window.FrontendBook = window.FrontendBook || {};
         }
         $('input[name="csrfToken"]').val(GlobalVariables.csrfToken);
         $('input[name="post_data"]').val(JSON.stringify(postData));
-    }
+    };
 
     /**
      * This method calculates the end datetime of the current appointment.
-     * End datetime is depending on the service and start datetime fieldss.
+     * End datetime is depending on the service and start datetime fields.
      *
      * @return {String} Returns the end datetime in string format.
      */
@@ -544,7 +544,7 @@ window.FrontendBook = window.FrontendBook || {};
 
     /**
      * This method updates a div's html content with a brief description of the
-     * user selected service (only if available in db). This is usefull for the
+     * user selected service (only if available in db). This is useful for the
      * customers upon selecting the correct service.
      *
      * @param {Number} serviceId The selected service record id.

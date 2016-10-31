@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Notifications; 
 
-use \EA\Engine\Types\String;
-use \EA\Engine\Types\NonEmptyString;
+use \EA\Engine\Types\Alphanumeric;
+use \EA\Engine\Types\NonEmptyAlphanumeric;
 use \EA\Engine\Types\Url;
 use \EA\Engine\Types\Email as EmailAddress;
 
@@ -34,11 +34,11 @@ class Email {
     protected $framework;
 
     /**
-     * PHPMailer Instance 
+     * Contains email configuration.
      *
-     * @var PHPMailer
+     * @var array
      */
-    protected $mailer; 
+    protected $config;
 
     /**
      * Class Constructor
@@ -47,24 +47,8 @@ class Email {
      * @param array $config Contains the email configuration to be used.
      */
     public function __construct(\CI_Controller $framework, array $config) {
-        $this->framework = $framework; 
-
-        $mailer = new \PHPMailer;
-
-        if ($config['protocol'] === 'smtp') {
-            $mailer->isSMTP(); 
-            $mailer->Host = $config['smtp_host'];
-            $mailer->SMTPAuth = true;
-            $mailer->Username = $config['smtp_user'];
-            $mailer->Password = $config['smtp_pass'];
-            $mailer->SMTPSecure = $config['smtp_crypto'];
-            $mailer->Port = $config['smtp_port'];
-        }
-
-        $mailer->IsHTML($config['mailtype'] === 'html');
-        $mailer->CharSet = $config['charset'];
-
-        $this->mailer = $mailer;
+        $this->framework = $framework;
+        $this->config = $config;
     }
 
     /**
@@ -98,15 +82,15 @@ class Email {
      * @param array $customer Contains the customer data.
      * @param array $company Contains settings of the company. By the time the
      * "company_name", "company_link" and "company_email" values are required in the array.
-     * @param \EA\Engine\Types\String $title The email title may vary depending the receiver.
-     * @param \EA\Engine\Types\String $message The email message may vary depending the receiver.
+     * @param \EA\Engine\Types\Alphanumeric $title The email title may vary depending the receiver.
+     * @param \EA\Engine\Types\Alphanumeric $message The email message may vary depending the receiver.
      * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes
      * to the appointment record.
      * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
      */
     public function sendAppointmentDetails(array $appointment, array $provider, array $service,
-            array $customer, array $company, String $title, String $message, Url $appointmentLink,
-            EmailAddress $recipientEmail) {
+                                           array $customer, array $company, Alphanumeric $title, Alphanumeric $message, Url $appointmentLink,
+                                           EmailAddress $recipientEmail) {
 
         // Prepare template replace array.
         $replaceArray = array(
@@ -140,14 +124,16 @@ class Email {
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
-        
-        $this->mailer->From = $company['company_email'];
-        $this->mailer->FromName = $company['company_name'];
-        $this->mailer->AddAddress($recipientEmail->get()); 
-        $this->mailer->Subject = $title->get();
-        $this->mailer->Body    = $html;
 
-        if (!$this->mailer->Send()) {
+        $mailer = $this->_createMailer();
+
+        $mailer->From = $company['company_email'];
+        $mailer->FromName = $company['company_name'];
+        $mailer->AddAddress($recipientEmail->get());
+        $mailer->Subject = $title->get();
+        $mailer->Body    = $html;
+
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
                     . $this->mailer->ErrorInfo);
         }
@@ -169,11 +155,11 @@ class Email {
      * @param array $company Some settings that are required for this function. By now this array must contain 
      * the following values: "company_link", "company_name", "company_email".
      * @param \EA\Engine\Types\Email $recipientEmail The email address of the email recipient.
-     * @param \EA\Engine\Tyeps\String $reason The reason why the appointment is deleted.
+     * @param \EA\Engine\Types\String $reason The reason why the appointment is deleted.
      */
     public function sendDeleteAppointment(array $appointment, array $provider,
-            array $service, array $customer, array $company, EmailAddress $recipientEmail, 
-            String $reason) {
+                                          array $service, array $customer, array $company, EmailAddress $recipientEmail,
+                                          Alphanumeric $reason) {
         // Prepare email template data. 
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
@@ -223,11 +209,11 @@ class Email {
     /**
      * This method sends an email with the new password of a user.
      *
-     * @param \EA\Engine\Types\NonEmptyString $password Contains the new password.
-     * @param \EA\Engine\Types\Email $email The receiver's email address.
+     * @param \EA\Engine\Types\NonEmptyAlphanumeric $password Contains the new password.
+     * @param \EA\Engine\Types\Email $recipientEmail The receiver's email address.
      * @param array $company The company settings to be included in the email.
      */
-    public function sendPassword(NonEmptyString $password, EmailAddress $recipientEmail, array $company) {
+    public function sendPassword(NonEmptyAlphanumeric $password, EmailAddress $recipientEmail, array $company) {
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
@@ -240,15 +226,42 @@ class Email {
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/new_password.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
 
-        $this->mailer->From = $company['company_email'];
-        $this->mailer->FromName = $company['company_name'];
-        $this->mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
-        $this->mailer->Subject = $this->framework->lang->line('new_account_password');
-        $this->mailer->Body = $html;
+        $mailer = $this->_createMailer();
 
-        if (!$this->mailer->Send()) {
+        $mailer->From = $company['company_email'];
+        $mailer->FromName = $company['company_name'];
+        $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
+        $mailer->Subject = $this->framework->lang->line('new_account_password');
+        $mailer->Body = $html;
+
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
                 . $this->mailer->ErrorInfo);
         }
+    }
+
+    /**
+     * Create PHP Mailer Instance
+     *
+     * @return \PHPMailer
+     */
+    protected function _createMailer()
+    {
+        $mailer = new \PHPMailer;
+
+        if ($this->config['protocol'] === 'smtp') {
+            $mailer->isSMTP();
+            $mailer->Host = $this->config['smtp_host'];
+            $mailer->SMTPAuth = true;
+            $mailer->Username = $this->config['smtp_user'];
+            $mailer->Password = $this->config['smtp_pass'];
+            $mailer->SMTPSecure = $this->config['smtp_crypto'];
+            $mailer->Port = $this->config['smtp_port'];
+        }
+
+        $mailer->IsHTML($this->config['mailtype'] === 'html');
+        $mailer->CharSet = $this->config['charset'];
+
+        return $mailer;
     }
 }

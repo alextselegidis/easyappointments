@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Types; 
 
-class NonEmptyString extends String {
+class Boolean extends Type {
     protected function _validate($value) {
-        return parent::_validate($value) && $value !== '';
+        return is_bool($value);
     }
 }

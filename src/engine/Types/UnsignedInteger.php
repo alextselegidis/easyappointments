@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Types; 
 
-class Int extends Type {
+class UnsignedInteger extends Integer {
     protected function _validate($value) {
-        return is_numeric($value) && !is_float($value);
-    }
+        return parent::_validate($value) && $value > -1; 
+    }   
 }

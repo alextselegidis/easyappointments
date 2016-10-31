@@ -13,19 +13,14 @@
 
 namespace EA\Engine\Types; 
 
-class NonEmptyStringTest extends \PHPUnit_Framework_TestCase {
-    public function testNonEmptyStringType() {
-        $type = new NonEmptyString('Hello!'); 
-        $this->assertEquals('Hello!', $type->get()); 
+class BooleanTest extends \PHPUnit_Framework_TestCase {
+    public function testBoolType() {
+        $type = new Boolean(true);
+        $this->assertEquals(true, $type->get()); 
     } 
 
-    public function testNonEmptyStringTypeThrowsExceptionWithEmptyString() {
+    public function testBoolTypeThrowsExceptionWithInvalidValue() {
         $this->setExpectedException('\InvalidArgumentException');
-        new NonEmptyString('');
-    }
-
-    public function testNonEmptyStringTypeThrowsExceptionWithInvalidValue() {
-        $this->setExpectedException('\InvalidArgumentException');
-        new NonEmptyString(null);
+        new Boolean(null);
     }
 }

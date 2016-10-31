@@ -105,7 +105,7 @@ class Settings_Model extends CI_Model {
     /**
      * Saves all the system settings into the database.
      *
-     * This method is usefull when trying to save all the system settings at once instead of
+     * This method is useful when trying to save all the system settings at once instead of
      * saving them one by one.
      *
      * @param array $settings Contains all the system settings.

@@ -31,7 +31,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     exports.WARNINGS_MESSAGE = EALang['unexpected_warnings_message'];
 
     /**
-     * This functions displays a message box in the admin array. It is usefull when user
+     * This functions displays a message box in the admin array. It is useful when user
      * decisions or verifications are needed.
      *
      * @param {String} title The title of the message box.
@@ -157,8 +157,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Clone JS Object
      *
-     * This method creates and returns an exact copy of the provided object. It is very usefull whenever
-     * changes need to be made to an object without modyfing the original data.
+     * This method creates and returns an exact copy of the provided object. It is very useful whenever
+     * changes need to be made to an object without modifying the original data.
      *
      * {@link http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object}
      *
