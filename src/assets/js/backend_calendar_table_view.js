@@ -81,6 +81,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             var $dateColumn = $(dateColumn); 
                             var date = new Date($dateColumn.data('date'));
 
+                            if (currentDate !== date) {
+                                return true;
+                            }
+
                             $(dateColumn).find('.provider-column').each(function(index, providerColumn) {
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
