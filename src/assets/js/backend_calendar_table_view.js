@@ -81,7 +81,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             var $dateColumn = $(dateColumn); 
                             var date = new Date($dateColumn.data('date'));
 
-                            if (currentDate !== date) {
+                            if (currentDate.getTime() !== date.getTime()) {
                                 return true;
                             }
 
