@@ -454,6 +454,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Date} endDate End date to be displayed. 
      */
     function _createView(startDate, endDate) {
+        // Disable date navigation.
+        $('#calendar .calendar-header .btn').addClass('disabled').prop('disabled', true);
+
         $('#calendar .calendar-view table').stickyTableHeaders('destroy');
         $('#calendar .calendar-view').remove();
 
@@ -482,6 +485,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 _setCalendarSize();
                 Backend.placeFooterToBottom();
+
+                // Activate calendar navigation.
+                $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false)
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     }
