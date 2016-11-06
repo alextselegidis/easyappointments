@@ -40,5 +40,8 @@ $(() => {
     });
 
     // Give Webpack some time to load the styles.
-    $('.loading').fadeOut(850);
+    $('.loading').fadeOut(850, function() {
+        // Enable page tooltips (Bootstrap).
+        $('[title]').tooltip();
+    });
 });
