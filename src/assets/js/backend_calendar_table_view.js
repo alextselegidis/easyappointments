@@ -670,7 +670,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDuration = Math.round((endDate - startDate) / 60000);
 
             $event.html(            
-                appointment.customer.last_name + 
+                appointment.customer.first_name.charAt(0) + '. ' + appointment.customer.last_name +
                 ' <span class="hour">' + startDate.toString('HH:mm') + '</span> '
                 + (eventDuration !== parseInt(appointment.service.duration) ? '(' + eventDuration + '\')' : '') 
             );
