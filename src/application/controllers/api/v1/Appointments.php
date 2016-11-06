@@ -132,7 +132,7 @@ class Appointments extends API_V1_Controller {
      */
     public function delete($id) {
         try {
-            $result = $this->appointments_model->delete($id);
+            $this->appointments_model->delete($id);
 
             $response = new Response([
                 'code' => 200, 

@@ -11,7 +11,6 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\Decimal;
 use \EA\Engine\Types\Alphanumeric;
 use \EA\Engine\Types\Email;
 use \EA\Engine\Types\Url; 

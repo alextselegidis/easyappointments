@@ -872,8 +872,6 @@ class Appointments extends CI_Controller {
             'id_services = ' . $this->db->escape($service_id) . ' AND DATE(start_datetime) = DATE('
             . $this->db->escape(date('Y-m-d', strtotime($selected_date))) . ')');
 
-        $hours = [];
-
         foreach($appointments as $appointment) {
             $hour = date('H:i', strtotime($appointment['start_datetime']));
             $current_attendants_number = $this->appointments_model->appointment_count_for_hour($service_id,
