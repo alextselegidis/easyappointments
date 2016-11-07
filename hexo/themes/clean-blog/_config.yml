@@ -1,8 +1,9 @@
 # Header
 menu:
-  Home: http://easyappointments.org
+  Home: /
   Archives: /archives
   About: /about
+  Back: http://easyappointments.org
 
 # Title on top left of menu. Leave empty to use main blog title
 menu_title: Easy!Appointments
