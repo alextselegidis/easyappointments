@@ -2,7 +2,7 @@
 @import "mixins.styl"
 
 body
-  @extend .serif
+  @extend .sans-serif
   font-size 20px
   color gray-dark
 
@@ -16,7 +16,6 @@ p, li
 
 h1, h2, h3, h4, h5, h6
   @extend .sans-serif
-  font-weight 800
 
 a
   color gray-dark
@@ -32,31 +31,62 @@ hr.small
   border-width 4px
   border-color white
 
+.navbar-collapse
+  border none !important
+  background: #3dd481;
+  height: 200px;
+  a
+    color white !important
+    margin-bottom 15px
+    &:hover
+      color white-faded !important
+
+
 .navbar-custom
   position absolute
   top 0
   left 0
   width 100%
   z-index 3
+  border none
+  background none
   @extend .sans-serif
   .navbar-brand
+    font-size 18px
+    color white
     font-weight 300
+    line-height 1.3
+    &:hover
+      color white !important
+    small
+      color #1a865f
+      font-size 12px
+
+  .navbar-toggle
+    height 32px
+    margin-top 24px
+    border none
+    &:hover, &:focus
+      background none
+    .icon-bar
+      background-color white !important
+
   .nav
+    border none
+    margin-top 22px;
     li
       a
-        text-transform uppercase
-        font-size 12px
-        font-weight 800
-        letter-spacing 1px
+        font-size 18px
         text-decoration none
   @media only screen and (min-width: 768px)
     background transparent
     border-bottom 1px solid transparent
     .navbar-brand
+      font-size 26px
       color white
       padding 20px
-      &:hover, &:focus
-        color white-faded
+      small
+        font-size 17px
     .nav
       li
         a
@@ -107,6 +137,7 @@ hr.small
   background-color brand-primary
   background-position center center
   background-attachment scroll
+  border-bottom 4px solid #c0f1d6;
   @extend .background-cover
   margin-bottom 50px
   .site-heading, .post-heading, .page-heading
@@ -136,7 +167,7 @@ hr.small
     h1
       font-size 35px
     .subheading, .meta
-      line-height 1.1
+      line-height 3
       display block
     .subheading
       @extend .sans-serif
@@ -144,7 +175,7 @@ hr.small
       margin 10px 0 30px
       font-weight 600
     .meta
-      @extend .serif
+      @extend .sans-serif
       font-style italic
       font-weight 300
       font-size 20px

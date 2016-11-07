@@ -9,7 +9,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<%- config.root %>"><%- theme.menu_title || config.title || "" %></a>
+            <span class="navbar-brand">
+                <%- theme.menu_title || config.title || "" %>
+                <br>
+                <small><%- theme.menu_sub_title || config.sub_title || "" %></small>
+            </span>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
