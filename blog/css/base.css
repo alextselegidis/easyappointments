@@ -268,7 +268,12 @@ hr.small {
   text-decoration: none;
   color: #3dd481;
 }
+.post-preview > a:hover .post-title,
+.post-preview > a:focus .post-title {
+  opacity: 0.8;
+}
 .post-preview > a > .post-title {
+  transition: opacity 0.2s linear;
   color: #3dd481;
   font-size: 30px;
   margin-top: 30px;
