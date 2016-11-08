@@ -661,33 +661,52 @@
 	            arhive.forEach(function (entry) {
 	                $selectVersion.append(new Option('v' + entry.version, entry.version, entry.default, entry.default));
 	            });
-	        });
 	
-	        $selectVersion.trigger('change');
+	            if (location.hash) {
+	                var hash = location.hash.slice(1).split('/');
+	                $selectVersion.val(hash[0]);
+	                $.get('docs/' + hash[0] + '/' + hash[1]).done(function (markdown) {
+	                    return $dynamicContent.html((0, _marked2.default)(markdown));
+	                });
+	            } else {
+	                $selectVersion.trigger('change');
+	            }
+	        });
 	    },
 	    addEvents: function addEvents() {
+	        var _this = this;
+	
 	        $selectVersion.on('change', function (event) {
 	            $.get('docs/' + event.target.value + '/readme.md').done(function (markdown) {
 	                return $dynamicContent.html((0, _marked2.default)(markdown));
 	            });
+	            _this.setHash('#' + event.target.value + '/readme.md');
 	        });
 	
 	        $dynamicContent.on('click', 'a', function (event) {
 	            var $link = $(event.target);
+	            var version = $selectVersion.val();
+	            var file = $link.attr('href');
 	
-	            if (!$link.attr('href').includes('.md')) {
+	            if (!file.includes('.md')) {
 	                return;
 	            }
 	
 	            event.preventDefault();
 	            event.stopPropagation();
 	
-	            var file = $link.attr('href'); // remove hasttag
-	
-	            $.get('docs/' + $selectVersion.val() + '/' + file).done(function (markdown) {
+	            $.get('docs/' + version + '/' + file).done(function (markdown) {
 	                return $dynamicContent.html((0, _marked2.default)(markdown));
 	            });
+	            _this.setHash('#' + version + '/' + file);
 	        });
+	    },
+	    setHash: function setHash(hash) {
+	        if (history.pushState) {
+	            history.pushState(null, null, hash);
+	        } else {
+	            location.hash = hash;
+	        }
 	    }
 	};
 
