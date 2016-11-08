@@ -15,6 +15,8 @@ $footer-background-color: #F5F5F5;
 
 $font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
+$footer-height: 85px;
+
 $breakpoint-xs: 480px;
 $breakpoint-sm: 768px;
 $breakpoint-md: 992px;
@@ -23,6 +25,11 @@ $breakpoint-lg: 1200px;
 
 /* GENERAL
  ----------------------------------------------------------------------------- */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
 body {
     font-family: $font-family;
@@ -92,6 +99,15 @@ a {
         color: $primary-color-light;
         margin: 25px 0;
     }
+}
+
+.wrapper {
+    min-height: 100%;
+    margin-bottom: -$footer-height;
+}
+
+.push {
+    height: $footer-height;
 }
 
 
@@ -220,6 +236,21 @@ a {
                 margin: 10px;
                 width: 75px;
             }
+        }
+    }
+}
+
+/* DOCS
+ ----------------------------------------------------------------------------- */
+
+#docs {
+    .form-inline {
+        label {
+            margin-right: 10px;
+        }
+
+        .form-control {
+            min-width: 120px;
         }
     }
 }
