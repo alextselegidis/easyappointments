@@ -1,11 +1,10 @@
 'use strict';
 
 // Require Assets
-require('./node_modules/bootstrap/dist/css/bootstrap.min.css');
-require('./style.css');
-window.jQuery = window.$ = require('./node_modules/jquery/dist/jquery.min.js');
-require('./node_modules/bootstrap/dist/js/bootstrap.min.js');
-var docs = require('./docs');
+import './node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './style.css';
+import './node_modules/bootstrap/dist/js/bootstrap.min.js';
+import docs from './docs';
 
 // Page Initialization
 $(() => {
