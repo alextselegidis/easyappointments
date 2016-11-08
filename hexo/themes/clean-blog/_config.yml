@@ -1,13 +1,13 @@
 # Header
 menu:
   Home: /
-  Archives: /archives
-  About: /about
-  Back: http://easyappointments.org
+  Documentation: http://easyappointments.org/docs.html
+  Community: https://groups.google.com/forum/#!forum/easy-appointments
+  Get The App: http://easyappointments.org
 
 # Title on top left of menu. Leave empty to use main blog title
 menu_title: Easy!Appointments
-menu_sub_title: Open Source Web Scheduler
+menu_sub_title: Open Source Appointment Scheduler
 
 # URL of the Home page image
 # index_cover: http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg

@@ -33,13 +33,14 @@ hr.small
 
 .navbar-collapse
   border none !important
-  background: #3dd481;
-  height: 200px;
+  background #3dd481
+  margin-top 20px
   a
     color white !important
-    margin-bottom 15px
+    margin-bottom 5px
+    transition color .2s linear
     &:hover
-      color white-faded !important
+      color #1A865F !important
 
 
 .navbar-custom
@@ -52,10 +53,10 @@ hr.small
   background none
   @extend .sans-serif
   .navbar-brand
-    font-size 18px
+    font-size 23px
     color white
     font-weight 300
-    line-height 1.3
+    line-height 1.2
     &:hover
       color white !important
     small
@@ -73,7 +74,6 @@ hr.small
 
   .nav
     border none
-    margin-top 22px;
     li
       a
         font-size 18px
@@ -82,18 +82,18 @@ hr.small
     background transparent
     border-bottom 1px solid transparent
     .navbar-brand
-      font-size 26px
+      font-size 30px
       color white
       padding 20px
       small
-        font-size 17px
+        font-size 16px
     .nav
       li
         a
           color white
           padding 20px
           &:hover, &:focus
-            color white-faded
+            color #1A865F !important;
   @media only screen and (min-width: 1170px)
     -webkit-transition background-color 0.3s
     -moz-transition background-color 0.3s

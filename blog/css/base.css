@@ -63,14 +63,15 @@ hr.small {
 .navbar-collapse {
   border: none !important;
   background: #3dd481;
-  height: 200px;
+  margin-top: 20px;
 }
 .navbar-collapse a {
   color: #fff !important;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  transition: color 0.2s linear;
 }
 .navbar-collapse a:hover {
-  color: rgba(255,255,255,0.8) !important;
+  color: #1a865f !important;
 }
 .navbar-custom {
   position: absolute;
@@ -82,10 +83,10 @@ hr.small {
   background: none;
 }
 .navbar-custom .navbar-brand {
-  font-size: 18px;
+  font-size: 23px;
   color: #fff;
   font-weight: 300;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 .navbar-custom .navbar-brand:hover {
   color: #fff !important;
@@ -108,7 +109,6 @@ hr.small {
 }
 .navbar-custom .nav {
   border: none;
-  margin-top: 22px;
 }
 .navbar-custom .nav li a {
   font-size: 18px;
@@ -120,12 +120,12 @@ hr.small {
     border-bottom: 1px solid transparent;
   }
   .navbar-custom .navbar-brand {
-    font-size: 26px;
+    font-size: 30px;
     color: #fff;
     padding: 20px;
   }
   .navbar-custom .navbar-brand small {
-    font-size: 17px;
+    font-size: 16px;
   }
   .navbar-custom .nav li a {
     color: #fff;
@@ -133,7 +133,7 @@ hr.small {
   }
   .navbar-custom .nav li a:hover,
   .navbar-custom .nav li a:focus {
-    color: rgba(255,255,255,0.8);
+    color: #1a865f !important;
   }
 }
 @media only screen and (min-width: 1170px) {
