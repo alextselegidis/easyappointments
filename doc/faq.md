@@ -44,3 +44,7 @@ If you want to install Easy!Appointments on a subdomain you will have to use the
 The following link points to a common question that many users ask. The default gap between the available appointment hours is 15 minutes. In the following thread there is a file attached which will change this gap to 60 minutes. 
 
 (https://groups.google.com/d/msg/easy-appointments/Mdt98fbF8hE/9CEjOvW7FAAJ)
+
+*This document applies to Easy!Appointments v1.2*.
+
+[Back](readme.md)

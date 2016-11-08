@@ -1,4 +1,4 @@
-#Easy!Appointments Documentation
+# Easy!Appointments Documentation
 
 Welcome to the documentation pages of Easy!Appointments. Navigate through the available sections and learn how to get the most out of your installation. 
 

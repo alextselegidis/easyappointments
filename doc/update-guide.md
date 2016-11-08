@@ -13,3 +13,5 @@ If by chance you get a 500 Internal Server Error message then you must check the
 Many core files were changed in v1.1 and it would be better if you replace all the Easy!Appointments files of version 1.0 with the new ones. Use the data of the old `configuration.php` file in the new `config.php` and open the `http://url-to-ea-installation/index.php/backend/update` as already mentioned. Your new version should work just fine!
 
 *This document applies to Easy!Appointments v1.2*.
+
+[Back](readme.md)
