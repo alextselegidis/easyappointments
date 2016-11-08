@@ -86,7 +86,7 @@ hr.small {
   font-size: 23px;
   color: #fff;
   font-weight: 300;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 .navbar-custom .navbar-brand:hover {
   color: #fff !important;
@@ -94,6 +94,7 @@ hr.small {
 .navbar-custom .navbar-brand small {
   color: #1a865f;
   font-size: 12px;
+  font-weight: normal;
 }
 .navbar-custom .navbar-toggle {
   height: 32px;
@@ -125,7 +126,7 @@ hr.small {
     padding: 20px;
   }
   .navbar-custom .navbar-brand small {
-    font-size: 16px;
+    font-size: 15px;
   }
   .navbar-custom .nav li a {
     color: #fff;
