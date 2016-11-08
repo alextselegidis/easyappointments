@@ -1,0 +1,10 @@
+[
+  {
+    "version": "1.1.0",
+    "default": false
+  },
+  {
+    "version": "1.2.0",
+    "default": true
+  }
+]
