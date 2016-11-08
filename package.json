@@ -20,7 +20,6 @@
     "imagemin-cli": "^2.1.0",
     "postcss-color-function": "^2.0.0",
     "postcss-loader": "^0.8.1",
-    "postcss-nesting": "^2.3.0",
     "precss": "^1.4.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
