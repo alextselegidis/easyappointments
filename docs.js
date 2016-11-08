@@ -18,29 +18,45 @@ module.exports = {
             arhive.forEach(entry => {
                 $selectVersion.append(new Option(`v${entry.version}`, entry.version, entry.default, entry.default));
             });
-        });
 
-        $selectVersion.trigger('change');
+            if (location.hash) {
+                const hash = location.hash.slice(1).split('/');
+                $selectVersion.val(hash[0]);
+                $.get(`docs/${hash[0]}/${hash[1]}`).done(markdown => $dynamicContent.html(marked(markdown)));
+            } else {
+                $selectVersion.trigger('change');
+            }
+        });
     },
 
     addEvents() {
         $selectVersion.on('change', event => {
             $.get(`docs/${event.target.value}/readme.md`).done(markdown => $dynamicContent.html(marked(markdown)));
+            this.setHash('#' + event.target.value + '/readme.md');
         });
 
         $dynamicContent.on('click', 'a', event => {
             const $link = $(event.target);
+            const version = $selectVersion.val();
+            const file = $link.attr('href');
 
-            if (!$link.attr('href').includes('.md')) {
+            if (!file.includes('.md')) {
                 return;
             }
 
             event.preventDefault();
             event.stopPropagation();
 
-            const file = $link.attr('href'); // remove hasttag
-
-            $.get(`docs/${$selectVersion.val()}/${file}`).done(markdown => $dynamicContent.html(marked(markdown)));
+            $.get(`docs/${version}/${file}`).done(markdown => $dynamicContent.html(marked(markdown)));
+            this.setHash(`#${version}/${file}`);
         })
+    },
+
+    setHash(hash) {
+        if (history.pushState) {
+            history.pushState(null, null, hash);
+        } else {
+            location.hash = hash;
+        }
     }
 };
