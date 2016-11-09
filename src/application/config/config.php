@@ -6,12 +6,11 @@
 |--------------------------------------------------------------------------
 |
 | Declare some of the global config values of Easy!Appointments.
-| the global "config" variable.
 |
 */
-$config['ea_version'] = '1.1.1'; // This must be changed manually.
-$config['ea_release_title'] = ''; // Leave empty for no title or add BETA, TEST etc ...
-$config['ea_google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
+$config['version']             = '1.2'; // This must be changed manually.
+$config['release_label']       = ''; // Leave empty for no title or add Alpha, Beta etc ...
+$config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,7 +114,8 @@ $config['available_languages'] = array(
     'russian',
     'romanian',
     'turkish',
-    'hindi'
+    'hindi',
+    'bulgarian'
 );
 
 /*
@@ -238,7 +238,7 @@ $config['log_threshold'] = 1;
 | application/logs/ folder. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = __DIR__ . '/../../storage/logs/';
 
 /*
 |--------------------------------------------------------------------------
@@ -260,7 +260,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 | system/cache/ folder.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = '';
+$config['cache_path'] = __DIR__ . '/../../storage/cache/';
 
 /*
 |--------------------------------------------------------------------------
@@ -291,15 +291,13 @@ $config['encryption_key'] = Config::BASE_URL;
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 7200;
-$config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= 'ci_sessions';
-$config['sess_match_ip']		= FALSE;
-$config['sess_match_useragent']	= TRUE;
-$config['sess_time_to_update']	= 300;
+$config['sess_driver']             = 'files';
+$config['sess_cookie_name']		   = 'ci_session';
+$config['sess_expiration']		   = 7200;
+$config['sess_save_path']          = NULL;
+$config['sess_match_ip']		   = FALSE;
+$config['sess_time_to_update']	   = 300;
+$config['sess_regenerate_destroy'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -344,6 +342,7 @@ $config['csrf_protection'] = TRUE;
 $config['csrf_token_name'] = 'csrfToken';
 $config['csrf_cookie_name'] = 'csrfCookie';
 $config['csrf_expire'] = 7200;
+$config['csrf_exclude_uris'] = ['api/v1/.*'];
 
 /*
 |--------------------------------------------------------------------------

@@ -51,6 +51,8 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   `price` decimal(10,2) DEFAULT NULL,
   `currency` varchar(32) DEFAULT NULL,
   `description` text,
+  `availabilities_type` varchar(32) DEFAULT 'flexible',
+  `attendants_number` int(11) DEFAULT '1',
   `id_service_categories` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_service_categories` (`id_service_categories`)
@@ -111,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `google_calendar` varchar(128) DEFAULT NULL,
   `sync_past_days` int(11) DEFAULT '5',
   `sync_future_days` int(11) DEFAULT '5',
+  `calendar_view` varchar(32) DEFAULT 'default',
   PRIMARY KEY (`id_users`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

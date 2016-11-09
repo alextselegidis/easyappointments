@@ -1,4 +1,8 @@
 <script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_settings_system.js"></script>
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_settings_user.js"></script>
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_settings.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
@@ -10,17 +14,17 @@
 <script type="text/javascript">
     var GlobalVariables = {
         'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
+        'baseUrl'       : <?php echo json_encode($base_url); ?>,
         'dateFormat'    : <?php echo json_encode($date_format); ?>,
-        'userSlug'      : <?php echo '"' . $role_slug . '"'; ?>,
+        'userSlug'      : <?php echo json_encode($role_slug); ?>,
         'settings'      : {
             'system'    : <?php echo json_encode($system_settings); ?>,
             'user'      : <?php echo json_encode($user_settings); ?>
         },
         'user'          : {
             'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'email'     : <?php echo json_encode($user_email); ?>,
+            'role_slug' : <?php echo json_encode($role_slug); ?>,
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
@@ -30,19 +34,19 @@
     });
 </script>
 
-<div id="settings-page" class="row-fluid">
+<div id="settings-page" class="container-fluid">
     <ul class="nav nav-tabs">
-        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
-        <?php } ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li role="representation" class="general-tab tab"><a><?php echo $this->lang->line('general'); ?></a></li>
+        <?php endif ?>
 
-        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
-        <?php } ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
+        <?php endif ?>
 
-        <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
-        <?php } ?>
+        <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
+            <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
+        <?php endif ?>
 
         <li role="representation" class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
     </ul>
@@ -60,12 +64,13 @@
             <fieldset>
                 <legend>
                     <?php echo $this->lang->line('general_settings'); ?>
-                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <?php } ?>
+                    <?php endif ?>
                 </legend>
 
                 <div class="wrapper row">
@@ -160,15 +165,16 @@
             <fieldset>
                 <legend>
                     <?php echo $this->lang->line('business_logic'); ?>
-                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <?php } ?>
+                    <?php endif ?>
                 </legend>
 
-                <div class="row-fluid">
+                <div class="row">
                     <div class="col-md-7 working-plan-wrapper">
                         <h4><?php echo $this->lang->line('working_plan'); ?></h4>
                         <span class="help-block">
@@ -325,16 +331,17 @@
     ?>
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="user" class="tab-content <?php echo $hidden; ?>">
-        <form>
-            <fieldset class="col-md-5 personal-info-wrapper">
+        <form class="row">
+            <fieldset class="col-xs-12 col-sm-6 personal-info-wrapper">
                 <legend>
                     <?php echo $this->lang->line('personal_information'); ?>
-                    <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
+                        <?php echo $this->lang->line('save'); ?>
                     </button>
-                    <?php } ?>
+                    <?php endif; ?>
                 </legend>
 
                 <input type="hidden" id="user-id" />
@@ -390,7 +397,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="col-md-5 miscellaneous-wrapper">
+            <fieldset class="col-xs-12 col-sm-6 miscellaneous-wrapper">
                 <legend><?php echo $this->lang->line('system_login'); ?></legend>
 
                 <div class="form-group">
@@ -406,6 +413,14 @@
                 <div class="form-group">
                     <label for="retype-password"><?php echo $this->lang->line('retype_password'); ?></label>
                     <input type="password" id="retype-password" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                    <select id="calendar-view" class="form-control required">
+                        <option value="default">Default</option>
+                        <option value="table">Table</option>
+                    </select>
                 </div>
 
                 <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
@@ -434,8 +449,8 @@
         <div class="current-version">
             <?php
                 echo $this->lang->line('current_version') . ' ';
-                echo $this->config->item('ea_version');
-                $release_title = $this->config->item('ea_release_title');
+                echo $this->config->item('version');
+                $release_title = $this->config->item('release_label');
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }
@@ -462,6 +477,18 @@
             |
             <a href="http://easyappointments.wordpress.com">
                 E!A Blog
+            </a>
+            |
+            <a href="https://www.facebook.com/easyappointments.org">
+                Facebook
+            </a>
+            |
+            <a href="https://plus.google.com/+EasyappointmentsOrg">
+                Google+
+            </a>
+            |
+            <a href="https://twitter.com/EasyAppts">
+                Twitter
             </a>
             |
             <a href="https://plus.google.com/communities/105333709485142846840">

@@ -8,15 +8,15 @@
     <title><?php echo $this->lang->line('log_out') . ' - ' . $company_name; ?></title>
 
     <?php // SET FAVICON FOR PAGE ?>
-    <link rel="icon" type="image/x-icon" href="<?php echo $this->config->item('base_url'); ?>/assets/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
 
     <?php // INCLUDE JS FILES ?>
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery/jquery.min.js"></script>
+        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
     <script
         type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
+        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
     <script type="text/javascript">
         var EALang = <?php echo json_encode($this->lang->language); ?>;
@@ -26,7 +26,7 @@
     <link
         rel="stylesheet"
         type="text/css"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.min.css">
+        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
 
     <style>
         body {
@@ -71,13 +71,13 @@
 
         <br>
 
-        <a href="<?php echo $this->config->item('base_url'); ?>" class="btn btn-primary btn-large">
+        <a href="<?php echo site_url(); ?>" class="btn btn-success btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
 
-        <a href="<?php echo $this->config->item('base_url'); ?>/index.php/backend" class="btn btn-danger btn-large">
-            <span class="glyphicon glyphicon-home"></span>
+        <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
+            <span class="glyphicon glyphicon-wrench"></span>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>
     </div>

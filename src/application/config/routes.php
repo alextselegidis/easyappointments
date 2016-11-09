@@ -42,5 +42,41 @@ $route['default_controller'] = "appointments";
 $route['404_override'] = 'errors/error404';
 
 
+/*
+| -------------------------------------------------------------------------
+| REST API ROUTING
+| -------------------------------------------------------------------------
+| The following routes will point the API calls into the correct controller
+| callback methods. This routes also define the HTTP verbs that they are 
+| used for each operation.
+|
+*/
+
+$resources = [
+    'appointments',
+    'unavailabilities',
+    'customers', 
+    'services',
+    'categories',
+    'admins',
+    'providers', 
+    'secretaries'
+];
+
+foreach($resources as $resource) {
+    $route['api/v1/' . $resource]['post'] = 'api/v1/' . $resource . '/post';
+    $route['api/v1/' . $resource . '/(:num)']['put'] = 'api/v1/' . $resource . '/put/$1';
+    $route['api/v1/' . $resource . '/(:num)']['delete'] = 'api/v1/' . $resource . '/delete/$1';
+    $route['api/v1/' . $resource]['get'] = 'api/v1/' . $resource . '/get';    
+    $route['api/v1/' . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '/get/$1';
+}
+
+$route['api/v1/settings']['get'] = 'api/v1/settings/get';
+$route['api/v1/settings/(:any)']['get'] = 'api/v1/settings/get/$1';
+$route['api/v1/settings/(:any)']['put'] = 'api/v1/settings/put/$1';
+$route['api/v1/settings/(:any)']['delete'] = 'api/v1/settings/delete/$1';
+
+$route['api/v1/availabilities']['get'] = 'api/v1/availabilities/get';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

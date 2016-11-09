@@ -1,0 +1,9 @@
+{
+    "id": 74, 
+    "name": "Male Haircut", 
+    "duration": 60, 
+    "price": 10.00,
+    "currency": "Euro", 
+    "description": "Male haircut trends.",
+    "categoryId": null
+}

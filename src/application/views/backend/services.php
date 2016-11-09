@@ -1,17 +1,23 @@
 <script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_services_helper.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_categories_helper.js"></script>
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_services.js"></script>
 
 <script type="text/javascript">
     var GlobalVariables = {
         'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
+        'baseUrl'       : <?php echo json_encode($base_url); ?>,
         'dateFormat'    : <?php echo json_encode($date_format); ?>,
         'services'      : <?php echo json_encode($services); ?>,
         'categories'    : <?php echo json_encode($categories); ?>,
         'user'          : {
             'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'email'     : <?php echo json_encode($user_email); ?>,
+            'role_slug' : <?php echo json_encode($role_slug); ?>,
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
@@ -21,7 +27,7 @@
     });
 </script>
 
-<div id="services-page" class="container-fluid">
+<div id="services-page" class="container-fluid backend-page">
     <ul class="nav nav-tabs">
         <li role="presentation" class="services-tab tab active"><a><?php echo $this->lang->line('services'); ?></a></li>
         <li role="presentation" class="categories-tab tab"><a><?php echo $this->lang->line('categories'); ?></a></li>
@@ -37,7 +43,7 @@
     <div id="services" class="tab-content">
         <?php // FILTER SERVICES ?>
         <div class="row">
-            <div id="filter-services" class="filter-records column col-md-4">
+            <div id="filter-services" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -54,7 +60,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-service" class="btn btn-primary">
@@ -114,14 +120,30 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="service-availabilities-type"><?php echo $this->lang->line('availabilities_type'); ?></label>
+                    <select id="service-availabilities-type" class="form-control">
+                        <option value="<?php echo AVAILABILITIES_TYPE_FLEXIBLE; ?>">
+                            <?php echo $this->lang->line('flexible'); ?>
+                        </option>
+                        <option value="<?php echo AVAILABILITIES_TYPE_FIXED; ?>">
+                            <?php echo $this->lang->line('fixed'); ?>
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="service-attendants-number"><?php echo $this->lang->line('attendants_number'); ?> *</label>
+                    <input type="text" id="service-attendants-number" class="form-control required"  />
+                </div>
+
+                <div class="form-group">
                     <label for="service-description"><?php echo $this->lang->line('description'); ?></label>
                     <textarea id="service-description" rows="4" class="form-control"></textarea>
                 </div>
 
-
-                <br/><br/>
-                <em id="form-message" class="text-error">
-                    <?php echo $this->lang->line('fields_are_required'); ?></em>
+                <p id="form-message" class="text-danger">
+                    <em><?php echo $this->lang->line('fields_are_required'); ?></em>
+                </p>
             </div>
         </div>
     </div>
@@ -135,7 +157,7 @@
     ?>
     <div id="categories" class="tab-content" style="display:none;">
         <div class="row">
-            <div id="filter-categories" class="filter-records column col-md-4">
+            <div id="filter-categories" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -152,7 +174,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details col-md-7">
+            <div class="record-details col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-category" class="btn btn-primary">

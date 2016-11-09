@@ -40,6 +40,8 @@ function get_sample_service() {
         'price' => 50.0,
         'currency' => 'Euro',
         'description' => 'This is a test service automatically inserted by the installer.',
+        'availabilities_type' => 'flexible', 
+        'attendants_number' => 1,
         'id_service_categories' => NULL
     );
 }
@@ -64,7 +66,8 @@ function get_sample_provider() {
             'notifications' => FALSE,
             'google_sync' => FALSE,
             'sync_past_days' => 5,
-            'sync_future_days' => 5
+            'sync_future_days' => 5,
+            'calendar_view' => CALENDAR_VIEW_DEFAULT
         )
     );
 }

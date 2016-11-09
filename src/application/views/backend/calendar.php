@@ -4,74 +4,89 @@
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-fullcalendar/jquery.fullcalendar.min.js"></script>
 
-        <script type="text/javascript"
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js"></script>
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
 
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_calendar.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_default_view.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_table_view.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_google_sync.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_appointments_modal.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_unavailabilities_modal.js"></script>
+
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_api.js"></script>
 
 <script type="text/javascript">
     var GlobalVariables = {
         'csrfToken'             : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'availableProviders'    : <?php echo json_encode($available_providers); ?>,
         'availableServices'     : <?php echo json_encode($available_services); ?>,
-        'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,
+        'baseUrl'               : <?php echo json_encode($base_url); ?>,
         'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>,
         'dateFormat'            : <?php echo json_encode($date_format); ?>,
         'editAppointment'       : <?php echo json_encode($edit_appointment); ?>,
         'customers'             : <?php echo json_encode($customers); ?>,
         'secretaryProviders'    : <?php echo json_encode($secretary_providers); ?>,
+        'calendarView'          : <?php echo json_encode($calendar_view); ?>,
         'user'                  : {
             'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
+            'email'     : <?php echo json_encode($user_email); ?>,
+            'role_slug' : <?php echo json_encode($role_slug); ?>,
             'privileges': <?php echo json_encode($privileges); ?>
         }
     };
 
     $(document).ready(function() {
-        BackendCalendar.initialize(true);
+        BackendCalendar.initialize(GlobalVariables.calendarView);
     });
 </script>
 
-<div id="calendar-page">
+<div id="calendar-page" class="container-fluid">
     <div id="calendar-toolbar">
-        <div id="calendar-filter" class="form-group form-inline">
-            <label for="select-filter-item">
-                <?php echo $this->lang->line('display_calendar'); ?>
-            </label>
-            <select id="select-filter-item" class="form-control">
-                    title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
-            </select>
+        <div id="calendar-filter" class="form-inline col-xs-12 col-md-5">
+            <div class="form-group">
+                <label for="select-filter-item">
+                    <?php echo $this->lang->line('display_calendar'); ?>
+                </label>
+                <select id="select-filter-item" class="form-control">
+                        title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
+                </select>
+            </div>
         </div>
 
-        <div id="calendar-actions">
-            <div class="btn-group">
-                <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
-                        && Config::GOOGLE_SYNC_FEATURE == TRUE) { ?>
-                    <button id="google-sync" class="btn btn-primary"
-                            title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
-                        <span class="glyphicon glyphicon-refresh"></span>
-                        <span><?php echo $this->lang->line('synchronize'); ?></span>
-                    </button>
-
-                    <button id="enable-sync" class="btn btn-default" data-toggle="button"
-                            title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        <span><?php echo $this->lang->line('enable_sync'); ?></span>
-                    </button>
-                <?php } ?>
-
-                <button id="reload-appointments" class="btn btn-default"
-                        title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
-                    <span class="glyphicon glyphicon-repeat"></span>
-                    <?php echo $this->lang->line('reload'); ?>
+        <div id="calendar-actions" class="col-xs-12 col-md-7">
+            <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
+                    && Config::GOOGLE_SYNC_FEATURE == TRUE): ?>
+                <button id="google-sync" class="btn btn-primary"
+                        title="<?php echo $this->lang->line('trigger_google_sync_hint'); ?>">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    <span><?php echo $this->lang->line('synchronize'); ?></span>
                 </button>
-            </div>
 
-            <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE) { ?>
-            <div class="btn-group">
-                <button id="insert-appointment" class="btn btn-primary"
+                <button id="enable-sync" class="btn btn-default" data-toggle="button"
+                        title="<?php echo $this->lang->line('enable_appointment_sync_hint'); ?>">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <span><?php echo $this->lang->line('enable_sync'); ?></span>
+                </button>
+            <?php endif ?>
+
+            <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
+                <button id="insert-appointment" class="btn btn-default"
                         title="<?php echo $this->lang->line('new_appointment_hint'); ?>">
                     <span class="glyphicon glyphicon-plus"></span>
                     <?php echo $this->lang->line('appointment'); ?>
@@ -82,8 +97,17 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     <?php echo $this->lang->line('unavailable'); ?>
                 </button>
-            </div>
-            <?php } ?>
+            <?php endif ?>
+
+            <button id="reload-appointments" class="btn btn-default"
+                    title="<?php echo $this->lang->line('reload_appointments_hint'); ?>">
+                <span class="glyphicon glyphicon-repeat"></span>
+                <?php echo $this->lang->line('reload'); ?>
+            </button>
+
+            <button id="toggle-fullscreen" class="btn btn-default">
+                <span class="glyphicon glyphicon-fullscreen"></span>
+            </button>
         </div>
     </div>
 
@@ -101,6 +125,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="wrapper">
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"
                             aria-hidden="true">&times;</button>
@@ -179,7 +204,7 @@
 
                             <div class="form-group">
                                 <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
-                                <div class="col-md-7">
+                                <div class="col-sm-7">
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
                             </div>
@@ -194,7 +219,7 @@
                             <div class="form-group">
                                 <label for="end-datetime" class="control-label col-sm-3" ><?php echo $this->lang->line('end_date_time'); ?></label>
                                 <div class="col-sm-7">
-                                    <input type="text" id="end-datetime" />
+                                    <input type="text" id="end-datetime" class="form-control" />
                                 </div>
                             </div>
 
@@ -224,70 +249,72 @@
                             </legend>
 
                             <input id="customer-id" type="hidden" />
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first-name" class="control-label col-sm-2">
+                                            <?php echo $this->lang->line('first_name'); ?> *</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="first-name" class="required form-control" />
+                                        </div>
+                                    </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="first-name" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('first_name'); ?> *</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="first-name" class="required form-control" />
+                                    <div class="form-group">
+                                        <label for="last-name" class="control-label col-sm-2">
+                                            <?php echo $this->lang->line('last_name'); ?>*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="last-name" class="required form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="email" class="control-label col-sm-2">
+                                            <?php echo $this->lang->line('email'); ?>*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="email" class="required form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phone-number" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('phone_number'); ?>*</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="phone-number" class="required form-control" />
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="last-name" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('last_name'); ?>*</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="last-name" class="required form-control" />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('address'); ?></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="address" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="email" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('email'); ?>*</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="email" class="required form-control" />
+                                    <div class="form-group">
+                                        <label for="city" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('city'); ?></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="city" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="phone-number" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('phone_number'); ?>*</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="phone-number" class="required form-control" />
+                                    <div class="form-group">
+                                        <label for="zip-code" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('zip_code'); ?></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="zip-code" class="form-control" />
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="address" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('address'); ?></label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="address" class="form-control" />
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="city" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('city'); ?></label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="city" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="zip-code" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('zip_code'); ?></label>
-                                    <div class="col-md-8">
-                                        <input type="text" id="zip-code" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="customer-notes" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('notes'); ?></label>
-                                    <div class="col-md-8">
-                                        <textarea id="customer-notes" rows="3" class="form-control"></textarea>
+                                    <div class="form-group">
+                                        <label for="customer-notes" class="control-label col-sm-3">
+                                            <?php echo $this->lang->line('notes'); ?></label>
+                                        <div class="col-sm-8">
+                                            <textarea id="customer-notes" rows="3" class="form-control"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +322,9 @@
                     </form>
                 </div>
 
+                <div class="modal-push"></div>
             </div>
+
             <div class="modal-footer footer">
                 <button id="save-appointment" class="btn btn-primary">
                     <?php echo $this->lang->line('save'); ?>
@@ -305,7 +334,6 @@
                 </button>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -332,6 +360,15 @@
                 <form class="form-horizontal">
                     <fieldset>
                         <input id="unavailable-id" type="hidden" />
+                        
+                        <div class="form-group">
+                            <label for="unavailable-provider" class="control-label col-sm-3">
+                                <?php echo $this->lang->line('provider'); ?>
+                            </label>
+                            <div class="col-sm-8">
+                                <select type="text" id="unavailable-provider" class="form-control"></select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label for="unavailable-start" class="control-label col-sm-3">

@@ -1,16 +1,13 @@
 <script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
-
-<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_admins.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_providers.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_users_secretaries.js"></script>
-
+<script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
-
 <script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript"
@@ -18,19 +15,19 @@
 
 <script type="text/javascript">
     var GlobalVariables = {
-        'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
-        'dateFormat'    : <?php echo json_encode($date_format); ?>,
-        'admins'        : <?php echo json_encode($admins); ?>,
-        'providers'     : <?php echo json_encode($providers); ?>,
-        'secretaries'   : <?php echo json_encode($secretaries); ?>,
-        'services'      : <?php echo json_encode($services); ?>,
-        'workingPlan'   : $.parseJSON(<?php echo json_encode($working_plan); ?>),
-        'user'          : {
-            'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo '"' . $user_email . '"'; ?>,
-            'role_slug' : <?php echo '"' . $role_slug . '"'; ?>,
-            'privileges': <?php echo json_encode($privileges); ?>
+        csrfToken     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
+        baseUrl       : <?php echo json_encode($base_url); ?>,
+        dateFormat    : <?php echo json_encode($date_format); ?>,
+        admins        : <?php echo json_encode($admins); ?>,
+        providers     : <?php echo json_encode($providers); ?>,
+        secretaries   : <?php echo json_encode($secretaries); ?>,
+        services      : <?php echo json_encode($services); ?>,
+        workingPlan   : <?php echo json_encode(json_decode($working_plan)); ?>,
+        user          : {
+            id        : <?php echo $user_id; ?>,
+            email     : <?php echo json_encode($user_email); ?>,
+            role_slug : <?php echo json_encode($role_slug); ?>,
+            privileges: <?php echo json_encode($privileges); ?>
         }
     };
 
@@ -39,7 +36,7 @@
     });
 </script>
 
-<div id="users-page" class="container-fluid">
+<div id="users-page" class="container-fluid backend-page">
 
     <?php
         // ---------------------------------------------------------------------
@@ -63,7 +60,7 @@
     ?>
     <div id="admins" class="tab-content">
         <div class="row">
-            <div id="filter-admins" class="filter-records column col-md-4">
+            <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -80,7 +77,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-admin" class="btn btn-primary">
@@ -115,7 +112,7 @@
 
                 <input type="hidden" id="admin-id" class="record-id" />
 
-                <div class="">
+                <div class="row">
                     <div class="admin-details col-md-6">
                         <div class="form-group">
                             <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
@@ -183,6 +180,14 @@
                             <input type="password" id="admin-password-confirm" class="form-control required" />
                         </div>
 
+                        <div class="form-group">
+                            <label for="admin-calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                            <select id="admin-calendar-view" class="form-control required">
+                                <option value="default">Default</option>
+                                <option value="table">Table</option>
+                            </select>
+                        </div>
+
                         <br>
 
                         <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
@@ -204,7 +209,7 @@
     ?>
     <div id="providers" class="tab-content" style="display:none;">
         <div class="row">
-            <div id="filter-providers" class="filter-records column col-md-7">
+            <div id="filter-providers" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -221,7 +226,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="pull-left">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-provider" class="btn btn-primary">
@@ -265,7 +270,7 @@
 
                     <input type="hidden" id="provider-id" class="record-id" />
 
-                    <div>
+                    <div class="row">
                         <div class="provider-details col-md-6">
                             <div class="form-group">
                                 <label for="provider-first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
@@ -331,6 +336,14 @@
                             <div class="form-group">
                                 <label for="provider-password-confirm"><?php echo $this->lang->line('retype_password'); ?> *</label>
                                 <input type="password" id="provider-password-confirm" class="form-control required" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="provider-calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                                <select id="provider-calendar-view" class="form-control required">
+                                    <option value="default">Default</option>
+                                    <option value="table">Table</option>
+                                </select>
                             </div>
 
                             <br>
@@ -478,7 +491,7 @@
     ?>
     <div id="secretaries" class="tab-content" style="display:none;">
         <div class="row">
-            <div id="filter-secretaries" class="filter-records column col-md-4">
+            <div id="filter-secretaries" class="filter-records column col-xs-12 col-sm-5">
                 <form class="input-append">
                     <input class="key" type="text" />
                     <div class="btn-group">
@@ -495,7 +508,7 @@
                 <div class="results"></div>
             </div>
 
-            <div class="details column col-md-7">
+            <div class="record-details column col-xs-12 col-sm-7">
                 <div class="btn-toolbar">
                     <div class="add-edit-delete-group btn-group">
                         <button id="add-secretary" class="btn btn-primary">
@@ -530,7 +543,7 @@
 
                 <input type="hidden" id="secretary-id" class="record-id" />
 
-                <div class="">
+                <div class="row">
                     <div class="secretary-details col-md-6">
                         <div class="form-group">
                             <label for="secretary-first-name"><?php echo $this->lang->line('first_name');?> *</label>
@@ -596,6 +609,14 @@
                         <div class="form-group">
                             <label for="secretary-password-confirm"><?php echo $this->lang->line('retype_password');?> *</label>
                             <input type="password" id="secretary-password-confirm" class="form-control required" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secretary-calendar-view"><?php echo $this->lang->line('calendar'); ?> *</label>
+                            <select id="secretary-calendar-view" class="form-control required">
+                                <option value="default">Default</option>
+                                <option value="table">Table</option>
+                            </select>
                         </div>
 
                         <br>
