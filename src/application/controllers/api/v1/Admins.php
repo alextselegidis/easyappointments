@@ -15,7 +15,7 @@ require_once __DIR__ . '/API_V1_Controller.php';
 
 use \EA\Engine\Api\V1\Response;
 use \EA\Engine\Api\V1\Request;
-use \EA\Engine\Types\NonEmptyAlphanumeric;
+use \EA\Engine\Types\NonEmptyText;
 
 /**
  * Admins Controller
@@ -88,7 +88,7 @@ class Admins extends API_V1_Controller {
             // Fetch the new object from the database and return it to the client.
             $batch = $this->admins_model->get_batch('id = ' . $id); 
             $response = new Response($batch); 
-            $status = new NonEmptyAlphanumeric('201 Created');
+            $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(true)->output($status);
         } catch (\Exception $exception) {
             $this->_handleException($exception);

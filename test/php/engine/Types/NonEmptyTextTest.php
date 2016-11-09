@@ -15,17 +15,17 @@ namespace EA\Engine\Types;
 
 class NonEmptyAlphanumericTest extends \PHPUnit_Framework_TestCase {
     public function testNonEmptyStringType() {
-        $type = new NonEmptyAlphanumeric('Hello!');
+        $type = new NonEmptyText('Hello!');
         $this->assertEquals('Hello!', $type->get()); 
     } 
 
     public function testNonEmptyStringTypeThrowsExceptionWithEmptyString() {
         $this->setExpectedException('\InvalidArgumentException');
-        new NonEmptyAlphanumeric('');
+        new NonEmptyText('');
     }
 
     public function testNonEmptyStringTypeThrowsExceptionWithInvalidValue() {
         $this->setExpectedException('\InvalidArgumentException');
-        new NonEmptyAlphanumeric(null);
+        new NonEmptyText(null);
     }
 }

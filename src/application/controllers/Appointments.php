@@ -11,7 +11,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\Alphanumeric;
+use \EA\Engine\Types\Text;
 use \EA\Engine\Types\Email;
 use \EA\Engine\Types\Url;
 
@@ -203,7 +203,7 @@ class Appointments extends CI_Controller {
                 if ($send_provider === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider,
                             $service, $customer, $company_settings, new Email($provider['email']),
-                            new Alphanumeric($_POST['cancel_reason']));
+                            new Text($_POST['cancel_reason']));
                 }
 
 				$send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
@@ -212,7 +212,7 @@ class Appointments extends CI_Controller {
 				if ($send_customer === TRUE) {
 					$email->sendDeleteAppointment($appointment, $provider,
 							$service, $customer, $company_settings, new Email($customer['email']),
-							new Alphanumeric($_POST['cancel_reason']));
+							new Text($_POST['cancel_reason']));
 				}
 
             } catch(Exception $exc) {
@@ -431,16 +431,16 @@ class Appointments extends CI_Controller {
                 $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
 
                 if ($post_data['manage_mode'] == FALSE) {
-                    $customer_title = new Alphanumeric($this->lang->line('appointment_booked'));
-                    $customer_message = new Alphanumeric($this->lang->line('thank_you_for_appointment'));
-                    $provider_title = new Alphanumeric($this->lang->line('appointment_added_to_your_plan'));
-                    $provider_message = new Alphanumeric($this->lang->line('appointment_link_description'));
+                    $customer_title = new Text($this->lang->line('appointment_booked'));
+                    $customer_message = new Text($this->lang->line('thank_you_for_appointment'));
+                    $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
+                    $provider_message = new Text($this->lang->line('appointment_link_description'));
 
                 } else {
-                    $customer_title = new Alphanumeric($this->lang->line('appointment_changes_saved'));
-                    $customer_message = new Alphanumeric('');
-                    $provider_title = new Alphanumeric($this->lang->line('appointment_details_changed'));
-                    $provider_message = new Alphanumeric('');
+                    $customer_title = new Text($this->lang->line('appointment_changes_saved'));
+                    $customer_message = new Text('');
+                    $provider_title = new Text($this->lang->line('appointment_details_changed'));
+                    $provider_message = new Text('');
                 }
 
 				$customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
