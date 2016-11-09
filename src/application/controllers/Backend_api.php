@@ -917,7 +917,7 @@ class Backend_api extends CI_Controller {
      *
      * @param numeric $_POST['admin_id'] The id of the record to be deleted.
      *
-     * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
+     * @return string Returns the operation result constant (AJAX_SUCCESS or AJAX_FAILURE).
      */
     public function ajax_delete_admin() {
         try {
@@ -971,7 +971,7 @@ class Backend_api extends CI_Controller {
      * @param array $_POST['provider'] A json encoded array that contains the provider data. If an 'id'
      * value is provided then the record is going to be updated.
      *
-     * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that
+     * @return string Returns the success constant 'AJAX_SUCCESS' so javascript knows that
      * everything completed successfully.
      */
     public function ajax_save_provider() {

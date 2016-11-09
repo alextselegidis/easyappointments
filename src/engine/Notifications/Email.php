@@ -43,7 +43,7 @@ class Email {
     /**
      * Class Constructor
      *
-     * @param CI_Controller $framework 
+     * @param \CI_Controller $framework
      * @param array $config Contains the email configuration to be used.
      */
     public function __construct(\CI_Controller $framework, array $config) {
@@ -155,7 +155,7 @@ class Email {
      * @param array $company Some settings that are required for this function. By now this array must contain 
      * the following values: "company_link", "company_name", "company_email".
      * @param \EA\Engine\Types\Email $recipientEmail The email address of the email recipient.
-     * @param \EA\Engine\Types\String $reason The reason why the appointment is deleted.
+     * @param \EA\Engine\Types\Text $reason The reason why the appointment is deleted.
      */
     public function sendDeleteAppointment(array $appointment, array $provider,
                                           array $service, array $customer, array $company, EmailAddress $recipientEmail,

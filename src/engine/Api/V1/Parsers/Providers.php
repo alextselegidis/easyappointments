@@ -124,8 +124,8 @@ class Providers implements ParsersInterface {
                 $decodedRequest['settings']['password'] = $request['settings']['password']; 
             }
 
-            if (!empty($request['settings']['calendrView'])) {
-                $decodedRequest['settings']['calendr_view'] = $request['settings']['calendrView']; 
+            if (!empty($request['settings']['calendarView'])) {
+                $decodedRequest['settings']['calendar_view'] = $request['settings']['calendarView'];
             }
 
             if ($request['settings']['notifications'] !== null) {
