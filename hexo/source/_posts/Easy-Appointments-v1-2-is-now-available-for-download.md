@@ -8,7 +8,7 @@ tags:
   - Stable Version
   - Features
 date: 2016-11-09 21:56:39
-share_cover: /blog/2016/11/10/Easy-Appointments-v1-2-is-now-available-for-download/ea-1.2-download.png
+share_cover: /blog/2016/11/09/Easy-Appointments-v1-2-is-now-available-for-download/ea-1.2-download.png
 ---
 
 The most powerful Easy!Appointments release yet is now available for download from the official website. This is the biggest release to time and includes awesome new features such as the integration of a REST API, responsive design for the whole app, multiple attendants at the same time slot, dedicated service and provider URLs, grayed-out availabilities in the booking form, various availabilities generation modes, a brand new backend calendar display mode, vendor dependencies updates and lots of bugfixes and improvements. 

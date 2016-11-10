@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="http://easyappointments.org/"/>
-  <updated>2016-11-10T06:57:19.849Z</updated>
+  <updated>2016-11-10T07:47:07.813Z</updated>
   <id>http://easyappointments.org/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://easyappointments.org/2016/11/09/Easy-Appointments-v1-2-is-now-available-for-download/"/>
     <id>http://easyappointments.org/2016/11/09/Easy-Appointments-v1-2-is-now-available-for-download/</id>
     <published>2016-11-09T20:56:39.000Z</published>
-    <updated>2016-11-10T06:57:19.849Z</updated>
+    <updated>2016-11-10T07:47:07.813Z</updated>
     
     <content type="html"><![CDATA[<p>The most powerful Easy!Appointments release yet is now available for download from the official website. This is the biggest release to time and includes awesome new features such as the integration of a REST API, responsive design for the whole app, multiple attendants at the same time slot, dedicated service and provider URLs, grayed-out availabilities in the booking form, various availabilities generation modes, a brand new backend calendar display mode, vendor dependencies updates and lots of bugfixes and improvements. </p>
 <p><a class="btn btn-large btn-primary" href="https://github.com/alextselegidis/easyappointments/releases/download/1.2.0/easyappointments_1.2.0.zip" target="_blank" rel="external">Download v1.2 package, the newest Easy!Appointments release.</a></p>
