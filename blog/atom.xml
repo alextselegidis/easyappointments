@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="http://easyappointments.org/"/>
-  <updated>2016-09-25T14:22:23.502Z</updated>
+  <updated>2016-11-10T06:57:19.849Z</updated>
   <id>http://easyappointments.org/</id>
   
   <author>
@@ -16,9 +16,58 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Easy!Appointments v1.2 is now available for download!</title>
+    <link href="http://easyappointments.org/2016/11/09/Easy-Appointments-v1-2-is-now-available-for-download/"/>
+    <id>http://easyappointments.org/2016/11/09/Easy-Appointments-v1-2-is-now-available-for-download/</id>
+    <published>2016-11-09T20:56:39.000Z</published>
+    <updated>2016-11-10T06:57:19.849Z</updated>
+    
+    <content type="html"><![CDATA[<p>The most powerful Easy!Appointments release yet is now available for download from the official website. This is the biggest release to time and includes awesome new features such as the integration of a REST API, responsive design for the whole app, multiple attendants at the same time slot, dedicated service and provider URLs, grayed-out availabilities in the booking form, various availabilities generation modes, a brand new backend calendar display mode, vendor dependencies updates and lots of bugfixes and improvements. </p>
+<p><a class="btn btn-large btn-primary" href="https://github.com/alextselegidis/easyappointments/releases/download/1.2.0/easyappointments_1.2.0.zip" target="_blank" rel="external">Download v1.2 package, the newest Easy!Appointments release.</a></p>
+<p>Make sure that you install this new package or update your existing installations by <a href="http://easyappointments.org/docs.html#1.2.0/readme.md">following the documentation guides</a>. </p>
+<h3 id="Changelog"><a href="#Changelog" class="headerlink" title="Changelog"></a>Changelog</h3><ul>
+<li>#185: Enable fixed availabilities setting for services.</li>
+<li>#183: Display the appointments modal when the user clicks in an empty calendar slot.</li>
+<li>#182: Add new appointment dashboard view: Table Scheduler</li>
+<li>#180: Add login link to booking footer. </li>
+<li>#178: Load the application/config/email.php settings to PHPMailer instance.</li>
+<li>#175: The backend must be responsive as well.</li>
+<li>#174: Implementation of a REST API.</li>
+<li>#173: JS Scrollbars do not work for backend/users entries.</li>
+<li>#137: Invalid responsive behavior in frontend booking wizard (step #2 - appointment date &amp; time).</li>
+<li>#136: Loading spinner is not shown in during the installation.</li>
+<li>#127: Links in header contain index.php</li>
+<li>#109: Accept multiple attendants in a single service session.</li>
+<li>#63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery …)</li>
+<li>#54: Default auto-complete for the appointment end time according to service duration.</li>
+<li>#45: Add secure flag to CI_SESSION when HTTPS is enabled.</li>
+<li>#24: Provide dedicated URL for separate provider/service bookings.</li>
+<li>#22: Google Calendar Sync - Time Zone Issue</li>
+</ul>
+<p>The WordPress plugin will be updated soon with the newest Easy!Appointments release and FTP operations support in order to allow users install Easy!Appointments in any directory without caring about permission problems. Stay tuned for the upcoming updates. </p>
+<center><br><img src="ea-1.2-download.png" alt=""><br></center>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;The most powerful Easy!Appointments release yet is now available for download from the official website. This is the biggest release to t
+    
+    </summary>
+    
+      <category term="Announcements" scheme="http://easyappointments.org/categories/Announcements/"/>
+    
+    
+      <category term="Release" scheme="http://easyappointments.org/tags/Release/"/>
+    
+      <category term="Features" scheme="http://easyappointments.org/tags/Features/"/>
+    
+      <category term="Stable Version" scheme="http://easyappointments.org/tags/Stable-Version/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Backend is now responsive!</title>
-    <link href="http://easyappointments.org/2016/09/25/Backend-is-now-responsive/"/>
-    <id>http://easyappointments.org/2016/09/25/Backend-is-now-responsive/</id>
+    <link href="http://easyappointments.org/2016/09/25/The-backend-section-is-now-responsive/"/>
+    <id>http://easyappointments.org/2016/09/25/The-backend-section-is-now-responsive/</id>
     <published>2016-09-25T14:03:25.000Z</published>
     <updated>2016-09-25T14:22:23.502Z</updated>
     
@@ -43,11 +92,11 @@
   </entry>
   
   <entry>
-    <title>Check out the REST API Docs</title>
-    <link href="http://easyappointments.org/2016/09/17/Check-out-the-REST-API-Docs/"/>
-    <id>http://easyappointments.org/2016/09/17/Check-out-the-REST-API-Docs/</id>
+    <title>Check out the REST API documentation</title>
+    <link href="http://easyappointments.org/2016/09/17/Check-out-the-REST-API-documentation/"/>
+    <id>http://easyappointments.org/2016/09/17/Check-out-the-REST-API-documentation/</id>
     <published>2016-09-17T05:49:31.000Z</published>
-    <updated>2016-09-18T16:48:01.907Z</updated>
+    <updated>2016-11-10T06:22:16.613Z</updated>
     
     <content type="html"><![CDATA[<p>The upcoming version features the integration of a flexible REST API which you can use to manipulate every aspect of the applications data. You can start developing your clients right now by installing the Alpha release and taking a look at the API documentation in the following link! </p>
 <p><a href="https://github.com/alextselegidis/easyappointments/blob/develop/doc/rest-api.md" target="_blank" rel="external">https://github.com/alextselegidis/easyappointments/blob/develop/doc/rest-api.md</a></p>
@@ -79,11 +128,11 @@
   </entry>
   
   <entry>
-    <title>Easy!Appointments v1.2 Alpha.1 Released</title>
-    <link href="http://easyappointments.org/2016/09/11/Easy-Appointments-v1-2-Alpha-1-Released/"/>
-    <id>http://easyappointments.org/2016/09/11/Easy-Appointments-v1-2-Alpha-1-Released/</id>
+    <title>Easy!Appointments v1.2 Alpha.1 is now available for download!</title>
+    <link href="http://easyappointments.org/2016/09/11/Easy-Appointments-v1-2-Alpha-1-is-now-available-for-download/"/>
+    <id>http://easyappointments.org/2016/09/11/Easy-Appointments-v1-2-Alpha-1-is-now-available-for-download/</id>
     <published>2016-09-11T07:25:21.000Z</published>
-    <updated>2016-09-11T07:58:54.009Z</updated>
+    <updated>2016-11-10T06:25:01.194Z</updated>
     
     <content type="html"><![CDATA[<p>The first preview of the newest Easy!Appointments features is here! Download and install the first Alpha release of the upcoming v1.2 and experience the responsive backend design, use the new backend calendar view, consume the flexible REST API and get hands on many other enhancements and bug fixes. </p>
 <p><a href="https://github.com/alextselegidis/easyappointments/releases/download/1.2.0-alpha.1/easyappointments_1.2.0_alpha.1.zip" target="_blank" rel="external"><strong>Click here to download the v1.2 Alpha.1 package</strong></a></p>

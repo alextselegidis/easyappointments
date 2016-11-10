@@ -1,5 +1,5 @@
 ---
-title: Check out the REST API Docs
+title: Check out the REST API documentation
 date: 2016-09-17 07:49:31
 author: Alex Tselegidis
 categories:

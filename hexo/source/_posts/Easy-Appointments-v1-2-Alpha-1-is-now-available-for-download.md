@@ -1,5 +1,5 @@
 ---
-title: Easy!Appointments v1.2 Alpha.1 Released
+title: Easy!Appointments v1.2 Alpha.1 is now available for download!
 date: 2016-09-11 09:25:21
 author: Alex Tselegidis
 categories:
