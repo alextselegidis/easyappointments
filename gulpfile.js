@@ -51,8 +51,8 @@ gulp.task('build', function(done) {
     fs.copySync('LICENSE', '.tmp-package/LICENSE');
 
     del.sync([
-        '.tmp-package/application/logs/*',
-        '!.tmp-package/application/logs/index.html'
+        '.tmp-package/storage/logs/*',
+        '!.tmp-package/storage/logs/index.html'
     ]);
 
     zip('.tmp-package', { saveTo: 'easyappointments.zip' }, function (err, buffer) {
