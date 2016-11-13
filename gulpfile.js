@@ -51,8 +51,25 @@ gulp.task('build', function(done) {
     fs.copySync('LICENSE', '.tmp-package/LICENSE');
 
     del.sync([
-        '.tmp-package/application/logs/*',
-        '!.tmp-package/application/logs/index.html'
+        '.tmp-package/storage/uploads/*',
+        '!.tmp-package/storage/uploads/index.html'
+    ]);
+
+    del.sync([
+        '.tmp-package/storage/logs/*',
+        '!.tmp-package/storage/logs/index.html'
+    ]);
+
+    del.sync([
+        '.tmp-package/storage/sessions/*',
+        '!.tmp-package/storage/sessions/.htaccess',
+        '!.tmp-package/storage/sessions/index.html'
+    ]);
+
+    del.sync([
+        '.tmp-package/storage/cache/*',
+        '!.tmp-package/storage/cache/.htaccess',
+        '!.tmp-package/storage/cache/index.html'
     ]);
 
     zip('.tmp-package', { saveTo: 'easyappointments.zip' }, function (err, buffer) {
