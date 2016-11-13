@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "52a00fed1a89eb4d3d6321de418669f0",
+    "hash": "6040e47b3ac89b9232fa2b94fb02648a",
     "content-hash": "fe4302679c1523cf63192337d8f4a61f",
     "packages": [
         {
@@ -57,16 +57,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.14",
+            "version": "v5.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e774bc9152de85547336e22b8926189e582ece95"
+                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e774bc9152de85547336e22b8926189e582ece95",
-                "reference": "e774bc9152de85547336e22b8926189e582ece95",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
                 "shasum": ""
             },
             "require": {
@@ -77,8 +77,7 @@
                 "phpunit/phpunit": "4.7.*"
             },
             "suggest": {
-                "league/oauth2-client": "Needed for XOAUTH2 authentication",
-                "league/oauth2-google": "Needed for Gmail XOAUTH2"
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
             },
             "type": "library",
             "autoload": {
@@ -114,22 +113,22 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2015-11-01 10:15:28"
+            "time": "2016-06-06 09:09:37"
         }
     ],
     "packages-dev": [
         {
             "name": "codeigniter/framework",
-            "version": "3.0.6",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "8082544c5b4b33175790f505587e202e3ca9e488"
+                "reference": "2afa6b6b58a73fa26a7a93045ccb1fc8a087a141"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/8082544c5b4b33175790f505587e202e3ca9e488",
-                "reference": "8082544c5b4b33175790f505587e202e3ca9e488",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/2afa6b6b58a73fa26a7a93045ccb1fc8a087a141",
+                "reference": "2afa6b6b58a73fa26a7a93045ccb1fc8a087a141",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +147,7 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2016-03-21 16:26:30"
+            "time": "2016-10-28 15:13:14"
         },
         {
             "name": "doctrine/instantiator",
