@@ -3,6 +3,8 @@ This file contains the code changes that were introduced into each release
 (starting from v1.1.0) so that is easy for developers to maintain and readjust
 their custom modifications on the main project codebase.
 
+###Version 1.2.1
+- #241: Set default sessions save_path directory because many servers do not have this option set.
 
 ### Version 1.2.0
 - #185: Enable fixed availabilities setting for services.
