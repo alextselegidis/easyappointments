@@ -27,8 +27,8 @@ class Customers implements ParsersInterface {
     public function encode(array &$response) {
         $encodedResponse = [
             'id' => $response['id'] !== null ? (int)$response['id'] : null,
-            'firstname' => $response['first_name'],
-            'lastname' => $response['last_name'],
+            'firstName' => $response['first_name'],
+            'lastName' => $response['last_name'],
             'email' => $response['email'],
             'phone' => $response['phone_number'],
             'address' => $response['address'],
@@ -53,12 +53,12 @@ class Customers implements ParsersInterface {
             $decodedRequest['id'] = $request['id']; 
         }
 
-        if (!empty($request['firstname'])) {
-            $decodedRequest['first_name'] = $request['firstname']; 
+        if (!empty($request['firstName'])) {
+            $decodedRequest['first_name'] = $request['firstName'];
         }
 
-        if (!empty($request['lastname'])) {
-            $decodedRequest['last_name'] = $request['lastname']; 
+        if (!empty($request['lastName'])) {
+            $decodedRequest['last_name'] = $request['lastName'];
         }
 
         if (!empty($request['email'])) {

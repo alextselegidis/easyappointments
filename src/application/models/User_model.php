@@ -16,7 +16,7 @@
  *
  * Contains current user's methods.
  *
- * @package Model
+ * @package Models
  */
 class User_Model extends CI_Model {
     /**

@@ -49,7 +49,7 @@ class Search implements ProcessorsInterface {
      * @param array $haystack Array to search in. 
      * @param string $needle Keyword to be searched.
      * 
-     * @return int|bool Returns the index of the search occurence or false it nothing was found.
+     * @return int|bool Returns the index of the search occurrence or false it nothing was found.
      */
     protected static function _recursiveArraySearch(array $haystack, $needle) {
         foreach ($haystack as $key => $value) {

@@ -76,7 +76,7 @@
                 url to connect to the backend section of Easy!Appointments.
 
                 If you face any problems during the usage of Easy!Appointments you can always check the 
-                <a href="https://github.com/alextselegidis/easyappointments/tree/master/doc">GitHub Documentation</a>
+                <a href="http://easyappointments.org/docs.html">Documentation</a>
                 and <a href="http://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You 
                 may also submit new issues on
                 <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>

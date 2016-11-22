@@ -11,8 +11,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\Decimal;
-use \EA\Engine\Types\Alphanumeric;
+use \EA\Engine\Types\Text;
 use \EA\Engine\Types\Email;
 use \EA\Engine\Types\Url; 
 
@@ -296,15 +295,15 @@ class Backend_api extends CI_Controller {
                             ->get_setting('notifications', $provider['id']);
 
                 if (!$manage_mode) {
-                    $customer_title = new Alphanumeric($this->lang->line('appointment_booked'));
-                    $customer_message = new Alphanumeric($this->lang->line('thank_you_for_appointment'));
-                    $provider_title = new Alphanumeric($this->lang->line('appointment_added_to_your_plan'));
-                    $provider_message = new Alphanumeric($this->lang->line('appointment_link_description'));
+                    $customer_title = new Text($this->lang->line('appointment_booked'));
+                    $customer_message = new Text($this->lang->line('thank_you_for_appointment'));
+                    $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
+                    $provider_message = new Text($this->lang->line('appointment_link_description'));
                 } else {
-                    $customer_title = new Alphanumeric($this->lang->line('appointment_changes_saved'));
-                    $customer_message = new Alphanumeric('');
-                    $provider_title = new Alphanumeric($this->lang->line('appointment_details_changed'));
-                    $provider_message = new Alphanumeric('');
+                    $customer_title = new Text($this->lang->line('appointment_changes_saved'));
+                    $customer_message = new Text('');
+                    $provider_title = new Text($this->lang->line('appointment_details_changed'));
+                    $provider_message = new Text('');
                 }
 
                 $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
@@ -411,7 +410,7 @@ class Backend_api extends CI_Controller {
                 if ((bool)$send_provider === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider,
                             $service, $customer, $company_settings, new Email($provider['email']),
-                            new Alphanumeric($_POST['delete_reason']));
+                            new Text($_POST['delete_reason']));
                 }
 
                 $send_customer = $this->settings_model->get_setting('customer_notifications');
@@ -419,7 +418,7 @@ class Backend_api extends CI_Controller {
 				if ((bool)$send_customer === TRUE) {
                     $email->sendDeleteAppointment($appointment, $provider,
                             $service, $customer, $company_settings, new Email($customer['email']),
-                            new Alphanumeric($_POST['delete_reason']));
+                            new Text($_POST['delete_reason']));
                 }
             } catch(Exception $exc) {
                 $warnings[] = exceptionToJavaScript($exc);
@@ -918,7 +917,7 @@ class Backend_api extends CI_Controller {
      *
      * @param numeric $_POST['admin_id'] The id of the record to be deleted.
      *
-     * @return string Returns the operation result constant (AJAX_SUCESS or AJAX_FAILURE).
+     * @return string Returns the operation result constant (AJAX_SUCCESS or AJAX_FAILURE).
      */
     public function ajax_delete_admin() {
         try {
@@ -972,7 +971,7 @@ class Backend_api extends CI_Controller {
      * @param array $_POST['provider'] A json encoded array that contains the provider data. If an 'id'
      * value is provided then the record is going to be updated.
      *
-     * @return string Returns the success contant 'AJAX_SUCCESS' so javascript knows that
+     * @return string Returns the success constant 'AJAX_SUCCESS' so javascript knows that
      * everything completed successfully.
      */
     public function ajax_save_provider() {

@@ -13,7 +13,7 @@
  
 namespace EA\Engine\Api\V1;
 
-use \EA\Engine\Types\NonEmptyAlphanumeric;
+use \EA\Engine\Types\NonEmptyText;
 
 class AuthorizationTest extends \PHPUnit_Framework_TestCase {
     public function testBasicMethodPerformsBasicAuthentication() {
