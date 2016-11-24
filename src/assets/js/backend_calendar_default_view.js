@@ -74,12 +74,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $dialog.find('#appointment-id').val(appointment['id']);
                 $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
-
-                // Set the status
-                $dialog.find('#attendance-status').find('.as').each(function (i, jqE) {
-                    $(jqE).prop('selected', false);
-                });
-                $dialog.find('#attendance-status').find('.as_' + appointment['attendance_status']).prop('selected', true);
+                $dialog.find('#attendance-status').val(appointment['attendance_status']);
 
                 // Set the start and end datetime of the appointment.
                 var startDatetime = Date.parseExact(appointment['start_datetime'],
@@ -1154,12 +1149,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $dialog.find('#appointment-id').val(appointment['id']);
             $dialog.find('#select-service').val(appointment['id_services']).change();
             $dialog.find('#select-provider').val(appointment['id_users_provider']);
-
-            // Set the status
-            $dialog.find('#attendance-status').find('.as').each(function (i, jqE) {
-                $(jqE).prop('selected', false);
-            });
-            $dialog.find('#attendance-status').find('.as_' + appointment['attendance_status']).prop('selected', true);
+            $dialog.find('#attendance-status').val(appointment['attendance_status']);
 
             // Set the start and end datetime of the appointment.
             var startDatetime = Date.parseExact(appointment['start_datetime'],
