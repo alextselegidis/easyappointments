@@ -51,6 +51,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var startDatetime = $dialog.find('#start-datetime').datetimepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
             var endDatetime = $dialog.find('#end-datetime').datetimepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
+            var attendanceStatus = $dialog.find('select#attendance-status').val();
 
             var appointment = {
                 id_services: $dialog.find('#select-service').val(),
@@ -58,6 +59,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 start_datetime: startDatetime,
                 end_datetime: endDatetime,
                 notes: $dialog.find('#appointment-notes').val(),
+                attendance_status: attendanceStatus,
                 is_unavailable: false
             };
 
