@@ -322,7 +322,14 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     '<strong>' + EALang['customer'] + '</strong> '
                         + event.data['customer']['first_name'] + ' '
                         + event.data['customer']['last_name']
-                        + '<hr>' +
+                        + '<br>' +
+                    '<strong>' + EALang['attendance_status'] + '</strong> '
+                        + '<select>'
+                            + '<option value="registered">Registered</option>'
+                            + '<option value="checked_in">Checked in</option>'
+                            + '<option value="finished">Finished</option>'
+                            + '<option value="wont_come">Won’t come</option>'
+                        + '</select><hr>' +
                     '<center>' +
                         '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '</button>' +
                         '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang['delete'] + '</button>' +

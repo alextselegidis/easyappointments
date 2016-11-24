@@ -41,6 +41,7 @@ $lang['customer_details_title'] = '客户资料';
 $lang['service'] = '服务项目';
 $lang['provider'] = '服务人员';
 $lang['customer'] = '客户';
+$lang['attendance_status'] = '状态';
 $lang['start'] = '开始';
 $lang['end'] = '结束';
 $lang['name'] = '名字';

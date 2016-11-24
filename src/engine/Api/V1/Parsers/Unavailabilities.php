@@ -31,6 +31,7 @@ class Unavailabilities implements ParsersInterface {
             'start' => $response['start_datetime'],
             'end' => $response['end_datetime'],
             'notes' => $response['notes'],
+            'attendanceStatus' => $response['attendance_status'],
             'providerId' => $response['id_users_provider'] !== null ? (int)$response['id_users_provider'] : null,
             'googleCalendarId' => $response['id_google_calendar'] !== null ? (int)$response['id_google_calendar'] : null
         ];
@@ -65,6 +66,10 @@ class Unavailabilities implements ParsersInterface {
 
         if (!empty($request['notes'])) {
             $decodedRequest['notes'] = $request['notes']; 
+        }
+
+        if (!empty($request['attendanceStatus'])) {
+            $decodedRequest['attendance_status'] = $request['attendanceStatus'];
         }
 
         if (!empty($request['providerId'])) {

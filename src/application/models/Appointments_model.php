@@ -84,6 +84,7 @@ class Appointments_Model extends CI_Model {
      */
     protected function _insert($appointment) {
         $appointment['book_datetime'] = date('Y-m-d H:i:s');
+        $appointment['attendance_status'] = 'registered';
         $appointment['hash'] = $this->generate_hash();
 
         if (!$this->db->insert('ea_appointments', $appointment)) {
