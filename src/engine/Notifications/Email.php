@@ -100,6 +100,7 @@ class Email {
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             '$appointment_start_date' => date('d/m/Y H:i', strtotime($appointment['start_datetime'])),
             '$appointment_end_date' => date('d/m/Y H:i', strtotime($appointment['end_datetime'])),
+            '$attendance_status' => $this->framework->lang->line('attendance_status_' . $appointment['attendance_status']),
             '$appointment_link' => $appointmentLink->get(),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
@@ -119,7 +120,8 @@ class Email {
             'Email' => $this->framework->lang->line('email'),
             'Phone' => $this->framework->lang->line('phone'),
             'Address' => $this->framework->lang->line('address'),
-            'Appointment Link' => $this->framework->lang->line('appointment_link_title')
+            'Appointment Link' => $this->framework->lang->line('appointment_link_title'),
+            'Status' => $this->framework->lang->line('attendance_status')
         );
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
