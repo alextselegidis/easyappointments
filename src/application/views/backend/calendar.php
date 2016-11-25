@@ -227,10 +227,10 @@
                                 <label for="attendance-status" class="control-label col-sm-3" ><?php echo $this->lang->line('attendance_status'); ?></label>
                                 <div class="col-sm-7">
                                     <select id="attendance-status" class="required form-control">
-                                        <option value="registered" class="as as_registered" <?php echo $edit_appointment['attendance_status'] == 'registered' ? 'selected' : ''?>>Registered</option>
-                                        <option value="checked_in" class="as as_checked_in" <?php echo $edit_appointment['attendance_status'] == 'checked_in' ? 'selected' : ''?>>Checked in</option>
-                                        <option value="finished" class="as as_finished" <?php echo $edit_appointment['attendance_status'] == 'finished' ? 'selected' : ''?>>Finished</option>
-                                        <option value="wont_come" class="as as_wont_come" <?php echo $edit_appointment['attendance_status'] == 'wont_come' ? 'selected' : ''?>>Won’t come</option>
+                                        <option value="registered" class="as as_registered">Registered</option>
+                                        <option value="checked_in" class="as as_checked_in">Checked in</option>
+                                        <option value="finished" class="as as_finished">Finished</option>
+                                        <option value="wont_come" class="as as_wont_come">Won’t come</option>
                                     </select>
                                 </div>
                             </div>
