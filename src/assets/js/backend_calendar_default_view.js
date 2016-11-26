@@ -248,6 +248,114 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
     }
 
     /**
+     * Check in an appointment ajax function
+     *
+     * @param appointment {Object} the original appointment
+     * @param doCheckIn {Boolean} the action is check in or not (undo check in)
+     * @param successCallback Do upon a successful request
+     * @private
+     */
+    function _checkInAppointment(appointment, doCheckIn, successCallback) {
+        // Prepare appointment data.
+        appointment = GeneralFunctions.clone(appointment);
+
+        // Must delete the following because only appointment data should be provided to the ajax call.
+        delete appointment['customer'];
+        delete appointment['provider'];
+        delete appointment['service'];
+
+        appointment['attendance_status'] = doCheckIn ? 'checked_in' : 'registered';
+
+        var postUrl  = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            appointment_data: JSON.stringify(appointment)
+        };
+
+        var localSuccessCallback = function (response) {
+            var undoFunction = function () {
+                _checkInAppointment(appointment, !doCheckIn, successCallback)
+            };
+
+            Backend.displayNotification(EALang['appointment_updated'], [
+                {
+                    'label'   : 'Undo',
+                    'function': undoFunction
+                }
+            ]);
+
+            if (successCallback !== undefined) {
+                successCallback(response);
+            }
+
+            $('#select-filter-item').trigger('change');
+
+            // Set timer to hide the notification
+            if (GlobalVariables.NOTIFICATION_BLIND_TIMER) {
+                clearTimeout(GlobalVariables.NOTIFICATION_BLIND_TIMER);
+                GlobalVariables.NOTIFICATION_BLIND_TIMER = undefined;
+            }
+            GlobalVariables.NOTIFICATION_BLIND_TIMER = setTimeout(function () {
+                $('#notification').hide('blind');
+            }, 5000)
+        };
+
+        $.post(postUrl, postData, function(response) {
+            $('#notification').hide('blind');
+
+            localSuccessCallback && localSuccessCallback(response);
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+
+    }
+
+    /**
+     * Attach below events when appointment is checked in (or undo check in)
+     * @param eventData event.data, appointment object
+     * @param isCheckedIn the current status of checked in
+     * @private
+     */
+    function _setCheckedInStatusEvent(eventData, isCheckedIn) {
+        if (isCheckedIn) {
+            // When checked in
+            $('#checked-in-btn')
+                .unbind('mouseenter mouseleave')
+                .off('click')
+                .on('mouseenter', function () {
+                    $(this).addClass('btn-warning').removeClass('btn-success').text(EALang['attendance_action_undo_check_in']);
+                })
+                .on('mouseleave', function () {
+                    $(this).addClass('btn-success').removeClass('btn-warning').text(EALang['attendance_status_checked_in']);
+                })
+                .click(function () {
+                    _checkInAppointment(eventData, false, function successCallback() {
+                        $(this)
+                            .addClass('btn-success')
+                            .removeClass('btn-warning')
+                            .text(EALang['attendance_action_check_in'])
+                            .off('hover')
+                            .off('click');
+                        _setCheckedInStatusEvent(eventData, false);
+                    }.bind(this));
+                });
+        } else {
+            // When not checked in
+            $('#checked-in-btn')
+                .unbind('mouseenter mouseleave')
+                .off('click')
+                .click(function () {
+                    _checkInAppointment(eventData, true, function successCallback() {
+                        $(this)
+                            .addClass('btn-success')
+                            .removeClass('btn-warning')
+                            .text(EALang['attendance_status_checked_in'])
+                            .off('click');
+                        _setCheckedInStatusEvent(eventData, true);
+                    }.bind(this));
+                });
+        }
+    }
+
+    /**
      * Calendar Event "Click" Callback
      *
      * When the user clicks on an appointment object on the calendar, then a data preview popover is display
@@ -325,7 +433,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         + event.data['customer']['last_name']
                         + '<br>' +
                     '<strong>' + EALang['attendance_status'] + '</strong> '
-                        + EALang['attendance_status_' + event.data['attendance_status']]
+                        + '<button id="checked-in-btn" class="btn btn-xs btn-success">'
+                        + (event.data['attendance_status'] === 'checked_in' ? EALang['attendance_status_checked_in'] : EALang['attendance_action_check_in'])
+                        + '</button>'
                         + '<hr>' +
                     '<center>' +
                         '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '</button>' +
@@ -349,6 +459,17 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         // Fix popover position
         if ($('.popover').length > 0) {
             if ($('.popover').position().top < 200) $('.popover').css('top', '200px');
+        }
+
+        // Attach event shown click events
+        if (event.data['attendance_status'] === 'checked_in') {
+            $(jsEvent.target).on('shown.bs.popover', function () {
+                _setCheckedInStatusEvent(event.data, true);
+            });
+        } else {
+            $(jsEvent.target).on('shown.bs.popover', function () {
+                _setCheckedInStatusEvent(event.data, false);
+            });
         }
     }
 
@@ -758,7 +879,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     start: appointment['start_datetime'],
                     end: appointment['end_datetime'],
                     allDay: false,
-                    data: appointment // Store appointment data for later use.
+                    data: appointment, // Store appointment data for later use.
+                    color: appointment['attendance_status'] === 'checked_in' ? '#35b66f' : ''
                 };
 
                 calendarEvents.push(event);
@@ -1203,7 +1325,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         // Fine tune the footer's position only for this page.
         if (window.innerHeight < 700) {
             $('#footer').css('position', 'static');
-        }  
+        }
     };
 
 })(window.BackendCalendarDefaultView);

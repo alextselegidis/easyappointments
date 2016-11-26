@@ -229,8 +229,6 @@
                                     <select id="attendance-status" class="required form-control">
                                         <option value="registered" class="as as_registered">Registered</option>
                                         <option value="checked_in" class="as as_checked_in">Checked in</option>
-                                        <option value="finished" class="as as_finished">Finished</option>
-                                        <option value="wont_come" class="as as_wont_come">Won’t come</option>
                                     </select>
                                 </div>
                             </div>
