@@ -130,7 +130,7 @@
 
             GeneralFunctions.displayMessageBox(EALang['delete_secretary'],
                     EALang['delete_record_prompt'], messageBtns);
-        });
+        }.bind(this));
 
         /**
          * Event: Save Secretary Button "Click"
