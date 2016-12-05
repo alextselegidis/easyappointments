@@ -114,6 +114,7 @@ $lang['no_records_found'] = 'Nie znaleziono rekordów...';
 $lang['services'] = 'Zabieg';
 $lang['duration_minutes'] = 'Czas trwania (minuty)';
 $lang['currency'] = 'Waluta';
+$lang['location'] = 'Lokalizacja';
 $lang['category'] = 'Kategoria';
 $lang['no_category'] = 'Bez kategorii';
 $lang['description'] = 'Opis';

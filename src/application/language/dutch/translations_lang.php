@@ -114,6 +114,7 @@ $lang['no_records_found'] ='Geen records gevonden …';
 $lang['services'] ='Diensten';
 $lang['duration_minutes'] ='Duur (minuten)';
 $lang['currency'] ='Valuta';
+$lang['location'] = 'plaats';
 $lang['category'] ='Categorie';
 $lang['no_category'] ='Geen Categorie';
 $lang['description'] ='Beschrijving';

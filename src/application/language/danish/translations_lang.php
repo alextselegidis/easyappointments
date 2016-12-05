@@ -114,6 +114,7 @@ $lang['no_records_found'] = 'Ingen registering fundet';
 $lang['services'] = 'Tjenester';
 $lang['duration_minutes'] = 'Varighed.';
 $lang['currency'] = 'Gyldighedsperiode';
+$lang['location'] = 'Beliggenhed';
 $lang['category'] = 'Kategori';
 $lang['no_category'] = 'Ingen kategori';
 $lang['description'] = 'Beskrivelse';

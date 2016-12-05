@@ -114,6 +114,7 @@ $lang['no_records_found'] = 'Не са намерени записи…';
 $lang['services'] = 'Услуги';
 $lang['duration_minutes'] = 'Продължителност (минути)';
 $lang['currency'] = 'Валута';
+$lang['location'] = 'местоположение';
 $lang['category'] = 'Категория';
 $lang['no_category'] = 'Без категория';
 $lang['description'] = 'Описание';

@@ -115,6 +115,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="service-location"><?php echo $this->lang->line('location'); ?></label>
+                    <input type="text" id="service-location" class="form-control" />
+                </div>
+
+                <div class="form-group">
                     <label for="service-category"><?php echo $this->lang->line('category'); ?></label>
                     <select id="service-category" class="form-control"></select>
                 </div>

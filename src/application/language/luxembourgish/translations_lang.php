@@ -116,6 +116,7 @@ $lang['no_records_found'] = 'Keng Androunge fonnt ...';
 $lang['services'] = 'Dingschtleeschtungen';
 $lang['duration_minutes'] = 'Dauer (Minutten)';
 $lang['currency'] = 'Währung';
+$lang['location'] = 'Standuert';
 $lang['category'] = 'Kategorie';
 $lang['no_category'] = 'Keng Kategorie';
 $lang['description'] = 'Beschreiwung';

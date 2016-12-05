@@ -114,6 +114,7 @@ $lang['no_records_found'] = 'Δεν βρέθηκαν εγγραφές ...';
 $lang['services'] = 'Υπηρεσίες';
 $lang['duration_minutes'] = 'Διάρκεια (Λεπτά)';
 $lang['currency'] = 'Νομισματική Μονάδα';
+$lang['location'] = 'Τοποθεσία';
 $lang['category'] = 'Κατηγορία';
 $lang['no_category'] = 'Καμία Κατηγορία';
 $lang['description'] = 'Περιγραφή';

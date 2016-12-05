@@ -114,6 +114,7 @@ $lang['no_records_found'] = 'Não foram encontrados registos...';
 $lang['services'] = 'Serviços';
 $lang['duration_minutes'] = 'Duração (minutos)';
 $lang['currency'] = 'Moeda';
+$lang['location'] = 'Localização';
 $lang['category'] = 'Categoria';
 $lang['no_category'] = 'Sem Categoria';
 $lang['description'] = 'Descrição';

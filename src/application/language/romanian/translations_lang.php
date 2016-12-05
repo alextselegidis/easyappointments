@@ -120,6 +120,7 @@ $lang['no_records_found'] = 'Nu s-au gasit înregistrari...';
 $lang['services'] = 'Servicii';
 $lang['duration_minutes'] = 'Durata (Minute)';
 $lang['currency'] = 'Moneda';
+$lang['location'] = 'Locație';
 $lang['category'] = 'Categorie';
 $lang['no_category'] = 'Fara Categorie';
 $lang['description'] = 'Descriere';
