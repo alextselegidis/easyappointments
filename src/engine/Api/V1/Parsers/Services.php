@@ -31,6 +31,7 @@ class Services implements ParsersInterface {
             'duration' => (int)$response['duration'],
             'price' => (float)$response['price'],
             'currency' => $response['currency'],
+            'location' => $response['location'],
             'description' => $response['description'],
             'availabilitiesType' => $response['availabilities_type'],
             'attendantsNumber' => (int)$response['attendants_number'],
@@ -50,7 +51,7 @@ class Services implements ParsersInterface {
         $decodedRequest = $base ?: []; 
 
         if (!empty($request['id'])) {
-            $decodedRequest['id'] = $request['id']; 
+            $decodedRequest['id'] = $request['id'];
         }
 
         if (!empty($request['name'])) {
@@ -67,6 +68,10 @@ class Services implements ParsersInterface {
 
         if (!empty($request['currency'])) {
             $decodedRequest['currency'] = $request['currency']; 
+        }
+
+        if(!empty($request['location'])) {
+            $decodedRequest['location'] = $request['location'];
         }
 
         if (!empty($request['description'])) {

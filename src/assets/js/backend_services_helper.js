@@ -122,6 +122,7 @@
                 price: $('#service-price').val(),
                 currency: $('#service-currency').val(),
                 description: $('#service-description').val(),
+                location: $('#service-location').val(),
                 availabilities_type: $('#service-availabilities-type').val(),
                 attendants_number: $('#service-attendants-number').val()
             };
