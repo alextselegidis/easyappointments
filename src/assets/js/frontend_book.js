@@ -395,7 +395,7 @@ window.FrontendBook = window.FrontendBook || {};
             if (service.id == selServiceId) {
                 servicePrice = '<br>' + service.price;
                 serviceCurrency = service.currency;
-                serviceLocation = service.location;
+                serviceLocation = (serviceLocation != null) ? serviceLocation : '';
                 return false; // break loop
             }
         });
