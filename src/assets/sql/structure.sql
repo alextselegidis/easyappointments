@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   `duration` int(11) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `currency` varchar(32) DEFAULT NULL,
+  `location` varchar(256) DEFAULT NULL,
   `description` text,
   `availabilities_type` varchar(32) DEFAULT 'flexible',
   `attendants_number` int(11) DEFAULT '1',
