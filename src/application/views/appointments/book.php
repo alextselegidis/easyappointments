@@ -170,16 +170,18 @@
                                                 if (count($group) > 0) {
                                                     echo '<optgroup label="' . $group_label . '">';
                                                     foreach($group as $service) {
+                                                        $location = (!empty($service['location'])) ? ' - ' . $service['location'] : '';
                                                         echo '<option value="' . $service['id'] . '">'
-                                                            . $service['name'] . '</option>';
+                                                            . $service['name'] . $location . '</option>';
                                                     }
                                                     echo '</optgroup>';
                                                 }
                                             }
                                         }  else {
                                             foreach($available_services as $service) {
+                                                $location = (!empty($service['location'])) ? ' - ' . $service['location'] : '';
                                                 echo '<option value="' . $service['id'] . '">'
-                                                            . $service['name'] . '</option>';
+                                                            . $service['name'] . $location . '</option>';
                                             }
                                         }
                                     ?>
