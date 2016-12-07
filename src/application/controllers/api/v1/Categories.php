@@ -145,6 +145,3 @@ class Categories extends API_V1_Controller {
         }
     }
 }
-
-/* End of file Categories.php */
-/* Location: ./application/controllers/api/v1/Categories.php */

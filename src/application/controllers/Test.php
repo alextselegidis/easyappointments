@@ -70,6 +70,3 @@ class Test extends CI_Controller {
         //$this->unit_tests->run_library_tests();
     }
 }
-
-/* End of file test.php */
-/* Location: ./application/controllers/test.php */

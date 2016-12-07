@@ -477,6 +477,3 @@ class Secretaries_Model extends CI_Model {
         return ($num_rows > 0) ? FALSE : TRUE;
     }
 }
-
-/* End of file secretaries_model.php */
-/* Location: ./application/models/secretaries_model.php */

@@ -145,6 +145,3 @@ class Unavailabilities extends API_V1_Controller {
         }  
     }
 }
-
-/* End of file Unavailabilities.php */
-/* Location: ./application/controllers/api/v1/Unavailabilities.php */

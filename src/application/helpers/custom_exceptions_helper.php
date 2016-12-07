@@ -81,6 +81,3 @@ function exceptionToJavaScript($exception) {
         'trace' => $exception->getTraceAsString()
     ));
 }
-
-/* End of file exception_types_helper.php */
-/* Location: ./application/helpers/exception_types_helper.php */

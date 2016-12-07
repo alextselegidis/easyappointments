@@ -145,6 +145,3 @@ class Secretaries extends API_V1_Controller {
         }
     }
 }
-
-/* End of file Secretaries.php */
-/* Location: ./application/controllers/api/v1/Secretaries.php */

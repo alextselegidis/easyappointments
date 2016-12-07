@@ -313,6 +313,3 @@ class Availabilities extends API_V1_Controller {
 		$available_hours = array_values($available_hours);
     }
 }
-
-/* End of file Availabilities.php */
-/* Location: ./application/controllers/api/v1/Availabilities.php */

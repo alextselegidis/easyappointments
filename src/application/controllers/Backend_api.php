@@ -1265,6 +1265,3 @@ class Backend_api extends CI_Controller {
         }
     }
 }
-
-/* End of file backend_api.php */
-/* Location: ./application/controllers/backend_api.php */

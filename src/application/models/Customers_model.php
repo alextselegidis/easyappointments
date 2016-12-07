@@ -315,6 +315,3 @@ class Customers_Model extends CI_Model {
         return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_CUSTOMER))->row()->id;
     }
 }
-
-/* End of file customers_model.php */
-/* Location: ./application/models/customers_model.php */

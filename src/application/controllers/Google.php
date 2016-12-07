@@ -228,6 +228,3 @@ class Google extends CI_Controller {
         }
     }
 }
-
-/* End of file google.php */
-/* Location: ./application/controllers/google.php */

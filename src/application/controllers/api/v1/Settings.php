@@ -128,6 +128,3 @@ class Settings extends API_V1_Controller {
         }  
     }
 }
-
-/* End of file Settings.php */
-/* Location: ./application/controllers/api/v1/Settings.php */

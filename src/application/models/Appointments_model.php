@@ -410,6 +410,3 @@ class Appointments_Model extends CI_Model {
         ])->num_rows();
     }
 }
-
-/* End of file appointments_model.php */
-/* Location: ./application/models/appointments_model.php */
