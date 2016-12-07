@@ -1,0 +1,29 @@
+# Easy!Appointments
+# docker-compose up ea
+ea_data:
+  image: 'busybox:latest'
+  volumes:
+    - /var/lib/mysql
+    - ./src:/app
+  command: sleep 3153600000
+ea_db:
+  environment:
+    MYSQL_ROOT_PASSWORD: supersecret
+    MYSQL_DATABASE: easyappts
+  image: mysql:5.7
+  volumes_from:
+    - ea_data
+  # ports:
+    # - 8003:3306
+  restart: always
+  mem_limit: 200m
+ea:
+  build: ./
+  ports:
+    - 8001:80
+    # - 8002:9000
+  links:
+    - ea_db:ea_db
+  volumes_from:
+    - ea_data
+# Easy!Appointments end
