@@ -130,7 +130,7 @@
 
             GeneralFunctions.displayMessageBox(EALang['delete_secretary'],
                     EALang['delete_record_prompt'], messageBtns);
-        });
+        }.bind(this));
 
         /**
          * Event: Save Secretary Button "Click"
@@ -184,7 +184,7 @@
          *
          * Cancel add or edit of an secretary record.
          */
-        $('#secretaries').on('Click', '#cancel-secretary', function() {
+        $('#secretaries').on('click', '#cancel-secretary', function() {
             var id = $('#secretary-id').val();
             this.resetForm();
             if (id != '') {

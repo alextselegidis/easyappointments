@@ -13,14 +13,14 @@
 
 namespace EA\Engine\Types; 
 
-class AlphanumericTest extends \PHPUnit_Framework_TestCase {
+class TextTest extends \PHPUnit_Framework_TestCase {
     public function testStringType() {
-        $type = new Alphanumeric('Hello!');
+        $type = new Text('Hello!');
         $this->assertEquals('Hello!', $type->get()); 
     } 
 
     public function testStringTypeThrowsExceptionWithInvalidValue() {
         $this->setExpectedException('\InvalidArgumentException');
-        new Alphanumeric(null);
+        new Text(null);
     }
 }

@@ -81,6 +81,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             var $dateColumn = $(dateColumn); 
                             var date = new Date($dateColumn.data('date'));
 
+                            if (currentDate.getTime() !== date.getTime()) {
+                                return true;
+                            }
+
                             $(dateColumn).find('.provider-column').each(function(index, providerColumn) {
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
@@ -454,6 +458,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Date} endDate End date to be displayed. 
      */
     function _createView(startDate, endDate) {
+        // Disable date navigation.
+        $('#calendar .calendar-header .btn').addClass('disabled').prop('disabled', true);
+
         $('#calendar .calendar-view table').stickyTableHeaders('destroy');
         $('#calendar .calendar-view').remove();
 
@@ -482,6 +489,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 _setCalendarSize();
                 Backend.placeFooterToBottom();
+
+                // Activate calendar navigation.
+                $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false)
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     }
@@ -660,7 +670,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDuration = Math.round((endDate - startDate) / 60000);
 
             $event.html(            
-                appointment.customer.last_name + 
+                appointment.customer.first_name.charAt(0) + '. ' + appointment.customer.last_name +
                 ' <span class="hour">' + startDate.toString('HH:mm') + '</span> '
                 + (eventDuration !== parseInt(appointment.service.duration) ? '(' + eventDuration + '\')' : '') 
             );

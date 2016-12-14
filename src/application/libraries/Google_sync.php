@@ -359,6 +359,3 @@ class Google_Sync {
          return $calendars;
     }
 }
-
-/* End of file google_sync.php */
-/* Location: ./application/libraries/google_sync.php */

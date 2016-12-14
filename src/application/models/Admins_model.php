@@ -397,6 +397,3 @@ class Admins_Model extends CI_Model {
         return ($num_rows > 0) ? FALSE : TRUE;
     }
 }
-
-/* End of file admins_model.php */
-/* Location: ./application/models/admins_model.php */

@@ -113,7 +113,7 @@
             <?php echo $this->lang->line('book_appointment_title'); ?>
         </a>
 
-        <a href="<?php echo site_url('backend'); ?>" class="btn btn-danger btn-large">
+        <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
             <span class="glyphicon glyphicon-wrench"></span>
             <?php echo $this->lang->line('backend_section'); ?>
         </a>

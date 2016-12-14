@@ -13,8 +13,8 @@
 
 namespace EA\Engine\Notifications; 
 
-use \EA\Engine\Types\Alphanumeric;
-use \EA\Engine\Types\NonEmptyAlphanumeric;
+use \EA\Engine\Types\Text;
+use \EA\Engine\Types\NonEmptyText;
 use \EA\Engine\Types\Url;
 use \EA\Engine\Types\Email as EmailAddress;
 
@@ -43,7 +43,7 @@ class Email {
     /**
      * Class Constructor
      *
-     * @param CI_Controller $framework 
+     * @param \CI_Controller $framework
      * @param array $config Contains the email configuration to be used.
      */
     public function __construct(\CI_Controller $framework, array $config) {
@@ -82,14 +82,14 @@ class Email {
      * @param array $customer Contains the customer data.
      * @param array $company Contains settings of the company. By the time the
      * "company_name", "company_link" and "company_email" values are required in the array.
-     * @param \EA\Engine\Types\Alphanumeric $title The email title may vary depending the receiver.
-     * @param \EA\Engine\Types\Alphanumeric $message The email message may vary depending the receiver.
+     * @param \EA\Engine\Types\Text $title The email title may vary depending the receiver.
+     * @param \EA\Engine\Types\Text $message The email message may vary depending the receiver.
      * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes
      * to the appointment record.
      * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
      */
     public function sendAppointmentDetails(array $appointment, array $provider, array $service,
-                                           array $customer, array $company, Alphanumeric $title, Alphanumeric $message, Url $appointmentLink,
+                                           array $customer, array $company, Text $title, Text $message, Url $appointmentLink,
                                            EmailAddress $recipientEmail) {
 
         // Prepare template replace array.
@@ -135,7 +135,7 @@ class Email {
 
         if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                    . $this->mailer->ErrorInfo);
+                    . $mailer->ErrorInfo);
         }
     }
 
@@ -155,11 +155,11 @@ class Email {
      * @param array $company Some settings that are required for this function. By now this array must contain 
      * the following values: "company_link", "company_name", "company_email".
      * @param \EA\Engine\Types\Email $recipientEmail The email address of the email recipient.
-     * @param \EA\Engine\Types\String $reason The reason why the appointment is deleted.
+     * @param \EA\Engine\Types\Text $reason The reason why the appointment is deleted.
      */
     public function sendDeleteAppointment(array $appointment, array $provider,
                                           array $service, array $customer, array $company, EmailAddress $recipientEmail,
-                                          Alphanumeric $reason) {
+                                          Text $reason) {
         // Prepare email template data. 
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
@@ -193,27 +193,29 @@ class Email {
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/delete_appointment.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
 
-        // Send email to recipient.
-        $this->mailer->From = $company['company_email'];
-        $this->mailer->FromName = $company['company_name'];
-        $this->mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
-        $this->mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
-        $this->mailer->Body = $html;
+        $mailer = $this->_createMailer();
 
-        if (!$this->mailer->Send()) {
+        // Send email to recipient.
+        $mailer->From = $company['company_email'];
+        $mailer->FromName = $company['company_name'];
+        $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
+        $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
+        $mailer->Body = $html;
+
+        if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                    . $this->mailer->ErrorInfo);
+                    . $mailer->ErrorInfo);
         }
     }
 
     /**
      * This method sends an email with the new password of a user.
      *
-     * @param \EA\Engine\Types\NonEmptyAlphanumeric $password Contains the new password.
+     * @param \EA\Engine\Types\NonEmptyText $password Contains the new password.
      * @param \EA\Engine\Types\Email $recipientEmail The receiver's email address.
      * @param array $company The company settings to be included in the email.
      */
-    public function sendPassword(NonEmptyAlphanumeric $password, EmailAddress $recipientEmail, array $company) {
+    public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company) {
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
@@ -236,7 +238,7 @@ class Email {
 
         if (!$mailer->Send()) {
             throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                . $this->mailer->ErrorInfo);
+                . $mailer->ErrorInfo);
         }
     }
 

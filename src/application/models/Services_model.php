@@ -385,6 +385,3 @@ class Services_Model extends CI_Model {
 
     }
 }
-
-/* End of file services_model.php */
-/* Location: ./application/models/services_model.php */

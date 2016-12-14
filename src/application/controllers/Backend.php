@@ -307,6 +307,3 @@ class Backend extends CI_Controller {
         $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
 }
-
-/* End of file backend.php */
-/* Location: ./application/controllers/backend.php */

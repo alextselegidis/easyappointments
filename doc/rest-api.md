@@ -158,8 +158,8 @@ You can also try the GET requests with your browser by navigating to the respect
 ```
 {
     "id": 97,
-    "firstname": "John", 
-    "lastname": "Doe", 
+    "firstName": "John", 
+    "lastName": "Doe", 
     "email": "john@doe.com", 
     "phone": "0123456789",
     "address": "Some Str. 123", 
@@ -223,8 +223,8 @@ You can also try the GET requests with your browser by navigating to the respect
 ```
 {  
     "id": 143,
-    "firstname": "Chris",
-    "lastname": "Doe",
+    "firstName": "Chris",
+    "lastName": "Doe",
     "email": "chris@doe.com",
     "mobile": "012345679-0",
     "phone": "0123456789-1",
@@ -253,8 +253,8 @@ You can also try the GET requests with your browser by navigating to the respect
 ```
 {  
     "id": 143,
-    "firstname": "Chloe",
-    "lastname": "Doe",
+    "firstName": "Chloe",
+    "lastName": "Doe",
     "email": "chloe@doe.com",
     "mobile": "012345679-0",
     "phone": "0123456789-1",
@@ -338,8 +338,8 @@ You can also try the GET requests with your browser by navigating to the respect
 ```
 {  
     "id": 143,
-    "firstname": "Chris",
-    "lastname": "Doe",
+    "firstName": "Chris",
+    "lastName": "Doe",
     "email": "chris@doe.com",
     "mobile": "012345679-0",
     "phone": "0123456789-1",
@@ -434,3 +434,5 @@ fastcgi_param PHP_AUTH_PW $http_authorization;
 [[Source]](http://serverfault.com/a/520943)
 
 *This document applies to Easy!Appointments v1.2*.
+
+[Back](readme.md)

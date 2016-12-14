@@ -15,7 +15,7 @@ require_once __DIR__ . '/API_V1_Controller.php';
 
 use \EA\Engine\Api\V1\Response;
 use \EA\Engine\Api\V1\Request;
-use \EA\Engine\Types\NonEmptyAlphanumeric;
+use \EA\Engine\Types\NonEmptyText;
 
 /**
  * Appointments Controller
@@ -88,7 +88,7 @@ class Appointments extends API_V1_Controller {
             // Fetch the new object from the database and return it to the client.
             $batch = $this->appointments_model->get_batch('id = ' . $id); 
             $response = new Response($batch); 
-            $status = new NonEmptyAlphanumeric('201 Created');
+            $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(true)->output($status); 
         } catch(\Exception $exception) {
             exit($this->_handleException($exception)); 
@@ -132,7 +132,7 @@ class Appointments extends API_V1_Controller {
      */
     public function delete($id) {
         try {
-            $result = $this->appointments_model->delete($id);
+            $this->appointments_model->delete($id);
 
             $response = new Response([
                 'code' => 200, 
@@ -145,6 +145,3 @@ class Appointments extends API_V1_Controller {
         }  
     }
 }
-
-/* End of file Appointments.php */
-/* Location: ./application/controllers/api/v1/Appointments.php */

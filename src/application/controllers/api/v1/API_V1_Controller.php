@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\NonEmptyAlphanumeric;
+use \EA\Engine\Types\NonEmptyText;
 
 /**
  * API V1 Controller 
@@ -35,14 +35,15 @@ class API_V1_Controller extends CI_Controller {
      */
     public function __construct() {
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
-            return $this->_requestAuthentication();
+            $this->_requestAuthentication();
+	        return;
         }
 
         parent::__construct();
 
         try {
-            $username = new NonEmptyAlphanumeric($_SERVER['PHP_AUTH_USER']);
-            $password = new NonEmptyAlphanumeric($_SERVER['PHP_AUTH_PW']);
+            $username = new NonEmptyText($_SERVER['PHP_AUTH_USER']);
+            $password = new NonEmptyText($_SERVER['PHP_AUTH_PW']);
             $authorization = new \EA\Engine\Api\V1\Authorization($this); 
             $authorization->basic($username, $password); 
         } catch(\Exception $exception) {
@@ -91,6 +92,3 @@ class API_V1_Controller extends CI_Controller {
         throw new \EA\Engine\Api\V1\Exception('The requested record was not found!', 404,  'Not Found');
     }
 }
-
-/* End of file API_V1_Controller.php */
-/* Location: ./application/controllers/API_V1_Controller.php */

@@ -571,6 +571,3 @@ class Providers_Model extends CI_Model {
         return ($num_rows > 0) ? FALSE : TRUE;
     }
 }
-
-/* End of file providers_model.php */
-/* Location: ./application/models/providers_model.php */

@@ -225,7 +225,7 @@
          * Event: Reset Working Plan Button "Click".
          */
         $('#providers').on('click', '#reset-working-plan', function() {
-            $('.breaks').empty();
+            $('.breaks tbody').empty();
             $('.work-start, .work-end').val('');
             BackendUsers.wp.setup(GlobalVariables.workingPlan);
             BackendUsers.wp.timepickers(false);

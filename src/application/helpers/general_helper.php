@@ -88,6 +88,3 @@ function generate_random_string($length = 10) {
     }
     return $random_string;
 }
-
-/* End of file general_helper.php */
-/* Location: ./application/helpers/general_helper.php */

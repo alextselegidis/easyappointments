@@ -24,6 +24,3 @@ function validate_mysql_datetime($datetime) {
     $dt = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
     return ($dt) ? TRUE : FALSE;
 }
-
-/* End of file data_validation_helper.php */
-/* Location: ./application/helpers/data_validation_helper.php */

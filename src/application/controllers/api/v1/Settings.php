@@ -15,7 +15,6 @@ require_once __DIR__ . '/API_V1_Controller.php';
 
 use \EA\Engine\Api\V1\Response;
 use \EA\Engine\Api\V1\Request;
-use \EA\Engine\Types\NonEmptyAlphanumeric;
 
 /**
  * Settings Controller
@@ -129,6 +128,3 @@ class Settings extends API_V1_Controller {
         }  
     }
 }
-
-/* End of file Settings.php */
-/* Location: ./application/controllers/api/v1/Settings.php */

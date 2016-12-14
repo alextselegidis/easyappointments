@@ -120,6 +120,3 @@ class Installation extends CI_Controller {
         }
     }
 }
-
-/* End of file installation.php */
-/* Location: ./application/controllers/installation.php */

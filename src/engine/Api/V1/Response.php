@@ -13,7 +13,7 @@
 
 namespace EA\Engine\Api\V1; 
 
-use EA\Engine\Types\NonEmptyAlphanumeric;
+use EA\Engine\Types\NonEmptyText;
 
 /**
  * API v1 Response 
@@ -22,9 +22,9 @@ use EA\Engine\Types\NonEmptyAlphanumeric;
  * use directly the provided GET parameters for easier manipulation.
  *
  * Example:
- *   $formatter = new \EA\Engine\Api\V1\Formatters\Appointments;
+ *   $parser = new \EA\Engine\Api\V1\Parsers\Appointments;
  *   $response = new \EA\Engine\Api\V1\Response($data);
- *   $response->format($formatter)->search()->sort()->paginate()->minimize()->output();
+ *   $response->format($parser)->search()->sort()->paginate()->minimize()->output();
  */
 class Response {
     /**
@@ -46,7 +46,7 @@ class Response {
     /**
      * Encode the response entries to the API compatible structure. 
      * 
-     * @param \Parsers\ParsersInterface $parser Provide the corresponding parser class. 
+     * @param Parsers\ParsersInterface $parser Provide the corresponding parser class.
      *
      * @return \EA\Engine\Api\V1\Response
      */
@@ -124,12 +124,12 @@ class Response {
     /**
      * Output the response as a JSON with the provided status header. 
      *
-     * @param \EA\Engine\Types\NonEmptyAlphanumeric $status Optional (null), if provided it must contain the status
+     * @param \EA\Engine\Types\NonEmptyText $status Optional (null), if provided it must contain the status
      * header value. Default string: '200 OK'.
      *
      * @return \EA\Engine\Api\V1\Response
      */
-    public function output(NonEmptyAlphanumeric $status = null) {
+    public function output(NonEmptyText $status = null) {
         $header = $status ? $status->get() : '200 OK'; 
 
         header('HTTP/1.0 ' . $header); 

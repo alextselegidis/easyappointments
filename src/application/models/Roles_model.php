@@ -77,6 +77,3 @@ class Roles_Model extends CI_Model {
         return $privileges;
     }
 }
-
-/* End of file roles_model.php */
-/* Location: ./application/models/roles_model.php */

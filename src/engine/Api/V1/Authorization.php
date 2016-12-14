@@ -13,7 +13,7 @@
 
 namespace EA\Engine\Api\V1; 
 
-use \EA\Engine\Types\NonEmptyAlphanumeric;
+use \EA\Engine\Types\NonEmptyText;
 
 /**
  * API v1 Authorization Class 
@@ -40,12 +40,12 @@ class Authorization {
     /**
      * Perform Basic Authentication
      * 
-     * @param NonEmptyAlphanumeric $username Admin Username
-     * @param NonEmptyAlphanumeric $password Admin Password
+     * @param NonEmptyText $username Admin Username
+     * @param NonEmptyText $password Admin Password
      *
      * @throws \EA\Engine\Api\V1\Exception Throws 401-Unauthorized exception if the authentication fails.
      */
-    public function basic(NonEmptyAlphanumeric $username, NonEmptyAlphanumeric $password) {
+    public function basic(NonEmptyText $username, NonEmptyText $password) {
         $this->framework->load->model('user_model'); 
 
         if (!$this->framework->user_model->check_login($username->get(), $password->get())) { 
