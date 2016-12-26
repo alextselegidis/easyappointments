@@ -145,6 +145,3 @@ class Admins extends API_V1_Controller {
         }
     }
 }
-
-/* End of file Admins.php */
-/* Location: ./application/controllers/api/v1/Admins.php */

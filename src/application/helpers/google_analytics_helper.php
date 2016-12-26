@@ -38,6 +38,3 @@ function google_analytics_script() {
         ';
     }
 }
-
-/* End of file google_analytics.php */
-/* Location: ./application/helpers/google_analytics.php */

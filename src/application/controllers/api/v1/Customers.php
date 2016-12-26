@@ -145,6 +145,3 @@ class Customers extends API_V1_Controller {
         }
     }
 }
-
-/* End of file Customers.php */
-/* Location: ./application/controllers/api/v1/Customers.php */

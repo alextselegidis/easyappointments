@@ -145,6 +145,3 @@ class Appointments extends API_V1_Controller {
         }  
     }
 }
-
-/* End of file Appointments.php */
-/* Location: ./application/controllers/api/v1/Appointments.php */

@@ -37,6 +37,3 @@ class Captcha extends CI_Controller {
         $builder->output();
     }
 }
-
-/* End of file appointments.php */
-/* Location: ./application/controllers/appointments.php */

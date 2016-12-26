@@ -145,6 +145,3 @@ class Providers extends API_V1_Controller {
         }
     }
 }
-
-/* End of file Providers.php */
-/* Location: ./application/controllers/api/v1/Providers.php */

@@ -35,7 +35,8 @@ class API_V1_Controller extends CI_Controller {
      */
     public function __construct() {
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
-            return $this->_requestAuthentication();
+            $this->_requestAuthentication();
+	        return;
         }
 
         parent::__construct();
@@ -91,6 +92,3 @@ class API_V1_Controller extends CI_Controller {
         throw new \EA\Engine\Api\V1\Exception('The requested record was not found!', 404,  'Not Found');
     }
 }
-
-/* End of file API_V1_Controller.php */
-/* Location: ./application/controllers/API_V1_Controller.php */

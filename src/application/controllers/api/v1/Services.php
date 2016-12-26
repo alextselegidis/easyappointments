@@ -145,6 +145,3 @@ class Services extends API_V1_Controller {
         }
     }
 }
-
-/* End of file Services.php */
-/* Location: ./application/controllers/api/v1/Services.php */

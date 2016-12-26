@@ -886,6 +886,3 @@ class Appointments extends CI_Controller {
 		$available_hours = array_values($available_hours);
     }
 }
-
-/* End of file appointments.php */
-/* Location: ./application/controllers/appointments.php */
