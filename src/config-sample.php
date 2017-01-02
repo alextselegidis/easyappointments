@@ -38,10 +38,10 @@ class Config {
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
 
-    const DB_HOST       = '';
-    const DB_NAME       = '';
-    const DB_USERNAME   = '';
-    const DB_PASSWORD   = '';
+    const DB_HOST       = 'ea_db';
+    const DB_NAME       = 'easyappts';
+    const DB_USERNAME   = 'root';
+    const DB_PASSWORD   = 'supersecret';
 
     // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
