@@ -1,0 +1,23 @@
+storage:
+  image: 'busybox:latest'
+  volumes:
+    - /var/lib/mysql
+    - ./src:/app
+  command: sleep 3153600000
+database:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: easyappointments
+  volumes_from:
+    - storage
+  restart: always
+  mem_limit: 200m
+app:
+  build: ./
+  ports:
+    - 80:80
+  links:
+    - database:database
+  volumes_from:
+    - storage
