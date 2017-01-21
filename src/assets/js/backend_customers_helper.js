@@ -22,7 +22,7 @@
      */
     function CustomersHelper() {
         this.filterResults = {};
-    };
+    }
 
     /**
      * Binds the default event handlers of the backend customers page.
