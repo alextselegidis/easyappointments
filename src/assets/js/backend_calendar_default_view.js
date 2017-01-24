@@ -302,7 +302,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     ? '' : 'hide';
 
             var map_section = '';
-            var map_link = window.BackendCalendarMap.getMapLink(entry.customer);
+            var map_link = window.BackendCalendarMap.getMapLink(event.data.customer);
             if(!!map_link){
                 map_section = '<br><strong>' + EALang['map'] + '</strong>'+map_link;
             }
