@@ -301,6 +301,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             displayDelete = (GlobalVariables.user.privileges.appointments.delete == true)
                     ? '' : 'hide';
 
+            var map_section = '';
+            var map_link = window.BackendCalendarMap.getMapLink(entry.customer);
+            if(!!map_link){
+                map_section = '<br><strong>' + EALang['map'] + '</strong>'+map_link;
+            }
+
             html =
                     '<style type="text/css">'
                         + '.popover-content strong {min-width: 80px; display:inline-block;}'
@@ -322,6 +328,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     '<strong>' + EALang['customer'] + '</strong> '
                         + event.data['customer']['first_name'] + ' '
                         + event.data['customer']['last_name']
+                        + map_section
                         + '<hr>' +
                     '<center>' +
                         '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '</button>' +

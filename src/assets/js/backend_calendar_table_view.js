@@ -139,7 +139,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }); 
 
         var lastFocusedEventData;
-        var mapLinkTemplate = '<a target="_blank" href="https://www.google.com/maps/place/{$full_address}">'+EALang['map']+'</a>';
         /**
          * Event: On Table Event Click
          * 
@@ -180,17 +179,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         '</center>';
             } else {
                 var map_section = '';
-				if(!!entry.customer.address){
-                    var full_address = entry.customer.address;
-
-                    if(!!entry.customer.city)
-                        full_address +=','+entry.customer.city;
-
-                    if(!!entry.customer.zip)
-                        full_address +=','+entry.customer.zip;
-
-                    map_section = '<br><strong>' + EALang['open_map'] + '</strong> '
-                            + mapAncorTemplate.replace('{$full_address}', full_address.replace(/ /g,'+'));
+                var map_link = window.BackendCalendarMap.getMapLink(entry.customer);
+				if(!!map_link){
+                    map_section = '<br><strong>' + EALang['map'] + '</strong>'+map_link;
 				}
                 html =
                         '<style type="text/css">'

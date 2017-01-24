@@ -285,4 +285,5 @@ $lang['availabilities_type'] = 'Availabilities Type';
 $lang['flexible'] = 'Flexible';
 $lang['fixed'] = 'Fixed';
 $lang['attendants_number'] = 'Attendants Number';
+$lang['map'] = 'Mappa';
 $lang['open_map'] = 'Apri mappa';

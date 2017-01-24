@@ -279,4 +279,5 @@ $lang['availabilities_type'] = 'Availabilities Type';
 $lang['flexible'] = 'Flexible';
 $lang['fixed'] = 'Fixed';
 $lang['attendants_number'] = 'Attendants Number';
+$lang['map'] = 'Map';
 $lang['open_map'] = 'Open map';

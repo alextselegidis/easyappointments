@@ -14,6 +14,9 @@
         src="<?php echo $base_url; ?>/assets/js/backend_calendar.js"></script>
 
 <script type="text/javascript"
+        src="<?php echo $base_url; ?>/assets/js/backend_calendar_map.js"></script>
+
+<script type="text/javascript"
         src="<?php echo $base_url; ?>/assets/js/backend_calendar_default_view.js"></script>
 
 <script type="text/javascript"
