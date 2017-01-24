@@ -139,7 +139,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }); 
 
         var lastFocusedEventData;
-        
+        var mapLinkTemplate = '<a target="_blank" href="https://www.google.com/maps/place/{$full_address}">'+EALang['map']+'</a>';
         /**
          * Event: On Table Event Click
          * 
@@ -179,6 +179,19 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang['close'] + '</button>' +
                         '</center>';
             } else {
+                var map_section = '';
+				if(!!entry.customer.address){
+                    var full_address = entry.customer.address;
+
+                    if(!!entry.customer.city)
+                        full_address +=','+entry.customer.city;
+
+                    if(!!entry.customer.zip)
+                        full_address +=','+entry.customer.zip;
+
+                    map_section = '<br><strong>' + EALang['open_map'] + '</strong> '
+                            + mapAncorTemplate.replace('{$full_address}', full_address.replace(/ /g,'+'));
+				}
                 html =
                         '<style type="text/css">'
                             + '.popover-content strong {min-width: 80px; display:inline-block;}'
@@ -200,6 +213,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         '<strong>' + EALang['customer'] + '</strong> '
                             + entry.customer.first_name + ' '
                             + entry.customer.last_name
+                            + map_section
                             + '<hr>' +
                         '<center>' +
                             '<button class="edit-popover btn btn-primary">' + EALang['edit'] + '</button>' +
