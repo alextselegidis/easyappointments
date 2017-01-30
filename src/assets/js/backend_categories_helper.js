@@ -23,7 +23,7 @@
      */
     function CategoriesHelper() {
         this.filterResults = {};
-    };
+    }
 
     /**
      * Binds the default event handlers of the categories tab.

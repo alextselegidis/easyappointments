@@ -22,7 +22,7 @@
      */
     function ServicesHelper() {
         this.filterResults = {};
-    };
+    }
 
     ServicesHelper.prototype.bindEventHandlers = function() {
         var instance = this;
