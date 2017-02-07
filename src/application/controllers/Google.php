@@ -96,11 +96,13 @@ class Google extends CI_Controller {
      *
      * @param numeric $provider_id Provider record to be synced.
      */
-    public function sync($provider_id = NULL) {
+    public function sync($provider_id = NULL, $auth_token = NULL) {
         try {
             // The user must be logged in.
-            $this->load->library('session');
-            if ($this->session->userdata('user_id') == FALSE) return;
+            if($auth_token != Config::AUTH_SYNC_TOKEN){
+				$this->load->library('session');
+				if ($this->session->userdata('user_id') == FALSE) return;
+			}
 
             if ($provider_id === NULL) {
                 throw new Exception('Provider id not specified.');
