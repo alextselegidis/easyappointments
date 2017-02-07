@@ -138,8 +138,8 @@ class Google_Sync {
         $this->CI->load->helper('general');
 
         $event = new Google_Event();
-        $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
-        $event->setLocation($company_settings['company_name']);
+        $event->setSummary(($service != NULL) ? $service['name'] . ' - ' . $customer['first_name'] . ' ' . $customer['last_name'] : 'Unavailable');
+        $event->setLocation($customer['address'] . ',' . $customer['city']);
 
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
