@@ -29,6 +29,61 @@ class Filter implements ProcessorsInterface
      * @param array &$response The response array to be processed.
      */
     public static function process(array &$response) {
-        // Not implemented yet.
+        
+        if ( empty($_GET) || empty($response)) {
+            return;
+        }
+
+        // Get a list of columns in the table ea_appointments.
+        $ci =& get_instance();
+        $ci->load->database();
+        $results = $ci->db->list_fields('ea_appointments');
+
+        // copy all the values to keys for searching, remove everything after the _ in the table name
+        foreach ($results as $value) {
+            $value = ( strpos($value, '_') > 0 ) ? substr($value, 0, strpos($value, '_')) : $value;
+            $table_columns[$value]=0;
+        }
+
+        // Get a list of matches
+        $search_columns = array_intersect_key($table_columns, $_GET);
+
+        $filteredResponse = [];
+
+        // Search all keys for values
+        foreach ($search_columns as $key => $value) {
+
+            $column = (string)$key;
+            $keyword = (string)strtolower(urldecode($_GET["$key"]));
+
+            foreach ($response as $entry) {
+                if (self::_recursiveArraySearch($entry, $keyword, $column) !== false) {
+                    $filteredResponse[] = $entry;
+                }
+            }
+
+        }
+
+        $response = $filteredResponse;
+    }
+
+    /**
+     * Recursive Array Search 
+     * 
+     * @param array $haystack Array to search in. 
+     * @param string $needle Keyword to be searched.
+     * 
+     * @return int|bool Returns the index of the search occurrence or false it nothing was found.
+     */
+    protected static function _recursiveArraySearch(array $haystack, $needle, $column) {
+        foreach ($haystack as $key => $value) {
+            $currentKey = $key;
+
+            if ( strcmp($currentKey, $column) === false || strpos(strtolower($value), $needle) !== false || (is_array($value) && self::_recursiveArraySearch($value, $needle, $column) !== false)) {
+                return $currentKey;
+            }
+        }
+
+        return false;
     }
 }

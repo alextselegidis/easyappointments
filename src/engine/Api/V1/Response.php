@@ -70,6 +70,18 @@ class Response {
     }
 
     /**
+     * Perform a response on a filter request. 
+     *
+     * @return \EA\Engine\Api\V1\Response
+     */
+    public function filter() {
+    
+        Processors\Filter::process($this->response); 
+
+        return $this;
+    }
+
+    /**
      * Perform a response sort. 
      *
      * @return \EA\Engine\Api\V1\Response

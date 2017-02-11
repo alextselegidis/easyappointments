@@ -58,6 +58,7 @@ class Appointments extends API_V1_Controller {
 
             $response->encode($this->parser)
                     ->search()
+                    ->filter()
                     ->sort()
                     ->paginate()
                     ->minimize()
@@ -69,42 +70,6 @@ class Appointments extends API_V1_Controller {
         }   
     }
 
-    /**
-     * GET API Method for sub filter
-     * 
-     * @param value field $value Optional (null), the record table row value to search.
-     */
-    public function filter($col = null, $value = null) {
-
-        try {
-            $condition = $col !== null ?  $col : null;
-
-            if ( is_null($condition) ) {
-                $this->_throwErrorMessage('You cannot have an empty column to filter. Must be in format ../filter/table_column/search_string'); 
-            }
-
-            $condition = $value !== null ?  $condition .' LIKE "%'. $value . '%"' : null;
-
-            $appointments = $this->appointments_model->get_batch($condition); 
-
-            if ($value !== null && count($appointments) === 0) {
-                $this->_throwRecordNotFound();
-            }
-
-            $response = new Response($appointments); 
-
-            $response->encode($this->parser)
-                    ->search()
-                    ->sort()
-                    ->paginate()
-                    ->minimize()
-                    ->singleEntry($value)
-                    ->output();
-
-        } catch(\Exception $exception) {
-            exit($this->_handleException($exception)); 
-        }   
-    }
 
     /**
      * GET API Method for sub filter
