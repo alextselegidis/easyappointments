@@ -139,9 +139,7 @@ class Google_Sync {
 
         $event = new Google_Event();
         $event->setSummary(($service != NULL) ? $service['name'] . ' - ' . $customer['first_name'] . ' ' . $customer['last_name'] : 'Unavailable');
-        $gcalLocation = trim($customer['address'] . ',' . $customer['city']);
-		if(strlen($gcalLocation) > 1) $event->setLocation($gcalLocation);
-
+        
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
         $event->setStart($start);
@@ -164,6 +162,9 @@ class Google_Sync {
                     . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
             $event->attendees[] = $event_customer;
+			
+			$gcalLocation = trim($customer['address']) . ',' . trim($customer['city']);
+			if(strlen($gcalLocation) > 1) $event->setLocation($gcalLocation);
         }
 
         // Add the new event to the google calendar.
