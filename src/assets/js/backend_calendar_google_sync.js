@@ -47,7 +47,8 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                     // When the browser redirects to the google user consent page the "window.document" variable
                     // becomes "undefined" and when it comes back to the redirect URL it changes back. So check
                     // whether the variable is undefined to avoid javascript errors.
-                    if (windowHandle.document !== undefined) {
+                    try {
+                        if (windowHandle.document !== undefined) {
                         if (windowHandle.document.URL.indexOf(redirectUrl) !== -1) {
                             // The user has granted access to his data.
                             windowHandle.close();
@@ -80,6 +81,11 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 $('#select-google-calendar').modal('show');
                             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                         }
+                    }
+                    } catch(Error) {
+                        // Accessing the document object before the window is loaded throws an error, but
+                        // it will only happen during the initialization of the window. Attaching "load"
+                        // event handling is not possible due to CORS restrictions.
                     }
                 }, 100);
 
