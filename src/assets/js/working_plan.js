@@ -324,12 +324,12 @@
                 $('.breaks tr').each(function(index, tr) {
                     var day = this.convertDayToValue($(tr).find('.break-day').text());
                     if (day == id) {
-                        var start = $(tr).find('.break-start').text(),
-                            end = $(tr).find('.break-end').text();
+                        var start = $(tr).find('.break-start').text();
+                        var end = $(tr).find('.break-end').text();
 
                         workingPlan[id].breaks.push({
-                            'start': start,
-                            'end': end
+                            start: start,
+                            end: end
                         });
                     }
 
