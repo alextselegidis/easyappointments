@@ -351,6 +351,10 @@ class Google_Sync {
         $calendarList = $this->service->calendarList->listCalendarList();
         $calendars = array();
         foreach ($calendarList->items as $google_calendar) {
+            if ($google_calendar->getAccessRole() === 'reader') {
+                continue;
+            }
+
             $calendars[] = array(
                 'id' => $google_calendar->id,
                 'summary' => $google_calendar->summary
