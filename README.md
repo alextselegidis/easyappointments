@@ -1,7 +1,7 @@
 Easy!Appointments
 ================
 
-<img src="https://dl.dropboxusercontent.com/u/27545985/easyappointments/google-code-banner.png">
+<img src="http://easyappointments.org/img/easyappointments-banner.png">
 
 ### Organize your business! Exploit human resources that can be used in other tasks more efficiently.
 
