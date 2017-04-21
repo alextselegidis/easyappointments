@@ -74,6 +74,33 @@
 
  require_once __DIR__ . '/vendor/autoload.php';
 
+//Craig Tucker, WP-EA plugin modifications start
+$baseurl = Config::BASE_URL.'/';
+if (Config::WP_HEADER_FOOTER== TRUE) {
+	if (substr(curPageURL(),0,-32)==$baseurl.'index.php/appointments/index/' || in_array(curPageURL(), array($baseurl,$baseurl.'?'))) {
+	require('../wp-blog-header.php');
+
+		add_filter('site_url', 'ci_site_url', 1);
+
+		function ci_site_url() {
+
+			include(FCPATH.'application/config/config.php');
+
+			return $config['base_url'];
+		}
+		header("HTTP/1.0 200 OK");
+	}
+}
+
+function curPageURL() {
+ $pageURL = 'http';
+ if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+ $pageURL .= "://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+ 
+ return $pageURL;
+}
+//Craig Tucker, WP-EA plugin modifications end
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

@@ -98,8 +98,19 @@
                                 <?php echo $this->lang->line('company_link_hint'); ?>
                             </span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="theme-color">
+							<?php echo $this->lang->line('theme_color'); ?>
+							</label>
+                            <select class="form-control" id="theme-color" data-field="theme_color">
+                                <option value="green"><?php echo $this->lang->line('green'); ?></option>
+                                <option value="blue"><?php echo $this->lang->line('blue'); ?></option>
+                                <option value="red"><?php echo $this->lang->line('red'); ?></option>
+                            </select> 
+                            <span class="help-block">
+                                <?php echo $this->lang->line('theme_color_hint'); ?>
+                            </span>
+                        </div>
                         <div class="form-group">
                             <label for="google-analytics-code">
                                 Google Analytics ID</label>
@@ -146,6 +157,94 @@
                                 <?php echo $this->lang->line('require_captcha_hint'); ?>
                             </span>
                         </div>
+                    </div> 
+					<div class="col-md-6">
+						<div class="form-group">
+                            <label for="max-date">
+                                <?php echo $this->lang->line('max_date'); ?>
+							</label>
+                            <input type="text" id="max-date" placeholder="30"
+                                data-field="max_date" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('max_date_hint'); ?>
+                            </span>
+                        </div>
+						<div class="form-group">
+                            <label for="time-format">
+                                <?php echo $this->lang->line('time_format'); ?>
+                            </label>
+                            <select class="form-control" id="time-format" data-field="time_format">
+                                <option value="AM/PM">AM/PM</option>
+                                <option value="24HR">24HR</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('time_format_hint'); ?>
+                            </span>
+                        </div>
+						<div class="form-group">
+                            <label for="interval-time">
+                                <?php echo $this->lang->line('interval_time'); ?>
+                            </label>
+                            <select class="form-control" id="interval-time" data-field="interval_time">
+                                <option value="15">15</option>
+                                <option value="30">30</option>
+								<option value="60">60</option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('interval_time_hint'); ?>
+                            </span>
+                        </div>
+						<div class="form-group">
+                            <label for="reminder-days-out">
+                                <?php echo $this->lang->line('reminder_days_out'); ?>
+							</label>
+                            <input type="text" id="reminder-days-out" placeholder="30"
+                                data-field="reminder_days_out" class="form-control">
+                            <span class="help-block">
+                                <?php echo $this->lang->line('reminder_days_out_hint'); ?>
+                            </span>
+                        </div>
+						<div class="form-group">
+                            <label for="week-starts-on">
+                                <?php echo $this->lang->line('week_starts_on'); ?>
+                            </label>
+                            <select class="form-control" id="week-starts-on" data-field="week_starts_on">
+                                <option value="sunday"><?php echo $this->lang->line('sunday'); ?></option>
+                                <option value="monday"><?php echo $this->lang->line('monday'); ?></option>
+                                <option value="tuesday"><?php echo $this->lang->line('tuesday'); ?></option>
+                                <option value="wednesday"><?php echo $this->lang->line('wednesday'); ?></option>
+                                <option value="thursday"><?php echo $this->lang->line('thursday'); ?></option>
+                                <option value="friday"><?php echo $this->lang->line('friday'); ?></option>
+                                <option value="saturday"><?php echo $this->lang->line('saturday'); ?></option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('week_starts_on_hint'); ?>
+                            </span>
+                        </div>
+						<div class="form-group">
+                            <label for="show-free-price-currency">
+                                <?php echo $this->lang->line('show_free_price_currency'); ?>
+                            </label>
+                            <select class="form-control" id="show-free-price-currency" data-field="show_free_price_currency">
+                                <option value="yes"><?php echo $this->lang->line('yes'); ?></option>
+                                <option value="no"><?php echo $this->lang->line('no'); ?></option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('show_free_price_currency_hint'); ?>
+                            </span>
+                        </div>
+						<div class="form-group">
+                            <label for="show-any-provider">
+                                <?php echo $this->lang->line('show_any_provider'); ?>
+                            </label>
+                            <select class="form-control" id="show-any-provider" data-field="show_any_provider">
+                                <option value="yes"><?php echo $this->lang->line('yes'); ?></option>
+                                <option value="no"><?php echo $this->lang->line('no'); ?></option>
+                            </select>
+                            <span class="help-block">
+                                <?php echo $this->lang->line('show_any_provider_hint'); ?>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -190,6 +289,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="sunday" />
+                                                    <?php echo $this->lang->line('sunday'); ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input type="text" id="sunday-start" class="work-start" /></td>
+                                    <td><input type="text" id="sunday-end" class="work-end" /></td>
+                                </tr>							
                                 <tr>
                                     <td>
                                         <div class="checkbox">
@@ -262,18 +373,7 @@
                                     <td><input type="text" id="saturday-start" class="work-start" /></td>
                                     <td><input type="text" id="saturday-end" class="work-end" /></td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="sunday" />
-                                                    <?php echo $this->lang->line('sunday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="sunday-start" class="work-start" /></td>
-                                    <td><input type="text" id="sunday-end" class="work-end" /></td>
-                                </tr>
+
                             </tbody>
                         </table>
 

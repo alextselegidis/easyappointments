@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -69,12 +69,18 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
                 var currColumn = 1;
+				//AM/PM Time Change Mod 1 Craig Tucker start
                 $('#available-hours').html('<div style="width:50px; float:left;"></div>');
+				//24HR $('#available-hours').html('<div style="width:80px; margin:0 auto;"></div>');
+				//AM/PM Time Change Mod 1 Craig Tucker end
 
                 $.each(response, function(index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
-                        $('#available-hours').append('<div style="width:50px; float:left;"></div>');
+						//AM/PM Time Change Mod 2 Craig Tucker start
+                        //24HR $('#available-hours').append('<div style="width:50px; float:left;"></div>');
+						$('#available-hours').append('<div style="width:50px; float:left;"></div>');
+						//AM/PM Time Change Mod 2 Craig Tucker end
                     }
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
@@ -188,6 +194,77 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 $layer.remove();
             });
     };
+	
+	//Waiting list post Craig Tucker start
+    exports.registerWaiting = function() {
+		
+		var postWaiting = new Object();
+		var note = '';
+		var lang = '';
+		
+
+		if($('#cell-carrier2').val() !== "" && $('#phone-number2').val() !== ""){
+			lang = EALang['user_lang'];
+			note = $('#email2').val()  + ";" + $('#phone-number2').val().replace(/[^\d\+]/g,"") + $('#cell-carrier2').val() + ";";
+		} else {
+			lang = EALang['user_lang'];
+			note = $('#email2').val() + ";";
+		}
+		
+		postWaiting['appointment'] = {
+		'id_users_provider': $('#select-provider').val(),
+		'id_services': $('#select-service').val(),
+		'notes': note,
+		'lang': lang,
+		};
+		
+		$('input[name="csrfToken"]').val(GlobalVariables.csrfToken);
+		$('input[name="post_waiting"]').val(JSON.stringify(postWaiting));		
+		
+		var formData = jQuery.parseJSON($('input[name="post_waiting"]').val());
+
+		var postData = {
+			'csrfToken': GlobalVariables.csrfToken,
+			'post_data': formData,
+		};
+
+		var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_waiting'; 
+		var $layer = $('<div/>');
+
+		$.ajax({
+			url: postUrl,
+			method: 'post',
+			data: postData,
+			beforeSend: function(jqxhr, settings) {
+				$layer
+					.appendTo('body')
+					.css({
+						'background': 'white',
+						'position': 'fixed',
+						'top': '0',
+						'left': '0',
+						'height': '100vh',
+						'width': '100vw',
+						'opacity': '0.5'
+					});
+			}
+		})
+		.done(function(response) {
+			if (!GeneralFunctions.handleAjaxExceptions(response)) {
+				return false;
+			}
+			window.location.replace(GlobalVariables.baseUrl
+				+ '/index.php/appointments/book_waiting');
+		})
+		.fail(function(jqxhr, textStatus, errorThrown) {
+			GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
+		})
+		.always(function() {
+			$layer.remove();
+		})
+	};
+	//Waiting list post Craig Tucker end
+	
 
     /**
      * Get the unavailable dates of a provider.
@@ -204,9 +281,13 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         if (processingUnavailabilities) {
             return;
         }
+		
+		var max_date;
+		max_date = GlobalVariables.maxDate; //MaxDate mod Craig Tucker 1
 
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
         var data = {
+			max_date: max_date, /*MaxDate mod Craig Tucker*/		
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
@@ -226,7 +307,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     };
-
     exports.applyPreviousUnavailableDates = function() {
         _applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
     };
