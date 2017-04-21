@@ -3,6 +3,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `lang` varchar(256) DEFAULT NULL,
   `book_datetime` datetime DEFAULT NULL,
   `start_datetime` datetime DEFAULT NULL,
   `end_datetime` datetime DEFAULT NULL,
@@ -19,6 +20,12 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   KEY `id_users_provider` (`id_users_provider`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
 
+CREATE TABLE IF NOT EXISTS `ea_cellcarrier` (
+  `id` int(11) NOT NULL,
+  `cellco` varchar(30) DEFAULT NULL,
+  `cellurl` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `ea_roles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -34,7 +41,6 @@ CREATE TABLE IF NOT EXISTS `ea_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
-
 CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
   `id_users_secretary` bigint(20) unsigned NOT NULL,
   `id_users_provider` bigint(20) unsigned NOT NULL,
@@ -42,7 +48,6 @@ CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
   KEY `fk_ea_secretaries_providers_1` (`id_users_secretary`),
   KEY `fk_ea_secretaries_providers_2` (`id_users_provider`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 CREATE TABLE IF NOT EXISTS `ea_services` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -85,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
 
 CREATE TABLE IF NOT EXISTS `ea_users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `lang` varchar(256) DEFAULT NULL,
   `first_name` varchar(256) DEFAULT NULL,
   `last_name` varchar(512) DEFAULT NULL,
   `email` varchar(512) DEFAULT NULL,
@@ -96,6 +102,8 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   `zip_code` varchar(64) DEFAULT NULL,
   `notes` text,
   `id_roles` bigint(20) unsigned NOT NULL,
+  `id_cellcarrier` bigint(20) DEFAULT NULL,
+  `wp_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_roles` (`id_roles`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
@@ -153,5 +161,6 @@ INSERT INTO `ea_roles` (`id`, `name`, `slug`, `is_admin`, `appointments`, `custo
 (4, 'Secretary', 'secretary', 0, 15, 15, 0, 0, 0, 15);
 
 INSERT INTO `ea_settings` (`name`, `value`) VALUES
-('company_working_plan', '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'),
-('book_advance_timeout', '30');
+('company_working_plan', '{"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'),
+('book_advance_timeout', '240');
+('reminder_days_out', '1,3');

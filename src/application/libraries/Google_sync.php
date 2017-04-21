@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -138,7 +138,13 @@ class Google_Sync {
         $this->CI->load->helper('general');
 
         $event = new Google_Event();
-        $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
+		
+		//Craig Tucker Google Sync Mods 1 Start
+        //ORIGINAL $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
+		//modified this line to allow for sync of customer info in recurring appointments
+        $event->setSummary(($service != NULL) ? $customer['first_name'] . ' ' . $customer['last_name'] . ': ' . $service['name'] : 'Unavailable');
+		//Craig Tucker Google Sync Mods 1 end
+
         $event->setLocation($company_settings['company_name']);
 
         $start = new Google_EventDateTime();
@@ -149,6 +155,10 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
 
+		//Craig Tucker Google Sync Mods 2 Start 
+		// Adding | as delimitter for sync of recurring appointments
+        $event->setDescription($appointment['notes'] .'|'.$appointment['id_users_customer'] .'|'. $appointment['id_services']);
+		//Craig Tucker Google Sync Mods 2 end 
         $event->attendees = array();
 
         $event_provider = new Google_EventAttendee();
@@ -192,9 +202,16 @@ class Google_Sync {
 
         $event = $this->service->events->get($provider['settings']['google_calendar'], $appointment['id_google_calendar']);
 
-        $event->setSummary($service['name']);
+		//Craig Tucker Google Sync Mods 3 Start
+		//ORIGINAL start
+        //$event->setSummary($service['name']);
+        //$event->setLocation($company_settings['company_name']);
+		//ORIGINAL end
+		//Changed these two lines to allow for sync of customer info with recurring appointments.
+		$event->setSummary($customer['first_name'] . ' ' . $customer['last_name'] . ': ' . $service['name']);
         $event->setLocation($company_settings['company_name']);
-
+		//Craig Tucker Google Sync Mods 3 end
+		
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
         $event->setStart($start);
@@ -203,6 +220,10 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
 
+		//Craig Tucker Google Sync Mods 4 Start
+		//Adding | as delimitter for sync of recurring appointments
+        $event->setDescription($appointment['notes'] .'|'.$appointment['id_users_customer'] .'|'. $appointment['id_services']);
+		//Craig Tucker Google Sync Mods 4 end
         $event->attendees = array();
 
         $event_provider = new Google_EventAttendee();
@@ -329,11 +350,21 @@ class Google_Sync {
     public function get_sync_events($google_calendar, $start, $end) {
         $this->CI->load->helper('general');
 
-        $params = array(
-            'timeMin' => date3339($start),
-            'timeMax' => date3339($end)
-        );
-
+		//Craig Tucker Google Sync Mods 4 Start
+		//Original start
+        // $params = array(
+            // 'timeMin' => date3339($start),
+            // 'timeMax' => date3339($end)
+			// );
+		//Original end
+		$params = array( 
+			'singleEvents' => true,  //allows recurring appointments to show up as individual appointments
+            'timeMin' => date3339($start), //limits sync x# of days to prior to today set in application/controllers/google.php line 129
+            'timeMax' => date3339($end), //Limits the sync period to x# of days after today set in application/controllers/google.php line 130
+            'maxResults' => 3000 //Set max results to 3000 or whatever you want to avoid Google limitation (by default, Google lets you sync only 250 events)
+        );		
+		//Craig Tucker Google Sync Mods 4 end
+		
         return $this->service->events->listEvents($google_calendar, $params);
     }
 

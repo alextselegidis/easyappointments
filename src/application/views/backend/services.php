@@ -128,6 +128,15 @@
                         <option value="<?php echo AVAILABILITIES_TYPE_FIXED; ?>">
                             <?php echo $this->lang->line('fixed'); ?>
                         </option>
+						
+						<!--Aditional availabilities types Craig Tucker start -->
+                        <option value="<?php echo AVAILABILITIES_TYPE_Q30; ?>">
+                            <?php echo $this->lang->line('Q30'); ?>
+                        </option>
+                        <option value="<?php echo AVAILABILITIES_TYPE_Q15; ?>">
+                            <?php echo $this->lang->line('Q15'); ?>
+                        </option>
+						<!--Aditional availabilities types Craig Tucker end -->
                     </select>
                 </div>
 

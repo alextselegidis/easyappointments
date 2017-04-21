@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -144,6 +144,8 @@
          */
         $('#save-customer').click(function() {
             var customer = {
+				id_cellcarrier: $('#cell-carrier').val(), //Cell-carrier mod Craig Tucker 1
+				wp_id: $('#wp-id').val(), //WP mod Craig Tucker 1
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
                 email: $('#email').val(),
@@ -296,7 +298,9 @@
      * @param {Object} customer Contains the customer record data.
      */
     CustomersHelper.prototype.display = function(customer) {
-        $('#customer-id').val(customer.id);
+		$('#cell-carrier').val(customer['id_cellcarrier']); //Cell-carrier mod Craig Tucker 2
+        $('#wp-id').val(customer.wp_id); //WP mod Craig Tucker 2
+		$('#customer-id').val(customer.id);
         $('#first-name').val(customer.first_name);
         $('#last-name').val(customer.last_name);
         $('#email').val(customer.email);

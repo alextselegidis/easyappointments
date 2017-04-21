@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<?php
+		$this->CI =& get_instance();
+        $this->CI->load->model('settings_model');
+		$theme_color = $this->CI->settings_model->get_setting('theme_color');
+?>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,10 +17,15 @@
         // INCLUDE CSS FILES
         // ------------------------------------------------------------ ?>
 
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/ext/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo $this->config->item('base_url'); ?>/assets/css/frontend.css">
+	<link
+        rel="stylesheet"
+        type="text/css"
+        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.css'); ?>">
+
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="<?php echo base_url('assets/css/frontend_' . $theme_color . '.css'); ?>">
 
     <?php
         // ------------------------------------------------------------
@@ -85,6 +95,9 @@
                             echo '</div>';
                         }
                     ?>
+					<form action="<?php echo $this->config->item('base_url'); ?>">
+						<input type="submit" value="<?php echo $this->lang->line('return_to_book') ?>" class="btn btn-primary">
+					</form>
                 </div>
             </div>
 

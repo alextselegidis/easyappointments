@@ -111,6 +111,22 @@
                         <input type="text" id="phone-number" class="form-control required" />
                     </div>
 
+					<!-- Craig Tucker cell carrier mod start -->
+					<div class="form-group">
+						<label for="cell-carrier">
+						<strong><?php echo $this->lang->line('cell_carrier'); ?></strong>
+							</label>
+							<select id="cell-carrier" class="col-md-4 form-control">
+								<option disabled selected value=""> <?php echo $this->lang->line('select'); ?> </option>
+								<?php 
+								foreach ($customer_form_cellco_options as $id => $cellco) {
+									echo '<option value="' . html_escape($id) . '">' . html_escape($cellco) . '</option>';
+								}
+								?>
+							</select>
+					</div><br><br>
+					<!-- Craig Tucker cell carrier mod end -->
+				
                     <div class="form-group">
                         <label for="address"><?php echo $this->lang->line('address'); ?></label>
                         <input type="text" id="address" class="form-control" />
@@ -125,7 +141,14 @@
                         <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
                         <input type="text" id="zip-code" class="form-control" />
                     </div>
-
+					
+					<!--Craig Tucker WP mod start -->
+					<div class="form-group">
+						<label for="wp-id"><?php echo $this->lang->line('wp_id'); ?></label>
+						<input type="text" id="wp-id" class="form-control" />
+					</div>
+					<!--Craig Tucker WP mod end -->
+					
                     <div class="form-group">
                         <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>

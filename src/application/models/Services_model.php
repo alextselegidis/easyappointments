@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -135,13 +135,27 @@ class Services_Model extends CI_Model {
             }
         }
 
-        // Availabilities type must have the correct value. 
-        if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE 
-                && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED) {
-            throw new Exception('Service availabilities type must be either ' . AVAILABILITIES_TYPE_FLEXIBLE 
-                        . ' or ' . AVAILABILITIES_TYPE_FIXED . ' (given ' .  $service['availabilities_type'] . ')');
+        // Availabilities type must have the correct value.
+		
+		// Availabilities modifications Craig Tucker start 
+		// The original code is commented out below
+        // if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE 
+                // && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED) {
+            // throw new Exception('Service availabilities type must be either ' . AVAILABILITIES_TYPE_FLEXIBLE 
+                        // . ' or ' . AVAILABILITIES_TYPE_FIXED . ' (given ' .  $service['availabilities_type'] . ')');
+        // }
+		
+		//Craig tucker's modifications here
+		if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE 
+                && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED && $service['availabilities_type'] 
+				!== AVAILABILITIES_TYPE_Q15 && $service['availabilities_type'] !== AVAILABILITIES_TYPE_Q30) {
+            throw new Exception('Service availabilities type must be ' . AVAILABILITIES_TYPE_FLEXIBLE 
+                        . ', ' . AVAILABILITIES_TYPE_FIXED . ', ' . AVAILABILITIES_TYPE_Q15 . ', ' 
+						. AVAILABILITIES_TYPE_Q30 . ' (given ' .  $service['availabilities_type'] . ')');
         }
+		// Availabilities modifications Craig Tucker end 
 
+		
         if ($service['attendants_number'] !== NULL && (!is_numeric($service['attendants_number']) 
                         || $service['attendants_number'] < 1)) {
             throw new Exception('Service attendants number must be numeric and greater or equal to one: ' 

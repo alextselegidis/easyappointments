@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -176,7 +176,37 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 break;
         }
 
+		var fDaynum;
+		var fDay = GlobalVariables.weekStartson;
 
+		switch(fDay) {
+			case "sunday":
+				fDaynum = 0;
+				break;
+			case "monday":
+				fDaynum = 1;
+				break;
+			case "tuesday":
+				fDaynum = 2;
+				break;
+			case "wednesday":
+				fDaynum = 3;
+				break;
+			case "thursday":
+				fDaynum = 4;
+				break;
+			case "friday":
+				fDaynum = 5;
+				break;
+			case "saturday":
+				fDaynum = 6;
+				break;
+			default:
+				fDaynum = 0;
+				break;
+		}		
+
+		console.log('NZ-backend_calendar_unavailabilities_modal.js -> fDaynum ' + fDaynum + ' fDay ' + fDay);
         $dialog.find('#unavailable-start').datetimepicker({
             dateFormat: dateFormat,
 
@@ -202,7 +232,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             timeText: EALang['time'],
             hourText: EALang['hour'],
             minuteText: EALang['minutes'],
-            firstDay: 1
+            firstDay: fDaynum // Monday
         });
         $dialog.find('#unavailable-start').val(start);
 
@@ -231,7 +261,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             timeText: EALang['time'],
             hourText: EALang['hour'],
             minuteText: EALang['minutes'],
-            firstDay: 1
+            firstDay: fDaynum // Monday
         });
         $dialog.find('#unavailable-end').val(end);
 

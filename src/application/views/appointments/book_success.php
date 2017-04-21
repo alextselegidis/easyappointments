@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+	$this->load->model('settings_model');			
+	$theme_color = $this->settings_model->get_setting('theme_color');
+?>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -15,7 +19,7 @@
     <link rel="stylesheet" type="text/css"
         href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" type="text/css"
-        href="<?php echo base_url('assets/css/frontend.css'); ?>">
+        href="<?php echo base_url('assets/css/frontend_' . $theme_color . '.css'); ?>">
 
     <?php
         // ------------------------------------------------------------
@@ -45,8 +49,11 @@
                         echo '
                             <h3>' . $this->lang->line('appointment_registered') . '</h3>
                             <p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>
-                            <a href="' . site_url() . '" class="btn btn-success btn-large">
-                                <span class="glyphicon glyphicon-calendar"></span> ' .
+                            
+							<!-- Return Button Mod Craig Tucker start -->
+							<a href="'.$this->config->base_url(); ?>index.php/appointments/index/<?php echo $appointment_data['hash'].'" class="btn btn-success btn-large">
+							<!-- Return Button Mod Craig Tucker end -->
+								<span class="glyphicon glyphicon-calendar"></span> ' .
                                 $this->lang->line('go_to_booking_page') . '
                             </a>
                         ';
