@@ -1,5 +1,14 @@
-FROM tutum/apache-php
+FROM wichon/alpine-apache-php
 
-MAINTAINER Alex Tselegidis <alextselegidis@gmail.com>
+ENV PROJECT_DIR=/app \
+    APP_URL=localhost
 
-EXPOSE 80
+RUN apk --no-cache add php-zlib php-mysqli php-gettext
+
+COPY ./src $PROJECT_DIR
+COPY docker-entrypoint.sh /entrypoint.sh
+
+VOLUME $PROJECT_DIR/storage
+
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+CMD ["run"]

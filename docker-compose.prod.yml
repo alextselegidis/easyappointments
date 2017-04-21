@@ -1,0 +1,34 @@
+version: '2'
+services:
+  database:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - easy-appointments-data:/var/lib/mysql
+    restart: always
+
+
+  application:
+    image: easyappointments
+    build:
+      context: .
+    ports:
+      - 80:80
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=database:3306
+      - APP_URL=${APP_URL}
+      - APP_HOST=${APP_HOST}
+    volumes:
+      - easy-appointments-storage:/app/src/storage
+    restart: always
+
+volumes:
+  easy-appointments-data:
+  easy-appointments-storage:
