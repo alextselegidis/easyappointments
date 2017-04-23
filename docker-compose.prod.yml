@@ -19,12 +19,9 @@ services:
     ports:
       - 80:80
     environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=database:3306
-      - APP_URL=${APP_URL}
-      - APP_HOST=${APP_HOST}
+    env_file:
+      - .env
     volumes:
       - easy-appointments-storage:/app/src/storage
     restart: always

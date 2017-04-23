@@ -18,9 +18,8 @@ services:
     ports:
       - ${APP_HOST}:80:80
     environment:
-      - DB_NAME=easyapp
-      - DB_USERNAME=easyapp
-      - DB_PASSWORD=veryhardpassword
       - DB_HOST=database:3306
       - APP_URL=localhost
+    env_file:
+      - .env
     restart: always
