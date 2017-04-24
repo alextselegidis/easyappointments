@@ -224,6 +224,7 @@ body {
 
 #book-appointment-wizard .captcha-image {
     float: right;
+	width: 250px;
     margin-bottom: 20px;
     border-radius: 3px;
     box-shadow: 1px 1px 4px rgba(0,0,0,0.4);

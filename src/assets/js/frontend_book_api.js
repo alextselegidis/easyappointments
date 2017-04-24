@@ -65,21 +65,29 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 return;
             }
 
+			var time_format;
+			time_format = GlobalVariables.timeFormat;
             // The response contains the available hours for the selected provider and
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
                 var currColumn = 1;
 				//AM/PM Time Change Mod 1 Craig Tucker start
+				if (time_format == '24HR') {
                 $('#available-hours').html('<div style="width:50px; float:left;"></div>');
-				//24HR $('#available-hours').html('<div style="width:80px; margin:0 auto;"></div>');
+				}else{
+				$('#available-hours').html('<div style="width:80px; float:left;"></div>');
+				}
 				//AM/PM Time Change Mod 1 Craig Tucker end
 
                 $.each(response, function(index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
 						//AM/PM Time Change Mod 2 Craig Tucker start
-                        //24HR $('#available-hours').append('<div style="width:50px; float:left;"></div>');
-						$('#available-hours').append('<div style="width:50px; float:left;"></div>');
+						if (time_format == '24HR') {
+                        	$('#available-hours').append('<div style="width:50px; float:left;"></div>');
+						}else{
+							$('#available-hours').append('<div style="width:80px; float:left;"></div>');
+						}
 						//AM/PM Time Change Mod 2 Craig Tucker end
                     }
 
