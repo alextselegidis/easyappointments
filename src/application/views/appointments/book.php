@@ -11,7 +11,6 @@
         // ------------------------------------------------------------
         // INCLUDE CSS FILES
         // ------------------------------------------------------------ ?>
-
     <link
         rel="stylesheet"
         type="text/css"
@@ -32,6 +31,8 @@
         rel="stylesheet"
         type="text/css"
         href="<?php echo base_url('assets/css/general.css'); ?>">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     <?php
         // ------------------------------------------------------------
@@ -117,8 +118,14 @@
                 <?php
                     // ------------------------------------------------------
                     // SELECT SERVICE AND PROVIDER
-                    // ------------------------------------------------------ ?>
-
+                    // ------------------------------------------------------ 
+					//	 <form action="">
+        // <input type="button" id="livechatbutton" value="Live Chat" title='Will open in new page'"/>
+         
+   // </form>
+					
+					?>
+			
                 <div id="wizard-frame-1" class="wizard-frame">
                     <div class="frame-container">
                         <h3 class="frame-title"><?php echo $this->lang->line('step_one_title'); ?></h3>
@@ -206,12 +213,17 @@
                         </button>
                     </div>
                 </div>
+				
+				
+				
+			
 
                 <?php
                     // ------------------------------------------------------
                     // SELECT APPOINTMENT DATE
                     // ------------------------------------------------------ ?>
 
+					
                 <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
                     <div class="frame-container">
 
@@ -222,14 +234,42 @@
                                 <div id="select-date"></div>
                             </div>
 
+							<div class="col-md-6">
+								<div align="center">
+									<button id="insert-waitinglist" class="btn button-waitinglist btn-primary" data-step_index="2"
+										title="Get notification if appointment becomes available">
+										<span class="glyphicon glyphicon-time"></span>
+										<?php echo "Waiting List"; ?>
+									</button><br><br>
+									 <?php // Available hours are going to be fetched via ajax call. ?>
+                                <div align="center" id="available-hours"></div>
+								</div>                            
+							</div>
+							
                             <div class="col-xs-12 col-sm-6">
-                                <?php // Available hours are going to be fetched via ajax call. ?>
+                                <!--Available hours are going to be fetched via ajax call. -->
                                 <div id="available-hours"></div>
                             </div>
                         </div>
                     </div>
-
+					
+					
+					
+					
+   <?php
+                    // ------------------------------------------------------
+                    // EDIT START
+                    // ------------------------------------------------------ ?>
+					
+					
+					
+					
                     <div class="command-buttons">
+					
+ <form action="">
+         <input type="button" id="popbutton" value="Popular Times" title='Will open in new page' onclick="openpopwindow()"/>
+         
+    </form>
                         <button type="button" id="button-back-2" class="btn button-back btn-default"
                                 data-step_index="2">
                             <span class="glyphicon glyphicon-backward"></span>
@@ -240,9 +280,158 @@
                             <?php echo $this->lang->line('next'); ?>
                             <span class="glyphicon glyphicon-forward"></span>
                         </button>
+						
                     </div>
                 </div>
+								
+				<div style="visibility: hidden;" id="waitfordate_selection">
 
+					  Requested time: <select id="waittime">
+						<option value="9:00">9:00</option>
+						<option value="9:15">9:15</option>
+						<option value="9:30">9:30</option>
+						<option value="9:45">9:45</option>
+						<option value="10:00">10:00</option>
+						<option value="10:15">10:15</option>
+						<option value="10:30">10:30</option>
+						<option value="10:45">10:45</option>
+						<option value="11:00">11:00</option>
+						<option value="11:15">11:15</option>
+						<option value="11:30">11:30</option>
+						<option value="11:45">11:45</option>
+						<option value="12:00">12:00</option>
+						<option value="12:15">12:15</option>
+						<option value="12:30">12:30</option>
+						<option value="12:45">12:45</option>
+						<option value="13:00">13:00</option>
+						<option value="13:15">13:15</option>
+						<option value="13:30">13:30</option>
+						<option value="13:45">13:45</option>
+						<option value="14:00">14:00</option>
+						<option value="14:15">14:15</option>
+						<option value="14:30">14:30</option>
+						<option value="14:45">14:45</option>
+						<option value="15:00">15:00</option>
+						<option value="15:15">15:15</option>
+						<option value="15:30">15:30</option>
+						<option value="15:45">15:45</option>
+						<option value="16:00">16:00</option>
+						<option value="16:15">16:15</option>
+						<option value="16:30">16:30</option>
+						<option value="16:45">16:45</option>
+						<option value="17:00">17:00</option>
+						<option value="17:15">17:15</option>
+						<option value="17:30">17:30</option>
+						<option value="17:45">17:45</option>
+						<option value="18:00">18:00</option>
+					</select><br>
+					  Send notification to email: <input id="waitfordate-email" type="text" name="email"><br>
+					  <button id="waitfordate-submit">Confirm</button>
+					  
+						<button id="waitfordate-cancel">Cancel</button>					
+				</div>
+			
+				      <script>
+					  
+
+		$("#insert-waitinglist").click(function(){
+			$("#waitfordate_selection").css("visibility", "visible");
+		});
+		
+		$("#waitfordate-cancel").click(function(){
+			$("#waitfordate_selection").css("visibility", "hidden");
+		});
+					  
+		$("#waitfordate-submit").click(function(){
+			var dateComponents = ($("#select-date").val()).split("-");
+			var timeComponents = ($("#waittime").val()).split(":");
+			$.ajax({
+				method: "POST",
+				url: "data4.php",
+				data: {email: $("#waitfordate-email").val(), startDay: dateComponents[0], startMonth: dateComponents[1], startYr: dateComponents[2], startMin: timeComponents[1], startHr: timeComponents[0]}
+			}).done(function(msg){
+				$("#waitfordate_selection").css("visibility", "hidden");
+			});
+		});			  
+					  
+		function openpopwindow() {
+			var dateComponents = ($("#select-date").val()).split("-");
+			window.open("bargraph.php?day=" + dateComponents[0] + "&month=" + dateComponents[1] + "&year=" + dateComponents[2]); 
+		}
+</script>
+
+				<style>
+
+#waitfordate_selection{
+	position: absolute;
+	left: 200px;
+	top: 200px;
+	width: 400px;
+	height: 120px;
+	background-color: white;
+	border: 0.5px;
+	 border-style: solid;
+    border-color: rgb(54, 129, 188);
+	padding: 10px;
+	border-radius: 2px;
+	font-size: 14px;
+
+}	
+
+#popbutton .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}				
+	
+.popbutton:hover .tooltiptext {
+    visibility: visible;
+}
+
+	
+#popbutton {
+	
+    background-color:rgb(61,212,129);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	border-radius: 2px;
+}
+
+#livechatbutton {
+	
+    background-color:orange;
+    border: none;
+    color: white;
+	-ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+    transform: rotate(270deg);
+    padding: 15px 32px;
+	margin: 0px 0px 0px 0p;
+    text-align: center;
+    float: right;
+    font-size: 16px;
+    cursor: pointer;
+	border-radius: 2px;
+}
+</style>
+<?php
+// EDIT FINISH
+?>
                 <?php
                     // ------------------------------------------------------
                     // ENTER CUSTOMER DATA
@@ -440,7 +629,11 @@
     $(document).ready(function() {
             FrontendBook.initialize(true, GlobalVariables.manageMode);
             GeneralFunctions.enableLanguageSelection($('#select-language'));
+			
+			
+			
         });
+		
     </script>
 
     <?php google_analytics_script(); ?>
