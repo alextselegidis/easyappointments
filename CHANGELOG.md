@@ -1,8 +1,11 @@
 # Easy!Appointments - Changelog
-This file contains the code changes that were introduced into each release
-(starting from v1.1.0) so that is easy for developers to maintain and readjust
-their custom modifications on the main project codebase.
+This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
+developers to maintain and readjust their custom modifications on the main project codebase.
 
+### Version 1.2.1
+
+- #241: Set default sessions save_path directory because many servers do not have this option set.
+- #306: Back-end login does not work with PHP 7.1. 
 
 ### Version 1.2.0
 - #185: Enable fixed availabilities setting for services.
@@ -24,11 +27,13 @@ their custom modifications on the main project codebase.
 - #22: Google Calendar Sync - Time Zone Issue
 
 ### Version 1.1.1
+
 - #116: Book advance timeout not taken into account for proposed appointments.
 - #118: Google Calendar and notification mail problem bug.
 - #120: Invalid appointment date set after editing an existing appointment.
 
 ### Version 1.1.0
+
 - #4: Raising more useful exceptions and enable error logging by default.
 - #6: Business Logic created is not getting assigned to service provider.
 - #10: Unable to use address tags in email address.
