@@ -45,6 +45,6 @@ The following link points to a common question that many users ask. The default 
 
 (https://groups.google.com/d/msg/easy-appointments/Mdt98fbF8hE/9CEjOvW7FAAJ)
 
-*This document applies to Easy!Appointments v1.2*.
+*This document applies to Easy!Appointments v1.2.1*.
 
 [Back](readme.md)
