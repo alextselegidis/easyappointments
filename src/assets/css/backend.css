@@ -130,6 +130,7 @@ root {
     margin: auto;
     display: block;
     max-width: 100%;
+    transform: scale(.5);
 }
 
 .modal-message {

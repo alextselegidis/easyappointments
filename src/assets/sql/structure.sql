@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `end_datetime` datetime DEFAULT NULL,
   `notes` text,
   `hash` text,
+  `attendance_status` VARCHAR(32) DEFAULT 'registered' COMMENT '[registered, checked_in, finished, wont_come]',
   `is_unavailable` tinyint(4) DEFAULT '0',
   `id_users_provider` bigint(20) unsigned DEFAULT NULL,
   `id_users_customer` bigint(20) unsigned DEFAULT NULL,
