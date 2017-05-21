@@ -32,6 +32,7 @@ class Appointments implements ParsersInterface {
             'end' => $response['end_datetime'],
             'hash' => $response['hash'],
             'notes' => $response['notes'],
+            'attendanceStatus' => $response['attendance_status'],
             'customerId' => $response['id_users_customer'] !== null ? (int)$response['id_users_customer'] : null,
             'providerId' => $response['id_users_provider'] !== null ? (int)$response['id_users_provider'] : null,
             'serviceId' => $response['id_services'] !== null ? (int)$response['id_services'] : null,
@@ -72,6 +73,10 @@ class Appointments implements ParsersInterface {
 
         if (!empty($request['notes'])) {
             $decodedRequest['notes'] = $request['notes']; 
+        }
+
+        if (!empty($request['attendanceStatus'])) {
+            $decodedRequest['attendance_status'] = $request['attendanceStatus'];
         }
 
         if (!empty($request['customerId'])) {

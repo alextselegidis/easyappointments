@@ -381,6 +381,9 @@ class Appointments extends CI_Controller {
 			$appointment['is_unavailable'] = (int)$appointment['is_unavailable']; // needs to be type casted
             $appointment['id'] = $this->appointments_model->add($appointment);
             $appointment['hash'] = $this->appointments_model->get_value('hash', $appointment['id']);
+            $appointment['attendance_status'] = !isset($appointment['attendance_status'])
+                ? 'registered'
+                : $appointment['attendance_status'];
 
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
             $service = $this->services_model->get_row($appointment['id_services']);

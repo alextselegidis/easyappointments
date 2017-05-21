@@ -224,6 +224,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="attendance-status" class="control-label col-sm-3" ><?php echo $this->lang->line('attendance_status'); ?></label>
+                                <div class="col-sm-7">
+                                    <select id="attendance-status" class="required form-control">
+                                        <option value="registered" class="as as_registered">Registered</option>
+                                        <option value="checked_in" class="as as_checked_in">Checked in</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="appointment-notes" class="control-label col-sm-3" ><?php echo $this->lang->line('notes'); ?></label>
                                 <div class="col-sm-7">
                                     <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
