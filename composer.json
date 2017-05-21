@@ -25,6 +25,7 @@
         "wiki": "http://easyappointments.org/docs.html#1.2.1/readme.md",
         "source": "https://github.com/alextselegidis/easyappointments/issues"
     },
+    "minimum-stability": "stable",
     "require-dev": {
         "codeigniter/framework": "^3.0",
         "phpunit/phpunit": "^5.6"
