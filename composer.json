@@ -23,7 +23,7 @@
         "issues": "https://github.com/alextselegidis/easyappointments/issues",
         "forum": "https://groups.google.com/forum/#!forum/easy-appointments",
         "wiki": "http://easyappointments.org/docs.html#1.2.1/readme.md",
-        "source": "https://github.com/alextselegidis/easyappointments/issues"
+        "source": "https://github.com/alextselegidis/easyappointments"
     },
     "minimum-stability": "stable",
     "require-dev": {
