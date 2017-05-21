@@ -57,6 +57,7 @@ gulp.task('build', function(done) {
 
     del.sync([
         '.tmp-package/storage/logs/*',
+        '!.tmp-package/storage/logs/.htaccess',
         '!.tmp-package/storage/logs/index.html'
     ]);
 
