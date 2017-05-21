@@ -44,7 +44,7 @@ You can also report problems on the [issues page](https://github.com/alextselegi
 and help the development progress.
 
 ### Docker
-To start Easy!Appointments using Docker in development configuration with source files mounted into container, run:
+To start Easy!Appointments using Docker in development configuration, with source files mounted into container, run:
 ```
 docker-compose up
 ```
@@ -53,7 +53,14 @@ Production deployment can be made by changing required values in .env file (DB_P
 ```
 docker-compose -f docker-compose.prod.yml up -d
 ```
-Database data will be stored in named volume "easy-appointments-data", and app storage (logs, cache, uploads) in "easy-appointments-data".
+
+Database data will be stored in named volume `easyappointments_easy-appointments-data`, and app storage (logs, cache, uploads) in `easyappointments_easy-appointments-storage`.
+To find where exactly they are stored, you can run 
+```
+docker volume inspect easyappointments_easy-appointments-storage
+```
+
+Production containers will automatically be restarted in case of crash / server reboot. For more info, take a look into `docker-compose.prod.yml` file.
 
 ### User Feedback
 Whether it is new ideas or defects, your feedback is highly appreciated and will be taken into

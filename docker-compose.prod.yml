@@ -23,7 +23,7 @@ services:
     env_file:
       - .env
     volumes:
-      - easy-appointments-storage:/app/src/storage
+      - easy-appointments-storage:/var/www/html/src/storage
     restart: always
 
 volumes:

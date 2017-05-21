@@ -1,14 +1,14 @@
-FROM wichon/alpine-apache-php
+FROM php:7.0-apache
 
-ENV PROJECT_DIR=/app \
+ENV PROJECT_DIR=/var/www/html \
     APP_URL=localhost
 
-RUN apk --no-cache add php-zlib php-mysqli php-gettext
+RUN docker-php-ext-install mysqli gettext
 
 COPY ./src $PROJECT_DIR
 COPY docker-entrypoint.sh /entrypoint.sh
 
 VOLUME $PROJECT_DIR/storage
 
-ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 CMD ["run"]

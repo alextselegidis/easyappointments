@@ -13,13 +13,15 @@ services:
     build:
       context: .
     volumes:
-      - ./src:/app
+      - ./src:/var/www/html
     command: dev
     ports:
       - ${APP_HOST}:80:80
     environment:
       - DB_HOST=database:3306
       - APP_URL=localhost
+    depends_on:
+      - database
     env_file:
       - .env
     restart: always
