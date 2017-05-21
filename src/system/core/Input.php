@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -359,7 +359,7 @@ class CI_Input {
 	 * @param	bool		$httponly	Whether to only makes the cookie accessible via HTTP (no javascript)
 	 * @return	void
 	 */
-	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = FALSE, $httponly = FALSE)
+	public function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
 	{
 		if (is_array($name))
 		{
@@ -388,15 +388,13 @@ class CI_Input {
 			$path = config_item('cookie_path');
 		}
 
-		if ($secure === FALSE && config_item('cookie_secure') === TRUE)
-		{
-			$secure = config_item('cookie_secure');
-		}
+		$secure = ($secure === NULL && config_item('cookie_secure') !== NULL)
+			? (bool) config_item('cookie_secure')
+			: (bool) $secure;
 
-		if ($httponly === FALSE && config_item('cookie_httponly') !== FALSE)
-		{
-			$httponly = config_item('cookie_httponly');
-		}
+		$httponly = ($httponly === NULL && config_item('cookie_httponly') !== NULL)
+			? (bool) config_item('cookie_httponly')
+			: (bool) $httponly;
 
 		if ( ! is_numeric($expire))
 		{
@@ -519,9 +517,9 @@ class CI_Input {
 					if ($separator === ':')
 					{
 						$netaddr = explode(':', str_replace('::', str_repeat(':', 9 - substr_count($netaddr, ':')), $netaddr));
-						for ($i = 0; $i < 8; $i++)
+						for ($j = 0; $j < 8; $j++)
 						{
-							$netaddr[$i] = intval($netaddr[$i], 16);
+							$netaddr[$j] = intval($netaddr[$j], 16);
 						}
 					}
 					else
@@ -760,30 +758,32 @@ class CI_Input {
 		// If header is already defined, return it immediately
 		if ( ! empty($this->headers))
 		{
-			return $this->headers;
+			return $this->_fetch_from_array($this->headers, NULL, $xss_clean);
 		}
 
 		// In Apache, you can simply call apache_request_headers()
 		if (function_exists('apache_request_headers'))
 		{
-			return $this->headers = apache_request_headers();
+			$this->headers = apache_request_headers();
 		}
-
-		$this->headers['Content-Type'] = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : @getenv('CONTENT_TYPE');
-
-		foreach ($_SERVER as $key => $val)
+		else
 		{
-			if (sscanf($key, 'HTTP_%s', $header) === 1)
-			{
-				// take SOME_HEADER and turn it into Some-Header
-				$header = str_replace('_', ' ', strtolower($header));
-				$header = str_replace(' ', '-', ucwords($header));
+			isset($_SERVER['CONTENT_TYPE']) && $this->headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
 
-				$this->headers[$header] = $this->_fetch_from_array($_SERVER, $key, $xss_clean);
+			foreach ($_SERVER as $key => $val)
+			{
+				if (sscanf($key, 'HTTP_%s', $header) === 1)
+				{
+					// take SOME_HEADER and turn it into Some-Header
+					$header = str_replace('_', ' ', strtolower($header));
+					$header = str_replace(' ', '-', ucwords($header));
+
+					$this->headers[$header] = $_SERVER[$key];
+				}
 			}
 		}
 
-		return $this->headers;
+		return $this->_fetch_from_array($this->headers, NULL, $xss_clean);
 	}
 
 	// --------------------------------------------------------------------
