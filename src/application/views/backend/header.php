@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+	$this->load->model('settings_model');			
+	$theme_color = $this->settings_model->get_setting('theme_color');
+?>
 <html lang="en">
 <head>
     <title><?php echo $company_name; ?> | Easy!Appointments</title>
@@ -31,11 +35,11 @@
     <link
         rel="stylesheet"
         type="text/css"
-        href="<?php echo $base_url; ?>/assets/css/backend.css">
+        href="<?php echo base_url('assets/css/backend_' . $theme_color . '.css'); ?>">
     <link
         rel="stylesheet"
         type="text/css"
-        href="<?php echo $base_url; ?>/assets/css/general.css">
+        href="<?php echo base_url('assets/css/general_' . $theme_color . '.css'); ?>">
 
     <?php
         // ------------------------------------------------------------

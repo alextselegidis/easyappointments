@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -409,6 +409,44 @@ class Appointments_Model extends CI_Model {
             'start_datetime' => date('Y-m-d H:i:s', strtotime($selected_date . ' ' . $hour . ':00'))
         ])->num_rows();
     }
+
+    //Waiting list functions Craig Tucker start
+	public function waitinglist_to_db($waitinglist) {
+		//first delete any earlier entries
+		$emailphone = $waitinglist['notes'];
+		$addresses = explode(";", $emailphone);
+		$user_lang = $addresses[0];
+		$email = $addresses[1];
+		$this->db->where(array('start_datetime' => NULL));
+		$this->db->like('notes', $email);
+		$this->db->delete('ea_appointments');
+		
+		//insert new waiting list record
+        $waitinglist['book_datetime'] = date('Y-m-d H:i:s');
+        $waitinglist['hash'] = $this->generate_hash();
+		$waitinglist['is_unavailable'] = true;
+		
+        if (!$this->db->insert('ea_appointments', $waitinglist)) {
+            throw new Exception('Could not insert waitinglist record.');
+        }
+        return intval($this->db->insert_id());
+    }
+
+	public function get_waitinglist() {
+		$where = "book_datetime < DATE_SUB( NOW() , INTERVAL 30 DAY )"; //Tucker Delete waiting list records older than 30 days
+		$this->db->where(array('start_datetime' => NULL))->where($where);
+		$this->db->delete('ea_appointments'); 
+		//Get the rest of the records
+		$query = $this->db->get_where('ea_appointments', array('start_datetime' => NULL));
+		return $query->result(); 
+	}
+	
+	public function delete_waitinglist($hash) {
+		$this->db->where('hash', $hash);
+		$this->db->delete('ea_appointments'); 
+	}
+    //Waiting list functions Craig Tucker end
+	
 }
 
 /* End of file appointments_model.php */

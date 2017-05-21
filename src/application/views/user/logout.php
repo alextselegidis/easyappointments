@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+	$this->load->model('settings_model');			
+	$theme_color = $this->settings_model->get_setting('theme_color');
+?>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -27,6 +31,14 @@
         rel="stylesheet"
         type="text/css"
         href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+	<link
+        rel="stylesheet"
+        type="text/css"
+        href="<?php echo base_url('assets/css/general_' . $theme_color . '.css'); ?>">
+	<link
+        rel="stylesheet"
+        type="text/css"
+        href="<?php echo base_url('assets/css/frontend_' . $theme_color . '.css'); ?>">
 
     <style>
         body {
@@ -34,7 +46,6 @@
             height: 100vh;
             display: table-cell;
             vertical-align: middle;
-            background-color: #CAEDF3;
         }
 
         #logout-frame {

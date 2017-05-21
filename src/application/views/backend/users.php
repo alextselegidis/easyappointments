@@ -376,7 +376,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                           <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="sunday" />
+                                            <?php echo $this->lang->line('sunday'); ?></label>
+                                    </div>
+                                </td>
+                                <td><input type="text" id="sunday-start" class="work-start" /></td>
+                                <td><input type="text" id="sunday-end" class="work-end" /></td>
+                            </tr>
+							<tr>
                                 <td>
                                     <div class="checkbox">
                                         <label><input type="checkbox" id="monday" />
@@ -436,17 +446,7 @@
                                 <td><input type="text" id="saturday-start" class="work-start" /></td>
                                 <td><input type="text" id="saturday-end" class="work-end" /></td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" id="sunday" />
-                                            <?php echo $this->lang->line('sunday'); ?></label>
-                                    </div>
-                                </td>
-                                <td><input type="text" id="sunday-start" class="work-start" /></td>
-                                <td><input type="text" id="sunday-end" class="work-end" /></td>
-                            </tr>
-                        </tbody>
+                         </tbody>
                     </table>
 
                     <br>

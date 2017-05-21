@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+	$this->load->model('settings_model');			
+	$theme_color = $this->settings_model->get_setting('theme_color');
+?>
 <html>
 <head>
     <title>Easy!Appointments - Installation</title>
@@ -14,7 +18,7 @@
         href="<?php echo $base_url ?>/assets/ext/jquery-ui/jquery-ui.min.css">
 
     <link rel="stylesheet" type="text/css"
-        href="<?php echo $base_url; ?>/assets/css/general.css">
+        href="<?php echo base_url('assets/css/general_' . $theme_color . '.css'); ?>">
 
     <style>
         header {
@@ -173,7 +177,7 @@
     </div>
 
     <footer>
-        Powered by <a href="http://easyappointments.org">Easy!Appointments</a>
+        <?php echo $this->lang->line('powered_by'); ?> <a href="http://easyappointments.org">Easy!Appointments</a>
     </footer>
 
     <script type="text/javascript">

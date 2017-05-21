@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -62,6 +62,8 @@ class Backend extends CI_Controller {
         $view['active_menu'] = PRIV_APPOINTMENTS;
         $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
+        $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['week_starts_on'] = $this->settings_model->get_setting('week_starts_on');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
@@ -105,20 +107,37 @@ class Backend extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
-
-        $view['base_url'] = $this->config->item('base_url');
+		
+		//Craig Tucker cell carrier modification 1 start
+   		$this->load->model('cellcarrier_model'); 
+            $cellcarriers = $this->cellcarrier_model->get();
+			$customers_form_cellco_options = array();
+			foreach ($cellcarriers as $id => $cellcarrier) {
+				$customer_form_cellco_options[$id] = $cellcarrier->cellco;
+			} 
+		//Craig Tucker cell carrier modification 1 end
+        
+		$view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_CUSTOMERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
+        $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['week_starts_on'] = $this->settings_model->get_setting('week_starts_on');
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
-        $this->load->view('backend/customers', $view);
-        $this->load->view('backend/footer', $view);
+        //DELETE  $this->load->view('backend/customers', $view);
+		//Craig Tucker cell carrier modification 2 start
+        $this->load->view('backend/customers', array(
+			'customer_form_cellco_options' => $customer_form_cellco_options, 
+			)); 
+		//Craig Tucker cell carrier modification 2 end
+
+		$this->load->view('backend/footer', $view);
     }
 
     /**
@@ -144,6 +163,8 @@ class Backend extends CI_Controller {
         $view['active_menu'] = PRIV_SERVICES;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
+        $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['week_starts_on'] = $this->settings_model->get_setting('week_starts_on');
         $view['services'] = $this->services_model->get_batch();
         $view['categories'] = $this->services_model->get_all_categories();
         $this->set_user_data($view);
@@ -176,6 +197,8 @@ class Backend extends CI_Controller {
         $view['active_menu'] = PRIV_USERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
+        $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['week_starts_on'] = $this->settings_model->get_setting('week_starts_on');
         $view['admins'] = $this->admins_model->get_batch();
         $view['providers'] = $this->providers_model->get_batch();
         $view['secretaries'] = $this->secretaries_model->get_batch();

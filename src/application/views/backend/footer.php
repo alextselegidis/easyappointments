@@ -1,6 +1,6 @@
 <div id="footer">
     <div id="footer-content" class="col-xs-12 col-md-6">
-        Powered by
+        <?php echo $this->lang->line('powered_by'); ?>
         <a href="http://easyappointments.org">Easy!Appointments
             <?php
                 echo 'v' . $this->config->item('version');

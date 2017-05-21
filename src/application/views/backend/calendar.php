@@ -39,6 +39,8 @@
         'baseUrl'               : <?php echo json_encode($base_url); ?>,
         'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>,
         'dateFormat'            : <?php echo json_encode($date_format); ?>,
+        'timeFormat'            : <?php echo json_encode($time_format); ?>,
+        'weekStartson'          : <?php echo json_encode($week_starts_on); ?>,
         'editAppointment'       : <?php echo json_encode($edit_appointment); ?>,
         'customers'             : <?php echo json_encode($customers); ?>,
         'secretaryProviders'    : <?php echo json_encode($secretary_providers); ?>,
@@ -142,6 +144,20 @@
                             <input id="appointment-id" type="hidden" />
 
                             <div class="form-group">
+                                <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
+                                <div class="col-sm-7">
+                                    <select id="select-provider" class="required form-control"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="start-datetime" class="col-sm-3 control-label" ><?php echo $this->lang->line('start_date_time'); ?></label>
+                                <div class="col-sm-7">
+                                    <input type="text" id="start-datetime" class="form-control" />
+                                </div>
+                            </div>
+							
+                            <div class="form-group">
                                 <label for="select-service" class="col-sm-3 control-label"><?php echo $this->lang->line('service'); ?> *</label>
                                 <div class="col-sm-7">
                                     <select id="select-service" class="required form-control">
@@ -199,20 +215,6 @@
                                             }
                                         ?>
                                     </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
-                                <div class="col-sm-7">
-                                    <select id="select-provider" class="required form-control"></select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="start-datetime" class="col-sm-3 control-label" ><?php echo $this->lang->line('start_date_time'); ?></label>
-                                <div class="col-sm-7">
-                                    <input type="text" id="start-datetime" class="form-control" />
                                 </div>
                             </div>
 

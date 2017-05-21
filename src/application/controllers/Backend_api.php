@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -297,11 +297,23 @@ class Backend_api extends CI_Controller {
                 if (!$manage_mode) {
                     $customer_title = new Text($this->lang->line('appointment_booked'));
                     $customer_message = new Text($this->lang->line('thank_you_for_appointment'));
+					
+					//Notification Mod 1 Craig Tucker start
+					$customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));				
+					$provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
+					//Notification Mod 1 Craig Tucker end
+					
                     $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
                     $provider_message = new Text($this->lang->line('appointment_link_description'));
                 } else {
                     $customer_title = new Text($this->lang->line('appointment_changes_saved'));
                     $customer_message = new Text('');
+					
+					//Notification Mod 2 Craig Tucker start
+					$customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));				
+					$provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
+					//Notification Mod 2 Craig Tucker end
+					
                     $provider_title = new Text($this->lang->line('appointment_details_changed'));
                     $provider_message = new Text('');
                 }
