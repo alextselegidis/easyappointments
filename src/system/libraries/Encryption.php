@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -135,11 +135,11 @@ class CI_Encryption {
 	);
 
 	/**
-	 * mbstring.func_override flag
+	 * mbstring.func_overload flag
 	 *
 	 * @var	bool
 	 */
-	protected static $func_override;
+	protected static $func_overload;
 
 	// --------------------------------------------------------------------
 
@@ -152,10 +152,8 @@ class CI_Encryption {
 	public function __construct(array $params = array())
 	{
 		$this->_drivers = array(
-			'mcrypt' => defined('MCRYPT_DEV_URANDOM'),
-			// While OpenSSL is available for PHP 5.3.0, an IV parameter
-			// for the encrypt/decrypt functions is only available since 5.3.3
-			'openssl' => (is_php('5.3.3') && extension_loaded('openssl'))
+			'mcrypt'  => defined('MCRYPT_DEV_URANDOM'),
+			'openssl' => extension_loaded('openssl')
 		);
 
 		if ( ! $this->_drivers['mcrypt'] && ! $this->_drivers['openssl'])
@@ -163,7 +161,7 @@ class CI_Encryption {
 			show_error('Encryption: Unable to find an available encryption driver.');
 		}
 
-		isset(self::$func_override) OR self::$func_override = (extension_loaded('mbstring') && ini_get('mbstring.func_override'));
+		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 		$this->initialize($params);
 
 		if ( ! isset($this->_key) && self::strlen($key = config_item('encryption_key')) > 0)
@@ -339,12 +337,26 @@ class CI_Encryption {
 	{
 		if (function_exists('random_bytes'))
 		{
-			return random_bytes((int) $length);
+			try
+			{
+				return random_bytes((int) $length);
+			}
+			catch (Exception $e)
+			{
+				log_message('error', $e->getMessage());
+				return FALSE;
+			}
+		}
+		elseif (defined('MCRYPT_DEV_URANDOM'))
+		{
+			return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
 		}
 
-		return ($this->_driver === 'mcrypt')
-			? mcrypt_create_iv($length, MCRYPT_DEV_URANDOM)
-			: openssl_random_pseudo_bytes($length);
+		$is_secure = NULL;
+		$key = openssl_random_pseudo_bytes($length, $is_secure);
+		return ($is_secure === TRUE)
+			? $key
+			: FALSE;
 	}
 
 	// --------------------------------------------------------------------
@@ -400,7 +412,7 @@ class CI_Encryption {
 		// The greater-than-1 comparison is mostly a work-around for a bug,
 		// where 1 is returned for ARCFour instead of 0.
 		$iv = (($iv_size = mcrypt_enc_get_iv_size($params['handle'])) > 1)
-			? mcrypt_create_iv($iv_size, MCRYPT_DEV_URANDOM)
+			? $this->create_key($iv_size)
 			: NULL;
 
 		if (mcrypt_generic_init($params['handle'], $params['key'], $iv) < 0)
@@ -463,7 +475,7 @@ class CI_Encryption {
 		}
 
 		$iv = ($iv_size = openssl_cipher_iv_length($params['handle']))
-			? openssl_random_pseudo_bytes($iv_size)
+			? $this->create_key($iv_size)
 			: NULL;
 
 		$data = openssl_encrypt(
@@ -895,11 +907,11 @@ class CI_Encryption {
 	 * Byte-safe strlen()
 	 *
 	 * @param	string	$str
-	 * @return	integer
+	 * @return	int
 	 */
 	protected static function strlen($str)
 	{
-		return (self::$func_override)
+		return (self::$func_overload)
 			? mb_strlen($str, '8bit')
 			: strlen($str);
 	}
@@ -916,7 +928,7 @@ class CI_Encryption {
 	 */
 	protected static function substr($str, $start, $length = NULL)
 	{
-		if (self::$func_override)
+		if (self::$func_overload)
 		{
 			// mb_substr($str, $start, null, '8bit') returns an empty
 			// string on PHP 5.3
