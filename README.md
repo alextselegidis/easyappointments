@@ -46,6 +46,10 @@ If you have problems installing or configuring the application take a look on th
 You can also report problems on the [issues page](https://github.com/alextselegidis/easyappointments/issues)
 and help the development progress.
 
+If you are using Docker and Docker Compose, you could just simply copy the src/config-sample.php
+to src/config.php and set its `BASE_URL` to `SERVER_IP:8001` and run `docker-compose up` to launch
+the web application.
+
 ### User Feedback
 
 Whether it is new ideas or defects, your feedback is highly appreciated and will be taken into
