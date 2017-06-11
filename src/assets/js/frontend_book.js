@@ -114,10 +114,7 @@ window.FrontendBook = window.FrontendBook || {};
             var selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
 
             if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
-                $selectService
-                    .val(selectedServiceId)
-                    .prop('disabled', true)
-                    .css('opacity', '0.5');
+                $selectService.val(selectedServiceId);
             }
 
             $selectService.trigger('change'); // Load the available hours.
@@ -141,8 +138,6 @@ window.FrontendBook = window.FrontendBook || {};
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length > 0) {
                 $selectProvider
                     .val(selectedProviderId)
-                    .prop('disabled', true)
-                    .css('opacity', '0.5')
                     .trigger('change');
             }
 
