@@ -22,7 +22,7 @@ gulp.task('composer', function() {
         '!vendor/**/demo{,/**}',
         '!vendor/**/{demo,docs,examples,test,tests,extras,language}{,/**}',
         '!vendor/**/{composer.json,composer.lock,.gitignore}',
-        '!vendor/**/{*.yml,*.md}',
+        '!vendor/**/{*.yml,*.md,*phpunit*,*.mdown}',
         '!vendor/bin{,/**}',
         '!vendor/codeigniter{,/**}',
         '!vendor/doctrine{,/**}',
