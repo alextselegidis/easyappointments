@@ -112,19 +112,25 @@
          */
         $('#admins').on('click', '#delete-admin', function() {
             var adminId = $('#admin-id').val();
-            var messageBtns = {};
 
-            messageBtns[EALang['delete']] = function() {
-                this.delete(adminId);
-                $('#message_box').dialog('close');
-            }.bind(this);
-
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        this.delete(adminId);
+                        $('#message_box').dialog('close');
+                    }.bind(this)
+                },
+                {
+                    text: EALang['cancel'],
+                    click:  function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_admin'],
-                    EALang['delete_record_prompt'], messageBtns);
+                    EALang['delete_record_prompt'], buttons);
         }.bind(this));
 
         /**

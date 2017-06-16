@@ -168,19 +168,24 @@
          */
         $('#delete-customer').click(function() {
             var customerId = $('#customer-id').val();
-            var messageBtns = {};
-
-            messageBtns[EALang['delete']] = function() {
-                instance.delete(customerId);
-                $('#message_box').dialog('close');
-            };
-
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        instance.delete(customerId);
+                        $('#message_box').dialog('close');
+                    }
+                },
+                {
+                    text: EALang['cancel'],
+                    click:  function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_customer'],
-                    EALang['delete_record_prompt'], messageBtns);
+                    EALang['delete_record_prompt'], buttons);
         });
     };
 

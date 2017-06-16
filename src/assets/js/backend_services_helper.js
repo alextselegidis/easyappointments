@@ -162,19 +162,24 @@
          */
         $('#delete-service').click(function() {
             var serviceId = $('#service-id').val();
-            var messageBtns = {};
-
-            messageBtns[EALang['delete']] = function() {
-                instance.delete(serviceId);
-                $('#message_box').dialog('close');
-            };
-
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        instance.delete(serviceId);
+                        $('#message_box').dialog('close');
+                    }
+                },
+                {
+                    text: EALang['cancel'],
+                    click:  function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_service'],
-                    EALang['delete_record_prompt'], messageBtns);
+                    EALang['delete_record_prompt'], buttons);
         });
     };
 

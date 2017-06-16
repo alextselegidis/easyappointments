@@ -125,17 +125,24 @@
         $('#providers').on('click', '#delete-provider', function() {
             var providerId = $('#provider-id').val();
 
-            var messageBtns = {};
-            messageBtns[EALang['delete']] = function() {
-                this.delete(providerId);
-                $('#message_box').dialog('close');
-            }.bind(this);
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        this.delete(providerId);
+                        $('#message_box').dialog('close');
+                    }.bind(this)
+                },
+                {
+                    text: EALang['cancel'],
+                    click: function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_provider'],
-                    EALang['delete_record_prompt'], messageBtns);
+                    EALang['delete_record_prompt'], buttons);
         }.bind(this));
 
         /**

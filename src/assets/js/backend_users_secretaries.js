@@ -117,19 +117,24 @@
          */
         $('#secretaries').on('click', '#delete-secretary', function() {
             var secretaryId = $('#secretary-id').val();
-            var messageBtns = {};
-
-            messageBtns[EALang['delete']] = function() {
-                this.delete(secretaryId);
-                $('#message_box').dialog('close');
-            }.bind(this);
-
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        this.delete(secretaryId);
+                        $('#message_box').dialog('close');
+                    }.bind(this)
+                },
+                {
+                    text: EALang['cancel'],
+                    click:  function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_secretary'],
-                    EALang['delete_record_prompt'], messageBtns);
+                    EALang['delete_record_prompt'], buttons);
         }.bind(this));
 
         /**
