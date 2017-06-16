@@ -1,4 +1,3 @@
-!src/storage/uploads/index.html
 *.zip
 .idea/
 .tmp-package/
