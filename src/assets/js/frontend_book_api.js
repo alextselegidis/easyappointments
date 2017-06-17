@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -177,8 +177,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     return false;
                 }
 
-                window.location.replace(GlobalVariables.baseUrl
-                    + '/index.php/appointments/book_success/' + response.appointment_id);
+                window.location.href = GlobalVariables.baseUrl
+                    + '/index.php/appointments/book_success/' + response.appointment_id;
             })
             .fail(function(jqxhr, textStatus, errorThrown) {
                 $('.captcha-title small').trigger('click');

@@ -63,7 +63,7 @@
                 <label for="select-filter-item">
                     <?php echo $this->lang->line('display_calendar'); ?>
                 </label>
-                <select id="select-filter-item" class="form-control">
+                <select id="select-filter-item" class="form-control"
                         title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
                 </select>
             </div>

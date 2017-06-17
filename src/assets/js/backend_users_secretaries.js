@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -117,20 +117,25 @@
          */
         $('#secretaries').on('click', '#delete-secretary', function() {
             var secretaryId = $('#secretary-id').val();
-            var messageBtns = {};
-
-            messageBtns[EALang['delete']] = function() {
-                this.delete(secretaryId);
-                $('#message_box').dialog('close');
-            }.bind(this);
-
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        this.delete(secretaryId);
+                        $('#message_box').dialog('close');
+                    }.bind(this)
+                },
+                {
+                    text: EALang['cancel'],
+                    click:  function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_secretary'],
-                    EALang['delete_record_prompt'], messageBtns);
-        });
+                    EALang['delete_record_prompt'], buttons);
+        }.bind(this));
 
         /**
          * Event: Save Secretary Button "Click"
@@ -184,7 +189,7 @@
          *
          * Cancel add or edit of an secretary record.
          */
-        $('#secretaries').on('Click', '#cancel-secretary', function() {
+        $('#secretaries').on('click', '#cancel-secretary', function() {
             var id = $('#secretary-id').val();
             this.resetForm();
             if (id != '') {

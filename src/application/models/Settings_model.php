@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -139,6 +139,3 @@ class Settings_Model extends CI_Model {
         return $this->db->get('ea_settings')->result_array();
     }
 }
-
-/* End of file settings_model.php */
-/* Location: ./application/models/settings_model.php */

@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -24,7 +24,8 @@ class Google extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-	}
+        $this->load->library('session');
+    }
 
     /**
      * Authorize Google Calendar API usage for a specific provider.
@@ -37,9 +38,6 @@ class Google extends CI_Controller {
      */
     public function oauth($provider_id) {
     	// Store the provider id for use on the callback function.
-    	if (!isset($_SESSION)) {
-            @session_start();
-        }
     	$_SESSION['oauth_provider_id'] = $provider_id;
 
         // Redirect browser to google user content page.
@@ -67,10 +65,6 @@ class Google extends CI_Controller {
             $token = $this->google_sync->authenticate($_GET['code']);
 
        		// Store the token into the database for future reference.
-            if (!isset($_SESSION)) {
-                @session_start();
-            }
-
             if (isset($_SESSION['oauth_provider_id'])) {
                 $this->load->model('providers_model');
                 $this->providers_model->set_setting('google_sync', TRUE,
@@ -228,6 +222,3 @@ class Google extends CI_Controller {
         }
     }
 }
-
-/* End of file google.php */
-/* Location: ./application/controllers/google.php */

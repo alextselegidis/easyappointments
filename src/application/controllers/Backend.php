@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -307,6 +307,3 @@ class Backend extends CI_Controller {
         $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
 }
-
-/* End of file backend.php */
-/* Location: ./application/controllers/backend.php */

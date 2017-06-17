@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -22,7 +22,7 @@
      */
     function ServicesHelper() {
         this.filterResults = {};
-    };
+    }
 
     ServicesHelper.prototype.bindEventHandlers = function() {
         var instance = this;
@@ -162,19 +162,24 @@
          */
         $('#delete-service').click(function() {
             var serviceId = $('#service-id').val();
-            var messageBtns = {};
-
-            messageBtns[EALang['delete']] = function() {
-                instance.delete(serviceId);
-                $('#message_box').dialog('close');
-            };
-
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
+            var buttons = [
+                {
+                    text: EALang['delete'],
+                    click: function() {
+                        instance.delete(serviceId);
+                        $('#message_box').dialog('close');
+                    }
+                },
+                {
+                    text: EALang['cancel'],
+                    click:  function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
             GeneralFunctions.displayMessageBox(EALang['delete_service'],
-                    EALang['delete_record_prompt'], messageBtns);
+                    EALang['delete_record_prompt'], buttons);
         });
     };
 

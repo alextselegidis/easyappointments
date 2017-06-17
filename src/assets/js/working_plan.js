@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -324,12 +324,12 @@
                 $('.breaks tr').each(function(index, tr) {
                     var day = this.convertDayToValue($(tr).find('.break-day').text());
                     if (day == id) {
-                        var start = $(tr).find('.break-start').text(),
-                            end = $(tr).find('.break-end').text();
+                        var start = $(tr).find('.break-start').text();
+                        var end = $(tr).find('.break-end').text();
 
                         workingPlan[id].breaks.push({
-                            'start': start,
-                            'end': end
+                            start: start,
+                            end: end
                         });
                     }
 
