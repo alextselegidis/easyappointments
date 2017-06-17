@@ -116,47 +116,47 @@
                     <div class="admin-details col-md-6">
                         <div class="form-group">
                             <label for="first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
-                            <input type="text" id="admin-first-name" class="form-control required" />
+                            <input type="text" id="admin-first-name" class="form-control required" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
-                            <input type="text" id="admin-last-name" class="form-control required" />
+                            <input type="text" id="admin-last-name" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-email"><?php echo $this->lang->line('email'); ?> *</label>
-                            <input type="text" id="admin-email" class="form-control required" />
+                            <input type="text" id="admin-email" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                            <input type="text" id="admin-phone-number" class="form-control required" />
+                            <input type="text" id="admin-phone-number" class="form-control required" maxlength="128" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
-                            <input type="text" id="admin-mobile-number" class="form-control" />
+                            <input type="text" id="admin-mobile-number" class="form-control" maxlength="128" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-address"><?php echo $this->lang->line('address'); ?></label>
-                            <input type="text" id="admin-address" class="form-control" />
+                            <input type="text" id="admin-address" class="form-control" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-city"><?php echo $this->lang->line('city'); ?></label>
-                            <input type="text" id="admin-city" class="form-control" />
+                            <input type="text" id="admin-city" class="form-control" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-state"><?php echo $this->lang->line('state'); ?></label>
-                            <input type="text" id="admin-state" class="form-control" />
+                            <input type="text" id="admin-state" class="form-control" maxlength="128" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-                            <input type="text" id="admin-zip-code" class="form-control" />
+                            <input type="text" id="admin-zip-code" class="form-control" maxlength="64" />
                         </div>
 
                         <div class="form-group">
@@ -167,17 +167,17 @@
                     <div class="admin-settings col-md-6">
                         <div class="form-group">
                             <label for="admin-username"><?php echo $this->lang->line('username'); ?> *</label>
-                            <input type="text" id="admin-username" class="form-control required" />
+                            <input type="text" id="admin-username" class="form-control required" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-password"><?php echo $this->lang->line('password'); ?> *</label>
-                            <input type="password" id="admin-password" class="form-control required"/>
+                            <input type="password" id="admin-password" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
                             <label for="admin-password-confirm"><?php echo $this->lang->line('retype_password'); ?> *</label>
-                            <input type="password" id="admin-password-confirm" class="form-control required" />
+                            <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
@@ -274,47 +274,47 @@
                         <div class="provider-details col-md-6">
                             <div class="form-group">
                                 <label for="provider-first-name"><?php echo $this->lang->line('first_name'); ?> *</label>
-                                <input type="text" id="provider-first-name" class="form-control required" />
+                                <input type="text" id="provider-first-name" class="form-control required" maxlength="256" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-last-name"><?php echo $this->lang->line('last_name'); ?> *</label>
-                                <input type="text" id="provider-last-name" class="form-control required" />
+                                <input type="text" id="provider-last-name" class="form-control required" maxlength="512" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-email"><?php echo $this->lang->line('email'); ?> *</label>
-                                <input type="text" id="provider-email" class="form-control required" />
+                                <input type="text" id="provider-email" class="form-control required" max="512" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
-                                <input type="text" id="provider-phone-number" class="form-control required" />
+                                <input type="text" id="provider-phone-number" class="form-control required" max="128" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-mobile-number"><?php echo $this->lang->line('mobile_number'); ?></label>
-                                <input type="text" id="provider-mobile-number" class="form-control" />
+                                <input type="text" id="provider-mobile-number" class="form-control" maxlength="128" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-address"><?php echo $this->lang->line('address'); ?></label>
-                                <input type="text" id="provider-address" class="form-control" />
+                                <input type="text" id="provider-address" class="form-control" maxlength="256" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-city"><?php echo $this->lang->line('city'); ?></label>
-                                <input type="text" id="provider-city" class="form-control" />
+                                <input type="text" id="provider-city" class="form-control" maxlength="256" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-state"><?php echo $this->lang->line('state'); ?></label>
-                                <input type="text" id="provider-state" class="form-control" />
+                                <input type="text" id="provider-state" class="form-control" maxlength="256" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-                                <input type="text" id="provider-zip-code" class="form-control" />
+                                <input type="text" id="provider-zip-code" class="form-control" maxlength="64" />
                             </div>
 
                             <div class="form-group">
@@ -325,17 +325,17 @@
                         <div class="provider-settings col-md-6">
                             <div class="form-group">
                                 <label for="provider-username"><?php echo $this->lang->line('username'); ?> *</label>
-                                <input type="text" id="provider-username" class="form-control required" />
+                                <input type="text" id="provider-username" class="form-control required" maxlength="256" />
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-password"><?php echo $this->lang->line('password'); ?> *</label>
-                                <input type="password" id="provider-password" class="form-control required"/>
+                                <input type="password" id="provider-password" class="form-control required" maxlength="512"/>
                             </div>
 
                             <div class="form-group">
                                 <label for="provider-password-confirm"><?php echo $this->lang->line('retype_password'); ?> *</label>
-                                <input type="password" id="provider-password-confirm" class="form-control required" />
+                                <input type="password" id="provider-password-confirm" class="form-control required" maxlength="512" />
                             </div>
 
                             <div class="form-group">
@@ -547,47 +547,47 @@
                     <div class="secretary-details col-md-6">
                         <div class="form-group">
                             <label for="secretary-first-name"><?php echo $this->lang->line('first_name');?> *</label>
-                            <input type="text" id="secretary-first-name" class="form-control required" />
+                            <input type="text" id="secretary-first-name" class="form-control required" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-last-name"><?php echo $this->lang->line('last_name');?> *</label>
-                            <input type="text" id="secretary-last-name" class="form-control required" />
+                            <input type="text" id="secretary-last-name" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-email"><?php echo $this->lang->line('email');?> *</label>
-                            <input type="text" id="secretary-email" class="form-control required" />
+                            <input type="text" id="secretary-email" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-phone-number"><?php echo $this->lang->line('phone_number');?> *</label>
-                            <input type="text" id="secretary-phone-number" class="form-control required" />
+                            <input type="text" id="secretary-phone-number" class="form-control required" maxlength="128" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-mobile-number"><?php echo $this->lang->line('mobile_number');?></label>
-                            <input type="text" id="secretary-mobile-number" class="form-control" />
+                            <input type="text" id="secretary-mobile-number" class="form-control" maxlength="128" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-address"><?php echo $this->lang->line('address');?></label>
-                            <input type="text" id="secretary-address" class="form-control" />
+                            <input type="text" id="secretary-address" class="form-control" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-city"><?php echo $this->lang->line('city');?></label>
-                            <input type="text" id="secretary-city" class="form-control" />
+                            <input type="text" id="secretary-city" class="form-control" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-state"><?php echo $this->lang->line('state');?></label>
-                            <input type="text" id="secretary-state" class="form-control" />
+                            <input type="text" id="secretary-state" class="form-control" maxlength="128" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-zip-code"><?php echo $this->lang->line('zip_code');?></label>
-                            <input type="text" id="secretary-zip-code" class="form-control" />
+                            <input type="text" id="secretary-zip-code" class="form-control" maxlength="64" />
                         </div>
 
                         <div class="form-group">
@@ -598,17 +598,17 @@
                     <div class="secretary-settings col-md-6">
                         <div class="form-group">
                             <label for="secretary-username"><?php echo $this->lang->line('username');?> *</label>
-                            <input type="text" id="secretary-username" class="form-control required" />
+                            <input type="text" id="secretary-username" class="form-control required" maxlength="256" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-password"><?php echo $this->lang->line('password');?> *</label>
-                            <input type="password" id="secretary-password" class="form-control required"/>
+                            <input type="password" id="secretary-password" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
                             <label for="secretary-password-confirm"><?php echo $this->lang->line('retype_password');?> *</label>
-                            <input type="password" id="secretary-password-confirm" class="form-control required" />
+                            <input type="password" id="secretary-password-confirm" class="form-control required" maxlength="512" />
                         </div>
 
                         <div class="form-group">
