@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
   KEY `id_users_customer` (`id_users_customer`),
   KEY `id_services` (`id_services`),
   KEY `id_users_provider` (`id_users_provider`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_roles` (
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `ea_roles` (
   `system_settings` int(4) DEFAULT NULL COMMENT '0',
   `user_settings` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
   `id_service_categories` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_service_categories` (`id_service_categories`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_services_providers` (
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
   `name` varchar(256) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_settings` (
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
   `name` varchar(512) DEFAULT NULL,
   `value` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_users` (
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
   `id_roles` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_roles` (`id_roles`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=84 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_user_settings` (
