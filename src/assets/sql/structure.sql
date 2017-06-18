@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
   PRIMARY KEY (`id_users_secretary`,`id_users_provider`),
   KEY `fk_ea_secretaries_providers_1` (`id_users_secretary`),
   KEY `fk_ea_secretaries_providers_2` (`id_users_provider`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ea_services` (
