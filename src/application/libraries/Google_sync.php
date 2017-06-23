@@ -231,7 +231,11 @@ class Google_Sync {
      * be deleted.
      */
     public function delete_appointment($provider, $google_event_id) {
-        $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
+        try {
+            $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
+        } catch (Exception $ex) {
+            // Event was not found on Google Calendar.
+        }
     }
 
     /**
@@ -299,7 +303,11 @@ class Google_Sync {
      * @param string $google_event_id Google Calendar event id to be deleted.
      */
     public function delete_unavailable($provider, $google_event_id) {
-        $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
+        try {
+            $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
+        } catch (Exception $ex) {
+            // Event was not found on Google Calendar.
+        }
     }
 
     /**
