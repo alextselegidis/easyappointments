@@ -383,7 +383,7 @@
 
         if (display) {
             $.each(this.filterResults, function(index, service) {
-                if (service.id === id) {
+                if (service.id == id) {
                     this.display(service);
                     $('#edit-service, #delete-service').prop('disabled', false);
                     return false;
