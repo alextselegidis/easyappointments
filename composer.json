@@ -27,13 +27,13 @@
     },
     "minimum-stability": "stable",
     "require-dev": {
-        "codeigniter/framework": "~3.1.4",
         "phpunit/phpunit": "^5.6"
     },
     "require": {
         "php": ">=5.6",
         "roave/security-advisories": "dev-master",
         "gregwar/captcha": "^1.1",
-        "phpmailer/phpmailer": "^5.2"
+        "phpmailer/phpmailer": "^5.2",
+        "codeigniter/framework": "3.1.5"
     }
 }
