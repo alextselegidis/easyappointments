@@ -375,7 +375,7 @@
         $('#filter-services .selected').removeClass('selected');
 
         $('#filter-services .service-row').each(function() {
-            if ($(this).attr('data-id') === id) {
+            if ($(this).attr('data-id') == id) {
                 $(this).addClass('selected');
                 return false;
             }
