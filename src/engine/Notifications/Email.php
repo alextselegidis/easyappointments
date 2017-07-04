@@ -91,6 +91,19 @@ class Email {
     public function sendAppointmentDetails(array $appointment, array $provider, array $service,
                                            array $customer, array $company, Text $title, Text $message, Url $appointmentLink,
                                            EmailAddress $recipientEmail) {
+        switch($company['date_format']) {
+            case 'DMY':
+                $date_format = 'd/m/Y';
+                break;
+            case 'MDY':
+                $date_format = 'm/d/Y';
+                break;
+            case 'YMD':
+                $date_format = 'Y/m/d';
+                break;
+            default:
+                throw new \Exception('Invalid date_format value: ' . $company['date_format']);
+        }
 
         // Prepare template replace array.
         $replaceArray = array(
@@ -98,8 +111,8 @@ class Email {
             '$email_message' => $message->get(),
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_start_date' => date('d/m/Y H:i', strtotime($appointment['start_datetime'])),
-            '$appointment_end_date' => date('d/m/Y H:i', strtotime($appointment['end_datetime'])),
+            '$appointment_start_date' => date($date_format . ' H:i', strtotime($appointment['start_datetime'])),
+            '$appointment_end_date' => date($date_format . ' H:i', strtotime($appointment['end_datetime'])),
             '$appointment_link' => $appointmentLink->get(),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
@@ -160,13 +173,27 @@ class Email {
     public function sendDeleteAppointment(array $appointment, array $provider,
                                           array $service, array $customer, array $company, EmailAddress $recipientEmail,
                                           Text $reason) {
+        switch($company['date_format']) {
+            case 'DMY':
+                $date_format = 'd/m/Y';
+                break;
+            case 'MDY':
+                $date_format = 'm/d/Y';
+                break;
+            case 'YMD':
+                $date_format = 'Y/m/d';
+                break;
+            default:
+                throw new \Exception('Invalid date_format value: ' . $company['date_format']);
+        }
+
         // Prepare email template data. 
         $replaceArray = array(
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_date' => date('d/m/Y H:i', strtotime($appointment['start_datetime'])),
+            '$appointment_date' => date($date_format . ' H:i', strtotime($appointment['start_datetime'])),
             '$appointment_duration' => $service['duration'] . ' minutes',
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
