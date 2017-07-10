@@ -25,12 +25,12 @@ CREATE TABLE `ea_roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(256) DEFAULT NULL,
   `slug` varchar(256) DEFAULT NULL,
-  `is_admin` tinyint(4) DEFAULT NULL COMMENT,
-  `appointments` int(4) DEFAULT NULL COMMENT,
-  `customers` int(4) DEFAULT NULL COMMENT,
-  `services` int(4) DEFAULT NULL COMMENT,
-  `users` int(4) DEFAULT NULL COMMENT,
-  `system_settings` int(4) DEFAULT NULL COMMENT,
+  `is_admin` tinyint(4) DEFAULT NULL,
+  `appointments` int(4) DEFAULT NULL,
+  `customers` int(4) DEFAULT NULL,
+  `services` int(4) DEFAULT NULL,
+  `users` int(4) DEFAULT NULL,
+  `system_settings` int(4) DEFAULT NULL,
   `user_settings` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
