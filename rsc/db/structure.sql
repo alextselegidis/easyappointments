@@ -31,7 +31,7 @@ CREATE TABLE `ea_roles` (
   `services` int(4) DEFAULT NULL,
   `users` int(4) DEFAULT NULL,
   `system_settings` int(4) DEFAULT NULL,
-  `user_settings` int(11) DEFAULT NULL
+  `user_settings` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ea_secretaries_providers` (
