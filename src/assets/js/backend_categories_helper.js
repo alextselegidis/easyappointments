@@ -334,7 +334,7 @@
         $('#filter-categories .selected').removeClass('selected');
 
         $('#filter-categories .category-row').each(function() {
-            if ($(this).attr('data-id') === id) {
+            if ($(this).attr('data-id') == id) {
                 $(this).addClass('selected');
                 return false;
             }
@@ -342,7 +342,7 @@
 
         if (display) {
             $.each(this.filterResults, function(index, category) {
-                if (category.id === id) {
+                if (category.id == id) {
                     this.display(category);
                     $('#edit-category, #delete-category').prop('disabled', false);
                     return false;
