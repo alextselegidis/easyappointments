@@ -41,7 +41,10 @@ class Backend_api extends CI_Controller {
 
         $this->load->library('session');
         $this->load->model('roles_model');
-        $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+
+        if ($this->session->userdata('role_slug')) {
+            $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+        }
 
         // Set user's selected language.
         if ($this->session->userdata('language')) {
