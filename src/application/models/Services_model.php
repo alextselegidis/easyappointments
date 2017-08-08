@@ -34,7 +34,7 @@ class Services_Model extends CI_Model {
             $this->_update($service);
         }
 
-        return intval($service['id']);
+        return (int)$service['id'];
     }
 
     /**
@@ -48,7 +48,7 @@ class Services_Model extends CI_Model {
         if (!$this->db->insert('ea_services', $service)) {
             throw new Exception('Could not insert service record.');
         }
-        return intval($this->db->insert_id());
+        return (int)$this->db->insert_id();
     }
 
     /**
@@ -302,7 +302,7 @@ class Services_Model extends CI_Model {
             $this->db->update('ea_service_categories', $category);
         }
 
-        return intval($category['id']);
+        return (int)$category['id'];
     }
 
     /**

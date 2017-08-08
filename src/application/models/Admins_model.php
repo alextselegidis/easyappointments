@@ -53,7 +53,7 @@ class Admins_Model extends CI_Model {
             $admin['id'] = $this->update($admin);
         }
         
-        return intval($admin['id']);
+        return (int)$admin['id'];
     }
     
     /**
@@ -101,7 +101,7 @@ class Admins_Model extends CI_Model {
             throw new Exception('Could not insert admin into the database.');
         }
         
-        $admin['id'] = intval($this->db->insert_id());
+        $admin['id'] = (int)$this->db->insert_id();
         $settings['id_users'] = $admin['id'];
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
@@ -146,7 +146,7 @@ class Admins_Model extends CI_Model {
             throw new Exception('Could not update admin settings.');
         }
         
-        return intval($admin['id']);
+        return (int)$admin['id'];
     }
     
     /**
@@ -174,7 +174,7 @@ class Admins_Model extends CI_Model {
             throw new Exception('Could not find admin record id.');
         }
         
-        return intval($result->row()->id);
+        return (int)$result->row()->id;
     }
     
     /**
@@ -381,7 +381,7 @@ class Admins_Model extends CI_Model {
      * @return int Returns the role record id. 
      */
     public function get_admin_role_id() {
-        return intval($this->db->get_where('ea_roles', array('slug' => DB_SLUG_ADMIN))->row()->id);
+        return (int)$this->db->get_where('ea_roles', array('slug' => DB_SLUG_ADMIN))->row()->id;
     }
     
     /**

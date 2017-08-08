@@ -65,7 +65,7 @@ class Settings_Model extends CI_Model {
             if (!$this->db->update('ea_settings', array('value' => $value), array('name' => $name))) {
                 throw new Exception('Could not update database setting.');
             }
-            $setting_id = intval($this->db->get_where('ea_settings', array('name' => $name))->row()->id);
+            $setting_id = (int)$this->db->get_where('ea_settings', array('name' => $name))->row()->id;
         } else {
             // Insert setting
             $insert_data = array(
@@ -75,7 +75,7 @@ class Settings_Model extends CI_Model {
             if (!$this->db->insert('ea_settings', $insert_data)) {
                 throw new Exception('Could not insert database setting');
             }
-            $setting_id = intval($this->db->insert_id());
+            $setting_id = (int)$this->db->insert_id();
         }
 
         return $setting_id;

@@ -54,7 +54,7 @@ class Secretaries_Model extends CI_Model {
             $secretary['id'] = $this->_update($secretary);
         }
 
-        return intval($secretary['id']);
+        return (int)$secretary['id'];
     }
 
     /**
@@ -103,7 +103,7 @@ class Secretaries_Model extends CI_Model {
             throw new Exception('Could not insert secretary into the database.');
         }
 
-        $secretary['id'] = intval($this->db->insert_id());
+        $secretary['id'] = (int)$this->db->insert_id();
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
@@ -141,7 +141,7 @@ class Secretaries_Model extends CI_Model {
         $this->save_providers($providers, $secretary['id']);
         $this->save_settings($settings, $secretary['id']);
 
-        return intval($secretary['id']);
+        return (int)$secretary['id'];
     }
 
     /**
@@ -169,7 +169,7 @@ class Secretaries_Model extends CI_Model {
             throw new Exception('Could not find secretary record id.');
         }
 
-        return intval($result->row()->id);
+        return (int)$result->row()->id;
     }
 
     /**
@@ -384,7 +384,7 @@ class Secretaries_Model extends CI_Model {
      * @return int Returns the role record id.
      */
     public function get_secretary_role_id() {
-        return intval($this->db->get_where('ea_roles', array('slug' => DB_SLUG_SECRETARY))->row()->id);
+        return (int)$this->db->get_where('ea_roles', array('slug' => DB_SLUG_SECRETARY))->row()->id;
     }
 
     /**

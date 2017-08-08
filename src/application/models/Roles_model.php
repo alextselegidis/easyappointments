@@ -55,17 +55,17 @@ class Roles_Model extends CI_Model {
             );
 
             if ($privileges_number > 0) {
-                if (intval($privileges_number / PRIV_DELETE) == 1) {
+                if ((int)($privileges_number / PRIV_DELETE) == 1) {
                     $value['delete'] = TRUE;
                     $privileges_number -= PRIV_DELETE;
                 }
 
-                if (intval($privileges_number / PRIV_EDIT) == 1) {
+                if ((int)($privileges_number / PRIV_EDIT) == 1) {
                     $value['edit'] = TRUE;
                     $privileges_number -= PRIV_EDIT;
                 }
 
-                if (intval($privileges_number / PRIV_ADD) == 1) {
+                if ((int)($privileges_number / PRIV_ADD) == 1) {
                     $value['add'] = TRUE;
                     $privileges_number -= PRIV_ADD;
                 }

@@ -68,7 +68,7 @@ class Providers_Model extends CI_Model {
             $provider['id'] = $this->_update($provider);
         }
 
-        return intval($provider['id']);
+        return (int)$provider['id'];
     }
 
     /**
@@ -128,7 +128,7 @@ class Providers_Model extends CI_Model {
         $this->save_services($services, $provider['id']);
 
         // Return the new record id.
-        return intval($provider['id']);
+        return (int)$provider['id'];
     }
 
     /**
@@ -162,7 +162,7 @@ class Providers_Model extends CI_Model {
         $this->save_settings($settings, $provider['id']);
 
         // Return record id.
-        return intval($provider['id']);
+        return (int)$provider['id'];
     }
 
     /**
@@ -190,7 +190,7 @@ class Providers_Model extends CI_Model {
             throw new Exception('Could not find provider record id.');
         }
 
-        return intval($result->row()->id);
+        return (int)$result->row()->id;
     }
 
     /**

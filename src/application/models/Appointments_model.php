@@ -90,7 +90,7 @@ class Appointments_Model extends CI_Model {
             throw new Exception('Could not insert appointment record.');
         }
 
-        return intval($this->db->insert_id());
+        return (int)$this->db->insert_id();
     }
 
     /**

@@ -98,7 +98,7 @@ class Customers_Model extends CI_Model {
             throw new Exception('Could not insert customer to the database.');
         }
 
-        return intval($this->db->insert_id());
+        return (int)$this->db->insert_id();
     }
 
     /**
@@ -123,7 +123,7 @@ class Customers_Model extends CI_Model {
             throw new Exception('Could not update customer to the database.');
         }
 
-        return intval($customer['id']);
+        return (int)$customer['id'];
     }
 
     /**
