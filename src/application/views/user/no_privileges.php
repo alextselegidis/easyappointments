@@ -65,7 +65,7 @@
     <div id="no-priv-frame" class="frame-container">
         <h3><?php echo $this->lang->line('no_privileges'); ?></h3>
         <p>
-            <?php echo $this->lang->line('no_provileges_message'); ?>
+            <?php echo $this->lang->line('no_privileges_message'); ?>
         </p>
 
         <br>
