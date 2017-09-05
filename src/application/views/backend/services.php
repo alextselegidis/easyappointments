@@ -1,13 +1,7 @@
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_services_helper.js"></script>
-
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_categories_helper.js"></script>
-
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_services.js"></script>
-
-<script type="text/javascript">
+<script src="<?php echo base_url('/assets/js/backend_services_helper.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_categories_helper.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_services.js'); ?>"></script>
+<script>
     var GlobalVariables = {
         'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'baseUrl'       : <?php echo json_encode($base_url); ?>,
@@ -33,13 +27,8 @@
         <li role="presentation" class="categories-tab tab"><a><?php echo $this->lang->line('categories'); ?></a></li>
     </ul>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // SERVICES TAB
-        //
-        // --------------------------------------------------------------
-    ?>
+    <!-- SERVICES TAB -->
+
     <div id="services" class="tab-content">
         <?php // FILTER SERVICES ?>
         <div class="row">
@@ -148,13 +137,8 @@
         </div>
     </div>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // CATEGORIES TAB
-        //
-        // --------------------------------------------------------------
-    ?>
+    <!-- CATEGORIES TAB -->
+
     <div id="categories" class="tab-content" style="display:none;">
         <div class="row">
             <div id="filter-categories" class="filter-records column col-xs-12 col-sm-5">

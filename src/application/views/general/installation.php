@@ -4,17 +4,10 @@
     <title>Easy!Appointments - Installation</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap.min.css">
-
-    <link rel="icon" type="image/x-icon"
-        href="<?php echo $base_url; ?>/assets/img/favicon.ico">
-
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo $base_url ?>/assets/ext/jquery-ui/jquery-ui.min.css">
-
-    <link rel="stylesheet" type="text/css"
-        href="<?php echo $base_url; ?>/assets/css/general.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/assets/ext/bootstrap/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="<?php echo $base_url; ?>/assets/img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url ?>/assets/ext/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>/assets/css/general.css">
 
     <style>
         header {
@@ -176,7 +169,7 @@
         Powered by <a href="http://easyappointments.org">Easy!Appointments</a>
     </footer>
 
-    <script type="text/javascript">
+    <script>
         var GlobalVariables = {
             'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
             'baseUrl': <?php echo '"' . $base_url . '"'; ?>
@@ -185,28 +178,11 @@
         var EALang = <?php echo json_encode($this->lang->language); ?>;
     </script>
 
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery/jquery.min.js"></script>
-
-    <script
-        type="text/javascript"
-        src="<?php echo $this->config->item('base_url'); ?>/assets/ext/jquery-ui/jquery-ui.min.js"></script>
-
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/bootstrap/js/bootstrap.min.js"></script>
-
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/general_functions.js"></script>
-
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/datejs/date.js"></script>
-
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/installation.js"></script>
+    <script src="<?php echo base_url('/assets/ext/jquery/jquery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('/assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
+    <script src="<?php echo base_url('/assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('/assets/js/general_functions.js'); ?>"></script>
+    <script src="<?php echo base_url('/assets/ext/datejs/date.js'); ?>"></script>
+    <script src="<?php echo base_url('/assets/js/installation.js'); ?>"></script>
 </body>
 </html>

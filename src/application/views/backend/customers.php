@@ -1,13 +1,7 @@
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
-
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_customers_helper.js"></script>
-
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_customers.js"></script>
-
-<script type="text/javascript">
+<script src="<?php echo base_url('/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_customers_helper.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_customers.js'); ?>"></script>
+<script>
     var GlobalVariables = {
         'csrfToken'         : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'availableProviders': <?php echo json_encode($available_providers); ?>,

@@ -1,17 +1,10 @@
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_settings_system.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_settings_user.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_settings.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery-jeditable/jquery.jeditable.min.js"></script>
-
-<script type="text/javascript">
+<script src="<?php echo base_url('/assets/js/backend_settings_system.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_settings_user.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_settings.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/working_plan.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/ext/jquery-jeditable/jquery.jeditable.min.js'); ?>"></script>
+<script>
     var GlobalVariables = {
         'csrfToken'     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         'baseUrl'       : <?php echo json_encode($base_url); ?>,
@@ -51,13 +44,8 @@
         <li role="representation" class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
     </ul>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // GENERAL TAB
-        //
-        // --------------------------------------------------------------
-    ?>
+    <!-- GENERAL TAB -->
+
     <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="general" class="tab-content <?php echo $hidden; ?>">
         <form>
@@ -152,13 +140,8 @@
         </form>
     </div>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // BUSINESS LOGIC TAB
-        //
-        // --------------------------------------------------------------
-    ?>
+    <!-- BUSINESS LOGIC TAB -->
+
     <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="business-logic" class="tab-content <?php echo $hidden; ?>">
         <form>
@@ -322,13 +305,8 @@
         </form>
     </div>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // USER TAB
-        //
-        // --------------------------------------------------------------
-    ?>
+    <!-- USER TAB -->
+
     <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden'; ?>
     <div id="user" class="tab-content <?php echo $hidden; ?>">
         <form class="row">
@@ -431,13 +409,8 @@
         </form>
     </div>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // ABOUT TAB
-        //
-        // --------------------------------------------------------------
-    ?>
+    <!-- ABOUT TAB -->
+
     <div id="about" class="tab-content">
         <h3>Easy!Appointments</h3>
         <p>

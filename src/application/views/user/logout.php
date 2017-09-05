@@ -7,22 +7,15 @@
     <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('log_out') . ' - ' . $company_name; ?></title>
 
-    <?php // SET FAVICON FOR PAGE ?>
     <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
 
-    <?php // INCLUDE JS FILES ?>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
 
-    <script type="text/javascript">
+    <script>
         var EALang = <?php echo json_encode($this->lang->language); ?>;
     </script>
 
-    <?php // INCLUDE CSS FILES ?>
     <link
         rel="stylesheet"
         type="text/css"

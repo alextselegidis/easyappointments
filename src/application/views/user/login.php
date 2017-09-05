@@ -1,46 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('login') . ' - ' . $company_name; ?></title>
 
+    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
 
-    <?php // INCLUDE JS FILES ?>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui.min.js"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/general.css'); ?>">
 
-    <?php // INCLUDE CSS FILES ?>
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui.min.css">
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
-	<link
-        rel="stylesheet"
-        type="text/css"
-        href="<?php echo base_url('assets/css/general.css'); ?>">
-
-    <?php // SET FAVICON FOR PAGE ?>
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="<?php echo base_url('assets/img/favicon.ico'); ?>">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
 
     <style>
         body {
@@ -67,7 +43,7 @@
         }
     </style>
 
-    <script type="text/javascript">
+    <script>
         var GlobalVariables = {
             'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
             'baseUrl': <?php echo json_encode($base_url); ?>,
@@ -101,11 +77,9 @@
                 $('.alert').addClass('hidden');
 
                 $.post(postUrl, postData, function(response) {
-                    //////////////////////////////////////////////////
-                    console.log('Check Login Response: ', response);
-                    //////////////////////////////////////////////////
-
-                    if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+                    if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                        return;
+                    }
 
                     if (response == GlobalVariables.AJAX_SUCCESS) {
                         window.location.href = GlobalVariables.destUrl;
@@ -156,8 +130,6 @@
         </form>
     </div>
 
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
 </body>
 </html>

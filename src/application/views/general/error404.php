@@ -1,63 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
     <title><?php echo $this->lang->line('page_not_found') . ' - ' . $company_name; ?></title>
 
-    <?php
-        // ------------------------------------------------------------
-        // INCLUDE CSS FILES
-        // ------------------------------------------------------------ ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
 
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
 
-    <?php
-        // ------------------------------------------------------------
-        // SET PAGE FAVICON
-        // ------------------------------------------------------------ ?>
-
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="<?php echo base_url('assets/img/favicon.ico'); ?>">
-
-    <?php
-        // ------------------------------------------------------------
-        // CUSTOM PAGE JS
-        // ------------------------------------------------------------ ?>
-
-    <script type="text/javascript">
+    <script>
         var EALang = <?php echo json_encode($this->lang->language); ?>;
     </script>
 
-    <?php
-        // ------------------------------------------------------------
-        // INCLUDE JS FILES
-        // ------------------------------------------------------------ ?>
-
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
-
-    <?php
-        // ------------------------------------------------------------
-        // CUSTOM PAGE CSS
-        // ------------------------------------------------------------ ?>
+    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
 
     <style>
         body {

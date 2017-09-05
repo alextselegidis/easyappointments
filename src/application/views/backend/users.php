@@ -1,19 +1,11 @@
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_users_admins.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_users_providers.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_users_secretaries.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/backend_users.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/js/working_plan.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript"
-        src="<?php echo $base_url; ?>/assets/ext/jquery-jeditable/jquery.jeditable.min.js"></script>
-
-<script type="text/javascript">
+<script src="<?php echo base_url('/assets/js/backend_users_admins.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_users_providers.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_users_secretaries.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/backend_users.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/js/working_plan.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
+<script src="<?php echo base_url('/assets/ext/jquery-jeditable/jquery.jeditable.min.js'); ?>"></script>
+<script>
     var GlobalVariables = {
         csrfToken     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
         baseUrl       : <?php echo json_encode($base_url); ?>,
@@ -38,26 +30,16 @@
 
 <div id="users-page" class="container-fluid backend-page">
 
-    <?php
-        // ---------------------------------------------------------------------
-        //
-        // Page Navigation
-        //
-        // ---------------------------------------------------------------------
-    ?>
+    <!-- PAGE NAVIGATION -->
+
     <ul class="nav nav-tabs">
         <li role="presentation" class="admins-tab tab active"><a><?php echo $this->lang->line('admins'); ?></a></li>
         <li role="presentation" class="providers-tab tab"><a><?php echo $this->lang->line('providers'); ?></a></li>
         <li role="presentation" class="secretaries-tab tab"><a><?php echo $this->lang->line('secretaries'); ?></a></li>
     </ul>
 
-    <?php
-        // ---------------------------------------------------------------------
-        //
-        // Admins Tab
-        //
-        // ---------------------------------------------------------------------
-    ?>
+    <!-- ADMINS TAB -->
+
     <div id="admins" class="tab-content">
         <div class="row">
             <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
@@ -200,13 +182,8 @@
         </div>
     </div>
 
-    <?php
-        // ---------------------------------------------------------------------
-        //
-        // Providers Tab
-        //
-        // ---------------------------------------------------------------------
-    ?>
+    <!-- PROVIDERS TAB -->
+
     <div id="providers" class="tab-content" style="display:none;">
         <div class="row">
             <div id="filter-providers" class="filter-records column col-xs-12 col-sm-5">
@@ -482,13 +459,8 @@
         </div>
     </div>
 
-    <?php
-        // ---------------------------------------------------------------------
-        //
-        // Secretaries Tab
-        //
-        // ---------------------------------------------------------------------
-    ?>
+    <!-- SECRETARIES TAB -->
+
     <div id="secretaries" class="tab-content" style="display:none;">
         <div class="row">
             <div id="filter-secretaries" class="filter-records column col-xs-12 col-sm-5">
