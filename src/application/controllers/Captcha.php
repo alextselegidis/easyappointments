@@ -17,7 +17,6 @@
  * @package Controllers
  */
 class Captcha extends CI_Controller {
-
     /**
      * Class Constructor
      */

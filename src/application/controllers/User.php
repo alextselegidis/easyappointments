@@ -135,8 +135,10 @@ class User extends CI_Controller {
      * Regenerate a new password for the current user, only if the username and
      * email address given correspond to an existing user in db.
      *
-     * @param string $_POST['username']
-     * @param string $_POST['email']
+     * Required POST Parameters:
+     *
+     * - string $_POST['username'] Username to be validated.
+     * - string $_POST['email'] Email to be validated.
      */
     public function ajax_forgot_password() {
         try {

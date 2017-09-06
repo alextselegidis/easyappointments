@@ -53,9 +53,10 @@ class Installation extends CI_Controller {
     /**
      * [AJAX] Installs Easy!Appointments on the server.
      *
-     * @param array $_POST['admin'] Contains the initial admin user data. The App needs at
-     * least one admin user to work.
-     * @param array $_POST['company'] Contains the basic company data.
+     * Required POST Parameters
+     *
+     * - array $_POST['admin'] Contains the initial admin user data. The App needs at least one admin user to work.
+     * - array $_POST['company'] Contains the basic company data.
      */
     public function ajax_install() {
         try {

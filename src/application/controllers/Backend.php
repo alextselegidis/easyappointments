@@ -36,17 +36,18 @@ class Backend extends CI_Controller {
     /**
      * Display the main backend page.
      *
-     * This method displays the main backend page. All users login permission can
-     * view this page which displays a calendar with the events of the selected
-     * provider or service. If a user has more privileges he will see more menus
-     * at the top of the page.
+     * This method displays the main backend page. All users login permission can view this page which displays a
+     * calendar with the events of the selected provider or service. If a user has more privileges he will see more
+     * menus at the top of the page.
      *
-     * @param string $appointment_hash If given, the appointment edit dialog will
-     * appear when the page loads.
+     * @param string $appointment_hash Appointment edit dialog will appear when the page loads (default '').
      */
     public function index($appointment_hash = '') {
         $this->session->set_userdata('dest_url', site_url('backend'));
-        if (!$this->_has_privileges(PRIV_APPOINTMENTS)) return;
+
+        if (!$this->_has_privileges(PRIV_APPOINTMENTS)) {
+            return;
+        }
 
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
@@ -70,7 +71,7 @@ class Backend extends CI_Controller {
         $view['calendar_view'] = $user['settings']['calendar_view'];
         $this->set_user_data($view);
 
-        if ($this->session->userdata('role_slug') == DB_SLUG_SECRETARY) {
+        if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY) {
             $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
             $view['secretary_providers'] = $secretary['providers'];
         } else {
@@ -78,7 +79,8 @@ class Backend extends CI_Controller {
         }
 
         $results = $this->appointments_model->get_batch(array('hash' => $appointment_hash));
-        if ($appointment_hash != '' && count($results) > 0) {
+
+        if ($appointment_hash !== '' && count($results) > 0) {
             $appointment = $results[0];
             $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             $view['edit_appointment'] = $appointment; // This will display the appointment edit dialog on page load.
@@ -98,7 +100,10 @@ class Backend extends CI_Controller {
      */
     public function customers() {
         $this->session->set_userdata('dest_url', site_url('backend/customers'));
-    	if (!$this->_has_privileges(PRIV_CUSTOMERS)) return;
+
+        if (!$this->_has_privileges(PRIV_CUSTOMERS)) {
+    	    return;
+    	}
 
         $this->load->model('providers_model');
         $this->load->model('customers_model');
@@ -124,15 +129,17 @@ class Backend extends CI_Controller {
     /**
      * Displays the backend services page.
      *
-     * Here the admin user will be able to organize and create the services
-     * that the user will be able to book appointments in frontend.
+     * Here the admin user will be able to organize and create the services that the user will be able to book
+     * appointments in frontend.
      *
-     * NOTICE: The services that each provider is able to service is managed
-     * from the backend services page.
+     * NOTICE: The services that each provider is able to service is managed from the backend services page.
      */
     public function services() {
         $this->session->set_userdata('dest_url', site_url('backend/services'));
-        if (!$this->_has_privileges(PRIV_SERVICES)) return;
+
+        if (!$this->_has_privileges(PRIV_SERVICES)) {
+            return;
+        }
 
         $this->load->model('customers_model');
         $this->load->model('services_model');
@@ -156,13 +163,15 @@ class Backend extends CI_Controller {
     /**
      * Display the backend users page.
      *
-     * In this page the admin user will be able to manage the system users.
-     * By this, we mean the provider, secretary and admin users. This is also
-     * the page where the admin defines which service can each provider provide.
+     * In this page the admin user will be able to manage the system users. By this, we mean the provider, secretary and
+     * admin users. This is also the page where the admin defines which service can each provider provide.
      */
     public function users() {
         $this->session->set_userdata('dest_url', site_url('backend/users'));
-        if (!$this->_has_privileges(PRIV_USERS)) return;
+
+        if (!$this->_has_privileges(PRIV_USERS)) {
+            return;
+        }
 
         $this->load->model('providers_model');
         $this->load->model('secretaries_model');
@@ -191,14 +200,16 @@ class Backend extends CI_Controller {
     /**
      * Display the user/system settings.
      *
-     * This page will display the user settings (name, password etc). If current user is
-     * an administrator, then he will be able to make change to the current Easy!Appointment
-     * installation (core settings like company name, book timeout etc).
+     * This page will display the user settings (name, password etc). If current user is an administrator, then he will
+     * be able to make change to the current Easy!Appointment installation (core settings like company name, book
+     * timeout etc).
      */
     public function settings() {
         $this->session->set_userdata('dest_url', site_url('backend/settings'));
         if (!$this->_has_privileges(PRIV_SYSTEM_SETTINGS, FALSE)
-                && !$this->_has_privileges(PRIV_USER_SETTINGS)) return;
+                && !$this->_has_privileges(PRIV_USER_SETTINGS)) {
+            return;
+        }
 
         $this->load->model('settings_model');
         $this->load->model('user_model');
@@ -222,24 +233,22 @@ class Backend extends CI_Controller {
     }
 
     /**
-     * Check whether current user is logged in and has the required privileges to
-     * view a page.
+     * Check whether current user is logged in and has the required privileges to view a page.
      *
-     * The backend page requires different privileges from the users to display pages. Not all
-     * pages are available to all users. For example secretaries should not be able to edit the
-     * system users.
+     * The backend page requires different privileges from the users to display pages. Not all pages are available to
+     * all users. For example secretaries should not be able to edit the system users.
      *
-     * @see Constant Definition In application/config/constants.php
+     * @see Constant definition in application/config/constants.php.
      *
-     * @param string $page This argument must match the roles field names of each section
-     * (eg "appointments", "users" ...).
-     * @param bool $redirect (OPTIONAL - TRUE) If the user has not the required privileges
-     * (either not logged in or insufficient role privileges) then the user will be redirected
-     * to another page. Set this argument to FALSE when using ajax.
+     * @param string $page This argument must match the roles field names of each section (eg "appointments", "users"
+     * ...).
+     * @param bool $redirect If the user has not the required privileges (either not logged in or insufficient role
+     * privileges) then the user will be redirected to another page. Set this argument to FALSE when using ajax (default
+     * true).
      *
-     * @return bool Returns whether the user has the required privileges to view the page or
-     * not. If the user is not logged in then he will be prompted to log in. If he hasn't the
-     * required privileges then an info message will be displayed.
+     * @return bool Returns whether the user has the required privileges to view the page or not. If the user is not
+     * logged in then he will be prompted to log in. If he hasn't the required privileges then an info message will be
+     * displayed.
      */
     protected function _has_privileges($page, $redirect = TRUE) {
         // Check if user is logged in.
@@ -265,13 +274,13 @@ class Backend extends CI_Controller {
     }
 
     /**
-     * This method will update the installation to the latest available
-     * version in the server. IMPORTANT: The code files must exist in the
-     * server, this method will not fetch any new files but will update
+     * This method will update the installation to the latest available version in the server.
+     *
+     * IMPORTANT: The code files must exist in the server, this method will not fetch any new files but will update
      * the database schema.
      *
-     * This method can be used either by loading the page in the browser
-     * or by an ajax request. But it will answer with json encoded data.
+     * This method can be used either by loading the page in the browser or by an ajax request. But it will answer with
+     * JSON encoded data.
      */
     public function update() {
         try {

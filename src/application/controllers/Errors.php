@@ -22,7 +22,9 @@ class Errors extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
+
 		$this->load->library('session');
+
 		// Set user's selected language.
 		if ($this->session->userdata('language')) {
 			$this->config->set_item('language', $this->session->userdata('language'));
@@ -32,10 +34,16 @@ class Errors extends CI_Controller {
 		}
 	}
 
+    /**
+     * Display the 404 error page.
+     */
     public function index() {
         $this->e404();
     }
 
+    /**
+     * Display the 404 error page.
+     */
     public function error404() {
 		$this->load->helper('google_analytics'); 
         $this->load->model('settings_model');

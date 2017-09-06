@@ -49,7 +49,7 @@ class Appointments extends CI_Controller {
      * is provided then it means that the customer followed the appointment
      * manage link that was send with the book success email.
      *
-     * @param string $appointment_hash The db appointment hash of an existing record.
+     * @param string $appointment_hash DB appointment hash of an existing record (default '').
      */
     public function index($appointment_hash = '') {
         if (!is_ea_installed()) {
@@ -134,15 +134,11 @@ class Appointments extends CI_Controller {
     /**
      * Cancel an existing appointment.
      *
-     * This method removes an appointment from the company's schedule.
-     * In order for the appointment to be deleted, the hash string must
-     * be provided. The customer can only cancel the appointment if the
-     * edit time period is not over yet.
+     * This method removes an appointment from the company's schedule. In order for the appointment to be deleted, the
+     * hash string must be provided. The customer can only cancel the appointment if the edit time period is not over
+     * yet. Provide the $_POST['cancel_reason'] parameter to describe the cancellation reason.
      *
-     * @param string $appointment_hash This is used to distinguish the
-     * appointment record.
-     * @param string $_POST['cancel_reason'] The text that describes why
-     * the customer cancelled the appointment.
+     * @param string $appointment_hash This is used to distinguish the appointment record.
      */
     public function cancel($appointment_hash) {
         try {
@@ -239,7 +235,7 @@ class Appointments extends CI_Controller {
 	/**
      * GET an specific appointment book and redirect to the success screen.
      *
-     * @param int $appointment_id Contains the id of the appointment to retrieve.
+     * @param int $appointment_id Contains the ID of the appointment to retrieve.
      */
     public function book_success($appointment_id) {
         //if the appointment id doesn't exist or zero redirect to index
@@ -273,17 +269,19 @@ class Appointments extends CI_Controller {
     /**
      * [AJAX] Get the available appointment hours for the given date.
      *
-     * This method answers to an AJAX request. It calculates the available hours
-     * for the given service, provider and date.
+     * This method answers to an AJAX request. It calculates the available hours for the given service, provider and
+     * date.
      *
-     * @param numeric $_POST['service_id'] The selected service's record id.
-     * @param numeric|string $_POST['provider_id'] The selected provider's record id, can also be 'any-provider'.
-     * @param string $_POST['selected_date'] The selected date of which the available hours we want to see.
-     * @param numeric $_POST['service_duration'] The selected service duration in minutes.
-     * @param string $_POST['manage_mode'] Contains either 'true' or 'false' and determines the if current user
+     * Required POST parameters:
+     *
+     * - int $_POST['service_id'] Selected service record ID.
+     * - int|string $_POST['provider_id'] Selected provider record id, can also be 'any-provider'.
+     * - string $_POST['selected_date'] Selected date for availabilities.
+     * - int $_POST['service_duration'] Selected service duration in minutes.
+     * - string $_POST['manage_mode'] Contains either 'true' or 'false' and determines the if current user
      * is managing an already booked appointment or not.
      *
-     * @return Returns a json object with the available hours.
+     * Outputs a JSON string with the availabilities.
      */
     public function ajax_get_available_hours() {
         $this->load->model('providers_model');
@@ -341,7 +339,7 @@ class Appointments extends CI_Controller {
     /**
      * [AJAX] Register the appointment to the database.
      *
-     * @return string Returns a JSON string with the appointment database ID.
+     * Outputs a JSON string with the appointment ID.
      */
     public function ajax_register_appointment() {
         try {
@@ -482,11 +480,11 @@ class Appointments extends CI_Controller {
     /**
 	 * [AJAX] Get Unavailable Dates
 	 *
-	 * Get an array with the available dates of a specific provider, service and month
-	 * of the year. Provide the "provider_id", "service_id" and "selected_date" as GET
-	 * parameters to the request. The "selected_date" parameter must have the Y-m-d format.
+	 * Get an array with the available dates of a specific provider, service and month of the year. Provide the
+     * "provider_id", "service_id" and "selected_date" as GET parameters to the request. The "selected_date" parameter
+     * must have the Y-m-d format.
 	 *
-	 * @return string Returns a JSON array with the dates that are unavailable.
+     * Outputs a JSON string with the unavailable dates. that are unavailable.
 	 */
 	public function ajax_get_unavailable_dates() {
 		try {
@@ -544,12 +542,12 @@ class Appointments extends CI_Controller {
 	/**
 	 * Check whether the provider is still available in the selected appointment date.
 	 *
-	 * It might be times where two or more customers select the same appointment date and time.
-	 * This shouldn't be allowed to happen, so one of the two customers will eventually get the
-	 * preferred date and the other one will have to choose for another date. Use this method
-	 * just before the customer confirms the appointment details. If the selected date was taken
-	 * in the mean time, the customer must be prompted to select another time for his appointment.
-	 *
+	 * It might be times where two or more customers select the same appointment date and time. This shouldn't be
+     * allowed to happen, so one of the two customers will eventually get the preferred date and the other one will have
+     * to choose for another date. Use this method just before the customer confirms the appointment details. If the
+     * selected date was taken in the mean time, the customer must be prompted to select another time for his
+     * appointment.
+     *
 	 * @return bool Returns whether the selected datetime is still available.
 	 */
 	protected function _check_datetime_availability() {
@@ -614,20 +612,19 @@ class Appointments extends CI_Controller {
 	/**
 	 * Get an array containing the free time periods (start - end) of a selected date.
 	 *
-	 * This method is very important because there are many cases where the system needs to
-	 * know when a provider is available for an appointment. This method will return an array
-	 * that belongs to the selected date and contains values that have the start and the end
-	 * time of an available time period.
+	 * This method is very important because there are many cases where the system needs to know when a provider is
+     * available for an appointment. This method will return an array that belongs to the selected date and contains
+     * values that have the start and the end time of an available time period.
 	 *
-	 * @param numeric $provider_id The provider's record id.
-	 * @param string $selected_date The date to be checked (MySQL formatted string).
-	 * @param array $exclude_appointments This array contains the ids of the appointments that
-	 * will not be taken into consideration when the available time periods are calculated.
+	 * @param int $provider_id Provider record ID.
+	 * @param string $selected_date Date to be checked (MySQL formatted string).
+	 * @param array $exclude_appointments Array containing the IDs of the appointments that will not be taken into
+     * consideration when the available time periods are calculated.
 	 *
 	 * @return array Returns an array with the available time periods of the provider.
 	 */
 	protected function _get_provider_available_time_periods($provider_id, $selected_date,
-			$exclude_appointments = array()) {
+        $exclude_appointments = array()) {
 		$this->load->model('appointments_model');
 	    $this->load->model('providers_model');
 
@@ -765,7 +762,7 @@ class Appointments extends CI_Controller {
 	 *
 	 * This method will return the database ID of the provider with the most available periods.
 	 *
-	 * @param numeric $service_id The requested service ID.
+	 * @param int $service_id The requested service ID.
 	 * @param string $selected_date The date to be searched.
 	 *
 	 * @return int Returns the ID of the provider that can provide the service at the selected date.
@@ -802,10 +799,10 @@ class Appointments extends CI_Controller {
 	 * are broken down to 15 min and if the service fit in each quarter then a new
 	 * available hour is added to the "$available_hours" array.
 	 *
-	 * @param array $empty_periods Contains the empty periods as generated by the
-	 * "_get_provider_available_time_periods" method.
+	 * @param array $empty_periods Contains the empty periods as generated by the "_get_provider_available_time_periods"
+     * method.
 	 * @param string $selected_date The selected date to be search (format )
-	 * @param numeric $service_duration The service duration is required for the hour calculation.
+	 * @param int $service_duration The service duration is required for the hour calculation.
 	 * @param bool $manage_mode (optional) Whether we are currently on manage mode (editing an existing appointment).
      * @param string $availabilities_type Optional ('flexible'), the service availabilities type.
 	 *
