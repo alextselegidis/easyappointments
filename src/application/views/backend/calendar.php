@@ -1,15 +1,15 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/ext/jquery-fullcalendar/jquery.fullcalendar.css'); ?>">
 
-<script src="<?php echo base_url('/assets/ext/jquery-fullcalendar/jquery.fullcalendar.min.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar_default_view.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar_table_view.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar_google_sync.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar_appointments_modal.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar_unavailabilities_modal.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_calendar_api.js'); ?>"></script>
+<script src="<?php echo base_url('assets/ext/jquery-fullcalendar/jquery.fullcalendar.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar_default_view.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar_table_view.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar_google_sync.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar_appointments_modal.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar_unavailabilities_modal.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_calendar_api.js'); ?>"></script>
 <script>
     var GlobalVariables = {
         'csrfToken'             : <?php echo json_encode($this->security->get_csrf_hash()); ?>,

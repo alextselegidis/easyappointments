@@ -1,10 +1,10 @@
-<script src="<?php echo base_url('/assets/js/backend_users_admins.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_users_providers.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_users_secretaries.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/backend_users.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/working_plan.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/ext/jquery-jeditable/jquery.jeditable.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_users_admins.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_users_providers.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_users_secretaries.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend_users.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/working_plan.js'); ?>"></script>
+<script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
+<script src="<?php echo base_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js'); ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken     : <?php echo json_encode($this->security->get_csrf_hash()); ?>,

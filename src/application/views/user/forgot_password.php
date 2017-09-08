@@ -54,7 +54,7 @@
         $(document).ready(function() {
             var GlobalVariables = {
                 'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-                'baseUrl': <?php echo json_encode($base_url); ?>,
+                'baseUrl': <?php echo json_encode(base_url()); ?>,
                 'AJAX_SUCCESS': 'SUCCESS',
                 'AJAX_FAILURE': 'FAILURE'
             };

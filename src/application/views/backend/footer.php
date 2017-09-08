@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<script src="<?php echo base_url('/assets/js/backend.js'); ?>"></script>
-<script src="<?php echo base_url('/assets/js/general_functions.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/backend.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
 </body>
 </html>
