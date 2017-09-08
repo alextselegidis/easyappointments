@@ -10,4 +10,4 @@ Welcome to the documentation pages of Easy!Appointments. Navigate through the av
 - [Get Involved!](get-involved.md)
 - [FAQ](faq.md)
 
-*This document applies to Easy!Appointments v1.2.1*.
+*This document applies to Easy!Appointments v1.3.0.*

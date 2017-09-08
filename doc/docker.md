@@ -38,3 +38,6 @@ class Config {
     const GOOGLE_API_KEY        = '';
 }
 ```
+
+*This document applies to Easy!Appointments v1.3.0.*
+
