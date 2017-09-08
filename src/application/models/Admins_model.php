@@ -37,7 +37,9 @@ class Admins_Model extends CI_Model {
      * Add (insert or update) an admin user record into database.
      * 
      * @param array $admin Contains the admin user data.
+     *
      * @return int Returns the record id.
+     *
      * @throws Exception When the admin data are invalid (see validate() method).
      */
     public function add($admin) {
@@ -59,9 +61,10 @@ class Admins_Model extends CI_Model {
     /**
      * Check whether a particular admin record exists in the database.
      * 
-     * @param array $admin Contains the admin data. The 'email' value is required to be present
-     * at the moment.
+     * @param array $admin Contains the admin data. The 'email' value is required to be present at the moment.
+     *
      * @return bool Returns whether the record exists or not.
+     *
      * @throws Exception When the 'email' value is not present on the $admin argument.
      */
     public function exists($admin) {
@@ -85,7 +88,9 @@ class Admins_Model extends CI_Model {
      * Insert a new admin record into the database.
      * 
      * @param array $admin Contains the admin data.
+     *
      * @return int Returns the new record id.
+     *
      * @throws Exception When the insert operation fails.
      */
     public function insert($admin) {
@@ -121,7 +126,9 @@ class Admins_Model extends CI_Model {
      * Update an existing admin record in the database.
      * 
      * @param array $admin Contains the admin record data.
+     *
      * @return int Returns the record id.
+     *
      * @throws Exception When the update operation fails.
      */
     public function update($admin) {
@@ -152,9 +159,10 @@ class Admins_Model extends CI_Model {
     /**
      * Find the database record id of an admin user.
      * 
-     * @param array $admin Contains the admin data. The 'email' value is required in order to 
-     * find the record id.
+     * @param array $admin Contains the admin data. The 'email' value is required in order to find the record id.
+     *
      * @return int Returns the record id
+     *
      * @throws Exception When the 'email' value is not present on the $admin array.
      */
     public function find_record_id($admin) {
@@ -181,6 +189,7 @@ class Admins_Model extends CI_Model {
      * Validate admin user data before add() operation is executed.
      * 
      * @param array $admin Contains the admin user data.
+     *
      * @return bool Returns the validation result.
      * 
      * @throws Exception When data are invalid.
@@ -257,11 +266,12 @@ class Admins_Model extends CI_Model {
     /**
      * Delete an existing admin record from the database.
      * 
-     * @param numeric $admin_id The admin record id to be deleted.
+     * @param int $admin_id The admin record id to be deleted.
+     *
      * @return bool Returns the delete operation result.
-     * @throws Exception When the $admin_id is not a valid numeric value.
-     * @throws Exception When the record to be deleted is the only one admin user left on 
-     * the system.
+     *
+     * @throws Exception When the $admin_id is not a valid int value.
+     * @throws Exception When the record to be deleted is the only one admin user left on the system.
      */
     public function delete($admin_id) {
         if (!is_numeric($admin_id)) {
@@ -288,9 +298,11 @@ class Admins_Model extends CI_Model {
     /**
      * Get a specific admin record from the database.
      * 
-     * @param numeric $admin_id The id of the record to be returned.
+     * @param int $admin_id The id of the record to be returned.
+     *
      * @return array Returns an array with the admin user data.
-     * @throws Exception When the $admin_id is not a valid numeric value.
+     *
+     * @throws Exception When the $admin_id is not a valid int value.
      */
     public function get_row($admin_id) {
         if (!is_numeric($admin_id)) {
@@ -316,10 +328,12 @@ class Admins_Model extends CI_Model {
      * Get a specific field value from the database.
      * 
      * @param string $field_name The field name of the value to be returned.
-     * @param numeric $admin_id Record id of the value to be returned.
+     * @param int $admin_id Record id of the value to be returned.
+     *
      * @return string Returns the selected record value from the database.
+     *
      * @throws Exception When the $field_name argument is not a valid string.
-     * @throws Exception When the $admin_id is not a valid numeric.
+     * @throws Exception When the $admin_id is not a valid int.
      * @throws Exception When the admin record does not exist in the database.
      * @throws Exception When the selected field value is not present on database.
      */
@@ -352,8 +366,9 @@ class Admins_Model extends CI_Model {
     /**
      * Get all, or specific admin records from database.
      * 
-     * @param string|array $where_clause (OPTIONAL) The WHERE clause of the query to be executed. 
-     * Use this to get specific admin records.
+     * @param string|array $where_clause (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
+     * specific admin records.
+     *
      * @return array Returns an array with admin records.
      */
     public function get_batch($where_clause = '') {
@@ -388,7 +403,8 @@ class Admins_Model extends CI_Model {
      * Validate Records Username 
      * 
      * @param string $username The provider records username.
-     * @param numeric $user_id The user record id.
+     * @param int $user_id The user record id.
+     *
      * @return bool Returns the validation result.
      */
     public function validate_username($username, $user_id) {

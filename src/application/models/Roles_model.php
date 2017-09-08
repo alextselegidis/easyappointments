@@ -20,8 +20,8 @@ class Roles_Model extends CI_Model {
     /**
      * Get the record id of a particular role.
      *
-     * @param string $role_slug The selected role slug. Slugs are
-     * defined in the "application/config/constants.php" file.
+     * @param string $role_slug The selected role slug. Slugs are defined in the "application/config/constants.php" file.
+     *
      * @return int Returns the database id of the roles record.
      */
     public function get_role_id($role_slug) {
@@ -31,18 +31,18 @@ class Roles_Model extends CI_Model {
     /**
      * Returns all the privileges (bool values) of a role slug.
      *
-     * The privilege numbers are converted into bool values of the four main actions (view,
-     * add, edit, delete). By checking each value you can know if the user is able to perform
-     * this action.
+     * The privilege numbers are converted into bool values of the four main actions (view, add, edit, delete). By
+     * checking each value you can know if the user is able to perform this action.
      *
      * @param string $slug The role slug.
+     *
      * @return array Returns the privilege value.
      */
     public function get_privileges($slug) {
         $privileges = $this->db->get_where('ea_roles', array('slug' => $slug))->row_array();
         unset($privileges['id'], $privileges['name'], $privileges['slug'], $privileges['is_admin']);
 
-        // Convert the numeric values to bool so that is easier to check whether a
+        // Convert the int values to bool so that is easier to check whether a
         // user has the required privileges for a specific action.
         foreach($privileges as &$value) {
             $privileges_number = $value;

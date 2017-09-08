@@ -20,10 +20,9 @@ class Services_Model extends CI_Model {
     /**
      * Add (insert or update) a service record on the database
      *
-     * @param array $service Contains the service data. If an 'id' value is provided then
-     * the record will be updated.
+     * @param array $service Contains the service data. If an 'id' value is provided then the record will be updated.
      *
-     * @return numeric Returns the record id.
+     * @return int Returns the record id.
      */
     public function add($service) {
         $this->validate($service);
@@ -43,6 +42,8 @@ class Services_Model extends CI_Model {
      * @param array $service Contains the service record data.
      *
      * @return int Returns the new service record id.
+     *
+     * @throws Exception If service record could not be inserted.
      */
     protected function _insert($service) {
         if (!$this->db->insert('ea_services', $service)) {
@@ -54,8 +55,9 @@ class Services_Model extends CI_Model {
     /**
      * Update service record.
      *
-     * @param array $service Contains the service data. The record id needs to be included in
-     * the array.
+     * @param array $service Contains the service data. The record id needs to be included in the array.
+     *
+     * @throws Exception If service record could not be updated.
      */
     protected function _update($service) {
        $this->db->where('id', $service['id']);
@@ -67,8 +69,12 @@ class Services_Model extends CI_Model {
     /**
      * Checks whether an service record already exists in the database.
      *
-     * @param array $service Contains the service data. Name, duration and price values
-     * are mandatory in order to perform the checks.
+     * @param array $service Contains the service data. Name, duration and price values are mandatory in order to
+     * perform the checks.
+     *
+     * @return bool Returns whether the service record exists.
+     *
+     * @throws Exception If required fields are missing.
      */
     public function exists($service) {
         if (!isset($service['name'])
@@ -93,6 +99,8 @@ class Services_Model extends CI_Model {
      * @param array $service Contains the service data.
      *
      * @return bool Returns the validation result.
+     *
+     * @throws Exception If service validation fails.
      */
     public function validate($service) {
         $this->load->helper('data_validation');
@@ -122,7 +130,7 @@ class Services_Model extends CI_Model {
                     . print_r($service, TRUE));
         }
 
-        // Duration must be numeric
+        // Duration must be int
         if ($service['duration'] !== NULL) {
             if (!is_numeric($service['duration'])) {
                 throw new Exception('Service duration is not numeric.');
@@ -154,10 +162,13 @@ class Services_Model extends CI_Model {
     /**
      * Get the record id of an existing record.
      *
-     * NOTICE! The record must exist, otherwise an exception will be raised.
+     * NOTICE: The record must exist, otherwise an exception will be raised.
      *
-     * @param array $service Contains the service record data. Name, duration and price values
-     * are mandatory for this method to complete.
+     * @param array $service Contains the service record data. Name, duration and price values are mandatory for this
+     * method to complete.
+     *
+     * @throws Exception If required fields are missing.
+     * @throws Exception If requested service was not found.
      */
     public function find_record_id($service) {
         if (!isset($service['name'])
@@ -183,9 +194,11 @@ class Services_Model extends CI_Model {
     /**
      * Delete a service record from database.
      *
-     * @param numeric $service_id Record id to be deleted.
+     * @param int $service_id Record id to be deleted.
      *
      * @return bool Returns the delete operation result.
+     *
+     * @throws Exception If $service_id argument is invalid.
      */
     public function delete($service_id) {
         if (!is_numeric($service_id)) {
@@ -203,10 +216,12 @@ class Services_Model extends CI_Model {
     /**
      * Get a specific row from the services db table.
      *
-     * @param numeric $service_id The record's id to be returned.
+     * @param int $service_id The record's id to be returned.
      *
-     * @return array Returns an associative array with the selected record's data. Each key
-     * has the same name as the database field names.
+     * @return array Returns an associative array with the selected record's data. Each key has the same name as the
+     * database field names.
+     *
+     * @throws Exception If $service_id argument is not valid.
      */
     public function get_row($service_id) {
         if (!is_numeric($service_id)) {
@@ -223,6 +238,11 @@ class Services_Model extends CI_Model {
      * @param int $service_id The selected record's id.
      *
      * @return string Returns the records value from the database.
+     *
+     * @throws Exception If $service_id argument is invalid.
+     * @throws Exception If $field_name argument is invalid.
+     * @throws Exception if requested service does not exist in the database.
+     * @throws Exception If requested field name does not exist in the database.
      */
     public function get_value($field_name, $service_id) {
         if (!is_numeric($service_id)) {
@@ -287,7 +307,9 @@ class Services_Model extends CI_Model {
      *
      * @param array $category Contains the service category data.
      *
-     * @return int Returns the record id.s
+     * @return int Returns the record ID.
+     *
+     * @throws Exception If service category data are invalid.
      */
     public function add_category($category) {
         if (!$this->validate_category($category)) {
@@ -308,9 +330,11 @@ class Services_Model extends CI_Model {
     /**
      * Delete a service category record from the database.
      *
-     * @param numeric $category_id Record id to be deleted.
+     * @param int $category_id Record id to be deleted.
      *
      * @return bool Returns the delete operation result.
+     *
+     * @throws Exception if Service category record was not found.
      */
     public function delete_category($category_id) {
         if (!is_numeric($category_id)) {
@@ -330,9 +354,12 @@ class Services_Model extends CI_Model {
     /**
      * Get a service category record data.
      *
-     * @param numeric $category_id Record id to be retrieved.
+     * @param int $category_id Record id to be retrieved.
      *
      * @return array Returns the record data from the database.
+     *
+     * @throws Exception If $category_id argument is invalid.
+     * @throws Exception If service category record does not exist.
      */
     public function get_category($category_id) {
         if (!is_numeric($category_id)) {
@@ -365,6 +392,8 @@ class Services_Model extends CI_Model {
      * @param array $category Contains the service category data.
      *
      * @return bool Returns the validation result.
+     *
+     * @throws Exception If required fields are missing.
      */
     public function validate_category($category) {
         try {
@@ -382,6 +411,5 @@ class Services_Model extends CI_Model {
         } catch(Exception $exc) {
             return FALSE;
         }
-
     }
 }

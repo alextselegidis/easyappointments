@@ -14,8 +14,7 @@
 /**
  * Providers_Model Class
  *
- * Contains the database operations for the service provider users of
- * Easy!Appointments.
+ * Contains the database operations for the service provider users of Easy!Appointments.
  *
  * Data Structure:
  *      'fist_name'
@@ -48,11 +47,13 @@ class Providers_Model extends CI_Model {
     /**
      * Add (insert - update) a service provider record.
      *
-     * If the record already exists (id value provided) then it is going to be updated,
-     * otherwise inserted into the database.
+     * If the record already exists (id value provided) then it is going to be updated, otherwise inserted into the
+     * database.
      *
      * @param array $provider Contains the service provider data.
+     *
      * @return int Returns the record id.
+     *
      * @throws Exception When the record data validation fails.
      */
     public function add($provider) {
@@ -74,9 +75,10 @@ class Providers_Model extends CI_Model {
     /**
      * Check whether a particular provider record already exists in the database.
      *
-     * @param array $provider Contains the provider data. The 'email' value is required
-     * in order to check for a provider.
+     * @param array $provider Contains the provider data. The 'email' value is required in order to check for a provider.
+     *
      * @return bool Returns whether the provider record exists or not.
+     *
      * @throws Exception When the 'email' value is not provided.
      */
     public function exists($provider) {
@@ -100,7 +102,9 @@ class Providers_Model extends CI_Model {
      * Insert a new provider record into the database.
      *
      * @param array $provider Contains the provider data (must be already validated).
+     *
      * @return int Returns the new record id.
+     *
      * @throws Exception When the insert operation fails.
      */
     protected function _insert($provider) {
@@ -135,7 +139,9 @@ class Providers_Model extends CI_Model {
      * Update an existing provider record in the database.
      *
      * @param array $provider Contains the provider data.
+     *
      * @return int Returns the record id.
+     *
      * @throws Exception When the update operation fails.
      */
     protected function _update($provider) {
@@ -168,9 +174,10 @@ class Providers_Model extends CI_Model {
     /**
      * Find the database record id of a provider.
      *
-     * @param array $provider Contains the provider data. The 'email' value is required
-     * in order to find the record id.
+     * @param array $provider Contains the provider data. The 'email' value is required in order to find the record id.
+     *
      * @return int Returns the record id.
+     *
      * @throws Exception When the provider's email value is not provided.
      */
     public function find_record_id($provider) {
@@ -197,7 +204,10 @@ class Providers_Model extends CI_Model {
      * Validate provider data before the insert or  update operation is executed.
      *
      * @param array $provider Contains the provider data.
+     *
      * @return bool Returns the validation result.
+     *
+     * @throws Exception If provider validation fails.
      */
     public function validate($provider) {
         $this->load->helper('data_validation');
@@ -226,7 +236,7 @@ class Providers_Model extends CI_Model {
         // Validate provider services.
         if (!isset($provider['services']) || !is_array($provider['services'])) {
             throw new Exception('Invalid provider services given: ' . print_r($provider, TRUE));
-        } else { // Check if services are valid numeric values.
+        } else { // Check if services are valid int values.
             foreach($provider['services'] as $service_id) {
                 if (!is_numeric($service_id)) {
                     throw new Exception('A provider service with invalid id was found: '
@@ -289,9 +299,11 @@ class Providers_Model extends CI_Model {
     /**
      * Delete an existing provider record from the database.
      *
-     * @param numeric $customer_id The record id to be deleted.
+     * @param int $customer_id The record id to be deleted.
+     *
      * @return bool Returns the delete operation result.
-     * @throws Exception When the provider id value is not numeric.
+     *
+     * @throws Exception When the provider id value is not int.
      */
     public function delete($provider_id) {
         if (!is_numeric($provider_id)) {
@@ -310,8 +322,10 @@ class Providers_Model extends CI_Model {
      * Get a specific provider record from the database.
      *
      * @param int $provider_id The id of the record to be returned.
-     * @return array Returns an associative array with the selected record's data. Each key
-     * has the same name as the database field names.
+     *
+     * @return array Returns an associative array with the selected record's data. Each key has the same name as the
+     * database field names.
+     *
      * @throws Exception When the selected record does not exist in database.
      */
     public function get_row($provider_id) {
@@ -349,11 +363,12 @@ class Providers_Model extends CI_Model {
      * Get a specific field value from the database.
      *
      * @param string $field_name The field name of the value to be returned.
-     * @param numeric $provider_id Record id of the value to be returned.
+     * @param int $provider_id Record id of the value to be returned.
+     *
      * @return string Returns the selected record value from the database.
      * 
      * @throws Exception When the $field_name argument is not a valid string.
-     * @throws Exception When the $provider_id is not a valid numeric.
+     * @throws Exception When the $provider_id is not a valid int.
      * @throws Exception When the provider record does not exist in the database.
      * @throws Exception When the selected field value is not present on database.
      */
@@ -428,8 +443,7 @@ class Providers_Model extends CI_Model {
     /**
      * Get the available system providers.
      *
-     * This method returns the available providers and the services that can
-     * provide.
+     * This method returns the available providers and the services that can provide.
      *
      * @return array Returns an array with the providers data.
      */
@@ -478,14 +492,13 @@ class Providers_Model extends CI_Model {
     /**
      * Get a providers setting from the database.
      *
-     * @param string $setting_name The setting name that is going to be
-     * returned.
+     * @param string $setting_name The setting name that is going to be returned.
      * @param int $provider_id The selected provider id.
+     *
      * @return string Returns the value of the selected user setting.
      */
     public function get_setting($setting_name, $provider_id) {
-        $provider_settings = $this->db->get_where('ea_user_settings',
-                array('id_users' => $provider_id))->row_array();
+        $provider_settings = $this->db->get_where('ea_user_settings', array('id_users' => $provider_id))->row_array();
         return $provider_settings[$setting_name];
     }
 
@@ -496,7 +509,7 @@ class Providers_Model extends CI_Model {
      *
      * @param string $setting_name The setting's name.
      * @param string $value The setting's value.
-     * @param numeric $provider_id The selected provider id.
+     * @param int $provider_id The selected provider id.
      */
     public function set_setting($setting_name, $value, $provider_id) {
         $this->db->where(array('id_users' => $provider_id));
@@ -507,7 +520,10 @@ class Providers_Model extends CI_Model {
      * Save the provider settings (used from insert or update operation).
      *
      * @param array $settings Contains the setting values.
-     * @param numeric $provider_id Record id of the provider.
+     * @param int $provider_id Record id of the provider.
+     *
+     * @throws Exception If $provider_id argument is invalid.
+     * @throws Exception If $settings argument is invalid.
      */
     protected function save_settings($settings, $provider_id) {
         if (!is_numeric($provider_id)) {
@@ -533,9 +549,10 @@ class Providers_Model extends CI_Model {
      * Save the provider services in the database (use on both insert and update operation).
      *
      * @param array $services Contains the service ids that the selected provider can provide.
-     * @param numeric $provider_id The selected provider record id.
+     * @param int $provider_id The selected provider record id.
+     *
      * @throws Exception When the $services argument type is not array.
-     * @throws Exception When the $provider_id argument type is not numeric.
+     * @throws Exception When the $provider_id argument type is not int.
      */
     protected function save_services($services, $provider_id) {
         // Validate method arguments.
@@ -562,7 +579,8 @@ class Providers_Model extends CI_Model {
      * Validate Records Username
      *
      * @param string $username The provider records username.
-     * @param numeric $user_id The user record id.
+     * @param int $user_id The user record id.
+     *
      * @return bool Returns the validation result.
      */
     public function validate_username($username, $user_id) {
