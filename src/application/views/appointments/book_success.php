@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('appointment_registered') . ' - ' . $company_name; ?></title>
+    <title><?php echo lang('appointment_registered') . ' - ' . $company_name; ?></title>
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/frontend.css'); ?>">
@@ -28,11 +28,11 @@
                 <div class="col-xs-12 col-sm-10">
                     <?php
                         echo '
-                            <h3>' . $this->lang->line('appointment_registered') . '</h3>
-                            <p>' . $this->lang->line('appointment_details_was_sent_to_you') . '</p>
+                            <h3>' . lang('appointment_registered') . '</h3>
+                            <p>' . lang('appointment_details_was_sent_to_you') . '</p>
                             <a href="' . site_url() . '" class="btn btn-success btn-large">
                                 <span class="glyphicon glyphicon-calendar"></span> ' .
-                                $this->lang->line('go_to_booking_page') . '
+                                lang('go_to_booking_page') . '
                             </a>
                         ';
 
@@ -40,7 +40,7 @@
                             echo '
                                 <button id="add-to-google-calendar" class="btn btn-primary">
                                     <span class="glyphicon glyphicon-plus"></span>
-                                    ' . $this->lang->line('add_to_google_calendar') . '
+                                    ' . lang('add_to_google_calendar') . '
                                 </button>';
                         }
 

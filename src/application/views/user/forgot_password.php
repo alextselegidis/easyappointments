@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('forgot_your_password') . ' - ' . $company_name; ?></title>
+    <title><?php echo lang('forgot_your_password') . ' - ' . $company_name; ?></title>
 
     <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
@@ -103,28 +103,28 @@
 </head>
 <body>
     <div id="forgot-password-frame" class="frame-container">
-        <h2><?php echo $this->lang->line('forgot_your_password'); ?></h2>
-        <p><?php echo $this->lang->line('type_username_and_email_for_new_password'); ?></p>
+        <h2><?php echo lang('forgot_your_password'); ?></h2>
+        <p><?php echo lang('type_username_and_email_for_new_password'); ?></p>
         <hr>
         <div class="alert hidden"></div>
         <form>
             <div class="form-group">
-                <label for="username"><?php echo $this->lang->line('username'); ?></label>
-                <input type="text" id="username" placeholder="<?php echo $this->lang->line('enter_username_here'); ?>" class="form-control" />
+                <label for="username"><?php echo lang('username'); ?></label>
+                <input type="text" id="username" placeholder="<?php echo lang('enter_username_here'); ?>" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="email"><?php echo $this->lang->line('email'); ?></label>
-                <input type="text" id="email" placeholder="<?php echo $this->lang->line('enter_email_here'); ?>" class="form-control" />
+                <label for="email"><?php echo lang('email'); ?></label>
+                <input type="text" id="email" placeholder="<?php echo lang('enter_email_here'); ?>" class="form-control" />
             </div>
 
             <br>
 
             <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
-                <?php echo $this->lang->line('regenerate_password'); ?>
+                <?php echo lang('regenerate_password'); ?>
             </button>
 
             <a href="<?php echo site_url('user/login'); ?>" class="user-login">
-                <?php echo $this->lang->line('go_to_login'); ?></a>
+                <?php echo lang('go_to_login'); ?></a>
         </form>
     </div>
     <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>

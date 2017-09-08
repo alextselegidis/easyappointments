@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('log_out') . ' - ' . $company_name; ?></title>
+    <title><?php echo lang('log_out') . ' - ' . $company_name; ?></title>
 
     <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
 
@@ -57,21 +57,21 @@
 </head>
 <body>
     <div id="logout-frame" class="frame-container">
-        <h3><?php echo $this->lang->line('log_out'); ?></h3>
+        <h3><?php echo lang('log_out'); ?></h3>
         <p>
-            <?php echo $this->lang->line('logout_success'); ?>
+            <?php echo lang('logout_success'); ?>
         </p>
 
         <br>
 
         <a href="<?php echo site_url(); ?>" class="btn btn-success btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
-            <?php echo $this->lang->line('book_appointment_title'); ?>
+            <?php echo lang('book_appointment_title'); ?>
         </a>
 
         <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
             <span class="glyphicon glyphicon-wrench"></span>
-            <?php echo $this->lang->line('backend_section'); ?>
+            <?php echo lang('backend_section'); ?>
         </a>
     </div>
 </body>

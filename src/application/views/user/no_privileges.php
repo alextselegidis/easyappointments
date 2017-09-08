@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('no_privileges') . ' - ' . $company_name; ?></title>
+    <title><?php echo lang('no_privileges') . ' - ' . $company_name; ?></title>
 
     <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
@@ -50,16 +50,16 @@
 </head>
 <body>
     <div id="no-priv-frame" class="frame-container">
-        <h3><?php echo $this->lang->line('no_privileges'); ?></h3>
+        <h3><?php echo lang('no_privileges'); ?></h3>
         <p>
-            <?php echo $this->lang->line('no_privileges_message'); ?>
+            <?php echo lang('no_privileges_message'); ?>
         </p>
 
         <br>
 
         <a href="<?php echo site_url('backend') ?>" class="btn btn-success btn-large">
             <i class="icon-calendar icon-white"></i>
-            <?php echo $this->lang->line('backend_calendar'); ?>
+            <?php echo lang('backend_calendar'); ?>
         </a>
     </div>
 </body>

@@ -10,18 +10,18 @@
                     echo ' - ' . $release_title;
                 }
             ?></a> |
-        <?php echo $this->lang->line('licensed_under'); ?> GPLv3 |
+        <?php echo lang('licensed_under'); ?> GPLv3 |
         <span id="select-language" class="label label-success">
         	<?php echo ucfirst($this->config->item('language')); ?>
         </span>
         |
         <a href="<?php echo site_url('appointments'); ?>">
-            <?php echo $this->lang->line('go_to_booking_page') ?>
+            <?php echo lang('go_to_booking_page') ?>
         </a>
     </div>
 
     <div id="footer-user-display-name" class="col-xs-12 col-sm-6">
-        <?php echo $this->lang->line('hello') . ', ' . $user_display_name; ?>!
+        <?php echo lang('hello') . ', ' . $user_display_name; ?>!
     </div>
 </div>
 

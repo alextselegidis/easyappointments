@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('login') . ' - ' . $company_name; ?></title>
+    <title><?php echo lang('login') . ' - ' . $company_name; ?></title>
 
     <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
@@ -96,33 +96,33 @@
 </head>
 <body>
     <div id="login-frame" class="frame-container">
-        <h2><?php echo $this->lang->line('backend_section'); ?></h2>
-        <p><?php echo $this->lang->line('you_need_to_login'); ?></p>
+        <h2><?php echo lang('backend_section'); ?></h2>
+        <p><?php echo lang('you_need_to_login'); ?></p>
         <hr>
         <div class="alert hidden"></div>
         <form id="login-form">
             <div class="form-group">
-                <label for="username"><?php echo $this->lang->line('username'); ?></label>
+                <label for="username"><?php echo lang('username'); ?></label>
                 <input type="text" id="username"
-                		placeholder="<?php echo $this->lang->line('enter_username_here'); ?>"
+                		placeholder="<?php echo lang('enter_username_here'); ?>"
                 		class="form-control" />
             </div>
             <div class="form-group">
-                <label for="password"><?php echo $this->lang->line('password'); ?></label>
+                <label for="password"><?php echo lang('password'); ?></label>
                 <input type="password" id="password"
-                		placeholder="<?php echo $this->lang->line('enter_password_here'); ?>"
+                		placeholder="<?php echo lang('enter_password_here'); ?>"
                 		class="form-control" />
             </div>
             <br>
 
             <button type="submit" id="login" class="btn btn-primary">
-            	<?php echo $this->lang->line('login'); ?>
+            	<?php echo lang('login'); ?>
             </button>
 
             <br><br>
 
             <a href="<?php echo site_url('user/forgot_password'); ?>" class="forgot-password">
-            	<?php echo $this->lang->line('forgot_your_password'); ?></a>
+            	<?php echo lang('forgot_your_password'); ?></a>
             |
             <span id="select-language" class="label label-success">
 	        	<?php echo ucfirst($this->config->item('language')); ?>

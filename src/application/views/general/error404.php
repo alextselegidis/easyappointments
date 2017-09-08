@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('page_not_found') . ' - ' . $company_name; ?></title>
+    <title><?php echo lang('page_not_found') . ' - ' . $company_name; ?></title>
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
 
@@ -61,22 +61,22 @@
 </head>
 <body>
     <div id="message-frame" class="frame-container">
-        <h3><?php echo $this->lang->line('page_not_found')
-                . ' - ' . $this->lang->line('error') . ' 404' ?></h3>
+        <h3><?php echo lang('page_not_found')
+                . ' - ' . lang('error') . ' 404' ?></h3>
         <p>
-            <?php echo $this->lang->line('page_not_found_message'); ?>
+            <?php echo lang('page_not_found_message'); ?>
         </p>
 
         <br>
 
         <a href="<?php echo site_url(); ?>" class="btn btn-primary btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
-            <?php echo $this->lang->line('book_appointment_title'); ?>
+            <?php echo lang('book_appointment_title'); ?>
         </a>
 
         <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
             <span class="glyphicon glyphicon-wrench"></span>
-            <?php echo $this->lang->line('backend_section'); ?>
+            <?php echo lang('backend_section'); ?>
         </a>
     </div>
 

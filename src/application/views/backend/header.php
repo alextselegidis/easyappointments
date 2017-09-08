@@ -56,8 +56,8 @@
                 <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : ''; ?>
                 <li class="<?php echo $active . $hidden; ?>">
                     <a href="<?php echo site_url('backend'); ?>" class="menu-item"
-                            title="<?php echo $this->lang->line('manage_appointment_record_hint'); ?>">
-                        <?php echo $this->lang->line('calendar'); ?>
+                            title="<?php echo lang('manage_appointment_record_hint'); ?>">
+                        <?php echo lang('calendar'); ?>
                     </a>
                 </li>
 
@@ -67,8 +67,8 @@
                 <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : ''; ?>
                 <li class="<?php echo $active . $hidden; ?>">
                     <a href="<?php echo site_url('backend/customers'); ?>" class="menu-item"
-                            title="<?php echo $this->lang->line('manage_customers_hint'); ?>">
-                        <?php echo $this->lang->line('customers'); ?>
+                            title="<?php echo lang('manage_customers_hint'); ?>">
+                        <?php echo lang('customers'); ?>
                     </a>
                 </li>
 
@@ -78,8 +78,8 @@
                 <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
                 <li class="<?php echo $active . $hidden; ?>">
                     <a href="<?php echo site_url('backend/services'); ?>" class="menu-item"
-                            title="<?php echo $this->lang->line('manage_services_hint'); ?>">
-                        <?php echo $this->lang->line('services'); ?>
+                            title="<?php echo lang('manage_services_hint'); ?>">
+                        <?php echo lang('services'); ?>
                     </a>
                 </li>
 
@@ -89,8 +89,8 @@
                 <?php $active = ($active_menu == PRIV_USERS) ? 'active' : ''; ?>
                 <li class="<?php echo $active . $hidden; ?>">
                     <a href="<?php echo site_url('backend/users'); ?>" class="menu-item"
-                            title="<?php echo $this->lang->line('manage_users_hint'); ?>">
-                        <?php echo $this->lang->line('users'); ?>
+                            title="<?php echo lang('manage_users_hint'); ?>">
+                        <?php echo lang('users'); ?>
                     </a>
                 </li>
 
@@ -101,8 +101,8 @@
                 <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : ''; ?>
                 <li class="<?php echo $active . $hidden; ?>">
                     <a href="<?php echo site_url('backend/settings'); ?>" class="menu-item"
-                            title="<?php echo $this->lang->line('settings_hint'); ?>">
-                        <?php echo $this->lang->line('settings'); ?>
+                            title="<?php echo lang('settings_hint'); ?>">
+                        <?php echo lang('settings'); ?>
                     </a>
                 </li>
 
@@ -110,8 +110,8 @@
                       // ------------------------------------------------------ ?>
                 <li>
                     <a href="<?php echo site_url('user/logout') ?>" class="menu-item"
-                            title="<?php echo $this->lang->line('log_out_hint'); ?>">
-                        <?php echo $this->lang->line('log_out'); ?>
+                            title="<?php echo lang('log_out_hint'); ?>">
+                        <?php echo lang('log_out'); ?>
                     </a>
                 </li>
             </ul>
