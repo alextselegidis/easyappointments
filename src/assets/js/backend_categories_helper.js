@@ -109,22 +109,22 @@
 
             var buttons = [
                 {
-                    text: EALang['delete'],
+                    text: EALang.delete,
                     click: function() {
                         instance.delete(categoryId);
                         $('#message_box').dialog('close');
                     }
                 },
                 {
-                    text: EALang['cancel'],
+                    text: EALang.cancel,
                     click:  function() {
                         $('#message_box').dialog('close');
                     }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang['delete_category'],
-                    EALang['delete_record_prompt'], buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_category,
+                    EALang.delete_record_prompt, buttons);
         });
 
         /**
@@ -190,7 +190,7 @@
             $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length === 0) {
-                $('#filter-categories .results').html('<em>' + EALang['no_records_found'] + '</em>');
+                $('#filter-categories .results').html('<em>' + EALang.no_records_found + '</em>');
             }
 
             if (selectId !== undefined) {
@@ -216,7 +216,7 @@
                 return;
             }
 
-            Backend.displayNotification(EALang['service_category_saved']);
+            Backend.displayNotification(EALang.service_category_saved);
             this.resetForm();
             $('#filter-categories .key').val('');
             this.filter('', response.id, true);
@@ -241,7 +241,7 @@
                 return;
             }
 
-            Backend.displayNotification(EALang['service_category_deleted']);
+            Backend.displayNotification(EALang.service_category_deleted);
 
             this.resetForm();
             this.filter($('#filter-categories .key').val());
@@ -279,7 +279,7 @@
             });
 
             if (missingRequired) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             return true;

@@ -165,18 +165,18 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             + '.popover-content strong {min-width: 80px; display:inline-block;}'
                             + '.popover-content button {margin-right: 10px;}'
                             + '</style>' +
-                        '<strong>' + EALang['start'] + '</strong> '
+                        '<strong>' + EALang.start + '</strong> '
                             + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
                             + '<br>' +
-                        '<strong>' + EALang['end'] + '</strong> '
+                        '<strong>' + EALang.end + '</strong> '
                             + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
                             + '<br>'
                             + notes
                             + '<hr>' +
                         '<center>' +
-                            '<button class="edit-popover btn btn-primary">' + EALang['edit'] + '</button>' +
-                            '<button class="delete-popover btn btn-danger">' + EALang['delete'] + '</button>' +
-                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang['close'] + '</button>' +
+                            '<button class="edit-popover btn btn-primary">' + EALang.edit + '</button>' +
+                            '<button class="delete-popover btn btn-danger">' + EALang.delete + '</button>' +
+                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang.close + '</button>' +
                         '</center>';
             } else {
                 html =
@@ -184,31 +184,31 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             + '.popover-content strong {min-width: 80px; display:inline-block;}'
                             + '.popover-content button {margin-right: 10px;}'
                             + '</style>' +
-                        '<strong>' + EALang['start'] + '</strong> '
+                        '<strong>' + EALang.start + '</strong> '
                             + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
                             + '<br>' +
-                        '<strong>' + EALang['end'] + '</strong> '
+                        '<strong>' + EALang.end + '</strong> '
                             + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
                             + '<br>' +
-                        '<strong>' + EALang['service'] + '</strong> '
+                        '<strong>' + EALang.service + '</strong> '
                             + entry.service.name
                             + '<br>' +
-                        '<strong>' + EALang['provider'] + '</strong> '
+                        '<strong>' + EALang.provider + '</strong> '
                             + entry.provider.first_name + ' '
                             + entry.provider.last_name
                             + '<br>' +
-                        '<strong>' + EALang['customer'] + '</strong> '
+                        '<strong>' + EALang.customer + '</strong> '
                             + entry.customer.first_name + ' '
                             + entry.customer.last_name
                             + '<hr>' +
                         '<center>' +
-                            '<button class="edit-popover btn btn-primary">' + EALang['edit'] + '</button>' +
-                            '<button class="delete-popover btn btn-danger">' + EALang['delete'] + '</button>' +
-                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang['close'] + '</button>' +
+                            '<button class="edit-popover btn btn-primary">' + EALang.edit + '</button>' +
+                            '<button class="delete-popover btn btn-danger">' + EALang.delete + '</button>' +
+                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang.close + '</button>' +
                         '</center>';
             }
 
-            var title = entry.is_unavailable !== '0' ? EALang['unavailable'] : entry.service.name + ' - ' 
+            var title = entry.is_unavailable !== '0' ? EALang.unavailable : entry.service.name + ' - '
                     + entry.customer.first_name + ' ' + entry.customer.last_name;
 
             $(event.target).popover({
@@ -260,7 +260,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
                 // Apply appointment data and show modal dialog.
-                $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
+                $dialog.find('.modal-header h3').text(EALang.edit_appointment_title);
                 $dialog.find('#appointment-id').val(appointment['id']);
                 $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
@@ -350,12 +350,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
-                messageButtons[EALang['cancel']] = function() {
+                messageButtons[EALang.cancel] = function() {
                     $('#message_box').dialog('close');
                 };
 
-                GeneralFunctions.displayMessageBox(EALang['delete_appointment_title'],
-                        EALang['write_appointment_removal_reason'], messageButtons);
+                GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
+                        EALang.write_appointment_removal_reason, messageButtons);
 
                 $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
                 $('#delete-reason').css('width', '100%');
@@ -401,8 +401,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $calendarFilter
             .find('select')
             .empty()
-            .append(new Option('1 ' + EALang['day'] , 1))
-            .append(new Option('3 ' + EALang['days'], 3));
+            .append(new Option('1 ' + EALang.day , 1))
+            .append(new Option('3 ' + EALang.days, 3));
         
         var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar'); 
 
@@ -590,7 +590,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         if (!plan) {
             $providerColumn.append('<div class="not-working">' 
-                    + (provider.first_name + ' ' + provider.last_name).trim() +' <br> ' + EALang['not_working'] 
+                    + (provider.first_name + ' ' + provider.last_name).trim() +' <br> ' + EALang.not_working
                     + '</div>');
             return;
         }
@@ -606,7 +606,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         '</th>' +
                     '</tr>' + 
                     '<tr>' +
-                        '<th>' + EALang['time'] + '</th>' +
+                        '<th>' + EALang.time + '</th>' +
                     '</tr>' + 
                 '</thead>' +
                 '<tbody></tbody>'
@@ -731,7 +731,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var eventDuration = Math.round((endDate - eventDate) / 60000);
             var $event = $('<div class="event unavailability" />'); 
 
-            $event.html((unavailability.notes || EALang['unavailable']) + 
+            $event.html((unavailability.notes || EALang.unavailable) +
                 ' <span class="hour">' + eventDate.toString('HH:mm') + '</span> (' + eventDuration + '\')');
 
             $event.data(unavailability);
@@ -782,7 +782,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var $event = $('<div class="event unavailability break" />'); 
 
             $event.html(
-                EALang['break'] + 
+                EALang.break +
                 ' <span class="hour">' + eventDate.toString('HH:mm') + '</span> (' + eventDuration + '\')');
 
             $event.data(entry);

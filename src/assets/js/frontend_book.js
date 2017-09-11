@@ -67,23 +67,23 @@ window.FrontendBook = window.FrontendBook || {};
             defaultDate: Date.today(),
 
             dayNames: [
-                    EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3),
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3),
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2),
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2),
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
+                    EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
+                    EALang.thursday, EALang.friday, EALang.saturday],
+            dayNamesShort: [EALang.sunday.substr(0,3), EALang.monday.substr(0,3),
+                    EALang.tuesday.substr(0,3), EALang.wednesday.substr(0,3),
+                    EALang.thursday.substr(0,3), EALang.friday.substr(0,3),
+                    EALang.saturday.substr(0,3)],
+            dayNamesMin: [EALang.sunday.substr(0,2), EALang.monday.substr(0,2),
+                    EALang.tuesday.substr(0,2), EALang.wednesday.substr(0,2),
+                    EALang.thursday.substr(0,2), EALang.friday.substr(0,2),
+                    EALang.saturday.substr(0,2)],
+            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
+                    EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
+                    EALang.october, EALang.november, EALang.december],
+            prevText: EALang.previous,
+            nextText: EALang.next,
+            currentText: EALang.now,
+            closeText: EALang.close,
 
             onSelect: function(dateText, instance) {
                 FrontendBookApi.getAvailableHours(dateText);
@@ -184,7 +184,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             // Add the "Any Provider" entry.
             if ($('#select-provider option').length >= 1) {
-                $('#select-provider').append(new Option('- ' +EALang['any_provider'] + ' -', 'any-provider'));
+                $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider'));
             }
 
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
@@ -213,7 +213,7 @@ window.FrontendBook = window.FrontendBook || {};
                     if ($('#select-hour-prompt').length == 0) {
                         $('#available-hours').append('<br><br>'
                                 + '<span id="select-hour-prompt" class="text-danger">'
-                                + EALang['appointment_hour_missing']
+                                + EALang.appointment_hour_missing
                                 + '</span>');
                     }
                     return;
@@ -289,12 +289,12 @@ window.FrontendBook = window.FrontendBook || {};
                     $('#cancel-appointment-form').submit();
                 };
 
-                dialogButtons[EALang['cancel']] = function() {
+                dialogButtons[EALang.cancel] = function() {
                     $('#message_box').dialog('close');
                 };
 
-                GeneralFunctions.displayMessageBox(EALang['cancel_appointment_title'],
-                        EALang['write_appointment_removal_reason'], dialogButtons);
+                GeneralFunctions.displayMessageBox(EALang.cancel_appointment_title,
+                        EALang.write_appointment_removal_reason, dialogButtons);
 
                 $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
                 $('#cancel-reason').css('width', '100%');
@@ -352,14 +352,14 @@ window.FrontendBook = window.FrontendBook || {};
                 }
             });
             if (missingRequiredField) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').parents('.form-group').addClass('has-error');
                 // $('#email').css('border', '2px solid red');
-                throw EALang['invalid_email'];
+                throw EALang.invalid_email;
             }
 
             return true;
@@ -417,15 +417,15 @@ window.FrontendBook = window.FrontendBook || {};
         html =
             '<h4>' + firstName + ' ' + lastName + '</h4>' +
             '<p>' +
-                EALang['phone'] + ': ' + phoneNumber +
+                EALang.phone + ': ' + phoneNumber +
                 '<br/>' +
-                EALang['email'] + ': ' + email +
+                EALang.email + ': ' + email +
                 '<br/>' +
-                EALang['address'] + ': ' + address +
+                EALang.address + ': ' + address +
                 '<br/>' +
-                EALang['city'] + ': ' + city +
+                EALang.city + ': ' + city +
                 '<br/>' +
-                EALang['zip_code'] + ': ' + zipCode +
+                EALang.zip_code + ': ' + zipCode +
             '</p>';
 
         $('#customer-details').html(html);
@@ -558,12 +558,12 @@ window.FrontendBook = window.FrontendBook || {};
                 }
 
                 if (service.duration != '' && service.duration != null) {
-                    html += '[' + EALang['duration'] + ' ' + service.duration
-                            + ' ' + EALang['minutes'] + '] ';
+                    html += '[' + EALang.duration + ' ' + service.duration
+                            + ' ' + EALang.minutes'] +  ';
                 }
 
                 if (service.price != '' && service.price != null) {
-                    html += '[' + EALang['price'] + ' ' + service.price + ' ' + service.currency  + ']';
+                    html += '[' + EALang.price + ' ' + service.price + ' ' + service.currency  + ']';
                 }
 
                 html += '<br>';

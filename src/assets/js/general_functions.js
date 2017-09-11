@@ -25,10 +25,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * General Functions Constants
      */
-    exports.EXCEPTIONS_TITLE = EALang['unexpected_issues'];
-    exports.EXCEPTIONS_MESSAGE = EALang['unexpected_issues_message'];
-    exports.WARNINGS_TITLE = EALang['unexpected_warnings'];
-    exports.WARNINGS_MESSAGE = EALang['unexpected_warnings_message'];
+    exports.EXCEPTIONS_TITLE = EALang.unexpected_issues;
+    exports.EXCEPTIONS_MESSAGE = EALang.unexpected_issues_message;
+    exports.WARNINGS_TITLE = EALang.unexpected_warnings;
+    exports.WARNINGS_MESSAGE = EALang.unexpected_warnings_message;
 
     /**
      * This functions displays a message box in the admin array. It is useful when user
@@ -50,7 +50,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         if (messageButtons == undefined) {
             messageButtons = {};
-            messageButtons[EALang['close']] = function() {
+            messageButtons[EALang.close] = function() {
                 $('#message_box').dialog('close');
             };
         }
@@ -234,7 +234,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                         '<div class="accordion-heading">' +
                             '<a class="accordion-toggle" data-toggle="collapse" ' +
                                     'data-parent="#error-accordion" href="#error-technical">' +
-                                EALang['details'] +
+                                EALang.details +
                             '</a>' +
                         '</div>';
 

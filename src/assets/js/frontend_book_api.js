@@ -97,7 +97,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 FrontendBook.updateConfirmFrame();
 
             } else {
-                $('#available-hours').text(EALang['no_available_hours']);
+                $('#available-hours').text(EALang.no_available_hours);
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
@@ -163,7 +163,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                 if (response.captcha_verification === false) {
                     $('#captcha-hint')
-                        .text(EALang['captcha_is_wrong'] + '(' + response.expected_phrase + ')')
+                        .text(EALang.captcha_is_wrong + '(' + response.expected_phrase + ')')
                         .fadeTo(400, 1);
 
                     setTimeout(function() {
@@ -253,7 +253,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
-            $('#available-hours').text(EALang['no_available_hours']);
+            $('#available-hours').text(EALang.no_available_hours);
         }
 
         // Grey out unavailable dates.

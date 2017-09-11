@@ -61,16 +61,16 @@
                                 '<td class="break-start editable">' + brk.start + '</td>' +
                                 '<td class="break-end editable">' + brk.end + '</td>' +
                                 '<td>' +
-                                    '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang['edit'] + '">' +
+                                    '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
                                         '<span class="glyphicon glyphicon-pencil"></span>' +
                                     '</button>' +
-                                    '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang['delete'] + '">' +
+                                    '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
                                         '<span class="glyphicon glyphicon-remove"></span>' +
                                     '</button>' +
-                                    '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang['save'] + '">' +
+                                    '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
                                         '<span class="glyphicon glyphicon-ok"></span>' +
                                     '</button>' +
-                                    '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang['cancel'] + '">' +
+                                    '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
                                         '<span class="glyphicon glyphicon-ban-circle"></span>' +
                                     '</button>' +
                                 '</td>' +
@@ -98,13 +98,13 @@
      */
     WorkingPlan.prototype.editableBreakDay = function($selector) {
         var weekDays = {};
-        weekDays[EALang['monday']] = EALang['monday']; //'Monday';
-        weekDays[EALang['tuesday']] = EALang['tuesday']; //'Tuesday';
-        weekDays[EALang['wednesday']] = EALang['wednesday']; //'Wednesday';
-        weekDays[EALang['thursday']] = EALang['thursday']; //'Thursday';
-        weekDays[EALang['friday']] = EALang['friday']; //'Friday';
-        weekDays[EALang['saturday']] = EALang['saturday']; //'Saturday';
-        weekDays[EALang['sunday']] = EALang['sunday']; //'Sunday';
+        weekDays[EALang.monday] = EALang.monday; //'Monday';
+        weekDays[EALang.tuesday] = EALang.tuesday; //'Tuesday';
+        weekDays[EALang.wednesday] = EALang.wednesday; //'Wednesday';
+        weekDays[EALang.thursday] = EALang.thursday; //'Thursday';
+        weekDays[EALang.friday] = EALang.friday; //'Friday';
+        weekDays[EALang.saturday] = EALang.saturday; //'Saturday';
+        weekDays[EALang.sunday] = EALang.sunday; //'Sunday';
 
         $selector.editable(function(value, settings) {
             return value;
@@ -189,20 +189,20 @@
         $('.add-break').click(function() {
             var tr =
                     '<tr>' +
-                        '<td class="break-day editable">' + EALang['monday'] + '</td>' +
+                        '<td class="break-day editable">' + EALang.monday + '</td>' +
                         '<td class="break-start editable">09:00</td>' +
                         '<td class="break-end editable">10:00</td>' +
                         '<td>' +
-                            '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang['edit'] + '">' +
+                            '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
                                 '<span class="glyphicon glyphicon-pencil"></span>' +
                             '</button>' +
-                            '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang['delete'] + '">' +
+                            '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
                                 '<span class="glyphicon glyphicon-remove"></span>' +
                             '</button>' +
-                            '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang['save'] + '">' +
+                            '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
                                 '<span class="glyphicon glyphicon-ok"></span>' +
                             '</button>' +
-                            '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang['cancel'] + '">' +
+                            '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
                                 '<span class="glyphicon glyphicon-ban-circle"></span>' +
                             '</button>' +
                         '</td>' +
@@ -234,12 +234,12 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
-                currentText: EALang['now'],
-                closeText: EALang['close'],
-                timeOnlyTitle: EALang['select_time'],
-                timeText: EALang['time'],
-                hourText: EALang['hour'],
-                minuteText: EALang['minutes']
+                currentText: EALang.now,
+                closeText: EALang.close,
+                timeOnlyTitle: EALang.select_time,
+                timeText: EALang.time,
+                hourText: EALang.hour,
+                minuteText: EALang.minutes
             });
             $(this).parent().parent().find('.break-day select').focus();
 
@@ -359,12 +359,12 @@
             $('.working-plan input[type="text"]').timepicker({
                 timeFormat: 'HH:mm',
 
-                currentText: EALang['now'],
-                closeText: EALang['close'],
-                timeOnlyTitle: EALang['select_time'],
-                timeText: EALang['time'],
-                hourText: EALang['hour'],
-                minuteText: EALang['minutes'],
+                currentText: EALang.now,
+                closeText: EALang.close,
+                timeOnlyTitle: EALang.select_time,
+                timeText: EALang.time,
+                hourText: EALang.hour,
+                minuteText: EALang.minutes,
 
                 onSelect: function(datetime, inst) {
                     // Start time must be earlier than end time.
@@ -396,26 +396,19 @@
     WorkingPlan.prototype.convertValueToDay = function(value) {
         switch (value) {
             case 'monday':
-                return EALang['monday'];
-                break;
+                return EALang.monday;
             case 'tuesday':
-                return EALang['tuesday'];
-                break;
+                return EALang.tuesday;
             case 'wednesday':
-                return EALang['wednesday'];
-                break;
+                return EALang.wednesday;
             case 'thursday':
-                return EALang['thursday'];
-                break;
+                return EALang.thursday;
             case 'friday':
-                return EALang['friday'];
-                break;
+                return EALang.friday;
             case 'saturday':
-                return EALang['saturday'];
-                break;
+                return EALang.saturday;
             case 'sunday':
-                return EALang['sunday'];
-                break;
+                return EALang.sunday;
         }
     };
 
@@ -426,27 +419,20 @@
      */
     WorkingPlan.prototype.convertDayToValue = function(day) {
         switch (day) {
-            case EALang['monday']:
+            case EALang.monday:
                 return 'monday';
-                break;
-            case EALang['tuesday']:
+            case EALang.tuesday:
                 return 'tuesday';
-                break;
-            case EALang['wednesday']:
+            case EALang.wednesday:
                 return 'wednesday';
-                break;
-            case EALang['thursday']:
+            case EALang.thursday:
                 return 'thursday';
-                break;
-            case EALang['friday']:
+            case EALang.friday:
                 return 'friday';
-                break;
-            case EALang['saturday']:
+            case EALang.saturday:
                 return 'saturday';
-                break;
-            case EALang['sunday']:
+            case EALang.sunday:
                 return 'sunday';
-                break;
         }
     };
 

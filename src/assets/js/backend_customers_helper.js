@@ -170,22 +170,22 @@
             var customerId = $('#customer-id').val();
             var buttons = [
                 {
-                    text: EALang['delete'],
+                    text: EALang.delete,
                     click: function() {
                         instance.delete(customerId);
                         $('#message_box').dialog('close');
                     }
                 },
                 {
-                    text: EALang['cancel'],
+                    text: EALang.cancel,
                     click:  function() {
                         $('#message_box').dialog('close');
                     }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang['delete_customer'],
-                    EALang['delete_record_prompt'], buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_customer,
+                    EALang.delete_record_prompt, buttons);
         });
     };
 
@@ -206,7 +206,7 @@
                 return;
             }
 
-            Backend.displayNotification(EALang['customer_saved']);
+            Backend.displayNotification(EALang.customer_saved);
             this.resetForm();
             $('#filter-customers .key').val('');
             this.filter('', response.id, true);
@@ -230,7 +230,7 @@
                 return;
             }
 
-            Backend.displayNotification(EALang['customer_deleted']);
+            Backend.displayNotification(EALang.customer_deleted);
             this.resetForm();
             this.filter($('#filter-customers .key').val());
         }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
@@ -257,13 +257,13 @@
             });
 
             if (missingRequired) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').css('border', '2px solid red');
-                throw EALang['invalid_email'];
+                throw EALang.invalid_email;
             }
 
             return true;
@@ -362,7 +362,7 @@
             $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
-                $('#filter-customers .results').html('<em>' + EALang['no_records_found'] + '</em>');
+                $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
             }
 
             if (selectId != undefined) {

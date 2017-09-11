@@ -85,12 +85,12 @@ $(document).ready(function() {
                     $('#success-frame').append(
                         '<br><br>' +
                         '<div class="alert alert-success col-xs-12">' +
-                            '<h4>' + EALang['success'] + '</h4>' +
+                            '<h4>' + EALang.success + '</h4>' +
                             '<p>' +
-                                EALang['appointment_added_to_google_calendar'] +
+                                EALang.appointment_added_to_google_calendar +
                                 '<br>' +
                                 '<a href="' + response.htmlLink + '" target="_blank">' +
-                                    EALang['view_appointment_in_google_calendar'] +
+                                    EALang.view_appointment_in_google_calendar +
                                 '</a>' +
                             '</p>' +
                         '</div>'
@@ -102,9 +102,9 @@ $(document).ready(function() {
             // The user denied access or something else happened, display corresponding message on the screen.
             $('#success-frame').append(
                 '<div class="alert alert-danger col-xs-12">' +
-                    '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' +
+                    '<h4>' + EALang.oops_something_went_wrong + '</h4>' +
                     '<p>' +
-                        EALang['could_not_add_to_google_calendar'] +
+                        EALang.could_not_add_to_google_calendar +
                         '<pre>' + exc + '</pre>' +
                     '</p>' +
                 '</div>');

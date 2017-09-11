@@ -54,7 +54,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                             windowHandle.close();
                             window.clearInterval(authInterval);
                             $('#enable-sync').addClass('btn-danger enabled');
-                            $('#enable-sync span:eq(1)').text(EALang['disable_sync']);
+                            $('#enable-sync span:eq(1)').text(EALang.disable_sync);
                             $('#google-sync').prop('disabled', false);
                             $('#select-filter-item option:selected').attr('google-sync', 'true');
 
@@ -101,7 +101,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                         _disableProviderSync(provider['id']);
 
                         $('#enable-sync').removeClass('btn-danger enabled');
-                        $('#enable-sync span:eq(1)').text(EALang['enable_sync']);
+                        $('#enable-sync span:eq(1)').text(EALang.enable_sync);
                         $('#google-sync').prop('disabled', true);
                         $('#select-filter-item option:selected').attr('google-sync', 'false');
 
@@ -125,7 +125,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }
-                Backend.displayNotification(EALang['google_calendar_selected']);
+                Backend.displayNotification(EALang.google_calendar_selected);
                 $('#select-google-calendar').modal('hide');
             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
         });
@@ -166,11 +166,11 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                         $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
                     }
 
-                    Backend.displayNotification(EALang['google_sync_completed']);
+                    Backend.displayNotification(EALang.google_sync_completed);
                     $('#reload-appointments').trigger('click');
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
-                    Backend.displayNotification(EALang['google_sync_failed']);
+                    Backend.displayNotification(EALang.google_sync_failed);
                 });
         });
     }

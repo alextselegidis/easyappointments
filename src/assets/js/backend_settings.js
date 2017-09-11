@@ -209,7 +209,7 @@ window.BackendSettings = window.BackendSettings || {};
 
                 if (response == false) {
                     $input.css('border', '2px solid red');
-                    Backend.displayNotification(EALang['username_already_exists']);
+                    Backend.displayNotification(EALang.username_already_exists);
                     $input.attr('already-exists', 'true');
                 } else {
                     $input.css('border', '');

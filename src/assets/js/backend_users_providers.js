@@ -127,22 +127,22 @@
 
             var buttons = [
                 {
-                    text: EALang['delete'],
+                    text: EALang.delete,
                     click: function() {
                         this.delete(providerId);
                         $('#message_box').dialog('close');
                     }.bind(this)
                 },
                 {
-                    text: EALang['cancel'],
+                    text: EALang.cancel,
                     click: function() {
                         $('#message_box').dialog('close');
                     }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang['delete_provider'],
-                    EALang['delete_record_prompt'], buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_provider,
+                    EALang.delete_record_prompt, buttons);
         }.bind(this));
 
         /**
@@ -256,7 +256,7 @@
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            Backend.displayNotification(EALang['provider_saved']);
+            Backend.displayNotification(EALang.provider_saved);
             this.resetForm();
             $('#filter-providers .key').val('');
             this.filter('', response.id, true);
@@ -279,7 +279,7 @@
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            Backend.displayNotification(EALang['provider_deleted']);
+            Backend.displayNotification(EALang.provider_deleted);
             this.resetForm();
             this.filter($('#filter-providers .key').val());
         }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
@@ -306,31 +306,31 @@
                 }
             });
             if (missingRequired) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             // Validate passwords.
             if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
                 $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-                throw EALang['passwords_mismatch'];
+                throw EALang.passwords_mismatch;
             }
 
             if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                     && $('#provider-password').val() != '') {
                 $('#provider-password, #provider-password-confirm').css('border', '2px solid red');
-                throw EALang['password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
+                throw EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
                 $('#provider-email').css('border', '2px solid red');
-                throw EALang['invalid_email'];
+                throw EALang.invalid_email;
             }
 
             // Check if username exists
             if ($('#provider-username').attr('already-exists') ==  'true') {
                 $('#provider-username').css('border', '2px solid red');
-                throw EALang['username_already_exists'];
+                throw EALang.username_already_exists;
             }
 
             return true;
@@ -463,7 +463,7 @@
             $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
-                $('#filter-providers .results').html('<em>' + EALang['no_records_found'] + '</em>')
+                $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
             }
 
             if (selectId != undefined) {
@@ -505,13 +505,13 @@
      */
     ProvidersHelper.prototype.editableBreakDay = function($selector) {
         var weekDays = {};
-        weekDays[EALang['monday']] = 'Monday';
-        weekDays[EALang['tuesday']] = 'Tuesday';
-        weekDays[EALang['wednesday']] = 'Wednesday';
-        weekDays[EALang['thursday']] = 'Thursday';
-        weekDays[EALang['friday']] = 'Friday';
-        weekDays[EALang['saturday']] = 'Saturday';
-        weekDays[EALang['sunday']] = 'Sunday';
+        weekDays[EALang.monday] = 'Monday';
+        weekDays[EALang.tuesday] = 'Tuesday';
+        weekDays[EALang.wednesday] = 'Wednesday';
+        weekDays[EALang.thursday] = 'Thursday';
+        weekDays[EALang.friday] = 'Friday';
+        weekDays[EALang.saturday] = 'Saturday';
+        weekDays[EALang.sunday] = 'Sunday';
 
 
         $selector.editable(function(value, settings) {

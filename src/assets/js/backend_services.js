@@ -45,7 +45,7 @@ window.BackendServices = window.BackendServices || {};
             var option = new Option(category.name, category.id);
             $('#service-category').append(option);
         });
-        $('#service-category').append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
+        $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
 
         $('#service-duration, #service-attendants-number').spinner({
             min: 1,
@@ -123,7 +123,7 @@ window.BackendServices = window.BackendServices || {};
                 var option = new Option(category.name, category.id);
                 $select.append(option);
             });
-            $select.append(new Option('- ' + EALang['no_category'] + ' -', null)).val('null');
+            $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     }
 

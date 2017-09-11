@@ -86,13 +86,13 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Define success callback.
             var successCallback = function(response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    $dialog.find('.modal-message').text(EALang['unexpected_issues_occurred']);
+                    $dialog.find('.modal-message').text(EALang.unexpected_issues_occurred);
                     $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
                     return false;
                 }
 
                 // Display success message to the user.
-                $dialog.find('.modal-message').text(EALang['appointment_saved']);
+                $dialog.find('.modal-message').text(EALang.appointment_saved);
                 $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-danger hidden');
                 $dialog.find('.modal-body').scrollTop(0);
 
@@ -106,7 +106,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Define error callback.
             var errorCallback = function() {
-                $dialog.find('.modal-message').text(EALang['server_communication_error']);
+                $dialog.find('.modal-message').text(EALang.server_communication_error);
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
                 $dialog.find('.modal-body').scrollTop(0);
             };
@@ -168,7 +168,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     GlobalVariables.dateFormat, true));
 
             // Display modal form.
-            $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
+            $dialog.find('.modal-header h3').text(EALang.new_appointment_title);
             $dialog.modal('show');
         });
 
@@ -179,7 +179,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var $list = $('#existing-customers-list');
 
             if (!$list.is(':visible')) {
-                $(this).text(EALang['hide']);
+                $(this).text(EALang.hide);
                 $list.empty();
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
@@ -191,7 +191,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             } else {
                 $list.slideUp('slow');
                 $('#filter-existing-customers').fadeOut('slow');
-                $(this).text(EALang['select']);
+                $(this).text(EALang.select);
             }
         });
 
@@ -357,7 +357,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Close existing customers-filter frame.
         $('#existing-customers-list').slideUp('slow');
         $('#filter-existing-customers').fadeOut('slow');
-        $('#select-customer').text(EALang['select']);
+        $('#select-customer').text(EALang.select);
 
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
@@ -391,27 +391,27 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             dateFormat: dateFormat,
 
             // Translation
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3),
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3),
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2),
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2),
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
+            dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
+                    EALang.thursday, EALang.friday, EALang.saturday],
+            dayNamesShort: [EALang.sunday.substr(0,3), EALang.monday.substr(0,3),
+                    EALang.tuesday.substr(0,3), EALang.wednesday.substr(0,3),
+                    EALang.thursday.substr(0,3), EALang.friday.substr(0,3),
+                    EALang.saturday.substr(0,3)],
+            dayNamesMin: [EALang.sunday.substr(0,2), EALang.monday.substr(0,2),
+                    EALang.tuesday.substr(0,2), EALang.wednesday.substr(0,2),
+                    EALang.thursday.substr(0,2), EALang.friday.substr(0,2),
+                    EALang.saturday.substr(0,2)],
+            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
+                    EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
+                    EALang.october, EALang.november, EALang.december],
+            prevText: EALang.previous,
+            nextText: EALang.next,
+            currentText: EALang.now,
+            closeText: EALang.close,
+            timeOnlyTitle: EALang.select_time,
+            timeText: EALang.time,
+            hourText: EALang.hour,
+            minuteText: EALang.minutes,
             firstDay: 1
         });
         $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
@@ -420,27 +420,27 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             dateFormat: dateFormat,
 
             // Translation
-            dayNames: [EALang['sunday'], EALang['monday'], EALang['tuesday'], EALang['wednesday'],
-                    EALang['thursday'], EALang['friday'], EALang['saturday']],
-            dayNamesShort: [EALang['sunday'].substr(0,3), EALang['monday'].substr(0,3),
-                    EALang['tuesday'].substr(0,3), EALang['wednesday'].substr(0,3),
-                    EALang['thursday'].substr(0,3), EALang['friday'].substr(0,3),
-                    EALang['saturday'].substr(0,3)],
-            dayNamesMin: [EALang['sunday'].substr(0,2), EALang['monday'].substr(0,2),
-                    EALang['tuesday'].substr(0,2), EALang['wednesday'].substr(0,2),
-                    EALang['thursday'].substr(0,2), EALang['friday'].substr(0,2),
-                    EALang['saturday'].substr(0,2)],
-            monthNames: [EALang['january'], EALang['february'], EALang['march'], EALang['april'],
-                    EALang['may'], EALang['june'], EALang['july'], EALang['august'], EALang['september'],
-                    EALang['october'], EALang['november'], EALang['december']],
-            prevText: EALang['previous'],
-            nextText: EALang['next'],
-            currentText: EALang['now'],
-            closeText: EALang['close'],
-            timeOnlyTitle: EALang['select_time'],
-            timeText: EALang['time'],
-            hourText: EALang['hour'],
-            minuteText: EALang['minutes'],
+            dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
+                    EALang.thursday, EALang.friday, EALang.saturday],
+            dayNamesShort: [EALang.sunday.substr(0,3), EALang.monday.substr(0,3),
+                    EALang.tuesday.substr(0,3), EALang.wednesday.substr(0,3),
+                    EALang.thursday.substr(0,3), EALang.friday.substr(0,3),
+                    EALang.saturday.substr(0,3)],
+            dayNamesMin: [EALang.sunday.substr(0,2), EALang.monday.substr(0,2),
+                    EALang.tuesday.substr(0,2), EALang.wednesday.substr(0,2),
+                    EALang.thursday.substr(0,2), EALang.friday.substr(0,2),
+                    EALang.saturday.substr(0,2)],
+            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
+                    EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
+                    EALang.october, EALang.november, EALang.december],
+            prevText: EALang.previous,
+            nextText: EALang.next,
+            currentText: EALang.now,
+            closeText: EALang.close,
+            timeOnlyTitle: EALang.select_time,
+            timeText: EALang.time,
+            hourText: EALang.hour,
+            minuteText: EALang.minutes,
             firstDay: 1
         });
         $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
@@ -471,13 +471,13 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             });
 
             if (missingRequiredField) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             // Check email address.
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
                 $dialog.find('#email').parents('.form-group').eq(1).addClass('has-error');
-                throw EALang['invalid_email'];
+                throw EALang.invalid_email;
             }
 
             // Check appointment start and end time.
@@ -486,7 +486,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             if (start > end) {
                 $dialog.find('#start-datetime').parents('.form-group').addClass('has-error');
                 $dialog.find('#end-datetime').parents('.form-group').addClass('has-error');
-                throw EALang['start_date_before_end_error'];
+                throw EALang.start_date_before_end_error;
             }
 
             return true;

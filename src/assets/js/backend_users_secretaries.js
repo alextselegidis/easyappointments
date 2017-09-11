@@ -119,22 +119,22 @@
             var secretaryId = $('#secretary-id').val();
             var buttons = [
                 {
-                    text: EALang['delete'],
+                    text: EALang.delete,
                     click: function() {
                         this.delete(secretaryId);
                         $('#message_box').dialog('close');
                     }.bind(this)
                 },
                 {
-                    text: EALang['cancel'],
+                    text: EALang.cancel,
                     click:  function() {
                         $('#message_box').dialog('close');
                     }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang['delete_secretary'],
-                    EALang['delete_record_prompt'], buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_secretary,
+                    EALang.delete_record_prompt, buttons);
         }.bind(this));
 
         /**
@@ -215,7 +215,7 @@
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            Backend.displayNotification(EALang['secretary_saved']);
+            Backend.displayNotification(EALang.secretary_saved);
             this.resetForm();
             $('#filter-secretaries .key').val('');
             this.filter('', response.id, true);
@@ -238,7 +238,7 @@
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            Backend.displayNotification(EALang['secretary_deleted']);
+            Backend.displayNotification(EALang.secretary_deleted);
             this.resetForm();
             this.filter($('#filter-secretaries .key').val());
         }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
@@ -393,7 +393,7 @@
             $('#filter-secretaries .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
-                $('#filter-secretaries .results').html('<em>' + EALang['no_records_found'] + '</em>')
+                $('#filter-secretaries .results').html('<em>' + EALang.no_records_found + '</em>')
             }
 
             if (selectId != undefined) {

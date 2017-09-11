@@ -164,22 +164,22 @@
             var serviceId = $('#service-id').val();
             var buttons = [
                 {
-                    text: EALang['delete'],
+                    text: EALang.delete,
                     click: function() {
                         instance.delete(serviceId);
                         $('#message_box').dialog('close');
                     }
                 },
                 {
-                    text: EALang['cancel'],
+                    text: EALang.cancel,
                     click:  function() {
                         $('#message_box').dialog('close');
                     }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang['delete_service'],
-                    EALang['delete_record_prompt'], buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_service,
+                    EALang.delete_record_prompt, buttons);
         });
     };
 
@@ -201,7 +201,7 @@
                 return;
             }
 
-            Backend.displayNotification(EALang['service_saved']);
+            Backend.displayNotification(EALang.service_saved);
             this.resetForm();
             $('#filter-services .key').val('');
             this.filter('', response.id, true);
@@ -225,7 +225,7 @@
                 return;
             }
 
-            Backend.displayNotification(EALang['service_deleted']);
+            Backend.displayNotification(EALang.service_deleted);
 
             this.resetForm();
             this.filter($('#filter-services .key').val());
@@ -254,7 +254,7 @@
             });
 
             if (missingRequired) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             return true;
@@ -333,7 +333,7 @@
             $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length === 0) {
-                $('#filter-services .results').html('<em>' + EALang['no_records_found'] + '</em>');
+                $('#filter-services .results').html('<em>' + EALang.no_records_found + '</em>');
             }
 
             if (selectId !== undefined) {
