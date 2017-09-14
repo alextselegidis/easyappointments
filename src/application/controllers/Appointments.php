@@ -384,9 +384,10 @@ class Appointments extends CI_Controller {
             $service = $this->services_model->get_row($appointment['id_services']);
 
             $company_settings = array(
-                'company_name'  => $this->settings_model->get_setting('company_name'),
-                'company_link'  => $this->settings_model->get_setting('company_link'),
-                'company_email' => $this->settings_model->get_setting('company_email')
+                'company_name' => $this->settings_model->get_setting('company_name'),
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'date_format' => $this->settings_model->get_setting('date_format')
             );
 
             // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
