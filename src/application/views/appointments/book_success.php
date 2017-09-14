@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo lang('appointment_registered') . ' - ' . $company_name; ?></title>
+    <title><?= lang('appointment_registered') . ' - ' . $company_name ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/frontend.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/frontend.css') ?>">
 
-    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
-    <link rel="icon" sizes="192x192" href="<?php echo base_url('assets/img/logo.png'); ?>">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
+    <link rel="icon" sizes="192x192" href="<?= base_url('assets/img/logo.png') ?>">
 </head>
 <body>
     <div id="main" class="container">
@@ -23,7 +23,7 @@
                     col-lg-offset-2 col-lg-8">
 
                 <div class="col-xs-12 col-sm-2">
-                    <img id="success-icon" class="pull-right" src="<?php echo base_url('assets/img/success.png'); ?>" />
+                    <img id="success-icon" class="pull-right" src="<?= base_url('assets/img/success.png') ?>" />
                 </div>
                 <div class="col-xs-12 col-sm-10">
                     <?php
@@ -59,29 +59,29 @@
         </div>
     </div>
 
-    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
+    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
     <script>
         var GlobalVariables = {
-            'csrfToken'         : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-            'appointmentData'   : <?php echo json_encode($appointment_data); ?>,
-            'providerData'      : <?php echo json_encode($provider_data); ?>,
-            'serviceData'       : <?php echo json_encode($service_data); ?>,
-            'companyName'       : <?php echo json_encode($company_name); ?>,
-            'googleApiKey'      : <?php echo json_encode(Config::GOOGLE_API_KEY); ?>,
-            'googleClientId'    : <?php echo json_encode(Config::GOOGLE_CLIENT_ID); ?>,
+            'csrfToken'         : <?= json_encode($this->security->get_csrf_hash()) ?>,
+            'appointmentData'   : <?= json_encode($appointment_data) ?>,
+            'providerData'      : <?= json_encode($provider_data) ?>,
+            'serviceData'       : <?= json_encode($service_data) ?>,
+            'companyName'       : <?= json_encode($company_name) ?>,
+            'googleApiKey'      : <?= json_encode(Config::GOOGLE_API_KEY) ?>,
+            'googleClientId'    : <?= json_encode(Config::GOOGLE_CLIENT_ID) ?>,
             'googleApiScope'    : 'https://www.googleapis.com/auth/calendar'
         };
 
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?php echo base_url('assets/js/frontend_book_success.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
+    <script src="<?= base_url('assets/js/frontend_book_success.js') ?>"></script>
+    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
 
-    <?php google_analytics_script(); ?>
+    <?php google_analytics_script() ?>
 </body>
 </html>

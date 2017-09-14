@@ -5,20 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo lang('page_not_found') . ' - ' . $company_name; ?></title>
+    <title><?= lang('page_not_found') . ' - ' . $company_name ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
 
-    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
 
     <script>
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
+    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
 
     <style>
         body {
@@ -61,25 +61,25 @@
 </head>
 <body>
     <div id="message-frame" class="frame-container">
-        <h3><?php echo lang('page_not_found')
+        <h3><?= lang('page_not_found')
                 . ' - ' . lang('error') . ' 404' ?></h3>
         <p>
-            <?php echo lang('page_not_found_message'); ?>
+            <?= lang('page_not_found_message') ?>
         </p>
 
         <br>
 
-        <a href="<?php echo site_url(); ?>" class="btn btn-primary btn-large">
+        <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
-            <?php echo lang('book_appointment_title'); ?>
+            <?= lang('book_appointment_title') ?>
         </a>
 
-        <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
+        <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
             <span class="glyphicon glyphicon-wrench"></span>
-            <?php echo lang('backend_section'); ?>
+            <?= lang('backend_section') ?>
         </a>
     </div>
 
-    <?php google_analytics_script(); ?>
+    <?php google_analytics_script() ?>
 </body>
 </html>

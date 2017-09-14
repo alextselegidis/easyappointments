@@ -4,10 +4,10 @@
     <title>Easy!Appointments - Installation</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
-    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url ('assets/ext/jquery-ui/jquery-ui.min.css')?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/general.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url ('assets/ext/jquery-ui/jquery-ui.min.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/general.css') ?>">
 
     <style>
         header {
@@ -49,12 +49,12 @@
 </head>
 <body>
     <div id="loading" class="hidden">
-        <img src="<?php echo base_url('assets/img/loading.gif'); ?>">
+        <img src="<?= base_url('assets/img/loading.gif') ?>">
     </div>
 
     <header>
         <a href="http://easyappointments.org" target="_blank">
-            <img src="<?php echo base_url('assets/img/installation-banner.png'); ?>"
+            <img src="<?= base_url('assets/img/installation-banner.png') ?>"
                  alt="Easy!Appointments Installation Banner">
         </a>
     </header>
@@ -65,7 +65,7 @@
             <p>
                 This page will help you set the main settings of your Easy!Appointments installation.
                 You will be able to edit these settings and many more in the backend session of your
-                system. Remember to use the <strong class="text-primary"><?php echo site_url('backend'); ?></strong>
+                system. Remember to use the <strong class="text-primary"><?= site_url('backend') ?></strong>
                 url to connect to the backend section of Easy!Appointments.
 
                 If you face any problems during the usage of Easy!Appointments you can always check the 
@@ -171,18 +171,18 @@
 
     <script>
         var GlobalVariables = {
-            'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-            'baseUrl': <?php echo json_encode(base_url()); ?>
+            'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
+            'baseUrl': <?= json_encode(base_url()) ?>
         };
 
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/js/installation.js'); ?>"></script>
+    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= base_url('assets/js/installation.js') ?>"></script>
 </body>
 </html>

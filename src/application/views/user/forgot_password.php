@@ -5,21 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo lang('forgot_your_password') . ' - ' . $company_name; ?></title>
 
-    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/datejs/date.js'); ?>"></script>
+    <title><?= lang('forgot_your_password') . ' - ' . $company_name ?></title>
+
+    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
 
     <script>
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/jquery-ui/jquery-ui.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
 
-    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
+    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
 
     <style>
         body {
@@ -53,13 +54,13 @@
     <script>
         $(document).ready(function() {
             var GlobalVariables = {
-                'csrfToken': <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-                'baseUrl': <?php echo json_encode(base_url()); ?>,
+                'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
+                'baseUrl': <?= json_encode(base_url()) ?>,
                 'AJAX_SUCCESS': 'SUCCESS',
                 'AJAX_FAILURE': 'FAILURE'
             };
 
-            var EALang = <?php echo json_encode($this->lang->language); ?>;
+            var EALang = <?= json_encode($this->lang->language) ?>;
 
             /**
              * Event: Login Button "Click"
@@ -103,30 +104,30 @@
 </head>
 <body>
     <div id="forgot-password-frame" class="frame-container">
-        <h2><?php echo lang('forgot_your_password'); ?></h2>
-        <p><?php echo lang('type_username_and_email_for_new_password'); ?></p>
+        <h2><?= lang('forgot_your_password') ?></h2>
+        <p><?= lang('type_username_and_email_for_new_password') ?></p>
         <hr>
         <div class="alert hidden"></div>
         <form>
             <div class="form-group">
-                <label for="username"><?php echo lang('username'); ?></label>
-                <input type="text" id="username" placeholder="<?php echo lang('enter_username_here'); ?>" class="form-control" />
+                <label for="username"><?= lang('username') ?></label>
+                <input type="text" id="username" placeholder="<?= lang('enter_username_here') ?>" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="email"><?php echo lang('email'); ?></label>
-                <input type="text" id="email" placeholder="<?php echo lang('enter_email_here'); ?>" class="form-control" />
+                <label for="email"><?= lang('email') ?></label>
+                <input type="text" id="email" placeholder="<?= lang('enter_email_here') ?>" class="form-control" />
             </div>
 
             <br>
 
             <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
-                <?php echo lang('regenerate_password'); ?>
+                <?= lang('regenerate_password') ?>
             </button>
 
-            <a href="<?php echo site_url('user/login'); ?>" class="user-login">
-                <?php echo lang('go_to_login'); ?></a>
+            <a href="<?= site_url('user/login') ?>" class="user-login">
+                <?= lang('go_to_login') ?></a>
         </form>
     </div>
-    <script src="<?php echo base_url('assets/js/general_functions.js'); ?>"></script>
+    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
 </body>
 </html>

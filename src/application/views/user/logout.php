@@ -5,21 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo lang('log_out') . ' - ' . $company_name; ?></title>
 
-    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
+    <title><?= lang('log_out') . ' - ' . $company_name ?></title>
 
-    <script src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
+
+    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
 
     <script>
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
     <link
         rel="stylesheet"
         type="text/css"
-        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+        href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
 
     <style>
         body {
@@ -57,21 +58,21 @@
 </head>
 <body>
     <div id="logout-frame" class="frame-container">
-        <h3><?php echo lang('log_out'); ?></h3>
+        <h3><?= lang('log_out') ?></h3>
         <p>
-            <?php echo lang('logout_success'); ?>
+            <?= lang('logout_success') ?>
         </p>
 
         <br>
 
-        <a href="<?php echo site_url(); ?>" class="btn btn-success btn-large">
+        <a href="<?= site_url() ?>" class="btn btn-success btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
-            <?php echo lang('book_appointment_title'); ?>
+            <?= lang('book_appointment_title') ?>
         </a>
 
-        <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
+        <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
             <span class="glyphicon glyphicon-wrench"></span>
-            <?php echo lang('backend_section'); ?>
+            <?= lang('backend_section') ?>
         </a>
     </div>
 </body>

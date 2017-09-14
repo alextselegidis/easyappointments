@@ -1,19 +1,19 @@
-<script src="<?php echo base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/backend_customers_helper.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/backend_customers.js'); ?>"></script>
+<script src="<?= base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= base_url('assets/js/backend_customers_helper.js') ?>"></script>
+<script src="<?= base_url('assets/js/backend_customers.js') ?>"></script>
 <script>
     var GlobalVariables = {
-        'csrfToken'         : <?php echo json_encode($this->security->get_csrf_hash()); ?>,
-        'availableProviders': <?php echo json_encode($available_providers); ?>,
-        'availableServices' : <?php echo json_encode($available_services); ?>,
-        'dateFormat'        : <?php echo json_encode($date_format); ?>,
-        'baseUrl'           : <?php echo json_encode($base_url); ?>,
-        'customers'         : <?php echo json_encode($customers); ?>,
+        'csrfToken'         : <?= json_encode($this->security->get_csrf_hash()) ?>,
+        'availableProviders': <?= json_encode($available_providers) ?>,
+        'availableServices' : <?= json_encode($available_services) ?>,
+        'dateFormat'        : <?= json_encode($date_format) ?>,
+        'baseUrl'           : <?= json_encode($base_url) ?>,
+        'customers'         : <?= json_encode($customers) ?>,
         'user'              : {
-            'id'        : <?php echo $user_id; ?>,
-            'email'     : <?php echo json_encode($user_email); ?>,
-            'role_slug' : <?php echo json_encode($role_slug); ?>,
-            'privileges': <?php echo json_encode($privileges); ?>
+            'id'        : <?= $user_id ?>,
+            'email'     : <?= json_encode($user_email) ?>,
+            'role_slug' : <?= json_encode($role_slug) ?>,
+            'privileges': <?= json_encode($privileges) ?>
         }
     };
 
@@ -28,16 +28,16 @@
     		<form class="input-append">
     			<input class="key" type="text" />
                 <div class="btn-group">
-                    <button class="filter btn btn-default btn-sm" type="submit" title="<?php echo lang('filter'); ?>">
+                    <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
-                    <button class="clear btn btn-default btn-sm" type="button" title="<?php echo lang('clear'); ?>">
+                    <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
                         <span class="glyphicon glyphicon-repeat"></span>
                     </button>
                 </div>
     		</form>
 
-            <h3><?php echo lang('customers'); ?></h3>
+            <h3><?= lang('customers') ?></h3>
             <div class="results"></div>
     	</div>
 
@@ -47,21 +47,21 @@
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
                     <button id="add-customer" class="btn btn-primary">
                         <span class="glyphicon glyphicon-plus"></span>
-                        <?php echo lang('add'); ?>
+                        <?= lang('add') ?>
                     </button>
                     <?php } ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] == TRUE) { ?>
                     <button id="edit-customer" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
-                        <?php echo lang('edit'); ?>
+                        <?= lang('edit') ?>
                     </button>
                     <?php }?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] == TRUE) { ?>
                     <button id="delete-customer" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
-                        <?php echo lang('delete'); ?>
+                        <?= lang('delete') ?>
                     </button>
                     <?php } ?>
                 </div>
@@ -69,11 +69,11 @@
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
                     <button id="save-customer" class="btn btn-primary">
                         <span class="glyphicon glyphicon-ok"></span>
-                        <?php echo lang('save'); ?>
+                        <?= lang('save') ?>
                     </button>
                     <button id="cancel-customer" class="btn btn-default">
                         <i class="glyphicon glyphicon-ban-circle"></i>
-                        <?php echo lang('cancel'); ?>
+                        <?= lang('cancel') ?>
                     </button>
                 </div>
             </div>
@@ -82,55 +82,55 @@
 
             <div class="row">
                 <div class="col-md-6" style="margin-left: 0;">
-                    <h3><?php echo lang('details'); ?></h3>
+                    <h3><?= lang('details') ?></h3>
                     <div id="form-message" class="alert" style="display:none;"></div>
 
                     <div class="form-group">
-                        <label for="first-name"><?php echo lang('first_name'); ?> *</label>
+                        <label for="first-name"><?= lang('first_name') ?> *</label>
                         <input type="text" id="first-name" class="form-control required" />
                     </div>
 
                     <div class="form-group">
-                        <label for="last-name"><?php echo lang('last_name'); ?> *</label>
+                        <label for="last-name"><?= lang('last_name') ?> *</label>
                         <input type="text" id="last-name" class="form-control required" />
                     </div>
 
                     <div class="form-group">
-                        <label for="email"><?php echo lang('email'); ?> *</label>
+                        <label for="email"><?= lang('email') ?> *</label>
                         <input type="text" id="email" class="form-control required" />
                     </div>
 
                     <div class="form-group">
-                        <label for="phone-number"><?php echo lang('phone_number'); ?> *</label>
+                        <label for="phone-number"><?= lang('phone_number') ?> *</label>
                         <input type="text" id="phone-number" class="form-control required" />
                     </div>
 
                     <div class="form-group">
-                        <label for="address"><?php echo lang('address'); ?></label>
+                        <label for="address"><?= lang('address') ?></label>
                         <input type="text" id="address" class="form-control" />
                     </div>
 
                     <div class="form-group">
-                        <label for="city"><?php echo lang('city'); ?></label>
+                        <label for="city"><?= lang('city') ?></label>
                         <input type="text" id="city" class="form-control" />
                     </div>
 
                     <div class="form-group">
-                        <label for="zip-code"><?php echo lang('zip_code'); ?></label>
+                        <label for="zip-code"><?= lang('zip_code') ?></label>
                         <input type="text" id="zip-code" class="form-control" />
                     </div>
 
                     <div class="form-group">
-                        <label for="notes"><?php echo lang('notes'); ?></label>
+                        <label for="notes"><?= lang('notes') ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
 
                     <center><em id="form-message" class="text-error">
-                        <?php echo lang('fields_are_required'); ?></em></center>
+                        <?= lang('fields_are_required') ?></em></center>
                 </div>
 
                 <div class="col-md-5">
-                    <h3><?php echo lang('appointments'); ?></h3>
+                    <h3><?= lang('appointments') ?></h3>
                     <div id="customer-appointments"></div>
                     <div id="appointment-details"></div>
                 </div>
