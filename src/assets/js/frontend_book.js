@@ -558,8 +558,7 @@ window.FrontendBook = window.FrontendBook || {};
                 }
 
                 if (service.duration != '' && service.duration != null) {
-                    html += '[' + EALang.duration + ' ' + service.duration
-                            + ' ' + EALang.minutes'] +  ';
+                    html += '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']';
                 }
 
                 if (service.price != '' && service.price != null) {
