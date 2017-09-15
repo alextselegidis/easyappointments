@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -10,11 +10,12 @@
  * @link        http://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
- 
+
 namespace EA\Engine\Api\V1;
 
 class PaginationTest extends \PHPUnit_Framework_TestCase {
-    public function test() {
+    public function test()
+    {
         $this->markTestIncomplete();
     }
 }

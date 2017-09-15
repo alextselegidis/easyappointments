@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -14,22 +17,26 @@
 /**
  * Database Exception Class
  */
-class DatabaseException extends Exception {}
+class DatabaseException extends Exception {
+}
 
 /**
  * Validation Exception Class
  */
-class ValidationException extends Exception {}
+class ValidationException extends Exception {
+}
 
 /**
  * Notification Exception Class
  */
-class NotificationException extends Exception {}
+class NotificationException extends Exception {
+}
 
 /**
  * Sync Exception Class
  */
-class SyncException extends Exception {}
+class SyncException extends Exception {
+}
 
 /**
  * Print an exception to an HTML text.
@@ -43,14 +50,15 @@ class SyncException extends Exception {}
  * @param Exception $exc The exception to be displayed.
  * @return string Returns the html markup of the exception.
  */
-function exceptionToHtml($exc) {
+function exceptionToHtml($exc)
+{
     return
         '<div class="accordion" id="error-accordion">
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse"
                             data-parent="#error-accordion" href="#error-technical">' .
-                        $exc->getMessage() . '
+        $exc->getMessage() . '
                     </a>
                 </div>
                 <div id="error-technical" class="accordion-body collapse">
@@ -71,13 +79,14 @@ function exceptionToHtml($exc) {
  * @param Exception $exception The given exception object.
  * @return string Returns the json encoded object of the exception.
  */
-function exceptionToJavaScript($exception) {
-    return json_encode(array(
+function exceptionToJavaScript($exception)
+{
+    return json_encode([
         'code' => $exception->getCode(),
         'file' => $exception->getFile(),
         'line' => $exception->getLine(),
         'message' => $exception->getMessage(),
         'previous' => $exception->getPrevious(),
         'trace' => $exception->getTraceAsString()
-    ));
+    ]);
 }

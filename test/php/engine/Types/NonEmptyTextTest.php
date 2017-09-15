@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,21 +11,24 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class NonEmptyAlphanumericTest extends \PHPUnit_Framework_TestCase {
-    public function testNonEmptyStringType() {
+    public function testNonEmptyStringType()
+    {
         $type = new NonEmptyText('Hello!');
-        $this->assertEquals('Hello!', $type->get()); 
-    } 
+        $this->assertEquals('Hello!', $type->get());
+    }
 
-    public function testNonEmptyStringTypeThrowsExceptionWithEmptyString() {
+    public function testNonEmptyStringTypeThrowsExceptionWithEmptyString()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new NonEmptyText('');
     }
 
-    public function testNonEmptyStringTypeThrowsExceptionWithInvalidValue() {
+    public function testNonEmptyStringTypeThrowsExceptionWithInvalidValue()
+    {
         $this->setExpectedException('\InvalidArgumentException');
-        new NonEmptyText(null);
+        new NonEmptyText(NULL);
     }
 }

@@ -12,12 +12,14 @@
  * ---------------------------------------------------------------------------- */
 
 class Migration_Add_google_analytics_setting extends CI_Migration {
-    public function up() {
+    public function up()
+    {
         $this->load->model('settings_model');
         $this->settings_model->set_setting('google_analytics_code', '');
     }
 
-    public function down() {
+    public function down()
+    {
         $this->load->model('settings_model');
         $this->settings_model->remove_setting('google_analytics_code');
     }

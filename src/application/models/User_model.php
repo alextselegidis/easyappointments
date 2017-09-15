@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed.');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -26,11 +29,12 @@ class User_Model extends CI_Model {
      *
      * @return array Returns an array with user data.
      *
-     * @todo Refactor this method as it does not do as it states. 
+     * @todo Refactor this method as it does not do as it states.
      */
-    public function get_settings($user_id) {
-        $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
-        $user['settings'] = $this->db->get_where('ea_user_settings', array('id_users' => $user_id))->row_array();
+    public function get_settings($user_id)
+    {
+        $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
+        $user['settings'] = $this->db->get_where('ea_user_settings', ['id_users' => $user_id])->row_array();
         unset($user['settings']['id_users']);
         return $user;
     }
@@ -42,25 +46,29 @@ class User_Model extends CI_Model {
      *
      * @return bool Returns the operation result.
      *
-     * @todo Refactor this method as it does not do as it states. 
+     * @todo Refactor this method as it does not do as it states.
      */
-    public function save_settings($user) {
+    public function save_settings($user)
+    {
         $user_settings = $user['settings'];
         $user_settings['id_users'] = $user['id'];
         unset($user['settings']);
 
         // Prepare user password (hash).
-        if (isset($user_settings['password'])) {
+        if (isset($user_settings['password']))
+        {
             $this->load->helper('general');
-            $salt = $this->db->get_where('ea_user_settings', array('id_users' => $user['id']))->row()->salt;
+            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $user['id']])->row()->salt;
             $user_settings['password'] = hash_password($salt, $user_settings['password']);
         }
 
-        if (!$this->db->update('ea_users', $user, array('id' => $user['id']))) {
+        if ( ! $this->db->update('ea_users', $user, ['id' => $user['id']]))
+        {
             return FALSE;
         }
 
-        if (!$this->db->update('ea_user_settings', $user_settings, array('id_users' => $user['id']))) {
+        if ( ! $this->db->update('ea_user_settings', $user_settings, ['id_users' => $user['id']]))
+        {
             return FALSE;
         }
 
@@ -74,8 +82,9 @@ class User_Model extends CI_Model {
      *
      * @return string Returns the salt db value.
      */
-    public function get_salt($username) {
-        $user =  $this->db->get_where('ea_user_settings', array('username' => $username))->row_array();
+    public function get_salt($username)
+    {
+        $user = $this->db->get_where('ea_user_settings', ['username' => $username])->row_array();
         return ($user) ? $user['salt'] : '';
     }
 
@@ -87,20 +96,21 @@ class User_Model extends CI_Model {
      *
      * @return array|null Returns the session data of the logged in user or null on failure.
      */
-    public function check_login($username, $password) {
+    public function check_login($username, $password)
+    {
         $this->load->helper('general');
         $salt = $this->user_model->get_salt($username);
         $password = hash_password($salt, $password);
 
         $user_data = $this->db
-                ->select('ea_users.id AS user_id, ea_users.email AS user_email, '
-                        . 'ea_roles.slug AS role_slug, ea_user_settings.username')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id')
-                ->where('ea_user_settings.username', $username)
-                ->where('ea_user_settings.password', $password)
-                ->get()->row_array();
+            ->select('ea_users.id AS user_id, ea_users.email AS user_email, '
+                . 'ea_roles.slug AS role_slug, ea_user_settings.username')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id')
+            ->where('ea_user_settings.username', $username)
+            ->where('ea_user_settings.password', $password)
+            ->get()->row_array();
 
         return ($user_data) ? $user_data : NULL;
     }
@@ -114,12 +124,14 @@ class User_Model extends CI_Model {
      *
      * @throws Exception If $user_id argument is invalid.
      */
-    public function get_user_display_name($user_id) {
-        if (!is_numeric($user_id)) {
+    public function get_user_display_name($user_id)
+    {
+        if ( ! is_numeric($user_id))
+        {
             throw new Exception ('Invalid argument given: ' . $user_id);
         }
 
-        $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
+        $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
 
         return $user['first_name'] . ' ' . $user['last_name'];
     }
@@ -133,18 +145,20 @@ class User_Model extends CI_Model {
      *
      * @return string|bool Returns the new password on success or FALSE on failure.
      */
-    public function regenerate_password($username, $email) {
+    public function regenerate_password($username, $email)
+    {
         $this->load->helper('general');
 
         $result = $this->db
-                ->select('ea_users.id')
-                ->from('ea_users')
-                ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id', 'inner')
-                ->where('ea_users.email', $email)
-                ->where('ea_user_settings.username', $username)
-                ->get();
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id', 'inner')
+            ->where('ea_users.email', $email)
+            ->where('ea_user_settings.username', $username)
+            ->get();
 
-        if ($result->num_rows() == 0) {
+        if ($result->num_rows() == 0)
+        {
             return FALSE;
         }
 
@@ -152,9 +166,9 @@ class User_Model extends CI_Model {
 
         // Create a new password and send it with an email to the given email address.
         $new_password = generate_random_string();
-        $salt = $this->db->get_where('ea_user_settings', array('id_users' => $user_id))->row()->salt;
+        $salt = $this->db->get_where('ea_user_settings', ['id_users' => $user_id])->row()->salt;
         $hash_password = hash_password($salt, $new_password);
-        $this->db->update('ea_user_settings', array('password' => $hash_password), array('id_users' => $user_id));
+        $this->db->update('ea_user_settings', ['password' => $hash_password], ['id_users' => $user_id]);
 
         return $new_password;
     }

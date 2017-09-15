@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -10,17 +10,19 @@
  * @link        http://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
- 
+
 namespace EA\Engine\Api\V1;
 
 use \EA\Engine\Types\NonEmptyText;
 
 class AuthorizationTest extends \PHPUnit_Framework_TestCase {
-    public function testBasicMethodPerformsBasicAuthentication() {
+    public function testBasicMethodPerformsBasicAuthentication()
+    {
         $this->markTestIncomplete();
-    }   
+    }
 
-    public function testBasicMethodReturnsForbiddenResponse() {
+    public function testBasicMethodReturnsForbiddenResponse()
+    {
         $this->markTestIncomplete();
-    } 
+    }
 }

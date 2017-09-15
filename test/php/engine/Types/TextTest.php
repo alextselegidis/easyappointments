@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,16 +11,18 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class TextTest extends \PHPUnit_Framework_TestCase {
-    public function testStringType() {
+    public function testStringType()
+    {
         $type = new Text('Hello!');
-        $this->assertEquals('Hello!', $type->get()); 
-    } 
+        $this->assertEquals('Hello!', $type->get());
+    }
 
-    public function testStringTypeThrowsExceptionWithInvalidValue() {
+    public function testStringTypeThrowsExceptionWithInvalidValue()
+    {
         $this->setExpectedException('\InvalidArgumentException');
-        new Text(null);
+        new Text(NULL);
     }
 }

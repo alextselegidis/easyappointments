@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -24,8 +27,9 @@ class Roles_Model extends CI_Model {
      *
      * @return int Returns the database id of the roles record.
      */
-    public function get_role_id($role_slug) {
-        return $this->db->get_where('ea_roles', array('slug' => $role_slug))->row()->id;
+    public function get_role_id($role_slug)
+    {
+        return $this->db->get_where('ea_roles', ['slug' => $role_slug])->row()->id;
     }
 
     /**
@@ -38,34 +42,40 @@ class Roles_Model extends CI_Model {
      *
      * @return array Returns the privilege value.
      */
-    public function get_privileges($slug) {
-        $privileges = $this->db->get_where('ea_roles', array('slug' => $slug))->row_array();
+    public function get_privileges($slug)
+    {
+        $privileges = $this->db->get_where('ea_roles', ['slug' => $slug])->row_array();
         unset($privileges['id'], $privileges['name'], $privileges['slug'], $privileges['is_admin']);
 
         // Convert the int values to bool so that is easier to check whether a
         // user has the required privileges for a specific action.
-        foreach($privileges as &$value) {
+        foreach ($privileges as &$value)
+        {
             $privileges_number = $value;
 
-            $value = array(
+            $value = [
                 'view' => FALSE,
                 'add' => FALSE,
                 'edit' => FALSE,
                 'delete' => FALSE
-            );
+            ];
 
-            if ($privileges_number > 0) {
-                if ((int)($privileges_number / PRIV_DELETE) == 1) {
+            if ($privileges_number > 0)
+            {
+                if ((int)($privileges_number / PRIV_DELETE) == 1)
+                {
                     $value['delete'] = TRUE;
                     $privileges_number -= PRIV_DELETE;
                 }
 
-                if ((int)($privileges_number / PRIV_EDIT) == 1) {
+                if ((int)($privileges_number / PRIV_EDIT) == 1)
+                {
                     $value['edit'] = TRUE;
                     $privileges_number -= PRIV_EDIT;
                 }
 
-                if ((int)($privileges_number / PRIV_ADD) == 1) {
+                if ((int)($privileges_number / PRIV_ADD) == 1)
+                {
                     $value['add'] = TRUE;
                     $privileges_number -= PRIV_ADD;
                 }

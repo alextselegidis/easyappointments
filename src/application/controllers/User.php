@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -23,16 +26,19 @@ class User extends CI_Controller {
     /**
      * Class Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->library('session');
 
         // Set user's selected language.
-        if ($this->session->userdata('language')) {
-        	$this->config->set_item('language', $this->session->userdata('language'));
-        	$this->lang->load('translations', $this->session->userdata('language'));
-        } else {
-        	$this->lang->load('translations', $this->config->item('language')); // default
+        if ($this->session->userdata('language'))
+        {
+            $this->config->set_item('language', $this->session->userdata('language'));
+            $this->lang->load('translations', $this->session->userdata('language'));
+        } else
+        {
+            $this->lang->load('translations', $this->config->item('language')); // default
         }
     }
 
@@ -41,20 +47,23 @@ class User extends CI_Controller {
      *
      * The default method will redirect the browser to the user/login URL.
      */
-    public function index() {
+    public function index()
+    {
         header('Location: ' . site_url('user/login'));
     }
 
     /**
      * Display the login page.
      */
-    public function login() {
+    public function login()
+    {
         $this->load->model('settings_model');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['dest_url'] = $this->session->userdata('dest_url');
 
-        if (!$view['dest_url']) {
+        if ( ! $view['dest_url'])
+        {
             $view['dest_url'] = site_url('backend');
         }
 
@@ -65,7 +74,8 @@ class User extends CI_Controller {
     /**
      * Display the logout page.
      */
-    public function logout() {
+    public function logout()
+    {
         $this->load->model('settings_model');
 
         $this->session->unset_userdata('user_id');
@@ -82,7 +92,8 @@ class User extends CI_Controller {
     /**
      * Display the "forgot password" page.
      */
-    public function forgot_password() {
+    public function forgot_password()
+    {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
@@ -92,7 +103,8 @@ class User extends CI_Controller {
     /**
      * Display the "not authorized" page.
      */
-    public function no_privileges() {
+    public function no_privileges()
+    {
         $this->load->model('settings_model');
         $view['base_url'] = $this->config->item('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
@@ -108,26 +120,32 @@ class User extends CI_Controller {
      *   - 'role_slug'
      *   - 'dest_url'
      */
-    public function ajax_check_login() {
-        try {
-            if (!isset($_POST['username']) || !isset($_POST['password'])) {
+    public function ajax_check_login()
+    {
+        try
+        {
+            if ( ! isset($_POST['username']) || ! isset($_POST['password']))
+            {
                 throw new Exception('Invalid credentials given!');
             }
 
             $this->load->model('user_model');
             $user_data = $this->user_model->check_login($_POST['username'], $_POST['password']);
 
-            if ($user_data) {
+            if ($user_data)
+            {
                 $this->session->set_userdata($user_data); // Save data on user's session.
                 echo json_encode(AJAX_SUCCESS);
-            } else {
+            } else
+            {
                 echo json_encode(AJAX_FAILURE);
             }
 
-        } catch(Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
+        } catch (Exception $exc)
+        {
+            echo json_encode([
+                'exceptions' => [exceptionToJavaScript($exc)]
+            ]);
         }
     }
 
@@ -140,11 +158,14 @@ class User extends CI_Controller {
      * - string $_POST['username'] Username to be validated.
      * - string $_POST['email'] Email to be validated.
      */
-    public function ajax_forgot_password() {
-        try {
-            if (!isset($_POST['username']) || !isset($_POST['email'])) {
+    public function ajax_forgot_password()
+    {
+        try
+        {
+            if ( ! isset($_POST['username']) || ! isset($_POST['email']))
+            {
                 throw new Exception('You must enter a valid username and email address in '
-                        . 'order to get a new password!');
+                    . 'order to get a new password!');
             }
 
             $this->load->model('user_model');
@@ -152,23 +173,25 @@ class User extends CI_Controller {
 
             $new_password = $this->user_model->regenerate_password($_POST['username'], $_POST['email']);
 
-            if ($new_password != FALSE) {
-                $this->config->load('email'); 
+            if ($new_password != FALSE)
+            {
+                $this->config->load('email');
                 $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
-                $company_settings = array(
+                $company_settings = [
                     'company_name' => $this->settings_model->get_setting('company_name'),
                     'company_link' => $this->settings_model->get_setting('company_link'),
                     'company_email' => $this->settings_model->get_setting('company_email')
-                );
+                ];
 
                 $email->sendPassword(new NonEmptyText($new_password), new Email($_POST['email']), $company_settings);
             }
 
             echo ($new_password != FALSE) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
-        } catch(Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
+        } catch (Exception $exc)
+        {
+            echo json_encode([
+                'exceptions' => [exceptionToJavaScript($exc)]
+            ]);
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,16 +11,18 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class BooleanTest extends \PHPUnit_Framework_TestCase {
-    public function testBoolType() {
-        $type = new Boolean(true);
-        $this->assertEquals(true, $type->get()); 
-    } 
+    public function testBoolType()
+    {
+        $type = new Boolean(TRUE);
+        $this->assertEquals(TRUE, $type->get());
+    }
 
-    public function testBoolTypeThrowsExceptionWithInvalidValue() {
+    public function testBoolTypeThrowsExceptionWithInvalidValue()
+    {
         $this->setExpectedException('\InvalidArgumentException');
-        new Boolean(null);
+        new Boolean(NULL);
     }
 }

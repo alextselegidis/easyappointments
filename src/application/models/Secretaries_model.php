@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed.');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed.');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -44,16 +47,20 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the secretary data are invalid (see validate() method).
      */
-    public function add($secretary) {
+    public function add($secretary)
+    {
         $this->validate($secretary);
 
-        if ($this->exists($secretary) && !isset($secretary['id'])) {
+        if ($this->exists($secretary) && ! isset($secretary['id']))
+        {
             $secretary['id'] = $this->find_record_id($secretary);
         }
 
-        if (!isset($secretary['id'])) {
+        if ( ! isset($secretary['id']))
+        {
             $secretary['id'] = $this->_insert($secretary);
-        } else {
+        } else
+        {
             $secretary['id'] = $this->_update($secretary);
         }
 
@@ -69,33 +76,36 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the 'email' value is not present on the $secretary argument.
      */
-    public function exists($secretary) {
-        if (!isset($secretary['email'])) {
+    public function exists($secretary)
+    {
+        if ( ! isset($secretary['email']))
+        {
             throw new Exception('Secretary email is not provided: ' . print_r($secretary, TRUE));
         }
 
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
-                ->select('*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $secretary['email'])
-                ->where('ea_roles.slug', DB_SLUG_SECRETARY)
-                ->get()->num_rows();
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $secretary['email'])
+            ->where('ea_roles.slug', DB_SLUG_SECRETARY)
+            ->get()->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
     }
 
-     /**
+    /**
      * Insert a new secretary record into the database.
      *
      * @param array $secretary Contains the secretary data.
-      *
+     *
      * @return int Returns the new record id.
-      *
+     *
      * @throws Exception When the insert operation fails.
      */
-    protected function _insert($secretary) {
+    protected function _insert($secretary)
+    {
         $this->load->helper('general');
 
         $providers = $secretary['providers'];
@@ -105,7 +115,8 @@ class Secretaries_Model extends CI_Model {
 
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
-        if (!$this->db->insert('ea_users', $secretary)) {
+        if ( ! $this->db->insert('ea_users', $secretary))
+        {
             throw new Exception('Could not insert secretary into the database.');
         }
 
@@ -128,7 +139,8 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the update operation fails.
      */
-    protected function _update($secretary) {
+    protected function _update($secretary)
+    {
         $this->load->helper('general');
 
         $providers = $secretary['providers'];
@@ -136,13 +148,15 @@ class Secretaries_Model extends CI_Model {
         $settings = $secretary['settings'];
         unset($secretary['settings']);
 
-        if (isset($settings['password'])) {
-            $salt = $this->db->get_where('ea_user_settings', array('id_users' => $secretary['id']))->row()->salt;
+        if (isset($settings['password']))
+        {
+            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $secretary['id']])->row()->salt;
             $settings['password'] = hash_password($salt, $settings['password']);
         }
 
         $this->db->where('id', $secretary['id']);
-        if (!$this->db->update('ea_users', $secretary)){
+        if ( ! $this->db->update('ea_users', $secretary))
+        {
             throw new Exception('Could not update secretary record.');
         }
 
@@ -161,20 +175,23 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the 'email' value is not present on the $secretary array.
      */
-    public function find_record_id($secretary) {
-        if (!isset($secretary['email'])) {
+    public function find_record_id($secretary)
+    {
+        if ( ! isset($secretary['email']))
+        {
             throw new Exception('Secretary email was not provided: ' . print_r($secretary, TRUE));
         }
 
         $result = $this->db
-                ->select('ea_users.id')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $secretary['email'])
-                ->where('ea_roles.slug', DB_SLUG_SECRETARY)
-                ->get();
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $secretary['email'])
+            ->where('ea_roles.slug', DB_SLUG_SECRETARY)
+            ->get();
 
-        if ($result->num_rows() == 0) {
+        if ($result->num_rows() == 0)
+        {
             throw new Exception('Could not find secretary record id.');
         }
 
@@ -190,75 +207,87 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception If secretary validation fails.
      */
-    public function validate($secretary) {
+    public function validate($secretary)
+    {
         $this->load->helper('data_validation');
 
         // If a record id is provided then check whether the record exists in the database.
-        if (isset($secretary['id'])) {
-            $num_rows = $this->db->get_where('ea_users', array('id' => $secretary['id']))
-                    ->num_rows();
-            if ($num_rows == 0) {
+        if (isset($secretary['id']))
+        {
+            $num_rows = $this->db->get_where('ea_users', ['id' => $secretary['id']])
+                ->num_rows();
+            if ($num_rows == 0)
+            {
                 throw new Exception('Given secretary id does not exist in database: ' . $secretary['id']);
             }
         }
 
         // Validate 'providers' value data type (must be array)
-        if (isset($secretary['providers']) && !is_array($secretary['providers'])) {
+        if (isset($secretary['providers']) && ! is_array($secretary['providers']))
+        {
             throw new Exception('Secretary providers value is not an array.');
         }
 
         // Validate required fields integrity.
-        if (!isset($secretary['last_name'])
-                || !isset($secretary['email'])
-                || !isset($secretary['phone_number'])) {
+        if ( ! isset($secretary['last_name'])
+            || ! isset($secretary['email'])
+            || ! isset($secretary['phone_number']))
+        {
             throw new Exception('Not all required fields are provided: ' . print_r($secretary, TRUE));
         }
 
         // Validate secretary email address.
-        if (!filter_var($secretary['email'], FILTER_VALIDATE_EMAIL)) {
+        if ( ! filter_var($secretary['email'], FILTER_VALIDATE_EMAIL))
+        {
             throw new Exception('Invalid email address provided: ' . $secretary['email']);
         }
 
         // Check if username exists.
-        if (isset($secretary['settings']['username'])) {
+        if (isset($secretary['settings']['username']))
+        {
             $user_id = (isset($secretary['id'])) ? $secretary['id'] : '';
-            if (!$this->validate_username($secretary['settings']['username'], $user_id)) {
+            if ( ! $this->validate_username($secretary['settings']['username'], $user_id))
+            {
                 throw new Exception ('Username already exists. Please select a different '
-                        . 'username for this record.');
+                    . 'username for this record.');
             }
         }
 
         // Validate secretary password.
-        if (isset($secretary['settings']['password'])) {
-            if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH) {
+        if (isset($secretary['settings']['password']))
+        {
+            if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH)
+            {
                 throw new Exception('The user password must be at least '
-                        . MIN_PASSWORD_LENGTH . ' characters long.');
+                    . MIN_PASSWORD_LENGTH . ' characters long.');
             }
         }
 
         // Validate calendar view mode. 
-        if (isset($secretary['settings']['calendar_view']) && ($secretary['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT 
-                && $secretary['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE)) {
-             throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT 
-                    . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' .  $secretary['settings']['calendar_view']);
+        if (isset($secretary['settings']['calendar_view']) && ($secretary['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
+                && $secretary['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))
+        {
+            throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT
+                . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' . $secretary['settings']['calendar_view']);
         }
 
         // When inserting a record the email address must be unique.
         $secretary_id = (isset($secretary['id'])) ? $secretary['id'] : '';
 
         $num_rows = $this->db
-                ->select('*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_roles.slug', DB_SLUG_SECRETARY)
-                ->where('ea_users.email', $secretary['email'])
-                ->where('ea_users.id <>', $secretary_id)
-                ->get()
-                ->num_rows();
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_roles.slug', DB_SLUG_SECRETARY)
+            ->where('ea_users.email', $secretary['email'])
+            ->where('ea_users.id <>', $secretary_id)
+            ->get()
+            ->num_rows();
 
-        if ($num_rows > 0) {
+        if ($num_rows > 0)
+        {
             throw new Exception('Given email address belongs to another secretary record. '
-                    . 'Please use a different email.');
+                . 'Please use a different email.');
         }
 
         return TRUE;
@@ -273,17 +302,20 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the $secretary_id is not a valid int value.
      */
-    public function delete($secretary_id) {
-        if (!is_numeric($secretary_id)) {
+    public function delete($secretary_id)
+    {
+        if ( ! is_numeric($secretary_id))
+        {
             throw new Exception('Invalid argument type $secretary_id: ' . $secretary_id);
         }
 
-        $num_rows = $this->db->get_where('ea_users', array('id' => $secretary_id))->num_rows();
-        if ($num_rows == 0) {
+        $num_rows = $this->db->get_where('ea_users', ['id' => $secretary_id])->num_rows();
+        if ($num_rows == 0)
+        {
             return FALSE; // Record does not exist in database.
         }
 
-        return $this->db->delete('ea_users', array('id' => $secretary_id));
+        return $this->db->delete('ea_users', ['id' => $secretary_id]);
     }
 
     /**
@@ -296,27 +328,31 @@ class Secretaries_Model extends CI_Model {
      * @throws Exception When the $secretary_id is not a valid int value.
      * @throws Exception When given record id does not exist in the database.
      */
-    public function get_row($secretary_id) {
-        if (!is_numeric($secretary_id)) {
+    public function get_row($secretary_id)
+    {
+        if ( ! is_numeric($secretary_id))
+        {
             throw new Exception('$secretary_id argument is not a valid numeric value: ' . $secretary_id);
         }
 
         // Check if record exists
-        if ($this->db->get_where('ea_users', array('id' => $secretary_id))->num_rows() == 0) {
+        if ($this->db->get_where('ea_users', ['id' => $secretary_id])->num_rows() == 0)
+        {
             throw new Exception('The given secretary id does not match a record in the database.');
         }
 
-        $secretary = $this->db->get_where('ea_users', array('id' => $secretary_id))->row_array();
+        $secretary = $this->db->get_where('ea_users', ['id' => $secretary_id])->row_array();
 
         $secretary_providers = $this->db->get_where('ea_secretaries_providers',
-                array('id_users_secretary' => $secretary['id']))->result_array();
-        $secretary['providers'] = array();
-        foreach($secretary_providers as $secretary_provider) {
+            ['id_users_secretary' => $secretary['id']])->result_array();
+        $secretary['providers'] = [];
+        foreach ($secretary_providers as $secretary_provider)
+        {
             $secretary['providers'][] = $secretary_provider['id_users_provider'];
         }
 
         $secretary['settings'] = $this->db->get_where('ea_user_settings',
-                array('id_users' => $secretary['id']))->row_array();
+            ['id_users' => $secretary['id']])->row_array();
         unset($secretary['settings']['id_users'], $secretary['settings']['salt']);
 
         return $secretary;
@@ -335,27 +371,32 @@ class Secretaries_Model extends CI_Model {
      * @throws Exception When the secretary record does not exist in the database.
      * @throws Exception When the selected field value is not present on database.
      */
-    public function get_value($field_name, $secretary_id) {
-        if (!is_string($field_name)) {
+    public function get_value($field_name, $secretary_id)
+    {
+        if ( ! is_string($field_name))
+        {
             throw new Exception('$field_name argument is not a string: ' . $field_name);
         }
 
-        if (!is_numeric($secretary_id)) {
+        if ( ! is_numeric($secretary_id))
+        {
             throw new Exception('$secretary_id argument is not a valid numeric value: ' . $secretary_id);
         }
 
         // Check whether the secretary record exists.
-        $result = $this->db->get_where('ea_users', array('id' => $secretary_id));
-        if ($result->num_rows() == 0) {
+        $result = $this->db->get_where('ea_users', ['id' => $secretary_id]);
+        if ($result->num_rows() == 0)
+        {
             throw new Exception('The record with the given id does not exist in the '
-                    . 'database: ' . $secretary_id);
+                . 'database: ' . $secretary_id);
         }
 
         // Check if the required field name exist in database.
         $provider = $result->row_array();
-        if (!isset($provider[$field_name])) {
+        if ( ! isset($provider[$field_name]))
+        {
             throw new Exception('The given $field_name argument does not exist in the '
-                    . 'database: ' . $field_name);
+                . 'database: ' . $field_name);
         }
 
         return $provider[$field_name];
@@ -369,10 +410,12 @@ class Secretaries_Model extends CI_Model {
      *
      * @return array Returns an array with secretary records.
      */
-    public function get_batch($where_clause = '') {
+    public function get_batch($where_clause = '')
+    {
         $role_id = $this->get_secretary_role_id();
 
-        if ($where_clause != '') {
+        if ($where_clause != '')
+        {
             $this->db->where($where_clause);
         }
 
@@ -380,17 +423,19 @@ class Secretaries_Model extends CI_Model {
         $batch = $this->db->get('ea_users')->result_array();
 
         // Include every secretary providers.
-        foreach ($batch as &$secretary) {
+        foreach ($batch as &$secretary)
+        {
             $secretary_providers = $this->db->get_where('ea_secretaries_providers',
-                    array('id_users_secretary' => $secretary['id']))->result_array();
+                ['id_users_secretary' => $secretary['id']])->result_array();
 
-            $secretary['providers'] = array();
-            foreach($secretary_providers as $secretary_provider) {
+            $secretary['providers'] = [];
+            foreach ($secretary_providers as $secretary_provider)
+            {
                 $secretary['providers'][] = $secretary_provider['id_users_provider'];
             }
 
             $secretary['settings'] = $this->db->get_where('ea_user_settings',
-                    array('id_users' => $secretary['id']))->row_array();
+                ['id_users' => $secretary['id']])->row_array();
             unset($secretary['settings']['id_users']);
         }
 
@@ -402,8 +447,9 @@ class Secretaries_Model extends CI_Model {
      *
      * @return int Returns the role record id.
      */
-    public function get_secretary_role_id() {
-        return (int)$this->db->get_where('ea_roles', array('slug' => DB_SLUG_SECRETARY))->row()->id;
+    public function get_secretary_role_id()
+    {
+        return (int)$this->db->get_where('ea_roles', ['slug' => DB_SLUG_SECRETARY])->row()->id;
     }
 
     /**
@@ -414,20 +460,24 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception If $providers argument is invalid.
      */
-    protected function save_providers($providers, $secretary_id) {
-        if (!is_array($providers)) {
+    protected function save_providers($providers, $secretary_id)
+    {
+        if ( ! is_array($providers))
+        {
             throw new Exception('Invalid argument given $providers: ' . print_r($providers, TRUE));
         }
 
         // Delete old connections
-        $this->db->delete('ea_secretaries_providers', array('id_users_secretary' => $secretary_id));
+        $this->db->delete('ea_secretaries_providers', ['id_users_secretary' => $secretary_id]);
 
-        if (count($providers) > 0) {
-            foreach ($providers as $provider_id) {
-                $this->db->insert('ea_secretaries_providers', array(
+        if (count($providers) > 0)
+        {
+            foreach ($providers as $provider_id)
+            {
+                $this->db->insert('ea_secretaries_providers', [
                     'id_users_secretary' => $secretary_id,
                     'id_users_provider' => $provider_id
-                ));
+                ]);
             }
         }
     }
@@ -441,23 +491,28 @@ class Secretaries_Model extends CI_Model {
      * @throws Exception If $secretary_id argument is invalid.
      * @throws Exception If $settings argument is invalid.
      */
-    protected function save_settings($settings, $secretary_id) {
-        if (!is_numeric($secretary_id)) {
+    protected function save_settings($settings, $secretary_id)
+    {
+        if ( ! is_numeric($secretary_id))
+        {
             throw new Exception('Invalid $secretary_id argument given:' . $secretary_id);
         }
 
-        if (count($settings) == 0 || !is_array($settings)) {
+        if (count($settings) == 0 || ! is_array($settings))
+        {
             throw new Exception('Invalid $settings argument given:' . print_r($settings, TRUE));
         }
 
         // Check if the setting record exists in db.
         $num_rows = $this->db->get_where('ea_user_settings',
-                array('id_users' => $secretary_id))->num_rows();
-        if ($num_rows == 0) {
-            $this->db->insert('ea_user_settings', array('id_users' => $secretary_id));
+            ['id_users' => $secretary_id])->num_rows();
+        if ($num_rows == 0)
+        {
+            $this->db->insert('ea_user_settings', ['id_users' => $secretary_id]);
         }
 
-        foreach($settings as $name => $value) {
+        foreach ($settings as $name => $value)
+        {
             $this->set_setting($name, $value, $secretary_id);
         }
     }
@@ -470,9 +525,10 @@ class Secretaries_Model extends CI_Model {
      *
      * @return string Returns the value of the selected user setting.
      */
-    public function get_setting($setting_name, $secretary_id) {
+    public function get_setting($setting_name, $secretary_id)
+    {
         $provider_settings = $this->db->get_where('ea_user_settings',
-                array('id_users' => $secretary_id))->row_array();
+            ['id_users' => $secretary_id])->row_array();
         return $provider_settings[$setting_name];
     }
 
@@ -485,9 +541,10 @@ class Secretaries_Model extends CI_Model {
      * @param string $value The setting's value.
      * @param int $secretary_id The selected provider id.
      */
-    public function set_setting($setting_name, $value, $secretary_id) {
-        $this->db->where(array('id_users' => $secretary_id));
-        return $this->db->update('ea_user_settings', array($setting_name => $value));
+    public function set_setting($setting_name, $value, $secretary_id)
+    {
+        $this->db->where(['id_users' => $secretary_id]);
+        return $this->db->update('ea_user_settings', [$setting_name => $value]);
     }
 
     /**
@@ -498,9 +555,10 @@ class Secretaries_Model extends CI_Model {
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username($username, $user_id) {
+    public function validate_username($username, $user_id)
+    {
         $num_rows = $this->db->get_where('ea_user_settings',
-                array('username' => $username, 'id_users <> ' => $user_id))->num_rows();
+            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
         return ($num_rows > 0) ? FALSE : TRUE;
     }
 }

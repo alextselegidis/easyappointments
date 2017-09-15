@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -26,7 +29,8 @@ class Availabilities extends API_V1_Controller {
     /**
      * Class Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
@@ -40,26 +44,31 @@ class Availabilities extends API_V1_Controller {
      * Provide the "providerId", "serviceId" and "date" GET parameters to get the availabilities for a specific date.
      * If no "date" was provided then the current date will be used.
      */
-    public function get() {
-        try {
+    public function get()
+    {
+        try
+        {
             $providerId = new UnsignedInteger($this->input->get('providerId'));
             $serviceId = new UnsignedInteger($this->input->get('serviceId'));
 
-            if ($this->input->get('date')) {
+            if ($this->input->get('date'))
+            {
                 $date = new DateTime($this->input->get('date'));
-            } else {
+            } else
+            {
                 $date = new DateTime();
             }
 
             $service = $this->services_model->get_row($serviceId->get());
 
             $emptyPeriods = $this->_getProviderAvailableTimePeriods($providerId->get(),
-                    $date->format('Y-m-d'), []);
+                $date->format('Y-m-d'), []);
 
             $availableHours = $this->_calculateAvailableHours($emptyPeriods,
-                    $date->format('Y-m-d'), $service['duration'], false, $service['availabilities_type']);
+                $date->format('Y-m-d'), $service['duration'], FALSE, $service['availabilities_type']);
 
-            if ($service['attendants_number'] > 1) {
+            if ($service['attendants_number'] > 1)
+            {
                 $this->_getMultipleAttendantsHours($availableHours, $service['attendants_number'], $service['id'],
                     $date->format('Y-m-d'));
             }
@@ -68,7 +77,8 @@ class Availabilities extends API_V1_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode($availableHours));
 
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception)
+        {
             exit($this->_handleException($exception));
         }
     }
@@ -88,25 +98,31 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns an array with the available time periods of the provider.
      */
-    protected function _getProviderAvailableTimePeriods($provider_id, $selected_date,
-            $exclude_appointments = array()) {
+    protected function _getProviderAvailableTimePeriods(
+        $provider_id,
+        $selected_date,
+        $exclude_appointments = []
+    ) {
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
 
         // Get the provider's working plan and reserved appointments.
         $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), TRUE);
 
-        $where_clause = array(
+        $where_clause = [
             'id_users_provider' => $provider_id
-        );
+        ];
 
         $reserved_appointments = $this->appointments_model->get_batch($where_clause);
 
         // Sometimes it might be necessary to not take into account some appointment records
         // in order to display what the providers' available time periods would be without them.
-        foreach ($exclude_appointments as $excluded_id) {
-            foreach ($reserved_appointments as $index => $reserved) {
-                if ($reserved['id'] == $excluded_id) {
+        foreach ($exclude_appointments as $excluded_id)
+        {
+            foreach ($reserved_appointments as $index => $reserved)
+            {
+                if ($reserved['id'] == $excluded_id)
+                {
                     unset($reserved_appointments[$index]);
                 }
             }
@@ -116,60 +132,70 @@ class Availabilities extends API_V1_Controller {
         // a break (if exist). After that every reserved appointment is considered to be
         // a taken space in the plan.
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
-        $available_periods_with_breaks = array();
+        $available_periods_with_breaks = [];
 
-        if (isset($selected_date_working_plan['breaks'])) {
+        if (isset($selected_date_working_plan['breaks']))
+        {
             $start = new DateTime($selected_date_working_plan['start']);
             $end = new DateTime($selected_date_working_plan['end']);
-            $available_periods_with_breaks[] = array(
+            $available_periods_with_breaks[] = [
                 'start' => $selected_date_working_plan['start'],
                 'end' => $selected_date_working_plan['end']
-            );
+            ];
 
             // Split the working plan to available time periods that do not contain the breaks in them.
-            foreach ($selected_date_working_plan['breaks'] as $index => $break) {
+            foreach ($selected_date_working_plan['breaks'] as $index => $break)
+            {
                 $break_start = new DateTime($break['start']);
                 $break_end = new DateTime($break['end']);
 
-                if ($break_start < $start) {
+                if ($break_start < $start)
+                {
                     $break_start = $start;
                 }
 
-                if ($break_end > $end) {
+                if ($break_end > $end)
+                {
                     $break_end = $end;
                 }
 
-                if ($break_start >= $break_end) {
+                if ($break_start >= $break_end)
+                {
                     continue;
                 }
 
-                foreach ($available_periods_with_breaks as $key => $open_period) {
+                foreach ($available_periods_with_breaks as $key => $open_period)
+                {
                     $s = new DateTime($open_period['start']);
                     $e = new DateTime($open_period['end']);
 
-                    if ($s < $break_end && $break_start < $e) { // check for overlap
+                    if ($s < $break_end && $break_start < $e)
+                    { // check for overlap
                         $changed = FALSE;
-                        if ($s < $break_start) {
+                        if ($s < $break_start)
+                        {
                             $open_start = $s;
                             $open_end = $break_start;
-                            $available_periods_with_breaks[] = array(
+                            $available_periods_with_breaks[] = [
                                 'start' => $open_start->format("H:i"),
                                 'end' => $open_end->format("H:i")
-                            );
+                            ];
                             $changed = TRUE;
                         }
 
-                        if ($break_end < $e) {
+                        if ($break_end < $e)
+                        {
                             $open_start = $break_end;
                             $open_end = $e;
-                            $available_periods_with_breaks[] = array(
+                            $available_periods_with_breaks[] = [
                                 'start' => $open_start->format("H:i"),
                                 'end' => $open_end->format("H:i")
-                            );
+                            ];
                             $changed = TRUE;
                         }
 
-                        if ($changed) {
+                        if ($changed)
+                        {
                             unset($available_periods_with_breaks[$key]);
                         }
                     }
@@ -180,41 +206,64 @@ class Availabilities extends API_V1_Controller {
         // Break the empty periods with the reserved appointments.
         $available_periods_with_appointments = $available_periods_with_breaks;
 
-        foreach($reserved_appointments as $appointment) {
-            foreach($available_periods_with_appointments as $index => &$period) {
+        foreach ($reserved_appointments as $appointment)
+        {
+            foreach ($available_periods_with_appointments as $index => &$period)
+            {
                 $a_start = strtotime($appointment['start_datetime']);
-                $a_end =  strtotime($appointment['end_datetime']);
-                $p_start = strtotime($selected_date .  ' ' . $period['start']);
-                $p_end = strtotime($selected_date .  ' ' .$period['end']);
+                $a_end = strtotime($appointment['end_datetime']);
+                $p_start = strtotime($selected_date . ' ' . $period['start']);
+                $p_end = strtotime($selected_date . ' ' . $period['end']);
 
-                if ($a_start <= $p_start && $a_end <= $p_end && $a_end <= $p_start) {
+                if ($a_start <= $p_start && $a_end <= $p_end && $a_end <= $p_start)
+                {
                     // The appointment does not belong in this time period, so we
                     // will not change anything.
-                } else if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start) {
-                    // The appointment starts before the period and finishes somewhere inside.
-                    // We will need to break this period and leave the available part.
-                    $period['start'] = date('H:i', $a_end);
-                } else if ($a_start >= $p_start && $a_end <= $p_end) {
-                    // The appointment is inside the time period, so we will split the period
-                    // into two new others.
-                    unset($available_periods_with_appointments[$index]);
-                    $available_periods_with_appointments[] = array(
-                        'start' => date('H:i', $p_start),
-                        'end' => date('H:i', $a_start)
-                    );
-                    $available_periods_with_appointments[] = array(
-                        'start' => date('H:i', $a_end),
-                        'end' => date('H:i', $p_end)
-                    );
-                } else if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end) {
-                    // The appointment starts in the period and finishes out of it. We will
-                    // need to remove the time that is taken from the appointment.
-                    $period['end'] = date('H:i', $a_start);
-                } else if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end) {
-                    // The appointment does not belong in the period so do not change anything.
-                } else if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end) {
-                    // The appointment is bigger than the period, so this period needs to be removed.
-                    unset($available_periods_with_appointments[$index]);
+                } else
+                {
+                    if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start)
+                    {
+                        // The appointment starts before the period and finishes somewhere inside.
+                        // We will need to break this period and leave the available part.
+                        $period['start'] = date('H:i', $a_end);
+                    } else
+                    {
+                        if ($a_start >= $p_start && $a_end <= $p_end)
+                        {
+                            // The appointment is inside the time period, so we will split the period
+                            // into two new others.
+                            unset($available_periods_with_appointments[$index]);
+                            $available_periods_with_appointments[] = [
+                                'start' => date('H:i', $p_start),
+                                'end' => date('H:i', $a_start)
+                            ];
+                            $available_periods_with_appointments[] = [
+                                'start' => date('H:i', $a_end),
+                                'end' => date('H:i', $p_end)
+                            ];
+                        } else
+                        {
+                            if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end)
+                            {
+                                // The appointment starts in the period and finishes out of it. We will
+                                // need to remove the time that is taken from the appointment.
+                                $period['end'] = date('H:i', $a_start);
+                            } else
+                            {
+                                if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end)
+                                {
+                                    // The appointment does not belong in the period so do not change anything.
+                                } else
+                                {
+                                    if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end)
+                                    {
+                                        // The appointment is bigger than the period, so this period needs to be removed.
+                                        unset($available_periods_with_appointments[$index]);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -238,13 +287,19 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns an array with the available hours for the appointment.
      */
-    protected function _calculateAvailableHours(array $empty_periods, $selected_date, $service_duration,
-            $manage_mode = FALSE, $availabilities_type = 'flexible') {
+    protected function _calculateAvailableHours(
+        array $empty_periods,
+        $selected_date,
+        $service_duration,
+        $manage_mode = FALSE,
+        $availabilities_type = 'flexible'
+    ) {
         $this->load->model('settings_model');
 
-        $available_hours = array();
+        $available_hours = [];
 
-        foreach ($empty_periods as $period) {
+        foreach ($empty_periods as $period)
+        {
             $start_hour = new DateTime($selected_date . ' ' . $period['start']);
             $end_hour = new DateTime($selected_date . ' ' . $period['end']);
             $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15;
@@ -252,7 +307,8 @@ class Availabilities extends API_V1_Controller {
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
 
-            while (($diff->h * 60 + $diff->i) >= intval($service_duration)) {
+            while (($diff->h * 60 + $diff->i) >= intval($service_duration))
+            {
                 $available_hours[] = $current_hour->format('H:i');
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
                 $diff = $current_hour->diff($end_hour);
@@ -262,20 +318,23 @@ class Availabilities extends API_V1_Controller {
         // If the selected date is today, remove past hours. It is important  include the timeout before
         // booking that is set in the back-office the system. Normally we might want the customer to book
         // an appointment that is at least half or one hour from now. The setting is stored in minutes.
-        if (date('m/d/Y', strtotime($selected_date)) === date('m/d/Y')) {
+        if (date('m/d/Y', strtotime($selected_date)) === date('m/d/Y'))
+        {
             $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
 
-            foreach($available_hours as $index => $value) {
+            foreach ($available_hours as $index => $value)
+            {
                 $available_hour = strtotime($value);
                 $current_hour = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
-                if ($available_hour <= $current_hour) {
+                if ($available_hour <= $current_hour)
+                {
                     unset($available_hours[$index]);
                 }
             }
         }
 
         $available_hours = array_values($available_hours);
-        sort($available_hours, SORT_STRING );
+        sort($available_hours, SORT_STRING);
         $available_hours = array_values($available_hours);
 
         return $available_hours;
@@ -291,25 +350,31 @@ class Availabilities extends API_V1_Controller {
      * @param int $service_id Selected service ID.
      * @param string $selected_date The selected appointment date.
      */
-    protected function _getMultipleAttendantsHours(&$available_hours, $attendants_number, $service_id,
-            $selected_date) {
+    protected function _getMultipleAttendantsHours(
+        &$available_hours,
+        $attendants_number,
+        $service_id,
+        $selected_date
+    ) {
         $this->load->model('appointments_model');
 
         $appointments = $this->appointments_model->get_batch(
             'id_services = ' . $this->db->escape($service_id) . ' AND DATE(start_datetime) = DATE('
             . $this->db->escape(date('Y-m-d', strtotime($selected_date))) . ')');
 
-        foreach($appointments as $appointment) {
+        foreach ($appointments as $appointment)
+        {
             $hour = date('H:i', strtotime($appointment['start_datetime']));
             $current_attendants_number = $this->appointments_model->appointment_count_for_hour($service_id,
-                    $selected_date, $hour);
-            if ($current_attendants_number < $attendants_number && !in_array($hour, $available_hours)) {
+                $selected_date, $hour);
+            if ($current_attendants_number < $attendants_number && ! in_array($hour, $available_hours))
+            {
                 $available_hours[] = $hour;
             }
         }
 
         $available_hours = array_values($available_hours);
-		sort($available_hours, SORT_STRING );
-		$available_hours = array_values($available_hours);
+        sort($available_hours, SORT_STRING);
+        $available_hours = array_values($available_hours);
     }
 }

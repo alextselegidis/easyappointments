@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -28,20 +31,24 @@ class Customers_Model extends CI_Model {
      *
      * @return int Returns the customer id.
      */
-    public function add($customer) {
+    public function add($customer)
+    {
         // Validate the customer data before doing anything.
         $this->validate($customer);
 
         // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).
-        if ($this->exists($customer) && !isset($customer['id'])) {
-        	// Find the customer id from the database.
-        	$customer['id'] = $this->find_record_id($customer);
+        if ($this->exists($customer) && ! isset($customer['id']))
+        {
+            // Find the customer id from the database.
+            $customer['id'] = $this->find_record_id($customer);
         }
 
         // :: INSERT OR UPDATE CUSTOMER RECORD
-        if (!isset($customer['id'])) {
+        if ( ! isset($customer['id']))
+        {
             $customer['id'] = $this->_insert($customer);
-        } else {
+        } else
+        {
             $this->_update($customer);
         }
 
@@ -61,19 +68,21 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If customer email property is missing.
      */
-    public function exists($customer) {
-        if (!isset($customer['email'])) {
+    public function exists($customer)
+    {
+        if ( ! isset($customer['email']))
+        {
             throw new Exception('Customer\'s email is not provided.');
         }
 
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
-                ->select('*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $customer['email'])
-                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                ->get()->num_rows();
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $customer['email'])
+            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+            ->get()->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
     }
@@ -88,18 +97,20 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If customer record could not be inserted.
      */
-    protected function _insert($customer) {
+    protected function _insert($customer)
+    {
         // Before inserting the customer we need to get the customer's role id
         // from the database and assign it to the new record as a foreign key.
         $customer_role_id = $this->db
-                ->select('id')
-                ->from('ea_roles')
-                ->where('slug', DB_SLUG_CUSTOMER)
-                ->get()->row()->id;
+            ->select('id')
+            ->from('ea_roles')
+            ->where('slug', DB_SLUG_CUSTOMER)
+            ->get()->row()->id;
 
         $customer['id_roles'] = $customer_role_id;
 
-        if (!$this->db->insert('ea_users', $customer)) {
+        if ( ! $this->db->insert('ea_users', $customer))
+        {
             throw new Exception('Could not insert customer to the database.');
         }
 
@@ -118,15 +129,20 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If customer record could not be updated.
      */
-    protected function _update($customer) {
+    protected function _update($customer)
+    {
         // Do not update empty string values.
-        foreach ($customer as $key => $value) {
+        foreach ($customer as $key => $value)
+        {
             if ($value === '')
+            {
                 unset($customer[$key]);
+            }
         }
 
         $this->db->where('id', $customer['id']);
-        if (!$this->db->update('ea_users', $customer)) {
+        if ( ! $this->db->update('ea_users', $customer))
+        {
             throw new Exception('Could not update customer to the database.');
         }
 
@@ -147,22 +163,25 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If customer record does not exist.
      */
-    public function find_record_id($customer) {
-        if (!isset($customer['email'])) {
+    public function find_record_id($customer)
+    {
+        if ( ! isset($customer['email']))
+        {
             throw new Exception('Customer\'s email was not provided: '
-                    . print_r($customer, TRUE));
+                . print_r($customer, TRUE));
         }
 
         // Get customer's role id
         $result = $this->db
-                ->select('ea_users.id')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $customer['email'])
-                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                ->get();
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $customer['email'])
+            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+            ->get();
 
-        if ($result->num_rows() == 0) {
+        if ($result->num_rows() == 0)
+        {
             throw new Exception('Could not find customer record id.');
         }
 
@@ -178,49 +197,55 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If customer validation fails.
      */
-    public function validate($customer) {
+    public function validate($customer)
+    {
         $this->load->helper('data_validation');
 
         // If a customer id is provided, check whether the record
         // exist in the database.
-        if (isset($customer['id'])) {
+        if (isset($customer['id']))
+        {
             $num_rows = $this->db->get_where('ea_users',
-                    array('id' => $customer['id']))->num_rows();
-            if ($num_rows == 0) {
+                ['id' => $customer['id']])->num_rows();
+            if ($num_rows == 0)
+            {
                 throw new Exception('Provided customer id does not '
-                        . 'exist in the database.');
+                    . 'exist in the database.');
             }
         }
         // Validate required fields
-        if (!isset($customer['last_name'])
-                || !isset($customer['email'])
-                || !isset($customer['phone_number'])) {
+        if ( ! isset($customer['last_name'])
+            || ! isset($customer['email'])
+            || ! isset($customer['phone_number']))
+        {
             throw new Exception('Not all required fields are provided: '
-                    . print_r($customer, TRUE));
+                . print_r($customer, TRUE));
         }
 
         // Validate email address
-        if (!filter_var($customer['email'], FILTER_VALIDATE_EMAIL)) {
+        if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
+        {
             throw new Exception('Invalid email address provided: '
-                    . $customer['email']);
+                . $customer['email']);
         }
 
         // When inserting a record the email address must be unique.
         $customer_id = (isset($customer['id'])) ? $customer['id'] : '';
 
         $num_rows = $this->db
-                ->select('*')
-                ->from('ea_users')
-                ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-                ->where('ea_users.email', $customer['email'])
-                ->where('ea_users.id <>', $customer_id)
-                ->get()
-                ->num_rows();
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+            ->where('ea_users.email', $customer['email'])
+            ->where('ea_users.id <>', $customer_id)
+            ->get()
+            ->num_rows();
 
-        if ($num_rows > 0) {
+        if ($num_rows > 0)
+        {
             throw new Exception('Given email address belongs to another customer record. '
-                    . 'Please use a different email.');
+                . 'Please use a different email.');
         }
 
         return TRUE;
@@ -235,17 +260,20 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If $customer_id argument is invalid.
      */
-    public function delete($customer_id) {
-        if (!is_numeric($customer_id)) {
+    public function delete($customer_id)
+    {
+        if ( ! is_numeric($customer_id))
+        {
             throw new Exception('Invalid argument type $customer_id: ' . $customer_id);
         }
 
-        $num_rows = $this->db->get_where('ea_users', array('id' => $customer_id))->num_rows();
-        if ($num_rows == 0) {
+        $num_rows = $this->db->get_where('ea_users', ['id' => $customer_id])->num_rows();
+        if ($num_rows == 0)
+        {
             return FALSE;
         }
 
-        return $this->db->delete('ea_users', array('id' => $customer_id));
+        return $this->db->delete('ea_users', ['id' => $customer_id]);
     }
 
     /**
@@ -258,11 +286,13 @@ class Customers_Model extends CI_Model {
      *
      * @throws Exception If $customer_id argumnet is invalid.
      */
-    public function get_row($customer_id) {
-        if (!is_numeric($customer_id)) {
+    public function get_row($customer_id)
+    {
+        if ( ! is_numeric($customer_id))
+        {
             throw new Exception('Invalid argument provided as $customer_id : ' . $customer_id);
         }
-        return $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();
+        return $this->db->get_where('ea_users', ['id' => $customer_id])->row_array();
     }
 
     /**
@@ -278,30 +308,35 @@ class Customers_Model extends CI_Model {
      * @throws Exception If requested customer record does not exist in the database.
      * @throws Exception If requested field name does not exist in the database.
      */
-    public function get_value($field_name, $customer_id) {
-        if (!is_numeric($customer_id)) {
+    public function get_value($field_name, $customer_id)
+    {
+        if ( ! is_numeric($customer_id))
+        {
             throw new Exception('Invalid argument provided as $customer_id: '
-                    . $customer_id);
+                . $customer_id);
         }
 
-        if (!is_string($field_name)) {
+        if ( ! is_string($field_name))
+        {
             throw new Exception('$field_name argument is not a string: '
-                    . $field_name);
+                . $field_name);
         }
 
-        if ($this->db->get_where('ea_users', array('id' => $customer_id))->num_rows() == 0) {
+        if ($this->db->get_where('ea_users', ['id' => $customer_id])->num_rows() == 0)
+        {
             throw new Exception('The record with the $customer_id argument '
-                    . 'does not exist in the database: ' . $customer_id);
+                . 'does not exist in the database: ' . $customer_id);
         }
 
-        $row_data = $this->db->get_where('ea_users', array('id' => $customer_id)
-                )->row_array();
-        if (!isset($row_data[$field_name])) {
+        $row_data = $this->db->get_where('ea_users', ['id' => $customer_id]
+        )->row_array();
+        if ( ! isset($row_data[$field_name]))
+        {
             throw new Exception('The given $field_name argument does not'
-                    . 'exist in the database: ' . $field_name);
+                . 'exist in the database: ' . $field_name);
         }
 
-        $customer = $this->db->get_where('ea_users', array('id' => $customer_id))->row_array();
+        $customer = $this->db->get_where('ea_users', ['id' => $customer_id])->row_array();
 
         return $customer[$field_name];
     }
@@ -316,10 +351,12 @@ class Customers_Model extends CI_Model {
      *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = '') {
+    public function get_batch($where_clause = '')
+    {
         $customers_role_id = $this->get_customers_role_id();
 
-        if ($where_clause != '') {
+        if ($where_clause != '')
+        {
             $this->db->where($where_clause);
         }
 
@@ -333,7 +370,8 @@ class Customers_Model extends CI_Model {
      *
      * @return int Returns the role id for the customer records.
      */
-    public function get_customers_role_id() {
-        return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_CUSTOMER))->row()->id;
+    public function get_customers_role_id()
+    {
+        return $this->db->get_where('ea_roles', ['slug' => DB_SLUG_CUSTOMER])->row()->id;
     }
 }

@@ -1,4 +1,4 @@
-{  
+{
     "id": 143,
     "firstname": "Chris",
     "lastname": "Doe",
@@ -10,7 +10,7 @@
     "state": "Some City",
     "zip": "12345",
     "notes": "Test admin notes.",
-    "settings":{  
+    "settings": {
         "username": "chrisdoe",
         "notifications": true
     }

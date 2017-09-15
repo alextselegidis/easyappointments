@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -20,7 +23,8 @@ class Captcha extends CI_Controller {
     /**
      * Class Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->library('session');
     }
@@ -28,7 +32,8 @@ class Captcha extends CI_Controller {
     /**
      * Make a request to this method to get a captcha image.
      */
-    public function index() {
+    public function index()
+    {
         header('Content-type: image/jpeg');
         $builder = new Gregwar\Captcha\CaptchaBuilder;
         $builder->build();

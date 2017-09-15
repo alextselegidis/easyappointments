@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Notifications; 
+namespace EA\Engine\Notifications;
 
 use \EA\Engine\Types\Text;
 use \EA\Engine\Types\NonEmptyText;
@@ -21,7 +21,7 @@ use \EA\Engine\Types\Email as EmailAddress;
 /**
  * Email Notifications Class
  *
- * This library handles all the notification email deliveries on the system. 
+ * This library handles all the notification email deliveries on the system.
  *
  * Important: The email configuration settings are located at: /application/config/email.php
  */
@@ -46,7 +46,8 @@ class Email {
      * @param \CI_Controller $framework
      * @param array $config Contains the email configuration to be used.
      */
-    public function __construct(\CI_Controller $framework, array $config) {
+    public function __construct(\CI_Controller $framework, array $config)
+    {
         $this->framework = $framework;
         $this->config = $config;
     }
@@ -54,7 +55,7 @@ class Email {
     /**
      * Replace the email template variables.
      *
-     * This method finds and replaces the html variables of an email template. It is used to 
+     * This method finds and replaces the html variables of an email template. It is used to
      * generate dynamic HTML emails that are send as notifications to the system users.
      *
      * @param array $replaceArray Array that contains the variables to be replaced.
@@ -62,8 +63,10 @@ class Email {
      *
      * @return string Returns the new email html that contain the variables of the $replaceArray.
      */
-    protected function _replaceTemplateVariables(array $replaceArray, $templateHtml) {
-        foreach($replaceArray as $name => $value) {
+    protected function _replaceTemplateVariables(array $replaceArray, $templateHtml)
+    {
+        foreach ($replaceArray as $name => $value)
+        {
             $templateHtml = str_replace($name, $value, $templateHtml);
         }
 
@@ -88,10 +91,19 @@ class Email {
      * to the appointment record.
      * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
      */
-    public function sendAppointmentDetails(array $appointment, array $provider, array $service,
-                                           array $customer, array $company, Text $title, Text $message, Url $appointmentLink,
-                                           EmailAddress $recipientEmail) {
-        switch($company['date_format']) {
+    public function sendAppointmentDetails(
+        array $appointment,
+        array $provider,
+        array $service,
+        array $customer,
+        array $company,
+        Text $title,
+        Text $message,
+        Url $appointmentLink,
+        EmailAddress $recipientEmail
+    ) {
+        switch ($company['date_format'])
+        {
             case 'DMY':
                 $date_format = 'd/m/Y';
                 break;
@@ -106,7 +118,7 @@ class Email {
         }
 
         // Prepare template replace array.
-        $replaceArray = array(
+        $replaceArray = [
             '$email_title' => $title->get(),
             '$email_message' => $message->get(),
             '$appointment_service' => $service['name'],
@@ -133,7 +145,7 @@ class Email {
             'Phone' => $this->framework->lang->line('phone'),
             'Address' => $this->framework->lang->line('address'),
             'Appointment Link' => $this->framework->lang->line('appointment_link_title')
-        );
+        ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
@@ -144,11 +156,12 @@ class Email {
         $mailer->FromName = $company['company_name'];
         $mailer->AddAddress($recipientEmail->get());
         $mailer->Subject = $title->get();
-        $mailer->Body    = $html;
+        $mailer->Body = $html;
 
-        if (!$mailer->Send()) {
-            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                    . $mailer->ErrorInfo);
+        if ( ! $mailer->Send())
+        {
+            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
+                . $mailer->ErrorInfo);
         }
     }
 
@@ -165,15 +178,22 @@ class Email {
      * @param array $provider The record data of the appointment provider.
      * @param array $service The record data of the appointment service.
      * @param array $customer The record data of the appointment customer.
-     * @param array $company Some settings that are required for this function. By now this array must contain 
+     * @param array $company Some settings that are required for this function. By now this array must contain
      * the following values: "company_link", "company_name", "company_email".
      * @param \EA\Engine\Types\Email $recipientEmail The email address of the email recipient.
      * @param \EA\Engine\Types\Text $reason The reason why the appointment is deleted.
      */
-    public function sendDeleteAppointment(array $appointment, array $provider,
-                                          array $service, array $customer, array $company, EmailAddress $recipientEmail,
-                                          Text $reason) {
-        switch($company['date_format']) {
+    public function sendDeleteAppointment(
+        array $appointment,
+        array $provider,
+        array $service,
+        array $customer,
+        array $company,
+        EmailAddress $recipientEmail,
+        Text $reason
+    ) {
+        switch ($company['date_format'])
+        {
             case 'DMY':
                 $date_format = 'd/m/Y';
                 break;
@@ -188,7 +208,7 @@ class Email {
         }
 
         // Prepare email template data. 
-        $replaceArray = array(
+        $replaceArray = [
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
             '$appointment_service' => $service['name'],
@@ -215,7 +235,7 @@ class Email {
             'Phone' => $this->framework->lang->line('phone'),
             'Address' => $this->framework->lang->line('address'),
             'Reason' => $this->framework->lang->line('reason')
-        );
+        ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/delete_appointment.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
@@ -229,9 +249,10 @@ class Email {
         $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
         $mailer->Body = $html;
 
-        if (!$mailer->Send()) {
-            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
-                    . $mailer->ErrorInfo);
+        if ( ! $mailer->Send())
+        {
+            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
+                . $mailer->ErrorInfo);
         }
     }
 
@@ -242,15 +263,16 @@ class Email {
      * @param \EA\Engine\Types\Email $recipientEmail The receiver's email address.
      * @param array $company The company settings to be included in the email.
      */
-    public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company) {
-        $replaceArray = array(
+    public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
+    {
+        $replaceArray = [
             '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
             '$company_name' => $company['company_name'],
             '$company_email' => $company['company_email'],
             '$company_link' => $company['company_link'],
             '$password' => '<strong>' . $password->get() . '</strong>'
-        );
+        ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/new_password.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
@@ -263,8 +285,9 @@ class Email {
         $mailer->Subject = $this->framework->lang->line('new_account_password');
         $mailer->Body = $html;
 
-        if (!$mailer->Send()) {
-            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): ' 
+        if ( ! $mailer->Send())
+        {
+            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
                 . $mailer->ErrorInfo);
         }
     }
@@ -278,10 +301,11 @@ class Email {
     {
         $mailer = new \PHPMailer;
 
-        if ($this->config['protocol'] === 'smtp') {
+        if ($this->config['protocol'] === 'smtp')
+        {
             $mailer->isSMTP();
             $mailer->Host = $this->config['smtp_host'];
-            $mailer->SMTPAuth = true;
+            $mailer->SMTPAuth = TRUE;
             $mailer->Username = $this->config['smtp_user'];
             $mailer->Password = $this->config['smtp_pass'];
             $mailer->SMTPSecure = $this->config['smtp_crypto'];

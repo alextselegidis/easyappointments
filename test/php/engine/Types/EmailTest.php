@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,21 +11,24 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class EmailTest extends \PHPUnit_Framework_TestCase {
-    public function testEmailType() {
-        $type = new Email('john@doe.com'); 
-        $this->assertEquals('john@doe.com', $type->get()); 
-    } 
+    public function testEmailType()
+    {
+        $type = new Email('john@doe.com');
+        $this->assertEquals('john@doe.com', $type->get());
+    }
 
-    public function testEmailTypeThrowsExceptionWithInvalidEmail() {
+    public function testEmailTypeThrowsExceptionWithInvalidEmail()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new Email('abcdef');
     }
 
-    public function testEmailTypeThrowsExceptionWithInvalidValue() {
+    public function testEmailTypeThrowsExceptionWithInvalidValue()
+    {
         $this->setExpectedException('\InvalidArgumentException');
-        new Email(null);
+        new Email(NULL);
     }
 }

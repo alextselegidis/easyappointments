@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,20 +11,23 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class UnsignedIntegerTest extends \PHPUnit_Framework_TestCase {
-    public function testUnsignedIntType() {
+    public function testUnsignedIntType()
+    {
         $type = new UnsignedInteger(1);
-        $this->assertEquals(1, $type->get()); 
-    } 
+        $this->assertEquals(1, $type->get());
+    }
 
-    public function testUnsignedIntTypeThrowsExceptionWithNegative() {
+    public function testUnsignedIntTypeThrowsExceptionWithNegative()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new UnsignedInteger(-1);
     }
 
-    public function testUnsignedIntTypeThrowsExceptionWithWithString() {
+    public function testUnsignedIntTypeThrowsExceptionWithWithString()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new UnsignedInteger('invalid');
     }

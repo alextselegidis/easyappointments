@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,10 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class Integer extends Type {
-    protected function _validate($value) {
-        return is_numeric($value) && !is_float($value);
+    protected function _validate($value)
+    {
+        return is_numeric($value) && ! is_float($value);
     }
 }

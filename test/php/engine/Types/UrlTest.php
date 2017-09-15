@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,21 +11,24 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class UrlTest extends \PHPUnit_Framework_TestCase {
-    public function testUrlType() {
-        $type = new Url('http://localhost'); 
-        $this->assertEquals('http://localhost', $type->get()); 
-    } 
+    public function testUrlType()
+    {
+        $type = new Url('http://localhost');
+        $this->assertEquals('http://localhost', $type->get());
+    }
 
-    public function testUrlTypeThrowsExceptionWithInvalidUrl() {
+    public function testUrlTypeThrowsExceptionWithInvalidUrl()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new Url('abcdef');
     }
 
-    public function testUrlTypeThrowsExceptionWithInvalidValue() {
+    public function testUrlTypeThrowsExceptionWithInvalidValue()
+    {
         $this->setExpectedException('\InvalidArgumentException');
-        new Url(null);
+        new Url(NULL);
     }
 }

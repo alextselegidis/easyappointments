@@ -12,12 +12,14 @@
  * ---------------------------------------------------------------------------- */
 
 class Migration_Add_customer_notifications_setting extends CI_Migration {
-    public function up() {
+    public function up()
+    {
         $this->load->model('settings_model');
         $this->settings_model->set_setting('customer_notifications', '1');
     }
 
-    public function down() {
+    public function down()
+    {
         $this->load->model('settings_model');
         $this->settings_model->remove_setting('customer_notifications');
     }

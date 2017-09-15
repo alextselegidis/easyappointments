@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,16 +11,18 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class DecimalTest extends \PHPUnit_Framework_TestCase {
-    public function testFloatType() {
+    public function testFloatType()
+    {
         $type = new Decimal(100.00);
-        $this->assertEquals(100.00, $type->get()); 
-    } 
+        $this->assertEquals(100.00, $type->get());
+    }
 
-    public function testFloatTypeThrowsExceptionWithInvalidValue() {
+    public function testFloatTypeThrowsExceptionWithInvalidValue()
+    {
         $this->setExpectedException('\InvalidArgumentException');
-        new Decimal(null);
+        new Decimal(NULL);
     }
 }

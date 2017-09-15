@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,50 +11,55 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Api\V1\Parsers; 
+namespace EA\Engine\Api\V1\Parsers;
 
 /**
- * Categories Parser 
+ * Categories Parser
  *
- * This class will handle the encoding and decoding from the API requests. 
+ * This class will handle the encoding and decoding from the API requests.
  */
 class Categories implements ParsersInterface {
     /**
-     * Encode Response Array 
-     * 
+     * Encode Response Array
+     *
      * @param array &$response The response to be encoded.
      */
-    public function encode(array &$response) {
+    public function encode(array &$response)
+    {
         $encodedResponse = [
-            'id' => $response['id'] !== null ? (int)$response['id'] : null,
+            'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'name' => $response['name'],
             'description' => $response['description']
         ];
 
-        $response = $encodedResponse; 
+        $response = $encodedResponse;
     }
 
     /**
-     * Decode Request 
-     * 
-     * @param array &$request The request to be decoded. 
-     * @param array $base Optional (null), if provided it will be used as a base array. 
+     * Decode Request
+     *
+     * @param array &$request The request to be decoded.
+     * @param array $base Optional (null), if provided it will be used as a base array.
      */
-    public function decode(array &$request, array $base = null) {
-        $decodedRequest = $base ?: []; 
+    public function decode(array &$request, array $base = NULL)
+    {
+        $decodedRequest = $base ?: [];
 
-        if (!empty($request['id'])) {
-            $decodedRequest['id'] = $request['id']; 
+        if ( ! empty($request['id']))
+        {
+            $decodedRequest['id'] = $request['id'];
         }
 
-        if (!empty($request['name'])) {
-            $decodedRequest['name'] = $request['name']; 
+        if ( ! empty($request['name']))
+        {
+            $decodedRequest['name'] = $request['name'];
         }
 
-        if (!empty($request['description'])) {
-            $decodedRequest['description'] = $request['description']; 
+        if ( ! empty($request['description']))
+        {
+            $decodedRequest['description'] = $request['description'];
         }
 
-        $request = $decodedRequest; 
+        $request = $decodedRequest;
     }
 }

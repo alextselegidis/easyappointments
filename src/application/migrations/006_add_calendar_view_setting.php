@@ -12,23 +12,25 @@
  * ---------------------------------------------------------------------------- */
 
 class Migration_Add_calendar_view_setting extends CI_Migration {
-    public function up() {
+    public function up()
+    {
         $this->load->dbforge();
 
         $fields = [
-            'calendar_view' => [ 
+            'calendar_view' => [
                 'type' => 'VARCHAR',
-                'constraint' => '32', 
+                'constraint' => '32',
                 'default' => 'default'
             ]
-        ]; 
+        ];
 
-        $this->dbforge->add_column('ea_user_settings', $fields); 
+        $this->dbforge->add_column('ea_user_settings', $fields);
 
         $this->db->update('ea_user_settings', ['calendar_view' => 'default']);
     }
 
-    public function down() {
+    public function down()
+    {
         $this->load->dbforge();
         $this->dbforge->drop_column('ea_user_settings', 'calendar_view');
     }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,10 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class UnsignedInteger extends Integer {
-    protected function _validate($value) {
-        return parent::_validate($value) && $value > -1; 
-    }   
+    protected function _validate($value)
+    {
+        return parent::_validate($value) && $value > -1;
+    }
 }

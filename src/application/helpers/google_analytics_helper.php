@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH'))
+{
+    exit('No direct script access allowed');
+}
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -18,14 +21,16 @@
  * script. It will check whether the code is set in the database and print it, otherwise nothing
  * will be outputted. This eliminates the need for extra checking before outputting.
  */
-function google_analytics_script() {
+function google_analytics_script()
+{
     $ci =& get_instance();
 
     $ci->load->model('settings_model');
 
     $google_analytics_code = $ci->settings_model->get_setting('google_analytics_code');
 
-    if ($google_analytics_code !== '') {
+    if ($google_analytics_code !== '')
+    {
         echo '
             <script>
                 (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){

@@ -21,14 +21,14 @@ namespace EA\Engine\Api\V1\Processors;
  *
  * @todo Implement this processor class.
  */
-class Filter implements ProcessorsInterface
-{
+class Filter implements ProcessorsInterface {
     /**
      * Process Response Array
      *
      * @param array &$response The response array to be processed.
      */
-    public static function process(array &$response) {
+    public static function process(array &$response)
+    {
         // Not implemented yet.
     }
 }
