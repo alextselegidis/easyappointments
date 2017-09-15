@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Greek
 $lang['page_title'] = 'Κράτηση Ραντεβού Με';
 $lang['step_one_title'] = 'Επιλογή Υπηρεσίας & Πάροχου';

@@ -1,7 +1,4 @@
-<?php if ( ! defined('BASEPATH'))
-{
-    exit('No direct script access allowed.');
-}
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler

@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // French
 $lang['page_title'] = 'Prendre rendez-vous avec ...';
 $lang['step_one_title'] = 'Choisissez une prestation et un exécutant';

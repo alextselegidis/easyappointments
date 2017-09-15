@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Portuguese
 $lang['page_title'] = 'Livro de Apontamentos';
 $lang['step_one_title'] = 'Selecione o serviço e o fornecedor';

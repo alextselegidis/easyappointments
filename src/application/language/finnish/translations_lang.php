@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Finnish
 $lang['page_title'] = 'Varaa aika';
 $lang['step_one_title'] = 'Valitse palvelu ja henkilö';

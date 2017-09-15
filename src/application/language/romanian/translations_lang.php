@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Româna
 $lang['page_title'] = 'Programeaza întâlniri cu';
 $lang['step_one_title'] = 'Selecteaza Serviciul si Furnizorul';

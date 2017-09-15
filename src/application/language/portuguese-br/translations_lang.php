@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Portuguese BR
 $lang['page_title'] = 'Agendar Horário';
 $lang['step_one_title'] = 'Selecione o serviço e o atendente';

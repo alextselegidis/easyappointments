@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Spanish
 $lang['page_title'] = 'Agendar una cita con';
 $lang['step_one_title'] = 'Seleccione Servicio y Proveedor';

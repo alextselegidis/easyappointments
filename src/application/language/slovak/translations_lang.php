@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Slovak
 $lang['page_title'] = 'Rezervácie';
 $lang['step_one_title'] = 'Vyberte si službu a pracovníka';

@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Hungarian
 $lang['page_title'] = 'Foglalj időpontot a ...';
 $lang['step_one_title'] = 'Válassz szolgáltatást és szolgáltatót';

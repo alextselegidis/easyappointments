@@ -1,4 +1,4 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Japanese
 $lang['page_title'] = '予約システム - ';
 $lang['step_one_title'] = 'メニューと担当者の選択:';
