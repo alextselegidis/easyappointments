@@ -59,10 +59,10 @@ class Google extends CI_Controller {
      */
     public function oauth_callback()
     {
-        if (isset($_GET['code']))
+        if ($this->input->get('code'))
         {
             $this->load->library('Google_sync');
-            $token = $this->google_sync->authenticate($_GET['code']);
+            $token = $this->google_sync->authenticate($this->input->get('code'));
 
             // Store the token into the database for future reference.
             if (isset($_SESSION['oauth_provider_id']))

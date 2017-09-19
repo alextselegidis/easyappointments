@@ -121,13 +121,13 @@ class User extends CI_Controller {
     {
         try
         {
-            if ( ! isset($_POST['username']) || ! isset($_POST['password']))
+            if ( ! $this->input->post('username') || ! $this->input->post('password'))
             {
                 throw new Exception('Invalid credentials given!');
             }
 
             $this->load->model('user_model');
-            $user_data = $this->user_model->check_login($_POST['username'], $_POST['password']);
+            $user_data = $this->user_model->check_login($this->input->post('username'), $this->input->post('password'));
 
             if ($user_data)
             {
@@ -159,7 +159,7 @@ class User extends CI_Controller {
     {
         try
         {
-            if ( ! isset($_POST['username']) || ! isset($_POST['email']))
+            if ( ! $this->input->post('username') || ! $this->input->post('email'))
             {
                 throw new Exception('You must enter a valid username and email address in '
                     . 'order to get a new password!');
@@ -168,7 +168,7 @@ class User extends CI_Controller {
             $this->load->model('user_model');
             $this->load->model('settings_model');
 
-            $new_password = $this->user_model->regenerate_password($_POST['username'], $_POST['email']);
+            $new_password = $this->user_model->regenerate_password($this->input->post('username'), $this->input->post('email'));
 
             if ($new_password != FALSE)
             {
@@ -180,7 +180,7 @@ class User extends CI_Controller {
                     'company_email' => $this->settings_model->get_setting('company_email')
                 ];
 
-                $email->sendPassword(new NonEmptyText($new_password), new Email($_POST['email']), $company_settings);
+                $email->sendPassword(new NonEmptyText($new_password), new Email($this->input->post('email')), $company_settings);
             }
 
             echo ($new_password != FALSE) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);

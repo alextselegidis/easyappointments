@@ -220,7 +220,7 @@ class Appointments extends CI_Controller {
                 {
                     $email->sendDeleteAppointment($appointment, $provider,
                         $service, $customer, $company_settings, new Email($provider['email']),
-                        new Text($_POST['cancel_reason']));
+                        new Text($this->input->post('cancel_reason')));
                 }
 
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
@@ -230,7 +230,7 @@ class Appointments extends CI_Controller {
                 {
                     $email->sendDeleteAppointment($appointment, $provider,
                         $service, $customer, $company_settings, new Email($customer['email']),
-                        new Text($_POST['cancel_reason']));
+                        new Text($this->input->post('cancel_reason')));
                 }
 
             } catch (Exception $exc)
@@ -321,7 +321,7 @@ class Appointments extends CI_Controller {
         try
         {
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
-            if (empty($_POST['provider_id']))
+            if (empty($this->input->post('provider_id')))
             {
                 echo json_encode([]);
                 return;
@@ -329,36 +329,36 @@ class Appointments extends CI_Controller {
 
             // If manage mode is TRUE then the following we should not consider the selected
             // appointment when calculating the available time periods of the provider.
-            $exclude_appointments = ($_POST['manage_mode'] === 'true')
-                ? [$_POST['appointment_id']]
+            $exclude_appointments = ($this->input->post('manage_mode') === 'true')
+                ? [$this->input->post('appointment_id')]
                 : [];
 
             // If the user has selected the "any-provider" option then we will need to search
             // for an available provider that will provide the requested service.
-            if ($_POST['provider_id'] === ANY_PROVIDER)
+            if ($this->input->post('provider_id') === ANY_PROVIDER)
             {
-                $_POST['provider_id'] = $this->_search_any_provider($_POST['service_id'], $_POST['selected_date']);
-                if ($_POST['provider_id'] === NULL)
+                $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'), $this->input->post('selected_date'));
+                if ($this->input->post('provider_id') === NULL)
                 {
                     echo json_encode([]);
                     return;
                 }
             }
 
-            $availabilities_type = $this->services_model->get_value('availabilities_type', $_POST['service_id']);
-            $attendants_number = $this->services_model->get_value('attendants_number', $_POST['service_id']);
+            $availabilities_type = $this->services_model->get_value('availabilities_type', $this->input->post('service_id'));
+            $attendants_number = $this->services_model->get_value('attendants_number', $this->input->post('service_id'));
 
-            $empty_periods = $this->_get_provider_available_time_periods($_POST['provider_id'],
-                $_POST['selected_date'], $exclude_appointments);
+            $empty_periods = $this->_get_provider_available_time_periods($this->input->post('provider_id'),
+                $this->input->post('selected_date'), $exclude_appointments);
 
-            $available_hours = $this->_calculate_available_hours($empty_periods, $_POST['selected_date'],
-                $_POST['service_duration'], filter_var($_POST['manage_mode'], FILTER_VALIDATE_BOOLEAN),
+            $available_hours = $this->_calculate_available_hours($empty_periods, $this->input->post('selected_date'),
+                $this->input->post('service_duration'), filter_var($this->input->post('manage_mode'), FILTER_VALIDATE_BOOLEAN),
                 $availabilities_type);
 
             if ($attendants_number > 1)
             {
-                $this->_get_multiple_attendants_hours($available_hours, $attendants_number, $_POST['service_id'],
-                    $_POST['selected_date']);
+                $this->_get_multiple_attendants_hours($available_hours, $attendants_number, $this->input->post('service_id'),
+                    $this->input->post('selected_date'));
             }
 
             echo json_encode($available_hours);
@@ -380,7 +380,7 @@ class Appointments extends CI_Controller {
     {
         try
         {
-            $post_data = $_POST['post_data']; // alias
+            $post_data = $this->input->post('post_data'); // alias
             $post_data['manage_mode'] = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
 
             $this->load->model('appointments_model');
@@ -391,7 +391,7 @@ class Appointments extends CI_Controller {
 
             // Validate the CAPTCHA string.
             if ($this->settings_model->get_setting('require_captcha') === '1'
-                && $this->session->userdata('captcha_phrase') !== $_POST['captcha'])
+                && $this->session->userdata('captcha_phrase') !== $this->input->post('captcha'))
             {
                 echo json_encode([
                     'captcha_verification' => FALSE,
@@ -406,8 +406,8 @@ class Appointments extends CI_Controller {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
 
-            $appointment = $_POST['post_data']['appointment'];
-            $customer = $_POST['post_data']['customer'];
+            $appointment = $this->input->post('post_data')['appointment'];
+            $customer = $this->input->post('post_data')['customer'];
 
             if ($this->customers_model->exists($customer))
             {
@@ -617,7 +617,7 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('appointments_model');
 
-        $appointment = $_POST['post_data']['appointment'];
+        $appointment = $this->input->post('post_data')['appointment'];
 
         $service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
 
@@ -646,7 +646,7 @@ class Appointments extends CI_Controller {
         {
             $appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'],
                 date('Y-m-d', strtotime($appointment['start_datetime'])));
-            $_POST['post_data']['appointment']['id_users_provider'] = $appointment['id_users_provider'];
+            $this->input->post('post_data')['appointment']['id_users_provider'] = $appointment['id_users_provider'];
             return TRUE; // The selected provider is always available.
         }
 
