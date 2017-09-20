@@ -176,7 +176,9 @@ class Backend_api extends CI_Controller {
 
             if ( ! $this->input->post('filter_type'))
             {
-                echo json_encode(['appointments' => []]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['appointments' => []]));
                 return;
             }
 
@@ -223,13 +225,14 @@ class Backend_api extends CI_Controller {
                 $response['unavailables'] = $this->appointments_model->get_batch($where_clause);
             }
 
-            echo json_encode($response);
-
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($response));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -382,18 +385,20 @@ class Backend_api extends CI_Controller {
 
             if ( ! isset($warnings))
             {
-                echo json_encode(AJAX_SUCCESS);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
             } else
             {
-                echo json_encode([
-                    'warnings' => $warnings
-                ]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['warnings' => $warnings]));
             }
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -496,18 +501,20 @@ class Backend_api extends CI_Controller {
             // :: SEND RESPONSE TO CLIENT BROWSER
             if ( ! isset($warnings))
             {
-                echo json_encode(AJAX_SUCCESS); // Everything executed successfully.
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
             } else
             {
-                echo json_encode([
-                    'warnings' => $warnings // There were warnings during the operation.
-                ]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['warnings' => $warnings]));
             }
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -536,16 +543,20 @@ class Backend_api extends CI_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('providers_model');$this->load->model('appointments_model');$this->providers_model->set_setting('google_sync', FALSE, $this->input->post('provider_id'));
-            $this->providers_model->set_setting('google_token', NULL, $this->input->post('provider_id'));$this->appointments_model->clear_google_sync_ids($this->input->post('provider_id'));
+            $this->load->model('providers_model');
+            $this->load->model('appointments_model');
+            $this->providers_model->set_setting('google_sync', FALSE, $this->input->post('provider_id'));
+            $this->providers_model->set_setting('google_token', NULL, $this->input->post('provider_id'));
+            $this->appointments_model->clear_google_sync_ids($this->input->post('provider_id'));
 
-            echo json_encode(AJAX_SUCCESS);
-
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -601,13 +612,14 @@ class Backend_api extends CI_Controller {
                 $customer['appointments'] = $appointments;
             }
 
-            echo json_encode($customers);
-
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($customers));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -673,19 +685,21 @@ class Backend_api extends CI_Controller {
 
             if (isset($warnings))
             {
-                echo json_encode([
-                    'warnings' => $warnings
-                ]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['warnings' => $warnings]));
             } else
             {
-                echo json_encode(AJAX_SUCCESS);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
             }
 
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -732,19 +746,21 @@ class Backend_api extends CI_Controller {
 
             if (isset($warnings))
             {
-                echo json_encode([
-                    'warnings' => $warnings
-                ]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['warnings' => $warnings]));
             } else
             {
-                echo json_encode(AJAX_SUCCESS);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
             }
 
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -771,15 +787,17 @@ class Backend_api extends CI_Controller {
             }
 
             $customer_id = $this->customers_model->add($customer);
-            echo json_encode([
-                'status' => AJAX_SUCCESS,
-                'id' => $customer_id
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => AJAX_SUCCESS,
+                    'id' => $customer_id
+                ]));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -801,12 +819,14 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('customers_model');
             $this->customers_model->delete($this->input->post('customer_id'));
-            echo json_encode(AJAX_SUCCESS);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -833,15 +853,17 @@ class Backend_api extends CI_Controller {
             }
 
             $service_id = $this->services_model->add($service);
-            echo json_encode([
-                'status' => AJAX_SUCCESS,
-                'id' => $service_id
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => AJAX_SUCCESS,
+                    'id' => $service_id
+                ]));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -863,12 +885,15 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('services_model');
             $result = $this->services_model->delete($this->input->post('service_id'));
-            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -897,12 +922,14 @@ class Backend_api extends CI_Controller {
                 'price LIKE "%' . $key . '%" OR currency LIKE "%' . $key . '%" OR ' .
                 'description LIKE "%' . $key . '%")';
             $services = $this->services_model->get_batch($where);
-            echo json_encode($services);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($services));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -930,15 +957,18 @@ class Backend_api extends CI_Controller {
             }
 
             $category_id = $this->services_model->add_category($category);
-            echo json_encode([
-                'status' => AJAX_SUCCESS,
-                'id' => $category_id
-            ]);
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => AJAX_SUCCESS,
+                    'id' => $category_id
+                ]));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -958,12 +988,15 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('services_model');
             $result = $this->services_model->delete_category($this->input->post('category_id'));
-            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -989,12 +1022,14 @@ class Backend_api extends CI_Controller {
             $key = $this->db->escape_str($this->input->post('key'));
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
             $categories = $this->services_model->get_all_categories($where);
-            echo json_encode($categories);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($categories));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1025,12 +1060,14 @@ class Backend_api extends CI_Controller {
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
             $admins = $this->admins_model->get_batch($where);
-            echo json_encode($admins);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($admins));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1066,12 +1103,14 @@ class Backend_api extends CI_Controller {
                 'id' => $admin_id
             ];
 
-            echo json_encode($response);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($response));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1095,12 +1134,14 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('admins_model');
             $result = $this->admins_model->delete($this->input->post('admin_id'));
-            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1131,12 +1172,14 @@ class Backend_api extends CI_Controller {
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
             $providers = $this->providers_model->get_batch($where);
-            echo json_encode($providers);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($providers));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1174,16 +1217,18 @@ class Backend_api extends CI_Controller {
 
             $provider_id = $this->providers_model->add($provider);
 
-            echo json_encode([
-                'status' => AJAX_SUCCESS,
-                'id' => $provider_id
-            ]);
 
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => AJAX_SUCCESS,
+                    'id' => $provider_id
+                ]));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1207,12 +1252,14 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('providers_model');
             $result = $this->providers_model->delete($this->input->post('provider_id'));
-            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1243,12 +1290,14 @@ class Backend_api extends CI_Controller {
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
             $secretaries = $this->secretaries_model->get_batch($where);
-            echo json_encode($secretaries);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($secretaries));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1279,15 +1328,17 @@ class Backend_api extends CI_Controller {
 
             $secretary_id = $this->secretaries_model->add($secretary);
 
-            echo json_encode([
-                'status' => AJAX_SUCCESS,
-                'id' => $secretary_id
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => AJAX_SUCCESS,
+                    'id' => $secretary_id
+                ]));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1311,12 +1362,15 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('secretaries_model');
             $result = $this->secretaries_model->delete($this->input->post('secretary_id'));
-            echo ($result) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1357,12 +1411,14 @@ class Backend_api extends CI_Controller {
                 }
             }
 
-            echo json_encode(AJAX_SUCCESS);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1381,13 +1437,16 @@ class Backend_api extends CI_Controller {
             // We will only use the function in the admins_model because it is sufficient
             // for the rest user types for now (providers, secretaries).
             $this->load->model('admins_model');
-            $is_valid = $this->admins_model->validate_username($this->input->post('username'), $this->input->post('user_id'));
-            echo json_encode($is_valid);
+            $is_valid = $this->admins_model->validate_username($this->input->post('username'),
+                $this->input->post('user_id'));
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($is_valid));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1423,13 +1482,15 @@ class Backend_api extends CI_Controller {
             $this->session->set_userdata('language', $this->input->post('language'));
             $this->config->set_item('language', $this->input->post('language'));
 
-            echo json_encode(AJAX_SUCCESS);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
 
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1459,19 +1520,24 @@ class Backend_api extends CI_Controller {
             $google_sync = $this->providers_model->get_setting('google_sync', $this->input->post('provider_id'));
             if ($google_sync)
             {
-                $google_token = json_decode($this->providers_model->get_setting('google_token', $this->input->post('provider_id')));
+                $google_token = json_decode($this->providers_model->get_setting('google_token',
+                    $this->input->post('provider_id')));
                 $this->google_sync->refresh_token($google_token->refresh_token);
                 $calendars = $this->google_sync->get_google_calendars();
-                echo json_encode($calendars);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode($calendars));
             } else
             {
-                echo json_encode(AJAX_FAILURE);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_FAILURE));
             }
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -1498,13 +1564,15 @@ class Backend_api extends CI_Controller {
             $this->load->model('providers_model');
             $result = $this->providers_model->set_setting('google_calendar', $this->input->post('calendar_id'),
                 $this->input->post('provider_id'));
-            echo json_encode(($result) ? AJAX_SUCCESS : AJAX_FAILURE);
 
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 }

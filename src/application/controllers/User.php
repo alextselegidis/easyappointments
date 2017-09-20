@@ -132,17 +132,21 @@ class User extends CI_Controller {
             if ($user_data)
             {
                 $this->session->set_userdata($user_data); // Save data on user's session.
-                echo json_encode(AJAX_SUCCESS);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
             } else
             {
-                echo json_encode(AJAX_FAILURE);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_FAILURE));
             }
 
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 
@@ -168,7 +172,8 @@ class User extends CI_Controller {
             $this->load->model('user_model');
             $this->load->model('settings_model');
 
-            $new_password = $this->user_model->regenerate_password($this->input->post('username'), $this->input->post('email'));
+            $new_password = $this->user_model->regenerate_password($this->input->post('username'),
+                $this->input->post('email'));
 
             if ($new_password != FALSE)
             {
@@ -180,15 +185,18 @@ class User extends CI_Controller {
                     'company_email' => $this->settings_model->get_setting('company_email')
                 ];
 
-                $email->sendPassword(new NonEmptyText($new_password), new Email($this->input->post('email')), $company_settings);
+                $email->sendPassword(new NonEmptyText($new_password), new Email($this->input->post('email')),
+                    $company_settings);
             }
 
-            echo ($new_password != FALSE) ? json_encode(AJAX_SUCCESS) : json_encode(AJAX_FAILURE);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($new_password != FALSE ? AJAX_SUCCESS : AJAX_FAILURE));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 }

@@ -323,7 +323,9 @@ class Appointments extends CI_Controller {
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
             if (empty($this->input->post('provider_id')))
             {
-                echo json_encode([]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([]));
                 return;
             }
 
@@ -337,37 +339,48 @@ class Appointments extends CI_Controller {
             // for an available provider that will provide the requested service.
             if ($this->input->post('provider_id') === ANY_PROVIDER)
             {
-                $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'), $this->input->post('selected_date'));
+                $_POST['provider_id'] = $this->_search_any_provider($this->input->post('service_id'),
+                    $this->input->post('selected_date'));
                 if ($this->input->post('provider_id') === NULL)
                 {
-                    echo json_encode([]);
+                    $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode([]));
                     return;
                 }
             }
 
-            $availabilities_type = $this->services_model->get_value('availabilities_type', $this->input->post('service_id'));
-            $attendants_number = $this->services_model->get_value('attendants_number', $this->input->post('service_id'));
+            $availabilities_type = $this->services_model->get_value('availabilities_type',
+                $this->input->post('service_id'));
+            $attendants_number = $this->services_model->get_value('attendants_number',
+                $this->input->post('service_id'));
 
             $empty_periods = $this->_get_provider_available_time_periods($this->input->post('provider_id'),
                 $this->input->post('selected_date'), $exclude_appointments);
 
             $available_hours = $this->_calculate_available_hours($empty_periods, $this->input->post('selected_date'),
-                $this->input->post('service_duration'), filter_var($this->input->post('manage_mode'), FILTER_VALIDATE_BOOLEAN),
+                $this->input->post('service_duration'),
+                filter_var($this->input->post('manage_mode'), FILTER_VALIDATE_BOOLEAN),
                 $availabilities_type);
 
             if ($attendants_number > 1)
             {
-                $this->_get_multiple_attendants_hours($available_hours, $attendants_number, $this->input->post('service_id'),
+                $this->_get_multiple_attendants_hours($available_hours, $attendants_number,
+                    $this->input->post('service_id'),
                     $this->input->post('selected_date'));
             }
 
-            echo json_encode($available_hours);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($available_hours));
 
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
+                ]));
         }
     }
 
@@ -393,10 +406,12 @@ class Appointments extends CI_Controller {
             if ($this->settings_model->get_setting('require_captcha') === '1'
                 && $this->session->userdata('captcha_phrase') !== $this->input->post('captcha'))
             {
-                echo json_encode([
-                    'captcha_verification' => FALSE,
-                    'expected_phrase' => $this->session->userdata('captcha_phrase')
-                ]);
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'captcha_verification' => FALSE,
+                        'expected_phrase' => $this->session->userdata('captcha_phrase')
+                    ]));
                 return;
             }
 
@@ -518,15 +533,18 @@ class Appointments extends CI_Controller {
                 log_message('error', $exc->getTraceAsString());
             }
 
-            echo json_encode([
-                'appointment_id' => $appointment['id']
-            ]);
-
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'appointment_id' => $appointment['id']
+                ]));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
+                ]));
         }
     }
 
@@ -560,7 +578,9 @@ class Appointments extends CI_Controller {
                         $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
                         $unavailable_dates[] = $current_date->format('Y-m-d');
                     }
-                    echo json_encode($unavailable_dates);
+                    $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode($unavailable_dates));
                     return;
                 }
             }
@@ -592,12 +612,16 @@ class Appointments extends CI_Controller {
                 }
             }
 
-            echo json_encode($unavailable_dates);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($unavailable_dates));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'exceptions' => [exceptionToJavaScript($exc)]
+                ]));
         }
     }
 

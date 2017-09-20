@@ -73,11 +73,11 @@ class Google extends CI_Controller {
                 $this->providers_model->set_setting('google_calendar', 'primary', $_SESSION['oauth_provider_id']);
             } else
             {
-                echo '<h1>Sync provider id not specified!</h1>';
+                $this->output->set_output('<h1>Sync provider id not specified!</h1>');
             }
         } else
         {
-            echo '<h1>Authorization Failed!</h1>';
+            $this->output->set_output('<h1>Authorization Failed!</h1>');
         }
     }
 
@@ -232,12 +232,14 @@ class Google extends CI_Controller {
                 }
             }
 
-            echo json_encode(AJAX_SUCCESS);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 }

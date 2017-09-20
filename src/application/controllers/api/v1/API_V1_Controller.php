@@ -86,7 +86,9 @@ class API_V1_Controller extends CI_Controller {
         header('HTTP/1.0 ' . $header);
         header('Content-Type: application/json');
 
-        echo json_encode($error, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($error, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
     }
 
     /**

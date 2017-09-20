@@ -122,13 +122,15 @@ class Installation extends CI_Controller {
             $sample_provider['services'][] = $sample_service['id'];
             $this->providers_model->add($sample_provider);
 
-            echo json_encode(AJAX_SUCCESS);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
 
         } catch (Exception $exc)
         {
-            echo json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 }
