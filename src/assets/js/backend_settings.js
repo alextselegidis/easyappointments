@@ -138,25 +138,18 @@ window.BackendSettings = window.BackendSettings || {};
          *
          * Change the visible tab contents.
          */
-        $('.tab').click(function() {
-            // Bootstrap has a bug with toggle buttons. Their toggle state is lost when the
-            // button is hidden or shown. Show before anything else we need to store the toggle
-            // and apply it whenever the user tab is clicked..
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
+            // Bootstrap has a bug with toggle buttons. Their toggle state is lost when the button is hidden or shown.
+            // Show before anything else we need to store the toggle and apply it whenever the user tab is clicked.
             var areNotificationsActive = $('#user-notifications').hasClass('active');
 
-            $(this).parent().find('.active').removeClass('active');
-            $(this).addClass('active');
-            $('.tab-content').hide();
+            var href = $(this).attr('href');
 
-            if ($(this).hasClass('general-tab')) {
-                $('#general').show();
+            if (href === '#general') {
                 settings = new SystemSettings();
-            } else if ($(this).hasClass('business-logic-tab')) {
-                $('#business-logic').show();
+            } else if (href === '#business-logic') {
                 settings = new SystemSettings();
-
-            } else if ($(this).hasClass('user-tab')) {
-                $('#user').show();
+            } else if (href === '#current-user') {
                 settings = new UserSettings();
 
                 // Apply toggle state to user notifications button.
@@ -165,8 +158,6 @@ window.BackendSettings = window.BackendSettings || {};
                 } else {
                     $('#user-notifications').removeClass('active');
                 }
-            } else if ($(this).hasClass('about-tab')) {
-                $('#about').show();
             }
 
             Backend.placeFooterToBottom();
