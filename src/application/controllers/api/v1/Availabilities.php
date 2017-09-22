@@ -74,7 +74,8 @@ class Availabilities extends API_V1_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode($availableHours));
 
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }

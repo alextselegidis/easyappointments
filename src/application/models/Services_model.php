@@ -463,7 +463,8 @@ class Services_Model extends CI_Model {
             }
 
             return TRUE;
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             return FALSE;
         }

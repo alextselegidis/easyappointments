@@ -323,7 +323,8 @@ class Backend extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')

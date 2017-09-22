@@ -134,7 +134,8 @@ class Appointments extends CI_Controller {
                 'provider_data' => $provider,
                 'customer_data' => $customer
             ];
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $view['exceptions'][] = $exc;
         }
@@ -201,7 +202,8 @@ class Appointments extends CI_Controller {
                         $this->google_sync->refresh_token($google_token->refresh_token);
                         $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }
-                } catch (Exception $exc)
+                }
+                catch (Exception $exc)
                 {
                     $exceptions[] = $exc;
                 }
@@ -233,11 +235,13 @@ class Appointments extends CI_Controller {
                         new Text($this->input->post('cancel_reason')));
                 }
 
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 $exceptions[] = $exc;
             }
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             // Display the error message to the customer.
             $exceptions[] = $exc;
@@ -374,7 +378,8 @@ class Appointments extends CI_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode($available_hours));
 
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -478,7 +483,8 @@ class Appointments extends CI_Controller {
                             $service, $customer, $company_settings);
                     }
                 }
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 log_message('error', $exc->getMessage());
                 log_message('error', $exc->getTraceAsString());
@@ -527,7 +533,8 @@ class Appointments extends CI_Controller {
                         $service, $customer, $company_settings, $provider_title,
                         $provider_message, $provider_link, new Email($provider['email']));
                 }
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 log_message('error', $exc->getMessage());
                 log_message('error', $exc->getTraceAsString());
@@ -538,7 +545,8 @@ class Appointments extends CI_Controller {
                 ->set_output(json_encode([
                     'appointment_id' => $appointment['id']
                 ]));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -615,7 +623,8 @@ class Appointments extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($unavailable_dates));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')

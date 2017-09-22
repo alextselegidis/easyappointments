@@ -49,7 +49,8 @@ class API_V1_Controller extends CI_Controller {
             $password = new NonEmptyText($_SERVER['PHP_AUTH_PW']);
             $authorization = new \EA\Engine\Api\V1\Authorization($this);
             $authorization->basic($username, $password);
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }

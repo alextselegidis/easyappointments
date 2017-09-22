@@ -244,7 +244,8 @@ class Google_Sync {
         try
         {
             $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
-        } catch (Exception $ex)
+        }
+        catch (Exception $ex)
         {
             // Event was not found on Google Calendar.
         }
@@ -322,7 +323,8 @@ class Google_Sync {
         try
         {
             $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
-        } catch (Exception $ex)
+        }
+        catch (Exception $ex)
         {
             // Event was not found on Google Calendar.
         }

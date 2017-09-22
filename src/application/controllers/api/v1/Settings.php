@@ -86,7 +86,8 @@ class Settings extends API_V1_Controller {
                 ->singleEntry($name)
                 ->output();
 
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -113,7 +114,8 @@ class Settings extends API_V1_Controller {
                 ]
             ]);
             $response->encode($this->parser)->singleEntry($name)->output();
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -136,7 +138,8 @@ class Settings extends API_V1_Controller {
             ]);
 
             $response->output();
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }

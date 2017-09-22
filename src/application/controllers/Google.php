@@ -198,7 +198,8 @@ class Google extends CI_Controller {
                             $this->appointments_model->add($appointment);
                         }
 
-                    } catch (Exception $exc)
+                    }
+                    catch (Exception $exc)
                     {
                         // Appointment not found on gcal, delete from e!a.
                         $this->appointments_model->delete($appointment['id']);
@@ -235,7 +236,8 @@ class Google extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')

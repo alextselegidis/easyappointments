@@ -142,7 +142,8 @@ class User extends CI_Controller {
                     ->set_output(json_encode(AJAX_FAILURE));
             }
 
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -192,7 +193,8 @@ class User extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($new_password != FALSE ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')

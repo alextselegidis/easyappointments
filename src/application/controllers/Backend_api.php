@@ -144,7 +144,8 @@ class Backend_api extends CI_Controller {
             }
 
             $this->output->set_output(json_encode($response));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output->set_output(json_encode([
                 'exceptions' => [exceptionToJavaScript($exc)]
@@ -228,7 +229,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($response));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -331,7 +333,8 @@ class Backend_api extends CI_Controller {
                             $service, $customer, $company_settings);
                     }
                 }
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 $warnings[] = exceptionToJavaScript($exc);
             }
@@ -378,7 +381,8 @@ class Backend_api extends CI_Controller {
                         $provider_message, $provider_link, new Email($provider['email']));
                 }
 
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 $warnings[] = exceptionToJavaScript($exc);
             }
@@ -394,7 +398,8 @@ class Backend_api extends CI_Controller {
                     ->set_content_type('application/json')
                     ->set_output(json_encode(['warnings' => $warnings]));
             }
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -463,7 +468,8 @@ class Backend_api extends CI_Controller {
                         $this->google_sync->refresh_token($google_token->refresh_token);
                         $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }
-                } catch (Exception $exc)
+                }
+                catch (Exception $exc)
                 {
                     $warnings[] = exceptionToJavaScript($exc);
                 }
@@ -493,7 +499,8 @@ class Backend_api extends CI_Controller {
                         $service, $customer, $company_settings, new Email($customer['email']),
                         new Text($this->input->post('delete_reason')));
                 }
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 $warnings[] = exceptionToJavaScript($exc);
             }
@@ -510,7 +517,8 @@ class Backend_api extends CI_Controller {
                     ->set_content_type('application/json')
                     ->set_output(json_encode(['warnings' => $warnings]));
             }
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -552,7 +560,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -615,7 +624,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($customers));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -678,7 +688,8 @@ class Backend_api extends CI_Controller {
                         $google_event = $this->google_sync->update_unavailable($provider, $unavailable);
                     }
                 }
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 $warnings[] = $exc;
             }
@@ -695,7 +706,8 @@ class Backend_api extends CI_Controller {
                     ->set_output(json_encode(AJAX_SUCCESS));
             }
 
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -739,7 +751,8 @@ class Backend_api extends CI_Controller {
                     $this->google_sync->refresh_token($google_token->refresh_token);
                     $this->google_sync->delete_unavailable($provider, $unavailable['id_google_calendar']);
                 }
-            } catch (Exception $exc)
+            }
+            catch (Exception $exc)
             {
                 $warnings[] = $exc;
             }
@@ -756,7 +769,8 @@ class Backend_api extends CI_Controller {
                     ->set_output(json_encode(AJAX_SUCCESS));
             }
 
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -793,7 +807,8 @@ class Backend_api extends CI_Controller {
                     'status' => AJAX_SUCCESS,
                     'id' => $customer_id
                 ]));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -822,7 +837,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -859,7 +875,8 @@ class Backend_api extends CI_Controller {
                     'status' => AJAX_SUCCESS,
                     'id' => $service_id
                 ]));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -889,7 +906,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -925,7 +943,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($services));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -964,7 +983,8 @@ class Backend_api extends CI_Controller {
                     'status' => AJAX_SUCCESS,
                     'id' => $category_id
                 ]));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -992,7 +1012,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1025,7 +1046,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($categories));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1063,7 +1085,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($admins));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1106,7 +1129,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($response));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1137,7 +1161,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1175,7 +1200,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($providers));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1224,7 +1250,8 @@ class Backend_api extends CI_Controller {
                     'status' => AJAX_SUCCESS,
                     'id' => $provider_id
                 ]));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1255,7 +1282,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1293,7 +1321,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($secretaries));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1334,7 +1363,8 @@ class Backend_api extends CI_Controller {
                     'status' => AJAX_SUCCESS,
                     'id' => $secretary_id
                 ]));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1366,7 +1396,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1414,7 +1445,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1442,7 +1474,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($is_valid));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1486,7 +1519,8 @@ class Backend_api extends CI_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
 
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1533,7 +1567,8 @@ class Backend_api extends CI_Controller {
                     ->set_content_type('application/json')
                     ->set_output(json_encode(AJAX_FAILURE));
             }
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')
@@ -1568,7 +1603,8 @@ class Backend_api extends CI_Controller {
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
             $this->output
                 ->set_content_type('application/json')

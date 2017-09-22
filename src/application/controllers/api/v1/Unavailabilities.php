@@ -68,7 +68,8 @@ class Unavailabilities extends API_V1_Controller {
                 ->singleEntry($id)
                 ->output();
 
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -98,7 +99,8 @@ class Unavailabilities extends API_V1_Controller {
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -132,7 +134,8 @@ class Unavailabilities extends API_V1_Controller {
             $batch = $this->appointments_model->get_batch('id = ' . $id);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -155,7 +158,8 @@ class Unavailabilities extends API_V1_Controller {
             ]);
 
             $response->output();
-        } catch (\Exception $exception)
+        }
+        catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
