@@ -32,292 +32,141 @@
 
     <!-- PAGE NAVIGATION -->
 
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="admins-tab tab active"><a><?= lang('admins') ?></a></li>
-        <li role="presentation" class="providers-tab tab"><a><?= lang('providers') ?></a></li>
-        <li role="presentation" class="secretaries-tab tab"><a><?= lang('secretaries') ?></a></li>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab"><?= lang('admins') ?></a></li>
+        <li role="presentation"><a href="#providers" aria-controls="providers" role="tab" data-toggle="tab"><?= lang('providers') ?></a></li>
+        <li role="presentation"><a href="#secretaries" aria-controls="secretaries" role="tab" data-toggle="tab"><?= lang('secretaries') ?></a></li>
     </ul>
 
-    <!-- ADMINS TAB -->
+    <div class="tab-content">
 
-    <div id="admins" class="tab-content">
-        <div class="row">
-            <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
-                <form class="input-append">
-                    <input class="key" type="text" />
-                    <div class="btn-group">
-                        <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
-                            <span class="glyphicon glyphicon-repeat"></span>
-                        </button>
-                    </div>
-                </form>
+        <!-- ADMINS TAB -->
 
-                <h3><?= lang('admins') ?></h3>
-                <div class="results"></div>
-            </div>
+        <div role="tabpanel" class="tab-pane active" id="admins">
+            <div class="row">
+                <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
+                    <form class="input-append">
+                        <input class="key" type="text" />
+                        <div class="btn-group">
+                            <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
+                                <span class="glyphicon glyphicon-repeat"></span>
+                            </button>
+                        </div>
+                    </form>
 
-            <div class="record-details column col-xs-12 col-sm-7">
-                <div class="btn-toolbar">
-                    <div class="add-edit-delete-group btn-group">
-                        <button id="add-admin" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            <?= lang('add') ?>
-                        </button>
-                        <button id="edit-admin" class="btn btn-default" disabled="disabled">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <?= lang('edit') ?>
-                        </button>
-                        <button id="delete-admin" class="btn btn-default" disabled="disabled">
-                            <span class="glyphicon glyphicon-remove"></span>
-                            <?= lang('delete') ?>
-                        </button>
-                    </div>
-
-                    <div class="save-cancel-group btn-group" style="display:none;">
-                        <button id="save-admin" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-ok"></span>
-                            <?= lang('save') ?>
-                        </button>
-                        <button id="cancel-admin" class="btn btn-default">
-                            <span class="glyphicon glyphicon-ban-circle"></span>
-                            <?= lang('cancel') ?>
-                        </button>
-                    </div>
+                    <h3><?= lang('admins') ?></h3>
+                    <div class="results"></div>
                 </div>
 
-                <h3><?= lang('details') ?></h3>
-
-                <div class="form-message alert" style="display:none;"></div>
-
-                <input type="hidden" id="admin-id" class="record-id" />
-
-                <div class="row">
-                    <div class="admin-details col-md-6">
-                        <div class="form-group">
-                            <label for="first-name"><?= lang('first_name') ?> *</label>
-                            <input type="text" id="admin-first-name" class="form-control required" maxlength="256" />
+                <div class="record-details column col-xs-12 col-sm-7">
+                    <div class="btn-toolbar">
+                        <div class="add-edit-delete-group btn-group">
+                            <button id="add-admin" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <?= lang('add') ?>
+                            </button>
+                            <button id="edit-admin" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <?= lang('edit') ?>
+                            </button>
+                            <button id="delete-admin" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <?= lang('delete') ?>
+                            </button>
                         </div>
 
-                        <div class="form-group">
-                            <label for="admin-last-name"><?= lang('last_name') ?> *</label>
-                            <input type="text" id="admin-last-name" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-email"><?= lang('email') ?> *</label>
-                            <input type="text" id="admin-email" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-phone-number"><?= lang('phone_number') ?> *</label>
-                            <input type="text" id="admin-phone-number" class="form-control required" maxlength="128" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-mobile-number"><?= lang('mobile_number') ?></label>
-                            <input type="text" id="admin-mobile-number" class="form-control" maxlength="128" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-address"><?= lang('address') ?></label>
-                            <input type="text" id="admin-address" class="form-control" maxlength="256" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-city"><?= lang('city') ?></label>
-                            <input type="text" id="admin-city" class="form-control" maxlength="256" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-state"><?= lang('state') ?></label>
-                            <input type="text" id="admin-state" class="form-control" maxlength="128" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-zip-code"><?= lang('zip_code') ?></label>
-                            <input type="text" id="admin-zip-code" class="form-control" maxlength="64" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-notes"><?= lang('notes') ?></label>
-                            <textarea id="admin-notes" class="form-control" rows="3"></textarea>
+                        <div class="save-cancel-group btn-group" style="display:none;">
+                            <button id="save-admin" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <?= lang('save') ?>
+                            </button>
+                            <button id="cancel-admin" class="btn btn-default">
+                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <?= lang('cancel') ?>
+                            </button>
                         </div>
                     </div>
-                    <div class="admin-settings col-md-6">
-                        <div class="form-group">
-                            <label for="admin-username"><?= lang('username') ?> *</label>
-                            <input type="text" id="admin-username" class="form-control required" maxlength="256" />
-                        </div>
 
-                        <div class="form-group">
-                            <label for="admin-password"><?= lang('password') ?> *</label>
-                            <input type="password" id="admin-password" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-password-confirm"><?= lang('retype_password') ?> *</label>
-                            <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="admin-calendar-view"><?= lang('calendar') ?> *</label>
-                            <select id="admin-calendar-view" class="form-control required">
-                                <option value="default">Default</option>
-                                <option value="table">Table</option>
-                            </select>
-                        </div>
-
-                        <br>
-
-                        <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                            <span><?= lang('receive_notifications') ?></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PROVIDERS TAB -->
-
-    <div id="providers" class="tab-content" style="display:none;">
-        <div class="row">
-            <div id="filter-providers" class="filter-records column col-xs-12 col-sm-5">
-                <form class="input-append">
-                    <input class="key" type="text" />
-                    <div class="btn-group">
-                        <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
-                            <span class="glyphicon glyphicon-repeat"></span>
-                        </button>
-                    </div>
-                </form>
-
-                <h3><?= lang('providers') ?></h3>
-                <div class="results"></div>
-            </div>
-
-            <div class="record-details column col-xs-12 col-sm-7">
-                <div class="pull-left">
-                    <div class="add-edit-delete-group btn-group">
-                        <button id="add-provider" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            <?= lang('add') ?>
-                        </button>
-                        <button id="edit-provider" class="btn btn-default" disabled="disabled">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <?= lang('edit') ?>
-                        </button>
-                        <button id="delete-provider" class="btn btn-default" disabled="disabled">
-                            <span class="glyphicon glyphicon-remove"></span>
-                            <?= lang('delete') ?>
-                        </button>
-                    </div>
-
-                    <div class="save-cancel-group btn-group" style="display:none;">
-                        <button id="save-provider" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-ok"></span>
-                            <?= lang('save') ?>
-                        </button>
-                        <button id="cancel-provider" class="btn btn-default">
-                            <span class="glyphicon glyphicon-ban-circle"></span>
-                            <?= lang('cancel') ?>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="switch-view pull-right">
-                    <strong><?= lang('current_view') ?></strong>
-                    <div class="display-details current"><?= lang('details') ?></div>
-                    <div class="display-working-plan"><?= lang('working_plan') ?></div>
-                </div>
-
-                <?php // This form message is outside the details view, so that it can be
-                      // visible when the user has working plan view active. ?>
-                <div class="form-message alert" style="display:none;"></div>
-
-                <div class="details-view provider-view">
                     <h3><?= lang('details') ?></h3>
 
-                    <input type="hidden" id="provider-id" class="record-id" />
+                    <div class="form-message alert" style="display:none;"></div>
+
+                    <input type="hidden" id="admin-id" class="record-id" />
 
                     <div class="row">
-                        <div class="provider-details col-md-6">
+                        <div class="admin-details col-md-6">
                             <div class="form-group">
-                                <label for="provider-first-name"><?= lang('first_name') ?> *</label>
-                                <input type="text" id="provider-first-name" class="form-control required" maxlength="256" />
+                                <label for="first-name"><?= lang('first_name') ?> *</label>
+                                <input type="text" id="admin-first-name" class="form-control required" maxlength="256" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-last-name"><?= lang('last_name') ?> *</label>
-                                <input type="text" id="provider-last-name" class="form-control required" maxlength="512" />
+                                <label for="admin-last-name"><?= lang('last_name') ?> *</label>
+                                <input type="text" id="admin-last-name" class="form-control required" maxlength="512" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-email"><?= lang('email') ?> *</label>
-                                <input type="text" id="provider-email" class="form-control required" max="512" />
+                                <label for="admin-email"><?= lang('email') ?> *</label>
+                                <input type="text" id="admin-email" class="form-control required" maxlength="512" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-phone-number"><?= lang('phone_number') ?> *</label>
-                                <input type="text" id="provider-phone-number" class="form-control required" max="128" />
+                                <label for="admin-phone-number"><?= lang('phone_number') ?> *</label>
+                                <input type="text" id="admin-phone-number" class="form-control required" maxlength="128" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-mobile-number"><?= lang('mobile_number') ?></label>
-                                <input type="text" id="provider-mobile-number" class="form-control" maxlength="128" />
+                                <label for="admin-mobile-number"><?= lang('mobile_number') ?></label>
+                                <input type="text" id="admin-mobile-number" class="form-control" maxlength="128" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-address"><?= lang('address') ?></label>
-                                <input type="text" id="provider-address" class="form-control" maxlength="256" />
+                                <label for="admin-address"><?= lang('address') ?></label>
+                                <input type="text" id="admin-address" class="form-control" maxlength="256" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-city"><?= lang('city') ?></label>
-                                <input type="text" id="provider-city" class="form-control" maxlength="256" />
+                                <label for="admin-city"><?= lang('city') ?></label>
+                                <input type="text" id="admin-city" class="form-control" maxlength="256" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-state"><?= lang('state') ?></label>
-                                <input type="text" id="provider-state" class="form-control" maxlength="256" />
+                                <label for="admin-state"><?= lang('state') ?></label>
+                                <input type="text" id="admin-state" class="form-control" maxlength="128" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-zip-code"><?= lang('zip_code') ?></label>
-                                <input type="text" id="provider-zip-code" class="form-control" maxlength="64" />
+                                <label for="admin-zip-code"><?= lang('zip_code') ?></label>
+                                <input type="text" id="admin-zip-code" class="form-control" maxlength="64" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-notes"><?= lang('notes') ?></label>
-                                <textarea id="provider-notes" class="form-control" rows="3"></textarea>
+                                <label for="admin-notes"><?= lang('notes') ?></label>
+                                <textarea id="admin-notes" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
-                        <div class="provider-settings col-md-6">
+                        <div class="admin-settings col-md-6">
                             <div class="form-group">
-                                <label for="provider-username"><?= lang('username') ?> *</label>
-                                <input type="text" id="provider-username" class="form-control required" maxlength="256" />
+                                <label for="admin-username"><?= lang('username') ?> *</label>
+                                <input type="text" id="admin-username" class="form-control required" maxlength="256" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-password"><?= lang('password') ?> *</label>
-                                <input type="password" id="provider-password" class="form-control required" maxlength="512"/>
+                                <label for="admin-password"><?= lang('password') ?> *</label>
+                                <input type="password" id="admin-password" class="form-control required" maxlength="512" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-password-confirm"><?= lang('retype_password') ?> *</label>
-                                <input type="password" id="provider-password-confirm" class="form-control required" maxlength="512" />
+                                <label for="admin-password-confirm"><?= lang('retype_password') ?> *</label>
+                                <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512" />
                             </div>
 
                             <div class="form-group">
-                                <label for="provider-calendar-view"><?= lang('calendar') ?> *</label>
-                                <select id="provider-calendar-view" class="form-control required">
+                                <label for="admin-calendar-view"><?= lang('calendar') ?> *</label>
+                                <select id="admin-calendar-view" class="form-control required">
                                     <option value="default">Default</option>
                                     <option value="table">Table</option>
                                 </select>
@@ -325,34 +174,187 @@
 
                             <br>
 
-                            <button type="button" id="provider-notifications" class="btn btn-default" data-toggle="button">
+                            <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
                                 <span class="glyphicon glyphicon-envelope"></span>
                                 <span><?= lang('receive_notifications') ?></span>
                             </button>
-
-                            <br><br>
-
-                            <h4><?= lang('services') ?></h4>
-                            <div id="provider-services"></div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="working-plan-view provider-view" style="display: none;">
-                    <h3><?= lang('working_plan') ?></h3>
-                    <button id="reset-working-plan" class="btn btn-primary"
-                            title="Reset the working plan back to the default values.">
-                        <span class="glyphicon glyphicon-repeat"></span>
-                        <?= lang('reset_plan') ?></button>
-                    <table class="working-plan table table-striped">
-                        <thead>
+        <!-- PROVIDERS TAB -->
+
+        <div role="tabpanel" class="tab-pane" id="providers">
+            <div class="row">
+                <div id="filter-providers" class="filter-records column col-xs-12 col-sm-5">
+                    <form class="input-append">
+                        <input class="key" type="text" />
+                        <div class="btn-group">
+                            <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
+                                <span class="glyphicon glyphicon-repeat"></span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <h3><?= lang('providers') ?></h3>
+                    <div class="results"></div>
+                </div>
+
+                <div class="record-details column col-xs-12 col-sm-7">
+                    <div class="pull-left">
+                        <div class="add-edit-delete-group btn-group">
+                            <button id="add-provider" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <?= lang('add') ?>
+                            </button>
+                            <button id="edit-provider" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <?= lang('edit') ?>
+                            </button>
+                            <button id="delete-provider" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <?= lang('delete') ?>
+                            </button>
+                        </div>
+
+                        <div class="save-cancel-group btn-group" style="display:none;">
+                            <button id="save-provider" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <?= lang('save') ?>
+                            </button>
+                            <button id="cancel-provider" class="btn btn-default">
+                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <?= lang('cancel') ?>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="switch-view pull-right">
+                        <strong><?= lang('current_view') ?></strong>
+                        <div class="display-details current"><?= lang('details') ?></div>
+                        <div class="display-working-plan"><?= lang('working_plan') ?></div>
+                    </div>
+
+                    <?php // This form message is outside the details view, so that it can be
+                    // visible when the user has working plan view active. ?>
+                    <div class="form-message alert" style="display:none;"></div>
+
+                    <div class="details-view provider-view">
+                        <h3><?= lang('details') ?></h3>
+
+                        <input type="hidden" id="provider-id" class="record-id" />
+
+                        <div class="row">
+                            <div class="provider-details col-md-6">
+                                <div class="form-group">
+                                    <label for="provider-first-name"><?= lang('first_name') ?> *</label>
+                                    <input type="text" id="provider-first-name" class="form-control required" maxlength="256" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-last-name"><?= lang('last_name') ?> *</label>
+                                    <input type="text" id="provider-last-name" class="form-control required" maxlength="512" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-email"><?= lang('email') ?> *</label>
+                                    <input type="text" id="provider-email" class="form-control required" max="512" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-phone-number"><?= lang('phone_number') ?> *</label>
+                                    <input type="text" id="provider-phone-number" class="form-control required" max="128" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-mobile-number"><?= lang('mobile_number') ?></label>
+                                    <input type="text" id="provider-mobile-number" class="form-control" maxlength="128" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-address"><?= lang('address') ?></label>
+                                    <input type="text" id="provider-address" class="form-control" maxlength="256" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-city"><?= lang('city') ?></label>
+                                    <input type="text" id="provider-city" class="form-control" maxlength="256" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-state"><?= lang('state') ?></label>
+                                    <input type="text" id="provider-state" class="form-control" maxlength="256" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-zip-code"><?= lang('zip_code') ?></label>
+                                    <input type="text" id="provider-zip-code" class="form-control" maxlength="64" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-notes"><?= lang('notes') ?></label>
+                                    <textarea id="provider-notes" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="provider-settings col-md-6">
+                                <div class="form-group">
+                                    <label for="provider-username"><?= lang('username') ?> *</label>
+                                    <input type="text" id="provider-username" class="form-control required" maxlength="256" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-password"><?= lang('password') ?> *</label>
+                                    <input type="password" id="provider-password" class="form-control required" maxlength="512"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-password-confirm"><?= lang('retype_password') ?> *</label>
+                                    <input type="password" id="provider-password-confirm" class="form-control required" maxlength="512" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-calendar-view"><?= lang('calendar') ?> *</label>
+                                    <select id="provider-calendar-view" class="form-control required">
+                                        <option value="default">Default</option>
+                                        <option value="table">Table</option>
+                                    </select>
+                                </div>
+
+                                <br>
+
+                                <button type="button" id="provider-notifications" class="btn btn-default" data-toggle="button">
+                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    <span><?= lang('receive_notifications') ?></span>
+                                </button>
+
+                                <br><br>
+
+                                <h4><?= lang('services') ?></h4>
+                                <div id="provider-services"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="working-plan-view provider-view" style="display: none;">
+                        <h3><?= lang('working_plan') ?></h3>
+                        <button id="reset-working-plan" class="btn btn-primary"
+                                title="Reset the working plan back to the default values.">
+                            <span class="glyphicon glyphicon-repeat"></span>
+                            <?= lang('reset_plan') ?></button>
+                        <table class="working-plan table table-striped">
+                            <thead>
                             <tr>
                                 <th><?= lang('day') ?></th>
                                 <th><?= lang('start') ?></th>
                                 <th><?= lang('end') ?></th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td>
                                     <div class="checkbox">
@@ -423,185 +425,186 @@
                                 <td><input type="text" id="sunday-start" class="work-start" /></td>
                                 <td><input type="text" id="sunday-end" class="work-end" /></td>
                             </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
-                    <br>
+                        <br>
 
-                    <h3><?= lang('breaks');?></h3>
+                        <h3><?= lang('breaks');?></h3>
 
-                    <span class="help-block">
+                        <span class="help-block">
                         <?= lang('add_breaks_during_each_day');?>
                     </span>
 
-                    <div>
-                        <button type="button" class="add-break btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            <?= lang('add_break');?>
-                        </button>
-                    </div>
+                        <div>
+                            <button type="button" class="add-break btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <?= lang('add_break');?>
+                            </button>
+                        </div>
 
-                    <br>
+                        <br>
 
-                    <table class="breaks table table-striped">
-                        <thead>
+                        <table class="breaks table table-striped">
+                            <thead>
                             <tr>
                                 <th><?= lang('day');?></th>
                                 <th><?= lang('start');?></th>
                                 <th><?= lang('end');?></th>
                                 <th><?= lang('actions');?></th>
                             </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- SECRETARIES TAB -->
+        <!-- SECRETARIES TAB -->
 
-    <div id="secretaries" class="tab-content" style="display:none;">
-        <div class="row">
-            <div id="filter-secretaries" class="filter-records column col-xs-12 col-sm-5">
-                <form class="input-append">
-                    <input class="key" type="text" />
-                    <div class="btn-group">
-                        <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter');?>">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear');?>">
-                            <span class="glyphicon glyphicon-repeat"></span>
-                        </button>
-                    </div>
-                </form>
+        <div role="tabpanel" class="tab-pane" id="secretaries">
+            <div class="row">
+                <div id="filter-secretaries" class="filter-records column col-xs-12 col-sm-5">
+                    <form class="input-append">
+                        <input class="key" type="text" />
+                        <div class="btn-group">
+                            <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter');?>">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear');?>">
+                                <span class="glyphicon glyphicon-repeat"></span>
+                            </button>
+                        </div>
+                    </form>
 
-                <h3><?= lang('secretaries');?></h3>
-                <div class="results"></div>
-            </div>
-
-            <div class="record-details column col-xs-12 col-sm-7">
-                <div class="btn-toolbar">
-                    <div class="add-edit-delete-group btn-group">
-                        <button id="add-secretary" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            <?= lang('add');?>
-                        </button>
-                        <button id="edit-secretary" class="btn btn-default" disabled="disabled">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <?= lang('edit');?>
-                        </button>
-                        <button id="delete-secretary" class="btn btn-default" disabled="disabled">
-                            <span class="glyphicon glyphicon-remove"></span>
-                            <?= lang('delete');?>
-                        </button>
-                    </div>
-
-                    <div class="save-cancel-group btn-group" style="display:none;">
-                        <button id="save-secretary" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-ok"></span>
-                            <?= lang('save');?>
-                        </button>
-                        <button id="cancel-secretary" class="btn btn-default">
-                            <span class="glyphicon glyphicon-ban-circle"></span>
-                            <?= lang('cancel');?>
-                        </button>
-                    </div>
+                    <h3><?= lang('secretaries');?></h3>
+                    <div class="results"></div>
                 </div>
 
-                <h3><?= lang('details');?></h3>
-
-                <div class="form-message alert" style="display:none;"></div>
-
-                <input type="hidden" id="secretary-id" class="record-id" />
-
-                <div class="row">
-                    <div class="secretary-details col-md-6">
-                        <div class="form-group">
-                            <label for="secretary-first-name"><?= lang('first_name');?> *</label>
-                            <input type="text" id="secretary-first-name" class="form-control required" maxlength="256" />
+                <div class="record-details column col-xs-12 col-sm-7">
+                    <div class="btn-toolbar">
+                        <div class="add-edit-delete-group btn-group">
+                            <button id="add-secretary" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <?= lang('add');?>
+                            </button>
+                            <button id="edit-secretary" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <?= lang('edit');?>
+                            </button>
+                            <button id="delete-secretary" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <?= lang('delete');?>
+                            </button>
                         </div>
 
-                        <div class="form-group">
-                            <label for="secretary-last-name"><?= lang('last_name');?> *</label>
-                            <input type="text" id="secretary-last-name" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-email"><?= lang('email');?> *</label>
-                            <input type="text" id="secretary-email" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-phone-number"><?= lang('phone_number');?> *</label>
-                            <input type="text" id="secretary-phone-number" class="form-control required" maxlength="128" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-mobile-number"><?= lang('mobile_number');?></label>
-                            <input type="text" id="secretary-mobile-number" class="form-control" maxlength="128" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-address"><?= lang('address');?></label>
-                            <input type="text" id="secretary-address" class="form-control" maxlength="256" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-city"><?= lang('city');?></label>
-                            <input type="text" id="secretary-city" class="form-control" maxlength="256" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-state"><?= lang('state');?></label>
-                            <input type="text" id="secretary-state" class="form-control" maxlength="128" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-zip-code"><?= lang('zip_code');?></label>
-                            <input type="text" id="secretary-zip-code" class="form-control" maxlength="64" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-notes"><?= lang('notes');?></label>
-                            <textarea id="secretary-notes" class="form-control" rows="3"></textarea>
+                        <div class="save-cancel-group btn-group" style="display:none;">
+                            <button id="save-secretary" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <?= lang('save');?>
+                            </button>
+                            <button id="cancel-secretary" class="btn btn-default">
+                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <?= lang('cancel');?>
+                            </button>
                         </div>
                     </div>
-                    <div class="secretary-settings col-md-6">
-                        <div class="form-group">
-                            <label for="secretary-username"><?= lang('username');?> *</label>
-                            <input type="text" id="secretary-username" class="form-control required" maxlength="256" />
+
+                    <h3><?= lang('details');?></h3>
+
+                    <div class="form-message alert" style="display:none;"></div>
+
+                    <input type="hidden" id="secretary-id" class="record-id" />
+
+                    <div class="row">
+                        <div class="secretary-details col-md-6">
+                            <div class="form-group">
+                                <label for="secretary-first-name"><?= lang('first_name');?> *</label>
+                                <input type="text" id="secretary-first-name" class="form-control required" maxlength="256" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-last-name"><?= lang('last_name');?> *</label>
+                                <input type="text" id="secretary-last-name" class="form-control required" maxlength="512" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-email"><?= lang('email');?> *</label>
+                                <input type="text" id="secretary-email" class="form-control required" maxlength="512" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-phone-number"><?= lang('phone_number');?> *</label>
+                                <input type="text" id="secretary-phone-number" class="form-control required" maxlength="128" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-mobile-number"><?= lang('mobile_number');?></label>
+                                <input type="text" id="secretary-mobile-number" class="form-control" maxlength="128" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-address"><?= lang('address');?></label>
+                                <input type="text" id="secretary-address" class="form-control" maxlength="256" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-city"><?= lang('city');?></label>
+                                <input type="text" id="secretary-city" class="form-control" maxlength="256" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-state"><?= lang('state');?></label>
+                                <input type="text" id="secretary-state" class="form-control" maxlength="128" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-zip-code"><?= lang('zip_code');?></label>
+                                <input type="text" id="secretary-zip-code" class="form-control" maxlength="64" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-notes"><?= lang('notes');?></label>
+                                <textarea id="secretary-notes" class="form-control" rows="3"></textarea>
+                            </div>
                         </div>
+                        <div class="secretary-settings col-md-6">
+                            <div class="form-group">
+                                <label for="secretary-username"><?= lang('username');?> *</label>
+                                <input type="text" id="secretary-username" class="form-control required" maxlength="256" />
+                            </div>
 
-                        <div class="form-group">
-                            <label for="secretary-password"><?= lang('password');?> *</label>
-                            <input type="password" id="secretary-password" class="form-control required" maxlength="512" />
+                            <div class="form-group">
+                                <label for="secretary-password"><?= lang('password');?> *</label>
+                                <input type="password" id="secretary-password" class="form-control required" maxlength="512" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-password-confirm"><?= lang('retype_password');?> *</label>
+                                <input type="password" id="secretary-password-confirm" class="form-control required" maxlength="512" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-calendar-view"><?= lang('calendar') ?> *</label>
+                                <select id="secretary-calendar-view" class="form-control required">
+                                    <option value="default">Default</option>
+                                    <option value="table">Table</option>
+                                </select>
+                            </div>
+
+                            <br>
+
+                            <button type="button" id="secretary-notifications" class="btn btn-default" data-toggle="button">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <span><?= lang('receive_notifications');?></span>
+                            </button>
+
+                            <br><br>
+
+                            <h4><?= lang('providers');?></h4>
+                            <div id="secretary-providers"></div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="secretary-password-confirm"><?= lang('retype_password');?> *</label>
-                            <input type="password" id="secretary-password-confirm" class="form-control required" maxlength="512" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="secretary-calendar-view"><?= lang('calendar') ?> *</label>
-                            <select id="secretary-calendar-view" class="form-control required">
-                                <option value="default">Default</option>
-                                <option value="table">Table</option>
-                            </select>
-                        </div>
-
-                        <br>
-
-                        <button type="button" id="secretary-notifications" class="btn btn-default" data-toggle="button">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                            <span><?= lang('receive_notifications');?></span>
-                        </button>
-
-                        <br><br>
-
-                        <h4><?= lang('providers');?></h4>
-                        <div id="secretary-providers"></div>
                     </div>
                 </div>
             </div>

@@ -123,31 +123,23 @@ window.BackendUsers = window.BackendUsers || {};
          *
          * Changes the displayed tab.
          */
-        $('.tab').click(function() {
-            $(this).parent().find('.active').removeClass('active');
-            $(this).addClass('active');
-            $('.tab-content').hide();
-            $('#admins, #providers, #secretaries').off();
-
-            if ($(this).hasClass('admins-tab')) { // display admins tab
-                $('#admins').show();
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+            if ($(this).attr('href') === '#admins') {
                 helper = new AdminsHelper();
-            } else if ($(this).hasClass('providers-tab')) { // display providers tab
-                $('#providers').show();
+            } else if ($(this).attr('href') === '#providers') {
                 $('#provider-services').data('jsp').destroy();
                 $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
                 helper = new ProvidersHelper();
-            } else if ($(this).hasClass('secretaries-tab')) { // display secretaries tab
-                $('#secretaries').show();
+            } else if ($(this).attr('href') === '#secretaries') {
                 helper = new SecretariesHelper();
 
                 // Update the list with the all the available providers.
-                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
-                var postData = {
+                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
+                var data = {
                     csrfToken: GlobalVariables.csrfToken,
                     key: ''
                 };
-                $.post(postUrl, postData, function(response) {
+                $.post(url, data, function(response) {
                     if (!GeneralFunctions.handleAjaxExceptions(response)) {
                         return;
                     }
@@ -165,12 +157,10 @@ window.BackendUsers = window.BackendUsers || {};
                                     provider.first_name + ' ' + provider.last_name +
                                 '</label>' +
                             '</div>';
-
                     });
                     html += '</div>';
                     $('#secretary-providers').html(html);
-
-                    $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
+                    $('#secretary-providers input:checkbox').prop('disabled', true);
                     $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
                 }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
             }
@@ -226,6 +216,6 @@ window.BackendUsers = window.BackendUsers || {};
                 }
             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
         });
-    };
+    }
 
 })(window.BackendUsers);
