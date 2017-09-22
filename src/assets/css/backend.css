@@ -157,6 +157,9 @@ body .modal-header .close {
     color: #12482a;
 }
 
+body .modal-content {
+    border: none;
+}
 
 /* Full screen modal */
 body .modal.full-screen .modal-dialog {
