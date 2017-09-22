@@ -489,7 +489,6 @@ body .form-horizontal .controls {
     height: 370px;
     max-width: 330px;
     width: 100%;
-    border: 4px solid #E2E2E2;
     margin-bottom: 20px;
     overflow-y: auto;
     outline: none;
@@ -497,7 +496,7 @@ body .form-horizontal .controls {
 
 #customers-page #customer-appointments .appointment-row {
     padding: 7px;
-    border-bottom: 4px solid #E2E2E2;
+    border-bottom: 1px solid #E2E2E2;
     border-right: none;
 }
 
@@ -513,12 +512,12 @@ body .form-horizontal .controls {
 #customers-page #appointment-details {
     max-width: 330px;
     margin-bottom: 20px;
+    padding: 0;
 }
 
 #customers-page #appointment-details div {
     padding: 10px;
     background: #F8F8F8;
-    border-bottom: 4px solid #EEE;
 }
 
 

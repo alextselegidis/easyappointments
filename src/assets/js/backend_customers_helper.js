@@ -281,8 +281,8 @@
         $('.record-details').find('input, textarea').val('');
         $('.record-details').find('input, textarea').prop('readonly', true);
 
-        $('#customer-appointments').html('');
-        $('#appointment-details').html('');
+        $('#customer-appointments').empty();
+        $('#appointment-details').toggleClass('hidden', true).empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
@@ -444,7 +444,7 @@
                     start + ' - ' + end + '<br>' +
                 '</div>';
 
-        $('#appointment-details').html(html);
+        $('#appointment-details').html(html).removeClass('hidden');
     };
 
     window.CustomersHelper = CustomersHelper;

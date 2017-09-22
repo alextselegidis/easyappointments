@@ -25,8 +25,11 @@
 <div id="customers-page" class="container-fluid backend-page">
     <div class="row">
     	<div id="filter-customers" class="filter-records column col-xs-12 col-sm-5">
-    		<form class="input-append">
-    			<input class="key" type="text" />
+    		<form>
+                <div class="form-group">
+    			    <input class="key" type="text">
+                </div>
+
                 <div class="btn-group">
                     <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
                         <span class="glyphicon glyphicon-search"></span>
@@ -44,26 +47,26 @@
     	<div class="record-details col-xs-12 col-sm-7">
             <div class="btn-toolbar">
                 <div id="add-edit-delete-group" class="btn-group">
-                    <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
                     <button id="add-customer" class="btn btn-primary">
                         <span class="glyphicon glyphicon-plus"></span>
                         <?= lang('add') ?>
                     </button>
-                    <?php } ?>
+                    <?php endif ?>
 
-                    <?php if ($privileges[PRIV_CUSTOMERS]['edit'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
                     <button id="edit-customer" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?= lang('edit') ?>
                     </button>
-                    <?php }?>
+                    <?php endif ?>
 
-                    <?php if ($privileges[PRIV_CUSTOMERS]['delete'] == TRUE) { ?>
+                    <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
                     <button id="delete-customer" class="btn btn-default" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?= lang('delete') ?>
                     </button>
-                    <?php } ?>
+                    <?php endif ?>
                 </div>
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
@@ -78,46 +81,47 @@
                 </div>
             </div>
 
-            <input id="customer-id" type="hidden" />
+            <input id="customer-id" type="hidden">
 
             <div class="row">
-                <div class="col-md-6" style="margin-left: 0;">
+                <div class="col-xs-12 col-sm-6" style="margin-left: 0;">
                     <h3><?= lang('details') ?></h3>
+
                     <div id="form-message" class="alert" style="display:none;"></div>
 
                     <div class="form-group">
                         <label for="first-name"><?= lang('first_name') ?> *</label>
-                        <input type="text" id="first-name" class="form-control required" />
+                        <input type="text" id="first-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="last-name"><?= lang('last_name') ?> *</label>
-                        <input type="text" id="last-name" class="form-control required" />
+                        <input type="text" id="last-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="email"><?= lang('email') ?> *</label>
-                        <input type="text" id="email" class="form-control required" />
+                        <input type="text" id="email" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="phone-number"><?= lang('phone_number') ?> *</label>
-                        <input type="text" id="phone-number" class="form-control required" />
+                        <input type="text" id="phone-number" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="address"><?= lang('address') ?></label>
-                        <input type="text" id="address" class="form-control" />
+                        <input type="text" id="address" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="city"><?= lang('city') ?></label>
-                        <input type="text" id="city" class="form-control" />
+                        <input type="text" id="city" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="zip-code"><?= lang('zip_code') ?></label>
-                        <input type="text" id="zip-code" class="form-control" />
+                        <input type="text" id="zip-code" class="form-control">
                     </div>
 
                     <div class="form-group">
@@ -125,14 +129,15 @@
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
 
-                    <center><em id="form-message" class="text-error">
-                        <?= lang('fields_are_required') ?></em></center>
+                    <p class="text-center">
+                        <em id="form-message" class="text-danger"><?= lang('fields_are_required') ?></em>
+                    </p>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-xs-12 col-sm-6">
                     <h3><?= lang('appointments') ?></h3>
-                    <div id="customer-appointments"></div>
-                    <div id="appointment-details"></div>
+                    <div id="customer-appointments" class="well"></div>
+                    <div id="appointment-details" class="well hidden"></div>
                 </div>
             </div>
     	</div>
