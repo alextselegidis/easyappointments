@@ -459,13 +459,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                             .add({ minutes: -minuteDelta })
                             .toString('yyyy-MM-dd HH:mm:ss');
 
-                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
-                    var postData = {
+                    var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+                    var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(postUrl, postData, function(response) {
+                    $.post(url, data, function(response) {
                         $('#notification').hide('blind');
                         revertFunc();
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);

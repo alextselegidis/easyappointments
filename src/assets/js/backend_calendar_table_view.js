@@ -318,56 +318,71 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $(this).parents().eq(2).popover('destroy'); // Hide the popover
 
             if (lastFocusedEventData.is_unavailable == false) {
-                var messageButtons = {};
-                messageButtons['OK'] = function() {
-                    var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
-                    var postData = {
-                        csrfToken: GlobalVariables.csrfToken,
-                        appointment_id : lastFocusedEventData['id'],
-                        delete_reason: $('#delete-reason').val()
-                    };
+                var buttons = [
+                    {
+                        text: 'OK',
+                        click: function() {
+                            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
+                            var postData = {
+                                csrfToken: GlobalVariables.csrfToken,
+                                appointment_id : lastFocusedEventData['id'],
+                                delete_reason: $('#delete-reason').val()
+                            };
 
-                    $.post(postUrl, postData, function(response) {
-                        $('#message_box').dialog('close');
+                            $.post(postUrl, postData, function(response) {
+                                $('#message_box').dialog('close');
 
-                        if (response.exceptions) {
-                            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                            GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                                    GeneralFunctions.EXCEPTIONS_MESSAGE);
-                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                            return;
+                                if (response.exceptions) {
+                                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
+                                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
+                                        GeneralFunctions.EXCEPTIONS_MESSAGE);
+                                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
+                                    return;
+                                }
+
+                                if (response.warnings) {
+                                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
+                                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
+                                        GeneralFunctions.WARNINGS_MESSAGE);
+                                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                                }
+
+                                // Refresh calendar event items.
+                                $('#select-filter-item').trigger('change');
+                            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                         }
+                    },
 
-                        if (response.warnings) {
-                            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                            GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
-                                    GeneralFunctions.WARNINGS_MESSAGE);
-                            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
+                    {
+                        text: EALang.cancel,
+                        click: function() {
+                            $('#message_box').dialog('close');
                         }
-
-                        // Refresh calendar event items.
-                        $('#select-filter-item').trigger('change');
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
-                };
-
-                messageButtons[EALang.cancel] = function() {
-                    $('#message_box').dialog('close');
-                };
+                    }
+                ];
 
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
-                        EALang.write_appointment_removal_reason, messageButtons);
+                        EALang.write_appointment_removal_reason, buttons);
 
-                $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
-                $('#delete-reason').css('width', '100%');
+                var $formGroup = $('<div/>', {
+                    'class': 'form-group'
+                })
+                    .appendTo('#message_box');
+
+                $('<textarea/>', {
+                    'id': 'delete-reason',
+                    'class': 'form-control'
+                })
+                    .appendTo($formGroup);
             } else {
                 // Do not display confirmation promt.
-                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
-                var postData = {
+                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
+                var data = {
                     csrfToken: GlobalVariables.csrfToken,
                     unavailable_id : lastFocusedEventData.id
                 };
 
-                $.post(postUrl, postData, function(response) {
+                $.post(url, data, function(response) {
                     $('#message_box').dialog('close');
 
                     if (response.exceptions) {
