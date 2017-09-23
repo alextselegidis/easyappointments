@@ -30,22 +30,22 @@
 <div id="settings-page" class="container-fluid">
     <ul class="nav nav-tabs" role="tablist">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-        <li role="presentation" class="active">
-            <a href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>
-        </li>
+            <li role="presentation" class="active">
+                <a href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>
+            </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-        <li role="presentation">
-            <a href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
-        </li>
+            <li role="presentation">
+                <a href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
+            </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
-        <li role="presentation">
-            <a href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
-        </li>
+            <li role="presentation">
+                <a href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
+            </li>
         <?php endif ?>
         <li role="presentation">
-            <a href="#about-ea" aria-controls="about-ea" role="tab" data-toggle="tab"><?= lang('about_ea') ?></a>
+            <a href="#about-app" aria-controls="about-app" role="tab" data-toggle="tab"><?= lang('about_app') ?></a>
         </li>
     </ul>
 
@@ -72,37 +72,37 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="company-name"><?= lang('company_name') ?> *</label>
-                                <input type="text" id="company-name" data-field="company_name" class="required form-control">
+                                <input id="company-name" data-field="company_name" class="required form-control">
                                 <span class="help-block">
-                                <?= lang('company_name_hint') ?>
-                            </span>
+                                    <?= lang('company_name_hint') ?>
+                                </span>
                             </div>
 
                             <div class="form-group">
                                 <label for="company-email"><?= lang('company_email') ?> *</label>
-                                <input type="text" id="company-email" data-field="company_email" class="required form-control">
+                                <input id="company-email" data-field="company_email" class="required form-control">
                                 <span class="help-block">
-                                <?= lang('company_email_hint') ?>
-                            </span>
+                                    <?= lang('company_email_hint') ?>
+                                </span>
                             </div>
 
                             <div class="form-group">
                                 <label for="company-link"><?= lang('company_link') ?> *</label>
-                                <input type="text" id="company-link" data-field="company_link" class="required form-control">
+                                <input id="company-link" data-field="company_link" class="required form-control">
                                 <span class="help-block">
-                                <?= lang('company_link_hint') ?>
-                            </span>
+                                    <?= lang('company_link_hint') ?>
+                                </span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="google-analytics-code">
                                     Google Analytics ID</label>
-                                <input type="text" id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
+                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
                                        data-field="google_analytics_code" class="form-control">
                                 <span class="help-block">
-                                <?= lang('google_analytics_code_hint') ?>
-                            </span>
+                                    <?= lang('google_analytics_code_hint') ?>
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label for="date-format">
@@ -114,8 +114,8 @@
                                     <option value="YMD">YMD</option>
                                 </select>
                                 <span class="help-block">
-                                <?= lang('date_format_hint') ?>
-                            </span>
+                                    <?= lang('date_format_hint') ?>
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label><?= lang('customer_notifications') ?></label>
@@ -125,8 +125,8 @@
                                     <?= lang('receive_notifications') ?>
                                 </button>
                                 <span class="help-block">
-                                <?= lang('customer_notifications_hint') ?>
-                            </span>
+                                    <?= lang('customer_notifications_hint') ?>
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label for="require-captcha">
@@ -138,8 +138,8 @@
                                     <?= lang('require_captcha') ?>
                                 </button>
                                 <span class="help-block">
-                                <?= lang('require_captcha_hint') ?>
-                            </span>
+                                    <?= lang('require_captcha_hint') ?>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -168,8 +168,8 @@
                         <div class="col-md-7 working-plan-wrapper">
                             <h4><?= lang('working_plan') ?></h4>
                             <span class="help-block">
-                            <?= lang('edit_working_plan_hint') ?>
-                        </span>
+                                <?= lang('edit_working_plan_hint') ?>
+                            </span>
 
                             <table class="working-plan table table-striped">
                                 <thead>
@@ -184,85 +184,85 @@
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="monday" />
+                                                <input type="checkbox" id="monday">
                                                 <?= lang('monday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="monday-start" class="work-start" /></td>
-                                    <td><input type="text" id="monday-end" class="work-end" /></td>
+                                    <td><input id="monday-start" class="work-start form-control"></td>
+                                    <td><input id="monday-end" class="work-end form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="tuesday" />
+                                                <input type="checkbox" id="tuesday">
                                                 <?= lang('tuesday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="tuesday-start" class="work-start" /></td>
-                                    <td><input type="text" id="tuesday-end" class="work-end" /></td>
+                                    <td><input id="tuesday-start" class="work-start form-control"></td>
+                                    <td><input id="tuesday-end" class="work-end form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="wednesday" />
+                                                <input type="checkbox" id="wednesday">
                                                 <?= lang('wednesday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="wednesday-start" class="work-start" /></td>
-                                    <td><input type="text" id="wednesday-end" class="work-end" /></td>
+                                    <td><input id="wednesday-start" class="work-start form-control"></td>
+                                    <td><input id="wednesday-end" class="work-end form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="thursday" />
+                                                <input type="checkbox" id="thursday">
                                                 <?= lang('thursday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="thursday-start" class="work-start" /></td>
-                                    <td><input type="text" id="thursday-end" class="work-end" /></td>
+                                    <td><input id="thursday-start" class="work-start form-control"></td>
+                                    <td><input id="thursday-end" class="work-end form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="friday" />
+                                                <input type="checkbox" id="friday">
                                                 <?= lang('friday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="friday-start" class="work-start" /></td>
-                                    <td><input type="text" id="friday-end" class="work-end" /></td>
+                                    <td><input id="friday-start" class="work-start form-control"></td>
+                                    <td><input id="friday-end" class="work-end form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="saturday" />
+                                                <input type="checkbox" id="saturday">
                                                 <?= lang('saturday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="saturday-start" class="work-start" /></td>
-                                    <td><input type="text" id="saturday-end" class="work-end" /></td>
+                                    <td><input id="saturday-start" class="work-start form-control"></td>
+                                    <td><input id="saturday-end" class="work-end form-control"></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" id="sunday" />
+                                                <input type="checkbox" id="sunday">
                                                 <?= lang('sunday') ?>
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input type="text" id="sunday-start" class="work-start" /></td>
-                                    <td><input type="text" id="sunday-end" class="work-end" /></td>
+                                    <td><input id="sunday-start" class="work-start form-control"></td>
+                                    <td><input id="sunday-end" class="work-end form-control"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -271,19 +271,19 @@
 
                             <h4><?= lang('book_advance_timeout') ?></h4>
                             <span class="help-block">
-                            <?= lang('book_advance_timeout_hint') ?>
-                        </span>
+                                <?= lang('book_advance_timeout_hint') ?>
+                            </span>
                             <div class="form-group">
                                 <label for="book-advance-timeout"><?= lang('timeout_minutes') ?></label>
-                                <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" />
+                                <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-5 breaks-wrapper">
                             <h4><?= lang('breaks') ?></h4>
 
                             <span class="help-block">
-                            <?= lang('edit_breaks_hint') ?>
-                        </span>
+                                <?= lang('edit_breaks_hint') ?>
+                            </span>
 
                             <div>
                                 <button type="button" class="add-break btn btn-primary">
@@ -296,15 +296,14 @@
 
                             <table class="breaks table table-striped">
                                 <thead>
-                                <tr>
-                                    <th><?= lang('day') ?></th>
-                                    <th><?= lang('start') ?></th>
-                                    <th><?= lang('end') ?></th>
-                                    <th><?= lang('actions') ?></th>
-                                </tr>
+                                    <tr>
+                                        <th><?= lang('day') ?></th>
+                                        <th><?= lang('start') ?></th>
+                                        <th><?= lang('end') ?></th>
+                                        <th><?= lang('actions') ?></th>
+                                    </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody><!-- Dynamic Content --></tbody>
                             </table>
                         </div>
                     </div>
@@ -330,51 +329,51 @@
                             <?php endif ?>
                         </legend>
 
-                        <input type="hidden" id="user-id" />
+                        <input type="hidden" id="user-id">
 
                         <div class="form-group">
                             <label for="first-name"><?= lang('first_name') ?> *</label>
-                            <input type="text" id="first-name" class="form-control required" />
+                            <input id="first-name" class="form-control required">
                         </div>
 
                         <div class="form-group">
                             <label for="last-name"><?= lang('last_name') ?> *</label>
-                            <input type="text" id="last-name" class="form-control required" />
+                            <input id="last-name" class="form-control required">
                         </div>
 
                         <div class="form-group">
                             <label for="email"><?= lang('email') ?> *</label>
-                            <input type="text" id="email" class="form-control required" />
+                            <input id="email" class="form-control required">
                         </div>
 
                         <div class="form-group">
                             <label for="phone-number"><?= lang('phone_number') ?> *</label>
-                            <input type="text" id="phone-number" class="form-control required" />
+                            <input id="phone-number" class="form-control required">
                         </div>
 
                         <div class="form-group">
                             <label for="mobile-number"><?= lang('mobile_number') ?></label>
-                            <input type="text" id="mobile-number" class="form-control" />
+                            <input id="mobile-number" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="address"><?= lang('address') ?></label>
-                            <input type="text" id="address" class="form-control" />
+                            <input id="address" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="city"><?= lang('city') ?></label>
-                            <input type="text" id="city" class="form-control" />
+                            <input id="city" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="state"><?= lang('state') ?></label>
-                            <input type="text" id="state" class="form-control" />
+                            <input id="state" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="zip-code"><?= lang('zip_code') ?></label>
-                            <input type="text" id="zip-code" class="form-control" />
+                            <input id="zip-code" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -388,17 +387,17 @@
 
                     <div class="form-group">
                         <label for="username"><?= lang('username') ?> *</label>
-                        <input type="text" id="username" class="form-control required" />
+                        <input id="username" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="password"><?= lang('password') ?></label>
-                        <input type="password" id="password" class="form-control" />
+                        <input type="password" id="password" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="retype-password"><?= lang('retype_password') ?></label>
-                        <input type="password" id="retype-password" class="form-control" />
+                        <input type="password" id="retype-password" class="form-control">
                     </div>
 
                     <div class="form-group">
@@ -418,12 +417,13 @@
             </form>
         </div>
 
-        <!-- ABOUT E!A TAB -->
+        <!-- ABOUT TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="about-ea">
+        <div role="tabpanel" class="tab-pane" id="about-app">
             <h3>Easy!Appointments</h3>
+
             <p>
-                <?= lang('about_ea_info') ?>
+                <?= lang('about_app_info') ?>
             </p>
 
             <br>
@@ -440,7 +440,7 @@
 
             <h3><?= lang('support') ?></h3>
             <p>
-                <?= lang('about_ea_support') ?>
+                <?= lang('about_app_support') ?>
 
                 <br><br>
 
@@ -480,8 +480,9 @@
             <br>
 
             <h3><?= lang('license') ?></h3>
+
             <p>
-                <?= lang('about_ea_license') ?>
+                <?= lang('about_app_license') ?>
                 <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
             </p>
         </div>

@@ -176,12 +176,12 @@
                             <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="start-datetime" class="control-label"><?= lang('start_date_time') ?></label>
-                                    <input type="text" id="start-datetime" class="form-control">
+                                    <input id="start-datetime" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="end-datetime" class="control-label"><?= lang('end_date_time') ?></label>
-                                    <input type="text" id="end-datetime" class="form-control">
+                                    <input id="end-datetime" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -209,7 +209,7 @@
                                     title="<?= lang('pick_existing_customer_hint') ?>"
                                     type="button"><?= lang('select') ?>
                             </button>
-                            <input type="text" id="filter-existing-customers"
+                            <input id="filter-existing-customers"
                                    placeholder="<?= lang('type_to_filter_customers') ?>"
                                    style="display: none;" class="input-sm">
                             <div id="existing-customers-list" style="display: none;"></div>
@@ -221,38 +221,38 @@
                             <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
-                                    <input type="text" id="first-name" class="required form-control">
+                                    <input id="first-name" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="last-name" class="control-label"><?= lang('last_name') ?> *</label>
-                                    <input type="text" id="last-name" class="required form-control">
+                                    <input id="last-name" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="email" class="control-label"><?= lang('email') ?> *</label>
-                                    <input type="text" id="email" class="required form-control">
+                                    <input id="email" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="phone-number" class="control-label"><?= lang('phone_number') ?> *</label>
-                                    <input type="text" id="phone-number" class="required form-control">
+                                    <input id="phone-number" class="required form-control">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="address" class="control-label"><?= lang('address') ?></label>
-                                    <input type="text" id="address" class="form-control">
+                                    <input id="address" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="city" class="control-label"><?= lang('city') ?></label>
-                                    <input type="text" id="city" class="form-control">
+                                    <input id="city" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="zip-code" class="control-label"><?= lang('zip_code') ?></label>
-                                    <input type="text" id="zip-code" class="form-control">
+                                    <input id="zip-code" class="form-control">
                                 </div>
 
                                 <div class="form-group">
@@ -291,17 +291,17 @@
                         
                         <div class="form-group">
                             <label for="unavailable-provider" class="control-label"><?= lang('provider') ?></label>
-                            <select type="text" id="unavailable-provider" class="form-control"></select>
+                            <select id="unavailable-provider" class="form-control"></select>
                         </div>
 
                         <div class="form-group">
                             <label for="unavailable-start" class="control-label"><?= lang('start') ?></label>
-                            <input type="text" id="unavailable-start" class="form-control">
+                            <input id="unavailable-start" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="unavailable-end" class="control-label"><?= lang('end') ?></label>
-                            <input type="text" id="unavailable-end" class="form-control">
+                            <input id="unavailable-end" class="form-control">
                         </div>
 
                         <div class="form-group">

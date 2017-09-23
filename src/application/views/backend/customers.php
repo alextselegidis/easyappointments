@@ -3,17 +3,17 @@
 <script src="<?= base_url('assets/js/backend_customers.js') ?>"></script>
 <script>
     var GlobalVariables = {
-        'csrfToken'         : <?= json_encode($this->security->get_csrf_hash()) ?>,
-        'availableProviders': <?= json_encode($available_providers) ?>,
-        'availableServices' : <?= json_encode($available_services) ?>,
-        'dateFormat'        : <?= json_encode($date_format) ?>,
-        'baseUrl'           : <?= json_encode($base_url) ?>,
-        'customers'         : <?= json_encode($customers) ?>,
-        'user'              : {
-            'id'        : <?= $user_id ?>,
-            'email'     : <?= json_encode($user_email) ?>,
-            'role_slug' : <?= json_encode($role_slug) ?>,
-            'privileges': <?= json_encode($privileges) ?>
+        csrfToken          : <?= json_encode($this->security->get_csrf_hash()) ?>,
+        availableProviders : <?= json_encode($available_providers) ?>,
+        availableServices  : <?= json_encode($available_services) ?>,
+        dateFormat         : <?= json_encode($date_format) ?>,
+        baseUrl            : <?= json_encode($base_url) ?>,
+        customers          : <?= json_encode($customers) ?>,
+        user               : {
+            id         : <?= $user_id ?>,
+            email      : <?= json_encode($user_email) ?>,
+            role_slug  : <?= json_encode($role_slug) ?>,
+            privileges : <?= json_encode($privileges) ?>
         }
     };
 
@@ -27,7 +27,7 @@
     	<div id="filter-customers" class="filter-records column col-xs-12 col-sm-5">
     		<form>
                 <div class="form-group">
-    			    <input class="key" type="text">
+    			    <input class="key">
                 </div>
 
                 <div class="btn-group">
@@ -91,37 +91,37 @@
 
                     <div class="form-group">
                         <label for="first-name"><?= lang('first_name') ?> *</label>
-                        <input type="text" id="first-name" class="form-control required">
+                        <input id="first-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="last-name"><?= lang('last_name') ?> *</label>
-                        <input type="text" id="last-name" class="form-control required">
+                        <input id="last-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="email"><?= lang('email') ?> *</label>
-                        <input type="text" id="email" class="form-control required">
+                        <input id="email" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="phone-number"><?= lang('phone_number') ?> *</label>
-                        <input type="text" id="phone-number" class="form-control required">
+                        <input id="phone-number" class="form-control required">
                     </div>
 
                     <div class="form-group">
                         <label for="address"><?= lang('address') ?></label>
-                        <input type="text" id="address" class="form-control">
+                        <input id="address" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="city"><?= lang('city') ?></label>
-                        <input type="text" id="city" class="form-control">
+                        <input id="city" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="zip-code"><?= lang('zip_code') ?></label>
-                        <input type="text" id="zip-code" class="form-control">
+                        <input id="zip-code" class="form-control">
                     </div>
 
                     <div class="form-group">

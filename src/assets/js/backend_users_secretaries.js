@@ -94,7 +94,7 @@
             $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').addClass('required');
             $('#secretary-notifications').prop('disabled', false);
-            $('#secretary-providers input[type="checkbox"]').prop('disabled', false);
+            $('#secretary-providers input:checkbox').prop('disabled', false);
         }.bind(this));
 
         /**
@@ -109,7 +109,7 @@
             $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').removeClass('required');
             $('#secretary-notifications').prop('disabled', false);
-            $('#secretary-providers input[type="checkbox"]').prop('disabled', false);
+            $('#secretary-providers input:checkbox').prop('disabled', false);
         });
 
         /**
@@ -161,7 +161,7 @@
 
             // Include secretary services.
             secretary.providers = [];
-            $('#secretary-providers input[type="checkbox"]').each(function() {
+            $('#secretary-providers input:checkbox').each(function() {
                 if ($(this).prop('checked')) {
                     secretary.providers.push($(this).attr('data-id'));
                 }
@@ -314,8 +314,8 @@
         $('#secretaries .form-message').hide();
         $('#secretary-notifications').removeClass('active');
         $('#secretary-notifications').prop('disabled', true);
-        $('#secretary-providers input[type="checkbox"]').prop('checked', false);
-        $('#secretary-providers input[type="checkbox"]').prop('disabled', true);
+        $('#secretary-providers input:checkbox').prop('checked', false);
+        $('#secretary-providers input:checkbox').prop('disabled', true);
         $('#secretaries .required').css('border', '');
         $('#secretary-password, #secretary-password-confirm').css('border', '');
 
@@ -350,9 +350,9 @@
             $('#secretary-notifications').removeClass('active');
         }
 
-        $('#secretary-providers input[type="checkbox"]').prop('checked', false);
+        $('#secretary-providers input:checkbox').prop('checked', false);
         $.each(secretary.providers, function(index, providerId) {
-            $('#secretary-providers input[type="checkbox"]').each(function() {
+            $('#secretary-providers input:checkbox').each(function() {
                 if ($(this).attr('data-id') == providerId) {
                     $(this).prop('checked', true);
                 }

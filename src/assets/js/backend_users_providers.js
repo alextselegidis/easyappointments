@@ -93,8 +93,8 @@
             $('#provider-password, #provider-password-confirm').addClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
-            $('#provider-services input[type="checkbox"]').prop('disabled', false);
-            $('#providers input[type="checkbox"]').prop('disabled', false);
+            $('#provider-services input:checkbox').prop('disabled', false);
+            $('#providers input:checkbox').prop('disabled', false);
 
             // Apply default working plan
             BackendUsers.wp.setup(GlobalVariables.workingPlan);
@@ -113,9 +113,9 @@
             $('#providers .record-details').find('select').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-notifications').prop('disabled', false);
-            $('#provider-services input[type="checkbox"]').prop('disabled', false);
+            $('#provider-services input:checkbox').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
-            $('#providers input[type="checkbox"]').prop('disabled', false);
+            $('#providers input:checkbox').prop('disabled', false);
             BackendUsers.wp.timepickers(false);
         });
 
@@ -170,7 +170,7 @@
 
             // Include provider services.
             provider.services = [];
-            $('#provider-services input[type="checkbox"]').each(function() {
+            $('#provider-services input:checkbox').each(function() {
                 if ($(this).prop('checked')) {
                     provider.services.push($(this).attr('data-id'));
                 }
@@ -357,19 +357,19 @@
         $('#providers .form-message').hide();
         $('#provider-notifications').removeClass('active');
         $('#provider-notifications').prop('disabled', true);
-        $('#provider-services input[type="checkbox"]').prop('disabled', true);
+        $('#provider-services input:checkbox').prop('disabled', true);
         $('#providers .required').css('border', '');
         $('#provider-password, #provider-password-confirm').css('border', '');
         $('#providers .add-break, #reset-working-plan').prop('disabled', true);
         BackendUsers.wp.timepickers(true);
-        $('#providers .working-plan input[type="text"]').timepicker('destroy');
-        $('#providers .working-plan input[type="checkbox"]').prop('disabled', true);
+        $('#providers .working-plan input:text').timepicker('destroy');
+        $('#providers .working-plan input:checkbox').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#providers .record-details').find('input, textarea').val('');
-        $('#providers input[type="checkbox"]').prop('checked', false);
-        $('#provider-services input[type="checkbox"]').prop('checked', false);
+        $('#providers input:checkbox').prop('checked', false);
+        $('#provider-services input:checkbox').prop('checked', false);
         $('#provider-services a').remove();
         $('#providers .breaks tbody').empty();
     };
@@ -410,9 +410,9 @@
             .append(linkHtml);
 
         $('#provider-services a').remove();
-        $('#provider-services input[type="checkbox"]').prop('checked', false);
+        $('#provider-services input:checkbox').prop('checked', false);
         $.each(provider.services, function(index, serviceId) {
-            $('#provider-services input[type="checkbox"]').each(function() {
+            $('#provider-services input:checkbox').each(function() {
                 if ($(this).attr('data-id') == serviceId) {
                     $(this).prop('checked', true);
                     // Add dedicated service-provider link.

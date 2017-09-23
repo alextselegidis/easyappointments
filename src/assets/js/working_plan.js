@@ -168,7 +168,7 @@
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan input[type="checkbox"]').click(function() {
+        $('.working-plan input:checkbox').click(function() {
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
@@ -246,6 +246,7 @@
             // Show save - cancel buttons.
             $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
             $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
+            $(this).closest('tr').find('select,input:text').addClass('form-control')
 
             $('.add-break').prop('disabled', true);
         });
@@ -313,7 +314,7 @@
      */
     WorkingPlan.prototype.get = function() {
         var workingPlan = {};
-        $('.working-plan input[type="checkbox"]').each(function(index, checkbox) {
+        $('.working-plan input:checkbox').each(function(index, checkbox) {
             var id = $(checkbox).attr('id');
             if ($(checkbox).prop('checked') == true) {
                 workingPlan[id] = {};
@@ -356,7 +357,7 @@
 
         if (disabled == false) {
             // Set timepickers where needed.
-            $('.working-plan input[type="text"]').timepicker({
+            $('.working-plan input:text').timepicker({
                 timeFormat: 'HH:mm',
 
                 currentText: EALang.now,
