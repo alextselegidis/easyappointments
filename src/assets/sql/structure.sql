@@ -3,15 +3,15 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `ea_appointments` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `book_datetime` DATETIME DEFAULT NULL,
-  `start_datetime` DATETIME DEFAULT NULL,
-  `end_datetime` DATETIME DEFAULT NULL,
+  `book_datetime` DATETIME,
+  `start_datetime` DATETIME,
+  `end_datetime` DATETIME,
   `notes` TEXT,
   `hash` TEXT,
   `is_unavailable` TINYINT(4) DEFAULT '0',
-  `id_users_provider` BIGINT(20) UNSIGNED DEFAULT NULL,
-  `id_users_customer` BIGINT(20) UNSIGNED DEFAULT NULL,
-  `id_services` BIGINT(20) UNSIGNED DEFAULT NULL,
+  `id_users_provider` BIGINT(20) UNSIGNED,
+  `id_users_customer` BIGINT(20) UNSIGNED,
+  `id_services` BIGINT(20) UNSIGNED,
   `id_google_calendar` TEXT,
   PRIMARY KEY (`id`),
   KEY `id_users_customer` (`id_users_customer`),
@@ -22,15 +22,15 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
 
 CREATE TABLE IF NOT EXISTS `ea_roles` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(256) DEFAULT NULL,
-  `slug` VARCHAR(256) DEFAULT NULL,
-  `is_admin` TINYINT(4) DEFAULT NULL,
-  `appointments` INT(4) DEFAULT NULL,
-  `customers` INT(4) DEFAULT NULL,
-  `services` INT(4) DEFAULT NULL,
-  `users` INT(4) DEFAULT NULL,
-  `system_settings` INT(4) DEFAULT NULL,
-  `user_settings` INT(11) DEFAULT NULL,
+  `name` VARCHAR(256),
+  `slug` VARCHAR(256),
+  `is_admin` TINYINT(4),
+  `appointments` INT(4),
+  `customers` INT(4),
+  `services` INT(4),
+  `users` INT(4),
+  `system_settings` INT(4),
+  `user_settings` INT(11),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
 
 CREATE TABLE IF NOT EXISTS `ea_services` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(256) DEFAULT NULL,
-  `duration` INT(11) DEFAULT NULL,
-  `price` DECIMAL(10,2) DEFAULT NULL,
-  `currency` VARCHAR(32) DEFAULT NULL,
+  `name` VARCHAR(256),
+  `duration` INT(11),
+  `price` DECIMAL(10,2),
+  `currency` VARCHAR(32),
   `description` TEXT,
   `availabilities_type` VARCHAR(32) DEFAULT 'flexible',
   `attendants_number` INT(11) DEFAULT '1',
-  `id_service_categories` BIGINT(20) UNSIGNED DEFAULT NULL,
+  `id_service_categories` BIGINT(20) UNSIGNED,
   PRIMARY KEY (`id`),
   KEY `id_service_categories` (`id_service_categories`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `ea_services_providers` (
 
 CREATE TABLE IF NOT EXISTS `ea_service_categories` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(256) DEFAULT NULL,
+  `name` VARCHAR(256),
   `description` TEXT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
 
 CREATE TABLE IF NOT EXISTS `ea_settings` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(512) DEFAULT NULL,
+  `name` VARCHAR(512),
   `value` LONGTEXT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -85,15 +85,15 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
 
 CREATE TABLE IF NOT EXISTS `ea_users` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(256) DEFAULT NULL,
-  `last_name` VARCHAR(512) DEFAULT NULL,
-  `email` VARCHAR(512) DEFAULT NULL,
-  `mobile_number` VARCHAR(128) DEFAULT NULL,
-  `phone_number` VARCHAR(128) DEFAULT NULL,
-  `address` VARCHAR(256) DEFAULT NULL,
-  `city` VARCHAR(256) DEFAULT NULL,
-  `state` VARCHAR(128) DEFAULT NULL,
-  `zip_code` VARCHAR(64) DEFAULT NULL,
+  `first_name` VARCHAR(256),
+  `last_name` VARCHAR(512),
+  `email` VARCHAR(512),
+  `mobile_number` VARCHAR(128),
+  `phone_number` VARCHAR(128),
+  `address` VARCHAR(256),
+  `city` VARCHAR(256),
+  `state` VARCHAR(128),
+  `zip_code` VARCHAR(64),
   `notes` TEXT,
   `id_roles` BIGINT(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
@@ -103,14 +103,14 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
 
 CREATE TABLE IF NOT EXISTS `ea_user_settings` (
   `id_users` BIGINT(20) UNSIGNED NOT NULL,
-  `username` VARCHAR(256) DEFAULT NULL,
-  `password` VARCHAR(512) DEFAULT NULL,
-  `salt` VARCHAR(512) DEFAULT NULL,
+  `username` VARCHAR(256),
+  `password` VARCHAR(512),
+  `salt` VARCHAR(512),
   `working_plan` TEXT,
   `notifications` TINYINT(4) DEFAULT '0',
   `google_sync` TINYINT(4) DEFAULT '0',
   `google_token` TEXT,
-  `google_calendar` VARCHAR(128) DEFAULT NULL,
+  `google_calendar` VARCHAR(128),
   `sync_past_days` INT(11) DEFAULT '5',
   `sync_future_days` INT(11) DEFAULT '5',
   `calendar_view` VARCHAR(32) DEFAULT 'default',
