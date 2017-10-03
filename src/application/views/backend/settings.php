@@ -69,7 +69,7 @@
                     </legend>
 
                     <div class="wrapper row">
-                        <div class="col-md-6">
+                        <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="company-name"><?= lang('company_name') ?> *</label>
                                 <input id="company-name" data-field="company_name" class="required form-control">
@@ -94,7 +94,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="google-analytics-code">
                                     Google Analytics ID</label>
@@ -165,7 +165,7 @@
                     </legend>
 
                     <div class="row">
-                        <div class="col-md-7 working-plan-wrapper">
+                        <div class="col-xs-12 col-sm-7 working-plan-wrapper">
                             <h4><?= lang('working_plan') ?></h4>
                             <span class="help-block">
                                 <?= lang('edit_working_plan_hint') ?>
@@ -278,7 +278,7 @@
                                 <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control">
                             </div>
                         </div>
-                        <div class="col-md-5 breaks-wrapper">
+                        <div class="col-xs-12 col-sm-5 breaks-wrapper">
                             <h4><?= lang('breaks') ?></h4>
 
                             <span class="help-block">

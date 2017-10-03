@@ -37,7 +37,7 @@
 
 <div id="calendar-page" class="container-fluid">
     <div id="calendar-toolbar">
-        <div id="calendar-filter" class="form-inline col-xs-12 col-md-5">
+        <div id="calendar-filter" class="form-inline col-xs-12 col-sm-5">
             <div class="form-group">
                 <label for="select-filter-item"><?= lang('display_calendar') ?></label>
                 <select id="select-filter-item" class="form-control" title="<?= lang('select_filter_item_hint') ?>">

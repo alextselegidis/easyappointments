@@ -148,7 +148,7 @@ window.BackendUsers = window.BackendUsers || {};
 
                     $('#secretary-providers').data('jsp').destroy();
 
-                    var html = '<div class="col-md-12">';
+                    var html = '<div class="col-xs-12">';
                     $.each(GlobalVariables.providers, function(index, provider) {
                        html +=
                             '<div class="checkbox">' +

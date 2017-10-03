@@ -100,7 +100,7 @@
                     <input type="hidden" id="admin-id" class="record-id">
 
                     <div class="row">
-                        <div class="admin-details col-md-6">
+                        <div class="admin-details col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="first-name"><?= lang('first_name') ?> *</label>
                                 <input id="admin-first-name" class="form-control required" maxlength="256">
@@ -151,7 +151,7 @@
                                 <textarea id="admin-notes" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
-                        <div class="admin-settings col-md-6">
+                        <div class="admin-settings col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="admin-username"><?= lang('username') ?> *</label>
                                 <input id="admin-username" class="form-control required" maxlength="256">
@@ -253,7 +253,7 @@
                         <input type="hidden" id="provider-id" class="record-id">
 
                         <div class="row">
-                            <div class="provider-details col-md-6">
+                            <div class="provider-details col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="provider-first-name"><?= lang('first_name') ?> *</label>
                                     <input id="provider-first-name" class="form-control required" maxlength="256">
@@ -304,7 +304,7 @@
                                     <textarea id="provider-notes" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="provider-settings col-md-6">
+                            <div class="provider-settings col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="provider-username"><?= lang('username') ?> *</label>
                                     <input id="provider-username" class="form-control required" maxlength="256">
@@ -538,7 +538,7 @@
                     <input type="hidden" id="secretary-id" class="record-id">
 
                     <div class="row">
-                        <div class="secretary-details col-md-6">
+                        <div class="secretary-details col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="secretary-first-name"><?= lang('first_name') ?> *</label>
                                 <input id="secretary-first-name" class="form-control required" maxlength="256">
@@ -589,7 +589,7 @@
                                 <textarea id="secretary-notes" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
-                        <div class="secretary-settings col-md-6">
+                        <div class="secretary-settings col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="secretary-username"><?= lang('username') ?> *</label>
                                 <input id="secretary-username" class="form-control required" maxlength="256">

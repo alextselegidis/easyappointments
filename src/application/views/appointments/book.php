@@ -90,7 +90,7 @@
                                     <strong><?= lang('select_service') ?></strong>
                                 </label>
 
-                                <select id="select-service" class="col-md-4 form-control">
+                                <select id="select-service" class="col-xs-12 col-sm-4 form-control">
                                     <?php
                                         // Group services by category, only if there is at least one service with a parent category.
                                         $has_category = FALSE;
@@ -150,7 +150,7 @@
                                     <strong><?= lang('select_provider') ?></strong>
                                 </label>
 
-                                <select id="select-provider" class="col-md-4 form-control"></select>
+                                <select id="select-provider" class="col-xs-12 col-sm-4 form-control"></select>
                             </div>
 
                             <div id="service-description" style="display:none;"></div>
@@ -272,7 +272,7 @@
                         </div>
                         <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
                         <div class="frame-content row">
-                            <div class="col-sm-12 col-md-6">
+                            <div class="col-xs-12 col-sm-6">
                                 <h4 class="captcha-title">
                                     CAPTCHA
                                     <small class="glyphicon glyphicon-refresh"></small>
