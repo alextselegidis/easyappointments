@@ -173,97 +173,97 @@
 
                             <table class="working-plan table table-striped">
                                 <thead>
-                                <tr>
-                                    <th><?= lang('day') ?></th>
-                                    <th><?= lang('start') ?></th>
-                                    <th><?= lang('end') ?></th>
-                                </tr>
+                                    <tr>
+                                        <th><?= lang('day') ?></th>
+                                        <th><?= lang('start') ?></th>
+                                        <th><?= lang('end') ?></th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="monday">
-                                                <?= lang('monday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="monday-start" class="work-start form-control"></td>
-                                    <td><input id="monday-end" class="work-end form-control"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="tuesday">
-                                                <?= lang('tuesday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="tuesday-start" class="work-start form-control"></td>
-                                    <td><input id="tuesday-end" class="work-end form-control"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="wednesday">
-                                                <?= lang('wednesday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="wednesday-start" class="work-start form-control"></td>
-                                    <td><input id="wednesday-end" class="work-end form-control"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="thursday">
-                                                <?= lang('thursday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="thursday-start" class="work-start form-control"></td>
-                                    <td><input id="thursday-end" class="work-end form-control"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="friday">
-                                                <?= lang('friday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="friday-start" class="work-start form-control"></td>
-                                    <td><input id="friday-end" class="work-end form-control"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="saturday">
-                                                <?= lang('saturday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="saturday-start" class="work-start form-control"></td>
-                                    <td><input id="saturday-end" class="work-end form-control"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="sunday">
-                                                <?= lang('sunday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="sunday-start" class="work-start form-control"></td>
-                                    <td><input id="sunday-end" class="work-end form-control"></td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="monday">
+                                                    <?= lang('monday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="monday-start" class="work-start form-control"></td>
+                                        <td><input id="monday-end" class="work-end form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="tuesday">
+                                                    <?= lang('tuesday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="tuesday-start" class="work-start form-control"></td>
+                                        <td><input id="tuesday-end" class="work-end form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="wednesday">
+                                                    <?= lang('wednesday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="wednesday-start" class="work-start form-control"></td>
+                                        <td><input id="wednesday-end" class="work-end form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="thursday">
+                                                    <?= lang('thursday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="thursday-start" class="work-start form-control"></td>
+                                        <td><input id="thursday-end" class="work-end form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="friday">
+                                                    <?= lang('friday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="friday-start" class="work-start form-control"></td>
+                                        <td><input id="friday-end" class="work-end form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="saturday">
+                                                    <?= lang('saturday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="saturday-start" class="work-start form-control"></td>
+                                        <td><input id="saturday-end" class="work-end form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="sunday">
+                                                    <?= lang('sunday') ?>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td><input id="sunday-start" class="work-start form-control"></td>
+                                        <td><input id="sunday-end" class="work-end form-control"></td>
+                                    </tr>
                                 </tbody>
                             </table>
 
