@@ -53,10 +53,10 @@ class Admins_Model extends CI_Model {
 
         if ( ! isset($admin['id']))
         {
-            $admin['id'] = $this->insert($admin);
+            $admin['id'] = $this->_insert($admin);
         } else
         {
-            $admin['id'] = $this->update($admin);
+            $admin['id'] = $this->_update($admin);
         }
 
         return (int)$admin['id'];
@@ -99,7 +99,7 @@ class Admins_Model extends CI_Model {
      *
      * @throws Exception When the insert operation fails.
      */
-    public function insert($admin)
+    protected function _insert($admin)
     {
         $this->load->helper('general');
 
@@ -140,7 +140,7 @@ class Admins_Model extends CI_Model {
      *
      * @throws Exception When the update operation fails.
      */
-    public function update($admin)
+    protected function _update($admin)
     {
         $this->load->helper('general');
 
