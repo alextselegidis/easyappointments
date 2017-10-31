@@ -361,7 +361,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      *
      * @see updateAppointmentData()
      */
-    function _calendarEventResize(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
+    function _calendarEventResize(event, delta, revertFunc, jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
@@ -383,7 +383,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             appointment.end_datetime = Date.parseExact(
                 appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({minutes: minuteDelta})
+                .add({minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
             // Success callback
@@ -406,7 +406,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var undoFunction = function () {
                     appointment.end_datetime = Date.parseExact(
                         appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({minutes: -minuteDelta})
+                        .add({minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
@@ -437,8 +437,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             // Update unavailable time period.
             var unavailable = {
                 id: event.data.id,
-                start_datetime: event.start.toString('yyyy-MM-dd HH:mm:ss'),
-                end_datetime: event.end.toString('yyyy-MM-dd HH:mm:ss'),
+                start_datetime: event.start.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: event.end.format('YYYY-MM-DD HH:mm:ss'),
                 id_users_provider: event.data.id_users_provider
             };
 
@@ -462,7 +462,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var undoFunction = function () {
                     unavailable.end_datetime = Date.parseExact(
                         unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({minutes: -minuteDelta})
+                        .add({minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
@@ -522,7 +522,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * This event handler is triggered whenever the user drags and drops an event into a different position
      * on the calendar. We need to update the database with this change. This is done via an ajax call.
      */
-    function _calendarEventDrop(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+    function _calendarEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
@@ -544,12 +544,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             appointment.start_datetime = Date.parseExact(
                 appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({days: dayDelta, minutes: minuteDelta})
+                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
             appointment.end_datetime = Date.parseExact(
                 appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({days: dayDelta, minutes: minuteDelta})
+                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
             event.data.start_datetime = appointment.start_datetime;
@@ -575,12 +575,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var undoFunction = function () {
                     appointment.start_datetime = Date.parseExact(
                         appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     appointment.end_datetime = Date.parseExact(
                         appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     event.data.start_datetime = appointment.start_datetime;
@@ -614,8 +614,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             // Update unavailable time period.
             var unavailable = {
                 id: event.data.id,
-                start_datetime: event.start.toString('yyyy-MM-dd HH:mm:ss'),
-                end_datetime: event.end.toString('yyyy-MM-dd HH:mm:ss'),
+                start_datetime: event.start.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: event.end.format('YYYY-MM-DD HH:mm:ss'),
                 id_users_provider: event.data.id_users_provider
             };
 
@@ -636,12 +636,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var undoFunction = function () {
                     unavailable.start_datetime = Date.parseExact(
                         unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     unavailable.end_datetime = Date.parseExact(
                         unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     event.data.start_datetime = unavailable.start_datetime;
