@@ -133,7 +133,7 @@ root {
 }
 
 .modal-message {
-    margin: 10px;
+    margin-bottom: 10px;
 }
 
 body .modal .modal-title {
@@ -312,7 +312,7 @@ body legend {
 
 #calendar-page #calendar .fc-unavailable {
     background-image: url('../img/unavailable.jpg');
-    font-size: 17px;
+    font-size: 14px;
     border-radius: 0;
     font-weight: bold;
     color: #333;
