@@ -96,8 +96,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var unavailable = lastFocusedEventData.data;
 
                 // Replace string date values with actual date objects.
-                unavailable.start_datetime = lastFocusedEventData.start.clone();
-                unavailable.end_datetime = lastFocusedEventData.end.clone();
+                unavailable.start_datetime = lastFocusedEventData.start.format('YYYY-MM-DD HH:mm:ss');
+                unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
 
                 $dialog = $('#manage-unavailable');
                 BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
@@ -268,7 +268,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         var $parent = $(jsEvent.target.offsetParent);
         var $altParent = $(jsEvent.target).parents().eq(1);
 
-        if ($parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
+        if ($(this).hasClass('fc-unavailable') || $parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.edit == true)
                 ? '' : 'hide';
@@ -287,10 +287,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + '.popover-content button {margin-right: 10px;}'
                 + '</style>' +
                 '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start, GlobalVariables.dateFormat, true)
+                + GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
                 + '<br>' +
                 '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.end, GlobalVariables.dateFormat, true)
+                + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
                 + '<br>'
                 + notes
                 + '<hr>' +
@@ -311,10 +311,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + '.popover-content button {margin-right: 10px;}'
                 + '</style>' +
                 '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start, GlobalVariables.dateFormat, true)
+                + GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
                 + '<br>' +
                 '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.end, GlobalVariables.dateFormat, true)
+                + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
                 + '<br>' +
                 '<strong>' + EALang.service + '</strong> '
                 + event.data.service.name
