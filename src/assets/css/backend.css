@@ -315,6 +315,10 @@ body legend {
     margin-bottom: 15px;
 }
 
+#calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
+    font-size: 22px;
+}
+
 #calendar-page #calendar .fc-unavailable {
     background-image: url('../img/unavailable.jpg');
     font-size: 17px;
@@ -330,6 +334,10 @@ body legend {
     font-size: 12px;
 }
 
+#calendar-page #calendar .fc-time {
+    font-size: 10px;
+}
+
 #calendar-page #calendar .fc-break {
     background-image: url('../img/break.jpg');
 }
@@ -340,6 +348,10 @@ body legend {
 
 #calendar-page .fc-header {
     margin-bottom: 10px;
+}
+
+#calendar .fc-time-grid-event.fc-short .fc-title {
+    font-size: .7em;
 }
 
 #calendar .fc-header-title h2 {

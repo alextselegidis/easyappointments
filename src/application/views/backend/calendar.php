@@ -1,6 +1,7 @@
-<link rel="stylesheet" type="text/css" href="<?= base_url('/assets/ext/jquery-fullcalendar/jquery.fullcalendar.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?= base_url('/assets/ext/jquery-fullcalendar/fullcalendar.css') ?>">
 
-<script src="<?= base_url('assets/ext/jquery-fullcalendar/jquery.fullcalendar.min.js') ?>"></script>
+<script src="<?= base_url('assets/ext/moment/moment.min.js') ?>"></script>
+<script src="<?= base_url('assets/ext/jquery-fullcalendar/fullcalendar.js') ?>"></script>
 <script src="<?= base_url('assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js') ?>"></script>
 <script src="<?= base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
 <script src="<?= base_url('assets/js/backend_calendar.js') ?>"></script>
@@ -211,7 +212,7 @@
                             </button>
                             <input id="filter-existing-customers"
                                    placeholder="<?= lang('type_to_filter_customers') ?>"
-                                   style="display: none;" class="input-sm">
+                                   style="display: none;" class="input-sm form-control">
                             <div id="existing-customers-list" style="display: none;"></div>
                         </legend>
 
