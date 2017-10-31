@@ -700,8 +700,12 @@ body .form-horizontal .controls {
 }
 
 #business-logic .working-plan td input[type="text"] {
-    cursor: pointer;
-    width: 55px;
+    max-width: 88px;
+}
+
+#business-logic .working-plan .work-start,
+#business-logic .working-plan .work-end {
+    max-width: 88px;
 }
 
 #business-logic .working-plan label.checkbox {

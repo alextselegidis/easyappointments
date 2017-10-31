@@ -189,8 +189,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="monday-start" class="work-start form-control"></td>
-                                        <td><input id="monday-end" class="work-end form-control"></td>
+                                        <td><input id="monday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="monday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -201,8 +201,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="tuesday-start" class="work-start form-control"></td>
-                                        <td><input id="tuesday-end" class="work-end form-control"></td>
+                                        <td><input id="tuesday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="tuesday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -213,8 +213,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="wednesday-start" class="work-start form-control"></td>
-                                        <td><input id="wednesday-end" class="work-end form-control"></td>
+                                        <td><input id="wednesday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="wednesday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -225,8 +225,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="thursday-start" class="work-start form-control"></td>
-                                        <td><input id="thursday-end" class="work-end form-control"></td>
+                                        <td><input id="thursday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="thursday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -237,8 +237,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="friday-start" class="work-start form-control"></td>
-                                        <td><input id="friday-end" class="work-end form-control"></td>
+                                        <td><input id="friday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="friday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -249,8 +249,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="saturday-start" class="work-start form-control"></td>
-                                        <td><input id="saturday-end" class="work-end form-control"></td>
+                                        <td><input id="saturday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="saturday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -261,8 +261,8 @@
                                                 </label>
                                             </div>
                                         </td>
-                                        <td><input id="sunday-start" class="work-start form-control"></td>
-                                        <td><input id="sunday-end" class="work-end form-control"></td>
+                                        <td><input id="sunday-start" class="work-start form-control input-sm"></td>
+                                        <td><input id="sunday-end" class="work-end form-control input-sm"></td>
                                     </tr>
                                 </tbody>
                             </table>
