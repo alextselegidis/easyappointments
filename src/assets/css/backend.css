@@ -212,9 +212,8 @@ body legend {
     margin-bottom: 20px;
 }
 
-.backend-page .filter-records form {
-    height: 35px;
-    padding-top: 5px
+.backend-page .filter-records form .input-group-addon {
+    padding-top: 2px;
 }
 
 .backend-page .filter-records form .key {
