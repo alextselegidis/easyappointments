@@ -34,6 +34,6 @@
         "roave/security-advisories": "dev-master",
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^5.2",
-        "codeigniter/framework": "3.1.5"
+        "codeigniter/framework": "3.1.6"
     }
 }
