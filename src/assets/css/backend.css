@@ -203,7 +203,6 @@ body legend {
     color: #666;
 }
 
-
 /* BACKEND COMPONENTS
    -------------------------------------------------------------------- */
 
@@ -250,12 +249,6 @@ body legend {
     margin-bottom: 20px;
 }
 
-.record-details input,
-.record-details textarea {
-    background-color: white;
-    cursor: default;
-}
-
 .record-details input:read-only,
 .record-details select:disabled,
 .record-details textarea:read-only {
@@ -263,12 +256,11 @@ body legend {
     box-shadow: none;
 }
 
-
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar {
     border-bottom: 1px solid #D6D6D6;
-    border-radius: 3px; 
+    border-radius: 3px;
     background: #3A3A3A;
     padding: 5px;
     margin-bottom: 15px;
@@ -439,11 +431,11 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-view {
-    overflow-x: auto;   
+    overflow-x: auto;
 }
 
 #calendar .calendar-view > div {
-    width: 100%; 
+    width: 100%;
     min-width: 1000%;
     overflow: auto;
 }
@@ -470,7 +462,7 @@ body .form-horizontal .controls {
     margin-right: 10px;
 }
 
-#calendar .calendar-view .date-column .provider-column table thead{
+#calendar .calendar-view .date-column .provider-column table thead {
     background-color: #FFF;
 }
 
@@ -490,7 +482,7 @@ body .form-horizontal .controls {
 #calendar .calendar-view .date-column .provider-column .event.unavailability {
     background: #409482;
     color: #fff;
-    
+
 }
 
 /* BACKEND CUSTOMERS PAGE
@@ -531,7 +523,6 @@ body .form-horizontal .controls {
     background: #F8F8F8;
 }
 
-
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
 #services-page h2 {
@@ -564,7 +555,7 @@ body .form-horizontal .controls {
 
 #services-page .record-details .ui-spinner a {
     cursor: pointer;
-    background: none;   
+    background: none;
     border: none;
 }
 
@@ -643,6 +634,11 @@ body .form-horizontal .controls {
     clear: both;
 }
 
+#users-page #providers .working-plan-view .work-start,
+#users-page #providers .working-plan-view .work-end {
+    max-width: 88px;
+}
+
 #users-page .btn-toolbar {
     margin-top: 0;
     margin-bottom: 15px;
@@ -657,7 +653,6 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
-
 #users-page .working-plan .checkbox,
 #users-page .working-plan input[type="text"],
 #users-page .working-plan button {
@@ -671,7 +666,7 @@ body .form-horizontal .controls {
 #users-page .editable form,
 #users-page .editable select,
 #users-page .editable input {
-	margin: 0px;
+    margin: 0px;
 }
 
 #users-page #providers .record-details h3 a {
@@ -751,7 +746,7 @@ body .form-horizontal .controls {
 
 #business-logic .ui-spinner a {
     cursor: pointer;
-    background: none;   
+    background: none;
     border: none;
 }
 
@@ -785,7 +780,7 @@ body .form-horizontal .controls {
 }
 
 #settings-page .miscellaneous-wrapper {
-    max-width:  400px;
+    max-width: 400px;
     margin-bottom: 20px;
 }
 
@@ -804,7 +799,7 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
     #header #header-menu .menu-item {
         min-width: 100px;
     }
@@ -814,7 +809,7 @@ body .form-horizontal .controls {
     }
 }
 
-@media(max-width: 860px) {
+@media (max-width: 860px) {
     #header #header-menu .menu-item {
         min-width: 85px;
     }
@@ -828,8 +823,7 @@ body .form-horizontal .controls {
     }
 }
 
-
-@media(max-width: 468px) {
+@media (max-width: 468px) {
     #calendar-page .fc-header td {
         display: block;
         width: 70vw;
