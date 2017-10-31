@@ -1052,7 +1052,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             editable: true,
             firstDay: 1, // Monday
             snapDuration: '00:15:00',
-            timeFormat: 'HH:mm',
+            timeFormat: 'h:mm A',
+            slotLabelFormat : 'h(:mm) A',
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
             titleFormat: 'MMMM YYYY',

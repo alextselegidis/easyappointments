@@ -69,16 +69,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
                 var currColumn = 1;
-                $('#available-hours').html('<div style="width:50px; float:left;"></div>');
+                $('#available-hours').html('<div style="width:80px; float:left;"></div>');
 
                 $.each(response, function(index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
-                        $('#available-hours').append('<div style="width:50px; float:left;"></div>');
+                        $('#available-hours').append('<div style="width:80px; float:left;"></div>');
                     }
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                            '<span class="available-hour">' + availableHour + '</span><br/>');
+                            '<span class="available-hour">' + Date.parse(availableHour).toString('h:mm tt') + '</span><br/>');
                 });
 
                 if (FrontendBook.manageMode) {
@@ -87,7 +87,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('.available-hour').filter(function() {
                         return $(this).text() === Date.parseExact(
                                 GlobalVariables.appointmentData['start_datetime'],
-                                'yyyy-MM-dd HH:mm:ss').toString('HH:mm');
+                                'yyyy-MM-dd HH:mm:ss').toString('h:mm tt');
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.

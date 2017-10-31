@@ -380,6 +380,10 @@ window.FrontendBook = window.FrontendBook || {};
      * customer settings and input for the appointment booking.
      */
     exports.updateConfirmFrame = function() {
+        if ($('.selected-hour').text() === '') {
+            return;
+        }
+
         // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
 
@@ -452,7 +456,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         postData['appointment'] = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
-                                    + ' ' + $('.selected-hour').text() + ':00',
+                                    + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm') + ':00',
             end_datetime: _calcEndDatetime(),
             notes: $('#notes').val(),
             is_unavailable: false,
@@ -489,7 +493,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         // Add the duration to the start datetime.
         var startDatetime = $('#select-date').datepicker('getDate').toString('dd-MM-yyyy')
-                + ' ' + $('.selected-hour').text();
+                + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm');
         startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
         var endDatetime = undefined;
 

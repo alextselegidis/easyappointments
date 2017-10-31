@@ -179,6 +179,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         $dialog.find('#unavailable-start').datetimepicker({
             dateFormat: dateFormat,
+            timeFormat: 'h:mm TT',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -208,6 +209,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         $dialog.find('#unavailable-end').datetimepicker({
             dateFormat: dateFormat,
+            timeFormat: 'h:mm TT',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -237,7 +239,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         // Clear the unavailable notes field.
         $dialog.find('#unavailable-notes').val('');
-    }
+    };
 
     exports.initialize = function() {
         var $unavailabilityProvider = $('#unavailable-provider'); 

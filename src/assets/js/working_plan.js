@@ -234,6 +234,7 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
+                timeFormat: 'h:mm TT',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -294,7 +295,7 @@
                 end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
-                $modifiedRow.find('.break-end input').val(start.addHours(1).toString('HH:mm'));
+                $modifiedRow.find('.break-end input').val(start.addHours(1).toString('h:mm tt'));
             }
 
             this.enableSubmit = true;
@@ -358,8 +359,7 @@
         if (disabled == false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: 'HH:mm',
-
+                timeFormat: 'h:mm TT',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -373,7 +373,7 @@
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                     if (start > end) {
-                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('HH:mm'));
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString('h:mm tt'));
                     }
                 }
             });
