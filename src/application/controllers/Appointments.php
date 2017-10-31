@@ -177,7 +177,8 @@ class Appointments extends CI_Controller {
             $company_settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link')
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'date_format' => $this->settings_model->get_setting('date_format')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.

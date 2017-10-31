@@ -304,7 +304,8 @@ class Backend_api extends CI_Controller {
             $company_settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
-                'company_email' => $this->settings_model->get_setting('company_email')
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'date_format' => $this->settings_model->get_setting('date_format')
             ];
 
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
@@ -447,7 +448,8 @@ class Backend_api extends CI_Controller {
             $company_settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link')
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'date_format' => $this->settings_model->get_setting('date_format')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM DATABASE
