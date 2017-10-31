@@ -320,7 +320,7 @@
 
                                 <div class="form-group">
                                     <label for="provider-password"><?= lang('password') ?> *</label>
-                                    <input type="password" id="provider-password" class="form-control required" maxlength="512>
+                                    <input type="password" id="provider-password" class="form-control required" maxlength="512">
                                 </div>
 
                                 <div class="form-group">
@@ -375,8 +375,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="monday-start" class="work-start"></td>
-                                    <td><input id="monday-end" class="work-end"></td>
+                                    <td><input id="monday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="monday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -387,8 +387,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="tuesday-start" class="work-start"></td>
-                                    <td><input id="tuesday-end" class="work-end"></td>
+                                    <td><input id="tuesday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="tuesday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -399,8 +399,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="wednesday-start" class="work-start"></td>
-                                    <td><input id="wednesday-end" class="work-end"></td>
+                                    <td><input id="wednesday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="wednesday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -411,8 +411,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="thursday-start" class="work-start"></td>
-                                    <td><input id="thursday-end" class="work-end"></td>
+                                    <td><input id="thursday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="thursday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -423,8 +423,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="friday-start" class="work-start"></td>
-                                    <td><input id="friday-end" class="work-end"></td>
+                                    <td><input id="friday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="friday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -435,8 +435,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="saturday-start" class="work-start"></td>
-                                    <td><input id="saturday-end" class="work-end"></td>
+                                    <td><input id="saturday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="saturday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -447,8 +447,8 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td><input id="sunday-start" class="work-start"></td>
-                                    <td><input id="sunday-end" class="work-end"></td>
+                                    <td><input id="sunday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="sunday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                             </tbody>
                         </table>

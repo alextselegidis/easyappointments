@@ -142,7 +142,7 @@
             return value;
         }, {
             event: 'edit',
-            height: '25px',
+            height: '30px',
             submit: '<button type="button" class="hidden submit-editable">Submit</button>',
             cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
             onblur: 'ignore',
@@ -246,7 +246,7 @@
             // Show save - cancel buttons.
             $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
             $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-            $(this).closest('tr').find('select,input:text').addClass('form-control')
+            $(this).closest('tr').find('select,input:text').addClass('form-control input-sm')
 
             $('.add-break').prop('disabled', true);
         });
