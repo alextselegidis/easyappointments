@@ -1,40 +1,5 @@
 [
     {
-        "name": "codeigniter/framework",
-        "version": "3.1.5",
-        "version_normalized": "3.1.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/bcit-ci/CodeIgniter.git",
-            "reference": "6c7a4266410070d30f8f6bcdf9c9e67f3d6478e3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/6c7a4266410070d30f8f6bcdf9c9e67f3d6478e3",
-            "reference": "6c7a4266410070d30f8f6bcdf9c9e67f3d6478e3",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.7"
-        },
-        "require-dev": {
-            "mikey179/vfsstream": "1.1.*",
-            "phpunit/phpunit": "4.* || 5.*"
-        },
-        "suggest": {
-            "paragonie/random_compat": "Provides better randomness in PHP 5.x"
-        },
-        "time": "2017-06-19T08:33:58+00:00",
-        "type": "project",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "description": "The CodeIgniter framework",
-        "homepage": "https://codeigniter.com"
-    },
-    {
         "name": "gregwar/captcha",
         "version": "v1.1.1",
         "version_normalized": "1.1.1.0",
@@ -1648,6 +1613,91 @@
             "phpunit",
             "testing",
             "xunit"
+        ]
+    },
+    {
+        "name": "codeigniter/framework",
+        "version": "3.1.6",
+        "version_normalized": "3.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bcit-ci/CodeIgniter.git",
+            "reference": "7e4f63cd4b792e7dc2dc4b8b0183a6072a3f9462"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/7e4f63cd4b792e7dc2dc4b8b0183a6072a3f9462",
+            "reference": "7e4f63cd4b792e7dc2dc4b8b0183a6072a3f9462",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.7"
+        },
+        "require-dev": {
+            "mikey179/vfsstream": "1.1.*",
+            "phpunit/phpunit": "4.* || 5.*"
+        },
+        "suggest": {
+            "paragonie/random_compat": "Provides better randomness in PHP 5.x"
+        },
+        "time": "2017-09-25T16:43:58+00:00",
+        "type": "project",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "The CodeIgniter framework",
+        "homepage": "https://codeigniter.com"
+    },
+    {
+        "name": "jsvrcek/ics",
+        "version": "0.5.1",
+        "version_normalized": "0.5.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jasvrcek/ICS.git",
+            "reference": "c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jasvrcek/ICS/zipball/c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c",
+            "reference": "c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.3 || ^7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8 || ^5.5"
+        },
+        "time": "2017-02-01T20:10:20+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Jsvrcek\\ICS\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Svrcek",
+                "homepage": "https://github.com/jasvrcek"
+            }
+        ],
+        "description": "abstraction layer for creating multi-byte safe RFC 5545 compliant .ics files",
+        "homepage": "https://github.com/jasvrcek/ICS",
+        "keywords": [
+            ".ics",
+            "RFC 5545",
+            "calendar",
+            "export",
+            "ical",
+            "multi-byte safe"
         ]
     }
 ]

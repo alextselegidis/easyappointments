@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c888cb85f0aee3ee5b357c38a3182e4",
+    "content-hash": "cc53442fb0e3041fbf3d22ed9f5bcca5",
     "packages": [
         {
             "name": "codeigniter/framework",
@@ -86,6 +86,54 @@
                 "spam"
             ],
             "time": "2015-09-11T15:23:20+00:00"
+        },
+        {
+            "name": "jsvrcek/ics",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jasvrcek/ICS.git",
+                "reference": "c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jasvrcek/ICS/zipball/c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c",
+                "reference": "c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jsvrcek\\ICS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Svrcek",
+                    "homepage": "https://github.com/jasvrcek"
+                }
+            ],
+            "description": "abstraction layer for creating multi-byte safe RFC 5545 compliant .ics files",
+            "homepage": "https://github.com/jasvrcek/ICS",
+            "keywords": [
+                ".ics",
+                "RFC 5545",
+                "calendar",
+                "export",
+                "ical",
+                "multi-byte safe"
+            ],
+            "time": "2017-02-01T20:10:20+00:00"
         },
         {
             "name": "phpmailer/phpmailer",

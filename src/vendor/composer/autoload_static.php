@@ -19,6 +19,10 @@ class ComposerStaticInit745c9af234090db98769aa0b5014bcf4
         array (
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'J' => 
+        array (
+            'Jsvrcek\\ICS\\' => 12,
+        ),
         'G' => 
         array (
             'Gregwar\\Captcha\\' => 16,
@@ -44,6 +48,10 @@ class ComposerStaticInit745c9af234090db98769aa0b5014bcf4
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Jsvrcek\\ICS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jsvrcek/ics/src',
         ),
         'Gregwar\\Captcha\\' => 
         array (
