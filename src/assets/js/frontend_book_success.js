@@ -45,28 +45,28 @@ $(document).ready(function() {
             // must be prepared.
             var appointmentData = GlobalVariables.appointmentData;
 
-            appointmentData['start_datetime'] = GeneralFunctions.ISODateString(
-                    Date.parseExact(appointmentData['start_datetime'],
+            appointmentData.start_datetime = GeneralFunctions.ISODateString(
+                    Date.parseExact(appointmentData.start_datetime,
                     'yyyy-MM-dd HH:mm:ss'));
-            appointmentData['end_datetime'] = GeneralFunctions.ISODateString(
-                    Date.parseExact(appointmentData['end_datetime'],
+            appointmentData.end_datetime = GeneralFunctions.ISODateString(
+                    Date.parseExact(appointmentData.end_datetime,
                     'yyyy-MM-dd HH:mm:ss'));
 
             // Create a valid Google Calendar API resource for the new event.
             var resource = {
-                summary: GlobalVariables.serviceData['name'],
+                summary: GlobalVariables.serviceData.name,
                 location: GlobalVariables.companyName,
                 start: {
-                    dateTime: appointmentData['start_datetime']
+                    dateTime: appointmentData.start_datetime
                 },
                 end: {
-                    dateTime: appointmentData['end_datetime']
+                    dateTime: appointmentData.end_datetime
                 },
                 attendees: [
                     {
-                        email: GlobalVariables.providerData['email'],
-                        displayName: GlobalVariables.providerData['first_name'] + ' '
-                                + GlobalVariables.providerData['last_name']
+                        email: GlobalVariables.providerData.email,
+                        displayName: GlobalVariables.providerData.first_name + ' '
+                                + GlobalVariables.providerData.last_name
                     }
                 ]
             };

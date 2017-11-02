@@ -242,7 +242,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             html +=
                     '<div id="error-technical" class="accordion-body collapse">' +
                         '<div class="accordion-inner">' +
-                            '<pre>' + exception['message'] + '</pre>' +
+                            '<pre>' + exception.message + '</pre>' +
                         '</div>' +
                     '</div>';
         });

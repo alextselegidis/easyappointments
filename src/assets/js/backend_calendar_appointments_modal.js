@@ -63,7 +63,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             if ($dialog.find('#appointment-id').val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                appointment['id'] = $dialog.find('#appointment-id').val();
+                appointment.id = $dialog.find('#appointment-id').val();
             }
 
             var customer = {
@@ -79,8 +79,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             if ($dialog.find('#customer-id').val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                customer['id'] = $dialog.find('#customer-id').val();
-                appointment['id_users_customer'] = customer['id'];
+                customer.id = $dialog.find('#customer-id').val();
+                appointment.id_users_customer = customer.id;
             }
 
             // Define success callback.
@@ -144,8 +144,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var serviceDuration = 0;
             $.each(GlobalVariables.availableServices, function(index, service) {
-                if (service['id'] == $dialog.find('#select-service').val()) {
-                    serviceDuration = service['duration'];
+                if (service.id == $dialog.find('#select-service').val()) {
+                    serviceDuration = service.duration;
                     return false; // exit loop
                 }
             });
@@ -299,8 +299,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 $.each(provider.services, function(indexService, serviceId) {
                     // If the current provider is able to provide the selected service, add him to the listbox.
                     if (serviceId == sid) {
-                        var optionHtml = '<option value="' + provider['id'] + '">'
-                                + provider['first_name']  + ' ' + provider['last_name']
+                        var optionHtml = '<option value="' + provider.id + '">'
+                                + provider.first_name  + ' ' + provider.last_name
                                 + '</option>';
                         $('#select-provider').append(optionHtml);
                     }
@@ -340,7 +340,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         $.each(GlobalVariables.availableProviders, function(index, provider) {
             var canProvideService = false;
 
-            $.each(provider['services'], function(index, serviceId) {
+            $.each(provider.services, function(index, serviceId) {
                 if (serviceId == $dialog.find('#select-service').val()) {
                     canProvideService = true;
                     return false;
@@ -348,8 +348,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             });
 
             if (canProvideService) { // Add the provider to the listbox.
-                var option = new Option(provider['first_name']
-                       + ' ' + provider['last_name'], provider['id']);
+                var option = new Option(provider.first_name
+                       + ' ' + provider.last_name, provider.id);
                 $dialog.find('#select-provider').append(option);
             }
         });
@@ -363,8 +363,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
         var serviceDuration = 0;
         $.each(GlobalVariables.availableServices, function(index, service) {
-            if (service['id'] == $dialog.find('#select-service').val()) {
-                serviceDuration = service['duration'];
+            if (service.id == $dialog.find('#select-service').val()) {
+                serviceDuration = service.duration;
                 return false;
             }
         });

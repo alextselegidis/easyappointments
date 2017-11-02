@@ -94,11 +94,11 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 // Update page elements and make an AJAX call to remove the google sync setting of the
                 // selected provider.
                 $.each(GlobalVariables.availableProviders, function(index, provider) {
-                    if (provider['id'] == $('#select-filter-item').val()) {
-                        provider['settings']['google_sync'] = '0';
-                        provider['settings']['google_token'] = null;
+                    if (provider.id == $('#select-filter-item').val()) {
+                        provider.settings.google_sync = '0';
+                        provider.settings.google_token = null;
 
-                        _disableProviderSync(provider['id']);
+                        _disableProviderSync(provider.id);
 
                         $('#enable-sync').removeClass('btn-danger enabled');
                         $('#enable-sync span:eq(1)').text(EALang.enable_sync);

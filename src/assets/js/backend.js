@@ -117,12 +117,12 @@ window.Backend = window.Backend || {};
         var customActionsHtml = '';
 
         $.each(actions, function(index, action) {
-            var actionId = action['label'].toLowerCase().replace(' ', '-');
+            var actionId = action.label.toLowerCase().replace(' ', '-');
             customActionsHtml += '<button id="' + actionId + '" class="btn btn-default btn-xs">'
-                    + action['label'] + '</button>';
+                    + action.label + '</button>';
 
             $(document).off('click', '#' + actionId);
-            $(document).on('click', '#' + actionId, action['function']);
+            $(document).on('click', '#' + actionId, action.function);
         });
 
         var notificationHtml =

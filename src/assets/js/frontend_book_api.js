@@ -40,13 +40,13 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // Find the selected service duration (it is going to be send within the "postData" object).
         var selServiceDuration = 15; // Default value of duration (in minutes).
         $.each(GlobalVariables.availableServices, function(index, service) {
-            if (service['id'] == $('#select-service').val()) {
-                selServiceDuration = service['duration'];
+            if (service.id == $('#select-service').val()) {
+                selServiceDuration = service.duration;
             }
         });
 
         // If the manage mode is true then the appointment's start date should return as available too.
-        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData['id'] : undefined;
+        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : undefined;
 
         // Make ajax post request and get the available hours.
         var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
@@ -86,7 +86,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('.available-hour').removeClass('selected-hour');
                     $('.available-hour').filter(function() {
                         return $(this).text() === Date.parseExact(
-                                GlobalVariables.appointmentData['start_datetime'],
+                                GlobalVariables.appointmentData.start_datetime,
                                 'yyyy-MM-dd HH:mm:ss').toString('h:mm tt');
                     }).addClass('selected-hour');
                 } else {

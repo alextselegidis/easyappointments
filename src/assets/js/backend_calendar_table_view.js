@@ -261,30 +261,30 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 // Apply appointment data and show modal dialog.
                 $dialog.find('.modal-header h3').text(EALang.edit_appointment_title);
-                $dialog.find('#appointment-id').val(appointment['id']);
-                $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
-                $dialog.find('#select-provider').val(appointment['id_users_provider']);
+                $dialog.find('#appointment-id').val(appointment.id);
+                $dialog.find('#select-service').val(appointment.id_services).trigger('change');
+                $dialog.find('#select-provider').val(appointment.id_users_provider);
 
                 // Set the start and end datetime of the appointment.
-                var startDatetime = Date.parseExact(appointment['start_datetime'],
+                var startDatetime = Date.parseExact(appointment.start_datetime,
                         'yyyy-MM-dd HH:mm:ss');
                 $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
-                var endDatetime = Date.parseExact(appointment['end_datetime'],
+                var endDatetime = Date.parseExact(appointment.end_datetime,
                         'yyyy-MM-dd HH:mm:ss');
                 $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
 
-                var customer = appointment['customer'];
-                $dialog.find('#customer-id').val(appointment['id_users_customer']);
-                $dialog.find('#first-name').val(customer['first_name']);
-                $dialog.find('#last-name').val(customer['last_name']);
-                $dialog.find('#email').val(customer['email']);
-                $dialog.find('#phone-number').val(customer['phone_number']);
-                $dialog.find('#address').val(customer['address']);
-                $dialog.find('#city').val(customer['city']);
-                $dialog.find('#zip-code').val(customer['zip_code']);
-                $dialog.find('#appointment-notes').val(appointment['notes']);
-                $dialog.find('#customer-notes').val(customer['notes']);
+                var customer = appointment.customer;
+                $dialog.find('#customer-id').val(appointment.id_users_customer);
+                $dialog.find('#first-name').val(customer.first_name);
+                $dialog.find('#last-name').val(customer.last_name);
+                $dialog.find('#email').val(customer.email);
+                $dialog.find('#phone-number').val(customer.phone_number);
+                $dialog.find('#address').val(customer.address);
+                $dialog.find('#city').val(customer.city);
+                $dialog.find('#zip-code').val(customer.zip_code);
+                $dialog.find('#appointment-notes').val(appointment.notes);
+                $dialog.find('#customer-notes').val(customer.notes);
             } else {
                 var unavailable = lastFocusedEventData;
 
@@ -311,7 +311,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         /**
          * Event: Popover Delete Button "Click"
          *
-         * Displays a prompt on whether the user wants the appoinmtent to be deleted. If he confirms the
+         * Displays a prompt on whether the user wants the appointment to be deleted. If he confirms the
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendar.on('click', '.delete-popover', function() {
@@ -325,7 +325,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
                             var postData = {
                                 csrfToken: GlobalVariables.csrfToken,
-                                appointment_id : lastFocusedEventData['id'],
+                                appointment_id : lastFocusedEventData.id,
                                 delete_reason: $('#delete-reason').val()
                             };
 
