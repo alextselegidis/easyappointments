@@ -79,7 +79,7 @@ class Ics_file {
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
-            ->setTimezone(new DateTimeZone($provider['settings']['timezone']))
+            ->setTimezone(new DateTimeZone(date_default_timezone_get()))
             ->addEvent($event);
 
         // Setup exporter.

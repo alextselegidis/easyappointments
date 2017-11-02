@@ -368,18 +368,21 @@ class Backend_api extends CI_Controller {
 
                 $send_customer = $this->settings_model->get_setting('customer_notifications');
 
+                $this->load->library('ics_file');
+                $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
+
                 if ((bool)$send_customer === TRUE)
                 {
                     $email->sendAppointmentDetails($appointment, $provider,
                         $service, $customer, $company_settings, $customer_title,
-                        $customer_message, $customer_link, new Email($customer['email']));
+                        $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
                 }
 
                 if ($send_provider == TRUE)
                 {
                     $email->sendAppointmentDetails($appointment, $provider,
                         $service, $customer, $company_settings, $provider_title,
-                        $provider_message, $provider_link, new Email($provider['email']));
+                        $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream));
                 }
 
             }

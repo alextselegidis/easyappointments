@@ -90,6 +90,7 @@ class Email {
      * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes
      * to the appointment record.
      * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
+     * @param \EA\Engine\Types\Text $icsStream Stream contents of the ICS file.
      */
     public function sendAppointmentDetails(
         array $appointment,
@@ -100,7 +101,8 @@ class Email {
         Text $title,
         Text $message,
         Url $appointmentLink,
-        EmailAddress $recipientEmail
+        EmailAddress $recipientEmail,
+        Text $icsStream
     ) {
         switch ($company['date_format'])
         {
@@ -157,6 +159,8 @@ class Email {
         $mailer->AddAddress($recipientEmail->get());
         $mailer->Subject = $title->get();
         $mailer->Body = $html;
+
+        $mailer->addStringAttachment($icsStream->get(), 'invitation.ics');
 
         if ( ! $mailer->Send())
         {
