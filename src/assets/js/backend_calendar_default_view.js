@@ -509,10 +509,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * When the user clicks on a day square on the calendar, then he will automatically be transferred to that
      * day view calendar.
      */
-    function _calendarDayClick(date, allDay, jsEvent, view) {
-        if (allDay) {
-            $('#calendar').fullCalendar('gotoDate', date);
+    function _calendarDayClick(date, jsEvent, view) {
+        if (!date.hasTime()) {
             $('#calendar').fullCalendar('changeView', 'agendaDay');
+            $('#calendar').fullCalendar('gotoDate', date);
         }
     }
 
