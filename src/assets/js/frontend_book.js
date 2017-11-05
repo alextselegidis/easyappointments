@@ -170,12 +170,12 @@ window.FrontendBook = window.FrontendBook || {};
             $('#select-provider').empty();
 
             $.each(GlobalVariables.availableProviders, function(indexProvider, provider) {
-                $.each(provider.services'], function(indexService, serviceId) {
+                $.each(provider.services, function(indexService, serviceId) {
                     // If the current provider is able to provide the selected service,
                     // add him to the listbox.
                     if (serviceId == currServiceId) {
-                        var optionHtml = '<option value="' + provider.id'] + '">'
-                                + provider.first_name']  + ' ' + provider.last_name']
+                        var optionHtml = '<option value="' + provider.id + '">'
+                                + provider.first_name  + ' ' + provider.last_name
                                 + '</option>';
                         $('#select-provider').append(optionHtml);
                     }
