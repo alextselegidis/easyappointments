@@ -1051,7 +1051,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             height: _getCalendarHeight(),
             editable: true,
             firstDay: 1, // Monday
-            snapDuration: '00:15:00',
+            snapDuration: '00:30:00',
             timeFormat: 'h:mm A',
             slotLabelFormat : 'h(:mm) A',
             allDayText: EALang.all_day,
@@ -1061,6 +1061,43 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 left: 'prev,next today',
                 center: 'title',
                 right: 'agendaDay,agendaWeek,month'
+            },
+
+            // Selectable
+            selectable: true,
+            selectHelper: true,
+            select: function(start, end, jsEvent, view) {
+                if (!start.hasTime() || !end.hasTime()) {
+                    return;
+                }
+
+                $('#insert-appointment').trigger('click');
+
+                // Preselect service & provider.
+                if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
+                    var service = GlobalVariables.availableServices.find(function (service) {
+                        return service.id == $('#select-filter-item').val()
+                    });
+                    $('#select-service').val(service.id).trigger('change');
+
+                } else {
+                    var provider = GlobalVariables.availableProviders.find(function (provider) {
+                        return provider.id == $('#select-filter-item').val();
+                    });
+
+                    var service = GlobalVariables.availableServices.find(function (service) {
+                        return provider.services.indexOf(service.id) !== -1
+                    });
+
+                    $('#select-service').val(service.id).trigger('change');
+                    $('#select-provider').val(provider.id).trigger('change');
+                }
+
+                // Preselect time
+                $('#start-datetime').datepicker('setDate', new Date(start.format('YYYY-MM-DD HH:mm:ss')));
+                $('#end-datetime').datepicker('setDate', new Date(end.format('YYYY-MM-DD HH:mm:ss')));
+
+                return false;
             },
 
             // Translations
