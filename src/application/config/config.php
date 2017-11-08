@@ -264,6 +264,18 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
 
 /*
 |--------------------------------------------------------------------------
+| Cache Busting Token
+|--------------------------------------------------------------------------
+|
+| This token will be appending to asset URLs in order to invalidate the browser
+| cache and enforce end clients to fetch new files. Update the token with each
+| new release.
+|
+*/
+$config['cache_busting_token'] = 'dfsg8s09df8g098';
+
+/*
+|--------------------------------------------------------------------------
 | Encryption Key
 |--------------------------------------------------------------------------
 |
