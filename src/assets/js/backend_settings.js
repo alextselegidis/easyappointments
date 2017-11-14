@@ -199,11 +199,11 @@ window.BackendSettings = window.BackendSettings || {};
                 }
 
                 if (response == false) {
-                    $input.css('border', '2px solid red');
+                    $input.closest('.form-group').addClass('has-error');
                     Backend.displayNotification(EALang.username_already_exists);
                     $input.attr('already-exists', 'true');
                 } else {
-                    $input.css('border', '');
+                    $input.closest('.form-group').removeClass('has-error');
                     $input.attr('already-exists', 'false');
                 }
             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);

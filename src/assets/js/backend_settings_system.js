@@ -103,14 +103,14 @@
      * @return {Boolean} Returns the validation result.
      */
     SystemSettings.prototype.validate = function() {
-        $('#general .required').css('border', '');
+        $('#general .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#general .required').each(function() {
                 if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -121,13 +121,13 @@
 
             // Validate company email address.
             if (!GeneralFunctions.validateEmail($('#company-email').val())) {
-                $('#company-email').css('border', '2px solid red');
+                $('#company-email').closest('.form-group').addClass('has-error');
                 throw EALang.invalid_email;
             }
 
             return true;
-        } catch(exc) {
-            Backend.displayNotification(exc);
+        } catch(message) {
+            Backend.displayNotification(message);
             return false;
         }
     };

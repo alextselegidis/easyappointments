@@ -158,7 +158,9 @@
                 customer.id = $('#customer-id').val();
             }
 
-            if (!instance.validate(customer)) return;
+            if (!instance.validate()) {
+                return;
+            }
 
             instance.save(customer);
         });
@@ -238,12 +240,12 @@
 
     /**
      * Validate customer data before save (insert or update).
-     *
-     * @param {Object} customer Contains the customer data.
      */
-    CustomersHelper.prototype.validate = function(customer) {
-        $('#form-message').hide();
-        $('.required').css('border', '');
+    CustomersHelper.prototype.validate = function() {
+        $('#form-message')
+            .removeClass('alert-danger')
+            .hide();
+        $('.has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
@@ -251,7 +253,7 @@
 
             $('.required').each(function() {
                 if ($(this).val() == '') {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -262,14 +264,16 @@
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').css('border', '2px solid red');
+                $('#email').closest('.form-group').addClass('has-error');
                 throw EALang.invalid_email;
             }
 
             return true;
-
-        } catch(exc) {
-            $('#form-message').text(exc).show();
+        } catch(message) {
+            $('#form-message')
+                .addClass('alert-danger')
+                .text(message)
+                .show();
             return false;
         }
     };
@@ -287,7 +291,7 @@
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
 
-        $('.record-details .required').css('border', '');
+        $('.record-details .has-error').removeClass('has-error');
         $('.record-details #form-message').hide();
 
         $('#filter-customers button').prop('disabled', false);

@@ -140,7 +140,7 @@
                 category.id = $('#category-id').val();
             }
 
-            if (!instance.validate(category)) {
+            if (!instance.validate()) {
                 return;
             }
 
@@ -263,17 +263,17 @@
     /**
      * Validate category data before save (insert or update).
      *
-     * @param {Object} category Contains the category data.
+     * @return {Boolean} Returns the validation result.
      */
-    CategoriesHelper.prototype.validate = function(category) {
-        $('#categories .record-details').find('input, textarea').css('border', '');
+    CategoriesHelper.prototype.validate = function() {
+        $('#categories .has-error').removeClass('has-error');
 
         try {
             var missingRequired = false;
 
             $('#categories .required').each(function() {
                 if ($(this).val() === '' || $(this).val() === undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -283,7 +283,7 @@
             }
 
             return true;
-        } catch(exc) {
+        } catch(message) {
             return false;
         }
     };

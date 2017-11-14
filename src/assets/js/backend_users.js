@@ -203,12 +203,12 @@ window.BackendUsers = window.BackendUsers || {};
                 }
 
                 if (response == false) {
-                    $input.css('border', '2px solid red');
+                    $input.closest('.form-group').addClass('has-error');
                     $input.attr('already-exists', 'true');
                     $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
-                    $input.css('border', '');
+                    $input.closest('.form-group').removeClass('has-error');
                     $input.attr('already-exists', 'false');
                     if ($input.parents().eq(3).find('.form-message').text() == EALang.username_already_exists) {
                         $input.parents().eq(3).find('.form-message').hide();

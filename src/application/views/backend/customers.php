@@ -92,42 +92,42 @@
                     <div id="form-message" class="alert" style="display:none;"></div>
 
                     <div class="form-group">
-                        <label for="first-name"><?= lang('first_name') ?> *</label>
+                        <label class="control-label" for="first-name"><?= lang('first_name') ?> *</label>
                         <input id="first-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label for="last-name"><?= lang('last_name') ?> *</label>
+                        <label class="control-label" for="last-name"><?= lang('last_name') ?> *</label>
                         <input id="last-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label for="email"><?= lang('email') ?> *</label>
+                        <label class="control-label" for="email"><?= lang('email') ?> *</label>
                         <input id="email" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label for="phone-number"><?= lang('phone_number') ?> *</label>
+                        <label class="control-label" for="phone-number"><?= lang('phone_number') ?> *</label>
                         <input id="phone-number" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label for="address"><?= lang('address') ?></label>
+                        <label class="control-label" for="address"><?= lang('address') ?></label>
                         <input id="address" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="city"><?= lang('city') ?></label>
+                        <label class="control-label" for="city"><?= lang('city') ?></label>
                         <input id="city" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="zip-code"><?= lang('zip_code') ?></label>
+                        <label class="control-label" for="zip-code"><?= lang('zip_code') ?></label>
                         <input id="zip-code" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="notes"><?= lang('notes') ?></label>
+                        <label class="control-label" for="notes"><?= lang('notes') ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
 

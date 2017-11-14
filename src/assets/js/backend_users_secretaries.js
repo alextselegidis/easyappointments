@@ -177,7 +177,7 @@
                 secretary.id = $('#secretary-id').val();
             }
 
-            if (!this.validate(secretary)) {
+            if (!this.validate()) {
                 return;
             }
 
@@ -247,20 +247,18 @@
     /**
      * Validates a secretary record.
      *
-     * @param {Object} secretary Contains the admin data to be validated.
-     *
      * @return {Boolean} Returns the validation result.
      */
-    SecretariesHelper.prototype.validate = function(secretary) {
-        $('#secretaries .required').css('border', '');
-        $('#secretary-password, #secretary-password-confirm').css('border', '');
+    SecretariesHelper.prototype.validate = function() {
+        $('#secretaries .has-error').removeClass('has-error');
+        $('#secretaries .form-message').removeClass('alert-danger');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#secretaries .required').each(function() {
                 if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -270,33 +268,35 @@
 
             // Validate passwords.
             if ($('#secretary-password').val() != $('#secretary-password-confirm').val()) {
-                $('#secretary-password, #secretary-password-confirm').css('border', '2px solid red');
+                $('#secretary-password, #secretary-password-confirm').closest('.form-group').addClass('has-error');
                 throw 'Passwords mismatch!';
             }
 
             if ($('#secretary-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                     && $('#secretary-password').val() != '') {
-                $('#secretary-password, #secretary-password-confirm').css('border', '2px solid red');
+                $('#secretary-password, #secretary-password-confirm').closest('.form-group').addClass('has-error');
                 throw 'Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH
                         + ' characters long.';
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
-                $('#secretary-email').css('border', '2px solid red');
+                $('#secretary-email').closest('.form-group').addClass('has-error');
                 throw 'Invalid email address!';
             }
 
             // Check if username exists
             if ($('#secretary-username').attr('already-exists') ==  'true') {
-                $('#secretary-username').css('border', '2px solid red');
+                $('#secretary-username').closest('.form-group').addClass('has-error');
                 throw 'Username already exists.';
             }
 
             return true;
-        } catch(exc) {
-            $('#secretaries .form-message').text(exc);
-            $('#secretaries .form-message').show();
+        } catch(message) {
+            $('#secretaries .form-message')
+                .addClass('alert-danger')
+                .text(message)
+                .show();
             return false;
         }
     };
@@ -316,8 +316,7 @@
         $('#secretary-notifications').prop('disabled', true);
         $('#secretary-providers input:checkbox').prop('checked', false);
         $('#secretary-providers input:checkbox').prop('disabled', true);
-        $('#secretaries .required').css('border', '');
-        $('#secretary-password, #secretary-password-confirm').css('border', '');
+        $('#secretaries .has-error').removeClass('has-error');
 
         $('#filter-secretaries .selected').removeClass('selected');
         $('#filter-secretaries button').prop('disabled', false);

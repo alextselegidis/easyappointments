@@ -458,7 +458,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         var $dialog = $('#manage-appointment');
 
         // Reset previous validation css formatting.
-        $dialog.find('.form-group').removeClass('has-error');
+        $dialog.find('.has-error').removeClass('has-error');
         $dialog.find('.modal-message').addClass('hidden');
 
         try {
@@ -467,7 +467,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             $dialog.find('.required').each(function() {
                 if ($(this).val() == '' || $(this).val() == null) {
-                    $(this).parents('.form-group').addClass('has-error');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequiredField = true;
                 }
             });
@@ -478,7 +478,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Check email address.
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
-                $dialog.find('#email').parents('.form-group').eq(1).addClass('has-error');
+                $dialog.find('#email').closest('.form-group').addClass('has-error');
                 throw EALang.invalid_email;
             }
 
@@ -486,8 +486,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var start = $('#start-datetime').datetimepicker('getDate');
             var end = $('#end-datetime').datetimepicker('getDate');
             if (start > end) {
-                $dialog.find('#start-datetime').parents('.form-group').addClass('has-error');
-                $dialog.find('#end-datetime').parents('.form-group').addClass('has-error');
+                $dialog.find('#start-datetime, #end-datetime').closest('.form-group').addClass('has-error');
                 throw EALang.start_date_before_end_error;
             }
 

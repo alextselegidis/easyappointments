@@ -136,7 +136,7 @@
                 service.id = $('#service-id').val();
             }
 
-            if (!instance.validate(service)) {
+            if (!instance.validate()) {
                 return;
             }
 
@@ -235,12 +235,10 @@
     /**
      * Validates a service record.
      *
-     * @param {Object} service Contains the service data.
-     *
      * @return {Boolean} Returns the validation result.
      */
-    ServicesHelper.prototype.validate = function(service) {
-        $('#services .required').css('border', '');
+    ServicesHelper.prototype.validate = function() {
+        $('#services .has-error').removeClass('has-error');
 
         try {
             // validate required fields.
@@ -248,7 +246,7 @@
 
             $('#services .required').each(function() {
                 if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });

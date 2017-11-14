@@ -177,12 +177,12 @@
                             <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="start-datetime" class="control-label"><?= lang('start_date_time') ?></label>
-                                    <input id="start-datetime" class="form-control">
+                                    <input id="start-datetime" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="end-datetime" class="control-label"><?= lang('end_date_time') ?></label>
-                                    <input id="end-datetime" class="form-control">
+                                    <input id="end-datetime" class="required form-control">
                                 </div>
                             </div>
                         </div>

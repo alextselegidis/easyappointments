@@ -165,7 +165,7 @@
                 admin.id = $('#admin-id').val();
             }
 
-            if (!this.validate(admin)) {
+            if (!this.validate()) {
                 return;
             }
 
@@ -235,13 +235,10 @@
     /**
      * Validates an admin record.
      *
-     * @param {Object} admin Contains the admin data to be validated.
-     *
      * @return {Boolean} Returns the validation result.
      */
-    AdminsHelper.prototype.validate = function(admin) {
-        $('#admins .required').css('border', '');
-        $('#admin-password, #admin-password-confirm').css('border', '');
+    AdminsHelper.prototype.validate = function() {
+        $('#admins .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
@@ -249,7 +246,7 @@
 
             $('#admins .required').each(function() {
                 if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -260,32 +257,34 @@
 
             // Validate passwords.
             if ($('#admin-password').val() != $('#admin-password-confirm').val()) {
-                $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
+                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
                 throw EALang.passwords_mismatch;
             }
 
             if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
                     && $('#admin-password').val() != '') {
-                $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
+                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
                 throw EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
-                $('#admin-email').css('border', '2px solid red');
+                $('#admin-email').closest('.form-group').addClass('has-error');
                 throw EALang.invalid_email;
             }
 
             // Check if username exists
             if ($('#admin-username').attr('already-exists') ==  'true') {
-                $('#admin-username').css('border', '2px solid red');
+                $('#admin-username').closest('.form-group').addClass('has-error');
                 throw EALang.username_already_exists;
             }
 
             return true;
-        } catch(exc) {
-            $('#admins .form-message').text(exc);
-            $('#admins .form-message').show();
+        } catch(message) {
+            $('#admins .form-message')
+                .addClass('alert-danger')
+                .text(message)
+                .show();
             return false;
         }
     };
@@ -300,8 +299,6 @@
         $('#admins .record-details').find('select').prop('disabled', true);
         $('#admins .form-message').hide();
         $('#admin-notifications').prop('disabled', true);
-        $('#admins .required').css('border', '');
-        $('#admin-password, #admin-password-confirm').css('border', '');
         $('#admins .record-details').find('input, textarea').val('');
         $('#admin-notifications').removeClass('active');
         $('#edit-admin, #delete-admin').prop('disabled', true);

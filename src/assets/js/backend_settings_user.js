@@ -91,15 +91,14 @@
      * @return {Boolean} Returns the validation result.
      */
     UserSettings.prototype.validate = function() {
-        $('#user .required').css('border', '');
-        $('#user').find('#password, #retype-password').css('border', '');
+        $('#user .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#user .required').each(function() {
                 if ($(this).val() === '' || $(this).val() === undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -110,18 +109,18 @@
 
             // Validate passwords (if provided).
             if ($('#password').val() != $('#retype-password').val()) {
-                $('#password, #retype-password').css('border', '2px solid red');
+                $('#password, #retype-password').closest('.form-group').addClass('has-error');
                 throw EALang.passwords_mismatch;
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').css('border', '2px solid red');
+                $('#email').closest('.form-group').addClass('has-error');
                 throw EALang.invalid_email;
             }
 
             if ($('#username').attr('already-exists') === 'true') {
-                $('#username').css('border', '2px solid red');
+                $('#username').closest('.form-group').addClass('has-error');
                 throw EALang.username_already_exists;
             }
 

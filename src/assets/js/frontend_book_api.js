@@ -112,9 +112,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var $captchaText = $('.captcha-text');
 
         if ($captchaText.length > 0) {
-            $captchaText.css('border', '');
+            $captchaText.closest('.form-group').removeClass('has-error');
             if ($captchaText.val() === '') {
-                $captchaText.css('border', '1px solid #dc3b40');
+                $captchaText.closest('.form-group').addClass('has-error');
                 return;
             }
         }
@@ -172,7 +172,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                     $('.captcha-title small').trigger('click');
 
-                    $captchaText.css('border', '1px solid #dc3b40');
+                    $captchaText.closest('.form-group').addClass('has-error');
 
                     return false;
                 }

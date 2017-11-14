@@ -30,6 +30,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          */
         $('#manage-unavailable #save-unavailable').click(function() {
             var $dialog = $('#manage-unavailable');
+            $dialog.find('.has-error').removeClass('has-error');
             var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
             var end = Date.parse($dialog.find('#unavailable-end').datetimepicker('getDate'));
 
@@ -39,6 +40,8 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                     .text(EALang.start_date_before_end_error)
                     .addClass('alert-danger')
                     .removeClass('hidden');
+
+                $dialog.find('#unavailable-start, #unavailable-end').closest('.form-group').addClass('has-error');
                 return;
             }
 
@@ -136,8 +139,9 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             }
 
             if ($('.calendar-view').length === 0) {
-                $dialog.find('#unavailable-provider').val($('#select-filter-item').val())
-                    .parents('.form-group')
+                $dialog.find('#unavailable-provider')
+                    .val($('#select-filter-item').val())
+                    .closest('.form-group')
                     .hide();
             }
 
