@@ -36,9 +36,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {String} title The title of the message box.
      * @param {String} message The message of the dialog.
-     * @param {Array} messageButtons Contains the dialog buttons along with their functions.
+     * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
-    exports.displayMessageBox = function(title, message, messageButtons) {
+    exports.displayMessageBox = function(title, message, buttons) {
         // Check arguments integrity.
         if (title == undefined || title == '') {
             title = '<No Title Given>';
@@ -48,11 +48,16 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             message = '<No Message Given>';
         }
 
-        if (messageButtons == undefined) {
-            messageButtons = {};
-            messageButtons[EALang.close] = function() {
-                $('#message_box').dialog('close');
-            };
+        if (buttons == undefined) {
+            buttons = [
+                {
+                    text: EALang.close,
+                    click: function () {
+                        $('#message_box').dialog('close');
+
+                    }
+                }
+            ];
         }
 
         // Destroy previous dialog instances.
@@ -73,7 +78,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             width: 'auto',
             height: 'auto',
             resizable: false,
-            buttons: messageButtons,
+            buttons: buttons,
             closeOnEscape: true
         });
 
