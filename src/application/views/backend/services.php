@@ -1,6 +1,6 @@
-<script src="<?= base_url('assets/js/backend_services_helper.js') ?>"></script>
-<script src="<?= base_url('assets/js/backend_categories_helper.js') ?>"></script>
-<script src="<?= base_url('assets/js/backend_services.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_services_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_categories_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_services.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken     : <?= json_encode($this->security->get_csrf_hash()) ?>,

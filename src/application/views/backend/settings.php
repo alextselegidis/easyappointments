@@ -1,9 +1,9 @@
-<script src="<?= base_url('assets/js/backend_settings_system.js') ?>"></script>
-<script src="<?= base_url('assets/js/backend_settings_user.js') ?>"></script>
-<script src="<?= base_url('assets/js/backend_settings.js') ?>"></script>
-<script src="<?= base_url('assets/js/working_plan.js') ?>"></script>
-<script src="<?= base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
-<script src="<?= base_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_settings_system.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_settings_user.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_settings.js') ?>"></script>
+<script src="<?= asset_url('assets/js/working_plan.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>
     var GlobalVariables = {
         'csrfToken'     : <?= json_encode($this->security->get_csrf_hash()) ?>,

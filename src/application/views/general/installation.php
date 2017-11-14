@@ -4,10 +4,10 @@
     <title>Easy!Appointments - Installation</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
-    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url ('assets/ext/jquery-ui/jquery-ui.min.css')?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url ('assets/ext/jquery-ui/jquery-ui.min.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <style>
         header {
@@ -178,11 +178,11 @@
         var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
-    <script src="<?= base_url('assets/js/installation.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/installation.js') ?>"></script>
 </body>
 </html>

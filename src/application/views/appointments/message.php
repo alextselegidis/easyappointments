@@ -7,20 +7,20 @@
     <meta name="theme-color" content="#35A768">
     <title><?= $message_title ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/frontend.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
 
-    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
-    <link rel="icon" sizes="192x192" href="<?= base_url('assets/img/logo.png') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
     <script>
         var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
-    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 </head>
 
 <body>

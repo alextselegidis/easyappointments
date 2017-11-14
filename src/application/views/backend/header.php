@@ -5,22 +5,22 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/jquery-jscrollpane/jquery.jscrollpane.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/backend.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-jscrollpane/jquery.jscrollpane.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
-    <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/jquery-jscrollpane/jquery.jscrollpane.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/jquery-mousewheel/jquery.mousewheel.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-jscrollpane/jquery.jscrollpane.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.js') ?>"></script>
 
     <script>
     	// Global JavaScript Variables - Used in all backend pages.

@@ -1,6 +1,6 @@
-<script src="<?= base_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
-<script src="<?= base_url('assets/js/backend_customers_helper.js') ?>"></script>
-<script src="<?= base_url('assets/js/backend_customers.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_customers_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_customers.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken          : <?= json_encode($this->security->get_csrf_hash()) ?>,

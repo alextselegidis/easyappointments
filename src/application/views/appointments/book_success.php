@@ -7,11 +7,11 @@
     <meta name="theme-color" content="#35A768">
     <title><?= lang('appointment_registered') . ' - ' . $company_name ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/frontend.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
 
-    <link rel="icon" type="image/x-icon" href="<?= base_url('assets/img/favicon.ico') ?>">
-    <link rel="icon" sizes="192x192" href="<?= base_url('assets/img/logo.png') ?>">
+    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 </head>
 <body>
     <div id="main" class="container">
@@ -79,8 +79,8 @@
         var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?= base_url('assets/js/frontend_book_success.js') ?>"></script>
-    <script src="<?= base_url('assets/js/general_functions.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/frontend_book_success.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 
     <?php google_analytics_script() ?>
 </body>
