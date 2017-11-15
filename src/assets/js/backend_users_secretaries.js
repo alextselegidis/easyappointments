@@ -383,13 +383,11 @@
 
             this.filterResults = response;
 
-            $('#filter-secretaries .results').data('jsp').destroy();
             $('#filter-secretaries .results').html('');
             $.each(response, function(index, secretary) {
                 var html = this.getFilterHtml(secretary);
                 $('#filter-secretaries .results').append(html);
             }.bind(this));
-            $('#filter-secretaries .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
                 $('#filter-secretaries .results').html('<em>' + EALang.no_records_found + '</em>')

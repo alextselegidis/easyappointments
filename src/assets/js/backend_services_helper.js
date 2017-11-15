@@ -322,13 +322,11 @@
 
             this.filterResults = response;
 
-            $('#filter-services .results').data('jsp').destroy();
             $('#filter-services .results').html('');
             $.each(response, function(index, service) {
                 var html = ServicesHelper.prototype.getFilterHtml(service);
                 $('#filter-services .results').append(html);
             });
-            $('#filter-services .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length === 0) {
                 $('#filter-services .results').html('<em>' + EALang.no_records_found + '</em>');

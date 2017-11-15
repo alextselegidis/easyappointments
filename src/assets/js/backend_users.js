@@ -52,11 +52,6 @@ window.BackendUsers = window.BackendUsers || {};
     exports.initialize = function(defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
 
-        // Initialize jScrollPane Scrollbars
-        $('#filter-admins .results').jScrollPane();
-        $('#filter-providers .results').jScrollPane();
-        $('#filter-secretaries .results').jScrollPane();
-
         // Instantiate default helper object (admin).
         helper = new AdminsHelper();
         helper.resetForm();
@@ -80,7 +75,6 @@ window.BackendUsers = window.BackendUsers || {};
         });
         html += '</div>';
         $('#provider-services').html(html);
-        $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
 
         html = '<div class="col-xs-12">';
         $.each(GlobalVariables.providers, function(index, provider) {
@@ -95,7 +89,6 @@ window.BackendUsers = window.BackendUsers || {};
         });
         html += '</div>';
         $('#secretary-providers').html(html);
-        $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
 
         $('#reset-working-plan').qtip({
             position: {
@@ -127,8 +120,6 @@ window.BackendUsers = window.BackendUsers || {};
             if ($(this).attr('href') === '#admins') {
                 helper = new AdminsHelper();
             } else if ($(this).attr('href') === '#providers') {
-                $('#provider-services').data('jsp').destroy();
-                $('#provider-services').jScrollPane({ mouseWheelSpeed: 70 });
                 helper = new ProvidersHelper();
             } else if ($(this).attr('href') === '#secretaries') {
                 helper = new SecretariesHelper();
@@ -146,8 +137,6 @@ window.BackendUsers = window.BackendUsers || {};
 
                     GlobalVariables.providers = response;
 
-                    $('#secretary-providers').data('jsp').destroy();
-
                     var html = '<div class="col-xs-12">';
                     $.each(GlobalVariables.providers, function(index, provider) {
                        html +=
@@ -161,7 +150,6 @@ window.BackendUsers = window.BackendUsers || {};
                     html += '</div>';
                     $('#secretary-providers').html(html);
                     $('#secretary-providers input:checkbox').prop('disabled', true);
-                    $('#secretary-providers').jScrollPane({ mouseWheelSpeed: 70 });
                 }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
             }
 

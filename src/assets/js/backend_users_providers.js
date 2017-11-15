@@ -451,13 +451,11 @@
 
             this.filterResults = response;
 
-            $('#filter-providers .results').data('jsp').destroy();
             $('#filter-providers .results').html('');
             $.each(response, function(index, provider) {
                 var html = this.getFilterHtml(provider);
                 $('#filter-providers .results').append(html);
             }.bind(this));
-            $('#filter-providers .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
                 $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')

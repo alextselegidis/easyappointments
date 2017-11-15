@@ -181,13 +181,11 @@
 
             this.filterResults = response;
 
-            $('#filter-categories .results').data('jsp').destroy();
             $('#filter-categories .results').html('');
             $.each(response, function(index, category) {
                 var html = this.getFilterHtml(category);
                 $('#filter-categories .results').append(html);
             }.bind(this));
-            $('#filter-categories .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length === 0) {
                 $('#filter-categories .results').html('<em>' + EALang.no_records_found + '</em>');

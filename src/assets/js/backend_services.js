@@ -57,9 +57,6 @@ window.BackendServices = window.BackendServices || {};
         helper.resetForm();
         helper.filter('');
 
-        $('#filter-services .results').jScrollPane();
-        $('#filter-categories .results').jScrollPane();
-
         if (bindEventHandlers) {
             _bindEventHandlers();
         }

@@ -360,13 +360,11 @@
 
             this.filterResults = response;
 
-            $('#filter-admins .results').data('jsp').destroy();
             $('#filter-admins .results').html('');
             $.each(response, function(index, admin) {
                 var html = this.getFilterHtml(admin);
                 $('#filter-admins .results').append(html);
             }.bind(this));
-            $('#filter-admins .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
                 $('#filter-admins .results').html('<em>' + EALang.no_records_found + '</em>')

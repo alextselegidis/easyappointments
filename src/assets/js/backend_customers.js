@@ -46,9 +46,6 @@
         helper.resetForm();
         helper.filter('');
 
-        $('#filter-customers .results').jScrollPane();
-        $('#customer-appointments').jScrollPane();
-
         if (defaultEventHandlers) {
            _bindEventHandlers();
         }

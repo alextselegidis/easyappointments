@@ -315,7 +315,6 @@
         $('#zip-code').val(customer.zip_code);
         $('#notes').val(customer.notes);
 
-        $('#customer-appointments').data('jsp').destroy();
         $('#customer-appointments').empty();
         $.each(customer.appointments, function(index, appointment) {
             var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
@@ -328,7 +327,6 @@
                     '</div>';
             $('#customer-appointments').append(html);
         });
-        $('#customer-appointments').jScrollPane({ mouseWheelSpeed: 70 });
 
         $('#appointment-details').empty();
     };
@@ -357,14 +355,11 @@
 
             this.filterResults = response;
 
-            $('#filter-customers .results').data('jsp').destroy();
             $('#filter-customers .results').html('');
             $.each(response, function(index, customer) {
                var html = this.getFilterHtml(customer);
                $('#filter-customers .results').append(html);
            }.bind(this));
-            $('#filter-customers .results').jScrollPane({ mouseWheelSpeed: 70 });
-
             if (response.length == 0) {
                 $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
             }
