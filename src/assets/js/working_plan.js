@@ -98,13 +98,13 @@
      */
     WorkingPlan.prototype.editableBreakDay = function($selector) {
         var weekDays = {};
+        weekDays[EALang.sunday] = EALang.sunday; //'Sunday';
         weekDays[EALang.monday] = EALang.monday; //'Monday';
         weekDays[EALang.tuesday] = EALang.tuesday; //'Tuesday';
         weekDays[EALang.wednesday] = EALang.wednesday; //'Wednesday';
         weekDays[EALang.thursday] = EALang.thursday; //'Thursday';
         weekDays[EALang.friday] = EALang.friday; //'Friday';
         weekDays[EALang.saturday] = EALang.saturday; //'Saturday';
-        weekDays[EALang.sunday] = EALang.sunday; //'Sunday';
 
         $selector.editable(function(value, settings) {
             return value;
@@ -396,6 +396,8 @@
      */
     WorkingPlan.prototype.convertValueToDay = function(value) {
         switch (value) {
+            case 'sunday':
+                return EALang.sunday;
             case 'monday':
                 return EALang.monday;
             case 'tuesday':
@@ -408,8 +410,6 @@
                 return EALang.friday;
             case 'saturday':
                 return EALang.saturday;
-            case 'sunday':
-                return EALang.sunday;
         }
     };
 
@@ -420,6 +420,8 @@
      */
     WorkingPlan.prototype.convertDayToValue = function(day) {
         switch (day) {
+            case EALang.sunday:
+                return 'sunday';
             case EALang.monday:
                 return 'monday';
             case EALang.tuesday:
@@ -432,8 +434,6 @@
                 return 'friday';
             case EALang.saturday:
                 return 'saturday';
-            case EALang.sunday:
-                return 'sunday';
         }
     };
 

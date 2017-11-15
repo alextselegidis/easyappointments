@@ -207,7 +207,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 1
+            firstDay: 0
         });
         $dialog.find('#unavailable-start').val(start);
 
@@ -237,7 +237,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 1
+            firstDay: 0
         });
         $dialog.find('#unavailable-end').val(end);
 

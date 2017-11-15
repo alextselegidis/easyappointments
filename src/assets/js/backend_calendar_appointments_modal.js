@@ -413,7 +413,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 1
+            firstDay: 0
         });
         $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
@@ -443,7 +443,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 1
+            firstDay: 0
         });
         $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
     };

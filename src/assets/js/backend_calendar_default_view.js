@@ -1050,7 +1050,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             defaultView: defaultView,
             height: _getCalendarHeight(),
             editable: true,
-            firstDay: 1, // Monday
+            firstDay: 0,
             snapDuration: '00:30:00',
             timeFormat: 'h:mm A',
             slotLabelFormat : 'h(:mm) A',

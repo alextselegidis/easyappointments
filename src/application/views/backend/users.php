@@ -370,6 +370,18 @@
                                     <td>
                                         <div class="checkbox">
                                             <label>
+                                                <input type="checkbox" id="sunday">
+                                                <?= lang('sunday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="sunday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="sunday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
                                                 <input type="checkbox" id="monday">
                                                 <?= lang('monday') ?>
                                             </label>
@@ -437,18 +449,6 @@
                                     </td>
                                     <td><input id="saturday-start" class="work-start form-control input-sm"></td>
                                     <td><input id="saturday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="sunday">
-                                                <?= lang('sunday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="sunday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="sunday-end" class="work-end form-control input-sm"></td>
                                 </tr>
                             </tbody>
                         </table>
