@@ -10,7 +10,6 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-jscrollpane/jquery.jscrollpane.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
@@ -19,7 +18,6 @@
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/jquery-jscrollpane/jquery.jscrollpane.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.js') ?>"></script>
 
     <script>
@@ -109,5 +107,7 @@
 <div id="notification" style="display: none;"></div>
 
 <div id="loading" style="display: none;">
-    <img src="<?= base_url('assets/img/loading.gif"') ?>>
+    <div class="any-element animation-dial is-loading">
+        &nbsp;
+    </div>
 </div>
