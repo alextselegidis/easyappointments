@@ -106,9 +106,9 @@ root {
 
 #notification .alert {
     margin-bottom: 0;
-    background-color: #f1df83;
+    background-color: #f5e8a8;
     color: #9E9980;
-    box-shadow: 1px 1px 3px #a0a0a0;
+    box-shadow: 1px 1px 1px #a0a0a0;
     padding: 15px;
     position: fixed;
     z-index: 200;
