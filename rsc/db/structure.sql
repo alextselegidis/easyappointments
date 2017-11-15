@@ -27,6 +27,12 @@ CREATE TABLE `ea_appointments` (
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8;
 
+CREATE TABLE `ea_migrations` (
+    `version` INT(11) NOT NULL
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8;
+
 CREATE TABLE `ea_roles` (
     `id` INT(11) AUTO_INCREMENT NOT NULL,
     `name` VARCHAR(256) DEFAULT NULL,

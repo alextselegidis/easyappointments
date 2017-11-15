@@ -16,3 +16,5 @@ VALUES
     ('customer_notifications', '1'),
     ('date_format', 'DMY'),
     ('require_captcha', '0');
+
+INSERT INTO `ea_migrations` VALUES ('8');
