@@ -104,6 +104,10 @@ root {
     margin-right: 15px;
 }
 
+#notification .alert button {
+    margin-right: 15px;
+}
+
 #notification .alert {
     margin-bottom: 0;
     background-color: #f5e8a8;
@@ -122,6 +126,7 @@ root {
     color: #9E9980;
     font-size: 25px;
     line-height: 0.8;
+    margin-right: 0 !important;
 }
 
 #loading {
