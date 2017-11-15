@@ -320,16 +320,14 @@ class Backend extends CI_Controller {
                 throw new Exception($this->migration->error_string());
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
+            $view = ['success' => true];
         }
         catch (Exception $exc)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $view = ['success' => false, 'exception' => $exc->getMessage()];
         }
+
+        $this->load->view('general/update', $view);
     }
 
     /**
