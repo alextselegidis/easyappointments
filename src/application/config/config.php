@@ -115,7 +115,8 @@ $config['available_languages'] = array(
     'romanian',
     'turkish',
     'hindi',
-    'bulgarian'
+    'bulgarian',
+    'arabic'
 );
 
 /*
