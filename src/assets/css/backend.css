@@ -105,9 +105,17 @@ root {
 }
 
 #notification .alert {
-    margin-bottom: 0px;
-    background-color: #FCF8E3;
+    margin-bottom: 0;
+    background-color: #f1df83;
     color: #9E9980;
+    box-shadow: 1px 1px 3px #a0a0a0;
+    padding: 15px;
+    position: absolute;
+    z-index: 200;
+    right: 15px;
+    bottom: 15px;
+    min-width: 300px;
+    max-width: 750px;
 }
 
 #notification .close {

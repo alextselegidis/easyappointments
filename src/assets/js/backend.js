@@ -110,8 +110,8 @@ window.Backend = window.Backend || {};
         if (actions === undefined) {
             actions = [];
             setTimeout(function() {
-                $('#notification').slideUp('slow');
-            }, 7000);
+                $('#notification').fadeIn();
+            }, 5000);
         }
 
         var customActionsHtml = '';
@@ -135,7 +135,7 @@ window.Backend = window.Backend || {};
                 '</div>';
 
         $('#notification').html(notificationHtml);
-        $('#notification').show('blind');
+        $('#notification').show('fade');
     }
 
 })(window.Backend);
