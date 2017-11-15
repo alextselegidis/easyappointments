@@ -322,3 +322,60 @@ li.language:hover {
 .ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_unit_hide:before {
     display: none;
 }
+
+/* LOADING SPINNER
+   ------------------------------------------------------------------------- */
+
+.is-loading {
+    position: relative;
+}
+
+.is-loading:before,
+.is-loading:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.animation:after {
+    width: 60px;
+    height: 60px;
+    margin: -25px 0 0 -25px;
+
+    border: 5px solid rgba(0, 0, 0, .4);
+    border-radius: 50px;
+}
+
+.animation:after {
+    border-bottom-color: transparent;
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-reverse {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.any-element {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    margin-left: -30px;
+    margin-bottom: -30px;
+}

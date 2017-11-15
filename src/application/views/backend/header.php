@@ -107,7 +107,7 @@
 <div id="notification" style="display: none;"></div>
 
 <div id="loading" style="display: none;">
-    <div class="any-element animation-dial is-loading">
+    <div class="any-element animation is-loading">
         &nbsp;
     </div>
 </div>
