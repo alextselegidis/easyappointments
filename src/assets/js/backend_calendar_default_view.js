@@ -326,6 +326,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '<strong>' + EALang.customer + '</strong> '
                 + event.data.customer.first_name + ' '
                 + event.data.customer.last_name
+                + '<br>' +
+                '<strong>' + EALang.email + '</strong> '
+                + event.data.customer.email
+                + '<br>' +
+                '<strong>' + EALang.provider + '</strong> '
+                + event.data.customer.phone_number
                 + '<hr>' +
                 '<div class="text-center">' +
                 '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang.edit + '</button>' +
