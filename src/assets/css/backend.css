@@ -110,7 +110,7 @@ root {
     color: #9E9980;
     box-shadow: 1px 1px 3px #a0a0a0;
     padding: 15px;
-    position: absolute;
+    position: fixed;
     z-index: 200;
     right: 15px;
     bottom: 15px;
