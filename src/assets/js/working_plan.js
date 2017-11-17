@@ -48,8 +48,8 @@
         $.each(workingPlan, function(index, workingDay) {
             if (workingDay != null) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(workingDay.start);
-                $('#' + index + '-end').val(workingDay.end);
+                $('#' + index + '-start').val(Date.parse(workingDay.start).toString('h:mm tt').toUpperCase());
+                $('#' + index + '-end').val(Date.parse(workingDay.end).toString('h:mm tt').toUpperCase());
 
                 // Add the day's breaks on the breaks table.
                 $.each(workingDay.breaks, function(i, brk) {
@@ -58,8 +58,8 @@
                     var tr =
                             '<tr>' +
                                 '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
-                                '<td class="break-start editable">' + brk.start + '</td>' +
-                                '<td class="break-end editable">' + brk.end + '</td>' +
+                                '<td class="break-start editable">' + Date.parse(brk.start).toString('h:mm tt').toUpperCase() + '</td>' +
+                                '<td class="break-end editable">' + Date.parse(brk.end).toString('h:mm tt').toUpperCase() + '</td>' +
                                 '<td>' +
                                     '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
                                         '<span class="glyphicon glyphicon-pencil"></span>' +
@@ -172,8 +172,8 @@
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
-                $('#' + id + '-start').prop('disabled', false).val('09:00');
-                $('#' + id + '-end').prop('disabled', false).val('18:00');
+                $('#' + id + '-start').prop('disabled', false).val('09:00 AM');
+                $('#' + id + '-end').prop('disabled', false).val('18:00 PM');
             } else {
                 $('#' + id + '-start').prop('disabled', true).val('');
                 $('#' + id + '-end').prop('disabled', true).val('');
@@ -189,9 +189,9 @@
         $('.add-break').click(function() {
             var tr =
                     '<tr>' +
-                        '<td class="break-day editable">' + EALang.monday + '</td>' +
-                        '<td class="break-start editable">09:00</td>' +
-                        '<td class="break-end editable">10:00</td>' +
+                        '<td class="break-day editable">' + EALang.sunday + '</td>' +
+                        '<td class="break-start editable">09:00 AM</td>' +
+                        '<td class="break-end editable">10:00 AM</td>' +
                         '<td>' +
                             '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
                                 '<span class="glyphicon glyphicon-pencil"></span>' +
@@ -318,25 +318,27 @@
         $('.working-plan input:checkbox').each(function(index, checkbox) {
             var id = $(checkbox).attr('id');
             if ($(checkbox).prop('checked') == true) {
-                workingPlan[id] = {};
-                workingPlan[id].start = $('#' + id + '-start').val();
-                workingPlan[id].end = $('#' + id + '-end').val();
-                workingPlan[id].breaks = [];
+                workingPlan[id] = {
+                    start: Date.parse($('#' + id + '-start').val()).toString('HH:mm'),
+                    end: Date.parse($('#' + id + '-end').val()).toString('HH:mm'),
+                    breaks: []
+                };
 
                 $('.breaks tr').each(function(index, tr) {
                     var day = this.convertDayToValue($(tr).find('.break-day').text());
+
                     if (day == id) {
                         var start = $(tr).find('.break-start').text();
                         var end = $(tr).find('.break-end').text();
 
                         workingPlan[id].breaks.push({
-                            start: start,
-                            end: end
+                            start: Date.parse(start).toString('HH:mm'),
+                            end: Date.parse(end).toString('HH:mm')
                         });
                     }
 
                     workingPlan[id].breaks.sort(function(break1, break2) {
-                        // We can do a direct string comparison since we have time based on 24 hours clock
+                        // We can do a direct string comparison since we have time based on 24 hours clock.
                         return break1.start - break2.start;
                     });
                 }.bind(this));
