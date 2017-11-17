@@ -389,7 +389,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             appointment.end_datetime = Date.parseExact(
                 appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({minutes: delta.minutes()})
+                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
             // Success callback
@@ -412,7 +412,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var undoFunction = function () {
                     appointment.end_datetime = Date.parseExact(
                         appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({minutes: -delta.minutes()})
+                        .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
