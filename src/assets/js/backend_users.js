@@ -52,14 +52,14 @@ window.BackendUsers = window.BackendUsers || {};
     exports.initialize = function(defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
 
+        exports.wp = new WorkingPlan();
+        exports.wp.bindEventHandlers();
+
         // Instantiate default helper object (admin).
-        helper = new AdminsHelper();
+        helper = new ProvidersHelper();
         helper.resetForm();
         helper.filter('');
         helper.bindEventHandlers();
-
-        exports.wp = new WorkingPlan();
-        exports.wp.bindEventHandlers();
 
         // Fill the services and providers list boxes.
         var html = '<div class="col-xs-12">';

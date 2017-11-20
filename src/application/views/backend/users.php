@@ -33,166 +33,16 @@
     <!-- PAGE NAVIGATION -->
 
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab"><?= lang('admins') ?></a></li>
-        <li role="presentation"><a href="#providers" aria-controls="providers" role="tab" data-toggle="tab"><?= lang('providers') ?></a></li>
+        <li role="presentation" class="active"><a href="#providers" aria-controls="providers" role="tab" data-toggle="tab"><?= lang('providers') ?></a></li>
         <li role="presentation"><a href="#secretaries" aria-controls="secretaries" role="tab" data-toggle="tab"><?= lang('secretaries') ?></a></li>
+        <li role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab"><?= lang('admins') ?></a></li>
     </ul>
 
     <div class="tab-content">
 
-        <!-- ADMINS TAB -->
-
-        <div role="tabpanel" class="tab-pane active" id="admins">
-            <div class="row">
-                <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="key form-control">
-
-                            <span class="input-group-addon">
-                        <div>
-                            <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                            <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
-                            </button>
-                        </div>
-                    </span>
-                        </div>
-                    </form>
-
-                    <h3><?= lang('admins') ?></h3>
-
-                    <div class="results"></div>
-                </div>
-
-                <div class="record-details column col-xs-12 col-sm-7">
-                    <div class="btn-toolbar">
-                        <div class="add-edit-delete-group btn-group">
-                            <button id="add-admin" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                <?= lang('add') ?>
-                            </button>
-                            <button id="edit-admin" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <?= lang('edit') ?>
-                            </button>
-                            <button id="delete-admin" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
-                                <?= lang('delete') ?>
-                            </button>
-                        </div>
-
-                        <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-admin" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok"></span>
-                                <?= lang('save') ?>
-                            </button>
-                            <button id="cancel-admin" class="btn btn-default">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
-                                <?= lang('cancel') ?>
-                            </button>
-                        </div>
-                    </div>
-
-                    <h3><?= lang('details') ?></h3>
-
-                    <div class="form-message alert" style="display:none;"></div>
-
-                    <input type="hidden" id="admin-id" class="record-id">
-
-                    <div class="row">
-                        <div class="admin-details col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="first-name"><?= lang('first_name') ?> *</label>
-                                <input id="admin-first-name" class="form-control required" maxlength="256">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-last-name"><?= lang('last_name') ?> *</label>
-                                <input id="admin-last-name" class="form-control required" maxlength="512">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-email"><?= lang('email') ?> *</label>
-                                <input id="admin-email" class="form-control required" maxlength="512">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-phone-number"><?= lang('phone_number') ?> *</label>
-                                <input id="admin-phone-number" class="form-control required" maxlength="128">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-mobile-number"><?= lang('mobile_number') ?></label>
-                                <input id="admin-mobile-number" class="form-control" maxlength="128">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-address"><?= lang('address') ?></label>
-                                <input id="admin-address" class="form-control" maxlength="256">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-city"><?= lang('city') ?></label>
-                                <input id="admin-city" class="form-control" maxlength="256">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-state"><?= lang('state') ?></label>
-                                <input id="admin-state" class="form-control" maxlength="128">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-zip-code"><?= lang('zip_code') ?></label>
-                                <input id="admin-zip-code" class="form-control" maxlength="64">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-notes"><?= lang('notes') ?></label>
-                                <textarea id="admin-notes" class="form-control" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="admin-settings col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="admin-username"><?= lang('username') ?> *</label>
-                                <input id="admin-username" class="form-control required" maxlength="256">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-password"><?= lang('password') ?> *</label>
-                                <input type="password" id="admin-password" class="form-control required" maxlength="512">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-password-confirm"><?= lang('retype_password') ?> *</label>
-                                <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-calendar-view"><?= lang('calendar') ?> *</label>
-                                <select id="admin-calendar-view" class="form-control required">
-                                    <option value="default">Default</option>
-                                    <option value="table">Table</option>
-                                </select>
-                            </div>
-
-                            <br>
-
-                            <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
-                                <span class="glyphicon glyphicon-envelope"></span>
-                                <span><?= lang('receive_notifications') ?></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- PROVIDERS TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="providers">
+        <div role="tabpanel" class="tab-pane active" id="providers">
             <div class="row">
                 <div id="filter-providers" class="filter-records column col-xs-12 col-sm-5">
                     <form>
@@ -635,6 +485,156 @@
 
                             <h4><?= lang('providers') ?></h4>
                             <div id="secretary-providers"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMINS TAB -->
+
+        <div role="tabpanel" class="tab-pane" id="admins">
+            <div class="row">
+                <div id="filter-admins" class="filter-records column col-xs-12 col-sm-5">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="key form-control">
+
+                            <span class="input-group-addon">
+                        <div>
+                            <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
+                                <span class="glyphicon glyphicon-repeat"></span>
+                            </button>
+                        </div>
+                    </span>
+                        </div>
+                    </form>
+
+                    <h3><?= lang('admins') ?></h3>
+
+                    <div class="results"></div>
+                </div>
+
+                <div class="record-details column col-xs-12 col-sm-7">
+                    <div class="btn-toolbar">
+                        <div class="add-edit-delete-group btn-group">
+                            <button id="add-admin" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <?= lang('add') ?>
+                            </button>
+                            <button id="edit-admin" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <?= lang('edit') ?>
+                            </button>
+                            <button id="delete-admin" class="btn btn-default" disabled="disabled">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <?= lang('delete') ?>
+                            </button>
+                        </div>
+
+                        <div class="save-cancel-group btn-group" style="display:none;">
+                            <button id="save-admin" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                <?= lang('save') ?>
+                            </button>
+                            <button id="cancel-admin" class="btn btn-default">
+                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <?= lang('cancel') ?>
+                            </button>
+                        </div>
+                    </div>
+
+                    <h3><?= lang('details') ?></h3>
+
+                    <div class="form-message alert" style="display:none;"></div>
+
+                    <input type="hidden" id="admin-id" class="record-id">
+
+                    <div class="row">
+                        <div class="admin-details col-xs-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="first-name"><?= lang('first_name') ?> *</label>
+                                <input id="admin-first-name" class="form-control required" maxlength="256">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-last-name"><?= lang('last_name') ?> *</label>
+                                <input id="admin-last-name" class="form-control required" maxlength="512">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-email"><?= lang('email') ?> *</label>
+                                <input id="admin-email" class="form-control required" maxlength="512">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-phone-number"><?= lang('phone_number') ?> *</label>
+                                <input id="admin-phone-number" class="form-control required" maxlength="128">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-mobile-number"><?= lang('mobile_number') ?></label>
+                                <input id="admin-mobile-number" class="form-control" maxlength="128">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-address"><?= lang('address') ?></label>
+                                <input id="admin-address" class="form-control" maxlength="256">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-city"><?= lang('city') ?></label>
+                                <input id="admin-city" class="form-control" maxlength="256">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-state"><?= lang('state') ?></label>
+                                <input id="admin-state" class="form-control" maxlength="128">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-zip-code"><?= lang('zip_code') ?></label>
+                                <input id="admin-zip-code" class="form-control" maxlength="64">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-notes"><?= lang('notes') ?></label>
+                                <textarea id="admin-notes" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="admin-settings col-xs-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="admin-username"><?= lang('username') ?> *</label>
+                                <input id="admin-username" class="form-control required" maxlength="256">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-password"><?= lang('password') ?> *</label>
+                                <input type="password" id="admin-password" class="form-control required" maxlength="512">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-password-confirm"><?= lang('retype_password') ?> *</label>
+                                <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-calendar-view"><?= lang('calendar') ?> *</label>
+                                <select id="admin-calendar-view" class="form-control required">
+                                    <option value="default">Default</option>
+                                    <option value="table">Table</option>
+                                </select>
+                            </div>
+
+                            <br>
+
+                            <button type="button" id="admin-notifications" class="btn btn-default" data-toggle="button">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <span><?= lang('receive_notifications') ?></span>
+                            </button>
                         </div>
                     </div>
                 </div>
