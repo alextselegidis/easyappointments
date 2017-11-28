@@ -551,25 +551,12 @@ body .form-horizontal .controls {
     cursor: pointer;
 }
 
-#services-page .record-details .ui-spinner {
-    border: none;
-    margin-bottom: 10px;
-    display: block;
-    color: #666;
-}
-
 #services-page .record-details .ui-state-disabled {
     opacity: 1;
 }
 
 #services-page #service-duration {
     margin: 0px;
-}
-
-#services-page .record-details .ui-spinner a {
-    cursor: pointer;
-    background: none;
-    border: none;
 }
 
 #services-page .record-details h3 a {
@@ -746,25 +733,7 @@ body .form-horizontal .controls {
 }
 
 #business-logic #book-advance-timeout {
-    margin: 0 0 0 10px;
-    width: 50px;
-    color: #666;
-}
-
-#business-logic .ui-spinner {
-    border: none;
-    width: 80px;
-    color: #666;
-}
-
-#business-logic .ui-state-disabled {
-    opacity: 1;
-}
-
-#business-logic .ui-spinner a {
-    cursor: pointer;
-    background: none;
-    border: none;
+    width: 100px;
 }
 
 #settings-page #user-notifications,

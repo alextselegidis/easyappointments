@@ -74,11 +74,6 @@ window.BackendSettings = window.BackendSettings || {};
         exports.wp.setup(workingPlan);
         exports.wp.timepickers(false);
 
-        // Book Advance Timeout Spinner
-        $('#book-advance-timeout').spinner({
-            'min': 0
-        });
-
         // Load user settings into form
         $('#user-id').val(GlobalVariables.settings.user.id);
         $('#first-name').val(GlobalVariables.settings.user.first_name);

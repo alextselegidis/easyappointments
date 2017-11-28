@@ -270,12 +270,12 @@
                             <br>
 
                             <h4><?= lang('book_advance_timeout') ?></h4>
-                            <span class="help-block">
-                                <?= lang('book_advance_timeout_hint') ?>
-                            </span>
                             <div class="form-group">
-                                <label for="book-advance-timeout"><?= lang('timeout_minutes') ?></label>
-                                <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control">
+                                <label for="book-advance-timeout" class="control-label"><?= lang('timeout_minutes') ?></label>
+                                <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" type="number" min="15">
+                                <p class="help-block">
+                                    <?= lang('book_advance_timeout_hint') ?>
+                                </p>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-5 breaks-wrapper">

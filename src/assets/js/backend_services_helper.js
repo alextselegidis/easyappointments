@@ -93,7 +93,6 @@
             $('#services .save-cancel-group').show();
             $('#services .record-details').find('input, textarea').prop('readonly', false);
             $('#services .record-details').find('select').prop('disabled', false);
-            $('#service-duration, #service-attendants-number').spinner('enable');
 
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
@@ -151,7 +150,6 @@
             $('#services .save-cancel-group').show();
             $('#services .record-details').find('input, textarea').prop('readonly', false);
             $('#services .record-details select').prop('disabled', false);
-            $('#service-duration, #service-attendants-number').spinner('enable');
 
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
@@ -272,7 +270,6 @@
         $('#edit-service, #delete-service').prop('disabled', true);
         $('#services .record-details').find('input, textarea').prop('readonly', true);
         $('#services .record-details').find('select').prop('disabled', true);
-        $('#service-duration, #service-attendants-number').spinner('disable');
 
         $('#filter-services .selected').removeClass('selected');
         $('#filter-services button').prop('disabled', false);

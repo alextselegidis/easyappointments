@@ -47,11 +47,6 @@ window.BackendServices = window.BackendServices || {};
         });
         $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
 
-        $('#service-duration, #service-attendants-number').spinner({
-            min: 1,
-            disabled: true // default
-        });
-
         // Instantiate helper object (service helper by default).
         helper = servicesHelper;
         helper.resetForm();
