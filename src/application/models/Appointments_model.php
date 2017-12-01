@@ -334,16 +334,26 @@ class Appointments_Model extends CI_Model {
      * @param string $where_clause (OPTIONAL) The WHERE clause of the query to be executed. DO NOT INCLUDE 'WHERE'
      * KEYWORD.
      *
+     * @param bool $aggregates (OPTIONAL) Defines whether to add aggregations or not.
+     *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = '')
+    public function get_batch($where_clause = '', $aggregates = false)
     {
         if ($where_clause != '')
         {
             $this->db->where($where_clause);
         }
 
-        return $this->db->get('ea_appointments')->result_array();
+        $appointments = $this->db->get('ea_appointments')->result_array();
+
+        if ($aggregates) {
+            foreach($appointments as &$appointment) {
+                $appointment = $this->get_aggregates($appointment);
+            }
+        }
+
+        return $appointments;
     }
 
     /**
@@ -469,5 +479,19 @@ class Appointments_Model extends CI_Model {
             'id_services' => $service_id,
             'start_datetime' => date('Y-m-d H:i:s', strtotime($selected_date . ' ' . $hour . ':00'))
         ])->num_rows();
+    }
+
+    /**
+     * Get the aggregates of an appointment.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @return array Returns the appointment with the aggregates.
+     */
+    private function get_aggregates(array $appointment) {
+        $appointment['service'] = $this->db->get_where('ea_services', ['id' => $appointment['id_services']])->row_array();
+        $appointment['provider'] = $this->db->get_where('ea_users', ['id' => $appointment['id_users_provider']])->row_array();
+        $appointment['customer'] = $this->db->get_where('ea_users', ['id' => $appointment['id_users_customer']])->row_array();
+        return $appointment;
     }
 }

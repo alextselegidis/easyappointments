@@ -51,7 +51,7 @@ class Appointments extends API_V1_Controller {
         try
         {
             $condition = $id !== NULL ? 'id = ' . $id : NULL;
-            $appointments = $this->appointments_model->get_batch($condition);
+            $appointments = $this->appointments_model->get_batch($condition, array_key_exists('aggregates', $_GET));
 
             if ($id !== NULL && count($appointments) === 0)
             {

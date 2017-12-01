@@ -36,7 +36,8 @@ class Appointments extends CI_Controller {
         {
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
-        } else
+        }
+        else
         {
             $this->lang->load('translations', $this->config->item('language')); // default
         }
@@ -113,7 +114,8 @@ class Appointments extends CI_Controller {
                 $provider = $this->providers_model->get_row($appointment['id_users_provider']);
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
-            } else
+            }
+            else
             {
                 // The customer is going to book a new appointment so there is no
                 // need for the manage functionality to be initialized.
@@ -370,9 +372,10 @@ class Appointments extends CI_Controller {
 
             if ($attendants_number > 1)
             {
-                $this->_get_multiple_attendants_hours($available_hours, $attendants_number,
+                $this->_get_multiple_attendants_hours($this->input->post('select_date'), $availabilities_type,
+                    $attendants_number,
                     $this->input->post('service_id'),
-                    $this->input->post('selected_date'));
+                    $this->input->post('provider_id'));
             }
 
             $this->output
@@ -474,7 +477,8 @@ class Appointments extends CI_Controller {
                             $service, $customer, $company_settings);
                         $appointment['id_google_calendar'] = $google_event->id;
                         $this->appointments_model->add($appointment);
-                    } else
+                    }
+                    else
                     {
                         // Update appointment to Google Calendar.
                         $appointment['id_google_calendar'] = $this->appointments_model
@@ -504,7 +508,8 @@ class Appointments extends CI_Controller {
                     $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
                     $provider_message = new Text($this->lang->line('appointment_link_description'));
 
-                } else
+                }
+                else
                 {
                     $customer_title = new Text($this->lang->line('appointment_changes_saved'));
                     $customer_message = new Text('');
@@ -601,6 +606,7 @@ class Appointments extends CI_Controller {
             $this->load->model('services_model');
             $service_duration = (int)$this->services_model->get_value('duration', $service_id);
             $availabilities_type = (int)$this->services_model->get_value('availabilities_type', $service_id);
+            $attendants_number = (int)$this->services_model->get_value('attendants_number', $service_id);
 
             for ($i = 1; $i <= $number_of_days; $i++)
             {
@@ -617,6 +623,14 @@ class Appointments extends CI_Controller {
 
                 $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
                     $service_duration, FALSE, $availabilities_type);
+
+                if ($attendants_number > 1)
+                {
+                    $this->_get_multiple_attendants_hours($current_date->format('Y-m-d'), $availabilities_type,
+                        $attendants_number,
+                        $service_id,
+                        $provider_id);
+                }
 
                 if (empty($available_hours))
                 {
@@ -850,14 +864,16 @@ class Appointments extends CI_Controller {
                 {
                     // The appointment does not belong in this time period, so we
                     // will not change anything.
-                } else
+                }
+                else
                 {
                     if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start)
                     {
                         // The appointment starts before the period and finishes somewhere inside.
                         // We will need to break this period and leave the available part.
                         $period['start'] = date('H:i', $a_end);
-                    } else
+                    }
+                    else
                     {
                         if ($a_start >= $p_start && $a_end <= $p_end)
                         {
@@ -872,19 +888,22 @@ class Appointments extends CI_Controller {
                                 'start' => date('H:i', $a_end),
                                 'end' => date('H:i', $p_end)
                             ];
-                        } else
+                        }
+                        else
                         {
                             if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end)
                             {
                                 // The appointment starts in the period and finishes out of it. We will
                                 // need to remove the time that is taken from the appointment.
                                 $period['end'] = date('H:i', $a_start);
-                            } else
+                            }
+                            else
                             {
                                 if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end)
                                 {
                                     // The appointment does not belong in the period so do not change anything.
-                                } else
+                                }
+                                else
                                 {
                                     if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end)
                                     {
@@ -1017,35 +1036,213 @@ class Appointments extends CI_Controller {
      * This method will add the extra appointment hours whenever a service accepts multiple attendants.
      *
      * @param array $available_hours The previously calculated appointment hours.
+     * @param int $availabilities_type
      * @param int $attendants_number Service attendants number.
      * @param int $service_id Selected service ID.
      * @param string $selected_date The selected appointment date.
      */
     protected function _get_multiple_attendants_hours(
-        &$available_hours,
+        $selected_date,
+        $availabilities_type,
         $attendants_number,
         $service_id,
-        $selected_date
+        $provider_id
     ) {
+        /*
+         * Multiple availabilities should allow two appointments to reserve the same time.
+         *
+         * The current system does not check the time correctly cause an appointment that is bigger than the
+         * original service duration will not be taken into concern.
+         *
+         * Recreate this method logic from scratch. 
+         */
+
         $this->load->model('appointments_model');
+        $this->load->model('services_model');
+        $this->load->model('providers_model');
 
-        $appointments = $this->appointments_model->get_batch(
-            'id_services = ' . $this->db->escape($service_id) . ' AND DATE(start_datetime) = DATE('
-            . $this->db->escape(date('Y-m-d', strtotime($selected_date))) . ')');
+        $service = $this->services_model->get_row($service_id);
+        $provider = $this->providers_model->get_row($provider_id);
+        $unavailabilities = $this->appointments_model->get_batch([
+            'is_unavailable' => TRUE,
+            'DATE(start_datetime)' => $selected_date,
+            'id_users_provider' => $provider_id
+        ]);
 
-        foreach ($appointments as $appointment)
+        $working_plan = json_decode($provider['settings']['working_plan'], TRUE);
+        $working_day = strtolower(date('l', strtotime($selected_date)));
+        $working_hours = $working_plan[$working_day];
+
+        $periods = [
+            [
+                'start' => new DateTime($selected_date . ' ' . $working_hours['start']),
+                'end' => new DateTime($selected_date . ' ' . $working_hours['end'])
+            ]
+        ];
+
+        $periods = $this->remove_breaks($selected_date, $periods, $working_hours['breaks']);
+        $periods = $this->remove_unavailabilities($periods, $unavailabilities);
+
+        $hours = [];
+
+        $interval_value = $availabilities_type == AVAILABILITIES_TYPE_FIXED ? $service['duration'] : '15';
+        $interval = new DateInterval('PT' . (int)$interval_value . 'M');
+        $duration = new DateInterval('PT' . (int)$service['duration'] . 'M');
+
+        foreach ($periods as $period)
         {
-            $hour = date('H:i', strtotime($appointment['start_datetime']));
-            $current_attendants_number = $this->appointments_model->appointment_count_for_hour($service_id,
-                $selected_date, $hour);
-            if ($current_attendants_number < $attendants_number && ! in_array($hour, $available_hours))
+            $slot_start = clone $period['start'];
+            $slot_end = clone $slot_start;
+            $slot_end->add($duration);
+
+            while ($slot_end <= $period['end'])
             {
-                $available_hours[] = $hour;
+                //$appointment_attendants_number = $this->appointments_model->get_attendants_number_for_period($start_start, )
+
+                // Check reserved attendants for this time slot and see if current attendants fit.
+                $appointment_attendants_number = (int)$this->db
+                    ->select('count(*) AS attendants_number')
+                    ->from('ea_appointments')
+                    ->where('start_datetime <= ', $slot_start->format('Y-m-d H:i:s'))
+                    ->where('end_datetime >=', $slot_start->format('Y-m-d H:i:s'))
+                    ->where('id_services', $service['id'])
+                    ->get()
+                    ->row()
+                    ->attendants_number;
+
+                if ($appointment_attendants_number <= $service['attendants_number'])
+                {
+                    $hours[] = $slot_start->format('H:i');
+                }
+
+                $slot_start->add($interval);
+                $slot_end->add($interval);
             }
         }
 
-        $available_hours = array_values($available_hours);
-        sort($available_hours, SORT_STRING);
-        $available_hours = array_values($available_hours);
+        return $hours;
+
+
+
+
+
+
+        //foreach ($appointments as $appointment)
+        //{
+        //    $hour = date('H:i', strtotime($appointment['start_datetime']));
+        //    $current_attendants_number = $this->appointments_model->appointment_count_for_hour($service_id,
+        //        $selected_date, $hour);
+        //    if ($current_attendants_number < $attendants_number && ! in_array($hour, $available_hours))
+        //    {
+        //        $available_hours[] = $hour;
+        //    }
+        //}
+        //
+        //$available_hours = array_values($available_hours);
+        //sort($available_hours, SORT_STRING);
+        //$available_hours = array_values($available_hours);
+    }
+
+    public function remove_breaks($selected_date, $periods, $breaks)
+    {
+        if ( ! $breaks)
+        {
+            return $periods;
+        }
+
+        foreach ($breaks as $break)
+        {
+            $break_start = new DateTime($selected_date . ' ' . $break['start']);
+            $break_end = new DateTime($selected_date . ' ' . $break['end']);
+
+            foreach ($periods as &$period)
+            {
+                $period_start = $period['start'];
+                $period_end = $period['end'];
+
+                if ($break_start <= $period_start && $break_end >= $period_start && $break_end <= $period_end)
+                {
+                    // left
+                    $period['start'] = $break_end;
+                    continue;
+                }
+
+                if ($break_start >= $period_start && $break_start <= $period_end && $break_end >= $period_start && $break_end <= $period_end)
+                {
+                    // middle
+                    $period['end'] = $break_start;
+                    $periods[] = [
+                        'start' => $break_end,
+                        'end' => $period_end
+                    ];
+                    continue;
+                }
+
+                if ($break_start >= $period_start && $break_start <= $period_end && $break_end >= $period_end)
+                {
+                    // right
+                    $period['end'] = $break_start;
+                    continue;
+                }
+
+                if ($break_start <= $period_start && $break_end >= $period_end)
+                {
+                    // break contains period
+                    $period['start'] = $break_end;
+                    continue;
+                }
+            }
+        }
+
+        return $periods;
+    }
+
+    public function remove_unavailabilities($periods, $unavailabilities)
+    {
+        foreach ($unavailabilities as $unavailability)
+        {
+            $unavailability_start = new DateTime($unavailability['start_datetime']);
+            $unavailability_end = new DateTime($unavailability['end_datetime']);
+
+            foreach ($periods as &$period)
+            {
+                $period_start = $period['start'];
+                $period_end = $period['end'];
+
+                if ($unavailability_start <= $period_start && $unavailability_end >= $period_start && $unavailability_end <= $period_end)
+                {
+                    // left
+                    $period['start'] = $unavailability_end;
+                    continue;
+                }
+
+                if ($unavailability_start >= $period_start && $unavailability_start <= $period_end && $unavailability_end >= $period_start && $unavailability_end <= $period_end)
+                {
+                    // middle
+                    $period['end'] = $unavailability_start;
+                    $periods[] = [
+                        'start' => $unavailability_end,
+                        'end' => $period_end
+                    ];
+                    continue;
+                }
+
+                if ($unavailability_start >= $period_start && $unavailability_start <= $period_end && $unavailability_end >= $period_end)
+                {
+                    // right
+                    $period['end'] = $unavailability_start;
+                    continue;
+                }
+
+                if ($unavailability_start <= $period_start && $unavailability_end >= $period_end)
+                {
+                    // unavaibility contains period
+                    $period['start'] = $unavailability_end;
+                    continue;
+                }
+            }
+        }
+
+        return $periods;
     }
 }

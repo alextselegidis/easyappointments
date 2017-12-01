@@ -39,6 +39,24 @@ class Appointments implements ParsersInterface {
             'googleCalendarId' => $response['id_google_calendar'] !== NULL ? (int)$response['id_google_calendar'] : NULL
         ];
 
+        if (array_key_exists('provider', $response)) {
+            $providerParser = new Providers();
+            $providerParser->encode($response['provider']);
+            $encodedResponse['provider'] =  $response['provider'];
+        }
+
+        if (array_key_exists('customer', $response)) {
+            $customerParser = new Customers();
+            $customerParser->encode($response['customer']);
+            $encodedResponse['customer'] =  $response['customer'];
+        }
+
+        if (array_key_exists('service', $response)) {
+            $serviceParser = new Services();
+            $serviceParser->encode($response['service']);
+            $encodedResponse['service'] =  $response['service'];
+        }
+
         $response = $encodedResponse;
     }
 

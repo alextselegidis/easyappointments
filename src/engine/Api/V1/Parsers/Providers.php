@@ -38,8 +38,14 @@ class Providers implements ParsersInterface {
             'state' => $response['state'],
             'zip' => $response['zip_code'],
             'notes' => $response['notes'],
-            'services' => $response['services'],
-            'settings' => [
+        ];
+
+        if (array_key_exists('services', $response)) {
+            $encodedResponse['services'] = $response['services'];
+        }
+
+        if (array_key_exists('settings', $response)) {
+            $encodedResponse['settings'] = [
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
                 'calendarView' => $response['settings']['calendar_view'],
@@ -49,8 +55,8 @@ class Providers implements ParsersInterface {
                 'syncFutureDays' => $response['settings']['sync_future_days'] !== NULL ? (int)$response['settings']['sync_future_days'] : NULL,
                 'syncPastDays' => $response['settings']['sync_past_days'] !== NULL ? (int)$response['settings']['sync_past_days'] : NULL,
                 'workingPlan' => json_decode($response['settings']['working_plan'], TRUE),
-            ]
-        ];
+            ];
+        }
 
         $response = $encodedResponse;
     }
