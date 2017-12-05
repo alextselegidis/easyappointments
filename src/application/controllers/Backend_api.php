@@ -199,8 +199,8 @@ class Backend_api extends CI_Controller {
             // Get appointments
             $where_clause = [
                 $where_id => $this->input->post('record_id'),
-                //'start_datetime >=' => $this->input->post('start_date'),
-                //'end_datetime <=' => $this->input->post('end_date'),
+                'DATE(start_datetime) >=' => $this->input->post('start_date'),
+                'DATE(start_datetime) <=' => date('Y-m-d', strtotime($this->input->post('end_date') . ' +1 day')),
                 'is_unavailable' => FALSE
             ];
 
@@ -218,8 +218,8 @@ class Backend_api extends CI_Controller {
             {
                 $where_clause = [
                     $where_id => $this->input->post('record_id'),
-                    //'start_datetime >=' => $this->input->post('start_date'),
-                    //'end_datetime <=' => $this->input->post('end_date'),
+                    'DATE(start_datetime) >=' => $this->input->post('start_date'),
+                    'DATE(start_datetime) <=' => date('Y-m-d', strtotime($this->input->post('end_date') . ' +1 day')),
                     'is_unavailable' => TRUE
                 ];
 
