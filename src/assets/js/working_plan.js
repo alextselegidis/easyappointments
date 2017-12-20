@@ -172,8 +172,8 @@
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
-                $('#' + id + '-start').prop('disabled', false).val('09:00 AM');
-                $('#' + id + '-end').prop('disabled', false).val('18:00 PM');
+                $('#' + id + '-start').prop('disabled', false).val('9:00 AM');
+                $('#' + id + '-end').prop('disabled', false).val('6:00 PM');
             } else {
                 $('#' + id + '-start').prop('disabled', true).val('');
                 $('#' + id + '-end').prop('disabled', true).val('');
@@ -190,7 +190,7 @@
             var tr =
                     '<tr>' +
                         '<td class="break-day editable">' + EALang.sunday + '</td>' +
-                        '<td class="break-start editable">09:00 AM</td>' +
+                        '<td class="break-start editable">9:00 AM</td>' +
                         '<td class="break-end editable">10:00 AM</td>' +
                         '<td>' +
                             '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
