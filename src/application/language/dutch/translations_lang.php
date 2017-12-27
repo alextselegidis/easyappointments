@@ -1,9 +1,9 @@
 <?php
 // Dutch
 $lang['page_title'] ='Boek afspraak met';
-$lang['step_one_title'] ='Selecteer dienst & provider';
+$lang['step_one_title'] ='Selecteer dienst & aanbieder';
 $lang['select_service'] ='Selecteer dienst';
-$lang['select_provider'] ='Selecteer provider';
+$lang['select_provider'] ='Selecteer aanbieder';
 $lang['duration'] ='Duur';
 $lang['minutes'] ='minuten';
 $lang['price'] ='Prijs';
@@ -268,14 +268,14 @@ $lang['ea_update_success'] ='Easy!Appointments is succesvol bijgewerkt!';
 $lang['require_captcha'] = 'Vereist CAPTCHA';
 $lang['require_captcha_hint'] = 'Indien enabeld,moeten de klanten een willekeurig, door CAPTCHA gekozen tekenreeks invullen, om een afspraak te bevestigen.';
 $lang['captcha_is_wrong'] = 'CAPTCHA verificatie is mislukt, probeer het a.u.b.nogmaals.';
-$lang['any_provider'] = 'Iedere Provider';
+$lang['any_provider'] = 'Iedere Aanbieder';
 $lang['requested_hour_is_unavailable'] = 'De gevraagde afspraak is helaas niet beschikbaar. Kies a.u.b.een ander uur voor uw afspraak.';
-$lang['customer_notifications'] = 'KLant mededelingen';
-$lang['customer_notifications_hint'] = 'Stel in of de klant een email bevesteging krijgt, als er een verandering is gemaakt met een afspraak.';
+$lang['customer_notifications'] = 'Klant mededelingen';
+$lang['customer_notifications_hint'] = 'Stel in of de klant een email bevestiging krijgt, als er een verandering is gemaakt met een afspraak.';
 $lang['date_format'] = 'Datum formaat';
-$lang['date_format_hint'] = 'Verander het datum formaat (D - Date, M - Month, Y - Year).';
+$lang['date_format_hint'] = 'Verander het datum formaat (D - Datum, M - Maand, Y - Jaar).';
 $lang['google_analytics_code_hint'] = 'Voeg je Google Analytics ID toe om in te sluiten in je boekings pagina.';
-$lang['availabilities_type'] = 'Availabilities Type';
-$lang['flexible'] = 'Flexible';
-$lang['fixed'] = 'Fixed';
-$lang['attendants_number'] = 'Attendants Number';
+$lang['availabilities_type'] = 'Type beschikbaarheden';
+$lang['flexible'] = 'Flexibel';
+$lang['fixed'] = 'Vast';
+$lang['attendants_number'] = 'Aantal deelnemers';
