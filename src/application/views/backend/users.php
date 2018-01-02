@@ -196,7 +196,7 @@
                                 <br><br>
 
                                 <h4><?= lang('services') ?></h4>
-                                <div id="provider-services"></div>
+                                <div id="provider-services" class="well"></div>
                             </div>
                         </div>
                     </div>
@@ -484,7 +484,7 @@
                             <br><br>
 
                             <h4><?= lang('providers') ?></h4>
-                            <div id="secretary-providers"></div>
+                            <div id="secretary-providers" class="well"></div>
                         </div>
                     </div>
                 </div>

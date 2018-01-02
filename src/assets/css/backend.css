@@ -591,12 +591,10 @@ body .form-horizontal .controls {
 
 #users-page #secretary-providers,
 #users-page #provider-services {
-    border: 4px solid #ccc;
     max-width: 315px;
     width: 100%;
     height: 387px;
-    overflow-y: scroll;
-    padding: 7px;
+    overflow-y: auto;
     margin-bottom: 20px;
 }
 

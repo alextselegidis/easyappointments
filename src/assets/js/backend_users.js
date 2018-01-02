@@ -62,7 +62,7 @@ window.BackendUsers = window.BackendUsers || {};
         helper.bindEventHandlers();
 
         // Fill the services and providers list boxes.
-        var html = '<div class="col-xs-12">';
+        var html = '<div>';
         $.each(GlobalVariables.services, function(index, service) {
             html +=
                 '<div class="checkbox">' +
@@ -76,7 +76,7 @@ window.BackendUsers = window.BackendUsers || {};
         html += '</div>';
         $('#provider-services').html(html);
 
-        html = '<div class="col-xs-12">';
+        html = '<div>';
         $.each(GlobalVariables.providers, function(index, provider) {
            html +=
                 '<div class="checkbox">' +
@@ -137,7 +137,7 @@ window.BackendUsers = window.BackendUsers || {};
 
                     GlobalVariables.providers = response;
 
-                    var html = '<div class="col-xs-12">';
+                    var html = '<div>';
                     $.each(GlobalVariables.providers, function(index, provider) {
                        html +=
                             '<div class="checkbox">' +
