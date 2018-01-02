@@ -426,17 +426,13 @@
                 <?= lang('about_app_info') ?>
             </p>
 
-            <br>
-
-            <div class="current-version">
+            <div class="current-version well">
                 <?= lang('current_version') ?>
                 <?= $this->config->item('version') ?>
                 <?php if ($this->config->item('release_label')): ?>
                     - <?= $this->config->item('release_label') ?>
                 <?php endif ?>
             </div>
-
-            <br>
 
             <h3><?= lang('support') ?></h3>
             <p>
@@ -476,8 +472,6 @@
                     <?= lang('google_plus_community') ?>
                 </a>
             </p>
-
-            <br>
 
             <h3><?= lang('license') ?></h3>
 
