@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added 
 
-- #62: Insert new appointment by clicking directly on the calendar.
+- #65: Insert new appointment by clicking directly on the calendar.
 - #122: Add customer email and phone number in the event popover of the backend/calendar page.
 - #152: Add support for American Time Format (AM/PM).
 - #176: Add Docker container for Easy!Appointments development.
@@ -24,7 +24,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- #37: Users are not able to set book timeout prior to days (only minutes of the same day).
 - #155: Appointment management modal is not updated after appointment duration resize.
 - #236: Duplicate availabilities with short service duration and unavailabilities ignorance. 
 - #315: Calendar doesn't update when Attendants number changes. 
