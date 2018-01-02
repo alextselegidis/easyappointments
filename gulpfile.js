@@ -47,8 +47,7 @@ gulp.task('build', function(done) {
     ]);
 
     fs.copySync('src', '.tmp-package');
-    fs.copySync('.tmp-package/config-sample.php', '.tmp-package/config.php');
-    fs.removeSync('.tmp-package/config-sample.php');
+    fs.removeSync('.tmp-package/config.php');
     fs.copySync('CHANGELOG.md', '.tmp-package/CHANGELOG.md');
     fs.copySync('README.md', '.tmp-package/README.md');
     fs.copySync('LICENSE', '.tmp-package/LICENSE');
