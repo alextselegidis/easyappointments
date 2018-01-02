@@ -225,7 +225,9 @@ body legend {
 }
 
 .backend-page .filter-records form .input-group-addon {
-    padding-top: 2px;
+    padding-top: 0;
+    padding-right: 0;
+    border-top: none;
 }
 
 .backend-page .filter-records form .key {

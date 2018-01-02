@@ -29,16 +29,16 @@
                 <div class="input-group">
                     <input type="text" class="key form-control">
 
-                    <span class="input-group-addon">
+                    <div class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-default btn-sm" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
-                            <button class="clear btn btn-default btn-sm" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
                                 <span class="glyphicon glyphicon-repeat"></span>
                             </button>
                         </div>
-                    </span>
+                    </div>
                 </div>
     		</form>
 
