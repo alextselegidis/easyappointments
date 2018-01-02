@@ -46,6 +46,16 @@ If you need to get only specific values from each JSON resource provide the `fie
 http://ea-installation/index.php/api/v1/appointments?fields=id,book,hash,notes
 ```
 
+### Aggregate
+
+Aggregate related data into result payload by providing the `aggregates` parameter.  
+
+```
+http://ea-installation/index.php/api/v1/appointments?aggregates
+```
+
+*This parameter is currently only available for appointment resources.* 
+
 ### Expected Responses
  
 Most of the times the API will return the complete requested data in a JSON string but there are some cases that the responses will contain a simple message like the following: 
