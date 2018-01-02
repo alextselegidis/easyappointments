@@ -55,7 +55,7 @@
                     <div class="results"></div>
                 </div>
 
-                <div class="record-details column col-xs-12 col-sm-7">
+                <div class="record-details column col-xs-12 col-sm-5">
                     <div class="btn-toolbar">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-service" class="btn btn-primary">
@@ -170,7 +170,7 @@
                     <div class="results"></div>
                 </div>
 
-                <div class="record-details col-xs-12 col-sm-7">
+                <div class="record-details col-xs-12 col-sm-5">
                     <div class="btn-toolbar">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-category" class="btn btn-primary">
