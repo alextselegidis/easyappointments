@@ -34,6 +34,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #342: Email notifications must honor the date format value.
 - #370: AJAX Error: SyntaxError: Unexpected token < in JSON at position 0
 
+### Deprecated
+
+- The availabilities generation and AJAX endpoints will change with a future release.
+
 ## [1.2.1] - 2017-05-21
 
 ### Changed

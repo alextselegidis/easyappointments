@@ -317,6 +317,8 @@ class Appointments extends CI_Controller {
      * is managing an already booked appointment or not.
      *
      * Outputs a JSON string with the availabilities.
+     *
+     * @deprecated Since v1.3.0, this method will be replaced with a future release.
      */
     public function ajax_get_available_hours()
     {
@@ -591,6 +593,8 @@ class Appointments extends CI_Controller {
      * must have the Y-m-d format.
      *
      * Outputs a JSON string with the unavailable dates. that are unavailable.
+     *
+     * @deprecated Since v1.3.0, this method will be replaced with a future release.
      */
     public function ajax_get_unavailable_dates()
     {
