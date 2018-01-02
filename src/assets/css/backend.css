@@ -653,6 +653,12 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
+@-moz-document url-prefix() {
+    .breaks .break-day select {
+        height: 36px;
+    }
+}
+
 #users-page .working-plan .checkbox,
 #users-page .working-plan input[type="text"],
 #users-page .working-plan button {

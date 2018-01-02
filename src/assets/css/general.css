@@ -9,6 +9,14 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+
+
+@-moz-document url-prefix() {
+    body .checkbox input[type="checkbox"] {
+        float: left;
+    }
+}
+
 body .custom-qtip {
     border: none;
     border-radius: 0;
