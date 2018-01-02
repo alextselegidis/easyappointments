@@ -1,54 +1,117 @@
 # Easy!Appointments - Changelog
+
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
-### Version 1.2.1
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [1.3.0]
+
+### Added 
+
+- #62: Insert new appointment by clicking directly on the calendar.
+- #122: Add customer email and phone number in the event popover of the backend/calendar page.
+- #152: Add support for American Time Format (AM/PM).
+- #176: Add Docker container for Easy!Appointments development.
+- #362: Add Arabic language translation.
+- #395: Add aggregates GET parameter in the appointments REST API resource.
+
+### Changed 
+
+- #276: Update FullCalendar dependency.
+- #394: Corrections in the Bootstrap classes in view files.
+
+### Fixed
+
+- #37: Users are not able to set book timeout prior to days (only minutes of the same day).
+- #155: Appointment management modal is not updated after appointment duration resize.
+- #236: Duplicate availabilities with short service duration and unavailabilities ignorance. 
+- #315: Calendar doesn't update when Attendants number changes. 
+- #334: Use of session_start() function may cause issues as the default options are not being used.
+- #336: Deleting provider doesn't work in some languages.
+- #337: Full day appointment with multiple attendants are not being taken into concern during availabilities generation.
+- #342: Email notifications must honor the date format value.
+- #370: AJAX Error: SyntaxError: Unexpected token < in JSON at position 0
+
+## [1.2.1] - 2017-05-21
+
+### Changed
 
 - #241: Set default sessions save_path directory because many servers do not have this option set.
+
+### Fixed 
+
 - #306: Back-end login does not work with PHP 7.1. 
 
-### Version 1.2.0
-- #185: Enable fixed availabilities setting for services.
-- #183: Display the appointments modal when the user clicks in an empty calendar slot.
-- #182: Add new appointment dashboard view: Table Scheduler
+## [1.2.0] - 2016-11-09
+
+### Added 
+
+- #24: Provide dedicated URL for separate provider/service bookings.
+- #45: Add secure flag to CI_SESSION when HTTPS is enabled.
+- #54: Default auto-complete for the appointment end time according to service duration.
+- #109: Accept multiple attendants in a single service session.
 - #180: Add login link to booking footer. 
-- #178: Load the application/config/email.php settings to PHPMailer instance.
-- #175: The backend must be responsive as well.
+- #182: Add new appointment dashboard view: Table Scheduler
+- #183: Display the appointments modal when the user clicks in an empty calendar slot.
+- #185: Enable fixed availabilities setting for services.
 - #174: Implementation of a REST API.
+- #175: The backend must be responsive as well.
+- #178: Load the application/config/email.php settings to PHPMailer instance.
+
+### Changed
+
+- #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
+
+### Fixed
+
 - #173: JS Scrollbars do not work for backend/users entries.
 - #137: Invalid responsive behavior in frontend booking wizard (step #2 - appointment date & time).
 - #136: Loading spinner is not shown in during the installation.
 - #127: Links in header contain index.php
-- #109: Accept multiple attendants in a single service session.
-- #63: Update vendor files (CodeIgniter, FullCalendar, Bootstrap, jQuery ...)
-- #54: Default auto-complete for the appointment end time according to service duration.
-- #45: Add secure flag to CI_SESSION when HTTPS is enabled.
-- #24: Provide dedicated URL for separate provider/service bookings.
 - #22: Google Calendar Sync - Time Zone Issue
 
-### Version 1.1.1
+## [1.1.1] - 2016-02-14
+
+### Fixed 
 
 - #116: Book advance timeout not taken into account for proposed appointments.
 - #118: Google Calendar and notification mail problem bug.
 - #120: Invalid appointment date set after editing an existing appointment.
 
-### Version 1.1.0
+## [1.1.0] 2016-01-24
 
-- #4: Raising more useful exceptions and enable error logging by default.
-- #6: Business Logic created is not getting assigned to service provider.
-- #10: Unable to use address tags in email address.
-- #13: Upgrade to Bootstrap 3.x.x.
+### Added
+
 - #14: Add Google Analytics tracking for the booking page.
 - #15: Add captcha to booking page.
 - #16: Responsive Frontend
-- #18: Duration is not changing when adding a new appointment.
-- #21: Fix E!A installation problems with AJAX requests.
 - #25: Add a disable customer mail notifications setting
 - #27: Support american time format within the app.
 - #31: Double booking when two users try to book the same appointment hour and at the same time.
+
+### Changed
+
+- #4: Raising more useful exceptions and enable error logging by default.
+- #13: Upgrade to Bootstrap 3.x.x.
 - #38: Renamed `configuration.php` file to `config.php` and changed the `SystemConfiguration` class to `Config`. This class will contain constants with the project configuration and will be statically used.
 - #39: Add latest translations to source code so that user can select them immediately.
+- #42: Place all external assets to "ext" directory.
+
+### Removed 
+
 - #40: Removed `.htaccess` file and updated all the URLs with the `index.php` file so that mod_rewrite problems are eliminated.
 - #41: Removed `cancel.php` file. Frontend must use the `message.php` file for displaying simple messages to user.
-- #42: Place all external assets to "ext" directory.
+
+### Fixed
+
+- #6: Business Logic created is not getting assigned to service provider.
+- #10: Unable to use address tags in email address.
+- #18: Duration is not changing when adding a new appointment.
+- #21: Fix Easy!Appointments installation problems with AJAX requests.
 - #66: Trouble with breaks for providers.
+
+## [1.0.0] - 2014-01-19 
+
+First Easy!Appointments release ever! ☺
