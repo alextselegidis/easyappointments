@@ -25,5 +25,7 @@
 function asset_url($uri = '', $protocol = NULL) {
     $ci =& get_instance();
 
-    return base_url($uri . '?' . $ci->config->item('cache_busting_token'), $protocol);
+    $cache_busting_token = !Config::DEBUG_MODE ? '?' . $ci->config->item('cache_busting_token') : '';
+
+    return base_url($uri . $cache_busting_token, $protocol);
 }
