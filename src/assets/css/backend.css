@@ -516,19 +516,22 @@ body .form-horizontal .controls {
     border-right: none;
 }
 
+#customers-page #customer-appointments .appointment-row:last-child {
+    border-bottom: none;
+}
+
 #customers-page #customer-appointments .appointment-row:hover:not(.selected) {
     background-color: #F3F3F3;
     cursor: pointer;
 }
 
 #customers-page #customer-appointments .appointment-row.selected {
-    background-color: #F4F4F4;
+    background-color: #E2E2E2;
 }
 
 #customers-page #appointment-details {
     max-width: 330px;
     margin-bottom: 20px;
-    padding: 0;
 }
 
 #customers-page #appointment-details div {
