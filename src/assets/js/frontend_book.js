@@ -86,7 +86,7 @@ window.FrontendBook = window.FrontendBook || {};
             closeText: EALang.close,
 
             onSelect: function(dateText, instance) {
-                FrontendBookApi.getAvailableHours(dateText);
+                FrontendBookApi.getAvailableHours($(this).datepicker('getDate').toString('yyyy-MM-dd'));
                 FrontendBook.updateConfirmFrame();
             },
 
