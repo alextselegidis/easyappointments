@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #342: Email notifications must honor the date format value.
 - #370: AJAX Error: SyntaxError: Unexpected token < in JSON at position 0
 
-### 
+### Removed
 
 - #400: Remove jscrollpane dependency.
 
