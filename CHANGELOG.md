@@ -16,11 +16,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #176: Add Docker container for Easy!Appointments development.
 - #362: Add Arabic language translation.
 - #395: Add aggregates GET parameter in the appointments REST API resource.
+- #397: Allow PHP v7.1 compatibility.
+- #398: Send ICS files with customer/provider email confirmations.
+- #399: Integrate cache busting for assets into the app.
+- #402: Create simple "update" page.
 
 ### Changed 
 
 - #276: Update FullCalendar dependency.
 - #394: Corrections in the Bootstrap classes in view files.
+- #401: Replace loading spinner graphic with a newer one.
+- #403: All calendars will start with Sunday as the first day.
+
 
 ### Fixed
 
@@ -32,6 +39,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #337: Full day appointment with multiple attendants are not being taken into concern during availabilities generation.
 - #342: Email notifications must honor the date format value.
 - #370: AJAX Error: SyntaxError: Unexpected token < in JSON at position 0
+
+### 
+
+- #400: Remove jscrollpane dependency.
 
 ### Deprecated
 
