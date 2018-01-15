@@ -172,7 +172,7 @@
     <script>
         var GlobalVariables = {
             'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
-            'baseUrl': <?= json_encode(base_url()) ?>
+            'baseUrl': <?= json_encode(config('base_url')) ?>
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;
