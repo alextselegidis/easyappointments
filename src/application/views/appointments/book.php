@@ -324,7 +324,7 @@
         var GlobalVariables = {
             availableServices   : <?= json_encode($available_services) ?>,
             availableProviders  : <?= json_encode($available_providers) ?>,
-            baseUrl             : <?= json_encode(base_url()) ?>,
+            baseUrl             : <?= json_encode(config('base_url')) ?>,
             manageMode          : <?= $manage_mode ? 'true' : 'false' ?>,
             dateFormat          : <?= json_encode($date_format) ?>,
             appointmentData     : <?= json_encode($appointment_data) ?>,
