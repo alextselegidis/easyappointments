@@ -9,7 +9,7 @@
 |
 */
 $config['version']             = '1.3.0'; // This must be changed manually.
-$config['release_label']       = 'Alpha'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['release_label']       = 'Beta'; // Leave empty for no title or add Alpha, Beta etc ...
 $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 /*
@@ -273,7 +273,7 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
 | new release.
 |
 */
-$config['cache_busting_token'] = 'dfsg8s09df8g098';
+$config['cache_busting_token'] = '9sdfg987s8d7';
 
 /*
 |--------------------------------------------------------------------------
