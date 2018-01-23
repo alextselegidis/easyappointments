@@ -9,7 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -28,13 +28,13 @@
     /**
      * Binds the default event handlers of the categories tab.
      */
-    CategoriesHelper.prototype.bindEventHandlers = function() {
+    CategoriesHelper.prototype.bindEventHandlers = function () {
         var instance = this;
 
         /**
          * Event: Filter Categories Cancel Button "Click"
          */
-        $('#filter-categories .clear').click(function() {
+        $('#filter-categories .clear').click(function () {
             $('#filter-categories .key').val('');
             instance.filter('');
             instance.resetForm();
@@ -43,7 +43,7 @@
         /**
          * Event: Filter Categories Form "Submit"
          */
-        $('#filter-categories form').submit(function() {
+        $('#filter-categories form').submit(function () {
             var key = $('#filter-categories .key').val();
             $('.selected').removeClass('selected');
             instance.resetForm();
@@ -56,7 +56,7 @@
          *
          * Displays the selected row data on the right side of the page.
          */
-        $(document).on('click', '.category-row', function() {
+        $(document).on('click', '.category-row', function () {
             if ($('#filter-categories .filter').prop('disabled')) {
                 $('#filter-categories .results').css('color', '#AAA');
                 return; // exit because we are on edit mode
@@ -64,7 +64,7 @@
 
             var categoryId = $(this).attr('data-id');
             var category = {};
-            $.each(instance.filterResults, function(index, item) {
+            $.each(instance.filterResults, function (index, item) {
                 if (item.id === categoryId) {
                     category = item;
                     return false;
@@ -80,7 +80,7 @@
         /**
          * Event: Add Category Button "Click"
          */
-        $('#add-category').click(function() {
+        $('#add-category').click(function () {
             instance.resetForm();
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
@@ -92,7 +92,7 @@
         /**
          * Event: Edit Category Button "Click"
          */
-        $('#edit-category').click(function() {
+        $('#edit-category').click(function () {
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
             $('#categories .record-details').find('input, textarea').prop('readonly', false);
@@ -104,33 +104,33 @@
         /**
          * Event: Delete Category Button "Click"
          */
-        $('#delete-category').click(function() {
+        $('#delete-category').click(function () {
             var categoryId = $('#category-id').val();
 
             var buttons = [
                 {
                     text: EALang.delete,
-                    click: function() {
+                    click: function () {
                         instance.delete(categoryId);
                         $('#message_box').dialog('close');
                     }
                 },
                 {
                     text: EALang.cancel,
-                    click:  function() {
+                    click: function () {
                         $('#message_box').dialog('close');
                     }
                 }
             ];
 
             GeneralFunctions.displayMessageBox(EALang.delete_category,
-                    EALang.delete_record_prompt, buttons);
+                EALang.delete_record_prompt, buttons);
         });
 
         /**
          * Event: Categories Save Button "Click"
          */
-        $('#save-category').click(function() {
+        $('#save-category').click(function () {
             var category = {
                 name: $('#category-name').val(),
                 description: $('#category-description').val()
@@ -150,7 +150,7 @@
         /**
          * Event: Cancel Category Button "Click"
          */
-        $('#cancel-category').click(function() {
+        $('#cancel-category').click(function () {
             var id = $('#category-id').val();
             instance.resetForm();
             if (id !== '') {
@@ -167,14 +167,14 @@
      * ID will be selected (but not displayed).
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
-    CategoriesHelper.prototype.filter = function(key, selectId, display) {
+    CategoriesHelper.prototype.filter = function (key, selectId, display) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
             key: key
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -182,7 +182,7 @@
             this.filterResults = response;
 
             $('#filter-categories .results').html('');
-            $.each(response, function(index, category) {
+            $.each(response, function (index, category) {
                 var html = this.getFilterHtml(category);
                 $('#filter-categories .results').append(html);
             }.bind(this));
@@ -202,14 +202,14 @@
      *
      * @param {Object} category Contains the category data.
      */
-    CategoriesHelper.prototype.save = function(category) {
+    CategoriesHelper.prototype.save = function (category) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
             category: JSON.stringify(category)
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -219,7 +219,7 @@
             $('#filter-categories .key').val('');
             this.filter('', response.id, true);
             BackendServices.updateAvailableCategories();
-        }. bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -227,14 +227,14 @@
      *
      * @param Number} id Record ID to be deleted.
      */
-    CategoriesHelper.prototype.delete = function(id) {
+    CategoriesHelper.prototype.delete = function (id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
             category_id: id
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -252,7 +252,7 @@
      *
      * @param {Object} category Contains the category data.
      */
-    CategoriesHelper.prototype.display = function(category) {
+    CategoriesHelper.prototype.display = function (category) {
         $('#category-id').val(category.id);
         $('#category-name').val(category.name);
         $('#category-description').val(category.description);
@@ -263,13 +263,13 @@
      *
      * @return {Boolean} Returns the validation result.
      */
-    CategoriesHelper.prototype.validate = function() {
+    CategoriesHelper.prototype.validate = function () {
         $('#categories .has-error').removeClass('has-error');
 
         try {
             var missingRequired = false;
 
-            $('#categories .required').each(function() {
+            $('#categories .required').each(function () {
                 if ($(this).val() === '' || $(this).val() === undefined) {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
@@ -281,7 +281,7 @@
             }
 
             return true;
-        } catch(message) {
+        } catch (message) {
             return false;
         }
     };
@@ -289,7 +289,7 @@
     /**
      * Bring the category form back to its initial state.
      */
-    CategoriesHelper.prototype.resetForm = function() {
+    CategoriesHelper.prototype.resetForm = function () {
         $('#categories .add-edit-delete-group').show();
         $('#categories .save-cancel-group').hide();
         $('#categories .record-details').find('input, textarea').val('');
@@ -308,11 +308,11 @@
      *
      * @return {String} Returns the record HTML code.
      */
-    CategoriesHelper.prototype.getFilterHtml = function(category) {
+    CategoriesHelper.prototype.getFilterHtml = function (category) {
         var html =
-                '<div class="category-row entry" data-id="' + category.id + '">' +
-                    '<strong>' + category.name + '</strong>' +
-                '</div><hr>';
+            '<div class="category-row entry" data-id="' + category.id + '">' +
+            '<strong>' + category.name + '</strong>' +
+            '</div><hr>';
 
         return html;
     };
@@ -326,12 +326,12 @@
      * @param {Boolean} display Optional (false), if true then the method will display the record
      * on the form.
      */
-    CategoriesHelper.prototype.select = function(id, display) {
+    CategoriesHelper.prototype.select = function (id, display) {
         display = display || false;
 
         $('#filter-categories .selected').removeClass('selected');
 
-        $('#filter-categories .category-row').each(function() {
+        $('#filter-categories .category-row').each(function () {
             if ($(this).attr('data-id') == id) {
                 $(this).addClass('selected');
                 return false;
@@ -339,7 +339,7 @@
         });
 
         if (display) {
-            $.each(this.filterResults, function(index, category) {
+            $.each(this.filterResults, function (index, category) {
                 if (category.id == id) {
                     this.display(category);
                     $('#edit-category, #delete-category').prop('disabled', false);

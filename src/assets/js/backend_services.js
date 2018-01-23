@@ -18,7 +18,7 @@ window.BackendServices = window.BackendServices || {};
  *
  * @module BackendServices
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
@@ -29,7 +29,7 @@ window.BackendServices = window.BackendServices || {};
      */
     var helper;
 
-    var servicesHelper = new ServicesHelper(); 
+    var servicesHelper = new ServicesHelper();
     var categoriesHelper = new CategoriesHelper();
 
     /**
@@ -37,11 +37,11 @@ window.BackendServices = window.BackendServices || {};
      *
      * @param {Boolean} bindEventHandlers Optional (true), determines whether to bind the  default event handlers.
      */
-    exports.initialize =  function(bindEventHandlers) {
+    exports.initialize = function (bindEventHandlers) {
         bindEventHandlers = bindEventHandlers || true;
 
         // Fill available service categories listbox.
-        $.each(GlobalVariables.categories, function(index, category) {
+        $.each(GlobalVariables.categories, function (index, category) {
             var option = new Option(category.name, category.id);
             $('#service-category').append(option);
         });
@@ -68,7 +68,7 @@ window.BackendServices = window.BackendServices || {};
          *
          * Changes the displayed tab.
          */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
             if ($(this).attr('href') === '#services') {
                 helper = servicesHelper;
             } else if ($(this).attr('href') === '#categories') {
@@ -81,8 +81,8 @@ window.BackendServices = window.BackendServices || {};
             Backend.placeFooterToBottom();
         });
 
-        servicesHelper.bindEventHandlers(); 
-        categoriesHelper.bindEventHandlers(); 
+        servicesHelper.bindEventHandlers();
+        categoriesHelper.bindEventHandlers();
     }
 
     /**
@@ -90,14 +90,14 @@ window.BackendServices = window.BackendServices || {};
      *
      * Use this method every time a change is made to the service categories db table.
      */
-    exports.updateAvailableCategories = function() {
+    exports.updateAvailableCategories = function () {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: ''
         };
 
-        $.post(url, data, function(response) {
+        $.post(url, data, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -105,7 +105,7 @@ window.BackendServices = window.BackendServices || {};
             GlobalVariables.categories = response;
             var $select = $('#service-category');
             $select.empty();
-            $.each(response, function(index, category) {
+            $.each(response, function (index, category) {
                 var option = new Option(category.name, category.id);
                 $select.append(option);
             });

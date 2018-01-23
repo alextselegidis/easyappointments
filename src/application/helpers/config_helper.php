@@ -18,8 +18,9 @@
  *
  * @return mixed Returns the configuration value.
  */
-function config($key) {
-    $framework = & get_instance();
+function config($key)
+{
+    $framework = &get_instance();
 
     return $framework->config->item($key);
 }

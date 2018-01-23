@@ -68,7 +68,8 @@ class Providers_Model extends CI_Model {
         if ( ! isset($provider['id']))
         {
             $provider['id'] = $this->_insert($provider);
-        } else
+        }
+        else
         {
             $provider['id'] = $this->_update($provider);
         }
@@ -256,7 +257,8 @@ class Providers_Model extends CI_Model {
         if ( ! isset($provider['services']) || ! is_array($provider['services']))
         {
             throw new Exception('Invalid provider services given: ' . print_r($provider, TRUE));
-        } else
+        }
+        else
         { // Check if services are valid int values.
             foreach ($provider['services'] as $service_id)
             {

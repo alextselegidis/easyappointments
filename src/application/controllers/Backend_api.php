@@ -54,7 +54,8 @@ class Backend_api extends CI_Controller {
         {
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
-        } else
+        }
+        else
         {
             $this->lang->load('translations', $this->config->item('language')); // default
         }
@@ -191,7 +192,8 @@ class Backend_api extends CI_Controller {
             if ($this->input->post('filter_type') == FILTER_TYPE_PROVIDER)
             {
                 $where_id = 'id_users_provider';
-            } else
+            }
+            else
             {
                 $where_id = 'id_services';
             }
@@ -328,7 +330,8 @@ class Backend_api extends CI_Controller {
                             $service, $customer, $company_settings);
                         $appointment['id_google_calendar'] = $google_event->id;
                         $this->appointments_model->add($appointment); // Store google calendar id.
-                    } else
+                    }
+                    else
                     {
                         $this->google_sync->update_appointment($appointment, $provider,
                             $service, $customer, $company_settings);
@@ -355,7 +358,8 @@ class Backend_api extends CI_Controller {
                     $customer_message = new Text($this->lang->line('thank_you_for_appointment'));
                     $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
                     $provider_message = new Text($this->lang->line('appointment_link_description'));
-                } else
+                }
+                else
                 {
                     $customer_title = new Text($this->lang->line('appointment_changes_saved'));
                     $customer_message = new Text('');
@@ -396,7 +400,8 @@ class Backend_api extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode(AJAX_SUCCESS));
-            } else
+            }
+            else
             {
                 $this->output
                     ->set_content_type('application/json')
@@ -516,7 +521,8 @@ class Backend_api extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode(AJAX_SUCCESS));
-            } else
+            }
+            else
             {
                 $this->output
                     ->set_content_type('application/json')
@@ -688,7 +694,8 @@ class Backend_api extends CI_Controller {
                         $google_event = $this->google_sync->add_unavailable($provider, $unavailable);
                         $unavailable['id_google_calendar'] = $google_event->id;
                         $this->appointments_model->add_unavailable($unavailable);
-                    } else
+                    }
+                    else
                     {
                         $google_event = $this->google_sync->update_unavailable($provider, $unavailable);
                     }
@@ -704,7 +711,8 @@ class Backend_api extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode(['warnings' => $warnings]));
-            } else
+            }
+            else
             {
                 $this->output
                     ->set_content_type('application/json')
@@ -767,7 +775,8 @@ class Backend_api extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode(['warnings' => $warnings]));
-            } else
+            }
+            else
             {
                 $this->output
                     ->set_content_type('application/json')
@@ -1434,7 +1443,8 @@ class Backend_api extends CI_Controller {
                 $this->load->model('settings_model');
                 $settings = json_decode($this->input->post('settings'), TRUE);
                 $this->settings_model->save_settings($settings);
-            } else
+            }
+            else
             {
                 if ($this->input->post('type') == SETTINGS_USER)
                 {
@@ -1566,7 +1576,8 @@ class Backend_api extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode($calendars));
-            } else
+            }
+            else
             {
                 $this->output
                     ->set_content_type('application/json')

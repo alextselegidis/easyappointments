@@ -9,7 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -18,14 +18,15 @@
      *
      * @class UserSettings
      */
-    var UserSettings = function() {};
+    var UserSettings = function () {
+    };
 
     /**
      * Get the settings data for the user settings.
      *
      * @returns {Object} Returns the user settings array.
      */
-    UserSettings.prototype.get = function() {
+    UserSettings.prototype.get = function () {
         var user = {
             id: $('#user-id').val(),
             first_name: $('#first-name').val(),
@@ -57,7 +58,7 @@
      *
      * @param {Array} settings Contains the user settings.
      */
-    UserSettings.prototype.save = function(settings) {
+    UserSettings.prototype.save = function (settings) {
         if (!this.validate(settings)) {
             Backend.displayNotification(EALang.user_settings_are_invalid);
             return; // Validation failed, do not proceed.
@@ -70,7 +71,7 @@
             settings: JSON.stringify(settings)
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -90,13 +91,13 @@
      *
      * @return {Boolean} Returns the validation result.
      */
-    UserSettings.prototype.validate = function() {
+    UserSettings.prototype.validate = function () {
         $('#user .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#user .required').each(function() {
+            $('#user .required').each(function () {
                 if ($(this).val() === '' || $(this).val() === undefined) {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
@@ -125,7 +126,7 @@
             }
 
             return true;
-        } catch(exc) {
+        } catch (exc) {
             Backend.displayNotification(exc);
             return false;
         }

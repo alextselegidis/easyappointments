@@ -30,7 +30,8 @@ class Backend extends CI_Controller {
         {
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
-        } else
+        }
+        else
         {
             $this->lang->load('translations', $this->config->item('language')); // default
         }
@@ -80,7 +81,8 @@ class Backend extends CI_Controller {
         {
             $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
             $view['secretary_providers'] = $secretary['providers'];
-        } else
+        }
+        else
         {
             $view['secretary_providers'] = [];
         }
@@ -92,7 +94,8 @@ class Backend extends CI_Controller {
             $appointment = $results[0];
             $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             $view['edit_appointment'] = $appointment; // This will display the appointment edit dialog on page load.
-        } else
+        }
+        else
         {
             $view['edit_appointment'] = NULL;
         }
@@ -320,11 +323,11 @@ class Backend extends CI_Controller {
                 throw new Exception($this->migration->error_string());
             }
 
-            $view = ['success' => true];
+            $view = ['success' => TRUE];
         }
         catch (Exception $exc)
         {
-            $view = ['success' => false, 'exception' => $exc->getMessage()];
+            $view = ['success' => FALSE, 'exception' => $exc->getMessage()];
         }
 
         $this->load->view('general/update', $view);

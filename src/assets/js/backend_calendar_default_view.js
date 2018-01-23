@@ -473,7 +473,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // Display success notification to user.
                 var undoFunction = function () {
-                    unavailable.end_datetime = event.data.end_datetime =  Date.parseExact(
+                    unavailable.end_datetime = event.data.end_datetime = Date.parseExact(
                         unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
                         .add({minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
@@ -1069,7 +1069,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             firstDay: 0,
             snapDuration: '00:30:00',
             timeFormat: 'h:mm A',
-            slotLabelFormat : 'h(:mm) A',
+            slotLabelFormat: 'h(:mm) A',
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
             titleFormat: 'MMMM YYYY',
@@ -1082,7 +1082,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             // Selectable
             selectable: true,
             selectHelper: true,
-            select: function(start, end, jsEvent, view) {
+            select: function (start, end, jsEvent, view) {
                 if (!start.hasTime() || !end.hasTime()) {
                     return;
                 }

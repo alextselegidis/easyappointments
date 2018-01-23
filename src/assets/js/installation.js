@@ -9,25 +9,25 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-$(document).ready(function() {
+$(document).ready(function () {
     'use strict';
 
     var MIN_PASSWORD_LENGTH = 7;
     var AJAX_SUCCESS = 'SUCCESS';
     var AJAX_FAILURE = 'FAILURE';
 
-    $(document).ajaxStart(function() {
+    $(document).ajaxStart(function () {
         $('#loading').removeClass('hidden');
     });
 
-    $(document).ajaxStop(function() {
+    $(document).ajaxStop(function () {
         $('#loading').addClass('hidden');
     });
 
     /**
      * Event: Install Easy!Appointments Button "Click"
      */
-    $('#install').click(function() {
+    $('#install').click(function () {
         if (!validate()) {
             return;
         }
@@ -44,7 +44,7 @@ $(document).ready(function() {
             type: 'POST',
             data: postData,
             dataType: 'json',
-            success: function(response) {
+            success: function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }
@@ -52,18 +52,18 @@ $(document).ready(function() {
                 $('.alert').text('Easy!Appointments has been successfully installed!');
                 $('.alert').addClass('alert-success');
                 $('.alert').show();
-                setTimeout(function() {
+                setTimeout(function () {
                     window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
                 }, 1000);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 // Treat the error the same way as php exceptions.
                 var exc = {
                     exceptions: [
                         JSON.stringify({
                             message: 'The installation could not be completed due to an ' +
-                                'unexpected issue. Please check the browser\'s console for ' +
-                                'more information.'
+                            'unexpected issue. Please check the browser\'s console for ' +
+                            'more information.'
                         })
                     ]
                 };
@@ -87,7 +87,7 @@ $(document).ready(function() {
 
             // Check for empty fields.
             var missingRequired = false;
-            $('input').each(function() {
+            $('input').each(function () {
                 if ($(this).val() == '') {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
@@ -166,7 +166,7 @@ $(document).ready(function() {
     // Validate the base URL setting (must not contain any trailing slash).
     if (GlobalVariables.baseUrl.slice(-1) === '/') {
         GeneralFunctions.displayMessageBox('Misconfiguration Detected', 'Please remove any trailing slashes from your '
-            + 'BASE_URL setting of the root config.php file and try again.' );
+            + 'BASE_URL setting of the root config.php file and try again.');
         $('#install')
             .prop('disabled', true)
             .fadeTo('0.4');

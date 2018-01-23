@@ -44,7 +44,8 @@ class Customers_Model extends CI_Model {
         if ( ! isset($customer['id']))
         {
             $customer['id'] = $this->_insert($customer);
-        } else
+        }
+        else
         {
             $this->_update($customer);
         }

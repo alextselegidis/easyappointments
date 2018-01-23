@@ -31,7 +31,8 @@ class Services_Model extends CI_Model {
         if ( ! isset($service['id']))
         {
             $service['id'] = $this->_insert($service);
-        } else
+        }
+        else
         {
             $this->_update($service);
         }
@@ -359,7 +360,8 @@ class Services_Model extends CI_Model {
         {
             $this->db->insert('ea_service_categories', $category);
             $category['id'] = $this->db->insert_id();
-        } else
+        }
+        else
         {
             $this->db->where('id', $category['id']);
             $this->db->update('ea_service_categories', $category);

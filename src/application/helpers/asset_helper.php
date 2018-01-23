@@ -22,10 +22,11 @@
  *
  * @return string Returns the final asset URL.
  */
-function asset_url($uri = '', $protocol = NULL) {
+function asset_url($uri = '', $protocol = NULL)
+{
     $ci =& get_instance();
 
-    $cache_busting_token = !Config::DEBUG_MODE ? '?' . $ci->config->item('cache_busting_token') : '';
+    $cache_busting_token = ! Config::DEBUG_MODE ? '?' . $ci->config->item('cache_busting_token') : '';
 
     return base_url($uri . $cache_busting_token, $protocol);
 }

@@ -56,7 +56,8 @@ class Secretaries_Model extends CI_Model {
         if ( ! isset($secretary['id']))
         {
             $secretary['id'] = $this->_insert($secretary);
-        } else
+        }
+        else
         {
             $secretary['id'] = $this->_update($secretary);
         }

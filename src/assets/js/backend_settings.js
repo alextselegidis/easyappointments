@@ -19,7 +19,7 @@ window.BackendSettings = window.BackendSettings || {};
  *
  * @module BackendSettings
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
@@ -46,17 +46,17 @@ window.BackendSettings = window.BackendSettings || {};
      *
      * @param {bool} bindEventHandlers Optional (true), determines whether to bind the default event handlers.
      */
-    exports.initialize = function(bindEventHandlers) {
+    exports.initialize = function (bindEventHandlers) {
         bindEventHandlers = bindEventHandlers || true;
 
         // Apply setting values from database.
-        $.each(GlobalVariables.settings.system, function(index, setting) {
+        $.each(GlobalVariables.settings.system, function (index, setting) {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
             $('select[data-field="' + setting.name + '"]').val(setting.value);
         });
 
         var workingPlan = {};
-        $.each(GlobalVariables.settings.system, function(index, setting) {
+        $.each(GlobalVariables.settings.system, function (index, setting) {
             if (setting.name == 'company_working_plan') {
                 workingPlan = $.parseJSON(setting.value);
             }
@@ -163,7 +163,7 @@ window.BackendSettings = window.BackendSettings || {};
          *
          * Store the setting changes into the database.
          */
-        $('.save-settings').click(function() {
+        $('.save-settings').click(function () {
             var data = settings.get();
             settings.save(data);
         });
@@ -174,7 +174,7 @@ window.BackendSettings = window.BackendSettings || {};
          * When the user leaves the username input field we will need to check if the username
          * is not taken by another record in the system. Usernames must be unique.
          */
-        $('#username').focusout(function() {
+        $('#username').focusout(function () {
             var $input = $(this);
 
             if ($input.prop('readonly') == true || $input.val() == '') {
@@ -188,7 +188,7 @@ window.BackendSettings = window.BackendSettings || {};
                 user_id: $input.parents().eq(2).find('#user-id').val()
             };
 
-            $.post(postUrl, postData, function(response) {
+            $.post(postUrl, postData, function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }

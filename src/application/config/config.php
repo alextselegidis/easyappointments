@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -8,8 +8,8 @@
 | Declare some of the global config values of Easy!Appointments.
 |
 */
-$config['version']             = '1.3.0'; // This must be changed manually.
-$config['release_label']       = 'Beta'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['version'] = '1.3.0'; // This must be changed manually.
+$config['release_label'] = 'Beta'; // Leave empty for no title or add Alpha, Beta etc ...
 $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 /*
@@ -26,7 +26,7 @@ $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 | path to your installation.
 |
 */
-$config['base_url']	= Config::BASE_URL;
+$config['base_url'] = Config::BASE_URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ $config['index_page'] = 'index.php';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol'] = 'AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ $config['language'] = defined('Config::LANGUAGE') ? Config::LANGUAGE : 'english'
 | of these languages.
 |
 */
-$config['available_languages'] = array(
+$config['available_languages'] = [
     'arabic',
     'bulgarian',
     'chinese',
@@ -117,7 +117,7 @@ $config['available_languages'] = array(
     'slovak',
     'spanish',
     'turkish'
-);
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -202,11 +202,11 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array']		= TRUE;
+$config['allow_get_array'] = TRUE;
 $config['enable_query_strings'] = FALSE;
-$config['controller_trigger']	= 'c';
-$config['function_trigger']		= 'm';
-$config['directory_trigger']	= 'd'; // experimental not currently in use
+$config['controller_trigger'] = 'c';
+$config['function_trigger'] = 'm';
+$config['directory_trigger'] = 'd'; // experimental not currently in use
 
 /*
 |--------------------------------------------------------------------------
@@ -304,12 +304,12 @@ $config['encryption_key'] = Config::BASE_URL;
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_driver']             = 'files';
-$config['sess_cookie_name']		   = 'ea_session';
-$config['sess_expiration']		   = 7200;
-$config['sess_save_path']          = __DIR__ . '/../../storage/sessions';
-$config['sess_match_ip']		   = FALSE;
-$config['sess_time_to_update']	   = 300;
+$config['sess_driver'] = 'files';
+$config['sess_cookie_name'] = 'ea_session';
+$config['sess_expiration'] = 7200;
+$config['sess_save_path'] = __DIR__ . '/../../storage/sessions';
+$config['sess_match_ip'] = FALSE;
+$config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
 
 /*
@@ -323,10 +323,10 @@ $config['sess_regenerate_destroy'] = FALSE;
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 |
 */
-$config['cookie_prefix']	= "";
-$config['cookie_domain']	= "";
-$config['cookie_path']		= "/";
-$config['cookie_secure']	= FALSE;
+$config['cookie_prefix'] = "";
+$config['cookie_domain'] = "";
+$config['cookie_path'] = "/";
+$config['cookie_secure'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------

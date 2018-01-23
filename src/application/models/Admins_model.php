@@ -54,7 +54,8 @@ class Admins_Model extends CI_Model {
         if ( ! isset($admin['id']))
         {
             $admin['id'] = $this->_insert($admin);
-        } else
+        }
+        else
         {
             $admin['id'] = $this->_update($admin);
         }

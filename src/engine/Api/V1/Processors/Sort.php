@@ -43,7 +43,8 @@ class Sort implements ProcessorsInterface {
         if (isset($sort[1]))
         {
             $sortDirection2 = substr($sort[1], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
-        } else
+        }
+        else
         {
             $sortDirection2 = NULL;
         }
@@ -51,7 +52,8 @@ class Sort implements ProcessorsInterface {
         if (isset($sort[2]))
         {
             $sortDirection3 = substr($sort[2], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
-        } else
+        }
+        else
         {
             $sortDirection3 = NULL;
         }

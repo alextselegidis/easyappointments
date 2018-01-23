@@ -37,7 +37,8 @@ class Appointments_Model extends CI_Model {
         if ( ! isset($appointment['id']))
         {
             $appointment['id'] = $this->_insert($appointment);
-        } else
+        }
+        else
         {
             $this->_update($appointment);
         }
@@ -338,7 +339,7 @@ class Appointments_Model extends CI_Model {
      *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = '', $aggregates = false)
+    public function get_batch($where_clause = '', $aggregates = FALSE)
     {
         if ($where_clause != '')
         {
@@ -347,8 +348,10 @@ class Appointments_Model extends CI_Model {
 
         $appointments = $this->db->get('ea_appointments')->result_array();
 
-        if ($aggregates) {
-            foreach($appointments as &$appointment) {
+        if ($aggregates)
+        {
+            foreach ($appointments as &$appointment)
+            {
                 $appointment = $this->get_aggregates($appointment);
             }
         }
@@ -409,7 +412,8 @@ class Appointments_Model extends CI_Model {
 
             $this->db->insert('ea_appointments', $unavailable);
             $unavailable['id'] = $this->db->insert_id();
-        } else
+        }
+        else
         {
             $this->db->where(['id' => $unavailable['id']]);
             $this->db->update('ea_appointments', $unavailable);
@@ -490,8 +494,9 @@ class Appointments_Model extends CI_Model {
      *
      * @return int Returns the number of attendants for selected time period.
      */
-    public function get_attendants_number_for_period(DateTime $slot_start, DateTime $slot_end, $service_id) {
-        return(int)$this->db
+    public function get_attendants_number_for_period(DateTime $slot_start, DateTime $slot_end, $service_id)
+    {
+        return (int)$this->db
             ->select('count(*) AS attendants_number')
             ->from('ea_appointments')
             ->group_start()
@@ -515,10 +520,14 @@ class Appointments_Model extends CI_Model {
      *
      * @return array Returns the appointment with the aggregates.
      */
-    private function get_aggregates(array $appointment) {
-        $appointment['service'] = $this->db->get_where('ea_services', ['id' => $appointment['id_services']])->row_array();
-        $appointment['provider'] = $this->db->get_where('ea_users', ['id' => $appointment['id_users_provider']])->row_array();
-        $appointment['customer'] = $this->db->get_where('ea_users', ['id' => $appointment['id_users_customer']])->row_array();
+    private function get_aggregates(array $appointment)
+    {
+        $appointment['service'] = $this->db->get_where('ea_services',
+            ['id' => $appointment['id_services']])->row_array();
+        $appointment['provider'] = $this->db->get_where('ea_users',
+            ['id' => $appointment['id_users_provider']])->row_array();
+        $appointment['customer'] = $this->db->get_where('ea_users',
+            ['id' => $appointment['id_users_customer']])->row_array();
         return $appointment;
     }
 }

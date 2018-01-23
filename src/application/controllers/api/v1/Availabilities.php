@@ -51,7 +51,8 @@ class Availabilities extends API_V1_Controller {
             if ($this->input->get('date'))
             {
                 $date = new DateTime($this->input->get('date'));
-            } else
+            }
+            else
             {
                 $date = new DateTime();
             }
@@ -238,14 +239,16 @@ class Availabilities extends API_V1_Controller {
                 {
                     // The appointment does not belong in this time period, so we
                     // will not change anything.
-                } else
+                }
+                else
                 {
                     if ($a_start <= $p_start && $a_end <= $p_end && $a_end >= $p_start)
                     {
                         // The appointment starts before the period and finishes somewhere inside.
                         // We will need to break this period and leave the available part.
                         $period['start'] = date('H:i', $a_end);
-                    } else
+                    }
+                    else
                     {
                         if ($a_start >= $p_start && $a_end <= $p_end)
                         {
@@ -260,19 +263,22 @@ class Availabilities extends API_V1_Controller {
                                 'start' => date('H:i', $a_end),
                                 'end' => date('H:i', $p_end)
                             ];
-                        } else
+                        }
+                        else
                         {
                             if ($a_start >= $p_start && $a_end >= $p_start && $a_start <= $p_end)
                             {
                                 // The appointment starts in the period and finishes out of it. We will
                                 // need to remove the time that is taken from the appointment.
                                 $period['end'] = date('H:i', $a_start);
-                            } else
+                            }
+                            else
                             {
                                 if ($a_start >= $p_start && $a_end >= $p_end && $a_start >= $p_end)
                                 {
                                     // The appointment does not belong in the period so do not change anything.
-                                } else
+                                }
+                                else
                                 {
                                     if ($a_start <= $p_start && $a_end >= $p_end && $a_start <= $p_end)
                                     {

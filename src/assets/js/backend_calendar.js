@@ -18,7 +18,7 @@
  */
 window.BackendCalendar = window.BackendCalendar || {};
 
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
@@ -26,16 +26,16 @@ window.BackendCalendar = window.BackendCalendar || {};
      * Bind common event handlers.
      */
     function _bindEventHandlers() {
-        var $calendarPage = $('#calendar-page'); 
+        var $calendarPage = $('#calendar-page');
 
-        $calendarPage.on('click', '#toggle-fullscreen', function() {
+        $calendarPage.on('click', '#toggle-fullscreen', function () {
             var $target = $(this);
-            var element = document.documentElement; 
+            var element = document.documentElement;
             var isFullScreen = (document.fullScreenElement && document.fullScreenElement !== null)
                 || document.mozFullScreen
                 || document.webkitIsFullScreen;
-            
-            if (isFullScreen) { 
+
+            if (isFullScreen) {
                 // Exit fullscreen mode. 
                 if (document.exitFullscreen)
                     document.exitFullscreen();
@@ -49,7 +49,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                 $target
                     .removeClass('btn-success')
                     .addClass('btn-default');
-                
+
             } else {
                 // Switch to fullscreen mode.
                 if (element.requestFullscreen)
@@ -76,10 +76,10 @@ window.BackendCalendar = window.BackendCalendar || {};
      *
      * @param {String} view Optional (default), the calendar view to be loaded.
      */
-    exports.initialize = function(view) { 
+    exports.initialize = function (view) {
         // Load and initialize the calendar view. 
         if (view === 'table') {
-            BackendCalendarTableView.initialize(); 
+            BackendCalendarTableView.initialize();
         } else {
             BackendCalendarDefaultView.initialize();
         }

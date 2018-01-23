@@ -33,7 +33,8 @@ class Installation extends CI_Controller {
         {
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
-        } else
+        }
+        else
         {
             $this->lang->load('translations', $this->config->item('language')); // default
         }

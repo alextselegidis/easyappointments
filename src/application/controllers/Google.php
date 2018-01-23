@@ -71,11 +71,13 @@ class Google extends CI_Controller {
                 $this->providers_model->set_setting('google_sync', TRUE, $_SESSION['oauth_provider_id']);
                 $this->providers_model->set_setting('google_token', $token, $_SESSION['oauth_provider_id']);
                 $this->providers_model->set_setting('google_calendar', 'primary', $_SESSION['oauth_provider_id']);
-            } else
+            }
+            else
             {
                 $this->output->set_output('<h1>Sync provider id not specified!</h1>');
             }
-        } else
+        }
+        else
         {
             $this->output->set_output('<h1>Authorization Failed!</h1>');
         }
@@ -154,7 +156,8 @@ class Google extends CI_Controller {
                 {
                     $service = $this->services_model->get_row($appointment['id_services']);
                     $customer = $this->customers_model->get_row($appointment['id_users_customer']);
-                } else
+                }
+                else
                 {
                     $service = NULL;
                     $customer = NULL;
@@ -167,7 +170,8 @@ class Google extends CI_Controller {
                         $service, $customer, $company_settings);
                     $appointment['id_google_calendar'] = $google_event->id;
                     $this->appointments_model->add($appointment); // Save gcal id
-                } else
+                }
+                else
                 {
                     // Appointment is synced with google calendar.
                     try

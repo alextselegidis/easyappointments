@@ -33,7 +33,8 @@ class User extends CI_Controller {
         {
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
-        } else
+        }
+        else
         {
             $this->lang->load('translations', $this->config->item('language')); // default
         }
@@ -135,7 +136,8 @@ class User extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode(AJAX_SUCCESS));
-            } else
+            }
+            else
             {
                 $this->output
                     ->set_content_type('application/json')

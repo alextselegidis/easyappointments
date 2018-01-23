@@ -9,7 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -18,7 +18,8 @@
      *
      * @class SystemSettings
      */
-    var SystemSettings = function() {};
+    var SystemSettings = function () {
+    };
 
     /**
      * Save the system settings.
@@ -27,7 +28,7 @@
      *
      * @param {Array} settings Contains the system settings data.
      */
-    SystemSettings.prototype.save = function(settings) {
+    SystemSettings.prototype.save = function (settings) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
@@ -35,7 +36,7 @@
             type: BackendSettings.SETTINGS_SYSTEM
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -60,11 +61,11 @@
      *
      * @return {Array} Returns the system settings array.
      */
-    SystemSettings.prototype.get = function() {
+    SystemSettings.prototype.get = function () {
         var settings = [];
 
         // General Settings Tab
-        $('#general').find('input, select').each(function() {
+        $('#general').find('input, select').each(function () {
             settings.push({
                 name: $(this).attr('data-field'),
                 value: $(this).val()
@@ -102,13 +103,13 @@
      *
      * @return {Boolean} Returns the validation result.
      */
-    SystemSettings.prototype.validate = function() {
+    SystemSettings.prototype.validate = function () {
         $('#general .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#general .required').each(function() {
+            $('#general .required').each(function () {
                 if ($(this).val() == '' || $(this).val() == undefined) {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
@@ -126,7 +127,7 @@
             }
 
             return true;
-        } catch(message) {
+        } catch (message) {
             Backend.displayNotification(message);
             return false;
         }

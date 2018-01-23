@@ -9,7 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
- window.BackendCustomers = window.BackendCustomers || {};
+window.BackendCustomers = window.BackendCustomers || {};
 
 /**
  * Backend Customers
@@ -20,7 +20,7 @@
  *
  * @module BackendCustomers
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
@@ -39,7 +39,7 @@
      * @param {Boolean} defaultEventHandlers Optional (false), whether to bind the default
      * event handlers or not.
      */
-    exports.initialize = function(defaultEventHandlers) {
+    exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || false;
 
         helper = new CustomersHelper();
@@ -47,7 +47,7 @@
         helper.filter('');
 
         if (defaultEventHandlers) {
-           _bindEventHandlers();
+            _bindEventHandlers();
         }
     };
 

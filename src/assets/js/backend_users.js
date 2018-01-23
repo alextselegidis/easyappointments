@@ -19,7 +19,7 @@ window.BackendUsers = window.BackendUsers || {};
  *
  * @module BackendUsers
  */
-(function(exports){
+(function (exports) {
 
     'use strict';
 
@@ -49,7 +49,7 @@ window.BackendUsers = window.BackendUsers || {};
      *
      * @param {Boolean} defaultEventHandlers (OPTIONAL) Whether to bind the default event handlers.
      */
-    exports.initialize = function(defaultEventHandlers) {
+    exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
 
         exports.wp = new WorkingPlan();
@@ -63,13 +63,13 @@ window.BackendUsers = window.BackendUsers || {};
 
         // Fill the services and providers list boxes.
         var html = '<div>';
-        $.each(GlobalVariables.services, function(index, service) {
+        $.each(GlobalVariables.services, function (index, service) {
             html +=
                 '<div class="checkbox">' +
-                    '<label class="checkbox">' +
-                        '<input type="checkbox" data-id="' + service.id + '" />' +
-                        service.name +
-                    '</label>' +
+                '<label class="checkbox">' +
+                '<input type="checkbox" data-id="' + service.id + '" />' +
+                service.name +
+                '</label>' +
                 '</div>';
 
         });
@@ -77,13 +77,13 @@ window.BackendUsers = window.BackendUsers || {};
         $('#provider-services').html(html);
 
         html = '<div>';
-        $.each(GlobalVariables.providers, function(index, provider) {
-           html +=
+        $.each(GlobalVariables.providers, function (index, provider) {
+            html +=
                 '<div class="checkbox">' +
-                    '<label class="checkbox">'  +
-                        '<input type="checkbox" data-id="' + provider.id + '" />' +
-                        provider.first_name + ' ' + provider.last_name +
-                    '</label>' +
+                '<label class="checkbox">' +
+                '<input type="checkbox" data-id="' + provider.id + '" />' +
+                provider.first_name + ' ' + provider.last_name +
+                '</label>' +
                 '</div>';
 
         });
@@ -116,7 +116,7 @@ window.BackendUsers = window.BackendUsers || {};
          *
          * Changes the displayed tab.
          */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
             if ($(this).attr('href') === '#admins') {
                 helper = new AdminsHelper();
             } else if ($(this).attr('href') === '#providers') {
@@ -130,7 +130,7 @@ window.BackendUsers = window.BackendUsers || {};
                     csrfToken: GlobalVariables.csrfToken,
                     key: ''
                 };
-                $.post(url, data, function(response) {
+                $.post(url, data, function (response) {
                     if (!GeneralFunctions.handleAjaxExceptions(response)) {
                         return;
                     }
@@ -138,13 +138,13 @@ window.BackendUsers = window.BackendUsers || {};
                     GlobalVariables.providers = response;
 
                     var html = '<div>';
-                    $.each(GlobalVariables.providers, function(index, provider) {
-                       html +=
+                    $.each(GlobalVariables.providers, function (index, provider) {
+                        html +=
                             '<div class="checkbox">' +
-                                '<label class="checkbox">'  +
-                                    '<input type="checkbox" data-id="' + provider.id + '" />' +
-                                    provider.first_name + ' ' + provider.last_name +
-                                '</label>' +
+                            '<label class="checkbox">' +
+                            '<input type="checkbox" data-id="' + provider.id + '" />' +
+                            provider.first_name + ' ' + provider.last_name +
+                            '</label>' +
                             '</div>';
                     });
                     html += '</div>';
@@ -165,7 +165,7 @@ window.BackendUsers = window.BackendUsers || {};
          * When the user leaves the username input field we will need to check if the username
          * is not taken by another record in the system. Usernames must be unique.
          */
-        $('#admin-username, #provider-username, #secretary-username').focusout(function() {
+        $('#admin-username, #provider-username, #secretary-username').focusout(function () {
             var $input = $(this);
 
             if ($input.prop('readonly') == true || $input.val() == '') {
@@ -185,7 +185,7 @@ window.BackendUsers = window.BackendUsers || {};
                 user_id: userId
             };
 
-            $.post(postUrl, postData, function(response) {
+            $.post(postUrl, postData, function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }

@@ -75,7 +75,8 @@ class Settings_Model extends CI_Model {
                 throw new Exception('Could not update database setting.');
             }
             $setting_id = (int)$this->db->get_where('ea_settings', ['name' => $name])->row()->id;
-        } else
+        }
+        else
         {
             // Insert setting
             $insert_data = [

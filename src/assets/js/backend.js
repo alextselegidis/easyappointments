@@ -11,34 +11,35 @@
 
 window.Backend = window.Backend || {};
 
- /**
-  * Backend
-  *
-  * This module contains functions that are used in the backend section of the application.
-  *
-  * @module Backend
-  */
-(function(exports) {
+/**
+ * Backend
+ *
+ * This module contains functions that are used in the backend section of the application.
+ *
+ * @module Backend
+ */
+(function (exports) {
 
     'use strict';
 
     /**
      * Main javascript code for the backend of Easy!Appointments.
      */
-    $(document).ready(function() {
-        window.console = window.console || function() {}; // IE compatibility
+    $(document).ready(function () {
+        window.console = window.console || function () {
+        }; // IE compatibility
 
         $(window)
-            .on('resize', function() { 
+            .on('resize', function () {
                 Backend.placeFooterToBottom();
             })
             .trigger('resize');
 
-        $(document).ajaxStart(function() {
+        $(document).ajaxStart(function () {
             $('#loading').show();
         });
 
-        $(document).ajaxStop(function() {
+        $(document).ajaxStop(function () {
             $('#loading').hide();
         });
 
@@ -78,7 +79,7 @@ window.Backend = window.Backend || {};
     /**
      * Place the backend footer always on the bottom of the page.
      */
-    exports.placeFooterToBottom = function() {
+    exports.placeFooterToBottom = function () {
         var $footer = $('#footer');
 
         if (window.innerHeight > $('body').height()) {
@@ -104,35 +105,35 @@ window.Backend = window.Backend || {};
      * @param {Array} actions An array with custom actions that will be available to the user. Every
      * array item is an object that contains the 'label' and 'function' key values.
      */
-    exports.displayNotification = function(message, actions) {
+    exports.displayNotification = function (message, actions) {
         message = message || 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
 
         if (actions === undefined) {
             actions = [];
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#notification').fadeIn();
             }, 5000);
         }
 
         var customActionsHtml = '';
 
-        $.each(actions, function(index, action) {
+        $.each(actions, function (index, action) {
             var actionId = action.label.toLowerCase().replace(' ', '-');
             customActionsHtml += '<button id="' + actionId + '" class="btn btn-default btn-xs">'
-                    + action.label + '</button>';
+                + action.label + '</button>';
 
             $(document).off('click', '#' + actionId);
             $(document).on('click', '#' + actionId, action.function);
         });
 
         var notificationHtml =
-                '<div class="notification alert">' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span>' +
-                    '</button>' +
-                    '<strong>' + message + '</strong>' + 
-                    customActionsHtml + 
-                '</div>';
+            '<div class="notification alert">' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+            '<strong>' + message + '</strong>' +
+            customActionsHtml +
+            '</div>';
 
         $('#notification').html(notificationHtml);
         $('#notification').show('fade');

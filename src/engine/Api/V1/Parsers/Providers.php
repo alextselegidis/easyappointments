@@ -40,11 +40,13 @@ class Providers implements ParsersInterface {
             'notes' => $response['notes'],
         ];
 
-        if (array_key_exists('services', $response)) {
+        if (array_key_exists('services', $response))
+        {
             $encodedResponse['services'] = $response['services'];
         }
 
-        if (array_key_exists('settings', $response)) {
+        if (array_key_exists('settings', $response))
+        {
             $encodedResponse['settings'] = [
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),

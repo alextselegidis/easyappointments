@@ -18,85 +18,85 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
  *
  * @module BackendCalendarTableView
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
     /**
-     * Sticky Table Header Fix 
-     * 
+     * Sticky Table Header Fix
+     *
      * @type {Number}
      */
-    var stickyTableHeaderInterval; 
+    var stickyTableHeaderInterval;
 
     /**
-     * Bind page event handlers. 
+     * Bind page event handlers.
      */
     function _bindEventHandlers() {
         var $calendarToolbar = $('#calendar-toolbar');
-        var $calendar = $('#calendar'); 
+        var $calendar = $('#calendar');
 
-        $calendar.on('click', '.calendar-header .btn.previous', function() {
-            var endDate = new Date($('#calendar .date-column:first').data('date')).add({days: -1}); 
+        $calendar.on('click', '.calendar-header .btn.previous', function () {
+            var endDate = new Date($('#calendar .date-column:first').data('date')).add({days: -1});
             var startDate = new Date(endDate.getTime()).add({days: -1 * (parseInt($('#select-filter-item').val()) - 1)});
             $('.select-date').datepicker('setDate', startDate);
             _createView(startDate, endDate);
         });
 
-        $calendar.on('click', '.calendar-header .btn.next', function() {
-            var startDate = new Date($('#calendar .date-column:last').data('date')).add({days: 1}); 
-            var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1}); 
+        $calendar.on('click', '.calendar-header .btn.next', function () {
+            var startDate = new Date($('#calendar .date-column:last').data('date')).add({days: 1});
+            var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1});
             $('.select-date').datepicker('setDate', startDate);
             _createView(startDate, endDate);
         });
 
-        $calendarToolbar.on('change', '#select-filter-item', function() {
-            var startDate = new Date($('.calendar-view .date-column:first').data('date')); 
-            var endDate = new Date(startDate.getTime()).add({days: parseInt($(this).val()) - 1}); 
+        $calendarToolbar.on('change', '#select-filter-item', function () {
+            var startDate = new Date($('.calendar-view .date-column:first').data('date'));
+            var endDate = new Date(startDate.getTime()).add({days: parseInt($(this).val()) - 1});
             _createView(startDate, endDate);
 
             // Horizontal scrolling fix for sticky table headers. 
-            stickyTableHeaderInterval = setInterval(function() {
+            stickyTableHeaderInterval = setInterval(function () {
                 $(window).trigger('resize.stickyTableHeaders');
             }, 1000);
         });
 
-        $calendarToolbar.on('click', '#reload-appointments', function() {
+        $calendarToolbar.on('click', '#reload-appointments', function () {
             // Remove all the events from the tables. 
-            $('.calendar-view .event').remove(); 
+            $('.calendar-view .event').remove();
 
             // Fetch the events and place them in the existing HTML format. 
             var startDate = new Date($('.calendar-view .date-column:first').data('date'));
             var endDate = new Date($('.calendar-view .date-column:last').data('date'));
             _getCalendarEvents(startDate, endDate)
-                .done(function(response) {
+                .done(function (response) {
                     if (!GeneralFunctions.handleAjaxExceptions(response)) {
                         return;
                     }
 
-                    var currentDate = startDate; 
+                    var currentDate = startDate;
 
-                    while(currentDate <= endDate) {
-                        $('.calendar-view .date-column').each(function(index, dateColumn) {
-                            var $dateColumn = $(dateColumn); 
+                    while (currentDate <= endDate) {
+                        $('.calendar-view .date-column').each(function (index, dateColumn) {
+                            var $dateColumn = $(dateColumn);
                             var date = new Date($dateColumn.data('date'));
 
                             if (currentDate.getTime() !== date.getTime()) {
                                 return true;
                             }
 
-                            $(dateColumn).find('.provider-column').each(function(index, providerColumn) {
+                            $(dateColumn).find('.provider-column').each(function (index, providerColumn) {
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
 
                                 // Add the appointments to the column. 
-                                _createAppointments($providerColumn, response.appointments); 
-                                
+                                _createAppointments($providerColumn, response.appointments);
+
                                 // Add the unavailabilities to the column. 
-                                _createUnavailabilities($providerColumn, response.unavailabilities); 
+                                _createUnavailabilities($providerColumn, response.unavailabilities);
 
                                 // Add the provider breaks to the column. 
-                                var workingPlan = JSON.parse(provider.settings.working_plan); 
+                                var workingPlan = JSON.parse(provider.settings.working_plan);
                                 var day = date.toString('dddd').toLowerCase();
                                 if (workingPlan[day]) {
                                     var breaks = workingPlan[day].breaks;
@@ -105,22 +105,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             });
                         });
 
-                        currentDate.add({days: 1}); 
+                        currentDate.add({days: 1});
                     }
 
                     _setCalendarSize();
                     Backend.placeFooterToBottom();
                 })
                 .fail(GeneralFunctions.ajaxFailureHandler);
-        }); 
-        
-        $calendar.on('click', '.calendar-view table td', function() {
+        });
+
+        $calendar.on('click', '.calendar-view table td', function () {
             if ($(this).index() === 0) {
                 return; // Clicked on an hour slot. 
             }
 
             // Open the appointments modal in the selected hour. 
-            var hour = $(this).parent().find('td:first').text().split(':'); 
+            var hour = $(this).parent().find('td:first').text().split(':');
             var date = new Date($(this).parents('.date-column').data('date'));
             date.set({hour: parseInt(hour[0]), minute: parseInt(hour[1])});
 
@@ -128,25 +128,25 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $('#insert-appointment').trigger('click');
 
             // Update start date field.
-            $('#start-datetime').datepicker('setDate', date); 
+            $('#start-datetime').datepicker('setDate', date);
 
             // Select Service and provider. 
             var $providerColumn = $(this).parents('.provider-column');
             var serviceId = $providerColumn.find('thead tr:last th').eq($(this).index()).data('id');
-            var providerId = $providerColumn.data('provider').id; 
+            var providerId = $providerColumn.data('provider').id;
             $('#select-service').val(serviceId).trigger('change');
             $('#select-provider').val(providerId).trigger('change');
-        }); 
+        });
 
         var lastFocusedEventData;
-        
+
         /**
          * Event: On Table Event Click
-         * 
+         *
          * @param {jQuery.Event} event
          */
-        $calendar.on('click', '.event', function(event) {
-            event.stopPropagation(); 
+        $calendar.on('click', '.event', function (event) {
+            event.stopPropagation();
 
             if ($(this).hasClass('break')) {
                 return; // Do nothing with break events.
@@ -155,61 +155,61 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $('.popover').remove(); // Close all open popovers.
 
             var html;
-            var entry = $(this).data(); 
+            var entry = $(this).data();
 
-            if ($(this).hasClass('unavailability')) {                
+            if ($(this).hasClass('unavailability')) {
                 var notes = '<strong>Notes</strong> ' + entry.notes;
 
                 html =
-                        '<style type="text/css">'
-                            + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                            + '.popover-content button {margin-right: 10px;}'
-                            + '</style>' +
-                        '<strong>' + EALang.start + '</strong> '
-                            + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
-                            + '<br>' +
-                        '<strong>' + EALang.end + '</strong> '
-                            + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
-                            + '<br>'
-                            + notes
-                            + '<hr>' +
-                        '<center>' +
-                            '<button class="edit-popover btn btn-primary">' + EALang.edit + '</button>' +
-                            '<button class="delete-popover btn btn-danger">' + EALang.delete + '</button>' +
-                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang.close + '</button>' +
-                        '</center>';
+                    '<style type="text/css">'
+                    + '.popover-content strong {min-width: 80px; display:inline-block;}'
+                    + '.popover-content button {margin-right: 10px;}'
+                    + '</style>' +
+                    '<strong>' + EALang.start + '</strong> '
+                    + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
+                    + '<br>' +
+                    '<strong>' + EALang.end + '</strong> '
+                    + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
+                    + '<br>'
+                    + notes
+                    + '<hr>' +
+                    '<center>' +
+                    '<button class="edit-popover btn btn-primary">' + EALang.edit + '</button>' +
+                    '<button class="delete-popover btn btn-danger">' + EALang.delete + '</button>' +
+                    '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang.close + '</button>' +
+                    '</center>';
             } else {
                 html =
-                        '<style type="text/css">'
-                            + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                            + '.popover-content button {margin-right: 10px;}'
-                            + '</style>' +
-                        '<strong>' + EALang.start + '</strong> '
-                            + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
-                            + '<br>' +
-                        '<strong>' + EALang.end + '</strong> '
-                            + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
-                            + '<br>' +
-                        '<strong>' + EALang.service + '</strong> '
-                            + entry.service.name
-                            + '<br>' +
-                        '<strong>' + EALang.provider + '</strong> '
-                            + entry.provider.first_name + ' '
-                            + entry.provider.last_name
-                            + '<br>' +
-                        '<strong>' + EALang.customer + '</strong> '
-                            + entry.customer.first_name + ' '
-                            + entry.customer.last_name
-                            + '<hr>' +
-                        '<center>' +
-                            '<button class="edit-popover btn btn-primary">' + EALang.edit + '</button>' +
-                            '<button class="delete-popover btn btn-danger">' + EALang.delete + '</button>' +
-                            '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang.close + '</button>' +
-                        '</center>';
+                    '<style type="text/css">'
+                    + '.popover-content strong {min-width: 80px; display:inline-block;}'
+                    + '.popover-content button {margin-right: 10px;}'
+                    + '</style>' +
+                    '<strong>' + EALang.start + '</strong> '
+                    + GeneralFunctions.formatDate(entry.start_datetime, GlobalVariables.dateFormat, true)
+                    + '<br>' +
+                    '<strong>' + EALang.end + '</strong> '
+                    + GeneralFunctions.formatDate(entry.end_datetime, GlobalVariables.dateFormat, true)
+                    + '<br>' +
+                    '<strong>' + EALang.service + '</strong> '
+                    + entry.service.name
+                    + '<br>' +
+                    '<strong>' + EALang.provider + '</strong> '
+                    + entry.provider.first_name + ' '
+                    + entry.provider.last_name
+                    + '<br>' +
+                    '<strong>' + EALang.customer + '</strong> '
+                    + entry.customer.first_name + ' '
+                    + entry.customer.last_name
+                    + '<hr>' +
+                    '<center>' +
+                    '<button class="edit-popover btn btn-primary">' + EALang.edit + '</button>' +
+                    '<button class="delete-popover btn btn-danger">' + EALang.delete + '</button>' +
+                    '<button class="close-popover btn btn-default" data-po=' + event.target + '>' + EALang.close + '</button>' +
+                    '</center>';
             }
 
             var title = entry.is_unavailable !== '0' ? EALang.unavailable : entry.service.name + ' - '
-                    + entry.customer.first_name + ' ' + entry.customer.last_name;
+                + entry.customer.first_name + ' ' + entry.customer.last_name;
 
             $(event.target).popover({
                 placement: 'top',
@@ -225,7 +225,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             // Fix popover position
             if ($('.popover').length > 0 && $('.popover').position().top < 200) {
-                $('.popover').css('top', '200px');  
+                $('.popover').css('top', '200px');
             }
         });
 
@@ -239,7 +239,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          *
          * Hides the open popover element.
          */
-        $calendar.on('click', '.close-popover', function() {
+        $calendar.on('click', '.close-popover', function () {
             $(this).parents().eq(2).popover('destroy');
         });
 
@@ -248,7 +248,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          *
          * Enables the edit dialog of the selected table event.
          */
-        $calendar.on('click', '.edit-popover', function() {
+        $calendar.on('click', '.edit-popover', function () {
             $(this).parents().eq(2).popover('destroy'); // Hide the popover
 
             var $dialog;
@@ -267,11 +267,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 // Set the start and end datetime of the appointment.
                 var startDatetime = Date.parseExact(appointment.start_datetime,
-                        'yyyy-MM-dd HH:mm:ss');
+                    'yyyy-MM-dd HH:mm:ss');
                 $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
                 var endDatetime = Date.parseExact(appointment.end_datetime,
-                        'yyyy-MM-dd HH:mm:ss');
+                    'yyyy-MM-dd HH:mm:ss');
                 $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
 
                 var customer = appointment.customer;
@@ -314,22 +314,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Displays a prompt on whether the user wants the appointment to be deleted. If he confirms the
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
-        $calendar.on('click', '.delete-popover', function() {
+        $calendar.on('click', '.delete-popover', function () {
             $(this).parents().eq(2).popover('destroy'); // Hide the popover
 
             if (lastFocusedEventData.is_unavailable == false) {
                 var buttons = [
                     {
                         text: 'OK',
-                        click: function() {
+                        click: function () {
                             var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
                             var postData = {
                                 csrfToken: GlobalVariables.csrfToken,
-                                appointment_id : lastFocusedEventData.id,
+                                appointment_id: lastFocusedEventData.id,
                                 delete_reason: $('#delete-reason').val()
                             };
 
-                            $.post(postUrl, postData, function(response) {
+                            $.post(postUrl, postData, function (response) {
                                 $('#message_box').dialog('close');
 
                                 if (response.exceptions) {
@@ -355,14 +355,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                     {
                         text: EALang.cancel,
-                        click: function() {
+                        click: function () {
                             $('#message_box').dialog('close');
                         }
                     }
                 ];
 
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
-                        EALang.write_appointment_removal_reason, buttons);
+                    EALang.write_appointment_removal_reason, buttons);
 
                 var $formGroup = $('<div/>', {
                     'class': 'form-group'
@@ -379,10 +379,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
                 var data = {
                     csrfToken: GlobalVariables.csrfToken,
-                    unavailable_id : lastFocusedEventData.id
+                    unavailable_id: lastFocusedEventData.id
                 };
 
-                $.post(url, data, function(response) {
+                $.post(url, data, function (response) {
                     $('#message_box').dialog('close');
 
                     if (response.exceptions) {
@@ -406,35 +406,35 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     /**
-     * Create table view header container. 
+     * Create table view header container.
      *
      * The header contains the date navigation elements (buttons and datepicker).
      */
     function _createHeader() {
-        var $calendarFilter = $('#calendar-filter'); 
+        var $calendarFilter = $('#calendar-filter');
 
         $calendarFilter
             .find('select')
             .empty()
-            .append(new Option('1 ' + EALang.day , 1))
+            .append(new Option('1 ' + EALang.day, 1))
             .append(new Option('3 ' + EALang.days, 3));
-        
-        var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar'); 
+
+        var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar');
 
         $calendarHeader
             .html(
                 '<button class="btn btn-xs btn-default previous">' +
-                    '<span class="glyphicon glyphicon-chevron-left"></span>' +
+                '<span class="glyphicon glyphicon-chevron-left"></span>' +
                 '</button>' +
                 '<input type="text" class="select-date" value="' + GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat) + '" />' +
                 '<button class="btn btn-xs btn-default next">' +
-                    '<span class="glyphicon glyphicon-chevron-right"></span>' +
+                '<span class="glyphicon glyphicon-chevron-right"></span>' +
                 '</button>'
             );
 
-        var dateFormat; 
+        var dateFormat;
 
-        switch(GlobalVariables.dateFormat) {
+        switch (GlobalVariables.dateFormat) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -449,28 +449,28 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             default:
                 throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
-        }   
+        }
 
 
         $calendarHeader.find('.select-date').datepicker({
             defaultDate: new Date(),
             dateFormat: dateFormat,
-            onSelect: function(dateText, instance) { 
+            onSelect: function (dateText, instance) {
                 var startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
-                var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1}); 
+                var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1});
                 _createView(startDate, endDate);
-            } 
+            }
         });
     }
 
     /**
-     * Create table schedule view. 
+     * Create table schedule view.
      *
-     * This method will destroy any previous instances and create a new view for displaying the appointments in 
-     * a table format. 
-     * 
+     * This method will destroy any previous instances and create a new view for displaying the appointments in
+     * a table format.
+     *
      * @param {Date} startDate Start date to be displayed.
-     * @param {Date} endDate End date to be displayed. 
+     * @param {Date} endDate End date to be displayed.
      */
     function _createView(startDate, endDate) {
         // Disable date navigation.
@@ -480,7 +480,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $('#calendar .calendar-view').remove();
 
         var displayDate = startDate.getTime() !== endDate.getTime();
-        var $calendarView = $('<div class="calendar-view" />').appendTo('#calendar'); 
+        var $calendarView = $('<div class="calendar-view" />').appendTo('#calendar');
 
         $calendarView.data({
             startDate: startDate.toString('yyyy-MM-dd'),
@@ -490,16 +490,16 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var $wrapper = $('<div />').appendTo($calendarView);
 
         _getCalendarEvents(startDate, endDate)
-            .done(function(response) {
+            .done(function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }
 
-                var currentDate = startDate; 
+                var currentDate = startDate;
 
-                while(currentDate <= endDate) {
-                    _createDateColumn($wrapper, currentDate, response, displayDate); 
-                    currentDate.add({days: 1}); 
+                while (currentDate <= endDate) {
+                    _createDateColumn($wrapper, currentDate, response, displayDate);
+                    currentDate.add({days: 1});
                 }
 
                 _setCalendarSize();
@@ -512,17 +512,17 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     /**
-     * Create Date Column Container 
+     * Create Date Column Container
      *
-     * This element will contain the provider columns. 
-     * 
-     * @param {jQuery} $wrapper The wrapper div element of the table view. 
+     * This element will contain the provider columns.
+     *
+     * @param {jQuery} $wrapper The wrapper div element of the table view.
      * @param {Date} date Selected date for the column.
-     * @param {Object[]} events Events to be displayed on this date. 
-     * @param {Boolean} displayDate Whether to display the date in the column container. 
+     * @param {Object[]} events Events to be displayed on this date.
+     * @param {Boolean} displayDate Whether to display the date in the column container.
      */
     function _createDateColumn($wrapper, date, events, displayDate) {
-        var $dateColumn = $('<div class="date-column" />').appendTo($wrapper); 
+        var $dateColumn = $('<div class="date-column" />').appendTo($wrapper);
 
         $dateColumn.data('date', date.getTime());
 
@@ -535,7 +535,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         if (GlobalVariables.user.role_slug === 'provider') {
             GlobalVariables.availableProviders.forEach(function (provider) {
                 if (provider.id == GlobalVariables.user.id) {
-                    providers = [provider]; 
+                    providers = [provider];
                 }
             });
         }
@@ -550,39 +550,39 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }
 
         for (var index in providers) {
-            var provider = GlobalVariables.availableProviders[index]; 
+            var provider = GlobalVariables.availableProviders[index];
             _createProviderColumn($dateColumn, date, provider, events);
         }
     }
 
     /**
-     * Create Provider Column Container 
-     * 
+     * Create Provider Column Container
+     *
      * @param {jQuery} $dateColumn Element to container the provider's column.
      * @param {Date} date Selected date for the column.
-     * @param {Object} provider Contains the provider data. 
-     * {Object[]} events Events to be displayed on this date. 
+     * @param {Object} provider Contains the provider data.
+     * {Object[]} events Events to be displayed on this date.
      */
     function _createProviderColumn($dateColumn, date, provider, events) {
         if (provider.services.length === 0) {
             return;
         }
 
-        var $providerColumn = $('<div class="provider-column" />').appendTo($dateColumn); 
+        var $providerColumn = $('<div class="provider-column" />').appendTo($dateColumn);
 
-        $providerColumn.data('provider', provider); 
+        $providerColumn.data('provider', provider);
 
         // Create the table slots. 
-        _createSlots($providerColumn, date, provider); 
+        _createSlots($providerColumn, date, provider);
 
         // Add the appointments to the column. 
-        _createAppointments($providerColumn, events.appointments); 
-        
+        _createAppointments($providerColumn, events.appointments);
+
         // Add the unavailabilities to the column. 
-        _createUnavailabilities($providerColumn, events.unavailabilities); 
+        _createUnavailabilities($providerColumn, events.unavailabilities);
 
         // Add the provider breaks to the column. 
-        var workingPlan = JSON.parse(provider.settings.working_plan); 
+        var workingPlan = JSON.parse(provider.settings.working_plan);
         var day = date.toString('dddd').toLowerCase();
         if (workingPlan[day]) {
             var breaks = workingPlan[day].breaks;
@@ -591,22 +591,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     /**
-     * Create Table View Slots 
+     * Create Table View Slots
      *
-     * The time slots will be added to a specific provider's column. 
-     * 
+     * The time slots will be added to a specific provider's column.
+     *
      * @param {jQuery} $providerColumn The selected provider column.
      * @param {Date} date Selected date for the slot.
      * @param {Object} provider Contains the provider data.
      */
     function _createSlots($providerColumn, date, provider) {
-        var day = date.toString('dddd').toLowerCase(); 
-        var plan = JSON.parse(provider.settings.working_plan)[day]; 
+        var day = date.toString('dddd').toLowerCase();
+        var plan = JSON.parse(provider.settings.working_plan)[day];
 
         if (!plan) {
-            $providerColumn.append('<div class="not-working">' 
-                    + (provider.first_name + ' ' + provider.last_name).trim() +' <br> ' + EALang.not_working
-                    + '</div>');
+            $providerColumn.append('<div class="not-working">'
+                + (provider.first_name + ' ' + provider.last_name).trim() + ' <br> ' + EALang.not_working
+                + '</div>');
             return;
         }
 
@@ -615,90 +615,90 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .addClass('table table-condensed table-responsive table-hover table-striped')
             .html(
                 '<thead>' +
-                    '<tr>' +
-                        '<th colspan="' + (provider.services.length + 1) + '">' + 
-                            (provider.first_name + ' ' + provider.last_name).trim() + 
-                        '</th>' +
-                    '</tr>' + 
-                    '<tr>' +
-                        '<th>' + EALang.time + '</th>' +
-                    '</tr>' + 
+                '<tr>' +
+                '<th colspan="' + (provider.services.length + 1) + '">' +
+                (provider.first_name + ' ' + provider.last_name).trim() +
+                '</th>' +
+                '</tr>' +
+                '<tr>' +
+                '<th>' + EALang.time + '</th>' +
+                '</tr>' +
                 '</thead>' +
                 '<tbody></tbody>'
             );
 
         for (var index in GlobalVariables.availableServices) {
-            var service = GlobalVariables.availableServices[index]; 
+            var service = GlobalVariables.availableServices[index];
 
             if (provider.services.indexOf(service.id) > -1) {
-                $table.find('thead tr:last').append('<th data-id="' + service.id + '">' + service.name + '</th>'); 
+                $table.find('thead tr:last').append('<th data-id="' + service.id + '">' + service.name + '</th>');
             }
         }
 
-        var start = parseInt(plan.start.split(':')[0]); 
+        var start = parseInt(plan.start.split(':')[0]);
         var end = parseInt(plan.end.split(':')[0]) + 1;
         var current = start;
-        var $tbody = $table.find('tbody'); 
+        var $tbody = $table.find('tbody');
 
-        while(current <= end) {
-            var $tr = $('<tr/>').appendTo($tbody); 
+        while (current <= end) {
+            var $tr = $('<tr/>').appendTo($tbody);
 
-            var time = (current < 10 ? '0' + parseInt(current) : parseInt(current)) + (current % 1 === 0 ? ':00' : ':30'); 
+            var time = (current < 10 ? '0' + parseInt(current) : parseInt(current)) + (current % 1 === 0 ? ':00' : ':30');
 
             $tr
                 .append('<td>' + time + '</td>')
-                .append('<td/>'.repeat(provider.services.length)); 
+                .append('<td/>'.repeat(provider.services.length));
 
-            current += 0.5; 
+            current += 0.5;
         }
 
         $table.stickyTableHeaders();
     }
 
     /**
-     * Create Appointment Events 
+     * Create Appointment Events
      *
-     * This method will add the appointment events on the table view. 
-     * 
+     * This method will add the appointment events on the table view.
+     *
      * @param {jQuery} $providerColumn The provider column container.
-     * @param {Object[]} appointments Contains the appointment events data. 
+     * @param {Object[]} appointments Contains the appointment events data.
      */
     function _createAppointments($providerColumn, appointments) {
         if (appointments.length === 0) {
             return;
         }
 
-        var currentDate = new Date($providerColumn.parents('.date-column').data('date')); 
+        var currentDate = new Date($providerColumn.parents('.date-column').data('date'));
         var $tbody = $providerColumn.find('table tbody');
 
         for (var index in appointments) {
-            var appointment = appointments[index]; 
+            var appointment = appointments[index];
 
             if (appointment.id_users_provider !== $providerColumn.data('provider').id) {
                 continue;
             }
 
-            var eventDate = Date.parse(appointment.start_datetime); 
-            var $event = $('<div class="event appointment" />'); 
+            var eventDate = Date.parse(appointment.start_datetime);
+            var $event = $('<div class="event appointment" />');
             var startDate = Date.parse(appointment.start_datetime);
             var endDate = Date.parse(appointment.end_datetime);
             var eventDuration = Math.round((endDate - startDate) / 60000);
 
-            $event.html(            
+            $event.html(
                 appointment.customer.first_name.charAt(0) + '. ' + appointment.customer.last_name +
                 ' <span class="hour">' + startDate.toString('h:mm tt') + '</span> '
-                + (eventDuration !== parseInt(appointment.service.duration) ? '(' + eventDuration + '\')' : '') 
+                + (eventDuration !== parseInt(appointment.service.duration) ? '(' + eventDuration + '\')' : '')
             );
 
             $event.data(appointment);
 
-            $tbody.find('tr').each(function(index, tr) {
-                var $td = $(tr).find('td:first'); 
+            $tbody.find('tr').each(function (index, tr) {
+                var $td = $(tr).find('td:first');
 
                 var cellDate = new Date(currentDate.getTime()).set({
                     hour: parseInt($td.text().split(':')[0]),
                     minute: parseInt($td.text().split(':')[1])
-                }); 
+                });
 
                 if (eventDate < cellDate) {
                     var cellIndex = $providerColumn
@@ -714,50 +714,50 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                     return false;
                 }
-            }); 
+            });
         }
     }
 
     /**
-     * Create Unavailabilities Events 
+     * Create Unavailabilities Events
      *
-     * This method will add the unavailability events on the table view. 
-     * 
+     * This method will add the unavailability events on the table view.
+     *
      * @param {jQuery} $providerColumn The provider column container.
-     * @param {Object[]} unavailabilities Contains the unavailability events data. 
+     * @param {Object[]} unavailabilities Contains the unavailability events data.
      */
     function _createUnavailabilities($providerColumn, unavailabilities) {
         if (unavailabilities.length === 0) {
             return;
         }
 
-        var currentDate = new Date($providerColumn.parents('.date-column').data('date')); 
+        var currentDate = new Date($providerColumn.parents('.date-column').data('date'));
         var $tbody = $providerColumn.find('table tbody');
 
         for (var index in unavailabilities) {
-            var unavailability = unavailabilities[index]; 
+            var unavailability = unavailabilities[index];
 
             if (unavailability.id_users_provider !== $providerColumn.data('provider').id) {
                 continue;
             }
 
-            var eventDate = Date.parse(unavailability.start_datetime); 
+            var eventDate = Date.parse(unavailability.start_datetime);
             var endDate = Date.parse(unavailability.end_datetime);
             var eventDuration = Math.round((endDate - eventDate) / 60000);
-            var $event = $('<div class="event unavailability" />'); 
+            var $event = $('<div class="event unavailability" />');
 
             $event.html((unavailability.notes || EALang.unavailable) +
                 ' <span class="hour">' + eventDate.toString('h:mm tt') + '</span> (' + eventDuration + '\')');
 
             $event.data(unavailability);
 
-            $tbody.find('tr').each(function(index, tr) {
-                var $td = $(tr).find('td:first'); 
+            $tbody.find('tr').each(function (index, tr) {
+                var $td = $(tr).find('td:first');
 
                 var cellDate = new Date(currentDate.getTime()).set({
                     hour: parseInt($td.text().split(':')[0]),
                     minute: parseInt($td.text().split(':')[1])
-                }); 
+                });
 
                 if (eventDate < cellDate) {
                     $event.appendTo($(tr).prev().find('td').eq(1));
@@ -769,13 +769,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                     return false;
                 }
-            }); 
+            });
         }
     }
 
     /**
-     * Create break events in the table view. 
-     * 
+     * Create break events in the table view.
+     *
      * @param {jQuery} $providerColumn The provider column container.
      * @param {Object[]} breaks Contains the break events data.
      */
@@ -784,17 +784,17 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             return;
         }
 
-        var currentDate = new Date($providerColumn.parents('.date-column').data('date')); 
+        var currentDate = new Date($providerColumn.parents('.date-column').data('date'));
         var $tbody = $providerColumn.find('table tbody');
 
         for (var index in breaks) {
             var entry = breaks[index];
             var startHour = entry.start.split(':');
-            var eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), startHour[0], startHour[1]); 
+            var eventDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), startHour[0], startHour[1]);
             var endHour = entry.end.split(':');
-            var endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), endHour[0], endHour[1]); 
+            var endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), endHour[0], endHour[1]);
             var eventDuration = Math.round((endDate - eventDate) / 60000);
-            var $event = $('<div class="event unavailability break" />'); 
+            var $event = $('<div class="event unavailability break" />');
 
             $event.html(
                 EALang.break +
@@ -802,13 +802,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             $event.data(entry);
 
-            $tbody.find('tr').each(function(index, tr) {
-                var $td = $(tr).find('td:first'); 
+            $tbody.find('tr').each(function (index, tr) {
+                var $td = $(tr).find('td:first');
 
                 var cellDate = new Date(currentDate.getTime()).set({
                     hour: parseInt($td.text().split(':')[0]),
                     minute: parseInt($td.text().split(':')[1])
-                }); 
+                });
 
                 if (eventDate < cellDate) {
                     // Remove the hour from the event if it is the same as the row. 
@@ -816,24 +816,24 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         $event.find('.hour').remove();
                     }
 
-                    $(tr).prev().find('td:gt(0)').each(function(index, td) {
+                    $(tr).prev().find('td:gt(0)').each(function (index, td) {
                         $event.clone().appendTo($(td));
                     });
                     return false;
                 }
-            }); 
+            });
         }
     }
 
     /**
-     * Set Table Calendar View 
+     * Set Table Calendar View
      *
      * This method will set the optimal size in the calendar view elements in order to fit in the page without
      * using scrollbars.
      */
     function _setCalendarSize() {
-        var height = window.innerHeight - $('#header').outerHeight() - $('#footer').outerHeight() 
-                - $('#calendar-toolbar').outerHeight() - $('.calendar-header').outerHeight() - 50;
+        var height = window.innerHeight - $('#header').outerHeight() - $('#footer').outerHeight()
+            - $('#calendar-toolbar').outerHeight() - $('.calendar-header').outerHeight() - 50;
 
         if (height < 500) {
             height = 500;
@@ -843,29 +843,29 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $('.calendar-view > div').css('min-width', '1000%');
 
-        var width = 0; 
+        var width = 0;
 
-        $('.date-column').each(function(index, dateColumn) {
+        $('.date-column').each(function (index, dateColumn) {
             width += $(dateColumn).outerWidth();
         });
 
         $('.calendar-view > div').css('min-width', width + 200);
 
         var dateColumnHeight = $('.date-column').outerHeight();
-  
-        $('.calendar-view .not-working').outerHeight((dateColumnHeight > height ? dateColumnHeight : height ) - 70);
+
+        $('.calendar-view .not-working').outerHeight((dateColumnHeight > height ? dateColumnHeight : height) - 70);
     }
 
     /**
-     * Get the calendar events. 
-     * 
+     * Get the calendar events.
+     *
      * @param {Date} startDate The start date of the selected period.
      * @param {Date} endDate The end date of the selected period.
-     * 
+     *
      * @return {jQuery.jqXHR}
      */
     function _getCalendarEvents(startDate, endDate) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_events'; 
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_events';
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             startDate: startDate.toString('yyyy-MM-dd'),
@@ -873,33 +873,33 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         };
 
         return $.ajax({
-            url: url, 
-            data: data, 
+            url: url,
+            data: data,
             method: 'POST',
-            beforeSend: function() {
+            beforeSend: function () {
                 $('#loading').css('visibility', 'hidden');
-            }, 
-            complete: function() {
-               $('#loading').css('visibility', ''); 
+            },
+            complete: function () {
+                $('#loading').css('visibility', '');
             }
-        }); 
+        });
     }
 
     /**
-     * Initialize Page 
+     * Initialize Page
      */
-    exports.initialize = function() {
-        _createHeader(); 
+    exports.initialize = function () {
+        _createHeader();
         _createView(Date.today(), Date.today().add({days: parseInt($('#select-filter-item').val() - 1)}));
         _bindEventHandlers();
-        
+
         // Hide Google Calendar Sync buttons cause they can not be used within this view. 
         $('#enable-sync, #google-sync').hide();
 
         // Auto-reload the results every one minute.
-        setInterval(function() {
+        setInterval(function () {
             $('#reload-appointments').trigger('click');
-        }, 20000); 
+        }, 20000);
     };
 
 })(window.BackendCalendarTableView);

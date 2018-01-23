@@ -34,7 +34,8 @@ function date3339($timestamp = 0)
     if (preg_match('/^([\-+])(\d{2})(\d{2})$/', date('O', $timestamp), $matches))
     {
         $date .= $matches[1] . $matches[2] . ':' . $matches[3];
-    } else
+    }
+    else
     {
         $date .= 'Z';
     }
