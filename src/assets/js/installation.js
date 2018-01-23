@@ -162,4 +162,13 @@ $(document).ready(function() {
 
         return company;
     }
+
+    // Validate the base URL setting (must not contain any trailing slash).
+    if (GlobalVariables.baseUrl.slice(-1) === '/') {
+        GeneralFunctions.displayMessageBox('Misconfiguration Detected', 'Please remove any trailing slashes from your '
+            + 'BASE_URL setting of the root config.php file and try again.' );
+        $('#install')
+            .prop('disabled', true)
+            .fadeTo('0.4');
+    }
 });
