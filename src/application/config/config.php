@@ -9,7 +9,7 @@
 |
 */
 $config['version'] = '1.3.0'; // This must be changed manually.
-$config['release_label'] = 'Beta'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
 $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
 /*
