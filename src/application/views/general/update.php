@@ -49,26 +49,33 @@
 
     <div class="container content">
         <?php if ($success): ?>
-            <h3>
+            <h4>
                 The database was updated successfully!
-            </h3>
+            </h4>
 
-            <h3>
+            <p>
                 You can now use the latest Easy!Appointments version.
-            </h3>
+            </p>
         <?php else: ?>
-            <h3>
-                There was an error during the update process!
-            </h3>
+            <h4>
+                There was an error during the update process ...
+            </h4>
 
-            <h3>
+            <p>
                 Please restore your database backup.
-            </h3>
+            </p>
 
             <div class="well text-left">
                 Error Message: <?= $exception ?>
             </div>
         <?php endif; ?>
+
+        <div>
+            <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
+                <span class="glyphicon glyphicon-wrench"></span>
+                <?= lang('backend_section') ?>
+            </a>
+        </div>
     </div>
 
     <footer>
