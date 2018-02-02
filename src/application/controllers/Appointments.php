@@ -903,7 +903,7 @@ class Appointments extends CI_Controller {
                     }
                     else
                     {
-                        if ($appointment_start >= $period_start && $appointment_end <= $period_end)
+                        if ($appointment_start >= $period_start && $appointment_end < $period_end)
                         {
                             // The appointment is inside the time period, so we will split the period into two new
                             // others.
@@ -918,6 +918,10 @@ class Appointments extends CI_Controller {
                                 'start' => $appointment_end->format('H:i'),
                                 'end' => $appointment_end->format('H:i')
                             ];
+                        }
+                        else if ($appointment_start == $period_start && $appointment_end == $period_end)
+                        {
+                            unset($periods[$index]); // The whole period is blocked so remove it from the available periods array.
                         }
                         else
                         {
