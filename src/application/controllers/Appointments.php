@@ -789,10 +789,7 @@ class Appointments extends CI_Controller {
 
         $provider_appointments = $this->appointments_model->get_batch([
             'id_users_provider' => $provider_id,
-            'DATE(start_datetime)' => $selected_date
         ]);
-
-        $service = $this->services_model->get_row($service_id);
 
         // Sometimes it might be necessary to not take into account some appointment records in order to display what
         // the providers' available time periods would be without them.
