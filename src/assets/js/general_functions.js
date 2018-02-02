@@ -237,11 +237,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             '<div class="accordion" id="error-accordion">' +
             '<div class="accordion-group">' +
             '<div class="accordion-heading">' +
-            '<a class="accordion-toggle" data-toggle="collapse" ' +
+            '<button class="accordion-toggle btn btn-default btn-xs" data-toggle="collapse" ' +
             'data-parent="#error-accordion" href="#error-technical">' +
             EALang.details +
-            '</a>' +
-            '</div>';
+            '</button>' +
+            '</div>' +
+            '<br>';
 
         $.each(exceptions, function (index, exception) {
             html +=
