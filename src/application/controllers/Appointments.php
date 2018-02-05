@@ -450,8 +450,8 @@ class Appointments extends CI_Controller {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
 
-            $appointment = $this->input->post('post_data')['appointment'];
-            $customer = $this->input->post('post_data')['customer'];
+            $appointment = $_POST['post_data']['appointment'];
+            $customer = $_POST['post_data']['customer'];
 
             if ($this->customers_model->exists($customer))
             {
@@ -697,7 +697,7 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('appointments_model');
 
-        $appointment = $this->input->post('post_data')['appointment'];
+        $appointment = $_POST['post_data']['appointment'];
 
         $service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
 
@@ -726,7 +726,7 @@ class Appointments extends CI_Controller {
         {
             $appointment['id_users_provider'] = $this->_search_any_provider($appointment['id_services'],
                 date('Y-m-d', strtotime($appointment['start_datetime'])));
-            $this->input->post('post_data')['appointment']['id_users_provider'] = $appointment['id_users_provider'];
+            $_POST['post_data']['appointment']['id_users_provider'] = $appointment['id_users_provider'];
             return TRUE; // The selected provider is always available.
         }
 
@@ -976,11 +976,20 @@ class Appointments extends CI_Controller {
             foreach ($provider['services'] as $provider_service_id)
             {
                 if ($provider_service_id == $service_id)
-                { // Check if the provider is available for the requested date.
+                {
+                    // Check if the provider is available for the requested date.
                     $empty_periods = $this->_get_provider_available_time_periods($provider['id'], $service_id,
                         $selected_date);
+
                     $available_hours = $this->_calculate_available_hours($empty_periods, $selected_date,
                         $service['duration'], FALSE, $service['availabilities_type']);
+
+                    if ($service['attendants_number'] > 1)
+                    {
+                        $available_hours = $this->_get_multiple_attendants_hours($this->input->post('selected_date'), $service,
+                            $provider);
+                    }
+
                     if (count($available_hours) > $max_hours_count)
                     {
                         $provider_id = $provider['id'];
