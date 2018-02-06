@@ -913,7 +913,7 @@ class Appointments extends CI_Controller {
 
                             $periods[] = [
                                 'start' => $appointment_end->format('H:i'),
-                                'end' => $appointment_end->format('H:i')
+                                'end' => $period_end->format('H:i')
                             ];
                         }
                         else if ($appointment_start == $period_start && $appointment_end == $period_end)
