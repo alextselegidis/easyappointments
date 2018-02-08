@@ -550,7 +550,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }
 
         for (var index in providers) {
-            var provider = GlobalVariables.availableProviders[index];
+            var provider = providers[index];
             _createProviderColumn($dateColumn, date, provider, events);
         }
     }
