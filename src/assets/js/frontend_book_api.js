@@ -163,7 +163,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                 if (response.captcha_verification === false) {
                     $('#captcha-hint')
-                        .text(EALang.captcha_is_wrong + '(' + response.expected_phrase + ')')
+                        .text(EALang.captcha_is_wrong)
                         .fadeTo(400, 1);
 
                     setTimeout(function () {

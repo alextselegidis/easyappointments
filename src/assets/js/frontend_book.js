@@ -337,7 +337,7 @@ window.FrontendBook = window.FrontendBook || {};
                 FrontendBookApi.applyPreviousUnavailableDates(); // New jQuery UI version will replace the td elements.
             }, 300); // There is no draw event unfortunately.
         })
-    };
+    }
 
     /**
      * This function validates the customer's data input. The user cannot continue

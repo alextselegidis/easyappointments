@@ -438,8 +438,7 @@ class Appointments extends CI_Controller {
                 $this->output
                     ->set_content_type('application/json')
                     ->set_output(json_encode([
-                        'captcha_verification' => FALSE,
-                        'expected_phrase' => $this->session->userdata('captcha_phrase')
+                        'captcha_verification' => FALSE
                     ]));
                 return;
             }
