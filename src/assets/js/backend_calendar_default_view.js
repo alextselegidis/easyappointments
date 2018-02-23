@@ -219,8 +219,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', true);
+                $('#calendar').fullCalendar('option', 'selectable', false);
+                $('#calendar').fullCalendar('option', 'editable', false);
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', false);
+                $('#calendar').fullCalendar('option', 'editable', true);
 
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
