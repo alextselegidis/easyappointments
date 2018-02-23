@@ -14,8 +14,6 @@
 class Migration_Change_column_types extends CI_Migration {
     public function up()
     {
-        $this->load->dbforge();
-
         // Appointments
         $fields = [
             'id' => [
@@ -189,8 +187,6 @@ class Migration_Change_column_types extends CI_Migration {
 
     public function down()
     {
-        $this->load->dbforge();
-
         // Appointments
         $fields = [
             'id' => [
