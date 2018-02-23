@@ -17,4 +17,4 @@ VALUES
     ('date_format', 'DMY'),
     ('require_captcha', '0');
 
-INSERT INTO `ea_migrations` VALUES ('8');
+INSERT INTO `ea_migrations` VALUES ('9');
