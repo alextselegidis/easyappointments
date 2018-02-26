@@ -213,11 +213,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="last-name" class="control-label"><?= lang('last_name') ?> *</label>
-                                    <input type="text" id="last-name" class="required form-control" maxlength="250" />
+                                    <input type="text" id="last-name" class="required form-control" maxlength="120" />
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="control-label"><?= lang('email') ?> *</label>
-                                    <input type="text" id="email" class="required form-control" maxlength="250" />
+                                    <input type="text" id="email" class="required form-control" maxlength="120" />
                                 </div>
                                 <div class="form-group">
                                     <label for="phone-number" class="control-label"><?= lang('phone_number') ?> *</label>
@@ -228,7 +228,7 @@
                             <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="address" class="control-label"><?= lang('address') ?></label>
-                                    <input type="text" id="address" class="form-control" maxlength="250" />
+                                    <input type="text" id="address" class="form-control" maxlength="120" />
                                 </div>
                                 <div class="form-group">
                                     <label for="city" class="control-label"><?= lang('city') ?></label>
