@@ -8,6 +8,8 @@ RUN docker-php-ext-install mysqli gettext
 COPY ./src $PROJECT_DIR
 COPY docker-entrypoint.sh /entrypoint.sh
 
+RUN sed -i 's/\r//' /entrypoint.sh
+
 VOLUME $PROJECT_DIR/storage
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
