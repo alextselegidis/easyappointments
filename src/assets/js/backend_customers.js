@@ -3,13 +3,13 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
- window.BackendCustomers = window.BackendCustomers || {};
+window.BackendCustomers = window.BackendCustomers || {};
 
 /**
  * Backend Customers
@@ -20,7 +20,7 @@
  *
  * @module BackendCustomers
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
@@ -39,18 +39,15 @@
      * @param {Boolean} defaultEventHandlers Optional (false), whether to bind the default
      * event handlers or not.
      */
-    exports.initialize = function(defaultEventHandlers) {
+    exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || false;
 
         helper = new CustomersHelper();
         helper.resetForm();
         helper.filter('');
 
-        $('#filter-customers .results').jScrollPane();
-        $('#customer-appointments').jScrollPane();
-
         if (defaultEventHandlers) {
-           _bindEventHandlers();
+            _bindEventHandlers();
         }
     };
 

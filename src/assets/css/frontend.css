@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -32,7 +32,6 @@ body {
     display: table-cell;
     vertical-align: middle;
 }
-
 
 /* BOOK APPOINTMENT WIZARD
  ------------------------------------------------------------------------------ */
@@ -197,14 +196,13 @@ body {
     float: right;
     margin-bottom: 20px;
     border-radius: 3px;
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 #book-appointment-wizard .captcha-text {
     width: 100%;
     margin-bottom: 20px;
 }
-
 
 /* BOOK SUCCESS & MESSAGE
    ------------------------------------------------------------------------- */
@@ -225,7 +223,6 @@ body {
     margin-top: 20px;
 }
 
-
 /* CANCEL APPOINTMENT
    ------------------------------------------------------------------------- */
 #cancel-appointment-frame {
@@ -240,10 +237,9 @@ body {
     margin-bottom: 0;
 }
 
-
 /* MOBILE DEVICES
    ------------------------------------------------------------------------- */
-@media(max-width:768px) {
+@media (max-width: 768px) {
     /**
      * BOOKING WIZARD
      */
@@ -340,7 +336,7 @@ body {
         float: right;
     }
 
-    #book-appointment-wizard #book-appointment-form  #book-appointment-submit{
+    #book-appointment-wizard #book-appointment-form #book-appointment-submit {
         width: 100%;
     }
 
@@ -389,7 +385,7 @@ body {
     }
 }
 
-@media(max-width:480px) {
+@media (max-width: 480px) {
     body {
         background-color: #FAFAFA;
     }

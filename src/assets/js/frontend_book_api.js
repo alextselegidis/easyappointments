@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -18,7 +18,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
  *
  * @module FrontendBookApi
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
@@ -34,19 +34,19 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      *
      * @param {String} selDate The selected date of which the available hours we need to receive.
      */
-    exports.getAvailableHours = function(selDate) {
+    exports.getAvailableHours = function (selDate) {
         $('#available-hours').empty();
 
         // Find the selected service duration (it is going to be send within the "postData" object).
         var selServiceDuration = 15; // Default value of duration (in minutes).
-        $.each(GlobalVariables.availableServices, function(index, service) {
-            if (service['id'] == $('#select-service').val()) {
-                selServiceDuration = service['duration'];
+        $.each(GlobalVariables.availableServices, function (index, service) {
+            if (service.id == $('#select-service').val()) {
+                selServiceDuration = service.duration;
             }
         });
 
         // If the manage mode is true then the appointment's start date should return as available too.
-        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData['id'] : undefined;
+        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : undefined;
 
         // Make ajax post request and get the available hours.
         var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
@@ -60,7 +60,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             appointment_id: appointmentId
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -69,25 +69,25 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
                 var currColumn = 1;
-                $('#available-hours').html('<div style="width:50px; float:left;"></div>');
+                $('#available-hours').html('<div style="width:80px; float:left;"></div>');
 
-                $.each(response, function(index, availableHour) {
+                $.each(response, function (index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
-                        $('#available-hours').append('<div style="width:50px; float:left;"></div>');
+                        $('#available-hours').append('<div style="width:80px; float:left;"></div>');
                     }
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                            '<span class="available-hour">' + availableHour + '</span><br/>');
+                        '<span class="available-hour">' + Date.parse(availableHour).toString('h:mm tt') + '</span><br/>');
                 });
 
                 if (FrontendBook.manageMode) {
                     // Set the appointment's start time as the default selection.
                     $('.available-hour').removeClass('selected-hour');
-                    $('.available-hour').filter(function() {
+                    $('.available-hour').filter(function () {
                         return $(this).text() === Date.parseExact(
-                                GlobalVariables.appointmentData['start_datetime'],
-                                'yyyy-MM-dd HH:mm:ss').toString('HH:mm');
+                            GlobalVariables.appointmentData.start_datetime,
+                            'yyyy-MM-dd HH:mm:ss').toString('h:mm tt');
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.
@@ -97,7 +97,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 FrontendBook.updateConfirmFrame();
 
             } else {
-                $('#available-hours').text(EALang['no_available_hours']);
+                $('#available-hours').text(EALang.no_available_hours);
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
@@ -108,13 +108,13 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * This method will make an ajax call to the appointments controller that will register
      * the appointment to the database.
      */
-    exports.registerAppointment = function() {
+    exports.registerAppointment = function () {
         var $captchaText = $('.captcha-text');
 
         if ($captchaText.length > 0) {
-            $captchaText.css('border', '');
+            $captchaText.closest('.form-group').removeClass('has-error');
             if ($captchaText.val() === '') {
-                $captchaText.css('border', '1px solid #dc3b40');
+                $captchaText.closest('.form-group').addClass('has-error');
                 return;
             }
         }
@@ -141,7 +141,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             method: 'post',
             data: postData,
             dataType: 'json',
-            beforeSend: function(jqxhr, settings) {
+            beforeSend: function (jqxhr, settings) {
                 $layer
                     .appendTo('body')
                     .css({
@@ -155,7 +155,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     });
             }
         })
-            .done(function(response) {
+            .done(function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $('.captcha-title small').trigger('click');
                     return false;
@@ -163,28 +163,28 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                 if (response.captcha_verification === false) {
                     $('#captcha-hint')
-                        .text(EALang['captcha_is_wrong'] + '(' + response.expected_phrase + ')')
+                        .text(EALang.captcha_is_wrong)
                         .fadeTo(400, 1);
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#captcha-hint').fadeTo(400, 0);
                     }, 3000);
 
                     $('.captcha-title small').trigger('click');
 
-                    $captchaText.css('border', '1px solid #dc3b40');
+                    $captchaText.closest('.form-group').addClass('has-error');
 
                     return false;
                 }
 
-                window.location.replace(GlobalVariables.baseUrl
-                    + '/index.php/appointments/book_success/' + response.appointment_id);
+                window.location.href = GlobalVariables.baseUrl
+                    + '/index.php/appointments/book_success/' + response.appointment_id;
             })
-            .fail(function(jqxhr, textStatus, errorThrown) {
+            .fail(function (jqxhr, textStatus, errorThrown) {
                 $('.captcha-title small').trigger('click');
                 GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
             })
-            .always(function() {
+            .always(function () {
                 $layer.remove();
             });
     };
@@ -200,7 +200,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * @param {Number} serviceId The selected service ID.
      * @param {String} selectedDateString Y-m-d value of the selected date.
      */
-    exports.getUnavailableDates = function(providerId, serviceId, selectedDateString) {
+    exports.getUnavailableDates = function (providerId, serviceId, selectedDateString) {
         if (processingUnavailabilities) {
             return;
         }
@@ -219,15 +219,15 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             data: data,
             dataType: 'json'
         })
-            .done(function(response) {
+            .done(function (response) {
                 unavailableDatesBackup = response;
                 selectedDateStringBackup = selectedDateString;
-                _applyUnavailableDates(response, selectedDateString, true); 
+                _applyUnavailableDates(response, selectedDateString, true);
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
-    exports.applyPreviousUnavailableDates = function() {
+    exports.applyPreviousUnavailableDates = function () {
         _applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
     };
 
@@ -241,7 +241,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
 
         if (setDate) {
-            for (var i=1; i<=numberOfDays; i++) {
+            for (var i = 1; i <= numberOfDays; i++) {
                 var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(currentDate.toString('yyyy-MM-dd')) === -1) {
                     $('#select-date').datepicker('setDate', currentDate);
@@ -253,11 +253,11 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
-            $('#available-hours').text(EALang['no_available_hours']);
+            $('#available-hours').text(EALang.no_available_hours);
         }
 
         // Grey out unavailable dates.
-        $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function(index, td) {
+        $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function (index, td) {
             selectedDate.set({day: index + 1});
             if ($.inArray(selectedDate.toString('yyyy-MM-dd'), unavailableDates) != -1) {
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');

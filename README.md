@@ -22,7 +22,7 @@ kind of enterprise. You can read the main features of the system below:
 * Workflow and booking rules.
 * Google Calendar synchronization.
 * Email notifications system.
-* Standalone installation (like WordPress, Joomla! and other web systems).
+* Standalone installation (like WordPress, Drupal, Joomla and other web systems).
 * Translated user interface.
 * User community support.
 
@@ -31,10 +31,10 @@ kind of enterprise. You can read the main features of the system below:
 Since Easy!Appointments is a web application, it runs on a web server and thus you will need to
 perform the following steps in order to install the system on your server:
 
-* Make sure that your server has Apache, PHP and MySQL installed.
+* Make sure that your server has Apache/Nginx, PHP and MySQL installed.
 * Create a new database (or use an existing).
 * Copy the "easyappointments" source folder on your server.
-* Ensure that the "storage" directory is writable.
+* Make sure that the "storage" directory is writable.
 * Rename the "config-sample.php" file to "config.php" and set your server properties.
 * Open your browser on the Easy!Appointments URL and follow the installation guide.
 * That's it! You can now use Easy!Appointments at your will.
@@ -45,6 +45,25 @@ If you have problems installing or configuring the application take a look on th
 [official support group](https://groups.google.com/forum/#!forum/easy-appointments).
 You can also report problems on the [issues page](https://github.com/alextselegidis/easyappointments/issues)
 and help the development progress.
+
+### Docker
+To start Easy!Appointments using Docker in development configuration, with source files mounted into container, run:
+```
+docker-compose up
+```
+
+Production deployment can be made by changing required values in .env file (DB_PASSWORD, APP_URL, APP_PORT) and running:
+```
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+Database data will be stored in named volume `easyappointments_easy-appointments-data`, and app storage (logs, cache, uploads) in `easyappointments_easy-appointments-storage`.
+To find where exactly they are stored, you can run 
+```
+docker volume inspect easyappointments_easy-appointments-storage
+```
+
+Production containers will automatically be restarted in case of crash / server reboot. For more info, take a look into `docker-compose.prod.yml` file.
 
 ### User Feedback
 

@@ -3,13 +3,13 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -18,14 +18,15 @@
      *
      * @class UserSettings
      */
-    var UserSettings = function() {};
+    var UserSettings = function () {
+    };
 
     /**
      * Get the settings data for the user settings.
      *
      * @returns {Object} Returns the user settings array.
      */
-    UserSettings.prototype.get = function() {
+    UserSettings.prototype.get = function () {
         var user = {
             id: $('#user-id').val(),
             first_name: $('#first-name').val(),
@@ -57,9 +58,9 @@
      *
      * @param {Array} settings Contains the user settings.
      */
-    UserSettings.prototype.save = function(settings) {
+    UserSettings.prototype.save = function (settings) {
         if (!this.validate(settings)) {
-            Backend.displayNotification(EALang['user_settings_are_invalid']);
+            Backend.displayNotification(EALang.user_settings_are_invalid);
             return; // Validation failed, do not proceed.
         }
 
@@ -70,12 +71,12 @@
             settings: JSON.stringify(settings)
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
 
-            Backend.displayNotification(EALang['settings_saved']);
+            Backend.displayNotification(EALang.settings_saved);
 
             // Update footer greetings.
             $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
@@ -90,43 +91,42 @@
      *
      * @return {Boolean} Returns the validation result.
      */
-    UserSettings.prototype.validate = function() {
-        $('#user .required').css('border', '');
-        $('#user').find('#password, #retype-password').css('border', '');
+    UserSettings.prototype.validate = function () {
+        $('#user .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#user .required').each(function() {
+            $('#user .required').each(function () {
                 if ($(this).val() === '' || $(this).val() === undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw EALang['fields_are_required'];
+                throw EALang.fields_are_required;
             }
 
             // Validate passwords (if provided).
             if ($('#password').val() != $('#retype-password').val()) {
-                $('#password, #retype-password').css('border', '2px solid red');
-                throw EALang['passwords_mismatch'];
+                $('#password, #retype-password').closest('.form-group').addClass('has-error');
+                throw EALang.passwords_mismatch;
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').css('border', '2px solid red');
-                throw EALang['invalid_email'];
+                $('#email').closest('.form-group').addClass('has-error');
+                throw EALang.invalid_email;
             }
 
             if ($('#username').attr('already-exists') === 'true') {
-                $('#username').css('border', '2px solid red');
-                throw EALang['username_already_exists'];
+                $('#username').closest('.form-group').addClass('has-error');
+                throw EALang.username_already_exists;
             }
 
             return true;
-        } catch(exc) {
+        } catch (exc) {
             Backend.displayNotification(exc);
             return false;
         }

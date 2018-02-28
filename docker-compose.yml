@@ -1,0 +1,27 @@
+version: '2'
+services:
+  database:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=veryhardpassword
+      - MYSQL_DATABASE=easyapp
+      - MYSQL_USER=easyapp
+      - MYSQL_PASSWORD=veryhardpassword
+
+  application:
+    image: easyappointments
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    command: dev
+    ports:
+      - ${APP_HOST}:80:80
+    environment:
+      - DB_HOST=database:3306
+      - APP_URL=localhost
+    depends_on:
+      - database
+    env_file:
+      - .env
+    restart: always

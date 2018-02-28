@@ -1,11 +1,11 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -21,17 +21,22 @@
  * @return string date in RFC3339
  * @author Boris Korobkov
  */
-function date3339($timestamp=0) {
+function date3339($timestamp = 0)
+{
 
-    if (!$timestamp) {
+    if ( ! $timestamp)
+    {
         $timestamp = time();
     }
     $date = date('Y-m-d\TH:i:s', $timestamp);
 
-    $matches = array();
-    if (preg_match('/^([\-+])(\d{2})(\d{2})$/', date('O', $timestamp), $matches)) {
-        $date .= $matches[1].$matches[2].':'.$matches[3];
-    } else {
+    $matches = [];
+    if (preg_match('/^([\-+])(\d{2})(\d{2})$/', date('O', $timestamp), $matches))
+    {
+        $date .= $matches[1] . $matches[2] . ':' . $matches[3];
+    }
+    else
+    {
         $date .= 'Z';
     }
     return $date;
@@ -48,11 +53,13 @@ function date3339($timestamp=0) {
  * @param string $password Given string password.
  * @return string Returns the hash string of the given password.
  */
-function hash_password($salt, $password) {
+function hash_password($salt, $password)
+{
     $half = (int)(strlen($salt) / 2);
-    $hash = hash('sha256', substr($salt, 0, $half ) . $password . substr($salt, $half));
+    $hash = hash('sha256', substr($salt, 0, $half) . $password . substr($salt, $half));
 
-    for ($i = 0; $i < 100000; $i++) {
+    for ($i = 0; $i < 100000; $i++)
+    {
         $hash = hash('sha256', $hash);
     }
 
@@ -67,9 +74,10 @@ function hash_password($salt, $password) {
  *
  * @return string Returns a salt string.
  */
-function generate_salt() {
+function generate_salt()
+{
     $max_length = 100;
-    $salt = hash('sha256', (uniqid(rand(), true)));
+    $salt = hash('sha256', (uniqid(rand(), TRUE)));
     return substr($salt, 0, $max_length);
 }
 
@@ -80,14 +88,13 @@ function generate_salt() {
  * @return string Returns the randomly generated string.
  * @link http://stackoverflow.com/a/4356295/1718162
  */
-function generate_random_string($length = 10) {
+function generate_random_string($length = 10)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $random_string = '';
-    for ($i = 0; $i < $length; $i++) {
+    for ($i = 0; $i < $length; $i++)
+    {
         $random_string .= $characters[rand(0, strlen($characters) - 1)];
     }
     return $random_string;
 }
-
-/* End of file general_helper.php */
-/* Location: ./application/helpers/general_helper.php */

@@ -1,30 +1,33 @@
-<?php 
+<?php
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types; 
+namespace EA\Engine\Types;
 
 class IntegerTest extends \PHPUnit_Framework_TestCase {
-    public function testIntType() {
+    public function testIntType()
+    {
         $type = new Integer(1);
-        $this->assertEquals(1, $type->get()); 
-    } 
+        $this->assertEquals(1, $type->get());
+    }
 
-    public function testIntTypeThrowsExceptionWithFloat() {
+    public function testIntTypeThrowsExceptionWithFloat()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new Integer(100.00);
     }
 
-    public function testIntTypeThrowsExceptionWithWithString() {
+    public function testIntTypeThrowsExceptionWithWithString()
+    {
         $this->setExpectedException('\InvalidArgumentException');
         new Integer('invalid');
     }

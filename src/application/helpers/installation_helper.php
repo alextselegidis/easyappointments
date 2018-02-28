@@ -1,11 +1,11 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.1.0
@@ -23,7 +23,8 @@
  *
  * @return bool Returns whether E!A is installed or not.
  */
-function is_ea_installed() {
+function is_ea_installed()
+{
     $ci =& get_instance();
     return $ci->db->table_exists('ea_users');
 }
@@ -33,17 +34,18 @@ function is_ea_installed() {
  *
  * @return array
  */
-function get_sample_service() {
-    return array(
+function get_sample_service()
+{
+    return [
         'name' => 'Test Service',
         'duration' => 30,
         'price' => 50.0,
         'currency' => 'Euro',
         'description' => 'This is a test service automatically inserted by the installer.',
-        'availabilities_type' => 'flexible', 
+        'availabilities_type' => 'flexible',
         'attendants_number' => 1,
         'id_service_categories' => NULL
-    );
+    ];
 }
 
 /**
@@ -51,14 +53,15 @@ function get_sample_service() {
  *
  * @return array
  */
-function get_sample_provider() {
-    return array(
+function get_sample_provider()
+{
+    return [
         'first_name' => 'John',
         'last_name' => 'Doe',
         'email' => 'john@doe.com',
         'phone_number' => '0123456789',
-        'services' => array(),
-        'settings' => array(
+        'services' => [],
+        'settings' => [
             'username' => 'johndoe',
             'password' => '59fe9d073a9c3c606a7e01e402dca4b49b6aa517bd0fdf940c46cb13a7b63dd0',
             'salt' => 'dc5570debc71fc1fe94b1b0aee444fcde5b8cb83d62a6a2b736ead6557d7a2e1',
@@ -68,6 +71,6 @@ function get_sample_provider() {
             'sync_past_days' => 5,
             'sync_future_days' => 5,
             'calendar_view' => CALENDAR_VIEW_DEFAULT
-        )
-    );
+        ]
+    ];
 }

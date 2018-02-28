@@ -1,11 +1,11 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.1.0
@@ -22,16 +22,20 @@ class Installation extends CI_Controller {
     /**
      * Class Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->helper('installation');
         $this->load->library('session');
 
         // Set user's selected language.
-        if ($this->session->userdata('language')) {
+        if ($this->session->userdata('language'))
+        {
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
-        } else {
+        }
+        else
+        {
             $this->lang->load('translations', $this->config->item('language')); // default
         }
     }
@@ -39,27 +43,33 @@ class Installation extends CI_Controller {
     /**
      * Display the installation page.
      */
-    public function index() {
-        if (is_ea_installed()) {
+    public function index()
+    {
+        if (is_ea_installed())
+        {
             redirect('appointments/index');
             return;
         }
 
-        $this->load->view('general/installation', array(
+        $this->load->view('general/installation', [
             'base_url' => $this->config->item('base_url')
-        ));
+        ]);
     }
 
     /**
      * [AJAX] Installs Easy!Appointments on the server.
      *
-     * @param array $_POST['admin'] Contains the initial admin user data. The App needs at
-     * least one admin user to work.
-     * @param array $_POST['company'] Contains the basic company data.
+     * Required POST Parameters
+     *
+     * - array $_POST['admin'] Contains the initial admin user data. The App needs at least one admin user to work.
+     * - array $_POST['company'] Contains the basic company data.
      */
-    public function ajax_install() {
-        try {
-            if (is_ea_installed()) {
+    public function ajax_install()
+    {
+        try
+        {
+            if (is_ea_installed())
+            {
                 return;
             }
 
@@ -67,7 +77,8 @@ class Installation extends CI_Controller {
             $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
-            foreach($sql_queries as $query) {
+            foreach ($sql_queries as $query)
+            {
                 $this->db->query($query);
             }
 
@@ -75,13 +86,14 @@ class Installation extends CI_Controller {
             $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/data.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
-            foreach($sql_queries as $query) {
+            foreach ($sql_queries as $query)
+            {
                 $this->db->query($query);
             }
 
             // Insert admin
             $this->load->model('admins_model');
-            $admin = json_decode($_POST['admin'], true);
+            $admin = json_decode($this->input->post('admin'), TRUE);
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
@@ -96,7 +108,7 @@ class Installation extends CI_Controller {
 
             // Save company settings
             $this->load->model('settings_model');
-            $company = json_decode($_POST['company'], true);
+            $company = json_decode($this->input->post('company'), TRUE);
             $this->settings_model->set_setting('company_name', $company['company_name']);
             $this->settings_model->set_setting('company_email', $company['company_email']);
             $this->settings_model->set_setting('company_link', $company['company_link']);
@@ -111,15 +123,16 @@ class Installation extends CI_Controller {
             $sample_provider['services'][] = $sample_service['id'];
             $this->providers_model->add($sample_provider);
 
-            echo json_encode(AJAX_SUCCESS);
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
 
-        } catch (Exception $exc) {
-            echo json_encode(array(
-                'exceptions' => array(exceptionToJavaScript($exc))
-            ));
+        }
+        catch (Exception $exc)
+        {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
 }
-
-/* End of file installation.php */
-/* Location: ./application/controllers/installation.php */

@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
 |--------------------------------------------------------------------------
 | Enable/Disable Migrations
@@ -13,6 +14,21 @@ $config['migration_enabled'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
+| Migrations table
+|--------------------------------------------------------------------------
+|
+| This is the name of the table that will store the current migrations state.
+| When migrations runs it will store in a database table which migration
+| level the system is at. It then compares the migration level in this
+| table to the $config['migration_version'] if they are not the same it
+| will migrate up. This must be set.
+|
+*/
+$config['migration_table'] = 'ea_migrations';
+
+
+/*
+|--------------------------------------------------------------------------
 | Migrations version
 |--------------------------------------------------------------------------
 |
@@ -21,7 +37,7 @@ $config['migration_enabled'] = TRUE;
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 8; // current
+$config['migration_version'] = 9; // current
 
 
 /*

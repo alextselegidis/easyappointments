@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -18,17 +18,17 @@ window.GeneralFunctions = window.GeneralFunctions || {};
  *
  * @module GeneralFunctions
  */
-(function(exports) {
+(function (exports) {
 
     'use strict';
 
     /**
      * General Functions Constants
      */
-    exports.EXCEPTIONS_TITLE = EALang['unexpected_issues'];
-    exports.EXCEPTIONS_MESSAGE = EALang['unexpected_issues_message'];
-    exports.WARNINGS_TITLE = EALang['unexpected_warnings'];
-    exports.WARNINGS_MESSAGE = EALang['unexpected_warnings_message'];
+    exports.EXCEPTIONS_TITLE = EALang.unexpected_issues;
+    exports.EXCEPTIONS_MESSAGE = EALang.unexpected_issues_message;
+    exports.WARNINGS_TITLE = EALang.unexpected_warnings;
+    exports.WARNINGS_MESSAGE = EALang.unexpected_warnings_message;
 
     /**
      * This functions displays a message box in the admin array. It is useful when user
@@ -36,9 +36,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {String} title The title of the message box.
      * @param {String} message The message of the dialog.
-     * @param {Array} messageButtons Contains the dialog buttons along with their functions.
+     * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
-    exports.displayMessageBox = function(title, message, messageButtons) {
+    exports.displayMessageBox = function (title, message, buttons) {
         // Check arguments integrity.
         if (title == undefined || title == '') {
             title = '<No Title Given>';
@@ -48,11 +48,16 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             message = '<No Message Given>';
         }
 
-        if (messageButtons == undefined) {
-            messageButtons = {};
-            messageButtons[EALang['close']] = function() {
-                $('#message_box').dialog('close');
-            };
+        if (buttons == undefined) {
+            buttons = [
+                {
+                    text: EALang.close,
+                    click: function () {
+                        $('#message_box').dialog('close');
+
+                    }
+                }
+            ];
         }
 
         // Destroy previous dialog instances.
@@ -73,7 +78,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             width: 'auto',
             height: 'auto',
             resizable: false,
-            buttons: messageButtons,
+            buttons: buttons,
             closeOnEscape: true
         });
 
@@ -87,12 +92,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {Object} elementHandle The object that is going to be centered.
      */
-    exports.centerElementOnPage = function(elementHandle) {
+    exports.centerElementOnPage = function (elementHandle) {
         // Center main frame vertical middle
-        $(window).resize(function() {
+        $(window).resize(function () {
             var elementLeft = ($(window).width() - elementHandle.outerWidth()) / 2;
             var elementTop = ($(window).height() - elementHandle.outerHeight()) / 2;
-            elementTop = (elementTop > 0 ) ? elementTop : 20;
+            elementTop = (elementTop > 0) ? elementTop : 20;
 
             elementHandle.css({
                 position: 'absolute',
@@ -113,18 +118,18 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the parameter value.
      */
-    exports.getUrlParameter = function(url, parameterName) {
+    exports.getUrlParameter = function (url, parameterName) {
         var parsedUrl = url.substr(url.indexOf('?')).slice(1).split('&');
 
         for (var index in parsedUrl) {
-            var parsedValue = parsedUrl[index].split('='); 
+            var parsedValue = parsedUrl[index].split('=');
 
             if (parsedValue.length === 1 && parsedValue[0] === parameterName) {
-                return ''; 
+                return '';
             }
 
             if (parsedValue.length === 2 && parsedValue[0] === parameterName) {
-                return decodeURIComponent(parsedValue[1]); 
+                return decodeURIComponent(parsedValue[1]);
             }
         }
 
@@ -141,17 +146,17 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the transformed string.
      */
-    exports.ISODateString = function(date) {
+    exports.ISODateString = function (date) {
         function pad(n) {
             return n < 10 ? '0' + n : n;
         }
 
-        return date.getUTCFullYear()+'-'
-             + pad(date.getUTCMonth()+1)+'-'
-             + pad(date.getUTCDate())+'T'
-             + pad(date.getUTCHours())+':'
-             + pad(date.getUTCMinutes())+':'
-             + pad(date.getUTCSeconds())+'Z';
+        return date.getUTCFullYear() + '-'
+            + pad(date.getUTCMonth() + 1) + '-'
+            + pad(date.getUTCDate()) + 'T'
+            + pad(date.getUTCHours()) + ':'
+            + pad(date.getUTCMinutes()) + ':'
+            + pad(date.getUTCSeconds()) + 'Z';
     };
 
     /**
@@ -166,7 +171,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {Object} Returns an exact copy of the provided element.
      */
-    exports.clone = function(originalObject) {
+    exports.clone = function (originalObject) {
         // Handle the 3 simple types, and null or undefined
         if (null == originalObject || 'object' != typeof originalObject)
             return originalObject;
@@ -227,24 +232,25 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {String} Returns the html markup for the exceptions.
      */
-    exports.exceptionsToHtml = function(exceptions) {
+    exports.exceptionsToHtml = function (exceptions) {
         var html =
-                '<div class="accordion" id="error-accordion">' +
-                    '<div class="accordion-group">' +
-                        '<div class="accordion-heading">' +
-                            '<a class="accordion-toggle" data-toggle="collapse" ' +
-                                    'data-parent="#error-accordion" href="#error-technical">' +
-                                EALang['details'] +
-                            '</a>' +
-                        '</div>';
+            '<div class="accordion" id="error-accordion">' +
+            '<div class="accordion-group">' +
+            '<div class="accordion-heading">' +
+            '<button class="accordion-toggle btn btn-default btn-xs" data-toggle="collapse" ' +
+            'data-parent="#error-accordion" href="#error-technical">' +
+            EALang.details +
+            '</button>' +
+            '</div>' +
+            '<br>';
 
-        $.each(exceptions, function(index, exception) {
+        $.each(exceptions, function (index, exception) {
             html +=
-                    '<div id="error-technical" class="accordion-body collapse">' +
-                        '<div class="accordion-inner">' +
-                            '<pre>' + exception['message'] + '</pre>' +
-                        '</div>' +
-                    '</div>';
+                '<div id="error-technical" class="accordion-body collapse">' +
+                '<div class="accordion-inner">' +
+                '<pre>' + exception.message + '</pre>' +
+                '</div>' +
+                '</div>';
         });
 
         html += '</div></div>';
@@ -261,10 +267,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {Array} Returns the parsed js objects.
      */
-    exports.parseExceptions = function(exceptions) {
+    exports.parseExceptions = function (exceptions) {
         var parsedExceptions = new Array();
 
-        $.each(exceptions, function(index, exception) {
+        $.each(exceptions, function (index, exception) {
             parsedExceptions.push($.parseJSON(exception));
         });
 
@@ -278,7 +284,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {String} Returns the capitalized string.
      */
-    exports.ucaseFirstLetter = function(str){
+    exports.ucaseFirstLetter = function (str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
@@ -294,7 +300,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {Boolean} Returns whether the the ajax callback should continue the execution or
      * stop, due to critical server exceptions.
      */
-    exports.handleAjaxExceptions = function(response) {
+    exports.handleAjaxExceptions = function (response) {
         if (response.exceptions) {
             response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
             GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
@@ -320,12 +326,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {Object} $element Selected element button for the language selection.
      */
-    exports.enableLanguageSelection = function($element) {
-    	// Select Language
+    exports.enableLanguageSelection = function ($element) {
+        // Select Language
         var html = '<ul id="language-list">';
-        $.each(availableLanguages, function() {
-        	html += '<li class="language" data-language="' + this + '">'
-        			+ GeneralFunctions.ucaseFirstLetter(this) + '</li>';
+        $.each(availableLanguages, function () {
+            html += '<li class="language" data-language="' + this + '">'
+                + GeneralFunctions.ucaseFirstLetter(this) + '</li>';
         });
         html += '</ul>';
 
@@ -338,30 +344,30 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             trigger: 'manual'
         });
 
-        $element.click(function() {
-        	if ($('#language-list').length === 0) {
-        		$(this).popover('show');
-        	} else {
-        		$(this).popover('hide');
-        	}
+        $element.click(function () {
+            if ($('#language-list').length === 0) {
+                $(this).popover('show');
+            } else {
+                $(this).popover('hide');
+            }
 
             $(this).toggleClass('active');
         });
 
-        $(document).on('click', 'li.language', function() {
-        	// Change language with ajax call and refresh page.
-        	var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+        $(document).on('click', 'li.language', function () {
+            // Change language with ajax call and refresh page.
+            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
             var postData = {
                 csrfToken: GlobalVariables.csrfToken,
-                language: $(this).attr('data-language'),
+                language: $(this).attr('data-language')
             };
-        	$.post(postUrl, postData, function(response) {
-        		if (!GeneralFunctions.handleAjaxExceptions(response)) {
+            $.post(postUrl, postData, function (response) {
+                if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }
-        		document.location.reload(true);
+                document.location.reload(true);
 
-        	}, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
         });
     };
 
@@ -372,10 +378,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {String} textStatus
      * @param {Object} errorThrown
      */
-    exports.ajaxFailureHandler = function(jqxhr, textStatus, errorThrown) {
+    exports.ajaxFailureHandler = function (jqxhr, textStatus, errorThrown) {
         var exceptions = [
             {
-                message: 'AJAX Error: ' + errorThrown
+                message: 'AJAX Error: ' + errorThrown + $(jqxhr.responseText).text()
             }
         ];
         GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
@@ -389,7 +395,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {String} Returns the escaped string.
      */
-    exports.escapeHtml = function(str) {
+    exports.escapeHtml = function (str) {
         return $('<div/>').text(str).html();
     };
 
@@ -403,11 +409,11 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the formatted date string.
      */
-    exports.formatDate = function(date, dateFormatSetting, addHours) {
+    exports.formatDate = function (date, dateFormatSetting, addHours) {
         var format, result;
-        var hours = addHours ? ' HH:mm' : '';
+        var hours = addHours ? ' h:mm tt' : '';
 
-        switch(dateFormatSetting) {
+        switch (dateFormatSetting) {
             case 'DMY':
                 result = Date.parse(date).toString('dd/MM/yyyy' + hours);
                 break;

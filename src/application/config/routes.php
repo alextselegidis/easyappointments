@@ -1,4 +1,5 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -55,19 +56,20 @@ $route['404_override'] = 'errors/error404';
 $resources = [
     'appointments',
     'unavailabilities',
-    'customers', 
+    'customers',
     'services',
     'categories',
     'admins',
-    'providers', 
+    'providers',
     'secretaries'
 ];
 
-foreach($resources as $resource) {
+foreach ($resources as $resource)
+{
     $route['api/v1/' . $resource]['post'] = 'api/v1/' . $resource . '/post';
     $route['api/v1/' . $resource . '/(:num)']['put'] = 'api/v1/' . $resource . '/put/$1';
     $route['api/v1/' . $resource . '/(:num)']['delete'] = 'api/v1/' . $resource . '/delete/$1';
-    $route['api/v1/' . $resource]['get'] = 'api/v1/' . $resource . '/get';    
+    $route['api/v1/' . $resource]['get'] = 'api/v1/' . $resource . '/get';
     $route['api/v1/' . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '/get/$1';
 }
 

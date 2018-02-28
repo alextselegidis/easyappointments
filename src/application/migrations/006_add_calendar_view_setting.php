@@ -5,30 +5,36 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
 class Migration_Add_calendar_view_setting extends CI_Migration {
-    public function up() {
+    public function up()
+    {
         $this->load->dbforge();
 
-        $fields = [
-            'calendar_view' => [ 
-                'type' => 'VARCHAR',
-                'constraint' => '32', 
-                'default' => 'default'
-            ]
-        ]; 
+        $fields = $this->db->list_fields('ea_user_settings'); 
 
-        $this->dbforge->add_column('ea_user_settings', $fields); 
-
-        $this->db->update('ea_user_settings', ['calendar_view' => 'default']);
+        if (!in_array('calendar_view', $fields, true)) {
+            $fields = [
+                'calendar_view' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '32',
+                    'default' => 'default'
+                ]
+            ];
+    
+            $this->dbforge->add_column('ea_user_settings', $fields);
+    
+            $this->db->update('ea_user_settings', ['calendar_view' => 'default']);
+        }
     }
 
-    public function down() {
+    public function down()
+    {
         $this->load->dbforge();
         $this->dbforge->drop_column('ea_user_settings', 'calendar_view');
     }

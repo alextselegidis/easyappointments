@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -104,16 +104,29 @@ root {
     margin-right: 15px;
 }
 
+#notification .alert button {
+    margin-right: 15px;
+}
+
 #notification .alert {
-    margin-bottom: 0px;
-    background-color: #FCF8E3;
+    margin-bottom: 0;
+    background-color: #f5e8a8;
     color: #9E9980;
+    box-shadow: 1px 1px 1px #a0a0a0;
+    padding: 15px;
+    position: fixed;
+    z-index: 200;
+    right: 15px;
+    bottom: 15px;
+    min-width: 300px;
+    max-width: 750px;
 }
 
 #notification .close {
     color: #9E9980;
     font-size: 25px;
     line-height: 0.8;
+    margin-right: 0 !important;
 }
 
 #loading {
@@ -133,7 +146,7 @@ root {
 }
 
 .modal-message {
-    margin: 10px;
+    margin-bottom: 10px;
 }
 
 body .modal .modal-title {
@@ -157,6 +170,9 @@ body .modal-header .close {
     color: #12482a;
 }
 
+body .modal-content {
+    border: none;
+}
 
 /* Full screen modal */
 body .modal.full-screen .modal-dialog {
@@ -200,7 +216,6 @@ body legend {
     color: #666;
 }
 
-
 /* BACKEND COMPONENTS
    -------------------------------------------------------------------- */
 
@@ -209,9 +224,10 @@ body legend {
     margin-bottom: 20px;
 }
 
-.backend-page .filter-records form {
-    height: 35px;
-    padding-top: 5px
+.backend-page .filter-records form .input-group-addon {
+    padding-top: 0;
+    padding-right: 0;
+    border-top: none;
 }
 
 .backend-page .filter-records form .key {
@@ -248,12 +264,6 @@ body legend {
     margin-bottom: 20px;
 }
 
-.record-details input,
-.record-details textarea {
-    background-color: white;
-    cursor: default;
-}
-
 .record-details input:read-only,
 .record-details select:disabled,
 .record-details textarea:read-only {
@@ -261,12 +271,11 @@ body legend {
     box-shadow: none;
 }
 
-
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 #calendar-page #calendar-toolbar {
     border-bottom: 1px solid #D6D6D6;
-    border-radius: 3px; 
+    border-radius: 3px;
     background: #3A3A3A;
     padding: 5px;
     margin-bottom: 15px;
@@ -312,9 +321,13 @@ body legend {
     margin-bottom: 15px;
 }
 
+#calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
+    font-size: 22px;
+}
+
 #calendar-page #calendar .fc-unavailable {
     background-image: url('../img/unavailable.jpg');
-    font-size: 17px;
+    font-size: 14px;
     border-radius: 0;
     font-weight: bold;
     color: #333;
@@ -327,6 +340,10 @@ body legend {
     font-size: 12px;
 }
 
+#calendar-page #calendar .fc-time {
+    font-size: 10px;
+}
+
 #calendar-page #calendar .fc-break {
     background-image: url('../img/break.jpg');
 }
@@ -337,6 +354,10 @@ body legend {
 
 #calendar-page .fc-header {
     margin-bottom: 10px;
+}
+
+#calendar .fc-time-grid-event.fc-short .fc-title {
+    font-size: .7em;
 }
 
 #calendar .fc-header-title h2 {
@@ -425,11 +446,11 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-view {
-    overflow-x: auto;   
+    overflow-x: auto;
 }
 
 #calendar .calendar-view > div {
-    width: 100%; 
+    width: 100%;
     min-width: 1000%;
     overflow: auto;
 }
@@ -456,7 +477,7 @@ body .form-horizontal .controls {
     margin-right: 10px;
 }
 
-#calendar .calendar-view .date-column .provider-column table thead{
+#calendar .calendar-view .date-column .provider-column table thead {
     background-color: #FFF;
 }
 
@@ -476,7 +497,7 @@ body .form-horizontal .controls {
 #calendar .calendar-view .date-column .provider-column .event.unavailability {
     background: #409482;
     color: #fff;
-    
+
 }
 
 /* BACKEND CUSTOMERS PAGE
@@ -486,7 +507,6 @@ body .form-horizontal .controls {
     height: 370px;
     max-width: 330px;
     width: 100%;
-    border: 4px solid #E2E2E2;
     margin-bottom: 20px;
     overflow-y: auto;
     outline: none;
@@ -494,8 +514,12 @@ body .form-horizontal .controls {
 
 #customers-page #customer-appointments .appointment-row {
     padding: 7px;
-    border-bottom: 4px solid #E2E2E2;
+    border-bottom: 1px solid #E2E2E2;
     border-right: none;
+}
+
+#customers-page #customer-appointments .appointment-row:last-child {
+    border-bottom: none;
 }
 
 #customers-page #customer-appointments .appointment-row:hover:not(.selected) {
@@ -504,7 +528,7 @@ body .form-horizontal .controls {
 }
 
 #customers-page #customer-appointments .appointment-row.selected {
-    background-color: #F4F4F4;
+    background-color: #E2E2E2;
 }
 
 #customers-page #appointment-details {
@@ -515,9 +539,7 @@ body .form-horizontal .controls {
 #customers-page #appointment-details div {
     padding: 10px;
     background: #F8F8F8;
-    border-bottom: 4px solid #EEE;
 }
-
 
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
@@ -534,25 +556,12 @@ body .form-horizontal .controls {
     cursor: pointer;
 }
 
-#services-page .record-details .ui-spinner {
-    border: none;
-    margin-bottom: 10px;
-    display: block;
-    color: #666;
-}
-
 #services-page .record-details .ui-state-disabled {
     opacity: 1;
 }
 
 #services-page #service-duration {
     margin: 0px;
-}
-
-#services-page .record-details .ui-spinner a {
-    cursor: pointer;
-    background: none;   
-    border: none;
 }
 
 #services-page .record-details h3 a {
@@ -584,12 +593,10 @@ body .form-horizontal .controls {
 
 #users-page #secretary-providers,
 #users-page #provider-services {
-    border: 4px solid #ccc;
     max-width: 315px;
     width: 100%;
     height: 387px;
-    overflow-y: scroll;
-    padding: 7px;
+    overflow-y: auto;
     margin-bottom: 20px;
 }
 
@@ -628,6 +635,12 @@ body .form-horizontal .controls {
 #users-page #providers .details-view,
 #users-page #providers .working-plan-view {
     clear: both;
+    overflow: auto;
+}
+
+#users-page #providers .working-plan-view .work-start,
+#users-page #providers .working-plan-view .work-end {
+    max-width: 88px;
 }
 
 #users-page .btn-toolbar {
@@ -644,6 +657,11 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
+@-moz-document url-prefix() {
+    .breaks .break-day select {
+        height: 36px;
+    }
+}
 
 #users-page .working-plan .checkbox,
 #users-page .working-plan input[type="text"],
@@ -658,7 +676,7 @@ body .form-horizontal .controls {
 #users-page .editable form,
 #users-page .editable select,
 #users-page .editable input {
-	margin: 0px;
+    margin: 0px;
 }
 
 #users-page #providers .record-details h3 a {
@@ -692,8 +710,12 @@ body .form-horizontal .controls {
 }
 
 #business-logic .working-plan td input[type="text"] {
-    cursor: pointer;
-    width: 55px;
+    max-width: 88px;
+}
+
+#business-logic .working-plan .work-start,
+#business-logic .working-plan .work-end {
+    max-width: 88px;
 }
 
 #business-logic .working-plan label.checkbox {
@@ -721,25 +743,7 @@ body .form-horizontal .controls {
 }
 
 #business-logic #book-advance-timeout {
-    margin: 0 0 0 10px;
-    width: 50px;
-    color: #666;
-}
-
-#business-logic .ui-spinner {
-    border: none;
-    width: 80px;
-    color: #666;
-}
-
-#business-logic .ui-state-disabled {
-    opacity: 1;
-}
-
-#business-logic .ui-spinner a {
-    cursor: pointer;
-    background: none;   
-    border: none;
+    width: 100px;
 }
 
 #settings-page #user-notifications,
@@ -772,7 +776,7 @@ body .form-horizontal .controls {
 }
 
 #settings-page .miscellaneous-wrapper {
-    max-width:  400px;
+    max-width: 400px;
     margin-bottom: 20px;
 }
 
@@ -791,7 +795,7 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
     #header #header-menu .menu-item {
         min-width: 100px;
     }
@@ -801,7 +805,7 @@ body .form-horizontal .controls {
     }
 }
 
-@media(max-width: 860px) {
+@media (max-width: 860px) {
     #header #header-menu .menu-item {
         min-width: 85px;
     }
@@ -815,8 +819,7 @@ body .form-horizontal .controls {
     }
 }
 
-
-@media(max-width: 468px) {
+@media (max-width: 468px) {
     #calendar-page .fc-header td {
         display: block;
         width: 70vw;

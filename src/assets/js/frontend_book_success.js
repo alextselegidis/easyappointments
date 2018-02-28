@@ -3,13 +3,13 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-$(document).ready(function() {
+$(document).ready(function () {
     /**
      * Event: Add Appointment to Google Calendar "Click"
      *
@@ -17,7 +17,7 @@ $(document).ready(function() {
      * be added to the "primary" calendar. In order to use the API the javascript client library provided by
      * Google is necessary.
      */
-    $('#add-to-google-calendar').click(function() {
+    $('#add-to-google-calendar').click(function () {
         gapi.client.setApiKey(GlobalVariables.googleApiKey);
         gapi.auth.authorize({
             client_id: GlobalVariables.googleClientId,
@@ -45,39 +45,39 @@ $(document).ready(function() {
             // must be prepared.
             var appointmentData = GlobalVariables.appointmentData;
 
-            appointmentData['start_datetime'] = GeneralFunctions.ISODateString(
-                    Date.parseExact(appointmentData['start_datetime'],
+            appointmentData.start_datetime = GeneralFunctions.ISODateString(
+                Date.parseExact(appointmentData.start_datetime,
                     'yyyy-MM-dd HH:mm:ss'));
-            appointmentData['end_datetime'] = GeneralFunctions.ISODateString(
-                    Date.parseExact(appointmentData['end_datetime'],
+            appointmentData.end_datetime = GeneralFunctions.ISODateString(
+                Date.parseExact(appointmentData.end_datetime,
                     'yyyy-MM-dd HH:mm:ss'));
 
             // Create a valid Google Calendar API resource for the new event.
             var resource = {
-                summary: GlobalVariables.serviceData['name'],
+                summary: GlobalVariables.serviceData.name,
                 location: GlobalVariables.companyName,
                 start: {
-                    dateTime: appointmentData['start_datetime']
+                    dateTime: appointmentData.start_datetime
                 },
                 end: {
-                    dateTime: appointmentData['end_datetime']
+                    dateTime: appointmentData.end_datetime
                 },
                 attendees: [
                     {
-                        email: GlobalVariables.providerData['email'],
-                        displayName: GlobalVariables.providerData['first_name'] + ' '
-                                + GlobalVariables.providerData['last_name']
+                        email: GlobalVariables.providerData.email,
+                        displayName: GlobalVariables.providerData.first_name + ' '
+                        + GlobalVariables.providerData.last_name
                     }
                 ]
             };
 
-            gapi.client.load('calendar', 'v3', function() {
+            gapi.client.load('calendar', 'v3', function () {
                 var request = gapi.client.calendar.events.insert({
                     calendarId: 'primary',
                     resource: resource
                 });
 
-                request.execute(function(response) {
+                request.execute(function (response) {
                     if (response.error) {
                         throw 'Could not add the event to Google Calendar.';
                     }
@@ -85,28 +85,28 @@ $(document).ready(function() {
                     $('#success-frame').append(
                         '<br><br>' +
                         '<div class="alert alert-success col-xs-12">' +
-                            '<h4>' + EALang['success'] + '</h4>' +
-                            '<p>' +
-                                EALang['appointment_added_to_google_calendar'] +
-                                '<br>' +
-                                '<a href="' + response.htmlLink + '" target="_blank">' +
-                                    EALang['view_appointment_in_google_calendar'] +
-                                '</a>' +
-                            '</p>' +
+                        '<h4>' + EALang.success + '</h4>' +
+                        '<p>' +
+                        EALang.appointment_added_to_google_calendar +
+                        '<br>' +
+                        '<a href="' + response.htmlLink + '" target="_blank">' +
+                        EALang.view_appointment_in_google_calendar +
+                        '</a>' +
+                        '</p>' +
                         '</div>'
                     );
                     $('#add-to-google-calendar').hide();
                 });
             });
-        } catch(exc) {
+        } catch (exc) {
             // The user denied access or something else happened, display corresponding message on the screen.
             $('#success-frame').append(
                 '<div class="alert alert-danger col-xs-12">' +
-                    '<h4>' + EALang['oops_something_went_wrong'] + '</h4>' +
-                    '<p>' +
-                        EALang['could_not_add_to_google_calendar'] +
-                        '<pre>' + exc + '</pre>' +
-                    '</p>' +
+                '<h4>' + EALang.oops_something_went_wrong + '</h4>' +
+                '<p>' +
+                EALang.could_not_add_to_google_calendar +
+                '<pre>' + exc + '</pre>' +
+                '</p>' +
                 '</div>');
         }
     }

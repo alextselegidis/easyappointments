@@ -5,28 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
-    <title><?php echo $this->lang->line('log_out') . ' - ' . $company_name; ?></title>
 
-    <?php // SET FAVICON FOR PAGE ?>
-    <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets/img/favicon.ico'); ?>">
+    <title><?= lang('log_out') . ' - ' . $company_name ?></title>
 
-    <?php // INCLUDE JS FILES ?>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/jquery/jquery.min.js'); ?>"></script>
-    <script
-        type="text/javascript"
-        src="<?php echo base_url('assets/ext/bootstrap/js/bootstrap.min.js'); ?>"></script>
+    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
 
-    <script type="text/javascript">
-        var EALang = <?php echo json_encode($this->lang->language); ?>;
+    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+
+    <script>
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <?php // INCLUDE CSS FILES ?>
     <link
         rel="stylesheet"
         type="text/css"
-        href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+        href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
 
     <style>
         body {
@@ -64,21 +58,21 @@
 </head>
 <body>
     <div id="logout-frame" class="frame-container">
-        <h3><?php echo $this->lang->line('log_out'); ?></h3>
+        <h3><?= lang('log_out') ?></h3>
         <p>
-            <?php echo $this->lang->line('logout_success'); ?>
+            <?= lang('logout_success') ?>
         </p>
 
         <br>
 
-        <a href="<?php echo site_url(); ?>" class="btn btn-success btn-large">
+        <a href="<?= site_url() ?>" class="btn btn-success btn-large">
             <span class="glyphicon glyphicon-calendar"></span>
-            <?php echo $this->lang->line('book_appointment_title'); ?>
+            <?= lang('book_appointment_title') ?>
         </a>
 
-        <a href="<?php echo site_url('backend'); ?>" class="btn btn-default btn-large">
+        <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
             <span class="glyphicon glyphicon-wrench"></span>
-            <?php echo $this->lang->line('backend_section'); ?>
+            <?= lang('backend_section') ?>
         </a>
     </div>
 </body>

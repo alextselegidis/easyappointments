@@ -2,7 +2,7 @@
 
 ## Introduction 
 
-As of Easy!Appointments v1.2 a flexible REST API is integrated within the project that will make it possible to handle all the information of your installations from external clients. The API is using JSON as it's transaction format and features many great practices in order to make the resources easily consumable. 
+Easy!Appointments exposes a flexible REST API that will enables you to handle all the information of your installations through HTTP requests. The API is using JSON as its data transaction format and features many best practices in order to make the resources easily consumable. 
 
 ## Making Requests
 
@@ -45,6 +45,16 @@ If you need to get only specific values from each JSON resource provide the `fie
 ```
 http://ea-installation/index.php/api/v1/appointments?fields=id,book,hash,notes
 ```
+
+### Aggregate
+
+Aggregate related data into result payload by providing the `aggregates` parameter.  
+
+```
+http://ea-installation/index.php/api/v1/appointments?aggregates
+```
+
+*This parameter is currently only available for appointment resources.* 
 
 ### Expected Responses
  
@@ -433,6 +443,6 @@ fastcgi_param PHP_AUTH_PW $http_authorization;
 
 [[Source]](http://serverfault.com/a/520943)
 
-*This document applies to Easy!Appointments v1.2.1*.
+*This document applies to Easy!Appointments v1.3.0.*
 
 [Back](readme.md)

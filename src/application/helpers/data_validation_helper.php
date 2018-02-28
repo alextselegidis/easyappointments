@@ -1,11 +1,11 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -20,10 +20,8 @@
  *
  * @link http://stackoverflow.com/a/8105844/1718162 [SOURCE]
  */
-function validate_mysql_datetime($datetime) {
+function validate_mysql_datetime($datetime)
+{
     $dt = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
     return ($dt) ? TRUE : FALSE;
 }
-
-/* End of file data_validation_helper.php */
-/* Location: ./application/helpers/data_validation_helper.php */

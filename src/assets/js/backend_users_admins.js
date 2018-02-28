@@ -3,13 +3,13 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2016, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -20,20 +20,20 @@
      *
      * @class AdminsHelper
      */
-    var AdminsHelper = function() {
+    var AdminsHelper = function () {
         this.filterResults = []; // Store the results for later use.
     };
 
     /**
      * Bind the event handlers for the backend/users "Admins" tab.
      */
-    AdminsHelper.prototype.bindEventHandlers = function() {
+    AdminsHelper.prototype.bindEventHandlers = function () {
         /**
          * Event: Filter Admins Form "Submit"
          *
          * Filter the admin records with the given key string.
          */
-        $('#admins').on('submit', '#filter-admins form', function() {
+        $('#admins').on('submit', '#filter-admins form', function () {
             var key = $('#filter-admins .key').val();
             $('#filter-admins .selected').removeClass('selected');
             this.resetForm();
@@ -44,7 +44,7 @@
         /**
          * Event: Clear Filter Results Button "Click"
          */
-        $('#admins').on('click', '#filter-admins .clear', function() {
+        $('#admins').on('click', '#filter-admins .clear', function () {
             this.filter('');
             $('#filter-admins .key').val('');
             this.resetForm();
@@ -55,7 +55,7 @@
          *
          * Display the selected admin data to the user.
          */
-        $('#admins').on('click', '.admin-row', function(e) {
+        $('#admins').on('click', '.admin-row', function (e) {
             if ($('#filter-admins .filter').prop('disabled')) {
                 $('#filter-admins .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
@@ -64,7 +64,7 @@
             var adminId = $(e.currentTarget).attr('data-id');
             var admin = {};
 
-            $.each(this.filterResults, function(index, item) {
+            $.each(this.filterResults, function (index, item) {
                 if (item.id === adminId) {
                     admin = item;
                     return false;
@@ -80,7 +80,7 @@
         /**
          * Event: Add New Admin Button "Click"
          */
-        $('#admins').on('click', '#add-admin', function() {
+        $('#admins').on('click', '#add-admin', function () {
             this.resetForm();
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
@@ -95,7 +95,7 @@
         /**
          * Event: Edit Admin Button "Click"
          */
-        $('#admins').on('click', '#edit-admin', function() {
+        $('#admins').on('click', '#edit-admin', function () {
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
             $('#admins .record-details').find('input, textarea').prop('readonly', false);
@@ -110,27 +110,33 @@
         /**
          * Event: Delete Admin Button "Click"
          */
-        $('#admins').on('click', '#delete-admin', function() {
+        $('#admins').on('click', '#delete-admin', function () {
             var adminId = $('#admin-id').val();
-            var messageBtns = {};
 
-            messageBtns[EALang['delete']] = function() {
-                this.delete(adminId);
-                $('#message_box').dialog('close');
-            }.bind(this);
+            var buttons = [
+                {
+                    text: EALang.delete,
+                    click: function () {
+                        this.delete(adminId);
+                        $('#message_box').dialog('close');
+                    }.bind(this)
+                },
+                {
+                    text: EALang.cancel,
+                    click: function () {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
 
-            messageBtns[EALang['cancel']] = function() {
-                $('#message_box').dialog('close');
-            };
-
-            GeneralFunctions.displayMessageBox(EALang['delete_admin'],
-                    EALang['delete_record_prompt'], messageBtns);
+            GeneralFunctions.displayMessageBox(EALang.delete_admin,
+                EALang.delete_record_prompt, buttons);
         }.bind(this));
 
         /**
          * Event: Save Admin Button "Click"
          */
-        $('#admins').on('click', '#save-admin', function() {
+        $('#admins').on('click', '#save-admin', function () {
             var admin = {
                 first_name: $('#admin-first-name').val(),
                 last_name: $('#admin-last-name').val(),
@@ -159,7 +165,7 @@
                 admin.id = $('#admin-id').val();
             }
 
-            if (!this.validate(admin)) {
+            if (!this.validate()) {
                 return;
             }
 
@@ -171,7 +177,7 @@
          *
          * Cancel add or edit of an admin record.
          */
-        $('#admins').on('click', '#cancel-admin', function() {
+        $('#admins').on('click', '#cancel-admin', function () {
             var id = $('#admin-id').val();
             this.resetForm();
             if (id != '') {
@@ -186,18 +192,18 @@
      * @param {Object} admin Contains the admin record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
-    AdminsHelper.prototype.save = function(admin) {
+    AdminsHelper.prototype.save = function (admin) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
             admin: JSON.stringify(admin)
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            Backend.displayNotification(EALang['admin_saved']);
+            Backend.displayNotification(EALang.admin_saved);
             this.resetForm();
             $('#filter-admins .key').val('');
             this.filter('', response.id, true);
@@ -209,18 +215,18 @@
      *
      * @param {Number} id Record id to be deleted.
      */
-    AdminsHelper.prototype.delete = function(id) {
+    AdminsHelper.prototype.delete = function (id) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
             admin_id: id
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-            Backend.displayNotification(EALang['admin_deleted']);
+            Backend.displayNotification(EALang.admin_deleted);
             this.resetForm();
             this.filter($('#filter-admins .key').val());
         }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
@@ -229,21 +235,18 @@
     /**
      * Validates an admin record.
      *
-     * @param {Object} admin Contains the admin data to be validated.
-     *
      * @return {Boolean} Returns the validation result.
      */
-    AdminsHelper.prototype.validate = function(admin) {
-        $('#admins .required').css('border', '');
-        $('#admin-password, #admin-password-confirm').css('border', '');
+    AdminsHelper.prototype.validate = function () {
+        $('#admins .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
             var missingRequired = false;
 
-            $('#admins .required').each(function() {
+            $('#admins .required').each(function () {
                 if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).css('border', '2px solid red');
+                    $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -254,32 +257,34 @@
 
             // Validate passwords.
             if ($('#admin-password').val() != $('#admin-password-confirm').val()) {
-                $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
-                throw EALang['passwords_mismatch'];
+                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
+                throw EALang.passwords_mismatch;
             }
 
             if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                    && $('#admin-password').val() != '') {
-                $('#admin-password, #admin-password-confirm').css('border', '2px solid red');
-                throw EALang['password_length_notice'].replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
+                && $('#admin-password').val() != '') {
+                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
+                throw EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
-                $('#admin-email').css('border', '2px solid red');
-                throw EALang['invalid_email'];
+                $('#admin-email').closest('.form-group').addClass('has-error');
+                throw EALang.invalid_email;
             }
 
             // Check if username exists
-            if ($('#admin-username').attr('already-exists') ==  'true') {
-                $('#admin-username').css('border', '2px solid red');
-                throw EALang['username_already_exists'];
+            if ($('#admin-username').attr('already-exists') == 'true') {
+                $('#admin-username').closest('.form-group').addClass('has-error');
+                throw EALang.username_already_exists;
             }
 
             return true;
-        } catch(exc) {
-            $('#admins .form-message').text(exc);
-            $('#admins .form-message').show();
+        } catch (message) {
+            $('#admins .form-message')
+                .addClass('alert-danger')
+                .text(message)
+                .show();
             return false;
         }
     };
@@ -287,15 +292,13 @@
     /**
      * Resets the admin form back to its initial state.
      */
-    AdminsHelper.prototype.resetForm = function() {
+    AdminsHelper.prototype.resetForm = function () {
         $('#admins .add-edit-delete-group').show();
         $('#admins .save-cancel-group').hide();
         $('#admins .record-details').find('input, textarea').prop('readonly', true);
         $('#admins .record-details').find('select').prop('disabled', true);
         $('#admins .form-message').hide();
         $('#admin-notifications').prop('disabled', true);
-        $('#admins .required').css('border', '');
-        $('#admin-password, #admin-password-confirm').css('border', '');
         $('#admins .record-details').find('input, textarea').val('');
         $('#admin-notifications').removeClass('active');
         $('#edit-admin, #delete-admin').prop('disabled', true);
@@ -310,7 +313,7 @@
      *
      * @param {Object} admin Contains the admin record data.
      */
-    AdminsHelper.prototype.display = function(admin) {
+    AdminsHelper.prototype.display = function (admin) {
         $('#admin-id').val(admin.id);
         $('#admin-first-name').val(admin.first_name);
         $('#admin-last-name').val(admin.last_name);
@@ -341,7 +344,7 @@
      * @param {Boolean} display (OPTIONAL = false) If true the selected record data are going
      * to be displayed on the details column (requires a selected record though).
      */
-    AdminsHelper.prototype.filter = function(key, selectId, display) {
+    AdminsHelper.prototype.filter = function (key, selectId, display) {
         display = display || false;
 
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_admins';
@@ -350,23 +353,21 @@
             key: key
         };
 
-        $.post(postUrl, postData, function(response) {
+        $.post(postUrl, postData, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
 
             this.filterResults = response;
 
-            $('#filter-admins .results').data('jsp').destroy();
             $('#filter-admins .results').html('');
-            $.each(response, function(index, admin) {
+            $.each(response, function (index, admin) {
                 var html = this.getFilterHtml(admin);
                 $('#filter-admins .results').append(html);
             }.bind(this));
-            $('#filter-admins .results').jScrollPane({ mouseWheelSpeed: 70 });
 
             if (response.length == 0) {
-                $('#filter-admins .results').html('<em>' + EALang['no_records_found'] + '</em>')
+                $('#filter-admins .results').html('<em>' + EALang.no_records_found + '</em>')
             }
 
             if (selectId != undefined) {
@@ -382,21 +383,21 @@
      *
      * @return {String} The html code that represents the record on the filter results list.
      */
-    AdminsHelper.prototype.getFilterHtml = function(admin) {
+    AdminsHelper.prototype.getFilterHtml = function (admin) {
         var name = admin.first_name + ' ' + admin.last_name;
         var info = admin.email;
 
         info = (admin.mobile_number != '' && admin.mobile_number != null)
-                ? info + ', ' + admin.mobile_number : info;
+            ? info + ', ' + admin.mobile_number : info;
 
         info = (admin.phone_number != '' && admin.phone_number != null)
-                ? info + ', ' + admin.phone_number : info;
+            ? info + ', ' + admin.phone_number : info;
 
         var html =
-                '<div class="admin-row entry" data-id="' + admin.id + '">' +
-                    '<strong>' + name + '</strong><br>' +
-                    info + '<br>' +
-                '</div><hr>';
+            '<div class="admin-row entry" data-id="' + admin.id + '">' +
+            '<strong>' + name + '</strong><br>' +
+            info + '<br>' +
+            '</div><hr>';
 
         return html;
     };
@@ -409,12 +410,12 @@
      * @param {Boolean} display Optional (false), if true then the method will display the record
      * on the form.
      */
-    AdminsHelper.prototype.select = function(id, display) {
+    AdminsHelper.prototype.select = function (id, display) {
         display = display || false;
 
         $('#filter-admins .selected').removeClass('selected');
 
-        $('.admin-row').each(function() {
+        $('.admin-row').each(function () {
             if ($(this).attr('data-id') == id) {
                 $(this).addClass('selected');
                 return false;
@@ -422,7 +423,7 @@
         });
 
         if (display) {
-            $.each(this.filterResults, function(index, admin) {
+            $.each(this.filterResults, function (index, admin) {
                 if (admin.id == id) {
                     this.display(admin);
                     $('#edit-admin, #delete-admin').prop('disabled', false);
