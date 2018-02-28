@@ -22,7 +22,7 @@ kind of enterprise. You can read the main features of the system below:
 * Workflow and booking rules.
 * Google Calendar synchronization.
 * Email notifications system.
-* Standalone installation (like WordPress, Joomla! and other web systems).
+* Standalone installation (like WordPress, Drupal, Joomla and other web systems).
 * Translated user interface.
 * User community support.
 
@@ -31,10 +31,10 @@ kind of enterprise. You can read the main features of the system below:
 Since Easy!Appointments is a web application, it runs on a web server and thus you will need to
 perform the following steps in order to install the system on your server:
 
-* Make sure that your server has Apache, PHP and MySQL installed.
+* Make sure that your server has Apache/Nginx, PHP and MySQL installed.
 * Create a new database (or use an existing).
 * Copy the "easyappointments" source folder on your server.
-* Ensure that the "storage" directory is writable.
+* Make sure that the "storage" directory is writable.
 * Rename the "config-sample.php" file to "config.php" and set your server properties.
 * Open your browser on the Easy!Appointments URL and follow the installation guide.
 * That's it! You can now use Easy!Appointments at your will.
