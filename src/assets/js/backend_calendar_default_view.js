@@ -333,7 +333,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '<strong>' + EALang.email + '</strong> '
                 + event.data.customer.email
                 + '<br>' +
-                '<strong>' + EALang.provider + '</strong> '
+                '<strong>' + EALang.phone_number + '</strong> '
                 + event.data.customer.phone_number
                 + '<hr>' +
                 '<div class="text-center">' +
