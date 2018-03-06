@@ -123,8 +123,8 @@
                                     <?= lang('time_format') ?>
                                 </label>
                                 <select class="form-control" id="time-format" data-field="time_format">
-                                    <option value="h:mm tt">4:30 PM</option>
-                                    <option value="HH:mm">16:30</option>
+                                    <option value="<?= TIME_FORMAT_REGULAR ?>">H:MM AM/PM</option>
+                                    <option value="<?= TIME_FORMAT_MILITARY ?>">HH:MM</option>
                                 </select>
                                 <span class="help-block">
                                     <?= lang('time_format_hint') ?>
