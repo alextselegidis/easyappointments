@@ -9,6 +9,7 @@
         'csrfToken'     : <?= json_encode($this->security->get_csrf_hash()) ?>,
         'baseUrl'       : <?= json_encode($base_url) ?>,
         'dateFormat'    : <?= json_encode($date_format) ?>,
+        'timeFormat'    : <?= json_encode($time_format) ?>,
         'userSlug'      : <?= json_encode($role_slug) ?>,
         'settings'      : {
             'system'    : <?= json_encode($system_settings) ?>,
@@ -115,6 +116,18 @@
                                 </select>
                                 <span class="help-block">
                                     <?= lang('date_format_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="time-format">
+                                    <?= lang('time_format') ?>
+                                </label>
+                                <select class="form-control" id="time-format" data-field="time_format">
+                                    <option value="h:mm tt">4:30 PM</option>
+                                    <option value="HH:mm">16:30</option>
+                                </select>
+                                <span class="help-block">
+                                    <?= lang('time_format_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">
