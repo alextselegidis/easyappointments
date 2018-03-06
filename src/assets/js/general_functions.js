@@ -411,7 +411,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      */
     exports.formatDate = function (date, dateFormatSetting, addHours) {
         var format, result;
-        var hours = addHours ? ' h:mm tt' : '';
+        var hours = addHours ? ' ' + GlobalVariables.timeFormat : '';
 
         switch (dateFormatSetting) {
             case 'DMY':

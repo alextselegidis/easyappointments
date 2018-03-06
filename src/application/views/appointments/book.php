@@ -327,6 +327,7 @@
             baseUrl             : <?= json_encode(config('base_url')) ?>,
             manageMode          : <?= $manage_mode ? 'true' : 'false' ?>,
             dateFormat          : <?= json_encode($date_format) ?>,
+            timeFormat          : <?= json_encode($time_format) ?>,
             appointmentData     : <?= json_encode($appointment_data) ?>,
             providerData        : <?= json_encode($provider_data) ?>,
             customerData        : <?= json_encode($customer_data) ?>,

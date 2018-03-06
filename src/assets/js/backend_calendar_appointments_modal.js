@@ -391,7 +391,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#start-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: 'h:mm TT',
+            timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -421,7 +421,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#end-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: 'h:mm TT',
+            timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,

@@ -6,6 +6,7 @@
         csrfToken     : <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl       : <?= json_encode($base_url) ?>,
         dateFormat    : <?= json_encode($date_format) ?>,
+        timeFormat    : <?= json_encode($time_format) ?>,
         services      : <?= json_encode($services) ?>,
         categories    : <?= json_encode($categories) ?>,
         user          : {

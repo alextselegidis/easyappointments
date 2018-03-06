@@ -78,7 +78,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     }
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                        '<span class="available-hour">' + Date.parse(availableHour).toString('h:mm tt') + '</span><br/>');
+                        '<span class="available-hour">' + Date.parse(availableHour).toString(GlobalVariables.timeFormat) + '</span><br/>');
                 });
 
                 if (FrontendBook.manageMode) {
@@ -87,7 +87,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('.available-hour').filter(function () {
                         return $(this).text() === Date.parseExact(
                             GlobalVariables.appointmentData.start_datetime,
-                            'yyyy-MM-dd HH:mm:ss').toString('h:mm tt');
+                            'yyyy-MM-dd HH:mm:ss').toString(GlobalVariables.timeFormat);
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.

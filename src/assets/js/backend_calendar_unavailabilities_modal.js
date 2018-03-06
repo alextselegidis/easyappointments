@@ -183,7 +183,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         $dialog.find('#unavailable-start').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: 'h:mm TT',
+            timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -213,7 +213,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         $dialog.find('#unavailable-end').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: 'h:mm TT',
+            timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,

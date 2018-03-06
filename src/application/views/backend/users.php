@@ -10,6 +10,7 @@
         csrfToken      : <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl        : <?= json_encode($base_url) ?>,
         dateFormat     : <?= json_encode($date_format) ?>,
+        timeFormat     : <?= json_encode($time_format) ?>,
         admins         : <?= json_encode($admins) ?>,
         providers      : <?= json_encode($providers) ?>,
         secretaries    : <?= json_encode($secretaries) ?>,

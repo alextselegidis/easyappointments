@@ -119,14 +119,26 @@ class Email {
                 throw new \Exception('Invalid date_format value: ' . $company['date_format']);
         }
 
+        switch ($company['time_format'])
+        {
+            case 'HH:mm':
+                $timeFormat = 'H:i';
+                break;
+            case 'h:mm tt':
+                $timeFormat = 'g:i A';
+                break;
+            default:
+                throw new \Exception('Invalid time_format value: ' . $company['time_format']);
+        }
+
         // Prepare template replace array.
         $replaceArray = [
             '$email_title' => $title->get(),
             '$email_message' => $message->get(),
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_start_date' => date($date_format . ' g:i A', strtotime($appointment['start_datetime'])),
-            '$appointment_end_date' => date($date_format . ' g:i A', strtotime($appointment['end_datetime'])),
+            '$appointment_start_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
+            '$appointment_end_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime'])),
             '$appointment_link' => $appointmentLink->get(),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
@@ -211,13 +223,25 @@ class Email {
                 throw new \Exception('Invalid date_format value: ' . $company['date_format']);
         }
 
-        // Prepare email template data. 
+        switch ($company['time_format'])
+        {
+            case 'HH:mm':
+                $timeFormat = 'H:i';
+                break;
+            case 'h:mm tt':
+                $timeFormat = 'g:i A';
+                break;
+            default:
+                throw new \Exception('Invalid time_format value: ' . $company['time_format']);
+        }
+
+        // Prepare email template data.
         $replaceArray = [
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_date' => date($date_format . ' g:i A', strtotime($appointment['start_datetime'])),
+            '$appointment_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
             '$appointment_duration' => $service['duration'] . ' minutes',
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],

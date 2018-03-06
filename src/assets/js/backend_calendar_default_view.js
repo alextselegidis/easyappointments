@@ -333,7 +333,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '<strong>' + EALang.email + '</strong> '
                 + event.data.customer.email
                 + '<br>' +
-                '<strong>' + EALang.provider + '</strong> '
+                '<strong>' + EALang.phone_number + '</strong> '
                 + event.data.customer.phone_number
                 + '<hr>' +
                 '<div class="text-center">' +
@@ -1062,6 +1062,23 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
         }
 
+        // Time formats
+        var timeFormat = '';
+        var slotTimeFormat= '';
+
+        switch (GlobalVariables.timeFormat) {
+            case 'HH:mm':
+                timeFormat = 'H:mm';
+                slotTimeFormat = 'H(:mm)';
+                break;
+            case 'h:mm tt':
+                timeFormat = 'h:mm A';
+                slotTimeFormat = 'h(:mm) A';
+                break;
+            default:
+                throw new Error('Invalid time format setting provided!', GlobalVariables.timeFormat);
+        }
+
         var defaultView = window.innerWidth < 468 ? 'agendaDay' : 'agendaWeek';
 
         // Initialize page calendar
@@ -1071,8 +1088,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             editable: true,
             firstDay: 0,
             snapDuration: '00:30:00',
-            timeFormat: 'h:mm A',
-            slotLabelFormat: 'h(:mm) A',
+            timeFormat: timeFormat,
+            slotLabelFormat: slotTimeFormat,
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
             titleFormat: 'MMMM YYYY',

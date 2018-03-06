@@ -19,6 +19,7 @@
         'baseUrl'               : <?= json_encode($base_url) ?>,
         'bookAdvanceTimeout'    : <?= $book_advance_timeout ?>,
         'dateFormat'            : <?= json_encode($date_format) ?>,
+        'timeFormat'            : <?= json_encode($time_format) ?>,
         'editAppointment'       : <?= json_encode($edit_appointment) ?>,
         'customers'             : <?= json_encode($customers) ?>,
         'secretaryProviders'    : <?= json_encode($secretary_providers) ?>,
