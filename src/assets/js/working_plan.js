@@ -375,7 +375,7 @@
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                     if (start > end) {
-                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString((GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat));
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat);
                     }
                 }
             });
