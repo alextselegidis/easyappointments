@@ -48,8 +48,8 @@
         $.each(workingPlan, function (index, workingDay) {
             if (workingDay != null) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat).toUpperCase());
-                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat).toUpperCase());
+                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat  === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
                 // Add the day's breaks on the breaks table.
                 $.each(workingDay.breaks, function (i, brk) {
@@ -58,8 +58,8 @@
                     var tr =
                         '<tr>' +
                         '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
-                        '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat).toUpperCase() + '</td>' +
-                        '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat).toUpperCase() + '</td>' +
+                        '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
+                        '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
                         '<span class="glyphicon glyphicon-pencil"></span>' +
@@ -172,8 +172,8 @@
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
-                $('#' + id + '-start').prop('disabled', false).val((GlobalVariables.timeFormat === 'h:mm tt') ? '9:00 AM' : '09:00');
-                $('#' + id + '-end').prop('disabled', false).val((GlobalVariables.timeFormat === 'h:mm tt') ? '6:00 PM' : '18:00');
+                $('#' + id + '-start').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00');
+                $('#' + id + '-end').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '6:00 PM' : '18:00');
             } else {
                 $('#' + id + '-start').prop('disabled', true).val('');
                 $('#' + id + '-end').prop('disabled', true).val('');
@@ -190,8 +190,8 @@
             var tr =
                 '<tr>' +
                 '<td class="break-day editable">' + EALang.sunday + '</td>' +
-                '<td class="break-start editable">' + ((GlobalVariables.timeFormat === 'h:mm tt') ? '9:00 AM' : '09:00') + '</td>' +
-                '<td class="break-end editable">' + ((GlobalVariables.timeFormat === 'h:mm tt') ? '10:00 AM' : '10:00') + '</td>' +
+                '<td class="break-start editable">' + (GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00') + '</td>' +
+                '<td class="break-end editable">' + (GlobalVariables.timeFormat === 'regular' ? '10:00 AM' : '10:00') + '</td>' +
                 '<td>' +
                 '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
                 '<span class="glyphicon glyphicon-pencil"></span>' +
@@ -234,7 +234,7 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
-                timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -361,7 +361,7 @@
         if (disabled == false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -375,7 +375,7 @@
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                     if (start > end) {
-                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString((GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat));
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat));
                     }
                 }
             });

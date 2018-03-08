@@ -1067,11 +1067,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         var slotTimeFormat= '';
 
         switch (GlobalVariables.timeFormat) {
-            case 'HH:mm':
+            case 'military':
                 timeFormat = 'H:mm';
                 slotTimeFormat = 'H(:mm)';
                 break;
-            case 'h:mm tt':
+            case 'regular':
                 timeFormat = 'h:mm A';
                 slotTimeFormat = 'h(:mm) A';
                 break;
