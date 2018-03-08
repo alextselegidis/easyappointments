@@ -121,10 +121,10 @@ class Email {
 
         switch ($company['time_format'])
         {
-            case 'HH:mm':
+            case 'military':
                 $timeFormat = 'H:i';
                 break;
-            case 'h:mm tt':
+            case 'regular':
                 $timeFormat = 'g:i A';
                 break;
             default:
@@ -225,10 +225,10 @@ class Email {
 
         switch ($company['time_format'])
         {
-            case 'HH:mm':
+            case 'military':
                 $timeFormat = 'H:i';
                 break;
-            case 'h:mm tt':
+            case 'regular':
                 $timeFormat = 'g:i A';
                 break;
             default:
