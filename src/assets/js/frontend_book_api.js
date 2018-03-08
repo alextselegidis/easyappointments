@@ -71,6 +71,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 var currColumn = 1;
                 $('#available-hours').html('<div style="width:80px; float:left;"></div>');
 
+                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
                 $.each(response, function (index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
                         currColumn++;
@@ -78,7 +80,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     }
 
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                        '<span class="available-hour">' + Date.parse(availableHour).toString(GlobalVariables.timeFormat) + '</span><br/>');
+                        '<span class="available-hour">' + Date.parse(availableHour).toString(timeFormat) + '</span><br/>');
                 });
 
                 if (FrontendBook.manageMode) {
@@ -87,7 +89,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     $('.available-hour').filter(function () {
                         return $(this).text() === Date.parseExact(
                             GlobalVariables.appointmentData.start_datetime,
-                            'yyyy-MM-dd HH:mm:ss').toString(GlobalVariables.timeFormat);
+                            'yyyy-MM-dd HH:mm:ss').toString(timeFormat);
                     }).addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.
