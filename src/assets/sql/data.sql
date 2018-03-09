@@ -15,6 +15,7 @@ VALUES
     ('google_analytics_code', ''),
     ('customer_notifications', '1'),
     ('date_format', 'DMY'),
+    ('time_format', 'regular'),
     ('require_captcha', '0');
 
-INSERT INTO `ea_migrations` VALUES ('9');
+INSERT INTO `ea_migrations` VALUES ('10');

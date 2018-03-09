@@ -1062,6 +1062,23 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
         }
 
+        // Time formats
+        var timeFormat = '';
+        var slotTimeFormat= '';
+
+        switch (GlobalVariables.timeFormat) {
+            case 'military':
+                timeFormat = 'H:mm';
+                slotTimeFormat = 'H(:mm)';
+                break;
+            case 'regular':
+                timeFormat = 'h:mm A';
+                slotTimeFormat = 'h(:mm) A';
+                break;
+            default:
+                throw new Error('Invalid time format setting provided!', GlobalVariables.timeFormat);
+        }
+
         var defaultView = window.innerWidth < 468 ? 'agendaDay' : 'agendaWeek';
 
         // Initialize page calendar
@@ -1071,8 +1088,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             editable: true,
             firstDay: 0,
             snapDuration: '00:30:00',
-            timeFormat: 'h:mm A',
-            slotLabelFormat: 'h(:mm) A',
+            timeFormat: timeFormat,
+            slotLabelFormat: slotTimeFormat,
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
             titleFormat: 'MMMM YYYY',
