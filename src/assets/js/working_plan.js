@@ -295,7 +295,7 @@
                 end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
-                $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat));
+                $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
             }
 
             this.enableSubmit = true;
@@ -361,7 +361,7 @@
         if (disabled == false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -375,7 +375,7 @@
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                     if (start > end) {
-                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat));
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
                     }
                 }
             });

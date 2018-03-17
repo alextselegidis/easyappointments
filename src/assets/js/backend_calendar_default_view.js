@@ -1072,8 +1072,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 slotTimeFormat = 'H(:mm)';
                 break;
             case 'regular':
-                timeFormat = 'h:mm A';
-                slotTimeFormat = 'h(:mm) A';
+                timeFormat = 'h:mm a';
+                slotTimeFormat = 'h(:mm) a';
                 break;
             default:
                 throw new Error('Invalid time format setting provided!', GlobalVariables.timeFormat);
