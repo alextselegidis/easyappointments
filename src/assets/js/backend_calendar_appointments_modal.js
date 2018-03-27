@@ -106,7 +106,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Define error callback.
             var errorCallback = function () {
-                $dialog.find('.modal-message').text(EALang.server_communication_error);
+                $dialog.find('.modal-message').text(EALang.service_communication_error);
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
                 $dialog.find('.modal-body').scrollTop(0);
             };
