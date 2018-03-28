@@ -93,7 +93,7 @@ class Installation extends CI_Controller {
 
             // Insert admin
             $this->load->model('admins_model');
-            $admin = json_decode($this->input->post('admin'), TRUE);
+            $admin = $this->input->post('admin');
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
@@ -108,7 +108,7 @@ class Installation extends CI_Controller {
 
             // Save company settings
             $this->load->model('settings_model');
-            $company = json_decode($this->input->post('company'), TRUE);
+            $company = $this->input->post('company');
             $this->settings_model->set_setting('company_name', $company['company_name']);
             $this->settings_model->set_setting('company_email', $company['company_email']);
             $this->settings_model->set_setting('company_link', $company['company_link']);

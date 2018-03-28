@@ -9,12 +9,12 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-$(document).ready(function () {
+$(function () {
     'use strict';
 
     var MIN_PASSWORD_LENGTH = 7;
-    var AJAX_SUCCESS = 'SUCCESS';
-    var AJAX_FAILURE = 'FAILURE';
+
+    var $alert = $('.alert');
 
     $(document).ajaxStart(function () {
         $('#loading').removeClass('hidden');
@@ -32,45 +32,34 @@ $(document).ready(function () {
             return;
         }
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
-            admin: JSON.stringify(getAdminData()),
-            company: JSON.stringify(getCompanyData())
+            admin: getAdminData(),
+            company: getCompanyData()
         };
 
         $.ajax({
-            url: postUrl,
+            url: url,
             type: 'POST',
-            data: postData,
-            dataType: 'json',
-            success: function (response) {
+            data: data,
+            dataType: 'json'
+        })
+            .done(function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     return;
                 }
 
-                $('.alert').text('Easy!Appointments has been successfully installed!');
-                $('.alert').addClass('alert-success');
-                $('.alert').show();
+                $alert
+                    .text('Easy!Appointments has been successfully installed!')
+                    .addClass('alert-success')
+                    .show();
+
                 setTimeout(function () {
                     window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
                 }, 1000);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Treat the error the same way as php exceptions.
-                var exc = {
-                    exceptions: [
-                        JSON.stringify({
-                            message: 'The installation could not be completed due to an ' +
-                            'unexpected issue. Please check the browser\'s console for ' +
-                            'more information.'
-                        })
-                    ]
-                };
-                GeneralFunctions.handleAjaxExceptions(exc);
-                console.log(exc.exceptions[0].message, jqXHR, textStatus, errorThrown);
-            }
-        });
+            })
+            .fail(GeneralFunctions.ajaxFailureHandler);
     });
 
     /**
@@ -82,7 +71,7 @@ $(document).ready(function () {
      */
     function validate() {
         try {
-            $('.alert').hide();
+            $alert.hide();
             $('input').closest('.form-group').removeClass('has-error');
 
             // Check for empty fields.
@@ -123,9 +112,11 @@ $(document).ready(function () {
             }
 
             return true;
-        } catch (exc) {
-            $('.alert').text(exc);
-            $('.alert').show();
+        } catch (error) {
+            $alert
+                .text(error)
+                .show();
+
             return false;
         }
     }
