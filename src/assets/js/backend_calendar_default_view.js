@@ -789,6 +789,16 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $calendar.fullCalendar('removeEvents');
             $calendar.fullCalendar('addEventSource', calendarEvents);
 
+            var weekDays = [
+                'sunday', 
+                'monday', 
+                'tuesday', 
+                'wednesday', 
+                'thursday', 
+                'friday', 
+                'saturday' 
+            ];
+
             // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
             var calendarView = $calendar.fullCalendar('getView').name;
 
@@ -800,7 +810,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                         switch (calendarView) {
                             case 'agendaDay':
-                                var selectedDayName = $calendar.fullCalendar('getView').start.format('dddd').toLowerCase();
+                                var selectedDayName = weekDays[$calendar.fullCalendar('getView').start.format('d')];
 
                                 // Add custom unavailable periods.
                                 $.each(response.unavailables, function (index, unavailable) {
