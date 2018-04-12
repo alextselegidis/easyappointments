@@ -153,7 +153,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             }
 
             $dialog.find('#extra-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#extra-end').val((GlobalVariables.timeFormat === 'h:mm tt') ? '8:00 PM' : '19:00');
+            $dialog.find('#extra-end').val(GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '19:00');
             $dialog.find('.modal-header h3').text(EALang.new_extra_period_title);
             $dialog.modal('show');
         });
@@ -175,6 +175,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
         start.addDays(1);
         start.set({'hour': 8});
         start.set({'minute': 30});
+        var end = GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '19:00'
 
         var dateFormat;
 
@@ -193,7 +194,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
 
         $dialog.find('#extra-start').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -223,7 +224,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
         $dialog.find('#extra-start').draggable();
 
         $dialog.find('#extra-end').timepicker({
-            timeFormat: (GlobalVariables.timeFormat === 'h:mm tt') ? 'h:mm TT' : GlobalVariables.timeFormat,
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
             currentText: EALang.now,
             closeText: EALang.close,
             timeOnlyTitle: EALang.select_time,
@@ -231,8 +232,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             hourText: EALang.hour,
             minuteText: EALang.minutes
         });
-        $dialog.find('#extra-end').val((GlobalVariables.timeFormat === 'h:mm tt') ? '8:00 PM' : '19:00');
-        $dialog.find('#extra-end').draggable();
+        $dialog.find('#extra-end').val(end);
 
         // Clear the extra notes field.
         $dialog.find('#extra-notes').val('');
