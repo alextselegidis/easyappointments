@@ -790,6 +790,9 @@ class Appointments extends CI_Controller {
         // Get the service, provider's working plan and provider appointments.
         $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), TRUE);
 
+        // Get the provider's extra working plan.
+        $extra_working_plan = json_decode($this->providers_model->get_setting('extra_working_plan', $provider_id), TRUE);
+
         $provider_appointments = $this->appointments_model->get_batch([
             'id_users_provider' => $provider_id,
         ]);
@@ -810,6 +813,14 @@ class Appointments extends CI_Controller {
         // Find the empty spaces on the plan. The first split between the plan is due to a break (if any). After that
         // every reserved appointment is considered to be a taken space in the plan.
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
+
+        // Search if the $selected_date is an extra date added outside the normal working plan
+        if ($selected_date_working_plan == null) {
+            if (isset($extra_working_plan[strtolower(date('Y-m-d', strtotime($selected_date)))])){
+                $selected_date_working_plan = $extra_working_plan[strtolower(date('Y-m-d', strtotime($selected_date)))];
+            }
+        }
+
 
         $periods = [];
 

@@ -16,6 +16,7 @@
         secretaries    : <?= json_encode($secretaries) ?>,
         services       : <?= json_encode($services) ?>,
         workingPlan    : <?= json_encode(json_decode($working_plan)) ?>,
+        extraWorkingPlan    : <?= json_encode(json_decode($extra_working_plan)) ?>,
         user           : {
             id         : <?= $user_id ?>,
             email      : <?= json_encode($user_email) ?>,
@@ -329,6 +330,35 @@
                                     <th><?= lang('end') ?></th>
                                     <th><?= lang('actions') ?></th>
                                 </tr>
+                            </thead>
+                            <tbody><!-- Dynamic Content --></tbody>
+                        </table>
+
+                        <br>
+
+                        <h3><?= lang('extra_periods') ?></h3>
+
+                        <span class="help-block">
+                            <?= lang('add_extra_periods_during_each_day') ?>
+                        </span>
+
+                        <div>
+                            <button type="button" class="add-extra-periods btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                <?= lang('add_extra_period') ?>
+                            </button>
+                        </div>
+
+                        <br>
+
+                        <table class="extra-periods table table-striped">
+                            <thead>
+                            <tr>
+                                <th><?= lang('day') ?></th>
+                                <th><?= lang('start') ?></th>
+                                <th><?= lang('end') ?></th>
+                                <th><?= lang('actions') ?></th>
+                            </tr>
                             </thead>
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>

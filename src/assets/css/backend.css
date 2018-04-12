@@ -657,8 +657,17 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
+#users-page #providers .extra-periods .btn {
+    margin-right: 5px;
+    padding: 4px 7px;
+}
+
 @-moz-document url-prefix() {
     .breaks .break-day select {
+        height: 36px;
+    }
+
+    .extra-periods .extra-day select {
         height: 36px;
     }
 }

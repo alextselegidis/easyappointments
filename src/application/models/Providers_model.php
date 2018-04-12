@@ -600,6 +600,13 @@ class Providers_Model extends CI_Model {
 
         foreach ($settings as $name => $value)
         {
+            // Sort in descending order the extra working plan days
+            if ($name == 'extra_working_plan') {
+                $value = json_decode($value, true);
+                // Sort the array and put in reverse order
+                krsort($value);
+                $value = json_encode($value);
+            }
             $this->set_setting($name, $value, $provider_id);
         }
     }
@@ -636,6 +643,86 @@ class Providers_Model extends CI_Model {
             ];
             $this->db->insert('ea_services_providers', $service_provider);
         }
+    }
+
+    /**
+     * Save the provider extra working plan days.
+     *
+     * @param array $extra_period Contains the date and the hours of the extra working plan day.
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new extra working plan is correctly saved to DB.
+     *
+     * @throws Exception If start time is after the end time.
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function set_extra_working_day($extra_period, $provider_id)
+    {
+        // Validate period
+        $dateStart = date('Y-m-d', strtotime($extra_period['start_datetime']));
+        $start = date('H:i',strtotime($extra_period['start_datetime']));
+        $end = date('H:i',strtotime($extra_period['end_datetime']));
+        if ($start > $end)
+        {
+            throw new Exception('Unavailable period start must be prior to end.');
+        }
+
+        // Validate provider record
+        $where_clause = [
+            'id' => $provider_id,
+            'id_roles' => $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+        ];
+
+        if ($this->db->get_where('ea_users', $where_clause)->num_rows() == 0)
+        {
+            throw new Exception('Provider id was not found in database.');
+        }
+
+        // Add record to database.
+        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), true);
+
+        $extra_working_plan[$dateStart] = [
+            'start' => $start,
+            'end' => $end,
+            'breaks' => []
+        ];
+
+        $success = $this->set_setting('extra_working_plan', json_encode($extra_working_plan), $provider_id);
+
+        return $success;
+    }
+
+    /**
+     * Delete a provider extra working plan day.
+     *
+     * @param string $extra_period Contains the date to be deleted from the extra working plan.
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new extra working plan is correctly deleted from DB.
+     *
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function delete_extra_working_day($extra_period, $provider_id)
+    {
+        // Validate provider record
+        $where_clause = [
+            'id' => $provider_id,
+            'id_roles' => $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+        ];
+
+        if ($this->db->get_where('ea_users', $where_clause)->num_rows() == 0)
+        {
+            throw new Exception('Provider id was not found in database.');
+        }
+
+        // Add record to database.
+        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), true);
+
+        unset($extra_working_plan[$extra_period]);
+
+        $success = $this->set_setting('extra_working_plan', json_encode($extra_working_plan), $provider_id);
+
+        return $success;
     }
 
     /**

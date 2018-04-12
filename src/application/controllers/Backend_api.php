@@ -799,6 +799,101 @@ class Backend_api extends CI_Controller {
     }
 
     /**
+     * [AJAX] Insert of update extra working plan time period to database.
+     *
+     * Required POST Parameters:
+     *
+     * - array $_POST['extra_period'] JSON encoded array that contains the unavailable period data.
+     */
+    public function ajax_save_extra_period()
+    {
+        try
+        {
+            // Check privileges
+            $extra_period = json_decode($this->input->post('extra_period'), TRUE);
+
+            $REQUIRED_PRIV = ( ! isset($extra_period['id']))
+                ? $this->privileges[PRIV_APPOINTMENTS]['add']
+                : $this->privileges[PRIV_APPOINTMENTS]['edit'];
+            if ($REQUIRED_PRIV == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            $this->load->model('providers_model');
+
+            $success = $this->providers_model->set_extra_working_day($extra_period, $extra_period['id_users_provider']);
+
+            if ( ! $success)
+            {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['warnings' => 'Error on saving extra period.']));
+            }
+            else
+            {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
+            }
+        }
+        catch (Exception $exc)
+        {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+        }
+    }
+
+    /**
+     * [AJAX] Delete an extra working plan time period to database.
+     *
+     * Required POST Parameters:
+     *
+     * - String $_POST['extra_period'] Date to be deleted.
+     * - int $_POST['provider_id'] Record id to be deleted.
+     */
+    public function ajax_delete_extra_period()
+    {
+        try
+        {
+            if ($this->privileges[PRIV_APPOINTMENTS]['delete'] == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            // Check privileges
+            $extra_period = $this->input->post('extra_period');
+            $provider_id = $this->input->post('provider_id');
+
+            $this->load->model('providers_model');
+
+            // Delete unavailable
+            $success = $this->providers_model->delete_extra_working_day($extra_period, $provider_id);
+
+            if ( ! $success)
+            {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(['warnings' => 'Error on deleting extra working day']));
+            }
+            else
+            {
+                $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode(AJAX_SUCCESS));
+            }
+
+        } //
+        catch (Exception $exc) //
+        { //
+            $this->output //
+                ->set_content_type('application/json') //
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]])); //
+        }//
+    } //
+
+    /**
      * [AJAX] Save (insert or update) a customer record.
      *
      * Require POST Parameters:

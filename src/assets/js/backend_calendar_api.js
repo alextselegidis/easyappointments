@@ -85,4 +85,26 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         });
     };
 
-})(window.BackendCalendarApi); 
+    /**
+     * Save extra period of work to database.
+     * @param {Object} extra_periods Contains the extra period data.
+     * @param {Function} successCallback The ajax success callback function.
+     * @param {Function} errorCallback The ajax failure callback function.
+     */
+    exports.saveExtraPeriod = function (extra_periods, successCallback, errorCallback) {
+        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_extra_period';
+        var postData = {
+            csrfToken: GlobalVariables.csrfToken,
+            extra_period: JSON.stringify(extra_periods)
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: postUrl,
+            data: postData,
+            success: successCallback,
+            error: errorCallback
+        });
+    }
+
+})(window.BackendCalendarApi);

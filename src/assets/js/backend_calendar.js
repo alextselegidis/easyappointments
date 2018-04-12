@@ -87,6 +87,7 @@ window.BackendCalendar = window.BackendCalendar || {};
         BackendCalendarGoogleSync.initialize();
         BackendCalendarAppointmentsModal.initialize();
         BackendCalendarUnavailabilitiesModal.initialize();
+        BackendCalendarExtraPeriodsModal.initialize();
 
         _bindEventHandlers();
     };
