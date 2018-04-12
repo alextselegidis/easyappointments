@@ -889,44 +889,44 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
                                 });
 
-                                // Extra working plan day.
-                                var selectedDay = $calendar.fullCalendar('getView').intervalStart.clone();
-                                selectedDay.locale('en');
-                                if (extraWorkingPlan != null && selectedDay.format() in extraWorkingPlan) {
-                                    workingPlan[selectedDay.format('dddd').toLowerCase()] = extraWorkingPlan[selectedDay.format('YYYY-MM-DD')];
-
-                                    var start_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].start;
-                                    var end_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].end;
-
-                                    var extraPeriod = {
-                                        title: EALang.extra_period,
-                                        start: moment(start_extra, 'YYYY-MM-DD HH:mm', true),
-                                        end: moment(end_extra, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
-                                        allDay: true,
-                                        color: '#879DB4',
-                                        editable: false,
-                                        className: 'fc-extra fc-custom',
-                                        data: provider
-                                    };
-
-                                    $calendar.fullCalendar('renderEvent', extraPeriod, false);
-                                }
-
                                 // Non-working day.
                                 if (workingPlan[selectedDayName] == null) {
-                                    unavailablePeriod = {
-                                        title: EALang.not_working,
-                                        start: $calendar.fullCalendar('getView').intervalStart.clone(),
-                                        end: $calendar.fullCalendar('getView').intervalEnd.clone(),
-                                        allDay: false,
-                                        color: '#BEBEBE',
-                                        editable: false,
-                                        className: 'fc-unavailable'
-                                    };
+                                    // Extra working plan day.
+                                    var selectedDay = $calendar.fullCalendar('getView').intervalStart.clone();
+                                    selectedDay.locale('en');
+                                    if (extraWorkingPlan != null && selectedDay.format() in extraWorkingPlan) {
+                                        workingPlan[selectedDay.format('dddd').toLowerCase()] = extraWorkingPlan[selectedDay.format('YYYY-MM-DD')];
 
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                        var start_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].start;
+                                        var end_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].end;
 
-                                    return; // Go to next loop.
+                                        var extraPeriod = {
+                                            title: EALang.extra_period,
+                                            start: moment(start_extra, 'YYYY-MM-DD HH:mm', true),
+                                            end: moment(end_extra, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
+                                            allDay: true,
+                                            color: '#879DB4',
+                                            editable: false,
+                                            className: 'fc-extra fc-custom',
+                                            data: provider
+                                        };
+
+                                        $calendar.fullCalendar('renderEvent', extraPeriod, false);
+                                    } else {
+                                        unavailablePeriod = {
+                                            title: EALang.not_working,
+                                            start: $calendar.fullCalendar('getView').intervalStart.clone(),
+                                            end: $calendar.fullCalendar('getView').intervalEnd.clone(),
+                                            allDay: false,
+                                            color: '#BEBEBE',
+                                            editable: false,
+                                            className: 'fc-unavailable'
+                                        };
+
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+
+                                        return; // Go to next loop.
+                                    }
                                 }
 
                                 // Add unavailable period before work starts.
