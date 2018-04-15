@@ -242,7 +242,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var selectedDate = Date.parse(selectedDateString);
         var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
 
-        if (setDate) {
+        if (setDate && !GlobalVariables.manageMode) {
             for (var i = 1; i <= numberOfDays; i++) {
                 var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(currentDate.toString('yyyy-MM-dd')) === -1) {
