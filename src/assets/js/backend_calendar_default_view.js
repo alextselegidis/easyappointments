@@ -97,17 +97,19 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // Replace string date values with actual date objects.
                 unavailable.start_datetime = lastFocusedEventData.start.format('YYYY-MM-DD HH:mm:ss');
+                var startDatetime = Date.parseExact(unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss');
                 unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
+                var endDatetime = Date.parseExact(unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss');
 
                 $dialog = $('#manage-unavailable');
                 BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
-                $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
+                $dialog.find('#unavailable-start').datetimepicker('setDate', startDatetime);
                 $dialog.find('#unavailable-id').val(unavailable.id);
                 $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
-                $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
+                $dialog.find('#unavailable-end').datetimepicker('setDate', endDatetime);
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
 
