@@ -211,13 +211,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * Load the appointments that correspond to the select filter item and display them on the calendar.
          */
         $('#select-filter-item').change(function () {
-            _refreshCalendarAppointments(
-                $('#calendar'),
-                $('#select-filter-item').val(),
-                $('#select-filter-item option:selected').attr('type'),
-                $('#calendar').fullCalendar('getView').start,
-                $('#calendar').fullCalendar('getView').end);
-
             // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', true);
