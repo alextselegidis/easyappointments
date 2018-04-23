@@ -207,12 +207,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             return;
         }
 
+        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : undefined;
+
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
         var data = {
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrfToken: GlobalVariables.csrfToken
+            csrfToken: GlobalVariables.csrfToken,
+            manage_mode: FrontendBook.manageMode,
+            appointment_id: appointmentId
         };
 
         $.ajax({
