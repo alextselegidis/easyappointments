@@ -140,44 +140,44 @@ CREATE TABLE `ea_user_settings` (
     DEFAULT CHARSET = utf8;
 
 ALTER TABLE `ea_appointments`
-    ADD CONSTRAINT `ea_appointments_ea_users_customer` FOREIGN KEY (`id_users_customer`) REFERENCES `ea_users` (`id`)
+    ADD CONSTRAINT `ea_appointments_users_customer` FOREIGN KEY (`id_users_customer`) REFERENCES `ea_users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    ADD CONSTRAINT `ea_appointments_ea_services` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`)
+    ADD CONSTRAINT `ea_appointments_services` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    ADD CONSTRAINT `ea_appointments_ea_users_provider` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`)
+    ADD CONSTRAINT `ea_appointments_users_provider` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 ALTER TABLE `ea_secretaries_providers`
-    ADD CONSTRAINT `ea_secretaries_ea_users_secretary` FOREIGN KEY (`id_users_secretary`) REFERENCES `ea_users` (`id`)
+    ADD CONSTRAINT `ea_secretaries_users_secretary` FOREIGN KEY (`id_users_secretary`) REFERENCES `ea_users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    ADD CONSTRAINT `ea_secretaries_ea_users_provider` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`)
+    ADD CONSTRAINT `ea_secretaries_users_provider` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 ALTER TABLE `ea_services`
-    ADD CONSTRAINT `ea_services_ea_service_categories` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`)
+    ADD CONSTRAINT `ea_services_service_categories` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE;
 
 ALTER TABLE `ea_services_providers`
-    ADD CONSTRAINT `ea_services_providers_ea_users_provider` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
+    ADD CONSTRAINT `ea_services_providers_users_provider` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    ADD CONSTRAINT `ea_services_providers_ea_services` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`)
+    ADD CONSTRAINT `ea_services_providers_services` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 ALTER TABLE `ea_users`
-    ADD CONSTRAINT `ea_users_ea_roles` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`)
+    ADD CONSTRAINT `ea_users_roles` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 ALTER TABLE `ea_user_settings`
-    ADD CONSTRAINT `ea_user_settings_ea_users` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
+    ADD CONSTRAINT `ea_user_settings_users` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
 
