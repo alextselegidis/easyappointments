@@ -15,12 +15,21 @@ class Migration_Add_date_format_setting extends CI_Migration {
     public function up()
     {
         $this->load->model('settings_model');
-        $this->settings_model->set_setting('date_format', DATE_FORMAT_DMY);
+
+        try
+        {
+            $this->settings_model->get_setting('date_format');
+        }
+        catch (Exception $exception)
+        {
+            $this->settings_model->set_setting('date_format', DATE_FORMAT_DMY);
+        }
     }
 
     public function down()
     {
         $this->load->model('settings_model');
+
         $this->settings_model->remove_setting('date_format');
     }
 }
