@@ -3,7 +3,7 @@
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
     backupGlobals="true"
     backupStaticAttributes="false"
-    bootstrap="bootstrap.php"
+    bootstrap="test/php/bootstrap.php"
     cacheTokens="false"
     colors="false"
     convertErrorsToExceptions="true"
@@ -25,7 +25,7 @@
     verbose="false">
     <filter>
         <whitelist>
-            <directory suffix=".php">../src/engine</directory>
+            <directory suffix=".php">src/engine</directory>
         </whitelist>
     </filter>
 

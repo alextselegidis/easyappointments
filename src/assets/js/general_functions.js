@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -410,8 +410,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {String} Returns the formatted date string.
      */
     exports.formatDate = function (date, dateFormatSetting, addHours) {
-        var format, result;
-        var hours = addHours ? ' h:mm tt' : '';
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+        var hours = addHours ? ' ' + timeFormat : '';
+        var result;
 
         switch (dateFormatSetting) {
             case 'DMY':

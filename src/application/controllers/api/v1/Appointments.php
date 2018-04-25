@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -50,8 +50,16 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
-            $appointments = $this->appointments_model->get_batch($condition, array_key_exists('aggregates', $_GET));
+            $conditions = [
+                'is_unavailable' => FALSE
+            ];
+
+            if ($id !== NULL)
+            {
+                $conditions['id'] = $id;
+            }
+
+            $appointments = $this->appointments_model->get_batch($conditions, array_key_exists('aggregates', $_GET));
 
             if ($id !== NULL && count($appointments) === 0)
             {

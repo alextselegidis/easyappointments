@@ -8,31 +8,28 @@
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
- * @since       v1.0.0
+ * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Specific_calendar_sync extends CI_Migration {
-
+class Migration_Add_time_format_setting extends CI_Migration {
     public function up()
     {
-        if ( ! $this->db->field_exists('google_calendar', 'ea_user_settings'))
+        $this->load->model('settings_model');
+
+        try
         {
-            $fields = [
-                'google_calendar' => [
-                    'type' => 'VARCHAR',
-                    'constraint' => '128',
-                    'null' => TRUE
-                ]
-            ];
-            $this->dbforge->add_column('ea_user_settings', $fields);
+            $this->settings_model->get_setting('time_format');
+        }
+        catch (Exception $exception)
+        {
+            $this->settings_model->set_setting('time_format', 'regular');
         }
     }
 
     public function down()
     {
-        if ($this->db->field_exists('google_calendar', 'ea_user_settings'))
-        {
-            $this->dbforge->drop_column('ea_user_settings', 'google_calendar');
-        }
+        $this->load->model('settings_model');
+
+        $this->settings_model->remove_setting('time_format');
     }
 }

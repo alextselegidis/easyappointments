@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -75,6 +75,7 @@ class Appointments extends CI_Controller {
             $available_providers = $this->providers_model->get_available_providers();
             $company_name = $this->settings_model->get_setting('company_name');
             $date_format = $this->settings_model->get_setting('date_format');
+            $time_format = $this->settings_model->get_setting('time_format');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -132,6 +133,7 @@ class Appointments extends CI_Controller {
                 'company_name' => $company_name,
                 'manage_mode' => $manage_mode,
                 'date_format' => $date_format,
+                'time_format' => $time_format,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
                 'customer_data' => $customer
@@ -180,7 +182,8 @@ class Appointments extends CI_Controller {
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format')
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
@@ -470,7 +473,8 @@ class Appointments extends CI_Controller {
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'date_format' => $this->settings_model->get_setting('date_format')
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
             // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
@@ -605,11 +609,33 @@ class Appointments extends CI_Controller {
             $selected_date = new DateTime($selected_date_string);
             $number_of_days_in_month = (int)$selected_date->format('t');
             $unavailable_dates = [];
+            $manage_mode = filter_var($this->input->get('manage_mode'), FILTER_VALIDATE_BOOLEAN);
+
+            $exclude_appointments = ($_REQUEST['manage_mode'] === 'true')
+                ? [$_REQUEST['appointment_id']]
+                : [];
 
             // Handle the "Any Provider" case.
             if ($provider_id === ANY_PROVIDER)
             {
                 $provider_id = $this->_search_any_provider($service_id, $selected_date_string);
+
+                if ($provider_id === null) {
+                    $current_date = new DateTime($selected_date_string);
+                    $current_date->add(new DateInterval('P1D'));
+
+                    do
+                    {
+                        $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d H:i:s'));
+
+                        if ($provider_id)
+                        {
+                            break;
+                        }
+
+                        $current_date->add(new DateInterval('P1D'));
+                    } while ((int)$current_date->format('d') <= $number_of_days_in_month);
+                }
 
                 if ($provider_id === NULL)
                 {
@@ -649,10 +675,10 @@ class Appointments extends CI_Controller {
 
                 $empty_periods = $this->_get_provider_available_time_periods($provider_id,
                     $service_id,
-                    $current_date->format('Y-m-d'));
+                    $current_date->format('Y-m-d'), $exclude_appointments);
 
                 $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
-                    $service['duration'], FALSE, $service['availabilities_type']);
+                    $service['duration'], $manage_mode, $service['availabilities_type']);
 
                 if ($service['attendants_number'] > 1)
                 {
@@ -864,6 +890,11 @@ class Appointments extends CI_Controller {
                             'end' => $period_end->format('H:i')
                         ];
 
+                        $remove_current_period = TRUE;
+                    }
+
+                    if ($break_start == $period_start && $break_end == $period_end)
+                    {
                         $remove_current_period = TRUE;
                     }
 

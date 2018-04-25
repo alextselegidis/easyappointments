@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -311,7 +311,8 @@ class Backend_api extends CI_Controller {
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
-                'date_format' => $this->settings_model->get_setting('date_format')
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
@@ -461,7 +462,8 @@ class Backend_api extends CI_Controller {
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format')
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM DATABASE
