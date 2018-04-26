@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -97,17 +97,19 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // Replace string date values with actual date objects.
                 unavailable.start_datetime = lastFocusedEventData.start.format('YYYY-MM-DD HH:mm:ss');
+                var startDatetime = Date.parseExact(unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss');
                 unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
+                var endDatetime = Date.parseExact(unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss');
 
                 $dialog = $('#manage-unavailable');
                 BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
-                $dialog.find('#unavailable-start').datetimepicker('setDate', unavailable.start_datetime);
+                $dialog.find('#unavailable-start').datetimepicker('setDate', startDatetime);
                 $dialog.find('#unavailable-id').val(unavailable.id);
                 $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
-                $dialog.find('#unavailable-end').datetimepicker('setDate', unavailable.end_datetime);
+                $dialog.find('#unavailable-end').datetimepicker('setDate', endDatetime);
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
             }
 
@@ -209,13 +211,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * Load the appointments that correspond to the select filter item and display them on the calendar.
          */
         $('#select-filter-item').change(function () {
-            _refreshCalendarAppointments(
-                $('#calendar'),
-                $('#select-filter-item').val(),
-                $('#select-filter-item option:selected').attr('type'),
-                $('#calendar').fullCalendar('getView').start,
-                $('#calendar').fullCalendar('getView').end);
-
             // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', true);
@@ -789,6 +784,16 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $calendar.fullCalendar('removeEvents');
             $calendar.fullCalendar('addEventSource', calendarEvents);
 
+            var weekDays = [
+                'sunday', 
+                'monday', 
+                'tuesday', 
+                'wednesday', 
+                'thursday', 
+                'friday', 
+                'saturday' 
+            ];
+
             // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
             var calendarView = $calendar.fullCalendar('getView').name;
 
@@ -800,7 +805,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                         switch (calendarView) {
                             case 'agendaDay':
-                                var selectedDayName = $calendar.fullCalendar('getView').start.format('dddd').toLowerCase();
+                                var selectedDayName = weekDays[$calendar.fullCalendar('getView').start.format('d')];
 
                                 // Add custom unavailable periods.
                                 $.each(response.unavailables, function (index, unavailable) {
@@ -997,7 +1002,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                             allDay: false,
                                             color: '#BEBEBE',
                                             editable: false,
-                                            className: 'fc-unavailable fc-brake'
+                                            className: 'fc-unavailable fc-break'
                                         };
 
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
@@ -1072,8 +1077,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 slotTimeFormat = 'H(:mm)';
                 break;
             case 'regular':
-                timeFormat = 'h:mm A';
-                slotTimeFormat = 'h(:mm) A';
+                timeFormat = 'h:mm a';
+                slotTimeFormat = 'h(:mm) a';
                 break;
             default:
                 throw new Error('Invalid time format setting provided!', GlobalVariables.timeFormat);

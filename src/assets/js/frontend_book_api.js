@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -207,12 +207,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             return;
         }
 
+        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : undefined;
+
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
         var data = {
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrfToken: GlobalVariables.csrfToken
+            csrfToken: GlobalVariables.csrfToken,
+            manage_mode: FrontendBook.manageMode,
+            appointment_id: appointmentId
         };
 
         $.ajax({
@@ -242,7 +246,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var selectedDate = Date.parse(selectedDateString);
         var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
 
-        if (setDate) {
+        if (setDate && !GlobalVariables.manageMode) {
             for (var i = 1; i <= numberOfDays; i++) {
                 var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(currentDate.toString('yyyy-MM-dd')) === -1) {

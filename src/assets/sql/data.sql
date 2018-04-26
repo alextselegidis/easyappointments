@@ -18,4 +18,4 @@ VALUES
     ('time_format', 'regular'),
     ('require_captcha', '0');
 
-INSERT INTO `ea_migrations` VALUES ('10');
+INSERT INTO `ea_migrations` VALUES ('11');
