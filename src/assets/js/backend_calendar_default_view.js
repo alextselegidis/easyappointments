@@ -1002,7 +1002,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                             allDay: false,
                                             color: '#BEBEBE',
                                             editable: false,
-                                            className: 'fc-unavailable fc-break'
+                                            className: 'fc-unavailable'
                                         };
 
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
