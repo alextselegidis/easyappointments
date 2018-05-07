@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -686,7 +686,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             $event.html(
                 appointment.customer.first_name.charAt(0) + '. ' + appointment.customer.last_name +
-                ' <span class="hour">' + startDate.toString(GlobalVariables.timeFormat) + '</span> '
+                ' <span class="hour">' + startDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') + '</span> '
                 + (eventDuration !== parseInt(appointment.service.duration) ? '(' + eventDuration + '\')' : '')
             );
 
@@ -708,7 +708,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $event.appendTo($(tr).prev().find('td').eq(cellIndex));
 
                     // Remove the hour from the event if it is the same as the row. 
-                    if (eventDate.toString(GlobalVariables.timeFormat) === $(tr).prev().find('td').eq(0).text()) {
+                    if (eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
 
@@ -747,7 +747,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var $event = $('<div class="event unavailability" />');
 
             $event.html((unavailability.notes || EALang.unavailable) +
-                ' <span class="hour">' + eventDate.toString(GlobalVariables.timeFormat) + '</span> (' + eventDuration + '\')');
+                ' <span class="hour">' + eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') + '</span> (' + eventDuration + '\')');
 
             $event.data(unavailability);
 
@@ -763,7 +763,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $event.appendTo($(tr).prev().find('td').eq(1));
 
                     // Remove the hour from the event if it is the same as the row. 
-                    if (eventDate.toString(GlobalVariables.timeFormat) === $(tr).prev().find('td').eq(0).text()) {
+                    if (eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
 
@@ -798,7 +798,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             $event.html(
                 EALang.break +
-                ' <span class="hour">' + eventDate.toString(GlobalVariables.timeFormat) + '</span> (' + eventDuration + '\')');
+                ' <span class="hour">' + eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') + '</span> (' + eventDuration + '\')');
 
             $event.data(entry);
 
@@ -812,7 +812,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 if (eventDate < cellDate) {
                     // Remove the hour from the event if it is the same as the row. 
-                    if (eventDate.toString(GlobalVariables.timeFormat) === $(tr).prev().find('td').eq(0).text()) {
+                    if (eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
 

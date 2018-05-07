@@ -14,14 +14,22 @@
 class Migration_Add_time_format_setting extends CI_Migration {
     public function up()
     {
-        $this->db->insert('ea_settings', [
-            'name' => 'time_format',
-            'value' => 'regular'
-        ]);
+        $this->load->model('settings_model');
+
+        try
+        {
+            $this->settings_model->get_setting('time_format');
+        }
+        catch (Exception $exception)
+        {
+            $this->settings_model->set_setting('time_format', 'regular');
+        }
     }
 
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'time_format']);
+        $this->load->model('settings_model');
+
+        $this->settings_model->remove_setting('time_format');
     }
 }
