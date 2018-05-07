@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -183,7 +183,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         $dialog.find('#unavailable-start').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -213,7 +213,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
         $dialog.find('#unavailable-end').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,

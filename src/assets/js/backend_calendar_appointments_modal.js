@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2017, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -106,7 +106,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Define error callback.
             var errorCallback = function () {
-                $dialog.find('.modal-message').text(EALang.server_communication_error);
+                $dialog.find('.modal-message').text(EALang.service_communication_error);
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
                 $dialog.find('.modal-body').scrollTop(0);
             };
@@ -391,7 +391,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#start-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
@@ -421,7 +421,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#end-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
             dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
