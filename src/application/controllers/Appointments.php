@@ -626,7 +626,7 @@ class Appointments extends CI_Controller {
 
                     do
                     {
-                        $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d H:i:s'));
+                        $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d'));
 
                         if ($provider_id)
                         {
