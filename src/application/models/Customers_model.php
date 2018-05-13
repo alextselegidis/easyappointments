@@ -358,7 +358,7 @@ class Customers_Model extends CI_Model {
             $this->db->where($where_clause);
         }
 
-        $this->db->where('id_roles', $customers_role_id);
+        $this->db->where('id_roles', $customers_role_id)->limit(50);
 
         return $this->db->get('ea_users')->result_array();
     }
