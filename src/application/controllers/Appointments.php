@@ -615,48 +615,9 @@ class Appointments extends CI_Controller {
                 ? [$_REQUEST['appointment_id']]
                 : [];
 
-            // Handle the "Any Provider" case.
-            if ($provider_id === ANY_PROVIDER)
-            {
-                $provider_id = $this->_search_any_provider($service_id, $selected_date_string);
+            $provider_list = ($provider_id === ANY_PROVIDER) ? $this->_search_providers_by_service($service_id) : [$provider_id] ;
 
-                if ($provider_id === null) {
-                    $current_date = new DateTime($selected_date_string);
-                    $current_date->add(new DateInterval('P1D'));
-
-                    do
-                    {
-                        $provider_id = $this->_search_any_provider($service_id, $current_date->format('Y-m-d'));
-
-                        if ($provider_id)
-                        {
-                            break;
-                        }
-
-                        $current_date->add(new DateInterval('P1D'));
-                    } while ((int)$current_date->format('d') <= $number_of_days_in_month);
-                }
-
-                if ($provider_id === NULL)
-                {
-                    // No provider is available in the selected date.
-                    for ($i = 1; $i <= $number_of_days_in_month; $i++)
-                    {
-                        $current_date = new DateTime($selected_date->format('Y-m') . '-' . $i);
-                        $unavailable_dates[] = $current_date->format('Y-m-d');
-                    }
-
-                    $this->output
-                        ->set_content_type('application/json')
-                        ->set_output(json_encode($unavailable_dates));
-
-                    return;
-                }
-            }
-
-            // Get the provider record.
             $this->load->model('providers_model');
-            $provider = $this->providers_model->get_row($provider_id);
 
             // Get the service record.
             $this->load->model('services_model');
@@ -673,19 +634,29 @@ class Appointments extends CI_Controller {
                     continue;
                 }
 
-                $empty_periods = $this->_get_provider_available_time_periods($provider_id,
-                    $service_id,
-                    $current_date->format('Y-m-d'), $exclude_appointments);
-
-                $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
-                    $service['duration'], $manage_mode, $service['availabilities_type']);
-
-                if ($service['attendants_number'] > 1)
+                // Finding at least one slot of availablity
+                foreach ($provider_list as $curr_provider_id)
                 {
-                    $available_hours = $this->_get_multiple_attendants_hours($current_date->format('Y-m-d'), $service,
-                        $provider);
+                    // Get the provider record.
+                    $curr_provider = $this->providers_model->get_row($curr_provider_id);
+                    
+                    $empty_periods = $this->_get_provider_available_time_periods($curr_provider_id,
+                        $service_id,
+                        $current_date->format('Y-m-d'), $exclude_appointments);
+
+                    $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
+                        $service['duration'], $manage_mode, $service['availabilities_type']);
+                    if (! empty($available_hours)) break;
+                    
+                    if ($service['attendants_number'] > 1)
+                    {
+                        $available_hours = $this->_get_multiple_attendants_hours($current_date->format('Y-m-d'), $service,
+                            $curr_provider);
+                        if (! empty($available_hours)) break;
+                    }
                 }
 
+                // No availability amongst all the provider
                 if (empty($available_hours))
                 {
                     $unavailable_dates[] = $current_date->format('Y-m-d');
@@ -1030,6 +1001,36 @@ class Appointments extends CI_Controller {
         }
 
         return $provider_id;
+    }
+
+    /**
+     * Search for any provider that can handle the requested service.
+     *
+     * This method will return the database ID of the providers affected to the requested service.
+     *
+     * @param numeric $service_id The requested service ID.
+     *
+     * @return array Returns the ID of the provider that can provide the requested service.
+     */
+    protected function _search_providers_by_service($service_id)
+    {
+        $this->load->model('providers_model');
+        $available_providers = $this->providers_model->get_available_providers();
+        $provider_list = array();
+
+        foreach ($available_providers as $provider)
+        {
+            foreach ($provider['services'] as $provider_service_id)
+            {
+                if ($provider_service_id === $service_id)
+                {
+                    // Check if the provider is affected to the selected service.
+                    $provider_list[] = $provider['id'];
+                }
+            }
+        }
+
+        return $provider_list;
     }
 
     /**
