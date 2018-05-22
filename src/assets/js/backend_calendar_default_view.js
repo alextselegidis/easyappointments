@@ -218,6 +218,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#calendar').fullCalendar('option', 'editable', false);
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', false);
+                $('#calendar').fullCalendar('option', 'selectable', true);
                 $('#calendar').fullCalendar('option', 'editable', true);
 
                 // If the user has already the sync enabled then apply the proper style changes.

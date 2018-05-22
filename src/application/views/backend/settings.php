@@ -28,24 +28,26 @@
     });
 </script>
 
+<?php $first = ""; ?>
+
 <div id="settings-page" class="container-fluid">
     <ul class="nav nav-tabs" role="tablist">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation" class="active">
+            <li role="presentation" <?php if(empty($first)) { echo 'class="active"'; $first = 'general';} ?>>
                 <a href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation">
+            <li role="presentation" <?php if(empty($first)) { echo 'class="active"'; $first = 'business-logic';} ?>>
                 <a href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation">
+            <li role="presentation" <?php if(empty($first)) { echo 'class="active"'; $first = 'current-user';} ?>>
                 <a href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
             </li>
         <?php endif ?>
-        <li role="presentation">
+        <li role="presentation" <?php if(empty($first)) { echo 'class="active"'; $first = 'about-app';} ?>>
             <a href="#about-app" aria-controls="about-app" role="tab" data-toggle="tab"><?= lang('about_app') ?></a>
         </li>
     </ul>
@@ -55,7 +57,7 @@
         <!-- GENERAL TAB -->
 
         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
-        <div role="tabpanel" class="tab-pane active <?= $hidden ?>" id="general">
+        <div role="tabpanel" class="tab-pane <?php if($first === 'general') echo 'active'; ?> <?= $hidden ?>" id="general">
             <form>
                 <fieldset>
                     <legend>
@@ -163,7 +165,7 @@
         <!-- BUSINESS LOGIC TAB -->
 
         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
-        <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="business-logic">
+        <div role="tabpanel" class="tab-pane <?php if($first === 'business-logic') echo 'active'; ?> <?= $hidden ?>" id="business-logic">
             <form>
                 <fieldset>
                     <legend>
@@ -327,7 +329,7 @@
         <!-- CURRENT USER TAB -->
 
         <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
-        <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="current-user">
+        <div role="tabpanel" class="tab-pane <?php if($first === 'current-user') echo 'active'; ?> <?= $hidden ?>" id="current-user">
             <form>
                 <div class="row">
                     <fieldset class="col-xs-12 col-sm-6 personal-info-wrapper">
@@ -432,7 +434,7 @@
 
         <!-- ABOUT TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="about-app">
+        <div role="tabpanel" class="tab-pane <?php if($first === 'general') echo 'about-app'; ?>" id="about-app">
             <h3>Easy!Appointments</h3>
 
             <p>
