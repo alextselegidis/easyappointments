@@ -68,6 +68,10 @@ class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
             ADD CONSTRAINT `user_settings_users` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
             ON DELETE CASCADE
             ON UPDATE CASCADE');
+                                
+        // The name of these indexes changed in the file structure.sql of EA! 1.3.1 so we need to update it
+        $this->db->query('ALTER TABLE ea_secretaries_providers DROP KEY fk_ea_secretaries_providers_1, ADD KEY id_users_secretary (id_users_secretary)');
+        $this->db->query('ALTER TABLE ea_secretaries_providers DROP KEY fk_ea_secretaries_providers_2, ADD KEY id_users_provider (id_users_provider)');
     }
 
     public function down()

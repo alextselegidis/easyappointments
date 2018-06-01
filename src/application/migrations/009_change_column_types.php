@@ -31,22 +31,26 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11',
                 'auto_increment' => TRUE
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ],
             'id_users_customer' => [
                 'name' => 'id_users_customer',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ]
         ];
@@ -58,6 +62,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11',
                 'auto_increment' => TRUE
             ],
@@ -100,11 +105,13 @@ class Migration_Change_column_types extends CI_Migration {
             'id_users_secretary' => [
                 'name' => 'id_users_secretary',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ]
         ];
@@ -116,12 +123,14 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11',
                 'auto_increment' => TRUE
             ],
             'id_service_categories' => [
                 'name' => 'id_service_categories',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ]
         ];
@@ -133,11 +142,13 @@ class Migration_Change_column_types extends CI_Migration {
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ]
         ];
@@ -149,6 +160,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11',
                 'auto_increment' => TRUE
             ]
@@ -161,6 +173,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11',
                 'auto_increment' => TRUE
             ]
@@ -173,12 +186,15 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11',
                 'auto_increment' => TRUE
             ],
             'id_roles' => [
                 'name' => 'id_roles',
                 'type' => 'int',
+                'unsigned' => TRUE,
+                'null' => FALSE,
                 'constraint' => '11'
             ]
         ];
@@ -190,6 +206,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'int',
+                'unsigned' => TRUE,
                 'constraint' => '11'
             ]
         ];
@@ -218,6 +235,9 @@ class Migration_Change_column_types extends CI_Migration {
 
         $this->db->query('ALTER TABLE `ea_user_settings`
             ADD CONSTRAINT `ea_user_settings_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
+        
+        // Change charset of ea_secretaries_providers table for databases created with EA! 1.2.1 version
+        $this->db->query('ALTER TABLE ea_secretaries_providers CONVERT TO CHARACTER SET utf8');
     }
 
     public function down()
@@ -239,22 +259,26 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20',
                 'auto_increment' => TRUE
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ],
             'id_users_customer' => [
                 'name' => 'id_users_customer',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ]
         ];
@@ -267,6 +291,7 @@ class Migration_Change_column_types extends CI_Migration {
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
+                'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ],
             'appointments' => [
@@ -308,28 +333,32 @@ class Migration_Change_column_types extends CI_Migration {
             'id_users_secretary' => [
                 'name' => 'id_users_secretary',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ]
         ];
 
-        $this->dbforge->modify_column('ea_roles', $fields);
+        $this->dbforge->modify_column('ea_secretaries_providers', $fields);
 
         // Services
         $fields = [
             'id' => [
                 'name' => 'id',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20',
                 'auto_increment' => TRUE
             ],
             'id_service_categories' => [
                 'name' => 'id_service_categories',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ]
         ];
@@ -341,11 +370,13 @@ class Migration_Change_column_types extends CI_Migration {
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ]
         ];
@@ -357,6 +388,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20',
                 'auto_increment' => TRUE
             ]
@@ -369,6 +401,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20',
                 'auto_increment' => TRUE
             ]
@@ -381,12 +414,15 @@ class Migration_Change_column_types extends CI_Migration {
             'id' => [
                 'name' => 'id',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20',
                 'auto_increment' => TRUE
             ],
             'id_roles' => [
                 'name' => 'id',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
+                'null' => FALSE,
                 'constraint' => '20'
             ]
         ];
@@ -398,6 +434,7 @@ class Migration_Change_column_types extends CI_Migration {
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'bigint',
+                'unsigned' => TRUE,
                 'constraint' => '20'
             ]
         ];
