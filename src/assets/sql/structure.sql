@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
     `notes` TEXT,
     `hash` TEXT,
     `is_unavailable` TINYINT(4) DEFAULT '0',
-    `id_users_provider` INT(11)
-    `id_users_customer` INT(11)
-    `id_services` INT(11)
+    `id_users_provider` INT(11),
+    `id_users_customer` INT(11),
+    `id_services` INT(11),
     `id_google_calendar` TEXT,
     PRIMARY KEY (`id`),
     KEY `id_users_customer` (`id_users_customer`),
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
     `description` TEXT,
     `availabilities_type` VARCHAR(32) DEFAULT 'flexible',
     `attendants_number` INT(11) DEFAULT '1',
-    `id_service_categories` INT(11)
+    `id_service_categories` INT(11),
     PRIMARY KEY (`id`),
     KEY `id_service_categories` (`id_service_categories`)
 )
