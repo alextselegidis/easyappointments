@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #475: Booking page date selection is broken with any_provider option selected.
 - #483: In backend, calendar for providers become unselectable if switched to calendar for service.
 - #491: Replace hardcoded string with translation in appointment details email template.
+- #495: Database migration fixes (from 1.2.1 to 1.3.x).
 
 ## [1.3.0]
 
