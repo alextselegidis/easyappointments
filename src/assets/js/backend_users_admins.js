@@ -102,8 +102,7 @@
             $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').removeClass('required');
             $('#admin-notifications').prop('disabled', false);
-
-            $('#filter-admins .filter').prop('disabled', true);
+            $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
         });
 
