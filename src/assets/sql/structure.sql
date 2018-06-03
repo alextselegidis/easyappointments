@@ -2,16 +2,16 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `ea_appointments` (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `book_datetime` DATETIME,
     `start_datetime` DATETIME,
     `end_datetime` DATETIME,
     `notes` TEXT,
     `hash` TEXT,
     `is_unavailable` TINYINT(4) DEFAULT '0',
-    `id_users_provider` BIGINT(20) UNSIGNED,
-    `id_users_customer` BIGINT(20) UNSIGNED,
-    `id_services` BIGINT(20) UNSIGNED,
+    `id_users_provider` INT(11)
+    `id_users_customer` INT(11)
+    `id_services` INT(11)
     `id_google_calendar` TEXT,
     PRIMARY KEY (`id`),
     KEY `id_users_customer` (`id_users_customer`),
@@ -29,15 +29,15 @@ CREATE TABLE `ea_migrations` (
     DEFAULT CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `ea_roles` (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(256),
     `slug` VARCHAR(256),
     `is_admin` TINYINT(4),
-    `appointments` INT(4),
-    `customers` INT(4),
-    `services` INT(4),
-    `users` INT(4),
-    `system_settings` INT(4),
+    `appointments` INT(11),
+    `customers` INT(11),
+    `services` INT(11),
+    `users` INT(11),
+    `system_settings` INT(11),
     `user_settings` INT(11),
     PRIMARY KEY (`id`)
 )
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `ea_roles` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
-    `id_users_secretary` BIGINT(20) UNSIGNED NOT NULL,
-    `id_users_provider` BIGINT(20) UNSIGNED NOT NULL,
+    `id_users_secretary` INT(11) NOT NULL,
+    `id_users_provider` INT(11) NOT NULL,
     PRIMARY KEY (`id_users_secretary`, `id_users_provider`),
     KEY `id_users_secretary` (`id_users_secretary`),
     KEY `id_users_provider` (`id_users_provider`)
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `ea_secretaries_providers` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_services` (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(256),
     `duration` INT(11),
     `price` DECIMAL(10, 2),
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
     `description` TEXT,
     `availabilities_type` VARCHAR(32) DEFAULT 'flexible',
     `attendants_number` INT(11) DEFAULT '1',
-    `id_service_categories` BIGINT(20) UNSIGNED,
+    `id_service_categories` INT(11)
     PRIMARY KEY (`id`),
     KEY `id_service_categories` (`id_service_categories`)
 )
@@ -74,8 +74,8 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_services_providers` (
-    `id_users` BIGINT(20) UNSIGNED NOT NULL,
-    `id_services` BIGINT(20) UNSIGNED NOT NULL,
+    `id_users` INT(11) NOT NULL,
+    `id_services` INT(11) NOT NULL,
     PRIMARY KEY (`id_users`, `id_services`),
     KEY `id_services` (`id_services`)
 )
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `ea_services_providers` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_service_categories` (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(256),
     `description` TEXT,
     PRIMARY KEY (`id`)
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_settings` (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(512),
     `value` LONGTEXT,
     PRIMARY KEY (`id`)
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `ea_settings` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_users` (
-    `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `first_name` VARCHAR(256),
     `last_name` VARCHAR(512),
     `email` VARCHAR(512),
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
     `state` VARCHAR(128),
     `zip_code` VARCHAR(64),
     `notes` TEXT,
-    `id_roles` BIGINT(20) UNSIGNED NOT NULL,
+    `id_roles` INT(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `id_roles` (`id_roles`)
 )
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
 
 
 CREATE TABLE IF NOT EXISTS `ea_user_settings` (
-    `id_users` BIGINT(20) UNSIGNED NOT NULL,
+    `id_users` INT(11) NOT NULL,
     `username` VARCHAR(256),
     `password` VARCHAR(512),
     `salt` VARCHAR(512),

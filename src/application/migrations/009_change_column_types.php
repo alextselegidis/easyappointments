@@ -218,6 +218,9 @@ class Migration_Change_column_types extends CI_Migration {
 
         $this->db->query('ALTER TABLE `ea_user_settings`
             ADD CONSTRAINT `ea_user_settings_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
+
+        // Change charset of ea_secretaries_providers table for databases created with EA! 1.2.1 version
+        $this->db->query('ALTER TABLE ea_secretaries_providers CONVERT TO CHARACTER SET utf8');
     }
 
     public function down()
