@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #441: Added time format selection
 - #452: Provide more information when errors occur during the installation. 
 
+## Changed
+
+- #494: French translation corrections/improvements.
+
 ## Fixed
 
 - #433: Selected date when editing an appointment
