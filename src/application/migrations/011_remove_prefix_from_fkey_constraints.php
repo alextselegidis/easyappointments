@@ -15,16 +15,16 @@ class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
     public function up()
     {
         // Drop table constraints.
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ea_services');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ea_users_customer');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ea_users_provider');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY ea_secretaries_ea_users_secretary');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY ea_secretaries_ea_users_provider');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ea_users_provider');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ea_services');
-        $this->db->query('ALTER TABLE ea_services DROP FOREIGN KEY ea_services_ea_service_categories');
-        $this->db->query('ALTER TABLE ea_users DROP FOREIGN KEY ea_users_ea_roles');
-        $this->db->query('ALTER TABLE ea_user_settings DROP FOREIGN KEY ea_user_settings_ea_users');
+        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_2');
+        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_3');
+        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_4');
+        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_1');
+        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_2');
+        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_1');
+        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_2');
+        $this->db->query('ALTER TABLE ea_services DROP FOREIGN KEY ea_services_ibfk_1');
+        $this->db->query('ALTER TABLE ea_users DROP FOREIGN KEY ea_users_ibfk_1');
+        $this->db->query('ALTER TABLE ea_user_settings DROP FOREIGN KEY ea_user_settings_ibfk_1');
 
         // Add table constraints again without the "ea" prefix.
         $this->db->query('ALTER TABLE `ea_appointments`
@@ -86,45 +86,25 @@ class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
 
         // Add table constraints again.
         $this->db->query('ALTER TABLE `ea_appointments`
-            ADD CONSTRAINT `ea_appointments_ea_users_customer` FOREIGN KEY (`id_users_customer`) REFERENCES `ea_users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-            ADD CONSTRAINT `ea_appointments_ea_services` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-            ADD CONSTRAINT `ea_appointments_ea_users_provider` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE');
+            ADD CONSTRAINT `ea_appointments_ibfk_2` FOREIGN KEY (`id_users_customer`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `ea_appointments_ibfk_3` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `ea_appointments_ibfk_4` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `ea_secretaries_providers`
-            ADD CONSTRAINT `ea_secretaries_ea_users_secretary` FOREIGN KEY (`id_users_secretary`) REFERENCES `ea_users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-            ADD CONSTRAINT `ea_secretaries_ea_users_provider` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE');
+            ADD CONSTRAINT `fk_ea_secretaries_providers_1` FOREIGN KEY (`id_users_secretary`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `fk_ea_secretaries_providers_2` FOREIGN KEY (`id_users_provider`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `ea_services`
-            ADD CONSTRAINT `ea_services_ea_service_categories` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`)
-            ON DELETE SET NULL
-            ON UPDATE CASCADE');
+            ADD CONSTRAINT `ea_services_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `ea_service_categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `ea_services_providers`
-            ADD CONSTRAINT `ea_services_providers_ea_users_provider` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-            ADD CONSTRAINT `ea_services_providers_ea_services` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE');
+            ADD CONSTRAINT `ea_services_providers_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            ADD CONSTRAINT `ea_services_providers_ibfk_2` FOREIGN KEY (`id_services`) REFERENCES `ea_services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `ea_users`
-            ADD CONSTRAINT `ea_users_ea_roles` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE');
+            ADD CONSTRAINT `ea_users_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `ea_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `ea_user_settings`
-            ADD CONSTRAINT `ea_user_settings_ea_users` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE');
+            ADD CONSTRAINT `ea_user_settings_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `ea_users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
     }
 }
