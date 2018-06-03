@@ -242,7 +242,7 @@ class Email {
             '$appointment_service' => $service['name'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             '$appointment_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
-            '$appointment_duration' => $service['duration'] . ' minutes',
+            '$appointment_duration' => $service['duration'] . ' ' . $this->framework->lang->line('minutes'),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
             '$customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
