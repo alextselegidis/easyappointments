@@ -327,10 +327,11 @@ class Email {
      */
     protected function _createMailer()
     {
-        $mailer = new \PHPMailer;
+        $mailer = new \PHPMailer;        
 
         if ($this->config['protocol'] === 'smtp')
         {
+        	$mailer->SMTPDebug  = 3;
             $mailer->isSMTP();
             $mailer->Host = $this->config['smtp_host'];
             $mailer->SMTPAuth = TRUE;
@@ -338,6 +339,17 @@ class Email {
             $mailer->Password = $this->config['smtp_pass'];
             $mailer->SMTPSecure = $this->config['smtp_crypto'];
             $mailer->Port = $this->config['smtp_port'];
+            
+            if ( $this->config['disable_certificate_check'] )
+            {
+            	$mailer->SMTPOptions = array(
+            			'ssl' => array(
+            					'verify_peer' => false,
+            					'verify_peer_name' => false,
+            					'allow_self_signed' => true
+            			)
+            	);
+            }
         }
 
         $mailer->IsHTML($this->config['mailtype'] === 'html');
