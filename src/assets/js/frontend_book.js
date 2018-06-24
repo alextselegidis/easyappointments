@@ -25,6 +25,20 @@ window.FrontendBook = window.FrontendBook || {};
     'use strict';
 
     /**
+     * Contains terms and conditions consent.
+     *
+     * @type {Object}
+     */
+    var termsAndConditionsConsent;
+
+    /**
+     * Contains privacy policy consent.
+     *
+     * @type {Object}
+     */
+    var privacyPolicyConsent;
+
+    /**
      * Determines the functionality of the page.
      *
      * @type {Boolean}
@@ -257,6 +271,36 @@ window.FrontendBook = window.FrontendBook || {};
                     return; // Validation failed, do not continue.
                 } else {
                     FrontendBook.updateConfirmFrame();
+
+                    var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+                    if ($acceptToTermsAndConditions.length && $acceptToTermsAndConditions.prop('checked') === true) {
+                        var newTermsAndConditionsConsent = {
+                            first_name: $('#first-name').val(),
+                            last_name: $('#last-name').val(),
+                            email: $('#email').val(),
+                            type: 'terms-and-conditions'
+                        };
+
+                        if (JSON.stringify(newTermsAndConditionsConsent) !== JSON.stringify(termsAndConditionsConsent)) {
+                            termsAndConditionsConsent = newTermsAndConditionsConsent;
+                            FrontendBookApi.saveConsent(termsAndConditionsConsent);
+                        }
+                    }
+
+                    var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+                    if ($acceptToPrivacyPolicy.length && $acceptToPrivacyPolicy.prop('checked') === true) {
+                        var newPrivacyPolicyConsent = {
+                            first_name: $('#first-name').val(),
+                            last_name: $('#last-name').val(),
+                            email: $('#email').val(),
+                            type: 'privacy-policy'
+                        };
+
+                        if (JSON.stringify(newPrivacyPolicyConsent) !== JSON.stringify(privacyPolicyConsent)) {
+                            privacyPolicyConsent = newPrivacyPolicyConsent;
+                            FrontendBookApi.saveConsent(privacyPolicyConsent);
+                        }
+                    }
                 }
             }
 
