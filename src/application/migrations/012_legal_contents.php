@@ -32,6 +32,7 @@ class Migration_Legal_contents extends CI_Migration {
                 `last_name` VARCHAR(256),
                 `email` VARCHAR(512),
                 `ip` VARCHAR(256),
+                `type` VARCHAR(256),
                 PRIMARY KEY (`id`)
             )
                 ENGINE = InnoDB

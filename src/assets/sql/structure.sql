@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `ea_consents` (
     `last_name` VARCHAR(256),
     `email` VARCHAR(512),
     `ip` VARCHAR(256),
+    `type` VARCHAR(256),
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
