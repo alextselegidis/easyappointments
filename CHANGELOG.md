@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Fixed
 
 - #480: Make the app GDPR - new EU privacy regulations compliant.
+- #485: Make REST API search check with "q" parameter case insensitive. 
 - #489: REST API response headers must use the Content-Type application/json value.
 - #500: Performance optimization in backend calendar page, after the user clicks the insert appointment button.
  
