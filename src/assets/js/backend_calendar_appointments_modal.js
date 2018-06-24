@@ -127,16 +127,16 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Set the selected filter item and find the next appointment time as the default modal values.
             if ($('#select-filter-item option:selected').attr('type') == 'provider') {
-                var $providerOption = $dialog.find('#select-provider option[value="'
-                    + $('#select-filter-item').val() + '"]');
-                if ($providerOption.length === 0) { // Change the services until you find the correct.
-                    $.each($dialog.find('#select-service option'), function () {
-                        $(this).prop('selected', true).parent().change();
-                        if ($providerOption.length > 0)
-                            return false;
-                    });
+                var providerId = $('#select-filter-item').val();
+
+                var providers = GlobalVariables.availableProviders.filter(function (provider) {
+                    return provider.id == providerId;
+                });
+
+                if (providers.length) {
+                    $dialog.find('#select-service').val(providers[0].services[0]).trigger('change');
+                    $dialog.find('#select-provider').val(providerId);
                 }
-                $providerOption.prop('selected', true);
             } else {
                 $dialog.find('#select-service option[value="'
                     + $('#select-filter-item').val() + '"]').prop('selected', true);
