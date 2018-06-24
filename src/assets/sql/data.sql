@@ -16,6 +16,12 @@ VALUES
     ('customer_notifications', '1'),
     ('date_format', 'DMY'),
     ('time_format', 'regular'),
-    ('require_captcha', '0');
+    ('require_captcha', '0'),
+    ('display_cookie_notice', '0'),
+    ('cookie_notice_content', 'Cookie notice content.'),
+    ('display_terms_and_conditions', '0'),
+    ('terms_and_conditions_content', 'Terms and conditions content.'),
+    ('display_privacy_policy', '0'),
+    ('privacy_policy_content', 'Privacy policy content.');
 
-INSERT INTO `ea_migrations` VALUES ('11');
+INSERT INTO `ea_migrations` VALUES ('12');

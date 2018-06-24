@@ -21,6 +21,19 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8;
 
+CREATE TABLE IF NOT EXISTS `ea_consents` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `modified` DATETIME DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+    `first_name` VARCHAR(256),
+    `last_name` VARCHAR(256),
+    `email` VARCHAR(512),
+    `ip` VARCHAR(256),
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8;
 
 CREATE TABLE `ea_migrations` (
     `version` INT(11) NOT NULL
