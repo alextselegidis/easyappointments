@@ -38,6 +38,7 @@
     "jquery-ui": "^1.12.0",
     "moment": "^2.21.0",
     "qtip2": "^3.0.3",
-    "sticky-table-headers": "^0.1.19"
+    "sticky-table-headers": "^0.1.19",
+    "trumbowyg": "^2.10.0"
   }
 }
