@@ -143,6 +143,7 @@ class Response {
         $header = $status ? $status->get() : '200 OK';
 
         header('HTTP/1.0 ' . $header);
+        header('Content-Type: application/json');
 
         echo json_encode($this->response, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 

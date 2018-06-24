@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Fixed
 
 - #480: Make the app GDPR - new EU privacy regulations compliant.
-
+- #489: REST API response headers must use the Content-Type application/json value.
 
 ## [1.3.1]
 
