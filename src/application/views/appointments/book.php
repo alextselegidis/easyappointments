@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
@@ -244,7 +245,33 @@
                                 </div>
                             </div>
 
-                            <em id="form-message" class="text-danger"><?= lang('fields_are_required') ?></em>
+                            <?php if ($display_terms_and_conditions): ?>
+                            <label>
+                                <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
+                                <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
+                                    [
+                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
+                                        '{/$link}' => '</a>'
+                                    ])
+                                ?>
+                            </label>
+                            <br>
+                            <?php endif ?>
+
+                            <?php if ($display_privacy_policy): ?>
+                            <label>
+                                <input type="checkbox" class="required" id="accept-to-privacy-policy">
+                                <?= strtr(lang('read_and_agree_to_privacy_policy'),
+                                    [
+                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
+                                        '{/$link}' => '</a>'
+                                    ])
+                                ?>
+                            </label>
+                            <br>
+                            <?php endif ?>
+
+                            <span id="form-message" class="text-danger"><?= lang('fields_are_required') ?></span>
                         </div>
                     </div>
 
@@ -320,6 +347,18 @@
         </div>
     </div>
 
+    <?php if ($display_cookie_notice === '1'): ?>
+        <?php require 'cookie_notice_modal.php' ?>
+    <?php endif ?>
+
+    <?php if ($display_terms_and_conditions === '1'): ?>
+        <?php require 'terms_and_conditions_modal.php' ?>
+    <?php endif ?>
+
+    <?php if ($display_privacy_policy === '1'): ?>
+        <?php require 'privacy_policy_modal.php' ?>
+    <?php endif ?>
+
     <script>
         var GlobalVariables = {
             availableServices   : <?= json_encode($available_services) ?>,
@@ -328,6 +367,7 @@
             manageMode          : <?= $manage_mode ? 'true' : 'false' ?>,
             dateFormat          : <?= json_encode($date_format) ?>,
             timeFormat          : <?= json_encode($time_format) ?>,
+            displayCookieNotice : <?= json_encode($display_cookie_notice === '1') ?>,
             appointmentData     : <?= json_encode($appointment_data) ?>,
             providerData        : <?= json_encode($provider_data) ?>,
             customerData        : <?= json_encode($customer_data) ?>,
@@ -342,6 +382,7 @@
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
     <script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>

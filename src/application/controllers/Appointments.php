@@ -76,6 +76,12 @@ class Appointments extends CI_Controller {
             $company_name = $this->settings_model->get_setting('company_name');
             $date_format = $this->settings_model->get_setting('date_format');
             $time_format = $this->settings_model->get_setting('time_format');
+            $display_cookie_notice = $this->settings_model->get_setting('display_cookie_notice');
+            $cookie_notice_content = $this->settings_model->get_setting('cookie_notice_content');
+            $display_terms_and_conditions = $this->settings_model->get_setting('display_terms_and_conditions');
+            $terms_and_conditions_content = $this->settings_model->get_setting('terms_and_conditions_content');
+            $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
+            $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -136,7 +142,13 @@ class Appointments extends CI_Controller {
                 'time_format' => $time_format,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
-                'customer_data' => $customer
+                'customer_data' => $customer,
+                'display_cookie_notice' => $display_cookie_notice,
+                'cookie_notice_content' => $cookie_notice_content,
+                'display_terms_and_conditions' => $display_terms_and_conditions,
+                'terms_and_conditions_content' => $terms_and_conditions_content,
+                'display_privacy_policy' => $display_privacy_policy,
+                'privacy_policy_content' => $privacy_policy_content,
             ];
         }
         catch (Exception $exc)

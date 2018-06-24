@@ -47,6 +47,35 @@ window.FrontendBook = window.FrontendBook || {};
             window.console = function () {
             }; // IE compatibility
         }
+        
+        if (GlobalVariables.displayCookieNotice) {
+            cookieconsent.initialise({
+                palette: {
+                    popup: {
+                        background: '#ffffffbd',
+                        text: '#666666'
+                    },
+                    button: {
+                        background: '#3DD481',
+                        text: '#ffffff'
+                    }
+                },
+                content: {
+                    message: EALang.website_using_cookies_to_ensure_best_experience,
+                    dismiss: 'OK'
+                },
+            });
+
+            $('.cc-link').replaceWith(
+                $('<a/>', {
+                    'data-toggle': 'modal',
+                    'data-target': '#cookie-notice-modal',
+                    'href': '#',
+                    'class': 'cc-link',
+                    'text': $('.cc-link').text()
+                })
+            );
+        }
 
         FrontendBook.manageMode = manageMode;
 
@@ -346,7 +375,8 @@ window.FrontendBook = window.FrontendBook || {};
      * @return {Boolean} Returns the validation result.
      */
     function _validateCustomerForm() {
-        $('#wizard-frame-3 input').closest('.form-group').removeClass('has-error');
+        $('#wizard-frame-3 .has-error').removeClass('has-error');
+        $('#wizard-frame-3 label.text-danger').removeClass('text-danger');
 
         try {
             // Validate required fields.
@@ -360,6 +390,19 @@ window.FrontendBook = window.FrontendBook || {};
             if (missingRequiredField) {
                 throw EALang.fields_are_required;
             }
+
+            var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+            if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
+                $acceptToTermsAndConditions.parents('label').addClass('text-danger');
+                throw EALang.fields_are_required;
+            }
+
+            var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+            if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
+                $acceptToPrivacyPolicy.parents('label').addClass('text-danger');
+                throw EALang.fields_are_required;
+            }
+
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
