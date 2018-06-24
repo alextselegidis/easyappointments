@@ -25,6 +25,20 @@ window.FrontendBook = window.FrontendBook || {};
     'use strict';
 
     /**
+     * Contains terms and conditions consent.
+     *
+     * @type {Object}
+     */
+    var termsAndConditionsConsent;
+
+    /**
+     * Contains privacy policy consent.
+     *
+     * @type {Object}
+     */
+    var privacyPolicyConsent;
+
+    /**
      * Determines the functionality of the page.
      *
      * @type {Boolean}
@@ -46,6 +60,35 @@ window.FrontendBook = window.FrontendBook || {};
         if (window.console === undefined) {
             window.console = function () {
             }; // IE compatibility
+        }
+        
+        if (GlobalVariables.displayCookieNotice) {
+            cookieconsent.initialise({
+                palette: {
+                    popup: {
+                        background: '#ffffffbd',
+                        text: '#666666'
+                    },
+                    button: {
+                        background: '#3DD481',
+                        text: '#ffffff'
+                    }
+                },
+                content: {
+                    message: EALang.website_using_cookies_to_ensure_best_experience,
+                    dismiss: 'OK'
+                },
+            });
+
+            $('.cc-link').replaceWith(
+                $('<a/>', {
+                    'data-toggle': 'modal',
+                    'data-target': '#cookie-notice-modal',
+                    'href': '#',
+                    'class': 'cc-link',
+                    'text': $('.cc-link').text()
+                })
+            );
         }
 
         FrontendBook.manageMode = manageMode;
@@ -228,6 +271,36 @@ window.FrontendBook = window.FrontendBook || {};
                     return; // Validation failed, do not continue.
                 } else {
                     FrontendBook.updateConfirmFrame();
+
+                    var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+                    if ($acceptToTermsAndConditions.length && $acceptToTermsAndConditions.prop('checked') === true) {
+                        var newTermsAndConditionsConsent = {
+                            first_name: $('#first-name').val(),
+                            last_name: $('#last-name').val(),
+                            email: $('#email').val(),
+                            type: 'terms-and-conditions'
+                        };
+
+                        if (JSON.stringify(newTermsAndConditionsConsent) !== JSON.stringify(termsAndConditionsConsent)) {
+                            termsAndConditionsConsent = newTermsAndConditionsConsent;
+                            FrontendBookApi.saveConsent(termsAndConditionsConsent);
+                        }
+                    }
+
+                    var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+                    if ($acceptToPrivacyPolicy.length && $acceptToPrivacyPolicy.prop('checked') === true) {
+                        var newPrivacyPolicyConsent = {
+                            first_name: $('#first-name').val(),
+                            last_name: $('#last-name').val(),
+                            email: $('#email').val(),
+                            type: 'privacy-policy'
+                        };
+
+                        if (JSON.stringify(newPrivacyPolicyConsent) !== JSON.stringify(privacyPolicyConsent)) {
+                            privacyPolicyConsent = newPrivacyPolicyConsent;
+                            FrontendBookApi.saveConsent(privacyPolicyConsent);
+                        }
+                    }
                 }
             }
 
@@ -307,6 +380,26 @@ window.FrontendBook = window.FrontendBook || {};
                 $('#cancel-reason').css('width', '100%');
                 return false;
             });
+
+            $('#delete-personal-information').on('click', function () {
+                var buttons = [
+                    {
+                        text: 'Delete',
+                        click: function () {
+                            FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
+                        }
+                    },
+                    {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message_box').dialog('close');
+                        }
+                    }
+                ];
+
+                GeneralFunctions.displayMessageBox(EALang.delete_personal_information,
+                    EALang.delete_personal_information_prompt, buttons);
+            });
         }
 
         /**
@@ -346,7 +439,8 @@ window.FrontendBook = window.FrontendBook || {};
      * @return {Boolean} Returns the validation result.
      */
     function _validateCustomerForm() {
-        $('#wizard-frame-3 input').closest('.form-group').removeClass('has-error');
+        $('#wizard-frame-3 .has-error').removeClass('has-error');
+        $('#wizard-frame-3 label.text-danger').removeClass('text-danger');
 
         try {
             // Validate required fields.
@@ -360,6 +454,19 @@ window.FrontendBook = window.FrontendBook || {};
             if (missingRequiredField) {
                 throw EALang.fields_are_required;
             }
+
+            var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+            if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
+                $acceptToTermsAndConditions.parents('label').addClass('text-danger');
+                throw EALang.fields_are_required;
+            }
+
+            var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+            if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
+                $acceptToPrivacyPolicy.parents('label').addClass('text-danger');
+                throw EALang.fields_are_required;
+            }
+
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {

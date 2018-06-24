@@ -273,4 +273,44 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         processingUnavailabilities = false;
     }
 
+    /**
+     * Save the user's consent.
+     *
+     * @param {Object} consent Contains user's consents.
+     */
+    exports.saveConsent = function (consent) {
+        var url = GlobalVariables.baseUrl + '/index.php/consents/ajax_save_consent';
+        var data = {
+            csrfToken: GlobalVariables.csrfToken,
+            consent: consent
+        };
+
+        $.post(url, data, function (response) {
+            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                return;
+            }
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+    };
+
+    /**
+     * Delete personal information.
+     *
+     * @param {Number} customerToken Customer unique token.
+     */
+    exports.deletePersonalInformation = function (customerToken) {
+        var url = GlobalVariables.baseUrl + '/index.php/privacy/ajax_delete_personal_information';
+        var data = {
+            csrfToken: GlobalVariables.csrfToken,
+            customer_token: customerToken
+        };
+
+        $.post(url, data, function (response) {
+            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                return;
+            }
+
+            location.href = GlobalVariables.baseUrl;
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+    };
+
 })(window.FrontendBookApi);

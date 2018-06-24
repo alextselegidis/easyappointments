@@ -8,7 +8,7 @@
 | Declare some of the global config values of Easy!Appointments.
 |
 */
-$config['version'] = '1.3.1'; // This must be changed manually.
+$config['version'] = '1.3.2'; // This must be changed manually.
 $config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
 $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 
@@ -273,7 +273,7 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
 | new release.
 |
 */
-$config['cache_busting_token'] = '93GE1';
+$config['cache_busting_token'] = '93GT3';
 
 /*
 |--------------------------------------------------------------------------

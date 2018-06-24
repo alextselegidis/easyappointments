@@ -49,6 +49,8 @@ window.BackendSettings = window.BackendSettings || {};
     exports.initialize = function (bindEventHandlers) {
         bindEventHandlers = bindEventHandlers || true;
 
+        $('#cookie-notice-content, #terms-and-conditions-content, #privacy-policy-content').trumbowyg();
+
         // Apply setting values from database.
         $.each(GlobalVariables.settings.system, function (index, setting) {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
@@ -57,16 +59,40 @@ window.BackendSettings = window.BackendSettings || {};
 
         var workingPlan = {};
         $.each(GlobalVariables.settings.system, function (index, setting) {
-            if (setting.name == 'company_working_plan') {
+            if (setting.name === 'company_working_plan') {
                 workingPlan = $.parseJSON(setting.value);
             }
 
-            if (setting.name == 'customer_notifications' && setting.value == '1') {
+            if (setting.name === 'customer_notifications' && setting.value === '1') {
                 $('#customer-notifications').addClass('active');
             }
 
-            if (setting.name == 'require_captcha' && setting.value == '1') {
+            if (setting.name === 'require_captcha' && setting.value === '1') {
                 $('#require-captcha').addClass('active');
+            }
+
+            if (setting.name === 'display_cookie_notice') {
+                $('#display-cookie-notice').prop('checked', setting.value === '1');
+            }
+
+            if (setting.name === 'cookie_notice_content') {
+                $('#cookie-notice-content').trumbowyg('html', setting.value);
+            }
+
+            if (setting.name === 'display_terms_and_conditions') {
+                $('#display-terms-and-conditions').prop('checked', setting.value === '1');
+            }
+
+            if (setting.name === 'terms_and_conditions_content') {
+                $('#terms-and-conditions-content').trumbowyg('html', setting.value);
+            }
+
+            if (setting.name === 'display_privacy_policy') {
+                $('#display-privacy-policy').prop('checked', setting.value === '1');
+            }
+
+            if (setting.name === 'privacy_policy_content') {
+                $('#privacy-policy-content').trumbowyg('html', setting.value);
             }
         });
 
@@ -143,6 +169,8 @@ window.BackendSettings = window.BackendSettings || {};
             if (href === '#general') {
                 settings = new SystemSettings();
             } else if (href === '#business-logic') {
+                settings = new SystemSettings();
+            } else if (href === '#legal-contents') {
                 settings = new SystemSettings();
             } else if (href === '#current-user') {
                 settings = new UserSettings();

@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
@@ -45,27 +46,29 @@
                     </div>
                 </div>
 
-                <?php
-                    if ($manage_mode === TRUE) {
-                        echo '
-                            <div id="cancel-appointment-frame" class="row">
-                                <div class="col-xs-12 col-sm-10">
-                                    <p>' .
-                                        lang('cancel_appointment_hint') .
-                                    '</p>
-                                </div>
-                                <div class="col-xs-12 col-sm-2">
-                                    <form id="cancel-appointment-form" method="post"
-                                            action="' . site_url('appointments/cancel/' . $appointment_data['hash']) . '">
-                                        <input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
-                                        <textarea name="cancel_reason" style="display:none"></textarea>
-                                        <button id="cancel-appointment" class="btn btn-default">' .
-                                                lang('cancel') . '</button>
-                                    </form>
-                                </div>
-                            </div>';
-                    }
-                ?>
+                <?php if ($manage_mode): ?>
+                <div id="cancel-appointment-frame" class="booking-header-bar row">
+                    <div class="col-xs-12 col-sm-10">
+                        <p><?= lang('cancel_appointment_hint') ?></p>
+                    </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <form id="cancel-appointment-form" method="post"
+                              action="<?= site_url('appointments/cancel/' . $appointment_data['hash']) ?>">
+                            <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>" />
+                            <textarea name="cancel_reason" style="display:none"></textarea>
+                            <button id="cancel-appointment" class="btn btn-default btn-sm"><?= lang('cancel') ?></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="booking-header-bar row">
+                    <div class="col-xs-12 col-sm-10">
+                        <p><?= lang('delete_personal_information_hint') ?></p>
+                    </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <button id="delete-personal-information" class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <?php
                     if (isset($exceptions)) {
@@ -244,7 +247,33 @@
                                 </div>
                             </div>
 
-                            <em id="form-message" class="text-danger"><?= lang('fields_are_required') ?></em>
+                            <?php if ($display_terms_and_conditions): ?>
+                            <label>
+                                <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
+                                <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
+                                    [
+                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
+                                        '{/$link}' => '</a>'
+                                    ])
+                                ?>
+                            </label>
+                            <br>
+                            <?php endif ?>
+
+                            <?php if ($display_privacy_policy): ?>
+                            <label>
+                                <input type="checkbox" class="required" id="accept-to-privacy-policy">
+                                <?= strtr(lang('read_and_agree_to_privacy_policy'),
+                                    [
+                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
+                                        '{/$link}' => '</a>'
+                                    ])
+                                ?>
+                            </label>
+                            <br>
+                            <?php endif ?>
+
+                            <span id="form-message" class="text-danger"><?= lang('fields_are_required') ?></span>
                         </div>
                     </div>
 
@@ -320,14 +349,28 @@
         </div>
     </div>
 
+    <?php if ($display_cookie_notice === '1'): ?>
+        <?php require 'cookie_notice_modal.php' ?>
+    <?php endif ?>
+
+    <?php if ($display_terms_and_conditions === '1'): ?>
+        <?php require 'terms_and_conditions_modal.php' ?>
+    <?php endif ?>
+
+    <?php if ($display_privacy_policy === '1'): ?>
+        <?php require 'privacy_policy_modal.php' ?>
+    <?php endif ?>
+
     <script>
         var GlobalVariables = {
             availableServices   : <?= json_encode($available_services) ?>,
             availableProviders  : <?= json_encode($available_providers) ?>,
             baseUrl             : <?= json_encode(config('base_url')) ?>,
             manageMode          : <?= $manage_mode ? 'true' : 'false' ?>,
+            customerToken       : <?= json_encode($customer_token) ?>,
             dateFormat          : <?= json_encode($date_format) ?>,
             timeFormat          : <?= json_encode($time_format) ?>,
+            displayCookieNotice : <?= json_encode($display_cookie_notice === '1') ?>,
             appointmentData     : <?= json_encode($appointment_data) ?>,
             providerData        : <?= json_encode($provider_data) ?>,
             customerData        : <?= json_encode($customer_data) ?>,
@@ -342,6 +385,7 @@
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
     <script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>

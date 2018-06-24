@@ -93,6 +93,37 @@
             value: $('#book-advance-timeout').val()
         });
 
+        // Legal Contents Tab
+        settings.push({
+            name: 'display_cookie_notice',
+            value: $('#display-cookie-notice').prop('checked') ? '1' : '0'
+        });
+
+        settings.push({
+            name: 'cookie_notice_content',
+            value: $('#cookie-notice-content').trumbowyg('html')
+        });
+
+        settings.push({
+            name: 'display_terms_and_conditions',
+            value: $('#display-terms-and-conditions').prop('checked') ? '1' : '0'
+        });
+
+        settings.push({
+            name: 'terms_and_conditions_content',
+            value: $('#terms-and-conditions-content').trumbowyg('html')
+        });
+
+        settings.push({
+            name: 'display_privacy_policy',
+            value: $('#display-privacy-policy').prop('checked') ? '1' : '0'
+        });
+
+        settings.push({
+            name: 'privacy_policy_content',
+            value: $('#privacy-policy-content').trumbowyg('html')
+        });
+
         return settings;
     };
 
