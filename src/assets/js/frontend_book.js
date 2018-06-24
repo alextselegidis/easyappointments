@@ -380,6 +380,26 @@ window.FrontendBook = window.FrontendBook || {};
                 $('#cancel-reason').css('width', '100%');
                 return false;
             });
+
+            $('#delete-personal-information').on('click', function () {
+                var buttons = [
+                    {
+                        text: 'Delete',
+                        click: function () {
+                            FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
+                        }
+                    },
+                    {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message_box').dialog('close');
+                        }
+                    }
+                ];
+
+                GeneralFunctions.displayMessageBox(EALang.delete_personal_information,
+                    EALang.delete_personal_information_prompt, buttons);
+            });
         }
 
         /**

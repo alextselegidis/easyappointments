@@ -121,12 +121,18 @@ class Appointments extends CI_Controller {
                 $provider = $this->providers_model->get_row($appointment['id_users_provider']);
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
+                $customer_token = md5(uniqid(mt_rand(), true));
+
+                $this->load->driver('cache', ['adapter' => 'file']);
+
+                $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600); // save for 10 minutes
             }
             else
             {
                 // The customer is going to book a new appointment so there is no
                 // need for the manage functionality to be initialized.
                 $manage_mode = FALSE;
+                $customer_token = FALSE;
                 $appointment = [];
                 $provider = [];
                 $customer = [];
@@ -138,6 +144,7 @@ class Appointments extends CI_Controller {
                 'available_providers' => $available_providers,
                 'company_name' => $company_name,
                 'manage_mode' => $manage_mode,
+                'customer_token' => $customer_token,
                 'date_format' => $date_format,
                 'time_format' => $time_format,
                 'appointment_data' => $appointment,

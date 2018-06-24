@@ -292,4 +292,25 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
 
+    /**
+     * Delete personal information.
+     *
+     * @param {Number} customerToken Customer unique token.
+     */
+    exports.deletePersonalInformation = function (customerToken) {
+        var url = GlobalVariables.baseUrl + '/index.php/privacy/ajax_delete_personal_information';
+        var data = {
+            csrfToken: GlobalVariables.csrfToken,
+            customer_token: customerToken
+        };
+
+        $.post(url, data, function (response) {
+            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                return;
+            }
+
+            location.href = GlobalVariables.baseUrl;
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+    };
+
 })(window.FrontendBookApi);

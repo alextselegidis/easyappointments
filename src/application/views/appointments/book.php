@@ -46,27 +46,29 @@
                     </div>
                 </div>
 
-                <?php
-                    if ($manage_mode === TRUE) {
-                        echo '
-                            <div id="cancel-appointment-frame" class="row">
-                                <div class="col-xs-12 col-sm-10">
-                                    <p>' .
-                                        lang('cancel_appointment_hint') .
-                                    '</p>
-                                </div>
-                                <div class="col-xs-12 col-sm-2">
-                                    <form id="cancel-appointment-form" method="post"
-                                            action="' . site_url('appointments/cancel/' . $appointment_data['hash']) . '">
-                                        <input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
-                                        <textarea name="cancel_reason" style="display:none"></textarea>
-                                        <button id="cancel-appointment" class="btn btn-default">' .
-                                                lang('cancel') . '</button>
-                                    </form>
-                                </div>
-                            </div>';
-                    }
-                ?>
+                <?php if ($manage_mode): ?>
+                <div id="cancel-appointment-frame" class="booking-header-bar row">
+                    <div class="col-xs-12 col-sm-10">
+                        <p><?= lang('cancel_appointment_hint') ?></p>
+                    </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <form id="cancel-appointment-form" method="post"
+                              action="<?= site_url('appointments/cancel/' . $appointment_data['hash']) ?>">
+                            <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>" />
+                            <textarea name="cancel_reason" style="display:none"></textarea>
+                            <button id="cancel-appointment" class="btn btn-default btn-sm"><?= lang('cancel') ?></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="booking-header-bar row">
+                    <div class="col-xs-12 col-sm-10">
+                        <p><?= lang('delete_personal_information_hint') ?></p>
+                    </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <button id="delete-personal-information" class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <?php
                     if (isset($exceptions)) {
@@ -365,6 +367,7 @@
             availableProviders  : <?= json_encode($available_providers) ?>,
             baseUrl             : <?= json_encode(config('base_url')) ?>,
             manageMode          : <?= $manage_mode ? 'true' : 'false' ?>,
+            customerToken       : <?= json_encode($customer_token) ?>,
             dateFormat          : <?= json_encode($date_format) ?>,
             timeFormat          : <?= json_encode($time_format) ?>,
             displayCookieNotice : <?= json_encode($display_cookie_notice === '1') ?>,

@@ -225,15 +225,16 @@ body {
 
 /* CANCEL APPOINTMENT
    ------------------------------------------------------------------------- */
-#cancel-appointment-frame {
-    padding: 15px 0;
+
+.booking-header-bar {
+    padding: 10px 0;
     margin: 0;
     background: #FAFAFA;
     border-bottom: 1px solid #E2E2E2;
 }
 
-#cancel-appointment-frame p {
-    margin-top: 8px;
+.booking-header-bar p {
+    margin-top: 2px;
     margin-bottom: 0;
 }
 
