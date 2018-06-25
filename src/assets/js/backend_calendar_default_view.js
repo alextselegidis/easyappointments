@@ -801,8 +801,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             if (filterType === FILTER_TYPE_PROVIDER && calendarView !== 'month') {
                 $.each(GlobalVariables.availableProviders, function (index, provider) {
                     if (provider.id == recordId) {
-                        var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
+                        var workingPlan={};
+                        var workingPlanBulk = jQuery.parseJSON(provider.settings.working_plan);
                         var unavailablePeriod;
+
+                        // Sort the working plan starting with the first day as set in General settings to correctly align breaks in the calendar display
+                        workingPlan = GeneralFunctions.sortWeekDict(workingPlanBulk,0); // 0 is the ID for Sunday
 
                         switch (calendarView) {
                             case 'agendaDay':

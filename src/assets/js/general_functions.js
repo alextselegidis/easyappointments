@@ -431,4 +431,71 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         return result;
     };
 
+    /**
+     * Get the name in lowercase of a Weekday using its Id.
+     *
+     * @param {Integer} weekDayId The Id (From 0 for sunday to 6 for saturday).
+
+     * @return {String} Returns the name of the weekday.
+     */
+    exports.getWeekDayName = function (weekDayId) {
+        var result;
+
+        switch (weekDayId) {
+
+            case 0:
+                result = 'sunday';
+                break;
+
+            case 1:
+                result = 'monday';
+                break;
+
+            case 2:
+                result = 'tuesday';
+                break;
+
+            case 3:
+                result = 'wednesday';
+                break;
+
+            case 4:
+                result = 'thursday';
+                break;
+
+            case 5:
+                result = 'friday';
+                break;                
+
+            case 6:
+                result = 'saturday';
+                break;                
+                
+            default:
+                throw new Error('Invalid weekday Id provided!', weekDayId);
+        }
+
+        return result;
+    };
+
+    /**
+     * Sort a dictionary where keys are weekdays
+     *
+     * @param {Object} weekDict A dictionnary with weekdays as keys.
+     * @param {Integer} startDayId Id of the first day to start sorting (From 0 for sunday to 6 for saturday).
+
+     * @return {Object} Returns a sorted dictionary
+     */
+    exports.sortWeekDict = function (weekDict, startDayId) {
+        var sortedWeekDict={};
+
+        for (var i = startDayId; i < startDayId+7; i++)
+        {
+            var weekDayname = GeneralFunctions.getWeekDayName(i%7);
+            sortedWeekDict[weekDayname] = weekDict[weekDayname];
+        }
+        
+        return sortedWeekDict;
+    };
+
 })(window.GeneralFunctions);
