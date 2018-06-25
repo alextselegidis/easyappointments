@@ -45,7 +45,10 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        $.each(workingPlan, function (index, workingDay) {
+        // Always displaying breaks with Sunday as the first day to be consistent with what is done in the the working plan view.
+        var workingPlanSorted = GeneralFunctions.sortWeekDict(workingPlan,0); // 0 is the ID for Sunday
+        
+        $.each(workingPlanSorted, function (index, workingDay) {
             if (workingDay != null) {
                 $('#' + index).prop('checked', true);
                 $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
