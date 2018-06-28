@@ -76,6 +76,12 @@ class Appointments extends CI_Controller {
             $company_name = $this->settings_model->get_setting('company_name');
             $date_format = $this->settings_model->get_setting('date_format');
             $time_format = $this->settings_model->get_setting('time_format');
+            $display_cookie_notice = $this->settings_model->get_setting('display_cookie_notice');
+            $cookie_notice_content = $this->settings_model->get_setting('cookie_notice_content');
+            $display_terms_and_conditions = $this->settings_model->get_setting('display_terms_and_conditions');
+            $terms_and_conditions_content = $this->settings_model->get_setting('terms_and_conditions_content');
+            $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
+            $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -115,12 +121,18 @@ class Appointments extends CI_Controller {
                 $provider = $this->providers_model->get_row($appointment['id_users_provider']);
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
+                $customer_token = md5(uniqid(mt_rand(), true));
+
+                $this->load->driver('cache', ['adapter' => 'file']);
+
+                $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600); // save for 10 minutes
             }
             else
             {
                 // The customer is going to book a new appointment so there is no
                 // need for the manage functionality to be initialized.
                 $manage_mode = FALSE;
+                $customer_token = FALSE;
                 $appointment = [];
                 $provider = [];
                 $customer = [];
@@ -132,11 +144,18 @@ class Appointments extends CI_Controller {
                 'available_providers' => $available_providers,
                 'company_name' => $company_name,
                 'manage_mode' => $manage_mode,
+                'customer_token' => $customer_token,
                 'date_format' => $date_format,
                 'time_format' => $time_format,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
-                'customer_data' => $customer
+                'customer_data' => $customer,
+                'display_cookie_notice' => $display_cookie_notice,
+                'cookie_notice_content' => $cookie_notice_content,
+                'display_terms_and_conditions' => $display_terms_and_conditions,
+                'terms_and_conditions_content' => $terms_and_conditions_content,
+                'display_privacy_policy' => $display_privacy_policy,
+                'privacy_policy_content' => $privacy_policy_content,
             ];
         }
         catch (Exception $exc)

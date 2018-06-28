@@ -40,6 +40,11 @@
                 <a href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
             </li>
         <?php endif ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li role="presentation">
+                <a href="#legal-contents" aria-controls="legal-contents" role="tab" data-toggle="tab"><?= lang('legal_contents') ?></a>
+            </li>
+        <?php endif ?>
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
             <li role="presentation">
                 <a href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
@@ -318,6 +323,80 @@
                                 </thead>
                                 <tbody><!-- Dynamic Content --></tbody>
                             </table>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <!-- LEGAL CONTENTS TAB -->
+
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+        <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="legal-contents">
+            <form>
+                <fieldset>
+                    <legend>
+                        <?= lang('legal_contents') ?>
+                        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
+                            <button type="button" class="save-settings btn btn-primary btn-xs"
+                                    title="<?= lang('save') ?>">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <?= lang('save') ?>
+                            </button>
+                        <?php endif ?>
+                    </legend>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-11 col-md-10 col-lg-9">
+                            <h4><?= lang('cookie_notice') ?></h4>
+
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="display-cookie-notice">
+                                        <?= lang('display_cookie_notice') ?>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label><?= lang('cookie_notice_content') ?></label>
+                                <textarea id="cookie-notice-content" cols="30" rows="10" class="form-group"></textarea>
+                            </div>
+
+                            <br>
+
+                            <h4><?= lang('terms_and_conditions') ?></h4>
+
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="display-terms-and-conditions">
+                                        <?= lang('display_terms_and_conditions') ?>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label><?= lang('terms_and_conditions_content') ?></label>
+                                <textarea id="terms-and-conditions-content" cols="30" rows="10" class="form-group"></textarea>
+                            </div>
+
+                            <h4><?= lang('privacy_policy') ?></h4>
+
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="display-privacy-policy">
+                                        <?= lang('display_privacy_policy') ?>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label><?= lang('privacy_policy_content') ?></label>
+                                <textarea id="privacy-policy-content" cols="30" rows="10" class="form-group"></textarea>
+                            </div>
                         </div>
                     </div>
                 </fieldset>

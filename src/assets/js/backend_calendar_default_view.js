@@ -773,8 +773,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     title: appointment.service.name + ' - '
                     + appointment.customer.first_name + ' '
                     + appointment.customer.last_name,
-                    start: appointment.start_datetime,
-                    end: appointment.end_datetime,
+                    start: moment(appointment.start_datetime),
+                    end: moment(appointment.end_datetime),
                     allDay: false,
                     data: appointment // Store appointment data for later use.
                 };
