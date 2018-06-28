@@ -20,6 +20,7 @@
         'bookAdvanceTimeout'    : <?= $book_advance_timeout ?>,
         'dateFormat'            : <?= json_encode($date_format) ?>,
         'timeFormat'            : <?= json_encode($time_format) ?>,
+        'firstWeekday'          : <?= json_encode($first_weekday) ?>,
         'editAppointment'       : <?= json_encode($edit_appointment) ?>,
         'customers'             : <?= json_encode($customers) ?>,
         'secretaryProviders'    : <?= json_encode($secretary_providers) ?>,

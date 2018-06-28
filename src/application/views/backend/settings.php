@@ -136,6 +136,23 @@
                                 </span>
                             </div>
                             <div class="form-group">
+                                <label for="first-weekday">
+                                    <?= lang('first_weekday') ?>
+                                </label>
+                                <select class="form-control" id="first-weekday" data-field="first_weekday">
+                                    <option value="sunday"><?= lang('sunday') ?></option>
+                                    <option value="monday"><?= lang('monday') ?></option>
+                                    <option value="tuesday"><?= lang('tuesday') ?></option>
+                                    <option value="wednesday"><?= lang('wednesday') ?></option>
+                                    <option value="thursday"><?= lang('thursday') ?></option>
+                                    <option value="friday"><?= lang('friday') ?></option>
+                                    <option value="saturday"><?= lang('saturday') ?></option>
+                                </select>
+                                <span class="help-block">
+                                    <?= lang('first_weekday_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
                                 <label><?= lang('customer_notifications') ?></label>
                                 <br>
                                 <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">

@@ -432,6 +432,60 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
+     * Get the Id of a Weekday using the US week format and day names (Sunday=0) as used in the JS code of the appli, case insensitive, short and long names supported.
+     *
+     * @param {String} weekDayName The weekday name amongs Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.
+
+     * @return {Integer} Returns the ID of the weekday.
+     */
+    exports.getWeekDayId = function (weekDayName) {
+        var result;
+
+        switch (weekDayName.toLowerCase()) {
+
+            case 'sunday':
+            case 'sun':
+                result = 0;
+                break;
+
+            case 'monday':
+            case 'mon':
+                result = 1;
+                break;
+
+            case 'tuesday':
+            case 'tue':
+                result = 2;
+                break;
+
+            case 'wednesday':
+            case 'wed':
+                result = 3;
+                break;
+
+            case 'thursday':
+            case 'thu':
+                result = 4;
+                break;
+
+            case 'friday':
+            case 'fri':
+                result = 5;
+                break;                
+
+            case 'saturday':
+            case 'sat':
+                result = 6;
+                break;                
+                
+            default:
+                throw new Error('Invalid weekday name provided!', weekDayName);
+        }
+
+        return result;
+    };
+
+    /**
      * Get the name in lowercase of a Weekday using its Id.
      *
      * @param {Integer} weekDayId The Id (From 0 for sunday to 6 for saturday).

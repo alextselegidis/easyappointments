@@ -70,6 +70,7 @@ class Backend extends CI_Controller {
         $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
@@ -132,6 +133,7 @@ class Backend extends CI_Controller {
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
@@ -170,6 +172,7 @@ class Backend extends CI_Controller {
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
         $view['services'] = $this->services_model->get_batch();
         $view['categories'] = $this->services_model->get_all_categories();
         $this->set_user_data($view);
@@ -207,6 +210,7 @@ class Backend extends CI_Controller {
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
+        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
         $view['admins'] = $this->admins_model->get_batch();
         $view['providers'] = $this->providers_model->get_batch();
         $view['secretaries'] = $this->secretaries_model->get_batch();
@@ -320,14 +324,13 @@ class Backend extends CI_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task!');
             }
-
             $this->load->library('migration');
-
+           
             if ( ! $this->migration->current())
             {
                 throw new Exception($this->migration->error_string());
             }
-
+            
             $view = ['success' => TRUE];
         }
         catch (Exception $exc)

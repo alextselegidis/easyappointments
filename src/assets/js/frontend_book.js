@@ -104,9 +104,12 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
+        var fDay = GlobalVariables.firstWeekday;
+        var fDaynum = GeneralFunctions.getWeekDayId(fDay);
+
         $('#select-date').datepicker({
             dateFormat: 'dd-mm-yy',
-            firstDay: 0,
+            firstDay: fDaynum,
             minDate: 0,
             defaultDate: Date.today(),
 

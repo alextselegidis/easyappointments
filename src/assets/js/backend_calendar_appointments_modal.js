@@ -389,6 +389,9 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 throw new Error('Invalid GlobalVariables.dateFormat value.');
         }
 
+        var fDay = GlobalVariables.firstWeekday;
+        var fDaynum = GeneralFunctions.getWeekDayId(fDay);
+
         $dialog.find('#start-datetime').datetimepicker({
             dateFormat: dateFormat,
             timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
@@ -415,7 +418,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 0
+            firstDay: fDaynum
         });
         $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
@@ -445,7 +448,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 0
+            firstDay: fDaynum
         });
         $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
     };
