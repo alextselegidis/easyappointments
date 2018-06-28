@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+	$this->load->model('settings_model');			
+	$theme_color = $this->settings_model->get_setting('theme_color');
+?>
 <head>
     <title><?= $company_name ?> | Easy!Appointments</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -7,12 +11,12 @@
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.' . $theme_color . '.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/trumbowyg/ui/trumbowyg.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend_' . $theme_color . '.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general_' . $theme_color . '.css'); ?>">
 
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>

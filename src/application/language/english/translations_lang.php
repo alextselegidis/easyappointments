@@ -298,3 +298,9 @@ $lang['read_and_agree_to_privacy_policy'] = 'I have read and agree to the {$link
 $lang['delete_personal_information_hint'] = 'Delete all personal information from the system.';
 $lang['delete_personal_information'] = 'Delete Personal Information';
 $lang['delete_personal_information_prompt'] = 'Are you sure that you want to delete your personal information? This action cannot be undone.';
+//Theme Color Settings
+$lang['theme_color'] = 'Choose a theme color';
+$lang['theme_color_hint'] = 'This will change the overall color scheme for the application';
+$lang['green'] = 'Green';
+$lang['blue'] = 'Blue';
+$lang['red'] = 'Red';

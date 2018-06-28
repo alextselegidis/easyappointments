@@ -130,9 +130,32 @@ class Email {
             default:
                 throw new \Exception('Invalid time_format value: ' . $company['time_format']);
         }
-
+		
+		$ci =& get_instance();
+		$theme_color = $ci->settings_model->get_setting('theme_color');
+		switch($theme_color) {
+				case 'green':
+					$bgcolor='#39C678';
+					$borderbottom='#C0F1D6';
+					break;
+				case 'blue':
+					$bgcolor='#124E90';
+					$borderbottom='#5884B4';
+					break;
+				case 'red':
+					$bgcolor='#C3262E';
+					$borderbottom='#75161B';
+					break;
+				default:
+					$bgcolor='#1E6A40';
+					$borderbottom='#123F26';
+					break;
+			}
+			
         // Prepare template replace array.
         $replaceArray = [
+			'$background_color' => $bgcolor,
+			'$border_bottom' => $borderbottom,
             '$email_title' => $title->get(),
             '$email_message' => $message->get(),
             '$appointment_service' => $service['name'],
@@ -234,9 +257,32 @@ class Email {
             default:
                 throw new \Exception('Invalid time_format value: ' . $company['time_format']);
         }
+		
+		$ci =& get_instance();
+		$theme_color = $ci->settings_model->get_setting('theme_color');
+		switch($theme_color) {
+				case 'green':
+					$bgcolor='#39C678';
+					$borderbottom='#C0F1D6';
+					break;
+				case 'blue':
+					$bgcolor='#124E90';
+					$borderbottom='#5884B4';
+					break;
+				case 'red':
+					$bgcolor='#C3262E';
+					$borderbottom='#75161B';
+					break;
+				default:
+					$bgcolor='#1E6A40';
+					$borderbottom='#123F26';
+					break;
+			}
 
         // Prepare email template data.
         $replaceArray = [
+			'$background_color' => $bgcolor,
+			'$border_bottom' => $borderbottom,
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
             '$appointment_service' => $service['name'],

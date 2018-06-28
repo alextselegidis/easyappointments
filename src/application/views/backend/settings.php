@@ -99,6 +99,19 @@
                                     <?= lang('company_link_hint') ?>
                                 </span>
                             </div>
+							<div class="form-group">
+								<label for="theme-color">
+								<?php echo $this->lang->line('theme_color'); ?>
+								</label>
+								<select class="form-control" id="theme-color" data-field="theme_color">
+									<option value="green"><?php echo $this->lang->line('green'); ?></option>
+									<option value="blue"><?php echo $this->lang->line('blue'); ?></option>
+									<option value="red"><?php echo $this->lang->line('red'); ?></option>
+								</select> 
+								<span class="help-block">
+									<?php echo $this->lang->line('theme_color_hint'); ?>
+								</span>
+							</div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
