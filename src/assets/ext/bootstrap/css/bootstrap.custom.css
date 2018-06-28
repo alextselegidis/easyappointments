@@ -1,0 +1,25 @@
+
+@media (min-width: 1200px){
+	.col-lg-offset-2 {
+		margin-left: 9.666667% !important;
+	}
+}
+
+	.col-lg-8 {
+		width: 79.666667% !important;
+	}
+}
+
+   .css-class-to-highlight{
+       background-color: #b9ddde !important;
+   }
+
+@media(max-width:768px) {   
+
+	.col-lg-8 {
+		width: 100% !important;
+	}
+}   
+
+
+
