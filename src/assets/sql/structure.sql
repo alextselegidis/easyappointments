@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
     `zip_code` VARCHAR(64),
     `notes` TEXT,
     `id_roles` INT(11) NOT NULL,
+	`wp_id` bigint(20) DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `id_roles` (`id_roles`)
 )

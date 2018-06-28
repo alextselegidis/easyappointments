@@ -551,6 +551,7 @@ window.FrontendBook = window.FrontendBook || {};
         var postData = {};
 
         postData.customer = {
+			wp_id: $('#wp-id').val(), //WP mod Craig Tucker 1
             last_name: $('#last-name').val(),
             first_name: $('#first-name').val(),
             email: $('#email').val(),
@@ -634,6 +635,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getAvailableHours($('#select-date').val());
 
             // Apply Customer's Data
+			$('#wp-id').val(customer.wp_id); //WP mod Craig Tucker 2
             $('#last-name').val(customer.last_name);
             $('#first-name').val(customer.first_name);
             $('#email').val(customer.email);

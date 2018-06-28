@@ -126,7 +126,10 @@
                         <label class="control-label" for="zip-code"><?= lang('zip_code') ?></label>
                         <input id="zip-code" class="form-control">
                     </div>
-
+					<div class="form-group">
+						<label for="wp-id"><?php echo $this->lang->line('wp_id'); ?></label>
+						<input type="text" id="wp-id" class="form-control" />
+					</div>
                     <div class="form-group">
                         <label class="control-label" for="notes"><?= lang('notes') ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>

@@ -304,3 +304,5 @@ $lang['theme_color_hint'] = 'This will change the overall color scheme for the a
 $lang['green'] = 'Green';
 $lang['blue'] = 'Blue';
 $lang['red'] = 'Red';
+//Customer Variables
+$lang['wp_id'] = 'Wordpress ID';

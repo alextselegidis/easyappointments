@@ -52,6 +52,11 @@ class Config {
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
     const GOOGLE_API_KEY        = '';
+	
+    // ------------------------------------------------------------------------
+    // WordPress Functions Integration--C. Tucker mod contact at craigtuckerlcsw@gmail.com
+    // ------------------------------------------------------------------------	
+	const WP_HEADER_FOOTER = FALSE; // TRUE/FALSE-- TRUE turns on the WP header/footer and style features}
 }
 
 /* End of file config.php */

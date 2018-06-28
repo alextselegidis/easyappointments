@@ -144,6 +144,7 @@
          */
         $('#save-customer').click(function () {
             var customer = {
+				wp_id: $('#wp-id').val(),//WP mod Craig Tucker 
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
                 email: $('#email').val(),
@@ -305,6 +306,7 @@
      * @param {Object} customer Contains the customer record data.
      */
     CustomersHelper.prototype.display = function (customer) {
+		$('#wp-id').val(customer.wp_id); //WP mod Craig Tucker
         $('#customer-id').val(customer.id);
         $('#first-name').val(customer.first_name);
         $('#last-name').val(customer.last_name);

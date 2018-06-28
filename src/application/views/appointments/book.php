@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <?php
+	if (Config::WP_HEADER_FOOTER== TRUE) {
+	//require_once('../wp-load.php');
+	global $current_user;
+	//wp_get_current_user();
+	?>
+	 <script>
+		 headTag = document.getElementsByTagName("head")[0].innerHTML;
+		 var frameCSS = headTag + '<style type="text/css">#main .wrapper {height: 0!important; vertical-align: top!important;}</style>';
+		 document.getElementsByTagName('head')[0].innerHTML = frameCSS;
+		 
+	</script> <?php	
+	get_header();
+	}
+	
 $this->load->model('settings_model');			
 	$theme_color = $this->settings_model->get_setting('theme_color');
 ?>
@@ -11,7 +25,6 @@ $this->load->model('settings_model');
     <meta name="theme-color" content="#35A768">
 
     <title><?= lang('page_title') . ' ' .  $company_name ?></title>
-
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.custom.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
@@ -216,20 +229,26 @@ $this->load->model('settings_model');
                         <div class="frame-content row">
                             <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
-                                    <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
-                                    <input type="text" id="first-name" class="required form-control" maxlength="100" />
+									<input type="hidden" id="wp-id" value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->ID;}?>" /> 
+									<input type="hidden" id="lang" value="<?= $this->session->userdata('language');?>" /> 
+                                    <label for="first-name" class="control-label"><?= lang('first_name'); ?> *</label>
+                                    <input type="text" id="first-name" class="required form-control" maxlength="100" 
+									value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->user_firstname;} ?>" />
                                 </div>
                                 <div class="form-group">
                                     <label for="last-name" class="control-label"><?= lang('last_name') ?> *</label>
-                                    <input type="text" id="last-name" class="required form-control" maxlength="120" />
+									<input type="text" id="last-name" class="required form-control" maxlength="120"
+									value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->user_lastname;} ?>" />
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="control-label"><?= lang('email') ?> *</label>
-                                    <input type="text" id="email" class="required form-control" maxlength="120" />
+                                    <input type="text" id="email" class="required form-control" maxlength="120" 
+									value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->user_email; } ?>" />
                                 </div>
                                 <div class="form-group">
                                     <label for="phone-number" class="control-label"><?= lang('phone_number') ?> *</label>
-                                    <input type="text" id="phone-number" class="required form-control" maxlength="60" />
+                                    <input type="text" id="phone-number" class="required form-control" maxlength="60"  
+									value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->phone_number; } ?>" />
                                 </div>
                             </div>
 
@@ -405,4 +424,9 @@ $this->load->model('settings_model');
 
     <?php google_analytics_script(); ?>
 </body>
+	<?php
+	if (Config::WP_HEADER_FOOTER== TRUE) {
+		get_footer();
+	}	
+	?> 
 </html>

@@ -25,4 +25,4 @@ VALUES
     ('privacy_policy_content', 'Privacy policy content.'),
 	('theme_color', 'blue');
 
-INSERT INTO `ea_migrations` VALUES ('13');
+INSERT INTO `ea_migrations` VALUES ('14');
