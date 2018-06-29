@@ -324,13 +324,14 @@ class Backend extends CI_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task!');
             }
+
             $this->load->library('migration');
-           
+
             if ( ! $this->migration->current())
             {
                 throw new Exception($this->migration->error_string());
             }
-            
+
             $view = ['success' => TRUE];
         }
         catch (Exception $exc)
