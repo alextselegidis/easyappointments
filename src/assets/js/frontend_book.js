@@ -132,12 +132,16 @@ window.FrontendBook = window.FrontendBook || {};
             onSelect: function (dateText, instance) {
                 FrontendBookApi.getAvailableHours($(this).datepicker('getDate').toString('yyyy-MM-dd'));
                 FrontendBook.updateConfirmFrame();
-            },
+				$(".ui-datepicker").css("opacity", ".2");
+				$("#wait").css("display", "block");	
+			},
 
             onChangeMonthYear: function (year, month, instance) {
                 var currentDate = new Date(year, month - 1, 1);
                 FrontendBookApi.getUnavailableDates($('#select-provider').val(), $('#select-service').val(),
                     currentDate.toString('yyyy-MM-dd'));
+				$(".ui-datepicker").css("opacity", ".2");
+				$("#wait").css("display", "block");
             }
         });
 

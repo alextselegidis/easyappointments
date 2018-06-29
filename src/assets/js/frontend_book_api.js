@@ -64,7 +64,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
-
+			$(".ui-datepicker").css("opacity", "1");
+			$("#wait").css("display", "none");
             // The response contains the available hours for the selected provider and
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
@@ -260,7 +261,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
             $('#available-hours').text(EALang.no_available_hours);
-        }
+			$(".ui-datepicker").css("opacity", "1");
+			$("#wait").css("display", "none");
+		}
 
         // Grey out unavailable dates.
         $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function (index, td) {

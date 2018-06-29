@@ -18,6 +18,29 @@
 $this->load->model('settings_model');			
 	$theme_color = $this->settings_model->get_setting('theme_color');
 ?>
+	<style>
+	
+	#wait.item {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+	}
+	
+	#wait img {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    left: 0px;
+    right: 0;
+    top: 0px;
+    bottom: 0;
+    margin: auto;
+	}
+	
+	</style> 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -196,9 +219,12 @@ $this->load->model('settings_model');
 
                         <div class="frame-content row">
                             <div class="col-xs-12 col-sm-6">
-                                <div id="select-date"></div>
+								<div align="center" id="select-date" >
+								<figure id="wait" class="item">
+									<img id='spinner' src="<?= $this->config->item('base_url'); ?>/assets/img/loading.gif" />
+								</figure>
+								</div>
                             </div>
-
                             <div class="col-xs-12 col-sm-6">
                                 <div id="available-hours"></div>
                             </div>
