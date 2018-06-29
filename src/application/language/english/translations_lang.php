@@ -306,3 +306,5 @@ $lang['blue'] = 'Blue';
 $lang['red'] = 'Red';
 //Customer Variables
 $lang['wp_id'] = 'Wordpress ID';
+//Cell
+$lang['cell_carrier'] = 'For text reminders, select your mobile provider:';

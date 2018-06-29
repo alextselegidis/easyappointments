@@ -20,6 +20,14 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8;
+	
+CREATE TABLE IF NOT EXISTS `ea_cellcarrier` (
+  `id` int(11) NOT NULL,
+  `cellco` varchar(30) DEFAULT NULL,
+  `cellurl` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;	
+	
 
 CREATE TABLE IF NOT EXISTS `ea_consents` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -131,6 +139,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
     `notes` TEXT,
     `id_roles` INT(11) NOT NULL,
 	`wp_id` bigint(20) DEFAULT NULL,
+    `id_cellcarrier` bigint(20) DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `id_roles` (`id_roles`)
 )

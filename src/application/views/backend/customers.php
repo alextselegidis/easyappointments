@@ -112,6 +112,19 @@
                         <input id="phone-number" class="form-control required">
                     </div>
 
+					<div class="form-group">
+						<label for="cell-carrier">
+						<strong><?php echo $this->lang->line('cell_carrier'); ?></strong>
+							</label>
+							<select id="cell-carrier" class="col-md-4 form-control">
+								<option value="" selected="selected"> <?php echo $this->lang->line('select');?> </option>
+								<?php 
+								foreach ($customer_form_cellco_options as $id => $cellco) {
+									echo '<option value="' . html_escape($id) . '">' . html_escape($cellco) . '</option>';
+								}
+								?>
+							</select>
+					</div><br><br>
                     <div class="form-group">
                         <label class="control-label" for="address"><?= lang('address') ?></label>
                         <input id="address" class="form-control">
@@ -126,6 +139,7 @@
                         <label class="control-label" for="zip-code"><?= lang('zip_code') ?></label>
                         <input id="zip-code" class="form-control">
                     </div>
+
 					<div class="form-group">
 						<label for="wp-id"><?php echo $this->lang->line('wp_id'); ?></label>
 						<input type="text" id="wp-id" class="form-control" />

@@ -125,7 +125,12 @@ class Backend extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
-
+   		$this->load->model('cellcarrier_model'); 
+            $cellcarriers = $this->cellcarrier_model->get();
+			$customers_form_cellco_options = array();
+			foreach ($cellcarriers as $id => $cellcarrier) {
+				$customer_form_cellco_options[$id] = $cellcarrier->cellco;
+			} 
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_CUSTOMERS;
@@ -138,7 +143,9 @@ class Backend extends CI_Controller {
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
-        $this->load->view('backend/customers', $view);
+        $this->load->view('backend/customers', array(
+			'customer_form_cellco_options' => $customer_form_cellco_options, 
+			)); 
         $this->load->view('backend/footer', $view);
     }
 

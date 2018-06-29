@@ -529,6 +529,7 @@ window.FrontendBook = window.FrontendBook || {};
         var firstName = GeneralFunctions.escapeHtml($('#first-name').val());
         var lastName = GeneralFunctions.escapeHtml($('#last-name').val());
         var phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val());
+		var sms = GeneralFunctions.escapeHtml($('#cell-carrier option:selected').text());  //mod Bullmoose20
         var email = GeneralFunctions.escapeHtml($('#email').val());
         var address = GeneralFunctions.escapeHtml($('#address').val());
         var city = GeneralFunctions.escapeHtml($('#city').val());
@@ -538,6 +539,8 @@ window.FrontendBook = window.FrontendBook || {};
             '<h4>' + firstName + ' ' + lastName + '</h4>' +
             '<p>' +
             EALang.phone + ': ' + phoneNumber +
+            '<br/>' +
+			EALang['sms'] + ': ' + sms +
             '<br/>' +
             EALang.email + ': ' + email +
             '<br/>' +
@@ -555,6 +558,7 @@ window.FrontendBook = window.FrontendBook || {};
         var postData = {};
 
         postData.customer = {
+   		    id_cellcarrier: $('#cell-carrier').val(), //Craig Tucker Cell Modification 1
 			wp_id: $('#wp-id').val(), //WP mod Craig Tucker 1
             last_name: $('#last-name').val(),
             first_name: $('#first-name').val(),
@@ -639,6 +643,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getAvailableHours($('#select-date').val());
 
             // Apply Customer's Data
+            $('#cell-carrier').val(customer.id_cellcarrier); //Craig Tucker Cell Modification 2
 			$('#wp-id').val(customer.wp_id); //WP mod Craig Tucker 2
             $('#last-name').val(customer.last_name);
             $('#first-name').val(customer.first_name);

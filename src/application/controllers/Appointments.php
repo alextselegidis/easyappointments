@@ -63,6 +63,7 @@ class Appointments extends CI_Controller {
             return;
         }
 
+		$this->load->model('cellcarrier_model'); //Craig Tucker cell carrier modification
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
@@ -71,6 +72,7 @@ class Appointments extends CI_Controller {
 
         try
         {
+			$cell_services = $this->cellcarrier_model->get_cellcarriers(); //Craig Tucker cell carrier modification
             $available_services = $this->services_model->get_available_services();
             $available_providers = $this->providers_model->get_available_providers();
             $company_name = $this->settings_model->get_setting('company_name');
@@ -140,6 +142,7 @@ class Appointments extends CI_Controller {
 
             // Load the book appointment view.
             $view = [
+                'cell_services'	=> $cell_services,  //Craig Tucker cell carrier modification
                 'available_services' => $available_services,
                 'available_providers' => $available_providers,
                 'company_name' => $company_name,

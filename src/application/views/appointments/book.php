@@ -15,7 +15,7 @@
 	get_header();
 	}
 	
-$this->load->model('settings_model');			
+	$this->load->model('settings_model');			
 	$theme_color = $this->settings_model->get_setting('theme_color');
 ?>
 	<style>
@@ -276,6 +276,31 @@ $this->load->model('settings_model');
                                     <input type="text" id="phone-number" class="required form-control" maxlength="60"  
 									value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->phone_number; } ?>" />
                                 </div>
+								<?php if ($display_terms_and_conditions): ?>
+								<label>
+									<input type="checkbox" class="required" id="accept-to-terms-and-conditions">
+									<?= strtr(lang('read_and_agree_to_terms_and_conditions'),
+										[
+											'{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
+											'{/$link}' => '</a>'
+										])
+									?>
+								</label>
+								<br>
+								<?php endif ?>
+
+								<?php if ($display_privacy_policy): ?>
+								<label>
+									<input type="checkbox" class="required" id="accept-to-privacy-policy">
+									<?= strtr(lang('read_and_agree_to_privacy_policy'),
+										[
+											'{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
+											'{/$link}' => '</a>'
+										])
+									?>
+								</label>
+								<br>
+								<?php endif ?>
                             </div>
 
                             <div class="col-xs-12 col-sm-6">
@@ -291,37 +316,28 @@ $this->load->model('settings_model');
                                     <label for="zip-code" class="control-label"><?= lang('zip_code') ?></label>
                                     <input type="text" id="zip-code" class="form-control" maxlength="120" />
                                 </div>
+								<div class="form-group"> 
+									<label for="cell-carrier">
+											<strong><?= lang('cell_carrier'); ?></strong>
+									</label>
+									<select id="cell-carrier" class="col-md-4 form-control">
+										<option value=""><?= lang('select'); ?></option>	 
+										<?php foreach($cell_services as $carrier) {
+										   	if (Config::WP_HEADER_FOOTER== TRUE) {
+												if ($current_user->cell_carrier == $carrier['id']) { 
+												echo '<option selected value="' . $carrier['id'] . '">' 
+															. $carrier['cellco'] . '</option>';
+											    } 
+										    }											
+											echo '<option value="' . $carrier['id'] . '">' . $carrier['cellco'] . '</option>';
+										}?>
+									</select>
+								</div>	
                                 <div class="form-group">
                                     <label for="notes" class="control-label"><?= lang('notes') ?></label>
-                                    <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
+                                    <textarea id="notes" maxlength="500" class="form-control" rows="2"></textarea>
                                 </div>
                             </div>
-
-                            <?php if ($display_terms_and_conditions): ?>
-                            <label>
-                                <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
-                                <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
-                                    [
-                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
-                                        '{/$link}' => '</a>'
-                                    ])
-                                ?>
-                            </label>
-                            <br>
-                            <?php endif ?>
-
-                            <?php if ($display_privacy_policy): ?>
-                            <label>
-                                <input type="checkbox" class="required" id="accept-to-privacy-policy">
-                                <?= strtr(lang('read_and_agree_to_privacy_policy'),
-                                    [
-                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
-                                        '{/$link}' => '</a>'
-                                    ])
-                                ?>
-                            </label>
-                            <br>
-                            <?php endif ?>
 
                             <span id="form-message" class="text-danger"><?= lang('fields_are_required') ?></span>
                         </div>
