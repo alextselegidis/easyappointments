@@ -17,7 +17,8 @@
     <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/ext/bootstrap/css/bootstrap.min.' . $theme_color . '.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.custom.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/general_' . $theme_color . '.css'); ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">

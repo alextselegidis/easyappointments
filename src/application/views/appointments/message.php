@@ -11,7 +11,8 @@
     <meta name="theme-color" content="#35A768">
     <title><?= $message_title ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.' . $theme_color . '.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.custom.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend_' . $theme_color . '.css'); ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
