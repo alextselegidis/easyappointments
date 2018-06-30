@@ -276,6 +276,42 @@
                                     <input type="text" id="phone-number" class="required form-control" maxlength="60"  
 									value="<?php if (Config::WP_HEADER_FOOTER== TRUE) { echo $current_user->phone_number; } ?>" />
                                 </div>
+								<div class="form-group"> 
+									<label for="cell-carrier">
+											<strong><?= lang('cell_carrier'); ?></strong>
+									</label>
+									<select id="cell-carrier" class="col-md-4 form-control">
+										<option value=""><?= lang('select'); ?></option>	 
+										<?php foreach($cell_services as $carrier) {
+										   	if (Config::WP_HEADER_FOOTER== TRUE) {
+												if ($current_user->cell_carrier == $carrier['id']) { 
+												echo '<option selected value="' . $carrier['id'] . '">' 
+															. $carrier['cellco'] . '</option>';
+											    } 
+										    }											
+											echo '<option value="' . $carrier['id'] . '">' . $carrier['cellco'] . '</option>';
+										}?>
+									</select>
+								</div>	
+                            </div>
+
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="address" class="control-label"><?= lang('address') ?></label>
+                                    <input type="text" id="address" class="form-control" maxlength="120" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="city" class="control-label"><?= lang('city') ?></label>
+                                    <input type="text" id="city" class="form-control" maxlength="120" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="zip-code" class="control-label"><?= lang('zip_code') ?></label>
+                                    <input type="text" id="zip-code" class="form-control" maxlength="120" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="notes" class="control-label"><?= lang('notes') ?></label>
+                                    <textarea id="notes" maxlength="500" class="form-control" rows="2" style= 'height: 63px;'></textarea>
+                                </div>
 								<?php if ($display_terms_and_conditions): ?>
 								<label>
 									<input type="checkbox" class="required" id="accept-to-terms-and-conditions">
@@ -301,42 +337,7 @@
 								</label>
 								<br>
 								<?php endif ?>
-                            </div>
-
-                            <div class="col-xs-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="address" class="control-label"><?= lang('address') ?></label>
-                                    <input type="text" id="address" class="form-control" maxlength="120" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="city" class="control-label"><?= lang('city') ?></label>
-                                    <input type="text" id="city" class="form-control" maxlength="120" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="zip-code" class="control-label"><?= lang('zip_code') ?></label>
-                                    <input type="text" id="zip-code" class="form-control" maxlength="120" />
-                                </div>
-								<div class="form-group"> 
-									<label for="cell-carrier">
-											<strong><?= lang('cell_carrier'); ?></strong>
-									</label>
-									<select id="cell-carrier" class="col-md-4 form-control">
-										<option value=""><?= lang('select'); ?></option>	 
-										<?php foreach($cell_services as $carrier) {
-										   	if (Config::WP_HEADER_FOOTER== TRUE) {
-												if ($current_user->cell_carrier == $carrier['id']) { 
-												echo '<option selected value="' . $carrier['id'] . '">' 
-															. $carrier['cellco'] . '</option>';
-											    } 
-										    }											
-											echo '<option value="' . $carrier['id'] . '">' . $carrier['cellco'] . '</option>';
-										}?>
-									</select>
-								</div>	
-                                <div class="form-group">
-                                    <label for="notes" class="control-label"><?= lang('notes') ?></label>
-                                    <textarea id="notes" maxlength="500" class="form-control" rows="2"></textarea>
-                                </div>
+								
                             </div>
 
                             <span id="form-message" class="text-danger"><?= lang('fields_are_required') ?></span>
