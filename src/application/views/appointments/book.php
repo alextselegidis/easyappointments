@@ -226,7 +226,9 @@
 								</div>
                             </div>
                             <div class="col-xs-12 col-sm-6">
+								<div align="center">
                                 <div id="available-hours"></div>
+								</div>
                             </div>
                         </div>
                     </div>

@@ -61,6 +61,11 @@ window.FrontendBook = window.FrontendBook || {};
             window.console = function () {
             }; // IE compatibility
         }
+		
+		$('#select-date').on('click', function(){ 
+			$('#available-hours').text(EALang['no_available_hours']);
+			$('#available-hours').css("padding-left", "0%");
+		});
         
         if (GlobalVariables.displayCookieNotice) {
             cookieconsent.initialise({

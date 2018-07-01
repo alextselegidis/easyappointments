@@ -70,6 +70,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
                 var currColumn = 1;
+				$('#available-hours').css("padding-left", "33px");
                 $('#available-hours').html('<div style="width:80px; float:left;"></div>');
 
                 var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
@@ -101,6 +102,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
             } else {
                 $('#available-hours').text(EALang.no_available_hours);
+				$('#available-hours').css("padding-left", "0%");	
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };
@@ -261,6 +263,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
             $('#available-hours').text(EALang.no_available_hours);
+			$('#available-hours').css("padding-left", "0%");	
 			$(".ui-datepicker").css("opacity", "1");
 			$("#wait").css("display", "none");
 		}
