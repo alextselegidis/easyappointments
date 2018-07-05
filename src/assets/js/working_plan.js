@@ -45,22 +45,48 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        // Always displaying breaks with Sunday as the first day to be consistent with what is done in the the working plan view.
-        var workingPlanSorted = GeneralFunctions.sortWeekDict(workingPlan,0); // 0 is the ID for Sunday
+        var fDaynum = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+        var workingPlanSorted = GeneralFunctions.sortWeekDict(workingPlan,fDaynum);
+
+        $('.working-plan tbody').empty();
+        $('.breaks tbody').empty();
         
+        // Build working plan day list starting with the first weekday as set in the General settings
         $.each(workingPlanSorted, function (index, workingDay) {
+
+            var day = this.convertValueToDay(index);
+            var dayTranslatedname = GeneralFunctions.ucaseFirstLetter(day)
+            
+            var tr =
+                '<tr>' +
+                '<td>' +
+                '<div class="checkbox">' +
+                '<label> <input type="checkbox" id="' + index + '">' + dayTranslatedname + '</label>' +
+                '</div>' + 
+                '</td>' +
+                '<td><input id="'+index+'-start" class="work-start form-control input-sm"></td>' +
+                '<td><input id="'+index+'-end" class="work-end form-control input-sm"></td>' +
+                '</tr>';
+
+            $('.working-plan tbody').append(tr); 
+
             if (workingDay != null) {
                 $('#' + index).prop('checked', true);
                 $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat  === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
                 $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
+                // Sort day's breaks according to the starting hour
+                workingDay.breaks.sort(function (break1, break2) {
+                        // We can do a direct string comparison since we have time based on 24 hours clock.
+                        return (break1.start).localeCompare(break2.start);
+                    });
+
                 // Add the day's breaks on the breaks table.
                 $.each(workingDay.breaks, function (i, brk) {
-                    var day = this.convertValueToDay(index);
 
-                    var tr =
+                    tr =
                         '<tr>' +
-                        '<td class="break-day editable">' + GeneralFunctions.ucaseFirstLetter(day) + '</td>' +
+                        '<td class="break-day editable">' + dayTranslatedname + '</td>' +
                         '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td>' +
@@ -171,7 +197,7 @@
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan input:checkbox').click(function () {
+        $('.working-plan tbody').on( "click", "input:checkbox", function (event) {
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
@@ -308,6 +334,12 @@
             $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
             $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
             $('.add-break').prop('disabled', false);
+            
+            // Refresh working plan to have the new break sorted in the break list.
+            var workingPlan = this.get();
+            this.setup(workingPlan);
+            this.timepickers(false);
+          
         }.bind(this));
     };
 
@@ -342,7 +374,7 @@
 
                     workingPlan[id].breaks.sort(function (break1, break2) {
                         // We can do a direct string comparison since we have time based on 24 hours clock.
-                        return break1.start - break2.start;
+                        return (break1.start).localeCompare(break2.start);
                     });
                 }.bind(this));
             } else {

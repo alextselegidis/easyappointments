@@ -94,7 +94,6 @@
             $('#provider-notifications').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, #reset-working-plan').prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
-            $('#providers input:checkbox').prop('disabled', false);
 
             // Apply default working plan
             BackendUsers.wp.setup(GlobalVariables.workingPlan);
@@ -232,8 +231,6 @@
          * Event: Reset Working Plan Button "Click".
          */
         $('#providers').on('click', '#reset-working-plan', function () {
-            $('.breaks tbody').empty();
-            $('.work-start, .work-end').val('');
             BackendUsers.wp.setup(GlobalVariables.workingPlan);
             BackendUsers.wp.timepickers(false);
         });
@@ -358,16 +355,12 @@
         $('#provider-notifications').prop('disabled', true);
         $('#provider-services input:checkbox').prop('disabled', true);
         $('#providers .add-break, #reset-working-plan').prop('disabled', true);
-        BackendUsers.wp.timepickers(true);
-        $('#providers .working-plan input:text').timepicker('destroy');
-        $('#providers .working-plan input:checkbox').prop('disabled', true);
-        $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#providers .record-details').find('input, textarea').val('');
-        $('#providers input:checkbox').prop('checked', false);
         $('#provider-services input:checkbox').prop('checked', false);
         $('#provider-services a').remove();
+        $('#providers .working-plan tbody').empty();
         $('#providers .breaks tbody').empty();
     };
 
@@ -422,10 +415,10 @@
         });
 
         // Display working plan
-        $('#providers .breaks tbody').empty();
         var workingPlan = $.parseJSON(provider.settings.working_plan);
         BackendUsers.wp.setup(workingPlan);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
+        $('#providers .working-plan input:checkbox').prop('disabled', true);
     };
 
     /**
