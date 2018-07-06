@@ -338,7 +338,6 @@
             // Refresh working plan to have the new break sorted in the break list.
             var workingPlan = this.get();
             this.setup(workingPlan);
-            this.timepickers(false);
           
         }.bind(this));
     };
