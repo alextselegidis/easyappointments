@@ -258,15 +258,15 @@ class Appointments extends CI_Controller {
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
                     FILTER_VALIDATE_BOOLEAN);
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes')) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==1)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
 					$go_customer = TRUE;
 				}
 
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==0)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
 					$go_customer = FALSE;
 				}
 				
@@ -588,16 +588,16 @@ class Appointments extends CI_Controller {
                 $send_provider = filter_var($this->providers_model->get_setting('notifications', $provider['id']),
                     FILTER_VALIDATE_BOOLEAN);
 
-				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes')) {
+																														
+				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==1)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==0)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
 					$go_customer = FALSE;
 				}
 				

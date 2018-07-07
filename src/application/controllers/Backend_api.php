@@ -381,15 +381,15 @@ class Backend_api extends CI_Controller {
                 $this->load->library('ics_file');
                 $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes')) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==1)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==0)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
 					$go_customer = FALSE;
 				}
 				
@@ -522,15 +522,15 @@ class Backend_api extends CI_Controller {
                     FILTER_VALIDATE_BOOLEAN);
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
 
-				if (($send_customer === TRUE) && ( $clientnotification == 'no')) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==1)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
 					$go_customer = TRUE;
 				}
 
-				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==0)) {
+				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
 					$go_customer = FALSE;
 				}
                 if ((bool)$go_customer === TRUE)
