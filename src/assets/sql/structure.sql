@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
     `id_roles` INT(11) NOT NULL,
 	`wp_id` bigint(20) DEFAULT NULL,
     `id_cellcarrier` bigint(20) DEFAULT NULL,
+	`notifications` tinyint(4) DEFAULT '1',
     PRIMARY KEY (`id`),
     KEY `id_roles` (`id_roles`)
 )

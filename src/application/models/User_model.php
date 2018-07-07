@@ -169,4 +169,38 @@ class User_Model extends CI_Model {
 
         return $new_password;
     }
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param string $field_name The field name of the value to be returned.
+     * @param numeric $user_id The selected record's id.
+     * @return string Returns the records value from the database.
+     */	
+    public function get_value($field_name, $user_id) {
+        if (!is_numeric($user_id)) {
+            throw new Exception('Invalid argument given, expected '
+                    . 'integer for the $user_id: ' . $user_id);
+        }
+
+        if (!is_string($field_name)) {
+            throw new Exception('Invalid argument given, expected '
+                    . 'string for the $field_name: ' . $field_name);
+        }
+
+        if ($this->db->get_where('ea_users',
+                array('id' => $user_id))->num_rows() == 0) {
+            throw new Exception('The record with the provided id '
+                    . 'does not exist in the database: ' . $user_id);
+        }
+
+        $row_data = $this->db->get_where('ea_users',
+                array('id' => $user_id))->row_array();
+
+        if (!isset($row_data[$field_name])) {
+            throw new Exception('The given field name does not '
+                    . 'exist in the database: ' . $field_name);
+        }
+
+        return $row_data[$field_name];
+    }
 }

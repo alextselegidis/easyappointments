@@ -94,6 +94,10 @@ window.BackendSettings = window.BackendSettings || {};
             if (setting.name === 'privacy_policy_content') {
                 $('#privacy-policy-content').trumbowyg('html', setting.value);
             }
+			
+            if (setting.name === 'conf_notice') {
+                $('#conf-notice').prop('checked', setting.value === '1');
+            }			
         });
 
         exports.wp = new WorkingPlan();

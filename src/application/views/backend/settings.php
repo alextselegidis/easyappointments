@@ -172,7 +172,7 @@
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                             </div>
-                        </div>
+						</div>
                     </div>
                 </fieldset>
             </form>
@@ -410,6 +410,17 @@
                                 <label><?= lang('privacy_policy_content') ?></label>
                                 <textarea id="privacy-policy-content" cols="30" rows="10" class="form-group"></textarea>
                             </div>
+							<div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="conf-notice">
+                                        <?= lang('conf_notice') ?>
+                                    </label>
+                                </div>							
+								<span class="help-block">
+									<?php echo $this->lang->line('conf_notice_hint'); ?>
+								</span>
+							</div>								
                         </div>
                     </div>
                 </fieldset>

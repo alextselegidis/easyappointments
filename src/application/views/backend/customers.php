@@ -158,6 +158,14 @@
                     <h3><?= lang('appointments') ?></h3>
                     <div id="customer-appointments" class="well"></div>
                     <div id="appointment-details" class="well hidden"></div>
+					<label for="client-notifications">
+						<span class="glyphicon glyphicon-envelope"></span>
+						<span><?php echo $this->lang->line('receive_notifications'); ?></span>
+					</label>					
+					<select class="form-control" id="client-notifications">
+						<option value="1"><?php echo $this->lang->line('yes'); ?></option>
+						<option value="0"><?php echo $this->lang->line('no'); ?></option>
+					</select>
                 </div>
             </div>
     	</div>

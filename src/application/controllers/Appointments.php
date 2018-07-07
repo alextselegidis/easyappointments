@@ -84,6 +84,7 @@ class Appointments extends CI_Controller {
             $terms_and_conditions_content = $this->settings_model->get_setting('terms_and_conditions_content');
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
+			$conf_notice = $this->settings_model->get_setting('conf_notice');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -159,6 +160,7 @@ class Appointments extends CI_Controller {
                 'terms_and_conditions_content' => $terms_and_conditions_content,
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
+				'conf_notice' => $conf_notice,
             ];
         }
         catch (Exception $exc)
@@ -255,15 +257,26 @@ class Appointments extends CI_Controller {
 
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
                     FILTER_VALIDATE_BOOLEAN);
+				$clientnotification = $this->settings_model->get_setting('conf_notice');
+				if (($send_customer === TRUE) && ( $clientnotification == 'yes')) {
+					$go_customer = TRUE;
+				}
+				
+				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==1)) {
+					$go_customer = TRUE;
+				}
 
-                if ($send_customer === TRUE)
-                {
-                    $email->sendDeleteAppointment($appointment, $provider,
-                        $service, $customer, $company_settings, new Email($customer['email']),
-                        new Text($this->input->post('cancel_reason')));
-                }
+				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==0)) {
+					$go_customer = FALSE;
+				}
+				
+				if ($go_customer === TRUE) {
+							$email->sendDeleteAppointment($appointment, $provider,
+									$service, $customer, $company_settings, new Email($customer['email']),
+									new Text($_POST['cancel_reason']));
+				}
 
-            }
+            } 
             catch (Exception $exc)
             {
                 $exceptions[] = $exc;
@@ -568,19 +581,31 @@ class Appointments extends CI_Controller {
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
                     FILTER_VALIDATE_BOOLEAN);
 
+				$clientnotification = $this->settings_model->get_setting('conf_notice');
                 $this->load->library('ics_file');
                 $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
-
-                if ($send_customer === TRUE)
-                {
-                    $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $company_settings, $customer_title,
-                        $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
-                }
 
                 $send_provider = filter_var($this->providers_model->get_setting('notifications', $provider['id']),
                     FILTER_VALIDATE_BOOLEAN);
 
+				
+				if (($send_customer === TRUE) && ( $clientnotification == 'yes')) {
+					$go_customer = TRUE;
+				}
+				
+				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==1)) {
+					$go_customer = TRUE;
+				}
+				
+				if (($send_customer === TRUE) && ( $clientnotification == 'yes') && ($customer['notifications']==0)) {
+					$go_customer = FALSE;
+				}
+				
+				if ($go_customer === TRUE) {
+					$email->sendAppointmentDetails($appointment, $provider,
+						$service, $customer,$company_settings, $customer_title,
+						$customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
+				}						
                 if ($send_provider === TRUE)
                 {
                     $email->sendAppointmentDetails($appointment, $provider,

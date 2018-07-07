@@ -308,3 +308,11 @@ $lang['red'] = 'Red';
 $lang['wp_id'] = 'Wordpress ID';
 //Cell
 $lang['cell_carrier'] = 'For text reminders, select your mobile provider:';
+//Text for the Confidentiality Notice and Authorization Pannel for Frontend
+$lang['conf_notice'] = 'Display option for client to refuse notifications';
+$lang['conf_notice_hint'] = 'Give the client the option to refuse notifications and reminders within the Privacy Policy statement.';
+$lang['notice_auth'] = 'Email/SMS Notice/Reminder Authorization';
+$lang['notice_auth_y'] = 'I want to recieve email/sms notices and appointment reminders';
+$lang['notice_auth_n'] = 'Do not send me sms/email notices and appointment reminders';
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';

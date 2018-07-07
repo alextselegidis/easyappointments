@@ -443,7 +443,8 @@
             appointmentData     : <?= json_encode($appointment_data) ?>,
             providerData        : <?= json_encode($provider_data) ?>,
             customerData        : <?= json_encode($customer_data) ?>,
-            csrfToken           : <?= json_encode($this->security->get_csrf_hash()) ?>
+            csrfToken           : <?= json_encode($this->security->get_csrf_hash()) ?>,
+			confNotice			: <?= json_encode($conf_notice) ?>,
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;

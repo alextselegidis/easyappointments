@@ -146,6 +146,7 @@
             var customer = {
 				id_cellcarrier: $('#cell-carrier').val(), //Cell-carrier mod Craig Tucker 1
 				wp_id: $('#wp-id').val(),//WP mod Craig Tucker 
+                notifications: $('#client-notifications').val(), //notifications mod Craig Tucker 1
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
                 email: $('#email').val(),
@@ -309,6 +310,7 @@
     CustomersHelper.prototype.display = function (customer) {
 		$('#cell-carrier').val(customer['id_cellcarrier']); //Cell-carrier mod Craig Tucker 2
 		$('#wp-id').val(customer.wp_id); //WP mod Craig Tucker
+		$('#client-notifications').val(customer.notifications); //notifications mod Craig Tucker 2
         $('#customer-id').val(customer.id);
         $('#first-name').val(customer.first_name);
         $('#last-name').val(customer.last_name);

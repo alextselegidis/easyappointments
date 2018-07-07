@@ -124,6 +124,11 @@
             value: $('#privacy-policy-content').trumbowyg('html')
         });
 
+        settings.push({
+            name: 'conf_notice',
+            value: $('#conf-notice').prop('checked') ? '1' : '0'
+        });
+		
         return settings;
     };
 

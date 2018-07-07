@@ -64,7 +64,7 @@ window.FrontendBook = window.FrontendBook || {};
 		
 		$('#select-date').on('click', function(){ 
 			$('#available-hours').text(EALang['no_available_hours']);
-			$('#available-hours').css("padding-left", "0%");
+			$('#available-hours').css("padding-left", "0px");
 		});
         
         if (GlobalVariables.displayCookieNotice) {
@@ -565,6 +565,7 @@ window.FrontendBook = window.FrontendBook || {};
         postData.customer = {
    		    id_cellcarrier: $('#cell-carrier').val(), //Craig Tucker Cell Modification 1
 			wp_id: $('#wp-id').val(), //WP mod Craig Tucker 1
+			notifications: $('#conf-notice').val(),  //mod Craig Tucker
             last_name: $('#last-name').val(),
             first_name: $('#first-name').val(),
             email: $('#email').val(),
