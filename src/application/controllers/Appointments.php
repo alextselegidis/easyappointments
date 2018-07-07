@@ -247,7 +247,6 @@ class Appointments extends CI_Controller {
 
                 $send_provider = filter_var($this->providers_model
                     ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
-
                 if ($send_provider === TRUE)
                 {
                     $email->sendDeleteAppointment($appointment, $provider,
@@ -258,7 +257,7 @@ class Appointments extends CI_Controller {
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
                     FILTER_VALIDATE_BOOLEAN);
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
-				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
+				if (($send_customer === TRUE) && ( $clientnotification == '0')) {
 					$go_customer = TRUE;
 				}
 				
@@ -270,10 +269,11 @@ class Appointments extends CI_Controller {
 					$go_customer = FALSE;
 				}
 				
-				if ($go_customer === TRUE) {
-							$email->sendDeleteAppointment($appointment, $provider,
-									$service, $customer, $company_settings, new Email($customer['email']),
-									new Text($_POST['cancel_reason']));
+				if ((bool)$go_customer === TRUE) 
+				{
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $company_settings, new Email($customer['email']),
+                        new Text($this->input->post('cancel_reason')));
 				}
 
             } 
@@ -589,7 +589,7 @@ class Appointments extends CI_Controller {
                     FILTER_VALIDATE_BOOLEAN);
 
 																														
-				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
+				if (($send_customer === TRUE) && ( $clientnotification == '0')) {
 					$go_customer = TRUE;
 				}
 				
@@ -601,7 +601,8 @@ class Appointments extends CI_Controller {
 					$go_customer = FALSE;
 				}
 				
-				if ($go_customer === TRUE) {
+				if ((bool)$go_customer === TRUE) 
+				{
 					$email->sendAppointmentDetails($appointment, $provider,
 						$service, $customer,$company_settings, $customer_title,
 						$customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));

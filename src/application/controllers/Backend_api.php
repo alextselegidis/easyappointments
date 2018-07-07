@@ -375,30 +375,29 @@ class Backend_api extends CI_Controller {
                 $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
                 $provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
 
-                $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
-                    FILTER_VALIDATE_BOOLEAN);
+                $send_customer = $this->settings_model->get_setting('customer_notifications');
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
                 $this->load->library('ics_file');
                 $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
 				
-				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
+				if (((bool)$send_customer === TRUE) && ( $clientnotification == '0')) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
+				if (((bool)$send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
+				if (((bool)$send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
 					$go_customer = FALSE;
 				}
 				
-				if ($go_customer === TRUE) {
+				if ((bool)$go_customer === TRUE) {
 					$email->sendAppointmentDetails($appointment, $provider,
 						$service, $customer,$company_settings, $customer_title,
 						$customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
 				}						
-                if ($send_provider === TRUE)
+                if ($send_provider == TRUE)
                 {
                     $email->sendAppointmentDetails($appointment, $provider,
                         $service, $customer, $company_settings, $provider_title,
@@ -518,19 +517,18 @@ class Backend_api extends CI_Controller {
                         new Text($this->input->post('delete_reason')));
                 }
 
-                $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
-                    FILTER_VALIDATE_BOOLEAN);
+                $send_customer = $this->settings_model->get_setting('customer_notifications');
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
 
-				if (($send_customer === TRUE) && ( $clientnotification == '1')) {
+				if (((bool)$send_customer === TRUE) && ( $clientnotification == '0')) {
 					$go_customer = TRUE;
 				}
 				
-				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
+				if (((bool)$send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==1)) {
 					$go_customer = TRUE;
 				}
 
-				if (($send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
+				if (((bool)$send_customer === TRUE) && ( $clientnotification == '1') && ($customer['notifications']==0)) {
 					$go_customer = FALSE;
 				}
                 if ((bool)$go_customer === TRUE)
