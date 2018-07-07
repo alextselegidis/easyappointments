@@ -1,5 +1,5 @@
 <div id="footer">
-    <div id="footer-content" class="col-xs-12 col-sm-6">
+    <div id="footer-content" class="col-xs-12 col-sm-8">
         Powered by
         <a href="http://easyappointments.org">Easy!Appointments
             <?php
@@ -20,7 +20,7 @@
         </a>
     </div>
 
-    <div id="footer-user-display-name" class="col-xs-12 col-sm-6">
+    <div id="footer-user-display-name" class="col-xs-12 col-sm-4">
         <?= lang('hello') . ', ' . $user_display_name ?>!
     </div>
 </div>
