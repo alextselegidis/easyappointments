@@ -35,7 +35,7 @@ $lang['appointment_removed_from_schedule'] = 'The following appointment was remo
 $lang['appointment_details_was_sent_to_you'] = 'An email with the appointment details has been sent to you.';
 $lang['add_to_google_calendar'] = 'Add to Google Calendar';
 $lang['appointment_booked'] = 'Your appointment has been successfully booked!';
-$lang['thank_you_for_appointment'] = 'Thank you for arranging an appointment with us. Below you can see the appointment details. Make changes by clicking the appointment link.';
+$lang['thank_you_for_appointment'] = 'Thank you for arranging an appointment with us. Below you can see the appointment details. Make changes by clicking the edit link.';
 $lang['appointment_details_title'] = 'Appointment Details';
 $lang['customer_details_title'] = 'Customer Details';
 $lang['service'] = 'Service';
@@ -51,7 +51,7 @@ $lang['success'] = 'Success!';
 $lang['appointment_added_to_google_calendar'] = 'Your appointment has been added to your Google Calendar account.';
 $lang['view_appointment_in_google_calendar'] = 'Click here to view your appointment on Google Calendar.';
 $lang['appointment_added_to_your_plan'] = 'A new appointment has been added to your plan.';
-$lang['appointment_link_description'] = 'You can make changes by clicking the appointment link below.';
+$lang['appointment_link_description'] = 'You can make changes by clicking the edit link below.';
 $lang['appointment_not_found'] = 'Appointment Not Found!';
 $lang['appointment_does_not_exist_in_db'] = 'The appointment you requested does not exist in the system database anymore.';
 $lang['display_calendar'] = 'Display Calendar';
@@ -316,3 +316,11 @@ $lang['notice_auth_y'] = 'I want to recieve email/sms notices and appointment re
 $lang['notice_auth_n'] = 'Do not send me sms/email notices and appointment reminders';
 $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
+$lang['sms'] = 'SMS';
+//Show Minimal Deatails
+$lang['show_minimal_details'] = 'Show minimal details in notifications.';
+$lang['show_minimal_details_hint'] = 'Show minimal details in notifications for greater confidentiality.';
+//Notifications
+
+$lang['powered_by']= 'Powered by';
+$lang['edit_reschedule_cancel_appointment'] = 'Click here to edit, reschedule, or cancel the appointment';

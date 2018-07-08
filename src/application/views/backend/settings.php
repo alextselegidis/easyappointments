@@ -112,6 +112,18 @@
 									<?php echo $this->lang->line('theme_color_hint'); ?>
 								</span>
 							</div>
+							<div class="form-group">
+								<label for="show-minimal-details">
+									<?php echo $this->lang->line('show_minimal_details'); ?>
+								</label>
+								<select class="form-control" id="show-minimal-details" data-field="show_minimal_details">
+									<option value="yes"><?php echo $this->lang->line('yes'); ?></option>
+									<option value="no"><?php echo $this->lang->line('no'); ?></option>
+								</select>
+								<span class="help-block">
+									<?php echo $this->lang->line('show_minimal_details_hint'); ?>
+								</span>
+							</div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">

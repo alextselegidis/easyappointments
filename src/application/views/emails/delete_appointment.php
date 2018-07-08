@@ -18,21 +18,41 @@
             <h2>Appointment Details</h2>
             <table id="appointment-details">
                 <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Provider</td>
+                    <td style="padding: 3px;">$appointment_provider</td>
+                </tr>
+				<!--Google Maps Mod Craig Tucker start -->
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Address</td>
+                    <td style="padding: 3px;"><a href="http://maps.google.com/maps?q=$provider_address">$provider_address</a></td>
+				</tr>
+				<!--Google Maps Mod Craig Tucker end -->
+			</table>	
+			$limitdetails
+			<table id="appointment-details">
+                <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">Service</td>
                     <td style="padding: 3px;">$appointment_service</td>
                 </tr>
                 <tr>
-                    <td class="label" style="padding: 3px;font-weight: bold;">Provider</td>
-                    <td style="padding: 3px;">$appointment_provider</td>
-                </tr>
-                <tr>
-                    <td class="label" style="padding: 3px;font-weight: bold;">Date</td>
-                    <td style="padding: 3px;">$appointment_date</td>
-                </tr>
-                <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">Duration</td>
                     <td style="padding: 3px;">$appointment_duration</td>
+                </tr>				
+				<tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Price</td>
+                    <td style="padding: 3px;">$appointment_price_currency</td>
                 </tr>
+			</table>
+			</div>
+			<table id="appointment-details">
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Apppointment</td>
+                    <td style="padding: 3px;">$appointment_start_date</td>
+                </tr>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;"></td>
+                    <td style="padding: 3px;"><a href="$appointment_link">Click here to edit, reschedule, or cancel the appointment</td>
+                </tr>				
             </table>
 
             <h2>Customer Details</h2>
@@ -41,6 +61,9 @@
                     <td class="label" style="padding: 3px;font-weight: bold;">Name</td>
                     <td style="padding: 3px;">$customer_name</td>
                 </tr>
+			</table>
+			$limitdetails			
+		   <table id="customer-details">					
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">Email</td>
                     <td style="padding: 3px;">$customer_email</td>
@@ -53,8 +76,12 @@
                     <td class="label" style="padding: 3px;font-weight: bold;">Address</td>
                     <td style="padding: 3px;">$customer_address</td>
                 </tr>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">Notes</td>
+                    <td style="padding: 3px;">$appt_notes_field</td>
+                </tr>
             </table>
-
+			</div>
             <h2>Reason</h2>
             <p>$reason</p>
         </div>

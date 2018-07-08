@@ -131,6 +131,8 @@ class Email {
                 throw new \Exception('Invalid time_format value: ' . $company['time_format']);
         }
 		
+		$longDay = $this->framework->lang->line(strtolower(date('l',strtotime($appointment['start_datetime']))));
+		
 		$ci =& get_instance();
 		$theme_color = $ci->settings_model->get_setting('theme_color');
 		switch($theme_color) {
@@ -151,37 +153,60 @@ class Email {
 					$borderbottom='#123F26';
 					break;
 			}
-			
+		
+		$detailsyn = $ci->settings_model->get_setting('show_minimal_details');
+		if ($detailsyn == 'no') {
+			$summaryline = $service['name'];
+			$showhide = '<div style="display:block">';
+		} else {
+			$summaryline = $provider['first_name'] . ' ' . $provider['last_name'] . ' ' . $this->framework->lang->line('appointment');
+			$showhide = '<div style="display:none">';
+		}
+		
+		$address_provider = $provider['address'].', '.$provider['city'].', '.$provider['state'].' '.$provider['zip_code'];
+		$address_customer = $customer['address'] . ', ' . $customer['city'] . ' - ' . $customer['zip_code'];
+		
         // Prepare template replace array.
         $replaceArray = [
+            '$provider_address'	=> $address_provider, 
 			'$background_color' => $bgcolor,
 			'$border_bottom' => $borderbottom,
             '$email_title' => $title->get(),
             '$email_message' => $message->get(),
             '$appointment_service' => $service['name'],
+            '$appointment_price_currency' => $service['price'] . ' ' . $service['currency'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_start_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
-            '$appointment_end_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime'])),
-            '$appointment_link' => $appointmentLink->get(),
+            '$appointment_start_date' => $longDay . ', ' . date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
+			'$appointment_duration' => $service['duration'] . ' ' . $this->framework->lang->line('minutes'),
+			'$appointment_link' => $appointmentLink->get(),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
             '$customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
             '$customer_email' => $customer['email'],
             '$customer_phone' => $customer['phone_number'],
-            '$customer_address' => $customer['address'],
-
-            // Translations
+            '$customer_address' => str_replace(', -','',$address_customer),
+            '$appt_notes_field' => $appointment['notes'],
+			'$summaryical' => $summaryline,
+			'$limitdetails' => $showhide,
+			
+          // Translations
             'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
+            'Appointment' => $this->framework->lang->line('appointment'),
             'Service' => $this->framework->lang->line('service'),
             'Provider' => $this->framework->lang->line('provider'),
-            'Start' => $this->framework->lang->line('start'),
-            'End' => $this->framework->lang->line('end'),
+            'Duration' => $this->framework->lang->line('duration'),
             'Customer Details' => $this->framework->lang->line('customer_details_title'),
             'Name' => $this->framework->lang->line('name'),
             'Email' => $this->framework->lang->line('email'),
             'Phone' => $this->framework->lang->line('phone'),
+			'SMS' => $this->framework->lang->line('sms'),
             'Address' => $this->framework->lang->line('address'),
-            'Appointment Link' => $this->framework->lang->line('appointment_link_title')
+			'City' => $this->framework->lang->line('city'),
+            'Zip' => $this->framework->lang->line('zip_code'),
+            'Notes' => $this->framework->lang->line('notes'),
+			'Appointment Link' => $this->framework->lang->line('appointment_link_title'),
+			'Powered by' => $this->framework->lang->line('powered_by'),
+			'Click here to edit, reschedule, or cancel the appointment' => $this->framework->lang->line('edit_reschedule_cancel_appointment')
         ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
@@ -257,7 +282,7 @@ class Email {
             default:
                 throw new \Exception('Invalid time_format value: ' . $company['time_format']);
         }
-		
+
 		$ci =& get_instance();
 		$theme_color = $ci->settings_model->get_setting('theme_color');
 		switch($theme_color) {
@@ -279,36 +304,61 @@ class Email {
 					break;
 			}
 
+		$detailsyn = $ci->settings_model->get_setting('show_minimal_details');
+		if ($detailsyn == 'no') {
+			$summaryline = $service['name'];
+			$showhide = '<div style="display:block">';
+		} else {
+			$summaryline = $provider['first_name'] . ' ' . $provider['last_name'] . ' ' . $this->framework->lang->line('appointment');
+			$showhide = '<div style="display:none">';
+		}			
+			
         // Prepare email template data.
+		$address_provider = $provider['address'].', '.$provider['city'].', '.$provider['state'].' '.$provider['zip_code'];
+		$address_customer = $customer['address'] . ', ' . $customer['city'] . ' - ' . $customer['zip_code'];
+		
         $replaceArray = [
 			'$background_color' => $bgcolor,
 			'$border_bottom' => $borderbottom,
+
             '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
             '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
             '$appointment_service' => $service['name'],
+            '$appointment_price_currency' => $service['price'] . ' ' . $service['currency'],
             '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             '$appointment_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
+            '$appointment_start_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
             '$appointment_duration' => $service['duration'] . ' ' . $this->framework->lang->line('minutes'),
             '$company_link' => $company['company_link'],
             '$company_name' => $company['company_name'],
             '$customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
             '$customer_email' => $customer['email'],
             '$customer_phone' => $customer['phone_number'],
-            '$customer_address' => $customer['address'],
+            '$customer_address' => str_replace(', -','',$address_customer),
+            '$appt_notes_field' => $appointment['notes'],
             '$reason' => $reason->get(),
+			'$limitdetails' => $showhide,
+            '$provider_address'	=> str_replace(', ,','',$address_provider), 
 
             // Translations
             'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
+			'Appointment' => $this->framework->lang->line('appointment'),
             'Service' => $this->framework->lang->line('service'),
+            'Price' => $this->framework->lang->line('price'),
             'Provider' => $this->framework->lang->line('provider'),
-            'Date' => $this->framework->lang->line('start'),
             'Duration' => $this->framework->lang->line('duration'),
             'Customer Details' => $this->framework->lang->line('customer_details_title'),
             'Name' => $this->framework->lang->line('name'),
             'Email' => $this->framework->lang->line('email'),
             'Phone' => $this->framework->lang->line('phone'),
+            'SMS' => $this->framework->lang->line('sms'),
             'Address' => $this->framework->lang->line('address'),
-            'Reason' => $this->framework->lang->line('reason')
+            'City' => $this->framework->lang->line('city'),
+            'Zip' => $this->framework->lang->line('zip_code'),
+            'Notes' => $this->framework->lang->line('notes'),
+            'Reason' => $this->framework->lang->line('reason'),
+			'Powered by' => $this->framework->lang->line('powered_by'),
+			'Click here to edit, reschedule, or cancel the appointment' => $this->framework->lang->line('edit_reschedule_cancel_appointment')
         ];
 
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/delete_appointment.php');
@@ -362,19 +412,23 @@ class Email {
 
 		$replaceArray = [
 			'$background_color' => $bgcolor,
-			'$border_bottom' => $borderbottom,            '$email_title' => $this->framework->lang->line('new_account_password'),
+			'$border_bottom' => $borderbottom,
+            '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
             '$company_name' => $company['company_name'],
             '$company_email' => $company['company_email'],
             '$company_link' => $company['company_link'],
-            '$password' => '<strong>' . $password->get() . '</strong>'
-        ];
+            '$password' => '<strong>' . $password->get() . '</strong>',
 
+            // Translations
+            'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
+			'Powered by' => $this->framework->lang->line('powered_by')		
+        ];
+		
         $html = file_get_contents(__DIR__ . '/../../application/views/emails/new_password.php');
         $html = $this->_replaceTemplateVariables($replaceArray, $html);
-
+		
         $mailer = $this->_createMailer();
-
         $mailer->From = $company['company_email'];
         $mailer->FromName = $company['company_name'];
         $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
@@ -387,7 +441,7 @@ class Email {
                 . $mailer->ErrorInfo);
         }
     }
-
+    
     /**
      * Create PHP Mailer Instance
      *
