@@ -339,8 +339,30 @@ class Email {
      */
     public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
     {
-        $replaceArray = [
-            '$email_title' => $this->framework->lang->line('new_account_password'),
+		$ci =& get_instance();
+		$theme_color = $ci->settings_model->get_setting('theme_color');
+		switch($theme_color) {
+				case 'green':
+					$bgcolor='#39C678';
+					$borderbottom='#C0F1D6';
+					break;
+				case 'blue':
+					$bgcolor='#124E90';
+					$borderbottom='#5884B4';
+					break;
+				case 'red':
+					$bgcolor='#C3262E';
+					$borderbottom='#75161B';
+					break;
+				default:
+					$bgcolor='#1E6A40';
+					$borderbottom='#123F26';
+					break;
+			}
+
+		$replaceArray = [
+			'$background_color' => $bgcolor,
+			'$border_bottom' => $borderbottom,            '$email_title' => $this->framework->lang->line('new_account_password'),
             '$email_message' => $this->framework->lang->line('new_password_is'),
             '$company_name' => $company['company_name'],
             '$company_email' => $company['company_email'],
