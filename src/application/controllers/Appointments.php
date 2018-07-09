@@ -85,6 +85,7 @@ class Appointments extends CI_Controller {
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
 			$conf_notice = $this->settings_model->get_setting('conf_notice');
+			$max_date = $this->settings_model->get_setting('max_date');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -161,6 +162,7 @@ class Appointments extends CI_Controller {
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
 				'conf_notice' => $conf_notice,
+				'max_date' => $max_date
             ];
         }
         catch (Exception $exc)

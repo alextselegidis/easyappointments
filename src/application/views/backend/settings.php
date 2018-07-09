@@ -124,6 +124,17 @@
 									<?php echo $this->lang->line('show_minimal_details_hint'); ?>
 								</span>
 							</div>
+							<div class="form-group">
+								<label for="max-date">
+									<?php echo $this->lang->line('max_date'); ?>
+								</label>
+								<input type="text" id="max-date" placeholder="30"
+									data-field="max_date" class="form-control">
+								<span class="help-block">
+
+									<?php echo $this->lang->line('max_date_hint'); ?>
+								</span>
+							</div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">

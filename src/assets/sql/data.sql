@@ -25,9 +25,10 @@ VALUES
     ('privacy_policy_content', 'Privacy policy content.'),
 	('theme_color', 'blue'),
 	('conf_notice', 'no'),
-	('show_minimal_details', 'no');
+	('show_minimal_details', 'no'),
+	('max_date', '30');
 
-INSERT INTO `ea_migrations` VALUES ('17');
+INSERT INTO `ea_migrations` VALUES ('18');
 
 INSERT INTO `ea_cellcarrier` (`id`, `cellco`, `cellurl`) VALUES
 	(1, 'Bell', '@txt.bell.ca'),  

@@ -321,6 +321,8 @@ $lang['sms'] = 'SMS';
 $lang['show_minimal_details'] = 'Show minimal details in notifications.';
 $lang['show_minimal_details_hint'] = 'Show minimal details in notifications for greater confidentiality.';
 //Notifications
-
 $lang['powered_by']= 'Powered by';
 $lang['edit_reschedule_cancel_appointment'] = 'Click here to edit, reschedule, or cancel the appointment';
+//Max_Date setting
+$lang['max_date']= 'Maximum Days Out';
+$lang['max_date_hint']= 'This setting allows you to ensure people do not book appointments too many days into the future';

@@ -109,10 +109,13 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
+		var max_date;
+		max_date = GlobalVariables.maxDate; //MaxDate mod Craig Tucker 1
         $('#select-date').datepicker({
             dateFormat: 'dd-mm-yy',
             firstDay: 0,
             minDate: 0,
+			maxDate: "+" + max_date + "d", //MaxDate mod Craig Tucker 2
             defaultDate: Date.today(),
 
             dayNames: [

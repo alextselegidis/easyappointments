@@ -445,6 +445,7 @@
             customerData        : <?= json_encode($customer_data) ?>,
             csrfToken           : <?= json_encode($this->security->get_csrf_hash()) ?>,
 			confNotice			: <?= json_encode($conf_notice) ?>,
+			maxDate    			: <?= json_encode($max_date) ?>,
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;
