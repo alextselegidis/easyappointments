@@ -203,4 +203,11 @@ class User_Model extends CI_Model {
 
         return $row_data[$field_name];
     }
-}
+	
+	// Modifications by Craig Tucker for reminders and waiting list
+	public function get_user_email($user_id) {
+        if (!is_numeric($user_id))
+            throw new Exception ('Invalid argument given ($user_id = "' . $user_id . '").');
+        $user = $this->db->get_where('ea_users', array('id' => $user_id))->row_array();
+        return $user['email'];
+    }	}

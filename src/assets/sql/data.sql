@@ -26,9 +26,10 @@ VALUES
 	('theme_color', 'blue'),
 	('conf_notice', 'no'),
 	('show_minimal_details', 'no'),
-	('max_date', '30');
+	('max_date', '30'),
+	('reminder_days_out', '1,3');
 
-INSERT INTO `ea_migrations` VALUES ('18');
+INSERT INTO `ea_migrations` VALUES ('19');
 
 INSERT INTO `ea_cellcarrier` (`id`, `cellco`, `cellurl`) VALUES
 	(1, 'Bell', '@txt.bell.ca'),  

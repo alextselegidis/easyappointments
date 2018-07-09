@@ -326,3 +326,16 @@ $lang['edit_reschedule_cancel_appointment'] = 'Click here to edit, reschedule, o
 //Max_Date setting
 $lang['max_date']= 'Maximum Days Out';
 $lang['max_date_hint']= 'This setting allows you to ensure people do not book appointments too many days into the future';
+//Appointment Reminders
+$lang['reminder_days_out'] = 'Appointment Reminders';
+$lang['reminder_days_out_hint'] = 'This is a comma delimited list of integers in days that you want to send reminders on. Example: 1,3 means that at 1 day and at 3 days prior to the appointment, the attendee will receive the reminder.';
+$lang['notice_reminder']= 'One more day until your appointment.';
+$lang['notice_reminder_sms']= '1 day reminder'; //20 character limit
+$lang['notice_reminder_days']= 'more days until your appointment.';
+$lang['notice_reminder_days_sms']= ' day reminder'; //20 character limit
+$lang['reminder_your_appt_with']= 'REMINDER: Your appointment with'; 
+$lang['is_on']= 'is on'; 
+$lang['msg_line1']= 'This is a message line in the language file and it works with a url'; 
+$lang['url_line1']= 'https://www.google.com'; 
+$lang['msg_line2']= 'This is another message line you can edit in the language file linked to a url';
+$lang['url_line2']= 'http:www.npr.org';

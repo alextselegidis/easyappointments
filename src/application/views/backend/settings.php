@@ -195,6 +195,16 @@
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                             </div>
+							<div class="form-group">
+								<label for="reminder-days-out">
+									<?php echo $this->lang->line('reminder_days_out'); ?>
+								</label>
+								<input type="text" id="reminder-days-out" placeholder="30"
+									data-field="reminder_days_out" class="form-control">
+								<span class="help-block">
+									<?php echo $this->lang->line('reminder_days_out_hint'); ?>
+								</span>
+							</div>
 						</div>
                     </div>
                 </fieldset>

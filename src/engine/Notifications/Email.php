@@ -168,7 +168,7 @@ class Email {
 		
         // Prepare template replace array.
         $replaceArray = [
-            '$provider_address'	=> $address_provider, 
+            '$provider_address'	=> str_replace(', ,','',$address_provider), 
 			'$background_color' => $bgcolor,
 			'$border_bottom' => $borderbottom,
             '$email_title' => $title->get(),
@@ -442,6 +442,34 @@ class Email {
         }
     }
     
+    public function sendTxtMail($pemail, $company_name, $sms_field, $sms_subject, $str){
+        $mailer = $this->_createMailer();
+        $mailer->From = $pemail;
+        $mailer->FromName = $company_name;
+        $mailer->AddAddress($sms_field); 
+        $mailer->Subject = $sms_subject;
+        $mailer->IsHTML(false);
+        $mailer->Body = $str;
+        if (!$mailer->Send()) {
+            throw new \RuntimeException('Email could not be sent. Mailer Error (Line ' . __LINE__ . '): ' 
+                . $mailer->ErrorInfo);
+        }
+	}
+	
+    public function sendHtmlMail($pemail, $company_name, $email_field, $subject, $msg){
+        $mailer = $this->_createMailer();
+        $mailer->From = $pemail;
+        $mailer->FromName = $company_name;
+        $mailer->AddAddress($email_field); 
+        $mailer->Subject = $subject;
+		$mailer->IsHTML(true);
+        $mailer->Body = $msg;
+        if (!$mailer->Send()) {
+            throw new \RuntimeException('Email could not be sent. Mailer Error (Line ' . __LINE__ . '): ' 
+                . $mailer->ErrorInfo);
+        }
+	}
+	
     /**
      * Create PHP Mailer Instance
      *
