@@ -160,6 +160,7 @@ $lang['company_name_hint'] = 'Le nom de la société sera affiché et utilisé u
 $lang['company_email'] = 'Email de la société';
 $lang['company_email_hint'] = 'Ceci sera l\'adresse email de la société. Elle sera utilisée comme adresse d\'envoi et de réponse par le système de messagerie électronique (obligatoire).';
 $lang['company_link'] = 'Site web de la société';
+$lang['company_link_hint'] = 'Le lien de la société doit pointer vers le site web officiel de la société (obligatoire).';
 $lang['go_to_booking_page'] = 'Aller à la page de rendez-vous';
 $lang['settings_saved'] = 'Paramètres sauvegardés avec succès !';
 $lang['general'] = 'Général';
