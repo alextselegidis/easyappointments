@@ -74,6 +74,7 @@ class Consents_model extends CI_Model {
      */
     protected function _insert($consent)
     {
+        $this->db->set('created', 'NOW()', FALSE);
         if ( ! $this->db->insert('ea_consents', $consent))
         {
             throw new Exception('Could not insert consent to the database.');
