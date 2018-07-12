@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Przeładuj wizyty kalendarza.';
 $lang['trigger_google_sync_hint'] = 'Przełącz proces synchronizacji Kalendarza Google';
 $lang['appointment_updated'] = 'Wizyta zaktualizowana poprawnie!';
 $lang['undo'] = 'Cofnij';
-$lang['cancel'] = 'Anuluj';
 $lang['appointment_details_changed'] = 'Szczegóły wizyty zostały zmienione.';
 $lang['appointment_changes_saved'] = 'Zmiany zostały zapisane!';
 $lang['save'] = 'Zapisz';

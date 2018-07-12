@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Cargar nuevamente citas del calendario.';
 $lang['trigger_google_sync_hint'] = 'Iniciar el proceso de sinconización de Google Calendar.';
 $lang['appointment_updated'] = 'Cita actualizada exitosamente';
 $lang['undo'] = 'Deshacer';
-$lang['cancel'] = 'Cancelar';
 $lang['appointment_details_changed'] = 'Se han modificado los detalles de la cita.';
 $lang['appointment_changes_saved'] = 'Se han guardado exitosamente los cambios en la cita';
 $lang['save'] = 'Guardar';

@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Kalendertermine neu laden.';
 $lang['trigger_google_sync_hint'] = 'Starten Sie den Synchronisationsprozess von Google Kalender.';
 $lang['appointment_updated'] = 'Die Termine sind erfolgreich erneuert worden!';
 $lang['undo'] = 'Schritt zurück';
-$lang['cancel'] = 'Abbrechen';
 $lang['appointment_details_changed'] = 'Die Termindetails haben sich geändert.';
 $lang['appointment_changes_saved'] = 'Die Terminänderungen sind erfolgreich gespeichert worden!';
 $lang['save'] = 'Speichern';
