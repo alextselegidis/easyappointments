@@ -1,58 +1,30 @@
 <?php
 /**
- * CodeIgniter
- *
- * An open source application development framework for PHP
- *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * @package    CodeIgniter
- * @author    EllisLab Dev Team
- * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright    Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
- * @license    http://opensource.org/licenses/MIT	MIT License
- * @link    https://codeigniter.com
- * @since    Version 1.0.0
- * @filesource
- */
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-$lang['email_must_be_array'] = 'The email validation method must be passed an array.';
-$lang['email_invalid_address'] = 'Invalid email address: %s';
-$lang['email_attachment_missing'] = 'Unable to locate the following email attachment: %s';
-$lang['email_attachment_unreadable'] = 'Unable to open this attachment: %s';
-$lang['email_no_from'] = 'Cannot send mail with no "From" header.';
-$lang['email_no_recipients'] = 'You must include recipients: To, Cc, or Bcc';
-$lang['email_send_failure_phpmail'] = 'Unable to send email using PHP mail(). Your server might not be configured to send mail using this method.';
-$lang['email_send_failure_sendmail'] = 'Unable to send email using PHP Sendmail. Your server might not be configured to send mail using this method.';
-$lang['email_send_failure_smtp'] = 'Unable to send email using PHP SMTP. Your server might not be configured to send mail using this method.';
-$lang['email_sent'] = 'Your message has been successfully sent using the following protocol: %s';
-$lang['email_no_socket'] = 'Unable to open a socket to Sendmail. Please check settings.';
-$lang['email_no_hostname'] = 'You did not specify a SMTP hostname.';
-$lang['email_smtp_error'] = 'The following SMTP error was encountered: %s';
-$lang['email_no_smtp_unpw'] = 'Error: You must assign a SMTP username and password.';
-$lang['email_failed_smtp_login'] = 'Failed to send AUTH LOGIN command. Error: %s';
-$lang['email_smtp_auth_un'] = 'Failed to authenticate username. Error: %s';
-$lang['email_smtp_auth_pw'] = 'Failed to authenticate password. Error: %s';
-$lang['email_smtp_data_failure'] = 'Unable to send data: %s';
-$lang['email_exit_status'] = 'Exit status code: %s';
+* System messages translation for CodeIgniter(tm)
+*
+* @author	CodeIgniter community
+* @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+* @copyright	Pieter Krul
+* @license	http://opensource.org/licenses/MIT MIT License
+* @link	https://codeigniter.com
+*/
+defined('BASEPATH') OR exit('Directe toegang tot scripts is niet toegestaan');
+$lang['email_must_be_array'] = 'ईमेल सत्यापन विधि को  सरणी (array) भेजी जानी चाहिए।';
+$lang['email_invalid_address'] = 'अवैध ईमेल पता है:% s';
+$lang['email_attachment_missing'] = '% S: निम्नलिखित ईमेल संलग्नक (अटैचमेंट) पता लगाने में असमर्थ';
+$lang['email_attachment_unreadable'] = 'अटैचमेंट खोलने के  असमर्थ :% s';
+$lang['email_no_from'] = 'From हेडर के बिना मेल नहीं भेज सकते हैं।';
+$lang['email_no_recipients'] = 'To, CC, BCC  प्राप्तकर्ताओं को शामिल करना जरुरी है ';
+$lang['email_send_failure_phpmail'] = 'PHP mail() का उपयोग करके ईमेल  भेजने में असमर्थ। आपका सर्वर इस पद्धति का उपयोग करके मेल भेजने के लिए शायद  कॉन्फ़िगर नहीं किया गया है';
+$lang['email_send_failure_sendmail'] = 'PHP sendmail का उपयोग करके ईमेल  भेजने में असमर्थ। आपका सर्वर इस पद्धति का उपयोग करके मेल भेजने के लिए शायद  कॉन्फ़िगर नहीं किया गया है';
+$lang['email_send_failure_smtp'] = 'PHP SMTP  का उपयोग करके ईमेल  भेजने में असमर्थ। आपका सर्वर इस पद्धति का उपयोग करके मेल भेजने के लिए शायद  कॉन्फ़िगर नहीं किया गया है';
+$lang['email_sent'] = 'आपका संदेश सफलतापूर्वक दिए गए प्रोटोकॉल का उपयोग करके भेज दिया गया है:% s';
+$lang['email_no_socket'] = 'सेंडमेल करने के लिए सॉकेट खोलने में असमर्थ। सेटिंग्स की जाँच करें।';
+$lang['email_no_hostname'] = 'आपने SMTP होस्टनेम  निर्दिष्ट नहीं किया है';
+$lang['email_smtp_error'] = 'निम्नलिखित एसएमटीपी त्रुटि आई है:% s';
+$lang['email_no_smtp_unpw'] = 'त्रुटि: एसएमटीपी यूज़रनेम और पासवर्ड प्रदान करना जरुरी है';
+$lang['email_failed_smtp_login'] = 'Auth लॉग इन कमांड भेजने में विफल। त्रुटि:% s';
+$lang['email_smtp_auth_un'] = 'उपयोगकर्ता नाम को प्रमाणित करने में विफल। त्रुटि:% s';
+$lang['email_smtp_auth_pw'] = 'पासवर्ड प्रमाणित करने में विफल। त्रुटि:% s';
+$lang['email_smtp_data_failure'] = 'डेटा भेजने के लिए असमर्थ : % s';
+$lang['email_exit_status'] = 'एग्जिट स्थिति कोड है:% s';
