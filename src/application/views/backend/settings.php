@@ -205,6 +205,16 @@
 									<?php echo $this->lang->line('reminder_days_out_hint'); ?>
 								</span>
 							</div>
+							<div class="form-group">
+								<label for="interval-time">
+									<?php echo $this->lang->line('interval_time'); ?>
+								</label>
+								<input type="text" id="interval-time" placeholder="30"
+									data-field="interval_time" class="form-control">								
+								<span class="help-block">
+									<?php echo $this->lang->line('interval_time_hint'); ?>
+								</span>
+							</div>
 						</div>
                     </div>
                 </fieldset>

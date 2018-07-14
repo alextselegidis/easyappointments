@@ -855,7 +855,8 @@ class Appointments extends CI_Controller {
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
 
         $periods = [];
-
+		$starts = array();
+		
         if (isset($selected_date_working_plan['breaks']))
         {
             $periods[] = [
@@ -866,11 +867,15 @@ class Appointments extends CI_Controller {
             $day_start = new DateTime($selected_date_working_plan['start']);
             $day_end = new DateTime($selected_date_working_plan['end']);
 
+			$starts[] =  $day_start->format('H:i');
+			
             // Split the working plan to available time periods that do not contain the breaks in them.
             foreach ($selected_date_working_plan['breaks'] as $index => $break)
             {
                 $break_start = new DateTime($break['start']);
                 $break_end = new DateTime($break['end']);
+				
+				$starts[] = $break_end->format('H:i');
 
                 if ($break_start < $day_start)
                 {
@@ -1000,7 +1005,7 @@ class Appointments extends CI_Controller {
             }
         }
 
-        return array_values($periods);
+        return array($starts ,array_values($periods));
     }
 
     /**
@@ -1109,13 +1114,57 @@ class Appointments extends CI_Controller {
         $this->load->model('settings_model');
 
         $available_hours = [];
-
-        foreach ($empty_periods as $period)
+		
+		$starts = $empty_periods[0];
+		
+        foreach ($empty_periods[1] as $period)
         {
             $start_hour = new DateTime($selected_date . ' ' . $period['start']);
             $end_hour = new DateTime($selected_date . ' ' . $period['end']);
-            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : 15;
+            $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : $this->settings_model->get_setting('interval_time');
 
+			if ($availabilities_type === AVAILABILITIES_TYPE_Q15){  
+			$minutes = $start_hour->format('i');			
+				if ($minutes % 15 != 0) {
+					if ($minutes < 15) {
+						$start_hour->setTime($start_hour->format('H'), 15);
+					} else if ($minutes < 30) {
+						$start_hour->setTime($start_hour->format('H'), 30);
+					} else if ($minutes < 45) {
+						$start_hour->setTime($start_hour->format('H'), 45);
+					} else {
+						$start_hour->setTime($start_hour->format('H') + 1, 00);
+					}
+				} else if ((!in_array($period['start'], $starts)) && ($minutes % 15 == 0)) {
+					if ($minutes == 15) {
+						$start_hour->setTime($start_hour->format('H'), 30);
+					} else if ($minutes == 30) {
+						$start_hour->setTime($start_hour->format('H'), 45);
+					} else if ($minutes == 45) {
+						$start_hour->setTime($start_hour->format('H') + 1, 00);
+					} else {
+						$start_hour->setTime($start_hour->format('H'), 15);
+					}
+				}
+			}
+
+			if ($availabilities_type === AVAILABILITIES_TYPE_Q30){  
+			$minutes = $start_hour->format('i');
+				if ($minutes % 30 != 0) {
+					if ($minutes < 30) {
+						$start_hour->setTime($start_hour->format('H'), 30);
+					} else {
+						$start_hour->setTime($start_hour->format('H') + 1, 00);
+					}
+				} else if ((!in_array($period['start'], $starts))&& ($minutes % 30 == 0)) {
+					if ($minutes == 30) {
+						$start_hour->setTime($start_hour->format('H') + 1, 00);
+					} else {
+						$start_hour->setTime($start_hour->format('H'), 30);
+					}
+				}
+			}
+			
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
 

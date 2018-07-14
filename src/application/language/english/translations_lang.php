@@ -339,3 +339,8 @@ $lang['msg_line1']= 'This is a message line in the language file and it works wi
 $lang['url_line1']= 'https://www.google.com'; 
 $lang['msg_line2']= 'This is another message line you can edit in the language file linked to a url';
 $lang['url_line2']= 'http:www.npr.org';
+//Q15 and Q30
+$lang['Q15'] = 'On the quarter';
+$lang['Q30'] = 'On the half';
+$lang['interval_time']= 'Time Interval For Fixed Appointments';
+$lang['interval_time_hint'] = 'Default time interval for date picker and waiting list.  If your appointments are typically 1 hour then enter 60 here.';

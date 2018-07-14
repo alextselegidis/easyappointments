@@ -125,6 +125,12 @@
                             <option value="<?= AVAILABILITIES_TYPE_FIXED ?>">
                                 <?= lang('fixed') ?>
                             </option>
+                            <option value="<?= AVAILABILITIES_TYPE_Q15 ?>">
+                                <?= lang('Q15') ?>
+                            </option>
+                            <option value="<?= AVAILABILITIES_TYPE_Q30 ?>">
+                                <?= lang('Q30') ?>
+                            </option>
                         </select>
                     </div>
 

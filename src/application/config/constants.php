@@ -86,6 +86,9 @@ define('CALENDAR_VIEW_TABLE', 'table');
 
 define('AVAILABILITIES_TYPE_FLEXIBLE', 'flexible');
 define('AVAILABILITIES_TYPE_FIXED', 'fixed');
-
+//Additional availabilities types Craig Tucker start
+define('AVAILABILITIES_TYPE_Q15', 'Q15');
+define('AVAILABILITIES_TYPE_Q30', 'Q30');
+//Additional availabilities types Craig Tucker end
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -27,9 +27,10 @@ VALUES
 	('conf_notice', 'no'),
 	('show_minimal_details', 'no'),
 	('max_date', '30'),
-	('reminder_days_out', '1,3');
+	('reminder_days_out', '1,3'),
+	('interval_time', '30');
 
-INSERT INTO `ea_migrations` VALUES ('19');
+INSERT INTO `ea_migrations` VALUES ('20');
 
 INSERT INTO `ea_cellcarrier` (`id`, `cellco`, `cellurl`) VALUES
 	(1, 'Bell', '@txt.bell.ca'),  
