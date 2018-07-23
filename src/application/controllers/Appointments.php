@@ -783,7 +783,7 @@ class Appointments extends CI_Controller {
 
         $is_still_available = FALSE;
 
-        foreach ($available_periods as $period)
+        foreach ($available_periods[1] as $period)
         {
             $appt_start = new DateTime($appointment['start_datetime']);
             $appt_start = $appt_start->format('H:i');
