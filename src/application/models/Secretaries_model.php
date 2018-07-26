@@ -559,4 +559,25 @@ class Secretaries_Model extends CI_Model {
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
         return ($num_rows > 0) ? FALSE : TRUE;
     }
+
+    /**
+     * Get the associated providers with the given secretary id.
+     *
+     * @param int $secretary_id The id of the secretary.
+     *
+     * @return array The providers array.
+     */
+    public function get_providers($secretary_id)
+    {
+        $this->load->model('providers_model');
+
+        $secretary_providers = $this->db->get_where('ea_secretaries_providers',
+            ['id_users_secretary' => $secretary_id])->result_array();
+        $providers = [];
+        foreach ($secretary_providers as $secretary_provider)
+        {
+            $providers[] = $this->providers_model->get_row($secretary_provider['id_users_provider']);
+        }
+        return $providers;
+    }
 }

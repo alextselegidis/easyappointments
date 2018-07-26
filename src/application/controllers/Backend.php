@@ -64,23 +64,38 @@ class Backend extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('secretaries_model');
 
+        $user_id = $this->session->userdata('user_id');
+        $user_role_slug = $this->session->userdata('role_slug');
+
         $view['base_url'] = $this->config->item('base_url');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_APPOINTMENTS;
         $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
-        $user = $this->user_model->get_settings($this->session->userdata('user_id'));
+        $user = $this->user_model->get_settings($user_id);
         $view['calendar_view'] = $user['settings']['calendar_view'];
+
+        $view['available_providers'] = [];
+        switch($user_role_slug)
+        {
+            case DB_SLUG_ADMIN:
+                $view['available_providers'] = $this->providers_model->get_available_providers();
+                break;
+            case DB_SLUG_PROVIDER:
+                $view['available_providers'][] = $this->providers_model->get_row($user_id);
+                break;
+            case DB_SLUG_SECRETARY:
+                $view['available_providers'] = $this->secretaries_model->get_providers($user_id);
+        }
         $this->set_user_data($view);
 
-        if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY)
+        if ($user_role_slug === DB_SLUG_SECRETARY)
         {
-            $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
+            $secretary = $this->secretaries_model->get_row($user_id);
             $view['secretary_providers'] = $secretary['providers'];
         }
         else
