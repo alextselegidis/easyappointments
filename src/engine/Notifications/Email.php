@@ -168,11 +168,7 @@ class Email {
 		
         // Prepare template replace array.
         $replaceArray = [
-<<<<<<< HEAD
             '$provider_address'	=> str_replace(', ,','',$address_provider), 
-=======
-            '$provider_address'	=> str_replace(', ,','',$address_provider),  
->>>>>>> 64ef358edd11937ce163961f3d6ece5e5f44eb13
 			'$background_color' => $bgcolor,
 			'$border_bottom' => $borderbottom,
             '$email_title' => $title->get(),
