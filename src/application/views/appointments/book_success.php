@@ -35,7 +35,11 @@
                         echo '
                             <h3>' . lang('appointment_registered') . '</h3>
                             <p>' . lang('appointment_details_was_sent_to_you') . '</p>
-                            <a href="' . site_url() . '" class="btn btn-success btn-large">
+                            
+							<!-- Return Button Mod Craig Tucker start -->
+							<a href="'.$this->config->base_url(); ?>index.php/appointments/index/<?php echo $appointment_data['hash'].'" class="btn btn-success btn-large">
+							<!-- Return Button Mod Craig Tucker end -->
+
                                 <span class="glyphicon glyphicon-calendar"></span> ' .
                                 lang('go_to_booking_page') . '
                             </a>

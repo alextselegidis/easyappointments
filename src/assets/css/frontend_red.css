@@ -168,6 +168,31 @@ body {
     line-height: 28px;
 }
 
+/* Return to book mod 1 Craig Tucker start*/
+
+#book-appointment-wizard #wizard-frame-0 {
+	position:absolute;
+	top:14%;
+	left:0;
+	width:100%;
+	height:80%;
+	background-color:#FAFAFA;
+	z-index: 950;
+	text-align: center
+}
+
+
+#book-appointment-wizard #wizard-frame-0 select {
+    margin-bottom: 25px;
+
+}	
+
+#delete-personal-information {
+    margin-top: 40px;
+}
+
+/* Return to book mod 1 Craig Tucker end*/
+
 #book-appointment-wizard #wizard-frame-1 label {
     font-size: 19px;
     margin-bottom: 12px;
@@ -274,6 +299,13 @@ body {
         overflow: auto;
         margin: 20px auto;
     }
+
+	/* Return to book mod 2 Craig Tucker start*/
+	#book-appointment-wizard #wizard-frame-0 {
+		top:21%;
+		height:73%;
+	}	
+	/* Return to book mod 2 Craig Tucker end*/
 
     #book-appointment-wizard .wizard-frame {
         padding: 0 10px;

@@ -295,7 +295,7 @@ $lang['privacy_policy_content'] = 'Privacy Policy Content';
 $lang['website_using_cookies_to_ensure_best_experience'] = 'This website uses cookies to ensure you get the best experience on our website.';
 $lang['read_and_agree_to_terms_and_conditions'] = 'I have read and agree to the {$link}Terms & Conditions{/$link}.';
 $lang['read_and_agree_to_privacy_policy'] = 'I have read and agree to the {$link}Privacy Policy{/$link}.';
-$lang['delete_personal_information_hint'] = 'Delete all personal information from the system.';
+$lang['delete_personal_information_hint'] = 'Remove all my data from Easy!Appontments.';
 $lang['delete_personal_information'] = 'Delete Personal Information';
 $lang['delete_personal_information_prompt'] = 'Are you sure that you want to delete your personal information? This action cannot be undone.';
 //Theme Color Settings
@@ -369,3 +369,18 @@ $lang['waitinglist_canceled_title'] = 'Waiting List Cancelled';
 $lang['waitinglist_cancelled'] = 'You have been successfully taken off of the waiting list.';
 $lang['return_to_book'] = 'Return to Booking';
 $lang['book_now'] = 'Book Appointment Now';
+
+//Return to Book Landing Screen
+$lang['what_to_do'] = 'What would you like to do?';
+$lang['new_apt'] = 'Add New Appointment';
+$lang['change_apt'] = 'Modify Current Appointment For:';
+$lang['apointent_cancelation'] = 'Cancel Appointment';
+$lang['return_to_start'] = 'Return to Start';
+$lang['select_language'] = 'Select Language';
+$lang['preferred_language'] = 'Preferred Language';
+$lang['user_lang']= 'english';
+$lang['cell_carrier'] = 'For text reminders, select your mobile provider:';
+$lang['return_to_book'] = 'Return to Booking';
+$lang['powered_by']= 'Powered by';
+$lang['operation_failed']= 'The operation failed! Please enter a valid username and email address in order to get a new password.';
+$lang['sms'] = 'SMS';

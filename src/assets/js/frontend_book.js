@@ -414,53 +414,48 @@ window.FrontendBook = window.FrontendBook || {};
              * @param {jQuery.Event} event
              */
             $('#cancel-appointment').click(function (event) {
-                var buttons = [
-                    {
-                        text: 'OK',
-                        click: function () {
-                            if ($('#cancel-reason').val() === '') {
-                                $('#cancel-reason').css('border', '2px solid red');
-                                return;
-                            }
-                            $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
-                            $('#cancel-appointment-form').submit();
-                        }
-                    },
-                    {
-                        text: EALang.cancel,
-                        click: function () {
-                            $('#message_box').dialog('close');
-                        }
+                var dialogButtons = {};
+                dialogButtons['OK'] = function() {
+                    if ($('#cancel-reason').val() === '') {
+                        $('#cancel-reason').css('border', '2px solid red');
+                        return;
                     }
-                ];
-
-                GeneralFunctions.displayMessageBox(EALang.cancel_appointment_title,
-                    EALang.write_appointment_removal_reason, buttons);
-
-                $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
-                $('#cancel-reason').css('width', '100%');
-                return false;
+                    $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
+                    $('#cancel-appointment-form').submit();
+                };
             });
 
-            $('#delete-personal-information').on('click', function () {
-                var buttons = [
-                    {
-                        text: 'Delete',
-                        click: function () {
-                            FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
-                        }
-                    },
-                    {
-                        text: EALang.cancel,
-                        click: function () {
-                            $('#message_box').dialog('close');
-                        }
-                    }
-                ];
+			$("#selectNew").click(function (event) {
+				FrontendBook.manageMode = false;
+				
+				document.getElementById('cancel-appointment-frame').style.display = 'none';
 
-                GeneralFunctions.displayMessageBox(EALang.delete_personal_information,
-                    EALang.delete_personal_information_prompt, buttons);
-            });
+				FrontendBookApi.getAvailableHours($('#select-date').val());// Load the available hours.
+					// Apply Customer's Data
+					$('#last-name').val(GlobalVariables.customerData['last_name']);
+					$('#first-name').val(GlobalVariables.customerData['first_name']);
+					$('#lang').val(EALang['user_lang']);
+					$('#email').val(GlobalVariables.customerData['email']);
+					$('#phone-number').val(GlobalVariables.customerData['phone_number']);
+					$('#cell-carrier').val(GlobalVariables.customerData['id_cellcarrier']); //Craig Tucker Mod
+					$('#wp-id').val(GlobalVariables.customerData['wp_id']); //Craig Tucker Mod
+					$('#address').val(GlobalVariables.customerData['address']);
+					$('#city').val(GlobalVariables.customerData['city']);
+					$('#zip-code').val(GlobalVariables.customerData['zip_code']);
+					$('#conf-notice').val(GlobalVariables.customerData['notifications']); //Craig Tucker Mod
+
+					
+				FrontendBook.updateConfirmFrame();
+
+				var nextTabIndex = 1;	
+				$(this).parents().eq(1).hide('fade', function() {    
+					$('.active-step').removeClass('active-step');
+					$('#step-' + nextTabIndex).addClass('active-step');
+					$('#wizard-frame-' + nextTabIndex).show('fade');
+				});			
+			});
+			
+			
         }
 
         /**

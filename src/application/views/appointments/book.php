@@ -87,29 +87,92 @@
                     </div>
                 </div>
 
-                <?php if ($manage_mode): ?>
-                <div id="cancel-appointment-frame" class="booking-header-bar row">
-                    <div class="col-xs-12 col-sm-10">
-                        <p><?= lang('cancel_appointment_hint') ?></p>
-                    </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <form id="cancel-appointment-form" method="post"
-                              action="<?= site_url('appointments/cancel/' . $appointment_data['hash']) ?>">
-                            <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>" />
-                            <textarea name="cancel_reason" style="display:none"></textarea>
-                            <button id="cancel-appointment" class="btn btn-default btn-sm"><?= lang('cancel') ?></button>
-                        </form>
-                    </div>
-                </div>
-                <div class="booking-header-bar row">
-                    <div class="col-xs-12 col-sm-10">
-                        <p><?= lang('delete_personal_information_hint') ?></p>
-                    </div>
-                    <div class="col-xs-12 col-sm-2">
-                        <button id="delete-personal-information" class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
-                    </div>
-                </div>
-                <?php endif; ?>
+                <?php
+                    if ($manage_mode === TRUE) {
+					$this->load->model('settings_model');			
+					$time_format = $this->settings_model->get_setting('time_format');
+					$date_format = $this->settings_model->get_setting('date_format');
+		
+						switch($date_format) {
+							case 'DMY':
+								$dateview='d/m/Y';
+								break;
+							case 'MDY':
+								$dateview='m/d/Y';
+								break;
+							case 'YMD':
+								$dateview='Y/m/d';
+								break;
+							default:
+								$dateview='Y/m/d';
+								break;
+						}			
+				
+						switch($time_format) {
+							case 'military':
+								$timeview=' H:i';
+								break;
+							case 'regular':
+								$timeview='g:i a';
+								break;
+							default:
+								$timeview=' H:i';
+								break;
+						}			
+			
+					$longDay = $this->lang->line(strtolower(date('l',strtotime($appointment_data['start_datetime']))));
+					$date_field = date($dateview,strtotime($appointment_data['start_datetime']));
+					$time_field = date($timeview,strtotime($appointment_data['start_datetime']));
+					if ($time_format == 'military') {				
+						$appt_date = $date_field . $time_field;
+					} else {
+						$appt_date = $longDay . ', ' . $date_field . $time_field;
+					}			
+                        echo '
+							<div id="wizard-frame-0" class="wizard-frame" >
+								<h3>' .
+                                         $this->lang->line('what_to_do') .
+                                '<h3>
+								<div button id="selectNew" class="btn btn-buttonanew btn-primary" value=0 data-step_index="0" class="col-md-6">'. $this->lang->line('new_apt') .'<i class="icon-forward icon-white"></i></button>
+								</div>
+								<br><br>									
+								<div button type="button" id="button-next-0" class="btn button-next btn-primary" 
+								data-step_index="0" class="col-md-6">'. $this->lang->line('change_apt') .'<i class="icon-forward icon-white"></i></button>
+								</div> 
+								<br><strong><h5><div id="appointment-service"></div></h5></strong>
+								<h6>'.$appt_date.'</h6><br>
+								
+								<form id="cancel-appointment-form" method="post"
+										action="' . $this->config->item('base_url')
+										. '/index.php/appointments/cancel/' . $appointment_data['hash'] . '" >
+									<input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
+									<button id="cancel-appointment" style="color:white; background-color:red;" class="btn btn-default">' . $this->lang->line('apointent_cancelation') . ' </button>
+									<h6>' . $this->lang->line('write_appointment_removal_reason') . '</h6>
+									<textarea name="cancel_reason" required></textarea>
+								</form>
+								
+								<div id="remove-personal-info">
+									<button id="delete-personal-information" class="btn btn-danger btn-sm">'.$this->lang->line('delete_personal_information_hint').'</button>
+								</div>
+							</div>
+                            <div id="cancel-appointment-frame" class="row">
+                                <div class="col-xs-12 col-sm-9">
+									<div align="center" style="margin-left: 30px;">
+										<h6>'.$this->lang->line('change_apt').'<br>'.$appt_date.'<h6>
+									</div> 
+                                </div>
+								<div >
+                                    <form id="update-appointment-form" method="post"
+                                            action="' . $this->config->item('base_url')
+                                            . '/index.php/appointments/index/' . $appointment_data['hash'] . '">
+                                    <input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
+
+                                    <button id="return_to_start" style="color:white; background-color:red;" class="btn btn-default">'. $this->lang->line('return_to_start') .'</button>
+                                    </form>
+                                </div>
+                            </div>';
+                    }
+                ?>
 
                 <?php
                     if (isset($exceptions)) {

@@ -54,6 +54,9 @@
                             <?php endforeach ?>
                         </div>
                     <?php endif ?>
+					<form action="<?php echo $this->config->item('base_url'); ?>">
+						<input type="submit" value="<?php echo $this->lang->line('return_to_book') ?>" class="btn btn-primary">
+					</form>					
                 </div>
             </div>
 
