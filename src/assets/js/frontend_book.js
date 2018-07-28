@@ -249,6 +249,55 @@ window.FrontendBook = window.FrontendBook || {};
             _updateServiceDescription($('#select-service').val(), $('#service-description'));
         });
 
+		//Waiting List Functions start
+		//Craig Tucker, craigtuckerlcsw@gmail.com
+		function validateWaitinglistEmail() {
+  			if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($('#email2').val()))  
+			{  
+				return (true)  
+			}  
+			    $('.alert').text(EALang['waiting_list_valid_email']);
+                $('.alert').addClass('alert-danger');
+                $('.alert').show();				
+				//alert(EALang['waiting_list_valid_email'])  
+				return (false)
+		}
+
+		function validateWaitinglistPhone() {
+			if(($('#phone-number2').val() == "") || (/^[\(\)\s\-\+\d]{10,17}$/.test($('#phone-number2').val())))  
+			{  
+				return (true)
+			} 
+				$('.alert').text(EALang['waiting_list_valid_phone']);
+                $('.alert').addClass('alert-danger');
+                $('.alert').show();	
+				//alert(EALang['waiting_list_valid_phone'])  
+				return (false)  
+		}  				
+
+		function validateWaitinglistCarrier() {
+			if($('#cell-carrier2').val() || $('#phone-number2').val() == "") 
+			{  
+				return (true)
+			}
+				$('.alert').text(EALang['waiting_list_valid_carrier']);
+                $('.alert').addClass('alert-danger');
+                $('.alert').show();			
+				//alert(EALang['waiting_list_valid_carrier'])  
+				return (false)  
+		} 
+		
+         // Event: Waitinglist Button "Clicked": Stores the waiting list information.
+        $('#insert-waitinglist').click(function() {
+            var $dialog = $('#waiting-list-modal');
+            $dialog.modal('show');
+        });
+		
+		$('#save-waitinglist').click(function(event) { 
+		if(validateWaitinglistEmail() && validateWaitinglistPhone() && validateWaitinglistCarrier()){
+				FrontendBookApi.registerWaiting();
+			}
+		});
         /**
          * Event: Next Step Button "Clicked"
          *

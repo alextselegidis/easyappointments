@@ -49,7 +49,7 @@ window.BackendSettings = window.BackendSettings || {};
     exports.initialize = function (bindEventHandlers) {
         bindEventHandlers = bindEventHandlers || true;
 
-        $('#cookie-notice-content, #terms-and-conditions-content, #privacy-policy-content').trumbowyg();
+        $('#cookie-notice-content, #terms-and-conditions-content, #privacy-policy-content, #waiting-list-content').trumbowyg();
 
         // Apply setting values from database.
         $.each(GlobalVariables.settings.system, function (index, setting) {
@@ -97,6 +97,14 @@ window.BackendSettings = window.BackendSettings || {};
 			
             if (setting.name === 'conf_notice') {
                 $('#conf-notice').prop('checked', setting.value === '1');
+            }
+
+            if (setting.name === 'show_waiting_list') {
+                $('#show-waiting-list').prop('checked', setting.value === '1');
+            }
+			
+            if (setting.name === 'waiting_list_content') {
+                $('#waiting-list-content').trumbowyg('html', setting.value);
             }			
         });
 

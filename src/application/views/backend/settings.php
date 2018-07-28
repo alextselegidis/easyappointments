@@ -135,7 +135,27 @@
 									<?php echo $this->lang->line('max_date_hint'); ?>
 								</span>
 							</div>
+
+							<div class="form-group">							
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="show-waiting-list">
+                                        <?= lang('show_waiting_list') ?>
+                                    </label>
+                                </div>
+								<span class="help-block">
+									<?php echo $this->lang->line('show_waiting_list_hint'); ?>
+								</span>
+							</div>
+                            <div class="form-group">
+                                <label for="waiting-list-content"><?= lang('waiting-list-content') ?></label>
+                                <textarea id="waiting-list-content" cols="30" rows="10" class="form-group"></textarea>
+								<span class="help-block">
+										<?php echo $this->lang->line('waiting-list-content-hint'); ?>
+								</span>	
+                            </div>							
                         </div>
+						
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <label for="google-analytics-code">

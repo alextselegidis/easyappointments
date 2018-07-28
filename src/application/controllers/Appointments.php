@@ -84,8 +84,10 @@ class Appointments extends CI_Controller {
             $terms_and_conditions_content = $this->settings_model->get_setting('terms_and_conditions_content');
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
+			$waiting_list_content = $this->settings_model->get_setting('waiting_list_content');
 			$conf_notice = $this->settings_model->get_setting('conf_notice');
 			$max_date = $this->settings_model->get_setting('max_date');
+			$show_waiting_list = $this->settings_model->get_setting('show_waiting_list');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -122,6 +124,16 @@ class Appointments extends CI_Controller {
                 }
 
                 $appointment = $results[0];
+					if ($appointment['start_datetime'] === NULL) {
+						$this->appointments_model->delete_waitinglist($appointment_hash);
+						$view = array(
+							'message_title' => $this->lang->line('waitinglist_canceled_title'),
+							'message_text' => $this->lang->line('waitinglist_cancelled'),
+							'message_icon' => $this->config->item('base_url') . '/assets/img/success.png'
+						);
+							$this->load->view('appointments/message', $view);
+							return;
+					}
                 $provider = $this->providers_model->get_row($appointment['id_users_provider']);
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
@@ -161,6 +173,8 @@ class Appointments extends CI_Controller {
                 'terms_and_conditions_content' => $terms_and_conditions_content,
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
+				'waiting_list_content' => $waiting_list_content,
+				'show_waiting_list' => $show_waiting_list,
 				'conf_notice' => $conf_notice,
 				'max_date' => $max_date
             ];
@@ -783,7 +797,7 @@ class Appointments extends CI_Controller {
 
         $is_still_available = FALSE;
 
-        foreach ($available_periods as $period)
+        foreach ($available_periods[1] as $period)
         {
             $appt_start = new DateTime($appointment['start_datetime']);
             $appt_start = $appt_start->format('H:i');
@@ -1369,4 +1383,23 @@ class Appointments extends CI_Controller {
 
         return $periods;
     }
+	
+	//Register the waiting list entry. Craig Tucker craigtuckerlcsw@gmail.com
+	public function ajax_register_waiting(){
+       try {
+			$post_data = $_POST['post_data'];
+			$waitinglist = $post_data['appointment'];
+			
+			$this->load->model('appointments_model');
+			$this->appointments_model->waitinglist_to_db($waitinglist);
+
+		} catch(Exception $e) {
+		echo 'Message: ' .$e->getMessage();
+		}
+	}
+
+	public function book_waiting(){
+		$this->load->view('appointments/waiting_success');//return to book view
+		$this->load->model('settings_model');
+	}	
 }

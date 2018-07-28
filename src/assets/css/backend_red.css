@@ -857,3 +857,9 @@ body .form-horizontal .controls {
         width: 48%;
     }
 }
+
+#waiting-list-content {
+    display: block;
+    width: 484px;
+    height: 200px;
+}

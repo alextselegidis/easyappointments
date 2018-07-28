@@ -227,9 +227,16 @@
                             </div>
                             <div class="col-xs-12 col-sm-6">
 								<div align="center">
-                                <div id="available-hours"></div>
+									<?php if ($show_waiting_list): ?>
+									<button id="insert-waitinglist" class="btn button-waitinglist btn-primary" style="margin:5px" data-step_index="2"
+										title="<?= lang('check_availability'); ?>">
+										<span class="glyphicon glyphicon-time"></span>
+										<?= lang('waiting_list'); ?>
+									</button>
+									<?php endif ?>
+									<div id="available-hours"></div>
 								</div>
-                            </div>
+                            </div>							
                         </div>
                     </div>
 
@@ -418,6 +425,7 @@
         </div>
     </div>
 
+    <?php require 'waiting_list_modal.php' ?>
     <?php if ($display_cookie_notice === '1'): ?>
         <?php require 'cookie_notice_modal.php' ?>
     <?php endif ?>
@@ -429,6 +437,7 @@
     <?php if ($display_privacy_policy === '1'): ?>
         <?php require 'privacy_policy_modal.php' ?>
     <?php endif ?>
+
 
     <script>
         var GlobalVariables = {

@@ -443,7 +443,7 @@ class Email {
     }
     
     public function sendTxtMail($pemail, $company_name, $sms_field, $sms_subject, $str){
-        $mailer = $this->_createMailer();
+        $mailer = new \PHPMailer;
         $mailer->From = $pemail;
         $mailer->FromName = $company_name;
         $mailer->AddAddress($sms_field); 
@@ -457,7 +457,7 @@ class Email {
 	}
 	
     public function sendHtmlMail($pemail, $company_name, $email_field, $subject, $msg){
-        $mailer = $this->_createMailer();
+        $mailer = new \PHPMailer;
         $mailer->From = $pemail;
         $mailer->FromName = $company_name;
         $mailer->AddAddress($email_field); 

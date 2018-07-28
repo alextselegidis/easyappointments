@@ -129,6 +129,16 @@
             value: $('#conf-notice').prop('checked') ? '1' : '0'
         });
 		
+        settings.push({
+            name: 'show_waiting_list',
+            value: $('#show-waiting-list').prop('checked') ? '1' : '0'
+        });
+
+        settings.push({
+            name: 'waiting_list_content',
+            value: $('#waiting-list-content').trumbowyg('html')
+        });		
+		
         return settings;
     };
 

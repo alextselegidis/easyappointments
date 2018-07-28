@@ -194,6 +194,82 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             });
     };
 
+    exports.registerWaiting = function() {
+		
+		var postWaiting = new Object();
+		var note = '';
+		var lang = '';
+		var selServiceDuration = '';
+		
+		$.each(GlobalVariables.availableServices, function (index, service) {
+			if (service.id == $('#select-service').val()) {
+				selServiceDuration = service.duration;
+				return false; // Stop searching ...
+			}
+		});			
+		
+
+		if($('#cell-carrier2').val() !== "" && $('#phone-number2').val() !== ""){
+			lang = EALang['user_lang'];
+			note = $('#email2').val()  + ";" + $('#phone-number2').val().replace(/[^\d\+]/g,"") + $('#cell-carrier2').val() + ";";
+		} else {
+			lang = EALang['user_lang'];
+			note = $('#email2').val() + ";";
+		}
+		
+		postWaiting['appointment'] = {
+		'id_users_provider': $('#select-provider').val(),
+		'id_services': $('#select-service').val(),
+		'notes': note,
+		'lang': lang,
+		'id_google_calendar': selServiceDuration
+		};
+		
+		$('input[name="csrfToken"]').val(GlobalVariables.csrfToken);
+		$('input[name="post_waiting"]').val(JSON.stringify(postWaiting));		
+		
+		var formData = jQuery.parseJSON($('input[name="post_waiting"]').val());
+
+		var postData = {
+			'csrfToken': GlobalVariables.csrfToken,
+			'post_data': formData,
+		};
+
+		var postUrl = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_waiting'; 
+		var $layer = $('<div/>');
+
+		$.ajax({
+			url: postUrl,
+			method: 'post',
+			data: postData,
+			beforeSend: function(jqxhr, settings) {
+				$layer
+					.appendTo('body')
+					.css({
+						'background': 'white',
+						'position': 'fixed',
+						'top': '0',
+						'left': '0',
+						'height': '100vh',
+						'width': '100vw',
+						'opacity': '0.5'
+					});
+			}
+		})
+		.done(function(response) {
+			if (!GeneralFunctions.handleAjaxExceptions(response)) {
+				return false;
+			}
+			window.location.replace(GlobalVariables.baseUrl
+				+ '/index.php/appointments/book_waiting');
+		})
+		.fail(function(jqxhr, textStatus, errorThrown) {
+			GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
+		})
+		.always(function() {
+			$layer.remove();
+		})
+	};
     /**
      * Get the unavailable dates of a provider.
      *
