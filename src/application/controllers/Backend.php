@@ -122,6 +122,7 @@ class Backend extends CI_Controller {
 
         $this->load->model('providers_model');
         $this->load->model('customers_model');
+        $this->load->model('secretaries_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
@@ -135,6 +136,17 @@ class Backend extends CI_Controller {
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
+
+        if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY)
+        {
+            $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
+            $view['secretary_providers'] = $secretary['providers'];
+        }
+        else
+        {
+            $view['secretary_providers'] = [];
+        }
+
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
