@@ -443,6 +443,6 @@ fastcgi_param PHP_AUTH_PW $http_authorization;
 
 [[Source]](http://serverfault.com/a/520943)
 
-*This document applies to Easy!Appointments v1.3.1.*
+*This document applies to Easy!Appointments v1.3.2.*
 
 [Back](readme.md)
