@@ -613,14 +613,14 @@ class Backend_api extends CI_Controller {
             $key = strtoupper($key);
 
             $where_clause =
-                '(first_name LIKE upper("%' . $key . '%") OR ' .
-                'last_name  LIKE upper("%' . $key . '%") OR ' .
-                'email LIKE upper("%' . $key . '%") OR ' .
-                'phone_number LIKE upper("%' . $key . '%") OR ' .
-                'address LIKE upper("%' . $key . '%") OR ' .
-                'city LIKE upper("%' . $key . '%") OR ' .
-                'zip_code LIKE upper("%' . $key . '%") OR ' .
-                'notes LIKE upper("%' . $key . '%"))';
+                '(ea_users.first_name LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.last_name  LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.email LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.phone_number LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.address LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.city LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.zip_code LIKE upper("%' . $key . '%") OR ' .
+                'ea_users.notes LIKE upper("%' . $key . '%"))';
 
             $customers = $this->customers_model->get_batch($where_clause);
 
