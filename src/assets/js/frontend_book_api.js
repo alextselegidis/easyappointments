@@ -181,9 +181,27 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                     return false;
                 }
+				
+				if (( GlobalVariables.wpInvoice ==='yes' ) && (!GlobalVariables.manageMode)){
+					var selServiceId = $('#select-service').val();
+					$('.frame-container').hide(); //Paypal modification C. Tucker
+					$('.command-buttons').hide(); 
+					$("#paypalprocessing").show();
+					
+					function wpDir(the_url)
+					{
+						var the_arr = the_url.split('/');
+						the_arr.pop();
+						return( the_arr.join('/') );
+					}
 
-                window.location.href = GlobalVariables.baseUrl
-                    + '/index.php/appointments/book_success/' + response.appointment_id;
+					var newdir = wpDir(GlobalVariables.baseUrl) + '/processingpayment/';
+					window.location.replace(newdir);
+					
+				} else {
+					window.location.replace(GlobalVariables.baseUrl
+						+ '/index.php/appointments/book_success/' + response.appointment_id);
+				}
             })
             .fail(function (jqxhr, textStatus, errorThrown) {
                 $('.captcha-title small').trigger('click');

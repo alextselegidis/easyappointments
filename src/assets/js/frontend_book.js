@@ -653,7 +653,16 @@ window.FrontendBook = window.FrontendBook || {};
             city: $('#city').val(),
             zip_code: $('#zip-code').val()
         };
-
+		
+		if (( GlobalVariables.wpInvoice ==='yes' ) && (!GlobalVariables.manageMode)){
+								
+			var optionValue = $('#select-service').val();	
+			var paypalcbfid = "[wpi_checkout item='" + optionValue + GlobalVariables.seeAt + "' title='" + GlobalVariables.sessionId + "' callback_function='ea_paypalcallback']";				
+			
+		} else {
+			paypalcbfid = '';				
+		}
+		
         postData.appointment = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
             + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm') + ':00',
@@ -661,7 +670,8 @@ window.FrontendBook = window.FrontendBook || {};
             notes: $('#notes').val(),
             is_unavailable: false,
             id_users_provider: $('#select-provider').val(),
-            id_services: $('#select-service').val()
+            id_services: $('#select-service').val(),
+			pending: paypalcbfid			
         };
 
         postData.manage_mode = FrontendBook.manageMode;

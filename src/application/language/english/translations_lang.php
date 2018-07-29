@@ -384,3 +384,8 @@ $lang['return_to_book'] = 'Return to Booking';
 $lang['powered_by']= 'Powered by';
 $lang['operation_failed']= 'The operation failed! Please enter a valid username and email address in order to get a new password.';
 $lang['sms'] = 'SMS';
+
+//wp-invoice
+$lang['wp_invoice'] = 'WP-Invoice Integration (In WP with WP-Invoice Plugin installed only)';
+$lang['wp_invoice_hint'] = 'Integrate with WP-Invoice Single Page Payment on confirmation page';
+$lang['wp_invoice_see_at'] = 'CTLCSW-Service';

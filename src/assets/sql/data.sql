@@ -30,7 +30,8 @@ VALUES
 	('reminder_days_out', '1,3'),
 	('interval_time', '30'),
 	('show_waiting_list', '1'),
-	('waiting_list_content', 'waiting_list_content', 'value' => '<h3>Waiting List</h3><p>By registering here you will be sent daily email or email and text notices for 30 days regarding any availability I have over the next 60 days. You can renew your place on the waiting list as often as you like.  To be removed from the list click the link on your email/text message for removal.</p><h4>Regarding Text Notification:</h4><p>If you select to be notified by text message be aware that these messages can be lengthy  if the calendar has many days of availability.</p>');
+	('waiting_list_content', 'waiting_list_content', 'value' => '<h3>Waiting List</h3><p>By registering here you will be sent daily email or email and text notices for 30 days regarding any availability I have over the next 60 days. You can renew your place on the waiting list as often as you like.  To be removed from the list click the link on your email/text message for removal.</p><h4>Regarding Text Notification:</h4><p>If you select to be notified by text message be aware that these messages can be lengthy  if the calendar has many days of availability.</p>'),
+	('wp_invoice','no');
 
 INSERT INTO `ea_migrations` VALUES ('21');
 
@@ -55,11 +56,11 @@ INSERT INTO `ea_cellcarrier` (`id`, `cellco`, `cellurl`) VALUES
 	(18, 'Tracfone', '@mmst5.tracfone.com'),
 	(19, 'Metro PCS', '@mymetropcs.com'),
 	(20, 'Boost Mobile', '@myboostmobile.com'),
-	(21, 'Cricket', '@mms.cricketwireless.net'),
+	(21, 'Cricket', '@sms.mycricket.com'),
 	(22, 'Alltel', '@message.alltel.com'),
 	(23, 'Ptel', '@ptel.com'),
 	(24, 'Suncom', '@tms.suncom.com'),
 	(25, 'Qwest', '@qwestmp.com'),
 	(26, 'U.S. Cellular', '@email.uscc.net');	
 
-INSERT INTO `ea_migrations` VALUES ('12');
+INSERT INTO `ea_migrations` VALUES ('22');

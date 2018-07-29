@@ -468,6 +468,7 @@
                             <input type="hidden" name="post_data" />
                         </form>
                     </div>
+					<div id='paypalprocessing' style='display:none'><h2>Preparing Payment . . .</h2></div>
                 </div>
 
                 <!-- FRAME FOOTER -->
@@ -518,6 +519,9 @@
             csrfToken           : <?= json_encode($this->security->get_csrf_hash()) ?>,
 			confNotice			: <?= json_encode($conf_notice) ?>,
 			maxDate    			: <?= json_encode($max_date) ?>,
+			wpInvoice			: <?= json_encode($wp_invoice) ?>,
+			sessionId			: <?= json_encode($session_id) ?>,
+			seeAt				: <?= json_encode($this->lang->line('wp_invoice_see_at')) ?>			
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;

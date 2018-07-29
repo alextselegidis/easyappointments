@@ -1,0 +1,109 @@
+To use my PayPal option you need to install and activate the WP-Invoice plugin with the Single Page Checkout addon activated. You need to get a PayPal IPN URL from your paypal account. You need your paypal account activated within WP-Invoice.
+
+You also need the PHP Snippets addon added and activated.  Within PHP Snipets 
+1. add a snippit
+2. Title the snippit: PayPal Fee Policy Agreement and Schedule vs Cancel
+3. Enter the following code for the snippet:
+
+	global $wpdb;
+	$user = wp_get_current_user();
+	$user_ID = $user->ID;
+    $shortcode = $wpdb->get_row("SELECT MAX(ap.pending) AS pending, ap.book_datetime, ap.id, ap.hash FROM ea_appointments AS ap "
+			."INNER JOIN ea_users AS us ON ap.id_users_customer = us.id "
+			."WHERE us.wp_id ='".$user_ID."'");
+	if ($shortcode->pending == ''){
+		echo '<h1>Processing Error: Appointment has been deleted. </h1>';
+		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://www.craigtuckerlcsw.com/wordpress/wp-content/uploads/2017/05/CLOCK.png" /> Schedule an appointment</a></p>';
+	} else {
+		echo '<h2>Fee Policy</h2>';
+		echo '<p>You may reschedule an appointment without charge within 24 hours of your appointment.  Cancelation of an appointment within 24 hours can either result in a refund or a credit for your next appointment per your request. You will need to inform Mr. Tucker on the discussion board about how you would like your cancelation to be handled. If you would like a refund, refunds will be the full amount of the cost of your session minus the PayPal processing fees. There are no refunds for cancelations later than 24 hours in advance.</p>';
+
+	date_default_timezone_set('America/Los_Angeles');
+	$refreshtime = strtotime($shortcode->book_datetime) - strtotime("-10 minutes");
+
+	echo '<meta http-equiv="refresh" content="';
+	echo   $refreshtime;
+	echo  '">';
+	
+	if(strtotime($shortcode->book_datetime) > (strtotime("-10 minutes"))){
+        echo $shortcode->pending;
+		echo '<input type="button" onclick="deletapt()" value="Refuse/Delete">';
+		echo "<script>
+        cancelurl = 'https://www.craigtuckerlcsw.com/wordpress/easy/index.php/appointments/cancel/" . $shortcode->hash . "';
+        function deletapt(){
+		    window.location = cancelurl;
+        }
+		</script>";
+		}else{
+        echo '<h4 style="text-align: center;">Time has expired</h4>';
+		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://www.craigtuckerlcsw.com/wordpress/wp-content/uploads/2017/05/CLOCK.png" /> Schedule an appointment</a></p>';
+		}
+	}
+
+3. Where to exicute code? "Where there is a short code"
+4. Discription: This is code used on the processingpayment page for my Easy!Appointments, WP-Invoice, and PayPal integration. It includes the fee policy and a button to schedule or cancel the appointment. It also lets the user know if the appointment has already been deleted.
+5. Save the snippet.  You will find the short code for the snippet in the "Where use?" column.  In my case it looks like this: 
+
+[wbcr_php_snippet id="6878"]
+
+But your number will be different.  Take note of the shortcode on your device and copy it for use in the next step.
+
+You need to make a page in Wordpress titled:
+
+	processingpayment
+
+And you need to add the following in the text tab for the content (do not past this in the Visual tab).  Replace my short code below [wbcr_php_snippet id="6878"] with your own:
+
+	<style>
+		ul.wpi_checkout_block.wpi_checkout_billing_address {<br />
+			display: none;<br />
+		}<br />
+		ul.wpi_checkout_block.wpi_checkout_customer_information {<br />
+			display: none;<br />
+		}<br />
+		ul.wpi_checkout_block.wpi_checkout_billing_information {<br />
+			display: none;<br />
+		}<br />
+		.wpi_checkout_submit_btn.btn.btn-success.wpi_checkout_process_payment.wpi_paypal {<br />
+			margin: -1px;<br />
+		}<br />
+		input {<br />
+			margin-top: 10px;<br />
+			width: 130px;<br />
+		}<br />
+		form.wpi_checkout .total_price {<br />
+			top: 1px;<br />
+		}<br />
+	</style>
+
+	[wbcr_php_snippet id="6878"]
+
+	<script>
+		$("document").ready(function() {
+			$('input[name="return"]').val("https://www.craigtuckerlcsw.com/wordpress/payment-success/");
+			$('input[name="cancel_return"]').val(cancelurl);
+		});  
+	</script>
+
+You need to run a cronjob that will launch the Paypaltimer.php script once every 60 seconds.  This deletes all pending appointments with payments not completed within 10 minutes.
+
+Within the functions.php file of your theme you need to add the following function to add the propper name service name etc. to the WP-Invoice client file: 
+
+function ea_paypalcallback($transaction_data){
+	global $wpdb;
+	//Grab Service Name and Date 
+	$session_id = $transaction_data[post_data][created_by][0];
+	$posturl = $transaction_data[post_data][guid][0];
+	$urlArray = explode('=',$posturl);
+	$postid = $urlArray[sizeof($urlArray)-1];
+	$dummyname = $transaction_data[items][1][name];
+	$query = "SELECT concat(eas.name, '  ', DATE_FORMAT(eaa.start_datetime, '%m/%d/%Y') ) FROM ea_services AS eas  " .
+	"LEFT JOIN  ea_appointments AS eaa ON eaa.id_services =  eas.id WHERE eaa.pending LIKE '%" . $session_id . "%'";
+	$servicename = $wpdb->get_var($query);	
+	$wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}posts SET post_content = REPLACE(post_content, 'Items: $dummyname', '$dummyname: $servicename') WHERE ID = $postid"));
+	$wpdb->query($wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = REPLACE(meta_value, '$session_id', '') WHERE meta_key = 'post_title' AND post_id = $postid"));
+	$wpdb->query($wpdb->prepare("UPDATE ea_appointments SET pending = '' WHERE pending LIKE '%$session_id%'"));
+	
+	// the message
+	$var = $postid;
+}
