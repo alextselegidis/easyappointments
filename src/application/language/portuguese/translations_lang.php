@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Carregar eventos do calendario.';
 $lang['trigger_google_sync_hint'] = 'Desencadear o processo de sincronização do Google Calendar.';
 $lang['appointment_updated'] = 'Evento actualizado com sucesso!';
 $lang['undo'] = 'Desfazer';
-$lang['cancel'] = 'Cancelar';
 $lang['appointment_details_changed'] = 'Detalhes do evento foram alterados.';
 $lang['appointment_changes_saved'] = 'Detalhes do evento foram guardados com sucesso!';
 $lang['save'] = 'Guardar';

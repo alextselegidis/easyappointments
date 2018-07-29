@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Gendan kalender aftaler.';
 $lang['trigger_google_sync_hint'] = 'Udløs Google kalender synkroniseringen processen.';
 $lang['appointment_updated'] = 'Tiden er opdateret.';
 $lang['undo'] = 'Fortryd';
-$lang['cancel'] = 'Slet';
 $lang['appointment_details_changed'] = 'Tidens oplysninger er ændret.';
 $lang['appointment_changes_saved'] = 'Aftalens ændring er blevet gemt';
 $lang['save'] = 'Gem';

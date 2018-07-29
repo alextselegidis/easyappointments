@@ -1,13 +1,19 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+/**
+* System messages translation for CodeIgniter(tm)
+*
+* @author	CodeIgniter community
+* @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+* @license	http://opensource.org/licenses/MIT MIT License
+* @link	https://codeigniter.com
+*/
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['migration_none_found'] = "No migrations were found.";
-$lang['migration_not_found'] = "This migration could not be found.";
-$lang['migration_multiple_version'] = "This are multiple migrations with the same version number: %d.";
-$lang['migration_class_doesnt_exist'] = "The migration class \"%s\" could not be found.";
-$lang['migration_missing_up_method'] = "The migration class \"%s\" is missing an 'up' method.";
-$lang['migration_missing_down_method'] = "The migration class \"%s\" is missing an 'down' method.";
-$lang['migration_invalid_filename'] = "Migration \"%s\" has an invalid filename.";
-
-
-/* End of file migration_lang.php */
-/* Location: ./system/language/english/migration_lang.php */
+$lang['migration_none_found'] = 'कोई माइग्रेशन नहीं पाए गए।';
+$lang['migration_not_found'] = 'कोई माइग्रेशन वर्जन नंबर के साथनहीं नहीं पाया जा सका:% s।';
+$lang['migration_sequence_gap'] = 'वर्जन नंबर %s के निकट माइग्रेशन अनुक्रम में एक अंतर है। ';
+$lang['migration_multiple_version'] = 'वर्जन नंबर %s के जैसे कई माइग्रेशन पाये गए हैं।';
+$lang['migration_class_doesnt_exist'] = 'माइग्रेशन क्लास "%s" नहीं पाया जा सका।';
+$lang['migration_missing_up_method'] = 'माइग्रेशन क्लास "%s" में "up" मेथड मौजूद नहीं है।';
+$lang['migration_missing_down_method'] = 'माइग्रेशन क्लास "%s" में "down" मेथड मौजूद नहीं है।';
+$lang['migration_invalid_filename'] = 'माइग्रेशन "%s" एक अवैध फाइल नाम है।';

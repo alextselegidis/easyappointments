@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Перезагрузить календар
 $lang['trigger_google_sync_hint'] = 'Инициировать процесс синхронизации Google-календаря.';
 $lang['appointment_updated'] = 'Назначение успешно обновлено!';
 $lang['undo'] = 'Вернуть';
-$lang['cancel'] = 'Отмена';
 $lang['appointment_details_changed'] = 'Детали назначения изменены.';
 $lang['appointment_changes_saved'] = 'Назначение успешно изменено и сохранено!';
 $lang['save'] = 'Сохранить';

@@ -6,7 +6,7 @@ developers to maintain and readjust their custom modifications on the main proje
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.3.2] - Unreleased
+## [1.3.2]
 
 ## Fixed
 
@@ -14,7 +14,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #485: Make REST API search check with "q" parameter case insensitive. 
 - #489: REST API response headers must use the Content-Type application/json value.
 - #500: Performance optimization in backend calendar page, after the user clicks the insert appointment button.
- 
+- #510: Providers should not be able to create appointments for other providers in the backend calendar page.
+- #512: Only show appointments of the currently logged in provider.
+
 ## [1.3.1]
 
 ### Added

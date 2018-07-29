@@ -384,7 +384,7 @@ window.FrontendBook = window.FrontendBook || {};
             $('#delete-personal-information').on('click', function () {
                 var buttons = [
                     {
-                        text: 'Delete',
+                        text: EALang.delete,
                         click: function () {
                             FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
                         }

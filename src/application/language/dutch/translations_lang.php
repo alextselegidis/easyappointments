@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Herlaad de afspraken.';
 $lang['trigger_google_sync_hint'] = 'Start het Google Agenda synchronisatieproces.';
 $lang['appointment_updated'] = 'Afspraak succesvol bijgewerkt!';
 $lang['undo'] = 'Ongedaan maken';
-$lang['cancel'] = 'Annuleren';
 $lang['appointment_details_changed'] = 'Afspraakgegevens veranderd.';
 $lang['appointment_changes_saved'] = 'De wijzigingen in de afspraak zijn succesvol opgeslagen!';
 $lang['save'] = 'Opslaan';

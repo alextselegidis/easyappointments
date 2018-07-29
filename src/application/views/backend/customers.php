@@ -6,6 +6,7 @@
         csrfToken          : <?= json_encode($this->security->get_csrf_hash()) ?>,
         availableProviders : <?= json_encode($available_providers) ?>,
         availableServices  : <?= json_encode($available_services) ?>,
+        secretaryProviders : <?= json_encode($secretary_providers) ?>,
         dateFormat         : <?= json_encode($date_format) ?>,
         timeFormat         : <?= json_encode($time_format) ?>,
         baseUrl            : <?= json_encode($base_url) ?>,
