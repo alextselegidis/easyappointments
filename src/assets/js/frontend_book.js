@@ -548,7 +548,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         // Appointment Details
         var selectedDate = $('#select-date').datepicker('getDate');
-
+		var notices = GeneralFunctions.escapeHtml($('#conf-notice option:selected').text()); //mod Craig Tucker
         if (selectedDate !== null) {
             selectedDate = GeneralFunctions.formatDate(selectedDate, GlobalVariables.dateFormat);
         }
@@ -556,12 +556,29 @@ window.FrontendBook = window.FrontendBook || {};
         var selServiceId = $('#select-service').val();
         var servicePrice;
         var serviceCurrency;
-
+		var show_free_price_currency;
+        show_free_price_currency = GlobalVariables.showFreePriceCurrency;
+		if (GeneralFunctions.show_minimal_details == 'no'){
+			var html = $('#select-service option:selected').text();
+			$('#appointment-service').html(html);
+		}
         $.each(GlobalVariables.availableServices, function (index, service) {
             if (service.id == selServiceId) {
-                servicePrice = '<br>' + service.price;
-                serviceCurrency = service.currency;
-                return false; // break loop
+                if (service.price != '' && service.price != null && service.price != 0) {
+                   	servicePrice = '<br>' + service.price;
+					serviceCurrency = service.currency;
+					return false; // break loop
+                } else {
+					if (show_free_price_currency == 'yes') {
+						servicePrice = '<br>' + service.price;
+						serviceCurrency = service.currency;
+						return false; // break loop
+					}else{
+						servicePrice = '';
+						serviceCurrency = ''
+						return false; // break loop
+					}
+                }
             }
         });
 
@@ -576,7 +593,20 @@ window.FrontendBook = window.FrontendBook || {};
             '</p>';
 
         $('#appointment-details').html(html);
-
+	
+        var html2 =
+            '<h4>' + $('#select-service option:selected').text() + '</h4>' +
+            '<p>'
+                + '<strong class="text-primary">'
+                    + $('#select-provider option:selected').text() + '<br>'
+                    + selectedDate + ' ' +  $('.selected-hour').text()
+                    + servicePrice + ' ' + serviceCurrency + '</strong><br/>'
+					+ '<b>' + EALang['notice_auth'] 
+					+ ':</b> "<i>' + notices + '</i>"' +
+				'</p>';
+			
+        $('#appointment-details2').html(html2);
+		
         // Customer Details
         var firstName = GeneralFunctions.escapeHtml($('#first-name').val());
         var lastName = GeneralFunctions.escapeHtml($('#last-name').val());
@@ -586,7 +616,7 @@ window.FrontendBook = window.FrontendBook || {};
         var address = GeneralFunctions.escapeHtml($('#address').val());
         var city = GeneralFunctions.escapeHtml($('#city').val());
         var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
-
+		var notes = GeneralFunctions.escapeHtml($('#notes').val());
         html =
             '<h4>' + firstName + ' ' + lastName + '</h4>' +
             '<p>' +
@@ -601,6 +631,8 @@ window.FrontendBook = window.FrontendBook || {};
             EALang.city + ': ' + city +
             '<br/>' +
             EALang.zip_code + ': ' + zipCode +
+                '<br/>' +
+                EALang['notes'] + ': ' + notes +
             '</p>';
 
         $('#customer-details').html(html);
