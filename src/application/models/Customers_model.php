@@ -344,7 +344,7 @@ class Customers_Model extends CI_Model {
      *
      * @example $this->Model->getBatch('id = ' . $recordId);
      *
-     * @param string $whereClause (OPTIONAL) The WHERE clause of the query to be executed. DO NOT INCLUDE 'WHERE'
+     * @param string $where_clause (OPTIONAL) The WHERE clause of the query to be executed. DO NOT INCLUDE 'WHERE'
      * KEYWORD.
      *
      * @return array Returns the rows from the database.
@@ -358,9 +358,30 @@ class Customers_Model extends CI_Model {
             $this->db->where($where_clause);
         }
 
-        $this->db->where('id_roles', $customers_role_id);
+        $this->db
+            ->select('ea_users.*')
+            ->from('ea_users')
+            ->where('id_roles', $customers_role_id);
 
-        return $this->db->get('ea_users')->result_array();
+        // return only the customers the user has access to (if is provider or secretary)
+        $user_id = $this->session->userdata('user_id');
+        switch($this->session->userdata('role_slug'))
+        {
+            case DB_SLUG_PROVIDER:
+                $this->db
+                    ->join('ea_appointments', 'ea_appointments.id_users_customer = ea_users.id', 'inner')
+                    ->where('ea_appointments.id_users_provider', $user_id);
+                break;
+            case DB_SLUG_SECRETARY:
+                $this->db
+                    ->join('ea_appointments', 'ea_appointments.id_users_customer = ea_users.id', 'inner')
+                    ->join('ea_secretaries_providers', 'ea_secretaries_providers.id_users_provider = ea_appointments.id_users_provider')
+                    ->where('ea_secretaries_providers.id_users_secretary', $user_id);
+        }
+
+        // return unique customers
+        $this->db->group_by('ea_users.id');
+        return $this->db->get()->result_array();
     }
 
     /**
