@@ -503,4 +503,30 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         _bindEventHandlers();
     };
 
+	function getServiceDuration(serviceId) {
+	   var numServices = GlobalVariables.availableServices.length;
+	   for (var i=0; i<numServices; i++) {
+		 if (GlobalVariables.availableServices[i].id === serviceId)
+		   return GlobalVariables.availableServices[i].duration;
+	   }
+	   return null;
+	 }
+	 
+	 $( "#select-service, #start-datetime" ).change(function() {
+		var duration = null;
+		$( "#select-service option:selected" ).each(function() {
+		  duration = getServiceDuration($( this ).val());
+		});
+
+		var startTime = null;
+		$( "#start-datetime").each(function() {
+		  startTime = $( this ).val();
+		});
+
+		if (duration !== null && startTime !== null) {
+		  var oDate = new Date(Date.parse(startTime).getTime() + duration*60000);
+		  $( "#end-datetime" ).datetimepicker('setDate',oDate);
+		}
+	 });
+	 
 })(window.BackendCalendarAppointmentsModal); 
