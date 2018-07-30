@@ -246,6 +246,18 @@
 								<span class="help-block">
 									<?php echo $this->lang->line('wp_invoice_hint'); ?>
 								</span>
+							</div>
+							<div class="form-group">
+								<label for="hide_provider">
+									<?php echo $this->lang->line('hide_provider'); ?>
+								</label>
+								<select class="form-control" id="hide_provider" data-field="hide_provider">
+									<option value="yes"><?php echo $this->lang->line('yes'); ?></option>
+									<option value="no"><?php echo $this->lang->line('no'); ?></option>
+								</select>
+								<span class="help-block">
+									<?php echo $this->lang->line('hide_provider_hint'); ?>
+								</span>
 							</div>								
 						</div>
                     </div>

@@ -19,7 +19,7 @@
 	$theme_color = $this->settings_model->get_setting('theme_color');
 ?>
 	<style>
-	
+
 	#wait.item {
     position: absolute;
     left: 0;
@@ -252,7 +252,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" id="selectprovider">
                                 <label for="select-provider">
                                     <strong><?= lang('select_provider') ?></strong>
                                 </label>
@@ -521,7 +521,8 @@
 			maxDate    			: <?= json_encode($max_date) ?>,
 			wpInvoice			: <?= json_encode($wp_invoice) ?>,
 			sessionId			: <?= json_encode($session_id) ?>,
-			seeAt				: <?= json_encode($this->lang->line('wp_invoice_see_at')) ?>			
+			seeAt				: <?= json_encode($this->lang->line('wp_invoice_see_at')) ?>,
+			hideProvider		: <?= json_encode($hide_provider) ?>
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;

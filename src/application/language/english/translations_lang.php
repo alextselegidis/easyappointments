@@ -389,3 +389,7 @@ $lang['sms'] = 'SMS';
 $lang['wp_invoice'] = 'WP-Invoice Integration (In WP with WP-Invoice Plugin installed only)';
 $lang['wp_invoice_hint'] = 'Integrate with WP-Invoice Single Page Payment on confirmation page';
 $lang['wp_invoice_see_at'] = 'CTLCSW-Service';
+
+//hide_provider
+$lang['hide_provider'] = 'Hide "Select Provider" from front-end';
+$lang['hide_provider_hint'] = 'If only one provider is offering services the selection box is not necessary';

@@ -89,6 +89,7 @@ class Appointments extends CI_Controller {
 			$max_date = $this->settings_model->get_setting('max_date');
 			$show_waiting_list = $this->settings_model->get_setting('show_waiting_list');
 			$wp_invoice	= $this->settings_model->get_setting('wp_invoice');
+			$hide_provider	= $this->settings_model->get_setting('hide_provider');
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -182,7 +183,8 @@ class Appointments extends CI_Controller {
 				'conf_notice' => $conf_notice,
 				'max_date' => $max_date,
 				'wp_invoice' => $wp_invoice,
-				'session_id' => $session_id
+				'session_id' => $session_id,
+				'hide_provider' => $hide_provider
             ];
         }
         catch (Exception $exc)

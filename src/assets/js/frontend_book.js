@@ -214,6 +214,10 @@ window.FrontendBook = window.FrontendBook || {};
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
         });
+		
+		if (GlobalVariables.hideProvider === 'yes') {
+			$("#selectprovider").css("display", "none");
+		}		
 
         /**
          * Event: Selected Service "Changed"
