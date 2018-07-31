@@ -10,6 +10,9 @@
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
+use \EA\Engine\Types\Text;
+use \EA\Engine\Types\Email;
+use \EA\Engine\Types\Url;
 
 /**
  * Google Controller
@@ -92,18 +95,10 @@ class Google extends CI_Controller {
      *
      * @param int $provider_id Provider record to be synced.
      */
-    public function sync($provider_id = NULL)
+	public function syncgoogle($provider_id, $sync_past_days, $sync_future_days)
     {
         try
         {
-            // The user must be logged in.
-            $this->load->library('session');
-
-            if ($this->session->userdata('user_id') == FALSE)
-            {
-                return;
-            }
-
             if ($provider_id === NULL)
             {
                 throw new Exception('Provider id not specified.');
@@ -129,9 +124,6 @@ class Google extends CI_Controller {
             $this->load->library('google_sync');
             $this->google_sync->refresh_token($google_token->refresh_token);
 
-            // Fetch provider's appointments that belong to the sync time period.
-            $sync_past_days = $this->providers_model->get_setting('sync_past_days', $provider['id']);
-            $sync_future_days = $this->providers_model->get_setting('sync_future_days', $provider['id']);
             $start = strtotime('-' . $sync_past_days . ' days', strtotime(date('Y-m-d')));
             $end = strtotime('+' . $sync_future_days . ' days', strtotime(date('Y-m-d')));
 
@@ -222,21 +214,40 @@ class Google extends CI_Controller {
                 if (count($results) == 0)
                 {
                     // Record doesn't exist in E!A, so add the event now.
+					$discription = $event->getDescription();
+					
+					if (preg_match("/\|/", $discription)){
+						$desc = explode("|", $discription);
+						$customer = trim($desc[1]);
+						$service = trim($desc[2]);
+						$unavailable = FALSE;
+					} else {
+						$service = NULL;
+						$customer = NULL;
+						$unavailable = TRUE;
+					}	
+
                     $appointment = [
-                        'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
-                        'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
-                        'is_unavailable' => TRUE,
-                        'notes' => $event->getSummary() . ' ' . $event->getDescription(),
-                        'id_users_provider' => $provider_id,
-                        'id_google_calendar' => $event->getId(),
-                        'id_users_customer' => NULL,
-                        'id_services' => NULL,
+						'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
+						'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
+						'is_unavailable' => $unavailable,
+						'notes' => $event->getSummary() . ' ' . $discription,
+						'id_users_provider' => $provider_id,
+						'id_google_calendar' => $event->getId(),
+						'id_users_customer' => $customer,
+						'id_services' => $service
                     ];
 
                     $this->appointments_model->add($appointment);
                 }
             }
-
+			//Delete duplicate appointments from unavailable slots due to recurring status.
+			$this->db->query("DELETE `e2`.* FROM `ea_appointments` AS `e1`, `ea_appointments` AS `e2` WHERE `e1`.`id` > `e2`.`id`".
+			" AND LEFT(`e1`.`id_google_calendar`,26) = LEFT(`e2`.`id_google_calendar`,26)". 
+			" AND `e2`.`start_datetime` = `e1`.`start_datetime`");
+			
+			//Add hash.  This should be done in active record form above but 'hash' => md5($event->getId()); produced odd results for me
+			$this->db->query("UPDATE `ea_appointments` SET `hash` = MD5(`id_google_calendar`) WHERE CHAR_LENGTH(`id_google_calendar`) > 26");
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(AJAX_SUCCESS));
@@ -248,4 +259,95 @@ class Google extends CI_Controller {
                 ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
+	
+    public function sync($provider_id = NULL) {
+		// The user must be logged in.
+		$this->load->library('email');
+		$this->load->library('session');
+		if ($this->session->userdata('user_id') == FALSE) return;
+
+		$this->load->model('providers_model');
+		$provider = NULL;
+		$provider = $this->providers_model->get_row($provider_id);
+		// Fetch provider's appointments that belong to the sync time period. 
+		$sync_past_days = $this->providers_model->get_setting('sync_past_days', $provider['id']);
+		$sync_future_days = $this->providers_model->get_setting('sync_future_days', $provider['id']);
+		
+		$this->syncgoogle($provider_id, $sync_past_days, $sync_future_days);
+	}
+	
+    public function sync2($provider_id = NULL) {
+		// The user must be logged in.
+		$this->load->model('settings_model');
+		$this->load->library('email');
+		$this->load->library('session');
+        $this->config->load('email');
+		if ($this->session->userdata('user_id') == FALSE) return;
+
+		$startsynctime = date('h:i:sa');
+	    /**
+		* Variables for full sync with google caldnear when key is pressed on back end.
+		* Based on Amine Hamdi  https://groups.google.com/forum/#!searchin/easy-appointments/sync_past_days/easy-appointments/
+		*/
+		$full_sync_past_days = 0;  //limits sync x# of days to prior to today
+		$full_sync_future_days = $this->settings_model->get_setting('max_date') + 2; //Limits the sync period to x# of days after today	
+
+		$this->syncgoogle($provider_id, $full_sync_past_days, $full_sync_future_days);
+		
+	    /**
+		* This is an email notification of a successful sync
+		* The rest of the code for the notification is found in /engine/Notifications/Email.php.
+		* in syncComplete().
+		*/	
+		$synctype = 'Backend';
+		$endsynctime = date('h:i:sa');
+		if ($this->settings_model->get_setting('google_sync_notice') == 'yes') {
+			$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+			$email->syncComplete($startsynctime, $endsynctime, $synctype);
+		}		
+	}	
+
+	public function sync3() {
+		
+		$this->load->model('settings_model');
+		
+		if(!$this->input->is_cli_request()) {
+			echo "This script can only be accessed via the command line" . PHP_EOL;
+			return;
+		}
+		$this->load->library('email');
+		$this->load->model('providers_model');
+        $this->config->load('email');
+		$providers = NULL;
+		$provider_id = NULL; 
+		$providers = $this->providers_model->get_all_provider_ids();
+		$startsynctime = date('h:i:sa');
+		
+	    /**
+		* Variables for full sync with google caldnear when CLI initiates sync from cron job.
+		* Based on Amine Hamdi  https://groups.google.com/forum/#!searchin/easy-appointments/sync_past_days/easy-appointments/
+		*/
+		$full_sync_past_days = 0;  //limits sync x# of days to prior to today
+		$full_sync_future_days = $this->settings_model->get_setting('max_date') + 2; //Limits the sync period to x# of days after today	
+									 //I tend to go a couple days longer than I allow people to book out
+									 //just incase I have a sync error, I have couple days of grace to fix it.
+		foreach ($providers as $provider_id) {
+            $google_sync = $this->providers_model->get_setting('google_sync', $provider_id);
+            if ($google_sync) {
+			$this->syncgoogle($provider_id, $full_sync_past_days, $full_sync_future_days);
+			}
+		}
+
+	    /**
+		* This is an email notification of a successful sync
+		* The rest of the code for the notification is found in /engine/Notifications/Email.php.
+		* in syncComplete().
+		*/		
+		$synctype = 'Cronjob';
+		$endsynctime = date('h:i:sa');
+		if ($this->settings_model->get_setting('google_sync_notice') == 'yes') {
+			$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+			$email->syncComplete($startsynctime, $endsynctime, $synctype);
+		}		
+	} 
 }

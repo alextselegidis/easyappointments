@@ -258,7 +258,35 @@
 								<span class="help-block">
 									<?php echo $this->lang->line('hide_provider_hint'); ?>
 								</span>
-							</div>								
+							</div>
+							<div class="form-group">
+								<label for="conf-notice">
+									<?php echo $this->lang->line('google_sync_notice'); ?>
+								</label>
+								<select class="form-control" id="google-sync-notice" data-field="google_sync_notice">
+									<option value="yes"><?php echo $this->lang->line('yes'); ?></option>
+									<option value="no"><?php echo $this->lang->line('no'); ?></option>
+								</select>
+								<span class="help-block">
+									<?php echo $this->lang->line('google_sync_notice_hint'); ?>
+								</span>
+								<label for="google-sync-from">
+									<?php echo $this->lang->line('google_sync_from'); ?>
+								</label>
+								<input type="text" id="google-sync-from" placeholder="100"
+									data-field="google_sync_from" class="form-control">
+								<span class="help-block">
+									<?php echo $this->lang->line('google_sync_from_hint'); ?>
+								</span>
+								<label for="google-sync-to">
+									<?php echo $this->lang->line('google_sync_to'); ?>
+								</label>
+								<input type="text" id="google-sync-to" placeholder="100"
+									data-field="google_sync_to" class="form-control">
+								<span class="help-block">
+									<?php echo $this->lang->line('google_sync_to_hint'); ?>
+								</span>							
+							</div>
 						</div>
                     </div>
                 </fieldset>

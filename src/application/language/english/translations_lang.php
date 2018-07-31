@@ -319,7 +319,7 @@ $lang['no'] = 'No';
 $lang['sms'] = 'SMS';
 //Show Minimal Deatails
 $lang['show_minimal_details'] = 'Show minimal details in notifications.';
-$lang['show_minimal_details_hint'] = 'Show minimal details in notifications for greater confidentiality.';
+$lang['show_minimal_details_hint'] = 'Show minimal details in notifications and Google Calendar for greater confidentiality.';
 //Notifications
 $lang['powered_by']= 'Powered by';
 $lang['edit_reschedule_cancel_appointment'] = 'Click here to edit, reschedule, or cancel the appointment';
@@ -393,3 +393,11 @@ $lang['wp_invoice_see_at'] = 'CTLCSW-Service';
 //hide_provider
 $lang['hide_provider'] = 'Hide "Select Provider" from front-end';
 $lang['hide_provider_hint'] = 'If only one provider is offering services the selection box is not necessary';
+
+//google sync mods.
+$lang['google_sync_notice'] = 'Email me notification of successful Google-Sync';
+$lang['google_sync_notice_hint'] = 'If yes, an email notification will be sent of successful Google-Sync';
+$lang['google_sync_from'] = 'Google-Sync "from" email';
+$lang['google_sync_from_hint'] = 'The address from which you will be sending the google sync notice.';
+$lang['google_sync_to'] = 'Google-Sync "to" email';
+$lang['google_sync_to_hint'] = 'The address to which you will be sending the Google sync notice';

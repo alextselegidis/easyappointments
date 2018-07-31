@@ -143,11 +143,12 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          * Trigger the synchronization algorithm.
          */
         $('#google-sync').click(function () {
-            var url = GlobalVariables.baseUrl + '/index.php/google/sync/' + $('#select-filter-item').val();
+            var url = GlobalVariables.baseUrl + '/index.php/google/sync2/' + $('#select-filter-item').val();
 
             $.ajax({
                 url: url,
                 type: 'GET',
+				async: true,
                 dataType: 'json'
             })
                 .done(function (response) {

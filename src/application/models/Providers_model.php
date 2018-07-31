@@ -652,4 +652,20 @@ class Providers_Model extends CI_Model {
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
         return ($num_rows > 0) ? FALSE : TRUE;
     }
+	
+	/**
+	* Get all providers for Google Sync Mod Craig Tucker 
+    */	
+	function get_all_provider_ids() 
+	{
+		$results = [
+			'id' => $this->db->select('id as id')
+			->from('ea_users')
+			->where('id_roles', 2)
+			->get()
+			->row()
+			->id
+			];
+		return $results;
+	}
 }

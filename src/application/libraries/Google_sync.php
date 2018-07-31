@@ -141,7 +141,12 @@ class Google_Sync {
         $this->CI->load->helper('general');
 
         $event = new Google_Event();
-        $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
+		if ($company_settings['show_minimal_details']=== 'yes'){
+			$event->setSummary(($service != NULL) ? $customer['first_name'] . ' ' . $customer['last_name'] : 'Unavailable');		
+		} else {
+			$event->setSummary(($service != NULL) ? $customer['first_name'] . ' ' . $customer['last_name'] . ': ' . $service['name'] : 'Unavailable');			
+		}
+
         $event->setLocation($company_settings['company_name']);
 
         $start = new Google_EventDateTime();
@@ -152,6 +157,7 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
 
+        $event->setDescription($appointment['notes'] .'|'.$appointment['id_users_customer'] .'|'. $appointment['id_services']);
         $event->attendees = [];
 
         $event_provider = new Google_EventAttendee();
@@ -195,10 +201,15 @@ class Google_Sync {
     {
         $this->CI->load->helper('general');
 
-        $event = $this->service->events->get($provider['settings']['google_calendar'],
-            $appointment['id_google_calendar']);
+        $event = $this->service->events->get($provider['settings']['google_calendar'], $appointment['id_google_calendar']);
 
-        $event->setSummary($service['name']);
+		if ($company_settings['show_minimal_details'] === 'yes')
+		{
+			$event->setSummary($customer['first_name'] . ' ' . $customer['last_name']);
+		} else {
+			$event->setSummary($customer['first_name'] . ' ' . $customer['last_name'] . ': ' . $service['name']);
+		}
+		
         $event->setLocation($company_settings['company_name']);
 
         $start = new Google_EventDateTime();
@@ -209,6 +220,7 @@ class Google_Sync {
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
 
+        $event->setDescription($appointment['notes'] .'|'.$appointment['id_users_customer'] .'|'. $appointment['id_services']);
         $event->attendees = [];
 
         $event_provider = new Google_EventAttendee();
@@ -357,10 +369,12 @@ class Google_Sync {
     {
         $this->CI->load->helper('general');
 
-        $params = [
-            'timeMin' => date3339($start),
-            'timeMax' => date3339($end)
-        ];
+		$params = array( 
+			'singleEvents' => true,  //allows recurring appointments to show up as individual appointments
+            'timeMin' => date3339($start), //limits sync x# of days to prior to today set in application/controllers/google.php line 129
+            'timeMax' => date3339($end), //Limits the sync period to x# of days after today set in application/controllers/google.php line 130
+            'maxResults' => 3000 //Set max results to 3000 or whatever you want to avoid Google limitation (by default, Google lets you sync only 250 events)
+        );		
 
         return $this->service->events->listEvents($google_calendar, $params);
     }

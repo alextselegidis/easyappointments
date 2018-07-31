@@ -327,7 +327,7 @@ body legend {
 
 #calendar-page #calendar .fc-unavailable {
     background-image: url('../img/unavailable.jpg');
-    font-size: 14px;
+    font-size: .85em;
     border-radius: 0;
     font-weight: bold;
     color: #333;

@@ -312,7 +312,8 @@ class Backend_api extends CI_Controller {
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'time_format' => $this->settings_model->get_setting('time_format'),
+				'show_minimal_details' => $this->settings_model->get_setting('show_minimal_details')
             ];
 
             // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
@@ -361,6 +362,8 @@ class Backend_api extends CI_Controller {
                 {
                     $customer_title = new Text($this->lang->line('appointment_booked'));
                     $customer_message = new Text($this->lang->line('thank_you_for_appointment'));
+
+
                     $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
                     $provider_message = new Text($this->lang->line('appointment_link_description'));
                 }
@@ -368,6 +371,8 @@ class Backend_api extends CI_Controller {
                 {
                     $customer_title = new Text($this->lang->line('appointment_changes_saved'));
                     $customer_message = new Text('');
+
+
                     $provider_title = new Text($this->lang->line('appointment_details_changed'));
                     $provider_message = new Text('');
                 }
@@ -402,9 +407,16 @@ class Backend_api extends CI_Controller {
                     $email->sendAppointmentDetails($appointment, $provider,
                         $service, $customer, $company_settings, $provider_title,
                         $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream));
+
                 }
 
             }
+
+
+
+
+
+
             catch (Exception $exc)
             {
                 $warnings[] = exceptionToJavaScript($exc);
@@ -473,7 +485,8 @@ class Backend_api extends CI_Controller {
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'time_format' => $this->settings_model->get_setting('time_format'),
+				'show_minimal_details' => $this->settings_model->get_setting('show_minimal_details')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM DATABASE

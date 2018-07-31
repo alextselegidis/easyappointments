@@ -817,7 +817,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     }
 
                                     var unavailablePeriod = {
-                                        title: EALang.unavailable + notes,
+        								title: ((unavailable.notes.length > 60)
+														? unavailable.notes.substring(0, 60) + '...' 
+                                                        : unavailable.notes),
                                         start: moment(unavailable.start_datetime),
                                         end: moment(unavailable.end_datetime),
                                         allDay: false,
@@ -933,7 +935,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     }
 
                                     unavailablePeriod = {
-                                        title: EALang.unavailable + notes,
+										title: ((unavailable.notes.length > 60)
+												? unavailable.notes.substring(0, 60) + '...' 
+                                                : unavailable.notes),
                                         start: moment(unavailable.start_datetime),
                                         end: moment(unavailable.end_datetime),
                                         allDay: false,
