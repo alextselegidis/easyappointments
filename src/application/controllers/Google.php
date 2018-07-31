@@ -219,7 +219,7 @@ class Google extends CI_Controller {
             foreach ($events->getItems() as $event)
             {
                 $results = $this->appointments_model->get_batch(['id_google_calendar' => $event->getId()]);
-                if (count($results) == 0)
+                if ((count($results) == 0) && !is_null($event) && !is_null($event->start) && !is_null($event->end))
                 {
                     // Record doesn't exist in E!A, so add the event now.
                     $appointment = [
