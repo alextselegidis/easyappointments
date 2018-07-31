@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'カレンダーを再読み込みします�
 $lang['trigger_google_sync_hint'] = 'Googleカレンダーとの同期を開始します。';
 $lang['appointment_updated'] = '予約情報が更新されました。';
 $lang['undo'] = 'やり直し';
-$lang['cancel'] = 'キャンセル';
 $lang['appointment_details_changed'] = '予約情報が変更されました。';
 $lang['appointment_changes_saved'] = '予約の変更が保存されました。';
 $lang['save'] = '保存';

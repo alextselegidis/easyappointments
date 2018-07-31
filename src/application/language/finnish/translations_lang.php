@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Uudelleenlataa varaukset.';
 $lang['trigger_google_sync_hint'] = 'Käynnistä Google-kalenterin synkronointi.';
 $lang['appointment_updated'] = 'Varaus päivitetty onnistuneesti!';
 $lang['undo'] = 'Kumoa';
-$lang['cancel'] = 'Peruuta';
 $lang['appointment_details_changed'] = 'Varaustiedot ovat muuttuneet';
 $lang['appointment_changes_saved'] = 'Varauksen muutokset tallennettiin onnistuneesti!';
 $lang['save'] = 'Tallenna';

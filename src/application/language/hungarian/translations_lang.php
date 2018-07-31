@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Az időpontok újra töltése.';
 $lang['trigger_google_sync_hint'] = 'Google naptárral való szinkronizálás indítása.';
 $lang['appointment_updated'] = 'Az időpont sikeresen frissítve!';
 $lang['undo'] = 'Undo';
-$lang['cancel'] = 'Mégse';
 $lang['appointment_details_changed'] = 'A foglalás részletei megváltoztak.';
 $lang['appointment_changes_saved'] = 'A változtatások sikeresen elmentve!';
 $lang['save'] = 'Mentés';

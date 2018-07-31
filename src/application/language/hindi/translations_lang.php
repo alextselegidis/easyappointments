@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'कैलेंडर अपॉइंटम
 $lang['trigger_google_sync_hint'] = 'गूगल कैलेंडर तुल्यकालन प्रक्रिया को ट्रिगर करें.';
 $lang['appointment_updated'] = 'अपॉइंटमेंट अप्डैटिड सक्सेस्फल!';
 $lang['undo'] = 'अन्डू';
-$lang['cancel'] = 'कैन्सल';
 $lang['appointment_details_changed'] = 'अपॉइंटमेंट विवरण बदल गया है.';
 $lang['appointment_changes_saved'] = 'अपॉइंटमेंट परिवर्तन सफलतापूर्वक बचा लिया गया है!';
 $lang['save'] = 'सेव';

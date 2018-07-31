@@ -88,7 +88,6 @@ $lang['reload_appointments_hint'] = 'Takvim randevularını tekrar yükle.';
 $lang['trigger_google_sync_hint'] = 'Google Takvim eşitlemeyi başlat.';
 $lang['appointment_updated'] = 'Randevu başarıyla güncellendi!';
 $lang['undo'] = 'Geri al';
-$lang['cancel'] = 'İptal';
 $lang['appointment_details_changed'] = 'Randevu detayları değiştirildi.';
 $lang['appointment_changes_saved'] = 'Randevu değişiklikleri başarıyla kaydedildi!';
 $lang['save'] = 'Kaydet';

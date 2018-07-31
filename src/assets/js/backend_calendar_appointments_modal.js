@@ -299,6 +299,14 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Update the providers select box.
             $.each(GlobalVariables.availableProviders, function (indexProvider, provider) {
                 $.each(provider.services, function (indexService, serviceId) {
+                    if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && parseInt(provider.id) !== GlobalVariables.user.id) {
+                        return true; // continue
+                    }
+
+                    if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY && GlobalVariables.secretaryProviders.indexOf(provider.id) === -1) {
+                        return true; // continue
+                    }
+
                     // If the current provider is able to provide the selected service, add him to the listbox.
                     if (serviceId == sid) {
                         var optionHtml = '<option value="' + provider.id + '">'
