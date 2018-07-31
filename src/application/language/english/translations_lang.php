@@ -401,3 +401,6 @@ $lang['google_sync_from'] = 'Google-Sync "from" email';
 $lang['google_sync_from_hint'] = 'The address from which you will be sending the google sync notice.';
 $lang['google_sync_to'] = 'Google-Sync "to" email';
 $lang['google_sync_to_hint'] = 'The address to which you will be sending the Google sync notice';
+
+//ICS File
+$lang['apt_with'] = ": Apt at ";

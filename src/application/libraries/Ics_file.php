@@ -38,18 +38,30 @@ class Ics_file {
      *
      * @return string Returns the contents of the ICS file.
      */
-    public function get_stream($appointment, $service, $provider, $customer)
+    public function get_stream($appointment, $service, $provider, $customer, $details)
     {
+		
         $appointment_start = new DateTime($appointment['start_datetime']);
         $appointment_end = new DateTime($appointment['end_datetime']);
 
         // Setup the event.
         $event = new CalendarEvent();
+		$summary = '';
 
+		if ($details['limits'] === 'yes')
+		{
+			$summary = $customer['first_name'] . ' ' . $customer['last_name'] 
+				. $details['apt_with'] . $details['company_name'];
+		} 
+		else 
+		{
+			$summary = $service['name'];
+		}		
+		
         $event
             ->setStart($appointment_start)
             ->setEnd($appointment_end)
-            ->setSummary($service['name'])
+            ->setSummary($summary)
             ->setUid($appointment['id']);
 
         // Add the customer attendee.

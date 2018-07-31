@@ -380,10 +380,16 @@ class Backend_api extends CI_Controller {
                 $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
                 $provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
 
+				$details = [
+					'limits' => $this->settings_model->get_setting('show_minimal_details'),
+					'apt_with' => $this->lang->line('apt_with'),
+					'company_name' => $this->settings_model->get_setting('company_name')
+				];
+				
                 $send_customer = $this->settings_model->get_setting('customer_notifications');
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
                 $this->load->library('ics_file');
-                $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
+                $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer, $details);
 				
 				if (((bool)$send_customer === TRUE) && ( $clientnotification == '0')) {
 					$go_customer = TRUE;

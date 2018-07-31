@@ -608,9 +608,15 @@ class Appointments extends CI_Controller {
                 $send_customer = filter_var($this->settings_model->get_setting('customer_notifications'),
                     FILTER_VALIDATE_BOOLEAN);
 
+				$details = [
+					'limits' => $this->settings_model->get_setting('show_minimal_details'),
+					'apt_with' => $this->lang->line('apt_with'),
+					'company_name' => $this->settings_model->get_setting('company_name')
+				];	
+					
 				$clientnotification = $this->settings_model->get_setting('conf_notice');
                 $this->load->library('ics_file');
-                $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
+                $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer, $details);
 
                 $send_provider = filter_var($this->providers_model->get_setting('notifications', $provider['id']),
                     FILTER_VALIDATE_BOOLEAN);
