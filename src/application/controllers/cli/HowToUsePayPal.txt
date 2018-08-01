@@ -1,9 +1,42 @@
-To use my PayPal option you need to install and activate the WP-Invoice plugin with the Single Page Checkout addon activated. You need to get a PayPal IPN URL from your paypal account. You need your paypal account activated within WP-Invoice.
+GETTING PAYPAL TO WORK WITH EASY!APPOINTMENTS
+I did not develop this process with ease of installation in mind.  I just developped it little by little on my site until it worked.  I did not really think about how others will install it and how involved it would be.  Nevertheless, after trying to explain the process to another Easy!Appointments user, Felipe, I have tried to make some clear instructions.  This is my atttempt.
 
-You also need the PHP Snippets addon added and activated.  Within PHP Snipets 
+//INSTALL AND ACTIVATE WP-INVOICE WITH SINGLE PAGE CHECKOUT ADDON
+https://wordpress.org/plugins/wp-invoice/
+https://www.usabilitydynamics.com/product/wp-invoice-single-page-checkout
+To use my PayPal option you need to install and activate the WP-Invoice plugin with the Single Page Checkout addon activated. 
+You need to get a PayPal IPN URL from your paypal account: https://www.usabilitydynamics.com/product/wp-invoice/docs/paypal-payment-settings-in-wp-invoice-plugin
+You need your paypal account activated within WP-Invoice.
+
+You need to have a login procedure for your wordpress site and you need to have easy appointments sitting behind the login.  
+
+//WORDPRESS PATIENT LOGIN
+For a patient log in, minimally you will need to install and activate the following:
+
+* Postman SMTP (or similar this handles email for log in registration process) https://wordpress.org/plugins/post-smtp/
+* Nav Menu Roles https://wordpress.org/plugins/nav-menu-roles/ 
+* Peter's Login Redirect https://wordpress.org/plugins/peters-login-redirect/ 
+* User Role Editor https://wordpress.org/plugins/user-role-editor/
+
+Your WordPress server should be configured with SSL. For this you will need a domain name and a SSL certificate. There are many commercial sources for these -- if you don't already have one you are comfortable with, try namecheap.com and their "RapidSSL" certificates.  If you are planning on only allowing patients to schedule on the site this should be enough.  But if you plan to exchange patient information beyond this you would likely need your own server to increase security.  It is also best to have all protected patient information stored in a different location that can only be reached by a VPN. 
+
+The first plug-in to configure is "User Role Editor". In the administrative area go to Users -> User Role Editor. Click "Add Role" and create a new role with an ID of "patient" (this specific ID is required, all lower case) and a display name of "Patient". Make it a copy of the Subscriber role so that its only capability is "read". This is the role that will be assigned to your patients. Also if patients will self-register for a portal account, be sure to set the primary default role to "patient" or "client".
+
+Then it would be good to review and customize all of your system settings. In the administrative area you'll see that "Settings" is broken down into about 9 sections: General, Writing, Reading, etc. The WP instructions will help you with these, but here are a some special notes:
+
+In Reading, you probably want your front page to display a static page.
+In Login/logout redirects, you will want the "patient" role to redirect to a suitable page upon login. Plan to set that up after you have created some initial pages.
+
+Be sure to configure Postman SMTP or whatever you use to manage outgoing mail. This is to make sure that you and your users get any appropriate mail that may be generated.
+
+You probably want most or all of your pages with forms to be available only to logged-in patients. The "Nav Menu Roles" plug-in will make that easy. 
+
+//INSTALL AND ACTIVATE THE PHP CODE SNIPPETS PLUGIN
+https://wordpress.org/plugins/insert-php/
+Within PHP Code Snipets 
 1. add a snippit
 2. Title the snippit: PayPal Fee Policy Agreement and Schedule vs Cancel
-3. Enter the following code for the snippet:
+3. Enter the following code for the snippet (replacing the following text: 1. "pathtowordpresssite" with the path to your Easy!Apppointments installation; "pathtoeasyappointments" with the path to your Easy!Apppointments installation) :
 
 	global $wpdb;
 	$user = wp_get_current_user();
@@ -13,7 +46,7 @@ You also need the PHP Snippets addon added and activated.  Within PHP Snipets
 			."WHERE us.wp_id ='".$user_ID."'");
 	if ($shortcode->pending == ''){
 		echo '<h1>Processing Error: Appointment has been deleted. </h1>';
-		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://www.craigtuckerlcsw.com/wordpress/wp-content/uploads/2017/05/CLOCK.png" /> Schedule an appointment</a></p>';
+		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="https://pathtoeasyappointments/"><img height="18" width="18"/> Schedule an appointment</a></p>';
 	} else {
 		echo '<h2>Fee Policy</h2>';
 		echo '<p>You may reschedule an appointment without charge within 24 hours of your appointment.  Cancelation of an appointment within 24 hours can either result in a refund or a credit for your next appointment per your request. You will need to inform Mr. Tucker on the discussion board about how you would like your cancelation to be handled. If you would like a refund, refunds will be the full amount of the cost of your session minus the PayPal processing fees. There are no refunds for cancelations later than 24 hours in advance.</p>';
@@ -29,14 +62,14 @@ You also need the PHP Snippets addon added and activated.  Within PHP Snipets
         echo $shortcode->pending;
 		echo '<input type="button" onclick="deletapt()" value="Refuse/Delete">';
 		echo "<script>
-        cancelurl = 'https://www.craigtuckerlcsw.com/wordpress/easy/index.php/appointments/cancel/" . $shortcode->hash . "';
+        cancelurl = 'https://pathtoeasyappointments/index.php/appointments/cancel/" . $shortcode->hash . "';
         function deletapt(){
 		    window.location = cancelurl;
         }
 		</script>";
 		}else{
         echo '<h4 style="text-align: center;">Time has expired</h4>';
-		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://www.craigtuckerlcsw.com/wordpress/wp-content/uploads/2017/05/CLOCK.png" /> Schedule an appointment</a></p>';
+		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="https://pathtoeasyappointments/">Schedule an appointment</a></p>';
 		}
 	}
 
@@ -48,6 +81,7 @@ You also need the PHP Snippets addon added and activated.  Within PHP Snipets
 
 But your number will be different.  Take note of the shortcode on your device and copy it for use in the next step.
 
+//ADD SOME WORDPRESS PAGES
 You need to make a page in Wordpress titled:
 
 	processingpayment
@@ -80,13 +114,25 @@ And you need to add the following in the text tab for the content (do not past t
 
 	<script>
 		$("document").ready(function() {
-			$('input[name="return"]').val("https://www.craigtuckerlcsw.com/wordpress/payment-success/");
+			$('input[name="return"]').val("https://pathtowordpresssite/payment-success/");
 			$('input[name="cancel_return"]').val(cancelurl);
 		});  
 	</script>
 
+You need to make another Wordpress page titled "payment-success". After replacing the text "pathtowordpresssite" with the path to your wordpress site, add the following in the text tab for the content (do not past this in the Visual tab):
+
+	<h1 style="text-align: center;">Your Payment Was Successful</h1>
+	<h2 style="text-align: center;">Thank you...</h2>
+	<p style="text-align: center;">A receipt for transaction has been emailed to you. Complete details of this transaction are found at this link:</p>
+
+	<div id="fep-menu" style="text-align: center;"><a class="fep-button" title="Invoice Dashboard" href="https://pathtowordpresssite/paymentdashboard/">Payment Dashboard</a></div>
+	&nbsp;
+	<p style="text-align: center;">You may also log into your account at www.paypal.com to view financial details of this transaction.</p>
+
+	
 You need to run a cronjob that will launch the Paypaltimer.php script once every 60 seconds.  This deletes all pending appointments with payments not completed within 10 minutes.
 
+//ADD A FUNCTION TO FUNCTIONS.PHP IN YOUR WORDPRESS THEME
 Within the functions.php file of your theme you need to add the following function to add the propper name service name etc. to the WP-Invoice client file: 
 
 function ea_paypalcallback($transaction_data){
@@ -107,3 +153,23 @@ function ea_paypalcallback($transaction_data){
 	// the message
 	$var = $postid;
 }
+
+//ADD ITEMS TO THE WP-INVOICE LINE ITEMS TAB
+The last step:
+In WP-Invoice settings> line items, there need to be items listed there.  This is the system that I used:
+
+I went into phpMyAdmin and to the Easy!Appointments table: ea_services and used the service ID number to create each item in the line items table of WP-Invoices such as this:
+
+Name & Description		|Qty. 	|Price
+
+13CTLCSW-Service		|1		|140
+17CTLCSW-Service		|1		|252
+18CTLCSW-Service		|1		|110
+
+And so on . . .
+
+In this example CTLCSW-Service is just a suffix I attached to the service ID# and the associated price for that service.  The "CTLCSW-Service" is arbitrary, you can make it what ever you want or leave it out completely.  The suffix is the cryptic information that will appear in the PayPal ledger.  For the sake of confidentiality, I am providing minimal information to PayPal about the service purchased.  The most important part is that the number at the start must match your service id and you need the corresponding price. 
+
+The cryptic 13CTLCSW-Service is replaced in WP-Invoice with the full information about the service as you entered in Easy!Appointments.  So, the client can get more complete information by looking at the invoice securely stored on your site.
+
+This is not the most efficient method  and it means that when you change your price for a service you need to enter it into two places.  But it works for now.  If others want to add code to automatically do this -- feel free to do so and share.
