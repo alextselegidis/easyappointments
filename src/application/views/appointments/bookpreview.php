@@ -256,9 +256,7 @@
 								<span class="glyphicon glyphicon-time"></span>
 								<?= lang('waiting_list'); ?>
 							</button>
-							<div style="margin-left:40px;">
-								<div id="available-hours"></div>
-							</div>
+							<div id="available-hours"></div>
 						</div>							
 					</div>
 
@@ -315,6 +313,21 @@
             FrontendBook.initialize(true, GlobalVariables.manageMode);
             GeneralFunctions.enableLanguageSelection($('#select-language'));
         });
+		
+		if ($("#available-hours").html() === EALang['no_available_hours']){ 
+			$('#available-hours').css("margin-left", "0px");		
+		} else {
+			$('#available-hours').css("margin-left", "44px");
+		}
+		
+		$('#available-hours').bind("DOMSubtreeModified",function(){
+			if ($("#available-hours").html() === EALang['no_available_hours']){ 
+				$('#available-hours').css("margin-left", "0px");		
+			} else {
+				$('#available-hours').css("margin-left", "44px");
+			}
+		});
+				
     </script>
 
     <?php google_analytics_script(); ?>
