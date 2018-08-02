@@ -346,8 +346,8 @@ $lang['interval_time']= 'Time Interval For Fixed Appointments';
 $lang['interval_time_hint'] = 'Default time interval for date picker and waiting list.  If your appointments are typically 1 hour then enter 60 here.';
 //Waiting List Notice
 $lang['waiting_list'] = 'Waiting List';
-$lang['waiting-list-content'] = 'Waiting List Message';
-$lang['waiting-list-content-hint'] = 'This is the content of the Waiting List pop-up that explains how to use the waiting list';
+$lang['waiting_list_content'] = 'Waiting List Message';
+$lang['waiting_list_content_hint'] = 'This is the content of the Waiting List pop-up that explains how to use the waiting list';
 $lang['show_waiting_list'] = 'Show the waiting list.';
 $lang['show_waiting_list_hint'] = 'Adds a waiting list to the front end that can be triggered by a script through cron job or similar. The script is found in: /application/controllers/cli/Waitinglist.php';
 $lang['check_availability'] = 'Check Availability';
@@ -388,7 +388,7 @@ $lang['sms'] = 'SMS';
 //wp-invoice
 $lang['wp_invoice'] = 'WP-Invoice Integration (In WP with WP-Invoice Plugin installed only)';
 $lang['wp_invoice_hint'] = 'Integrate with WP-Invoice Single Page Payment on confirmation page';
-$lang['wp_invoice_see_at'] = 'CTLCSW-Service';
+$lang['wp_invoice_see_at'] = 'Invoice-Service';
 
 //hide_provider
 $lang['hide_provider'] = 'Hide "Select Provider" from front-end';
@@ -404,3 +404,11 @@ $lang['google_sync_to_hint'] = 'The address to which you will be sending the Goo
 
 //ICS File
 $lang['apt_with'] = ": Apt at ";
+
+//Preview Screen
+$lang['check_availability'] = 'Check Availability';
+$lang['check_availability_msg'] = 'If days are grey, the schedule is full. If you do see an opening (black), you may register and schedule. Be aware that follow up appointments are also based on availability you see here.';
+$lang['register'] = "Register";
+$lang['notification_availability'] = 'Notification of availability for 30 days';
+$lang['book_now'] = 'Book Appointment Now';
+$lang['view_now'] = 'Open Schedule Now';
