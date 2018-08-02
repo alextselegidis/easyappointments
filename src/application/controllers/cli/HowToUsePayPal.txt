@@ -154,22 +154,27 @@ function ea_paypalcallback($transaction_data){
 	$var = $postid;
 }
 
+//CHOOSE A CRYPTIC SUFFIX FOR PAYPAL 
+In /application/language/english/translations_lang.php edit the entry for: 
+
+    $lang['wp_invoice_see_at'] = 'Invoice-Service';
+
+In this example Invoice-Service is just a suffix I attach to the service ID# (as described in the next section). The "Invoice-Service" is arbitrary, you can make it what ever you want or leave it out completely.  I use my business name.  The suffix is the cryptic information that will appear in the PayPal ledger. For the sake of confidentiality, I am providing minimal information to PayPal about the service purchased. 
+
 //ADD ITEMS TO THE WP-INVOICE LINE ITEMS TAB
 The last step:
 In WP-Invoice settings> line items, there need to be items listed there.  This is the system that I used:
 
-I went into phpMyAdmin and to the Easy!Appointments table: ea_services and used the service ID number to create each item in the line items table of WP-Invoices such as this:
+I went into phpMyAdmin and to the Easy!Appointments table: ea_services and used the service ID number attached to the suffix you assigned in the previous section. This creates each item in the line items table of WP-Invoices such as this:
 
-Name & Description		|Qty. 	|Price
+Name & Description	|Qty. 	|Price
 
-13CTLCSW-Service		|1		|140
-17CTLCSW-Service		|1		|252
-18CTLCSW-Service		|1		|110
+13Invoice-Service		|1		|140
+17Invoice-Service		|1		|252
+18Invoice-Service		|1		|110 
 
 And so on . . .
 
-In this example CTLCSW-Service is just a suffix I attached to the service ID# and the associated price for that service.  The "CTLCSW-Service" is arbitrary, you can make it what ever you want or leave it out completely.  The suffix is the cryptic information that will appear in the PayPal ledger.  For the sake of confidentiality, I am providing minimal information to PayPal about the service purchased.  The most important part is that the number at the start must match your service id and you need the corresponding price. 
-
-The cryptic 13CTLCSW-Service is replaced in WP-Invoice with the full information about the service as you entered in Easy!Appointments.  So, the client can get more complete information by looking at the invoice securely stored on your site.
+The cryptic 13Invoice-Service is replaced in WP-Invoice with the full information about the service as you entered in Easy!Appointments.  So, the client can get more complete information by looking at the invoice securely stored on your site.
 
 This is not the most efficient method  and it means that when you change your price for a service you need to enter it into two places.  But it works for now.  If others want to add code to automatically do this -- feel free to do so and share.
