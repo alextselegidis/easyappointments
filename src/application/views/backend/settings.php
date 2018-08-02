@@ -135,7 +135,6 @@
 									<?php echo $this->lang->line('max_date_hint'); ?>
 								</span>
 							</div>
-
 							<div class="form-group">							
                                 <div class="checkbox">
                                     <label>
@@ -148,10 +147,10 @@
 								</span>
 							</div>
                             <div class="form-group">
-                                <label for="waiting-list-content"><?= lang('waiting-list-content') ?></label>
+                                <label for="waiting_list_content"><?= lang('waiting_list_content') ?></label>
                                 <textarea id="waiting-list-content" cols="30" rows="10" class="form-group"></textarea>
 								<span class="help-block">
-										<?php echo $this->lang->line('waiting-list-content-hint'); ?>
+										<?php echo $this->lang->line('waiting_list_content_hint'); ?>
 								</span>	
                             </div>							
                         </div>
