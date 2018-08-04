@@ -295,9 +295,9 @@ $lang['privacy_policy_content'] = 'Privacy Policy Content';
 $lang['website_using_cookies_to_ensure_best_experience'] = 'This website uses cookies to ensure you get the best experience on our website.';
 $lang['read_and_agree_to_terms_and_conditions'] = 'I have read and agree to the {$link}Terms & Conditions{/$link}.';
 $lang['read_and_agree_to_privacy_policy'] = 'I have read and agree to the {$link}Privacy Policy{/$link}.';
-$lang['delete_personal_information_hint'] = 'Remove all my data from Easy!Appontments.';
+$lang['delete_personal_information_hint'] = 'Remove all my appointment data and personal information from Easy!Appontments.';
 $lang['delete_personal_information'] = 'Delete Personal Information';
-$lang['delete_personal_information_prompt'] = 'Are you sure that you want to delete your personal information? This action cannot be undone.';
+$lang['delete_personal_information_prompt'] = 'Are you sure that you want to delete your appointment and personal information from the calendar? This action cannot be undone.';
 //Theme Color Settings
 $lang['theme_color'] = 'Choose a theme color';
 $lang['theme_color_hint'] = 'This will change the overall color scheme for the application';

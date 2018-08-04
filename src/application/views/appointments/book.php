@@ -155,7 +155,9 @@
 								</form>
 								
 								<div id="remove-personal-info">
-									<button id="delete-personal-information" class="btn btn-danger btn-sm">'.lang('delete_personal_information_hint').'</button>
+									<br><br>
+									<button id="delete-personal-information" class="btn btn-danger btn-sm">'.lang('delete_personal_information').'</button>
+									<p>'.lang('delete_personal_information_hint').'</p>
 								</div>
 							</div>
                             <div id="cancel-appointment-frame" class="row">
