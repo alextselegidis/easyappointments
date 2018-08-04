@@ -320,7 +320,7 @@
 			$('#available-hours').css("margin-left", "44px");
 		}
 		
-		$('#available-hours').bind("DOMSubtreeModified",function(){
+		$('#available-hours').on("DOMSubtreeModified",function(){
 			if ($("#available-hours").html() === EALang['no_available_hours']){ 
 				$('#available-hours').css("margin-left", "0px");		
 			} else {
