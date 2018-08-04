@@ -231,7 +231,8 @@ class Appointments extends CI_Controller {
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'time_format' => $this->settings_model->get_setting('time_format'),
+				'show_minimal_details' => $this->settings_model->get_setting('show_minimal_details')
             ];
 
             // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
@@ -533,7 +534,8 @@ class Appointments extends CI_Controller {
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'time_format' => $this->settings_model->get_setting('time_format'),
+				'show_minimal_details' => $this->settings_model->get_setting('show_minimal_details')
             ];
 
             // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
