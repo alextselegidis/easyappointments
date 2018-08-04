@@ -123,7 +123,7 @@
 								break;
 						}			
 			
-					$longDay = $this->lang->line(strtolower(date('l',strtotime($appointment_data['start_datetime']))));
+					$longDay = lang(strtolower(date('l',strtotime($appointment_data['start_datetime']))));
 					$date_field = date($dateview,strtotime($appointment_data['start_datetime']));
 					$time_field = date($timeview,strtotime($appointment_data['start_datetime']));
 					if ($time_format == 'military') {				
@@ -134,13 +134,13 @@
                         echo '
 							<div id="wizard-frame-0" class="wizard-frame" >
 								<h3>' .
-                                         $this->lang->line('what_to_do') .
+                                         lang('what_to_do') .
                                 '<h3>
-								<div button id="selectNew" class="btn btn-buttonanew btn-primary" value=0 data-step_index="0" class="col-md-6">'. $this->lang->line('new_apt') .'<i class="icon-forward icon-white"></i></button>
+								<div button id="selectNew" class="btn btn-buttonanew btn-primary" value=0 data-step_index="0" class="col-md-6">'. lang('new_apt') .'<i class="icon-forward icon-white"></i></button>
 								</div>
 								<br><br>									
 								<div button type="button" id="button-next-0" class="btn button-next btn-primary" 
-								data-step_index="0" class="col-md-6">'. $this->lang->line('change_apt') .'<i class="icon-forward icon-white"></i></button>
+								data-step_index="0" class="col-md-6">'. lang('change_apt') .'<i class="icon-forward icon-white"></i></button>
 								</div> 
 								<br><strong><h5><div id="appointment-service"></div></h5></strong>
 								<h6>'.$appt_date.'</h6><br>
@@ -149,19 +149,19 @@
 										action="' . $this->config->item('base_url')
 										. '/index.php/appointments/cancel/' . $appointment_data['hash'] . '" >
 									<input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
-									<button id="cancel-appointment" style="color:white; background-color:red;" class="btn btn-default">' . $this->lang->line('apointent_cancelation') . ' </button>
-									<h6>' . $this->lang->line('write_appointment_removal_reason') . '</h6>
+									<button id="cancel-appointment" style="color:white; background-color:red;" class="btn btn-default">' . lang('apointent_cancelation') . ' </button>
+									<h6>' . lang('write_appointment_removal_reason') . '</h6>
 									<textarea name="cancel_reason" required></textarea>
 								</form>
 								
 								<div id="remove-personal-info">
-									<button id="delete-personal-information" class="btn btn-danger btn-sm">'.$this->lang->line('delete_personal_information_hint').'</button>
+									<button id="delete-personal-information" class="btn btn-danger btn-sm">'.lang('delete_personal_information_hint').'</button>
 								</div>
 							</div>
                             <div id="cancel-appointment-frame" class="row">
                                 <div class="col-xs-12 col-sm-9">
 									<div align="center" style="margin-left: 30px;">
-										<h6>'.$this->lang->line('change_apt').'<br>'.$appt_date.'<h6>
+										<h6>'.lang('change_apt').'<br>'.$appt_date.'<h6>
 									</div> 
                                 </div>
 								<div >
@@ -170,7 +170,7 @@
                                             . '/index.php/appointments/index/' . $appointment_data['hash'] . '">
                                     <input type="hidden" name="csrfToken" value="' . $this->security->get_csrf_hash() . '" />
 
-                                    <button id="return_to_start" style="color:white; background-color:red;" class="btn btn-default">'. $this->lang->line('return_to_start') .'</button>
+                                    <button id="return_to_start" style="color:white; background-color:red;" class="btn btn-default">'. lang('return_to_start') .'</button>
                                     </form>
                                 </div>
                             </div>';
@@ -523,7 +523,7 @@
 			maxDate    			: <?= json_encode($max_date) ?>,
 			wpInvoice			: <?= json_encode($wp_invoice) ?>,
 			sessionId			: <?= json_encode($session_id) ?>,
-			seeAt				: <?= json_encode($this->lang->line('wp_invoice_see_at')) ?>,
+			seeAt				: <?= json_encode(lang('wp_invoice_see_at')) ?>,
 			hideProvider		: <?= json_encode($hide_provider) ?>
         };
 
