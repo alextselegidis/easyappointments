@@ -133,7 +133,8 @@
         $('#save-category').click(function () {
             var category = {
                 name: $('#category-name').val(),
-                description: $('#category-description').val()
+                description: $('#category-description').val(),
+				specialcat: $('#specialcat').val()
             };
 
             if ($('#category-id').val() !== '') {
@@ -256,6 +257,7 @@
         $('#category-id').val(category.id);
         $('#category-name').val(category.name);
         $('#category-description').val(category.description);
+		$('#specialcat').val(category.specialcat);
     };
 
     /**

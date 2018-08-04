@@ -154,6 +154,7 @@
                 address: $('#address').val(),
                 city: $('#city').val(),
                 zip_code: $('#zip-code').val(),
+				specialcat: $('#specialcat').val(),
                 notes: $('#notes').val()
             };
 
@@ -320,6 +321,7 @@
         $('#city').val(customer.city);
         $('#zip-code').val(customer.zip_code);
         $('#notes').val(customer.notes);
+		$('#specialcat').val(customer.specialcat);
 
         $('#customer-appointments').empty();
         $.each(customer.appointments, function (index, appointment) {

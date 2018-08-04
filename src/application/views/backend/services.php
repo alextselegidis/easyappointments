@@ -221,6 +221,11 @@
                         <label for="category-description"><?= lang('description') ?></label>
                         <textarea id="category-description" rows="4" class="form-control"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="specialcat"><?= lang('specialcat') ?></label>
+                        <input id="specialcat" class="form-control"></input>
+                    </div>
+					<span class="help-block"><?= $this->lang->line('specialcat_hlp') ?></span>						
                 </div>
             </div>
         </div>

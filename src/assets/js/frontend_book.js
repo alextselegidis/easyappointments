@@ -209,7 +209,8 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $('#select-provider').change(function () {
+		 
+		$('#select-provider').change(function () {
             FrontendBookApi.getUnavailableDates($(this).val(), $('#select-service').val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
@@ -225,6 +226,7 @@ window.FrontendBook = window.FrontendBook || {};
          * When the user clicks on a service, its available providers should
          * become visible.
          */
+ 
         $('#select-service').change(function () {
             var currServiceId = $('#select-service').val();
             $('#select-provider').empty();

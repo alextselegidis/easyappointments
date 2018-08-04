@@ -5,6 +5,9 @@
 	//require_once('../wp-load.php');
 	global $current_user;
 	//wp_get_current_user();
+	$this->load->model('customers_model');
+	$client	= $this->customers_model->get_customer($current_user->ID);
+	$specialcat = $client['specialcat'];
 	?>
 	 <script>
 		 headTag = document.getElementsByTagName("head")[0].innerHTML;
@@ -208,11 +211,12 @@
                                             }
                                         }
 
+										
                                         if ($has_category) {
                                             $grouped_services = array();
 
                                             foreach($available_services as $service) {
-                                                if ($service['category_id'] != NULL) {
+                                                if (($service['category_id'] != NULL ) && (($service['special'] == '')||($service['special'] == $specialcat))) {
                                                     if (!isset($grouped_services[$service['category_name']])) {
                                                         $grouped_services[$service['category_name']] = array();
                                                     }
@@ -251,7 +255,6 @@
                                     ?>
                                 </select>
                             </div>
-
                             <div class="form-group" id="selectprovider">
                                 <label for="select-provider">
                                     <strong><?= lang('select_provider') ?></strong>
@@ -263,7 +266,6 @@
                             <div id="service-description" style="display:none;"></div>
                         </div>
                     </div>
-
                     <div class="command-buttons">
                         <button type="button" id="button-next-1" class="btn button-next btn-primary"
                                 data-step_index="1">

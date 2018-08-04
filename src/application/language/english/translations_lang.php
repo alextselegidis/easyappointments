@@ -412,3 +412,7 @@ $lang['register'] = "Register";
 $lang['notification_availability'] = 'Notification of availability for 30 days';
 $lang['book_now'] = 'Book Appointment Now';
 $lang['view_now'] = 'Open Schedule Now';
+
+//Special Category
+$lang['specialcat'] = 'Special Category';
+$lang['specialcat_hlp'] = 'If Easy!Appointments is sitting behind a Wordpress Login, you can filter categories for specific clients by entering this code in there account.';

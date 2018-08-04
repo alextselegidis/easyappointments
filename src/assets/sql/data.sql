@@ -67,4 +67,4 @@ INSERT INTO `ea_cellcarrier` (`id`, `cellco`, `cellurl`) VALUES
 	(25, 'Qwest', '@qwestmp.com'),
 	(26, 'U.S. Cellular', '@email.uscc.net');	
 
-INSERT INTO `ea_migrations` VALUES ('24');
+INSERT INTO `ea_migrations` VALUES ('25');

@@ -141,9 +141,13 @@
                     </div>
 
 					<div class="form-group">
-						<label for="wp-id"><?php echo $this->lang->line('wp_id'); ?></label>
-						<input type="text" id="wp-id" class="form-control" />
+						<label class="control-label" for="wp-id"><?= lang('wp_id') ?></label>
+						<input id="wp-id" class="form-control" />
 					</div>
+					<div class="form-group" >
+						<label class="control-label" for="specialcat"><?= lang('specialcat') ?></label>
+						<input id="specialcat" class="form-control" />
+					</div>					
                     <div class="form-group">
                         <label class="control-label" for="notes"><?= lang('notes') ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>

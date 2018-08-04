@@ -129,6 +129,17 @@ class Customers_Model extends CI_Model {
      */
     protected function _update($customer)
     {
+
+		if ($customer['specialcat'] === '')
+		{
+			$data=array('specialcat'=>'');
+			$this->db->where('id', $customer['id']);
+			if ( ! $this->db->update('ea_users', $data))
+			{
+				throw new Exception('Could not update customer to the database.');
+			}			
+		} 
+	
         // Do not update empty string values.
         foreach ($customer as $key => $value)
         {
@@ -372,4 +383,17 @@ class Customers_Model extends CI_Model {
     {
         return $this->db->get_where('ea_roles', ['slug' => DB_SLUG_CUSTOMER])->row()->id;
     }
+	
+    /**
+     * Get the customers information based upon WP-ID.
+     */
+    public function get_customer($wp_id)
+    {
+        if ( ! is_numeric($wp_id))
+        {
+            throw new Exception('Invalid argument provided as $wp_id : ' . $wp_id);
+        }
+        return $this->db->get_where('ea_users', ['wp_id' => $wp_id])->row_array();
+    }	
+	
 }

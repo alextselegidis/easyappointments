@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(256),
     `description` TEXT,
+	`name` VARCHAR(32),
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
