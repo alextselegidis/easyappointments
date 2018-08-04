@@ -129,8 +129,12 @@ class Customers_Model extends CI_Model {
      */
     protected function _update($customer)
     {
-
-		if ($customer['specialcat'] === '')
+		
+		$special_cat = ''; 
+		$special_cat = isset($customer['specialcat']) ? $customer['specialcat'] : '';
+		$special_cat = !empty($customer['specialcat']) ? $customer['specialcat'] : '';		
+		
+		if ($special_cat === '')
 		{
 			$data=array('specialcat'=>'');
 			$this->db->where('id', $customer['id']);
