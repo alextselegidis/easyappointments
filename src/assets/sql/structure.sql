@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `ea_service_categories` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(256),
     `description` TEXT,
-	`name` VARCHAR(32),
+	`specialcat` VARCHAR(32),
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
 	`wp_id` bigint(20) DEFAULT NULL,
     `id_cellcarrier` bigint(20) DEFAULT NULL,
 	`notifications` tinyint(4) DEFAULT '1',
+	`specialcat` VARCHAR(32),
     PRIMARY KEY (`id`),
     KEY `id_roles` (`id_roles`)
 )
