@@ -684,13 +684,26 @@ class Appointments extends CI_Controller {
      */
     public function ajax_get_unavailable_dates()
     {
+		$this->load->model('settings_model');
+		
         try
         {
-            $provider_id = $this->input->get('provider_id');
+            $max_days = $this->settings_model->get_setting('max_date');
+			$last_month = date('n', strtotime('+'.  $max_days  . ' days'));
+			$last_days = date('j', strtotime('+'.  $max_days  . ' days'));
+			$provider_id = $this->input->get('provider_id');
             $service_id = $this->input->get('service_id');
             $selected_date_string = $this->input->get('selected_date');
             $selected_date = new DateTime($selected_date_string);
-            $number_of_days_in_month = (int)$selected_date->format('t');
+			$selected_month = (int)$selected_date->format('n');
+			if ($selected_month == $last_month)
+			{
+				$number_of_days_in_month = $last_days;
+			} 
+			else
+			{
+				$number_of_days_in_month = (int)$selected_date->format('t');
+			} 			
             $unavailable_dates = [];
             $manage_mode = filter_var($this->input->get('manage_mode'), FILTER_VALIDATE_BOOLEAN);
 
@@ -1087,6 +1100,7 @@ class Appointments extends CI_Controller {
                 }
             }
         }
+
 
         return $provider_id;
     }
