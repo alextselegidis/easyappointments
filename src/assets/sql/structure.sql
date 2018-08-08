@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
     `id_users_customer` INT(11),
     `id_services` INT(11),
     `id_google_calendar` TEXT,
+	`pending` TEXT DEFAULT '',
     PRIMARY KEY (`id`),
     KEY `id_users_customer` (`id_users_customer`),
     KEY `id_services` (`id_services`),
