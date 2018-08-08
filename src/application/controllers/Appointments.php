@@ -901,7 +901,7 @@ class Appointments extends CI_Controller {
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
 
         $periods = [];
-		$starts = array();
+		$starts = [];
 		
         if (isset($selected_date_working_plan['breaks']))
         {
@@ -999,6 +999,10 @@ class Appointments extends CI_Controller {
                         // The appointment starts before the period and finishes somewhere inside. We will need to break
                         // this period and leave the available part.
                         $period['start'] = $appointment_end->format('H:i');
+						if ($provider_appointment['is_unavailable'] == 1)
+						{
+							$starts[] = $appointment_end->format('H:i');
+						}
                     }
                     else
                     {
@@ -1017,6 +1021,11 @@ class Appointments extends CI_Controller {
                                 'start' => $appointment_end->format('H:i'),
                                 'end' => $period_end->format('H:i')
                             ];
+							
+							if ($provider_appointment['is_unavailable'] == 1)
+							{
+								$starts[] = $appointment_end->format('H:i');
+							}							
                         }
                         else if ($appointment_start == $period_start && $appointment_end == $period_end)
                         {
