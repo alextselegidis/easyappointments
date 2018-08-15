@@ -290,7 +290,7 @@ class Google extends CI_Controller {
 		* Based on Amine Hamdi  https://groups.google.com/forum/#!searchin/easy-appointments/sync_past_days/easy-appointments/
 		*/
 		$full_sync_past_days = 0;  //limits sync x# of days to prior to today
-		$full_sync_future_days = $this->settings_model->get_setting('max_date') + 2; //Limits the sync period to x# of days after today	
+		$full_sync_future_days = $this->settings_model->get_setting('max_date') + 5; //Limits the sync period to x# of days after today	
 
 		$this->syncgoogle($provider_id, $full_sync_past_days, $full_sync_future_days);
 		
@@ -328,7 +328,7 @@ class Google extends CI_Controller {
 		* Based on Amine Hamdi  https://groups.google.com/forum/#!searchin/easy-appointments/sync_past_days/easy-appointments/
 		*/
 		$full_sync_past_days = 0;  //limits sync x# of days to prior to today
-		$full_sync_future_days = $this->settings_model->get_setting('max_date') + 2; //Limits the sync period to x# of days after today	
+		$full_sync_future_days = $this->settings_model->get_setting('max_date') + 5; //Limits the sync period to x# of days after today	
 									 //I tend to go a couple days longer than I allow people to book out
 									 //just incase I have a sync error, I have couple days of grace to fix it.
 		foreach ($providers as $provider_id) {

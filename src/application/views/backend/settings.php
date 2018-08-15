@@ -245,6 +245,14 @@
 								<span class="help-block">
 									<?php echo $this->lang->line('wp_invoice_hint'); ?>
 								</span>
+								<label for="google-sync-from">
+									<?php echo $this->lang->line('paypal_suffix'); ?>
+								</label>
+								<input type="text" id="paypal-suffix" placeholder="100"
+									data-field="paypal_suffix" class="form-control">
+								<span class="help-block">
+									<?php echo $this->lang->line('paypal_suffix_hlp'); ?>
+								</span>
 							</div>
 							<div class="form-group">
 								<label for="hide_provider">

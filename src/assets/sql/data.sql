@@ -35,7 +35,8 @@ VALUES
 	('hide_provider','no'),
 	('google_sync_notice','no'),
 	('google_sync_from','no'),
-	('google_sync_to','no');
+	('google_sync_to','no'),
+	('paypal_suffix','-service-item');
 
 INSERT INTO `ea_migrations` VALUES ('21');
 
@@ -67,4 +68,4 @@ INSERT INTO `ea_cellcarrier` (`id`, `cellco`, `cellurl`) VALUES
 	(25, 'Qwest', '@qwestmp.com'),
 	(26, 'U.S. Cellular', '@email.uscc.net');	
 
-INSERT INTO `ea_migrations` VALUES ('25');
+INSERT INTO `ea_migrations` VALUES ('26');
