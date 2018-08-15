@@ -43,6 +43,10 @@
     margin: auto;
 	}
 	
+	div#selectNew {
+		margin-bottom: 10px;
+	}	
+	
 	</style> 
 <head>
     <meta charset="utf-8">
@@ -138,12 +142,12 @@
                                 '<h3>
 								<div button id="selectNew" class="btn btn-buttonanew btn-primary" value=0 data-step_index="0" class="col-md-6">'. lang('new_apt') .'<i class="icon-forward icon-white"></i></button>
 								</div>
-								<br><br>									
+								<br>									
 								<div button type="button" id="button-next-0" class="btn button-next btn-primary" 
 								data-step_index="0" class="col-md-6">'. lang('change_apt') .'<i class="icon-forward icon-white"></i></button>
 								</div> 
 								<br><strong><h5><div id="appointment-service"></div></h5></strong>
-								<h6>'.$appt_date.'</h6><br>
+								<h6>'.$appt_date.'</h6>
 								
 								<form id="cancel-appointment-form" method="post"
 										action="' . $this->config->item('base_url')
@@ -152,13 +156,11 @@
 									<button id="cancel-appointment" style="color:white; background-color:red;" class="btn btn-default">' . lang('apointent_cancelation') . ' </button>
 									<h6>' . lang('write_appointment_removal_reason') . '</h6>
 									<textarea name="cancel_reason" required></textarea>
+									<div id="remove-personal-info">
+										<button id="delete-personal-information" class="btn btn-danger btn-sm">'.lang('delete_personal_information').'</button>
+										<p>'.lang('delete_personal_information_hint').'</p>
+									</div>
 								</form>
-								
-								<div id="remove-personal-info">
-									<br><br>
-									<button id="delete-personal-information" class="btn btn-danger btn-sm">'.lang('delete_personal_information').'</button>
-									<p>'.lang('delete_personal_information_hint').'</p>
-								</div>
 							</div>
                             <div id="cancel-appointment-frame" class="row">
                                 <div class="col-xs-12 col-sm-9">
@@ -525,7 +527,7 @@
 			maxDate    			: <?= json_encode($max_date) ?>,
 			wpInvoice			: <?= json_encode($wp_invoice) ?>,
 			sessionId			: <?= json_encode($session_id) ?>,
-			seeAt				: <?= json_encode(lang('wp_invoice_see_at')) ?>,
+			seeAt				: <?= json_encode($paypal_suffix) ?>,
 			hideProvider		: <?= json_encode($hide_provider) ?>
         };
 
