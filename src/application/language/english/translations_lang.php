@@ -388,7 +388,8 @@ $lang['sms'] = 'SMS';
 //wp-invoice
 $lang['wp_invoice'] = 'WP-Invoice Integration (In WP with WP-Invoice Plugin installed only)';
 $lang['wp_invoice_hint'] = 'Integrate with WP-Invoice Single Page Payment on confirmation page';
-$lang['wp_invoice_see_at'] = 'Invoice-Service';
+$lang['paypal_suffix'] = 'PayPal Invoice Item suffix';
+$lang['paypal_suffix_hlp'] = 'For confidentiality, details of a clients purchase are made cryptic for the PayPal invoice, while a detailed invoice is available in WP-Invoice on your Wordpress site. PayPal Invoice items are are listed with the service ID number followed by a suffix. For example if the service item ID is 13 and your suffix is "-my-business" your Paypal purchase item would show 13-my-business.  A corresponding cryptic 13-my-business listing would also need to exist in the WP-Invoices Line Items tab for PayPal payments to work.';
 
 //hide_provider
 $lang['hide_provider'] = 'Hide "Select Provider" from front-end';

@@ -90,6 +90,8 @@ class Appointments extends CI_Controller {
 			$show_waiting_list = $this->settings_model->get_setting('show_waiting_list');
 			$wp_invoice	= $this->settings_model->get_setting('wp_invoice');
 			$hide_provider	= $this->settings_model->get_setting('hide_provider');
+			$paypal_suffix	= $this->settings_model->get_setting('paypal_suffix');
+			
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -184,7 +186,8 @@ class Appointments extends CI_Controller {
 				'max_date' => $max_date,
 				'wp_invoice' => $wp_invoice,
 				'session_id' => $session_id,
-				'hide_provider' => $hide_provider
+				'hide_provider' => $hide_provider,
+				'paypal_suffix' => $paypal_suffix
             ];
         }
         catch (Exception $exc)
@@ -538,6 +541,8 @@ class Appointments extends CI_Controller {
 				'show_minimal_details' => $this->settings_model->get_setting('show_minimal_details')
             ];
 
+		$wp_invoice = $this->settings_model->get_setting('wp_invoice');
+		if ($wp_invoice == 'no'){			
             // :: SYNCHRONIZE APPOINTMENT WITH PROVIDER'S GOOGLE CALENDAR
             // The provider must have previously granted access to his google calendar account
             // in order to sync the appointment.
@@ -578,9 +583,6 @@ class Appointments extends CI_Controller {
                 log_message('error', $exc->getMessage());
                 log_message('error', $exc->getTraceAsString());
             }
-			
-		$wp_invoice = $this->settings_model->get_setting('wp_invoice');
-		if ($wp_invoice == 'no'){
 			
             // :: SEND NOTIFICATION EMAILS TO BOTH CUSTOMER AND PROVIDER
             try
