@@ -130,26 +130,14 @@ class Customers_Model extends CI_Model {
     protected function _update($customer)
     {
 		
-		$special_cat = ''; 
-		$special_cat = isset($customer['specialcat']) ? $customer['specialcat'] : '';
-		$special_cat = !empty($customer['specialcat']) ? $customer['specialcat'] : '';		
-		
-		if ($special_cat === '')
-		{
-			$data=array('specialcat'=>'');
-			$this->db->where('id', $customer['id']);
-			if ( ! $this->db->update('ea_users', $data))
-			{
-				throw new Exception('Could not update customer to the database.');
-			}			
-		} 
-	
         // Do not update empty string values.
         foreach ($customer as $key => $value)
         {
             if ($value === '')
             {
-                unset($customer[$key]);
+				if ($customer[$key] !== $customer['specialcat']){
+					unset($customer[$key]);
+				}
             }
         }
 
