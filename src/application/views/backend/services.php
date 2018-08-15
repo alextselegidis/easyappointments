@@ -89,7 +89,8 @@
 
                     <div class="form-message alert" style="display:none;"></div>
 
-                    <input type="hidden" id="service-id">
+                    <p><b>ID:</b> <input type="text" id="service-id" readonly></p>
+					<br>
 
                     <div class="form-group">
                         <label for="service-name"><?= lang('name') ?> *</label>
