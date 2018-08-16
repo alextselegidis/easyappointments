@@ -8,9 +8,16 @@ To use my PayPal option you need to install and activate the WP-Invoice plugin w
 You need to get a PayPal IPN URL from your paypal account: https://www.usabilitydynamics.com/product/wp-invoice/docs/paypal-payment-settings-in-wp-invoice-plugin
 You need your paypal account activated within WP-Invoice.
 
-You need to have a login procedure for your wordpress site and you need to have easy appointments sitting behind the login.  
+//EASY!APPOINTMENTS SETTINGS PAGE
+On the settings set: 
+
+	WP-Invoice Integration (In WP with WP-Invoice Plugin installed only) = Yes
+
+	PayPal Invoice Item suffix = any suffix you want to appear in your paypal invoice (no spaces).  I use "-MyBusinessName"
 
 //WORDPRESS PATIENT LOGIN
+You need to have a login procedure for your wordpress site and you need to have easy appointments sitting behind the login.  
+
 For a patient log in, minimally you will need to install and activate the following:
 
 * Postman SMTP (or similar this handles email for log in registration process) https://wordpress.org/plugins/post-smtp/
@@ -31,93 +38,12 @@ Be sure to configure Postman SMTP or whatever you use to manage outgoing mail. T
 
 You probably want most or all of your pages with forms to be available only to logged-in patients. The "Nav Menu Roles" plug-in will make that easy. 
 
-//INSTALL AND ACTIVATE THE PHP CODE SNIPPETS PLUGIN
-https://wordpress.org/plugins/insert-php/
-Within PHP Code Snipets 
-1. add a snippit
-2. Title the snippit: PayPal Fee Policy Agreement and Schedule vs Cancel
-3. Enter the following code for the snippet (replacing the following text: 1. "pathtowordpresssite" with the path to your Easy!Apppointments installation; "pathtoeasyappointments" with the path to your Easy!Apppointments installation) :
-
-	global $wpdb;
-	$user = wp_get_current_user();
-	$user_ID = $user->ID;
-    $shortcode = $wpdb->get_row("SELECT MAX(ap.pending) AS pending, ap.book_datetime, ap.id, ap.hash FROM ea_appointments AS ap "
-			."INNER JOIN ea_users AS us ON ap.id_users_customer = us.id "
-			."WHERE us.wp_id ='".$user_ID."'");
-	if ($shortcode->pending == ''){
-		echo '<h1>Processing Error: Appointment has been deleted. </h1>';
-		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="https://pathtoeasyappointments/"><img height="18" width="18"/> Schedule an appointment</a></p>';
-	} else {
-		echo '<h2>Fee Policy</h2>';
-		echo '<p>You may reschedule an appointment without charge within 24 hours of your appointment.  Cancelation of an appointment within 24 hours can either result in a refund or a credit for your next appointment per your request. You will need to inform Mr. Tucker on the discussion board about how you would like your cancelation to be handled. If you would like a refund, refunds will be the full amount of the cost of your session minus the PayPal processing fees. There are no refunds for cancelations later than 24 hours in advance.</p>';
-
-	date_default_timezone_set('America/Los_Angeles');
-	$refreshtime = strtotime($shortcode->book_datetime) - strtotime("-10 minutes");
-
-	echo '<meta http-equiv="refresh" content="';
-	echo   $refreshtime;
-	echo  '">';
-	
-	if(strtotime($shortcode->book_datetime) > (strtotime("-10 minutes"))){
-        echo $shortcode->pending;
-		echo '<input type="button" onclick="deletapt()" value="Refuse/Delete">';
-		echo "<script>
-        cancelurl = 'https://pathtoeasyappointments/index.php/appointments/cancel/" . $shortcode->hash . "';
-        function deletapt(){
-		    window.location = cancelurl;
-        }
-		</script>";
-		}else{
-        echo '<h4 style="text-align: center;">Time has expired</h4>';
-		echo '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="https://pathtoeasyappointments/">Schedule an appointment</a></p>';
-		}
-	}
-
-3. Where to exicute code? "Where there is a short code"
-4. Discription: This is code used on the processingpayment page for my Easy!Appointments, WP-Invoice, and PayPal integration. It includes the fee policy and a button to schedule or cancel the appointment. It also lets the user know if the appointment has already been deleted.
-5. Save the snippet.  You will find the short code for the snippet in the "Where use?" column.  In my case it looks like this: 
-
-[wbcr_php_snippet id="6878"]
-
-But your number will be different.  Take note of the shortcode on your device and copy it for use in the next step.
-
 //ADD SOME WORDPRESS PAGES
 You need to make a page in Wordpress titled:
 
 	processingpayment
 
-And you need to add the following in the text tab for the content (do not past this in the Visual tab).  Replace my short code below [wbcr_php_snippet id="6878"] with your own:
-
-	<style>
-		ul.wpi_checkout_block.wpi_checkout_billing_address {<br />
-			display: none;<br />
-		}<br />
-		ul.wpi_checkout_block.wpi_checkout_customer_information {<br />
-			display: none;<br />
-		}<br />
-		ul.wpi_checkout_block.wpi_checkout_billing_information {<br />
-			display: none;<br />
-		}<br />
-		.wpi_checkout_submit_btn.btn.btn-success.wpi_checkout_process_payment.wpi_paypal {<br />
-			margin: -1px;<br />
-		}<br />
-		input {<br />
-			margin-top: 10px;<br />
-			width: 130px;<br />
-		}<br />
-		form.wpi_checkout .total_price {<br />
-			top: 1px;<br />
-		}<br />
-	</style>
-
-	[wbcr_php_snippet id="6878"]
-
-	<script>
-		$("document").ready(function() {
-			$('input[name="return"]').val("https://pathtowordpresssite/payment-success/");
-			$('input[name="cancel_return"]').val(cancelurl);
-		});  
-	</script>
+	add this short code to the page: [paypalpay]
 
 You need to make another Wordpress page titled "payment-success". After replacing the text "pathtowordpresssite" with the path to your wordpress site, add the following in the text tab for the content (do not past this in the Visual tab):
 
@@ -133,8 +59,123 @@ You need to make another Wordpress page titled "payment-success". After replacin
 You need to run a cronjob that will launch the Paypaltimer.php script once every 60 seconds.  This deletes all pending appointments with payments not completed within 10 minutes.
 
 //ADD A FUNCTION TO FUNCTIONS.PHP IN YOUR WORDPRESS THEME
-Within the functions.php file of your theme you need to add the following function to add the propper name service name etc. to the WP-Invoice client file: 
+Within the functions.php file of your theme you need to add the following two functions 
 
+//Shortcode for PayPal Payments with Easy!Appointments. Place this in your Functions.php file.
+//Replace the following with url addresses that corespond to your site: 
+//  https://PATHTOYOUREASY!APPOINTMENTS.COM  (three instances)
+//  https://PATHTOYOURWORDPRESS.COM (one instance)
+//Make a page in wordpress titled "processingpayment" and place in it the shortcode: [paypalpay]
+function paypalpayment() {
+	global $wpdb;
+	$user = wp_get_current_user();
+	$user_ID = $user->ID;
+    $shortcode = $wpdb->get_row("SELECT MAX(ap.pending) AS pending, ap.book_datetime, ap.id, ap.hash FROM ea_appointments AS ap "
+			."INNER JOIN ea_users AS us ON ap.id_users_customer = us.id "
+			."WHERE us.wp_id ='".$user_ID."'");
+	$html = '';
+	
+	if ($shortcode->pending == ''){
+		$html .= '<h1>Processing Error: Appointment has been deleted. </h1>';
+		$html .= '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="https://PATHTOYOUREASY!APPOINTMENTS.COM"><img height="18" width="18"/> Schedule an appointment</a></p>';
+	} else {
+		$html .= '<h2>Fee Policy</h2>';
+		$html .= '<p>You may reschedule an appointment without charge within 24 hours of your appointment.  Cancelation of an appointment within 24 hours can either result in a refund or a credit for your next appointment per your request. You will need to inform Mr. Tucker on the discussion board about how you would like your cancelation to be handled. If you would like a refund, refunds will be the full amount of the cost of your session minus the PayPal processing fees. There are no refunds for cancelations later than 24 hours in advance.</p>';
+		date_default_timezone_set('America/Los_Angeles');
+		$refreshtime = strtotime($shortcode->book_datetime) - strtotime("-10 minutes");
+
+		$html .= '<meta http-equiv="refresh" content="';
+		$html .=   $refreshtime;
+		$html .=  '">';
+	if(strtotime($shortcode->book_datetime) > (strtotime("-10 minutes"))){
+		$html .= '<style>
+			ul.wpi_checkout_block.wpi_checkout_billing_address {
+				display: none;
+			} 
+			ul.wpi_checkout_block.wpi_checkout_customer_information {
+				display: none;
+			}	
+			ul.wpi_checkout_block.wpi_checkout_billing_information {
+				display: none;
+			}
+			.wpi_checkout_submit_btn.btn.btn-success.wpi_checkout_process_payment.wpi_paypal {
+				margin: -1px;
+			}
+			input {
+				margin-top: 10px;
+				width: 130px;
+			}
+			form.wpi_checkout .total_price {
+				top: 1px;
+			}
+			.loader {
+			  border: 4px solid #f3f3f3;
+			  border-radius: 50%;
+			  border-top: 4px solid #3498db;
+			  width: 30px;
+			  height: 30px;
+			  -webkit-animation: spin 2s linear infinite; /* Safari */
+			  animation: spin 2s linear infinite;
+			}
+
+			/* Safari */
+			@-webkit-keyframes spin {
+			  0% { -webkit-transform: rotate(0deg); }
+			  100% { -webkit-transform: rotate(360deg); }
+			}
+
+			@keyframes spin {
+			  0% { transform: rotate(0deg); }
+			  100% { transform: rotate(360deg); }
+			} 
+
+			div#spinner {
+				margin-left: 160px;
+				position: absolute;
+			}
+			
+			input#stepone {
+				position: absolute;
+				margin-top: -2px;
+				padding: 0px;
+			}
+		</style>';
+		
+		$html .= '<input type="button" id="stepone" onclick="processpaypal()" value="Process Payment">';
+		$html .= '<div id="spinner" class="loader" style="display:none"></div>';
+        $html .= do_shortcode($shortcode->pending);
+		$html .= '<input type="button" onclick="deletapt()" value="Refuse/Delete">';
+		$html .= '<script>
+			cancelurl = "https://PATHTOYOUREASY!APPOINTMENTS.COM/index.php/appointments/cancel/' . $shortcode->hash . '";
+			function deletapt(){
+				window.location = cancelurl;
+			}
+			$(document).ready(function() {
+				$("input[name=return]").val("https://PATHTOYOURWORDPRESS.COM/payment-success/");
+				$("input[name=cancel_return]").val(cancelurl);
+			});  
+			
+			function processpaypal(){
+				$("#spinner").css("display","block");
+				$("#stepone").css("display","none");
+				setTimeout(
+				function() 
+				{
+					$(".wpi_checkout_submit_btn").click();
+				}, 250);				
+			}
+		
+    	</script>';
+		}else{
+        $html .= '<h4 style="text-align: center;">Time has expired</h4>';
+		$html .= '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://PATHTOYOUREASY!APPOINTMENTS.COM" /> Schedule an appointment</a></p>';
+		}
+	}	
+	return $html;
+}
+add_shortcode("paypalpay", "paypalpayment");
+
+//PayPal Callback function that replaces the cryptic suffix with actual service names in patients the WP-Invoice file.
 function ea_paypalcallback($transaction_data){
 	global $wpdb;
 	//Grab Service Name and Date 
