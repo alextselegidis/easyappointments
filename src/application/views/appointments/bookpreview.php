@@ -33,6 +33,20 @@
 	  margin-left: -170px;
 	}	
 	
+	body{
+		background-color: #eff0f3 !important;
+	}
+		
+	div#waiting-list-modal {
+		padding-left: 0px !important;
+		overflow:hidden !important;
+	}
+	
+	.modal-footer {
+        padding-top: 0px !important;
+	}
+
+	
 	</style> 
 <head>
     <meta charset="utf-8">

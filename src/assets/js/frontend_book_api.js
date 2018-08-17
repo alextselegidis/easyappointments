@@ -216,7 +216,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 		
 		var postWaiting = new Object();
 		var note = '';
-		var lang = '';
 		var selServiceDuration = '';
 		
 		$.each(GlobalVariables.availableServices, function (index, service) {
@@ -228,10 +227,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 		
 
 		if($('#cell-carrier2').val() !== "" && $('#phone-number2').val() !== ""){
-			lang = EALang['user_lang'];
 			note = $('#email2').val()  + ";" + $('#phone-number2').val().replace(/[^\d\+]/g,"") + $('#cell-carrier2').val() + ";";
 		} else {
-			lang = EALang['user_lang'];
 			note = $('#email2').val() + ";";
 		}
 		
@@ -239,7 +236,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 		'id_users_provider': $('#select-provider').val(),
 		'id_services': $('#select-service').val(),
 		'notes': note,
-		'lang': lang,
 		'id_google_calendar': selServiceDuration
 		};
 		
