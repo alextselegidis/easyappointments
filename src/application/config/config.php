@@ -112,6 +112,7 @@ $config['available_languages'] = [
     'luxembourgish',
     'polish',
     'portuguese',
+    'portuguese-br',
     'romanian',
     'russian',
     'slovak',
