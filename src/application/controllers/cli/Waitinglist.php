@@ -216,8 +216,7 @@ class Waitinglist extends CI_Controller {
 		
         foreach ($empty_periods[1] as $period)
         {
-			
-            $start_hour = new DateTime($selected_date . ' ' . $period['start']);
+		    $start_hour = new DateTime($selected_date . ' ' . $period['start']);
             $end_hour = new DateTime($selected_date . ' ' . $period['end']);
             $interval = $availabilities_type === AVAILABILITIES_TYPE_FIXED ? (int)$service_duration : $this->settings_model->get_setting('interval_time');
 
@@ -298,7 +297,7 @@ class Waitinglist extends CI_Controller {
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
 
         $periods = [];
-		$starts = array();
+		$starts = [];
 		
         if (isset($selected_date_working_plan['breaks']))
         {
@@ -396,6 +395,10 @@ class Waitinglist extends CI_Controller {
                         // The appointment starts before the period and finishes somewhere inside. We will need to break
                         // this period and leave the available part.
                         $period['start'] = $appointment_end->format('H:i');
+						if ($provider_appointment['is_unavailable'] == 1)
+						{
+							$starts[] = $appointment_end->format('H:i');
+						}
                     }
                     else
                     {
@@ -414,6 +417,11 @@ class Waitinglist extends CI_Controller {
                                 'start' => $appointment_end->format('H:i'),
                                 'end' => $period_end->format('H:i')
                             ];
+							
+							if ($provider_appointment['is_unavailable'] == 1)
+							{
+								$starts[] = $appointment_end->format('H:i');
+							}
                         }
                         else if ($appointment_start == $period_start && $appointment_end == $period_end)
                         {
