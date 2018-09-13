@@ -29,6 +29,7 @@
 	<li>Added Paypal integration when used with Wordpress and WP-Invoice with the Single Page Checkout addon.</li>
 	<li>Added option to hide the provider option from front end. If you are a solo provider this drop down menu is not needed on the front end.</li>
 	<li>Modified the google syc routine to reproduce recurring appointments from google calendar so that the appointment and client are reflected back to EA accurately.</li>
+	<li>Added a script to automatically sync google calendar with EA (necessary to update any recurring appontments)</li>
 	<li>Added an option to limit information within the ICS file.</li>
 	<li>Added an announcement script. This is a hacky script that I use to send out announcements that I will be away from the office.</li>
 	<li>Added a preview page for the front end of Wordpress. Clients can see availability but cannot book unless they log in to the site.</li>
@@ -396,7 +397,7 @@ Within the functions.php file of your theme you need to add the following two fu
 <p>This is not the most efficient method and it means that when you change your price for a service you need to enter it into two places. But it works for now. If others want to add code to automatically do this -- feel free to do so and share.</p>
 
 <h1>SETTING UP CRON JOBS</h1>
-<p>In order to send out reminders, waiting list notices, and clear orphan paypal transactions, Cron Tab or similar program needs to be set up to run the scripts found in 
+<p>In order to send out reminders, waiting list notices, clear orphan paypal transactions, and auto sync with Google Calendar, Cron Tab or similar program needs to be set up to run the scripts found in 
 
     /application/controllers/cli/
 
@@ -422,8 +423,6 @@ Remember that different Linux installations handle crontab a little different.  
     
 <p>It is very important that you clean up PayPal payments that were not completed and then open up the appointment back as availble.  To do this you need to set up a cron job to run paypaltimer script every minute.</p>
 
+<p>For sync of recurring appointments with google calendar the google/sync3 routine must run at least once a day.  My server is very slow and it often takes about a minute or more to sync a full calendar of appointments.  So I do not run the sync more than once a day automatically.  I use the manual sync on the back end if I make changes in the Google Calendar (like a recurring appointment) that I need to update into EA.  Then I have an auto sync nightly. That has worked well for me.</p>
+
 <p>You can set the reminders and waiging list notices to go out at any time you think is nice.</p>
-
-
-	
-<>
