@@ -304,7 +304,7 @@
 			maxDate    			: <?= json_encode($max_date) ?>,
 			wpInvoice			: <?= json_encode($wp_invoice) ?>,
 			sessionId			: <?= json_encode($session_id) ?>,
-			seeAt				: <?= json_encode($this->lang->line('wp_invoice_see_at')) ?>,
+			seeAt				: <?= json_encode($paypal_suffix) ?>,
 			hideProvider		: <?= json_encode($hide_provider) ?>
         };
 
