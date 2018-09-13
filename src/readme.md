@@ -394,4 +394,36 @@ Within the functions.php file of your theme you need to add the following two fu
 <p>The cryptic 13Invoice-Service is replaced in WP-Invoice with the full information about the service as you entered in Easy!Appointments. So, the client can get more complete information by looking at the invoice securely stored on your site.</p>
 
 <p>This is not the most efficient method and it means that when you change your price for a service you need to enter it into two places. But it works for now. If others want to add code to automatically do this -- feel free to do so and share.</p>
+
+<h1>SETTING UP CRON JOBS</h1>
+<p>In order to send out reminders, waiting list notices, and clear orphan paypal transactions, Cron Tab or similar program needs to be set up to run the scripts found in 
+
+    /application/controllers/cli/
+
+<p>To test the scripts by commandline you can use syntax similar to this (different for every server):</p>
+
+	use a space as a separator
+	php56 /volume1/web/PathToE!A/index.php cli/[script]
+
+	php56 /volume1/web/PathToE!A/index.php cli/waitinglist
+	php56 /volume1/web/PathToE!A/index.php cli/reminders
+	php56 /volume1/web/PathToE!A/index.php cli/paypaltimer
+	php56 /volume1/web/PathToE!A/index.php google/sync3
+
+<p>From crontab you will use syntax similar to this:</p>
+
+	Use tab as separator.  There must be a blank CR at the end of the file.
+	0	22	*	*	*	root	/usr/local/bin/php56	/volume1/web/PathToE!A/index.php cli/waitinglist
+	30	7	*	*	*	root	/usr/local/bin/php56	/volume1/web/PathToE!A/index.php cli/reminders
+	1	*	*	*	*	root	/usr/local/bin/php56	/volume1/web/PathToE!A/index.php cli/paypaltimer
+	30	21	*	*	*	root	/usr/local/bin/php56	/volume1/web/PathToE!A/index.php google/sync3
+
+Remember that different Linux installations handle crontab a little different.  Be sure to look up your system.
     
+<p>It is very important that you clean up PayPal payments that were not completed and then open up the appointment back as availble.  To do this you need to set up a cron job to run paypaltimer script every minute.</p>
+
+<p>You can set the reminders and waiging list notices to go out at any time you think is nice.</p>
+
+
+	
+<>
