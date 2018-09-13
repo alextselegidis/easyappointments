@@ -47,6 +47,7 @@ class Reminders_model extends CI_Model {
 			->join('ea_cellcarrier cc', 'u1.id_cellcarrier = cc.id','left')
 			->where('e.start_datetime >',$day_start)			
 			->where('e.start_datetime <',$day_end)
+			->where('e.is_unavailable =',0)
 			->where('u1.notifications =',1)
 		->get()->result();
 		} else {
@@ -77,6 +78,7 @@ class Reminders_model extends CI_Model {
 			->join('ea_users u2', 'e.id_users_provider = u2.id','left') 
 			->join('ea_services s', 'e.id_services = s.id','left')
 			->join('ea_cellcarrier cc', 'u1.id_cellcarrier = cc.id','left')
+			->where('e.is_unavailable =',0)
 			->where('e.start_datetime >',$day_start)			
 			->where('e.start_datetime <',$day_end)
 		->get()->result();			

@@ -106,7 +106,8 @@ class Reminders extends CI_Controller {
 						$customer_street = NULL;
 						$customer_city = NULL;
 						$customer_zip_code = NULL;						
-	
+
+						$appt_id = $appointment->appt_id;
 						$email_field = $appointment->customer_email;
 						$sms_field = $appointment->customer_phone_number;
 						$carrier = $appointment->customer_cellurl;
@@ -114,7 +115,6 @@ class Reminders extends CI_Controller {
 						$customer_street = $appointment->customer_address;
 						$customer_city = $appointment->customer_city;
 						$customer_zip_code = $appointment->customer_zip_code;
-						$appt_id = $appointment->appt_id;
 						$notes_field = $this->appointments_model->get_value('notes', $appt_id);
 						$provider_id = $this->appointments_model->get_value('id_users_provider', $appt_id);
 						$provider = $this->user_model->get_user_display_name($provider_id);
