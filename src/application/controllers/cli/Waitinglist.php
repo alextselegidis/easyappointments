@@ -45,7 +45,7 @@ class Waitinglist extends CI_Controller {
 		$this->load->model( array('appointments_model'));		  
 		$company_name = $this->settings_model->get_setting('company_name');
 		$company_link = $this->settings_model->get_setting('company_link');
-		$time_format = $this->settings_model->get_setting('time_format');
+		$time_format = $this->settings_model->get_setting('time_format');		
 		$date_format = $this->settings_model->get_setting('date_format');
 		$max_date = $this->settings_model->get_setting('max_date');
 		$currentsched = $this->config->base_url();
@@ -96,15 +96,18 @@ class Waitinglist extends CI_Controller {
 
 				}
 				
+				$availability = $this->availabilitylist($provider_id, $service_duration, $service_id);
+				
 				echo "email: " . $email_field . PHP_EOL;
 				echo "sms: " . $sms_field . PHP_EOL;
 				echo "time_format: " . $time_format . PHP_EOL;
 				echo "date_format: " . $date_format . PHP_EOL;
 				echo "max_date: " . $max_date . PHP_EOL;
+				echo "availability: " . $availability[1] . PHP_EOL;
 					
 				$subject = $this->lang->line('waiting_list_update') . ' ' .  $company_name;
 				$sms_subject = $this->lang->line('waiting_list_sms');
-				$availability = $this->availabilitylist($provider_id, $service_duration, $service_id);
+				
 				
 				if (!empty ($sms_field)){
 					$str = PHP_EOL;
@@ -126,8 +129,8 @@ class Waitinglist extends CI_Controller {
 					$str .= $appointment_link.$notice->hash . PHP_EOL;
 					$str .= 'Powered by Easy!Appointments';
 					
-					$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
-					$email->sendTxtMail($pemail, $company_name, $sms_field, $sms_subject, $str);
+					//$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+					//$email->sendTxtMail($pemail, $company_name, $sms_field, $sms_subject, $str);
 					$str = '';
 					echo $this->email->print_debugger();
 				}				
@@ -185,8 +188,8 @@ class Waitinglist extends CI_Controller {
 				$msg .= '</body>';
 				$msg .= '</html>';
 				
-				$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
-				$email->sendHtmlMail($pemail, $company_name, $email_field, $subject, $msg);
+				//$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+				//$email->sendHtmlMail($pemail, $company_name, $email_field, $subject, $msg);
 				$msg = '';
 				echo $this->email->print_debugger();
 			}
@@ -198,8 +201,21 @@ class Waitinglist extends CI_Controller {
         $this->load->model('appointments_model');
         $this->load->model('settings_model');
         $this->load->model('services_model');
-		
+
 		$time_format = $this->settings_model->get_setting('time_format');
+		
+		switch($time_format) {
+			case 'military':
+				$timeview=' H:i';
+				break;
+			case 'regular':
+				$timeview='g:i a';
+				break;
+			default:
+				$timeview=' H:i';
+				break;
+		}		
+
         $empty_periods = array();
         $empty_periods = $this->get_provider_available_time_periods($selected_date,$provider_id);
 		
@@ -267,7 +283,7 @@ class Waitinglist extends CI_Controller {
 
             while (($diff->h * 60 + $diff->i) >= intval($service_duration))
             {
-                $available_hours[] = $current_hour->format('H:i');
+                $available_hours[] = $current_hour->format($timeview);
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
                 $diff = $current_hour->diff($end_hour);
             }
@@ -285,6 +301,19 @@ class Waitinglist extends CI_Controller {
         $this->load->model('providers_model');
         $this->load->model('services_model');
 
+		$time_format = $this->settings_model->get_setting('time_format');
+		switch($time_format) {
+			case 'military':
+				$timeview=' H:i';
+				break;
+			case 'regular':
+				$timeview='g:i a';
+				break;
+			default:
+				$timeview=' H:i';
+				break;
+		}
+		
         // Get the service, provider's working plan and provider appointments.
         $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), TRUE);
 
@@ -309,7 +338,7 @@ class Waitinglist extends CI_Controller {
             $day_start = new DateTime($selected_date_working_plan['start']);
             $day_end = new DateTime($selected_date_working_plan['end']);
 
-			$starts[] =  $day_start->format('H:i');
+			$starts[] =  $day_start->format($timeview);
 			
             // Split the working plan to available time periods that do not contain the breaks in them.
             foreach ($selected_date_working_plan['breaks'] as $index => $break)
@@ -317,7 +346,7 @@ class Waitinglist extends CI_Controller {
                 $break_start = new DateTime($break['start']);
                 $break_end = new DateTime($break['end']);
 				
-				$starts[] = $break_end->format('H:i');
+				$starts[] = $break_end->format($timeview);
 
                 if ($break_start < $day_start)
                 {
@@ -344,8 +373,8 @@ class Waitinglist extends CI_Controller {
                     if ($break_start > $period_start && $break_start < $period_end && $break_end > $period_start)
                     {
                         $periods[] = [
-                            'start' => $period_start->format('H:i'),
-                            'end' => $break_start->format('H:i')
+                            'start' => $period_start->format($timeview),
+                            'end' => $break_start->format($timeview)
                         ];
 
                         $remove_current_period = TRUE;
@@ -354,8 +383,8 @@ class Waitinglist extends CI_Controller {
                     if ($break_start < $period_end && $break_end > $period_start && $break_end < $period_end)
                     {
                         $periods[] = [
-                            'start' => $break_end->format('H:i'),
-                            'end' => $period_end->format('H:i')
+                            'start' => $break_end->format($timeview),
+                            'end' => $period_end->format($timeview)
                         ];
 
                         $remove_current_period = TRUE;
@@ -394,10 +423,10 @@ class Waitinglist extends CI_Controller {
                     {
                         // The appointment starts before the period and finishes somewhere inside. We will need to break
                         // this period and leave the available part.
-                        $period['start'] = $appointment_end->format('H:i');
+                        $period['start'] = $appointment_end->format($timeview);
 						if ($provider_appointment['is_unavailable'] == 1)
 						{
-							$starts[] = $appointment_end->format('H:i');
+							$starts[] = $appointment_end->format($timeview);
 						}
                     }
                     else
@@ -409,18 +438,18 @@ class Waitinglist extends CI_Controller {
                             unset($periods[$index]);
 
                             $periods[] = [
-                                'start' => $period_start->format('H:i'),
-                                'end' => $appointment_start->format('H:i')
+                                'start' => $period_start->format($timeview),
+                                'end' => $appointment_start->format($timeview)
                             ];
 
                             $periods[] = [
-                                'start' => $appointment_end->format('H:i'),
-                                'end' => $period_end->format('H:i')
+                                'start' => $appointment_end->format($timeview),
+                                'end' => $period_end->format($timeview)
                             ];
 							
 							if ($provider_appointment['is_unavailable'] == 1)
 							{
-								$starts[] = $appointment_end->format('H:i');
+								$starts[] = $appointment_end->format($timeview);
 							}
                         }
                         else if ($appointment_start == $period_start && $appointment_end == $period_end)
@@ -433,7 +462,7 @@ class Waitinglist extends CI_Controller {
                             {
                                 // The appointment starts in the period and finishes out of it. We will need to remove
                                 // the time that is taken from the appointment.
-                                $period['end'] = $appointment_start->format('H:i');
+                                $period['end'] = $appointment_start->format($timeview);
                             }
                             else
                             {
@@ -462,7 +491,7 @@ class Waitinglist extends CI_Controller {
 	public function availabilitylist($provider_id, $service_duration,$service_id){
 		$max_date = $this->settings_model->get_setting('max_date');
 		$date_format = $this->settings_model->get_setting('date_format');
-		$time_format = $this->settings_model->get_setting('time_format');
+		
 		$availabilitylist = "";
 		$availabilityliststr = "";
 		// Start date
