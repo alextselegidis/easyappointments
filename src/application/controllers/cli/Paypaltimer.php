@@ -10,12 +10,9 @@ class Paypaltimer extends CI_Controller {
 		echo 'This script can only be accessed via the command line' . PHP_EOL;
 		return;
 	}
-	 
-	//delete any appointments that are pending and delete the ones that are older than 10 minutes
-	 
-	$this->db->where('pending <> ""')->where('book_datetime < (NOW() - INTERVAL 10 MINUTE)');
-	$this->db->delete('ea_appointments'); 
-
+		//delete any appointments that are pending and delete the ones that are older than 20 minutes
+		$this->db->where('pending <> ""')->where('book_datetime < (NOW() - INTERVAL 20 MINUTE)');
+		$this->db->delete('ea_appointments'); 
   }
 }
 ?>

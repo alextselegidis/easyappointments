@@ -244,12 +244,12 @@ Within the functions.php file of your theme you need to add the following two fu
 			
 			if ($shortcode->pending == ''){
 				$html .= '<h1>Processing Error: Appointment has been deleted. </h1>';
-				$html .= '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="https://PATHTOYOUREASY!APPOINTMENTS.COM"><img height="18" width="18"/> Schedule an appointment</a></p>';
+				$html .= '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://www.craigtuckerlcsw.com/wp-content/uploads/2017/05/CLOCK.png" /> Schedule an appointment</a></p>';
 			} else {
 				$html .= '<h2>Fee Policy</h2>';
-				$html .= '<p>You may reschedule an appointment without charge within 24 hours of your appointment.  Cancelation of an appointment within 24 hours can either result in a refund or a credit for your next appointment per your request. You will need to inform Mr. Tucker on the discussion board about how you would like your cancelation to be handled. If you would like a refund, refunds will be the full amount of the cost of your session minus the PayPal processing fees. There are no refunds for cancelations later than 24 hours in advance.</p>';
+				$html .= '<p>You may reschedule an appointment without charge within 24 hours of your appointment.  Cancelation of an appointment within 24 hours can either result in a refund or a credit for your next appointment per your request. You will need to inform Mr. Tucker on the discussion board about how you would like your cancelation to be handled. If you would like a refund, refunds will be the full amount of the cost of your session minus the PayPal processing fees. There are no refunds for cancelations later than 24 hours in advance. <b>You must pay for this appointment within 20 minutes or the appointment will be deleted<b></p>';
 				date_default_timezone_set('America/Los_Angeles');
-				$refreshtime = strtotime($shortcode->book_datetime) - strtotime("-10 minutes");
+				$refreshtime = strtotime($shortcode->book_datetime) - strtotime("-20 minutes");
 
 				$html .= '<meta http-equiv="refresh" content="';
 				$html .=   $refreshtime;
@@ -311,14 +311,14 @@ Within the functions.php file of your theme you need to add the following two fu
 				$html .= '<input type="button" id="stepone" onclick="processpaypal()" value="Process Payment">';
 				$html .= '<div id="spinner" class="loader" style="display:none"></div>';
 				$html .= do_shortcode($shortcode->pending);
-				$html .= '<input type="button" onclick="deletapt()" value="Refuse/Delete">';
+				$html .= '<input type="button" onclick="deletapt()" value="Delete Apt.">';
 				$html .= '<script>
-					cancelurl = "https://PATHTOYOUREASY!APPOINTMENTS.COM/index.php/appointments/cancel/' . $shortcode->hash . '";
+					cancelurl = "https://www.craigtuckerlcsw.com/wordpress/easy/index.php/appointments/cancel/' . $shortcode->hash . '";
 					function deletapt(){
 						window.location = cancelurl;
 					}
 					$(document).ready(function() {
-						$("input[name=return]").val("https://PATHTOYOURWORDPRESS.COM/payment-success/");
+						$("input[name=return]").val("https://www.craigtuckerlcsw.com/payment-success/");
 						$("input[name=cancel_return]").val(cancelurl);
 					});  
 					
@@ -335,7 +335,7 @@ Within the functions.php file of your theme you need to add the following two fu
 				</script>';
 				}else{
 				$html .= '<h4 style="text-align: center;">Time has expired</h4>';
-				$html .= '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://PATHTOYOUREASY!APPOINTMENTS.COM" /> Schedule an appointment</a></p>';
+				$html .= '<p align="center"><a class="fep-button" style="width: 195px; text-align: center;" href="[url]/?p=369"><img height="18" width="18" src="https://www.craigtuckerlcsw.com/wp-content/uploads/2017/05/CLOCK.png" /> Schedule an appointment</a></p>';
 				}
 			}	
 			return $html;
