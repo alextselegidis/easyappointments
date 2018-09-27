@@ -194,7 +194,7 @@
                                             $grouped_services = array();
 
                                             foreach($available_services as $service) {
-                                                if ($service['category_id'] != NULL) {
+                                                if (($service['category_id'] != NULL ) && (($service['special'] == '')||($service['special'] == $specialcat))) {
                                                     if (!isset($grouped_services[$service['category_name']])) {
                                                         $grouped_services[$service['category_name']] = array();
                                                     }
