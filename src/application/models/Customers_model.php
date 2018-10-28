@@ -68,7 +68,7 @@ class Customers_Model extends CI_Model {
      */
     public function exists($customer)
     {
-        if ( ! isset($customer['email']))
+        if (empty($customer['email']))
         {
             throw new Exception('Customer\'s email is not provided.');
         }
@@ -163,7 +163,7 @@ class Customers_Model extends CI_Model {
      */
     public function find_record_id($customer)
     {
-        if ( ! isset($customer['email']))
+        if (empty($customer['email']))
         {
             throw new Exception('Customer\'s email was not provided: '
                 . print_r($customer, TRUE));
@@ -212,9 +212,10 @@ class Customers_Model extends CI_Model {
             }
         }
         // Validate required fields
-        if ( ! isset($customer['last_name'])
-            || ! isset($customer['email'])
-            || ! isset($customer['phone_number']))
+        if (empty($customer['first_name'])
+            || empty($customer['last_name'])
+            || empty($customer['email'])
+            || empty($customer['phone_number']))
         {
             throw new Exception('Not all required fields are provided: '
                 . print_r($customer, TRUE));
