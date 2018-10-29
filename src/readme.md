@@ -361,10 +361,8 @@ Within the functions.php file of your theme you need to add the following two fu
 			$servicename = $wpdb->get_var($query);	
 			$wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}posts SET post_content = REPLACE(post_content, 'Items: $dummyname', '$dummyname: $servicename') WHERE ID = $postid"));
 			$wpdb->query($wpdb->prepare("UPDATE $wpdb->postmeta SET meta_value = REPLACE(meta_value, '$session_id', '') WHERE meta_key = 'post_title' AND post_id = $postid"));
-			$wpdb->query($wpdb->prepare("UPDATE ea_appointments SET pending = '' WHERE pending LIKE '%$session_id%'"));
-			
-			// the message
-			$var = $postid;
+			sleep(5);
+			$wpdb->query($wpdb->prepare("UPDATE ea_appointments SET pending = '' WHERE pending LIKE '%$session_id%'"));	
 		}
     
 <h3>Add Items to the Wp-invoice Line Items Tab</h3>
