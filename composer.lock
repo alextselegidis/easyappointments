@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc53442fb0e3041fbf3d22ed9f5bcca5",
+    "content-hash": "abe1217bc1256effbe54c41832e2f409",
     "packages": [
         {
             "name": "codeigniter/framework",
-            "version": "3.1.6",
+            "version": "3.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "7e4f63cd4b792e7dc2dc4b8b0183a6072a3f9462"
+                "reference": "30e2eafa86c4c7b6b39cea3e7089a90df9f603fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/7e4f63cd4b792e7dc2dc4b8b0183a6072a3f9462",
-                "reference": "7e4f63cd4b792e7dc2dc4b8b0183a6072a3f9462",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/30e2eafa86c4c7b6b39cea3e7089a90df9f603fb",
+                "reference": "30e2eafa86c4c7b6b39cea3e7089a90df9f603fb",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,7 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2017-09-25T16:43:58+00:00"
+            "time": "2018-06-12T13:45:46+00:00"
         },
         {
             "name": "gregwar/captcha",
