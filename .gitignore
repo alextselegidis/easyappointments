@@ -1,9 +1,10 @@
 /*.zip
 /.idea/
 /.tmp-package/
-/doc/apigen/
-/doc/jsdoc/
-/doc/plato/
+/build/
+/doc/apigen/html
+/doc/jsdoc/html
+/doc/plato/html
 /node_modules/
 /npm-debug.log
 /src/config.php

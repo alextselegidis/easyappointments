@@ -42,39 +42,39 @@ gulp.task('composer', function() {
  */
 gulp.task('build', function(done) {
     del.sync([
-        '.tmp-package',
-        'easyappointments.zip'
+        'build',
+        'easyappointments-0.0.0.zip'
     ]);
 
-    fs.copySync('src', '.tmp-package');
-    fs.removeSync('.tmp-package/config.php');
-    fs.copySync('CHANGELOG.md', '.tmp-package/CHANGELOG.md');
-    fs.copySync('README.md', '.tmp-package/README.md');
-    fs.copySync('LICENSE', '.tmp-package/LICENSE');
+    fs.copySync('src', 'build');
+    fs.removeSync('build/config.php');
+    fs.copySync('CHANGELOG.md', 'build/CHANGELOG.md');
+    fs.copySync('README.md', 'build/README.md');
+    fs.copySync('LICENSE', 'build/LICENSE');
 
     del.sync([
-        '.tmp-package/storage/uploads/*',
-        '!.tmp-package/storage/uploads/index.html'
-    ]);
-
-    del.sync([
-        '.tmp-package/storage/logs/*',
-        '!.tmp-package/storage/logs/index.html'
+        'build/storage/uploads/*',
+        '!build/storage/uploads/index.html'
     ]);
 
     del.sync([
-        '.tmp-package/storage/sessions/*',
-        '!.tmp-package/storage/sessions/.htaccess',
-        '!.tmp-package/storage/sessions/index.html'
+        'build/storage/logs/*',
+        '!build/storage/logs/index.html'
     ]);
 
     del.sync([
-        '.tmp-package/storage/cache/*',
-        '!.tmp-package/storage/cache/.htaccess',
-        '!.tmp-package/storage/cache/index.html'
+        'build/storage/sessions/*',
+        '!build/storage/sessions/.htaccess',
+        '!build/storage/sessions/index.html'
     ]);
 
-    zip('.tmp-package', { saveTo: 'easyappointments.zip' }, function (err, buffer) {
+    del.sync([
+        'build/storage/cache/*',
+        '!build/storage/cache/.htaccess',
+        '!build/storage/cache/index.html'
+    ]);
+
+    zip('build', { saveTo: 'easyappointments-0.0.0.zip' }, function (err, buffer) {
         if (err)
             console.log('Zip Error', err);
 
@@ -86,21 +86,21 @@ gulp.task('build', function(done) {
  * Generate code documentation.
  */
 gulp.task('doc', function(done) {
-    fs.removeSync('doc/apigen');
-    fs.mkdirSync('doc/apigen');
-    fs.removeSync('doc/jsdoc');
-    fs.mkdirSync('doc/jsdoc');
-    fs.removeSync('doc/plato');
-    fs.mkdirSync('doc/plato');
+    fs.removeSync('doc/apigen/html');
+    fs.mkdirSync('doc/apigen/html');
+    fs.removeSync('doc/jsdoc/html');
+    fs.mkdirSync('doc/jsdoc/html');
+    fs.removeSync('doc/plato/html');
+    fs.mkdirSync('doc/plato/html');
 
     const commands = [
-        'php rsc/apigen.phar generate ' +
+        'php doc/apigen/apigen.phar generate ' +
             '-s "src/application/controllers,src/application/models,src/application/libraries" ' +
-            '-d "doc/apigen" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
+            '-d "doc/apigen/html" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
 
-        path.join('.', 'node_modules', '.bin', 'jsdoc') + ' "src/assets/js" -d "doc/jsdoc"',
+        path.join('.', 'node_modules', '.bin', 'jsdoc') + ' "src/assets/js" -d "doc/jsdoc/html"',
 
-        path.join('.', 'node_modules', '.bin', 'plato') + ' -r -d "doc/plato" "src/assets/js"'
+        path.join('.', 'node_modules', '.bin', 'plato') + ' -r -d "doc/plato/html" "src/assets/js"'
     ];
 
     commands.forEach(function(command) {
