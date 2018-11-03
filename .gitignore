@@ -2,9 +2,9 @@
 /.idea/
 /.tmp-package/
 /build/
-/doc/apigen/html
-/doc/jsdoc/html
-/doc/plato/html
+/docs/apigen/html
+/docs/jsdoc/html
+/docs/plato/html
 /docker/.env*
 !/docker/.env.example
 /node_modules/

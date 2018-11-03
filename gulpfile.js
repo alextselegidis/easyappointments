@@ -86,21 +86,21 @@ gulp.task('build', function(done) {
  * Generate code documentation.
  */
 gulp.task('doc', function(done) {
-    fs.removeSync('doc/apigen/html');
-    fs.mkdirSync('doc/apigen/html');
-    fs.removeSync('doc/jsdoc/html');
-    fs.mkdirSync('doc/jsdoc/html');
-    fs.removeSync('doc/plato/html');
-    fs.mkdirSync('doc/plato/html');
+    fs.removeSync('docs/apigen/html');
+    fs.mkdirSync('docs/apigen/html');
+    fs.removeSync('docs/jsdoc/html');
+    fs.mkdirSync('docs/jsdoc/html');
+    fs.removeSync('docs/plato/html');
+    fs.mkdirSync('docs/plato/html');
 
     const commands = [
-        'php doc/apigen/apigen.phar generate ' +
+        'php docs/apigen/apigen.phar generate ' +
             '-s "src/application/controllers,src/application/models,src/application/libraries" ' +
-            '-d "doc/apigen/html" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
+            '-d "docs/apigen/html" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
 
         path.join('.', 'node_modules', '.bin', 'jsdoc') + ' "src/assets/js" -d "doc/jsdoc/html"',
 
-        path.join('.', 'node_modules', '.bin', 'plato') + ' -r -d "doc/plato/html" "src/assets/js"'
+        path.join('.', 'node_modules', '.bin', 'plato') + ' -r -d "docs/plato/html" "src/assets/js"'
     ];
 
     commands.forEach(function(command) {
