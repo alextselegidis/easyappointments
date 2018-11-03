@@ -11,9 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class NonEmptyAlphanumericTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class NonEmptyTextTest extends TestCase {
     public function testNonEmptyStringType()
     {
         $type = new NonEmptyText('Hello!');
@@ -22,13 +24,13 @@ class NonEmptyAlphanumericTest extends \PHPUnit_Framework_TestCase {
 
     public function testNonEmptyStringTypeThrowsExceptionWithEmptyString()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new NonEmptyText('');
     }
 
     public function testNonEmptyStringTypeThrowsExceptionWithInvalidValue()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new NonEmptyText(NULL);
     }
 }

@@ -13,7 +13,9 @@
 
 namespace EA\Engine\Api\V1;
 
-class PaginationTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class PaginationTest extends TestCase {
     public function test()
     {
         $this->markTestIncomplete();

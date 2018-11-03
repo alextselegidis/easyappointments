@@ -11,24 +11,26 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class UnsignedIntegerTest extends \PHPUnit_Framework_TestCase {
-    public function testUnsignedIntType()
+use PHPUnit\Framework\TestCase;
+
+class IntegerTest extends TestCase {
+    public function testIntType()
     {
-        $type = new UnsignedInteger(1);
+        $type = new Integer(1);
         $this->assertEquals(1, $type->get());
     }
 
-    public function testUnsignedIntTypeThrowsExceptionWithNegative()
+    public function testIntTypeThrowsExceptionWithFloat()
     {
-        $this->setExpectedException('\InvalidArgumentException');
-        new UnsignedInteger(-1);
+        $this->expectException(\InvalidArgumentException::class);
+        new Integer(100.00);
     }
 
-    public function testUnsignedIntTypeThrowsExceptionWithWithString()
+    public function testIntTypeThrowsExceptionWithWithString()
     {
-        $this->setExpectedException('\InvalidArgumentException');
-        new UnsignedInteger('invalid');
+        $this->expectException(\InvalidArgumentException::class);
+        new Integer('invalid');
     }
 }

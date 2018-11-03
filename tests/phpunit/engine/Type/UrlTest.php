@@ -11,9 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class UrlTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class UrlTest extends TestCase {
     public function testUrlType()
     {
         $type = new Url('http://localhost');
@@ -22,13 +24,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase {
 
     public function testUrlTypeThrowsExceptionWithInvalidUrl()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new Url('abcdef');
     }
 
     public function testUrlTypeThrowsExceptionWithInvalidValue()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new Url(NULL);
     }
 }

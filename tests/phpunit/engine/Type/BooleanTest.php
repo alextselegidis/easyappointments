@@ -11,18 +11,20 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class TextTest extends \PHPUnit_Framework_TestCase {
-    public function testStringType()
+use PHPUnit\Framework\TestCase;
+
+class BooleanTest extends TestCase {
+    public function testBoolType()
     {
-        $type = new Text('Hello!');
-        $this->assertEquals('Hello!', $type->get());
+        $type = new Boolean(TRUE);
+        $this->assertEquals(TRUE, $type->get());
     }
 
-    public function testStringTypeThrowsExceptionWithInvalidValue()
+    public function testBoolTypeThrowsExceptionWithInvalidValue()
     {
-        $this->setExpectedException('\InvalidArgumentException');
-        new Text(NULL);
+        $this->expectException(\InvalidArgumentException::class);
+        new Boolean(NULL);
     }
 }

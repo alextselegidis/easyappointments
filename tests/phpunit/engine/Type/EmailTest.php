@@ -11,9 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class EmailTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class EmailTest extends TestCase {
     public function testEmailType()
     {
         $type = new Email('john@doe.com');
@@ -22,13 +24,13 @@ class EmailTest extends \PHPUnit_Framework_TestCase {
 
     public function testEmailTypeThrowsExceptionWithInvalidEmail()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new Email('abcdef');
     }
 
     public function testEmailTypeThrowsExceptionWithInvalidValue()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new Email(NULL);
     }
 }

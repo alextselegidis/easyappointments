@@ -11,9 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class DecimalTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class DecimalTest extends TestCase {
     public function testFloatType()
     {
         $type = new Decimal(100.00);
@@ -22,7 +24,7 @@ class DecimalTest extends \PHPUnit_Framework_TestCase {
 
     public function testFloatTypeThrowsExceptionWithInvalidValue()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         new Decimal(NULL);
     }
 }

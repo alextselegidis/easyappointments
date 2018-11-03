@@ -13,9 +13,10 @@
 
 namespace EA\Engine\Api\V1;
 
-use \EA\Engine\Types\NonEmptyText;
+use EA\Engine\Type\NonEmptyText;
+use PHPUnit\Framework\TestCase;
 
-class AuthorizationTest extends \PHPUnit_Framework_TestCase {
+class AuthorizationTest extends TestCase {
     public function testBasicMethodPerformsBasicAuthentication()
     {
         $this->markTestIncomplete();
