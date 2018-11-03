@@ -9,6 +9,8 @@
 !/docker/.env.example
 /node_modules/
 /npm-debug.log
+/src/assets/js/**/*.min.js
+/src/assets/css/**/*.min.css
 /src/config.php
 /src/storage/cache/*
 !/src/storage/cache/.htaccess
