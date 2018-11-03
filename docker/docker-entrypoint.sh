@@ -20,7 +20,6 @@ createAppSettings() {
     chown -R www-data $PROJECT_DIR
 }
 
-
 if [ "$1" = "run" ]; then
 
     echo "Preparing Easy!Appointments production configuration.."
@@ -34,7 +33,6 @@ if [ "$1" = "run" ]; then
 elif [ "$1" = "dev" ]; then
 
     echo "Preparing Easy!Appointments development configuration.."
-
 
     createAppSettings
     sed -i "s/DEBUG_MODE    = FALSE/DEBUG_MODE    = TRUE/g" $PROJECT_DIR/config.php

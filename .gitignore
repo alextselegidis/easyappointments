@@ -5,6 +5,8 @@
 /doc/apigen/html
 /doc/jsdoc/html
 /doc/plato/html
+/docker/.env*
+!/docker/.env.example
 /node_modules/
 /npm-debug.log
 /src/config.php
