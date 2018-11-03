@@ -41,6 +41,6 @@ class Config {
 }
 ```
 
-*This document applies to Easy!Appointments v1.3.2.*
+*This document applies to Easy!Appointments v1.4.0.*
 
 [Back](readme.md)
