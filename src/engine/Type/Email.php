@@ -11,11 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class UnsignedInteger extends Integer {
+class Email extends NonEmptyText {
     protected function _validate($value)
     {
-        return parent::_validate($value) && $value > -1;
+        return parent::_validate($value) && filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 }

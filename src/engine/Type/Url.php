@@ -11,11 +11,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Types;
+namespace EA\Engine\Type;
 
-class Decimal extends Type {
+class Url extends NonEmptyText {
     protected function _validate($value)
     {
-        return is_float($value);
+        return parent::_validate($value) && filter_var($value, FILTER_VALIDATE_URL);
     }
 }
