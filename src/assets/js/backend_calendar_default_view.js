@@ -1136,8 +1136,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 }
 
                 // Preselect time
-                $('#start-datetime').datepicker('setDate', new Date(start.format('YYYY-MM-DD HH:mm:ss')));
-                $('#end-datetime').datepicker('setDate', new Date(end.format('YYYY-MM-DD HH:mm:ss')));
+                $('#start-datetime').datepicker('setDate', new Date(start.format('YYYY/MM/DD HH:mm:ss')));
+                // end-datetime : service.duration - 5 because normally the datepicker end time is shifted of 5 minutes forward
+                $('#end-datetime').datepicker('setDate', new Date(end.add(service.duration - 5, 'm').format('YYYY/MM/DD HH:mm:ss')));
 
                 return false;
             },
