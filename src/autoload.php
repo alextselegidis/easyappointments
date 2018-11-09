@@ -39,4 +39,4 @@ function register($namespace, $path) {
 }
 
 register('Engine', __DIR__ . '/engine'); 
-register('Addons', __DIR__ . '/storage/addons');
+register('Addons', __DIR__ . '/addons');
