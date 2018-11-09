@@ -129,8 +129,8 @@ class Waitinglist extends CI_Controller {
 					$str .= $appointment_link.$notice->hash . PHP_EOL;
 					$str .= 'Powered by Easy!Appointments';
 					
-					//$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
-					//$email->sendTxtMail($pemail, $company_name, $sms_field, $sms_subject, $str);
+					$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+					$email->sendTxtMail($pemail, $company_name, $sms_field, $sms_subject, $str);
 					$str = '';
 					echo $this->email->print_debugger();
 				}				
@@ -188,8 +188,8 @@ class Waitinglist extends CI_Controller {
 				$msg .= '</body>';
 				$msg .= '</html>';
 				
-				//$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
-				//$email->sendHtmlMail($pemail, $company_name, $email_field, $subject, $msg);
+				$email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+				$email->sendHtmlMail($pemail, $company_name, $email_field, $subject, $msg);
 				$msg = '';
 				echo $this->email->print_debugger();
 			}
