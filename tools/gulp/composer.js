@@ -26,10 +26,9 @@ module.exports = (gulp, plugins) => {
 
         return gulp.src([
             'vendor/**/*',
-            '!vendor/**/demo{,/**}',
-            '!vendor/**/{demo,docs,examples,test,tests,extras,language}{,/**}',
+            '!vendor/**/{demo,docs,examples,test,tests,extras,language,license,LICENSE}{,/**}',
             '!vendor/**/{composer.json,composer.lock,.gitignore}',
-            '!vendor/**/{*.yml,*.md,*phpunit*,*.mdown}',
+            '!vendor/**/{*.yml,*.xml,*.md,*phpunit*,*.mdown}',
             '!vendor/bin{,/**}',
             '!vendor/codeigniter{,/**}',
             '!vendor/doctrine{,/**}',
@@ -39,6 +38,7 @@ module.exports = (gulp, plugins) => {
             '!vendor/phpunit{,/**}',
             '!vendor/sebastian{,/**}',
             '!vendor/symfony{,/**}',
+            '!vendor/phar-io{,/**}',
             '!vendor/webmozart{,/**}'
         ])
             .pipe(gulp.dest('./src/vendor/'));
