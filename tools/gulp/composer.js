@@ -12,7 +12,7 @@
 const del = require('del');
 
 /**
- * Install and copy the required files from the "composer_modules" directory.
+ * Install and copy the required files from the "vendor" directory.
  *
  * Composer needs to be installed and configured in order for this command to
  * work properly.
