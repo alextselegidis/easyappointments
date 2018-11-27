@@ -142,10 +142,13 @@ class Response {
     {
         $header = $status ? $status->get() : '200 OK';
 
+        $json_response = json_encode($this->response, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
         header('HTTP/1.0 ' . $header);
         header('Content-Type: application/json');
+        header("Content-Length: " . strlen($json_response));
 
-        echo json_encode($this->response, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        echo $json_response;
 
         return $this;
     }
