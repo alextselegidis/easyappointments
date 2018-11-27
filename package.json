@@ -22,7 +22,19 @@
     "del": "^2.2.0",
     "fs-extra": "^0.26.3",
     "gulp": "^3.9.0",
+    "gulp-changed": "^3.2.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-debug": "^4.0.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-shell": "^0.6.5",
+    "gulp-sync": "^0.1.4",
+    "gulp-uglify": "^3.0.1",
+    "gulp-util": "^3.0.8",
     "jsdoc": "^3.5.5",
+    "node-notifier": "^5.3.0",
     "plato": "^1.5.0",
     "zip-dir": "^1.0.0"
   },
@@ -41,5 +53,11 @@
     "qtip2": "^3.0.3",
     "sticky-table-headers": "^0.1.19",
     "trumbowyg": "^2.10.0"
+  },
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp build",
+    "docs": "gulp docs",
+    "tests": "gulp tests"
   }
 }
