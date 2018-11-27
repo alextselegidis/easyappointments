@@ -354,8 +354,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         if (unavailableDates.length === numberOfDays) {
             $('#available-hours').text(EALang.no_available_hours);
 			$('#available-hours').css("padding-left", "0%");	
-			$(".ui-datepicker").css("opacity", "1");
-			$("#wait").css("display", "none");
 		}
 
         // Grey out unavailable dates.
@@ -364,6 +362,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             if ($.inArray(selectedDate.toString('yyyy-MM-dd'), unavailableDates) != -1) {
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
             }
+			$(".ui-datepicker").css("opacity", "1");
+			$("#wait").css("display", "none");			
         });
 
         processingUnavailabilities = false;
