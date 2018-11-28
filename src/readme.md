@@ -42,7 +42,7 @@
 <p>Within WordPress you will need to follow my instructions to integrate it. It is not designed to work with Alex's WP plug in. One day I will get around to making it a plugin.</p>
 
 <h3>Making it all work in WordPress:</h3>
-<p>I install my Easy!Appointments directory within my WordPress directory and install it normally per the normal EA process by navigating to www.yourdomain.com/wordpress/youreasyappointments .</p>
+<p>I install my Easy!Appointments directory within my WordPress directory. Be sure that ownership and file priviliges are set up propperly (755 for folders, 644 for files, and 777 for /easyappointments/storage/sessions/). Install it normally per the normal EA process by navigating to www.yourdomain.com/wordpress/youreasyappointments.</p>
 
 <p>In the Easy!Appointments config.php file I use the WordPress database credentials for the installation. I keep the WP_HEADER_FOOTER variable in the config.php file set to false.</p>
 <p>Then when all is installed and running I set the WP_HEADER_FOOTER to true. Now when you navigate to www.yourdomain.com/wordpress/youreasyappointments you will now see easy appointments with your wordpress theme formatting. And all WP functions will run in your EA file.</p>
