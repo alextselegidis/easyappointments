@@ -272,15 +272,22 @@ class Appointments extends CI_Controller {
             $exceptions[] = $exc;
         }
 
-        $view = [
-            'message_title' => $this->lang->line('appointment_cancelled_title'),
-            'message_text' => $this->lang->line('appointment_cancelled'),
-            'message_icon' => base_url('assets/img/success.png')
-        ];
-
         if (isset($exceptions))
         {
-            $view['exceptions'] = $exceptions;
+            $view = [
+                'exceptions' => $exceptions,
+                'message_title' => $this->lang->line('Error'),
+                'message_text' => "",
+                'message_icon' => base_url('assets/img/error.png')
+            ];
+        }
+        else
+        {
+            $view = [
+                'message_title' => $this->lang->line('appointment_cancelled_title'),
+                'message_text' => $this->lang->line('appointment_cancelled'),
+                'message_icon' => base_url('assets/img/success.png')
+            ];    
         }
 
         $this->load->view('appointments/message', $view);

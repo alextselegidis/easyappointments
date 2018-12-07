@@ -41,7 +41,7 @@
                     <h3><?= $message_title ?></h3>
                     <p><?= $message_text ?></p>
 
-                    <?php if (isset($exception)): ?>
+                    <?php if (isset($exceptions)): ?>
                         <div>
                             <h4><?= lang('unexpected_issues') ?></h4>
                             <?php foreach($exceptions as $exception): ?>
