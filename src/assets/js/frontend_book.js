@@ -543,6 +543,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
             if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
+				alert(EALang.notice_read_and_agree);
                 $acceptToPrivacyPolicy.parents('label').addClass('text-danger');
                 throw EALang.fields_are_required;
             }
