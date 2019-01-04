@@ -298,6 +298,7 @@ $lang['read_and_agree_to_privacy_policy'] = 'I have read and agree to the {$link
 $lang['delete_personal_information_hint'] = 'Remove all my appointment data and personal information from Easy!Appontments.';
 $lang['delete_personal_information'] = 'Delete Personal Information';
 $lang['delete_personal_information_prompt'] = 'Are you sure that you want to delete your appointment and personal information from the calendar? This action cannot be undone.';
+$lang['notice_read_and_agree'] = 'Please check that you have read and agree to the Privacy Policy';
 //Theme Color Settings
 $lang['theme_color'] = 'Choose a theme color';
 $lang['theme_color_hint'] = 'This will change the overall color scheme for the application';
