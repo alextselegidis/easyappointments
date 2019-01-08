@@ -402,14 +402,14 @@ class Appointments extends CI_Controller {
             // If the selected date is today, remove past hours. It is important  include the timeout before
             // booking that is set in the back-office the system. Normally we might want the customer to book
             // an appointment that is at least half or one hour from now. The setting is stored in minutes.
-            if (date('Y-m-d', strtotime($this->input->post('selected_date'))) === date('Y-m-d'))
+            $bookAdvanceTimeout = $this->settings_model->get_setting('book_advance_timeout');
+            $current_hour = strtotime('+' . $bookAdvanceTimeout . ' minutes', strtotime('now'));
+            if (strtotime($this->input->post('selected_date')) <= $current_hour)
             {
-                $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
-
                 foreach ($available_hours as $index => $value)
                 {
                     $available_hour = strtotime($value);
-                    $current_hour = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
+                    
                     if ($available_hour <= $current_hour)
                     {
                         unset($available_hours[$index]);
