@@ -359,7 +359,8 @@ class Google_Sync {
 
         $params = [
             'timeMin' => date3339($start),
-            'timeMax' => date3339($end)
+            'timeMax' => date3339($end),
+            'singleEvents' => true,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);
