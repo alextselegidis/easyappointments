@@ -102,7 +102,7 @@ class CI_Exceptions {
 	public function log_exception($severity, $message, $filepath, $line)
 	{
 		$severity = isset($this->levels[$severity]) ? $this->levels[$severity] : $severity;
-		log_message('error', 'Severity: '.$severity.' --> '.$message.' '.$filepath.' '.$line);
+		log_message('error', 'Severity: '.$severity.' --> '.$message.' '.$filepath.' '.$line.' '.PHP_EOL.print_r(debug_backtrace(), true));
 	}
 
 	// --------------------------------------------------------------------
