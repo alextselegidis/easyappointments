@@ -33,7 +33,7 @@ class Customers_Model extends CI_Model {
         // Validate the customer data before doing anything.
         $this->validate($customer);
 
-        // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).
+        // :: CHECK IF CUSTOMER ALREADY EXISTS (FROM NAME AND EMAIL).
         if ($this->exists($customer) && ! isset($customer['id']))
         {
             // Find the customer id from the database.
@@ -57,20 +57,22 @@ class Customers_Model extends CI_Model {
      * Check if a particular customer record already exists.
      *
      * This method checks whether the given customer already exists in the database. It doesn't search with the id, but
-     * with the following fields: "email"
+     * with the following fields: "first_name", "last_name", "email"
      *
      * @param array $customer Associative array with the customer's data. Each key has the same name with the database
      * fields.
      *
      * @return bool Returns whether the record exists or not.
      *
-     * @throws Exception If customer email property is missing.
+     * @throws Exception If customer first or last name or email property is missing.
      */
     public function exists($customer)
     {
-        if (empty($customer['email']))
+        if (empty($customer['first_name'])
+            || empty($customer['last_name'])
+            || empty($customer['email']))
         {
-            throw new Exception('Customer\'s email is not provided.');
+            throw new Exception('Customer\'s name and/or email was not provided.');
         }
 
         // This method shouldn't depend on another method of this class.
@@ -78,6 +80,8 @@ class Customers_Model extends CI_Model {
             ->select('*')
             ->from('ea_users')
             ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.first_name', $customer['first_name'])
+            ->where('ea_users.last_name', $customer['last_name'])
             ->where('ea_users.email', $customer['email'])
             ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
             ->get()->num_rows();
@@ -150,7 +154,8 @@ class Customers_Model extends CI_Model {
     /**
      * Find the database id of a customer record.
      *
-     * The customer data should include the following fields in order to get the unique id from the database: "email"
+     * The customer data should include the following fields in order to get the unique id from the database:
+     * "first_name", "last_name", "email"
      *
      * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
      *
@@ -163,9 +168,11 @@ class Customers_Model extends CI_Model {
      */
     public function find_record_id($customer)
     {
-        if (empty($customer['email']))
+        if (empty($customer['first_name'])
+            || empty($customer['last_name'])
+            || empty($customer['email']))
         {
-            throw new Exception('Customer\'s email was not provided: '
+            throw new Exception('Customer\'s name and/or email was not provided: '
                 . print_r($customer, TRUE));
         }
 
@@ -174,6 +181,8 @@ class Customers_Model extends CI_Model {
             ->select('ea_users.id')
             ->from('ea_users')
             ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.first_name', $customer['first_name'])
+            ->where('ea_users.last_name', $customer['last_name'])
             ->where('ea_users.email', $customer['email'])
             ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
             ->get();
@@ -228,7 +237,7 @@ class Customers_Model extends CI_Model {
                 . $customer['email']);
         }
 
-        // When inserting a record the email address must be unique.
+        // When inserting a record the first and last name and email address combined must be unique.
         $customer_id = (isset($customer['id'])) ? $customer['id'] : '';
 
         $num_rows = $this->db
@@ -236,6 +245,8 @@ class Customers_Model extends CI_Model {
             ->from('ea_users')
             ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
             ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+            ->where('ea_users.first_name', $customer['first_name'])
+            ->where('ea_users.last_name', $customer['last_name'])
             ->where('ea_users.email', $customer['email'])
             ->where('ea_users.id <>', $customer_id)
             ->get()
@@ -243,8 +254,8 @@ class Customers_Model extends CI_Model {
 
         if ($num_rows > 0)
         {
-            throw new Exception('Given email address belongs to another customer record. '
-                . 'Please use a different email.');
+            throw new Exception('Given name and email address belongs to another customer record. '
+                . 'Please use a different name or email.');
         }
 
         return TRUE;
