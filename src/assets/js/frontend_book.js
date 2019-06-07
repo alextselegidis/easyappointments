@@ -503,8 +503,8 @@ window.FrontendBook = window.FrontendBook || {};
 
         $.each(GlobalVariables.availableServices, function (index, service) {
             if (service.id == selServiceId) {
-                servicePrice = '<br>' + service.price;
-                serviceCurrency = service.currency;
+                servicePrice = service.price > 0 ? '<br>' + service.price : '';
+                serviceCurrency = service.price > 0 ? service.currency : '';
                 return false; // break loop
             }
         });
@@ -537,12 +537,12 @@ window.FrontendBook = window.FrontendBook || {};
             '<br/>' +
             EALang.email + ': ' + email +
             '<br/>' +
-            EALang.address + ': ' + address +
-            '<br/>' +
-            EALang.city + ': ' + city +
-            '<br/>' +
-            EALang.zip_code + ': ' + zipCode +
-            '</p>';
+            (address ? EALang.address + ': ' + address +
+            '<br/>' : '') +
+            (city ? EALang.city + ': ' + city +
+            '<br/>' : '') +
+            (zipCode ? EALang.zip_code + ': ' + zipCode +
+            '</p>' : '');
 
         $('#customer-details').html(html);
 
@@ -677,7 +677,7 @@ window.FrontendBook = window.FrontendBook || {};
                     html += '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']';
                 }
 
-                if (service.price != '' && service.price != null) {
+                if (service.price != '' && service.price != null && service.price > 0) {
                     html += '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']';
                 }
 
