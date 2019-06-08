@@ -482,26 +482,8 @@ class Appointments extends CI_Controller {
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
             $service = $this->services_model->get_row($appointment['id_services']);
 
-            if (empty($appointment['location'])) {
-                $location = [];
-
-                if (!empty($provider['address'])) {
-                    $location[] = $provider['address'];
-                }
-
-                if (!empty($provider['city'])) {
-                    $location[] = $provider['city'];
-                }
-
-                if (!empty($provider['state'])) {
-                    $location[] = $provider['state'];
-                }
-
-                if (!empty($provider['zip_code'])) {
-                    $location[] = $provider['zip_code'];
-                }
-
-                $appointment['location'] = implode(', ', $location);
+            if (empty($appointment['location']) && !empty($service['location'])) {
+                $appointment['location'] = $service['location'];
             }
 
             $customer_id = $this->customers_model->add($customer);
