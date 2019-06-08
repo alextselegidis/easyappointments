@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 /**
  * Abstract Type Class
