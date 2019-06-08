@@ -26,13 +26,12 @@ module.exports = (gulp, plugins) => {
 
         return gulp.src([
             'vendor/**/*',
-            '!vendor/**/{demo,docs,examples,test,tests,extras,language,license,LICENSE}{,/**}',
+            '!vendor/**/{demo,docs,doc,fixtures,examples,test,tests,extras,language,license,LICENSE}{,/**}',
             '!vendor/**/{composer.json,composer.lock,.gitignore}',
             '!vendor/**/{*.yml,*.xml,*.md,*phpunit*,*.mdown}',
             '!vendor/bin{,/**}',
             '!vendor/codeigniter{,/**}',
             '!vendor/doctrine{,/**}',
-            '!vendor/myclabs{,/**}',
             '!vendor/phpdocumentor{,/**}',
             '!vendor/phpspec{,/**}',
             '!vendor/phpunit{,/**}',
