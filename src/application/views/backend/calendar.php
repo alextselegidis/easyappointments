@@ -173,6 +173,11 @@
                                     <label for="select-provider" class="control-label"><?= lang('provider') ?> *</label>
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="appointment-location" class="control-label"><?= lang('location') ?></label>
+                                    <input id="appointment-location" class="form-control">
+                                </div>
                             </div>
 
                             <div class="col-xs-12 col-sm-6">
@@ -185,14 +190,10 @@
                                     <label for="end-datetime" class="control-label"><?= lang('end_date_time') ?></label>
                                     <input id="end-datetime" class="required form-control">
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="appointment-notes" class="control-label"><?= lang('notes') ?></label>
-                                    <textarea id="appointment-notes" class="form-control" rows="2"></textarea>
+                                    <textarea id="appointment-notes" class="form-control" rows="1"></textarea>
                                 </div>
                             </div>
                         </div>

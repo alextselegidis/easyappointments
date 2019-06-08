@@ -424,6 +424,11 @@ body legend {
     font-size: 12px;
 }
 
+#appointment-notes,
+#customer-notes {
+    height: 37px; /* Align with location field */
+}
+
 body .form-horizontal .control-label {
     width: 135px;
 }
