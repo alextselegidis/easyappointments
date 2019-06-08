@@ -24,4 +24,4 @@ VALUES
     ('display_privacy_policy', '0'),
     ('privacy_policy_content', 'Privacy policy content.');
 
-INSERT INTO `ea_migrations` VALUES ('12');
+INSERT INTO `ea_migrations` VALUES ('13');
