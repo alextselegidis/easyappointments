@@ -431,4 +431,97 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         return result;
     };
 
+    /**
+     * Render a map icon that links to Google maps.
+     *
+     * @param {Object} user Should have the address, city, etc properties.
+     *
+     * @returns {string} The rendered HTML.
+     */
+    exports.renderMapIcon = function (user) {
+        const data = [];
+
+        if (user.address) {
+            data.push(user.address);
+        }
+
+        if (user.city) {
+            data.push(user.city);
+        }
+
+        if (user.state) {
+            data.push(user.state);
+        }
+
+        if (user.zip_code) {
+            data.push(user.zip_code);
+        }
+
+        if (!data.length) {
+            return '';
+        }
+
+        return $('<div/>', {
+            'html': [
+                $('<a/>', {
+                    'href': 'https://www.google.com/maps/place/' + data.join(','),
+                    'target': '_blank',
+                    'html': [
+                        $('<span/>', {
+                            'class': 'glyphicon glyphicon-map-marker'
+                        })
+                    ]
+                })
+            ]
+        })
+            .html();
+    };
+
+    /**
+     * Render a mail icon.
+     *
+     * @param {String} email
+     *
+     * @returns {string} The rendered HTML.
+     */
+    exports.renderMailIcon = function (email) {
+        return $('<div/>', {
+            'html': [
+                $('<a/>', {
+                    'href': 'mailto:' + email,
+                    'target': '_blank',
+                    'html': [
+                        $('<span/>', {
+                            'class': 'glyphicon glyphicon-envelope'
+                        })
+                    ]
+                })
+            ]
+        })
+            .html();
+    };
+
+    /**
+     * Render a phone icon.
+     *
+     * @param {String} phone
+     *
+     * @returns {string} The rendered HTML.
+     */
+    exports.renderPhoneIcon = function (phone) {
+        return $('<div/>', {
+            'html': [
+                $('<a/>', {
+                    'href': 'tel:' + phone,
+                    'target': '_blank',
+                    'html': [
+                        $('<span/>', {
+                            'class': 'glyphicon glyphicon-earphone'
+                        })
+                    ]
+                })
+            ]
+        })
+            .html();
+    };
 })(window.GeneralFunctions);

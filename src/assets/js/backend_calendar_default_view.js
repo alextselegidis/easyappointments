@@ -320,17 +320,21 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + event.data.service.name
                 + '<br>' +
                 '<strong>' + EALang.provider + '</strong> '
+                + GeneralFunctions.renderMapIcon(event.data.customer) + ' '
                 + event.data.provider.first_name + ' '
                 + event.data.provider.last_name
                 + '<br>' +
                 '<strong>' + EALang.customer + '</strong> '
+                + GeneralFunctions.renderMapIcon(event.data.customer) + ' '
                 + event.data.customer.first_name + ' '
                 + event.data.customer.last_name
                 + '<br>' +
                 '<strong>' + EALang.email + '</strong> '
+                + GeneralFunctions.renderMailIcon(event.data.customer.email) + ' '
                 + event.data.customer.email
                 + '<br>' +
                 '<strong>' + EALang.phone_number + '</strong> '
+                + GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number) + ' '
                 + event.data.customer.phone_number
                 + '<hr>' +
                 '<div class="text-center">' +
