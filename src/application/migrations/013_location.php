@@ -18,13 +18,23 @@ class Migration_location extends CI_Migration {
             ALTER TABLE `ea_appointments`
                 ADD COLUMN `location` TEXT AFTER `end_datetime`; 
         ');
+
+        $this->db->query('
+            ALTER TABLE `ea_services`
+                ADD COLUMN `location` TEXT AFTER `description`; 
+        ');
     }
 
     public function down()
     {
         $this->db->query('
             ALTER TABLE `ea_appointments`
-                DROP COLUMN `location` TEXT AFTER `end_datetime`; 
+                DROP COLUMN `location`; 
+        ');
+
+        $this->db->query('
+            ALTER TABLE `ea_services`
+                DROP COLUMN `location`; 
         ');
     }
 }

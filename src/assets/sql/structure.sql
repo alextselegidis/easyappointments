@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `ea_services` (
     `price` DECIMAL(10, 2),
     `currency` VARCHAR(32),
     `description` TEXT,
+    `location` TEXT,
     `availabilities_type` VARCHAR(32) DEFAULT 'flexible',
     `attendants_number` INT(11) DEFAULT '1',
     `id_service_categories` INT(11),
