@@ -75,5 +75,5 @@ bug reports.
 ### Translate Easy!Appointments
 
 As of version 1.0 Easy!Appointments supports translated user interface. If you want to contribute to the
-translation process read the [get involved](https://github.com/alextselegidis/easyappointments/wiki/Get-Involved!)
+translation process read the [get involved](https://github.com/alextselegidis/easyappointments/blob/master/doc/get-involved.md)
 page for additional information.
