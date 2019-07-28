@@ -40,8 +40,7 @@ perform the following steps in order to install the system on your server:
 * That's it! You can now use Easy!Appointments at your will.
 
 You will find the latest release at [easyappointments.org](http://easyappointments.org).
-If you have problems installing or configuring the application take a look on the
-[wiki pages](https://github.com/alextselegidis/easyappointments/wiki) or visit the
+If you have problems installing or configuring the application visit the
 [official support group](https://groups.google.com/forum/#!forum/easy-appointments).
 You can also report problems on the [issues page](https://github.com/alextselegidis/easyappointments/issues)
 and help the development progress.
