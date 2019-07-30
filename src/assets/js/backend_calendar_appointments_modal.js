@@ -57,6 +57,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 id_users_provider: $dialog.find('#select-provider').val(),
                 start_datetime: startDatetime,
                 end_datetime: endDatetime,
+                location: $dialog.find('#appointment-location').val(),
                 notes: $dialog.find('#appointment-notes').val(),
                 is_unavailable: false
             };

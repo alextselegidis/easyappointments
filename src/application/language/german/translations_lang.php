@@ -299,3 +299,4 @@ $lang['read_and_agree_to_privacy_policy'] = 'Ich habe die {$link}Datenschutzerkl
 $lang['delete_personal_information_hint'] = 'Alle persönlichen Informationen aus dem System löschen.';
 $lang['delete_personal_information'] = 'Persönlichen Informationen löschen';
 $lang['delete_personal_information_prompt'] = 'Sind Sie sicher, dass Sie Ihre persönlichen Daten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.';
+$lang['location'] = 'Ort';

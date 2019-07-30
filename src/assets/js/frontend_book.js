@@ -684,6 +684,10 @@ window.FrontendBook = window.FrontendBook || {};
                     html += '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']';
                 }
 
+                if (service.location != '' && service.location != null) {
+                    html += '[' + EALang.location + ' ' + service.location + ']';
+                }
+
                 html += '<br>';
 
                 return false;

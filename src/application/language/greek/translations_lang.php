@@ -299,3 +299,4 @@ $lang['read_and_agree_to_privacy_policy'] = 'Διάβασα και αποδέχ�
 $lang['delete_personal_information_hint'] = 'Διαγραφή όλων των προσωπικών πληροφοριών από το σύστημα.';
 $lang['delete_personal_information'] = 'Διαγραφή Προσωπικών Πληροφοριών';
 $lang['delete_personal_information_prompt'] = 'Είστε σίγουρος ότι θέλετε να διαγράψετε τις προσωπικές σας πληροφορίες; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
+$lang['location'] = 'Τοποθεσία';

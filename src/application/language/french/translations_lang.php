@@ -299,3 +299,4 @@ $lang['read_and_agree_to_privacy_policy'] = 'J\'ai lu, compris et accepte la {$l
 $lang['delete_personal_information_hint'] = 'Effacer toutes vos données personnelles du système.';
 $lang['delete_personal_information'] = 'Effacer toutes mes données personnelles';
 $lang['delete_personal_information_prompt'] = 'Etes-vous sûr(e) de vouloir effacer toutes vos données personnelles ? Cette action est irréversible.';
+$lang['location'] = 'Location';

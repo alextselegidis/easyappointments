@@ -32,4 +32,4 @@ gulp.task('scripts', require('./tools/gulp/scripts')(gulp, plugins));
 gulp.task('styles', require('./tools/gulp/styles')(gulp, plugins));
 gulp.task('tests', require('./tools/gulp/tests')(gulp, plugins));
 gulp.task('watch', require('./tools/gulp/watch')(gulp, plugins));
-gulp.task('default', ['dev']);
+gulp.task('default', gulp.parallel('dev'));

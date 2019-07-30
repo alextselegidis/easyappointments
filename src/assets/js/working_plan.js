@@ -72,7 +72,7 @@
 
             if (workingDay != null) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat  === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
                 $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
                 // Sort day's breaks according to the starting hour
@@ -323,7 +323,7 @@
                 start = Date.parse($modifiedRow.find('.break-start input').val()),
                 end = Date.parse($modifiedRow.find('.break-end input').val());
 
-            if (start > end) {
+            if (start >= end) {
                 $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
             }
 
@@ -370,12 +370,13 @@
                             end: Date.parse(end).toString('HH:mm')
                         });
                     }
-
-                    workingPlan[id].breaks.sort(function (break1, break2) {
-                        // We can do a direct string comparison since we have time based on 24 hours clock.
-                        return (break1.start).localeCompare(break2.start);
-                    });
                 }.bind(this));
+
+                // Sort breaks increasingly by hour within day
+                workingPlan[id].breaks.sort(function (break1, break2) {
+                    // We can do a direct string comparison since we have time based on 24 hours clock.
+                    return (break1.start).localeCompare(break2.start);
+                });
             } else {
                 workingPlan[id] = null;
             }
@@ -408,7 +409,7 @@
                     var start = Date.parse($(this).parent().parent().find('.work-start').val()),
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
-                    if (start > end) {
+                    if (start >= end) {
                         $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
                     }
                 }

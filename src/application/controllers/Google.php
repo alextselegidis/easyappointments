@@ -190,7 +190,8 @@ class Google extends CI_Controller {
                         $event_start = strtotime($google_event->getStart()->getDateTime());
                         $event_end = strtotime($google_event->getEnd()->getDateTime());
 
-                        if ($appt_start != $event_start || $appt_end != $event_end)
+                        if ($appt_start != $event_start || $appt_end != $event_end
+                            || $appointment['notes'] !== $google_event->getDescription())
                         {
                             $is_different = TRUE;
                         }
@@ -199,6 +200,7 @@ class Google extends CI_Controller {
                         {
                             $appointment['start_datetime'] = date('Y-m-d H:i:s', $event_start);
                             $appointment['end_datetime'] = date('Y-m-d H:i:s', $event_end);
+                            $appointment['notes'] = $google_event->getDescription();
                             $this->appointments_model->add($appointment);
                         }
 
@@ -226,6 +228,7 @@ class Google extends CI_Controller {
                         'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
                         'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
                         'is_unavailable' => TRUE,
+                        'location' => $event->getLocation(),
                         'notes' => $event->getSummary() . ' ' . $event->getDescription(),
                         'id_users_provider' => $provider_id,
                         'id_google_calendar' => $event->getId(),
