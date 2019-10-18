@@ -159,6 +159,19 @@
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                             </div>
+                            <div class="form-group">
+                                <label for="require-phone-number">
+                                    <?= lang('require_phone_number') ?>
+                                </label>
+                                <br>
+                                <button type="button" id="require-phone-number" class="btn btn-default" data-toggle="button" aria-pressed="false">
+                                    <span class="glyphicon glyphicon-phone-alt"></span>
+                                    <?= lang('require_phone_number') ?>
+                                </button>
+                                <span class="help-block">
+                                    <?= lang('require_phone_number_hint') ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </fieldset>

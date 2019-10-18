@@ -109,8 +109,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="phone-number"><?= lang('phone_number') ?> *</label>
-                        <input id="phone-number" class="form-control required">
+                        <label class="control-label" for="phone-number"><?= lang('phone_number') ?>
+                            <?php echo ('1' === $require_phone_number) ? '*' : ''; ?></label>
+                        <input id="phone-number" class="form-control
+                            <?php echo ('1' === $require_phone_number) ? 'required' : ''; ?>">
                     </div>
 
                     <div class="form-group">

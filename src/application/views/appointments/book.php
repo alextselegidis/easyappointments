@@ -223,8 +223,10 @@
                                     <input type="text" id="email" class="required form-control" maxlength="120" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="phone-number" class="control-label"><?= lang('phone_number') ?> *</label>
-                                    <input type="text" id="phone-number" class="required form-control" maxlength="60" />
+                                    <label for="phone-number" class="control-label"><?= lang('phone_number') ?>
+                                        <?php echo ('1' === $require_phone_number) ? '*' : ''; ?></label>
+                                    <input type="text" id="phone-number" class="<?php echo ('1' === $require_phone_number) ? 'required' : ''; ?>
+                                        form-control" maxlength="60" />
                                 </div>
                             </div>
 

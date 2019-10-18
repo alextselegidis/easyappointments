@@ -298,3 +298,6 @@ $lang['delete_personal_information_hint'] = 'Διαγραφή όλων των π
 $lang['delete_personal_information'] = 'Διαγραφή Προσωπικών Πληροφοριών';
 $lang['delete_personal_information_prompt'] = 'Είστε σίγουρος ότι θέλετε να διαγράψετε τις προσωπικές σας πληροφορίες; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.';
 $lang['location'] = 'Τοποθεσία';
+$lang['require_phone_number'] = 'Require phone number';
+$lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
+

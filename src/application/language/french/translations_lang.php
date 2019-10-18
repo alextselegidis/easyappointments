@@ -298,3 +298,5 @@ $lang['delete_personal_information_hint'] = 'Effacer toutes vos données personn
 $lang['delete_personal_information'] = 'Effacer toutes mes données personnelles';
 $lang['delete_personal_information_prompt'] = 'Etes-vous sûr(e) de vouloir effacer toutes vos données personnelles ? Cette action est irréversible.';
 $lang['location'] = 'Location';
+$lang['require_phone_number'] = 'Require phone number';
+$lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';

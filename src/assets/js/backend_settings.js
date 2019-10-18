@@ -71,6 +71,10 @@ window.BackendSettings = window.BackendSettings || {};
                 $('#require-captcha').addClass('active');
             }
 
+            if (setting.name === 'require_phone_number' && setting.value === '1') {
+                $('#require-phone-number').addClass('active');
+            }
+
             if (setting.name === 'display_cookie_notice') {
                 $('#display-cookie-notice').prop('checked', setting.value === '1');
             }

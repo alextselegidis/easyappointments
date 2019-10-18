@@ -82,6 +82,12 @@
             value: $('#require-captcha').hasClass('active') === true ? '1' : '0'
         });
 
+        settings.push({
+            name: 'require_phone_number',
+            value: $('#require-phone-number').hasClass('active') === true ? '1' : '0'
+        });
+
+
         // Business Logic Tab
         settings.push({
             name: 'company_working_plan',

@@ -22,6 +22,7 @@ VALUES
     ('display_terms_and_conditions', '0'),
     ('terms_and_conditions_content', 'Terms and conditions content.'),
     ('display_privacy_policy', '0'),
-    ('privacy_policy_content', 'Privacy policy content.');
+    ('privacy_policy_content', 'Privacy policy content.'),
+    ('require_phone_number', '1');
 
-INSERT INTO `ea_migrations` VALUES ('13');
+INSERT INTO `ea_migrations` VALUES ('14');
