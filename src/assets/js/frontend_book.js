@@ -498,11 +498,11 @@ window.FrontendBook = window.FrontendBook || {};
         }
 
         var selServiceId = $('#select-service').val();
-        var servicePrice;
-        var serviceCurrency;
+        var servicePrice = '';
+        var serviceCurrency = '';
 
         $.each(GlobalVariables.availableServices, function (index, service) {
-            if (service.id == selServiceId) {
+			if (service.id == selServiceId && service.price != '' && service.price != null && service.price != '0.00' && service.price != '0,00') {
                 servicePrice = '<br>' + service.price;
                 serviceCurrency = service.currency;
                 return false; // break loop
@@ -677,7 +677,7 @@ window.FrontendBook = window.FrontendBook || {};
                     html += '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']';
                 }
 
-                if (service.price != '' && service.price != null) {
+				if (service.price != '' && service.price != null && service.price != '0.00' && service.price != '0,00') {
                     html += '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']';
                 }
 
