@@ -362,7 +362,7 @@
             }
 
             this.filterResults = response;
-
+		$("body").data(response);
             $('#filter-customers .results').html('');
             $.each(response, function (index, customer) {
                 var html = this.getFilterHtml(customer);

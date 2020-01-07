@@ -33,6 +33,7 @@
 
                     <div class="input-group-addon">
                         <div>
+			    <input type="submit" value="Download" onclick="download(GlobalVariables.customers)" class="btn btn-default">
                             <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
@@ -147,3 +148,50 @@
     	</div>
     </div>
 </div>
+<script>
+function displayArrayObjects(arrayObjects) {
+        var len = arrayObjects.length, text = "";
+            for (var x in arrayObjects[0]) {
+                text += ( x + "	");
+            }
+            text += "\n";
+        for (var i = 0; i < len; i++) {
+            var myObject = arrayObjects[i];
+            for (var x in myObject) {
+                text += ( myObject[x] + "	");
+            }
+            text += "\n";
+        }
+
+        return(text);
+    }
+function download(text) {
+dat=$("body").data();
+for(x of text)
+{
+	x.timeAppointment = "";
+	x.ProviderMail = "";
+	y=0;
+	while(dat[y]){
+		if(x.id==dat[y].id){
+			for(z of dat[y].appointments){
+				x.timeAppointment=z.start_datetime;
+				x.ProviderMail=z.provider.email;
+            }
+			x.appointmentsNumber=dat[y].appointments.length;
+		}
+		y++
+	}
+}
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(displayArrayObjects(text)));
+  element.setAttribute('download', "UsersCopyToXls.txt");
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+  document.body.removeChild(element);
+}
+
+</script>
