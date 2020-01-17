@@ -318,7 +318,10 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 });
             });
         });
-
+        // If the appointment is opened from a link it triggers the previous function to fill the form
+        if (window.location.href.indexOf("backend/index/") > -1) {
+        $('#select-service').change();
+        }
         /**
          * Event: Enter New Customer Button "Click"
          */
