@@ -366,9 +366,9 @@ class Backend_api extends CI_Controller {
                 }
                 else
                 {
-                    $customer_title = new Text($this->lang->line('appointment_changes_saved'));
+                    $customer_title = new Text($this->lang->line('appointment_details_changed'));
                     $customer_message = new Text('');
-                    $provider_title = new Text($this->lang->line('appointment_details_changed'));
+                    $provider_title = new Text($this->lang->line('appointment_changes_saved'));
                     $provider_message = new Text('');
                 }
 
