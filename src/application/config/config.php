@@ -109,6 +109,7 @@ $config['available_languages'] = [
     'hungarian',
     'italian',
     'japanese',
+    'marathi',
     'luxembourgish',
     'polish',
     'portuguese',
