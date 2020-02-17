@@ -71,7 +71,9 @@ $(function () {
      */
     function validate() {
         try {
-            $alert.hide();
+            $alert
+                .removeClass('alert-danger')
+                .hide();
             $('input').closest('.form-group').removeClass('has-error');
 
             // Check for empty fields.
@@ -114,6 +116,7 @@ $(function () {
             return true;
         } catch (error) {
             $alert
+                .addClass('alert-danger')
                 .text(error)
                 .show();
 
