@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
@@ -61,7 +61,7 @@ class API_V1_Controller extends CI_Controller {
      */
     protected function _requestAuthentication()
     {
-        header('WWW-Authenticate: Basic realm="Easy!Appointments"');
+        header('WWW-Authenticate: Basic realm="JustInClicks.com"');
         header('HTTP/1.0 401 Unauthorized');
         exit('You are not authorized to use the API.');
     }

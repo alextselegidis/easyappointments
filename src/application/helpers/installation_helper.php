@@ -1,20 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Check if Easy!Appointments is installed.
+ * Check if JustInClicks.com is installed.
  *
- * This function will check some factors to determine if Easy!Appointments is
+ * This function will check some factors to determine if JustInClicks.com is
  * installed or not. It is possible that the installation is properly configure
  * without being recognized by this method.
  *

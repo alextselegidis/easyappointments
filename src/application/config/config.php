@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| Easy!Appointments - Internal Configuration
+| JustInClicks.com - Internal Configuration
 |--------------------------------------------------------------------------
 |
-| Declare some of the global config values of Easy!Appointments.
+| Declare some of the global config values of JustInClicks.com.
 |
 */
 $config['version'] = '1.3.2'; // This must be changed manually.

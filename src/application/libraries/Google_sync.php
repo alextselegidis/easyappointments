@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -19,7 +19,7 @@ require_once __DIR__ . '/external/google-api-php-client/contrib/Google_CalendarS
  * Google Synchronization Class
  *
  * This class implements all the core synchronization between the Google Calendar
- * and the Easy!Appointments system. Do not place any model handling inside this
+ * and the JustInClicks.com system. Do not place any model handling inside this
  * library.
  *
  * @package Libraries
@@ -75,7 +75,7 @@ class Google_Sync {
      * Get Google OAuth authorization url.
      *
      * This url must be used to redirect the user to the Google user consent page,
-     * where the user grants access to his data for the Easy!Appointments app.
+     * where the user grants access to his data for the JustInClicks.com app.
      */
     public function get_auth_url()
     {
@@ -106,7 +106,7 @@ class Google_Sync {
      * This method must be executed every time we need to make actions on a
      * provider's Google Calendar account. A new token is necessary and the
      * only way to get it is to use the stored refresh token that was provided
-     * when the provider granted consent to Easy!Appointments for use his
+     * when the provider granted consent to JustInClicks.com for use his
      * Google Calendar account.
      *
      * @param string $refresh_token The provider's refresh token. This value is
@@ -122,7 +122,7 @@ class Google_Sync {
      * Add an appointment record to its providers Google Calendar account.
      *
      * This method checks whether the appointment's provider has enabled the Google
-     * Sync utility of Easy!Appointments and the stored access token is still valid.
+     * Sync utility of JustInClicks.com and the stored access token is still valid.
      * If yes, the selected appointment record is going to be added to the Google
      * Calendar account.
      *
@@ -179,7 +179,7 @@ class Google_Sync {
      * Update an existing appointment that is already synced with Google Calendar.
      *
      * This method updates the google calendar event item that is connected with the
-     * provided appointment record of Easy!Appointments.
+     * provided appointment record of JustInClicks.com.
      *
      * @param array $appointment Contains the appointment record data.
      * @param array $provider Contains the provider record data.

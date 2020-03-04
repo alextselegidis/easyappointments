@@ -1,11 +1,11 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -25,7 +25,7 @@ $(function () {
     });
 
     /**
-     * Event: Install Easy!Appointments Button "Click"
+     * Event: Install JustInClicks.com Button "Click"
      */
     $('#install').click(function () {
         if (!validate()) {
@@ -51,7 +51,7 @@ $(function () {
                 }
 
                 $alert
-                    .text('Easy!Appointments has been successfully installed!')
+                    .text('JustInClicks.com has been successfully installed!')
                     .addClass('alert-success')
                     .show();
 

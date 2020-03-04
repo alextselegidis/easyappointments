@@ -1,20 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
 /**
  * Installation Controller
  *
- * This controller will handle the installation procedure of Easy!Appointments
+ * This controller will handle the installation procedure of JustInClicks.com
  *
  * @package Controllers
  */
@@ -57,7 +57,7 @@ class Installation extends CI_Controller {
     }
 
     /**
-     * [AJAX] Installs Easy!Appointments on the server.
+     * [AJAX] Installs JustInClicks.com on the server.
      *
      * Required POST Parameters
      *

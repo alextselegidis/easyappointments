@@ -1,17 +1,17 @@
 <?php
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Easy!Appointments Configuration File
+ * JustInClicks.com Configuration File
  *
  * Set your installation BASE_URL * without the trailing slash * and the database
  * credentials in order to connect to the database. You can enable the DEBUG_MODE

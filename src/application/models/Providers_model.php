@@ -1,20 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
  * Providers_Model Class
  *
- * Contains the database operations for the service provider users of Easy!Appointments.
+ * Contains the database operations for the service provider users of JustInClicks.com.
  *
  * Data Structure:
  *      'fist_name'

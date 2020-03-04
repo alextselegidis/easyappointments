@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Easy!Appointments - Installation</title>
+    <title>JustInClicks.com - Installation</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
@@ -53,23 +53,23 @@
     </div>
 
     <header>
-        <a href="http://easyappointments.org" target="_blank">
+        <a href="https://www.justinclicks.com/" target="_blank">
             <img src="<?= base_url('assets/img/installation-banner.png') ?>"
-                 alt="Easy!Appointments Installation Banner">
+                 alt="JustInClicks.com Installation Banner">
         </a>
     </header>
 
     <div class="content container-fluid">
         <div class="welcome">
-            <h3>Welcome to the Easy!Appointments installation page.</h3>
+            <h3>Welcome to the JustInClicks.com installation page.</h3>
             <p>
-                This page will help you set the main settings of your Easy!Appointments installation.
+                This page will help you set the main settings of your JustInClicks.com installation.
                 You will be able to edit these settings and many more in the backend session of your
                 system. Remember to use the <strong class="text-primary"><?= site_url('backend') ?></strong>
-                url to connect to the backend section of Easy!Appointments.
+                url to connect to the backend section of JustInClicks.com.
 
-                If you face any problems during the usage of Easy!Appointments you can always check the 
-                <a href="http://easyappointments.org/docs.html">Documentation</a>
+                If you face any problems during the usage of JustInClicks.com you can always check the 
+                <a href="https://www.justinclicks.com//docs.html">Documentation</a>
                 and <a href="http://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You 
                 may also submit new issues on
                 <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
@@ -152,8 +152,8 @@
 
         <p>
             <h3>License</h3>
-            Easy!Appointments is licensed under the <span class="label label-default">GPLv3 license</span>.
-            By using the code of Easy!Appointments in any way <br> you agree with the terms described in the
+            JustInClicks.com is licensed under the <span class="label label-default">GPLv3 license</span>.
+            By using the code of JustInClicks.com in any way <br> you agree with the terms described in the
             following url:
             <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
         </p>
@@ -162,11 +162,11 @@
 
         <button type="button" id="install" class="btn btn-success btn-large">
             <i class="icon-white icon-ok"></i>
-            Install Easy!Appointments</button>
+            Install JustInClicks.com</button>
     </div>
 
     <footer>
-        Powered by <a href="http://easyappointments.org">Easy!Appointments</a>
+        Powered by <a href="https://www.justinclicks.com/">JustInClicks.com</a>
     </footer>
 
     <script>

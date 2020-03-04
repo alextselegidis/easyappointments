@@ -1,11 +1,11 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * JustInClicks.com - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @link        https://www.justinclicks.com/
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
@@ -40,7 +40,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
 
                 var redirectUrl = GlobalVariables.baseUrl + '/index.php/google/oauth_callback';
 
-                var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments',
+                var windowHandle = window.open(authUrl, 'Authorize JustInClicks.com',
                     'width=800, height=600');
 
                 var authInterval = window.setInterval(function () {

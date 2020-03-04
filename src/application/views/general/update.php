@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Easy!Appointments - Update</title>
+    <title>JustInClicks.com - Update</title>
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
@@ -40,9 +40,9 @@
 <body>
     <div class="container-fluid header">
         <div>
-            <a href="http://easyappointments.org" target="_blank">
+            <a href="https://www.justinclicks.com/" target="_blank">
                 <img src="<?= base_url('assets/img/installation-banner.png') ?>"
-                     alt="Easy!Appointments Installation Banner">
+                     alt="JustInClicks.com Installation Banner">
             </a>
         </div>
     </div>
@@ -54,7 +54,7 @@
             </h4>
 
             <p>
-                You can now use the latest Easy!Appointments version.
+                You can now use the latest JustInClicks.com version.
             </p>
         <?php else: ?>
             <h4>
@@ -79,7 +79,7 @@
     </div>
 
     <footer>
-        Powered by <a href="http://easyappointments.org">Easy!Appointments</a>
+        Powered by <a href="https://www.justinclicks.com/">JustInClicks.com</a>
     </footer>
 </body>
 </html>
