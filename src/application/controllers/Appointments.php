@@ -402,18 +402,19 @@ class Appointments extends CI_Controller {
             // If the selected date is today, remove past hours. It is important  include the timeout before
             // booking that is set in the back-office the system. Normally we might want the customer to book
             // an appointment that is at least half or one hour from now. The setting is stored in minutes.
-            if (date('Y-m-d', strtotime($this->input->post('selected_date'))) === date('Y-m-d'))
-            {
-                $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
+            $selected_date = $this->input->post('selected_date');
 
-                foreach ($available_hours as $index => $value)
+            $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
+
+            $threshold = new DateTime('+' . $book_advance_timeout . ' minutes');
+
+            foreach ($available_hours as $index => $value)
+            {
+                $available_hour = new DateTime($selected_date . ' ' . $value);
+
+                if ($available_hour->getTimestamp() <= $threshold->getTimestamp())
                 {
-                    $available_hour = strtotime($value);
-                    $current_hour = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
-                    if ($available_hour <= $current_hour)
-                    {
-                        unset($available_hours[$index]);
-                    }
+                    unset($available_hours[$index]);
                 }
             }
 
@@ -662,7 +663,7 @@ class Appointments extends CI_Controller {
                 {
                     // Get the provider record.
                     $curr_provider = $this->providers_model->get_row($curr_provider_id);
-                    
+
                     $empty_periods = $this->_get_provider_available_time_periods($curr_provider_id,
                         $service_id,
                         $current_date->format('Y-m-d'), $exclude_appointments);
@@ -670,7 +671,7 @@ class Appointments extends CI_Controller {
                     $available_hours = $this->_calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
                         $service['duration'], $manage_mode, $service['availabilities_type']);
                     if (! empty($available_hours)) break;
-                    
+
                     if ($service['attendants_number'] > 1)
                     {
                         $available_hours = $this->_get_multiple_attendants_hours($current_date->format('Y-m-d'), $service,
