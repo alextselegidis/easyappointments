@@ -98,6 +98,7 @@ $config['available_languages'] = [
     'arabic',
     'bulgarian',
     'chinese',
+    'czech',
     'danish',
     'dutch',
     'english',
