@@ -309,6 +309,9 @@ class Appointments extends CI_Controller {
         $company_name = $this->settings_model->get_setting('company_name');
         //get the exceptions
         $exceptions = $this->session->flashdata('book_success');
+
+        unset($provider['settings']);
+
         // :: LOAD THE BOOK SUCCESS VIEW
         $view = [
             'appointment_data' => $appointment,
