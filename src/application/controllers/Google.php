@@ -221,23 +221,25 @@ class Google extends CI_Controller {
             foreach ($events->getItems() as $event)
             {
                 $results = $this->appointments_model->get_batch(['id_google_calendar' => $event->getId()]);
-                if (count($results) == 0)
-                {
-                    // Record doesn't exist in E!A, so add the event now.
-                    $appointment = [
-                        'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
-                        'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
-                        'is_unavailable' => TRUE,
-                        'location' => $event->getLocation(),
-                        'notes' => $event->getSummary() . ' ' . $event->getDescription(),
-                        'id_users_provider' => $provider_id,
-                        'id_google_calendar' => $event->getId(),
-                        'id_users_customer' => NULL,
-                        'id_services' => NULL,
-                    ];
 
-                    $this->appointments_model->add($appointment);
+                if (!empty($results) || empty($event)) {
+                    continue;
                 }
+
+                // Record doesn't exist in E!A, so add the event now.
+                $appointment = [
+                    'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
+                    'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
+                    'is_unavailable' => TRUE,
+                    'location' => $event->getLocation(),
+                    'notes' => $event->getSummary() . ' ' . $event->getDescription(),
+                    'id_users_provider' => $provider_id,
+                    'id_google_calendar' => $event->getId(),
+                    'id_users_customer' => NULL,
+                    'id_services' => NULL,
+                ];
+
+                $this->appointments_model->add($appointment);
             }
 
             $this->output
