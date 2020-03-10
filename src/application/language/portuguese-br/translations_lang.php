@@ -309,3 +309,4 @@ $lang['first_weekday'] = 'First day of week';
 $lang['first_weekday_hint'] = 'Set the first day of the calendar week.';
 $lang['require_phone_number'] = 'Require phone number';
 $lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
+$lang['check_spam_folder'] = 'Please check your spam folder if the email does not arrive within a few minutes.';
