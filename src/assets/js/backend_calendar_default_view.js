@@ -875,12 +875,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
                         var unavailablePeriod;
 
-                        // Sort the working plan starting with Sunday as the first weekday to correctly align breaks in the calendar display
-                        workingPlan = GeneralFunctions.sortWeekDict(workingPlanBulk,0); // 0 is the ID for Sunday
+                        // Sort the working plan starting with the first day as set in General settings to correctly align breaks in the calendar display
+                        var fDaynum = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+                        workingPlan = GeneralFunctions.sortWeekDict(workingPlanBulk,fDaynum);
 
                         switch (calendarView) {
                             case 'agendaDay':
-                                var selectedDayName = weekDays[$calendar.fullCalendar('getView').start.format('d')];
+                                var selectedDayName = GeneralFunctions.getWeekDayName(parseInt($calendar.fullCalendar('getView').start.format('d')));
 
                                 // Add custom unavailable periods.
                                 $.each(response.unavailables, function (index, unavailable) {
@@ -1205,12 +1206,15 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         var defaultView = window.innerWidth < 468 ? 'agendaDay' : 'agendaWeek';
 
+        var fDay = GlobalVariables.firstWeekday;
+        var fDaynum = GeneralFunctions.getWeekDayId(fDay);
+
         // Initialize page calendar
         $('#calendar').fullCalendar({
             defaultView: defaultView,
             height: _getCalendarHeight(),
             editable: true,
-            firstDay: 0,
+            firstDay: fDaynum,
             snapDuration: '00:30:00',
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,

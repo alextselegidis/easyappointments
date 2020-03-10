@@ -370,6 +370,7 @@
             customerToken       : <?= json_encode($customer_token) ?>,
             dateFormat          : <?= json_encode($date_format) ?>,
             timeFormat          : <?= json_encode($time_format) ?>,
+            firstWeekday        : <?= json_encode($first_weekday) ?>,
             displayCookieNotice : <?= json_encode($display_cookie_notice === '1') ?>,
             appointmentData     : <?= json_encode($appointment_data) ?>,
             providerData        : <?= json_encode($provider_data) ?>,

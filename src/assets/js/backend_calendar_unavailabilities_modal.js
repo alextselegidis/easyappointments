@@ -180,6 +180,8 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 break;
         }
 
+        var fDay = GlobalVariables.firstWeekday;
+        var fDaynum = GeneralFunctions.getWeekDayId(fDay);
 
         $dialog.find('#unavailable-start').datetimepicker({
             dateFormat: dateFormat,
@@ -207,7 +209,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 0
+            firstDay: fDaynum
         });
         $dialog.find('#unavailable-start').val(start);
 
@@ -237,7 +239,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: 0
+            firstDay: fDaynum
         });
         $dialog.find('#unavailable-end').val(end);
 

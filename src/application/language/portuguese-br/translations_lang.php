@@ -310,3 +310,5 @@ $lang['new_extra_period_title'] = '';
 $lang['extra_period_saved'] = '';
 $lang['add_extra_periods_during_each_day'] = '';
 $lang['add_extra_period'] = '';
+$lang['first_weekday'] = 'First day of week';
+$lang['first_weekday_hint'] = 'Set the first day of the calendar week.';

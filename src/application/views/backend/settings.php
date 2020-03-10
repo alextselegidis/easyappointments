@@ -9,6 +9,7 @@
         'csrfToken'     : <?= json_encode($this->security->get_csrf_hash()) ?>,
         'baseUrl'       : <?= json_encode($base_url) ?>,
         'dateFormat'    : <?= json_encode($date_format) ?>,
+        'firstWeekday'  : <?= json_encode($first_weekday); ?>,
         'timeFormat'    : <?= json_encode($time_format) ?>,
         'userSlug'      : <?= json_encode($role_slug) ?>,
         'settings'      : {
@@ -136,6 +137,23 @@
                                 </span>
                             </div>
                             <div class="form-group">
+                                <label for="first-weekday">
+                                    <?= lang('first_weekday') ?>
+                                </label>
+                                <select class="form-control" id="first-weekday" data-field="first_weekday">
+                                    <option value="sunday"><?= lang('sunday') ?></option>
+                                    <option value="monday"><?= lang('monday') ?></option>
+                                    <option value="tuesday"><?= lang('tuesday') ?></option>
+                                    <option value="wednesday"><?= lang('wednesday') ?></option>
+                                    <option value="thursday"><?= lang('thursday') ?></option>
+                                    <option value="friday"><?= lang('friday') ?></option>
+                                    <option value="saturday"><?= lang('saturday') ?></option>
+                                </select>
+                                <span class="help-block">
+                                    <?= lang('first_weekday_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
                                 <label><?= lang('customer_notifications') ?></label>
                                 <br>
                                 <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">
@@ -197,92 +215,7 @@
                                         <th><?= lang('end') ?></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="sunday">
-                                                    <?= lang('sunday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="sunday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="sunday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="monday">
-                                                    <?= lang('monday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="monday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="monday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="tuesday">
-                                                    <?= lang('tuesday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="tuesday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="tuesday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="wednesday">
-                                                    <?= lang('wednesday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="wednesday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="wednesday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="thursday">
-                                                    <?= lang('thursday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="thursday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="thursday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="friday">
-                                                    <?= lang('friday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="friday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="friday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="saturday">
-                                                    <?= lang('saturday') ?>
-                                                </label>
-                                            </div>
-                                        </td>
-                                        <td><input id="saturday-start" class="work-start form-control input-sm"></td>
-                                        <td><input id="saturday-end" class="work-end form-control input-sm"></td>
-                                    </tr>
-                                </tbody>
+                                <tbody><!-- Dynamic Content --></tbody>
                             </table>
 
                             <br>
