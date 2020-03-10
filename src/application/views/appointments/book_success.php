@@ -30,6 +30,7 @@
                         echo '
                             <h3>' . lang('appointment_registered') . '</h3>
                             <p>' . lang('appointment_details_was_sent_to_you') . '</p>
+                            <p><strong>' . lang('check_spam_folder') . '</strong></p>
                             <a href="' . site_url() . '" class="btn btn-success btn-large">
                                 <span class="glyphicon glyphicon-calendar"></span> ' .
                                 lang('go_to_booking_page') . '
