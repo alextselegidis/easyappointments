@@ -320,7 +320,7 @@ class Migration_Change_column_types extends CI_Migration {
             ]
         ];
 
-        $this->dbforge->modify_column('ea_roles', $fields);
+        $this->dbforge->modify_column('ea_secretaries_providers', $fields);
 
         // Services
         $fields = [
