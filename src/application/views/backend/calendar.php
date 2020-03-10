@@ -10,6 +10,7 @@
 <script src="<?= asset_url('assets/js/backend_calendar_google_sync.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_appointments_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_unavailabilities_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_calendar_extra_periods_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {
@@ -72,6 +73,11 @@
                 <button id="insert-unavailable" class="btn btn-default" title="<?= lang('unavailable_periods_hint') ?>">
                     <span class="glyphicon glyphicon-plus"></span>
                     <?= lang('unavailable') ?>
+                </button>
+
+                <button id="insert-extra-period" class="btn btn-default" title="<?= lang('extra_periods_hint') ?>">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <?= lang('extra_period') ?>
                 </button>
             <?php endif ?>
 
@@ -317,6 +323,47 @@
             <div class="modal-footer">
                 <button id="save-unavailable" class="btn btn-primary"><?= lang('save') ?></button>
                 <button id="cancel-unavailable" class="btn btn-default" data-dismiss="modal"><?= lang('cancel') ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MANAGE EXTRA PERIOD MODAL -->
+
+<div id="manage-extra" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title"><?= lang('new_extra_period_title') ?></h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-message alert hidden"></div>
+
+                <form>
+                    <fieldset>
+                        <input id="extra-id" type="hidden">
+
+                        <div class="form-group">
+                            <label for="extra-provider" class="control-label"><?= lang('provider') ?></label>
+                            <select id="extra-provider" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="extra-start" class="control-label"><?= lang('start') ?></label>
+                            <input id="extra-start" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="extra-end" class="control-label"><?= lang('end') ?></label>
+                            <input id="extra-end" class="form-control">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="save-extra" class="btn btn-primary"><?= lang('save') ?></button>
+                <button id="cancel-extra" class="btn btn-default" data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>
