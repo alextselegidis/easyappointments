@@ -5,6 +5,15 @@ ENV PROJECT_DIR=/var/www/html \
 
 RUN docker-php-ext-install mysqli gettext
 
+RUN apt-get update -y && apt-get install -y libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
+    libfreetype6-dev
+
+RUN docker-php-ext-configure gd --with-gd --with-webp-dir --with-jpeg-dir \
+    --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
+    --enable-gd-native-ttf
+
+RUN docker-php-ext-install gd
+
 COPY ./src $PROJECT_DIR
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
