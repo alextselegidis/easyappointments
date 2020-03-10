@@ -192,8 +192,11 @@ body .ui-datepicker .ui-datepicker-buttonpane button {
     vertical-align: middle;
 }
 
+li.language {
+	cursor: pointer;
+}
+
 li.language:hover {
-    cursor: pointer;
     color: #005580;
 }
 
