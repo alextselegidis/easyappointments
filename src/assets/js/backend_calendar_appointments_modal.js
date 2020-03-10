@@ -427,7 +427,19 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: fDaynum
+            firstDay: fDaynum,
+            onClose: function () {
+                var sid = $('#select-service').val();
+
+                // Automatically update the #end-datetime DateTimePicker based on service duration.
+                $.each(GlobalVariables.availableServices, function (indexService, service) {
+                    if (service.id == sid) {
+                        var start = $('#start-datetime').datetimepicker('getDate');
+                        $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+                        return false; // break loop
+                    }
+                });
+            }
         });
         $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
@@ -515,4 +527,4 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         _bindEventHandlers();
     };
 
-})(window.BackendCalendarAppointmentsModal); 
+})(window.BackendCalendarAppointmentsModal);
