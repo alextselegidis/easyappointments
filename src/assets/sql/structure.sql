@@ -145,6 +145,7 @@ CREATE TABLE IF NOT EXISTS `ea_user_settings` (
     `password` VARCHAR(512),
     `salt` VARCHAR(512),
     `working_plan` TEXT,
+    `extra_working_plan` TEXT,
     `notifications` TINYINT(4) DEFAULT '0',
     `google_sync` TINYINT(4) DEFAULT '0',
     `google_token` TEXT,
