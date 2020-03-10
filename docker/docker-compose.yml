@@ -1,7 +1,7 @@
 version: '2'
 services:
     database:
-        image: mysql
+        image: mysql:5.7
         environment:
         - MYSQL_DATABASE=${DB_NAME}
         - MYSQL_USER=${DB_USERNAME}
