@@ -211,10 +211,14 @@ class Customers_Model extends CI_Model {
                     . 'exist in the database.');
             }
         }
+
+        $query = $this->db->get_where('ea_settings', ['name' => 'require_phone_number']);
+        $phone_number_required = $query->num_rows() > 0 ? $query->row() === '1' : false;
+
         // Validate required fields
         if ( ! isset($customer['last_name'])
             || ! isset($customer['email'])
-            || ! isset($customer['phone_number']))
+            || (!isset($customer['phone_number']) && $phone_number_required))
         {
             throw new Exception('Not all required fields are provided: '
                 . print_r($customer, TRUE));

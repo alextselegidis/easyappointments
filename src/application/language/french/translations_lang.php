@@ -308,3 +308,5 @@ $lang['new_extra_period_title'] = '';
 $lang['extra_period_saved'] = '';
 $lang['add_extra_periods_during_each_day'] = '';
 $lang['add_extra_period'] = '';
+$lang['require_phone_number'] = 'Require phone number';
+$lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
