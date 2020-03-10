@@ -94,7 +94,6 @@
             $('#provider-notifications').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, .add-extra-periods, .edit-extra, .delete-extra, #reset-working-plan').prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
-            $('#providers input:checkbox').prop('disabled', false);
 
             // Apply default working plan
             BackendUsers.wp.setup(GlobalVariables.workingPlan);
@@ -368,9 +367,9 @@
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#providers .record-details').find('input, textarea').val('');
-        $('#providers input:checkbox').prop('checked', false);
         $('#provider-services input:checkbox').prop('checked', false);
         $('#provider-services a').remove();
+        $('#providers .working-plan tbody').empty();
         $('#providers .breaks tbody').empty();
         $('#providers .extra-periods tbody').empty();
     };
@@ -426,7 +425,6 @@
         });
 
         // Display working plan
-        $('#providers .breaks tbody').empty();
         var workingPlan = $.parseJSON(provider.settings.working_plan);
         BackendUsers.wp.setup(workingPlan);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
@@ -434,6 +432,7 @@
         var extraWorkingPlan = $.parseJSON(provider.settings.extra_working_plan);
         BackendUsers.wp.setupExtraPeriods(extraWorkingPlan);
         $('.extra-periods').find('.edit-extra, .delete-extra').prop('disabled', true);
+        $('#providers .working-plan input:checkbox').prop('disabled', true);
     };
 
     /**

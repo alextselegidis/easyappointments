@@ -10,6 +10,7 @@
         csrfToken      : <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl        : <?= json_encode($base_url) ?>,
         dateFormat     : <?= json_encode($date_format) ?>,
+        firstWeekday   : <?= json_encode($first_weekday); ?>,
         timeFormat     : <?= json_encode($time_format) ?>,
         admins         : <?= json_encode($admins) ?>,
         providers      : <?= json_encode($providers) ?>,
@@ -217,92 +218,7 @@
                                     <th><?= lang('end') ?></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="sunday">
-                                                <?= lang('sunday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="sunday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="sunday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="monday">
-                                                <?= lang('monday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="monday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="monday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="tuesday">
-                                                <?= lang('tuesday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="tuesday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="tuesday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="wednesday">
-                                                <?= lang('wednesday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="wednesday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="wednesday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="thursday">
-                                                <?= lang('thursday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="thursday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="thursday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="friday">
-                                                <?= lang('friday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="friday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="friday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="saturday">
-                                                <?= lang('saturday') ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input id="saturday-start" class="work-start form-control input-sm"></td>
-                                    <td><input id="saturday-end" class="work-end form-control input-sm"></td>
-                                </tr>
-                            </tbody>
+                            <tbody><!-- Dynamic Content --></tbody>
                         </table>
 
                         <br>

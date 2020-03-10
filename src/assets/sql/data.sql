@@ -22,6 +22,7 @@ VALUES
     ('display_terms_and_conditions', '0'),
     ('terms_and_conditions_content', 'Terms and conditions content.'),
     ('display_privacy_policy', '0'),
-    ('privacy_policy_content', 'Privacy policy content.');
+    ('privacy_policy_content', 'Privacy policy content.'),
+    ('first_weekday', 'sunday');
 
 INSERT INTO `ea_migrations` VALUES ('13');

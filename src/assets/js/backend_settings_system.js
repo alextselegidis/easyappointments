@@ -46,9 +46,12 @@
             // Update the logo title on the header.
             $('#header-logo span').text($('#company-name').val());
 
+            // Update variables also used in other setting tabs
+            GlobalVariables.timeFormat   = $('#time-format').val();
+            GlobalVariables.firstWeekday = $('#first-weekday').val();
+            
             // We need to refresh the working plan.
             var workingPlan = BackendSettings.wp.get();
-            $('.breaks tbody').empty();
             BackendSettings.wp.setup(workingPlan);
             BackendSettings.wp.timepickers(false);
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
