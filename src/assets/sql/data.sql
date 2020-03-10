@@ -23,6 +23,7 @@ VALUES
     ('terms_and_conditions_content', 'Terms and conditions content.'),
     ('display_privacy_policy', '0'),
     ('privacy_policy_content', 'Privacy policy content.'),
-    ('first_weekday', 'sunday');
+    ('first_weekday', 'sunday'),
+    ('require_phone_number', '1');
 
-INSERT INTO `ea_migrations` VALUES ('13');
+INSERT INTO `ea_migrations` VALUES ('15');

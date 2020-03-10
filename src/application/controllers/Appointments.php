@@ -77,6 +77,7 @@ class Appointments extends CI_Controller {
             $date_format = $this->settings_model->get_setting('date_format');
             $time_format = $this->settings_model->get_setting('time_format');
             $first_weekday = $this->settings_model->get_setting('first_weekday');
+            $require_phone_number = $this->settings_model->get_setting('require_phone_number');
             $display_cookie_notice = $this->settings_model->get_setting('display_cookie_notice');
             $cookie_notice_content = $this->settings_model->get_setting('cookie_notice_content');
             $display_terms_and_conditions = $this->settings_model->get_setting('display_terms_and_conditions');
@@ -149,6 +150,7 @@ class Appointments extends CI_Controller {
                 'date_format' => $date_format,
                 'time_format' => $time_format,
                 'first_weekday' => $first_weekday,
+                'require_phone_number' => $require_phone_number,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
                 'customer_data' => $customer,

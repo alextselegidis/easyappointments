@@ -305,3 +305,5 @@ $lang['new_extra_period_title'] = 'New working day';
 $lang['extra_period_saved'] = 'New working day saved successfully!';
 $lang['add_extra_periods_during_each_day'] = 'Add working days outside the working plan.';
 $lang['add_extra_period'] = 'Add a working day';
+$lang['require_phone_number'] = 'Require phone number';
+$lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
