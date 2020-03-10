@@ -82,7 +82,38 @@ $config['url_suffix'] = '';
 |
 */
 
-$config['language'] = defined('Config::LANGUAGE') ? Config::LANGUAGE : 'english';
+$config['language']	= 	(null !== $_SERVER['HTTP_ACCEPT_LANGUAGE']
+							?
+							array(
+								'ar' => 'arabic',
+								'bu' => 'bulgarian',
+								'zh' => 'chinese',
+								'da' => 'danish',
+								'nl' => 'dutch',
+								'en' => 'english',
+								'fi' => 'finnish',
+								'fr' => 'french',
+								'de' => 'german',
+								'el' => 'greek',
+								'hi' => 'hindi',
+								'hu' => 'hungarian',
+								'it' => 'italian',
+								'ja' => 'japanese',
+								'pl' => 'polish',
+								'pt' => 'portuguese',
+								'pt' => 'portuguese',
+								'ro' => 'romanian',
+								'ru' => 'russian',
+								'sk' => 'slovak',
+								'es' => 'spanish',
+								'tr' => 'turkish'
+							)[substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)]
+							:
+							(defined('Config::LANGUAGE')
+								? Config::LANGUAGE
+								: 'english'
+							)
+						);
 
 /*
 |--------------------------------------------------------------------------
