@@ -536,7 +536,7 @@ window.FrontendBook = window.FrontendBook || {};
         html =
             '<h4>' + firstName + ' ' + lastName + '</h4>' +
             '<p>' +
-            EALang.phone + ': ' + phoneNumber +
+            EALang.phone_number + ': ' + phoneNumber +
             '<br/>' +
             EALang.email + ': ' + email +
             '<br/>' +

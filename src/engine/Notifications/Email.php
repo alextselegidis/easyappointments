@@ -156,7 +156,7 @@ class Email {
             'Customer Details' => $this->framework->lang->line('customer_details_title'),
             'Name' => $this->framework->lang->line('name'),
             'Email' => $this->framework->lang->line('email'),
-            'Phone' => $this->framework->lang->line('phone'),
+            'Phone' => $this->framework->lang->line('phone_number'),
             'Address' => $this->framework->lang->line('address'),
             'Appointment Link' => $this->framework->lang->line('appointment_link_title')
         ];
@@ -260,7 +260,7 @@ class Email {
             'Customer Details' => $this->framework->lang->line('customer_details_title'),
             'Name' => $this->framework->lang->line('name'),
             'Email' => $this->framework->lang->line('email'),
-            'Phone' => $this->framework->lang->line('phone'),
+            'Phone' => $this->framework->lang->line('phone_number'),
             'Address' => $this->framework->lang->line('address'),
             'Reason' => $this->framework->lang->line('reason')
         ];
