@@ -305,3 +305,6 @@ $lang['new_extra_period_title'] = 'Nuova giornata lavorativa';
 $lang['extra_period_saved'] = 'Giornata lavorativa salvata con successo!';
 $lang['add_extra_periods_during_each_day'] = 'Aggiungi giornate lavorative al di fuori del piano di lavoro.';
 $lang['add_extra_period'] = 'Aggiungi giornata lavorativa';
+$lang['require_phone_number'] = 'Require phone number';
+$lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
+$lang['check_spam_folder'] = 'Please check your spam folder if the email does not arrive within a few minutes.';
