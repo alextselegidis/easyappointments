@@ -5,7 +5,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.2.0
@@ -82,7 +82,7 @@ class Providers extends API_V1_Controller {
     {
         try
         {
-            // Insert the provider to the database. 
+            // Insert the provider to the database.
             $request = new Request();
             $provider = $request->getBody();
             $this->parser->decode($provider);
@@ -115,7 +115,7 @@ class Providers extends API_V1_Controller {
     {
         try
         {
-            // Update the provider record. 
+            // Update the provider record.
             $batch = $this->providers_model->get_batch('id = ' . $id);
 
             if ($id !== NULL && count($batch) === 0)

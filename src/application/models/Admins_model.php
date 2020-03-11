@@ -2,11 +2,11 @@
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
- * 
+ *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3 
+ * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
@@ -120,7 +120,7 @@ class Admins_Model extends CI_Model {
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        // Insert admin settings. 
+        // Insert admin settings.
         if ( ! $this->db->insert('ea_user_settings', $settings))
         {
             $this->db->trans_rollback();
@@ -261,7 +261,7 @@ class Admins_Model extends CI_Model {
             }
         }
 
-        // Validate calendar view mode. 
+        // Validate calendar view mode.
         if (isset($admin['settings']['calendar_view']) && ($admin['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
                 && $admin['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))
         {
@@ -384,7 +384,7 @@ class Admins_Model extends CI_Model {
             throw new Exception('$admin_id argument is not a valid numeric value: ' . $admin_id);
         }
 
-        // Check whether the admin record exists. 
+        // Check whether the admin record exists.
         $result = $this->db->get_where('ea_users', ['id' => $admin_id]);
         if ($result->num_rows() == 0)
         {

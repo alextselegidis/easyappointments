@@ -3,7 +3,7 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
+ * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
  * @since       v1.0.0
@@ -36,7 +36,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                 || document.webkitIsFullScreen;
 
             if (isFullScreen) {
-                // Exit fullscreen mode. 
+                // Exit fullscreen mode.
                 if (document.exitFullscreen)
                     document.exitFullscreen();
                 else if (document.msExitFullscreen)
@@ -77,7 +77,7 @@ window.BackendCalendar = window.BackendCalendar || {};
      * @param {String} view Optional (default), the calendar view to be loaded.
      */
     exports.initialize = function (view) {
-        // Load and initialize the calendar view. 
+        // Load and initialize the calendar view.
         if (view === 'table') {
             BackendCalendarTableView.initialize();
         } else {
