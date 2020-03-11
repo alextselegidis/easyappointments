@@ -1,14 +1,10 @@
 <h1 align="center">
     <br>
-    
     <a href="https://easyappointments.org">
         <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/docs/images/logo.png" alt="Easy!Appointments" width="150">
     </a>
-    
     <br>
-    
     Easy!Appointments
-    
     <br>
 </h1>
 
