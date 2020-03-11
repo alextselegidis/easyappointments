@@ -1,7 +1,7 @@
 <h1 align="center">
     <br>
     <a href="https://easyappointments.org">
-        <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/master/assets/img/logo.png" alt="Easy!Appointments" width="203">
+        <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/master/docs/images/logo.png" alt="Easy!Appointments" width="203">
     </a>
     <br>
     Easy!Appointments
@@ -20,7 +20,7 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](screenshot.gif)
+![banner](docs/images/git-banner.png)
 
 ## About
 
