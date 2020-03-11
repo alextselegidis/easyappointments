@@ -1,16 +1,16 @@
 <h1 align="center">
     <br>
+    
     <a href="https://easyappointments.org">
-        <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/docs/images/git-banner.png" alt="Easy!Appointments">
+        <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/docs/images/logo.png" alt="Easy!Appointments" width="150">
     </a>
+    
+    <br>
+    
+    Easy!Appointments
+    
     <br>
 </h1>
-
-<h3 align="center">
-    <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/docs/images/logo.png" alt="Easy!Appointments" width="120">
-    <br>
-    Easy!Appointments
-</h3>
 
 <br>
 
@@ -24,10 +24,7 @@
   <a href="#setup">Setup</a> •
   <a href="#installation">Installation</a> •
   <a href="#license">License</a>
-  <a href="https://easyappointments.org" target="_blank">Website</a>
 </p>
-
-![banner](docs/images/logo.png)
 
 ## About
 
@@ -101,6 +98,6 @@ Code Licensed Under [GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) | C
 
 ---
 
-> Website [alextselegidis.com](https://alextselegidis.com) &nbsp;&middot;&nbsp;
+> Website [easyappointments.org](https://easyappointments.org) &nbsp;&middot;&nbsp;
 > GitHub [@alextselegidis](https://github.com/alextselegidis) &nbsp;&middot;&nbsp;
-> Twitter [@alextselegidis](https://twitter.com/AlexTselegidis)
+> Twitter [@EasyAppts](https://twitter.com/EasyAppts)
