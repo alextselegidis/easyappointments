@@ -1,15 +1,21 @@
 <h1 align="center">
     <br>
     <a href="https://easyappointments.org">
-        <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/master/docs/images/logo.png" alt="Easy!Appointments" width="203">
+        <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/docs/images/git-banner.png" alt="Easy!Appointments">
     </a>
-    <br>
-    Easy!Appointments
     <br>
 </h1>
 
+<h3 align="center">
+    <img src="https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/docs/images/logo.png" alt="Easy!Appointments" width="120">
+    <br>
+    Easy!Appointments
+</h3>
+
+<br>
+
 <h4 align="center">
-    A powerful Open Source Web Scheduler, that can be installed on your server. 
+    A powerful Open Source Web Scheduler that can be installed on your server. 
 </h4>
 
 <p align="center">
@@ -18,9 +24,10 @@
   <a href="#setup">Setup</a> •
   <a href="#installation">Installation</a> •
   <a href="#license">License</a>
+  <a href="https://easyappointments.org" target="_blank">Website</a>
 </p>
 
-![banner](docs/images/git-banner.png)
+![banner](docs/images/logo.png)
 
 ## About
 
@@ -60,7 +67,7 @@ $ cd easyappointments
 $ npm install
 $ composer install
 
-# Run the watcher
+# Start the file watcher
 $ npm start
 ```
 
