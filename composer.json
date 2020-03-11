@@ -11,7 +11,7 @@
         "services"
     ],
     "type": "project",
-    "homepage": "http://easyappointments.org",
+    "homepage": "https://easyappointments.org",
     "license": "GPL-3.0",
     "authors": [
         {
@@ -22,13 +22,14 @@
     "support": {
         "issues": "https://github.com/alextselegidis/easyappointments/issues",
         "forum": "https://groups.google.com/forum/#!forum/easy-appointments",
-        "wiki": "http://easyappointments.org/docs",
+        "wiki": "https://easyappointments.org/docs",
         "source": "https://github.com/alextselegidis/easyappointments"
     },
     "minimum-stability": "stable",
-    "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^7.4"
+    "autoload": {
+        "psr-4": {
+            "EA\\Engine\\": "engine/"
+        }
     },
     "require": {
         "php": ">=5.6",
@@ -40,5 +41,9 @@
         "codeigniter/framework": "^3.1.6",
         "jsvrcek/ics": "^0.5.1",
         "monolog/monolog": "^1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^7.4"
     }
 }
