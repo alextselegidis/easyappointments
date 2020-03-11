@@ -24,23 +24,22 @@
 
 ## About
 
-**Easy!Appointments** is a highly customizable web application that allows your customers to book appointments with you 
-via the web. Moreover, it provides the ability to sync your data with Google Calendar so you can use them with other 
-services. It is an open source project and you can download and install it **even for commercial use**. 
-Easy!Appointments will run smoothly with your existing websitSe, because it can be installed in a single folder of the 
-server and of course, both sites can share the same database.
+**Easy!Appointments** is a highly customizable web application that allows customers to book appointments with you 
+via a sophisticated web interface. Moreover, it provides the ability to sync your data with Google Calendar so you can 
+use them with other services. It is an open source project that you can download and install **even for commercial use**. 
+Easy!Appointments will run smoothly with your existing website as it can be installed in a single folder of the 
+server and of course share an existing database.
 
 ## Features
 
-The project was designed to be flexible and reliable so as to be able to meet the needs of any
-kind of enterprise. You can read the main features of the system below:
+The application is designed to be flexible enough so that it can handle any enterprise work flow. 
 
-* Full customers and appointments management.
-* Services and service providers organization.
-* Workflow and booking rules.
+* Customers and appointments management.
+* Services and providers organization.
+* Working plan and booking rules.
 * Google Calendar synchronization.
 * Email notifications system.
-* Standalone installation.
+* Self hosted installation.
 * Translated user interface.
 * User community support. 
 
@@ -57,8 +56,7 @@ $ git clone https://github.com/alextselegidis/easyappointments.git
 $ cd easyappointments
 
 # Install dependencies
-$ npm install
-$ composer install
+$ npm install && composer install
 
 # Start the file watcher
 $ npm start
@@ -66,12 +64,11 @@ $ npm start
 
 Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
-You can build the files by running the `npm run build` command. This will bundle everything to a `build` directory.
+You can build the files by running `npm run build`. This command will bundle everything to a `build` directory.
 
 ## Installation
 
-Since Easy!Appointments is a web application, it runs on a web server and thus you will need to
-perform the following steps in order to install the system on your server:
+You will need to perform the following steps to install the application on your server:
 
 * Make sure that your server has Apache/Nginx, PHP and MySQL installed.
 * Create a new database (or use an existing one).
