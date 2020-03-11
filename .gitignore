@@ -25,4 +25,4 @@
 /!storage/uploads/index.html
 /vendor/
 /metafile
-/**/.DS_Store
+.DS_Store

@@ -627,7 +627,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @returns {string} The rendered HTML.
      */
     exports.renderMapIcon = function (user) {
-        const data = [];
+        var data = [];
 
         if (user.address) {
             data.push(user.address);

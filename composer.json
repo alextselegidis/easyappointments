@@ -1,17 +1,8 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
-    "keywords": [
-        "calendar",
-        "scheduler",
-        "appointments",
-        "events",
-        "dates",
-        "google",
-        "services"
-    ],
-    "type": "project",
     "homepage": "https://easyappointments.org",
+    "type": "project",
     "license": "GPL-3.0",
     "authors": [
         {
@@ -25,6 +16,15 @@
         "wiki": "https://easyappointments.org/docs",
         "source": "https://github.com/alextselegidis/easyappointments"
     },
+    "keywords": [
+        "calendar",
+        "scheduler",
+        "appointments",
+        "events",
+        "dates",
+        "google",
+        "services"
+    ],
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
@@ -36,6 +36,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-gd": "*",
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^5.2",
         "codeigniter/framework": "^3.1.6",
@@ -45,5 +46,8 @@
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^7.4"
+    },
+    "scripts": {
+        "test": "php vendor/bin/phpunit tests"
     }
 }

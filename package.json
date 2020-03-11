@@ -1,44 +1,27 @@
 {
   "name": "easyappointments",
   "description": "Open Source Web Scheduler",
+  "homepage": "https://easyappointments.org",
+  "author": "A.Tselegidis <alextselegidis@gmail.com>",
+  "license": "GPL-3.0",
+  "keywords": [
+    "calendar",
+    "scheduler",
+    "appointments",
+    "events",
+    "dates",
+    "google",
+    "services"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alextselegidis/easyappointments.git"
   },
-  "keywords": [
-    "php",
-    "javascript",
-    "mysql",
-    "html"
-  ],
-  "author": "A.Tselegidis <alextselegidis@gmail.com>",
-  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/alextselegidis/easyappointments/issues"
   },
-  "homepage": "http://easyappointments.org",
-  "devDependencies": {
-    "del": "^2.2.0",
-    "fs-extra": "^0.26.3",
-    "gulp": "^4.0.2",
-    "gulp-changed": "^3.2.0",
-    "gulp-clean-css": "^3.10.0",
-    "gulp-debug": "^4.0.0",
-    "gulp-load-plugins": "^1.6.0",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^1.4.0",
-    "gulp-shell": "^0.6.5",
-    "gulp-sync": "^0.1.4",
-    "gulp-uglify": "^3.0.2",
-    "gulp-util": "^3.0.8",
-    "jsdoc": "^3.6.2",
-    "node-notifier": "^5.4.0",
-    "plato": "^1.5.0",
-    "zip-dir": "^1.0.0"
-  },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=10"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
@@ -53,10 +36,25 @@
     "sticky-table-headers": "^0.1.24",
     "trumbowyg": "^2.18.0"
   },
+  "devDependencies": {
+    "fs-extra": "^0.26.3",
+    "gulp": "^4.0.2",
+    "gulp-changed": "^3.2.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-debug": "^4.0.0",
+    "gulp-load-plugins": "^1.6.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.2",
+    "jsdoc": "^3.6.2",
+    "node-notifier": "^5.4.0",
+    "plato": "^1.5.0",
+    "zip-dir": "^1.0.0"
+  },
   "scripts": {
-    "start": "gulp",
-    "build": "gulp build",
-    "docs": "gulp docs",
-    "tests": "gulp tests"
+    "start": "npx gulp",
+    "build": "npx gulp build",
+    "docs": "npx gulp docs"
   }
 }

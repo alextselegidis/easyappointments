@@ -13,6 +13,5 @@
 
 // Bootstrap Easy!Appointments PHPUnit Tests
 
-require_once __DIR__ . '/../../src/config.php';
-require_once __DIR__ . '/../../src/autoload.php';
+require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
