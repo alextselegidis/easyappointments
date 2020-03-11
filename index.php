@@ -49,18 +49,6 @@
 
  require_once __DIR__ . '/config.php';
 
- /*
-  *---------------------------------------------------------------
-  * EASY!APPOINTMENTS AUTOLOAD FILE
-  *---------------------------------------------------------------
-  *
-  * Include Easy!Appointments autoload file so that namespace 
-  * classes are loaded automatically.
-  *
-  */
-
- require_once __DIR__ . '/autoload.php';
-
 
  /*
   *---------------------------------------------------------------
@@ -135,7 +123,7 @@ switch (ENVIRONMENT)
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-	$system_path = 'system';
+	$system_path = 'vendor/codeigniter/framework/system';
 
 /*
  *---------------------------------------------------------------
