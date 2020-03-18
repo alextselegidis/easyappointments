@@ -18,8 +18,8 @@
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
 
     <script>
@@ -37,8 +37,8 @@
                 <img src="<?= base_url('assets/img/logo.png') ?>">
                 <span><?= $company_name ?></span>
             </div>
-            
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu" 
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu"
                     aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -46,7 +46,7 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
-        
+
         <div id="header-menu" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden' ?>
