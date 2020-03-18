@@ -827,7 +827,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             filter_type: filterType
         };
 
-        $.post(url, data, function (response) {
+        return $.post(url, data, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
@@ -1439,6 +1439,24 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         if (window.innerHeight < 700) {
             $('#footer').css('position', 'static');
         }
+
+        // Automatically refresh the calendar page every 10 seconds (without loading animation).
+        var $loading = $('#loading');
+        var $calendar = $('#calendar');
+        var $selectFilterItem = $('#select-filter-item');
+
+        setInterval(function () {
+            $loading.css('visibility', 'hidden');
+            _refreshCalendarAppointments(
+                $calendar,
+                $selectFilterItem.val(),
+                $selectFilterItem.find('option:selected').attr('type'),
+                $calendar.fullCalendar('getView').start,
+                $calendar.fullCalendar('getView').end)
+                .always(function () {
+                    $loading.css('visibility', '')
+                });
+        }, 10000);
     };
 
 })(window.BackendCalendarDefaultView);
