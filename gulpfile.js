@@ -113,7 +113,7 @@ gulp.task('scripts', (done) => {
         '!assets/js/**/*.min.js'
     ])
         .pipe(plugins.changed('assets/js/**/*'))
-        .pipe(plugins.uglify().on('error', plugins.util.log))
+        .pipe(plugins.uglify().on('error', console.log))
         .pipe(plugins.rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/js'));
 
