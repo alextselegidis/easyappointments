@@ -28,5 +28,15 @@ function asset_url($uri = '', $protocol = NULL)
 
     $cache_busting_token = ! Config::DEBUG_MODE ? '?' . $ci->config->item('cache_busting_token') : '';
 
+    if (strpos(basename($uri), '.js') !== FALSE && strpos(basename($uri), '.min.js') === FALSE && ! Config::DEBUG_MODE)
+    {
+        $uri = str_replace('.js', '.min.js', $uri);
+    }
+
+    if (strpos(basename($uri), '.css') !== FALSE && strpos(basename($uri), '.min.css') === FALSE && ! Config::DEBUG_MODE)
+    {
+        $uri = str_replace('.css', '.min.css', $uri);
+    }
+
     return base_url($uri . $cache_busting_token, $protocol);
 }
