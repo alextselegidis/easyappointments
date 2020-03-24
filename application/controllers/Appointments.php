@@ -926,6 +926,11 @@ class Appointments extends CI_Controller {
             {
                 $appointment_start = new DateTime($provider_appointment['start_datetime']);
                 $appointment_end = new DateTime($provider_appointment['end_datetime']);
+
+                if ($appointment_start >= $appointment_end) {
+                    continue;
+                }
+
                 $period_start = new DateTime($selected_date . ' ' . $period['start']);
                 $period_end = new DateTime($selected_date . ' ' . $period['end']);
 
