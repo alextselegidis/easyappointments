@@ -390,7 +390,7 @@
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>
     <script src="<?= asset_url('assets/js/frontend_book.js') ?>"></script>
 

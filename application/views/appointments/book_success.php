@@ -62,7 +62,7 @@
 
     <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
     <script>

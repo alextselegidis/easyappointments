@@ -2,7 +2,7 @@
 <script src="<?= asset_url('assets/js/backend_settings_user.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_settings.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>
     var GlobalVariables = {

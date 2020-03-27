@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#35A768">
     <title><?= $message_title ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
@@ -19,7 +19,7 @@
 
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 </head>
 
@@ -41,7 +41,7 @@
                     <h3><?= $message_title ?></h3>
                     <p><?= $message_text ?></p>
 
-                    <?php if (isset($exception)): ?>
+                    <?php if (isset($exceptions) && Config::DEBUG_MODE): ?>
                         <div>
                             <h4><?= lang('unexpected_issues') ?></h4>
                             <?php foreach($exceptions as $exception): ?>
@@ -54,7 +54,7 @@
 
         </div>
     </div>
-    
+
     <?php google_analytics_script() ?>
 </body>
 </html>

@@ -68,9 +68,9 @@
                 system. Remember to use the <strong class="text-primary"><?= site_url('backend') ?></strong>
                 url to connect to the backend section of Easy!Appointments.
 
-                If you face any problems during the usage of Easy!Appointments you can always check the 
+                If you face any problems during the usage of Easy!Appointments you can always check the
                 <a href="http://easyappointments.org/docs.html">Documentation</a>
-                and <a href="http://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You 
+                and <a href="http://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You
                 may also submit new issues on
                 <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
                 in order to help our development process.

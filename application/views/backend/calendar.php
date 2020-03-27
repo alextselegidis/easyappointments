@@ -1,9 +1,9 @@
-<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/ext/jquery-fullcalendar/fullcalendar.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/ext/jquery-fullcalendar/fullcalendar.min.css') ?>">
 
 <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-fullcalendar/fullcalendar.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-fullcalendar/fullcalendar.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_table_view.js') ?>"></script>
@@ -298,7 +298,7 @@
                 <form>
                     <fieldset>
                         <input id="unavailable-id" type="hidden">
-                        
+
                         <div class="form-group">
                             <label for="unavailable-provider" class="control-label"><?= lang('provider') ?></label>
                             <select id="unavailable-provider" class="form-control"></select>
