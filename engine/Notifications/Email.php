@@ -53,27 +53,6 @@ class Email {
     }
 
     /**
-     * Replace the email template variables.
-     *
-     * This method finds and replaces the html variables of an email template. It is used to
-     * generate dynamic HTML emails that are send as notifications to the system users.
-     *
-     * @param array $replaceArray Array that contains the variables to be replaced.
-     * @param string $templateHtml The email template HTML.
-     *
-     * @return string Returns the new email html that contain the variables of the $replaceArray.
-     */
-    protected function _replaceTemplateVariables(array $replaceArray, $templateHtml)
-    {
-        foreach ($replaceArray as $name => $value)
-        {
-            $templateHtml = str_replace($name, $value, $templateHtml);
-        }
-
-        return $templateHtml;
-    }
-
-    /**
      * Send an email with the appointment details.
      *
      * This email template also needs an email title and an email text in order to complete
@@ -132,46 +111,30 @@ class Email {
         }
 
         // Prepare template replace array.
-        $replaceArray = [
-            '$email_title' => $title->get(),
-            '$email_message' => $message->get(),
-            '$appointment_service' => $service['name'],
-            '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_start_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
-            '$appointment_end_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime'])),
-            '$appointment_link' => $appointmentLink->get(),
-            '$company_link' => $company['company_link'],
-            '$company_name' => $company['company_name'],
-            '$customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
-            '$customer_email' => $customer['email'],
-            '$customer_phone' => $customer['phone_number'],
-            '$customer_address' => $customer['address'],
+        $email_title = $title->get();
+        $email_message = $message->get();
+        $appointment_service = $service['name'];
+        $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
+        $appointment_start_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime']));
+        $appointment_end_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime']));
+        $appointment_link = $appointmentLink->get();
+        $company_link = $company['company_link'];
+        $company_name = $company['company_name'];
+        $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
+        $customer_email = $customer['email'];
+        $customer_phone = $customer['phone_number'];
+        $customer_address = $customer['address'];
 
-            // Translations
-            'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
-            'Service' => $this->framework->lang->line('service'),
-            'Provider' => $this->framework->lang->line('provider'),
-            'Start' => $this->framework->lang->line('start'),
-            'End' => $this->framework->lang->line('end'),
-            'Customer Details' => $this->framework->lang->line('customer_details_title'),
-            'Name' => $this->framework->lang->line('name'),
-            'Email' => $this->framework->lang->line('email'),
-            'Phone' => $this->framework->lang->line('phone_number'),
-            'Address' => $this->framework->lang->line('address'),
-            'Appointment Link' => $this->framework->lang->line('appointment_link_title')
-        ];
-
-        $html = file_get_contents(__DIR__ . '/../../application/views/emails/appointment_details.php');
-        $html = $this->_replaceTemplateVariables($replaceArray, $html);
+        ob_start();
+        require __DIR__ . '/../../application/views/emails/appointment_details.php';
+        $html = ob_get_clean();
 
         $mailer = $this->_createMailer();
-
         $mailer->From = $company['company_email'];
         $mailer->FromName = $company['company_name'];
         $mailer->AddAddress($recipientEmail->get());
         $mailer->Subject = $title->get();
         $mailer->Body = $html;
-
         $mailer->addStringAttachment($icsStream->get(), 'invitation.ics');
 
         if ( ! $mailer->Send())
@@ -236,37 +199,21 @@ class Email {
         }
 
         // Prepare email template data.
-        $replaceArray = [
-            '$email_title' => $this->framework->lang->line('appointment_cancelled_title'),
-            '$email_message' => $this->framework->lang->line('appointment_removed_from_schedule'),
-            '$appointment_service' => $service['name'],
-            '$appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            '$appointment_date' => date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime'])),
-            '$appointment_duration' => $service['duration'] . ' ' . $this->framework->lang->line('minutes'),
-            '$company_link' => $company['company_link'],
-            '$company_name' => $company['company_name'],
-            '$customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
-            '$customer_email' => $customer['email'],
-            '$customer_phone' => $customer['phone_number'],
-            '$customer_address' => $customer['address'],
-            '$reason' => $reason->get(),
+        $appointment_service = $service['name'];
+        $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
+        $appointment_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime']));
+        $appointment_duration = $service['duration'] . ' ' . $this->framework->lang->line('minutes');
+        $company_link = $company['company_link'];
+        $company_name = $company['company_name'];
+        $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
+        $customer_email = $customer['email'];
+        $customer_phone = $customer['phone_number'];
+        $customer_address = $customer['address'];
+        $reason = $reason->get();
 
-            // Translations
-            'Appointment Details' => $this->framework->lang->line('appointment_details_title'),
-            'Service' => $this->framework->lang->line('service'),
-            'Provider' => $this->framework->lang->line('provider'),
-            'Date' => $this->framework->lang->line('start'),
-            'Duration' => $this->framework->lang->line('duration'),
-            'Customer Details' => $this->framework->lang->line('customer_details_title'),
-            'Name' => $this->framework->lang->line('name'),
-            'Email' => $this->framework->lang->line('email'),
-            'Phone' => $this->framework->lang->line('phone_number'),
-            'Address' => $this->framework->lang->line('address'),
-            'Reason' => $this->framework->lang->line('reason')
-        ];
-
-        $html = file_get_contents(__DIR__ . '/../../application/views/emails/delete_appointment.php');
-        $html = $this->_replaceTemplateVariables($replaceArray, $html);
+        ob_start();
+        require __DIR__ . '/../../application/views/emails/delete_appointment.php';
+        $html = ob_get_clean();
 
         $mailer = $this->_createMailer();
 
@@ -293,17 +240,16 @@ class Email {
      */
     public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
     {
-        $replaceArray = [
-            '$email_title' => $this->framework->lang->line('new_account_password'),
-            '$email_message' => $this->framework->lang->line('new_password_is'),
-            '$company_name' => $company['company_name'],
-            '$company_email' => $company['company_email'],
-            '$company_link' => $company['company_link'],
-            '$password' => '<strong>' . $password->get() . '</strong>'
-        ];
+        $email_title = $this->framework->lang->line('new_account_password');
+        $email_message = $this->framework->lang->line('new_password_is');
+        $company_name = $company['company_name'];
+        $company_email = $company['company_email'];
+        $company_link = $company['company_link'];
+        $password = '<strong>' . $password->get() . '</strong>';
 
-        $html = file_get_contents(__DIR__ . '/../../application/views/emails/new_password.php');
-        $html = $this->_replaceTemplateVariables($replaceArray, $html);
+        ob_start();
+        require __DIR__ . '/../../application/views/emails/new_password.php';
+        $html = ob_get_clean();
 
         $mailer = $this->_createMailer();
 
