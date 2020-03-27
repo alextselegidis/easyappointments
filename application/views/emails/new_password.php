@@ -19,7 +19,7 @@
         <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
                 border-top: 1px solid #EEE; background: #FAFAFA;">
             Powered by
-            <a href="http://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>
+            <a href="https://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>
             |
             <a href="$company_link" style="text-decoration: none;">$company_name</a>
         </div>

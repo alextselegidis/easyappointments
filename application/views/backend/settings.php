@@ -478,7 +478,7 @@
 
                 <br><br>
 
-                <a href="http://easyappointments.org">
+                <a href="https://easyappointments.org">
                     <?= lang('official_website') ?>
                 </a>
                 |

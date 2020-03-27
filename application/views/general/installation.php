@@ -53,7 +53,7 @@
     </div>
 
     <header>
-        <a href="http://easyappointments.org" target="_blank">
+        <a href="https://easyappointments.org" target="_blank">
             <img src="<?= base_url('assets/img/installation-banner.png') ?>"
                  alt="Easy!Appointments Installation Banner">
         </a>
@@ -166,7 +166,7 @@
     </div>
 
     <footer>
-        Powered by <a href="http://easyappointments.org">Easy!Appointments</a>
+        Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
     </footer>
 
     <script>

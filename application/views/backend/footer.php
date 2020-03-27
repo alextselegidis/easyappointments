@@ -1,7 +1,7 @@
 <div id="footer">
     <div id="footer-content" class="col-xs-12 col-sm-8">
         Powered by
-        <a href="http://easyappointments.org">Easy!Appointments
+        <a href="https://easyappointments.org">Easy!Appointments
             <?php
                 echo 'v' . $this->config->item('version');
 
