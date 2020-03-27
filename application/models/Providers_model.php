@@ -502,7 +502,8 @@ class Providers_Model extends CI_Model {
             ->select('ea_users.*')
             ->from('ea_users')
             ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER);
+            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->order_by('first_name ASC, last_name ASC, email ASC');
 
         $providers = $this->db->get()->result_array();
 

@@ -163,7 +163,7 @@ class Services_Model extends CI_Model {
             }
         }
 
-        // Availabilities type must have the correct value. 
+        // Availabilities type must have the correct value.
         if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE
             && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED)
         {
@@ -337,6 +337,7 @@ class Services_Model extends CI_Model {
                 'ea_services_providers.id_services = ea_services.id', 'inner')
             ->join('ea_service_categories',
                 'ea_service_categories.id = ea_services.id_service_categories', 'left')
+            ->order_by('name ASC')
             ->get()->result_array();
     }
 
