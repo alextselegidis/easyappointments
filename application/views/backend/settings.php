@@ -100,17 +100,7 @@
                                     <?= lang('company_link_hint') ?>
                                 </span>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="google-analytics-code">
-                                    Google Analytics ID</label>
-                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
-                                       data-field="google_analytics_code" class="form-control">
-                                <span class="help-block">
-                                    <?= lang('google_analytics_code_hint') ?>
-                                </span>
-                            </div>
+
                             <div class="form-group">
                                 <label for="date-format">
                                     <?= lang('date_format') ?>
@@ -153,6 +143,27 @@
                                     <?= lang('first_weekday_hint') ?>
                                 </span>
                             </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="google-analytics-code">
+                                    Google Analytics ID</label>
+                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
+                                       data-field="google_analytics_code" class="form-control">
+                                <span class="help-block">
+                                    <?= lang('google_analytics_code_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label for="api-token">
+                                    API Token</label>
+                                <input id="api-token"
+                                       data-field="api_token" class="form-control">
+                                <span class="help-block">
+                                    <?= lang('api_token_hint') ?>
+                                </span>
+                            </div>
+
                             <div class="form-group">
                                 <label><?= lang('customer_notifications') ?></label>
                                 <br>

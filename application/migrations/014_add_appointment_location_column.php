@@ -11,7 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_location extends CI_Migration {
+class Migration_add_appointment_location_column extends CI_Migration {
     public function up()
     {
         $this->db->query('

@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\NonEmptyText;
+use EA\Engine\Types\NonEmptyText;
 
 /**
  * API V1 Controller
@@ -35,25 +35,86 @@ class API_V1_Controller extends CI_Controller {
      */
     public function __construct()
     {
-        if ( ! isset($_SERVER['PHP_AUTH_USER']))
-        {
-            $this->_requestAuthentication();
-            return;
-        }
-
-        parent::__construct();
-
         try
         {
+            parent::__construct();
+
+            $this->load->model('settings_model');
+
+            $api_token = $this->settings_model->get_setting('api_token');
+
+            $authorization = new \EA\Engine\Api\V1\Authorization($this);
+
+            if ( ! empty($api_token) && $api_token === $this->_getBearerToken())
+            {
+                return;
+            }
+
+            if ( ! isset($_SERVER['PHP_AUTH_USER']))
+            {
+                $this->_requestAuthentication();
+                return;
+            }
+
             $username = new NonEmptyText($_SERVER['PHP_AUTH_USER']);
             $password = new NonEmptyText($_SERVER['PHP_AUTH_PW']);
-            $authorization = new \EA\Engine\Api\V1\Authorization($this);
             $authorization->basic($username, $password);
-        }
-        catch (\Exception $exception)
+        } catch (\Exception $exception)
         {
             exit($this->_handleException($exception));
         }
+    }
+
+    /**
+     * Returns the bearer token value.
+     *
+     * @return string
+     */
+    protected function _getBearerToken()
+    {
+        $headers = $this->_getAuthorizationHeader();
+        // HEADER: Get the access token from the header
+        if ( ! empty($headers))
+        {
+            if (preg_match('/Bearer\s(\S+)/', $headers, $matches))
+            {
+                return $matches[1];
+            }
+        }
+        return NULL;
+    }
+
+    /**
+     * Returns the authorization header.
+     *
+     * @return string
+     */
+    protected function _getAuthorizationHeader()
+    {
+        $headers = NULL;
+
+        if (isset($_SERVER['Authorization']))
+        {
+            $headers = trim($_SERVER['Authorization']);
+        } else
+        {
+            if (isset($_SERVER['HTTP_AUTHORIZATION']))
+            {
+                //Nginx or fast CGI
+                $headers = trim($_SERVER['HTTP_AUTHORIZATION']);
+            } elseif (function_exists('apache_request_headers'))
+            {
+                $requestHeaders = apache_request_headers();
+                // Server-side fix for bug in old Android versions (a nice side-effect of this fix means we don't care about capitalization for Authorization)
+                $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));
+                //print_r($requestHeaders);
+                if (isset($requestHeaders['Authorization']))
+                {
+                    $headers = trim($requestHeaders['Authorization']);
+                }
+            }
+        }
+        return $headers;
     }
 
     /**
