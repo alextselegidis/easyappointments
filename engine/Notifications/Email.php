@@ -83,6 +83,12 @@ class Email {
         EmailAddress $recipientEmail,
         Text $icsStream
     ) {
+        $framework = get_instance();
+
+        $framework->load->model('timezones_model');
+
+        $timezones = $framework->timezones_model->to_array();
+
         switch ($company['date_format'])
         {
             case 'DMY':
@@ -117,6 +123,7 @@ class Email {
         $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
         $appointment_start_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime']));
         $appointment_end_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime']));
+        $appointment_timezone = $timezones[$provider['timezone']];
         $appointment_link = $appointmentLink->get();
         $company_link = $company['company_link'];
         $company_name = $company['company_name'];
@@ -171,6 +178,12 @@ class Email {
         EmailAddress $recipientEmail,
         Text $reason
     ) {
+        $framework = get_instance();
+
+        $framework->load->model('timezones_model');
+
+        $timezones = $framework->timezones_model->to_array();
+
         switch ($company['date_format'])
         {
             case 'DMY':
@@ -203,6 +216,7 @@ class Email {
         $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
         $appointment_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime']));
         $appointment_duration = $service['duration'] . ' ' . $this->framework->lang->line('minutes');
+        $appointment_timezone = $timezones[$provider['timezone']];
         $company_link = $company['company_link'];
         $company_name = $company['company_name'];
         $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
