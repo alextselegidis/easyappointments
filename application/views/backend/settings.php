@@ -459,6 +459,11 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="timezone"><?= lang('timezone') ?></label>
+                        <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
+                    </div>
+
                     <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
                         <span class="glyphicon glyphicon-envelope"></span>
                         <?= lang('receive_notifications') ?>

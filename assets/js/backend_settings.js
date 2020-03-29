@@ -116,6 +116,7 @@ window.BackendSettings = window.BackendSettings || {};
         $('#state').val(GlobalVariables.settings.user.state);
         $('#zip-code').val(GlobalVariables.settings.user.zip_code);
         $('#notes').val(GlobalVariables.settings.user.notes);
+        $('#timezone').val(GlobalVariables.settings.user.timezone);
 
         $('#username').val(GlobalVariables.settings.user.settings.username);
         $('#password, #retype-password').val('');

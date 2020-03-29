@@ -39,6 +39,7 @@
             state: $('#state').val(),
             zip_code: $('#zip-code').val(),
             notes: $('#notes').val(),
+            timezone: $('#timezone').val(),
             settings: {
                 username: $('#username').val(),
                 notifications: $('#user-notifications').hasClass('active'),
