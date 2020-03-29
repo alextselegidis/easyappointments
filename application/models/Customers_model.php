@@ -129,16 +129,8 @@ class Customers_Model extends CI_Model {
      */
     protected function _update($customer)
     {
-        // Do not update empty string values.
-        foreach ($customer as $key => $value)
-        {
-            if ($value === '')
-            {
-                unset($customer[$key]);
-            }
-        }
-
         $this->db->where('id', $customer['id']);
+
         if ( ! $this->db->update('ea_users', $customer))
         {
             throw new Exception('Could not update customer to the database.');
