@@ -159,6 +159,7 @@
                 state: $('#provider-state').val(),
                 zip_code: $('#provider-zip-code').val(),
                 notes: $('#provider-notes').val(),
+                timezone: $('#provider-timezone').val(),
                 settings: {
                     username: $('#provider-username').val(),
                     working_plan: JSON.stringify(BackendUsers.wp.get()),
@@ -391,6 +392,7 @@
         $('#provider-state').val(provider.state);
         $('#provider-zip-code').val(provider.zip_code);
         $('#provider-notes').val(provider.notes);
+        $('#provider-timezone').val(provider.timezone);
 
         $('#provider-username').val(provider.settings.username);
         $('#provider-calendar-view').val(provider.settings.calendar_view);

@@ -151,7 +151,8 @@
                 address: $('#address').val(),
                 city: $('#city').val(),
                 zip_code: $('#zip-code').val(),
-                notes: $('#notes').val()
+                notes: $('#notes').val(),
+                timezone: $('#timezone').val()
             };
 
             if ($('#customer-id').val() != '') {
@@ -314,6 +315,7 @@
         $('#city').val(customer.city);
         $('#zip-code').val(customer.zip_code);
         $('#notes').val(customer.notes);
+        $('#timezone').val(customer.timezone);
 
         $('#customer-appointments').empty();
         $.each(customer.appointments, function (index, appointment) {

@@ -147,6 +147,7 @@
                 state: $('#admin-state').val(),
                 zip_code: $('#admin-zip-code').val(),
                 notes: $('#admin-notes').val(),
+                timezone: $('#admin-timezone').val(),
                 settings: {
                     username: $('#admin-username').val(),
                     notifications: $('#admin-notifications').hasClass('active'),
@@ -324,6 +325,7 @@
         $('#admin-state').val(admin.state);
         $('#admin-zip-code').val(admin.zip_code);
         $('#admin-notes').val(admin.notes);
+        $('#admin-timezone').val(admin.timezone);
 
         $('#admin-username').val(admin.settings.username);
         $('#admin-calendar-view').val(admin.settings.calendar_view);

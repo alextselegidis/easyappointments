@@ -152,6 +152,7 @@
                 state: $('#secretary-state').val(),
                 zip_code: $('#secretary-zip-code').val(),
                 notes: $('#secretary-notes').val(),
+                timezone: $('#secretary-timezone').val(),
                 settings: {
                     username: $('#secretary-username').val(),
                     notifications: $('#secretary-notifications').hasClass('active'),
@@ -340,6 +341,7 @@
         $('#secretary-state').val(secretary.state);
         $('#secretary-zip-code').val(secretary.zip_code);
         $('#secretary-notes').val(secretary.notes);
+        $('#secretary-timezone').val(secretary.timezone);
 
         $('#secretary-username').val(secretary.settings.username);
         $('#secretary-calendar-view').val(secretary.settings.calendar_view);

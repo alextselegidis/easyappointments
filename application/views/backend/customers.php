@@ -131,6 +131,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="timezone"><?= lang('timezone') ?></label>
+                        <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
+                    </div>
+
+                    <div class="form-group">
                         <label class="control-label" for="notes"><?= lang('notes') ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
