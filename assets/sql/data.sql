@@ -27,4 +27,4 @@ VALUES
     ('require_phone_number', '1'),
     ('api_token', '');
 
-INSERT INTO `ea_migrations` VALUES ('16');
+INSERT INTO `ea_migrations` VALUES ('18');

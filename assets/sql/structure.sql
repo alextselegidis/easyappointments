@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
     `book_datetime` DATETIME,
     `start_datetime` DATETIME,
     `end_datetime` DATETIME,
+    `timezone` VARCHAR(256),
     `location` TEXT,
     `notes` TEXT,
     `hash` TEXT,
@@ -24,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
 
 CREATE TABLE IF NOT EXISTS `ea_consents` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP 
-    ON UPDATE CURRENT_TIMESTAMP,
     `created` TIMESTAMP,
+    `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
     `first_name` VARCHAR(256),
     `last_name` VARCHAR(256),
     `email` VARCHAR(512),
@@ -131,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `ea_users` (
     `state` VARCHAR(128),
     `zip_code` VARCHAR(64),
     `notes` TEXT,
+    `timezone` VARCHAR(256),
     `id_roles` INT(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `id_roles` (`id_roles`)
