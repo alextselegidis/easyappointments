@@ -184,16 +184,16 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="provider-timezone"><?= lang('timezone') ?></label>
-                                    <?= render_timezone_dropdown('id="provider-timezone" class="form-control"') ?>
-                                </div>
-
-                                <div class="form-group">
                                     <label for="provider-calendar-view"><?= lang('calendar') ?> *</label>
                                     <select id="provider-calendar-view" class="form-control required">
                                         <option value="default">Default</option>
                                         <option value="table">Table</option>
                                     </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="provider-timezone"><?= lang('timezone') ?></label>
+                                    <?= render_timezone_dropdown('id="provider-timezone" class="form-control"') ?>
                                 </div>
 
                                 <br>
@@ -421,16 +421,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="secretary-timezone"><?= lang('timezone') ?></label>
-                                <?= render_timezone_dropdown('id="secretary-timezone" class="form-control"') ?>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="secretary-calendar-view"><?= lang('calendar') ?> *</label>
                                 <select id="secretary-calendar-view" class="form-control required">
                                     <option value="default">Default</option>
                                     <option value="table">Table</option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-timezone"><?= lang('timezone') ?></label>
+                                <?= render_timezone_dropdown('id="secretary-timezone" class="form-control"') ?>
                             </div>
 
                             <br>
@@ -581,16 +581,16 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-timezone"><?= lang('timezone') ?></label>
-                                <?= render_timezone_dropdown('id="admin-timezone" class="form-control"') ?>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="admin-calendar-view"><?= lang('calendar') ?> *</label>
                                 <select id="admin-calendar-view" class="form-control required">
                                     <option value="default">Default</option>
                                     <option value="table">Table</option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-timezone"><?= lang('timezone') ?></label>
+                                <?= render_timezone_dropdown('id="admin-timezone" class="form-control"') ?>
                             </div>
 
                             <br>
