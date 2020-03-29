@@ -11,27 +11,17 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_add_timezone_columns extends CI_Migration {
+class Migration_Add_timezone_columns extends CI_Migration {
     public function up()
     {
         $this->db->query('
-            ALTER TABLE `ea_appointments`
-                ADD `timezone` VARCHAR(256) NULL AFTER `end_datetime`;
-        ');
-
-        $this->db->query('
             ALTER TABLE `ea_users`
-                ADD `timezone` VARCHAR(256) NULL AFTER `notes`;
+                ADD `timezone` VARCHAR(256) DEFAULT "UTC" AFTER `notes`;
         ');
     }
 
     public function down()
     {
-        $this->db->query('
-            ALTER TABLE `ea_appointments`
-                DROP COLUMN `timezone`;
-        ');
-
         $this->db->query('
             ALTER TABLE `ea_users`
                 DROP COLUMN `timezone`;
