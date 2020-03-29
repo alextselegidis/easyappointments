@@ -18,6 +18,11 @@
  */
 class Timezones_Model extends CI_Model {
     /**
+     * @var string
+     */
+    protected $default = 'UTC';
+
+    /**
      * @var array
      */
     protected $timezones = [
@@ -578,10 +583,6 @@ class Timezones_Model extends CI_Model {
      */
     public function get_default_timezone()
     {
-        $server_timezone = date_default_timezone_get();
-
-        $list = $this->to_array();
-
-        return isset($list[$server_timezone]) ? $server_timezone : 'UTC';
+        return 'UTC';
     }
 }
