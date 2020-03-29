@@ -515,7 +515,7 @@ class Timezones_Model extends CI_Model {
      * @return array
      * @throws Exception
      */
-    public function convert_event_datetime($event)
+    public function convert_event_timezone($event)
     {
         if ( ! isset($event['start_datetime'], $event['end_datetime'], $event['id_users_provider']))
         {
