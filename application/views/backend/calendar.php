@@ -26,11 +26,13 @@
         'customers'             : <?= json_encode($customers) ?>,
         'secretaryProviders'    : <?= json_encode($secretary_providers) ?>,
         'calendarView'          : <?= json_encode($calendar_view) ?>,
+        'timezones'             : <?= json_encode($timezones) ?>,
         'user'                  : {
             'id'        : <?= $user_id ?>,
             'email'     : <?= json_encode($user_email) ?>,
+            'timezone'  : <?= json_encode($timezone) ?>,
             'role_slug' : <?= json_encode($role_slug) ?>,
-            'privileges': <?= json_encode($privileges) ?>
+            'privileges': <?= json_encode($privileges) ?>,
         }
     };
 

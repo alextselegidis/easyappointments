@@ -7,20 +7,22 @@
 <script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>
     var GlobalVariables = {
-        csrfToken      : <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl        : <?= json_encode($base_url) ?>,
-        dateFormat     : <?= json_encode($date_format) ?>,
-        firstWeekday   : <?= json_encode($first_weekday); ?>,
-        timeFormat     : <?= json_encode($time_format) ?>,
-        admins         : <?= json_encode($admins) ?>,
-        providers      : <?= json_encode($providers) ?>,
-        secretaries    : <?= json_encode($secretaries) ?>,
-        services       : <?= json_encode($services) ?>,
-        workingPlan    : <?= json_encode(json_decode($working_plan)) ?>,
-        extraWorkingPlan    : <?= json_encode(json_decode($extra_working_plan)) ?>,
+        csrfToken         : <?= json_encode($this->security->get_csrf_hash()) ?>,
+        baseUrl           : <?= json_encode($base_url) ?>,
+        dateFormat        : <?= json_encode($date_format) ?>,
+        firstWeekday      : <?= json_encode($first_weekday); ?>,
+        timeFormat        : <?= json_encode($time_format) ?>,
+        admins            : <?= json_encode($admins) ?>,
+        providers         : <?= json_encode($providers) ?>,
+        secretaries       : <?= json_encode($secretaries) ?>,
+        services          : <?= json_encode($services) ?>,
+        timezones         : <?= json_encode($timezones) ?>,
+        workingPlan       : <?= json_encode(json_decode($working_plan)) ?>,
+        extraWorkingPlan  : <?= json_encode(json_decode($extra_working_plan)) ?>,
         user           : {
             id         : <?= $user_id ?>,
             email      : <?= json_encode($user_email) ?>,
+            timezone   : <?= json_encode($timezone) ?>,
             role_slug  : <?= json_encode($role_slug) ?>,
             privileges : <?= json_encode($privileges) ?>
         }

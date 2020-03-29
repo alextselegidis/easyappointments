@@ -461,14 +461,7 @@ class Timezones_Model extends CI_Model {
      */
     public function to_array()
     {
-        $continents = [];
-
-        foreach ($this->timezones as $continent => $timezones)
-        {
-            $continents[] = $timezones;
-        }
-
-        return array_merge($continents);
+        return array_merge(...array_values($this->timezones));
     }
 
     /**

@@ -1,4 +1,4 @@
-<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_customers_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_customers.js') ?>"></script>
 <script>
@@ -11,9 +11,11 @@
         timeFormat         : <?= json_encode($time_format) ?>,
         baseUrl            : <?= json_encode($base_url) ?>,
         customers          : <?= json_encode($customers) ?>,
+        timezones          : <?= json_encode($timezones) ?>,
         user               : {
             id         : <?= $user_id ?>,
             email      : <?= json_encode($user_email) ?>,
+            timezone   : <?= json_encode($timezone) ?>,
             role_slug  : <?= json_encode($role_slug) ?>,
             privileges : <?= json_encode($privileges) ?>
         }

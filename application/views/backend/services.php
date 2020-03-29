@@ -9,9 +9,11 @@
         timeFormat    : <?= json_encode($time_format) ?>,
         services      : <?= json_encode($services) ?>,
         categories    : <?= json_encode($categories) ?>,
+        timezones     : <?= json_encode($timezones) ?>,
         user          : {
             id        : <?= $user_id ?>,
             email     : <?= json_encode($user_email) ?>,
+            timezone  : <?= json_encode($timezone) ?>,
             role_slug : <?= json_encode($role_slug) ?>,
             privileges: <?= json_encode($privileges) ?>
         }

@@ -12,6 +12,7 @@
         'firstWeekday'  : <?= json_encode($first_weekday); ?>,
         'timeFormat'    : <?= json_encode($time_format) ?>,
         'userSlug'      : <?= json_encode($role_slug) ?>,
+        'timezones'     : <?= json_encode($timezones) ?>,
         'settings'      : {
             'system'    : <?= json_encode($system_settings) ?>,
             'user'      : <?= json_encode($user_settings) ?>
@@ -19,6 +20,7 @@
         'user'          : {
             'id'        : <?= $user_id ?>,
             'email'     : <?= json_encode($user_email) ?>,
+            'timezone'  : <?= json_encode($timezone) ?>,
             'role_slug' : <?= json_encode($role_slug) ?>,
             'privileges': <?= json_encode($privileges) ?>
         }
