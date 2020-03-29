@@ -1739,4 +1739,38 @@ class Backend_api extends CI_Controller {
                 ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
         }
     }
+
+    /**
+     * Apply global working plan to all providers.
+     */
+    public function ajax_apply_global_working_plan()
+    {
+        try
+        {
+            if ($this->privileges[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            $working_plan = $this->input->post('working_plan');
+
+            $this->load->model('providers_model');
+
+            $providers = $this->providers_model->get_batch();
+
+            foreach ($providers as $provider)
+            {
+                $this->providers_model->set_setting('working_plan', $working_plan, $provider['id']);
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(AJAX_SUCCESS));
+        } catch (Exception $exc)
+        {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+        }
+    }
 }

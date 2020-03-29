@@ -236,6 +236,45 @@ window.BackendSettings = window.BackendSettings || {};
                 }
             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
         });
+
+        /**
+         * Event: Apply Global Working Plan
+         */
+        $('#apply-global-working-plan').on('click', function() {
+            var buttons = [
+                {
+                    text: 'OK',
+                    click: function() {
+                        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_apply_global_working_plan';
+
+                        var postData = {
+                            csrfToken: GlobalVariables.csrfToken,
+                            working_plan: JSON.stringify(exports.wp.get()),
+                        };
+
+                        $.post(postUrl, postData, function (response) {
+                            if (!GeneralFunctions.handleAjaxExceptions(response)) {
+                                return;
+                            }
+
+                            Backend.displayNotification(EALang.working_plans_got_updated);
+                        }, 'json')
+                            .fail(GeneralFunctions.ajaxFailureHandler)
+                            .always(function() {
+                                $('#message_box').dialog('close');
+                            });
+                    }
+                },
+                {
+                    text: EALang.cancel,
+                    click: function() {
+                        $('#message_box').dialog('close');
+                    }
+                }
+            ];
+
+            GeneralFunctions.displayMessageBox(EALang.working_plan, EALang.overwrite_existing_working_plans, buttons);
+        });
     }
 
 })(window.BackendSettings);

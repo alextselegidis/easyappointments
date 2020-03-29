@@ -244,6 +244,13 @@
                                 <tbody><!-- Dynamic Content --></tbody>
                             </table>
 
+                            <div class="text-right">
+                                <button class="btn btn-default" id="apply-global-working-plan" type="button">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <?= lang('apply_to_all_providers') ?>
+                                </button>
+                            </div>
+
                             <br>
 
                             <h4><?= lang('book_advance_timeout') ?></h4>
