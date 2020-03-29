@@ -149,6 +149,8 @@ class Google extends CI_Controller {
                 'company_email' => $this->settings_model->get_setting('company_email')
             ];
 
+            $provider_timezone = new \DateTimeZone($provider['timezone']);
+
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
             foreach ($appointments as $appointment)
             {
@@ -187,10 +189,13 @@ class Google extends CI_Controller {
                         $is_different = FALSE;
                         $appt_start = strtotime($appointment['start_datetime']);
                         $appt_end = strtotime($appointment['end_datetime']);
-                        $event_start = strtotime($google_event->getStart()->getDateTime());
-                        $event_end = strtotime($google_event->getEnd()->getDateTime());
+                        $event_start = new \DateTime($google_event->getStart()->getDateTime());
+                        $event_start->setTimezone($provider_timezone);
+                        $event_end = new \DateTime($google_event->getEnd()->getDateTime());
+                        $event_end->setTimezone($provider_timezone);
 
-                        if ($appt_start != $event_start || $appt_end != $event_end
+
+                        if ($appt_start != $event_start->getTimestamp() || $appt_end != $event_end->getTimestamp()
                             || $appointment['notes'] !== $google_event->getDescription())
                         {
                             $is_different = TRUE;
@@ -198,8 +203,8 @@ class Google extends CI_Controller {
 
                         if ($is_different)
                         {
-                            $appointment['start_datetime'] = date('Y-m-d H:i:s', $event_start);
-                            $appointment['end_datetime'] = date('Y-m-d H:i:s', $event_end);
+                            $appointment['start_datetime'] = $event_start->format('Y-m-d H:i:s');
+                            $appointment['end_datetime'] = $event_end->format('Y-m-d H:i:s');
                             $appointment['notes'] = $google_event->getDescription();
                             $this->appointments_model->add($appointment);
                         }
@@ -220,16 +225,29 @@ class Google extends CI_Controller {
 
             foreach ($events->getItems() as $event)
             {
-                $results = $this->appointments_model->get_batch(['id_google_calendar' => $event->getId()]);
-
-                if (!empty($results) || empty($event)) {
+                if ($event->getStatus() === 'cancelled') {
                     continue;
                 }
 
+                if ($event->getStart() === null || $event->getEnd() === null) {
+                    continue;
+                }
+
+                $results = $this->appointments_model->get_batch(['id_google_calendar' => $event->getId()]);
+
+                if (!empty($results)) {
+                    continue;
+                }
+
+                $event_start = new \DateTime($event->getStart()->getDateTime());
+                $event_start->setTimezone($provider_timezone);
+                $event_end = new \DateTime($event->getEnd()->getDateTime());
+                $event_end->setTimezone($provider_timezone);
+
                 // Record doesn't exist in E!A, so add the event now.
                 $appointment = [
-                    'start_datetime' => date('Y-m-d H:i:s', strtotime($event->start->getDateTime())),
-                    'end_datetime' => date('Y-m-d H:i:s', strtotime($event->end->getDateTime())),
+                    'start_datetime' => $event_start->format('Y-m-d H:i:s'),
+                    'end_datetime' => $event_end->format('Y-m-d H:i:s'),
                     'is_unavailable' => TRUE,
                     'location' => $event->getLocation(),
                     'notes' => $event->getSummary() . ' ' . $event->getDescription(),
