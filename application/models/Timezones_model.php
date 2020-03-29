@@ -26,6 +26,9 @@ class Timezones_Model extends CI_Model {
      * @var array
      */
     protected $timezones = [
+        'UTC' => [
+            'UTC' => 'UTC'
+        ],
         'America' => [
             'America/Adak' => 'Adak -10:00',
             'America/Atka' => 'Atka -10:00',

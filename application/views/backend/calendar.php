@@ -187,6 +187,11 @@
                                     <label for="appointment-location" class="control-label"><?= lang('location') ?></label>
                                     <input id="appointment-location" class="form-control">
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="appointment-notes" class="control-label"><?= lang('notes') ?></label>
+                                    <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
+                                </div>
                             </div>
 
                             <div class="col-xs-12 col-sm-6">
@@ -201,8 +206,22 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="appointment-notes" class="control-label"><?= lang('notes') ?></label>
-                                    <textarea id="appointment-notes" class="form-control" rows="1"></textarea>
+                                    <label class="control-label"><?= lang('timezone') ?></label>
+
+                                    <ul>
+                                        <li>
+                                            <?= lang('provider') ?>:
+                                            <span class="provider-timezone">
+                                                -
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <?= lang('current_user') ?>:
+                                            <span>
+                                                <?= $timezones[$timezone] ?>
+                                            </span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -317,6 +336,25 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="control-label"><?= lang('timezone') ?></label>
+
+                            <ul>
+                                <li>
+                                    <?= lang('provider') ?>:
+                                    <span class="provider-timezone">
+                                        -
+                                    </span>
+                                </li>
+                                <li>
+                                    <?= lang('current_user') ?>:
+                                    <span>
+                                        <?= $timezones[$timezone] ?>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="form-group">
                             <label for="unavailable-notes" class="control-label"><?= lang('notes') ?></label>
                             <textarea id="unavailable-notes" rows="3" class="form-control"></textarea>
                         </div>
@@ -360,6 +398,25 @@
                         <div class="form-group">
                             <label for="extra-end" class="control-label"><?= lang('end') ?></label>
                             <input id="extra-end" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label"><?= lang('timezone') ?></label>
+
+                            <ul>
+                                <li>
+                                    <?= lang('provider') ?>:
+                                    <span class="provider-timezone">
+                                        -
+                                    </span>
+                                </li>
+                                <li>
+                                    <?= lang('current_user') ?>:
+                                    <span>
+                                        <?= $timezones[$timezone] ?>
+                                    </span>
+                                </li>
+                            </ul>
                         </div>
                     </fieldset>
                 </form>

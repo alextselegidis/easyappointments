@@ -11,9 +11,9 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\Text;
-use \EA\Engine\Types\Email;
-use \EA\Engine\Types\Url;
+use EA\Engine\Types\Email;
+use EA\Engine\Types\Text;
+use EA\Engine\Types\Url;
 
 /**
  * Backend API Controller
@@ -102,7 +102,7 @@ class Backend_api extends CI_Controller {
             $userId = $this->session->userdata('user_id');
             $roleSlug = $this->session->userdata('role_slug');
 
-            // If the current user is a provider he must only see his own appointments. 
+            // If the current user is a provider he must only see his own appointments.
             if ($roleSlug === DB_SLUG_PROVIDER)
             {
                 foreach ($response['appointments'] as $index => $appointment)
@@ -261,6 +261,7 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $this->load->model('customers_model');
             $this->load->model('settings_model');
+            $this->load->model('timezones_model');
 
             // :: SAVE CUSTOMER CHANGES TO DATABASE
             if ($this->input->post('customer_data'))
@@ -298,6 +299,16 @@ class Backend_api extends CI_Controller {
                 {
                     $appointment['id_users_customer'] = $customer['id'];
                 }
+
+                $provider_timezone = $this->timezones_model->get_user_timezone($appointment['id_users_provider']);
+
+                $session_timezone = $this->timezones_model->get_session_timezone();
+
+                $appointment['start_datetime'] = $this->timezones_model->convert($appointment['start_datetime'],
+                    $session_timezone, $provider_timezone);
+
+                $appointment['end_datetime'] = $this->timezones_model->convert($appointment['end_datetime'],
+                    $session_timezone, $provider_timezone);
 
                 $appointment['id'] = $this->appointments_model->add($appointment);
             }

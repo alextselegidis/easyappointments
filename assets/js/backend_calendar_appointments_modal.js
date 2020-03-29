@@ -22,6 +22,18 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
     'use strict';
 
+    function _updateTimezone() {
+        var providerId = $('#select-provider').val();
+
+        var provider  = GlobalVariables.availableProviders.filter(function(availableProvider) {
+            return availableProvider.id == providerId;
+        }).shift();
+
+        if (provider && provider.timezone) {
+            $('.provider-timezone').text(GlobalVariables.timezones[provider.timezone]);
+        }
+    }
+
     function _bindEventHandlers() {
         /**
          * Event: Manage Appointments Dialog Cancel Button "Click"
@@ -318,10 +330,14 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 });
             });
         });
-        // If the appointment is opened from a link it triggers the previous function to fill the form
-        if (window.location.href.indexOf("backend/index/") > -1) {
-        $('#select-service').change();
-        }
+
+        /**
+         * Event: Provider "Change"
+         */
+        $('#select-provider').change(function () {
+            _updateTimezone();
+        });
+
         /**
          * Event: Enter New Customer Button "Click"
          */

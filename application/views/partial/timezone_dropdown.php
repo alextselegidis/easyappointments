@@ -1,5 +1,4 @@
 <select <?= $attributes ?>>
-    <option value="UTC">UTC</option>
     <?php foreach ($timezones as $continent => $entries): ?>
         <optgroup label="<?= $continent ?>">
             <?php foreach ($entries as $value => $name): ?>

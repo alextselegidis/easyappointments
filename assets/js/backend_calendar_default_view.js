@@ -256,6 +256,16 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#calendar').fullCalendar('option', 'selectable', true);
                 $('#calendar').fullCalendar('option', 'editable', true);
 
+                var providerId = $('#select-filter-item').val();
+
+                var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
+                    return availableProvider.id == providerId;
+                }).shift();
+
+                if (provider && provider.timezone) {
+                    $('.provider-timezone').text(GlobalVariables.timezones[provider.timezone]);
+                }
+
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').addClass('btn-danger enabled');
