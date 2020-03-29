@@ -445,12 +445,14 @@
     CustomersHelper.prototype.displayAppointment = function (appointment) {
         var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
         var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
+        var timezone = GlobalVariables.timezones[GlobalVariables.user.timezone];
 
         var html =
             '<div>' +
             '<strong>' + appointment.service.name + '</strong><br>' +
             appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
             start + ' - ' + end + '<br>' +
+            EALang.timezone + ': ' + timezone + '<br>' +
             '</div>';
 
         $('#appointment-details').html(html).removeClass('hidden');
