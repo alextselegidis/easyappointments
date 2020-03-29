@@ -68,10 +68,25 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             // The response contains the available hours for the selected provider and
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
+                var providerId = $('#select-provider').val();
+
+                var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
+                    return providerId == availableProvider.id;
+                }).shift();
+
+                if (!provider) {
+                    throw new Error('Could not find provider.');
+                }
+
+                var providerTimezone = provider.timezone;
+
+                var selectedTimezone = $('#select-timezone').val();
+
                 var currColumn = 1;
+
                 $('#available-hours').html('<div style="width:80px; float:left;"></div>');
 
-                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
                 $.each(response, function (index, availableHour) {
                     if ((currColumn * 10) < (index + 1)) {
@@ -79,8 +94,12 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         $('#available-hours').append('<div style="width:80px; float:left;"></div>');
                     }
 
+                    var availableHourMoment = moment
+                        .tz(selDate + ' ' + availableHour + ':00', providerTimezone)
+                        .tz(selectedTimezone);
+
                     $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                        '<span class="available-hour">' + Date.parse(availableHour).toString(timeFormat) + '</span><br/>');
+                        '<span class="available-hour">' + availableHourMoment.format(timeFormat) + '</span><br/>');
                 });
 
                 if (FrontendBook.manageMode) {

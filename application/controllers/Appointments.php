@@ -68,6 +68,7 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
+        $this->load->model('timezones_model');
 
         try
         {
@@ -84,6 +85,7 @@ class Appointments extends CI_Controller {
             $terms_and_conditions_content = $this->settings_model->get_setting('terms_and_conditions_content');
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
+            $timezones = $this->timezones_model->to_array();
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -92,7 +94,8 @@ class Appointments extends CI_Controller {
                     'id' => $provider['id'],
                     'first_name' => $provider['first_name'],
                     'last_name' => $provider['last_name'],
-                    'services' => $provider['services']
+                    'services' => $provider['services'],
+                    'timezone' => $provider['timezone']
                 ];
                 $available_providers[$index] = $stripped_data;
             }
@@ -160,6 +163,7 @@ class Appointments extends CI_Controller {
                 'terms_and_conditions_content' => $terms_and_conditions_content,
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
+                'timezones' => $timezones,
             ];
         }
         catch (Exception $exc)

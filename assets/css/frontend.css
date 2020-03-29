@@ -162,6 +162,10 @@ body {
     min-width: 270px; /* This is especially needed for ie8 */
 }
 
+#book-appointment-wizard #select-timezone {
+    margin-bottom: 15px;
+}
+
 #book-appointment-wizard #appointment-details p,
 #book-appointment-wizard #customer-details p {
     font-size: 16px;

@@ -182,6 +182,9 @@
                             </div>
 
                             <div class="col-xs-12 col-sm-6">
+                                <label for="select-timezone"><?= lang('timezone') ?></label>
+                                <?= render_timezone_dropdown('id="select-timezone" class="form-control" value="UTC"'); ?>
+
                                 <div id="available-hours"></div>
                             </div>
                         </div>
@@ -391,6 +394,8 @@
     <script src="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>
     <script src="<?= asset_url('assets/js/frontend_book.js') ?>"></script>
 
