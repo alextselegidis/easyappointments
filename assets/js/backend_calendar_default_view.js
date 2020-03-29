@@ -325,6 +325,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + '<br>' +
                 '<strong>' + EALang.end + '</strong> '
                 + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                + '<br>' +
+                '<strong>' + EALang.timezone + '</strong> '
+                + GlobalVariables.timezones[event.data.provider.timezone]
                 + '<br>'
                 + notes
                 + '<hr>' +
@@ -343,7 +346,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 provider = '<strong>' + EALang.provider + '</strong> ' + event.data.first_name + ' ' + event.data.last_name;
             }
 
-            var extra_period = jQuery.parseJSON(event.data.settings.extra_working_plan)[event.start.format()];
+            var extraPeriod = jQuery.parseJSON(event.data.settings.extra_working_plan)[event.start.format()];
 
             html =
                 '<style type="text/css">'
@@ -351,11 +354,14 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + '.popover-content button {margin-right: 10px;}'
                 + '</style>' +
                 '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format() + ' ' + extra_period.start, GlobalVariables.dateFormat, true)
+                + GeneralFunctions.formatDate(event.start.format() + ' ' + extraPeriod.start, GlobalVariables.dateFormat, true)
                 + '<br>' +
                 '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format() + ' ' + extra_period.end, GlobalVariables.dateFormat, true)
-                + '<br>'
+                + GeneralFunctions.formatDate(event.start.format() + ' ' + extraPeriod.end, GlobalVariables.dateFormat, true)
+                + '<br>' +
+                '<strong>' + EALang.timezone + '</strong> '
+                + GlobalVariables.timezones[event.data.provider.timezone]
+                + '<br>' +
                 + provider
                 + '<hr>' +
                 '<center>' +
@@ -379,6 +385,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + '<br>' +
                 '<strong>' + EALang.end + '</strong> '
                 + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                + '<br>' +
+                '<strong>' + EALang.timezone + '</strong> '
+                + GlobalVariables.timezones[event.data.provider.timezone]
                 + '<br>' +
                 '<strong>' + EALang.service + '</strong> '
                 + event.data.service.name
