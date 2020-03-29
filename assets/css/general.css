@@ -213,6 +213,8 @@ li.language:hover {
 #language-list {
     list-style: none;
     padding-left: 0px;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 /* JQUERY UI DATETIME PICKER ADDON
