@@ -99,17 +99,41 @@ class User_Model extends CI_Model {
         $salt = $this->user_model->get_salt($username);
         $password = hash_password($salt, $password);
 
-        $user_data = $this->db
-            ->select('ea_users.id AS user_id, ea_users.email AS user_email, ea_users.timezone,'
-                . 'ea_roles.slug AS role_slug, ea_user_settings.username')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id')
-            ->where('ea_user_settings.username', $username)
-            ->where('ea_user_settings.password', $password)
-            ->get()->row_array();
+        $user_settings = $this->db->get_where('ea_user_settings', [
+            'username' => $username,
+            'password' => $password
+        ])->row_array();
 
-        return ($user_data) ? $user_data : NULL;
+        if (empty($user_settings))
+        {
+            return NULL;
+        }
+
+        $user = $this->db->get_where('ea_users', ['id' => $user_settings['id_users']])->row_array();
+
+        if (empty($user))
+        {
+            return NULL;
+        }
+
+        $role = $this->db->get_where('ea_roles', ['id' => $user['id_roles']])->row_array();
+
+        if (empty($role))
+        {
+            return NULL;
+        }
+
+        $this->load->model('timezones_model');
+
+        $default_timezone = $this->timezones_model->get_default_timezone();
+
+        return [
+            'user_id' => $user['id'],
+            'user_email' => $user['email'],
+            'username' => $username,
+            'timezone' => isset($user['timezone']) ? $user['timezone'] : $default_timezone,
+            'role_slug' => $role['slug'],
+        ];
     }
 
     /**
