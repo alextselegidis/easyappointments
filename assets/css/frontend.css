@@ -208,6 +208,12 @@ body {
     margin-bottom: 20px;
 }
 
+#book-appointment-wizard #service-description {
+    overflow-y: auto;
+    clear: both;
+    max-height: 153px;
+}
+
 /* BOOK SUCCESS & MESSAGE
    ------------------------------------------------------------------------- */
 #message-frame,
