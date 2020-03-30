@@ -415,13 +415,15 @@ class Appointments extends CI_Controller {
             // an appointment that is at least half or one hour from now. The setting is stored in minutes.
             $selected_date = $this->input->post('selected_date');
 
+            $provider_timezone = new DateTimeZone($provider['timezone']);
+
             $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
 
-            $threshold = new DateTime('+' . $book_advance_timeout . ' minutes');
+            $threshold = new DateTime('+' . $book_advance_timeout . ' minutes', $provider_timezone);
 
             foreach ($available_hours as $index => $value)
             {
-                $available_hour = new DateTime($selected_date . ' ' . $value);
+                $available_hour = new DateTime($selected_date . ' ' . $value, $provider_timezone);
 
                 if ($available_hour->getTimestamp() <= $threshold->getTimestamp())
                 {
