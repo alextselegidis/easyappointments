@@ -59,7 +59,7 @@ class Appointments extends API_V1_Controller {
                 $conditions['id'] = $id;
             }
 
-            $appointments = $this->appointments_model->get_batch($conditions, array_key_exists('aggregates', $_GET));
+            $appointments = $this->appointments_model->get_batch($conditions, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
 
             if ($id !== NULL && count($appointments) === 0)
             {
@@ -90,7 +90,7 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
-            // Insert the appointment to the database. 
+            // Insert the appointment to the database.
             $request = new Request();
             $appointment = $request->getBody();
             $this->parser->decode($appointment);
@@ -123,7 +123,7 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
-            // Update the appointment record. 
+            // Update the appointment record.
             $batch = $this->appointments_model->get_batch('id = ' . $id);
 
             if ($id !== NULL && count($batch) === 0)
