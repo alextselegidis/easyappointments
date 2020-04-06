@@ -25,6 +25,7 @@ VALUES
     ('privacy_policy_content', 'Privacy policy content.'),
     ('first_weekday', 'sunday'),
     ('require_phone_number', '1'),
-    ('api_token', '');
+    ('api_token', ''),
+    ('display_any_provider', '1');
 
-INSERT INTO `ea_migrations` VALUES ('18');
+INSERT INTO `ea_migrations` VALUES ('19');

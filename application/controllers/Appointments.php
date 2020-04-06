@@ -85,6 +85,7 @@ class Appointments extends CI_Controller {
             $terms_and_conditions_content = $this->settings_model->get_setting('terms_and_conditions_content');
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
+            $display_any_provider = $this->settings_model->get_setting('display_any_provider');
             $timezones = $this->timezones_model->to_array();
 
             // Remove the data that are not needed inside the $available_providers array.
@@ -164,6 +165,7 @@ class Appointments extends CI_Controller {
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
                 'timezones' => $timezones,
+                'display_any_provider' => $display_any_provider,
             ];
         }
         catch (Exception $exc)

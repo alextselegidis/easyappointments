@@ -313,4 +313,6 @@ $lang['timezone'] = 'Timezone';
 $lang['overwrite_existing_working_plans'] = 'This will overwrite the existing provider working plans, are you sure that you want to continue?';
 $lang['working_plans_got_updated'] = 'All the working plans got updated.';
 $lang['apply_to_all_providers'] = 'Apply To All Providers';
+$lang['display_any_provider'] = 'Display Any Provider Option';
+$lang['display_any_provider_hint'] = 'The booking page will get an additional option that allows customers to book without specifying a provider.';
 $lang['load_more'] = 'Load More';

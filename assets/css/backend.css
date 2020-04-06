@@ -762,12 +762,16 @@ body .form-horizontal .controls {
 
 #settings-page #user-notifications,
 #settings-page #customer-notifications,
+#settings-page #display-any-provider,
+#settings-page #require-phone-number,
 #settings-page #require-captcha {
     outline: none;
 }
 
 #settings-page #user-notifications.active,
 #settings-page #customer-notifications.active,
+#settings-page #display-any-provider.active,
+#settings-page #require-phone-number.active,
 #settings-page #require-captcha.active {
     background: #B6DCFF;
 }

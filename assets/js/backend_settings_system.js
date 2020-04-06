@@ -49,7 +49,7 @@
             // Update variables also used in other setting tabs
             GlobalVariables.timeFormat   = $('#time-format').val();
             GlobalVariables.firstWeekday = $('#first-weekday').val();
-            
+
             // We need to refresh the working plan.
             var workingPlan = BackendSettings.wp.get();
             BackendSettings.wp.setup(workingPlan);
@@ -88,6 +88,11 @@
         settings.push({
             name: 'require_phone_number',
             value: $('#require-phone-number').hasClass('active') === true ? '1' : '0'
+        });
+
+        settings.push({
+            name: 'display_any_provider',
+            value: $('#display-any-provider').hasClass('active') === true ? '1' : '0'
         });
 
 

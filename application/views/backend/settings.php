@@ -192,7 +192,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="require-phone-number">
-                                    <?= lang('require_phone_number') ?>
+                                    <?= lang('phone_number') ?>
                                 </label>
                                 <br>
                                 <button type="button" id="require-phone-number" class="btn btn-default" data-toggle="button" aria-pressed="false">
@@ -201,6 +201,17 @@
                                 </button>
                                 <span class="help-block">
                                     <?= lang('require_phone_number_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label><?= lang('any_provider') ?></label>
+                                <br>
+                                <button type="button" id="display-any-provider" class="btn btn-default" data-toggle="button" aria-pressed="false">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    <?= lang('display_any_provider') ?>
+                                </button>
+                                <span class="help-block">
+                                    <?= lang('display_any_provider_hint') ?>
                                 </span>
                             </div>
                         </div>

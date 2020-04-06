@@ -37,7 +37,7 @@ $config['migration_table'] = 'ea_migrations';
 | be upgraded / downgraded to.
 |
 */
-$config['migration_version'] = 18; // current
+$config['migration_version'] = 19; // current
 
 
 /*

@@ -380,6 +380,7 @@
             appointmentData     : <?= json_encode($appointment_data) ?>,
             providerData        : <?= json_encode($provider_data) ?>,
             customerData        : <?= json_encode($customer_data) ?>,
+            displayAnyProvider  : <?= json_encode($display_any_provider) ?>,
             csrfToken           : <?= json_encode($this->security->get_csrf_hash()) ?>
         };
 
