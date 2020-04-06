@@ -623,7 +623,7 @@ class Backend_api extends CI_Controller {
             $key = $this->db->escape_str($this->input->post('key'));
             $key = strtoupper($key);
 
-            $where_clause =
+            $where =
                 '(first_name LIKE upper("%' . $key . '%") OR ' .
                 'last_name  LIKE upper("%' . $key . '%") OR ' .
                 'email LIKE upper("%' . $key . '%") OR ' .
@@ -633,7 +633,16 @@ class Backend_api extends CI_Controller {
                 'zip_code LIKE upper("%' . $key . '%") OR ' .
                 'notes LIKE upper("%' . $key . '%"))';
 
-            $customers = $this->customers_model->get_batch($where_clause);
+            $order_by = 'first_name ASC, last_name ASC';
+
+            $limit = $this->input->post('limit');
+
+            if ($limit === NULL)
+            {
+                $limit = 1000;
+            }
+
+            $customers = $this->customers_model->get_batch($where, $order_by, $limit);
 
             foreach ($customers as &$customer)
             {

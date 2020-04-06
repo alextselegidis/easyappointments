@@ -40,7 +40,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * When the user clicks the reload button an the calendar items need to be refreshed.
          */
         $('#reload-appointments').click(function () {
-            $('#select-filter-item').trigger('change');
+            _refreshCalendarAppointments(
+                $calendar,
+                $selectFilterItem.val(),
+                $selectFilterItem.find('option:selected').attr('type'),
+                $calendar.fullCalendar('getView').start,
+                $calendar.fullCalendar('getView').end);
         });
 
         /**
@@ -846,6 +851,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             filter_type: filterType
         };
 
+
+        $loading.css('visibility', 'hidden'); 
+
         return $.post(url, data, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
@@ -1184,7 +1192,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }
                 });
             }
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        }, 'json')
+            .fail(GeneralFunctions.ajaxFailureHandler)
+            .always(function() {
+                $loading.css('visibility', '')
+            });
     }
 
 
@@ -1465,16 +1477,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         var $selectFilterItem = $('#select-filter-item');
 
         setInterval(function () {
-            $loading.css('visibility', 'hidden');
             _refreshCalendarAppointments(
                 $calendar,
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),
                 $calendar.fullCalendar('getView').start,
-                $calendar.fullCalendar('getView').end)
-                .always(function () {
-                    $loading.css('visibility', '')
-                });
+                $calendar.fullCalendar('getView').end);
         }, 10000);
     };
 

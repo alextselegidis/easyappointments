@@ -24,6 +24,7 @@
      */
     var ProvidersHelper = function () {
         this.filterResults = {}; // Store the results for later use.
+        this.filterLimit = 20;
     };
 
     /**
@@ -450,7 +451,8 @@
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
-            key: key
+            key: key,
+            limit: this.filterLimit
         };
 
         $.post(postUrl, postData, function (response) {
@@ -468,6 +470,17 @@
 
             if (response.length == 0) {
                 $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
+            } else if (response.length === this.filterLimit) {
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'well btn-block load-more text-center',
+                    'text': EALang.load_more,
+                    'click': function () {
+                        this.filterLimit += 20;
+                        this.filter(key, selectId, display);
+                    }.bind(this)
+                })
+                    .appendTo('#filter-providers .results');
             }
 
             if (selectId != undefined) {

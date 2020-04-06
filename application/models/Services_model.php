@@ -311,14 +311,19 @@ class Services_Model extends CI_Model {
      *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = NULL)
+    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
-        if ($where_clause != NULL)
+        if ($where !== NULL)
         {
-            $this->db->where($where_clause);
+            $this->db->where($where);
         }
 
-        return $this->db->get('ea_services')->result_array();
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        return $this->db->get('ea_services', $limit, $offset)->result_array();
     }
 
     /**
@@ -430,13 +435,19 @@ class Services_Model extends CI_Model {
      *
      * @return array Returns an array that contains all the service category records.
      */
-    public function get_all_categories($where = '')
+    public function get_all_categories($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
-        if ($where !== '')
+        if ($where !== NULL)
         {
             $this->db->where($where);
         }
-        return $this->db->get('ea_service_categories')->result_array();
+
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        return $this->db->get('ea_service_categories', $limit, $offset)->result_array();
     }
 
     /**

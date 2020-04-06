@@ -56,8 +56,7 @@ class Secretaries_Model extends CI_Model {
         if ( ! isset($secretary['id']))
         {
             $secretary['id'] = $this->_insert($secretary);
-        }
-        else
+        } else
         {
             $secretary['id'] = $this->_update($secretary);
         }
@@ -261,7 +260,7 @@ class Secretaries_Model extends CI_Model {
             }
         }
 
-        // Validate calendar view mode. 
+        // Validate calendar view mode.
         if (isset($secretary['settings']['calendar_view']) && ($secretary['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
                 && $secretary['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))
         {
@@ -403,22 +402,28 @@ class Secretaries_Model extends CI_Model {
     /**
      * Get all, or specific secretary records from database.
      *
-     * @param string|array $where_clause (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
      * specific secretary records.
-     *
+     * @param mixed|null $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      * @return array Returns an array with secretary records.
      */
-    public function get_batch($where_clause = '')
+    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
         $role_id = $this->get_secretary_role_id();
 
-        if ($where_clause != '')
+        if ($where !== NULL)
         {
-            $this->db->where($where_clause);
+            $this->db->where($where);
         }
 
-        $this->db->where('id_roles', $role_id);
-        $batch = $this->db->get('ea_users')->result_array();
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Include every secretary providers.
         foreach ($batch as &$secretary)

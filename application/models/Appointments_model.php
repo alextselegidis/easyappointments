@@ -340,23 +340,32 @@ class Appointments_Model extends CI_Model {
     /**
      * Get all, or specific records from appointment's table.
      *
-     * @example $this->Model->getBatch('id = ' . $recordId);
+     * Example:
      *
-     * @param string $where_clause (OPTIONAL) The WHERE clause of the query to be executed. DO NOT INCLUDE 'WHERE'
+     * $this->Model->getBatch('id = ' . $recordId);
+     *
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. DO NOT INCLUDE 'WHERE'
      * KEYWORD.
-     *
+     * @param mixed|null $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      * @param bool $aggregates (OPTIONAL) Defines whether to add aggregations or not.
      *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = '', $aggregates = FALSE)
+    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL, $aggregates = FALSE)
     {
-        if ($where_clause != '')
+        if ($where !== NULL)
         {
-            $this->db->where($where_clause);
+            $this->db->where($where);
         }
 
-        $appointments = $this->db->get('ea_appointments')->result_array();
+        if ($order_by)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        $appointments = $this->db->get('ea_appointments', $limit, $offset)->result_array();
 
         $this->load->model('timezones_model');
 

@@ -406,21 +406,28 @@ class Admins_Model extends CI_Model {
     /**
      * Get all, or specific admin records from database.
      *
-     * @param string|array $where_clause (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
      * specific admin records.
-     *
+     * @param mixed|null $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      * @return array Returns an array with admin records.
      */
-    public function get_batch($where_clause = '')
+    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
         $role_id = $this->get_admin_role_id();
 
-        if ($where_clause != '')
+        if ($where !== NULL)
         {
-            $this->db->where($where_clause);
+            $this->db->where($where);
         }
 
-        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id])->result_array();
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Get every admin settings.
         foreach ($batch as &$admin)

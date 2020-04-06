@@ -444,27 +444,34 @@ class Providers_Model extends CI_Model {
     /**
      * Get all, or specific records from provider's table.
      *
-     * @example $this->Model->get_batch('id = ' . $recordId);
+     * Example:
      *
-     * @param mixed $where_clause (OPTIONAL) The WHERE clause of the query to be executed.
+     * $this->Model->get_batch('id = ' . $recordId);
      *
-     * NOTICE: DO NOT INCLUDE 'WHERE' KEYWORD.
      *
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
+     * @param mixed|null $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where_clause = '')
+    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
         // CI db class may confuse two where clauses made in the same time, so
         // get the role id first and then apply the get_batch() where clause.
         $role_id = $this->get_providers_role_id();
 
-        if ($where_clause != '')
+        if ($where !== NULL)
         {
-            $this->db->where($where_clause);
+            $this->db->where($where);
         }
 
-        $batch = $this->db->get_where('ea_users',
-            ['id_roles' => $role_id])->result_array();
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        $batch = $this->db->get('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Include each provider services and settings.
         foreach ($batch as &$provider)

@@ -22,6 +22,7 @@
      */
     function CustomersHelper() {
         this.filterResults = {};
+        this.filterLimit = 20;
     }
 
     /**
@@ -36,6 +37,7 @@
         $('#filter-customers form').submit(function (event) {
             var key = $('#filter-customers .key').val();
             $('#filter-customers .selected').removeClass('selected');
+            instance.filterLimit = 20;
             instance.resetForm();
             instance.filter(key);
             return false;
@@ -46,6 +48,7 @@
          */
         $('#filter-customers .clear').click(function () {
             $('#filter-customers .key').val('');
+            instance.filterLimit = 20;
             instance.filter('');
             instance.resetForm();
         });
@@ -355,7 +358,8 @@
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
         var postData = {
             csrfToken: GlobalVariables.csrfToken,
-            key: key
+            key: key,
+            limit: this.filterLimit
         };
 
         $.post(postUrl, postData, function (response) {
@@ -370,8 +374,20 @@
                 var html = this.getFilterHtml(customer);
                 $('#filter-customers .results').append(html);
             }.bind(this));
+
             if (response.length == 0) {
                 $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
+            } else if (response.length === this.filterLimit) {
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'well btn-block load-more text-center',
+                    'text': EALang.load_more,
+                    'click': function () {
+                        this.filterLimit += 20;
+                        this.filter(key, selectId, display);
+                    }.bind(this)
+                })
+                    .appendTo('#filter-customers .results');
             }
 
             if (selectId != undefined) {
