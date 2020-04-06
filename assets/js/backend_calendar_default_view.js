@@ -852,7 +852,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         };
 
 
-        $loading.css('visibility', 'hidden'); 
+        $('#loading').css('visibility', 'hidden');
 
         return $.post(url, data, function (response) {
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
@@ -1195,7 +1195,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }, 'json')
             .fail(GeneralFunctions.ajaxFailureHandler)
             .always(function() {
-                $loading.css('visibility', '')
+                $('#loading').css('visibility', '')
             });
     }
 
