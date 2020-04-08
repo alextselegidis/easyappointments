@@ -74,7 +74,7 @@ class Installation extends CI_Controller {
             }
 
             // Create E!A database structure.
-            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/structure.sql');
+            $file_contents = file_get_contents(__DIR__ . '/../../assets/sql/structure.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach ($sql_queries as $query)
@@ -83,7 +83,7 @@ class Installation extends CI_Controller {
             }
 
             // Insert default E!A entries into the database.
-            $file_contents = file_get_contents(dirname(BASEPATH) . '/assets/sql/data.sql');
+            $file_contents = file_get_contents(__DIR__ . '/../../assets/sql/data.sql');
             $sql_queries = explode(';', $file_contents);
             array_pop($sql_queries);
             foreach ($sql_queries as $query)
