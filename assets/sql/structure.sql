@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `ea_appointments` (
     `book_datetime` DATETIME,
     `start_datetime` DATETIME,
     `end_datetime` DATETIME,
-    `timezone` VARCHAR(256),
+    `timezone` VARCHAR(256) DEFAULT 'UTC',
     `location` TEXT,
     `notes` TEXT,
     `hash` TEXT,
