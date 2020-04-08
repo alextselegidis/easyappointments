@@ -41,11 +41,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          */
         $('#reload-appointments').click(function () {
             _refreshCalendarAppointments(
-                $calendar,
-                $selectFilterItem.val(),
-                $selectFilterItem.find('option:selected').attr('type'),
-                $calendar.fullCalendar('getView').start,
-                $calendar.fullCalendar('getView').end);
+                $('#calendar'),
+                $('#select-filter-item').val(),
+                $('#select-filter-item').find('option:selected').attr('type'),
+                $('#calendar').fullCalendar('getView').start,
+                $('#calendar').fullCalendar('getView').end);
         });
 
         /**
@@ -1472,7 +1472,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }
 
         // Automatically refresh the calendar page every 10 seconds (without loading animation).
-        var $loading = $('#loading');
         var $calendar = $('#calendar');
         var $selectFilterItem = $('#select-filter-item');
 
