@@ -70,6 +70,10 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             if (response.length > 0) {
                 var providerId = $('#select-provider').val();
 
+                if (providerId === 'any-provider') {
+                    providerId = GlobalVariables.availableProviders[0].id; // Use first available provider.
+                }
+
                 var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
                     return providerId == availableProvider.id;
                 }).shift();
