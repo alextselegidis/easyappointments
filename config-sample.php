@@ -38,10 +38,10 @@ class Config {
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
 
-    const DB_HOST       = '';
-    const DB_NAME       = '';
-    const DB_USERNAME   = '';
-    const DB_PASSWORD   = '';
+    const DB_HOST       = 'localhost';
+    const DB_NAME       = 'easyappointments';
+    const DB_USERNAME   = 'root';
+    const DB_PASSWORD   = 'root';
 
     // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
