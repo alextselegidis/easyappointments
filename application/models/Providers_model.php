@@ -471,7 +471,7 @@ class Providers_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        $batch = $this->db->get('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Include each provider services and settings.
         foreach ($batch as &$provider)

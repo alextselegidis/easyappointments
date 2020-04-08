@@ -351,7 +351,7 @@ class Customers_Model extends CI_Model {
      */
     public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
-        $customers_role_id = $this->get_customers_role_id();
+        $role_id = $this->get_customers_role_id();
 
         if ($where !== NULL)
         {
@@ -363,9 +363,7 @@ class Customers_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        $this->db->where('id_roles', $customers_role_id);
-
-        return $this->db->get('ea_users', $limit, $offset)->result_array();
+        return $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
     }
 
     /**
