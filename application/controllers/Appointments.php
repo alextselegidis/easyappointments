@@ -314,8 +314,13 @@ class Appointments extends CI_Controller {
         $this->load->model('settings_model');
         //retrieve the data needed in the view
         $appointment = $this->appointments_model->get_row($appointment_id);
+        unset($appointment['notes']);
+
         $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+        unset($provider['settings'], $provider['notes']);
+
         $service = $this->services_model->get_row($appointment['id_services']);
+
         $company_name = $this->settings_model->get_setting('company_name');
         //get the exceptions
         $exceptions = $this->session->flashdata('book_success');
