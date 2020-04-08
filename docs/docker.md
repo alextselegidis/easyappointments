@@ -1,14 +1,12 @@
 # Docker
 
-Run the development containers of Easy!Appointments with Docker and Docker Compose utility. Docker allows you to compose your application from micro-services, without worrying about inconsistencies between development and production environments and without locking into any platform or language. 
+Run the development containers of Easy!Appointments with Docker and Docker Compose utility. Docker allows you to compose 
+your application from micro-services, without worrying about inconsistencies between development and production 
+environments and without locking into any platform or language. 
 
-Copy the `.env.example` file to `.env` inside the `docker` directory and set the desired environment variables.
+Enter the `docker` directory and run `docker-compose up` to start the environment. 
 
-Make sure that you have Docker and Docker Compose installed and configured in your system and execute the following command through your terminal while being in `docker` directory of your Git clone: 
-
-`docker-compose up`
-
-Then modify the root `config.php` so that it matches the following example: 
+You will need modify the root `config.php` so that it matches the following example: 
 
 ```php 
 class Config {
@@ -16,7 +14,7 @@ class Config {
     // GENERAL SETTINGS
     // ------------------------------------------------------------------------
     
-    const BASE_URL      = 'http://{DOCKER-SERVER-IP}'; // e.g. 192.168.99.100
+    const BASE_URL      = 'http://localhost:8000'; 
     const LANGUAGE      = 'english';
     const DEBUG_MODE    = TRUE;
 
@@ -24,22 +22,28 @@ class Config {
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
     
-    const DB_HOST       = 'database:3306';
+    const DB_HOST       = 'easyappointments-database:3306';
     const DB_NAME       = 'easyappointments';
-    const DB_USERNAME   = 'easyappointments';
-    const DB_PASSWORD   = 'easyappointments';
+    const DB_USERNAME   = 'root';
+    const DB_PASSWORD   = 'root';
 
     // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
     // ------------------------------------------------------------------------
     
-    const GOOGLE_SYNC_FEATURE   = FALSE; 
+    const GOOGLE_SYNC_FEATURE   = FALSE; // You can optionally enable the Google Sync feature. 
     const GOOGLE_PRODUCT_NAME   = '';
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
     const GOOGLE_API_KEY        = '';
 }
 ```
+
+In the host machine the server is accessible from `http://localhost:8000` and the database from `localhost:8001`.  
+
+You can remove the docker containers with `docker rm easyappointments-server easyappointments-database`. 
+
+You can remove the server image with `docker rmi easyappointments-server:v1`.
 
 *This document applies to Easy!Appointments v1.4.0.*
 

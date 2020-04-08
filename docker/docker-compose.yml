@@ -1,27 +1,21 @@
-version: '2'
+version: "3.1"
 services:
-    database:
+    mysql:
         image: mysql:5.7
-        environment:
-        - MYSQL_DATABASE=${DB_NAME}
-        - MYSQL_USER=${DB_USERNAME}
-        - MYSQL_PASSWORD=${DB_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-
-    application:
-        image: easyappointments
-        build:
-            context: .
+        container_name: easyappointments-database
         volumes:
-        - ../src:/var/www/html
-        command: dev
-        ports:
-        - ${APP_HOST}:80:80
+            - ./mysql:/var/lib/mysql
         environment:
-        - DB_HOST=database:3306
-        - APP_URL=localhost
-        depends_on:
-        - database
-        env_file:
-        - .env
-        restart: always
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=easyappointments
+        ports:
+            - "8001:3306"
+    server:
+        build: ./server
+        image: easyappointments-server:v1
+        container_name: easyappointments-server
+        ports:
+            - "8000:80"
+        volumes:
+            - ../:/var/www/html
+            - ./server/php.ini:/usr/local/etc/php/conf.d/99-overrides.ini
