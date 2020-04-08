@@ -341,9 +341,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '<strong>' + EALang.end + '</strong> '
                 + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
                 + '<br>' +
-                '<strong>' + EALang.timezone + '</strong> '
-                + GlobalVariables.timezones[event.data.provider.timezone]
-                + '<br>'
                 + notes
                 + '<hr>' +
                 '<center>' +
