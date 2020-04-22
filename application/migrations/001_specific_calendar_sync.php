@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,8 +11,16 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Class Migration_Specific_calendar_sync
+ *
+ * @property CI_DB_query_builder db
+ * @property CI_DB_forge dbforge
+ */
 class Migration_Specific_calendar_sync extends CI_Migration {
-
+    /**
+     * Upgrade method.
+     */
     public function up()
     {
         if ( ! $this->db->field_exists('google_calendar', 'ea_user_settings'))
@@ -28,6 +36,9 @@ class Migration_Specific_calendar_sync extends CI_Migration {
         }
     }
 
+    /**
+     * Downgrade method.
+     */
     public function down()
     {
         if ($this->db->field_exists('google_calendar', 'ea_user_settings'))

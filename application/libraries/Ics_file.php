@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,13 +11,14 @@
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
+use Jsvrcek\ICS\CalendarExport;
+use Jsvrcek\ICS\CalendarStream;
+use Jsvrcek\ICS\Exception\CalendarEventException;
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Relationship\Attendee;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Utility\Formatter;
-use Jsvrcek\ICS\CalendarStream;
-use Jsvrcek\ICS\CalendarExport;
 
 /**
  * Class Ics_file
@@ -37,6 +38,9 @@ class Ics_file {
      * @param array $customer Customer.
      *
      * @return string Returns the contents of the ICS file.
+     *
+     * @throws CalendarEventException
+     * @throws Exception
      */
     public function get_stream($appointment, $service, $provider, $customer)
     {

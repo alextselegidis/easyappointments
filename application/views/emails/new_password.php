@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title>New Account Password</title>
 </head>

@@ -53,7 +53,7 @@
 
         <div id="calendar-actions" class="col-xs-12 col-sm-7">
             <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
-                    && Config::GOOGLE_SYNC_FEATURE == TRUE): ?>
+                    && config('google_sync_feature') == TRUE): ?>
                 <button id="google-sync" class="btn btn-primary"
                         title="<?= lang('trigger_google_sync_hint') ?>">
                     <span class="glyphicon glyphicon-refresh"></span>

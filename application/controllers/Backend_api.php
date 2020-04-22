@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,6 +11,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use EA\Engine\Notifications\Email as EmailClient;
 use EA\Engine\Types\Email;
 use EA\Engine\Types\Text;
 use EA\Engine\Types\Url;
@@ -19,6 +20,28 @@ use EA\Engine\Types\Url;
  * Backend API Controller
  *
  * Contains all the backend AJAX callbacks.
+ *
+ * @property CI_Session session
+ * @property CI_Loader load
+ * @property CI_Input input
+ * @property CI_Output output
+ * @property CI_Config config
+ * @property CI_Lang lang
+ * @property CI_Cache cache
+ * @property CI_DB_query_builder db
+ * @property CI_Security security
+ * @property Google_Sync google_sync
+ * @property Ics_file ics_file
+ * @property Appointments_Model appointments_model
+ * @property Providers_Model providers_model
+ * @property Services_Model services_model
+ * @property Customers_Model customers_model
+ * @property Settings_Model settings_model
+ * @property Timezones_Model timezones_model
+ * @property Roles_Model roles_model
+ * @property Secretaries_Model secretaries_model
+ * @property Admins_Model admins_model
+ * @property User_Model user_model
  *
  * @package Controllers
  */
@@ -34,12 +57,6 @@ class Backend_api extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-
-        // All the methods in this class must be accessible through a POST request.
-        if (strtoupper($_SERVER['REQUEST_METHOD']) !== 'POST')
-        {
-            $this->security->csrf_show_error();
-        }
 
         $this->load->library('session');
         $this->load->model('roles_model');
@@ -146,26 +163,26 @@ class Backend_api extends CI_Controller {
 
             $this->output->set_output(json_encode($response));
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output->set_output(json_encode([
-                'exceptions' => [exceptionToJavaScript($exc)]
-            ]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Get the registered appointments for the given date period and record.
+     * Get the registered appointments for the given date period and record.
      *
      * This method returns the database appointments and unavailable periods for the
      * user selected date period and record type (provider or service).
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['record_id'] Selected record id.
-     * - string $_POST['filter_type'] Could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
-     * - string $_POST['start_date'] The user selected start date.
-     * - string $_POST['end_date'] The user selected end date.
      */
     public function ajax_get_calendar_appointments()
     {
@@ -199,9 +216,9 @@ class Backend_api extends CI_Controller {
             }
 
             // Get appointments
-            $record_id = $this->db->escape($_POST['record_id']);
-            $start_date = $this->db->escape($_POST['start_date']);
-            $end_date = $this->db->escape(date('Y-m-d', strtotime($_POST['end_date'] . ' +1 day')));
+            $record_id = $this->db->escape($this->input->post('record_id'));
+            $start_date = $this->db->escape($this->input->post('start_date'));
+            $end_date = $this->db->escape(date('Y-m-d', strtotime($this->input->post('end_date') . ' +1 day')));
 
             $where_clause = $where_id . ' = ' . $record_id . '
                 AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
@@ -236,21 +253,23 @@ class Backend_api extends CI_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode($response));
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save appointment changes that are made from the backend calendar page.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['appointment_data'] (OPTIONAL) Array with the appointment data.
-     * - array $_POST['customer_data'] (OPTIONAL) Array with the customer data.
+     * Save appointment changes that are made from the backend calendar page.
      */
     public function ajax_save_appointment()
     {
@@ -263,15 +282,15 @@ class Backend_api extends CI_Controller {
             $this->load->model('settings_model');
             $this->load->model('timezones_model');
 
-            // :: SAVE CUSTOMER CHANGES TO DATABASE
+            // Save customer changes to the database.
             if ($this->input->post('customer_data'))
             {
                 $customer = json_decode($this->input->post('customer_data'), TRUE);
 
-                $REQUIRED_PRIV = ( ! isset($customer['id']))
+                $required_privilegesileges = ( ! isset($customer['id']))
                     ? $this->privileges[PRIV_CUSTOMERS]['add']
                     : $this->privileges[PRIV_CUSTOMERS]['edit'];
-                if ($REQUIRED_PRIV == FALSE)
+                if ($required_privilegesileges == FALSE)
                 {
                     throw new Exception('You do not have the required privileges for this task.');
                 }
@@ -279,15 +298,15 @@ class Backend_api extends CI_Controller {
                 $customer['id'] = $this->customers_model->add($customer);
             }
 
-            // :: SAVE APPOINTMENT CHANGES TO DATABASE
+            // Save appointment changes to the database.
             if ($this->input->post('appointment_data'))
             {
                 $appointment = json_decode($this->input->post('appointment_data'), TRUE);
 
-                $REQUIRED_PRIV = ( ! isset($appointment['id']))
+                $required_privilegesileges = ( ! isset($appointment['id']))
                     ? $this->privileges[PRIV_APPOINTMENTS]['add']
                     : $this->privileges[PRIV_APPOINTMENTS]['edit'];
-                if ($REQUIRED_PRIV == FALSE)
+                if ($required_privilegesileges == FALSE)
                 {
                     throw new Exception('You do not have the required privileges for this task.');
                 }
@@ -326,7 +345,7 @@ class Backend_api extends CI_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            // :: SYNC APPOINTMENT CHANGES WITH GOOGLE CALENDAR
+            // Sync appointment changes with Google Calendar.
             try
             {
                 $google_sync = $this->providers_model->get_setting('google_sync',
@@ -354,32 +373,35 @@ class Backend_api extends CI_Controller {
                     }
                 }
             }
-            catch (Exception $exc)
+            catch (Exception $exception)
             {
-                $warnings[] = exceptionToJavaScript($exc);
+                $warnings[] = [
+                    'message' => $exception->getMessage(),
+                    'trace' => config('debug') ? $exception->getTrace() : []
+                ];
             }
 
-            // :: SEND EMAIL NOTIFICATIONS TO PROVIDER AND CUSTOMER
+            // Send email notifications to provider and customer.
             try
             {
                 $this->config->load('email');
-                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+                $email = new EmailClient($this, $this->config->config);
 
                 $send_provider = $this->providers_model
                     ->get_setting('notifications', $provider['id']);
 
                 if ( ! $manage_mode)
                 {
-                    $customer_title = new Text($this->lang->line('appointment_booked'));
-                    $customer_message = new Text($this->lang->line('thank_you_for_appointment'));
-                    $provider_title = new Text($this->lang->line('appointment_added_to_your_plan'));
-                    $provider_message = new Text($this->lang->line('appointment_link_description'));
+                    $customer_title = new Text(lang('appointment_booked'));
+                    $customer_message = new Text(lang('thank_you_for_appointment'));
+                    $provider_title = new Text(lang('appointment_added_to_your_plan'));
+                    $provider_message = new Text(lang('appointment_link_description'));
                 }
                 else
                 {
-                    $customer_title = new Text($this->lang->line('appointment_details_changed'));
+                    $customer_title = new Text(lang('appointment_details_changed'));
                     $customer_message = new Text('');
-                    $provider_title = new Text($this->lang->line('appointment_changes_saved'));
+                    $provider_title = new Text(lang('appointment_changes_saved'));
                     $provider_message = new Text('');
                 }
 
@@ -406,42 +428,44 @@ class Backend_api extends CI_Controller {
                 }
 
             }
-            catch (Exception $exc)
+            catch (Exception $exception)
             {
-                $warnings[] = exceptionToJavaScript($exc);
+                $warnings[] = [
+                    'message' => $exception->getMessage(),
+                    'trace' => config('debug') ? $exception->getTrace() : []
+                ];
             }
 
-            if ( ! isset($warnings))
+            if (empty($warnings))
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
+                $response = AJAX_SUCCESS;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['warnings' => $warnings]));
+                $response = ['warnings' => $warnings];
             }
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete appointment from the database.
+     * Delete appointment from the database.
      *
      * This method deletes an existing appointment from the database. Once this action is finished it cannot be undone.
      * Notification emails are send to both provider and customer and the delete action is executed to the Google
      * Calendar account of the provider, if the "google_sync" setting is enabled.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['appointment_id'] The appointment id to be deleted.
      */
     public function ajax_delete_appointment()
     {
@@ -457,7 +481,7 @@ class Backend_api extends CI_Controller {
                 throw new Exception('No appointment id provided.');
             }
 
-            // :: STORE APPOINTMENT DATA FOR LATER USE IN THIS METHOD
+            // Store appointment data for later use in this method.
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
             $this->load->model('customers_model');
@@ -477,10 +501,10 @@ class Backend_api extends CI_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            // :: DELETE APPOINTMENT RECORD FROM DATABASE
+            // Delete appointment record from the database.
             $this->appointments_model->delete($this->input->post('appointment_id'));
 
-            // :: SYNC DELETE WITH GOOGLE CALENDAR
+            // Sync removal with Google Calendar.
             if ($appointment['id_google_calendar'] != NULL)
             {
                 try
@@ -496,17 +520,21 @@ class Backend_api extends CI_Controller {
                         $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }
                 }
-                catch (Exception $exc)
+                catch (Exception $exception)
                 {
-                    $warnings[] = exceptionToJavaScript($exc);
+                    $warnings[] = [
+                        'message' => $exception->getMessage(),
+                        'trace' => config('debug') ? $exception->getTrace() : []
+                    ];
                 }
             }
 
-            // :: SEND NOTIFICATION EMAILS TO PROVIDER AND CUSTOMER
+            // Send notification emails to provider and customer.
             try
             {
                 $this->config->load('email');
-                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+
+                $email = new EmailClient($this, $this->config->config);
 
                 $send_provider = $this->providers_model
                     ->get_setting('notifications', $provider['id']);
@@ -527,42 +555,43 @@ class Backend_api extends CI_Controller {
                         new Text($this->input->post('delete_reason')));
                 }
             }
-            catch (Exception $exc)
+            catch (Exception $exception)
             {
-                $warnings[] = exceptionToJavaScript($exc);
+                $warnings[] = [
+                    'message' => $exception->getMessage(),
+                    'trace' => config('debug') ? $exception->getTrace() : []
+                ];
             }
 
-            // :: SEND RESPONSE TO CLIENT BROWSER
-            if ( ! isset($warnings))
+            if (empty($warnings))
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
+                $response = AJAX_SUCCESS;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['warnings' => $warnings]));
+                $response = ['warnings' => $warnings];
             }
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Disable a providers sync setting.
+     * Disable a providers sync setting.
      *
      * This method deletes the "google_sync" and "google_token" settings from the database. After that the provider's
      * appointments will be no longer synced with google calendar.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['provider_id'] The selected provider record id.
      */
     public function ajax_disable_provider_sync()
     {
@@ -585,24 +614,25 @@ class Backend_api extends CI_Controller {
             $this->providers_model->set_setting('google_token', NULL, $this->input->post('provider_id'));
             $this->appointments_model->clear_google_sync_ids($this->input->post('provider_id'));
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
+            $response = AJAX_SUCCESS;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Filter the customer records with the given key string.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['key'] The filter key string.
+     * Filter the customer records with the given key string.
      *
      * Outputs the search results.
      */
@@ -658,24 +688,25 @@ class Backend_api extends CI_Controller {
                 $customer['appointments'] = $appointments;
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($customers));
+            $response = $customers;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Insert of update unavailable time period to database.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['unavailable'] JSON encoded array that contains the unavailable period data.
+     * Insert of update unavailable time period to database.
      */
     public function ajax_save_unavailable()
     {
@@ -684,10 +715,10 @@ class Backend_api extends CI_Controller {
             // Check privileges
             $unavailable = json_decode($this->input->post('unavailable'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($unavailable['id']))
+            $required_privileges = ( ! isset($unavailable['id']))
                 ? $this->privileges[PRIV_APPOINTMENTS]['add']
                 : $this->privileges[PRIV_APPOINTMENTS]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -723,13 +754,13 @@ class Backend_api extends CI_Controller {
                     }
                     else
                     {
-                        $google_event = $this->google_sync->update_unavailable($provider, $unavailable);
+                        $this->google_sync->update_unavailable($provider, $unavailable);
                     }
                 }
             }
-            catch (Exception $exc)
+            catch (Exception $exception)
             {
-                $warnings[] = $exc;
+                $warnings[] = $exception;
             }
 
             if (isset($warnings))
@@ -746,20 +777,23 @@ class Backend_api extends CI_Controller {
             }
 
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete an unavailable time period from database.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['unavailable_id'] Record id to be deleted.
+     * Delete an unavailable time period from database.
      */
     public function ajax_delete_unavailable()
     {
@@ -791,39 +825,37 @@ class Backend_api extends CI_Controller {
                     $this->google_sync->delete_unavailable($provider, $unavailable['id_google_calendar']);
                 }
             }
-            catch (Exception $exc)
+            catch (Exception $exception)
             {
-                $warnings[] = $exc;
+                $warnings[] = $exception;
             }
 
-            if (isset($warnings))
+            if (empty($warnings))
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['warnings' => $warnings]));
+                $response = AJAX_SUCCESS;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
+                $response = ['warnings' => $warnings];
             }
-
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Insert of update extra working plan time period to database.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['extra_period'] JSON encoded array that contains the unavailable period data.
+     * Insert of update extra working plan time period to database.
      */
     public function ajax_save_extra_period()
     {
@@ -832,10 +864,10 @@ class Backend_api extends CI_Controller {
             // Check privileges
             $extra_period = json_decode($this->input->post('extra_period'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($extra_period['id']))
+            $required_privileges = ( ! isset($extra_period['id']))
                 ? $this->privileges[PRIV_APPOINTMENTS]['add']
                 : $this->privileges[PRIV_APPOINTMENTS]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -844,34 +876,32 @@ class Backend_api extends CI_Controller {
 
             $success = $this->providers_model->set_extra_working_day($extra_period, $extra_period['id_users_provider']);
 
-            if ( ! $success)
+            if ($success)
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['warnings' => 'Error on saving extra period.']));
+                $response = AJAX_SUCCESS;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
+                $response = ['warnings' => 'Error on saving extra period.'];
             }
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete an extra working plan time period to database.
-     *
-     * Required POST Parameters:
-     *
-     * - String $_POST['extra_period'] Date to be deleted.
-     * - int $_POST['provider_id'] Record id to be deleted.
+     * Delete an extra working plan time period to database.
      */
     public function ajax_delete_extra_period()
     {
@@ -891,34 +921,32 @@ class Backend_api extends CI_Controller {
             // Delete unavailable
             $success = $this->providers_model->delete_extra_working_day($extra_period, $provider_id);
 
-            if ( ! $success)
+            if ($success)
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['warnings' => 'Error on deleting extra working day']));
+                $response = AJAX_SUCCESS;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
+                $response = ['warnings' => 'Error on deleting extra period.'];
             }
+        }
+        catch (Exception $exception)
+        {
+            $this->output->set_status_header(500);
 
-        } //
-        catch (Exception $exc) //
-        { //
-            $this->output //
-                ->set_content_type('application/json') //
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]])); //
-        }//
-    } //
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
+    }
 
     /**
-     * [AJAX] Save (insert or update) a customer record.
-     *
-     * Require POST Parameters:
-     *
-     * - array $_POST['customer'] JSON encoded array that contains the customer's data.
+     * Save (insert or update) a customer record.
      */
     public function ajax_save_customer()
     {
@@ -927,36 +955,38 @@ class Backend_api extends CI_Controller {
             $this->load->model('customers_model');
             $customer = json_decode($this->input->post('customer'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($customer['id']))
+            $required_privilegesileges = ( ! isset($customer['id']))
                 ? $this->privileges[PRIV_CUSTOMERS]['add']
                 : $this->privileges[PRIV_CUSTOMERS]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privilegesileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
             $customer_id = $this->customers_model->add($customer);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status' => AJAX_SUCCESS,
-                    'id' => $customer_id
-                ]));
+
+            $response = [
+                'status' => AJAX_SUCCESS,
+                'id' => $customer_id
+            ];
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete customer from database.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['customer_id'] Customer record id to be deleted.
+     * Delete customer from database.
      */
     public function ajax_delete_customer()
     {
@@ -968,25 +998,28 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('customers_model');
+
             $this->customers_model->delete($this->input->post('customer_id'));
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
+
+            $response = AJAX_SUCCESS;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save (insert or update) service record.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['service'] Contains the service data (json encoded).
+     * Save (insert or update) service record.
      */
     public function ajax_save_service()
     {
@@ -995,36 +1028,37 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $service = json_decode($this->input->post('service'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($service['id']))
+            $required_privilegesileges = ( ! isset($service['id']))
                 ? $this->privileges[PRIV_SERVICES]['add']
                 : $this->privileges[PRIV_SERVICES]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privilegesileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
             $service_id = $this->services_model->add($service);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status' => AJAX_SUCCESS,
-                    'id' => $service_id
-                ]));
+            $response = [
+                'status' => AJAX_SUCCESS,
+                'id' => $service_id
+            ];
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete service record from database.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['service_id'] Record id to be deleted.
+     * Delete service record from database.
      */
     public function ajax_delete_service()
     {
@@ -1036,28 +1070,28 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('services_model');
+
             $result = $this->services_model->delete($this->input->post('service_id'));
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
+            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Filter service records by given key string.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['key'] Key string used to filter the records.
-     *
-     * Outputs a JSON encoded array back to client.
+     * Filter service records by given key string.
      */
     public function ajax_filter_services()
     {
@@ -1069,31 +1103,33 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('services_model');
+
             $key = $this->db->escape_str($this->input->post('key'));
+
             $where =
                 '(name LIKE "%' . $key . '%" OR duration LIKE "%' . $key . '%" OR ' .
                 'price LIKE "%' . $key . '%" OR currency LIKE "%' . $key . '%" OR ' .
                 'description LIKE "%' . $key . '%")';
-            $services = $this->services_model->get_batch($where);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($services));
+
+            $response = $this->services_model->get_batch($where);
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save (insert or update) category record.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['category'] Json encoded array with the category data. If an ID value is provided then the
-     * category is going to be updated instead of inserted.
+     * Save (insert or update) category record.
      */
     public function ajax_save_service_category()
     {
@@ -1102,35 +1138,38 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $category = json_decode($this->input->post('category'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($category['id']))
+            $required_privilegesileges = ( ! isset($category['id']))
                 ? $this->privileges[PRIV_SERVICES]['add']
                 : $this->privileges[PRIV_SERVICES]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privilegesileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
             $category_id = $this->services_model->add_category($category);
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status' => AJAX_SUCCESS,
-                    'id' => $category_id
-                ]));
+            $response = [
+                'status' => AJAX_SUCCESS,
+                'id' => $category_id
+            ];
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete category record from database.
-     *
-     * - int $_POST['category_id'] Record id to be deleted.
+     * Delete category record from database.
      */
     public function ajax_delete_service_category()
     {
@@ -1142,28 +1181,28 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('services_model');
+
             $result = $this->services_model->delete_category($this->input->post('category_id'));
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
+            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Filter services categories with key string.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['key'] The key string used to filter the records.
-     *
-     * Outputs a JSON encoded array back to client with the category records.
+     * Filter services categories with key string.
      */
     public function ajax_filter_service_categories()
     {
@@ -1175,29 +1214,30 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('services_model');
+
             $key = $this->db->escape_str($this->input->post('key'));
+
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
-            $categories = $this->services_model->get_all_categories($where);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($categories));
+
+            $response = $this->services_model->get_all_categories($where);
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Filter admin records with string key.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['key'] The key string used to filter the records.
-     *
-     * Outputs a JSON encoded array back to client with the admin records.
+     * Filter admin records with string key.
      */
     public function ajax_filter_admins()
     {
@@ -1209,35 +1249,35 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('admins_model');
+
             $key = $this->db->escape_str($this->input->post('key'));
+
             $where =
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' .
                 'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' .
                 'OR phone_number LIKE "%' . $key . '%" OR address LIKE "%' . $key . '%" ' .
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
-            $admins = $this->admins_model->get_batch($where);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($admins));
+
+            $response = $this->admins_model->get_batch($where);
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save (insert or update) admin record into database.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['admin'] A json encoded array that contains the admin data. If an 'id'
-     * value is provided then the record is going to be updated.
-     *
-     * Outputs an array with the operation status and the record id that was saved into the database.
+     * Save (insert or update) admin record into database.
      */
     public function ajax_save_admin()
     {
@@ -1246,10 +1286,10 @@ class Backend_api extends CI_Controller {
             $this->load->model('admins_model');
             $admin = json_decode($this->input->post('admin'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($admin['id']))
+            $required_privileges = ( ! isset($admin['id']))
                 ? $this->privileges[PRIV_USERS]['add']
                 : $this->privileges[PRIV_USERS]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -1260,27 +1300,24 @@ class Backend_api extends CI_Controller {
                 'status' => AJAX_SUCCESS,
                 'id' => $admin_id
             ];
-
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($response));
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete an admin record from the database.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['admin_id'] The id of the record to be deleted.
-     *
-     * Outputs the operation result constant (AJAX_SUCCESS or AJAX_FAILURE).
+     * Delete an admin record from the database.
      */
     public function ajax_delete_admin()
     {
@@ -1292,27 +1329,28 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('admins_model');
+
             $result = $this->admins_model->delete($this->input->post('admin_id'));
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
+
+            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Filter provider records with string key.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['key'] The key string used to filter the records.
-     *
-     * Outputs a JSON encoded array back to client with the provider records.
+     * Filter provider records with string key.
      */
     public function ajax_filter_providers()
     {
@@ -1324,35 +1362,35 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('providers_model');
+
             $key = $this->db->escape_str($this->input->post('key'));
+
             $where =
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' .
                 'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' .
                 'OR phone_number LIKE "%' . $key . '%" OR address LIKE "%' . $key . '%" ' .
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
-            $providers = $this->providers_model->get_batch($where);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($providers));
+
+            $response = $this->providers_model->get_batch($where);
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save (insert or update) a provider record into database.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['provider'] A json encoded array that contains the provider data. If an 'id'
-     * value is provided then the record is going to be updated.
-     *
-     * Outputs the success constant 'AJAX_SUCCESS' so javascript knows that everything completed successfully.
+     * Save (insert or update) a provider record into database.
      */
     public function ajax_save_provider()
     {
@@ -1361,10 +1399,10 @@ class Backend_api extends CI_Controller {
             $this->load->model('providers_model');
             $provider = json_decode($this->input->post('provider'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($provider['id']))
+            $required_privileges = ( ! isset($provider['id']))
                 ? $this->privileges[PRIV_USERS]['add']
                 : $this->privileges[PRIV_USERS]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -1378,30 +1416,28 @@ class Backend_api extends CI_Controller {
 
             $provider_id = $this->providers_model->add($provider);
 
-
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status' => AJAX_SUCCESS,
-                    'id' => $provider_id
-                ]));
+            $response = [
+                'status' => AJAX_SUCCESS,
+                'id' => $provider_id
+            ];
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete a provider record from the database.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['provider_id'] The id of the record to be deleted.
-     *
-     * Outputs the operation result constant (AJAX_SUCCESS or AJAX_FAILURE).
+     * Delete a provider record from the database.
      */
     public function ajax_delete_provider()
     {
@@ -1413,27 +1449,28 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('providers_model');
+
             $result = $this->providers_model->delete($this->input->post('provider_id'));
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
+
+            $response =$result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Filter secretary records with string key.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['key'] The key string used to filter the records.
-     *
-     * Outputs a JSON encoded array back to client with the secretary records.
+     * Filter secretary records with string key.
      */
     public function ajax_filter_secretaries()
     {
@@ -1445,35 +1482,35 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('secretaries_model');
+
             $key = $this->db->escape_str($this->input->post('key'));
+
             $where =
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' .
                 'OR email LIKE "%' . $key . '%" OR mobile_number LIKE "%' . $key . '%" ' .
                 'OR phone_number LIKE "%' . $key . '%" OR address LIKE "%' . $key . '%" ' .
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
-            $secretaries = $this->secretaries_model->get_batch($where);
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($secretaries));
+
+            $response = $this->secretaries_model->get_batch($where);
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save (insert or update) a secretary record into database.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['secretary'] A json encoded array that contains the secretary data.
-     * If an 'id' value is provided then the record is going to be updated.
-     *
-     * Outputs the success constant 'AJAX_SUCCESS' so JavaScript knows that everything completed successfully.
+     * Save (insert or update) a secretary record into database.
      */
     public function ajax_save_secretary()
     {
@@ -1482,39 +1519,38 @@ class Backend_api extends CI_Controller {
             $this->load->model('secretaries_model');
             $secretary = json_decode($this->input->post('secretary'), TRUE);
 
-            $REQUIRED_PRIV = ( ! isset($secretary['id']))
+            $required_privileges = ( ! isset($secretary['id']))
                 ? $this->privileges[PRIV_USERS]['add']
                 : $this->privileges[PRIV_USERS]['edit'];
-            if ($REQUIRED_PRIV == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
             $secretary_id = $this->secretaries_model->add($secretary);
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'status' => AJAX_SUCCESS,
-                    'id' => $secretary_id
-                ]));
+            $response =[
+                'status' => AJAX_SUCCESS,
+                'id' => $secretary_id
+            ];
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Delete a secretary record from the database.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['secretary_id'] The id of the record to be deleted.
-     *
-     * Outputs the operation result constant (AJAX_SUCCESS or AJAX_FAILURE).
+     * Delete a secretary record from the database.
      */
     public function ajax_delete_secretary()
     {
@@ -1526,30 +1562,28 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('secretaries_model');
+
             $result = $this->secretaries_model->delete($this->input->post('secretary_id'));
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
+            $response =$result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Save a setting or multiple settings in the database.
-     *
-     * This method is used to store settings in the database. It can be either system or user settings, one or many.
-     * Use the $_POST variables accordingly.
-     *
-     * Required POST Parameters:
-     *
-     * - array $_POST['settings'] Contains an array with settings.
-     * - bool $_POST['type'] Determines the settings type, can be either SETTINGS_SYSTEM or SETTINGS_USER.
+     * Save a setting or multiple settings in the database.
      */
     public function ajax_save_settings()
     {
@@ -1561,8 +1595,11 @@ class Backend_api extends CI_Controller {
                 {
                     throw new Exception('You do not have the required privileges for this task.');
                 }
+
                 $this->load->model('settings_model');
+
                 $settings = json_decode($this->input->post('settings'), TRUE);
+
                 $this->settings_model->save_settings($settings);
             }
             else
@@ -1573,60 +1610,66 @@ class Backend_api extends CI_Controller {
                     {
                         throw new Exception('You do not have the required privileges for this task.');
                     }
+
                     $this->load->model('user_model');
-                    $this->user_model->save_settings(json_decode($this->input->post('settings'), TRUE));
+
+                    $this->user_model->save_user(json_decode($this->input->post('settings'), TRUE));
                 }
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
+            $response = AJAX_SUCCESS;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] This method checks whether the username already exists in the database.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['username'] Record's username to validate.
-     * - bool $_POST['record_exists'] Whether the record already exists in database.
+     * This method checks whether the username already exists in the database.
      */
     public function ajax_validate_username()
     {
         try
         {
-            // We will only use the function in the admins_model because it is sufficient
-            // for the rest user types for now (providers, secretaries).
+            // We will only use the function in the admins_model because it is sufficient for the rest user types for
+            // now (providers, secretaries).
+
             $this->load->model('admins_model');
+
             $is_valid = $this->admins_model->validate_username($this->input->post('username'),
                 $this->input->post('user_id'));
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($is_valid));
+
+            $response = $is_valid;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
-     * [AJAX] Change system language for current user.
+     * Change system language for current user.
      *
      * The language setting is stored in session data and retrieved every time the user visits any of the system pages.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['language'] Selected language name.
      */
     public function ajax_change_language()
     {
@@ -1634,6 +1677,7 @@ class Backend_api extends CI_Controller {
         {
             // Check if language exists in the available languages.
             $found = FALSE;
+
             foreach ($this->config->item('available_languages') as $lang)
             {
                 if ($lang == $this->input->post('language'))
@@ -1651,17 +1695,21 @@ class Backend_api extends CI_Controller {
             $this->session->set_userdata('language', $this->input->post('language'));
             $this->config->set_item('language', $this->input->post('language'));
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
-
+            $response = AJAX_SUCCESS;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
@@ -1669,10 +1717,6 @@ class Backend_api extends CI_Controller {
      *
      * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
      * be already granted for the specific provider.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['provider_id'] Provider record id.
      */
     public function ajax_get_google_calendars()
     {
@@ -1688,40 +1732,41 @@ class Backend_api extends CI_Controller {
 
             // Check if selected provider has sync enabled.
             $google_sync = $this->providers_model->get_setting('google_sync', $this->input->post('provider_id'));
+
             if ($google_sync)
             {
                 $google_token = json_decode($this->providers_model->get_setting('google_token',
                     $this->input->post('provider_id')));
                 $this->google_sync->refresh_token($google_token->refresh_token);
+
                 $calendars = $this->google_sync->get_google_calendars();
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode($calendars));
+
+                $response = $calendars;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_FAILURE));
+                $response =AJAX_FAILURE;
             }
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
      * Select a specific google calendar for a provider.
      *
      * All the appointments will be synced with this particular calendar.
-     *
-     * Required POST Parameters:
-     *
-     * - int $_POST['provider_id'] Provider record id.
-     * - string $_POST['calendar_id'] Google calendar's id.
      */
     public function ajax_select_google_calendar()
     {
@@ -1734,19 +1779,25 @@ class Backend_api extends CI_Controller {
             }
 
             $this->load->model('providers_model');
+
             $result = $this->providers_model->set_setting('google_calendar', $this->input->post('calendar_id'),
                 $this->input->post('provider_id'));
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($result ? AJAX_SUCCESS : AJAX_FAILURE));
+            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
@@ -1772,14 +1823,20 @@ class Backend_api extends CI_Controller {
                 $this->providers_model->set_setting('working_plan', $working_plan, $provider['id']);
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
-        } catch (Exception $exc)
-        {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $response =AJAX_SUCCESS;
         }
+        catch (Exception $exception)
+        {
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 }

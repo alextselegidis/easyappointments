@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -41,6 +41,9 @@
  *          'sync_future_days',
  *          'calendar_view'
  *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
+ *
  * @package Models
  */
 class Providers_Model extends CI_Model {
@@ -75,144 +78,6 @@ class Providers_Model extends CI_Model {
         }
 
         return (int)$provider['id'];
-    }
-
-    /**
-     * Check whether a particular provider record already exists in the database.
-     *
-     * @param array $provider Contains the provider data. The 'email' value is required in order to check for a provider.
-     *
-     * @return bool Returns whether the provider record exists or not.
-     *
-     * @throws Exception When the 'email' value is not provided.
-     */
-    public function exists($provider)
-    {
-        if ( ! isset($provider['email']))
-        {
-            throw new Exception('Provider email is not provided:' . print_r($provider, TRUE));
-        }
-
-        // This method shouldn't depend on another method of this class.
-        $num_rows = $this->db
-            ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $provider['email'])
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-            ->get()->num_rows();
-
-        return ($num_rows > 0) ? TRUE : FALSE;
-    }
-
-    /**
-     * Insert a new provider record into the database.
-     *
-     * @param array $provider Contains the provider data (must be already validated).
-     *
-     * @return int Returns the new record id.
-     *
-     * @throws Exception When the insert operation fails.
-     */
-    protected function _insert($provider)
-    {
-        $this->load->helper('general');
-
-        // Get provider role id.
-        $provider['id_roles'] = $this->get_providers_role_id();
-
-        // Store provider settings and services (must not be present on the $provider array).
-        $services = $provider['services'];
-        unset($provider['services']);
-        $settings = $provider['settings'];
-        unset($provider['settings']);
-
-        // Insert provider record and save settings.
-        if ( ! $this->db->insert('ea_users', $provider))
-        {
-            throw new Exception('Could not insert provider into the database');
-        }
-
-        $settings['salt'] = generate_salt();
-        $settings['password'] = hash_password($settings['salt'], $settings['password']);
-
-        $provider['id'] = $this->db->insert_id();
-        $this->save_settings($settings, $provider['id']);
-        $this->save_services($services, $provider['id']);
-
-        // Return the new record id.
-        return (int)$provider['id'];
-    }
-
-    /**
-     * Update an existing provider record in the database.
-     *
-     * @param array $provider Contains the provider data.
-     *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the update operation fails.
-     */
-    protected function _update($provider)
-    {
-        $this->load->helper('general');
-
-        // Store service and settings (must not be present on the $provider array).
-        $services = $provider['services'];
-        unset($provider['services']);
-        $settings = $provider['settings'];
-        unset($provider['settings']);
-
-        if (isset($settings['password']))
-        {
-            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $provider['id']])->row()->salt;
-            $settings['password'] = hash_password($salt, $settings['password']);
-        }
-
-        // Update provider record.
-        $this->db->where('id', $provider['id']);
-        if ( ! $this->db->update('ea_users', $provider))
-        {
-            throw new Exception('Could not update provider record.');
-        }
-
-        $this->save_services($services, $provider['id']);
-        $this->save_settings($settings, $provider['id']);
-
-        // Return record id.
-        return (int)$provider['id'];
-    }
-
-    /**
-     * Find the database record id of a provider.
-     *
-     * @param array $provider Contains the provider data. The 'email' value is required in order to find the record id.
-     *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the provider's email value is not provided.
-     */
-    public function find_record_id($provider)
-    {
-        if ( ! isset($provider['email']))
-        {
-            throw new Exception('Provider email was not provided:' . print_r($provider, TRUE));
-        }
-
-        $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $provider['email'])
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-            ->get();
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find provider record id.');
-        }
-
-        return (int)$result->row()->id;
     }
 
     /**
@@ -326,6 +191,260 @@ class Providers_Model extends CI_Model {
         }
 
         return TRUE;
+    }
+
+    /**
+     * Validate Records Username
+     *
+     * @param string $username The provider records username.
+     * @param int $user_id The user record id.
+     *
+     * @return bool Returns the validation result.
+     */
+    public function validate_username($username, $user_id)
+    {
+        $num_rows = $this->db->get_where('ea_user_settings',
+            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
+        return ($num_rows > 0) ? FALSE : TRUE;
+    }
+
+    /**
+     * Check whether a particular provider record already exists in the database.
+     *
+     * @param array $provider Contains the provider data. The 'email' value is required in order to check for a provider.
+     *
+     * @return bool Returns whether the provider record exists or not.
+     *
+     * @throws Exception When the 'email' value is not provided.
+     */
+    public function exists($provider)
+    {
+        if ( ! isset($provider['email']))
+        {
+            throw new Exception('Provider email is not provided:' . print_r($provider, TRUE));
+        }
+
+        // This method shouldn't depend on another method of this class.
+        $num_rows = $this->db
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $provider['email'])
+            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->get()->num_rows();
+
+        return ($num_rows > 0) ? TRUE : FALSE;
+    }
+
+    /**
+     * Find the database record id of a provider.
+     *
+     * @param array $provider Contains the provider data. The 'email' value is required in order to find the record id.
+     *
+     * @return int Returns the record id.
+     *
+     * @throws Exception When the provider's email value is not provided.
+     */
+    public function find_record_id($provider)
+    {
+        if ( ! isset($provider['email']))
+        {
+            throw new Exception('Provider email was not provided:' . print_r($provider, TRUE));
+        }
+
+        $result = $this->db
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $provider['email'])
+            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->get();
+
+        if ($result->num_rows() == 0)
+        {
+            throw new Exception('Could not find provider record id.');
+        }
+
+        return (int)$result->row()->id;
+    }
+
+    /**
+     * Insert a new provider record into the database.
+     *
+     * @param array $provider Contains the provider data (must be already validated).
+     *
+     * @return int Returns the new record id.
+     *
+     * @throws Exception When the insert operation fails.
+     */
+    protected function _insert($provider)
+    {
+        $this->load->helper('general');
+
+        // Get provider role id.
+        $provider['id_roles'] = $this->get_providers_role_id();
+
+        // Store provider settings and services (must not be present on the $provider array).
+        $services = $provider['services'];
+        unset($provider['services']);
+        $settings = $provider['settings'];
+        unset($provider['settings']);
+
+        // Insert provider record and save settings.
+        if ( ! $this->db->insert('ea_users', $provider))
+        {
+            throw new Exception('Could not insert provider into the database');
+        }
+
+        $settings['salt'] = generate_salt();
+        $settings['password'] = hash_password($settings['salt'], $settings['password']);
+
+        $provider['id'] = $this->db->insert_id();
+        $this->save_settings($settings, $provider['id']);
+        $this->save_services($services, $provider['id']);
+
+        // Return the new record id.
+        return (int)$provider['id'];
+    }
+
+    /**
+     * Get the providers role id from the database.
+     *
+     * @return int Returns the role id for the provider records.
+     */
+    public function get_providers_role_id()
+    {
+        return $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id;
+    }
+
+    /**
+     * Save the provider settings (used from insert or update operation).
+     *
+     * @param array $settings Contains the setting values.
+     * @param int $provider_id Record id of the provider.
+     *
+     * @throws Exception If $provider_id argument is invalid.
+     * @throws Exception If $settings argument is invalid.
+     */
+    protected function save_settings($settings, $provider_id)
+    {
+        if ( ! is_numeric($provider_id))
+        {
+            throw new Exception('Invalid $provider_id argument given:' . $provider_id);
+        }
+
+        if (count($settings) == 0 || ! is_array($settings))
+        {
+            throw new Exception('Invalid $settings argument given:' . print_r($settings, TRUE));
+        }
+
+        // Check if the setting record exists in db.
+        if ($this->db->get_where('ea_user_settings', ['id_users' => $provider_id])
+                ->num_rows() == 0)
+        {
+            $this->db->insert('ea_user_settings', ['id_users' => $provider_id]);
+        }
+
+        foreach ($settings as $name => $value)
+        {
+            // Sort in descending order the extra working plan days
+            if ($name == 'extra_working_plan')
+            {
+                $value = json_decode($value, TRUE);
+                // Sort the array and put in reverse order
+                krsort($value);
+                $value = json_encode($value);
+            }
+            $this->set_setting($name, $value, $provider_id);
+        }
+    }
+
+    /**
+     * Set a provider's setting value in the database.
+     *
+     * The provider and settings record must already exist.
+     *
+     * @param string $setting_name The setting's name.
+     * @param string $value The setting's value.
+     * @param int $provider_id The selected provider id.
+     */
+    public function set_setting($setting_name, $value, $provider_id)
+    {
+        $this->db->where(['id_users' => $provider_id]);
+        return $this->db->update('ea_user_settings', [$setting_name => $value]);
+    }
+
+    /**
+     * Save the provider services in the database (use on both insert and update operation).
+     *
+     * @param array $services Contains the service ids that the selected provider can provide.
+     * @param int $provider_id The selected provider record id.
+     *
+     * @throws Exception When the $services argument type is not array.
+     * @throws Exception When the $provider_id argument type is not int.
+     */
+    protected function save_services($services, $provider_id)
+    {
+        // Validate method arguments.
+        if ( ! is_array($services))
+        {
+            throw new Exception('Invalid argument type $services: ' . $services);
+        }
+
+        if ( ! is_numeric($provider_id))
+        {
+            throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
+        }
+
+        // Save provider services in the database (delete old records and add new).
+        $this->db->delete('ea_services_providers', ['id_users' => $provider_id]);
+        foreach ($services as $service_id)
+        {
+            $service_provider = [
+                'id_users' => $provider_id,
+                'id_services' => $service_id
+            ];
+            $this->db->insert('ea_services_providers', $service_provider);
+        }
+    }
+
+    /**
+     * Update an existing provider record in the database.
+     *
+     * @param array $provider Contains the provider data.
+     *
+     * @return int Returns the record id.
+     *
+     * @throws Exception When the update operation fails.
+     */
+    protected function _update($provider)
+    {
+        $this->load->helper('general');
+
+        // Store service and settings (must not be present on the $provider array).
+        $services = $provider['services'];
+        unset($provider['services']);
+        $settings = $provider['settings'];
+        unset($provider['settings']);
+
+        if (isset($settings['password']))
+        {
+            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $provider['id']])->row()->salt;
+            $settings['password'] = hash_password($salt, $settings['password']);
+        }
+
+        // Update provider record.
+        $this->db->where('id', $provider['id']);
+        if ( ! $this->db->update('ea_users', $provider))
+        {
+            throw new Exception('Could not update provider record.');
+        }
+
+        $this->save_services($services, $provider['id']);
+        $this->save_settings($settings, $provider['id']);
+
+        // Return record id.
+        return (int)$provider['id'];
     }
 
     /**
@@ -540,120 +659,6 @@ class Providers_Model extends CI_Model {
     }
 
     /**
-     * Get the providers role id from the database.
-     *
-     * @return int Returns the role id for the provider records.
-     */
-    public function get_providers_role_id()
-    {
-        return $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id;
-    }
-
-    /**
-     * Get a providers setting from the database.
-     *
-     * @param string $setting_name The setting name that is going to be returned.
-     * @param int $provider_id The selected provider id.
-     *
-     * @return string Returns the value of the selected user setting.
-     */
-    public function get_setting($setting_name, $provider_id)
-    {
-        $provider_settings = $this->db->get_where('ea_user_settings', ['id_users' => $provider_id])->row_array();
-        return $provider_settings[$setting_name];
-    }
-
-    /**
-     * Set a provider's setting value in the database.
-     *
-     * The provider and settings record must already exist.
-     *
-     * @param string $setting_name The setting's name.
-     * @param string $value The setting's value.
-     * @param int $provider_id The selected provider id.
-     */
-    public function set_setting($setting_name, $value, $provider_id)
-    {
-        $this->db->where(['id_users' => $provider_id]);
-        return $this->db->update('ea_user_settings', [$setting_name => $value]);
-    }
-
-    /**
-     * Save the provider settings (used from insert or update operation).
-     *
-     * @param array $settings Contains the setting values.
-     * @param int $provider_id Record id of the provider.
-     *
-     * @throws Exception If $provider_id argument is invalid.
-     * @throws Exception If $settings argument is invalid.
-     */
-    protected function save_settings($settings, $provider_id)
-    {
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid $provider_id argument given:' . $provider_id);
-        }
-
-        if (count($settings) == 0 || ! is_array($settings))
-        {
-            throw new Exception('Invalid $settings argument given:' . print_r($settings, TRUE));
-        }
-
-        // Check if the setting record exists in db.
-        if ($this->db->get_where('ea_user_settings', ['id_users' => $provider_id])
-                ->num_rows() == 0)
-        {
-            $this->db->insert('ea_user_settings', ['id_users' => $provider_id]);
-        }
-
-        foreach ($settings as $name => $value)
-        {
-            // Sort in descending order the extra working plan days
-            if ($name == 'extra_working_plan') {
-                $value = json_decode($value, true);
-                // Sort the array and put in reverse order
-                krsort($value);
-                $value = json_encode($value);
-            }
-            $this->set_setting($name, $value, $provider_id);
-        }
-    }
-
-    /**
-     * Save the provider services in the database (use on both insert and update operation).
-     *
-     * @param array $services Contains the service ids that the selected provider can provide.
-     * @param int $provider_id The selected provider record id.
-     *
-     * @throws Exception When the $services argument type is not array.
-     * @throws Exception When the $provider_id argument type is not int.
-     */
-    protected function save_services($services, $provider_id)
-    {
-        // Validate method arguments.
-        if ( ! is_array($services))
-        {
-            throw new Exception('Invalid argument type $services: ' . $services);
-        }
-
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
-        }
-
-        // Save provider services in the database (delete old records and add new).
-        $this->db->delete('ea_services_providers', ['id_users' => $provider_id]);
-        foreach ($services as $service_id)
-        {
-            $service_provider = [
-                'id_users' => $provider_id,
-                'id_services' => $service_id
-            ];
-            $this->db->insert('ea_services_providers', $service_provider);
-        }
-    }
-
-    /**
      * Save the provider extra working plan days.
      *
      * @param array $extra_period Contains the date and the hours of the extra working plan day.
@@ -668,8 +673,8 @@ class Providers_Model extends CI_Model {
     {
         // Validate period
         $dateStart = date('Y-m-d', strtotime($extra_period['start_datetime']));
-        $start = date('H:i',strtotime($extra_period['start_datetime']));
-        $end = date('H:i',strtotime($extra_period['end_datetime']));
+        $start = date('H:i', strtotime($extra_period['start_datetime']));
+        $end = date('H:i', strtotime($extra_period['end_datetime']));
         if ($start > $end)
         {
             throw new Exception('Unavailable period start must be prior to end.');
@@ -687,7 +692,7 @@ class Providers_Model extends CI_Model {
         }
 
         // Add record to database.
-        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), true);
+        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), TRUE);
 
         $extra_working_plan[$dateStart] = [
             'start' => $start,
@@ -698,6 +703,20 @@ class Providers_Model extends CI_Model {
         $success = $this->set_setting('extra_working_plan', json_encode($extra_working_plan), $provider_id);
 
         return $success;
+    }
+
+    /**
+     * Get a providers setting from the database.
+     *
+     * @param string $setting_name The setting name that is going to be returned.
+     * @param int $provider_id The selected provider id.
+     *
+     * @return string Returns the value of the selected user setting.
+     */
+    public function get_setting($setting_name, $provider_id)
+    {
+        $provider_settings = $this->db->get_where('ea_user_settings', ['id_users' => $provider_id])->row_array();
+        return $provider_settings[$setting_name];
     }
 
     /**
@@ -724,27 +743,12 @@ class Providers_Model extends CI_Model {
         }
 
         // Add record to database.
-        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), true);
+        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), TRUE);
 
         unset($extra_working_plan[$extra_period]);
 
         $success = $this->set_setting('extra_working_plan', json_encode($extra_working_plan), $provider_id);
 
         return $success;
-    }
-
-    /**
-     * Validate Records Username
-     *
-     * @param string $username The provider records username.
-     * @param int $user_id The user record id.
-     *
-     * @return bool Returns the validation result.
-     */
-    public function validate_username($username, $user_id)
-    {
-        $num_rows = $this->db->get_where('ea_user_settings',
-            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
     }
 }

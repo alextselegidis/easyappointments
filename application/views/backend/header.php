@@ -24,7 +24,7 @@
 
     <script>
     	// Global JavaScript Variables - Used in all backend pages.
-    	var availableLanguages = <?= json_encode($this->config->item('available_languages')) ?>;
+    	var availableLanguages = <?= json_encode(config('available_languages')) ?>;
     	var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 </head>

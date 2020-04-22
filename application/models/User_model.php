@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -16,6 +16,9 @@
  *
  * Contains current user's methods.
  *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
+ *
  * @package Models
  */
 class User_Model extends CI_Model {
@@ -25,10 +28,8 @@ class User_Model extends CI_Model {
      * @param int $user_id User record id.
      *
      * @return array Returns an array with user data.
-     *
-     * @todo Refactor this method as it does not do as it states.
      */
-    public function get_settings($user_id)
+    public function get_user($user_id)
     {
         $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
         $user['settings'] = $this->db->get_where('ea_user_settings', ['id_users' => $user_id])->row_array();
@@ -42,10 +43,8 @@ class User_Model extends CI_Model {
      * @param array $user Contains the current users data.
      *
      * @return bool Returns the operation result.
-     *
-     * @todo Refactor this method as it does not do as it states.
      */
-    public function save_settings($user)
+    public function save_user($user)
     {
         $user_settings = $user['settings'];
         $user_settings['id_users'] = $user['id'];
@@ -73,19 +72,6 @@ class User_Model extends CI_Model {
     }
 
     /**
-     * Retrieve user's salt from database.
-     *
-     * @param string $username This will be used to find the user record.
-     *
-     * @return string Returns the salt db value.
-     */
-    public function get_salt($username)
-    {
-        $user = $this->db->get_where('ea_user_settings', ['username' => $username])->row_array();
-        return ($user) ? $user['salt'] : '';
-    }
-
-    /**
      * Performs the check of the given user credentials.
      *
      * @param string $username Given user's name.
@@ -96,7 +82,7 @@ class User_Model extends CI_Model {
     public function check_login($username, $password)
     {
         $this->load->helper('general');
-        $salt = $this->user_model->get_salt($username);
+        $salt = $this->get_salt($username);
         $password = hash_password($salt, $password);
 
         $user_settings = $this->db->get_where('ea_user_settings', [
@@ -134,6 +120,19 @@ class User_Model extends CI_Model {
             'timezone' => isset($user['timezone']) ? $user['timezone'] : $default_timezone,
             'role_slug' => $role['slug'],
         ];
+    }
+
+    /**
+     * Retrieve user's salt from database.
+     *
+     * @param string $username This will be used to find the user record.
+     *
+     * @return string Returns the salt db value.
+     */
+    public function get_salt($username)
+    {
+        $user = $this->db->get_where('ea_user_settings', ['username' => $username])->row_array();
+        return ($user) ? $user['salt'] : '';
     }
 
     /**

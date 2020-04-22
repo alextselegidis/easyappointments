@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,7 +11,18 @@
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Class Migration_Change_column_types
+ *
+ * @property CI_Loader load
+ * @property CI_DB_query_builder db
+ * @property CI_DB_forge dbforge
+ * @property Settings_Model settings_model
+ */
 class Migration_Change_column_types extends CI_Migration {
+    /**
+     * Upgrade method.
+     */
     public function up()
     {
         // Drop table constraints.
@@ -223,6 +234,9 @@ class Migration_Change_column_types extends CI_Migration {
         $this->db->query('ALTER TABLE ea_secretaries_providers CONVERT TO CHARACTER SET utf8');
     }
 
+    /**
+     * Downgrade method.
+     */
     public function down()
     {
         // Drop table constraints.

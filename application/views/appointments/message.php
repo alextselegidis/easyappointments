@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,7 +41,7 @@
                     <h3><?= $message_title ?></h3>
                     <p><?= $message_text ?></p>
 
-                    <?php if (isset($exceptions) && Config::DEBUG_MODE): ?>
+                    <?php if (isset($exceptions) && config('debug')): ?>
                         <div>
                             <h4><?= lang('unexpected_issues') ?></h4>
                             <?php foreach($exceptions as $exception): ?>

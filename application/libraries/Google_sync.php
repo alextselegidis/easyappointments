@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -28,9 +28,9 @@ class Google_Sync {
     /**
      * CodeIgniter Instance
      *
-     * @var CodeIgniter
+     * @var CI_Controller
      */
-    protected $CI;
+    protected $framework;
 
     /**
      * Google API Client
@@ -54,18 +54,18 @@ class Google_Sync {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->framework =& get_instance();
 
-        $this->CI->load->library('session');
+        $this->framework->load->library('session');
 
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
         $this->client->setUseObjects(TRUE);
 
-        $this->client->setApplicationName(Config::GOOGLE_PRODUCT_NAME);
-        $this->client->setClientId(Config::GOOGLE_CLIENT_ID);
-        $this->client->setClientSecret(Config::GOOGLE_CLIENT_SECRET);
-        $this->client->setDeveloperKey(Config::GOOGLE_API_KEY);
+        $this->client->setApplicationName($this->framework->config->item('google_application_name'));
+        $this->client->setClientId($this->framework->config->item('google_client_id'));
+        $this->client->setClientSecret($this->framework->config->item('google_client_secret'));
+        $this->client->setDeveloperKey($this->framework->config->item('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
 
         $this->service = new Google_CalendarService($this->client);
@@ -121,29 +121,26 @@ class Google_Sync {
     /**
      * Add an appointment record to its providers Google Calendar account.
      *
-     * This method checks whether the appointment's provider has enabled the Google
-     * Sync utility of Easy!Appointments and the stored access token is still valid.
-     * If yes, the selected appointment record is going to be added to the Google
-     * Calendar account.
+     * This method checks whether the appointment's provider has enabled the Google Sync utility of Easy!Appointments
+     * and the stored access token is still valid. If yes, the selected appointment record is going to be added to the
+     * Google Calendar account.
      *
      * @param array $appointment Contains the appointment record data.
      * @param array $provider Contains the provider record data.
      * @param array $service Contains the service record data.
      * @param array $customer Contains the customer recod data.
-     * @parma array $company_settings Contains some company settings that are used
-     * by this method. By the time the following values must be in the array:
-     * 'company_name'.
+     * @param array $settings Contains some company settings that are used by this method.
      *
      * @return Google_Event Returns the Google_Event class object.
      */
-    public function add_appointment($appointment, $provider, $service, $customer, $company_settings)
+    public function add_appointment($appointment, $provider, $service, $customer, $settings)
     {
-        $this->CI->load->helper('general');
+        $this->framework->load->helper('general');
 
         $event = new Google_Event();
         $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
         $event->setDescription($appointment['notes']);
-        $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $company_settings['company_name']);
+        $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $settings['company_name']);
 
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
@@ -186,22 +183,20 @@ class Google_Sync {
      * @param array $provider Contains the provider record data.
      * @param array $service Contains the service record data.
      * @param array $customer Contains the customer recod data.
-     * @parma array $company_settings Contains some company settings that are used
-     * by this method. By the time the following values must be in the array:
-     * 'company_name'.
+     * @parma array $company_settings Contains some company settings that are used by this method.
      *
      * @return Google_Event Returns the Google_Event class object.
      */
-    public function update_appointment($appointment, $provider, $service, $customer, $company_settings)
+    public function update_appointment($appointment, $provider, $service, $customer, $settings)
     {
-        $this->CI->load->helper('general');
+        $this->framework->load->helper('general');
 
         $event = $this->service->events->get($provider['settings']['google_calendar'],
             $appointment['id_google_calendar']);
 
         $event->setSummary($service['name']);
         $event->setDescription($appointment['notes']);
-        $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $company_settings['company_name']);
+        $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $settings['company_name']);
 
         $start = new Google_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
@@ -263,7 +258,7 @@ class Google_Sync {
      */
     public function add_unavailable($provider, $unavailable)
     {
-        $this->CI->load->helper('general');
+        $this->framework->load->helper('general');
 
         $event = new Google_Event();
         $event->setSummary('Unavailable');
@@ -294,7 +289,7 @@ class Google_Sync {
      */
     public function update_unavailable($provider, $unavailable)
     {
-        $this->CI->load->helper('general');
+        $this->framework->load->helper('general');
 
         $event = $this->service->events->get($provider['settings']['google_calendar'],
             $unavailable['id_google_calendar']);
@@ -349,20 +344,20 @@ class Google_Sync {
      * Get all the events between the sync period.
      *
      * @param string $google_calendar The name of the google calendar to be used.
-     * @param date $start The start date of sync period.
-     * @param date $end The end date of sync period.
+     * @param string $start The start date of sync period.
+     * @param string $end The end date of sync period.
      *
      * @return object Returns an array with Google_Event objects that belong on the given
      * sync period (start, end).
      */
     public function get_sync_events($google_calendar, $start, $end)
     {
-        $this->CI->load->helper('general');
+        $this->framework->load->helper('general');
 
         $params = [
             'timeMin' => date3339($start),
             'timeMax' => date3339($end),
-            'singleEvents' => true,
+            'singleEvents' => TRUE,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);

@@ -502,9 +502,9 @@
 
             <div class="current-version well">
                 <?= lang('current_version') ?>
-                <?= $this->config->item('version') ?>
-                <?php if ($this->config->item('release_label')): ?>
-                    - <?= $this->config->item('release_label') ?>
+                <?= config('version') ?>
+                <?php if (config('release_label')): ?>
+                    - <?= config('release_label') ?>
                 <?php endif ?>
             </div>
 

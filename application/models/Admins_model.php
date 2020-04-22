@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -29,6 +29,9 @@
  *      'notes'
  *      'id_roles'
  *      'settings' >>> array that contains user settings (username, password etc)
+ *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
  *
  * @package Models
  */
@@ -61,145 +64,6 @@ class Admins_Model extends CI_Model {
         }
 
         return (int)$admin['id'];
-    }
-
-    /**
-     * Check whether a particular admin record exists in the database.
-     *
-     * @param array $admin Contains the admin data. The 'email' value is required to be present at the moment.
-     *
-     * @return bool Returns whether the record exists or not.
-     *
-     * @throws Exception When the 'email' value is not present on the $admin argument.
-     */
-    public function exists($admin)
-    {
-        if ( ! isset($admin['email']))
-        {
-            throw new Exception('Admin email is not provided: ' . print_r($admin, TRUE));
-        }
-
-        // This method shouldn't depend on another method of this class.
-        $num_rows = $this->db
-            ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $admin['email'])
-            ->where('ea_roles.slug', DB_SLUG_ADMIN)
-            ->get()->num_rows();
-
-        return ($num_rows > 0) ? TRUE : FALSE;
-    }
-
-    /**
-     * Insert a new admin record into the database.
-     *
-     * @param array $admin Contains the admin data.
-     *
-     * @return int Returns the new record id.
-     *
-     * @throws Exception When the insert operation fails.
-     */
-    protected function _insert($admin)
-    {
-        $this->load->helper('general');
-
-        $admin['id_roles'] = $this->get_admin_role_id();
-        $settings = $admin['settings'];
-        unset($admin['settings']);
-
-        $this->db->trans_begin();
-
-        if ( ! $this->db->insert('ea_users', $admin))
-        {
-            throw new Exception('Could not insert admin into the database.');
-        }
-
-        $admin['id'] = (int)$this->db->insert_id();
-        $settings['id_users'] = $admin['id'];
-        $settings['salt'] = generate_salt();
-        $settings['password'] = hash_password($settings['salt'], $settings['password']);
-
-        // Insert admin settings.
-        if ( ! $this->db->insert('ea_user_settings', $settings))
-        {
-            $this->db->trans_rollback();
-            throw new Exception('Could not insert admin settings into the database.');
-        }
-
-        $this->db->trans_complete();
-
-        return $admin['id'];
-    }
-
-    /**
-     * Update an existing admin record in the database.
-     *
-     * @param array $admin Contains the admin record data.
-     *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the update operation fails.
-     */
-    protected function _update($admin)
-    {
-        $this->load->helper('general');
-
-        $settings = $admin['settings'];
-        unset($admin['settings']);
-        $settings['id_users'] = $admin['id'];
-
-        if (isset($settings['password']))
-        {
-            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $admin['id']])->row()->salt;
-            $settings['password'] = hash_password($salt, $settings['password']);
-        }
-
-        $this->db->where('id', $admin['id']);
-        if ( ! $this->db->update('ea_users', $admin))
-        {
-            throw new Exception('Could not update admin record.');
-        }
-
-        $this->db->where('id_users', $settings['id_users']);
-        if ( ! $this->db->update('ea_user_settings', $settings))
-        {
-            throw new Exception('Could not update admin settings.');
-        }
-
-        return (int)$admin['id'];
-    }
-
-    /**
-     * Find the database record id of an admin user.
-     *
-     * @param array $admin Contains the admin data. The 'email' value is required in order to find the record id.
-     *
-     * @return int Returns the record id
-     *
-     * @throws Exception When the 'email' value is not present on the $admin array.
-     */
-    public function find_record_id($admin)
-    {
-        if ( ! isset($admin['email']))
-        {
-            throw new Exception('Admin email was not provided: ' . print_r($admin, TRUE));
-        }
-
-        $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $admin['email'])
-            ->where('ea_roles.slug', DB_SLUG_ADMIN)
-            ->get();
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find admin record id.');
-        }
-
-        return (int)$result->row()->id;
     }
 
     /**
@@ -289,6 +153,170 @@ class Admins_Model extends CI_Model {
         }
 
         return TRUE; // Operation completed successfully.
+    }
+
+    /**
+     * Validate Records Username
+     *
+     * @param string $username The provider records username.
+     * @param int $user_id The user record id.
+     *
+     * @return bool Returns the validation result.
+     */
+    public function validate_username($username, $user_id)
+    {
+        $num_rows = $this->db->get_where('ea_user_settings',
+            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
+        return ($num_rows > 0) ? FALSE : TRUE;
+    }
+
+    /**
+     * Check whether a particular admin record exists in the database.
+     *
+     * @param array $admin Contains the admin data. The 'email' value is required to be present at the moment.
+     *
+     * @return bool Returns whether the record exists or not.
+     *
+     * @throws Exception When the 'email' value is not present on the $admin argument.
+     */
+    public function exists($admin)
+    {
+        if ( ! isset($admin['email']))
+        {
+            throw new Exception('Admin email is not provided: ' . print_r($admin, TRUE));
+        }
+
+        // This method shouldn't depend on another method of this class.
+        $num_rows = $this->db
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $admin['email'])
+            ->where('ea_roles.slug', DB_SLUG_ADMIN)
+            ->get()->num_rows();
+
+        return $num_rows > 0;
+    }
+
+    /**
+     * Find the database record id of an admin user.
+     *
+     * @param array $admin Contains the admin data. The 'email' value is required in order to find the record id.
+     *
+     * @return int Returns the record id
+     *
+     * @throws Exception When the 'email' value is not present on the $admin array.
+     */
+    public function find_record_id($admin)
+    {
+        if ( ! isset($admin['email']))
+        {
+            throw new Exception('Admin email was not provided: ' . print_r($admin, TRUE));
+        }
+
+        $result = $this->db
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $admin['email'])
+            ->where('ea_roles.slug', DB_SLUG_ADMIN)
+            ->get();
+
+        if ($result->num_rows() == 0)
+        {
+            throw new Exception('Could not find admin record id.');
+        }
+
+        return (int)$result->row()->id;
+    }
+
+    /**
+     * Insert a new admin record into the database.
+     *
+     * @param array $admin Contains the admin data.
+     *
+     * @return int Returns the new record id.
+     *
+     * @throws Exception When the insert operation fails.
+     */
+    protected function _insert($admin)
+    {
+        $this->load->helper('general');
+
+        $admin['id_roles'] = $this->get_admin_role_id();
+        $settings = $admin['settings'];
+        unset($admin['settings']);
+
+        $this->db->trans_begin();
+
+        if ( ! $this->db->insert('ea_users', $admin))
+        {
+            throw new Exception('Could not insert admin into the database.');
+        }
+
+        $admin['id'] = (int)$this->db->insert_id();
+        $settings['id_users'] = $admin['id'];
+        $settings['salt'] = generate_salt();
+        $settings['password'] = hash_password($settings['salt'], $settings['password']);
+
+        // Insert admin settings.
+        if ( ! $this->db->insert('ea_user_settings', $settings))
+        {
+            $this->db->trans_rollback();
+            throw new Exception('Could not insert admin settings into the database.');
+        }
+
+        $this->db->trans_complete();
+
+        return $admin['id'];
+    }
+
+    /**
+     * Get the admin users role id.
+     *
+     * @return int Returns the role record id.
+     */
+    public function get_admin_role_id()
+    {
+        return (int)$this->db->get_where('ea_roles', ['slug' => DB_SLUG_ADMIN])->row()->id;
+    }
+
+    /**
+     * Update an existing admin record in the database.
+     *
+     * @param array $admin Contains the admin record data.
+     *
+     * @return int Returns the record id.
+     *
+     * @throws Exception When the update operation fails.
+     */
+    protected function _update($admin)
+    {
+        $this->load->helper('general');
+
+        $settings = $admin['settings'];
+        unset($admin['settings']);
+        $settings['id_users'] = $admin['id'];
+
+        if (isset($settings['password']))
+        {
+            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $admin['id']])->row()->salt;
+            $settings['password'] = hash_password($salt, $settings['password']);
+        }
+
+        $this->db->where('id', $admin['id']);
+        if ( ! $this->db->update('ea_users', $admin))
+        {
+            throw new Exception('Could not update admin record.');
+        }
+
+        $this->db->where('id_users', $settings['id_users']);
+        if ( ! $this->db->update('ea_user_settings', $settings))
+        {
+            throw new Exception('Could not update admin settings.');
+        }
+
+        return (int)$admin['id'];
     }
 
     /**
@@ -438,30 +466,5 @@ class Admins_Model extends CI_Model {
         }
 
         return $batch;
-    }
-
-    /**
-     * Get the admin users role id.
-     *
-     * @return int Returns the role record id.
-     */
-    public function get_admin_role_id()
-    {
-        return (int)$this->db->get_where('ea_roles', ['slug' => DB_SLUG_ADMIN])->row()->id;
-    }
-
-    /**
-     * Validate Records Username
-     *
-     * @param string $username The provider records username.
-     * @param int $user_id The user record id.
-     *
-     * @return bool Returns the validation result.
-     */
-    public function validate_username($username, $user_id)
-    {
-        $num_rows = $this->db->get_where('ea_user_settings',
-            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
     }
 }

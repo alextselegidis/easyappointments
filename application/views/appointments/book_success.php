@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,7 +37,7 @@
                             </a>
                         ';
 
-                        if ($this->config->item('google_sync_feature')) {
+                        if (config('google_sync_feature')) {
                             echo '
                                 <button id="add-to-google-calendar" class="btn btn-primary">
                                     <span class="glyphicon glyphicon-plus"></span>
@@ -49,8 +49,8 @@
                         if (isset($exceptions)) {
                             echo '<div class="col-xs-12" style="margin:10px">';
                             echo '<h4>Unexpected Errors</h4>';
-                            foreach($exceptions as $exc) {
-                                echo exceptionToHtml($exc);
+                            foreach($exceptions as $exception) {
+                                echo exceptionToHtml($exception);
                             }
                             echo '</div>';
                         }
@@ -72,8 +72,8 @@
             'providerData'      : <?= json_encode($provider_data) ?>,
             'serviceData'       : <?= json_encode($service_data) ?>,
             'companyName'       : <?= json_encode($company_name) ?>,
-            'googleApiKey'      : <?= json_encode(Config::GOOGLE_API_KEY) ?>,
-            'googleClientId'    : <?= json_encode(Config::GOOGLE_CLIENT_ID) ?>,
+            'googleApiKey'      : <?= json_encode(config('google_api_key')) ?>,
+            'googleClientId'    : <?= json_encode(config('google_client_id')) ?>,
             'googleApiScope'    : 'https://www.googleapis.com/auth/calendar'
         };
 

@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -13,6 +13,9 @@
 
 /**
  * Timezones Model
+ *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
  *
  * @package Models
  */
@@ -458,16 +461,6 @@ class Timezones_Model extends CI_Model {
     ];
 
     /**
-     * Get all timezones to a flat array.
-     *
-     * @return array
-     */
-    public function to_array()
-    {
-        return array_merge(...array_values($this->timezones));
-    }
-
-    /**
      * Get all timezones to a grouped array (by continent).
      *
      * @return array
@@ -475,33 +468,6 @@ class Timezones_Model extends CI_Model {
     public function to_grouped_array()
     {
         return $this->timezones;
-    }
-
-    /**
-     * Convert a date time value to a new timezone.
-     *
-     * @param string $value Provide a date time value as a string (format Y-m-d H:i:s).
-     * @param string $from_timezone From timezone value.
-     * @param string $to_timezone To timezone value.
-     * @return string
-     * @throws Exception
-     */
-    public function convert($value, $from_timezone, $to_timezone)
-    {
-        if ( ! $to_timezone)
-        {
-            return $value;
-        }
-
-        $from = new \DateTimeZone($from_timezone);
-
-        $to = new \DateTimeZone($to_timezone);
-
-        $result = new \DateTime($value, $from);
-
-        $result->setTimezone($to);
-
-        return $result->format('Y-m-d H:i:s');
     }
 
     /**
@@ -559,6 +525,43 @@ class Timezones_Model extends CI_Model {
     }
 
     /**
+     * Get the default timezone value of the current system.
+     *
+     * @return string
+     */
+    public function get_default_timezone()
+    {
+        return 'UTC';
+    }
+
+    /**
+     * Convert a date time value to a new timezone.
+     *
+     * @param string $value Provide a date time value as a string (format Y-m-d H:i:s).
+     * @param string $from_timezone From timezone value.
+     * @param string $to_timezone To timezone value.
+     * @return string
+     * @throws Exception
+     */
+    public function convert($value, $from_timezone, $to_timezone)
+    {
+        if ( ! $to_timezone)
+        {
+            return $value;
+        }
+
+        $from = new DateTimeZone($from_timezone);
+
+        $to = new DateTimeZone($to_timezone);
+
+        $result = new DateTime($value, $from);
+
+        $result->setTimezone($to);
+
+        return $result->format('Y-m-d H:i:s');
+    }
+
+    /**
      * Get the timezone name for the provided value.
      *
      * @param string $value
@@ -571,14 +574,13 @@ class Timezones_Model extends CI_Model {
         return isset($timezones[$value]) ? $timezones[$value] : NULL;
     }
 
-
     /**
-     * Get the default timezone value of the current system.
+     * Get all timezones to a flat array.
      *
-     * @return string
+     * @return array
      */
-    public function get_default_timezone()
+    public function to_array()
     {
-        return 'UTC';
+        return array_merge(...array_values($this->timezones));
     }
 }

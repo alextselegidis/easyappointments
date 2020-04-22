@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,6 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
+use EA\Engine\Api\V1\Authorization;
 use EA\Engine\Types\NonEmptyText;
 
 /**
@@ -43,7 +44,7 @@ class API_V1_Controller extends CI_Controller {
 
             $api_token = $this->settings_model->get_setting('api_token');
 
-            $authorization = new \EA\Engine\Api\V1\Authorization($this);
+            $authorization = new Authorization($this);
 
             if ( ! empty($api_token) && $api_token === $this->_getBearerToken())
             {
@@ -59,7 +60,8 @@ class API_V1_Controller extends CI_Controller {
             $username = new NonEmptyText($_SERVER['PHP_AUTH_USER']);
             $password = new NonEmptyText($_SERVER['PHP_AUTH_PW']);
             $authorization->basic($username, $password);
-        } catch (\Exception $exception)
+        }
+        catch (Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -96,13 +98,15 @@ class API_V1_Controller extends CI_Controller {
         if (isset($_SERVER['Authorization']))
         {
             $headers = trim($_SERVER['Authorization']);
-        } else
+        }
+        else
         {
             if (isset($_SERVER['HTTP_AUTHORIZATION']))
             {
                 //Nginx or fast CGI
                 $headers = trim($_SERVER['HTTP_AUTHORIZATION']);
-            } elseif (function_exists('apache_request_headers'))
+            }
+            elseif (function_exists('apache_request_headers'))
             {
                 $requestHeaders = apache_request_headers();
                 // Server-side fix for bug in old Android versions (a nice side-effect of this fix means we don't care about capitalization for Authorization)
@@ -132,9 +136,9 @@ class API_V1_Controller extends CI_Controller {
      *
      * Call this method from catch blocks of child controller callbacks.
      *
-     * @param \Exception $exception Thrown exception to be outputted.
+     * @param Exception $exception Thrown exception to be outputted.
      */
-    protected function _handleException(\Exception $exception)
+    protected function _handleException(Exception $exception)
     {
         $error = [
             'code' => $exception->getCode() ?: 500,

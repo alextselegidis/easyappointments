@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,7 +11,18 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Class Migration_Add_service_attendants_number
+ *
+ * @property CI_Loader load
+ * @property CI_DB_query_builder db
+ * @property CI_DB_forge dbforge
+ * @property Settings_Model settings_model
+ */
 class Migration_Add_service_attendants_number extends CI_Migration {
+    /**
+     * Upgrade method.
+     */
     public function up()
     {
         if ( ! $this->db->field_exists('attendants_number', 'ea_services'))
@@ -31,6 +42,9 @@ class Migration_Add_service_attendants_number extends CI_Migration {
         }
     }
 
+    /**
+     * Downgrade method.
+     */
     public function down()
     {
         if ($this->db->field_exists('attendants_number', 'ea_services'))

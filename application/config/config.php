@@ -10,7 +10,7 @@
 */
 $config['version'] = '1.4.0'; // This must be changed manually.
 $config['release_label'] = 'Dev'; // Leave empty for no title or add Alpha, Beta etc ...
-$config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
+$config['debug'] = Config::DEBUG_MODE;
 
 /*
 |--------------------------------------------------------------------------

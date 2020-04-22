@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,11 +11,34 @@
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Class Migration_Add_google_analytics_setting
+ *
+ * @property CI_Loader load
+ * @property CI_DB_query_builder db
+ * @property CI_DB_forge dbforge
+ * @property Settings_Model settings_model
+ */
 class Migration_Add_google_analytics_setting extends CI_Migration {
+    /**
+     * Migration_Add_google_analytics_setting constructor.
+     *
+     * @param array $config
+     */
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+
+        $this->load->model('settings_model');
+    }
+
+    /**
+     * Upgrade method.
+     *
+     * @throws Exception
+     */
     public function up()
     {
-        $this->load->model('settings_model');
-
         try
         {
             $this->settings_model->get_setting('google_analytics_code');
@@ -26,10 +49,13 @@ class Migration_Add_google_analytics_setting extends CI_Migration {
         }
     }
 
+    /**
+     * Downgrade method.
+     *
+     * @throws Exception
+     */
     public function down()
     {
-        $this->load->model('settings_model');
-
         $this->settings_model->remove_setting('google_analytics_code');
     }
 }

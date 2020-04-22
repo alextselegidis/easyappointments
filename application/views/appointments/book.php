@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -343,7 +343,7 @@
                     <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
                     |
                     <span id="select-language" class="label label-success">
-    		        	<?= ucfirst($this->config->item('language')) ?>
+    		        	<?= ucfirst(config('language')) ?>
     		        </span>
                     |
                     <a href="<?= site_url('backend'); ?>">
@@ -385,7 +385,7 @@
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;
-        var availableLanguages = <?= json_encode($this->config->item('available_languages')) ?>;
+        var availableLanguages = <?= json_encode(config('available_languages')) ?>;
     </script>
 
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>

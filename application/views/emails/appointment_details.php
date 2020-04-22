@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title><?= lang('appointment_details_title') ?></title>
 </head>

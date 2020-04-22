@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -13,6 +13,9 @@
 
 /**
  * Customers Model
+ *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
  *
  * @package Models
  */
@@ -54,6 +57,74 @@ class Customers_Model extends CI_Model {
     }
 
     /**
+     * Validate customer data before the insert or update operation is executed.
+     *
+     * @param array $customer Contains the customer data.
+     *
+     * @return bool Returns the validation result.
+     *
+     * @throws Exception If customer validation fails.
+     */
+    public function validate($customer)
+    {
+        $this->load->helper('data_validation');
+
+        // If a customer id is provided, check whether the record
+        // exist in the database.
+        if (isset($customer['id']))
+        {
+            $num_rows = $this->db->get_where('ea_users',
+                ['id' => $customer['id']])->num_rows();
+            if ($num_rows == 0)
+            {
+                throw new Exception('Provided customer id does not '
+                    . 'exist in the database.');
+            }
+        }
+
+        $query = $this->db->get_where('ea_settings', ['name' => 'require_phone_number']);
+        $phone_number_required = $query->num_rows() > 0 ? $query->row() === '1' : FALSE;
+
+        // Validate required fields
+        if (empty($customer['first_name'])
+            || empty($customer['last_name'])
+            || empty($customer['email'])
+            || (empty($customer['phone_number']) && $phone_number_required))
+        {
+            throw new Exception('Not all required fields are provided: '
+                . print_r($customer, TRUE));
+        }
+
+        // Validate email address
+        if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
+        {
+            throw new Exception('Invalid email address provided: '
+                . $customer['email']);
+        }
+
+        // When inserting a record the email address must be unique.
+        $customer_id = (isset($customer['id'])) ? $customer['id'] : '';
+
+        $num_rows = $this->db
+            ->select('*')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+            ->where('ea_users.email', $customer['email'])
+            ->where('ea_users.id <>', $customer_id)
+            ->get()
+            ->num_rows();
+
+        if ($num_rows > 0)
+        {
+            throw new Exception('Given email address belongs to another customer record. '
+                . 'Please use a different email.');
+        }
+
+        return TRUE;
+    }
+
+    /**
      * Check if a particular customer record already exists.
      *
      * This method checks whether the given customer already exists in the database. It doesn't search with the id, but
@@ -83,6 +154,45 @@ class Customers_Model extends CI_Model {
             ->get()->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
+    }
+
+    /**
+     * Find the database id of a customer record.
+     *
+     * The customer data should include the following fields in order to get the unique id from the database: "email"
+     *
+     * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
+     *
+     * @param array $customer Array with the customer data. The keys of the array should have the same names as the
+     * database fields.
+     *
+     * @return int Returns the ID.
+     *
+     * @throws Exception If customer record does not exist.
+     */
+    public function find_record_id($customer)
+    {
+        if (empty($customer['email']))
+        {
+            throw new Exception('Customer\'s email was not provided: '
+                . print_r($customer, TRUE));
+        }
+
+        // Get customer's role id
+        $result = $this->db
+            ->select('ea_users.id')
+            ->from('ea_users')
+            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+            ->where('ea_users.email', $customer['email'])
+            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+            ->get();
+
+        if ($result->num_rows() == 0)
+        {
+            throw new Exception('Could not find customer record id.');
+        }
+
+        return $result->row()->id;
     }
 
     /**
@@ -137,113 +247,6 @@ class Customers_Model extends CI_Model {
         }
 
         return (int)$customer['id'];
-    }
-
-    /**
-     * Find the database id of a customer record.
-     *
-     * The customer data should include the following fields in order to get the unique id from the database: "email"
-     *
-     * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
-     *
-     * @param array $customer Array with the customer data. The keys of the array should have the same names as the
-     * database fields.
-     *
-     * @return int Returns the ID.
-     *
-     * @throws Exception If customer record does not exist.
-     */
-    public function find_record_id($customer)
-    {
-        if (empty($customer['email']))
-        {
-            throw new Exception('Customer\'s email was not provided: '
-                . print_r($customer, TRUE));
-        }
-
-        // Get customer's role id
-        $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $customer['email'])
-            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-            ->get();
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find customer record id.');
-        }
-
-        return $result->row()->id;
-    }
-
-    /**
-     * Validate customer data before the insert or update operation is executed.
-     *
-     * @param array $customer Contains the customer data.
-     *
-     * @return bool Returns the validation result.
-     *
-     * @throws Exception If customer validation fails.
-     */
-    public function validate($customer)
-    {
-        $this->load->helper('data_validation');
-
-        // If a customer id is provided, check whether the record
-        // exist in the database.
-        if (isset($customer['id']))
-        {
-            $num_rows = $this->db->get_where('ea_users',
-                ['id' => $customer['id']])->num_rows();
-            if ($num_rows == 0)
-            {
-                throw new Exception('Provided customer id does not '
-                    . 'exist in the database.');
-            }
-        }
-
-        $query = $this->db->get_where('ea_settings', ['name' => 'require_phone_number']);
-        $phone_number_required = $query->num_rows() > 0 ? $query->row() === '1' : false;
-
-        // Validate required fields
-        if ( empty($customer['first_name'])
-            || empty($customer['last_name'])
-            || empty($customer['email'])
-            || (empty($customer['phone_number']) && $phone_number_required))
-        {
-            throw new Exception('Not all required fields are provided: '
-                . print_r($customer, TRUE));
-        }
-
-        // Validate email address
-        if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
-        {
-            throw new Exception('Invalid email address provided: '
-                . $customer['email']);
-        }
-
-        // When inserting a record the email address must be unique.
-        $customer_id = (isset($customer['id'])) ? $customer['id'] : '';
-
-        $num_rows = $this->db
-            ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-            ->where('ea_users.email', $customer['email'])
-            ->where('ea_users.id <>', $customer_id)
-            ->get()
-            ->num_rows();
-
-        if ($num_rows > 0)
-        {
-            throw new Exception('Given email address belongs to another customer record. '
-                . 'Please use a different email.');
-        }
-
-        return TRUE;
     }
 
     /**

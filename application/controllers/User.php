@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,11 +11,34 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use \EA\Engine\Types\NonEmptyText;
-use \EA\Engine\Types\Email;
+use EA\Engine\Notifications\Email as EmailClient;
+use EA\Engine\Types\Email;
+use EA\Engine\Types\NonEmptyText;
 
 /**
  * User Controller
+ *
+ * @property CI_Session session
+ * @property CI_Loader load
+ * @property CI_Input input
+ * @property CI_Output output
+ * @property CI_Config config
+ * @property CI_Lang lang
+ * @property CI_Cache cache
+ * @property CI_DB_query_builder db
+ * @property CI_Security security
+ * @property Google_Sync google_sync
+ * @property Ics_file ics_file
+ * @property Appointments_Model appointments_model
+ * @property Providers_Model providers_model
+ * @property Services_Model services_model
+ * @property Customers_Model customers_model
+ * @property Settings_Model settings_model
+ * @property Timezones_Model timezones_model
+ * @property Roles_Model roles_model
+ * @property Secretaries_Model secretaries_model
+ * @property Admins_Model admins_model
+ * @property User_Model user_model
  *
  * @package Controllers
  */
@@ -26,16 +49,18 @@ class User extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->library('session');
 
-        // Set user's selected language.
         if ($this->session->userdata('language'))
         {
+            // Set user's selected language.
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
         }
         else
         {
+            // Set the default language.
             $this->lang->load('translations', $this->config->item('language')); // default
         }
     }
@@ -52,6 +77,8 @@ class User extends CI_Controller {
 
     /**
      * Display the login page.
+     *
+     * @throws Exception
      */
     public function login()
     {
@@ -66,6 +93,7 @@ class User extends CI_Controller {
         }
 
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+
         $this->load->view('user/login', $view);
     }
 
@@ -89,6 +117,7 @@ class User extends CI_Controller {
 
     /**
      * Display the "forgot password" page.
+     * @throws Exception
      */
     public function forgot_password()
     {
@@ -100,6 +129,7 @@ class User extends CI_Controller {
 
     /**
      * Display the "not authorized" page.
+     * @throws Exception
      */
     public function no_privileges()
     {
@@ -128,29 +158,33 @@ class User extends CI_Controller {
             }
 
             $this->load->model('user_model');
+
             $user_data = $this->user_model->check_login($this->input->post('username'), $this->input->post('password'));
 
             if ($user_data)
             {
                 $this->session->set_userdata($user_data); // Save data on user's session.
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
+
+                $response = AJAX_SUCCESS;
             }
             else
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_FAILURE));
+                $response = AJAX_FAILURE;
             }
-
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 
     /**
@@ -175,13 +209,17 @@ class User extends CI_Controller {
             $this->load->model('user_model');
             $this->load->model('settings_model');
 
-            $new_password = $this->user_model->regenerate_password($this->input->post('username'),
-                $this->input->post('email'));
+            $new_password = $this->user_model->regenerate_password(
+                $this->input->post('username'),
+                $this->input->post('email')
+            );
 
             if ($new_password != FALSE)
             {
                 $this->config->load('email');
-                $email = new \EA\Engine\Notifications\Email($this, $this->config->config);
+
+                $email = new EmailClient($this, $this->config->config);
+
                 $company_settings = [
                     'company_name' => $this->settings_model->get_setting('company_name'),
                     'company_link' => $this->settings_model->get_setting('company_link'),
@@ -192,15 +230,20 @@ class User extends CI_Controller {
                     $company_settings);
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($new_password != FALSE ? AJAX_SUCCESS : AJAX_FAILURE));
+            $response = $new_password != FALSE ? AJAX_SUCCESS : AJAX_FAILURE;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 }

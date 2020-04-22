@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,7 +11,18 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Class Migration_add_appointment_location_column
+ *
+ * @property CI_Loader load
+ * @property CI_DB_query_builder db
+ * @property CI_DB_forge dbforge
+ * @property Settings_Model settings_model
+ */
 class Migration_add_appointment_location_column extends CI_Migration {
+    /**
+     * Upgrade method.
+     */
     public function up()
     {
         $this->db->query('
@@ -25,6 +36,9 @@ class Migration_add_appointment_location_column extends CI_Migration {
         ');
     }
 
+    /**
+     * Downgrade method.
+     */
     public function down()
     {
         $this->db->query('

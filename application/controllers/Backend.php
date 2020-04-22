@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -14,6 +14,28 @@
 /**
  * Backend Controller
  *
+ * @property CI_Session session
+ * @property CI_Loader load
+ * @property CI_Input input
+ * @property CI_Output output
+ * @property CI_Config config
+ * @property CI_Lang lang
+ * @property CI_Cache cache
+ * @property CI_DB_query_builder db
+ * @property CI_Security security
+ * @property Google_Sync google_sync
+ * @property Ics_file ics_file
+ * @property Appointments_Model appointments_model
+ * @property Providers_Model providers_model
+ * @property Services_Model services_model
+ * @property Customers_Model customers_model
+ * @property Settings_Model settings_model
+ * @property Timezones_Model timezones_model
+ * @property Roles_Model roles_model
+ * @property Secretaries_Model secretaries_model
+ * @property Admins_Model admins_model
+ * @property User_Model user_model
+ *
  * @package Controllers
  */
 class Backend extends CI_Controller {
@@ -25,15 +47,16 @@ class Backend extends CI_Controller {
         parent::__construct();
         $this->load->library('session');
 
-        // Set user's selected language.
         if ($this->session->userdata('language'))
         {
+            // Set user's selected language.
             $this->config->set_item('language', $this->session->userdata('language'));
             $this->lang->load('translations', $this->session->userdata('language'));
         }
         else
         {
-            $this->lang->load('translations', $this->config->item('language')); // default
+            // Set the default language.
+            $this->lang->load('translations', $this->config->item('language'));
         }
     }
 
@@ -45,12 +68,14 @@ class Backend extends CI_Controller {
      * menus at the top of the page.
      *
      * @param string $appointment_hash Appointment edit dialog will appear when the page loads (default '').
+     *
+     * @throws Exception
      */
     public function index($appointment_hash = '')
     {
         $this->session->set_userdata('dest_url', site_url('backend'));
 
-        if ( ! $this->_has_privileges(PRIV_APPOINTMENTS))
+        if ( ! $this->has_privileges(PRIV_APPOINTMENTS))
         {
             return;
         }
@@ -76,7 +101,7 @@ class Backend extends CI_Controller {
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
-        $user = $this->user_model->get_settings($this->session->userdata('user_id'));
+        $user = $this->user_model->get_user($this->session->userdata('user_id'));
         $view['calendar_view'] = $user['settings']['calendar_view'];
         $view['timezones'] = $this->timezones_model->to_array();
         $this->set_user_data($view);
@@ -110,6 +135,72 @@ class Backend extends CI_Controller {
     }
 
     /**
+     * Check whether current user is logged in and has the required privileges to view a page.
+     *
+     * The backend page requires different privileges from the users to display pages. Not all pages are available to
+     * all users. For example secretaries should not be able to edit the system users.
+     *
+     * @param string $page This argument must match the roles field names of each section (eg "appointments", "users"
+     * ...).
+     * @param bool $redirect If the user has not the required privileges (either not logged in or insufficient role
+     * privileges) then the user will be redirected to another page. Set this argument to FALSE when using ajax (default
+     * true).
+     *
+     * @return bool Returns whether the user has the required privileges to view the page or not. If the user is not
+     * logged in then he will be prompted to log in. If he hasn't the required privileges then an info message will be
+     * displayed.
+     */
+    protected function has_privileges($page, $redirect = TRUE)
+    {
+        // Check if user is logged in.
+        $user_id = $this->session->userdata('user_id');
+
+        if ($user_id == FALSE)
+        {
+            // User not logged in, display the login view.
+            if ($redirect)
+            {
+                header('Location: ' . site_url('user/login'));
+            }
+            return FALSE;
+        }
+
+        // Check if the user has the required privileges for viewing the selected page.
+        $role_slug = $this->session->userdata('role_slug');
+
+        $role_privileges = $this->db->get_where('ea_roles', ['slug' => $role_slug])->row_array();
+
+        if ($role_privileges[$page] < PRIV_VIEW)
+        {
+            // User does not have the permission to view the page.
+            if ($redirect)
+            {
+                header('Location: ' . site_url('user/no_privileges'));
+            }
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    /**
+     * Set the user data in order to be available at the view and js code.
+     *
+     * @param array $view Contains the view data.
+     */
+    protected function set_user_data(&$view)
+    {
+        $this->load->model('roles_model');
+
+        // Get privileges
+        $view['user_id'] = $this->session->userdata('user_id');
+        $view['user_email'] = $this->session->userdata('user_email');
+        $view['timezone'] = $this->session->userdata('timezone');
+        $view['role_slug'] = $this->session->userdata('role_slug');
+        $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+    }
+
+    /**
      * Display the backend customers page.
      *
      * In this page the user can manage all the customer records of the system.
@@ -118,7 +209,7 @@ class Backend extends CI_Controller {
     {
         $this->session->set_userdata('dest_url', site_url('backend/customers'));
 
-        if ( ! $this->_has_privileges(PRIV_CUSTOMERS))
+        if ( ! $this->has_privileges(PRIV_CUSTOMERS))
         {
             return;
         }
@@ -173,7 +264,7 @@ class Backend extends CI_Controller {
     {
         $this->session->set_userdata('dest_url', site_url('backend/services'));
 
-        if ( ! $this->_has_privileges(PRIV_SERVICES))
+        if ( ! $this->has_privileges(PRIV_SERVICES))
         {
             return;
         }
@@ -211,7 +302,7 @@ class Backend extends CI_Controller {
     {
         $this->session->set_userdata('dest_url', site_url('backend/users'));
 
-        if ( ! $this->_has_privileges(PRIV_USERS))
+        if ( ! $this->has_privileges(PRIV_USERS))
         {
             return;
         }
@@ -255,8 +346,8 @@ class Backend extends CI_Controller {
     public function settings()
     {
         $this->session->set_userdata('dest_url', site_url('backend/settings'));
-        if ( ! $this->_has_privileges(PRIV_SYSTEM_SETTINGS, FALSE)
-            && ! $this->_has_privileges(PRIV_USER_SETTINGS))
+        if ( ! $this->has_privileges(PRIV_SYSTEM_SETTINGS, FALSE)
+            && ! $this->has_privileges(PRIV_USER_SETTINGS))
         {
             return;
         }
@@ -277,59 +368,13 @@ class Backend extends CI_Controller {
         $view['time_format'] = $this->settings_model->get_setting('time_format');
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['system_settings'] = $this->settings_model->get_settings();
-        $view['user_settings'] = $this->user_model->get_settings($user_id);
+        $view['user_settings'] = $this->user_model->get_user($user_id);
         $view['timezones'] = $this->timezones_model->to_array();
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
         $this->load->view('backend/settings', $view);
         $this->load->view('backend/footer', $view);
-    }
-
-    /**
-     * Check whether current user is logged in and has the required privileges to view a page.
-     *
-     * The backend page requires different privileges from the users to display pages. Not all pages are available to
-     * all users. For example secretaries should not be able to edit the system users.
-     *
-     * @see Constant definition in application/config/constants.php.
-     *
-     * @param string $page This argument must match the roles field names of each section (eg "appointments", "users"
-     * ...).
-     * @param bool $redirect If the user has not the required privileges (either not logged in or insufficient role
-     * privileges) then the user will be redirected to another page. Set this argument to FALSE when using ajax (default
-     * true).
-     *
-     * @return bool Returns whether the user has the required privileges to view the page or not. If the user is not
-     * logged in then he will be prompted to log in. If he hasn't the required privileges then an info message will be
-     * displayed.
-     */
-    protected function _has_privileges($page, $redirect = TRUE)
-    {
-        // Check if user is logged in.
-        $user_id = $this->session->userdata('user_id');
-        if ($user_id == FALSE)
-        { // User not logged in, display the login view.
-            if ($redirect)
-            {
-                header('Location: ' . site_url('user/login'));
-            }
-            return FALSE;
-        }
-
-        // Check if the user has the required privileges for viewing the selected page.
-        $role_slug = $this->session->userdata('role_slug');
-        $role_priv = $this->db->get_where('ea_roles', ['slug' => $role_slug])->row_array();
-        if ($role_priv[$page] < PRIV_VIEW)
-        { // User does not have the permission to view the page.
-            if ($redirect)
-            {
-                header('Location: ' . site_url('user/no_privileges'));
-            }
-            return FALSE;
-        }
-
-        return TRUE;
     }
 
     /**
@@ -345,7 +390,7 @@ class Backend extends CI_Controller {
     {
         try
         {
-            if ( ! $this->_has_privileges(PRIV_SYSTEM_SETTINGS, TRUE))
+            if ( ! $this->has_privileges(PRIV_SYSTEM_SETTINGS, TRUE))
             {
                 throw new Exception('You do not have the required privileges for this task!');
             }
@@ -359,28 +404,11 @@ class Backend extends CI_Controller {
 
             $view = ['success' => TRUE];
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $view = ['success' => FALSE, 'exception' => $exc->getMessage()];
+            $view = ['success' => FALSE, 'exception' => $exception->getMessage()];
         }
 
         $this->load->view('general/update', $view);
-    }
-
-    /**
-     * Set the user data in order to be available at the view and js code.
-     *
-     * @param array $view Contains the view data.
-     */
-    protected function set_user_data(&$view)
-    {
-        $this->load->model('roles_model');
-
-        // Get privileges
-        $view['user_id'] = $this->session->userdata('user_id');
-        $view['user_email'] = $this->session->userdata('user_email');
-        $view['timezone'] = $this->session->userdata('timezone');
-        $view['role_slug'] = $this->session->userdata('role_slug');
-        $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
 }

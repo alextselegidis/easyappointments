@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -14,6 +14,9 @@
 /**
  * Services Model
  *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
+ *
  * @package Models
  */
 class Services_Model extends CI_Model {
@@ -23,6 +26,7 @@ class Services_Model extends CI_Model {
      * @param array $service Contains the service data. If an 'id' value is provided then the record will be updated.
      *
      * @return int Returns the record id.
+     * @throws Exception
      */
     public function add($service)
     {
@@ -38,69 +42,6 @@ class Services_Model extends CI_Model {
         }
 
         return (int)$service['id'];
-    }
-
-    /**
-     * Insert service record into database.
-     *
-     * @param array $service Contains the service record data.
-     *
-     * @return int Returns the new service record id.
-     *
-     * @throws Exception If service record could not be inserted.
-     */
-    protected function _insert($service)
-    {
-        if ( ! $this->db->insert('ea_services', $service))
-        {
-            throw new Exception('Could not insert service record.');
-        }
-        return (int)$this->db->insert_id();
-    }
-
-    /**
-     * Update service record.
-     *
-     * @param array $service Contains the service data. The record id needs to be included in the array.
-     *
-     * @throws Exception If service record could not be updated.
-     */
-    protected function _update($service)
-    {
-        $this->db->where('id', $service['id']);
-        if ( ! $this->db->update('ea_services', $service))
-        {
-            throw new Exception('Could not update service record');
-        }
-    }
-
-    /**
-     * Checks whether an service record already exists in the database.
-     *
-     * @param array $service Contains the service data. Name, duration and price values are mandatory in order to
-     * perform the checks.
-     *
-     * @return bool Returns whether the service record exists.
-     *
-     * @throws Exception If required fields are missing.
-     */
-    public function exists($service)
-    {
-        if ( ! isset($service['name'])
-            || ! isset($service['duration'])
-            || ! isset($service['price']))
-        {
-            throw new Exception('Not all service fields are provided in order to check whether '
-                . 'a service record already exists: ' . print_r($service, TRUE));
-        }
-
-        $num_rows = $this->db->get_where('ea_services', [
-            'name' => $service['name'],
-            'duration' => $service['duration'],
-            'price' => $service['price']
-        ])->num_rows();
-
-        return ($num_rows > 0) ? TRUE : FALSE;
     }
 
     /**
@@ -179,6 +120,69 @@ class Services_Model extends CI_Model {
         }
 
         return TRUE;
+    }
+
+    /**
+     * Insert service record into database.
+     *
+     * @param array $service Contains the service record data.
+     *
+     * @return int Returns the new service record id.
+     *
+     * @throws Exception If service record could not be inserted.
+     */
+    protected function _insert($service)
+    {
+        if ( ! $this->db->insert('ea_services', $service))
+        {
+            throw new Exception('Could not insert service record.');
+        }
+        return (int)$this->db->insert_id();
+    }
+
+    /**
+     * Update service record.
+     *
+     * @param array $service Contains the service data. The record id needs to be included in the array.
+     *
+     * @throws Exception If service record could not be updated.
+     */
+    protected function _update($service)
+    {
+        $this->db->where('id', $service['id']);
+        if ( ! $this->db->update('ea_services', $service))
+        {
+            throw new Exception('Could not update service record');
+        }
+    }
+
+    /**
+     * Checks whether an service record already exists in the database.
+     *
+     * @param array $service Contains the service data. Name, duration and price values are mandatory in order to
+     * perform the checks.
+     *
+     * @return bool Returns whether the service record exists.
+     *
+     * @throws Exception If required fields are missing.
+     */
+    public function exists($service)
+    {
+        if ( ! isset($service['name'])
+            || ! isset($service['duration'])
+            || ! isset($service['price']))
+        {
+            throw new Exception('Not all service fields are provided in order to check whether '
+                . 'a service record already exists: ' . print_r($service, TRUE));
+        }
+
+        $num_rows = $this->db->get_where('ea_services', [
+            'name' => $service['name'],
+            'duration' => $service['duration'],
+            'price' => $service['price']
+        ])->num_rows();
+
+        return ($num_rows > 0) ? TRUE : FALSE;
     }
 
     /**
@@ -304,12 +308,12 @@ class Services_Model extends CI_Model {
     /**
      * Get all, or specific records from service's table.
      *
-     * @example $this->Model->getBatch('id = ' . $recordId);
-     *
      * @param string $whereClause (OPTIONAL) The WHERE clause of
      * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
      *
      * @return array Returns the rows from the database.
+     * @example $this->Model->getBatch('id = ' . $recordId);
+     *
      */
     public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
@@ -374,6 +378,40 @@ class Services_Model extends CI_Model {
         }
 
         return (int)$category['id'];
+    }
+
+    /**
+     * Validate a service category record data. This method must be used before adding
+     * a service category record into database in order to secure the record integrity.
+     *
+     * @param array $category Contains the service category data.
+     *
+     * @return bool Returns the validation result.
+     *
+     * @throws Exception If required fields are missing.
+     */
+    public function validate_category($category)
+    {
+        try
+        {
+            // Required Fields
+            if ( ! isset($category['name']))
+            {
+                throw new Exception('Not all required fields where provided ');
+            }
+
+            if ($category['name'] == '' || $category['name'] == NULL)
+            {
+                throw new Exception('Required fields cannot be empty or null ($category: '
+                    . print_r($category, TRUE) . ')');
+            }
+
+            return TRUE;
+        }
+        catch (Exception $exception)
+        {
+            return FALSE;
+        }
     }
 
     /**
@@ -448,39 +486,5 @@ class Services_Model extends CI_Model {
         }
 
         return $this->db->get('ea_service_categories', $limit, $offset)->result_array();
-    }
-
-    /**
-     * Validate a service category record data. This method must be used before adding
-     * a service category record into database in order to secure the record integrity.
-     *
-     * @param array $category Contains the service category data.
-     *
-     * @return bool Returns the validation result.
-     *
-     * @throws Exception If required fields are missing.
-     */
-    public function validate_category($category)
-    {
-        try
-        {
-            // Required Fields
-            if ( ! isset($category['name']))
-            {
-                throw new Exception('Not all required fields where provided ');
-            }
-
-            if ($category['name'] == '' || $category['name'] == NULL)
-            {
-                throw new Exception('Required fields cannot be empty or null ($category: '
-                    . print_r($category, TRUE) . ')');
-            }
-
-            return TRUE;
-        }
-        catch (Exception $exc)
-        {
-            return FALSE;
-        }
     }
 }

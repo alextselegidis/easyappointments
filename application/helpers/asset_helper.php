@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -24,16 +24,18 @@
  */
 function asset_url($uri = '', $protocol = NULL)
 {
-    $ci =& get_instance();
+    $framework =& get_instance();
 
-    $cache_busting_token = ! Config::DEBUG_MODE ? '?' . $ci->config->item('cache_busting_token') : '';
+    $debug = $framework->config->item('debug');
 
-    if (strpos(basename($uri), '.js') !== FALSE && strpos(basename($uri), '.min.js') === FALSE && ! Config::DEBUG_MODE)
+    $cache_busting_token = ! $debug ? '?' . $framework->config->item('cache_busting_token') : '';
+
+    if (strpos(basename($uri), '.js') !== FALSE && strpos(basename($uri), '.min.js') === FALSE && ! $debug)
     {
         $uri = str_replace('.js', '.min.js', $uri);
     }
 
-    if (strpos(basename($uri), '.css') !== FALSE && strpos(basename($uri), '.min.css') === FALSE && ! Config::DEBUG_MODE)
+    if (strpos(basename($uri), '.css') !== FALSE && strpos(basename($uri), '.min.css') === FALSE && ! $debug)
     {
         $uri = str_replace('.css', '.min.css', $uri);
     }

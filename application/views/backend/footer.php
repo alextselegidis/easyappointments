@@ -3,16 +3,16 @@
         Powered by
         <a href="https://easyappointments.org">Easy!Appointments
             <?php
-                echo 'v' . $this->config->item('version');
+                echo 'v' . config('version');
 
-                $release_title = $this->config->item('release_label');
+                $release_title = config('release_label');
                 if ($release_title != '') {
                     echo ' - ' . $release_title;
                 }
             ?></a> |
         <?= lang('licensed_under') ?> GPLv3 |
         <span id="select-language" class="label label-success">
-        	<?= ucfirst($this->config->item('language')) ?>
+        	<?= ucfirst(config('language')) ?>
         </span>
         |
         <a href="<?= site_url('appointments') ?>">

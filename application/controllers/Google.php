@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -15,6 +15,28 @@
  * Google Controller
  *
  * This controller handles the Google Calendar synchronization operations.
+ *
+ * @property CI_Session session
+ * @property CI_Loader load
+ * @property CI_Input input
+ * @property CI_Output output
+ * @property CI_Config config
+ * @property CI_Lang lang
+ * @property CI_Cache cache
+ * @property CI_DB_query_builder db
+ * @property CI_Security security
+ * @property Google_Sync google_sync
+ * @property Ics_file ics_file
+ * @property Appointments_Model appointments_model
+ * @property Providers_Model providers_model
+ * @property Services_Model services_model
+ * @property Customers_Model customers_model
+ * @property Settings_Model settings_model
+ * @property Timezones_Model timezones_model
+ * @property Roles_Model roles_model
+ * @property Secretaries_Model secretaries_model
+ * @property Admins_Model admins_model
+ * @property User_Model user_model
  *
  * @package Controllers
  */
@@ -39,10 +61,10 @@ class Google extends CI_Controller {
     public function oauth($provider_id)
     {
         // Store the provider id for use on the callback function.
-        $_SESSION['oauth_provider_id'] = $provider_id;
+        $this->session->set_userdata('oauth_provider_id', $provider_id);
 
         // Redirect browser to google user content page.
-        $this->load->library('Google_sync');
+        $this->load->library('google_sync');
         header('Location: ' . $this->google_sync->get_auth_url());
     }
 
@@ -55,7 +77,7 @@ class Google extends CI_Controller {
      *
      * IMPORTANT: Because it is necessary to authorize the application using the web server flow (see official
      * documentation of OAuth), every Easy!Appointments installation should use its own calendar api key. So in every
-     * api console account, the "http://path-to-e!a/google/oauth_callback" should be included in an allowed redirect URL.
+     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an allowed redirect URL.
      */
     public function oauth_callback()
     {
@@ -65,12 +87,14 @@ class Google extends CI_Controller {
             $token = $this->google_sync->authenticate($this->input->get('code'));
 
             // Store the token into the database for future reference.
-            if (isset($_SESSION['oauth_provider_id']))
+            $oauth_provider_id = $this->session->userdata('oauth_provider_id');
+
+            if ($oauth_provider_id)
             {
                 $this->load->model('providers_model');
-                $this->providers_model->set_setting('google_sync', TRUE, $_SESSION['oauth_provider_id']);
-                $this->providers_model->set_setting('google_token', $token, $_SESSION['oauth_provider_id']);
-                $this->providers_model->set_setting('google_calendar', 'primary', $_SESSION['oauth_provider_id']);
+                $this->providers_model->set_setting('google_sync', TRUE, $oauth_provider_id);
+                $this->providers_model->set_setting('google_token', $token, $oauth_provider_id);
+                $this->providers_model->set_setting('google_calendar', 'primary', $oauth_provider_id);
             }
             else
             {
@@ -149,7 +173,7 @@ class Google extends CI_Controller {
                 'company_email' => $this->settings_model->get_setting('company_email')
             ];
 
-            $provider_timezone = new \DateTimeZone($provider['timezone']);
+            $provider_timezone = new DateTimeZone($provider['timezone']);
 
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
             foreach ($appointments as $appointment)
@@ -165,13 +189,13 @@ class Google extends CI_Controller {
                     $customer = NULL;
                 }
 
-                // If current appointment not synced yet, add to gcal.
+                // If current appointment not synced yet, add to Google Calendar.
                 if ($appointment['id_google_calendar'] == NULL)
                 {
                     $google_event = $this->google_sync->add_appointment($appointment, $provider,
                         $service, $customer, $company_settings);
                     $appointment['id_google_calendar'] = $google_event->id;
-                    $this->appointments_model->add($appointment); // Save gcal id
+                    $this->appointments_model->add($appointment); // Save the Google Calendar ID.
                 }
                 else
                 {
@@ -185,13 +209,14 @@ class Google extends CI_Controller {
                             throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                         }
 
-                        // If gcal event is different from e!a appointment then update e!a record.
+                        // If Google Calendar event is different from Easy!Appointments appointment then update
+                        // Easy!Appointments record.
                         $is_different = FALSE;
                         $appt_start = strtotime($appointment['start_datetime']);
                         $appt_end = strtotime($appointment['end_datetime']);
-                        $event_start = new \DateTime($google_event->getStart()->getDateTime());
+                        $event_start = new DateTime($google_event->getStart()->getDateTime());
                         $event_start->setTimezone($provider_timezone);
-                        $event_end = new \DateTime($google_event->getEnd()->getDateTime());
+                        $event_end = new DateTime($google_event->getEnd()->getDateTime());
                         $event_end->setTimezone($provider_timezone);
 
 
@@ -210,49 +235,52 @@ class Google extends CI_Controller {
                         }
 
                     }
-                    catch (Exception $exc)
+                    catch (Exception $exception)
                     {
-                        // Appointment not found on gcal, delete from e!a.
+                        // Appointment not found on Google Calendar, delete from Easy!Appoinmtents.
                         $this->appointments_model->delete($appointment['id']);
                         $appointment['id_google_calendar'] = NULL;
                     }
                 }
             }
 
-            // :: ADD GCAL EVENTS THAT ARE NOT PRESENT ON E!A
+            // Add Google Calendar events that do not exist in Easy!Appointments.
             $google_calendar = $provider['settings']['google_calendar'];
-            $events = $this->google_sync->get_sync_events($google_calendar, $start, $end);
+            $google_events = $this->google_sync->get_sync_events($google_calendar, $start, $end);
 
-            foreach ($events->getItems() as $event)
+            foreach ($google_events->getItems() as $google_event)
             {
-                if ($event->getStatus() === 'cancelled') {
+                if ($google_event->getStatus() === 'cancelled')
+                {
                     continue;
                 }
 
-                if ($event->getStart() === null || $event->getEnd() === null) {
+                if ($google_event->getStart() === NULL || $google_event->getEnd() === NULL)
+                {
                     continue;
                 }
 
-                $results = $this->appointments_model->get_batch(['id_google_calendar' => $event->getId()]);
+                $results = $this->appointments_model->get_batch(['id_google_calendar' => $google_event->getId()]);
 
-                if (!empty($results)) {
+                if ( ! empty($results))
+                {
                     continue;
                 }
 
-                $event_start = new \DateTime($event->getStart()->getDateTime());
+                $event_start = new DateTime($google_event->getStart()->getDateTime());
                 $event_start->setTimezone($provider_timezone);
-                $event_end = new \DateTime($event->getEnd()->getDateTime());
+                $event_end = new DateTime($google_event->getEnd()->getDateTime());
                 $event_end->setTimezone($provider_timezone);
 
-                // Record doesn't exist in E!A, so add the event now.
+                // Record doesn't exist in the Easy!Appointments, so add the event now.
                 $appointment = [
                     'start_datetime' => $event_start->format('Y-m-d H:i:s'),
                     'end_datetime' => $event_end->format('Y-m-d H:i:s'),
                     'is_unavailable' => TRUE,
-                    'location' => $event->getLocation(),
-                    'notes' => $event->getSummary() . ' ' . $event->getDescription(),
+                    'location' => $google_event->getLocation(),
+                    'notes' => $google_event->getSummary() . ' ' . $google_event->getDescription(),
                     'id_users_provider' => $provider_id,
-                    'id_google_calendar' => $event->getId(),
+                    'id_google_calendar' => $google_event->getId(),
                     'id_users_customer' => NULL,
                     'id_services' => NULL,
                 ];
@@ -260,15 +288,20 @@ class Google extends CI_Controller {
                 $this->appointments_model->add($appointment);
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(AJAX_SUCCESS));
+            $response = AJAX_SUCCESS;
         }
-        catch (Exception $exc)
+        catch (Exception $exception)
         {
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode(['exceptions' => [exceptionToJavaScript($exc)]]));
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
         }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
     }
 }

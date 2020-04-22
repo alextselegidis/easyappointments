@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -11,7 +11,18 @@
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Class Migration_Remove_prefix_from_fkey_constraints
+ *
+ * @property CI_Loader load
+ * @property CI_DB_query_builder db
+ * @property CI_DB_forge dbforge
+ * @property Settings_Model settings_model
+ */
 class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
+    /**
+     * Upgrade method.
+     */
     public function up()
     {
         // Drop table constraints.
@@ -70,6 +81,9 @@ class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
             ON UPDATE CASCADE');
     }
 
+    /**
+     * Downgrade method.
+     */
     public function down()
     {
         // Drop table constraints.

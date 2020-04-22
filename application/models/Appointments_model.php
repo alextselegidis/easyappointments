@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -14,6 +14,9 @@
 /**
  * Appointments Model
  *
+ * @property CI_DB_query_builder db
+ * @property CI_Loader load
+ *
  * @package Models
  */
 class Appointments_Model extends CI_Model {
@@ -27,6 +30,7 @@ class Appointments_Model extends CI_Model {
      * database fields.
      *
      * @return int Returns the appointments id.
+     * @throws Exception
      */
     public function add($appointment)
     {
@@ -44,121 +48,6 @@ class Appointments_Model extends CI_Model {
         }
 
         return $appointment['id'];
-    }
-
-    /**
-     * Check if a particular appointment record already exists.
-     *
-     * This method checks whether the given appointment already exists in the database. It doesn't search with the id,
-     * but by using the following fields: "start_datetime", "end_datetime", "id_users_provider", "id_users_customer",
-     * "id_services".
-     *
-     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
-     * database fields.
-     *
-     * @return bool Returns whether the record exists or not.
-     *
-     * @throws Exception If appointment fields are missing.
-     */
-    public function exists($appointment)
-    {
-        if ( ! isset($appointment['start_datetime'])
-            || ! isset($appointment['end_datetime'])
-            || ! isset($appointment['id_users_provider'])
-            || ! isset($appointment['id_users_customer'])
-            || ! isset($appointment['id_services']))
-        {
-            throw new Exception('Not all appointment field values are provided: '
-                . print_r($appointment, TRUE));
-        }
-
-        $num_rows = $this->db->get_where('ea_appointments', [
-            'start_datetime' => $appointment['start_datetime'],
-            'end_datetime' => $appointment['end_datetime'],
-            'id_users_provider' => $appointment['id_users_provider'],
-            'id_users_customer' => $appointment['id_users_customer'],
-            'id_services' => $appointment['id_services'],
-        ])
-            ->num_rows();
-
-        return ($num_rows > 0) ? TRUE : FALSE;
-    }
-
-    /**
-     * Insert a new appointment record to the database.
-     *
-     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
-     * database fields.
-     *
-     * @return int Returns the id of the new record.
-     *
-     * @throws Exception If appointment record could not be inserted.
-     */
-    protected function _insert($appointment)
-    {
-        $appointment['book_datetime'] = date('Y-m-d H:i:s');
-        $appointment['hash'] = $this->generate_hash();
-
-        if ( ! $this->db->insert('ea_appointments', $appointment))
-        {
-            throw new Exception('Could not insert appointment record.');
-        }
-
-        return (int)$this->db->insert_id();
-    }
-
-    /**
-     * Update an existing appointment record in the database.
-     *
-     * The appointment data argument should already include the record ID in order to process the update operation.
-     *
-     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
-     * database fields.
-     *
-     * @throws Exception If appointment record could not be updated.
-     */
-    protected function _update($appointment)
-    {
-        $this->db->where('id', $appointment['id']);
-        if ( ! $this->db->update('ea_appointments', $appointment))
-        {
-            throw new Exception('Could not update appointment record.');
-        }
-    }
-
-    /**
-     * Find the database id of an appointment record.
-     *
-     * The appointment data should include the following fields in order to get the unique id from the database:
-     * "start_datetime", "end_datetime", "id_users_provider", "id_users_customer", "id_services".
-     *
-     * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
-     *
-     * @param array $appointment Array with the appointment data. The keys of the array should have the same names as
-     * the db fields.
-     *
-     * @return int Returns the db id of the record that matches the appointment data.
-     *
-     * @throws Exception If appointment could not be found.
-     */
-    public function find_record_id($appointment)
-    {
-        $this->db->where([
-            'start_datetime' => $appointment['start_datetime'],
-            'end_datetime' => $appointment['end_datetime'],
-            'id_users_provider' => $appointment['id_users_provider'],
-            'id_users_customer' => $appointment['id_users_customer'],
-            'id_services' => $appointment['id_services']
-        ]);
-
-        $result = $this->db->get('ea_appointments');
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find appointment record id.');
-        }
-
-        return $result->row()->id;
     }
 
     /**
@@ -235,6 +124,135 @@ class Appointments_Model extends CI_Model {
         }
 
         return TRUE;
+    }
+
+    /**
+     * Insert a new appointment record to the database.
+     *
+     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
+     * database fields.
+     *
+     * @return int Returns the id of the new record.
+     *
+     * @throws Exception If appointment record could not be inserted.
+     */
+    protected function _insert($appointment)
+    {
+        $appointment['book_datetime'] = date('Y-m-d H:i:s');
+        $appointment['hash'] = $this->generate_hash();
+
+        if ( ! $this->db->insert('ea_appointments', $appointment))
+        {
+            throw new Exception('Could not insert appointment record.');
+        }
+
+        return (int)$this->db->insert_id();
+    }
+
+    /**
+     * Generate a unique hash for the given appointment data.
+     *
+     * This method uses the current date-time to generate a unique hash string that is later used to identify this
+     * appointment. Hash is needed when the email is send to the user with an edit link.
+     *
+     * @return string Returns the unique appointment hash.
+     */
+    public function generate_hash()
+    {
+        $current_date = new DateTime();
+        return md5($current_date->getTimestamp());
+    }
+
+    /**
+     * Update an existing appointment record in the database.
+     *
+     * The appointment data argument should already include the record ID in order to process the update operation.
+     *
+     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
+     * database fields.
+     *
+     * @throws Exception If appointment record could not be updated.
+     */
+    protected function _update($appointment)
+    {
+        $this->db->where('id', $appointment['id']);
+        if ( ! $this->db->update('ea_appointments', $appointment))
+        {
+            throw new Exception('Could not update appointment record.');
+        }
+    }
+
+    /**
+     * Check if a particular appointment record already exists.
+     *
+     * This method checks whether the given appointment already exists in the database. It doesn't search with the id,
+     * but by using the following fields: "start_datetime", "end_datetime", "id_users_provider", "id_users_customer",
+     * "id_services".
+     *
+     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
+     * database fields.
+     *
+     * @return bool Returns whether the record exists or not.
+     *
+     * @throws Exception If appointment fields are missing.
+     */
+    public function exists($appointment)
+    {
+        if ( ! isset($appointment['start_datetime'])
+            || ! isset($appointment['end_datetime'])
+            || ! isset($appointment['id_users_provider'])
+            || ! isset($appointment['id_users_customer'])
+            || ! isset($appointment['id_services']))
+        {
+            throw new Exception('Not all appointment field values are provided: '
+                . print_r($appointment, TRUE));
+        }
+
+        $num_rows = $this->db->get_where('ea_appointments', [
+            'start_datetime' => $appointment['start_datetime'],
+            'end_datetime' => $appointment['end_datetime'],
+            'id_users_provider' => $appointment['id_users_provider'],
+            'id_users_customer' => $appointment['id_users_customer'],
+            'id_services' => $appointment['id_services'],
+        ])
+            ->num_rows();
+
+        return ($num_rows > 0) ? TRUE : FALSE;
+    }
+
+    /**
+     * Find the database id of an appointment record.
+     *
+     * The appointment data should include the following fields in order to get the unique id from the database:
+     * "start_datetime", "end_datetime", "id_users_provider", "id_users_customer", "id_services".
+     *
+     * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
+     *
+     * @param array $appointment Array with the appointment data. The keys of the array should have the same names as
+     * the db fields.
+     *
+     * @return int Returns the db id of the record that matches the appointment data.
+     *
+     * @throws Exception If appointment could not be found.
+     */
+    public function find_record_id($appointment)
+    {
+        $this->db->where([
+            'start_datetime' => $appointment['start_datetime'],
+            'end_datetime' => $appointment['end_datetime'],
+            'id_users_provider' => $appointment['id_users_provider'],
+            'id_users_customer' => $appointment['id_users_customer'],
+            'id_services' => $appointment['id_services']
+        ]);
+
+        $result = $this->db->get('ea_appointments');
+
+        if ($result->num_rows() == 0)
+        {
+            throw new Exception('Could not find appointment record id.');
+        }
+
+        return $result->row()->id;
     }
 
     /**
@@ -383,17 +401,21 @@ class Appointments_Model extends CI_Model {
     }
 
     /**
-     * Generate a unique hash for the given appointment data.
+     * Get the aggregates of an appointment.
      *
-     * This method uses the current date-time to generate a unique hash string that is later used to identify this
-     * appointment. Hash is needed when the email is send to the user with an edit link.
+     * @param array $appointment Appointment data.
      *
-     * @return string Returns the unique appointment hash.
+     * @return array Returns the appointment with the aggregates.
      */
-    public function generate_hash()
+    private function get_aggregates(array $appointment)
     {
-        $current_date = new DateTime();
-        return md5($current_date->getTimestamp());
+        $appointment['service'] = $this->db->get_where('ea_services',
+            ['id' => $appointment['id_services']])->row_array();
+        $appointment['provider'] = $this->db->get_where('ea_users',
+            ['id' => $appointment['id_users_provider']])->row_array();
+        $appointment['customer'] = $this->db->get_where('ea_users',
+            ['id' => $appointment['id_users_customer']])->row_array();
+        return $appointment;
     }
 
     /**
@@ -534,23 +556,5 @@ class Appointments_Model extends CI_Model {
             ->get()
             ->row()
             ->attendants_number;
-    }
-
-    /**
-     * Get the aggregates of an appointment.
-     *
-     * @param array $appointment Appointment data.
-     *
-     * @return array Returns the appointment with the aggregates.
-     */
-    private function get_aggregates(array $appointment)
-    {
-        $appointment['service'] = $this->db->get_where('ea_services',
-            ['id' => $appointment['id_services']])->row_array();
-        $appointment['provider'] = $this->db->get_where('ea_users',
-            ['id' => $appointment['id_users_provider']])->row_array();
-        $appointment['customer'] = $this->db->get_where('ea_users',
-            ['id' => $appointment['id_users_customer']])->row_array();
-        return $appointment;
     }
 }

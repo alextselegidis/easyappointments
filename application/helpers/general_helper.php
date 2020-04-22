@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -13,17 +13,19 @@
 
 /**
  * Get date in RFC3339
+ *
  * For example used in XML/Atom
  *
  * @link http://stackoverflow.com/questions/5671433/php-time-to-google-calendar-dates-time-format
  *
  * @param integer $timestamp
+ *
  * @return string date in RFC3339
+ *
  * @author Boris Korobkov
  */
 function date3339($timestamp = 0)
 {
-
     if ( ! $timestamp)
     {
         $timestamp = time();
@@ -45,12 +47,13 @@ function date3339($timestamp = 0)
 /**
  * Generate a hash of password string.
  *
- * For user security, all system passwords are stored in hash string into the database. Use
- * this method to produce the hashed password.
+ * For user security, all system passwords are stored in hash string into the database. Use this method to produce the
+ * hashed password.
  *
- * @param string $salt Salt value for current user. This value is stored on the database and
- * is used when generating the password hash.
+ * @param string $salt Salt value for current user. This value is stored on the database and is used when generating
+ * the password hash.
  * @param string $password Given string password.
+ *
  * @return string Returns the hash string of the given password.
  */
 function hash_password($salt, $password)
@@ -84,9 +87,11 @@ function generate_salt()
 /**
  * This method generates a random string.
  *
- * @param int $length (OPTIONAL = 10) The length of the generated string.
- * @return string Returns the randomly generated string.
  * @link http://stackoverflow.com/a/4356295/1718162
+ *
+ * @param int $length (OPTIONAL = 10) The length of the generated string.
+ *
+ * @return string Returns the randomly generated string.
  */
 function generate_random_string($length = 10)
 {

@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -14,17 +14,17 @@
 /**
  * Print Google Analytics script.
  *
- * This helper function should be used in view files in order to output the Google Analytics
- * script. It will check whether the code is set in the database and print it, otherwise nothing
- * will be outputted. This eliminates the need for extra checking before outputting.
+ * This helper function should be used in view files in order to output the Google Analytics script. It will check
+ * whether the code is set in the database and print it, otherwise nothing will be outputted. This eliminates the need
+ * for extra checking before outputting.
  */
 function google_analytics_script()
 {
-    $ci =& get_instance();
+    $framework =& get_instance();
 
-    $ci->load->model('settings_model');
+    $framework->load->model('settings_model');
 
-    $google_analytics_code = $ci->settings_model->get_setting('google_analytics_code');
+    $google_analytics_code = $framework->settings_model->get_setting('google_analytics_code');
 
     if ($google_analytics_code !== '')
     {

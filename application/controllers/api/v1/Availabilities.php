@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Open Source Web Scheduler
@@ -14,10 +14,32 @@
 require_once __DIR__ . '/API_V1_Controller.php';
 require_once __DIR__ . '/../../Appointments.php';
 
-use \EA\Engine\Types\UnsignedInteger;
+use EA\Engine\Types\UnsignedInteger;
 
 /**
  * Availabilities Controller
+ *
+ * @property CI_Session session
+ * @property CI_Loader load
+ * @property CI_Input input
+ * @property CI_Output output
+ * @property CI_Config config
+ * @property CI_Lang lang
+ * @property CI_Cache cache
+ * @property CI_DB_query_builder db
+ * @property CI_Security security
+ * @property Google_Sync google_sync
+ * @property Ics_file ics_file
+ * @property Appointments_Model appointments_model
+ * @property Providers_Model providers_model
+ * @property Services_Model services_model
+ * @property Customers_Model customers_model
+ * @property Settings_Model settings_model
+ * @property Timezones_Model timezones_model
+ * @property Roles_Model roles_model
+ * @property Secretaries_Model secretaries_model
+ * @property Admins_Model admins_model
+ * @property User_Model user_model
  *
  * @package Controllers
  * @subpackage API
@@ -97,7 +119,7 @@ class Availabilities extends API_V1_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode($availableHours));
         }
-        catch (\Exception $exception)
+        catch (Exception $exception)
         {
             exit($this->_handleException($exception));
         }
@@ -122,7 +144,8 @@ class Availabilities extends API_V1_Controller {
         $provider_id,
         $selected_date,
         $exclude_appointments = []
-    ) {
+    )
+    {
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
 
@@ -318,7 +341,8 @@ class Availabilities extends API_V1_Controller {
         $service_duration,
         $manage_mode = FALSE,
         $availabilities_type = 'flexible'
-    ) {
+    )
+    {
         $this->load->model('settings_model');
 
         $available_hours = [];
@@ -358,7 +382,8 @@ class Availabilities extends API_V1_Controller {
         $selected_date,
         $service,
         $provider
-    ) {
+    )
+    {
         $this->load->model('appointments_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
