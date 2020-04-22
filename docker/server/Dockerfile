@@ -13,3 +13,5 @@ RUN apt-get update && apt-get install -y \
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
+
+RUN a2enmod rewrite
