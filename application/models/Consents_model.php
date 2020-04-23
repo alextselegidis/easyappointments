@@ -78,6 +78,7 @@ class Consents_model extends CI_Model {
     protected function _insert($consent)
     {
         $consent['created'] = time();
+        $consent['modified'] = time();
 
         if ( ! $this->db->insert('ea_consents', $consent))
         {
