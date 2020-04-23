@@ -56,11 +56,11 @@ class Admins_Model extends CI_Model {
 
         if ( ! isset($admin['id']))
         {
-            $admin['id'] = $this->_insert($admin);
+            $admin['id'] = $this->insert($admin);
         }
         else
         {
-            $admin['id'] = $this->_update($admin);
+            $admin['id'] = $this->update($admin);
         }
 
         return (int)$admin['id'];
@@ -82,9 +82,9 @@ class Admins_Model extends CI_Model {
         // If a record id is provided then check whether the record exists in the database.
         if (isset($admin['id']))
         {
-            $num_rows = $this->db->get_where('ea_users', ['id' => $admin['id']])
-                ->num_rows();
-            if ($num_rows == 0)
+            $num_rows = $this->db->get_where('users', ['id' => $admin['id']])->num_rows();
+
+            if ($num_rows === 0)
             {
                 throw new Exception('Given admin id does not exist in database: ' . $admin['id']);
             }
@@ -138,11 +138,11 @@ class Admins_Model extends CI_Model {
 
         $num_rows = $this->db
             ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_roles.slug', DB_SLUG_ADMIN)
-            ->where('ea_users.email', $admin['email'])
-            ->where('ea_users.id <>', $admin_id)
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('roles.slug', DB_SLUG_ADMIN)
+            ->where('users.email', $admin['email'])
+            ->where('users.id <>', $admin_id)
             ->get()
             ->num_rows();
 
@@ -165,7 +165,7 @@ class Admins_Model extends CI_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('ea_user_settings',
+        $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
         return ($num_rows > 0) ? FALSE : TRUE;
     }
@@ -189,10 +189,10 @@ class Admins_Model extends CI_Model {
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
             ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $admin['email'])
-            ->where('ea_roles.slug', DB_SLUG_ADMIN)
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('users.email', $admin['email'])
+            ->where('roles.slug', DB_SLUG_ADMIN)
             ->get()->num_rows();
 
         return $num_rows > 0;
@@ -215,11 +215,11 @@ class Admins_Model extends CI_Model {
         }
 
         $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $admin['email'])
-            ->where('ea_roles.slug', DB_SLUG_ADMIN)
+            ->select('users.id')
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('users.email', $admin['email'])
+            ->where('roles.slug', DB_SLUG_ADMIN)
             ->get();
 
         if ($result->num_rows() == 0)
@@ -239,7 +239,7 @@ class Admins_Model extends CI_Model {
      *
      * @throws Exception When the insert operation fails.
      */
-    protected function _insert($admin)
+    protected function insert($admin)
     {
         $this->load->helper('general');
 
@@ -249,7 +249,7 @@ class Admins_Model extends CI_Model {
 
         $this->db->trans_begin();
 
-        if ( ! $this->db->insert('ea_users', $admin))
+        if ( ! $this->db->insert('users', $admin))
         {
             throw new Exception('Could not insert admin into the database.');
         }
@@ -260,7 +260,7 @@ class Admins_Model extends CI_Model {
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
         // Insert admin settings.
-        if ( ! $this->db->insert('ea_user_settings', $settings))
+        if ( ! $this->db->insert('user_settings', $settings))
         {
             $this->db->trans_rollback();
             throw new Exception('Could not insert admin settings into the database.');
@@ -278,7 +278,7 @@ class Admins_Model extends CI_Model {
      */
     public function get_admin_role_id()
     {
-        return (int)$this->db->get_where('ea_roles', ['slug' => DB_SLUG_ADMIN])->row()->id;
+        return (int)$this->db->get_where('roles', ['slug' => DB_SLUG_ADMIN])->row()->id;
     }
 
     /**
@@ -290,7 +290,7 @@ class Admins_Model extends CI_Model {
      *
      * @throws Exception When the update operation fails.
      */
-    protected function _update($admin)
+    protected function update($admin)
     {
         $this->load->helper('general');
 
@@ -300,18 +300,18 @@ class Admins_Model extends CI_Model {
 
         if (isset($settings['password']))
         {
-            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $admin['id']])->row()->salt;
+            $salt = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row()->salt;
             $settings['password'] = hash_password($salt, $settings['password']);
         }
 
         $this->db->where('id', $admin['id']);
-        if ( ! $this->db->update('ea_users', $admin))
+        if ( ! $this->db->update('users', $admin))
         {
             throw new Exception('Could not update admin record.');
         }
 
         $this->db->where('id_users', $settings['id_users']);
-        if ( ! $this->db->update('ea_user_settings', $settings))
+        if ( ! $this->db->update('user_settings', $settings))
         {
             throw new Exception('Could not update admin settings.');
         }
@@ -338,7 +338,7 @@ class Admins_Model extends CI_Model {
 
         // There must be always at least one admin user. If this is the only admin
         // the system, it cannot be deleted.
-        $admin_count = $this->db->get_where('ea_users',
+        $admin_count = $this->db->get_where('users',
             ['id_roles' => $this->get_admin_role_id()])->num_rows();
         if ($admin_count == 1)
         {
@@ -346,13 +346,13 @@ class Admins_Model extends CI_Model {
                 . 'one admin user.');
         }
 
-        $num_rows = $this->db->get_where('ea_users', ['id' => $admin_id])->num_rows();
+        $num_rows = $this->db->get_where('users', ['id' => $admin_id])->num_rows();
         if ($num_rows == 0)
         {
             return FALSE; // Record does not exist in database.
         }
 
-        return $this->db->delete('ea_users', ['id' => $admin_id]);
+        return $this->db->delete('users', ['id' => $admin_id]);
     }
 
     /**
@@ -372,14 +372,14 @@ class Admins_Model extends CI_Model {
         }
 
         // Check if record exists
-        if ($this->db->get_where('ea_users', ['id' => $admin_id])->num_rows() == 0)
+        if ($this->db->get_where('users', ['id' => $admin_id])->num_rows() == 0)
         {
             throw new Exception('The given admin id does not match a record in the database.');
         }
 
-        $admin = $this->db->get_where('ea_users', ['id' => $admin_id])->row_array();
+        $admin = $this->db->get_where('users', ['id' => $admin_id])->row_array();
 
-        $admin['settings'] = $this->db->get_where('ea_user_settings',
+        $admin['settings'] = $this->db->get_where('user_settings',
             ['id_users' => $admin_id])->row_array();
         unset($admin['settings']['id_users']);
 
@@ -413,7 +413,7 @@ class Admins_Model extends CI_Model {
         }
 
         // Check whether the admin record exists.
-        $result = $this->db->get_where('ea_users', ['id' => $admin_id]);
+        $result = $this->db->get_where('users', ['id' => $admin_id]);
         if ($result->num_rows() == 0)
         {
             throw new Exception('The record with the given id does not exist in the '
@@ -455,12 +455,12 @@ class Admins_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Get every admin settings.
         foreach ($batch as &$admin)
         {
-            $admin['settings'] = $this->db->get_where('ea_user_settings',
+            $admin['settings'] = $this->db->get_where('user_settings',
                 ['id_users' => $admin['id']])->row_array();
             unset($admin['settings']['id_users']);
         }

@@ -39,12 +39,12 @@ class Settings_Model extends CI_Model {
             throw new Exception('$name argument is not a string: ' . $name);
         }
 
-        if ($this->db->get_where('ea_settings', ['name' => $name])->num_rows() == 0)
+        if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
         { // Check if setting exists in db.
             throw new Exception('$name setting does not exist in database: ' . $name);
         }
 
-        $query = $this->db->get_where('ea_settings', ['name' => $name]);
+        $query = $this->db->get_where('settings', ['name' => $name]);
         $setting = $query->num_rows() > 0 ? $query->row() : '';
         return $setting->value;
     }
@@ -69,15 +69,15 @@ class Settings_Model extends CI_Model {
             throw new Exception('$name argument is not a string: ' . $name);
         }
 
-        $query = $this->db->get_where('ea_settings', ['name' => $name]);
+        $query = $this->db->get_where('settings', ['name' => $name]);
         if ($query->num_rows() > 0)
         {
             // Update setting
-            if ( ! $this->db->update('ea_settings', ['value' => $value], ['name' => $name]))
+            if ( ! $this->db->update('settings', ['value' => $value], ['name' => $name]))
             {
                 throw new Exception('Could not update database setting.');
             }
-            $setting_id = (int)$this->db->get_where('ea_settings', ['name' => $name])->row()->id;
+            $setting_id = (int)$this->db->get_where('settings', ['name' => $name])->row()->id;
         }
         else
         {
@@ -86,7 +86,7 @@ class Settings_Model extends CI_Model {
                 'name' => $name,
                 'value' => $value
             ];
-            if ( ! $this->db->insert('ea_settings', $insert_data))
+            if ( ! $this->db->insert('settings', $insert_data))
             {
                 throw new Exception('Could not insert database setting');
             }
@@ -112,12 +112,12 @@ class Settings_Model extends CI_Model {
             throw new Exception('$name is not a string: ' . $name);
         }
 
-        if ($this->db->get_where('ea_settings', ['name' => $name])->num_rows() == 0)
+        if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
         {
             return FALSE; // There is no such setting.
         }
 
-        return $this->db->delete('ea_settings', ['name' => $name]);
+        return $this->db->delete('settings', ['name' => $name]);
     }
 
     /**
@@ -142,7 +142,7 @@ class Settings_Model extends CI_Model {
         foreach ($settings as $setting)
         {
             $this->db->where('name', $setting['name']);
-            if ( ! $this->db->update('ea_settings', ['value' => $setting['value']]))
+            if ( ! $this->db->update('settings', ['value' => $setting['value']]))
             {
                 throw new Exception('Could not save setting (' . $setting['name']
                     . ' - ' . $setting['value'] . ')');
@@ -155,10 +155,10 @@ class Settings_Model extends CI_Model {
     /**
      * Returns all the system settings at once.
      *
-     * @return array Array of all the system settings stored in the 'ea_settings' table.
+     * @return array Array of all the system settings stored in the 'settings' table.
      */
     public function get_settings()
     {
-        return $this->db->get('ea_settings')->result_array();
+        return $this->db->get('settings')->result_array();
     }
 }

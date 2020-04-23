@@ -25,7 +25,7 @@ class Migration_Add_require_captcha_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'require_captcha',
             'value' => '0'
         ]);
@@ -38,6 +38,6 @@ class Migration_Add_require_captcha_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'require_captcha']);
+        $this->db->delete('settings', ['name' => 'require_captcha']);
     }
 }

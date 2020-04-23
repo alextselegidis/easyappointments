@@ -25,7 +25,7 @@ class Migration_Add_google_analytics_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'google_analytics_code',
             'value' => ''
         ]);
@@ -38,6 +38,6 @@ class Migration_Add_google_analytics_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'google_analytics_code']);
+        $this->db->delete('settings', ['name' => 'google_analytics_code']);
     }
 }

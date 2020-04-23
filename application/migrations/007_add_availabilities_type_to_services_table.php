@@ -23,7 +23,7 @@ class Migration_Add_availabilities_type_to_services_table extends CI_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('availabilities_type', 'ea_services'))
+        if ( ! $this->db->field_exists('availabilities_type', 'services'))
         {
             $fields = [
                 'availabilities_type' => [
@@ -34,9 +34,9 @@ class Migration_Add_availabilities_type_to_services_table extends CI_Migration {
                 ]
             ];
 
-            $this->dbforge->add_column('ea_services', $fields);
+            $this->dbforge->add_column('services', $fields);
 
-            $this->db->update('ea_services', ['availabilities_type' => 'flexible']);
+            $this->db->update('services', ['availabilities_type' => 'flexible']);
         }
     }
 
@@ -45,9 +45,9 @@ class Migration_Add_availabilities_type_to_services_table extends CI_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('availabilities_type', 'ea_services'))
+        if ($this->db->field_exists('availabilities_type', 'services'))
         {
-            $this->dbforge->drop_column('ea_services', 'availabilities_type');
+            $this->dbforge->drop_column('services', 'availabilities_type');
         }
     }
 }

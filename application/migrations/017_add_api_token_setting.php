@@ -25,7 +25,7 @@ class Migration_Add_api_token_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'api_token',
             'value' => ''
         ]);
@@ -38,6 +38,6 @@ class Migration_Add_api_token_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'api_token']);
+        $this->db->delete('settings', ['name' => 'api_token']);
     }
 }

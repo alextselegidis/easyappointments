@@ -29,7 +29,7 @@ class Roles_Model extends CI_Model {
      */
     public function get_role_id($role_slug)
     {
-        return $this->db->get_where('ea_roles', ['slug' => $role_slug])->row()->id;
+        return $this->db->get_where('roles', ['slug' => $role_slug])->row()->id;
     }
 
     /**
@@ -44,7 +44,7 @@ class Roles_Model extends CI_Model {
      */
     public function get_privileges($slug)
     {
-        $privileges = $this->db->get_where('ea_roles', ['slug' => $slug])->row_array();
+        $privileges = $this->db->get_where('roles', ['slug' => $slug])->row_array();
         unset($privileges['id'], $privileges['name'], $privileges['slug'], $privileges['is_admin']);
 
         // Convert the int values to bool so that is easier to check whether a

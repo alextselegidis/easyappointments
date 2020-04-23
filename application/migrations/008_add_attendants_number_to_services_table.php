@@ -23,7 +23,7 @@ class Migration_Add_attendants_number_to_services_table extends CI_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('attendants_number', 'ea_services'))
+        if ( ! $this->db->field_exists('attendants_number', 'services'))
         {
             $fields = [
                 'attendants_number' => [
@@ -34,7 +34,7 @@ class Migration_Add_attendants_number_to_services_table extends CI_Migration {
                 ]
             ];
 
-            $this->dbforge->add_column('ea_services', $fields);
+            $this->dbforge->add_column('services', $fields);
         }
     }
 
@@ -43,9 +43,9 @@ class Migration_Add_attendants_number_to_services_table extends CI_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('attendants_number', 'ea_services'))
+        if ($this->db->field_exists('attendants_number', 'services'))
         {
-            $this->dbforge->drop_column('ea_services', 'attendants_number');
+            $this->dbforge->drop_column('services', 'attendants_number');
         }
     }
 }

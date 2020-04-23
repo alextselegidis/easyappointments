@@ -23,7 +23,7 @@ class Migration_Add_weekday_start_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'first_weekday',
             'value' => 'sunday'
         ]);
@@ -34,6 +34,6 @@ class Migration_Add_weekday_start_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'first_weekday']);
+        $this->db->delete('settings', ['name' => 'first_weekday']);
     }
 }

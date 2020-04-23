@@ -35,11 +35,11 @@ class Consents_model extends CI_Model {
 
         if ( ! isset($consent['id']))
         {
-            $consent['id'] = $this->_insert($consent);
+            $consent['id'] = $this->insert($consent);
         }
         else
         {
-            $this->_update($consent);
+            $this->update($consent);
         }
 
         return $consent['id'];
@@ -75,12 +75,12 @@ class Consents_model extends CI_Model {
      *
      * @throws Exception If consent record could not be inserted.
      */
-    protected function _insert($consent)
+    protected function insert($consent)
     {
         $consent['created'] = time();
         $consent['modified'] = time();
 
-        if ( ! $this->db->insert('ea_consents', $consent))
+        if ( ! $this->db->insert('consents', $consent))
         {
             throw new Exception('Could not insert consent to the database.');
         }
@@ -99,11 +99,11 @@ class Consents_model extends CI_Model {
      *
      * @throws Exception If consent record could not be updated.
      */
-    protected function _update($consent)
+    protected function update($consent)
     {
         $consent['modified'] = time();
 
-        if ( ! $this->db->update('ea_consents', $consent, ['id' => $consent['id']]))
+        if ( ! $this->db->update('consents', $consent, ['id' => $consent['id']]))
         {
             throw new Exception('Could not update consent to the database.');
         }

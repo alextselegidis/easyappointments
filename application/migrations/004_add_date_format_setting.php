@@ -25,7 +25,7 @@ class Migration_Add_date_format_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'date_format',
             'value' => 'DMY'
         ]);
@@ -38,6 +38,6 @@ class Migration_Add_date_format_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'date_format']);
+        $this->db->delete('settings', ['name' => 'date_format']);
     }
 }

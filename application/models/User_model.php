@@ -31,8 +31,8 @@ class User_Model extends CI_Model {
      */
     public function get_user($user_id)
     {
-        $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
-        $user['settings'] = $this->db->get_where('ea_user_settings', ['id_users' => $user_id])->row_array();
+        $user = $this->db->get_where('users', ['id' => $user_id])->row_array();
+        $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
         unset($user['settings']['id_users']);
         return $user;
     }
@@ -54,16 +54,16 @@ class User_Model extends CI_Model {
         if (isset($user_settings['password']))
         {
             $this->load->helper('general');
-            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $user['id']])->row()->salt;
+            $salt = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row()->salt;
             $user_settings['password'] = hash_password($salt, $user_settings['password']);
         }
 
-        if ( ! $this->db->update('ea_users', $user, ['id' => $user['id']]))
+        if ( ! $this->db->update('users', $user, ['id' => $user['id']]))
         {
             return FALSE;
         }
 
-        if ( ! $this->db->update('ea_user_settings', $user_settings, ['id_users' => $user['id']]))
+        if ( ! $this->db->update('user_settings', $user_settings, ['id_users' => $user['id']]))
         {
             return FALSE;
         }
@@ -85,7 +85,7 @@ class User_Model extends CI_Model {
         $salt = $this->get_salt($username);
         $password = hash_password($salt, $password);
 
-        $user_settings = $this->db->get_where('ea_user_settings', [
+        $user_settings = $this->db->get_where('user_settings', [
             'username' => $username,
             'password' => $password
         ])->row_array();
@@ -95,14 +95,14 @@ class User_Model extends CI_Model {
             return NULL;
         }
 
-        $user = $this->db->get_where('ea_users', ['id' => $user_settings['id_users']])->row_array();
+        $user = $this->db->get_where('users', ['id' => $user_settings['id_users']])->row_array();
 
         if (empty($user))
         {
             return NULL;
         }
 
-        $role = $this->db->get_where('ea_roles', ['id' => $user['id_roles']])->row_array();
+        $role = $this->db->get_where('roles', ['id' => $user['id_roles']])->row_array();
 
         if (empty($role))
         {
@@ -131,7 +131,7 @@ class User_Model extends CI_Model {
      */
     public function get_salt($username)
     {
-        $user = $this->db->get_where('ea_user_settings', ['username' => $username])->row_array();
+        $user = $this->db->get_where('user_settings', ['username' => $username])->row_array();
         return ($user) ? $user['salt'] : '';
     }
 
@@ -151,7 +151,7 @@ class User_Model extends CI_Model {
             throw new Exception ('Invalid argument given: ' . $user_id);
         }
 
-        $user = $this->db->get_where('ea_users', ['id' => $user_id])->row_array();
+        $user = $this->db->get_where('users', ['id' => $user_id])->row_array();
 
         return $user['first_name'] . ' ' . $user['last_name'];
     }
@@ -170,11 +170,11 @@ class User_Model extends CI_Model {
         $this->load->helper('general');
 
         $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_user_settings', 'ea_user_settings.id_users = ea_users.id', 'inner')
-            ->where('ea_users.email', $email)
-            ->where('ea_user_settings.username', $username)
+            ->select('users.id')
+            ->from('users')
+            ->join('user_settings', 'user_settings.id_users = ea_users.id', 'inner')
+            ->where('users.email', $email)
+            ->where('user_settings.username', $username)
             ->get();
 
         if ($result->num_rows() == 0)
@@ -186,9 +186,9 @@ class User_Model extends CI_Model {
 
         // Create a new password and send it with an email to the given email address.
         $new_password = generate_random_string();
-        $salt = $this->db->get_where('ea_user_settings', ['id_users' => $user_id])->row()->salt;
+        $salt = $this->db->get_where('user_settings', ['id_users' => $user_id])->row()->salt;
         $hash_password = hash_password($salt, $new_password);
-        $this->db->update('ea_user_settings', ['password' => $hash_password], ['id_users' => $user_id]);
+        $this->db->update('user_settings', ['password' => $hash_password], ['id_users' => $user_id]);
 
         return $new_password;
     }

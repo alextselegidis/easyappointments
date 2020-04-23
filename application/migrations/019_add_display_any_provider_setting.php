@@ -23,7 +23,7 @@ class Migration_Add_display_any_provider_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'display_any_provider',
             'value' => '1'
         ]);
@@ -34,7 +34,7 @@ class Migration_Add_display_any_provider_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'display_any_provider'
         ]);
     }

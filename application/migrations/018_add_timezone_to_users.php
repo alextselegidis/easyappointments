@@ -23,7 +23,7 @@ class Migration_Add_timezone_to_users extends CI_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('timezone', 'ea_users'))
+        if ( ! $this->db->field_exists('timezone', 'users'))
         {
             $fields = [
                 'timezone' => [
@@ -34,7 +34,7 @@ class Migration_Add_timezone_to_users extends CI_Migration {
                 ]
             ];
 
-            $this->dbforge->add_column('ea_users', $fields);
+            $this->dbforge->add_column('users', $fields);
         }
     }
 
@@ -43,6 +43,6 @@ class Migration_Add_timezone_to_users extends CI_Migration {
      */
     public function down()
     {
-        $this->dbforge->drop_column('ea_users', 'timezone');
+        $this->dbforge->drop_column('users', 'timezone');
     }
 }

@@ -82,7 +82,7 @@ class Migration_Initial_database_structure extends CI_Migration {
         $this->dbforge->add_key('id_users_provider');
         $this->dbforge->add_key('id_users_customer');
         $this->dbforge->add_key('id_services');
-        $this->dbforge->create_table('ea_appointments', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('appointments', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id' => [
@@ -138,7 +138,7 @@ class Migration_Initial_database_structure extends CI_Migration {
             ],
         ]);
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table('ea_roles', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('roles', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id_users_secretary' => [
@@ -154,7 +154,7 @@ class Migration_Initial_database_structure extends CI_Migration {
         ]);
         $this->dbforge->add_key('id_users_secretary', TRUE);
         $this->dbforge->add_key('id_users_provider', TRUE);
-        $this->dbforge->create_table('ea_secretaries_providers', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('secretaries_providers', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id' => [
@@ -196,7 +196,7 @@ class Migration_Initial_database_structure extends CI_Migration {
         ]);
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->add_key('id_service_categories');
-        $this->dbforge->create_table('ea_services', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('services', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id_users' => [
@@ -212,7 +212,7 @@ class Migration_Initial_database_structure extends CI_Migration {
         ]);
         $this->dbforge->add_key('id_users', TRUE);
         $this->dbforge->add_key('id_services', TRUE);
-        $this->dbforge->create_table('ea_services_providers', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('services_providers', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id' => [
@@ -233,7 +233,7 @@ class Migration_Initial_database_structure extends CI_Migration {
         ]);
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->add_key('id_service_categories');
-        $this->dbforge->create_table('ea_service_categories', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('service_categories', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id' => [
@@ -253,7 +253,7 @@ class Migration_Initial_database_structure extends CI_Migration {
             ],
         ]);
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table('ea_settings', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('settings', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id' => [
@@ -319,7 +319,7 @@ class Migration_Initial_database_structure extends CI_Migration {
         ]);
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->add_key('id_roles');
-        $this->dbforge->create_table('ea_users', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('users', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id_users' => [
@@ -379,7 +379,7 @@ class Migration_Initial_database_structure extends CI_Migration {
             ],
         ]);
         $this->dbforge->add_key('id_users', TRUE);
-        $this->dbforge->create_table('ea_user_settings', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('user_settings', TRUE, ['engine' => 'InnoDB']);
 
         $this->db->query('
             ALTER TABLE `ea_appointments`
@@ -416,7 +416,7 @@ class Migration_Initial_database_structure extends CI_Migration {
 
         ');
 
-        $this->db->insert('ea_roles', [
+        $this->db->insert('roles', [
             'name' => 'Administrator',
             'slug' => 'admin',
             'is_admin' => TRUE,
@@ -428,7 +428,7 @@ class Migration_Initial_database_structure extends CI_Migration {
             'user_settings' => 15,
         ]);
 
-        $this->db->insert('ea_roles', [
+        $this->db->insert('roles', [
             'name' => 'Provider',
             'slug' => 'provider',
             'is_admin' => FALSE,
@@ -440,7 +440,7 @@ class Migration_Initial_database_structure extends CI_Migration {
             'user_settings' => 15,
         ]);
 
-        $this->db->insert('ea_roles', [
+        $this->db->insert('roles', [
             'name' => 'Customer',
             'slug' => 'customer',
             'is_admin' => FALSE,
@@ -452,7 +452,7 @@ class Migration_Initial_database_structure extends CI_Migration {
             'user_settings' => 0,
         ]);
 
-        $this->db->insert('ea_roles', [
+        $this->db->insert('roles', [
             'name' => 'Secretary',
             'slug' => 'secretary',
             'is_admin' => FALSE,
@@ -464,12 +464,12 @@ class Migration_Initial_database_structure extends CI_Migration {
             'user_settings' => 15,
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'company_working_plan',
             'value' => '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"11:20","end":"11:30"},{"start":"14:30","end":"15:00"}]}}'
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'book_advance_timeout',
             'value' => '30'
         ]);
@@ -491,14 +491,14 @@ class Migration_Initial_database_structure extends CI_Migration {
         $this->db->query('ALTER TABLE `ea_users` DROP FOREIGN KEY `ea_users_ibfk_1`');
         $this->db->query('ALTER TABLE `ea_user_settings` DROP FOREIGN KEY `ea_user_settings_ibfk_1`');
 
-        $this->dbforge->drop_table('ea_appointments');
-        $this->dbforge->drop_table('ea_roles');
-        $this->dbforge->drop_table('ea_secretaries_providers');
-        $this->dbforge->drop_table('ea_services');
-        $this->dbforge->drop_table('ea_service_categories');
-        $this->dbforge->drop_table('ea_services_providers');
-        $this->dbforge->drop_table('ea_settings');
-        $this->dbforge->drop_table('ea_user_settings');
-        $this->dbforge->drop_table('ea_users');
+        $this->dbforge->drop_table('appointments');
+        $this->dbforge->drop_table('roles');
+        $this->dbforge->drop_table('secretaries_providers');
+        $this->dbforge->drop_table('services');
+        $this->dbforge->drop_table('service_categories');
+        $this->dbforge->drop_table('services_providers');
+        $this->dbforge->drop_table('settings');
+        $this->dbforge->drop_table('user_settings');
+        $this->dbforge->drop_table('users');
     }
 }

@@ -70,11 +70,11 @@ class Providers_Model extends CI_Model {
 
         if ( ! isset($provider['id']))
         {
-            $provider['id'] = $this->_insert($provider);
+            $provider['id'] = $this->insert($provider);
         }
         else
         {
-            $provider['id'] = $this->_update($provider);
+            $provider['id'] = $this->update($provider);
         }
 
         return (int)$provider['id'];
@@ -96,7 +96,7 @@ class Providers_Model extends CI_Model {
         // If a provider id is present, check whether the record exist in the database.
         if (isset($provider['id']))
         {
-            $num_rows = $this->db->get_where('ea_users',
+            $num_rows = $this->db->get_where('users',
                 ['id' => $provider['id']])->num_rows();
             if ($num_rows == 0)
             {
@@ -176,11 +176,11 @@ class Providers_Model extends CI_Model {
 
         $num_rows = $this->db
             ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
-            ->where('ea_users.email', $provider['email'])
-            ->where('ea_users.id <>', $provider_id)
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('roles.slug', DB_SLUG_PROVIDER)
+            ->where('users.email', $provider['email'])
+            ->where('users.id <>', $provider_id)
             ->get()
             ->num_rows();
 
@@ -203,7 +203,7 @@ class Providers_Model extends CI_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('ea_user_settings',
+        $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
         return ($num_rows > 0) ? FALSE : TRUE;
     }
@@ -227,10 +227,10 @@ class Providers_Model extends CI_Model {
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
             ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $provider['email'])
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('users.email', $provider['email'])
+            ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get()->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
@@ -253,11 +253,11 @@ class Providers_Model extends CI_Model {
         }
 
         $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $provider['email'])
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->select('users.id')
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('users.email', $provider['email'])
+            ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get();
 
         if ($result->num_rows() == 0)
@@ -277,7 +277,7 @@ class Providers_Model extends CI_Model {
      *
      * @throws Exception When the insert operation fails.
      */
-    protected function _insert($provider)
+    protected function insert($provider)
     {
         $this->load->helper('general');
 
@@ -291,7 +291,7 @@ class Providers_Model extends CI_Model {
         unset($provider['settings']);
 
         // Insert provider record and save settings.
-        if ( ! $this->db->insert('ea_users', $provider))
+        if ( ! $this->db->insert('users', $provider))
         {
             throw new Exception('Could not insert provider into the database');
         }
@@ -314,7 +314,7 @@ class Providers_Model extends CI_Model {
      */
     public function get_providers_role_id()
     {
-        return $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id;
+        return $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id;
     }
 
     /**
@@ -339,10 +339,10 @@ class Providers_Model extends CI_Model {
         }
 
         // Check if the setting record exists in db.
-        if ($this->db->get_where('ea_user_settings', ['id_users' => $provider_id])
+        if ($this->db->get_where('user_settings', ['id_users' => $provider_id])
                 ->num_rows() == 0)
         {
-            $this->db->insert('ea_user_settings', ['id_users' => $provider_id]);
+            $this->db->insert('user_settings', ['id_users' => $provider_id]);
         }
 
         foreach ($settings as $name => $value)
@@ -371,7 +371,7 @@ class Providers_Model extends CI_Model {
     public function set_setting($setting_name, $value, $provider_id)
     {
         $this->db->where(['id_users' => $provider_id]);
-        return $this->db->update('ea_user_settings', [$setting_name => $value]);
+        return $this->db->update('user_settings', [$setting_name => $value]);
     }
 
     /**
@@ -397,14 +397,14 @@ class Providers_Model extends CI_Model {
         }
 
         // Save provider services in the database (delete old records and add new).
-        $this->db->delete('ea_services_providers', ['id_users' => $provider_id]);
+        $this->db->delete('services_providers', ['id_users' => $provider_id]);
         foreach ($services as $service_id)
         {
             $service_provider = [
                 'id_users' => $provider_id,
                 'id_services' => $service_id
             ];
-            $this->db->insert('ea_services_providers', $service_provider);
+            $this->db->insert('services_providers', $service_provider);
         }
     }
 
@@ -417,7 +417,7 @@ class Providers_Model extends CI_Model {
      *
      * @throws Exception When the update operation fails.
      */
-    protected function _update($provider)
+    protected function update($provider)
     {
         $this->load->helper('general');
 
@@ -429,13 +429,13 @@ class Providers_Model extends CI_Model {
 
         if (isset($settings['password']))
         {
-            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $provider['id']])->row()->salt;
+            $salt = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row()->salt;
             $settings['password'] = hash_password($salt, $settings['password']);
         }
 
         // Update provider record.
         $this->db->where('id', $provider['id']);
-        if ( ! $this->db->update('ea_users', $provider))
+        if ( ! $this->db->update('users', $provider))
         {
             throw new Exception('Could not update provider record.');
         }
@@ -463,13 +463,13 @@ class Providers_Model extends CI_Model {
             throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
         }
 
-        $num_rows = $this->db->get_where('ea_users', ['id' => $provider_id])->num_rows();
+        $num_rows = $this->db->get_where('users', ['id' => $provider_id])->num_rows();
         if ($num_rows == 0)
         {
             return FALSE; // Record does not exist in database.
         }
 
-        return $this->db->delete('ea_users', ['id' => $provider_id]);
+        return $this->db->delete('users', ['id' => $provider_id]);
     }
 
     /**
@@ -490,17 +490,17 @@ class Providers_Model extends CI_Model {
         }
 
         // Check if selected record exists on database.
-        if ($this->db->get_where('ea_users', ['id' => $provider_id])->num_rows() == 0)
+        if ($this->db->get_where('users', ['id' => $provider_id])->num_rows() == 0)
         {
             throw new Exception('Selected record does not exist in the database.');
         }
 
         // Get provider data.
-        $provider = $this->db->get_where('ea_users', ['id' => $provider_id])->row_array();
+        $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
 
 
         // Include provider services.
-        $services = $this->db->get_where('ea_services_providers',
+        $services = $this->db->get_where('services_providers',
             ['id_users' => $provider_id])->result_array();
         $provider['services'] = [];
         foreach ($services as $service)
@@ -509,7 +509,7 @@ class Providers_Model extends CI_Model {
         }
 
         // Include provider settings.
-        $provider['settings'] = $this->db->get_where('ea_user_settings',
+        $provider['settings'] = $this->db->get_where('user_settings',
             ['id_users' => $provider_id])->row_array();
         unset($provider['settings']['id_users']);
 
@@ -543,7 +543,7 @@ class Providers_Model extends CI_Model {
         }
 
         // Check whether the provider record exists in database.
-        $result = $this->db->get_where('ea_users', ['id' => $provider_id]);
+        $result = $this->db->get_where('users', ['id' => $provider_id]);
         if ($result->num_rows() == 0)
         {
             throw new Exception('The record with the $provider_id argument does not exist in '
@@ -590,13 +590,13 @@ class Providers_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Include each provider services and settings.
         foreach ($batch as &$provider)
         {
             // Services
-            $services = $this->db->get_where('ea_services_providers',
+            $services = $this->db->get_where('services_providers',
                 ['id_users' => $provider['id']])->result_array();
             $provider['services'] = [];
             foreach ($services as $service)
@@ -605,7 +605,7 @@ class Providers_Model extends CI_Model {
             }
 
             // Settings
-            $provider['settings'] = $this->db->get_where('ea_user_settings',
+            $provider['settings'] = $this->db->get_where('user_settings',
                 ['id_users' => $provider['id']])->row_array();
             unset($provider['settings']['id_users']);
         }
@@ -625,10 +625,10 @@ class Providers_Model extends CI_Model {
     {
         // Get provider records from database.
         $this->db
-            ->select('ea_users.*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_roles.slug', DB_SLUG_PROVIDER)
+            ->select('users.*')
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('roles.slug', DB_SLUG_PROVIDER)
             ->order_by('first_name ASC, last_name ASC, email ASC');
 
         $providers = $this->db->get()->result_array();
@@ -637,7 +637,7 @@ class Providers_Model extends CI_Model {
         foreach ($providers as &$provider)
         {
             // Services
-            $services = $this->db->get_where('ea_services_providers',
+            $services = $this->db->get_where('services_providers',
                 ['id_users' => $provider['id']])->result_array();
 
             $provider['services'] = [];
@@ -647,7 +647,7 @@ class Providers_Model extends CI_Model {
             }
 
             // Settings
-            $provider['settings'] = $this->db->get_where('ea_user_settings',
+            $provider['settings'] = $this->db->get_where('user_settings',
                 ['id_users' => $provider['id']])->row_array();
             unset($provider['settings']['username']);
             unset($provider['settings']['password']);
@@ -683,10 +683,10 @@ class Providers_Model extends CI_Model {
         // Validate provider record
         $where_clause = [
             'id' => $provider_id,
-            'id_roles' => $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
         ];
 
-        if ($this->db->get_where('ea_users', $where_clause)->num_rows() == 0)
+        if ($this->db->get_where('users', $where_clause)->num_rows() == 0)
         {
             throw new Exception('Provider id was not found in database.');
         }
@@ -715,7 +715,7 @@ class Providers_Model extends CI_Model {
      */
     public function get_setting($setting_name, $provider_id)
     {
-        $provider_settings = $this->db->get_where('ea_user_settings', ['id_users' => $provider_id])->row_array();
+        $provider_settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
         return $provider_settings[$setting_name];
     }
 
@@ -734,10 +734,10 @@ class Providers_Model extends CI_Model {
         // Validate provider record
         $where_clause = [
             'id' => $provider_id,
-            'id_roles' => $this->db->get_where('ea_roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
         ];
 
-        if ($this->db->get_where('ea_users', $where_clause)->num_rows() == 0)
+        if ($this->db->get_where('users', $where_clause)->num_rows() == 0)
         {
             throw new Exception('Provider id was not found in database.');
         }

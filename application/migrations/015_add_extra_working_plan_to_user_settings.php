@@ -23,7 +23,7 @@ class Migration_Add_extra_working_plan_to_user_settings extends CI_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('extra_working_plan', 'ea_user_settings'))
+        if ( ! $this->db->field_exists('extra_working_plan', 'user_settings'))
         {
             $fields = [
                 'extra_working_plan' => [
@@ -33,7 +33,7 @@ class Migration_Add_extra_working_plan_to_user_settings extends CI_Migration {
                 ]
             ];
 
-            $this->dbforge->add_column('ea_user_settings', $fields);
+            $this->dbforge->add_column('user_settings', $fields);
         }
     }
 
@@ -42,9 +42,9 @@ class Migration_Add_extra_working_plan_to_user_settings extends CI_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->field_exists('extra_working_plan', 'ea_user_settings'))
+        if ( ! $this->db->field_exists('extra_working_plan', 'user_settings'))
         {
-            $this->dbforge->drop_column('ea_user_settings', 'extra_working_plan');
+            $this->dbforge->drop_column('user_settings', 'extra_working_plan');
         }
     }
 }

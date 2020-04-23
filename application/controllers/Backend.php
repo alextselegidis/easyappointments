@@ -168,7 +168,7 @@ class Backend extends CI_Controller {
         // Check if the user has the required privileges for viewing the selected page.
         $role_slug = $this->session->userdata('role_slug');
 
-        $role_privileges = $this->db->get_where('ea_roles', ['slug' => $role_slug])->row_array();
+        $role_privileges = $this->db->get_where('roles', ['slug' => $role_slug])->row_array();
 
         if ($role_privileges[$page] < PRIV_VIEW)
         {

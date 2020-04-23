@@ -505,7 +505,7 @@ class Timezones_Model extends CI_Model {
      */
     public function get_user_timezone($id)
     {
-        $row = $this->db->get_where('ea_users', ['id' => $id])->row_array();
+        $row = $this->db->get_where('users', ['id' => $id])->row_array();
 
         return $row ? $row['timezone'] : NULL;
     }

@@ -23,7 +23,7 @@ class Migration_Add_calendar_view_setting extends CI_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('calendar_view', 'ea_user_settings'))
+        if ( ! $this->db->field_exists('calendar_view', 'user_settings'))
         {
             $fields = [
                 'calendar_view' => [
@@ -33,9 +33,9 @@ class Migration_Add_calendar_view_setting extends CI_Migration {
                 ]
             ];
 
-            $this->dbforge->add_column('ea_user_settings', $fields);
+            $this->dbforge->add_column('user_settings', $fields);
 
-            $this->db->update('ea_user_settings', ['calendar_view' => 'default']);
+            $this->db->update('user_settings', ['calendar_view' => 'default']);
         }
     }
 
@@ -44,9 +44,9 @@ class Migration_Add_calendar_view_setting extends CI_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('calendar_view', 'ea_user_settings'))
+        if ($this->db->field_exists('calendar_view', 'user_settings'))
         {
-            $this->dbforge->drop_column('ea_user_settings', 'calendar_view');
+            $this->dbforge->drop_column('user_settings', 'calendar_view');
         }
     }
 }

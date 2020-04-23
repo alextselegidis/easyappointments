@@ -58,11 +58,11 @@ class Secretaries_Model extends CI_Model {
 
         if ( ! isset($secretary['id']))
         {
-            $secretary['id'] = $this->_insert($secretary);
+            $secretary['id'] = $this->insert($secretary);
         }
         else
         {
-            $secretary['id'] = $this->_update($secretary);
+            $secretary['id'] = $this->update($secretary);
         }
 
         return (int)$secretary['id'];
@@ -84,7 +84,7 @@ class Secretaries_Model extends CI_Model {
         // If a record id is provided then check whether the record exists in the database.
         if (isset($secretary['id']))
         {
-            $num_rows = $this->db->get_where('ea_users', ['id' => $secretary['id']])
+            $num_rows = $this->db->get_where('users', ['id' => $secretary['id']])
                 ->num_rows();
             if ($num_rows == 0)
             {
@@ -146,11 +146,11 @@ class Secretaries_Model extends CI_Model {
 
         $num_rows = $this->db
             ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_roles.slug', DB_SLUG_SECRETARY)
-            ->where('ea_users.email', $secretary['email'])
-            ->where('ea_users.id <>', $secretary_id)
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('roles.slug', DB_SLUG_SECRETARY)
+            ->where('users.email', $secretary['email'])
+            ->where('users.id <>', $secretary_id)
             ->get()
             ->num_rows();
 
@@ -173,7 +173,7 @@ class Secretaries_Model extends CI_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('ea_user_settings',
+        $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
         return ($num_rows > 0) ? FALSE : TRUE;
     }
@@ -197,10 +197,10 @@ class Secretaries_Model extends CI_Model {
         // This method shouldn't depend on another method of this class.
         $num_rows = $this->db
             ->select('*')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $secretary['email'])
-            ->where('ea_roles.slug', DB_SLUG_SECRETARY)
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('users.email', $secretary['email'])
+            ->where('roles.slug', DB_SLUG_SECRETARY)
             ->get()->num_rows();
 
         return ($num_rows > 0) ? TRUE : FALSE;
@@ -223,11 +223,11 @@ class Secretaries_Model extends CI_Model {
         }
 
         $result = $this->db
-            ->select('ea_users.id')
-            ->from('ea_users')
-            ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-            ->where('ea_users.email', $secretary['email'])
-            ->where('ea_roles.slug', DB_SLUG_SECRETARY)
+            ->select('users.id')
+            ->from('users')
+            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->where('users.email', $secretary['email'])
+            ->where('roles.slug', DB_SLUG_SECRETARY)
             ->get();
 
         if ($result->num_rows() == 0)
@@ -247,7 +247,7 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the insert operation fails.
      */
-    protected function _insert($secretary)
+    protected function insert($secretary)
     {
         $this->load->helper('general');
 
@@ -258,7 +258,7 @@ class Secretaries_Model extends CI_Model {
 
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
-        if ( ! $this->db->insert('ea_users', $secretary))
+        if ( ! $this->db->insert('users', $secretary))
         {
             throw new Exception('Could not insert secretary into the database.');
         }
@@ -280,7 +280,7 @@ class Secretaries_Model extends CI_Model {
      */
     public function get_secretary_role_id()
     {
-        return (int)$this->db->get_where('ea_roles', ['slug' => DB_SLUG_SECRETARY])->row()->id;
+        return (int)$this->db->get_where('roles', ['slug' => DB_SLUG_SECRETARY])->row()->id;
     }
 
     /**
@@ -299,13 +299,13 @@ class Secretaries_Model extends CI_Model {
         }
 
         // Delete old connections
-        $this->db->delete('ea_secretaries_providers', ['id_users_secretary' => $secretary_id]);
+        $this->db->delete('secretaries_providers', ['id_users_secretary' => $secretary_id]);
 
         if (count($providers) > 0)
         {
             foreach ($providers as $provider_id)
             {
-                $this->db->insert('ea_secretaries_providers', [
+                $this->db->insert('secretaries_providers', [
                     'id_users_secretary' => $secretary_id,
                     'id_users_provider' => $provider_id
                 ]);
@@ -335,11 +335,11 @@ class Secretaries_Model extends CI_Model {
         }
 
         // Check if the setting record exists in db.
-        $num_rows = $this->db->get_where('ea_user_settings',
+        $num_rows = $this->db->get_where('user_settings',
             ['id_users' => $secretary_id])->num_rows();
         if ($num_rows == 0)
         {
-            $this->db->insert('ea_user_settings', ['id_users' => $secretary_id]);
+            $this->db->insert('user_settings', ['id_users' => $secretary_id]);
         }
 
         foreach ($settings as $name => $value)
@@ -360,7 +360,7 @@ class Secretaries_Model extends CI_Model {
     public function set_setting($setting_name, $value, $secretary_id)
     {
         $this->db->where(['id_users' => $secretary_id]);
-        return $this->db->update('ea_user_settings', [$setting_name => $value]);
+        return $this->db->update('user_settings', [$setting_name => $value]);
     }
 
     /**
@@ -372,7 +372,7 @@ class Secretaries_Model extends CI_Model {
      *
      * @throws Exception When the update operation fails.
      */
-    protected function _update($secretary)
+    protected function update($secretary)
     {
         $this->load->helper('general');
 
@@ -383,12 +383,12 @@ class Secretaries_Model extends CI_Model {
 
         if (isset($settings['password']))
         {
-            $salt = $this->db->get_where('ea_user_settings', ['id_users' => $secretary['id']])->row()->salt;
+            $salt = $this->db->get_where('user_settings', ['id_users' => $secretary['id']])->row()->salt;
             $settings['password'] = hash_password($salt, $settings['password']);
         }
 
         $this->db->where('id', $secretary['id']);
-        if ( ! $this->db->update('ea_users', $secretary))
+        if ( ! $this->db->update('users', $secretary))
         {
             throw new Exception('Could not update secretary record.');
         }
@@ -415,13 +415,13 @@ class Secretaries_Model extends CI_Model {
             throw new Exception('Invalid argument type $secretary_id: ' . $secretary_id);
         }
 
-        $num_rows = $this->db->get_where('ea_users', ['id' => $secretary_id])->num_rows();
+        $num_rows = $this->db->get_where('users', ['id' => $secretary_id])->num_rows();
         if ($num_rows == 0)
         {
             return FALSE; // Record does not exist in database.
         }
 
-        return $this->db->delete('ea_users', ['id' => $secretary_id]);
+        return $this->db->delete('users', ['id' => $secretary_id]);
     }
 
     /**
@@ -442,14 +442,14 @@ class Secretaries_Model extends CI_Model {
         }
 
         // Check if record exists
-        if ($this->db->get_where('ea_users', ['id' => $secretary_id])->num_rows() == 0)
+        if ($this->db->get_where('users', ['id' => $secretary_id])->num_rows() == 0)
         {
             throw new Exception('The given secretary id does not match a record in the database.');
         }
 
-        $secretary = $this->db->get_where('ea_users', ['id' => $secretary_id])->row_array();
+        $secretary = $this->db->get_where('users', ['id' => $secretary_id])->row_array();
 
-        $secretary_providers = $this->db->get_where('ea_secretaries_providers',
+        $secretary_providers = $this->db->get_where('secretaries_providers',
             ['id_users_secretary' => $secretary['id']])->result_array();
         $secretary['providers'] = [];
         foreach ($secretary_providers as $secretary_provider)
@@ -457,7 +457,7 @@ class Secretaries_Model extends CI_Model {
             $secretary['providers'][] = $secretary_provider['id_users_provider'];
         }
 
-        $secretary['settings'] = $this->db->get_where('ea_user_settings',
+        $secretary['settings'] = $this->db->get_where('user_settings',
             ['id_users' => $secretary['id']])->row_array();
         unset($secretary['settings']['id_users'], $secretary['settings']['salt']);
 
@@ -490,7 +490,7 @@ class Secretaries_Model extends CI_Model {
         }
 
         // Check whether the secretary record exists.
-        $result = $this->db->get_where('ea_users', ['id' => $secretary_id]);
+        $result = $this->db->get_where('users', ['id' => $secretary_id]);
         if ($result->num_rows() == 0)
         {
             throw new Exception('The record with the given id does not exist in the '
@@ -532,12 +532,12 @@ class Secretaries_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        $batch = $this->db->get_where('ea_users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         // Include every secretary providers.
         foreach ($batch as &$secretary)
         {
-            $secretary_providers = $this->db->get_where('ea_secretaries_providers',
+            $secretary_providers = $this->db->get_where('secretaries_providers',
                 ['id_users_secretary' => $secretary['id']])->result_array();
 
             $secretary['providers'] = [];
@@ -546,7 +546,7 @@ class Secretaries_Model extends CI_Model {
                 $secretary['providers'][] = $secretary_provider['id_users_provider'];
             }
 
-            $secretary['settings'] = $this->db->get_where('ea_user_settings',
+            $secretary['settings'] = $this->db->get_where('user_settings',
                 ['id_users' => $secretary['id']])->row_array();
             unset($secretary['settings']['id_users']);
         }
@@ -564,7 +564,7 @@ class Secretaries_Model extends CI_Model {
      */
     public function get_setting($setting_name, $secretary_id)
     {
-        $provider_settings = $this->db->get_where('ea_user_settings',
+        $provider_settings = $this->db->get_where('user_settings',
             ['id_users' => $secretary_id])->row_array();
         return $provider_settings[$setting_name];
     }

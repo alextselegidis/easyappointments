@@ -23,7 +23,7 @@ class Migration_Add_require_phone_number_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'require_phone_number',
             'value' => '1'
         ]);
@@ -34,6 +34,6 @@ class Migration_Add_require_phone_number_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', ['name' => 'require_phone_number']);
+        $this->db->delete('settings', ['name' => 'require_phone_number']);
     }
 }

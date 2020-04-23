@@ -34,11 +34,11 @@ class Services_Model extends CI_Model {
 
         if ( ! isset($service['id']))
         {
-            $service['id'] = $this->_insert($service);
+            $service['id'] = $this->insert($service);
         }
         else
         {
-            $this->_update($service);
+            $this->update($service);
         }
 
         return (int)$service['id'];
@@ -61,7 +61,7 @@ class Services_Model extends CI_Model {
         // in the database.
         if (isset($service['id']))
         {
-            $num_rows = $this->db->get_where('ea_services', ['id' => $service['id']])
+            $num_rows = $this->db->get_where('services', ['id' => $service['id']])
                 ->num_rows();
             if ($num_rows == 0)
             {
@@ -72,7 +72,7 @@ class Services_Model extends CI_Model {
         // Check if service category id is valid (only when present).
         if ( ! empty($service['id_service_categories']))
         {
-            $num_rows = $this->db->get_where('ea_service_categories',
+            $num_rows = $this->db->get_where('service_categories',
                 ['id' => $service['id_service_categories']])->num_rows();
             if ($num_rows == 0)
             {
@@ -131,9 +131,9 @@ class Services_Model extends CI_Model {
      *
      * @throws Exception If service record could not be inserted.
      */
-    protected function _insert($service)
+    protected function insert($service)
     {
-        if ( ! $this->db->insert('ea_services', $service))
+        if ( ! $this->db->insert('services', $service))
         {
             throw new Exception('Could not insert service record.');
         }
@@ -147,10 +147,10 @@ class Services_Model extends CI_Model {
      *
      * @throws Exception If service record could not be updated.
      */
-    protected function _update($service)
+    protected function update($service)
     {
         $this->db->where('id', $service['id']);
-        if ( ! $this->db->update('ea_services', $service))
+        if ( ! $this->db->update('services', $service))
         {
             throw new Exception('Could not update service record');
         }
@@ -176,7 +176,7 @@ class Services_Model extends CI_Model {
                 . 'a service record already exists: ' . print_r($service, TRUE));
         }
 
-        $num_rows = $this->db->get_where('ea_services', [
+        $num_rows = $this->db->get_where('services', [
             'name' => $service['name'],
             'duration' => $service['duration'],
             'price' => $service['price']
@@ -206,7 +206,7 @@ class Services_Model extends CI_Model {
                 . 'service record id.');
         }
 
-        $result = $this->db->get_where('ea_services', [
+        $result = $this->db->get_where('services', [
             'name' => $service['name'],
             'duration' => $service['duration'],
             'price' => $service['price']
@@ -236,13 +236,13 @@ class Services_Model extends CI_Model {
             throw new Exception('Invalid argument type $service_id (value:"' . $service_id . '"');
         }
 
-        $num_rows = $this->db->get_where('ea_services', ['id' => $service_id])->num_rows();
+        $num_rows = $this->db->get_where('services', ['id' => $service_id])->num_rows();
         if ($num_rows == 0)
         {
             return FALSE; // Record does not exist
         }
 
-        return $this->db->delete('ea_services', ['id' => $service_id]);
+        return $this->db->delete('services', ['id' => $service_id]);
     }
 
     /**
@@ -261,7 +261,7 @@ class Services_Model extends CI_Model {
         {
             throw new Exception('$service_id argument is not an numeric (value: "' . $service_id . '")');
         }
-        return $this->db->get_where('ea_services', ['id' => $service_id])->row_array();
+        return $this->db->get_where('services', ['id' => $service_id])->row_array();
     }
 
     /**
@@ -290,18 +290,18 @@ class Services_Model extends CI_Model {
             throw new Exception('$field_name argument is not a string: ' . $field_name);
         }
 
-        if ($this->db->get_where('ea_services', ['id' => $service_id])->num_rows() == 0)
+        if ($this->db->get_where('services', ['id' => $service_id])->num_rows() == 0)
         {
             throw new Exception('The record with the $service_id argument does not exist in the database: ' . $service_id);
         }
 
-        $row_data = $this->db->get_where('ea_services', ['id' => $service_id])->row_array();
+        $row_data = $this->db->get_where('services', ['id' => $service_id])->row_array();
         if ( ! isset($row_data[$field_name]))
         {
             throw new Exception('The given $field_name argument does not exist in the database: ' . $field_name);
         }
 
-        $setting = $this->db->get_where('ea_services', ['id' => $service_id])->row_array();
+        $setting = $this->db->get_where('services', ['id' => $service_id])->row_array();
         return $setting[$field_name];
     }
 
@@ -327,7 +327,7 @@ class Services_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('ea_services', $limit, $offset)->result_array();
+        return $this->db->get('services', $limit, $offset)->result_array();
     }
 
     /**
@@ -339,13 +339,13 @@ class Services_Model extends CI_Model {
     {
         $this->db->distinct();
         return $this->db
-            ->select('ea_services.*, ea_service_categories.name AS category_name, '
-                . 'ea_service_categories.id AS category_id')
-            ->from('ea_services')
-            ->join('ea_services_providers',
-                'ea_services_providers.id_services = ea_services.id', 'inner')
-            ->join('ea_service_categories',
-                'ea_service_categories.id = ea_services.id_service_categories', 'left')
+            ->select('services.*, ea_service_categories.name AS category_name, '
+                . 'service_categories.id AS category_id')
+            ->from('services')
+            ->join('services_providers',
+                'services_providers.id_services = ea_services.id', 'inner')
+            ->join('service_categories',
+                'service_categories.id = ea_services.id_service_categories', 'left')
             ->order_by('name ASC')
             ->get()->result_array();
     }
@@ -368,13 +368,13 @@ class Services_Model extends CI_Model {
 
         if ( ! isset($category['id']))
         {
-            $this->db->insert('ea_service_categories', $category);
+            $this->db->insert('service_categories', $category);
             $category['id'] = $this->db->insert_id();
         }
         else
         {
             $this->db->where('id', $category['id']);
-            $this->db->update('ea_service_categories', $category);
+            $this->db->update('service_categories', $category);
         }
 
         return (int)$category['id'];
@@ -430,7 +430,7 @@ class Services_Model extends CI_Model {
             throw new Exception('Invalid argument given for $category_id: ' . $category_id);
         }
 
-        $num_rows = $this->db->get_where('ea_service_categories', ['id' => $category_id])
+        $num_rows = $this->db->get_where('service_categories', ['id' => $category_id])
             ->num_rows();
         if ($num_rows == 0)
         {
@@ -438,7 +438,7 @@ class Services_Model extends CI_Model {
         }
 
         $this->db->where('id', $category_id);
-        return $this->db->delete('ea_service_categories');
+        return $this->db->delete('service_categories');
     }
 
     /**
@@ -458,7 +458,7 @@ class Services_Model extends CI_Model {
             throw new Exception('Invalid argument type given $category_id: ' . $category_id);
         }
 
-        $result = $this->db->get_where('ea_service_categories', ['id' => $category_id]);
+        $result = $this->db->get_where('service_categories', ['id' => $category_id]);
 
         if ($result->num_rows() == 0)
         {
@@ -485,6 +485,6 @@ class Services_Model extends CI_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('ea_service_categories', $limit, $offset)->result_array();
+        return $this->db->get('service_categories', $limit, $offset)->result_array();
     }
 }

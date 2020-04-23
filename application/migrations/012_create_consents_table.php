@@ -23,32 +23,32 @@ class Migration_Create_consents_table extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'display_cookie_notice',
             'value' => '0'
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'cookie_notice_content',
             'value' => 'Cookie notice content.'
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'display_terms_and_conditions',
             'value' => '0'
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'terms_and_conditions_content',
             'value' => 'Terms and conditions content.'
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'display_privacy_policy',
             'value' => '0'
         ]);
 
-        $this->db->insert('ea_settings', [
+        $this->db->insert('settings', [
             'name' => 'privacy_policy_content',
             'value' => 'Privacy policy content.'
         ]);
@@ -96,7 +96,7 @@ class Migration_Create_consents_table extends CI_Migration {
 
         $this->dbforge->add_key('id', TRUE);
 
-        $this->dbforge->create_table('ea_consents', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('consents', TRUE, ['engine' => 'InnoDB']);
     }
 
     /**
@@ -104,30 +104,30 @@ class Migration_Create_consents_table extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'display_cookie_notice'
         ]);
 
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'cookie_notice_content'
         ]);
 
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'display_terms_and_conditions'
         ]);
 
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'terms_and_conditions_content'
         ]);
 
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'display_privacy_policy'
         ]);
 
-        $this->db->delete('ea_settings', [
+        $this->db->delete('settings', [
             'name' => 'privacy_policy_content'
         ]);
 
-        $this->dbforge->drop_table('ea_consents');
+        $this->dbforge->drop_table('consents');
     }
 }
