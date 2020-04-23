@@ -14,37 +14,19 @@
 /**
  * Class Migration_Add_weekday_start_setting
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Add_weekday_start_setting extends CI_Migration {
-    /**
-     * Migration_Add_weekday_start_setting constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-
-        $this->load->model('settings_model');
-    }
-
     /**
      * Upgrade method.
      */
     public function up()
     {
-        try
-        {
-            $this->settings_model->get_setting('first_weekday');
-        }
-        catch (Exception $exception)
-        {
-            $this->settings_model->set_setting('first_weekday', 'sunday');
-        }
+        $this->db->insert('ea_settings', [
+            'name' => 'first_weekday',
+            'value' => 'sunday'
+        ]);
     }
 
     /**
@@ -52,6 +34,6 @@ class Migration_Add_weekday_start_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->settings_model->remove_setting('first_weekday');
+        $this->db->delete('ea_settings', ['name' => 'first_weekday']);
     }
 }

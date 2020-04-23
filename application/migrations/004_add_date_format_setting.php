@@ -14,25 +14,10 @@
 /**
  * Class Migration_Add_date_format_setting
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Add_date_format_setting extends CI_Migration {
-    /**
-     * Migration_Add_date_format_setting constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-
-        $this->load->model('settings_model');
-    }
-
-
     /**
      * Upgrade method.
      *
@@ -40,14 +25,10 @@ class Migration_Add_date_format_setting extends CI_Migration {
      */
     public function up()
     {
-        try
-        {
-            $this->settings_model->get_setting('date_format');
-        }
-        catch (Exception $exception)
-        {
-            $this->settings_model->set_setting('date_format', DATE_FORMAT_DMY);
-        }
+        $this->db->insert('ea_settings', [
+            'name' => 'date_format',
+            'value' => 'DMY'
+        ]);
     }
 
     /**
@@ -57,6 +38,6 @@ class Migration_Add_date_format_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->settings_model->remove_setting('date_format');
+        $this->db->delete('ea_settings', ['name' => 'date_format']);
     }
 }

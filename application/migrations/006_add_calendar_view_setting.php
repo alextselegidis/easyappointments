@@ -14,10 +14,8 @@
 /**
  * Class Migration_Add_calendar_view_setting
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Add_calendar_view_setting extends CI_Migration {
     /**
@@ -48,7 +46,7 @@ class Migration_Add_calendar_view_setting extends CI_Migration {
     {
         if ($this->db->field_exists('calendar_view', 'ea_user_settings'))
         {
-            $this->dbforge->drop_column('ea_user_settings', 'calendar_view_calendar');
+            $this->dbforge->drop_column('ea_user_settings', 'calendar_view');
         }
     }
 }

@@ -14,10 +14,8 @@
 /**
  * Class Migration_Change_column_types
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Change_column_types extends CI_Migration {
     /**
@@ -26,16 +24,16 @@ class Migration_Change_column_types extends CI_Migration {
     public function up()
     {
         // Drop table constraints.
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_2');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_3');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_4');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_1');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_2');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_1');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_2');
-        $this->db->query('ALTER TABLE ea_services DROP FOREIGN KEY ea_services_ibfk_1');
-        $this->db->query('ALTER TABLE ea_users DROP FOREIGN KEY ea_users_ibfk_1');
-        $this->db->query('ALTER TABLE ea_user_settings DROP FOREIGN KEY ea_user_settings_ibfk_1');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_2`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_3`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_4`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `fk_ea_secretaries_providers_1`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `fk_ea_secretaries_providers_2`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `ea_services_providers_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `ea_services_providers_ibfk_2`');
+        $this->db->query('ALTER TABLE `ea_services` DROP FOREIGN KEY `ea_services_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_users` DROP FOREIGN KEY `ea_users_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_user_settings` DROP FOREIGN KEY `ea_user_settings_ibfk_1`');
 
         // Appointments
         $fields = [
@@ -240,16 +238,16 @@ class Migration_Change_column_types extends CI_Migration {
     public function down()
     {
         // Drop table constraints.
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_2');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_3');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_4');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_1');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_2');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_1');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_2');
-        $this->db->query('ALTER TABLE ea_services DROP FOREIGN KEY ea_services_ibfk_1');
-        $this->db->query('ALTER TABLE ea_users DROP FOREIGN KEY ea_users_ibfk_1');
-        $this->db->query('ALTER TABLE ea_user_settings DROP FOREIGN KEY ea_user_settings_ibfk_1');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_2`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_3`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_4`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `fk_ea_secretaries_providers_1`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `fk_ea_secretaries_providers_2`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `ea_services_providers_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `ea_services_providers_ibfk_2`');
+        $this->db->query('ALTER TABLE `ea_services` DROP FOREIGN KEY `ea_services_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_users` DROP FOREIGN KEY `ea_users_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_user_settings` DROP FOREIGN KEY `ea_user_settings_ibfk_1`');
 
         // Appointments
         $fields = [
@@ -402,7 +400,7 @@ class Migration_Change_column_types extends CI_Migration {
                 'auto_increment' => TRUE
             ],
             'id_roles' => [
-                'name' => 'id',
+                'name' => 'id_roles',
                 'type' => 'bigint',
                 'constraint' => '20'
             ]

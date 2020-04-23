@@ -14,24 +14,10 @@
 /**
  * Class Migration_Add_require_captcha_setting
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Add_require_captcha_setting extends CI_Migration {
-    /**
-     * Migration_Add_require_captcha_setting constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-
-        $this->load->model('settings_model');
-    }
-
     /**
      * Upgrade method.
      *
@@ -39,14 +25,10 @@ class Migration_Add_require_captcha_setting extends CI_Migration {
      */
     public function up()
     {
-        try
-        {
-            $this->settings_model->get_setting('require_captcha');
-        }
-        catch (Exception $exception)
-        {
-            $this->settings_model->set_setting('require_captcha', '1');
-        }
+        $this->db->insert('ea_settings', [
+            'name' => 'require_captcha',
+            'value' => '0'
+        ]);
     }
 
     /**
@@ -56,6 +38,6 @@ class Migration_Add_require_captcha_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->settings_model->remove_setting('require_captcha');
+        $this->db->delete('ea_settings', ['name' => 'require_captcha']);
     }
 }

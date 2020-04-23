@@ -14,10 +14,8 @@
 /**
  * Class Migration_Add_display_any_provider_setting
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Add_display_any_provider_setting extends CI_Migration {
     /**

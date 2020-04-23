@@ -14,24 +14,10 @@
 /**
  * Class Migration_Add_api_token_setting
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
 class Migration_Add_api_token_setting extends CI_Migration {
-    /**
-     * Migration_Add_api_token_setting constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = [])
-    {
-        parent::__construct($config);
-
-        $this->load->model('settings_model');
-    }
-
     /**
      * Upgrade method.
      *
@@ -39,14 +25,10 @@ class Migration_Add_api_token_setting extends CI_Migration {
      */
     public function up()
     {
-        try
-        {
-            $this->settings_model->get_setting('api_token');
-        }
-        catch (Exception $exception)
-        {
-            $this->settings_model->set_setting('api_token', '');
-        }
+        $this->db->insert('ea_settings', [
+            'name' => 'api_token',
+            'value' => ''
+        ]);
     }
 
     /**
@@ -56,6 +38,6 @@ class Migration_Add_api_token_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->settings_model->remove_setting('api_token');
+        $this->db->delete('ea_settings', ['name' => 'api_token']);
     }
 }

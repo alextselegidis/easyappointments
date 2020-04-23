@@ -12,22 +12,25 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Add_timezone_columns
+ * Class Migration_Create_appointment_location_column
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
-class Migration_Add_timezone_columns extends CI_Migration {
+class Migration_Create_appointment_location_column extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
         $this->db->query('
-            ALTER TABLE `ea_users`
-                ADD `timezone` VARCHAR(256) DEFAULT "UTC" AFTER `notes`;
+            ALTER TABLE `ea_appointments`
+                ADD COLUMN `location` TEXT AFTER `end_datetime`; 
+        ');
+
+        $this->db->query('
+            ALTER TABLE `ea_services`
+                ADD COLUMN `location` TEXT AFTER `description`; 
         ');
     }
 
@@ -37,8 +40,13 @@ class Migration_Add_timezone_columns extends CI_Migration {
     public function down()
     {
         $this->db->query('
-            ALTER TABLE `ea_users`
-                DROP COLUMN `timezone`;
+            ALTER TABLE `ea_appointments`
+                DROP COLUMN `location`; 
+        ');
+
+        $this->db->query('
+            ALTER TABLE `ea_services`
+                DROP COLUMN `location`; 
         ');
     }
 }

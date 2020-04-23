@@ -12,14 +12,12 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Add_service_availabilities_type
+ * Class Migration_Add_availabilities_type_to_services_table
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
-class Migration_Add_service_availabilities_type extends CI_Migration {
+class Migration_Add_availabilities_type_to_services_table extends CI_Migration {
     /**
      * Upgrade method.
      */

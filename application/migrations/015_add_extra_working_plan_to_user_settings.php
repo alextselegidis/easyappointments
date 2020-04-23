@@ -12,33 +12,28 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Add_service_attendants_number
+ * Class Migration_Add_extra_working_plan_to_user_settings
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
-class Migration_Add_service_attendants_number extends CI_Migration {
+class Migration_Add_extra_working_plan_to_user_settings extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('attendants_number', 'ea_services'))
+        if ( ! $this->db->field_exists('extra_working_plan', 'ea_user_settings'))
         {
             $fields = [
-                'attendants_number' => [
-                    'type' => 'INT',
-                    'constraint' => '11',
-                    'default' => '1',
-                    'after' => 'availabilities_type'
+                'extra_working_plan' => [
+                    'type' => 'TEXT',
+                    'null' => TRUE,
+                    'after' => 'working_plan'
                 ]
             ];
 
-            $this->dbforge->add_column('ea_services', $fields);
-
-            $this->db->update('ea_services', ['attendants_number' => '1']);
+            $this->dbforge->add_column('ea_user_settings', $fields);
         }
     }
 
@@ -47,9 +42,9 @@ class Migration_Add_service_attendants_number extends CI_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('attendants_number', 'ea_services'))
+        if ( ! $this->db->field_exists('extra_working_plan', 'ea_user_settings'))
         {
-            $this->dbforge->drop_column('ea_services', 'attendants_number');
+            $this->dbforge->drop_column('ea_user_settings', 'extra_working_plan');
         }
     }
 }

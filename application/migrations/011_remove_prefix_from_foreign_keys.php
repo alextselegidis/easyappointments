@@ -12,30 +12,28 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Remove_prefix_from_fkey_constraints
+ * Class Migration_Remove_prefix_from_foreign_keys
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
-class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
+class Migration_Remove_prefix_from_foreign_keys extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
         // Drop table constraints.
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_2');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_3');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY ea_appointments_ibfk_4');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_1');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY fk_ea_secretaries_providers_2');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_1');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY ea_services_providers_ibfk_2');
-        $this->db->query('ALTER TABLE ea_services DROP FOREIGN KEY ea_services_ibfk_1');
-        $this->db->query('ALTER TABLE ea_users DROP FOREIGN KEY ea_users_ibfk_1');
-        $this->db->query('ALTER TABLE ea_user_settings DROP FOREIGN KEY ea_user_settings_ibfk_1');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_2`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_3`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `ea_appointments_ibfk_4`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `fk_ea_secretaries_providers_1`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `fk_ea_secretaries_providers_2`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `ea_services_providers_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `ea_services_providers_ibfk_2`');
+        $this->db->query('ALTER TABLE `ea_services` DROP FOREIGN KEY `ea_services_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_users` DROP FOREIGN KEY `ea_users_ibfk_1`');
+        $this->db->query('ALTER TABLE `ea_user_settings` DROP FOREIGN KEY `ea_user_settings_ibfk_1`');
 
         // Add table constraints again without the "ea" prefix.
         $this->db->query('ALTER TABLE `ea_appointments`
@@ -87,16 +85,16 @@ class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
     public function down()
     {
         // Drop table constraints.
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY appointments_services');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY appointments_users_customer');
-        $this->db->query('ALTER TABLE ea_appointments DROP FOREIGN KEY appointments_users_provider');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY secretaries_users_secretary');
-        $this->db->query('ALTER TABLE ea_secretaries_providers DROP FOREIGN KEY secretaries_users_provider');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY services_providers_users_provider');
-        $this->db->query('ALTER TABLE ea_services_providers DROP FOREIGN KEY services_providers_services');
-        $this->db->query('ALTER TABLE ea_services DROP FOREIGN KEY services_service_categories');
-        $this->db->query('ALTER TABLE ea_users DROP FOREIGN KEY users_roles');
-        $this->db->query('ALTER TABLE ea_user_settings DROP FOREIGN KEY user_settings_users');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `appointments_services`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `appointments_users_customer`');
+        $this->db->query('ALTER TABLE `ea_appointments` DROP FOREIGN KEY `appointments_users_provider`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `secretaries_users_secretary`');
+        $this->db->query('ALTER TABLE `ea_secretaries_providers` DROP FOREIGN KEY `secretaries_users_provider`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `services_providers_users_provider`');
+        $this->db->query('ALTER TABLE `ea_services_providers` DROP FOREIGN KEY `services_providers_services`');
+        $this->db->query('ALTER TABLE `ea_services` DROP FOREIGN KEY `services_service_categories`');
+        $this->db->query('ALTER TABLE `ea_users` DROP FOREIGN KEY `users_roles`');
+        $this->db->query('ALTER TABLE `ea_user_settings` DROP FOREIGN KEY `user_settings_users`');
 
         // Add table constraints again.
         $this->db->query('ALTER TABLE `ea_appointments`

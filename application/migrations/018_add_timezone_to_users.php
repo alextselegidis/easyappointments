@@ -12,28 +12,30 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_add_appointment_location_column
+ * Class Migration_Add_timezone_to_users
  *
- * @property CI_Loader load
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
- * @property Settings_Model settings_model
  */
-class Migration_add_appointment_location_column extends CI_Migration {
+class Migration_Add_timezone_to_users extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
-        $this->db->query('
-            ALTER TABLE `ea_appointments`
-                ADD COLUMN `location` TEXT AFTER `end_datetime`; 
-        ');
+        if ( ! $this->db->field_exists('timezone', 'ea_users'))
+        {
+            $fields = [
+                'timezone' => [
+                    'type' => 'VARCHAR',
+                    'constraint' => '256',
+                    'default' => 'UTC',
+                    'after' => 'notes'
+                ]
+            ];
 
-        $this->db->query('
-            ALTER TABLE `ea_services`
-                ADD COLUMN `location` TEXT AFTER `description`; 
-        ');
+            $this->dbforge->add_column('ea_users', $fields);
+        }
     }
 
     /**
@@ -41,14 +43,6 @@ class Migration_add_appointment_location_column extends CI_Migration {
      */
     public function down()
     {
-        $this->db->query('
-            ALTER TABLE `ea_appointments`
-                DROP COLUMN `location`; 
-        ');
-
-        $this->db->query('
-            ALTER TABLE `ea_services`
-                DROP COLUMN `location`; 
-        ');
+        $this->dbforge->drop_column('ea_users', 'timezone');
     }
 }
