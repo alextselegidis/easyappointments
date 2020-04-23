@@ -25,6 +25,7 @@
  * @property CI_Cache cache
  * @property CI_DB_query_builder db
  * @property CI_Security security
+ * @property CI_Migration migration
  * @property Google_Sync google_sync
  * @property Ics_file ics_file
  * @property Appointments_Model appointments_model
@@ -97,27 +98,14 @@ class Installation extends CI_Controller {
             $this->load->model('services_model');
             $this->load->model('providers_model');
             $this->load->library('session');
+            $this->load->library('migration');
 
             $admin = $this->input->post('admin');
             $company = $this->input->post('company');
 
-
-            // Create the Easy!Appointments database structure.
-            $file_contents = file_get_contents(__DIR__ . '/../../assets/sql/structure.sql');
-            $sql_queries = explode(';', $file_contents);
-            array_pop($sql_queries);
-            foreach ($sql_queries as $query)
+            if ( ! $this->migration->current())
             {
-                $this->db->query($query);
-            }
-
-            // Insert default Easy!Appointments entries into the database.
-            $file_contents = file_get_contents(__DIR__ . '/../../assets/sql/data.sql');
-            $sql_queries = explode(';', $file_contents);
-            array_pop($sql_queries);
-            foreach ($sql_queries as $query)
-            {
-                $this->db->query($query);
+                throw new Exception($this->migration->error_string());
             }
 
             // Insert admin
@@ -138,10 +126,39 @@ class Installation extends CI_Controller {
             $this->settings_model->set_setting('company_link', $company['company_link']);
 
             // Create sample records.
-            $sample_service = get_sample_service();
-            $sample_service['id'] = $this->services_model->add($sample_service);
-            $sample_provider = get_sample_provider();
-            $sample_provider['services'][] = $sample_service['id'];
+            $services = [
+                'name' => 'Test Service',
+                'duration' => 30,
+                'price' => 50.0,
+                'currency' => 'Euro',
+                'description' => 'This is a test service automatically inserted by the installer.',
+                'availabilities_type' => 'flexible',
+                'attendants_number' => 1,
+                'id_service_categories' => NULL
+            ];
+            $services['id'] = $this->services_model->add($services);
+
+            $sample_provider = [
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'john@example.org',
+                'phone_number' => '0123456789',
+                'services' => [
+                    $services['id']
+                ],
+                'settings' => [
+                    'username' => 'johndoe',
+                    'password' => '59fe9d073a9c3c606a7e01e402dca4b49b6aa517bd0fdf940c46cb13a7b63dd0',
+                    'salt' => 'dc5570debc71fc1fe94b1b0aee444fcde5b8cb83d62a6a2b736ead6557d7a2e1',
+                    'working_plan' => '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"saturday":null,"sunday":null}',
+                    'notifications' => FALSE,
+                    'google_sync' => FALSE,
+                    'sync_past_days' => 5,
+                    'sync_future_days' => 5,
+                    'calendar_view' => CALENDAR_VIEW_DEFAULT
+                ]
+            ];
+
             $this->providers_model->add($sample_provider);
 
             $response = AJAX_SUCCESS;
