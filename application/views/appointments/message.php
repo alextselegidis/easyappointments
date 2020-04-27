@@ -34,7 +34,7 @@
                     col-lg-offset-2 col-lg-8">
 
                 <div class="col-xs-12 col-sm-2">
-                    <img id="message-icon" src="<?= $message_icon ?>">
+                    <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
                 </div>
 
                 <div class="col-xs-12 col-sm-10">
