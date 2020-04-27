@@ -226,10 +226,6 @@ window.BackendSettings = window.BackendSettings || {};
             };
 
             $.post(postUrl, postData, function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    return;
-                }
-
                 if (response == false) {
                     $input.closest('.form-group').addClass('has-error');
                     Backend.displayNotification(EALang.username_already_exists);
@@ -257,10 +253,6 @@ window.BackendSettings = window.BackendSettings || {};
                         };
 
                         $.post(postUrl, postData, function (response) {
-                            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                                return;
-                            }
-
                             Backend.displayNotification(EALang.working_plans_got_updated);
                         }, 'json')
                             .fail(GeneralFunctions.ajaxFailureHandler)

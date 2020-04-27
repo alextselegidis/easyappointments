@@ -249,21 +249,20 @@
      * then the update operation is going to be executed.
      */
     ProvidersHelper.prototype.save = function (provider) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             provider: JSON.stringify(provider)
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-            Backend.displayNotification(EALang.provider_saved);
-            this.resetForm();
-            $('#filter-providers .key').val('');
-            this.filter('', response.id, true);
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.provider_saved);
+                this.resetForm();
+                $('#filter-providers .key').val('');
+                this.filter('', response.id, true);
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -272,20 +271,19 @@
      * @param {Number} id Record id to be deleted.
      */
     ProvidersHelper.prototype.delete = function (id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             provider_id: id
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-            Backend.displayNotification(EALang.provider_deleted);
-            this.resetForm();
-            this.filter($('#filter-providers .key').val());
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.provider_deleted);
+                this.resetForm();
+                this.filter($('#filter-providers .key').val());
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -456,10 +454,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             this.filterResults = response;
 
             $('#filter-providers .results').html('');

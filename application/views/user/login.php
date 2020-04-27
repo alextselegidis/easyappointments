@@ -67,8 +67,8 @@
             $('#login-form').submit(function(event) {
                 event.preventDefault();
 
-                var postUrl = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
-                var postData = {
+                var url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
+                var data = {
                     'csrfToken': GlobalVariables.csrfToken,
                     'username': $('#username').val(),
                     'password': $('#password').val()
@@ -76,20 +76,18 @@
 
                 $('.alert').addClass('hidden');
 
-                $.post(postUrl, postData, function(response) {
-                    if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                        return;
-                    }
-
-                    if (response == GlobalVariables.AJAX_SUCCESS) {
-                        window.location.href = GlobalVariables.destUrl;
-                    } else {
-                        $('.alert').text(EALang['login_failed']);
-                        $('.alert')
-                            .removeClass('hidden alert-danger alert-success')
-                            .addClass('alert-danger');
-                    }
-                }, 'json');
+                $.post(url, data)
+                    .done(function(response) {
+                        if (response === GlobalVariables.AJAX_SUCCESS) {
+                            window.location.href = GlobalVariables.destUrl;
+                        } else {
+                            $('.alert').text(EALang['login_failed']);
+                            $('.alert')
+                                .removeClass('hidden alert-danger alert-success')
+                                .addClass('alert-danger');
+                        }
+                    })
+                    .fail(GeneralFunctions.ajaxFailureHandler);
             });
         });
     </script>

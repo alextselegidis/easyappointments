@@ -145,19 +145,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $.post(url, data, function (response) {
                     $('#message_box').dialog('close');
 
-                    if (response.exceptions) {
-                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                        return;
-                    }
-
-                    if (response.warnings) {
-                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                    }
-
                     var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
                     delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
                     lastFocusedEventData.data.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
@@ -180,21 +167,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                             $.post(url, data, function (response) {
                                 $('#message_box').dialog('close');
-
-                                if (response.exceptions) {
-                                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                                        GeneralFunctions.EXCEPTIONS_MESSAGE);
-                                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                                    return;
-                                }
-
-                                if (response.warnings) {
-                                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
-                                        GeneralFunctions.WARNINGS_MESSAGE);
-                                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                                }
 
                                 // Refresh calendar event items.
                                 $('#select-filter-item').trigger('change');
@@ -225,19 +197,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 $.post(url, data, function (response) {
                     $('#message_box').dialog('close');
-
-                    if (response.exceptions) {
-                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                        return;
-                    }
-
-                    if (response.warnings) {
-                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                    }
 
                     // Refresh calendar event items.
                     $('#select-filter-item').trigger('change');
@@ -485,20 +444,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             // Success callback
             var successCallback = function (response) {
-                if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return;
-                }
-
-                if (response.warnings) {
-                    // Display warning information to the user.
-                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                }
-
                 // Display success notification to user.
                 var undoFunction = function () {
                     appointment.end_datetime = event.data.end_datetime = Date.parseExact(
@@ -546,20 +491,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             // Define success callback function.
             var successCallback = function (response) {
-                if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return;
-                }
-
-                if (response.warnings) {
-                    // Display warning information to the user.
-                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                }
-
                 // Display success notification to user.
                 var undoFunction = function () {
                     unavailable.end_datetime = event.data.end_datetime = Date.parseExact(
@@ -662,20 +593,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             // Define success callback function.
             var successCallback = function (response) {
-                if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return;
-                }
-
-                if (response.warnings) {
-                    // Display warning information to the user.
-                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                }
-
                 // Define the undo function, if the user needs to reset the last change.
                 var undoFunction = function () {
                     appointment.start_datetime = Date.parseExact(
@@ -725,19 +642,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             };
 
             var successCallback = function (response) {
-                if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                    return;
-                }
-
-                if (response.warnings) {
-                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                }
-
                 var undoFunction = function () {
                     unavailable.start_datetime = Date.parseExact(
                         unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss')
@@ -852,10 +756,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         $('#loading').css('visibility', 'hidden');
 
         return $.post(url, data, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             // Add appointments to calendar.
             var calendarEvents = [];
             var $calendar = $('#calendar');
@@ -899,13 +799,15 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
                         var unavailablePeriod;
 
-                        // Sort the working plan starting with the first day as set in General settings to correctly align breaks in the calendar display
-                        var fDaynum = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
-                        workingPlan = GeneralFunctions.sortWeekDict(workingPlanBulk,fDaynum);
+                        // Sort the working plan starting with the first day as set in General settings to correctly
+                        // align breaks in the calendar display.
+                        var firstWeekdayNumber = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+                        workingPlan = GeneralFunctions.sortWeekDictionary(workingPlanBulk, firstWeekdayNumber);
 
                         switch (calendarView) {
                             case 'agendaDay':
-                                var selectedDayName = GeneralFunctions.getWeekDayName(parseInt($calendar.fullCalendar('getView').start.format('d')));
+                                var selectedDayName = GeneralFunctions
+                                    .getWeekdayName(parseInt($calendar.fullCalendar('getView').start.format('d')));
 
                                 // Add custom unavailable periods.
                                 $.each(response.unavailables, function (index, unavailable) {
@@ -1234,15 +1136,15 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         var defaultView = window.innerWidth < 468 ? 'agendaDay' : 'agendaWeek';
 
-        var fDay = GlobalVariables.firstWeekday;
-        var fDaynum = GeneralFunctions.getWeekDayId(fDay);
+        var firstWeekday = GlobalVariables.firstWeekday;
+        var firstWeekdayNumber = GeneralFunctions.getWeekDayId(firstWeekday);
 
         // Initialize page calendar
         $('#calendar').fullCalendar({
             defaultView: defaultView,
             height: _getCalendarHeight(),
             editable: true,
-            firstDay: fDaynum,
+            firstDay: firstWeekdayNumber,
             snapDuration: '00:30:00',
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,

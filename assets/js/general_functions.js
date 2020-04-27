@@ -23,14 +23,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     'use strict';
 
     /**
-     * General Functions Constants
-     */
-    exports.EXCEPTIONS_TITLE = EALang.unexpected_issues;
-    exports.EXCEPTIONS_MESSAGE = EALang.unexpected_issues_message;
-    exports.WARNINGS_TITLE = EALang.unexpected_warnings;
-    exports.WARNINGS_MESSAGE = EALang.unexpected_warnings_message;
-
-    /**
      * This functions displays a message box in the admin array. It is useful when user
      * decisions or verifications are needed.
      *
@@ -39,16 +31,15 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
     exports.displayMessageBox = function (title, message, buttons) {
-        // Check arguments integrity.
-        if (title == undefined || title == '') {
-            title = '<No Title Given>';
+        if (title === undefined || title === '') {
+            title = '- No Title Provided -';
         }
 
-        if (message == undefined || message == '') {
-            message = '<No Message Given>';
+        if (message === undefined || message === '') {
+            message = '- No Message Provided -';
         }
 
-        if (buttons == undefined) {
+        if (buttons === undefined) {
             buttons = [
                 {
                     text: EALang.close,
@@ -61,15 +52,21 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         }
 
         // Destroy previous dialog instances.
-        $('#message_box').dialog('destroy');
-        $('#message_box').remove();
+        $('#message_box')
+            .dialog('destroy')
+            .remove();
 
         // Create the html of the message box.
-        $('body').append(
-            '<div id="message_box" title="' + title + '">' +
-            '<p>' + message + '</p>' +
-            '</div>'
-        );
+        $('<div/>', {
+            'id': 'message_box',
+            'title': title,
+            'html': [
+                $('<p/>', {
+                    'html': message
+                })
+            ]
+        })
+            .appendTo('body');
 
         $("#message_box").dialog({
             autoOpen: false,
@@ -97,7 +94,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         $(window).resize(function () {
             var elementLeft = ($(window).width() - elementHandle.outerWidth()) / 2;
             var elementTop = ($(window).height() - elementHandle.outerHeight()) / 2;
-            elementTop = (elementTop > 0) ? elementTop : 20;
+            elementTop = elementTop > 0 ? elementTop : 20;
 
             elementHandle.css({
                 position: 'absolute',
@@ -111,10 +108,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * This function retrieves a parameter from a "GET" formed url.
      *
-     * {@link http://www.netlobo.com/url_query_string_javascript.html}
+     * @link http://www.netlobo.com/url_query_string_javascript.html
      *
      * @param {String} url The selected url.
-     * @param {String} name The parameter name.
+     * @param {String} parameterName The parameter name.
 
      * @return {String} Returns the parameter value.
      */
@@ -162,10 +159,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Clone JS Object
      *
-     * This method creates and returns an exact copy of the provided object. It is very useful whenever
-     * changes need to be made to an object without modifying the original data.
+     * This method creates and returns an exact copy of the provided object. It is very useful whenever changes need to
+     * be made to an object without modifying the original data.
      *
-     * {@link http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object}
+     * @link https://stackoverflow.com/a/728694
      *
      * @param {Object} originalObject Object to be copied.
 
@@ -211,7 +208,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * This method validates an email address. If the address is not on the proper
      * form then the result is FALSE.
      *
-     * {@link http://badsyntax.co/post/javascript-email-validation-rfc822}
+     * @link http://badsyntax.co/post/javascript-email-validation-rfc822
      *
      * @param {String} email The email address to be checked.
 
@@ -259,86 +256,41 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     };
 
     /**
-     * Parse AJAX Exceptions
-     *
-     * This method parse the JSON encoded strings that are fetched by AJAX calls.
-     *
-     * @param {Array} exceptions Exception array returned by an ajax call.
-     *
-     * @return {Array} Returns the parsed js objects.
-     */
-    exports.parseExceptions = function (exceptions) {
-        var parsedExceptions = new Array();
-
-        $.each(exceptions, function (index, exception) {
-            parsedExceptions.push($.parseJSON(exception));
-        });
-
-        return parsedExceptions;
-    };
-
-    /**
      * Makes the first letter of the string upper case.
      *
-     * @param {String} str The string to be converted.
+     * @param {String} value The string to be converted.
      *
      * @return {String} Returns the capitalized string.
      */
-    exports.ucaseFirstLetter = function (str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    };
-
-    /**
-     * Handle AJAX Exceptions Callback
-     *
-     * All backend js code has the same way of dislaying exceptions that are raised on the
-     * server during an ajax call.
-     *
-     * @param {Object} response Contains the server response. If exceptions or warnings are
-     * found, user friendly messages are going to be displayed to the user.4
-     *
-     * @return {Boolean} Returns whether the the ajax callback should continue the execution or
-     * stop, due to critical server exceptions.
-     */
-    exports.handleAjaxExceptions = function (response) {
-        if (response.exceptions) {
-            response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-            GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-            return false;
-        }
-
-        if (response.warnings) {
-            response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-            GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-            $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-        }
-
-        return true;
+    exports.upperCaseFirstLetter = function (value) {
+        return value.charAt(0).toUpperCase() + value.slice(1);
     };
 
     /**
      * Enable Language Selection
      *
-     * Enables the language selection functionality. Must be called on every page has a
-     * language selection button. This method requires the global variable 'availableLanguages'
-     * to be initialized before the execution.
+     * Enables the language selection functionality. Must be called on every page has a language selection button.
+     * This method requires the global variable 'availableLanguages' to be initialized before the execution.
      *
      * @param {Object} $element Selected element button for the language selection.
      */
     exports.enableLanguageSelection = function ($element) {
         // Select Language
-        var html = '<ul id="language-list">';
-        $.each(availableLanguages, function () {
-            html += '<li class="language" data-language="' + this + '">'
-                + GeneralFunctions.ucaseFirstLetter(this) + '</li>';
+        var $languageList = $('<ul/>', {
+            'id': 'language-list',
+            'html': availableLanguages.map(function (availableLanguage) {
+                return $('<li/>', {
+                    'class': 'language',
+                    'data-language': availableLanguage,
+                    'text': GeneralFunctions.upperCaseFirstLetter(availableLanguage)
+                })
+            })
         });
-        html += '</ul>';
 
         $element.popover({
             placement: 'top',
             title: 'Select Language',
-            content: html,
+            content: $languageList.html(),
             html: true,
             container: 'body',
             trigger: 'manual'
@@ -356,55 +308,60 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         $(document).on('click', 'li.language', function () {
             // Change language with ajax call and refresh page.
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
-            var postData = {
+            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+            var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 language: $(this).attr('data-language')
             };
-            $.post(postUrl, postData, function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    return;
-                }
-                document.location.reload(true);
-
-            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            $.post(url, data)
+                done(function () {
+                    document.location.reload(true);
+                })
+                .fail(GeneralFunctions.ajaxFailureHandler);
         });
     };
 
     /**
      * AJAX Failure Handler
      *
-     * @param {jqXHR} jqxhr
+     * @param {jqXHR} jqXHR
      * @param {String} textStatus
      * @param {Object} errorThrown
      */
-    exports.ajaxFailureHandler = function (jqxhr, textStatus, errorThrown) {
-        var exceptions = [
-            {
-                message: 'AJAX Error: ' + errorThrown + $(jqxhr.responseText).text()
-            }
-        ];
-        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-        $('#message_box').append(GeneralFunctions.exceptionsToHtml(exceptions));
+    exports.ajaxFailureHandler = function (jqXHR, textStatus, errorThrown) {
+        console.error('Unexpected HTTP Error: ', jqXHR, textStatus, errorThrown);
+
+        var response = JSON.parse(jqXHR.responseText);
+
+        if (!response) {
+            return;
+        }
+
+        GeneralFunctions.displayMessageBox(EALang.unexpected_issues, EALang.unexpected_issues_message, []);
+
+        $('<div/>', {
+            'class': 'well',
+            'text': response.message
+        })
+            .appendTo('#message_box');
     };
 
     /**
      * Escape JS HTML string values for XSS prevention.
      *
-     * @param {String} str String to be escaped.
+     * @param {String} content String to be escaped.
      *
      * @return {String} Returns the escaped string.
      */
-    exports.escapeHtml = function (str) {
-        return $('<div/>').text(str).html();
+    exports.escapeHtml = function (content) {
+        return $('<div/>').text(content).html();
     };
 
     /**
      * Format a given date according to the date format setting.
      *
      * @param {Date} date The date to be formatted.
-     * @param {String} dateFormatSetting The setting provided by PHP must be one of
-     * the "DMY", "MDY" or "YMD".
+     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "MDY" or "YMD".
      * @param {Boolean} addHours (optional) Whether to add hours to the result.
 
      * @return {String} Returns the formatted date string.
@@ -431,79 +388,15 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         return result;
     };
 
-    /**
-     * Get the name in lowercase of a Weekday using its Id.
-     *
-     * @param {Integer} weekDayId The Id (From 0 for sunday to 6 for saturday).
-
-     * @return {String} Returns the name of the weekday.
-     */
-    exports.getWeekDayName = function (weekDayId) {
-        var result;
-
-        switch (weekDayId) {
-
-            case 0:
-                result = 'sunday';
-                break;
-
-            case 1:
-                result = 'monday';
-                break;
-
-            case 2:
-                result = 'tuesday';
-                break;
-
-            case 3:
-                result = 'wednesday';
-                break;
-
-            case 4:
-                result = 'thursday';
-                break;
-
-            case 5:
-                result = 'friday';
-                break;
-
-            case 6:
-                result = 'saturday';
-                break;
-
-            default:
-                throw new Error('Invalid weekday Id provided!', weekDayId);
-        }
-
-        return result;
-    };
 
     /**
-     * Sort a dictionary where keys are weekdays
+     * Get the Id of a Weekday using the US week format and day names (Sunday=0) as used in the JS code of the
+     * application, case insensitive, short and long names supported.
      *
-     * @param {Object} weekDict A dictionnary with weekdays as keys.
-     * @param {Integer} startDayId Id of the first day to start sorting (From 0 for sunday to 6 for saturday).
+     * @param {String} weekDayName The weekday name among Sunday, Monday, Tuesday, Wednesday, Thursday, Friday,
+     * Saturday.
 
-     * @return {Object} Returns a sorted dictionary
-     */
-    exports.sortWeekDict = function (weekDict, startDayId) {
-        var sortedWeekDict={};
-
-        for (var i = startDayId; i < startDayId+7; i++)
-        {
-            var weekDayname = GeneralFunctions.getWeekDayName(i%7);
-            sortedWeekDict[weekDayname] = weekDict[weekDayname];
-        }
-
-        return sortedWeekDict;
-    };
-
-    /**
-     * Get the Id of a Weekday using the US week format and day names (Sunday=0) as used in the JS code of the appli, case insensitive, short and long names supported.
-     *
-     * @param {String} weekDayName The weekday name amongs Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.
-
-     * @return {Integer} Returns the ID of the weekday.
+     * @return {Number} Returns the ID of the weekday.
      */
     exports.getWeekDayId = function (weekDayName) {
         var result;
@@ -555,11 +448,11 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Get the name in lowercase of a Weekday using its Id.
      *
-     * @param {Integer} weekDayId The Id (From 0 for sunday to 6 for saturday).
+     * @param {Number} weekDayId The Id (From 0 for sunday to 6 for saturday).
 
      * @return {String} Returns the name of the weekday.
      */
-    exports.getWeekDayName = function (weekDayId) {
+    exports.getWeekdayName = function (weekDayId) {
         var result;
 
         switch (weekDayId) {
@@ -602,21 +495,20 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Sort a dictionary where keys are weekdays
      *
-     * @param {Object} weekDict A dictionnary with weekdays as keys.
-     * @param {Integer} startDayId Id of the first day to start sorting (From 0 for sunday to 6 for saturday).
+     * @param {Object} weekDictionary A dictionary with weekdays as keys.
+     * @param {Number} startDayId Id of the first day to start sorting (From 0 for sunday to 6 for saturday).
 
      * @return {Object} Returns a sorted dictionary
      */
-    exports.sortWeekDict = function (weekDict, startDayId) {
-        var sortedWeekDict={};
+    exports.sortWeekDictionary = function (weekDictionary, startDayId) {
+        var sortedWeekDictionary={};
 
-        for (var i = startDayId; i < startDayId+7; i++)
-        {
-            var weekDayname = GeneralFunctions.getWeekDayName(i%7);
-            sortedWeekDict[weekDayname] = weekDict[weekDayname];
+        for (var i = startDayId; i < startDayId+7; i++) {
+            var weekdayName = GeneralFunctions.getWeekdayName(i % 7);
+            sortedWeekDictionary[weekdayName] = weekDictionary[weekdayName];
         }
 
-        return sortedWeekDict;
+        return sortedWeekDictionary;
     };
 
     /**
@@ -624,7 +516,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {Object} user Should have the address, city, etc properties.
      *
-     * @returns {string} The rendered HTML.
+     * @return {string} The rendered HTML.
      */
     exports.renderMapIcon = function (user) {
         var data = [];
@@ -670,7 +562,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {String} email
      *
-     * @returns {string} The rendered HTML.
+     * @return {string} The rendered HTML.
      */
     exports.renderMailIcon = function (email) {
         return $('<div/>', {
@@ -694,7 +586,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {String} phone
      *
-     * @returns {string} The rendered HTML.
+     * @return {string} The rendered HTML.
      */
     exports.renderPhoneIcon = function (phone) {
         return $('<div/>', {
@@ -712,19 +604,20 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         })
             .html();
     };
+
     /**
      * Format a given date according to ISO 8601 date format string yyyy-mm-dd
+     *
      * @param {String} date The date to be formatted.
-     * @param {String} dateFormatSetting The setting provided by PHP must be one of
-     * the "DMY", "MDY" or "YMD".
-     * @returns {String} Returns the formatted date string.
+     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "MDY" or "YMD".
+     *
+     * @return {String} Returns the formatted date string.
      */
     exports.ISO8601DateString = function (date, dateFormatSetting) {
         var dayArray;
 
-        // It's necessary to manually parse the date because Date.parse() not support
-        // some formats tha instead are supported by Easy!Appointments
-        // The unsupported format is dd/MM/yyyy
+        // It's necessary to manually parse the date because Date.parse() not support some formats tha instead are
+        // supported by Easy!Appointments. The unsupported format is dd/MM/yyyy.
         switch (dateFormatSetting) {
             case 'DMY':
                 dayArray = date.split('/');
@@ -738,7 +631,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 date = date.replace('/','-');
                 break;
             default:
-                throw new Error('Invalid date format setting provided!', dateFormatSetting);
+                throw new Error('Invalid date format setting provided:' + dateFormatSetting);
         }
         return date;
     }

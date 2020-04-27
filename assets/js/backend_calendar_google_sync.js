@@ -68,10 +68,6 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 };
 
                                 $.post(postUrl, postData, function (response) {
-                                    if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                                        return;
-                                    }
-
                                     $('#google-calendar').empty();
                                     $.each(response, function () {
                                         var option = '<option value="' + this.id + '">' + this.summary + '</option>';
@@ -115,19 +111,18 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          * Event: Select Google Calendar "Click"
          */
         $('#select-calendar').click(function () {
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
-            var postData = {
+            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
+            var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 provider_id: $('#select-filter-item').val(),
                 calendar_id: $('#google-calendar').val()
             };
-            $.post(postUrl, postData, function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    return;
-                }
-                Backend.displayNotification(EALang.google_calendar_selected);
-                $('#select-google-calendar').modal('hide');
-            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            $.post(url, data)
+                .done(function () {
+                    Backend.displayNotification(EALang.google_calendar_selected);
+                    $('#select-google-calendar').modal('hide');
+                })
+                .fail(GeneralFunctions.ajaxFailureHandler);
         });
 
         /**
@@ -151,21 +146,6 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 dataType: 'json'
             })
                 .done(function (response) {
-                    if (response.exceptions) {
-                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                            GeneralFunctions.EXCEPTIONS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                        return;
-                    }
-
-                    if (response.warnings) {
-                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
-                            GeneralFunctions.WARNINGS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                    }
-
                     Backend.displayNotification(EALang.google_sync_completed);
                     $('#reload-appointments').trigger('click');
                 })
@@ -185,19 +165,14 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
     function _disableProviderSync(providerId) {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             provider_id: providerId
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (response.exceptions) {
-                response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-            }
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .fail(GeneralFunctions.ajaxFailureHandler);
     }
 
 

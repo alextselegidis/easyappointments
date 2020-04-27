@@ -98,12 +98,6 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Define success callback.
             var successCallback = function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    $dialog.find('.modal-message').text(EALang.unexpected_issues_occurred);
-                    $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
-                    return false;
-                }
-
                 // Display success message to the user.
                 $dialog.find('.modal-message').text(EALang.appointment_saved);
                 $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-danger hidden');
@@ -417,8 +411,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 throw new Error('Invalid GlobalVariables.dateFormat value.');
         }
 
-        var fDay = GlobalVariables.firstWeekday;
-        var fDaynum = GeneralFunctions.getWeekDayId(fDay);
+        var firstWeekDay = GlobalVariables.firstWeekday;
+        var firstWeekDayNumber = GeneralFunctions.getWeekDayId(firstWeekDay);
 
         $dialog.find('#start-datetime').datetimepicker({
             dateFormat: dateFormat,
@@ -446,7 +440,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: fDaynum,
+            firstDay: firstWeekDayNumber,
             onClose: function () {
                 var sid = $('#select-service').val();
 
@@ -488,7 +482,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeText: EALang.time,
             hourText: EALang.hour,
             minuteText: EALang.minutes,
-            firstDay: fDaynum
+            firstDay: firstWeekDayNumber
         });
         $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
     };
@@ -497,7 +491,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
      * Validate the manage appointment dialog data. Validation checks need to
      * run every time the data are going to be saved.
      *
-     * @returns {Boolean} Returns the validation result.
+     * @return {Boolean} Returns the validation result.
      */
     function _validateAppointmentForm() {
         var $dialog = $('#manage-appointment');

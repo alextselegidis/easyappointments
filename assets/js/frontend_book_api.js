@@ -61,10 +61,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             // The response contains the available hours for the selected provider and
             // service. Fill the available hours div with response data.
             if (response.length > 0) {
@@ -181,11 +177,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         })
             .done(function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    $('.captcha-title small').trigger('click');
-                    return false;
-                }
-
                 if (response.captcha_verification === false) {
                     $('#captcha-hint')
                         .text(EALang.captcha_is_wrong)
@@ -308,11 +299,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             consent: consent
         };
 
-        $.post(url, data, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data).fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -328,10 +315,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         };
 
         $.post(url, data, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             location.href = GlobalVariables.baseUrl;
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
     };

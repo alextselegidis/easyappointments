@@ -98,10 +98,6 @@ window.BackendServices = window.BackendServices || {};
         };
 
         $.post(url, data, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             GlobalVariables.categories = response;
             var $select = $('#service-category');
             $select.empty();

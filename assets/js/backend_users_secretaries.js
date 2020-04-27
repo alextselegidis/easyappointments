@@ -207,21 +207,20 @@
      * then the update operation is going to be executed.
      */
     SecretariesHelper.prototype.save = function (secretary) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             secretary: JSON.stringify(secretary)
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-            Backend.displayNotification(EALang.secretary_saved);
-            this.resetForm();
-            $('#filter-secretaries .key').val('');
-            this.filter('', response.id, true);
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.secretary_saved);
+                this.resetForm();
+                $('#filter-secretaries .key').val('');
+                this.filter('', response.id, true);
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -230,20 +229,19 @@
      * @param {Number} id Record id to be deleted.
      */
     SecretariesHelper.prototype.delete = function (id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             secretary_id: id
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-            Backend.displayNotification(EALang.secretary_deleted);
-            this.resetForm();
-            this.filter($('#filter-secretaries .key').val());
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.secretary_deleted);
+                this.resetForm();
+                this.filter($('#filter-secretaries .key').val());
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -381,10 +379,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             this.filterResults = response;
 
             $('#filter-secretaries .results').html('');

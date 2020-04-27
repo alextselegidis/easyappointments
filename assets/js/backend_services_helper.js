@@ -197,10 +197,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             Backend.displayNotification(EALang.service_saved);
             this.resetForm();
             $('#filter-services .key').val('');
@@ -221,10 +217,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             Backend.displayNotification(EALang.service_deleted);
 
             this.resetForm();
@@ -317,10 +309,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             this.filterResults = response;
 
             $('#filter-services .results').html('');

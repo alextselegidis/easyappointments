@@ -55,25 +55,21 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var endDate = new Date(startDate.getTime()).add({days: parseInt($(this).val()) - 1});
             _createView(startDate, endDate);
 
-            // Horizontal scrolling fix for sticky table headers. 
+            // Horizontal scrolling fix for sticky table headers.
             stickyTableHeaderInterval = setInterval(function () {
                 $(window).trigger('resize.stickyTableHeaders');
             }, 1000);
         });
 
         $calendarToolbar.on('click', '#reload-appointments', function () {
-            // Remove all the events from the tables. 
+            // Remove all the events from the tables.
             $('.calendar-view .event').remove();
 
-            // Fetch the events and place them in the existing HTML format. 
+            // Fetch the events and place them in the existing HTML format.
             var startDate = new Date($('.calendar-view .date-column:first').data('date'));
             var endDate = new Date($('.calendar-view .date-column:last').data('date'));
             _getCalendarEvents(startDate, endDate)
                 .done(function (response) {
-                    if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                        return;
-                    }
-
                     var currentDate = startDate;
 
                     while (currentDate <= endDate) {
@@ -89,13 +85,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
 
-                                // Add the appointments to the column. 
+                                // Add the appointments to the column.
                                 _createAppointments($providerColumn, response.appointments);
 
-                                // Add the unavailabilities to the column. 
+                                // Add the unavailabilities to the column.
                                 _createUnavailabilities($providerColumn, response.unavailabilities);
 
-                                // Add the provider breaks to the column. 
+                                // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
                                 var day = date.toString('dddd').toLowerCase();
                                 if (workingPlan[day]) {
@@ -116,21 +112,21 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $calendar.on('click', '.calendar-view table td', function () {
             if ($(this).index() === 0) {
-                return; // Clicked on an hour slot. 
+                return; // Clicked on an hour slot.
             }
 
-            // Open the appointments modal in the selected hour. 
+            // Open the appointments modal in the selected hour.
             var hour = $(this).parent().find('td:first').text().split(':');
             var date = new Date($(this).parents('.date-column').data('date'));
             date.set({hour: parseInt(hour[0]), minute: parseInt(hour[1])});
 
-            // Open the appointments dialog. 
+            // Open the appointments dialog.
             $('#insert-appointment').trigger('click');
 
             // Update start date field.
             $('#start-datetime').datepicker('setDate', date);
 
-            // Select Service and provider. 
+            // Select Service and provider.
             var $providerColumn = $(this).parents('.provider-column');
             var serviceId = $providerColumn.find('thead tr:last th').eq($(this).index()).data('id');
             var providerId = $providerColumn.data('provider').id;
@@ -332,21 +328,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             $.post(postUrl, postData, function (response) {
                                 $('#message_box').dialog('close');
 
-                                if (response.exceptions) {
-                                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                                        GeneralFunctions.EXCEPTIONS_MESSAGE);
-                                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                                    return;
-                                }
-
-                                if (response.warnings) {
-                                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
-                                        GeneralFunctions.WARNINGS_MESSAGE);
-                                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                                }
-
                                 // Refresh calendar event items.
                                 $('#select-filter-item').trigger('change');
                             }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
@@ -384,19 +365,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 $.post(url, data, function (response) {
                     $('#message_box').dialog('close');
-
-                    if (response.exceptions) {
-                        response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE, GeneralFunctions.EXCEPTIONS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-                        return;
-                    }
-
-                    if (response.warnings) {
-                        response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                        GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE, GeneralFunctions.WARNINGS_MESSAGE);
-                        $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                    }
 
                     // Refresh calendar event items.
                     $('#select-filter-item').trigger('change');
@@ -491,10 +459,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         _getCalendarEvents(startDate, endDate)
             .done(function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    return;
-                }
-
                 var currentDate = startDate;
 
                 while (currentDate <= endDate) {
@@ -572,16 +536,16 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $providerColumn.data('provider', provider);
 
-        // Create the table slots. 
+        // Create the table slots.
         _createSlots($providerColumn, date, provider);
 
-        // Add the appointments to the column. 
+        // Add the appointments to the column.
         _createAppointments($providerColumn, events.appointments);
 
-        // Add the unavailabilities to the column. 
+        // Add the unavailabilities to the column.
         _createUnavailabilities($providerColumn, events.unavailabilities);
 
-        // Add the provider breaks to the column. 
+        // Add the provider breaks to the column.
         var workingPlan = JSON.parse(provider.settings.working_plan);
         var day = date.toString('dddd').toLowerCase();
         if (workingPlan[day]) {
@@ -707,7 +671,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                     $event.appendTo($(tr).prev().find('td').eq(cellIndex));
 
-                    // Remove the hour from the event if it is the same as the row. 
+                    // Remove the hour from the event if it is the same as the row.
                     if (eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
@@ -762,7 +726,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 if (eventDate < cellDate) {
                     $event.appendTo($(tr).prev().find('td').eq(1));
 
-                    // Remove the hour from the event if it is the same as the row. 
+                    // Remove the hour from the event if it is the same as the row.
                     if (eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
@@ -811,7 +775,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 });
 
                 if (eventDate < cellDate) {
-                    // Remove the hour from the event if it is the same as the row. 
+                    // Remove the hour from the event if it is the same as the row.
                     if (eventDate.toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
@@ -839,7 +803,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             height = 500;
         }
 
-        // $('.calendar-view').height(height); 
+        // $('.calendar-view').height(height);
 
         $('.calendar-view > div').css('min-width', '1000%');
 
@@ -893,7 +857,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         _createView(Date.today(), Date.today().add({days: parseInt($('#select-filter-item').val() - 1)}));
         _bindEventHandlers();
 
-        // Hide Google Calendar Sync buttons cause they can not be used within this view. 
+        // Hide Google Calendar Sync buttons cause they can not be used within this view.
         $('#enable-sync, #google-sync').hide();
 
         // Auto-reload the results every one minute.

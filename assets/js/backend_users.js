@@ -131,10 +131,6 @@ window.BackendUsers = window.BackendUsers || {};
                     key: ''
                 };
                 $.post(url, data, function (response) {
-                    if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                        return;
-                    }
-
                     GlobalVariables.providers = response;
 
                     var html = '<div>';
@@ -186,10 +182,6 @@ window.BackendUsers = window.BackendUsers || {};
             };
 
             $.post(postUrl, postData, function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    return;
-                }
-
                 if (response == false) {
                     $input.closest('.form-group').addClass('has-error');
                     $input.attr('already-exists', 'true');

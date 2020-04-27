@@ -46,7 +46,7 @@
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
         var fDaynum = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
-        var workingPlanSorted = GeneralFunctions.sortWeekDict(workingPlan,fDaynum);
+        var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan,fDaynum);
 
         $('.working-plan tbody').empty();
         $('.breaks tbody').empty();
@@ -55,13 +55,13 @@
         $.each(workingPlanSorted, function (index, workingDay) {
 
             var day = this.convertValueToDay(index);
-            var dayTranslatedname = GeneralFunctions.ucaseFirstLetter(day)
+            var dayTranslatedName = GeneralFunctions.upperCaseFirstLetter(day)
 
             var tr =
                 '<tr>' +
                 '<td>' +
                 '<div class="checkbox">' +
-                '<label> <input type="checkbox" id="' + index + '">' + dayTranslatedname + '</label>' +
+                '<label> <input type="checkbox" id="' + index + '">' + dayTranslatedName + '</label>' +
                 '</div>' +
                 '</td>' +
                 '<td><input id="'+index+'-start" class="work-start form-control input-sm"></td>' +
@@ -86,7 +86,7 @@
 
                     tr =
                         '<tr>' +
-                        '<td class="break-day editable">' + dayTranslatedname + '</td>' +
+                        '<td class="break-day editable">' + dayTranslatedName + '</td>' +
                         '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td>' +

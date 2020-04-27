@@ -37,10 +37,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             Backend.displayNotification(EALang.settings_saved);
 
             // Update the logo title on the header.

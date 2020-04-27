@@ -98,45 +98,65 @@ window.Backend = window.Backend || {};
     /**
      * Display backend notifications to user.
      *
-     * Using this method you can display notifications to the use with custom messages. If the
-     * 'actions' array is provided then an action link will be displayed too.
+     * Using this method you can display notifications to the use with custom messages. If the 'actions' array is
+     * provided then an action link will be displayed too.
      *
      * @param {String} message Notification message
-     * @param {Array} actions An array with custom actions that will be available to the user. Every
-     * array item is an object that contains the 'label' and 'function' key values.
+     * @param {Array} actions An array with custom actions that will be available to the user. Every array item is an
+     * object that contains the 'label' and 'function' key values.
      */
     exports.displayNotification = function (message, actions) {
-        message = message || 'NO MESSAGE PROVIDED FOR THIS NOTIFICATION';
+        message = message || '- No message provided for this notification -';
 
-        if (actions === undefined) {
+        var $notification = $('#notification');
+
+        if (!actions) {
             actions = [];
+
             setTimeout(function () {
-                $('#notification').fadeIn();
+                $notification.fadeIn();
             }, 5000);
         }
 
-        var customActionsHtml = '';
+        $notification.empty();
+
+        $('<div/>', {
+            'class': 'notification alert',
+            'html': [
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'close',
+                    'data-dismiss': 'alert',
+                    'html': [
+                        $('<span/>', {
+                            'html': '&times;'
+                        })
+                    ]
+                }),
+                $('<strong/>', {
+                    'html': message
+                }),
+
+            ]
+        })
+            .appendTo($notification);
 
         $.each(actions, function (index, action) {
             var actionId = action.label.toLowerCase().replace(' ', '-');
-            customActionsHtml += '<button id="' + actionId + '" class="btn btn-default btn-xs">'
-                + action.label + '</button>';
 
-            $(document).off('click', '#' + actionId);
-            $(document).on('click', '#' + actionId, action.function);
+            $('<button/>', {
+                'id': actionId,
+                'class': 'btn btn-default btn-xs',
+                'text': action.label
+            })
+                .appendTo($notification);
+
+            $(document)
+                .off('click', '#' + actionId)
+                .on('click', '#' + actionId, action.function);
         });
 
-        var notificationHtml =
-            '<div class="notification alert">' +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-            '<span aria-hidden="true">&times;</span>' +
-            '</button>' +
-            '<strong>' + message + '</strong>' +
-            customActionsHtml +
-            '</div>';
-
-        $('#notification').html(notificationHtml);
-        $('#notification').show('fade');
+        $notification.show('fade');
     }
 
 })(window.Backend);

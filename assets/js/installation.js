@@ -46,10 +46,6 @@ $(function () {
             dataType: 'json'
         })
             .done(function (response) {
-                if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                    return;
-                }
-
                 $alert
                     .text('Easy!Appointments has been successfully installed!')
                     .addClass('alert-success')
@@ -67,7 +63,7 @@ $(function () {
      *
      *   Use this before executing the installation procedure.
      *
-     * @returns {Boolean} Returns the validation result.
+     * @return {Boolean} Returns the validation result.
      */
     function validate() {
         try {

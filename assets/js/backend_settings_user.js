@@ -24,7 +24,7 @@
     /**
      * Get the settings data for the user settings.
      *
-     * @returns {Object} Returns the user settings array.
+     * @return {Object} Returns the user settings array.
      */
     UserSettings.prototype.get = function () {
         var user = {
@@ -73,10 +73,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             Backend.displayNotification(EALang.settings_saved);
 
             // Update footer greetings.

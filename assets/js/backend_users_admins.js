@@ -194,21 +194,20 @@
      * then the update operation is going to be executed.
      */
     AdminsHelper.prototype.save = function (admin) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             admin: JSON.stringify(admin)
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-            Backend.displayNotification(EALang.admin_saved);
-            this.resetForm();
-            $('#filter-admins .key').val('');
-            this.filter('', response.id, true);
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.admin_saved);
+                this.resetForm();
+                $('#filter-admins .key').val('');
+                this.filter('', response.id, true);
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -217,20 +216,19 @@
      * @param {Number} id Record id to be deleted.
      */
     AdminsHelper.prototype.delete = function (id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             admin_id: id
         };
 
-        $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-            Backend.displayNotification(EALang.admin_deleted);
-            this.resetForm();
-            this.filter($('#filter-admins .key').val());
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.admin_deleted);
+                this.resetForm();
+                this.filter($('#filter-admins .key').val());
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -357,10 +355,6 @@
         };
 
         $.post(postUrl, postData, function (response) {
-            if (!GeneralFunctions.handleAjaxExceptions(response)) {
-                return;
-            }
-
             this.filterResults = response;
 
             $('#filter-admins .results').html('');

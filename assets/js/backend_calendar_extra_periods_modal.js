@@ -58,27 +58,6 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             //}
 
             var successCallback = function (response) {
-                if (response.exceptions) {
-                    response.exceptions = GeneralFunctions.parseExceptions(response.exceptions);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.EXCEPTIONS_TITLE,
-                        GeneralFunctions.EXCEPTIONS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.exceptions));
-
-                    $dialog.find('.modal-message')
-                        .text(EALang.unexpected_issues_occurred)
-                        .addClass('alert-danger')
-                        .removeClass('hidden');
-
-                    return;
-                }
-
-                if (response.warnings) {
-                    response.warnings = GeneralFunctions.parseExceptions(response.warnings);
-                    GeneralFunctions.displayMessageBox(GeneralFunctions.WARNINGS_TITLE,
-                        GeneralFunctions.WARNINGS_MESSAGE);
-                    $('#message_box').append(GeneralFunctions.exceptionsToHtml(response.warnings));
-                }
-
                 // Display success message to the user.
                 $dialog.find('.modal-message')
                     .text(EALang.extra_period_saved)
