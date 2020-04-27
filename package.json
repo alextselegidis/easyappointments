@@ -28,13 +28,13 @@
     "cookieconsent": "^3.1.1",
     "datatables": "^1.10.18",
     "datejs": "0.0.2",
-    "fullcalendar": "^3.10.0",
-    "jquery": "^3.4.1",
+    "fullcalendar": "^3.10.1",
+    "jquery": "^3.5.0",
     "jquery-ui": "^1.12.0",
     "moment": "^2.24.0",
     "qtip2": "^3.0.3",
     "sticky-table-headers": "^0.1.24",
-    "trumbowyg": "^2.18.0"
+    "trumbowyg": "^2.21.0"
   },
   "devDependencies": {
     "fs-extra": "^0.26.3",
@@ -47,8 +47,8 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
-    "jsdoc": "^3.6.2",
-    "node-notifier": "^5.4.0",
+    "jsdoc": "^3.6.4",
+    "node-notifier": "^5.4.3",
     "plato": "^1.5.0",
     "zip-dir": "^1.0.0"
   },
