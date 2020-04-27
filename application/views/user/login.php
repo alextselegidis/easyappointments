@@ -53,42 +53,11 @@
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;
+
         var availableLanguages = <?= json_encode(config('available_languages')) ?>;
 
         $(document).ready(function() {
         	GeneralFunctions.enableLanguageSelection($('#select-language'));
-
-            /**
-             * Event: Login Button "Click"
-             *
-             * Make an ajax call to the server and check whether the user's credentials are right.
-             * If yes then redirect him to his desired page, otherwise display a message.
-             */
-            $('#login-form').submit(function(event) {
-                event.preventDefault();
-
-                var url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
-                var data = {
-                    'csrfToken': GlobalVariables.csrfToken,
-                    'username': $('#username').val(),
-                    'password': $('#password').val()
-                };
-
-                $('.alert').addClass('hidden');
-
-                $.post(url, data)
-                    .done(function(response) {
-                        if (response === GlobalVariables.AJAX_SUCCESS) {
-                            window.location.href = GlobalVariables.destUrl;
-                        } else {
-                            $('.alert').text(EALang['login_failed']);
-                            $('.alert')
-                                .removeClass('hidden alert-danger alert-success')
-                                .addClass('alert-danger');
-                        }
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
-            });
         });
     </script>
 </head>
@@ -129,5 +98,6 @@
     </div>
 
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/login.js') ?>"></script>
 </body>
 </html>
