@@ -10,7 +10,7 @@
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
