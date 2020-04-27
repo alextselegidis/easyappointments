@@ -11,7 +11,7 @@
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
 
     <script>
         var EALang = <?= json_encode($this->lang->language) ?>;
@@ -52,52 +52,14 @@
     </style>
 
     <script>
-        $(document).ready(function() {
-            var GlobalVariables = {
-                'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
-                'baseUrl': <?= json_encode(config('base_url')) ?>,
-                'AJAX_SUCCESS': 'SUCCESS',
-                'AJAX_FAILURE': 'FAILURE'
-            };
+        var GlobalVariables = {
+            'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
+            'baseUrl': <?= json_encode(config('base_url')) ?>,
+            'AJAX_SUCCESS': 'SUCCESS',
+            'AJAX_FAILURE': 'FAILURE'
+        };
 
-            var EALang = <?= json_encode($this->lang->language) ?>;
-
-            /**
-             * Event: Login Button "Click"
-             *
-             * Make an ajax call to the server and check whether the user's credentials are right.
-             * If yes then redirect him to his desired page, otherwise display a message.
-             */
-            $('form').submit(function(event) {
-                event.preventDefault();
-
-                var url = GlobalVariables.baseUrl + '/index.php/user/ajax_forgot_password';
-
-                var data = {
-                    'csrfToken': GlobalVariables.csrfToken,
-                    'username': $('#username').val(),
-                    'email': $('#email').val()
-                };
-
-                $('.alert').addClass('hidden');
-                $('#get-new-password').prop('disabled', true);
-
-                $.post(url, data)
-                    .done(function(response) {
-                        $('.alert').removeClass('hidden alert-danger alert-success');
-                        $('#get-new-password').prop('disabled', false);
-                        if (response === GlobalVariables.AJAX_SUCCESS) {
-                            $('.alert').addClass('alert-success');
-                            $('.alert').text(EALang['new_password_sent_with_email']);
-                        } else {
-                            $('.alert').addClass('alert-danger');
-                            $('.alert').text('The operation failed! Please enter a valid username '
-                                + 'and email address in order to get a new password.');
-                        }
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
-            });
-        });
+        var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 </head>
 <body>
@@ -127,5 +89,6 @@
         </form>
     </div>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/forgot_password.js') ?>"></script>
 </body>
 </html>
