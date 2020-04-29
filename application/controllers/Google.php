@@ -260,7 +260,11 @@ class Google extends CI_Controller {
                     continue;
                 }
 
-                $results = $this->appointments_model->get_batch(['id_google_calendar' => $google_event->getId()]);
+                // Check to see if this provider already has this event on their calendar
+                $results = $this->appointments_model->get_batch([
+                    'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
+                ]);
 
                 if ( ! empty($results))
                 {
