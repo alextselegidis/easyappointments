@@ -952,7 +952,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 $.each(response.unavailables, function (index, unavailable) {
                                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
-                                    if (unavailable.notes.length > 30) {
+                                    if (notes.length > 30) {
                                         notes = unavailable.notes.substring(0, 30) + '...'
                                     }
 
