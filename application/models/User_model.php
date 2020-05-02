@@ -172,7 +172,7 @@ class User_Model extends CI_Model {
         $result = $this->db
             ->select('users.id')
             ->from('users')
-            ->join('user_settings', 'user_settings.id_users = ea_users.id', 'inner')
+            ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
             ->where('users.email', $email)
             ->where('user_settings.username', $username)
             ->get();

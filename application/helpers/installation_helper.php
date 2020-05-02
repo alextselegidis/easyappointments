@@ -25,5 +25,5 @@ function is_ea_installed()
 {
     $framework =& get_instance();
 
-    return $framework->db->table_exists('ea_users');
+    return $framework->db->table_exists('users');
 }

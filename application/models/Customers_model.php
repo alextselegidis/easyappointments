@@ -109,7 +109,7 @@ class Customers_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->where('users.email', $customer['email'])
             ->where('users.id <>', $customer_id)
@@ -149,7 +149,7 @@ class Customers_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $customer['email'])
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get()->num_rows();
@@ -183,7 +183,7 @@ class Customers_Model extends CI_Model {
         $result = $this->db
             ->select('users.id')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $customer['email'])
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get();

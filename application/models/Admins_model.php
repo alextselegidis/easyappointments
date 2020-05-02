@@ -139,7 +139,7 @@ class Admins_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->where('users.email', $admin['email'])
             ->where('users.id <>', $admin_id)
@@ -190,7 +190,7 @@ class Admins_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $admin['email'])
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->get()->num_rows();
@@ -217,7 +217,7 @@ class Admins_Model extends CI_Model {
         $result = $this->db
             ->select('users.id')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $admin['email'])
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->get();

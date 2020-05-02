@@ -90,7 +90,7 @@ class Appointments_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.id', $appointment['id_users_provider'])
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get()->num_rows();
@@ -105,7 +105,7 @@ class Appointments_Model extends CI_Model {
             $num_rows = $this->db
                 ->select('*')
                 ->from('users')
-                ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
                 ->where('users.id', $appointment['id_users_customer'])
                 ->where('roles.slug', DB_SLUG_CUSTOMER)
                 ->get()->num_rows();

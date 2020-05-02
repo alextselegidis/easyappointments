@@ -177,7 +177,7 @@ class Providers_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->where('users.email', $provider['email'])
             ->where('users.id <>', $provider_id)
@@ -228,7 +228,7 @@ class Providers_Model extends CI_Model {
         $num_rows = $this->db
             ->select('*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $provider['email'])
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get()->num_rows();
@@ -255,7 +255,7 @@ class Providers_Model extends CI_Model {
         $result = $this->db
             ->select('users.id')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $provider['email'])
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get();
@@ -627,7 +627,7 @@ class Providers_Model extends CI_Model {
         $this->db
             ->select('users.*')
             ->from('users')
-            ->join('roles', 'roles.id = ea_users.id_roles', 'inner')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->order_by('first_name ASC, last_name ASC, email ASC');
 

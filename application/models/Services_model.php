@@ -339,13 +339,13 @@ class Services_Model extends CI_Model {
     {
         $this->db->distinct();
         return $this->db
-            ->select('services.*, ea_service_categories.name AS category_name, '
+            ->select('services.*, service_categories.name AS category_name, '
                 . 'service_categories.id AS category_id')
             ->from('services')
             ->join('services_providers',
-                'services_providers.id_services = ea_services.id', 'inner')
+                'services_providers.id_services = services.id', 'inner')
             ->join('service_categories',
-                'service_categories.id = ea_services.id_service_categories', 'left')
+                'service_categories.id = services.id_service_categories', 'left')
             ->order_by('name ASC')
             ->get()->result_array();
     }
