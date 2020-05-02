@@ -12,31 +12,29 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Add_availabilities_type_to_services_table
+ * Class Migration_Add_service_attendants_number
  *
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
  */
-class Migration_Add_availabilities_type_to_services_table extends CI_Migration {
+class Migration_Add_service_attendants_number extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('availabilities_type', 'services'))
+        if ( ! $this->db->field_exists('attendants_number', 'services'))
         {
             $fields = [
-                'availabilities_type' => [
-                    'type' => 'VARCHAR',
-                    'constraint' => '32',
-                    'default' => 'flexible',
-                    'after' => 'description'
+                'attendants_number' => [
+                    'type' => 'INT',
+                    'constraint' => '11',
+                    'default' => '1',
+                    'after' => 'availabilities_type'
                 ]
             ];
 
             $this->dbforge->add_column('services', $fields);
-
-            $this->db->update('services', ['availabilities_type' => 'flexible']);
         }
     }
 
@@ -45,9 +43,9 @@ class Migration_Add_availabilities_type_to_services_table extends CI_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('availabilities_type', 'services'))
+        if ($this->db->field_exists('attendants_number', 'services'))
         {
-            $this->dbforge->drop_column('services', 'availabilities_type');
+            $this->dbforge->drop_column('services', 'attendants_number');
         }
     }
 }
