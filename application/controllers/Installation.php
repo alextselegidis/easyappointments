@@ -109,6 +109,7 @@ class Installation extends CI_Controller {
             }
 
             // Insert admin
+            $admin['timezone'] = 'UTC';
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
@@ -118,6 +119,7 @@ class Installation extends CI_Controller {
             $this->session->set_userdata('user_id', $admin['id']);
             $this->session->set_userdata('user_email', $admin['email']);
             $this->session->set_userdata('role_slug', DB_SLUG_ADMIN);
+            $this->session->set_userdata('timezone', $admin['timezone']);
             $this->session->set_userdata('username', $admin['settings']['username']);
 
             // Save company settings
