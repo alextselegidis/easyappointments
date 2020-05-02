@@ -175,12 +175,12 @@
 
                                 <div class="form-group">
                                     <label for="provider-password"><?= lang('password') ?> *</label>
-                                    <input type="password" id="provider-password" class="form-control required" maxlength="512">
+                                    <input type="password" id="provider-password" class="form-control required" maxlength="512" autocomplete="new-password">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="provider-password-confirm"><?= lang('retype_password') ?> *</label>
-                                    <input type="password" id="provider-password-confirm" class="form-control required" maxlength="512">
+                                    <input type="password" id="provider-password-confirm" class="form-control required" maxlength="512" autocomplete="new-password">
                                 </div>
 
                                 <div class="form-group">
@@ -412,12 +412,12 @@
 
                             <div class="form-group">
                                 <label for="secretary-password"><?= lang('password') ?> *</label>
-                                <input type="password" id="secretary-password" class="form-control required" maxlength="512">
+                                <input type="password" id="secretary-password" class="form-control required" maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
                                 <label for="secretary-password-confirm"><?= lang('retype_password') ?> *</label>
-                                <input type="password" id="secretary-password-confirm" class="form-control required" maxlength="512">
+                                <input type="password" id="secretary-password-confirm" class="form-control required" maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
@@ -572,12 +572,12 @@
 
                             <div class="form-group">
                                 <label for="admin-password"><?= lang('password') ?> *</label>
-                                <input type="password" id="admin-password" class="form-control required" maxlength="512">
+                                <input type="password" id="admin-password" class="form-control required" maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
                                 <label for="admin-password-confirm"><?= lang('retype_password') ?> *</label>
-                                <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512">
+                                <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
