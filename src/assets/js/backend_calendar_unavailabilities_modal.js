@@ -81,7 +81,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 }
 
                 // Display success message to the user.
-                Backend.displayNotification(EALang.unavailable_saved);
+                Backend.displayNotification(EALang.unavailable_saved, { type: 'success' });
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $dialog.find('.alert').addClass('hidden');

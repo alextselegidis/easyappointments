@@ -434,12 +434,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
-                Backend.displayNotification(EALang.appointment_updated, [
+                Backend.displayNotification(EALang.appointment_updated, { actions: [
                     {
                         'label': 'Undo',
                         'function': undoFunction
                     }
-                ]);
+                ]});
                 $('#footer').css('position', 'static'); // Footer position fix.
 
                 // Update the event data for later use.
@@ -494,12 +494,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
-                Backend.displayNotification(EALang.unavailable_updated, [
+                Backend.displayNotification(EALang.unavailable_updated, { actions: [
                     {
                         'label': 'Undo',
                         'function': undoFunction
                     }
-                ]);
+                ]});
 
                 $('#footer').css('position', 'static'); // Footer position fix.
 
@@ -618,12 +618,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
-                Backend.displayNotification(EALang.appointment_updated, [
+                Backend.displayNotification(EALang.appointment_updated, { actions: [
                     {
                         'label': 'Undo',
                         'function': undoFunction
                     }
-                ]);
+                ]});
 
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
@@ -679,12 +679,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
-                Backend.displayNotification(EALang.unavailable_updated, [
+                Backend.displayNotification(EALang.unavailable_updated, { actions: [
                     {
                         label: 'Undo',
                         function: undoFunction
                     }
-                ]);
+                ]});
 
                 $('#footer').css('position', 'static'); // Footer position fix.
             };

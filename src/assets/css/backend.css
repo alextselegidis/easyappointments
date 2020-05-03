@@ -129,6 +129,19 @@ root {
     margin-right: 0 !important;
 }
 
+/* Alternative background-color for notification */
+#notification .alert.alert-danger {
+    background-color: #F5A8B6;
+    color: #F3F2EF;
+}
+#notification .alert.alert-danger .close {
+    color: #F3F2EF;
+}
+
+#notification .alert.alert-success {
+    background-color: #DCF5A8;
+}
+
 #loading {
     position: fixed;
     top: 0px;

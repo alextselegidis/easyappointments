@@ -93,7 +93,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 }
 
                 // Display success message to the user.
-                Backend.displayNotification(EALang.appointment_saved);
+                Backend.displayNotification(EALang.appointment_saved, { type: 'success' });
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $dialog.find('.alert').addClass('hidden');
