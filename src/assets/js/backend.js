@@ -111,7 +111,7 @@ window.Backend = window.Backend || {};
         if (actions === undefined) {
             actions = [];
             setTimeout(function () {
-                $('#notification').fadeIn();
+                $('#notification').fadeOut();
             }, 5000);
         }
 
