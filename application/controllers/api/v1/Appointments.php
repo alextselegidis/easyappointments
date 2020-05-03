@@ -110,6 +110,8 @@ class Appointments extends API_V1_Controller {
      */
     public function post()
     {
+        $this->load->model('services_model');
+
         try
         {
             // Insert the appointment to the database.
@@ -120,6 +122,18 @@ class Appointments extends API_V1_Controller {
             if (isset($appointment['id']))
             {
                 unset($appointment['id']);
+            }
+
+            // Generate end_datetime based on service duration if this field is not defined
+            if (!isset($appointment['end_datetime']))
+            {
+                $service = $this->services_model->get_row($appointment['id_services']);
+                if (isset($service['duration']))
+                {
+                    $endTime = new DateTime($appointment['start_datetime']);
+                    $endTime->add(new DateInterval('PT' . $service['duration'] . 'M'));
+                    $appointment['end_datetime'] = $endTime->format('Y-m-d H:i:s');
+                }
             }
 
             $id = $this->appointments_model->add($appointment);
