@@ -89,7 +89,7 @@
      * @return {Boolean} Returns the validation result.
      */
     UserSettings.prototype.validate = function () {
-        $('#user .has-error').removeClass('has-error');
+        $('#current-user .has-error').removeClass('has-error');
 
         try {
             // Validate required fields.
