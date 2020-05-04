@@ -89,6 +89,20 @@
                 <?= lang('reload') ?>
             </button>
 
+            <?php if($calendar_view === 'default'): ?>
+                <a class="btn btn-default" href="<?= site_url('backend?view=table') ?>"
+                   title="<?= lang('table') ?>">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                </a>
+            <?php endif ?>
+
+            <?php if($calendar_view === 'table'): ?>
+                <a class="btn btn-default" href="<?= site_url('backend') ?>"
+                   title="<?= lang('default') ?>">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </a>
+            <?php endif ?>
+
             <button id="toggle-fullscreen" class="btn btn-default">
                 <span class="glyphicon glyphicon-fullscreen"></span>
             </button>

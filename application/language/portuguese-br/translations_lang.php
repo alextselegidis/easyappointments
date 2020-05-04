@@ -317,3 +317,5 @@ $lang['display_any_provider'] = 'Display Any Provider Option';
 $lang['display_any_provider_hint'] = 'The booking page will get an additional option that allows customers to book without specifying a provider.';
 $lang['load_more'] = 'Load More';
 $lang['list'] = 'List';
+$lang['default'] = 'Default';
+$lang['table'] = 'Table';

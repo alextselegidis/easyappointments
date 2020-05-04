@@ -90,6 +90,12 @@ class Backend extends CI_Controller {
         $this->load->model('secretaries_model');
         $this->load->model('timezones_model');
 
+        $calendar_view_query_param = $this->input->get('view');
+
+        $user_id = $this->session->userdata('user_id');
+
+        $user = $this->user_model->get_user($user_id);
+
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_APPOINTMENTS;
@@ -101,8 +107,7 @@ class Backend extends CI_Controller {
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
-        $user = $this->user_model->get_user($this->session->userdata('user_id'));
-        $view['calendar_view'] = $user['settings']['calendar_view'];
+        $view['calendar_view'] = !empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
         $view['timezones'] = $this->timezones_model->to_array();
         $this->set_user_data($view);
 
