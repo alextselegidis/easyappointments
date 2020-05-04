@@ -450,6 +450,38 @@ body .form-horizontal .controls {
     margin: 10px 10px 10px 0;
 }
 
+#calendar .calendar-header select {
+    min-width: 300px;
+}
+
+#calendar .calendar-header label {
+    margin: 0 10px;
+}
+
+#calendar .calendar-header .select2-container--default .select2-selection--multiple {
+    border: none !important;
+    border-bottom: 1px solid #ddd !important;
+    border-radius: 0 !important;
+    height: 29px;
+}
+
+#calendar .calendar-header .select2-search__field {
+    margin: 0 !important;
+}
+
+#calendar .calendar-header .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin-top: 0;
+    padding: 0 3px;
+    border-radius: 2px;
+    border: 1px solid #d9d9d9;
+    font-size: 12px;
+}
+
+.select2-dropdown {
+    border: 1px solid #ddd;
+    border-radius: 0;
+}
+
 #calendar .calendar-view {
     overflow-x: auto;
 }

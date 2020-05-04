@@ -355,6 +355,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             $filterProvider = $('<select/>', {
                 'id': 'filter-provider',
+                'multiple': 'multiple',
                 'on': {
                     'change': function () {
                         var startDate = new Date($('.calendar-view .date-column:first').data('date'));
@@ -365,10 +366,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             })
                 .appendTo($calendarHeader);
 
-            $filterProvider.append(new Option('', '', true));
             providers.forEach(function (provider) {
                 $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             });
+
+            $filterProvider.select2();
         }
 
         var services = GlobalVariables.availableServices.filter(function (service) {
@@ -386,6 +388,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $filterService = $('<select/>', {
             'id': 'filter-service',
+            'multiple': 'multiple',
             'on': {
                 'change': function () {
                     var startDate = new Date($('.calendar-view .date-column:first').data('date'));
@@ -396,10 +399,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         })
             .appendTo($calendarHeader);
 
-        $filterService.append(new Option('', '', true));
         services.forEach(function (service) {
             $filterService.append(new Option(service.name, service.id));
         });
+
+        $filterService.select2();
     }
 
     /**
@@ -490,11 +494,20 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         })
             .appendTo($dateColumn);
 
-        var providers = GlobalVariables.availableProviders.filter(function (provider) {
-            var servesService = $filterService.val() !== '' && provider.services.indexOf($filterService.val()) !== -1;
+        var filterProviderIds = $filterProvider.val();
+        var filterServiceIds = $filterService.val();
 
-            return ($filterProvider.val() === '' && $filterService.val() === '') || servesService
-                || Number($filterProvider.val()) === Number(provider.id);
+        var providers = GlobalVariables.availableProviders.filter(function (provider) {
+            var servedServiceIds = provider.services.filter(function(serviceId) {
+                var matches = filterServiceIds.filter(function(filterServiceId) {
+                    return Number(serviceId) === Number(filterServiceId);
+                });
+
+                return matches.length;
+            });
+
+            return (!filterProviderIds.length && !filterServiceIds.length) || servedServiceIds.length
+                || filterProviderIds.indexOf(provider.id) !== -1;
         });
 
         if (GlobalVariables.user.role_slug === 'provider') {
@@ -832,8 +845,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             return;
         }
 
+        var filterServiceIds = $filterService.val();
+
         appointments = appointments.filter(function (appointment) {
-            return $filterService.val() === '' || Number(appointment.id_services) === Number($filterService.val());
+            return !filterServiceIds.length || filterServiceIds.indexOf(appointment.id_services) !== -1;
         });
 
         var calendarEvents = [];
