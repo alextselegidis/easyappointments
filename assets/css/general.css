@@ -80,6 +80,7 @@ body .ui-widget.ui-widget-content {
 
 body #ui-datepicker-div {
     margin-top: 4px;
+    z-index: 4 !important;
 }
 
 body .ui-datepicker .ui-widget-header {

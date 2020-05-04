@@ -102,7 +102,7 @@ window.Backend = window.Backend || {};
      * provided then an action link will be displayed too.
      *
      * @param {String} message Notification message
-     * @param {Array} actions An array with custom actions that will be available to the user. Every array item is an
+     * @param {Array} [actions] An array with custom actions that will be available to the user. Every array item is an
      * object that contains the 'label' and 'function' key values.
      */
     exports.displayNotification = function (message, actions) {

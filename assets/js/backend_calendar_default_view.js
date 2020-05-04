@@ -299,7 +299,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 + '<br>' +
                 '<strong>' + EALang.end + '</strong> '
                 + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
+                + '<br>'
                 + notes
                 + '<hr>' +
                 '<center>' +
