@@ -30,24 +30,21 @@
 </head>
 
 <body>
-<nav id="header" class="navbar">
-    <div class="container-fluid">
+<nav id="header" class="navbar navbar-expand-lg navbar-light">
         <div class="navbar-header">
             <div id="header-logo" class="navbar-brand">
                 <img src="<?= base_url('assets/img/logo.png') ?>">
                 <span><?= $company_name ?></span>
             </div>
             
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu" 
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu" 
                     aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
         </div>
         
-        <div id="header-menu" class="collapse navbar-collapse">
+        <div id="header-menu" class="collapse navbar-collapse flex-row-reverse">
             <ul class="nav navbar-nav navbar-right">
                 <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden' ?>
                 <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
@@ -103,7 +100,6 @@
                 </li>
             </ul>
         </div>
-    </div>
 </nav>
 
 <div id="notification" style="display: none;"></div>
