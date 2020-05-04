@@ -759,15 +759,15 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
     function createNonWorkingHours($calendar, workingPlan) {
         var view = $calendar.fullCalendar('getView');
-        var start = view.start.toDate();
-        var end = view.end.toDate();
-        var selDayName = start.toString('dddd').toLowerCase();
+        var start = view.start.clone();
+        var end = view.end.clone();
+        var selDayName = start.toDate().toString('dddd').toLowerCase();
 
         if (workingPlan[selDayName] == null) {
             var nonWorkingDay = {
                 title: EALang.not_working,
-                start: start.clone(),
-                end: end.clone(),
+                start: start,
+                end: end,
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
@@ -779,7 +779,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             return;
         }
 
-        var workDateStart = moment(start.toString('yyyy-MM-dd') + ' ' + workingPlan[selDayName].start);
+        var workDateStart = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + workingPlan[selDayName].start);
 
         if (start < workDateStart) {
             unavailablePeriod = {
@@ -795,7 +795,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }
 
         // Add unavailable period after work ends.
-        var workDateEnd = moment(start.toString('yyyy-MM-dd') + ' ' + workingPlan[selDayName].end);
+        var workDateEnd = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + workingPlan[selDayName].end);
 
         if (end > workDateEnd) {
             var unavailablePeriod = {
@@ -815,8 +815,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var breakEnd;
 
         workingPlan[selDayName].breaks.forEach(function (currentBreak, index) {
-            breakStart = moment(start.toString('yyyy-MM-dd') + ' ' + currentBreak.start);
-            breakEnd = moment(start.toString('yyyy-MM-dd') + ' ' + currentBreak.end);
+            breakStart = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + currentBreak.start);
+            breakEnd = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + currentBreak.end);
 
             var unavailablePeriod = {
                 title: EALang.break,
