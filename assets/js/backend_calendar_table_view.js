@@ -498,8 +498,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var filterServiceIds = $filterService.val();
 
         var providers = GlobalVariables.availableProviders.filter(function (provider) {
-            var servedServiceIds = provider.services.filter(function(serviceId) {
-                var matches = filterServiceIds.filter(function(filterServiceId) {
+            var servedServiceIds = provider.services.filter(function (serviceId) {
+                var matches = filterServiceIds.filter(function (filterServiceId) {
                     return Number(serviceId) === Number(filterServiceId);
                 });
 
@@ -1119,113 +1119,115 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      *
      * @see updateAppointmentData()
      */
-    function onEventResize(event, dayDelta, minuteDelta, revertFunc) {
-        if (GlobalVariables.user.privileges.appointments.edit === false) {
+    function onEventResize(event, delta, revertFunc, jsEvent, ui, view) {
+        if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
             return;
         }
 
-        var $notification = $('#notification');
+        var $calendar = $('#calendar');
 
-        if ($notification.is(':visible')) {
-            $notification.hide('bind');
+        if ($('#notification').is(':visible')) {
+            $('#notification').hide('bind');
         }
 
-        var successCallback;
-
-        if (event.data.is_unavailable === '0') {
+        if (event.data.is_unavailable == false) {
             // Prepare appointment data.
+            event.data.end_datetime = Date.parseExact(
+                event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
+                .toString('yyyy-MM-dd HH:mm:ss');
+
             var appointment = GeneralFunctions.clone(event.data);
 
-            // Must delete the following because only appointment data should be provided to the ajax call.
+            // Must delete the following because only appointment data should be provided to the AJAX call.
             delete appointment.customer;
             delete appointment.provider;
             delete appointment.service;
 
-            appointment.end_datetime = Date.parseExact(
-                appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({minutes: minuteDelta})
-                .toString('yyyy-MM-dd HH:mm:ss');
-
             // Success callback
-            successCallback = function () {
+            var successCallback = function () {
                 // Display success notification to user.
                 var undoFunction = function () {
-                    appointment.end_datetime = Date.parseExact(
+                    appointment.end_datetime = event.data.end_datetime = Date.parseExact(
                         appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({minutes: -minuteDelta})
+                        .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data, function () {
+                        $('#notification').hide('blind');
+                        revertFunc();
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
                     {
-                        label: EALang.undo,
-                        function: undoFunction
+                        'label': EALang.undo,
+                        'function': undoFunction
                     }
                 ]);
-
                 $('#footer').css('position', 'static'); // Footer position fix.
+
+                // Update the event data for later use.
+                $calendar.fullCalendar('updateEvent', event);
             };
 
             // Update appointment data.
-            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback, undefined);
+            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback);
         } else {
             // Update unavailable time period.
             var unavailable = {
                 id: event.data.id,
-                start_datetime: event.start.toString('yyyy-MM-dd HH:mm:ss'),
-                end_datetime: event.end.toString('yyyy-MM-dd HH:mm:ss'),
+                start_datetime: event.start.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: event.end.format('YYYY-MM-DD HH:mm:ss'),
                 id_users_provider: event.data.id_users_provider
             };
 
+            event.data.end_datetime = unavailable.end_datetime;
+
             // Define success callback function.
-            successCallback = function () {
+            var successCallback = function () {
                 // Display success notification to user.
                 var undoFunction = function () {
-                    unavailable.end_datetime = Date.parseExact(
+                    unavailable.end_datetime = event.data.end_datetime = Date.parseExact(
                         unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({minutes: -minuteDelta})
+                        .add({minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
-
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data, function () {
+                        $('#notification').hide('blind');
+                        revertFunc();
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
                     {
-                        label: EALang.undo,
-                        function: undoFunction
+                        'label': EALang.undo,
+                        'function': undoFunction
                     }
                 ]);
+
                 $('#footer').css('position', 'static'); // Footer position fix.
+
+                // Update the event data for later use.
+                $calendar.fullCalendar('updateEvent', event);
             };
 
-            BackendCalendarApi.saveUnavailable(unavailable, successCallback, undefined);
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback);
         }
     }
 
@@ -1235,21 +1237,20 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * This event handler is triggered whenever the user drags and drops an event into a different position
      * on the calendar. We need to update the database with this change. This is done via an ajax call.
      */
-    function onEventDrop(event, dayDelta, minuteDelta, allDay, revertFunc) {
-        if (GlobalVariables.user.privileges.appointments.edit === false) {
+    function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
+        if (GlobalVariables.user.privileges.appointments.edit == false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
             return;
         }
 
-        var $notification = $('#notification');
-        if ($notification.is(':visible')) {
-            $notification.hide('bind');
+        if ($('#notification').is(':visible')) {
+            $('#notification').hide('bind');
         }
 
         var successCallback;
 
-        if (event.data.is_unavailable === '0') {
+        if (event.data.is_unavailable == false) {
             // Prepare appointment data.
             var appointment = GeneralFunctions.clone(event.data);
 
@@ -1260,12 +1261,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             appointment.start_datetime = Date.parseExact(
                 appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({days: dayDelta, minutes: minuteDelta})
+                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
             appointment.end_datetime = Date.parseExact(
                 appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                .add({days: dayDelta, minutes: minuteDelta})
+                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
             event.data.start_datetime = appointment.start_datetime;
@@ -1277,36 +1278,33 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var undoFunction = function () {
                     appointment.start_datetime = Date.parseExact(
                         appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     appointment.end_datetime = Date.parseExact(
                         appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     event.data.start_datetime = appointment.start_datetime;
                     event.data.end_datetime = appointment.end_datetime;
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
-
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data, function () {
+                        $('#notification').hide('blind');
+                        revertFunc();
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
                     {
-                        label: EALang.undo,
-                        function: undoFunction
+                        'label': EALang.undo,
+                        'function': undoFunction
                     }
                 ]);
 
@@ -1314,13 +1312,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             };
 
             // Update appointment data.
-            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback, undefined);
+            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback);
         } else {
             // Update unavailable time period.
             var unavailable = {
                 id: event.data.id,
-                start_datetime: event.start.toString('yyyy-MM-dd HH:mm:ss'),
-                end_datetime: event.end.toString('yyyy-MM-dd HH:mm:ss'),
+                start_datetime: event.start.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: event.end.format('YYYY-MM-DD HH:mm:ss'),
                 id_users_provider: event.data.id_users_provider
             };
 
@@ -1328,30 +1326,27 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var undoFunction = function () {
                     unavailable.start_datetime = Date.parseExact(
                         unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     unavailable.end_datetime = Date.parseExact(
                         unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
-                        .add({days: -dayDelta, minutes: -minuteDelta})
+                        .add({days: -delta.days(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     event.data.start_datetime = unavailable.start_datetime;
                     event.data.end_datetime = unavailable.end_datetime;
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
-
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data, function () {
+                        $('#notification').hide('blind');
+                        revertFunc();
+                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1364,7 +1359,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            BackendCalendarApi.saveUnavailable(unavailable, successCallback, undefined);
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback);
         }
     }
 
