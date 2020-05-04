@@ -60,17 +60,12 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
             var successCallback = function (response) {
                 // Display success message to the user.
-                $dialog.find('.modal-message')
-                    .text(EALang.unavailable_saved)
-                    .addClass('alert-success')
-                    .removeClass('alert-danger hidden');
+                Backend.displayNotification(EALang.unavailable_saved);
 
-                // Close the modal dialog and refresh the calendar appointments after one second.
-                setTimeout(function () {
-                    $dialog.find('.alert').addClass('hidden');
-                    $dialog.modal('hide');
-                    $('#select-filter-item').trigger('change');
-                }, 2000);
+                // Close the modal dialog and refresh the calendar appointments.
+                $dialog.find('.alert').addClass('hidden');
+                $dialog.modal('hide');
+                $('#select-filter-item').trigger('change');
             };
 
             var errorCallback = function (jqXHR, textStatus, errorThrown) {
