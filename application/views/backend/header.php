@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/trumbowyg/ui/trumbowyg.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/select2/select2.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
@@ -21,6 +22,7 @@
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/select2/select2.min.js') ?>"></script>
 
     <script>
     	// Global JavaScript Variables - Used in all backend pages.
