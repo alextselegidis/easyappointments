@@ -389,3 +389,11 @@ li.language:hover {
 #message_box pre {
     max-height: 250px;
 }
+
+.has-error .control-label {
+    color: #dc3545;
+}
+
+.has-error .form-control {
+    border-color: #dc3545;
+}
