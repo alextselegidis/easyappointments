@@ -86,7 +86,6 @@
 
             <button id="reload-appointments" class="btn btn-default" title="<?= lang('reload_appointments_hint') ?>">
                 <span class="glyphicon glyphicon-repeat"></span>
-                <?= lang('reload') ?>
             </button>
 
             <?php if($calendar_view === 'default'): ?>
