@@ -125,14 +125,15 @@ class Appointments extends API_V1_Controller {
             }
 
             // Generate end_datetime based on service duration if this field is not defined
-            if (!isset($appointment['end_datetime']))
+            if ( ! isset($appointment['end_datetime']))
             {
                 $service = $this->services_model->get_row($appointment['id_services']);
+
                 if (isset($service['duration']))
                 {
-                    $endTime = new DateTime($appointment['start_datetime']);
-                    $endTime->add(new DateInterval('PT' . $service['duration'] . 'M'));
-                    $appointment['end_datetime'] = $endTime->format('Y-m-d H:i:s');
+                    $end_datetime = new DateTime($appointment['start_datetime']);
+                    $end_datetime->add(new DateInterval('PT' . $service['duration'] . 'M'));
+                    $appointment['end_datetime'] = $end_datetime->format('Y-m-d H:i:s');
                 }
             }
 
