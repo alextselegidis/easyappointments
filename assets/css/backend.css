@@ -278,8 +278,7 @@ body legend {
     border-radius: 3px;
     background: #3A3A3A;
     padding: 5px;
-    margin-bottom: 15px;
-    overflow: auto;
+    margin: 0 0 15px;
     color: white;
 }
 

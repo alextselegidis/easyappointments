@@ -42,7 +42,7 @@
 </script>
 
 <div id="calendar-page" class="container-fluid">
-    <div id="calendar-toolbar">
+    <div class="row" id="calendar-toolbar">
         <div id="calendar-filter" class="form-inline col-xs-12 col-sm-5">
             <div class="form-group">
                 <label for="select-filter-item"><?= lang('display_calendar') ?></label>
@@ -68,20 +68,28 @@
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-                <button id="insert-appointment" class="btn btn-default" title="<?= lang('new_appointment_hint') ?>">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <?= lang('appointment') ?>
-                </button>
-
-                <button id="insert-unavailable" class="btn btn-default" title="<?= lang('unavailable_periods_hint') ?>">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <?= lang('unavailable') ?>
-                </button>
-
-                <button id="insert-extra-period" class="btn btn-default" title="<?= lang('extra_periods_hint') ?>">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <?= lang('extra_period') ?>
-                </button>
+                <div class="btn-group">
+                    <button class="btn btn-default" type="button" id="insert-appointment">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <?= lang('appointment') ?>
+                    </button>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#" id="insert-unavailable">
+                                <?= lang('unavailable') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="insert-extra-period">
+                                <?= lang('extra_period') ?>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             <?php endif ?>
 
             <button id="reload-appointments" class="btn btn-default" title="<?= lang('reload_appointments_hint') ?>">
