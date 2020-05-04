@@ -46,32 +46,30 @@ root {
     font-weight: lighter;
 }
 
-#header .navbar-header .navbar-toggle .icon-bar {
+#header .nav-link {
+    color: white;
+}
+
+#header #header-menu .nav-item {
+    position: relative;
+}
+
+#header #header-menu .nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    display: block;
+    right: 0;
     background: white;
+    transition: width .2s ease;
 }
 
-#header #header-menu .menu-item {
-    cursor: pointer;
-    min-width: 130px;
-    color: #FFF;
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.2s;
-}
-
-#header #header-menu .menu-item:focus {
-    background-color: inherit;
-    outline: none;
-}
-
-#header #header-menu .menu-item:hover:not(.active) {
-    background-color: #2A8F57;
-}
-
-#header #header-menu .active {
-    color: #C5FFD6;
-    background: #29A067;
+#header #header-menu .nav-item:hover:not(.active)::after,
+#header #header-menu .active::after {
+    width: 90%;
+    left: 5px;
+    background: white;
 }
 
 #footer {
@@ -802,6 +800,15 @@ body .form-horizontal .controls {
 
     #calendar-page #calendar-actions {
         text-align: left;
+    }
+}
+
+@media (max-width: 1000px) {
+    #header #header-menu .nav-item:hover:not(.active)::after,
+    #header #header-menu .active::after {
+      width: 100%;
+      left: 0;
+      background: white;
     }
 }
 
