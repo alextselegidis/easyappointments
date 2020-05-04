@@ -120,7 +120,7 @@ window.Backend = window.Backend || {};
 
         $notification.empty();
 
-        $('<div/>', {
+        var $instance = $('<div/>', {
             'class': 'notification alert',
             'html': [
                 $('<button/>', {
@@ -135,25 +135,20 @@ window.Backend = window.Backend || {};
                 }),
                 $('<strong/>', {
                     'html': message
-                }),
-
+                })
             ]
         })
             .appendTo($notification);
 
-        $.each(actions, function (index, action) {
-            var actionId = action.label.toLowerCase().replace(' ', '-');
-
+        actions.forEach(function(action) {
             $('<button/>', {
-                'id': actionId,
                 'class': 'btn btn-default btn-xs',
-                'text': action.label
+                'text': action.label,
+                'on': {
+                    'click': action.function
+                }
             })
-                .appendTo($notification);
-
-            $(document)
-                .off('click', '#' + actionId)
-                .on('click', '#' + actionId, action.function);
+                .appendTo($instance);
         });
 
         $notification.show('fade');
