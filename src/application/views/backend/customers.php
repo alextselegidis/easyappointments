@@ -26,47 +26,47 @@
 
 <div id="customers-page" class="container-fluid backend-page">
     <div class="row">
-    	<div id="filter-customers" class="filter-records column col-xs-12 col-sm-5">
-    		<form>
+        <div id="filter-customers" class="filter-records column col-xs-12 col-sm-5">
+            <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
 
                     <div class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
-                            <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
                                 <span class="glyphicon glyphicon-repeat"></span>
                             </button>
                         </div>
                     </div>
                 </div>
-    		</form>
+            </form>
 
             <h3><?= lang('customers') ?></h3>
             <div class="results"></div>
     	</div>
 
     	<div class="record-details col-xs-12 col-sm-7">
-            <div class="btn-toolbar">
+            <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
-                    <button id="add-customer" class="btn btn-primary">
+                    <button id="add-customer" class="btn btn-info">
                         <span class="glyphicon glyphicon-plus"></span>
                         <?= lang('add') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
-                    <button id="edit-customer" class="btn btn-default" disabled="disabled">
+                    <button id="edit-customer" class="btn btn-light" disabled="disabled">
                         <span class="glyphicon glyphicon-pencil"></span>
                         <?= lang('edit') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
-                    <button id="delete-customer" class="btn btn-default" disabled="disabled">
+                    <button id="delete-customer" class="btn btn-light" disabled="disabled">
                         <span class="glyphicon glyphicon-remove"></span>
                         <?= lang('delete') ?>
                     </button>
@@ -74,11 +74,11 @@
                 </div>
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
-                    <button id="save-customer" class="btn btn-primary">
+                    <button id="save-customer" class="btn btn-info">
                         <span class="glyphicon glyphicon-ok"></span>
                         <?= lang('save') ?>
                     </button>
-                    <button id="cancel-customer" class="btn btn-default">
+                    <button id="cancel-customer" class="btn btn-light">
                         <i class="glyphicon glyphicon-ban-circle"></i>
                         <?= lang('cancel') ?>
                     </button>
@@ -140,8 +140,8 @@
 
                 <div class="col-xs-12 col-sm-6">
                     <h3><?= lang('appointments') ?></h3>
-                    <div id="customer-appointments" class="well"></div>
-                    <div id="appointment-details" class="well hidden"></div>
+                    <div id="customer-appointments" class="card card-body bg-light border-light"></div>
+                    <div id="appointment-details" class="card card-body bg-light border-light d-none"></div>
                 </div>
             </div>
     	</div>
