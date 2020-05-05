@@ -630,7 +630,7 @@ body .form-horizontal .controls {
 #users-page #providers .switch-view strong {
     display: inline-block;
     float: left;
-    margin: 3px 20px;
+    margin-right: 20px;
     font-size: 17px;
 }
 
