@@ -128,18 +128,18 @@ window.BackendSettings = window.BackendSettings || {};
 
         if (bindEventHandlers) {
             _bindEventHandlers();
-            var $link = $('#settings-page .nav li').not('.hidden').first().find('a');
+            var $link = $('#settings-page .nav li').not('.d-none').first().find('a');
             $link.tab('show');
         }
 
         // Apply Privileges
         if (GlobalVariables.user.privileges.system_settings.edit == false) {
-            $('#general, #business-logic').find('select, input, textarea').prop('readonly', true);
+            $('#general, #business-logic').find('select, input, textarea').prop('disabled', true);
             $('#general, #business-logic').find('button').prop('disabled', true);
         }
 
         if (GlobalVariables.user.privileges.user_settings.edit == false) {
-            $('#user').find('select, input, textarea').prop('readonly', true);
+            $('#user').find('select, input, textarea').prop('disabled', true);
             $('#user').find('button').prop('disabled', true);
         }
 
@@ -205,7 +205,7 @@ window.BackendSettings = window.BackendSettings || {};
         $('#username').focusout(function () {
             var $input = $(this);
 
-            if ($input.prop('readonly') == true || $input.val() == '') {
+            if ($input.prop('disabled') == true || $input.val() == '') {
                 return;
             }
 
