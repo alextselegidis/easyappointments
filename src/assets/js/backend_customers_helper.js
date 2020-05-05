@@ -110,7 +110,7 @@
             instance.resetForm();
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
-            $('.record-details').find('input, textarea').prop('readonly', false);
+            $('.record-details').find('input, textarea').prop('disabled', false);
 
             $('#filter-customers button').prop('disabled', true);
             $('#filter-customers .results').css('color', '#AAA');
@@ -120,7 +120,7 @@
          * Event: Edit Customer Button "Click"
          */
         $('#edit-customer').click(function () {
-            $('.record-details').find('input, textarea').prop('readonly', false);
+            $('.record-details').find('input, textarea').prop('disabled', false);
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
 
@@ -283,10 +283,10 @@
      */
     CustomersHelper.prototype.resetForm = function () {
         $('.record-details').find('input, textarea').val('');
-        $('.record-details').find('input, textarea').prop('readonly', true);
+        $('.record-details').find('input, textarea').prop('disabled', true);
 
         $('#customer-appointments').empty();
-        $('#appointment-details').toggleClass('hidden', true).empty();
+        $('#appointment-details').toggleClass('d-none', true).empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
@@ -451,7 +451,7 @@
             start + ' - ' + end + '<br>' +
             '</div>';
 
-        $('#appointment-details').html(html).removeClass('hidden');
+        $('#appointment-details').html(html).removeClass('d-none');
     };
 
     window.CustomersHelper = CustomersHelper;

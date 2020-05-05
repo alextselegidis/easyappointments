@@ -87,18 +87,18 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var successCallback = function (response) {
                 if (!GeneralFunctions.handleAjaxExceptions(response)) {
                     $dialog.find('.modal-message').text(EALang.unexpected_issues_occurred);
-                    $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
+                    $dialog.find('.modal-message').addClass('alert-danger').removeClass('d-none');
                     return false;
                 }
 
                 // Display success message to the user.
                 $dialog.find('.modal-message').text(EALang.appointment_saved);
-                $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-danger hidden');
+                $dialog.find('.modal-message').addClass('alert-success').removeClass('alert-danger d-none');
                 $dialog.find('.modal-body').scrollTop(0);
 
                 // Close the modal dialog and refresh the calendar appointments after one second.
                 setTimeout(function () {
-                    $dialog.find('.alert').addClass('hidden');
+                    $dialog.find('.alert').addClass('d-none');
                     $dialog.modal('hide');
                     $('#select-filter-item').trigger('change');
                 }, 2000);
@@ -107,7 +107,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Define error callback.
             var errorCallback = function () {
                 $dialog.find('.modal-message').text(EALang.service_communication_error);
-                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
+                $dialog.find('.modal-message').addClass('alert-danger').removeClass('d-none');
                 $dialog.find('.modal-body').scrollTop(0);
             };
 
@@ -469,7 +469,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         // Reset previous validation css formatting.
         $dialog.find('.has-error').removeClass('has-error');
-        $dialog.find('.modal-message').addClass('hidden');
+        $dialog.find('.modal-message').addClass('d-none');
 
         try {
             // Check required fields.
@@ -502,7 +502,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             return true;
         } catch (exc) {
-            $dialog.find('.modal-message').addClass('alert-danger').text(exc).removeClass('hidden');
+            $dialog.find('.modal-message').addClass('alert-danger').text(exc).removeClass('d-none');
             return false;
         }
     }

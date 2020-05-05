@@ -30,7 +30,7 @@
     "node": ">=0.12"
   },
   "dependencies": {
-    "bootstrap": "^3.3.6",
+    "bootstrap": "^4.4.1",
     "cookieconsent": "^3.0.6",
     "datatables": "^1.10.12",
     "datejs": "0.0.2",

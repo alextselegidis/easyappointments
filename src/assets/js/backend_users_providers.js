@@ -88,7 +88,7 @@
             $('#filter-providers .results').css('color', '#AAA');
             $('#providers .add-edit-delete-group').hide();
             $('#providers .save-cancel-group').show();
-            $('#providers .record-details').find('input, textarea').prop('readonly', false);
+            $('#providers .record-details').find('input, textarea').prop('disabled', false);
             $('#providers .record-details').find('select').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').addClass('required');
             $('#provider-notifications').prop('disabled', false);
@@ -109,7 +109,7 @@
             $('#providers .save-cancel-group').show();
             $('#filter-providers button').prop('disabled', true);
             $('#filter-providers .results').css('color', '#AAA');
-            $('#providers .record-details').find('input, textarea').prop('readonly', false);
+            $('#providers .record-details').find('input, textarea').prop('disabled', false);
             $('#providers .record-details').find('select').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-notifications').prop('disabled', false);
@@ -351,7 +351,7 @@
         $('#providers .add-edit-delete-group').show();
         $('#providers .save-cancel-group').hide();
         $('#providers .record-details h3 a').remove();
-        $('#providers .record-details').find('input, textarea').prop('readonly', true);
+        $('#providers .record-details').find('input, textarea').prop('disabled', true);
         $('#providers .record-details').find('select').prop('disabled', true);
         $('#providers .form-message').hide();
         $('#provider-notifications').removeClass('active');
@@ -516,8 +516,8 @@
             data: weekDays,
             event: 'edit',
             height: '30px',
-            submit: '<button type="button" class="hidden submit-editable">Submit</button>',
-            cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
             onblur: 'ignore',
             onreset: function (settings, td) {
                 if (!BackendUsers.enableCancel) {
@@ -544,8 +544,8 @@
         }, {
             event: 'edit',
             height: '25px',
-            submit: '<button type="button" class="hidden submit-editable">Submit</button>',
-            cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
             onblur: 'ignore',
             onreset: function (settings, td) {
                 if (!BackendUsers.enableCancel) {
