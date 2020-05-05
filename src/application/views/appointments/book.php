@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -21,8 +22,8 @@
 
 <body>
     <div id="main" class="container">
-        <div class="wrapper row">
-            <div id="book-appointment-wizard" class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="wrapper row d-md-flex align-items-center justify-content-center">
+            <div id="book-appointment-wizard" class="col-xs-12 col-md-10 col-lg-8">
 
                 <!-- FRAME TOP BAR -->
 
@@ -48,23 +49,23 @@
 
                 <?php if ($manage_mode): ?>
                 <div id="cancel-appointment-frame" class="booking-header-bar row">
-                    <div class="col-xs-12 col-sm-10">
+                    <div class="col-xs-12 col-md-10">
                         <p><?= lang('cancel_appointment_hint') ?></p>
                     </div>
-                    <div class="col-xs-12 col-sm-2">
+                    <div class="col-xs-12 col-md-2">
                         <form id="cancel-appointment-form" method="post"
                               action="<?= site_url('appointments/cancel/' . $appointment_data['hash']) ?>">
                             <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>" />
                             <textarea name="cancel_reason" style="display:none"></textarea>
-                            <button id="cancel-appointment" class="btn btn-default btn-sm"><?= lang('cancel') ?></button>
+                            <button id="cancel-appointment" class="btn btn-light btn-sm"><?= lang('cancel') ?></button>
                         </form>
                     </div>
                 </div>
                 <div class="booking-header-bar row">
-                    <div class="col-xs-12 col-sm-10">
+                    <div class="col-xs-12 col-md-10">
                         <p><?= lang('delete_personal_information_hint') ?></p>
                     </div>
-                    <div class="col-xs-12 col-sm-2">
+                    <div class="col-xs-12 col-md-2">
                         <button id="delete-personal-information" class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                                     <strong><?= lang('select_service') ?></strong>
                                 </label>
 
-                                <select id="select-service" class="col-xs-12 col-sm-4 form-control">
+                                <select id="select-service" class="form-control">
                                     <?php
                                         // Group services by category, only if there is at least one service with a parent category.
                                         $has_category = FALSE;
@@ -153,7 +154,7 @@
                                     <strong><?= lang('select_provider') ?></strong>
                                 </label>
 
-                                <select id="select-provider" class="col-xs-12 col-sm-4 form-control"></select>
+                                <select id="select-provider" class="form-control"></select>
                             </div>
 
                             <div id="service-description" style="display:none;"></div>
@@ -161,7 +162,7 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-next-1" class="btn button-next btn-primary"
+                        <button type="button" id="button-next-1" class="btn button-next btn-info"
                                 data-step_index="1">
                             <?= lang('next') ?>
                             <i class="fas fa-long-arrow-alt-right"></i>
@@ -177,23 +178,23 @@
                         <h3 class="frame-title"><?= lang('step_two_title') ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-7 pl-0">
                                 <div id="select-date"></div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-sm-5 px-0">
                                 <div id="available-hours"></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-2" class="btn button-back btn-default"
+                        <button type="button" id="button-back-2" class="btn button-back btn-light"
                                 data-step_index="2">
                                 <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
-                        <button type="button" id="button-next-2" class="btn button-next btn-primary"
+                        <button type="button" id="button-next-2" class="btn button-next btn-info"
                                 data-step_index="2">
                             <?= lang('next') ?>
                             <i class="fas fa-long-arrow-alt-right"></i>
@@ -209,7 +210,7 @@
                         <h3 class="frame-title"><?= lang('step_three_title') ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
                                     <input type="text" id="first-name" class="required form-control" maxlength="100" />
@@ -228,7 +229,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="address" class="control-label"><?= lang('address') ?></label>
                                     <input type="text" id="address" class="form-control" maxlength="120" />
@@ -278,11 +279,11 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-3" class="btn button-back btn-default"
+                        <button type="button" id="button-back-3" class="btn button-back btn-light"
                                 data-step_index="3"><i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
-                        <button type="button" id="button-next-3" class="btn button-next btn-primary"
+                        <button type="button" id="button-next-3" class="btn button-next btn-info"
                                 data-step_index="3">
                             <?= lang('next') ?>
                             <i class="fas fa-long-arrow-alt-right"></i>
@@ -296,12 +297,12 @@
                     <div class="frame-container">
                         <h3 class="frame-title"><?= lang('step_four_title') ?></h3>
                         <div class="frame-content row">
-                            <div id="appointment-details" class="col-xs-12 col-sm-6"></div>
-                            <div id="customer-details" class="col-xs-12 col-sm-6"></div>
+                            <div id="appointment-details" class="col-xs-12 col-md-6"></div>
+                            <div id="customer-details" class="col-xs-12 col-md-6"></div>
                         </div>
                         <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-6">
                                 <h4 class="captcha-title">
                                     CAPTCHA
                                     <small class="fas fa-sync-alt"></small>
@@ -315,7 +316,7 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-4" class="btn button-back btn-default"
+                        <button type="button" id="button-back-4" class="btn button-back btn-light"
                                 data-step_index="4">
                                 <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>

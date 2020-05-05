@@ -96,13 +96,13 @@ body {
 
 #book-appointment-wizard .book-step {
     display: inline-block;
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     float: left;
     background: #FFF;
     padding: 1px;
     margin-right: 10px;
-    margin-top: 9px;
+    margin-top: 10px;
     border: 3px solid #79e2a8;
 }
 
@@ -115,13 +115,13 @@ body {
 
 #book-appointment-wizard .active-step {
     display: inline-block;
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     float: left;
     background: #FFF;
     padding: 1px;
     margin-right: 10px;
-    margin-top: 3px;
+    margin-top: 5px;
     border: 3px solid #c0f1d6;
 }
 
