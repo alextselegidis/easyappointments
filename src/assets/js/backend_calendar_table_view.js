@@ -424,11 +424,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $calendarHeader
             .html(
                 '<button class="btn btn-xs btn-default previous">' +
-                '<span class="glyphicon glyphicon-chevron-left"></span>' +
+                '<i class="fas fa-chevron-left"></i>' +
                 '</button>' +
                 '<input type="text" class="select-date" value="' + GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat) + '" />' +
                 '<button class="btn btn-xs btn-default next">' +
-                '<span class="glyphicon glyphicon-chevron-right"></span>' +
+                '<i class="fas fa-chevron-right"></i>' +
                 '</button>'
             );
 

@@ -68,7 +68,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-xs"
                                     title="<?= lang('save') ?>">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="far fa-save"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -139,7 +139,7 @@
                                 <label><?= lang('customer_notifications') ?></label>
                                 <br>
                                 <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    <i class="far fa-envelope"></i>
                                     <?= lang('receive_notifications') ?>
                                 </button>
                                 <span class="help-block">
@@ -152,7 +152,7 @@
                                 </label>
                                 <br>
                                 <button type="button" id="require-captcha" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-lock"></span>
+                                    <i class="fas fa-lock"></i>
                                     <?= lang('require_captcha') ?>
                                 </button>
                                 <span class="help-block">
@@ -176,7 +176,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-xs"
                                     title="<?= lang('save') ?>">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="far fa-save"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -305,7 +305,7 @@
 
                             <div>
                                 <button type="button" class="add-break btn btn-primary">
-                                    <span class="glyphicon glyphicon-white glyphicon glyphicon-plus"></span>
+                                    <i class="fas fa-plus"></i>
                                     <?= lang('add_break');?>
                                 </button>
                             </div>
@@ -340,7 +340,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-xs"
                                     title="<?= lang('save') ?>">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="far fa-save"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -415,7 +415,7 @@
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                                 <button type="button" class="save-settings btn btn-primary btn-xs"
                                         title="<?= lang('save') ?>">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    <i class="far fa-save"></i>
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
@@ -501,7 +501,7 @@
                     </div>
 
                     <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
-                        <span class="glyphicon glyphicon-envelope"></span>
+                        <i class="far fa-envelope"></i>
                         <?= lang('receive_notifications') ?>
                     </button>
                 </fieldset>

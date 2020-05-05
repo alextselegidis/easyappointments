@@ -70,12 +70,12 @@
         <br>
 
         <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <i class="far fa-calendar-alt"></i>
             <?= lang('book_appointment_title') ?>
         </a>
 
         <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
-            <span class="glyphicon glyphicon-wrench"></span>
+            <i class="fas fa-wrench"></i>
             <?= lang('backend_section') ?>
         </a>
     </div>

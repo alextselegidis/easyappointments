@@ -42,10 +42,10 @@
                             <span class="input-group-addon">
                         <div>
                             <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fas fa-search"></i>
                             </button>
                             <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                            <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -60,26 +60,26 @@
                     <div class="btn-toolbar">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-service" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-service" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-service" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-service" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-service" class="btn btn-default">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -157,10 +157,10 @@
                             <span class="input-group-addon">
                         <div>
                             <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fas fa-search"></i>
                             </button>
                             <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -175,26 +175,26 @@
                     <div class="btn-toolbar">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-category" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-category" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-category" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-category" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok glyphicon glyphicon-white"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-category" class="btn btn-default">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>

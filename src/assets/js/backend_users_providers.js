@@ -399,7 +399,7 @@
 
         // Add dedicated provider link.
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id);
-        var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+        var linkHtml = '<a href="' + dedicatedUrl + '"><i class="fas fa-link"></i></a>';
         $('#providers .details-view h3')
             .find('a')
             .remove()
@@ -415,7 +415,7 @@
                     // Add dedicated service-provider link.
                     dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
                         + '&service=' + encodeURIComponent(serviceId);
-                    linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+                    linkHtml = '<a href="' + dedicatedUrl + '"><i class="fas fa-link"></i></a>';
                     $(this).parent().append(linkHtml);
                 }
             });

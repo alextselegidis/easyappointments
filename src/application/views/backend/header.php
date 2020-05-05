@@ -21,6 +21,8 @@
     <script src="<?= asset_url('assets/ext/datejs/date.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
+    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
+
 
     <script>
     	// Global JavaScript Variables - Used in all backend pages.
