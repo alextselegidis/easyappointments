@@ -390,10 +390,19 @@ li.language:hover {
     max-height: 250px;
 }
 
-.has-error .control-label {
+.has-error .control-label,
+.has-error label {
     color: #dc3545;
 }
 
 .has-error .form-control {
     border-color: #dc3545;
+}
+
+a {
+    color: #17a2b8;
+}
+
+a:hover {
+    color: #0a6977;
 }
