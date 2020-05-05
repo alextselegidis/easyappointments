@@ -46,32 +46,30 @@ root {
     font-weight: lighter;
 }
 
-#header .navbar-header .navbar-toggle .icon-bar {
+#header .nav-link {
+    color: white;
+}
+
+#header #header-menu .nav-item {
+    position: relative;
+}
+
+#header #header-menu .nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    display: block;
+    right: 0;
     background: white;
+    transition: width .2s ease;
 }
 
-#header #header-menu .menu-item {
-    cursor: pointer;
-    min-width: 130px;
-    color: #FFF;
-    text-align: center;
-    text-decoration: none;
-    font-size: 14px;
-    transition: background-color 0.2s;
-}
-
-#header #header-menu .menu-item:focus {
-    background-color: inherit;
-    outline: none;
-}
-
-#header #header-menu .menu-item:hover:not(.active) {
-    background-color: #2A8F57;
-}
-
-#header #header-menu .active {
-    color: #C5FFD6;
-    background: #29A067;
+#header #header-menu .nav-item:hover:not(.active)::after,
+#header #header-menu .active::after {
+    width: 90%;
+    left: 5px;
+    background: white;
 }
 
 #footer {
@@ -166,7 +164,6 @@ body .modal-header h3 {
 }
 
 body .modal-header .close {
-    margin-top: 2px;
     color: #12482a;
 }
 
@@ -286,6 +283,11 @@ body legend {
     margin: 5px 0;
 }
 
+#calendar-page .calendar-filter-items {
+  display: flex;
+  align-items: center;
+}
+
 #calendar-page #calendar-filter label {
     float: left;
     display: inline-block;
@@ -318,10 +320,15 @@ body legend {
 
 #calendar-page #calendar {
     margin-bottom: 15px;
+    font-size: 15.2px;
 }
 
 #calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
     font-size: 22px;
+}
+
+#calendar-page #calendar .fc-toolbar.fc-header-toolbar .fc-center {
+  margin-top: 0;
 }
 
 #calendar-page #calendar .fc-unavailable {
@@ -659,7 +666,7 @@ body .form-horizontal .controls {
 #users-page #providers .switch-view strong {
     display: inline-block;
     float: left;
-    margin: 3px 20px;
+    margin-right: 20px;
     font-size: 17px;
 }
 
@@ -848,9 +855,14 @@ body .form-horizontal .controls {
     #header #header-menu .menu-item {
         min-width: 100px;
     }
+}
 
-    #calendar-page #calendar-actions {
-        text-align: left;
+@media (max-width: 1000px) {
+    #header #header-menu .nav-item:hover:not(.active)::after,
+    #header #header-menu .active::after {
+      width: 100%;
+      left: 0;
+      background: white;
     }
 }
 
@@ -866,9 +878,24 @@ body .form-horizontal .controls {
     #calendar-page #calendar-filter label {
         margin-bottom: 5px;
     }
+
+    #calendar-page .calendar-filter-items {
+      display: block;
+      width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    #calendar-page #calendar-actions {
+        text-align: left;
+    }
 }
 
 @media (max-width: 468px) {
+    #calendar-page #calendar .fc-toolbar.fc-header-toolbar .fc-center {
+      margin-top: 1rem;
+    }
+
     #calendar-page .fc-header td {
         display: block;
         width: 70vw;

@@ -102,7 +102,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 Backend.displayNotification(EALang.appointment_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
-                $dialog.find('.alert').addClass('hidden');
+                $dialog.find('.alert').addClass('d-none');
                 $dialog.modal('hide');
                 $('#select-filter-item').trigger('change');
             };
@@ -110,7 +110,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Define error callback.
             var errorCallback = function () {
                 $dialog.find('.modal-message').text(EALang.service_communication_error);
-                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
+                $dialog.find('.modal-message').addClass('alert-danger').removeClass('d-none');
                 $dialog.find('.modal-body').scrollTop(0);
             };
 
@@ -493,7 +493,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         // Reset previous validation css formatting.
         $dialog.find('.has-error').removeClass('has-error');
-        $dialog.find('.modal-message').addClass('hidden');
+        $dialog.find('.modal-message').addClass('d-none');
 
         try {
             // Check required fields.
@@ -526,7 +526,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             return true;
         } catch (error) {
-            $dialog.find('.modal-message').addClass('alert-danger').text(error.message).removeClass('hidden');
+            $dialog.find('.modal-message').addClass('alert-danger').text(error.message).removeClass('d-none');
             return false;
         }
     }

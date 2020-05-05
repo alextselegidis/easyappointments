@@ -11,7 +11,8 @@
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
 
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
 
     <script>
         var EALang = <?= json_encode($this->lang->language) ?>;
@@ -66,12 +67,12 @@
         <br>
 
         <a href="<?= site_url() ?>" class="btn btn-success btn-large">
-            <span class="glyphicon glyphicon-calendar"></span>
+            <i class="far fa-calendar-alt"></i>
             <?= lang('book_appointment_title') ?>
         </a>
 
-        <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
-            <span class="glyphicon glyphicon-wrench"></span>
+        <a href="<?= site_url('backend') ?>" class="btn btn-light btn-large">
+            <i class="fas fa-wrench"></i>
             <?= lang('backend_section') ?>
         </a>
     </div>

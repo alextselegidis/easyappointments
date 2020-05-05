@@ -9,30 +9,26 @@
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
+    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 </head>
 <body>
     <div id="main" class="container">
-        <div class="wrapper row">
-            <div id="success-frame" class="frame-container
-                    col-xs-12
-                    col-sm-offset-1 col-sm-10
-                    col-md-offset-2 col-md-8
-                    col-lg-offset-2 col-lg-8">
-
-                <div class="col-xs-12 col-sm-2">
-                    <img id="success-icon" class="pull-right" src="<?= base_url('assets/img/success.png') ?>" />
+        <div class="wrapper row d-md-flex align-items-center justify-content-center">
+            <div id="success-frame" class="frame-container col-xs-12 d-md-flex">
+                <div class="col-xs-12">
+                    <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" />
                 </div>
-                <div class="col-xs-12 col-sm-10">
+                <div class="col-xs-12 col">
                     <?php
                         echo '
                             <h3>' . lang('appointment_registered') . '</h3>
                             <p>' . lang('appointment_details_was_sent_to_you') . '</p>
                             <p><strong>' . lang('check_spam_folder') . '</strong></p>
                             <a href="' . site_url() . '" class="btn btn-success btn-large">
-                                <span class="glyphicon glyphicon-calendar"></span> ' .
+                                <i class="far fa-calendar-alt"></i> ' .
                                 lang('go_to_booking_page') . '
                             </a>
                         ';
@@ -40,7 +36,7 @@
                         if (config('google_sync_feature')) {
                             echo '
                                 <button id="add-to-google-calendar" class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <i class="fas fa-plus"></i>
                                     ' . lang('add_to_google_calendar') . '
                                 </button>';
                         }
@@ -61,7 +57,7 @@
     </div>
 
     <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= base_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 

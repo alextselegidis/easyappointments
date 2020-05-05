@@ -531,7 +531,7 @@ window.FrontendBook = window.FrontendBook || {};
         var html =
             '<h4>' + $('#select-service option:selected').text() + '</h4>' +
             '<p>'
-            + '<strong class="text-primary">'
+            + '<strong class="text-info">'
             + $('#select-provider option:selected').text() + '<br>'
             + selectedDate + ' ' + $('.selected-hour').text() + '<br>' + $('#select-timezone option:selected').text()
             + servicePrice + ' ' + serviceCurrency

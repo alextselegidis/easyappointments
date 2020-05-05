@@ -16,13 +16,14 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-mousewheel/jquery.mousewheel.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/select2/select2.min.js') ?>"></script>
+    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
 
     <script>
     	// Global JavaScript Variables - Used in all backend pages.
@@ -32,79 +33,73 @@
 </head>
 
 <body>
-<nav id="header" class="navbar">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <div id="header-logo" class="navbar-brand">
-                <img src="<?= base_url('assets/img/logo.png') ?>">
-                <span><?= $company_name ?></span>
-            </div>
+<nav id="header" class="navbar navbar-expand-md navbar-dark">
+    <div id="header-logo" class="navbar-brand">
+        <img src="<?= base_url('assets/img/logo.png') ?>">
+        <span><?= $company_name ?></span>
+    </div>
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-menu"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu" 
+            aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div id="header-menu" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden' ?>
-                <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
-                <li class="<?= $active . $hidden ?>">
-                    <a href="<?= site_url('backend') ?>" class="menu-item"
-                            title="<?= lang('manage_appointment_record_hint') ?>">
-                        <?= lang('calendar') ?>
-                    </a>
-                </li>
+    <div id="header-menu" class="collapse navbar-collapse flex-row-reverse">
+        <ul class="navbar-nav">
+            <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
+            <li class="nav-item <?= $active . $hidden ?>">
+                <a href="<?= site_url('backend') ?>" class="nav-link"
+                        title="<?= lang('manage_appointment_record_hint') ?>">
+                    <?= lang('calendar') ?>
+                </a>
+            </li>
 
-                <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden' ?>
-                <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : '' ?>
-                <li class="<?= $active . $hidden ?>">
-                    <a href="<?= site_url('backend/customers') ?>" class="menu-item"
-                            title="<?= lang('manage_customers_hint') ?>">
-                        <?= lang('customers') ?>
-                    </a>
-                </li>
+            <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : '' ?>
+            <li class="nav-item <?= $active . $hidden ?>">
+                <a href="<?= site_url('backend/customers') ?>" class="nav-link"
+                        title="<?= lang('manage_customers_hint') ?>">
+                    <?= lang('customers') ?>
+                </a>
+            </li>
 
-                <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden' ?>
-                <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
-                <li class="<?= $active . $hidden ?>">
-                    <a href="<?= site_url('backend/services') ?>" class="menu-item"
-                            title="<?= lang('manage_services_hint') ?>">
-                        <?= lang('services') ?>
-                    </a>
-                </li>
+            <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
+            <li class="nav-item <?= $active . $hidden ?>">
+                <a href="<?= site_url('backend/services') ?>" class="nav-link"
+                        title="<?= lang('manage_services_hint') ?>">
+                    <?= lang('services') ?>
+                </a>
+            </li>
 
-                <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden' ?>
-                <?php $active = ($active_menu == PRIV_USERS) ? 'active' : '' ?>
-                <li class="<?= $active . $hidden ?>">
-                    <a href="<?= site_url('backend/users') ?>" class="menu-item"
-                            title="<?= lang('manage_users_hint') ?>">
-                        <?= lang('users') ?>
-                    </a>
-                </li>
+            <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden' ?>
+            <?php $active = ($active_menu == PRIV_USERS) ? 'active' : '' ?>
+            <li class="nav-item <?= $active . $hidden ?>">
+                <a href="<?= site_url('backend/users') ?>" class="nav-link"
+                        title="<?= lang('manage_users_hint') ?>">
+                    <?= lang('users') ?>
+                </a>
+            </li>
 
-                <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
-                        || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
-                <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
-                <li class="<?= $active . $hidden ?>">
-                    <a href="<?= site_url('backend/settings') ?>" class="menu-item"
-                            title="<?= lang('settings_hint') ?>">
-                        <?= lang('settings') ?>
-                    </a>
-                </li>
+            <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
+                    || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
+            <li class="nav-item <?= $active . $hidden ?>">
+                <a href="<?= site_url('backend/settings') ?>" class="nav-link"
+                        title="<?= lang('settings_hint') ?>">
+                    <?= lang('settings') ?>
+                </a>
+            </li>
 
-                <li>
-                    <a href="<?= site_url('user/logout') ?>" class="menu-item"
-                            title="<?= lang('log_out_hint') ?>">
-                        <?= lang('log_out') ?>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <li class="nav-item">
+                <a href="<?= site_url('user/logout') ?>" class="nav-link"
+                        title="<?= lang('log_out_hint') ?>">
+                    <?= lang('log_out') ?>
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
 

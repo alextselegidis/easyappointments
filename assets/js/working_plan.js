@@ -90,17 +90,17 @@
                         '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
-                        '<span class="glyphicon glyphicon-pencil"></span>' +
+                        '<button type="button" class="btn btn-light btn-sm edit-break" title="' + EALang.edit + '">' +
+                        '<i class="far fa-edit"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
-                        '<span class="glyphicon glyphicon-remove"></span>' +
+                        '<button type="button" class="btn btn-light btn-sm delete-break" title="' + EALang.delete + '">' +
+                        '<i class="far fa-trash-alt"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
-                        '<span class="glyphicon glyphicon-ok"></span>' +
+                        '<button type="button" class="btn btn-light btn-sm save-break hidden" title="' + EALang.save + '">' +
+                        '<i class="far fa-check-circle"></i>' +
                         '</button>' +
-                        '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
-                        '<span class="glyphicon glyphicon-ban-circle"></span>' +
+                        '<button type="button" class="btn btn-light btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
+                        '<i class="fas fa-ban"></i>' +
                         '</button>' +
                         '</td>' +
                         '</tr>';
@@ -190,8 +190,8 @@
             data: weekDays,
             event: 'edit',
             height: '30px',
-            submit: '<button type="button" class="hidden submit-editable">Submit</button>',
-            cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
             onblur: 'ignore',
             onreset: function (settings, td) {
                 if (!this.enableCancel) {
@@ -220,8 +220,8 @@
         }, {
             event: 'edit',
             height: '30px',
-            submit: '<button type="button" class="hidden submit-editable">Submit</button>',
-            cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
             onblur: 'ignore',
             onreset: function (settings, td) {
                 if (!this.enableCancel) {
@@ -270,17 +270,17 @@
                 '<td class="break-start editable">9:00 AM</td>' +
                 '<td class="break-end editable">10:00 AM</td>' +
                 '<td>' +
-                '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
-                '<span class="glyphicon glyphicon-pencil"></span>' +
+                '<button type="button" class="btn btn-light btn-sm edit-break" title="' + EALang.edit + '">' +
+                '<i class="far fa-edit"></i>' +
                 '</button>' +
-                '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
-                '<span class="glyphicon glyphicon-remove"></span>' +
+                '<button type="button" class="btn btn-light btn-sm delete-break" title="' + EALang.delete + '">' +
+                '<i class="far fa-trash-alt"></i>' +
                 '</button>' +
-                '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
-                '<span class="glyphicon glyphicon-ok"></span>' +
+                '<button type="button" class="btn btn-light btn-sm save-break hidden" title="' + EALang.save + '">' +
+                '<i class="far fa-check-circle"></i>' +
                 '</button>' +
-                '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
-                '<span class="glyphicon glyphicon-ban-circle"></span>' +
+                '<button type="button" class="btn btn-light btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
+                '<i class="fas fa-ban"></i>' +
                 '</button>' +
                 '</td>' +
                 '</tr>';
@@ -322,8 +322,8 @@
             $(this).parent().parent().find('.break-day select').focus();
 
             // Show save - cancel buttons.
-            $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
-            $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
+            $(this).closest('table').find('.edit-break, .delete-break').addClass('d-none');
+            $(this).parent().find('.save-break, .cancel-break').removeClass('d-none');
             $(this).closest('tr').find('select,input:text').addClass('form-control input-sm')
 
             $('.add-break').prop('disabled', true);
@@ -352,8 +352,8 @@
             $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-            $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
+            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
+            $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
             $('.add-break').prop('disabled', false);
         }.bind(this));
 
@@ -379,8 +379,8 @@
             $modifiedRow.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+            $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
+            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
             $('.add-break').prop('disabled', false);
 
             // Refresh working plan to have the new break sorted in the break list.

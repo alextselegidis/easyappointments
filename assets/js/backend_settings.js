@@ -137,7 +137,7 @@ window.BackendSettings = window.BackendSettings || {};
 
         if (bindEventHandlers) {
             bindEventHandlers();
-            var $link = $('#settings-page .nav li').not('.hidden').first().find('a');
+            var $link = $('#settings-page .nav li').not('.d-none').first().find('a');
             $link.tab('show');
         }
 

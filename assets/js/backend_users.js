@@ -65,9 +65,9 @@ window.BackendUsers = window.BackendUsers || {};
         var html = '<div>';
         $.each(GlobalVariables.services, function (index, service) {
             html +=
-                '<div class="checkbox">' +
-                '<label class="checkbox">' +
-                '<input type="checkbox" data-id="' + service.id + '" />' +
+                '<div class="custom-control custom-checkbox">' +
+                '<input class="custom-control-input" type="checkbox" id="' + service.id + '" data-id="' + service.id + '" />' +
+                '<label class="custom-control-label" for="' + service.id + '">' +
                 service.name +
                 '</label>' +
                 '</div>';
@@ -79,9 +79,9 @@ window.BackendUsers = window.BackendUsers || {};
         html = '<div>';
         $.each(GlobalVariables.providers, function (index, provider) {
             html +=
-                '<div class="checkbox">' +
-                '<label class="checkbox">' +
-                '<input type="checkbox" data-id="' + provider.id + '" />' +
+                '<div class="custom-control custom-checkbox">' +
+                '<input class="custom-control-input" type="checkbox" id="' + provider.id + '" data-id="' + provider.id + '" />' +
+                '<label class="custom-control-label" for="' + provider.id + '">' +
                 provider.first_name + ' ' + provider.last_name +
                 '</label>' +
                 '</div>';
@@ -139,9 +139,9 @@ window.BackendUsers = window.BackendUsers || {};
                         var html = '<div>';
                         $.each(GlobalVariables.providers, function (index, provider) {
                             html +=
-                                '<div class="checkbox">' +
-                                '<label class="checkbox">' +
-                                '<input type="checkbox" data-id="' + provider.id + '" />' +
+                                '<div class="custom-control custom-checkbox">' +
+                                '<input class="custom-control-input" type="checkbox" id="' + provider.id + '" data-id="' + provider.id + '" />' +
+                                '<label class="custom-control-label" for="' + provider.id + '">' +
                                 provider.first_name + ' ' + provider.last_name +
                                 '</label>' +
                                 '</div>';

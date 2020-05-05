@@ -72,7 +72,7 @@
 
             // Add dedicated provider link.
             var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?service=' + encodeURIComponent(service.id);
-            var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+            var linkHtml = '<a href="' + dedicatedUrl + '"><i class="fas fa-link"></i></a>';
             $('#services .record-details h3')
                 .find('a')
                 .remove()
@@ -92,7 +92,7 @@
             instance.resetForm();
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .record-details').find('input, textarea').prop('readonly', false);
+            $('#services .record-details').find('input, textarea').prop('disabled', false);
             $('#services .record-details').find('select').prop('disabled', false);
 
             $('#filter-services button').prop('disabled', true);
@@ -150,7 +150,7 @@
         $('#edit-service').click(function () {
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .record-details').find('input, textarea').prop('readonly', false);
+            $('#services .record-details').find('input, textarea').prop('disabled', false);
             $('#services .record-details select').prop('disabled', false);
 
             $('#filter-services button').prop('disabled', true);
@@ -268,7 +268,7 @@
         $('#services .add-edit-delete-group').show();
         $('#services .save-cancel-group').hide();
         $('#edit-service, #delete-service').prop('disabled', true);
-        $('#services .record-details').find('input, textarea').prop('readonly', true);
+        $('#services .record-details').find('input, textarea').prop('disabled', true);
         $('#services .record-details').find('select').prop('disabled', true);
 
         $('#filter-services .selected').removeClass('selected');

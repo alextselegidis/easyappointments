@@ -91,7 +91,7 @@
 
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
-            $('#secretaries .record-details').find('input, textarea').prop('readonly', false);
+            $('#secretaries .record-details').find('input, textarea').prop('disabled', false);
             $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').addClass('required');
             $('#secretary-notifications').prop('disabled', false);
@@ -106,7 +106,7 @@
             $('#filter-secretaries .results').css('color', '#AAA');
             $('#secretaries .add-edit-delete-group').hide();
             $('#secretaries .save-cancel-group').show();
-            $('#secretaries .record-details').find('input, textarea').prop('readonly', false);
+            $('#secretaries .record-details').find('input, textarea').prop('disabled', false);
             $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').removeClass('required');
             $('#secretary-notifications').prop('disabled', false);
@@ -311,7 +311,7 @@
         $('#secretaries .add-edit-delete-group').show();
         $('#secretaries .save-cancel-group').hide();
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
-        $('#secretaries .record-details').find('input, textarea').prop('readonly', true);
+        $('#secretaries .record-details').find('input, textarea').prop('disabled', true);
         $('#secretaries .record-details').find('select').prop('disabled', true);
         $('#secretaries .form-message').hide();
         $('#secretary-notifications').removeClass('active');
