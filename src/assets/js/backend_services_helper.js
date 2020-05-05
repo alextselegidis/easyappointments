@@ -71,7 +71,7 @@
 
             // Add dedicated provider link.
             var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?service=' + encodeURIComponent(service.id);
-            var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+            var linkHtml = '<a href="' + dedicatedUrl + '"><i class="fas fa-link"></i></a>';
             $('#services .record-details h3')
                 .find('a')
                 .remove()

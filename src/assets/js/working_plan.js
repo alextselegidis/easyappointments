@@ -62,16 +62,16 @@
                         '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-light btn-sm edit-break" title="' + EALang.edit + '">' +
-                        '<span class="glyphicon glyphicon-pencil"></span>' +
+                        '<i class="far fa-edit"></i>' +
                         '</button>' +
                         '<button type="button" class="btn btn-light btn-sm delete-break" title="' + EALang.delete + '">' +
-                        '<span class="glyphicon glyphicon-remove"></span>' +
+                        '<i class="far fa-trash-alt"></i>' +
                         '</button>' +
                         '<button type="button" class="btn btn-light btn-sm save-break d-none" title="' + EALang.save + '">' +
-                        '<span class="glyphicon glyphicon-ok"></span>' +
+                        '<i class="far fa-check-circle"></i>' +
                         '</button>' +
                         '<button type="button" class="btn btn-light btn-sm cancel-break d-none" title="' + EALang.cancel + '">' +
-                        '<span class="glyphicon glyphicon-ban-circle"></span>' +
+                        '<i class="fas fa-ban"></i>' +
                         '</button>' +
                         '</td>' +
                         '</tr>';
@@ -194,16 +194,16 @@
                 '<td class="break-end editable">' + (GlobalVariables.timeFormat === 'regular' ? '10:00 AM' : '10:00') + '</td>' +
                 '<td>' +
                 '<button type="button" class="btn btn-light btn-sm edit-break" title="' + EALang.edit + '">' +
-                '<span class="glyphicon glyphicon-pencil"></span>' +
+                '<i class="far fa-edit"></i>' +
                 '</button>' +
                 '<button type="button" class="btn btn-light btn-sm delete-break" title="' + EALang.delete + '">' +
-                '<span class="glyphicon glyphicon-remove"></span>' +
+                '<i class="far fa-trash-alt"></i>' +
                 '</button>' +
                 '<button type="button" class="btn btn-light btn-sm save-break d-none" title="' + EALang.save + '">' +
-                '<span class="glyphicon glyphicon-ok"></span>' +
+                '<i class="far fa-check-circle"></i>' +
                 '</button>' +
                 '<button type="button" class="btn btn-light btn-sm cancel-break d-none" title="' + EALang.cancel + '">' +
-                '<span class="glyphicon glyphicon-ban-circle"></span>' +
+                '<i class="fas fa-ban"></i>' +
                 '</button>' +
                 '</td>' +
                 '</tr>';

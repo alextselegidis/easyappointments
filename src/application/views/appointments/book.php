@@ -164,7 +164,7 @@
                         <button type="button" id="button-next-1" class="btn button-next btn-primary"
                                 data-step_index="1">
                             <?= lang('next') ?>
-                            <span class="glyphicon glyphicon-forward"></span>
+                            <i class="fas fa-long-arrow-alt-right"></i>
                         </button>
                     </div>
                 </div>
@@ -190,13 +190,13 @@
                     <div class="command-buttons">
                         <button type="button" id="button-back-2" class="btn button-back btn-default"
                                 data-step_index="2">
-                            <span class="glyphicon glyphicon-backward"></span>
+                                <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
                         <button type="button" id="button-next-2" class="btn button-next btn-primary"
                                 data-step_index="2">
                             <?= lang('next') ?>
-                            <span class="glyphicon glyphicon-forward"></span>
+                            <i class="fas fa-long-arrow-alt-right"></i>
                         </button>
                     </div>
                 </div>
@@ -279,13 +279,13 @@
 
                     <div class="command-buttons">
                         <button type="button" id="button-back-3" class="btn button-back btn-default"
-                                data-step_index="3"><span class="glyphicon glyphicon-backward"></span>
+                                data-step_index="3"><i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
                         <button type="button" id="button-next-3" class="btn button-next btn-primary"
                                 data-step_index="3">
                             <?= lang('next') ?>
-                            <span class="glyphicon glyphicon-forward"></span>
+                            <i class="fas fa-long-arrow-alt-right"></i>
                         </button>
                     </div>
                 </div>
@@ -304,7 +304,7 @@
                             <div class="col-xs-12 col-sm-6">
                                 <h4 class="captcha-title">
                                     CAPTCHA
-                                    <small class="glyphicon glyphicon-refresh"></small>
+                                    <small class="fas fa-sync-alt"></small>
                                 </h4>
                                 <img class="captcha-image" src="<?= site_url('captcha') ?>">
                                 <input class="captcha-text" type="text" value="" />
@@ -317,12 +317,12 @@
                     <div class="command-buttons">
                         <button type="button" id="button-back-4" class="btn button-back btn-default"
                                 data-step_index="4">
-                            <span class="glyphicon glyphicon-backward"></span>
+                                <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
                         <form id="book-appointment-form" style="display:inline-block" method="post">
                             <button id="book-appointment-submit" type="button" class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= !$manage_mode ? lang('confirm') : lang('update') ?>
                             </button>
                             <input type="hidden" name="csrfToken" />

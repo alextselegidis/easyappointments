@@ -34,10 +34,10 @@
                     <div class="input-group-addon">
                         <div>
                             <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fas fa-search"></i>
                             </button>
                             <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </div>
@@ -53,21 +53,21 @@
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
                     <button id="add-customer" class="btn btn-info">
-                        <span class="glyphicon glyphicon-plus"></span>
+                        <i class="fas fa-plus"></i>
                         <?= lang('add') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
                     <button id="edit-customer" class="btn btn-light" disabled="disabled">
-                        <span class="glyphicon glyphicon-pencil"></span>
+                        <i class="far fa-edit"></i>
                         <?= lang('edit') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
                     <button id="delete-customer" class="btn btn-light" disabled="disabled">
-                        <span class="glyphicon glyphicon-remove"></span>
+                        <i class="far fa-trash-alt"></i>
                         <?= lang('delete') ?>
                     </button>
                     <?php endif ?>
@@ -75,11 +75,11 @@
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
                     <button id="save-customer" class="btn btn-info">
-                        <span class="glyphicon glyphicon-ok"></span>
+                        <i class="far fa-check-circle"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-customer" class="btn btn-light">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <i class="fas fa-ban"></i>
                         <?= lang('cancel') ?>
                     </button>
                 </div>

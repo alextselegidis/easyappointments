@@ -31,7 +31,7 @@
                             <h3>' . lang('appointment_registered') . '</h3>
                             <p>' . lang('appointment_details_was_sent_to_you') . '</p>
                             <a href="' . site_url() . '" class="btn btn-success btn-large">
-                                <span class="glyphicon glyphicon-calendar"></span> ' .
+                                <i class="far fa-calendar-alt"></i> ' .
                                 lang('go_to_booking_page') . '
                             </a>
                         ';
@@ -39,7 +39,7 @@
                         if ($this->config->item('google_sync_feature')) {
                             echo '
                                 <button id="add-to-google-calendar" class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <i class="fas fa-plus"></i>
                                     ' . lang('add_to_google_calendar') . '
                                 </button>';
                         }

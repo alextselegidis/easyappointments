@@ -52,10 +52,10 @@
                             <span class="input-group-addon">
                         <div>
                             <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fas fa-search"></i>
                             </button>
                             <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -70,26 +70,26 @@
                     <div class="float-md-left mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-provider" class="btn btn-info">
-                                <span class="glyphicon glyphicon-plus"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-provider" class="btn btn-light" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-provider" class="btn btn-light" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-provider" class="btn btn-info">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-provider" class="btn btn-light">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -189,7 +189,7 @@
                                 <br>
 
                                 <button type="button" id="provider-notifications" class="btn btn-light" data-toggle="button">
-                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    <i class="far fa-envelope"></i>
                                     <span><?= lang('receive_notifications') ?></span>
                                 </button>
 
@@ -205,7 +205,7 @@
                         <h3><?= lang('working_plan') ?></h3>
                         <button id="reset-working-plan" class="btn btn-info"
                                 title="<?= lang('reset_working_plan') ?>">
-                            <span class="glyphicon glyphicon-repeat"></span>
+                            <i class="fas fa-redo-alt"></i>
                             <?= lang('reset_plan') ?></button>
                         <table class="working-plan table table-striped mt-2">
                             <thead>
@@ -313,7 +313,7 @@
 
                         <div class="mt-2">
                             <button type="button" class="add-break btn btn-info">
-                                <span class="glyphicon glyphicon-plus"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add_break') ?>
                             </button>
                         </div>
@@ -348,10 +348,10 @@
                             <span class="input-group-addon">
                         <div>
                             <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fas fa-search"></i>
                             </button>
                             <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -367,26 +367,26 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-secretary" class="btn btn-info">
-                                <span class="glyphicon glyphicon-plus"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-secretary" class="btn btn-light" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-secretary" class="btn btn-light" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-secretary" class="btn btn-info">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-secretary" class="btn btn-light">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -477,7 +477,7 @@
                             <br>
 
                             <button type="button" id="secretary-notifications" class="btn btn-light" data-toggle="button">
-                                <span class="glyphicon glyphicon-envelope"></span>
+                                <i class="far fa-envelope"></i>
                                 <span><?= lang('receive_notifications') ?></span>
                             </button>
 
@@ -503,10 +503,10 @@
                             <span class="input-group-addon">
                         <div>
                             <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fas fa-search"></i>
                             </button>
                             <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -522,26 +522,26 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-admin" class="btn btn-info">
-                                <span class="glyphicon glyphicon-plus"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-admin" class="btn btn-light" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-admin" class="btn btn-light" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-admin" class="btn btn-info">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-admin" class="btn btn-light">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -632,7 +632,7 @@
                             <br>
 
                             <button type="button" id="admin-notifications" class="btn btn-light" data-toggle="button">
-                                <span class="glyphicon glyphicon-envelope"></span>
+                                <i class="far fa-envelope"></i>
                                 <span><?= lang('receive_notifications') ?></span>
                             </button>
                         </div>

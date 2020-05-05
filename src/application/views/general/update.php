@@ -72,7 +72,7 @@
 
         <div>
             <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
-                <span class="glyphicon glyphicon-wrench"></span>
+                <i class="fas fa-wrench"></i>
                 <?= lang('backend_section') ?>
             </a>
         </div>

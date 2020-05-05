@@ -52,36 +52,36 @@
                     && Config::GOOGLE_SYNC_FEATURE == TRUE): ?>
                 <button id="google-sync" class="btn btn-info"
                         title="<?= lang('trigger_google_sync_hint') ?>">
-                    <span class="glyphicon glyphicon-refresh"></span>
+                    <i class="fas fa-sync-alt"></i>
                     <span><?= lang('synchronize') ?></span>
                 </button>
 
                 <button id="enable-sync" class="btn btn-light" data-toggle="button"
                         title="<?= lang('enable_appointment_sync_hint') ?>">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <i class="far fa-calendar-alt"></i>
                     <span><?= lang('enable_sync') ?></span>
                 </button>
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
                 <button id="insert-appointment" class="btn btn-light" title="<?= lang('new_appointment_hint') ?>">
-                    <span class="glyphicon glyphicon-plus"></span>
+                    <i class="fas fa-plus"></i>
                     <?= lang('appointment') ?>
                 </button>
 
                 <button id="insert-unavailable" class="btn btn-light" title="<?= lang('unavailable_periods_hint') ?>">
-                    <span class="glyphicon glyphicon-plus"></span>
+                    <i class="fas fa-plus"></i>
                     <?= lang('unavailable') ?>
                 </button>
             <?php endif ?>
 
             <button id="reload-appointments" class="btn btn-light" title="<?= lang('reload_appointments_hint') ?>">
-                <span class="glyphicon glyphicon-repeat"></span>
+                <i class="fas fa-redo-alt"></i>
                 <?= lang('reload') ?>
             </button>
 
             <button id="toggle-fullscreen" class="btn btn-light">
-                <span class="glyphicon glyphicon-fullscreen"></span>
+                <i class="fas fa-compress"></i>
             </button>
         </div>
     </div>
