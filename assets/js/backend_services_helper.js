@@ -190,18 +190,21 @@
      * then the update operation is going to be executed.
      */
     ServicesHelper.prototype.save = function (service) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             service: JSON.stringify(service)
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.service_saved);
-            this.resetForm();
-            $('#filter-services .key').val('');
-            this.filter('', response.id, true);
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.service_saved);
+                this.resetForm();
+                $('#filter-services .key').val('');
+                this.filter('', response.id, true);
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -210,18 +213,21 @@
      * @param {Number} id Record ID to be deleted.
      */
     ServicesHelper.prototype.delete = function (id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             service_id: id
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.service_deleted);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.service_deleted);
 
-            this.resetForm();
-            this.filter($('#filter-services .key').val());
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                this.resetForm();
+                this.filter($('#filter-services .key').val());
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -237,18 +243,18 @@
             var missingRequired = false;
 
             $('#services .required').each(function () {
-                if ($(this).val() == '' || $(this).val() == undefined) {
+                if (!$(this).val()) {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             return true;
-        } catch (exc) {
+        } catch (error) {
             return false;
         }
     };
@@ -301,41 +307,44 @@
     ServicesHelper.prototype.filter = function (key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };
 
-        $.post(postUrl, postData, function (response) {
-            this.filterResults = response;
+        $.post(url, data)
+            .done(function (response) {
+                this.filterResults = response;
 
-            $('#filter-services .results').html('');
-            $.each(response, function (index, service) {
-                var html = ServicesHelper.prototype.getFilterHtml(service);
-                $('#filter-services .results').append(html);
-            });
+                $('#filter-services .results').html('');
+                $.each(response, function (index, service) {
+                    var html = ServicesHelper.prototype.getFilterHtml(service);
+                    $('#filter-services .results').append(html);
+                });
 
-            if (response.length === 0) {
-                $('#filter-services .results').html('<em>' + EALang.no_records_found + '</em>');
-            } else if (response.length === this.filterLimit) {
-                $('<button/>', {
-                    'type': 'button',
-                    'class': 'well btn-block load-more text-center',
-                    'text': EALang.load_more,
-                    'click': function () {
-                        this.filterLimit += 20;
-                        this.filter(key, selectId, display);
-                    }.bind(this)
-                })
-                    .appendTo('#filter-services .results');
-            }
+                if (response.length === 0) {
+                    $('#filter-services .results').html('<em>' + EALang.no_records_found + '</em>');
+                } else if (response.length === this.filterLimit) {
+                    $('<button/>', {
+                        'type': 'button',
+                        'class': 'well btn-block load-more text-center',
+                        'text': EALang.load_more,
+                        'click': function () {
+                            this.filterLimit += 20;
+                            this.filter(key, selectId, display);
+                        }.bind(this)
+                    })
+                        .appendTo('#filter-services .results');
+                }
 
-            if (selectId !== undefined) {
-                this.select(selectId, display);
-            }
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                if (selectId) {
+                    this.select(selectId, display);
+                }
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -371,7 +380,7 @@
         $('#filter-services .selected').removeClass('selected');
 
         $('#filter-services .service-row').each(function () {
-            if ($(this).attr('data-id') == id) {
+            if (Number($(this).attr('data-id')) === Number(id)) {
                 $(this).addClass('selected');
                 return false;
             }
@@ -379,7 +388,7 @@
 
         if (display) {
             $.each(this.filterResults, function (index, service) {
-                if (service.id == id) {
+                if (Number(service.id) === Number(id)) {
                     this.display(service);
                     $('#edit-service, #delete-service').prop('disabled', false);
                     return false;

@@ -92,20 +92,23 @@ window.BackendServices = window.BackendServices || {};
      */
     exports.updateAvailableCategories = function () {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: ''
         };
 
-        $.post(url, data, function (response) {
-            GlobalVariables.categories = response;
-            var $select = $('#service-category');
-            $select.empty();
-            $.each(response, function (index, category) {
-                var option = new Option(category.name, category.id);
-                $select.append(option);
-            });
-            $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                GlobalVariables.categories = response;
+                var $select = $('#service-category');
+                $select.empty();
+                $.each(response, function (index, category) {
+                    var option = new Option(category.name, category.id);
+                    $select.append(option);
+                });
+                $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+            })
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 })(window.BackendServices);

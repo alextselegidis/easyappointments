@@ -126,27 +126,31 @@ window.BackendUsers = window.BackendUsers || {};
 
                 // Update the list with the all the available providers.
                 var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
+
                 var data = {
                     csrfToken: GlobalVariables.csrfToken,
                     key: ''
                 };
-                $.post(url, data, function (response) {
-                    GlobalVariables.providers = response;
 
-                    var html = '<div>';
-                    $.each(GlobalVariables.providers, function (index, provider) {
-                        html +=
-                            '<div class="checkbox">' +
-                            '<label class="checkbox">' +
-                            '<input type="checkbox" data-id="' + provider.id + '" />' +
-                            provider.first_name + ' ' + provider.last_name +
-                            '</label>' +
-                            '</div>';
-                    });
-                    html += '</div>';
-                    $('#secretary-providers').html(html);
-                    $('#secretary-providers input:checkbox').prop('disabled', true);
-                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                $.post(url, data)
+                    .done(function (response) {
+                        GlobalVariables.providers = response;
+
+                        var html = '<div>';
+                        $.each(GlobalVariables.providers, function (index, provider) {
+                            html +=
+                                '<div class="checkbox">' +
+                                '<label class="checkbox">' +
+                                '<input type="checkbox" data-id="' + provider.id + '" />' +
+                                provider.first_name + ' ' + provider.last_name +
+                                '</label>' +
+                                '</div>';
+                        });
+                        html += '</div>';
+                        $('#secretary-providers').html(html);
+                        $('#secretary-providers input:checkbox').prop('disabled', true);
+                    })
+                    .fail(GeneralFunctions.ajaxFailureHandler);
             }
 
             helper.resetForm();
@@ -164,37 +168,40 @@ window.BackendUsers = window.BackendUsers || {};
         $('#admin-username, #provider-username, #secretary-username').focusout(function () {
             var $input = $(this);
 
-            if ($input.prop('readonly') == true || $input.val() == '') {
+            if ($input.prop('readonly') === true || $input.val() === '') {
                 return;
             }
 
             var userId = $input.parents().eq(2).find('.record-id').val();
 
-            if (userId == undefined) {
+            if (!userId) {
                 return;
             }
 
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
-            var postData = {
+            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
+
+            var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 username: $input.val(),
                 user_id: userId
             };
 
-            $.post(postUrl, postData, function (response) {
-                if (response == false) {
-                    $input.closest('.form-group').addClass('has-error');
-                    $input.attr('already-exists', 'true');
-                    $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
-                    $input.parents().eq(3).find('.form-message').show();
-                } else {
-                    $input.closest('.form-group').removeClass('has-error');
-                    $input.attr('already-exists', 'false');
-                    if ($input.parents().eq(3).find('.form-message').text() == EALang.username_already_exists) {
-                        $input.parents().eq(3).find('.form-message').hide();
+            $.post(url, data)
+                .done(function (response) {
+                    if (response === 'false') {
+                        $input.closest('.form-group').addClass('has-error');
+                        $input.attr('already-exists', 'true');
+                        $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
+                        $input.parents().eq(3).find('.form-message').show();
+                    } else {
+                        $input.closest('.form-group').removeClass('has-error');
+                        $input.attr('already-exists', 'false');
+                        if ($input.parents().eq(3).find('.form-message').text() === EALang.username_already_exists) {
+                            $input.parents().eq(3).find('.form-message').hide();
+                        }
                     }
-                }
-            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                })
+                .fail(GeneralFunctions.ajaxFailureHandler);
         });
     }
 

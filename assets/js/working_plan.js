@@ -70,7 +70,7 @@
 
             $('.working-plan tbody').append(tr);
 
-            if (workingDay != null) {
+            if (workingDay) {
                 $('#' + index).prop('checked', true);
                 $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
                 $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
@@ -125,7 +125,7 @@
      */
     WorkingPlan.prototype.setupExtraPeriods = function (extraWorkingPlan) {
         $.each(extraWorkingPlan, function (index, extraWorkingDay) {
-            if (extraWorkingDay != null) {
+            if (extraWorkingDay) {
 
                 $('#' + index).prop('checked', true);
                 $('#' + index + '-start').val(Date.parse(extraWorkingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
@@ -245,10 +245,10 @@
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan tbody').on( "click", "input:checkbox", function (event) {
+        $('.working-plan tbody').on( "click", "input:checkbox", function () {
             var id = $(this).attr('id');
 
-            if ($(this).prop('checked') == true) {
+            if ($(this).prop('checked') === true) {
                 $('#' + id + '-start').prop('disabled', false).val('9:00 AM');
                 $('#' + id + '-end').prop('disabled', false).val('6:00 PM');
             } else {
@@ -303,7 +303,7 @@
             // Reset previous editable tds
             var $previousEdt = $(this).closest('table').find('.editable').get();
             $.each($previousEdt, function (index, editable) {
-                if (editable.reset !== undefined) {
+                if (editable.reset) {
                     editable.reset();
                 }
             });
@@ -436,7 +436,7 @@
             // Reset previous editable tds
             var $previousEdt = $(this).closest('table').find('.editable').get();
             $.each($previousEdt, function (index, editable) {
-                if (editable.reset !== undefined) {
+                if (editable.reset) {
                     editable.reset();
                 }
             });
@@ -565,7 +565,7 @@
         var workingPlan = {};
         $('.working-plan input:checkbox').each(function (index, checkbox) {
             var id = $(checkbox).attr('id');
-            if ($(checkbox).prop('checked') == true) {
+            if ($(checkbox).prop('checked') === true) {
                 workingPlan[id] = {
                     start: Date.parse($('#' + id + '-start').val()).toString('HH:mm'),
                     end: Date.parse($('#' + id + '-end').val()).toString('HH:mm'),
@@ -575,7 +575,7 @@
                 $('.breaks tr').each(function (index, tr) {
                     var day = this.convertDayToValue($(tr).find('.break-day').text());
 
-                    if (day == id) {
+                    if (day === id) {
                         var start = $(tr).find('.break-start').text();
                         var end = $(tr).find('.break-end').text();
 
@@ -626,12 +626,12 @@
     /**
      * Enables or disables the timepicker functionality from the working plan input text fields.
      *
-     * @param {Boolean} disabled (OPTIONAL = false) If true then the timepickers will be disabled.
+     * @param {Boolean} [disabled] If true then the timepickers will be disabled.
      */
     WorkingPlan.prototype.timepickers = function (disabled) {
         disabled = disabled || false;
 
-        if (disabled == false) {
+        if (disabled === false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
                 timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',

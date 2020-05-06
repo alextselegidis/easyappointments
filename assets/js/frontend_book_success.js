@@ -37,7 +37,7 @@ $(document).ready(function () {
     function handleAuthResult(authResult) {
         try {
             if (authResult.error) {
-                throw 'Could not authorize user.';
+                throw new Error('Could not authorize user.');
             }
 
             // The user has granted access, add the appointment to his calendar.
@@ -79,7 +79,7 @@ $(document).ready(function () {
 
                 request.execute(function (response) {
                     if (response.error) {
-                        throw 'Could not add the event to Google Calendar.';
+                        throw new Error('Could not add the event to Google Calendar.');
                     }
 
                     $('#success-frame').append(
@@ -98,14 +98,14 @@ $(document).ready(function () {
                     $('#add-to-google-calendar').hide();
                 });
             });
-        } catch (exc) {
+        } catch (error) {
             // The user denied access or something else happened, display corresponding message on the screen.
             $('#success-frame').append(
                 '<div class="alert alert-danger col-xs-12">' +
                 '<h4>' + EALang.oops_something_went_wrong + '</h4>' +
                 '<p>' +
                 EALang.could_not_add_to_google_calendar +
-                '<pre>' + exc + '</pre>' +
+                '<pre>' + error.message + '</pre>' +
                 '</p>' +
                 '</div>');
         }

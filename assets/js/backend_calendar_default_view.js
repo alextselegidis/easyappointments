@@ -67,7 +67,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             var $dialog;
 
-            if (lastFocusedEventData.data.is_unavailable == false) {
+            if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
 
@@ -132,45 +132,54 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         $calendarPage.on('click', '.delete-popover', function () {
             $(this).parents().eq(2).remove(); // Hide the popover.
 
+            var url;
+            var data;
+
             // If id_role parameter exists the popover is an extra working day.
             if (lastFocusedEventData.data.hasOwnProperty('id_roles')) {
                 // Do not display confirmation prompt.
-                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_extra_period';
-                var data = {
+                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_extra_period';
+
+                data = {
                     csrfToken: GlobalVariables.csrfToken,
                     extra_period: lastFocusedEventData.start.format('YYYY-MM-DD'),
                     provider_id: lastFocusedEventData.data.id
                 };
 
-                $.post(url, data, function (response) {
-                    $('#message_box').dialog('close');
+                $.post(url, data)
+                    .done(function () {
+                        $('#message_box').dialog('close');
 
-                    var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
-                    delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
-                    lastFocusedEventData.data.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
+                        var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
+                        delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
+                        lastFocusedEventData.data.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
 
-                    // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
-                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                        // Refresh calendar event items.
+                        $('#select-filter-item').trigger('change');
+                    })
+                    .fail(GeneralFunctions.ajaxFailureHandler);
             }
-            else if (lastFocusedEventData.data.is_unavailable == false) {
+            else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
                         text: 'OK',
                         click: function () {
-                            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
-                            var data = {
+                            url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
+
+                            data = {
                                 csrfToken: GlobalVariables.csrfToken,
                                 appointment_id: lastFocusedEventData.data.id,
                                 delete_reason: $('#delete-reason').val()
                             };
 
-                            $.post(url, data, function (response) {
-                                $('#message_box').dialog('close');
+                            $.post(url, data)
+                                .done(function () {
+                                    $('#message_box').dialog('close');
 
-                                // Refresh calendar event items.
-                                $('#select-filter-item').trigger('change');
-                            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                                    // Refresh calendar event items.
+                                    $('#select-filter-item').trigger('change');
+                                })
+                                .fail(GeneralFunctions.ajaxFailureHandler);
                         }
                     },
                     {
@@ -189,18 +198,21 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#delete-reason').css('width', '100%');
             } else {
                 // Do not display confirmation prompt.
-                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
-                var data = {
+                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
+
+                data = {
                     csrfToken: GlobalVariables.csrfToken,
                     unavailable_id: lastFocusedEventData.data.id
                 };
 
-                $.post(url, data, function (response) {
-                    $('#message_box').dialog('close');
+                $.post(url, data)
+                    .done(function () {
+                        $('#message_box').dialog('close');
 
-                    // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
-                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                        // Refresh calendar event items.
+                        $('#select-filter-item').trigger('change');
+                    })
+                    .fail(GeneralFunctions.ajaxFailureHandler);
             }
         });
 
@@ -223,7 +235,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var providerId = $('#select-filter-item').val();
 
                 var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
-                    return availableProvider.id == providerId;
+                    return Number(availableProvider.id) === Number(providerId);
                 }).shift();
 
                 if (provider && provider.timezone) {
@@ -278,10 +290,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         if ($(this).hasClass('fc-unavailable') || $parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.edit == true)
+                && GlobalVariables.user.privileges.appointments.edit === true)
                 ? '' : 'hide';
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.delete == true)
+                && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
             var notes = '';
@@ -309,7 +321,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '</center>';
         } else if ($(this).hasClass('fc-extra') || $parent.hasClass('fc-extra') || $altParent.hasClass('fc-extra')) {
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.delete == true)
+                && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
             var provider = '';
@@ -341,9 +353,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '</center>';
 
         } else {
-            displayEdit = (GlobalVariables.user.privileges.appointments.edit == true)
+            displayEdit = (GlobalVariables.user.privileges.appointments.edit === true)
                 ? '' : 'hide';
-            displayDelete = (GlobalVariables.user.privileges.appointments.delete == true)
+            displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide';
 
             html =
@@ -416,7 +428,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * @see updateAppointmentData()
      */
     function _calendarEventResize(event, delta, revertFunc, jsEvent, ui, view) {
-        if (GlobalVariables.user.privileges.appointments.edit == false) {
+        if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
             return;
@@ -428,7 +440,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $('#notification').hide('bind');
         }
 
-        if (event.data.is_unavailable == false) {
+        if (event.data.is_unavailable === false) {
             // Prepare appointment data.
             event.data.end_datetime = Date.parseExact(
                 event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
@@ -458,10 +470,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data, function (response) {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -477,7 +491,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             };
 
             // Update appointment data.
-            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback);
+            BackendCalendarApi.saveAppointment(appointment, null, successCallback);
         } else {
             // Update unavailable time period.
             var unavailable = {
@@ -499,15 +513,18 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data, function (response) {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -559,7 +576,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * on the calendar. We need to update the database with this change. This is done via an ajax call.
      */
     function _calendarEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-        if (GlobalVariables.user.privileges.appointments.edit == false) {
+        if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
             return;
@@ -569,7 +586,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $('#notification').hide('bind');
         }
 
-        if (event.data.is_unavailable == false) {
+        if (event.data.is_unavailable === '0') {
             // Prepare appointment data.
             var appointment = GeneralFunctions.clone(event.data);
 
@@ -609,15 +626,18 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     event.data.end_datetime = appointment.end_datetime;
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data, function (response) {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -631,7 +651,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             };
 
             // Update appointment data.
-            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback);
+            BackendCalendarApi.saveAppointment(appointment, null, successCallback);
         } else {
             // Update unavailable time period.
             var unavailable = {
@@ -662,10 +682,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data, function (response) {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -744,6 +766,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      */
     function _refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             record_id: recordId,
@@ -752,232 +775,95 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             filter_type: filterType
         };
 
-
         $('#loading').css('visibility', 'hidden');
 
-        return $.post(url, data, function (response) {
-            // Add appointments to calendar.
-            var calendarEvents = [];
-            var $calendar = $('#calendar');
+        return $.post(url, data)
+            .done(function (response) {
+                // Add appointments to calendar.
+                var calendarEvents = [];
+                var $calendar = $('#calendar');
 
-            $.each(response.appointments, function (index, appointment) {
-                var event = {
-                    id: appointment.id,
-                    title: appointment.service.name + ' - '
-                    + appointment.customer.first_name + ' '
-                    + appointment.customer.last_name,
-                    start: moment(appointment.start_datetime),
-                    end: moment(appointment.end_datetime),
-                    allDay: false,
-                    data: appointment // Store appointment data for later use.
-                };
+                $.each(response.appointments, function (index, appointment) {
+                    var event = {
+                        id: appointment.id,
+                        title: appointment.service.name + ' - '
+                            + appointment.customer.first_name + ' '
+                            + appointment.customer.last_name,
+                        start: moment(appointment.start_datetime),
+                        end: moment(appointment.end_datetime),
+                        allDay: false,
+                        data: appointment // Store appointment data for later use.
+                    };
 
-                calendarEvents.push(event);
-            });
+                    calendarEvents.push(event);
+                });
 
-            $calendar.fullCalendar('removeEvents');
-            $calendar.fullCalendar('addEventSource', calendarEvents);
+                $calendar.fullCalendar('removeEvents');
+                $calendar.fullCalendar('addEventSource', calendarEvents);
 
-            var weekDays = [
-                'sunday',
-                'monday',
-                'tuesday',
-                'wednesday',
-                'thursday',
-                'friday',
-                'saturday'
-            ];
+                var weekDays = [
+                    'sunday',
+                    'monday',
+                    'tuesday',
+                    'wednesday',
+                    'thursday',
+                    'friday',
+                    'saturday'
+                ];
 
-            // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
-            var calendarView = $calendar.fullCalendar('getView').name;
+                // :: ADD PROVIDER'S UNAVAILABLE TIME PERIODS
+                var calendarView = $calendar.fullCalendar('getView').name;
 
-            if (filterType === FILTER_TYPE_PROVIDER && calendarView !== 'month') {
-                $.each(GlobalVariables.availableProviders, function (index, provider) {
-                    if (provider.id == recordId) {
-                        var workingPlan={};
-                        var workingPlanBulk = jQuery.parseJSON(provider.settings.working_plan);
-                        var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
-                        var unavailablePeriod;
+                if (filterType === FILTER_TYPE_PROVIDER && calendarView !== 'month') {
+                    $.each(GlobalVariables.availableProviders, function (index, provider) {
+                        if (Number(provider.id) === Number(recordId)) {
+                            var workingPlan={};
+                            var workingPlanBulk = jQuery.parseJSON(provider.settings.working_plan);
+                            var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
+                            var unavailablePeriod;
 
-                        // Sort the working plan starting with the first day as set in General settings to correctly
-                        // align breaks in the calendar display.
-                        var firstWeekdayNumber = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
-                        workingPlan = GeneralFunctions.sortWeekDictionary(workingPlanBulk, firstWeekdayNumber);
+                            // Sort the working plan starting with the first day as set in General settings to correctly
+                            // align breaks in the calendar display.
+                            var firstWeekdayNumber = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+                            workingPlan = GeneralFunctions.sortWeekDictionary(workingPlanBulk, firstWeekdayNumber);
 
-                        switch (calendarView) {
-                            case 'agendaDay':
-                                var selectedDayName = GeneralFunctions
-                                    .getWeekdayName(parseInt($calendar.fullCalendar('getView').start.format('d')));
+                            switch (calendarView) {
+                                case 'agendaDay':
+                                    var selectedDayName = GeneralFunctions
+                                        .getWeekdayName(parseInt($calendar.fullCalendar('getView').start.format('d')));
 
-                                // Add custom unavailable periods.
-                                $.each(response.unavailables, function (index, unavailable) {
-                                    var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
+                                    // Add custom unavailable periods.
+                                    $.each(response.unavailables, function (index, unavailable) {
+                                        var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
-                                    if (unavailable.notes.length > 30) {
-                                        notes = unavailable.notes.substring(0, 30) + '...'
-                                    }
+                                        if (unavailable.notes.length > 30) {
+                                            notes = unavailable.notes.substring(0, 30) + '...'
+                                        }
 
-                                    var unavailablePeriod = {
-                                        title: EALang.unavailable + notes,
-                                        start: moment(unavailable.start_datetime),
-                                        end: moment(unavailable.end_datetime),
-                                        allDay: false,
-                                        color: '#879DB4',
-                                        editable: true,
-                                        className: 'fc-unavailable fc-custom',
-                                        data: unavailable
-                                    };
-
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                });
-
-                                // Non-working day.
-                                if (workingPlan[selectedDayName] == null) {
-                                    // Extra working plan day.
-                                    var selectedDay = $calendar.fullCalendar('getView').intervalStart.clone();
-                                    selectedDay.locale('en');
-                                    if (extraWorkingPlan != null && selectedDay.format() in extraWorkingPlan) {
-                                        workingPlan[selectedDay.format('dddd').toLowerCase()] = extraWorkingPlan[selectedDay.format('YYYY-MM-DD')];
-
-                                        var start_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].start;
-                                        var end_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].end;
-
-                                        var extraPeriod = {
-                                            title: EALang.extra_period,
-                                            start: moment(start_extra, 'YYYY-MM-DD HH:mm', true),
-                                            end: moment(end_extra, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
-                                            allDay: true,
-                                            color: '#879DB4',
-                                            editable: false,
-                                            className: 'fc-extra fc-custom',
-                                            data: provider
-                                        };
-
-                                        $calendar.fullCalendar('renderEvent', extraPeriod, false);
-                                    } else {
-                                        unavailablePeriod = {
-                                            title: EALang.not_working,
-                                            start: $calendar.fullCalendar('getView').intervalStart.clone(),
-                                            end: $calendar.fullCalendar('getView').intervalEnd.clone(),
+                                        var unavailablePeriod = {
+                                            title: EALang.unavailable + notes,
+                                            start: moment(unavailable.start_datetime),
+                                            end: moment(unavailable.end_datetime),
                                             allDay: false,
-                                            color: '#BEBEBE',
-                                            editable: false,
-                                            className: 'fc-unavailable'
+                                            color: '#879DB4',
+                                            editable: true,
+                                            className: 'fc-unavailable fc-custom',
+                                            data: unavailable
                                         };
 
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                    });
 
-                                        return; // Go to next loop.
-                                    }
-                                }
+                                    // Non-working day.
+                                    if (workingPlan[selectedDayName] === null) {
+                                        // Extra working plan day.
+                                        var selectedDay = $calendar.fullCalendar('getView').intervalStart.clone();
+                                        selectedDay.locale('en');
+                                        if (extraWorkingPlan && selectedDay.format() in extraWorkingPlan) {
+                                            workingPlan[selectedDay.format('dddd').toLowerCase()] = extraWorkingPlan[selectedDay.format('YYYY-MM-DD')];
 
-                                // Add unavailable period before work starts.
-                                var calendarDateStart = moment($calendar.fullCalendar('getView').start.format('YYYY-MM-DD') + ' 00:00:00');
-                                var startHour = workingPlan[selectedDayName].start.split(':');
-                                var workDateStart = calendarDateStart.clone();
-                                workDateStart.hour(parseInt(startHour[0]));
-                                workDateStart.minute(parseInt(startHour[1]));
-
-                                if (calendarDateStart < workDateStart) {
-                                    var unavailablePeriodBeforeWorkStarts = {
-                                        title: EALang.not_working,
-                                        start: calendarDateStart,
-                                        end: workDateStart,
-                                        allDay: false,
-                                        color: '#BEBEBE',
-                                        editable: false,
-                                        className: 'fc-unavailable'
-                                    };
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriodBeforeWorkStarts, false);
-                                }
-
-                                // Add unavailable period after work ends.
-                                var calendarDateEnd = moment($calendar.fullCalendar('getView').end.format('YYYY-MM-DD') + ' 00:00:00');
-                                var endHour = workingPlan[selectedDayName].end.split(':');
-                                var workDateEnd = calendarDateStart.clone();
-
-                                workDateEnd.hour(parseInt(endHour[0]));
-                                workDateEnd.minute(parseInt(endHour[1]));
-
-                                if (calendarDateEnd > workDateEnd) {
-                                    var unavailablePeriodAfterWorkEnds = {
-                                        title: EALang.not_working,
-                                        start: workDateEnd,
-                                        end: calendarDateEnd,
-                                        allDay: false,
-                                        color: '#BEBEBE',
-                                        editable: false,
-                                        className: 'fc-unavailable'
-                                    };
-
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriodAfterWorkEnds, false);
-                                }
-
-                                // Add unavailable periods for breaks.
-                                var breakStart;
-                                var breakEnd;
-
-                                $.each(workingPlan[selectedDayName].breaks, function (index, currentBreak) {
-                                    var breakStartString = currentBreak.start.split(':');
-                                    breakStart = calendarDateStart.clone();
-                                    breakStart.hour(parseInt(breakStartString[0]));
-                                    breakStart.minute(parseInt(breakStartString[1]));
-
-                                    var breakEndString = currentBreak.end.split(':');
-                                    breakEnd = calendarDateStart.clone();
-                                    breakEnd.hour(parseInt(breakEndString[0]));
-                                    breakEnd.minute(parseInt(breakEndString[1]));
-
-                                    var unavailablePeriod = {
-                                        title: EALang.break,
-                                        start: breakStart,
-                                        end: breakEnd,
-                                        allDay: false,
-                                        color: '#BEBEBE',
-                                        editable: false,
-                                        className: 'fc-unavailable fc-break'
-                                    };
-
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                });
-
-                                break;
-
-                            case 'agendaWeek':
-                                var currentDateStart = $calendar.fullCalendar('getView').start.clone();
-                                var currentDateEnd = currentDateStart.clone().add(1, 'days');
-
-                                // Add custom unavailable periods (they are always displayed on the calendar, even if
-                                // the provider won't work on that day).
-                                $.each(response.unavailables, function (index, unavailable) {
-                                    var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
-
-                                    if (unavailable.notes.length > 30) {
-                                        notes = unavailable.notes.substring(0, 30) + '...'
-                                    }
-
-                                    unavailablePeriod = {
-                                        title: EALang.unavailable + notes,
-                                        start: moment(unavailable.start_datetime),
-                                        end: moment(unavailable.end_datetime),
-                                        allDay: false,
-                                        color: '#879DB4',
-                                        editable: true,
-                                        className: 'fc-unavailable fc-custom',
-                                        data: unavailable
-                                    };
-
-                                    $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
-                                });
-
-                                $.each(workingPlan, function (index, workingDay) {
-                                    if (workingDay == null) {
-                                        // Check if the day is an extra working day added to the working plan
-                                        if (extraWorkingPlan != null && currentDateStart.format('YYYY-MM-DD') in extraWorkingPlan) {
-                                            workingDay = extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')]
-
-                                            var start_extra = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].start;
-                                            var end_extra = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].end;
+                                            var start_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].start;
+                                            var end_extra = selectedDay.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[selectedDay.format('YYYY-MM-DD')].end;
 
                                             var extraPeriod = {
                                                 title: EALang.extra_period,
@@ -992,87 +878,83 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                                             $calendar.fullCalendar('renderEvent', extraPeriod, false);
                                         } else {
-                                            // Add a full day unavailable event.
                                             unavailablePeriod = {
                                                 title: EALang.not_working,
-                                                start: moment(currentDateStart.format('YYYY-MM-DD')),
-                                                end: moment(currentDateEnd.format('YYYY-MM-DD')),
+                                                start: $calendar.fullCalendar('getView').intervalStart.clone(),
+                                                end: $calendar.fullCalendar('getView').intervalEnd.clone(),
                                                 allDay: false,
                                                 color: '#BEBEBE',
                                                 editable: false,
                                                 className: 'fc-unavailable'
                                             };
 
-                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
-                                            currentDateStart.add(1, 'days');
-                                            currentDateEnd.add(1, 'days');
+                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
 
-                                            return; // Go to the next loop.
+                                            return; // Go to next loop.
                                         }
                                     }
 
-                                    var start;
-                                    var end;
-
                                     // Add unavailable period before work starts.
-                                    var workingDayStartString = workingDay.start.split(':');
-                                    start = currentDateStart.clone();
-                                    start.hour(parseInt(workingDayStartString[0]));
-                                    start.minute(parseInt(workingDayStartString[1]));
+                                    var calendarDateStart = moment($calendar.fullCalendar('getView').start.format('YYYY-MM-DD') + ' 00:00:00');
+                                    var startHour = workingPlan[selectedDayName].start.split(':');
+                                    var workDateStart = calendarDateStart.clone();
+                                    workDateStart.hour(parseInt(startHour[0]));
+                                    workDateStart.minute(parseInt(startHour[1]));
 
-                                    if (currentDateStart < start) {
-                                        unavailablePeriod = {
+                                    if (calendarDateStart < workDateStart) {
+                                        var unavailablePeriodBeforeWorkStarts = {
                                             title: EALang.not_working,
-                                            start: moment(currentDateStart.format('YYYY-MM-DD') + ' 00:00:00'),
-                                            end: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + workingDay.start + ':00'),
+                                            start: calendarDateStart,
+                                            end: workDateStart,
                                             allDay: false,
                                             color: '#BEBEBE',
                                             editable: false,
                                             className: 'fc-unavailable'
                                         };
-
-                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriodBeforeWorkStarts, false);
                                     }
 
                                     // Add unavailable period after work ends.
-                                    var workingDayEndString = workingDay.end.split(':');
-                                    end = currentDateStart.clone();
-                                    end.hour(parseInt(workingDayEndString[0]));
-                                    end.minute(parseInt(workingDayEndString[1]));
+                                    var calendarDateEnd = moment($calendar.fullCalendar('getView').end.format('YYYY-MM-DD') + ' 00:00:00');
+                                    var endHour = workingPlan[selectedDayName].end.split(':');
+                                    var workDateEnd = calendarDateStart.clone();
 
-                                    if (currentDateEnd > end) {
-                                        unavailablePeriod = {
+                                    workDateEnd.hour(parseInt(endHour[0]));
+                                    workDateEnd.minute(parseInt(endHour[1]));
+
+                                    if (calendarDateEnd > workDateEnd) {
+                                        var unavailablePeriodAfterWorkEnds = {
                                             title: EALang.not_working,
-                                            start: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + workingDay.end + ':00'),
-                                            end: moment(currentDateEnd.format('YYYY-MM-DD') + ' 00:00:00'),
+                                            start: workDateEnd,
+                                            end: calendarDateEnd,
                                             allDay: false,
                                             color: '#BEBEBE',
                                             editable: false,
                                             className: 'fc-unavailable'
                                         };
 
-                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriodAfterWorkEnds, false);
                                     }
 
-                                    // Add unavailable periods during day breaks.
+                                    // Add unavailable periods for breaks.
                                     var breakStart;
                                     var breakEnd;
 
-                                    $.each(workingDay.breaks, function (index, currentBreak) {
+                                    $.each(workingPlan[selectedDayName].breaks, function (index, currentBreak) {
                                         var breakStartString = currentBreak.start.split(':');
-                                        breakStart = currentDateStart.clone();
+                                        breakStart = calendarDateStart.clone();
                                         breakStart.hour(parseInt(breakStartString[0]));
                                         breakStart.minute(parseInt(breakStartString[1]));
 
                                         var breakEndString = currentBreak.end.split(':');
-                                        breakEnd = currentDateStart.clone();
+                                        breakEnd = calendarDateStart.clone();
                                         breakEnd.hour(parseInt(breakEndString[0]));
                                         breakEnd.minute(parseInt(breakEndString[1]));
 
                                         var unavailablePeriod = {
                                             title: EALang.break,
-                                            start: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + currentBreak.start),
-                                            end: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + currentBreak.end),
+                                            start: breakStart,
+                                            end: breakEnd,
                                             allDay: false,
                                             color: '#BEBEBE',
                                             editable: false,
@@ -1082,16 +964,157 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
                                     });
 
-                                    currentDateStart.add(1, 'days');
-                                    currentDateEnd.add(1, 'days');
-                                });
+                                    break;
 
-                                break;
+                                case 'agendaWeek':
+                                    var currentDateStart = $calendar.fullCalendar('getView').start.clone();
+                                    var currentDateEnd = currentDateStart.clone().add(1, 'days');
+
+                                    // Add custom unavailable periods (they are always displayed on the calendar, even if
+                                    // the provider won't work on that day).
+                                    $.each(response.unavailables, function (index, unavailable) {
+                                        var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
+
+                                        if (unavailable.notes.length > 30) {
+                                            notes = unavailable.notes.substring(0, 30) + '...'
+                                        }
+
+                                        unavailablePeriod = {
+                                            title: EALang.unavailable + notes,
+                                            start: moment(unavailable.start_datetime),
+                                            end: moment(unavailable.end_datetime),
+                                            allDay: false,
+                                            color: '#879DB4',
+                                            editable: true,
+                                            className: 'fc-unavailable fc-custom',
+                                            data: unavailable
+                                        };
+
+                                        $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                    });
+
+                                    $.each(workingPlan, function (index, workingDay) {
+                                        if (workingDay === null) {
+                                            // Check if the day is an extra working day added to the working plan
+                                            if (extraWorkingPlan && currentDateStart.format('YYYY-MM-DD') in extraWorkingPlan) {
+                                                workingDay = extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')]
+
+                                                var start_extra = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].start;
+                                                var end_extra = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].end;
+
+                                                var extraPeriod = {
+                                                    title: EALang.extra_period,
+                                                    start: moment(start_extra, 'YYYY-MM-DD HH:mm', true),
+                                                    end: moment(end_extra, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
+                                                    allDay: true,
+                                                    color: '#879DB4',
+                                                    editable: false,
+                                                    className: 'fc-extra fc-custom',
+                                                    data: provider
+                                                };
+
+                                                $calendar.fullCalendar('renderEvent', extraPeriod, false);
+                                            } else {
+                                                // Add a full day unavailable event.
+                                                unavailablePeriod = {
+                                                    title: EALang.not_working,
+                                                    start: moment(currentDateStart.format('YYYY-MM-DD')),
+                                                    end: moment(currentDateEnd.format('YYYY-MM-DD')),
+                                                    allDay: false,
+                                                    color: '#BEBEBE',
+                                                    editable: false,
+                                                    className: 'fc-unavailable'
+                                                };
+
+                                                $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
+                                                currentDateStart.add(1, 'days');
+                                                currentDateEnd.add(1, 'days');
+
+                                                return; // Go to the next loop.
+                                            }
+                                        }
+
+                                        var start;
+                                        var end;
+
+                                        // Add unavailable period before work starts.
+                                        var workingDayStartString = workingDay.start.split(':');
+                                        start = currentDateStart.clone();
+                                        start.hour(parseInt(workingDayStartString[0]));
+                                        start.minute(parseInt(workingDayStartString[1]));
+
+                                        if (currentDateStart < start) {
+                                            unavailablePeriod = {
+                                                title: EALang.not_working,
+                                                start: moment(currentDateStart.format('YYYY-MM-DD') + ' 00:00:00'),
+                                                end: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + workingDay.start + ':00'),
+                                                allDay: false,
+                                                color: '#BEBEBE',
+                                                editable: false,
+                                                className: 'fc-unavailable'
+                                            };
+
+                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, true);
+                                        }
+
+                                        // Add unavailable period after work ends.
+                                        var workingDayEndString = workingDay.end.split(':');
+                                        end = currentDateStart.clone();
+                                        end.hour(parseInt(workingDayEndString[0]));
+                                        end.minute(parseInt(workingDayEndString[1]));
+
+                                        if (currentDateEnd > end) {
+                                            unavailablePeriod = {
+                                                title: EALang.not_working,
+                                                start: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + workingDay.end + ':00'),
+                                                end: moment(currentDateEnd.format('YYYY-MM-DD') + ' 00:00:00'),
+                                                allDay: false,
+                                                color: '#BEBEBE',
+                                                editable: false,
+                                                className: 'fc-unavailable'
+                                            };
+
+                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                        }
+
+                                        // Add unavailable periods during day breaks.
+                                        var breakStart;
+                                        var breakEnd;
+
+                                        $.each(workingDay.breaks, function (index, currentBreak) {
+                                            var breakStartString = currentBreak.start.split(':');
+                                            breakStart = currentDateStart.clone();
+                                            breakStart.hour(parseInt(breakStartString[0]));
+                                            breakStart.minute(parseInt(breakStartString[1]));
+
+                                            var breakEndString = currentBreak.end.split(':');
+                                            breakEnd = currentDateStart.clone();
+                                            breakEnd.hour(parseInt(breakEndString[0]));
+                                            breakEnd.minute(parseInt(breakEndString[1]));
+
+                                            var unavailablePeriod = {
+                                                title: EALang.break,
+                                                start: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + currentBreak.start),
+                                                end: moment(currentDateStart.format('YYYY-MM-DD') + ' ' + currentBreak.end),
+                                                allDay: false,
+                                                color: '#BEBEBE',
+                                                editable: false,
+                                                className: 'fc-unavailable fc-break'
+                                            };
+
+                                            $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                        });
+
+                                        currentDateStart.add(1, 'days');
+                                        currentDateEnd.add(1, 'days');
+                                    });
+
+                                    break;
+                            }
                         }
-                    }
-                });
-            }
-        }, 'json')
+                    });
+                }
+            })
             .fail(GeneralFunctions.ajaxFailureHandler)
             .always(function() {
                 $('#loading').css('visibility', '')
@@ -1168,18 +1191,20 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#insert-appointment').trigger('click');
 
                 // Preselect service & provider.
+                var service;
+
                 if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
-                    var service = GlobalVariables.availableServices.find(function (service) {
-                        return service.id == $('#select-filter-item').val()
+                    service = GlobalVariables.availableServices.find(function (service) {
+                        return Number(service.id) === Number($('#select-filter-item').val());
                     });
                     $('#select-service').val(service.id).trigger('change');
 
                 } else {
                     var provider = GlobalVariables.availableProviders.find(function (provider) {
-                        return provider.id == $('#select-filter-item').val();
+                        return Number(provider.id) === Number($('#select-filter-item').val());
                     });
 
-                    var service = GlobalVariables.availableServices.find(function (service) {
+                    service = GlobalVariables.availableServices.find(function (service) {
                         return provider.services.indexOf(service.id) !== -1
                     });
 
@@ -1268,24 +1293,24 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }
 
         // Check permissions.
-        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_PROVIDER) {
+        if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER) {
             $('#select-filter-item optgroup:eq(0)')
                 .find('option[value="' + GlobalVariables.user.id + '"]')
                 .prop('selected', true);
             $('#select-filter-item').prop('disabled', true);
         }
 
-        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+        if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
             $('#select-filter-item optgroup:eq(1)').remove();
         }
 
-        if (GlobalVariables.user.role_slug == Backend.DB_SLUG_SECRETARY) {
+        if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
             $('#select-filter-item option[type="provider"]').each(function (index, option) {
                 var found = false;
 
-                $.each(GlobalVariables.secretaryProviders, function (index, id) {
-                    if ($(option).val() == id) {
+                $.each(GlobalVariables.secretaryProviders, function (index, secretaryProviderId) {
+                    if (Number($(option).val()) === Number(secretaryProviderId)) {
                         found = true;
                         return false;
                     }
@@ -1296,7 +1321,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 }
             });
 
-            if ($('#select-filter-item option[type="provider"]').length == 0) {
+            if (!$('#select-filter-item option[type="provider"]').length) {
                 $('#select-filter-item optgroup[type="providers-group"]').remove();
             }
         }
@@ -1307,7 +1332,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         $('#select-filter-item').trigger('change');
 
         // Display the edit dialog if an appointment hash is provided.
-        if (GlobalVariables.editAppointment != null) {
+        if (GlobalVariables.editAppointment) {
             var $dialog = $('#manage-appointment');
             var appointment = GlobalVariables.editAppointment;
             BackendCalendarAppointmentsModal.resetAppointmentDialog();
@@ -1361,7 +1386,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             }
         });
 
-        if ($('#select-filter-item option').length == 0) {
+        if (!$('#select-filter-item option').length) {
             $('#calendar-actions button').prop('disabled', true);
         }
 

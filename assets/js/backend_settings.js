@@ -126,7 +126,7 @@ window.BackendSettings = window.BackendSettings || {};
         $('#password, #retype-password').val('');
         $('#calendar-view').val(GlobalVariables.settings.user.settings.calendar_view);
 
-        if (GlobalVariables.settings.user.settings.notifications == true) {
+        if (GlobalVariables.settings.user.settings.notifications === true) {
             $('#user-notifications').addClass('active');
         } else {
             $('#user-notifications').removeClass('active');
@@ -142,12 +142,12 @@ window.BackendSettings = window.BackendSettings || {};
         }
 
         // Apply Privileges
-        if (GlobalVariables.user.privileges.system_settings.edit == false) {
+        if (GlobalVariables.user.privileges.system_settings.edit === false) {
             $('#general, #business-logic').find('select, input, textarea').prop('readonly', true);
             $('#general, #business-logic').find('button').prop('disabled', true);
         }
 
-        if (GlobalVariables.user.privileges.user_settings.edit == false) {
+        if (GlobalVariables.user.privileges.user_settings.edit === false) {
             $('#user').find('select, input, textarea').prop('readonly', true);
             $('#user').find('button').prop('disabled', true);
         }
@@ -214,27 +214,30 @@ window.BackendSettings = window.BackendSettings || {};
         $('#username').focusout(function () {
             var $input = $(this);
 
-            if ($input.prop('readonly') == true || $input.val() == '') {
+            if ($input.prop('readonly') === true || $input.val() === '') {
                 return;
             }
 
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
-            var postData = {
+            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
+
+            var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 username: $input.val(),
                 user_id: $input.parents().eq(2).find('#user-id').val()
             };
 
-            $.post(postUrl, postData, function (response) {
-                if (response == false) {
-                    $input.closest('.form-group').addClass('has-error');
-                    Backend.displayNotification(EALang.username_already_exists);
-                    $input.attr('already-exists', 'true');
-                } else {
-                    $input.closest('.form-group').removeClass('has-error');
-                    $input.attr('already-exists', 'false');
-                }
-            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            $.post(url, data)
+                .done(function (response) {
+                    if (response === 'false') {
+                        $input.closest('.form-group').addClass('has-error');
+                        Backend.displayNotification(EALang.username_already_exists);
+                        $input.attr('already-exists', 'true');
+                    } else {
+                        $input.closest('.form-group').removeClass('has-error');
+                        $input.attr('already-exists', 'false');
+                    }
+                })
+                .fail(GeneralFunctions.ajaxFailureHandler);
         });
 
         /**
@@ -245,16 +248,17 @@ window.BackendSettings = window.BackendSettings || {};
                 {
                     text: 'OK',
                     click: function() {
-                        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_apply_global_working_plan';
+                        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_apply_global_working_plan';
 
-                        var postData = {
+                        var data = {
                             csrfToken: GlobalVariables.csrfToken,
-                            working_plan: JSON.stringify(exports.wp.get()),
+                            working_plan: JSON.stringify(exports.wp.get())
                         };
 
-                        $.post(postUrl, postData, function (response) {
-                            Backend.displayNotification(EALang.working_plans_got_updated);
-                        }, 'json')
+                        $.post(url, data)
+                            .done(function () {
+                                Backend.displayNotification(EALang.working_plans_got_updated);
+                            })
                             .fail(GeneralFunctions.ajaxFailureHandler)
                             .always(function() {
                                 $('#message_box').dialog('close');

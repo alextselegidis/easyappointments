@@ -66,7 +66,7 @@
             var customerId = $(this).attr('data-id');
             var customer = {};
             $.each(instance.filterResults, function (index, item) {
-                if (item.id == customerId) {
+                if (Number(item.id) === Number(customerId)) {
                     customer = item;
                     return false;
                 }
@@ -91,11 +91,11 @@
             var appointmentId = $(this).attr('data-id');
             var appointment = {};
 
-            $.each(instance.filterResults, function (index, c) {
-                if (c.id === customerId) {
-                    $.each(c.appointments, function (index, a) {
-                        if (a.id == appointmentId) {
-                            appointment = a;
+            $.each(instance.filterResults, function (index, customer) {
+                if (customer.id === customerId) {
+                    $.each(customer.appointments, function (index, customerAppointment) {
+                        if (Number(customerAppointment.id) === Number(appointmentId)) {
+                            appointment = customerAppointment;
                             return false;
                         }
                     });
@@ -137,7 +137,7 @@
         $('#cancel-customer').click(function () {
             var id = $('#customer-id').val();
             instance.resetForm();
-            if (id != '') {
+            if (id) {
                 instance.select(id, true);
             }
         });
@@ -158,7 +158,7 @@
                 timezone: $('#timezone').val()
             };
 
-            if ($('#customer-id').val() != '') {
+            if ($('#customer-id').val()) {
                 customer.id = $('#customer-id').val();
             }
 
@@ -201,18 +201,21 @@
      * @param {Object} customer Contains the customer data.
      */
     CustomersHelper.prototype.save = function (customer) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             customer: JSON.stringify(customer)
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.customer_saved);
-            this.resetForm();
-            $('#filter-customers .key').val('');
-            this.filter('', response.id, true);
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.customer_saved);
+                this.resetForm();
+                $('#filter-customers .key').val('');
+                this.filter('', response.id, true);
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -221,17 +224,20 @@
      * @param {Number} id Record id to be deleted.
      */
     CustomersHelper.prototype.delete = function (id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             customer_id: id
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.customer_deleted);
-            this.resetForm();
-            this.filter($('#filter-customers .key').val());
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.customer_deleted);
+                this.resetForm();
+                this.filter($('#filter-customers .key').val());
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -248,27 +254,27 @@
             var missingRequired = false;
 
             $('.required').each(function () {
-                if ($(this).val() == '') {
+                if ($(this).val() === '') {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').closest('.form-group').addClass('has-error');
-                throw EALang.invalid_email;
+                throw new Error(EALang.invalid_email);
             }
 
             return true;
-        } catch (message) {
+        } catch (error) {
             $('#form-message')
                 .addClass('alert-danger')
-                .text(message)
+                .text(error.message)
                 .show();
             return false;
         }
@@ -347,42 +353,45 @@
     CustomersHelper.prototype.filter = function (key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };
 
-        $.post(postUrl, postData, function (response) {
-            this.filterResults = response;
+        $.post(url, data)
+            .done(function (response) {
+                this.filterResults = response;
 
-            $('#filter-customers .results').html('');
-            $.each(response, function (index, customer) {
-                var html = this.getFilterHtml(customer);
-                $('#filter-customers .results').append(html);
-            }.bind(this));
+                $('#filter-customers .results').html('');
+                $.each(response, function (index, customer) {
+                    var html = this.getFilterHtml(customer);
+                    $('#filter-customers .results').append(html);
+                }.bind(this));
 
-            if (response.length == 0) {
-                $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
-            } else if (response.length === this.filterLimit) {
-                $('<button/>', {
-                    'type': 'button',
-                    'class': 'well btn-block load-more text-center',
-                    'text': EALang.load_more,
-                    'click': function () {
-                        this.filterLimit += 20;
-                        this.filter(key, selectId, display);
-                    }.bind(this)
-                })
-                    .appendTo('#filter-customers .results');
-            }
+                if (!response.length) {
+                    $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
+                } else if (response.length === this.filterLimit) {
+                    $('<button/>', {
+                        'type': 'button',
+                        'class': 'well btn-block load-more text-center',
+                        'text': EALang.load_more,
+                        'click': function () {
+                            this.filterLimit += 20;
+                            this.filter(key, selectId, display);
+                        }.bind(this)
+                    })
+                        .appendTo('#filter-customers .results');
+                }
 
-            if (selectId != undefined) {
-                this.select(selectId, display);
-            }
+                if (selectId) {
+                    this.select(selectId, display);
+                }
 
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -395,8 +404,7 @@
     CustomersHelper.prototype.getFilterHtml = function (customer) {
         var name = customer.first_name + ' ' + customer.last_name;
         var info = customer.email;
-        info = (customer.phone_number != '' && customer.phone_number != null)
-            ? info + ', ' + customer.phone_number : info;
+        info = customer.phone_number ? info + ', ' + customer.phone_number : info;
 
         var html =
             '<div class="entry" data-id="' + customer.id + '">' +
@@ -424,7 +432,7 @@
         $('#filter-customers .selected').removeClass('selected');
 
         $('#filter-customers .entry').each(function () {
-            if ($(this).attr('data-id') == id) {
+            if (Number($(this).attr('data-id')) === Number(id)) {
                 $(this).addClass('selected');
                 return false;
             }
@@ -432,7 +440,7 @@
 
         if (display) {
             $.each(this.filterResults, function (index, customer) {
-                if (customer.id == id) {
+                if (Number(customer.id) === Number(id)) {
                     this.display(customer);
                     $('#edit-customer, #delete-customer').prop('disabled', false);
                     return false;

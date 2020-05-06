@@ -31,15 +31,15 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
     exports.displayMessageBox = function (title, message, buttons) {
-        if (title === undefined || title === '') {
+        if (!title) {
             title = '- No Title Provided -';
         }
 
-        if (message === undefined || message === '') {
+        if (!message) {
             message = '- No Message Provided -';
         }
 
-        if (buttons === undefined) {
+        if (!buttons) {
             buttons = [
                 {
                     text: EALang.close,
@@ -170,19 +170,22 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      */
     exports.clone = function (originalObject) {
         // Handle the 3 simple types, and null or undefined
-        if (null == originalObject || 'object' != typeof originalObject)
+        if (!originalObject || typeof originalObject !== 'object') {
             return originalObject;
+        }
+
+        var copy;
 
         // Handle Date
         if (originalObject instanceof Date) {
-            var copy = new Date();
+            copy = new Date();
             copy.setTime(originalObject.getTime());
             return copy;
         }
 
         // Handle Array
         if (originalObject instanceof Array) {
-            var copy = [];
+            copy = [];
             for (var i = 0, len = originalObject.length; i < len; i++) {
                 copy[i] = GeneralFunctions.clone(originalObject[i]);
             }
@@ -191,7 +194,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         // Handle Object
         if (originalObject instanceof Object) {
-            var copy = {};
+            copy = {};
             for (var attr in originalObject) {
                 if (originalObject.hasOwnProperty(attr))
                     copy[attr] = GeneralFunctions.clone(originalObject[attr]);
@@ -309,10 +312,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         $(document).on('click', 'li.language', function () {
             // Change language with ajax call and refresh page.
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+
             var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 language: $(this).attr('data-language')
             };
+
             $.post(url, data)
                 done(function () {
                     document.location.reload(true);

@@ -203,7 +203,7 @@
         $('#providers').on('click', '#cancel-provider', function () {
             var id = $('#filter-providers .selected').attr('data-id');
             this.resetForm();
-            if (id != '') {
+            if (id) {
                 this.select(id, true);
             }
         }.bind(this));
@@ -298,44 +298,44 @@
             // Validate required fields.
             var missingRequired = false;
             $('#providers .required').each(function () {
-                if ($(this).val() == '' || $(this).val() == undefined) {
+                if (!$(this).val()) {
                     $(this).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             // Validate passwords.
-            if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
+            if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
                 $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
-                throw EALang.passwords_mismatch;
+                throw new Error(EALang.passwords_mismatch);
             }
 
             if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#provider-password').val() != '') {
+                && $('#provider-password').val() !== '') {
                 $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
-                throw EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
+                throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
                 $('#provider-email').closest('.form-group').addClass('has-error');
-                throw EALang.invalid_email;
+                throw new Error(EALang.invalid_email);
             }
 
             // Check if username exists
-            if ($('#provider-username').attr('already-exists') == 'true') {
+            if ($('#provider-username').attr('already-exists') === 'true') {
                 $('#provider-username').closest('.form-group').addClass('has-error');
-                throw EALang.username_already_exists;
+                throw new Error(EALang.username_already_exists);
             }
 
             return true;
-        } catch (message) {
+        } catch (error) {
             $('#providers .form-message')
                 .addClass('alert-danger')
-                .text(message)
+                .text(error.message)
                 .show();
             return false;
         }
@@ -395,7 +395,7 @@
 
         $('#provider-username').val(provider.settings.username);
         $('#provider-calendar-view').val(provider.settings.calendar_view);
-        if (provider.settings.notifications == true) {
+        if (provider.settings.notifications === '1') {
             $('#provider-notifications').addClass('active');
         } else {
             $('#provider-notifications').removeClass('active');
@@ -414,7 +414,7 @@
         $('#provider-services input:checkbox').prop('checked', false);
         $.each(provider.services, function (index, serviceId) {
             $('#provider-services input:checkbox').each(function () {
-                if ($(this).attr('data-id') == serviceId) {
+                if (Number($(this).attr('data-id')) === Number(serviceId)) {
                     $(this).prop('checked', true);
                     // Add dedicated service-provider link.
                     dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
@@ -446,41 +446,43 @@
     ProvidersHelper.prototype.filter = function (key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };
 
-        $.post(postUrl, postData, function (response) {
-            this.filterResults = response;
+        $.post(url, data)
+            .done(function (response) {
+                this.filterResults = response;
 
-            $('#filter-providers .results').html('');
-            $.each(response, function (index, provider) {
-                var html = this.getFilterHtml(provider);
-                $('#filter-providers .results').append(html);
-            }.bind(this));
+                $('#filter-providers .results').html('');
+                $.each(response, function (index, provider) {
+                    var html = this.getFilterHtml(provider);
+                    $('#filter-providers .results').append(html);
+                }.bind(this));
 
-            if (response.length == 0) {
-                $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
-            } else if (response.length === this.filterLimit) {
-                $('<button/>', {
-                    'type': 'button',
-                    'class': 'well btn-block load-more text-center',
-                    'text': EALang.load_more,
-                    'click': function () {
-                        this.filterLimit += 20;
-                        this.filter(key, selectId, display);
-                    }.bind(this)
-                })
-                    .appendTo('#filter-providers .results');
-            }
+                if (!response.length) {
+                    $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
+                } else if (response.length === this.filterLimit) {
+                    $('<button/>', {
+                        'type': 'button',
+                        'class': 'well btn-block load-more text-center',
+                        'text': EALang.load_more,
+                        'click': function () {
+                            this.filterLimit += 20;
+                            this.filter(key, selectId, display);
+                        }.bind(this)
+                    })
+                        .appendTo('#filter-providers .results');
+                }
 
-            if (selectId != undefined) {
-                this.select(selectId, display);
-            }
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                if (selectId) {
+                    this.select(selectId, display);
+                }
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -494,11 +496,9 @@
         var name = provider.first_name + ' ' + provider.last_name,
             info = provider.email;
 
-        info = (provider.mobile_number != '' && provider.mobile_number != null)
-            ? info + ', ' + provider.mobile_number : info;
+        info = provider.mobile_number ? info + ', ' + provider.mobile_number : info;
 
-        info = (provider.phone_number != '' && provider.phone_number != null)
-            ? info + ', ' + provider.phone_number : info;
+        info = provider.phone_number ? info + ', ' + provider.phone_number : info;
 
         var html =
             '<div class="provider-row entry" data-id="' + provider.id + '">' +
@@ -587,7 +587,7 @@
 
         // Select record in filter results.
         $('#filter-providers .provider-row').each(function () {
-            if ($(this).attr('data-id') == id) {
+            if (Number($(this).attr('data-id')) === Number(id)) {
                 $(this).addClass('selected');
                 return false;
             }
@@ -596,7 +596,7 @@
         // Display record in form (if display = true).
         if (display) {
             $.each(this.filterResults, function (index, provider) {
-                if (provider.id == id) {
+                if (Number(provider.id) === Number(id)) {
                     this.display(provider);
                     $('#edit-provider, #delete-provider').prop('disabled', false);
                     return false;
