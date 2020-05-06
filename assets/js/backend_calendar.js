@@ -25,7 +25,7 @@ window.BackendCalendar = window.BackendCalendar || {};
     /**
      * Bind common event handlers.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         var $calendarPage = $('#calendar-page');
 
         $calendarPage.on('click', '#toggle-fullscreen', function () {
@@ -87,7 +87,7 @@ window.BackendCalendar = window.BackendCalendar || {};
         BackendCalendarUnavailabilitiesModal.initialize();
         BackendCalendarExtraPeriodsModal.initialize();
 
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendar);

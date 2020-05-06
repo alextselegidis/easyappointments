@@ -35,10 +35,10 @@ window.BackendServices = window.BackendServices || {};
     /**
      * Default initialize method of the page.
      *
-     * @param {Boolean} bindEventHandlers Optional (true), determines whether to bind the  default event handlers.
+     * @param {Boolean} [defaultEventHandlers] Optional (true), determines whether to bind the  default event handlers.
      */
-    exports.initialize = function (bindEventHandlers) {
-        bindEventHandlers = bindEventHandlers || true;
+    exports.initialize = function (defaultEventHandlers) {
+        defaultEventHandlers = defaultEventHandlers || true;
 
         // Fill available service categories listbox.
         $.each(GlobalVariables.categories, function (index, category) {
@@ -52,8 +52,8 @@ window.BackendServices = window.BackendServices || {};
         helper.resetForm();
         helper.filter('');
 
-        if (bindEventHandlers) {
-            _bindEventHandlers();
+        if (defaultEventHandlers) {
+            bindEventHandlers();
         }
     };
 
@@ -62,7 +62,7 @@ window.BackendServices = window.BackendServices || {};
      *
      * Do not use this method if you include the "BackendServices" namespace on another page.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Page Tab Button "Click"
          *

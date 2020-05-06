@@ -255,16 +255,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             .done(function (response) {
                 unavailableDatesBackup = response;
                 selectedDateStringBackup = selectedDateString;
-                _applyUnavailableDates(response, selectedDateString, true);
+                applyUnavailableDates(response, selectedDateString, true);
             })
             .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     exports.applyPreviousUnavailableDates = function () {
-        _applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
+        applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
     };
 
-    function _applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
+    function applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
         setDate = setDate || false;
 
         processingUnavailabilities = true;

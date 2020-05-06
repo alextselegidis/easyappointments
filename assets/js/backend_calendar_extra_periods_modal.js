@@ -22,7 +22,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
 
     'use strict';
 
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Manage extra Dialog Save Button "Click"
          *
@@ -226,7 +226,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             extraProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }
 
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarExtraPeriodsModal);

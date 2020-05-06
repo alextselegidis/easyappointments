@@ -22,7 +22,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
     'use strict';
 
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Manage Unavailable Dialog Save Button "Click"
          *
@@ -230,7 +230,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             $unavailabilityProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }
 
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarUnavailabilitiesModal);

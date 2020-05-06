@@ -31,7 +31,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
     /**
      * Bind event handlers for the calendar view.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         var $calendarPage = $('#calendar-page');
 
         /**
@@ -40,7 +40,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * When the user clicks the reload button an the calendar items need to be refreshed.
          */
         $('#reload-appointments').click(function () {
-            _refreshCalendarAppointments(
+            refreshCalendarAppointments(
                 $('#calendar'),
                 $('#select-filter-item').val(),
                 $('#select-filter-item').find('option:selected').attr('type'),
@@ -264,7 +264,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      *
      * @return {Number} Returns the calendar element height in pixels.
      */
-    function _getCalendarHeight() {
+    function getCalendarHeight() {
         var result = window.innerHeight - $('#footer').outerHeight() - $('#header').outerHeight()
             - $('#calendar-toolbar').outerHeight() - 60; // 60 for fine tuning
         return (result > 500) ? result : 500; // Minimum height is 500px
@@ -276,7 +276,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * When the user clicks on an appointment object on the calendar, then a data preview popover is display
      * above the calendar item.
      */
-    function _calendarEventClick(event, jsEvent, view) {
+    function calendarEventClick(event, jsEvent, view) {
         $('.popover').remove(); // Close all open popovers.
 
         var html;
@@ -427,7 +427,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      *
      * @see updateAppointmentData()
      */
-    function _calendarEventResize(event, delta, revertFunc, jsEvent, ui, view) {
+    function calendarEventResize(event, delta, revertFunc, jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
@@ -550,10 +550,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * The calendar element needs to be re-sized too in order to fit into the window. Nevertheless, if the window
      * becomes very small the the calendar won't shrink anymore.
      *
-     * @see _getCalendarHeight()
+     * @see getCalendarHeight()
      */
-    function _calendarWindowResize(view) {
-        $('#calendar').fullCalendar('option', 'height', _getCalendarHeight());
+    function calendarWindowResize(view) {
+        $('#calendar').fullCalendar('option', 'height', getCalendarHeight());
     }
 
     /**
@@ -562,7 +562,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * When the user clicks on a day square on the calendar, then he will automatically be transferred to that
      * day view calendar.
      */
-    function _calendarDayClick(date, jsEvent, view) {
+    function calendarDayClick(date, jsEvent, view) {
         if (!date.hasTime()) {
             $('#calendar').fullCalendar('changeView', 'agendaDay');
             $('#calendar').fullCalendar('gotoDate', date);
@@ -575,7 +575,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * This event handler is triggered whenever the user drags and drops an event into a different position
      * on the calendar. We need to update the database with this change. This is done via an ajax call.
      */
-    function _calendarEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
+    function calendarEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
         if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
@@ -710,12 +710,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * Whenever the calendar changes or refreshes its view certain actions need to be made, in order to
      * display proper information to the user.
      */
-    function _calendarViewRender() {
+    function calendarViewRender() {
         if ($('#select-filter-item').val() === null) {
             return;
         }
 
-        _refreshCalendarAppointments(
+        refreshCalendarAppointments(
             $('#calendar'),
             $('#select-filter-item').val(),
             $('#select-filter-item option:selected').attr('type'),
@@ -743,7 +743,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * not the $.html() method. So in order for the title to display the html properly we convert all the
      * .fc-event-titles where needed into html.
      */
-    function _convertTitlesToHtml() {
+    function convertTitlesToHtml() {
         // Convert the titles to html code.
         $('.fc-custom').each(function () {
             var title = $(this).find('.fc-event-title').text();
@@ -764,7 +764,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * @param {Date} startDate Visible start date of the calendar.
      * @param {Date} endDate Visible end date of the calendar.
      */
-    function _refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
+    function refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments';
 
         var data = {
@@ -1165,7 +1165,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         // Initialize page calendar
         $('#calendar').fullCalendar({
             defaultView: defaultView,
-            height: _getCalendarHeight(),
+            height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,
             snapDuration: '00:30:00',
@@ -1248,17 +1248,17 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             },
 
             // Calendar events need to be declared on initialization.
-            windowResize: _calendarWindowResize,
-            viewRender: _calendarViewRender,
-            dayClick: _calendarDayClick,
-            eventClick: _calendarEventClick,
-            eventResize: _calendarEventResize,
-            eventDrop: _calendarEventDrop,
-            eventAfterAllRender: _convertTitlesToHtml
+            windowResize: calendarWindowResize,
+            viewRender: calendarViewRender,
+            dayClick: calendarDayClick,
+            eventClick: calendarEventClick,
+            eventResize: calendarEventResize,
+            eventDrop: calendarEventDrop,
+            eventAfterAllRender: convertTitlesToHtml
         });
 
         // Trigger once to set the proper footer position after calendar initialization.
-        _calendarWindowResize();
+        calendarWindowResize();
 
         // Fill the select list boxes of the page.
         if (GlobalVariables.availableProviders.length > 0) {
@@ -1327,7 +1327,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }
 
         // Bind the default event handlers.
-        _bindEventHandlers();
+        bindEventHandlers();
 
         $('#select-filter-item').trigger('change');
 
@@ -1400,7 +1400,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         var $selectFilterItem = $('#select-filter-item');
 
         setInterval(function () {
-            _refreshCalendarAppointments(
+            refreshCalendarAppointments(
                 $calendar,
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),

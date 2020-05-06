@@ -22,7 +22,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
     'use strict';
 
-    function _updateTimezone() {
+    function updateTimezone() {
         var providerId = $('#select-provider').val();
 
         var provider  = GlobalVariables.availableProviders.filter(function(availableProvider) {
@@ -34,7 +34,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         }
     }
 
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Manage Appointments Dialog Cancel Button "Click"
          *
@@ -51,7 +51,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          */
         $('#manage-appointment #save-appointment').click(function () {
             // Before doing anything the appointment data need to be validated.
-            if (!_validateAppointmentForm()) {
+            if (!validateAppointmentForm()) {
                 return;
             }
 
@@ -321,7 +321,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * Event: Provider "Change"
          */
         $('#select-provider').change(function () {
-            _updateTimezone();
+            updateTimezone();
         });
 
         /**
@@ -488,7 +488,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
      *
      * @return {Boolean} Returns the validation result.
      */
-    function _validateAppointmentForm() {
+    function validateAppointmentForm() {
         var $dialog = $('#manage-appointment');
 
         // Reset previous validation css formatting.
@@ -532,7 +532,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     }
 
     exports.initialize = function () {
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarAppointmentsModal);

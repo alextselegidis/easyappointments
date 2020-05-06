@@ -136,7 +136,7 @@ window.BackendSettings = window.BackendSettings || {};
         settings = new SystemSettings();
 
         if (bindEventHandlers) {
-            _bindEventHandlers();
+            bindEventHandlers();
             var $link = $('#settings-page .nav li').not('.hidden').first().find('a');
             $link.tab('show');
         }
@@ -160,7 +160,7 @@ window.BackendSettings = window.BackendSettings || {};
      *
      * This method depends on the backend/settings html, so do not use this method on a different page.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         exports.wp.bindEventHandlers();
 
         /**

@@ -25,7 +25,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
     /**
      * Bind event handlers.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Enable - Disable Synchronization Button "Click"
          *
@@ -97,7 +97,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                         provider.settings.google_sync = '0';
                         provider.settings.google_token = null;
 
-                        _disableProviderSync(provider.id);
+                        disableProviderSync(provider.id);
 
                         $('#enable-sync').removeClass('btn-danger enabled');
                         $('#enable-sync span:eq(1)').text(EALang.enable_sync);
@@ -166,7 +166,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
      *
      * @param {Number} providerId The selected provider record ID.
      */
-    function _disableProviderSync(providerId) {
+    function disableProviderSync(providerId) {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
@@ -182,7 +182,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
 
 
     exports.initialize = function () {
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarGoogleSync);

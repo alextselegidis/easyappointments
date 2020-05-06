@@ -102,7 +102,7 @@ window.BackendUsers = window.BackendUsers || {};
 
         // Bind event handlers.
         if (defaultEventHandlers) {
-            _bindEventHandlers();
+            bindEventHandlers();
         }
     };
 
@@ -110,7 +110,7 @@ window.BackendUsers = window.BackendUsers || {};
      * Binds the default backend users event handlers. Do not use this method on a different
      * page because it needs the backend users page DOM.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Page Tab Button "Click"
          *

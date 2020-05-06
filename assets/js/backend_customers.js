@@ -47,14 +47,14 @@ window.BackendCustomers = window.BackendCustomers || {};
         helper.filter('');
 
         if (defaultEventHandlers) {
-            _bindEventHandlers();
+            bindEventHandlers();
         }
     };
 
     /**
      * Default event handlers declaration for backend customers page.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         helper.bindEventHandlers();
     }
 

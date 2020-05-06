@@ -53,8 +53,8 @@ window.FrontendBook = window.FrontendBook || {};
      * @param {Boolean} manageMode (OPTIONAL) Determines whether the customer is going
      * to make  changes to an existing appointment rather than booking a new one.
      */
-    exports.initialize = function (bindEventHandlers, manageMode) {
-        bindEventHandlers = bindEventHandlers || true;
+    exports.initialize = function (defaultEventHandlers, manageMode) {
+        defaultEventHandlers = defaultEventHandlers || true;
         manageMode = manageMode || false;
 
         if (window.console) {
@@ -147,13 +147,13 @@ window.FrontendBook = window.FrontendBook || {};
         $('#select-timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
         // Bind the event handlers (might not be necessary every time we use this class).
-        if (bindEventHandlers) {
-            _bindEventHandlers();
+        if (defaultEventHandlers) {
+            bindEventHandlers();
         }
 
         // If the manage mode is true, the appointments data should be loaded by default.
         if (FrontendBook.manageMode) {
-            _applyAppointmentData(GlobalVariables.appointmentData,
+            applyAppointmentData(GlobalVariables.appointmentData,
                 GlobalVariables.providerData, GlobalVariables.customerData);
         } else {
             var $selectProvider = $('#select-provider');
@@ -196,7 +196,7 @@ window.FrontendBook = window.FrontendBook || {};
     /**
      * This method binds the necessary event handlers for the book appointments page.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Timezone "Changed"
          */
@@ -253,7 +253,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
-            _updateServiceDescription($('#select-service').val(), $('#service-description'));
+            updateServiceDescription($('#select-service').val(), $('#service-description'));
         });
 
         /**
@@ -286,7 +286,7 @@ window.FrontendBook = window.FrontendBook || {};
             // If we are on the 3rd tab then we will need to validate the user's
             // input before proceeding to the next step.
             if ($(this).attr('data-step_index') === '3') {
-                if (!_validateCustomerForm()) {
+                if (!validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
                     FrontendBook.updateConfirmFrame();
@@ -457,7 +457,7 @@ window.FrontendBook = window.FrontendBook || {};
      *
      * @return {Boolean} Returns the validation result.
      */
-    function _validateCustomerForm() {
+    function validateCustomerForm() {
         $('#wizard-frame-3 .has-error').removeClass('has-error');
         $('#wizard-frame-3 label.text-danger').removeClass('text-danger');
 
@@ -583,7 +583,7 @@ window.FrontendBook = window.FrontendBook || {};
         data.appointment = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
             + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm') + ':00',
-            end_datetime: _calcEndDatetime(),
+            end_datetime: calculateEndDatetime(),
             notes: $('#notes').val(),
             is_unavailable: false,
             id_users_provider: $('#select-provider').val(),
@@ -606,7 +606,7 @@ window.FrontendBook = window.FrontendBook || {};
      *
      * @return {String} Returns the end datetime in string format.
      */
-    function _calcEndDatetime() {
+    function calculateEndDatetime() {
         // Find selected service duration.
         var serviceId = $('#select-service').val();
         var serviceDuration;
@@ -643,7 +643,7 @@ window.FrontendBook = window.FrontendBook || {};
      *
      * @return {Boolean} Returns the operation result.
      */
-    function _applyAppointmentData(appointment, provider, customer) {
+    function applyAppointmentData(appointment, provider, customer) {
         try {
             // Select Service & Provider
             $('#select-service').val(appointment.id_services).trigger('change');
@@ -683,7 +683,7 @@ window.FrontendBook = window.FrontendBook || {};
      * @param {Object} $div The destination div jquery object (e.g. provide $('#div-id')
      * object as value).
      */
-    function _updateServiceDescription(serviceId, $div) {
+    function updateServiceDescription(serviceId, $div) {
         var html = '';
 
         $.each(GlobalVariables.availableServices, function (index, service) {
