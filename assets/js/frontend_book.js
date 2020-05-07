@@ -721,9 +721,9 @@ window.FrontendBook = window.FrontendBook || {};
 
         $serviceDescription.empty();
 
-        var service = GlobalVariables.availableServices.filter(function(availableService) {
+        var service = GlobalVariables.availableServices.find(function(availableService) {
             return Number(availableService.id) === Number(serviceId);
-        }).shift();
+        });
 
         if (!service) {
             return;

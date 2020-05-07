@@ -43,9 +43,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // Default value of duration (in minutes).
         var serviceDuration = 15;
 
-        var service = GlobalVariables.availableServices.filter(function(availableService) {
+        var service = GlobalVariables.availableServices.find(function(availableService) {
             return Number(availableService.id) === Number(serviceId);
-        }).shift();
+        });
 
         if (service) {
             serviceDuration = service.duration;
@@ -78,9 +78,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         providerId = GlobalVariables.availableProviders[0].id; // Use first available provider.
                     }
 
-                    var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
+                    var provider = GlobalVariables.availableProviders.find(function(availableProvider) {
                         return Number(providerId) === Number(availableProvider.id);
-                    }).shift();
+                    });
 
                     if (!provider) {
                         throw new Error('Could not find provider.');

@@ -234,9 +234,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 var providerId = $('#select-filter-item').val();
 
-                var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
+                var provider = GlobalVariables.availableProviders.find(function(availableProvider) {
                     return Number(availableProvider.id) === Number(providerId);
-                }).shift();
+                });
 
                 if (provider && provider.timezone) {
                     $('.provider-timezone').text(GlobalVariables.timezones[provider.timezone]);

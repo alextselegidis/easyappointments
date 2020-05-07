@@ -25,9 +25,9 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     function updateTimezone() {
         var providerId = $('#select-provider').val();
 
-        var provider  = GlobalVariables.availableProviders.filter(function(availableProvider) {
+        var provider  = GlobalVariables.availableProviders.find(function(availableProvider) {
             return Number(availableProvider.id) === Number(providerId);
-        }).shift();
+        });
 
         if (provider && provider.timezone) {
             $('.provider-timezone').text(GlobalVariables.timezones[provider.timezone]);
@@ -145,12 +145,10 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     + $('#select-filter-item').val() + '"]').prop('selected', true);
             }
 
-            var serviceDuration = 0;
-            $.each(GlobalVariables.availableServices, function (index, service) {
-                if (Number(service.id) === Number($dialog.find('#select-service').val())) {
-                    serviceDuration = service.duration;
-                    return false; // exit loop
-                }
+            var serviceId = $dialog.find('#select-service').val();
+
+            var service = GlobalVariables.availableServices.find(function(availableService) {
+                return Number(availableService.id) === Number(serviceId);
             });
 
             var start = new Date();
@@ -167,7 +165,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             }
 
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration),
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(service.duration),
                 GlobalVariables.dateFormat, true));
 
             // Display modal form.
@@ -205,24 +203,25 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * Event: Select Existing Customer From List "Click"
          */
         $('#manage-appointment').on('click', '#existing-customers-list div', function () {
-            var id = $(this).attr('data-id');
+            var customerId = $(this).attr('data-id');
 
-            $.each(GlobalVariables.customers, function (index, customer) {
-                if (Number(customer.id) === Number(id)) {
-                    $('#customer-id').val(customer.id);
-                    $('#first-name').val(customer.first_name);
-                    $('#last-name').val(customer.last_name);
-                    $('#email').val(customer.email);
-                    $('#phone-number').val(customer.phone_number);
-                    $('#address').val(customer.address);
-                    $('#city').val(customer.city);
-                    $('#zip-code').val(customer.zip_code);
-                    $('#customer-notes').val(customer.notes);
-                    return false;
-                }
+            var customer = GlobalVariables.customers.find(function (customer) {
+                return Number(customer.id) === Number(customerId);
             });
 
-            $('#select-customer').trigger('click'); // hide list
+            if (customer) {
+                $('#customer-id').val(customer.id);
+                $('#first-name').val(customer.first_name);
+                $('#last-name').val(customer.last_name);
+                $('#email').val(customer.email);
+                $('#phone-number').val(customer.phone_number);
+                $('#address').val(customer.address);
+                $('#city').val(customer.city);
+                $('#zip-code').val(customer.zip_code);
+                $('#customer-notes').val(customer.notes);
+            }
+
+            $('#select-customer').trigger('click'); // Hide the list.
         });
 
         /**
