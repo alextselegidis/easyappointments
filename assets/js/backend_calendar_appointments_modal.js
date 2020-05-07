@@ -187,9 +187,12 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
                 $('#filter-existing-customers').val('');
-                $.each(GlobalVariables.customers, function (index, c) {
-                    $list.append('<div data-id="' + c.id + '">'
-                        + c.first_name + ' ' + c.last_name + '</div>');
+                GlobalVariables.customers.forEach(function (customer) {
+                    $('<div/>', {
+                        'data-id': customer.id,
+                        'text': customer.first_name + ' ' + customer.last_name
+                    })
+                        .appendTo($list);
                 });
             } else {
                 $list.slideUp('slow');
@@ -241,9 +244,12 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 .done(function (response) {
                     $list.empty();
 
-                    response.forEach(function (customer, index) {
-                        $list.append('<div data-id="' + customer.id + '">'
-                            + customer.first_name + ' ' + customer.last_name + '</div>');
+                    response.forEach(function (customer) {
+                        $('<div/>', {
+                            'data-id': customer.id,
+                            'text': customer.first_name + ' ' + customer.last_name
+                        })
+                            .appendTo($list);
 
                         // Verify if this customer is on the old customer list.
                         var result =  GlobalVariables.customers.filter(function(globalVariablesCustomer) {
@@ -269,8 +275,11 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                             || customer.city.toLowerCase().indexOf(key) !== -1
                             || customer.zip_code.toLowerCase().indexOf(key) !== -1
                             || customer.notes.toLowerCase().indexOf(key) !== -1) {
-                            $list.append('<div data-id="' + customer.id + '">'
-                                + customer.first_name + ' ' + customer.last_name + '</div>');
+                            $('<div/>', {
+                                'data-id': customer.id,
+                                'text': customer.first_name + ' ' + customer.last_name
+                            })
+                                .appendTo($list);
                         }
                     });
                 });
@@ -308,10 +317,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
                     // If the current provider is able to provide the selected service, add him to the listbox.
                     if (Number(providerServiceId) === Number(serviceId)) {
-                        var optionHtml = '<option value="' + provider.id + '">'
-                            + provider.first_name + ' ' + provider.last_name
-                            + '</option>';
-                        $('#select-provider').append(optionHtml);
+                        $('#select-provider')
+                            .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                     }
                 });
             });

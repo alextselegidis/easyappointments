@@ -72,12 +72,21 @@
 
             // Add dedicated provider link.
             var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?service=' + encodeURIComponent(service.id);
-            var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+
+            var $link = $('<a/>', {
+                'href': dedicatedUrl,
+                'html': [
+                    $('<span/>', {
+                        'class': 'glyphicon glyphicon-link'
+                    })
+                ]
+            });
+
             $('#services .record-details h3')
                 .find('a')
                 .remove()
                 .end()
-                .append(linkHtml);
+                .append($link);
 
             instance.display(service);
             $('#filter-services .selected').removeClass('selected');
@@ -319,14 +328,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-services .results').html('');
+                $('#filter-services .results').empty();
                 $.each(response, function (index, service) {
-                    var html = ServicesHelper.prototype.getFilterHtml(service);
-                    $('#filter-services .results').append(html);
+                    $('#filter-services .results')
+                        .append(ServicesHelper.prototype.getFilterHtml(service))
+                        .append( $('<hr/>'))
                 });
 
                 if (response.length === 0) {
-                    $('#filter-services .results').html('<em>' + EALang.no_records_found + '</em>');
+                    $('#filter-services .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -357,14 +371,24 @@
      * @return {String} The HTML code that represents the record on the filter results list.
      */
     ServicesHelper.prototype.getFilterHtml = function (service) {
-        var html =
-            '<div class="service-row entry" data-id="' + service.id + '">' +
-            '<strong>' + service.name + '</strong><br>' +
-            service.duration + ' min - ' +
-            service.price + ' ' + service.currency + '<br>' +
-            '</div><hr>';
+        var name = service.name;
 
-        return html;
+        var info = service.duration + ' min - ' + service.price + ' ' + service.currency;
+
+        return $('<div/>', {
+            'class': 'service-row entry',
+            'data-id': service.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>')
+            ]
+        });
     };
 
     /**

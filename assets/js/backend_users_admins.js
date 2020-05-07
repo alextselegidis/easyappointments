@@ -361,14 +361,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-admins .results').html('');
+                $('#filter-admins .results').empty();
                 $.each(response, function (index, admin) {
-                    var html = this.getFilterHtml(admin);
-                    $('#filter-admins .results').append(html);
+                    $('#filter-admins .results')
+                        .append(this.getFilterHtml(admin))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (!response.length) {
-                    $('#filter-admins .results').html('<em>' + EALang.no_records_found + '</em>')
+                    $('#filter-admins .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -398,19 +403,27 @@
      */
     AdminsHelper.prototype.getFilterHtml = function (admin) {
         var name = admin.first_name + ' ' + admin.last_name;
+
         var info = admin.email;
 
         info = admin.mobile_number ? info + ', ' + admin.mobile_number : info;
 
         info = admin.phone_number ? info + ', ' + admin.phone_number : info;
 
-        var html =
-            '<div class="admin-row entry" data-id="' + admin.id + '">' +
-            '<strong>' + name + '</strong><br>' +
-            info + '<br>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'admin-row entry',
+            'data-id': admin.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**

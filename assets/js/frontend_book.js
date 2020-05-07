@@ -253,7 +253,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
-            updateServiceDescription($('#select-service').val(), $('#service-description'));
+            updateServiceDescription(serviceId);
         });
 
         /**
@@ -520,25 +520,43 @@ window.FrontendBook = window.FrontendBook || {};
         var servicePrice = '';
         var serviceCurrency = '';
 
-        $.each(GlobalVariables.availableServices, function (index, service) {
+        GlobalVariables.availableServices.forEach(function (service, index) {
 			if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
-                servicePrice = '<br>' + service.price;
+                servicePrice = service.price;
                 serviceCurrency = service.currency;
                 return false; // break loop
             }
         });
 
-        var html =
-            '<h4>' + $('#select-service option:selected').text() + '</h4>' +
-            '<p>'
-            + '<strong class="text-primary">'
-            + $('#select-provider option:selected').text() + '<br>'
-            + selectedDate + ' ' + $('.selected-hour').text() + '<br>' + $('#select-timezone option:selected').text()
-            + servicePrice + ' ' + serviceCurrency
-            + '</strong>' +
-            '</p>';
-
-        $('#appointment-details').html(html);
+        $('<div/>', {
+            'html': [
+                $('<h4/>', {
+                    'text': $('#select-service option:selected').text()
+                }),
+                $('<p/>', {
+                    'html': [
+                        $('<strong/>', {
+                            'class': 'text-primary',
+                            'html': [
+                                $('<span/>', {
+                                    'text': $('#select-provider option:selected').text()
+                                }),
+                                $('<br/>'),
+                                $('<span/>', {
+                                    'text': selectedDate + ' ' + $('.selected-hour').text()
+                                }),
+                                $('<br/>'),
+                                $('<span/>', {
+                                    'text': $('#select-timezone option:selected').text()
+                                        + servicePrice + ' ' + serviceCurrency
+                                })
+                            ]
+                        })
+                    ]
+                })
+            ]
+        })
+            .appendTo('#appointment-details');
 
         // Customer Details
         var firstName = GeneralFunctions.escapeHtml($('#first-name').val());
@@ -549,24 +567,41 @@ window.FrontendBook = window.FrontendBook || {};
         var city = GeneralFunctions.escapeHtml($('#city').val());
         var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
 
-        html =
-            '<h4>' + firstName + ' ' + lastName + '</h4>' +
-            '<p>' +
-            EALang.phone_number + ': ' + phoneNumber +
-            '<br/>' +
-            EALang.email + ': ' + email +
-            '<br/>' +
-            EALang.address + ': ' + address +
-            '<br/>' +
-            EALang.city + ': ' + city +
-            '<br/>' +
-            EALang.zip_code + ': ' + zipCode +
-            '</p>';
+        $('<div/>', {
+            'html': [
+                $('<h4/>)', {
+                    'text': firstName + ' ' + lastName
+                }),
+                $('<p/>', {
+                    'html': [
+                        $('<span/>', {
+                            'text': EALang.phone_number + ': ' + phoneNumber
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.email + ': ' + email
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.address + ': ' + address
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.city + ': ' + city
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.zip_code + ': ' + zipCode
+                        }),
+                        $('<br/>'),
+                    ]
+                })
+            ]
+        })
+            .appendTo('#customer-details');
 
-        $('#customer-details').html(html);
 
-        // Update appointment form data for submission to server when the user confirms
-        // the appointment.
+        // Update appointment form data for submission to server when the user confirms the appointment.
         var data = {};
 
         data.customer = {
@@ -680,41 +715,58 @@ window.FrontendBook = window.FrontendBook || {};
      * customers upon selecting the correct service.
      *
      * @param {Number} serviceId The selected service record id.
-     * @param {Object} $div The destination div jquery object (e.g. provide $('#div-id')
-     * object as value).
      */
-    function updateServiceDescription(serviceId, $div) {
-        var html = '';
+    function updateServiceDescription(serviceId) {
+        var $serviceDescription = $('#service-description');
 
-        $.each(GlobalVariables.availableServices, function (index, service) {
-            if (Number(service.id) === Number(serviceId)) {
-                html = '<strong>' + service.name + ' </strong>';
+        $serviceDescription.empty();
 
-                if (service.description) {
-                    html += '<br>' + service.description + '<br>';
-                }
+        var service = GlobalVariables.availableServices.filter(function(availableService) {
+            return Number(availableService.id) === Number(serviceId);
+        }).shift();
 
-                if (service.duration) {
-                    html += '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']';
-                }
+        if (!service) {
+            return;
+        }
 
-				if (Number(service.price) > 0) {
-                    html += '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']';
-                }
+        $('<strong/>', {
+            'text': service.name
+        })
+            .appendTo($serviceDescription);
 
-                if (service.location) {
-                    html += '[' + EALang.location + ' ' + service.location + ']';
-                }
+        if (service.description) {
+            $('<br/>')
+                .appendTo($serviceDescription);
 
-                html += '<br>';
+            $('<span/>', {
+                'text': service.description
+            })
+                .appendTo($serviceDescription);
 
-                return false;
-            }
-        });
+            $('<br/>')
+                .appendTo($serviceDescription);
+        }
 
-        $div
-            .html(html)
-            .toggle(html);
+        if (service.duration) {
+            $('<span/>', {
+                'text': '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']'
+            })
+                .appendTo($serviceDescription);
+        }
+
+        if (Number(service.price) > 0) {
+            $('<span/>', {
+                'text': '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']'
+            })
+                .appendTo($serviceDescription);
+        }
+
+        if (service.location) {
+            $('<span/>', {
+                'text': '[' + EALang.location + ' ' + service.location + ']'
+            })
+                .appendTo($serviceDescription);
+        }
     }
 
 })(window.FrontendBook);

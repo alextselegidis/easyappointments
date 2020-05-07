@@ -403,12 +403,21 @@
 
         // Add dedicated provider link.
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id);
-        var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+
+        var $link = $('<a/>', {
+            'href': dedicatedUrl,
+            'html': [
+                $('<span/>', {
+                    'class': 'glyphicon glyphicon-link'
+                })
+            ]
+        });
+
         $('#providers .details-view h3')
             .find('a')
             .remove()
             .end()
-            .append(linkHtml);
+            .append($link);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
@@ -419,8 +428,17 @@
                     // Add dedicated service-provider link.
                     dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
                         + '&service=' + encodeURIComponent(serviceId);
-                    linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
-                    $(this).parent().append(linkHtml);
+
+                    $link = $('<a/>', {
+                        'href': dedicatedUrl,
+                        'html': [
+                            $('<span/>', {
+                                'class': 'glyphicon glyphicon-link'
+                            })
+                        ]
+                    });
+
+                    $(this).parent().append($link);
                 }
             });
         });
@@ -457,14 +475,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-providers .results').html('');
+                $('#filter-providers .results').empty();
                 $.each(response, function (index, provider) {
-                    var html = this.getFilterHtml(provider);
-                    $('#filter-providers .results').append(html);
+                    $('#filter-providers .results')
+                        .append(this.getFilterHtml(provider))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (!response.length) {
-                    $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
+                    $('#filter-providers .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -493,20 +516,28 @@
      * @return {String} The html code that represents the record on the filter results list.
      */
     ProvidersHelper.prototype.getFilterHtml = function (provider) {
-        var name = provider.first_name + ' ' + provider.last_name,
-            info = provider.email;
+        var name = provider.first_name + ' ' + provider.last_name;
+
+        var info = provider.email;
 
         info = provider.mobile_number ? info + ', ' + provider.mobile_number : info;
 
         info = provider.phone_number ? info + ', ' + provider.phone_number : info;
 
-        var html =
-            '<div class="provider-row entry" data-id="' + provider.id + '">' +
-            '<strong>' + name + '</strong><br>' +
-            info + '<br>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'provider-row entry',
+            'data-id': provider.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**

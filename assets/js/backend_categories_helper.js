@@ -181,14 +181,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-categories .results').html('');
+                $('#filter-categories .results').empty();
                 $.each(response, function (index, category) {
-                    var html = this.getFilterHtml(category);
-                    $('#filter-categories .results').append(html);
+                    $('#filter-categories .results')
+                        .append(this.getFilterHtml(category))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (response.length === 0) {
-                    $('#filter-categories .results').html('<em>' + EALang.no_records_found + '</em>');
+                    $('#filter-categories .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -319,12 +324,16 @@
      * @return {String} Returns the record HTML code.
      */
     CategoriesHelper.prototype.getFilterHtml = function (category) {
-        var html =
-            '<div class="category-row entry" data-id="' + category.id + '">' +
-            '<strong>' + category.name + '</strong>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'category-row entry',
+            'data-id': category.id,
+            'html': [
+                $('<strong/>', {
+                    'text': category.name
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**

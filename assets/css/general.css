@@ -395,3 +395,11 @@ li.language:hover {
 #message_box pre {
     max-height: 250px;
 }
+
+body .popover-content strong {
+    min-width: 80px; display:inline-block;
+}
+
+body .popover-content button {
+    margin-right: 10px;
+}

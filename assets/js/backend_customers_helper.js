@@ -330,13 +330,24 @@
 
             var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
             var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
-            var html =
-                '<div class="appointment-row" data-id="' + appointment.id + '">' +
-                start + ' - ' + end + '<br>' +
-                appointment.service.name + ', ' +
-                appointment.provider.first_name + ' ' + appointment.provider.last_name +
-                '</div>';
-            $('#customer-appointments').append(html);
+
+            $('<div/>', {
+                'class': 'appointment-row',
+                'data-id': appointment.id,
+                'html': [
+                    $('<span/>', {
+                        'text': start + ' - ' + end
+                    }),
+                    $('<br/>'),
+                    $('<span/>', {
+                        'text': appointment.service.name
+                    }),
+                    $('<span/>', {
+                        'text': appointment.provider.first_name + ' ' + appointment.provider.last_name
+                    })
+                ]
+            })
+                .appendTo('#customer-appointments');
         });
 
         $('#appointment-details').empty();
@@ -365,14 +376,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-customers .results').html('');
+                $('#filter-customers .results').empty();
                 $.each(response, function (index, customer) {
-                    var html = this.getFilterHtml(customer);
-                    $('#filter-customers .results').append(html);
+                    $('#filter-customers .results')
+                        .append(this.getFilterHtml(customer))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (!response.length) {
-                    $('#filter-customers .results').html('<em>' + EALang.no_records_found + '</em>');
+                    $('#filter-customers .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -403,18 +419,25 @@
      */
     CustomersHelper.prototype.getFilterHtml = function (customer) {
         var name = customer.first_name + ' ' + customer.last_name;
+
         var info = customer.email;
+
         info = customer.phone_number ? info + ', ' + customer.phone_number : info;
 
-        var html =
-            '<div class="entry" data-id="' + customer.id + '">' +
-            '<strong>' +
-            name +
-            '</strong><br>' +
-            info +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'customer-row entry',
+            'data-id': customer.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -459,15 +482,29 @@
         var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
         var timezone = GlobalVariables.timezones[GlobalVariables.user.timezone];
 
-        var html =
-            '<div>' +
-            '<strong>' + appointment.service.name + '</strong><br>' +
-            appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
-            start + ' - ' + end + '<br>' +
-            EALang.timezone + ': ' + timezone + '<br>' +
-            '</div>';
+        $('<div/>', {
+            'html': [
+                $('<strong/>', {
+                    'text': appointment.service.name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': appointment.provider.first_name + ' ' + appointment.provider.last_name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': appointment.provider.first_name + ' ' + appointment.provider.last_name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': EALang.timezone + ': ' + timezone
+                }),
+                $('<br/>')
+            ]
+        })
+            .appendTo('#appointment-details');
 
-        $('#appointment-details').html(html).removeClass('hidden');
+        $('#appointment-details').removeClass('hidden');
     };
 
     window.CustomersHelper = CustomersHelper;

@@ -203,7 +203,7 @@
     /**
      * Save secretary record to database.
      *
-     * @param {Object} secretary Contains the admin record data. If an 'id' value is provided
+     * @param {Object} secretary Contains the secretary record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
     SecretariesHelper.prototype.save = function (secretary) {
@@ -304,7 +304,7 @@
     };
 
     /**
-     * Resets the admin tab form back to its initial state.
+     * Resets the secretary tab form back to its initial state.
      */
     SecretariesHelper.prototype.resetForm = function () {
         $('#secretaries .record-details').find('input, textarea').val('');
@@ -326,7 +326,7 @@
     };
 
     /**
-     * Display a secretary record into the admin form.
+     * Display a secretary record into the secretary form.
      *
      * @param {Object} secretary Contains the secretary record data.
      */
@@ -385,14 +385,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-secretaries .results').html('');
+                $('#filter-secretaries .results').empty();
                 $.each(response, function (index, secretary) {
-                    var html = this.getFilterHtml(secretary);
-                    $('#filter-secretaries .results').append(html);
+                    $('#filter-secretaries .results')
+                        .append(this.getFilterHtml(secretary))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (!response.length) {
-                    $('#filter-secretaries .results').html('<em>' + EALang.no_records_found + '</em>')
+                    $('#filter-secretaries .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -422,19 +427,27 @@
      */
     SecretariesHelper.prototype.getFilterHtml = function (secretary) {
         var name = secretary.first_name + ' ' + secretary.last_name;
+
         var info = secretary.email;
 
         info = secretary.mobile_number ? info + ', ' + secretary.mobile_number : info;
 
         info = secretary.phone_number ? info + ', ' + secretary.phone_number : info;
 
-        var html =
-            '<div class="secretary-row entry" data-id="' + secretary.id + '">' +
-            '<strong>' + name + '</strong><br>' +
-            info + '<br>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'secretary-row entry',
+            'data-id': secretary.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -457,9 +470,9 @@
         });
 
         if (display) {
-            $.each(this.filterResults, function (index, admin) {
-                if (Number(admin.id) === Number(id)) {
-                    this.display(admin);
+            $.each(this.filterResults, function (index, secretary) {
+                if (Number(secretary.id) === Number(id)) {
+                    this.display(secretary);
                     $('#edit-secretary, #delete-secretary').prop('disabled', false);
                     return false;
                 }

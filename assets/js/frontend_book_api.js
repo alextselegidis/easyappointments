@@ -90,24 +90,43 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                     var selectedTimezone = $('#select-timezone').val();
 
-                    var currColumn = 1;
+                    var currentColumn = 1;
 
-                    $('#available-hours').html('<div style="width:80px; float:left;"></div>');
+                    $('#available-hours').html(
+                        $('<div/>', {
+                            'css': {
+                                'width': '80px',
+                                'float': 'left'
+                            }
+                        })
+                    );
 
                     var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
                     response.forEach(function (availableHour, index) {
-                        if ((currColumn * 10) < (index + 1)) {
-                            currColumn++;
-                            $('#available-hours').append('<div style="width:80px; float:left;"></div>');
+                        if ((currentColumn * 10) < (index + 1)) {
+                            currentColumn++;
+                            $('#available-hours').append(
+                                $('<div/>', {
+                                    'css': {
+                                        'width': '80px',
+                                        'float': 'left'
+                                    }
+                                })
+                            );
                         }
 
                         var availableHourMoment = moment
                             .tz(selDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
 
-                        $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                            '<span class="available-hour">' + availableHourMoment.format(timeFormat) + '</span><br/>');
+                        $('#available-hours div:eq(' + (currentColumn - 1) + ')').append(
+                            $('<span/>', {
+                                'class': 'available-hour',
+                                'text': availableHourMoment.format(timeFormat)
+                            }),
+                            $('<br/>')
+                        );
                     });
 
                     if (FrontendBook.manageMode) {
