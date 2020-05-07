@@ -104,7 +104,7 @@
             <?php endif ?>
 
             <?php if($calendar_view === 'table'): ?>
-                <a class="btn btn-default" href="<?= site_url('backend') ?>"
+                <a class="btn btn-default" href="<?= site_url('backend?view=default') ?>"
                    title="<?= lang('default') ?>">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </a>
