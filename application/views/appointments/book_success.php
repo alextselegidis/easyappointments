@@ -81,6 +81,7 @@
     </script>
 
     <script src="<?= asset_url('assets/js/frontend_book_success.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 
     <?php google_analytics_script() ?>
