@@ -298,7 +298,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             var notes = '';
             if (event.data) { // Only custom unavailable periods have notes.
-                notes = '<strong>Notes</strong> ' + event.data.notes;
+                notes = '<strong>' + EALang.notes + '</strong> ' + event.data.notes;
             }
 
             html =
@@ -358,6 +358,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide';
 
+            var notes = ''
+            if (event.data.notes) {
+                notes += '<br>';
+                notes += '<strong>' + EALang.notes + '</strong> ' + event.data.notes;
+            }
+
             html =
                 '<style type="text/css">'
                 + '.popover-content strong {min-width: 80px; display:inline-block;}'
@@ -392,6 +398,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 '<strong>' + EALang.phone_number + '</strong> '
                 + GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number) + ' '
                 + event.data.customer.phone_number
+                + notes
                 + '<hr>' +
                 '<div class="text-center">' +
                 '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang.edit + '</button>' +
