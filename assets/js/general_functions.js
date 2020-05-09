@@ -337,7 +337,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             return;
         }
 
-        GeneralFunctions.displayMessageBox(EALang.unexpected_issues, EALang.unexpected_issues_message, []);
+        GeneralFunctions.displayMessageBox(EALang.unexpected_issues, EALang.unexpected_issues_message);
 
         $('<div/>', {
             'class': 'well',
