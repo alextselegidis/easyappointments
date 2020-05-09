@@ -1188,6 +1188,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     return;
                 }
 
+                // Close all open popovers
+                $('.popover').remove();
+
                 $('#insert-appointment').trigger('click');
 
                 // Preselect service & provider.
