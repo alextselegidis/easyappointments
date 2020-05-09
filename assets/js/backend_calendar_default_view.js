@@ -224,11 +224,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         $('#select-filter-item').change(function () {
             // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
-                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', true);
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
                 $('#calendar').fullCalendar('option', 'selectable', false);
                 $('#calendar').fullCalendar('option', 'editable', false);
             } else {
-                $('#google-sync, #enable-sync, #insert-appointment, #insert-unavailable').prop('disabled', false);
+                $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
                 $('#calendar').fullCalendar('option', 'selectable', true);
                 $('#calendar').fullCalendar('option', 'editable', true);
 

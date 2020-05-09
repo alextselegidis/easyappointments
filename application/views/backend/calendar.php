@@ -73,7 +73,7 @@
                         <span class="glyphicon glyphicon-plus"></span>
                         <?= lang('appointment') ?>
                     </button>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" id="insert-dropdown" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
