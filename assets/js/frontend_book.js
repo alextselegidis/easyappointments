@@ -712,9 +712,13 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
-        $div
-            .html(html)
-            .toggle(html);
+        $div.html(html);
+
+        if (html) {
+            $div.show();
+        } else {
+            $div.hide();
+        }
     }
 
 })(window.FrontendBook);
