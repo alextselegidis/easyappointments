@@ -459,7 +459,7 @@
                         <input id="username" class="form-control required">
                     </div>
 
-                    <div class="form-group">∏
+                    <div class="form-group">
                         <label for="password"><?= lang('password') ?></label>
                         <input type="password" id="password" class="form-control" autocomplete="new-password">
                     </div>
