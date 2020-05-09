@@ -653,6 +653,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             // Selectable
             selectable: true,
             selectHelper: true,
+            selectMinDistance: 5, // To prevent opening the new appointment modal when clicking on the calendar
             select: function (start, end, jsEvent, view) {
                 if (!start.hasTime() || !end.hasTime()) {
                     return;
