@@ -44,10 +44,10 @@ window.BackendSettings = window.BackendSettings || {};
     /**
      * Initialize Page
      *
-     * @param {bool} bindEventHandlers Optional (true), determines whether to bind the default event handlers.
+     * @param {bool} shouldBindEventHandlers Optional (true), determines whether to bind the default event handlers.
      */
-    exports.initialize = function (bindEventHandlers) {
-        bindEventHandlers = bindEventHandlers || true;
+    exports.initialize = function (shouldBindEventHandlers) {
+        shouldBindEventHandlers = shouldBindEventHandlers || true;
 
         $('#cookie-notice-content, #terms-and-conditions-content, #privacy-policy-content').trumbowyg();
 
@@ -135,7 +135,7 @@ window.BackendSettings = window.BackendSettings || {};
         // Set default settings helper.
         settings = new SystemSettings();
 
-        if (bindEventHandlers) {
+        if (shouldBindEventHandlers) {
             bindEventHandlers();
             var $link = $('#settings-page .nav li').not('.hidden').first().find('a');
             $link.tab('show');
