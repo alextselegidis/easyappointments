@@ -16,6 +16,8 @@ namespace EA\Engine\Types;
 /**
  * Abstract Type Class
  *
+ * @deprecated
+ *
  * This class needs to be extended by the type classes which must implement the validation logic.
  */
 abstract class Type {
