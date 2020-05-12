@@ -58,26 +58,22 @@
          *
          * Display the selected secretary data to the user.
          */
-        $('#secretaries').on('click', '.secretary-row', function (e) {
+        $('#secretaries').on('click', '.secretary-row', function (event) {
             if ($('#filter-secretaries .filter').prop('disabled')) {
                 $('#filter-secretaries .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
             }
 
-            var secretaryId = $(e.currentTarget).attr('data-id');
-            var secretary = {};
+            var secretaryId = $(event.currentTarget).attr('data-id');
 
-            $.each(this.filterResults, function (index, item) {
-                if (item.id === secretaryId) {
-                    secretary = item;
-                    return false;
-                }
+            var secretary = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(secretaryId);
             });
 
             this.display(secretary);
 
             $('#filter-secretaries .selected').removeClass('selected');
-            $(e.currentTarget).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-secretary, #delete-secretary').prop('disabled', false);
         }.bind(this));
 
@@ -163,9 +159,9 @@
 
             // Include secretary services.
             secretary.providers = [];
-            $('#secretary-providers input:checkbox').each(function () {
-                if ($(this).prop('checked')) {
-                    secretary.providers.push($(this).attr('data-id'));
+            $('#secretary-providers input:checkbox').each(function (index, checkbox) {
+                if ($(checkbox).prop('checked')) {
+                    secretary.providers.push($(checkbox).attr('data-id'));
                 }
             });
 
@@ -258,9 +254,9 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#secretaries .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#secretaries .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -353,12 +349,15 @@
         }
 
         $('#secretary-providers input:checkbox').prop('checked', false);
-        $.each(secretary.providers, function (index, providerId) {
-            $('#secretary-providers input:checkbox').each(function () {
-                if (Number($(this).attr('data-id')) === Number(providerId)) {
-                    $(this).prop('checked', true);
-                }
-            });
+
+        secretary.providers.forEach(function (secretaryProviderId) {
+            var $checkbox = $('#secretary-providers input[data-id="' + secretaryProviderId + '"]');
+
+            if (!$checkbox.length) {
+                return;
+            }
+
+            $checkbox.prop('checked', true);
         });
     };
 
@@ -386,7 +385,8 @@
                 this.filterResults = response;
 
                 $('#filter-secretaries .results').empty();
-                $.each(response, function (index, secretary) {
+
+                response.forEach(function (secretary) {
                     $('#filter-secretaries .results')
                         .append(this.getFilterHtml(secretary))
                         .append($('<hr/>'));
@@ -462,21 +462,16 @@
 
         $('#filter-secretaries .selected').removeClass('selected');
 
-        $('#filter-secretaries .secretary-row').each(function () {
-            if (Number($(this).attr('data-id')) === Number(id)) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-secretaries .secretary-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, secretary) {
-                if (Number(secretary.id) === Number(id)) {
-                    this.display(secretary);
-                    $('#edit-secretary, #delete-secretary').prop('disabled', false);
-                    return false;
-                }
+            var secretary = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
             }.bind(this));
+
+            this.display(secretary);
+
+            $('#edit-secretary, #delete-secretary').prop('disabled', false);
         }
     };
 

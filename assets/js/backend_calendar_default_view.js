@@ -54,7 +54,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * Hides the open popover element.
          */
         $calendarPage.on('click', '.close-popover', function () {
-            $(this).parents().eq(2).remove();
+            $(this).parents('.popover').popover('destroy');
         });
 
         /**
@@ -63,7 +63,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * Enables the edit dialog of the selected calendar event.
          */
         $calendarPage.on('click', '.edit-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover
+            $(this).parents('.popover').popover('destroy');
 
             var $dialog;
 
@@ -130,7 +130,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * deletion then an AJAX call is made to the server and deletes the appointment from the database.
          */
         $calendarPage.on('click', '.delete-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover.
+            $(this).parents('.popover').popover('destroy');
 
             var url;
             var data;
@@ -277,7 +277,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * above the calendar item.
      */
     function calendarEventClick(event, jsEvent, view) {
-        $('.popover').remove(); // Close all open popovers.
+        $('.popover').popover('destroy'); // Close all open popovers.
 
         var $html;
         var displayEdit;
@@ -833,13 +833,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         $(window).trigger('resize'); // Places the footer on the bottom.
 
         // Remove all open popovers.
-        $('.close-popover').each(function () {
-            $(this).parents().eq(2).remove();
+        $('.close-popover').each(function (index, closePopoverButton) {
+            $(closePopoverButton).parents('.popover').popover('destroy');
         });
 
         // Add new pop overs.
-        $('.fv-events').each(function (index, eventHandle) {
-            $(eventHandle).popover();
+        $('.fv-events').each(function (index, eventElement) {
+            $(eventElement).popover();
         });
     }
 
@@ -853,11 +853,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      */
     function convertTitlesToHtml() {
         // Convert the titles to html code.
-        $('.fc-custom').each(function () {
-            var title = $(this).find('.fc-event-title').text();
-            $(this).find('.fc-event-title').html(title);
-            var time = $(this).find('.fc-event-time').text();
-            $(this).find('.fc-event-time').html(time);
+        $('.fc-custom').each(function (index, customEventElement) {
+            var title = $(customEventElement).find('.fc-event-title').text();
+            $(customEventElement).find('.fc-event-title').html(title);
+            var time = $(customEventElement).find('.fc-event-time').text();
+            $(customEventElement).find('.fc-event-time').html(time);
         });
     }
 
@@ -889,9 +889,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             .done(function (response) {
                 // Add appointments to calendar.
                 var calendarEvents = [];
+
                 var $calendar = $('#calendar');
 
-                $.each(response.appointments, function (index, appointment) {
+                response.appointments.forEach(function (appointment) {
                     var event = {
                         id: appointment.id,
                         title: appointment.service.name + ' - '
@@ -923,9 +924,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var calendarView = $calendar.fullCalendar('getView').name;
 
                 if (filterType === FILTER_TYPE_PROVIDER && calendarView !== 'month') {
-                    $.each(GlobalVariables.availableProviders, function (index, provider) {
+                    GlobalVariables.availableProviders.forEach(function (provider, index) {
                         if (Number(provider.id) === Number(recordId)) {
-                            var workingPlan={};
+                            var workingPlan = {};
                             var workingPlanBulk = jQuery.parseJSON(provider.settings.working_plan);
                             var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
                             var unavailablePeriod;
@@ -941,7 +942,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         .getWeekdayName(parseInt($calendar.fullCalendar('getView').start.format('d')));
 
                                     // Add custom unavailable periods.
-                                    $.each(response.unavailables, function (index, unavailable) {
+                                    response.unavailables.forEach(function (unavailable, index) {
                                         var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
                                         if (unavailable.notes.length > 30) {
@@ -1048,7 +1049,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     var breakStart;
                                     var breakEnd;
 
-                                    $.each(workingPlan[selectedDayName].breaks, function (index, currentBreak) {
+                                    workingPlan[selectedDayName].breaks.forEach(function (currentBreak) {
                                         var breakStartString = currentBreak.start.split(':');
                                         breakStart = calendarDateStart.clone();
                                         breakStart.hour(parseInt(breakStartString[0]));
@@ -1080,7 +1081,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                                     // Add custom unavailable periods (they are always displayed on the calendar, even if
                                     // the provider won't work on that day).
-                                    $.each(response.unavailables, function (index, unavailable) {
+                                    response.unavailables.forEach(function (unavailable) {
                                         var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
                                         if (unavailable.notes.length > 30) {
@@ -1107,13 +1108,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                             if (extraWorkingPlan && currentDateStart.format('YYYY-MM-DD') in extraWorkingPlan) {
                                                 workingDay = extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')]
 
-                                                var start_extra = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].start;
-                                                var end_extra = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].end;
+                                                var extraPeriodStart = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].start;
+                                                var extraPeriodEnd = currentDateStart.format('YYYY-MM-DD') + ' ' + extraWorkingPlan[currentDateStart.format('YYYY-MM-DD')].end;
 
                                                 var extraPeriod = {
                                                     title: EALang.extra_period,
-                                                    start: moment(start_extra, 'YYYY-MM-DD HH:mm', true),
-                                                    end: moment(end_extra, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
+                                                    start: moment(extraPeriodStart, 'YYYY-MM-DD HH:mm', true),
+                                                    end: moment(extraPeriodEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                                                     allDay: true,
                                                     color: '#879DB4',
                                                     editable: false,
@@ -1189,7 +1190,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         var breakStart;
                                         var breakEnd;
 
-                                        $.each(workingDay.breaks, function (index, currentBreak) {
+                                        workingDay.breaks.forEach(function (currentBreak, index) {
                                             var breakStartString = currentBreak.start.split(':');
                                             breakStart = currentDateStart.clone();
                                             breakStart.hour(parseInt(breakStartString[0]));
@@ -1417,16 +1418,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
             $('#select-filter-item option[type="provider"]').each(function (index, option) {
-                var found = false;
-
-                $.each(GlobalVariables.secretaryProviders, function (index, secretaryProviderId) {
-                    if (Number($(option).val()) === Number(secretaryProviderId)) {
-                        found = true;
-                        return false;
-                    }
+                var provider = GlobalVariables.secretaryProviders.find(function(secretaryProviderId) {
+                     return Number($(option).val()) === Number(secretaryProviderId);
                 });
 
-                if (!found) {
+                if (!provider) {
                     $(option).remove();
                 }
             });

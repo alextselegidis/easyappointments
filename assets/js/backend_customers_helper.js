@@ -64,12 +64,8 @@
             }
 
             var customerId = $(this).attr('data-id');
-            var customer = {};
-            $.each(instance.filterResults, function (index, item) {
-                if (Number(item.id) === Number(customerId)) {
-                    customer = item;
-                    return false;
-                }
+            var customer = instance.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(customerId);
             });
 
             instance.display(customer);
@@ -88,19 +84,15 @@
             $(this).addClass('selected');
 
             var customerId = $('#filter-customers .selected').attr('data-id');
-            var appointmentId = $(this).attr('data-id');
-            var appointment = {};
 
-            $.each(instance.filterResults, function (index, customer) {
-                if (customer.id === customerId) {
-                    $.each(customer.appointments, function (index, customerAppointment) {
-                        if (Number(customerAppointment.id) === Number(appointmentId)) {
-                            appointment = customerAppointment;
-                            return false;
-                        }
-                    });
-                    return false;
-                }
+            var customer = instance.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(customerId);
+            });
+
+            var appointmentId = $(this).attr('data-id');
+
+            var appointment = customer.appointments.find(function (customerAppointment) {
+                return Number(customerAppointment.id) === Number(appointmentId);
             });
 
             instance.displayAppointment(appointment);
@@ -253,9 +245,9 @@
             // Validate required fields.
             var missingRequired = false;
 
-            $('.required').each(function () {
-                if ($(this).val() === '') {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('.required').each(function (index, requiredField) {
+                if ($(requiredField).val() === '') {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -319,13 +311,13 @@
         $('#timezone').val(customer.timezone);
 
         $('#customer-appointments').empty();
-        $.each(customer.appointments, function (index, appointment) {
+        customer.appointments.forEach(function (appointment) {
             if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && parseInt(appointment.id_users_provider) !== GlobalVariables.user.id) {
-                return true; // continue
+                return;
             }
 
             if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY && GlobalVariables.secretaryProviders.indexOf(appointment.id_users_provider) === -1) {
-                return true; // continue
+                return;
             }
 
             var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
@@ -377,7 +369,8 @@
                 this.filterResults = response;
 
                 $('#filter-customers .results').empty();
-                $.each(response, function (index, customer) {
+
+                response.forEach(function (customer) {
                     $('#filter-customers .results')
                         .append(this.getFilterHtml(customer))
                         .append($('<hr/>'));
@@ -454,21 +447,16 @@
 
         $('#filter-customers .selected').removeClass('selected');
 
-        $('#filter-customers .entry').each(function () {
-            if (Number($(this).attr('data-id')) === Number(id)) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-customers .entry[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, customer) {
-                if (Number(customer.id) === Number(id)) {
-                    this.display(customer);
-                    $('#edit-customer, #delete-customer').prop('disabled', false);
-                    return false;
-                }
-            }.bind(this));
+            var customer = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
+            });
+
+            this.display(customer);
+
+            $('#edit-customer, #delete-customer').prop('disabled', false);
         }
     };
 

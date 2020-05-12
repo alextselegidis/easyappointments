@@ -64,12 +64,9 @@
             }
 
             var categoryId = $(this).attr('data-id');
-            var category = {};
-            $.each(instance.filterResults, function (index, item) {
-                if (item.id === categoryId) {
-                    category = item;
-                    return false;
-                }
+
+            var category = instance.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(categoryId);
             });
 
             instance.display(category);
@@ -182,7 +179,8 @@
                 this.filterResults = response;
 
                 $('#filter-categories .results').empty();
-                $.each(response, function (index, category) {
+
+                response.forEach(function(category) {
                     $('#filter-categories .results')
                         .append(this.getFilterHtml(category))
                         .append($('<hr/>'));
@@ -284,9 +282,9 @@
         try {
             var missingRequired = false;
 
-            $('#categories .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#categories .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -350,21 +348,16 @@
 
         $('#filter-categories .selected').removeClass('selected');
 
-        $('#filter-categories .category-row').each(function () {
-            if ($(this).attr('data-id') === id) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-categories .category-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, category) {
-                if (category.id === id) {
-                    this.display(category);
-                    $('#edit-category, #delete-category').prop('disabled', false);
-                    return false;
-                }
+            var category = this.filterResults.find(function (category) {
+                return Number(category.id) === Number(id);
             }.bind(this));
+
+            this.display(category);
+
+            $('#edit-category, #delete-category').prop('disabled', false);
         }
     };
 

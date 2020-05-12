@@ -62,12 +62,9 @@
             }
 
             var serviceId = $(this).attr('data-id');
-            var service = {};
-            $.each(instance.filterResults, function (index, item) {
-                if (item.id === serviceId) {
-                    service = item;
-                    return false;
-                }
+
+            var service = instance.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(serviceId);
             });
 
             // Add dedicated provider link.
@@ -251,9 +248,9 @@
             // validate required fields.
             var missingRequired = false;
 
-            $('#services .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#services .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -329,7 +326,8 @@
                 this.filterResults = response;
 
                 $('#filter-services .results').empty();
-                $.each(response, function (index, service) {
+
+                response.forEach(function (service, index) {
                     $('#filter-services .results')
                         .append(ServicesHelper.prototype.getFilterHtml(service))
                         .append( $('<hr/>'))
@@ -403,21 +401,16 @@
 
         $('#filter-services .selected').removeClass('selected');
 
-        $('#filter-services .service-row').each(function () {
-            if (Number($(this).attr('data-id')) === Number(id)) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-services .service-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, service) {
-                if (Number(service.id) === Number(id)) {
-                    this.display(service);
-                    $('#edit-service, #delete-service').prop('disabled', false);
-                    return false;
-                }
-            }.bind(this));
+            var service = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
+            });
+
+            this.display(service);
+
+            $('#edit-service, #delete-service').prop('disabled', false);
         }
     };
 

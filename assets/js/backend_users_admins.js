@@ -56,25 +56,21 @@
          *
          * Display the selected admin data to the user.
          */
-        $('#admins').on('click', '.admin-row', function (e) {
+        $('#admins').on('click', '.admin-row', function (event) {
             if ($('#filter-admins .filter').prop('disabled')) {
                 $('#filter-admins .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
             }
 
-            var adminId = $(e.currentTarget).attr('data-id');
-            var admin = {};
+            var adminId = $(event.currentTarget).attr('data-id');
 
-            $.each(this.filterResults, function (index, item) {
-                if (item.id === adminId) {
-                    admin = item;
-                    return false;
-                }
+            var admin = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(adminId);
             });
 
             this.display(admin);
             $('#filter-admins .selected').removeClass('selected');
-            $(e.currentTarget).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-admin, #delete-admin').prop('disabled', false);
         }.bind(this));
 
@@ -245,9 +241,9 @@
             // Validate required fields.
             var missingRequired = false;
 
-            $('#admins .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#admins .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -362,7 +358,8 @@
                 this.filterResults = response;
 
                 $('#filter-admins .results').empty();
-                $.each(response, function (index, admin) {
+
+                response.forEach(function (admin) {
                     $('#filter-admins .results')
                         .append(this.getFilterHtml(admin))
                         .append($('<hr/>'));
@@ -439,21 +436,16 @@
 
         $('#filter-admins .selected').removeClass('selected');
 
-        $('.admin-row').each(function () {
-            if (Number($(this).attr('data-id')) === Number(id)) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-admins .admin-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, admin) {
-                if (Number(admin.id) === Number(id)) {
-                    this.display(admin);
-                    $('#edit-admin, #delete-admin').prop('disabled', false);
-                    return false;
-                }
-            }.bind(this));
+            var admin = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
+            });
+
+            this.display(admin);
+
+            $('#edit-admin, #delete-admin').prop('disabled', false);
         }
     };
 

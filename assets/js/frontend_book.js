@@ -48,7 +48,7 @@ window.FrontendBook = window.FrontendBook || {};
     /**
      * This method initializes the book appointment page.
      *
-     * @param {Boolean} bindEventHandlers (OPTIONAL) Determines whether the default
+     * @param {Boolean} defaultEventHandlers (OPTIONAL) Determines whether the default
      * event handlers will be bound to the dom elements.
      * @param {Boolean} manageMode (OPTIONAL) Determines whether the customer is going
      * to make  changes to an existing appointment rather than booking a new one.
@@ -56,11 +56,6 @@ window.FrontendBook = window.FrontendBook || {};
     exports.initialize = function (defaultEventHandlers, manageMode) {
         defaultEventHandlers = defaultEventHandlers || true;
         manageMode = manageMode || false;
-
-        if (window.console) {
-            window.console = function () {
-            }; // IE compatibility
-        }
 
         if (GlobalVariables.displayCookieNotice) {
             cookieconsent.initialise({
@@ -231,18 +226,18 @@ window.FrontendBook = window.FrontendBook || {};
          */
         $('#select-service').change(function () {
             var serviceId = $('#select-service').val();
+
             $('#select-provider').empty();
 
-            $.each(GlobalVariables.availableProviders, function (indexProvider, provider) {
-                $.each(provider.services, function (indexService, providerServiceId) {
-                    // If the current provider is able to provide the selected service, add him to the listbox.
-                    if (Number(providerServiceId) === Number(serviceId)) {
-                        var optionHtml = '<option value="' + provider.id + '">'
-                            + provider.first_name + ' ' + provider.last_name
-                            + '</option>';
-                        $('#select-provider').append(optionHtml);
-                    }
-                });
+            GlobalVariables.availableProviders.forEach(function (provider) {
+                // If the current provider is able to provide the selected service, add him to the list box.
+                var canServeService = provider.services.filter(function (providerServiceId) {
+                    return Number(providerServiceId) === Number(serviceId);
+                }).length > 0;
+
+                if (canServeService) {
+                    $('#select-provider').append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+                }
             });
 
             // Add the "Any Provider" entry.
@@ -464,9 +459,9 @@ window.FrontendBook = window.FrontendBook || {};
         try {
             // Validate required fields.
             var missingRequiredField = false;
-            $('.required').each(function () {
-                if (!$(this).val()) {
-                    $(this).parents('.form-group').addClass('has-error');
+            $('.required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).parents('.form-group').addClass('has-error');
                     missingRequiredField = true;
                 }
             });
@@ -528,6 +523,8 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
+        $('#appointment-details').empty();
+
         $('<div/>', {
             'html': [
                 $('<h4/>', {
@@ -548,7 +545,7 @@ window.FrontendBook = window.FrontendBook || {};
                                 $('<br/>'),
                                 $('<span/>', {
                                     'text': $('#select-timezone option:selected').text()
-                                        + servicePrice + ' ' + serviceCurrency
+                                        + ' - ' + servicePrice + ' ' + serviceCurrency
                                 })
                             ]
                         })
@@ -566,6 +563,8 @@ window.FrontendBook = window.FrontendBook || {};
         var address = GeneralFunctions.escapeHtml($('#address').val());
         var city = GeneralFunctions.escapeHtml($('#city').val());
         var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
+
+        $('#customer-details').empty();
 
         $('<div/>', {
             'html': [
@@ -644,13 +643,9 @@ window.FrontendBook = window.FrontendBook || {};
     function calculateEndDatetime() {
         // Find selected service duration.
         var serviceId = $('#select-service').val();
-        var serviceDuration;
 
-        $.each(GlobalVariables.availableServices, function (index, service) {
-            if (Number(service.id) === Number(serviceId)) {
-                serviceDuration = service.duration;
-                return false;
-            }
+        var service = GlobalVariables.availableServices.find(function (availableService) {
+            return Number(availableService.id) === Number(serviceId);
         });
 
         // Add the duration to the start datetime.
@@ -659,8 +654,8 @@ window.FrontendBook = window.FrontendBook || {};
         startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
         var endDatetime;
 
-        if (serviceDuration && startDatetime) {
-            endDatetime = startDatetime.add({'minutes': parseInt(serviceDuration)});
+        if (service.duration && startDatetime) {
+            endDatetime = startDatetime.add({'minutes': parseInt(service.duration)});
         } else {
             endDatetime = new Date();
         }

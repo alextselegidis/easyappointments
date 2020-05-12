@@ -292,26 +292,27 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          */
         $('#select-service').change(function () {
             var serviceId = $('#select-service').val();
+
             $('#select-provider').empty();
 
             // Automatically update the service duration.
-            $.each(GlobalVariables.availableServices, function (indexService, availableService) {
-                if (Number(availableService.id) === serviceId) {
-                    var start = $('#start-datetime').datetimepicker('getDate');
-                    $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + availableService.duration * 60000));
-                    return false; // break loop
-                }
+            var service = GlobalVariables.availableServices.find(function (availableService) {
+                return Number(availableService.id) === Number(serviceId);
             });
 
+            var start = $('#start-datetime').datetimepicker('getDate');
+            $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+
             // Update the providers select box.
-            $.each(GlobalVariables.availableProviders, function (indexProvider, provider) {
-                $.each(provider.services, function (indexService, providerServiceId) {
+
+            GlobalVariables.availableProviders.forEach(function (provider) {
+                provider.services.forEach(function (providerServiceId) {
                     if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && Number(provider.id) !== GlobalVariables.user.id) {
-                        return true; // continue
+                        return; // continue
                     }
 
                     if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY && GlobalVariables.secretaryProviders.indexOf(provider.id) === -1) {
-                        return true; // continue
+                        return; // continue
                     }
 
                     // If the current provider is able to provide the selected service, add him to the listbox.
@@ -359,22 +360,18 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Fill the providers listbox with providers that can serve the appointment's
         // service and then select the user's provider.
         $dialog.find('#select-provider').empty();
-        $.each(GlobalVariables.availableProviders, function (index, provider) {
+        GlobalVariables.availableProviders.forEach(function (provider, index) {
             var canProvideService = false;
 
             var serviceId = $dialog.find('#select-service').val();
 
-            $.each(provider.services, function (index, providerServiceId) {
-                if (Number(providerServiceId) === Number(serviceId)) {
-                    canProvideService = true;
-                    return false;
-                }
-            });
+            var canProvideService = provider.services.filter(function(providerServiceId) {
+                return Number(providerServiceId) === Number(serviceId)
+            }).length > 0;
 
             if (canProvideService) { // Add the provider to the listbox.
-                var option = new Option(provider.first_name
-                    + ' ' + provider.last_name, provider.id);
-                $dialog.find('#select-provider').append(option);
+                $dialog.find('#select-provider')
+                    .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             }
         });
 
@@ -386,16 +383,15 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
         var serviceId = $dialog.find('#select-service').val();
-        var serviceDuration = 0;
-        $.each(GlobalVariables.availableServices, function (index, service) {
-            if (Number(service.id) === Number(serviceId)) {
-                serviceDuration = service.duration;
-                return false;
-            }
+
+        var service = GlobalVariables.availableServices.forEach(function(service) {
+            return Number(service.id) === Number(serviceId);
         });
 
+        var duration = service ? service.duration : 0;
+
         var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout);
-        var endDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(serviceDuration);
+        var endDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(duration);
         var dateFormat;
 
         switch (GlobalVariables.dateFormat) {
@@ -446,13 +442,12 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 var serviceId = $('#select-service').val();
 
                 // Automatically update the #end-datetime DateTimePicker based on service duration.
-                $.each(GlobalVariables.availableServices, function (indexService, availableService) {
-                    if (Number(availableService.id) === Number(serviceId)) {
-                        var start = $('#start-datetime').datetimepicker('getDate');
-                        $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + availableService.duration * 60000));
-                        return false; // break loop
-                    }
+                var service = GlobalVariables.availableServices.find(function (availableService) {
+                    return Number(availableService.id) === Number(serviceId);
                 });
+
+                var start = $('#start-datetime').datetimepicker('getDate');
+                $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
             }
         });
         $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
@@ -505,9 +500,9 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Check required fields.
             var missingRequiredField = false;
 
-            $dialog.find('.required').each(function () {
-                if ($(this).val() === '' || $(this).val() === null) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $dialog.find('.required').each(function (index, requiredField) {
+                if ($(requiredField).val() === '' || $(requiredField).val() === null) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequiredField = true;
                 }
             });

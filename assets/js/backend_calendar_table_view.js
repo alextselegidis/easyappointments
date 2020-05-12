@@ -89,22 +89,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
 
-                                $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
+                                // $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
 
-                                createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
+                                // createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
 
                                 // Add the appointments to the column.
-                                createAppointments($providerColumn, response.appointments);
+                                // createAppointments($providerColumn, response.appointments);
 
                                 // Add the unavailabilities to the column.
-                                createUnavailabilities($providerColumn, response.unavailabilities);
+                                // createUnavailabilities($providerColumn, response.unavailabilities);
 
                                 // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
                                 var day = date.toString('dddd').toLowerCase();
                                 if (workingPlan[day]) {
                                     var breaks = workingPlan[day].breaks;
-                                    createBreaks($providerColumn, breaks);
+                                    // createBreaks($providerColumn, breaks);
                                 }
                             });
                         });
@@ -132,7 +132,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Hides the open popover element.
          */
         $calendar.on('click', '.close-popover', function () {
-            $(this).parents().eq(2).popover('destroy');
+            $(this).parents('.popover').popover('destroy');
         });
 
         /**
@@ -141,7 +141,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Enables the edit dialog of the selected table event.
          */
         $calendar.on('click', '.edit-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover
+            $(this).parents('.popover').popover('destroy');
 
             var $dialog;
 
@@ -208,7 +208,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendar.on('click', '.delete-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover.
+            $(this).parents('.popover').popover('destroy'); // Hide the popover.
 
             var url;
             var data;
@@ -448,12 +448,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      */
     function createView(startDate, endDate) {
         // Disable date navigation.
-        $('#calendar .calendar-header .btn').addClass('disabled').prop('disabled', true);
+        $('#calendar .calendar-header .btn')
+            .addClass('disabled')
+            .prop('disabled', true);
 
         // Remember provider calendar view mode.
         var providerView = {};
-        $('.provider-column').each(function () {
-            var $providerColumn = $(this);
+        $('.provider-column').each(function (index, providerColumn) {
+            var $providerColumn = $(providerColumn);
             var providerId = $providerColumn.data('provider').id;
             providerView[providerId] = $providerColumn.find('.calendar-wrapper').fullCalendar('getView').name;
         });
@@ -491,8 +493,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false);
 
                 // Apply provider calendar view mode.
-                $('.provider-column').each(function () {
-                    var $providerColumn = $(this);
+                $('.provider-column').each(function (index, providerColumn) {
+                    var $providerColumn = $(providerColumn);
                     var providerId = $providerColumn.data('provider').id;
                     $providerColumn.find('.calendar-wrapper')
                         .fullCalendar('changeView', providerView[providerId] || 'agendaDay');
@@ -1002,7 +1004,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * above the calendar item.
      */
     function onEventClick(event, jsEvent) {
-        $('.popover').remove(); // Close all open popovers.
+        $('.popover').popover('destroy'); // Close all open popovers.
 
         var $html;
         var displayEdit;

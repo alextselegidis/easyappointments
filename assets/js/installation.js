@@ -76,9 +76,9 @@ $(function () {
 
             // Check for empty fields.
             var missingRequired = false;
-            $('input').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('input').each(function (index, field) {
+                if (!$(field).val()) {
+                    $(field).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });

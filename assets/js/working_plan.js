@@ -45,8 +45,8 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        var fDaynum = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
-        var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan,fDaynum);
+        var weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+        var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan, weekDayId);
 
         $('.working-plan tbody').empty();
         $('.breaks tbody').empty();
@@ -57,7 +57,7 @@
         $.each(workingPlanSorted, function (index, workingDay) {
             var day = this.convertValueToDay(index);
 
-            var dayTranslatedName = GeneralFunctions.upperCaseFirstLetter(day)
+            var dayDisplayName = GeneralFunctions.upperCaseFirstLetter(day)
 
             $('<tr/>', {
                 'html': [
@@ -70,10 +70,10 @@
                                         'html': [
                                             $('<input/>', {
                                                 'type': 'checkbox',
-                                                'id': index,
+                                                'id': index
                                             }),
                                             $('<span/>', {
-                                                'text': dayTranslatedName
+                                                'text': dayDisplayName
                                             })
                                         ]
                                     })
@@ -108,19 +108,16 @@
 
                 // Sort day's breaks according to the starting hour
                 workingDay.breaks.sort(function (break1, break2) {
-                        // We can do a direct string comparison since we have time based on 24 hours clock.
-                        return (break1.start).localeCompare(break2.start);
-                    });
+                    // We can do a direct string comparison since we have time based on 24 hours clock.
+                    return (break1.start).localeCompare(break2.start);
+                });
 
-                // Add the day's breaks on the breaks table.
-                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
-
-                workingDay.breaks.forEach(function(workingDayBreak, index) {
+                workingDay.breaks.forEach(function (workingDayBreak) {
                     $('<tr/>', {
                         'html': [
                             $('<td/>', {
                                 'class': 'break-day editable',
-                                'text': dayTranslatedName
+                                'text': dayDisplayName
                             }),
                             $('<td/>', {
                                 'class': 'break-start editable',
@@ -141,11 +138,7 @@
                                                 'class': 'glyphicon glyphicon-pencil'
                                             })
                                         ]
-                                    })
-                                ]
-                            }),
-                            $('<td/>', {
-                                'html': [
+                                    }),
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-default btn-sm delete-break',
@@ -155,11 +148,7 @@
                                                 'class': 'glyphicon glyphicon-trash'
                                             })
                                         ]
-                                    })
-                                ]
-                            }),
-                            $('<td/>', {
-                                'html': [
+                                    }),
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-default btn-sm save-break hidden',
@@ -169,11 +158,7 @@
                                                 'class': 'glyphicon glyphicon-ok'
                                             })
                                         ]
-                                    })
-                                ]
-                            }),
-                            $('<td/>', {
-                                'html': [
+                                    }),
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-default btn-sm cancel-break hidden',
@@ -210,7 +195,6 @@
     WorkingPlan.prototype.setupExtraPeriods = function (extraWorkingPlan) {
         $.each(extraWorkingPlan, function (index, extraWorkingDay) {
             if (extraWorkingDay) {
-
                 $('#' + index).prop('checked', true);
                 $('#' + index + '-start').val(Date.parse(extraWorkingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
                 $('#' + index + '-end').val(Date.parse(extraWorkingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
@@ -244,11 +228,7 @@
                                             'class': 'glyphicon glyphicon-pencil'
                                         })
                                     ]
-                                })
-                            ]
-                        }),
-                        $('<td/>', {
-                            'html': [
+                                }),
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-default btn-sm delete-extra',
@@ -258,11 +238,7 @@
                                             'class': 'glyphicon glyphicon-trash'
                                         })
                                     ]
-                                })
-                            ]
-                        }),
-                        $('<td/>', {
-                            'html': [
+                                }),
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-default btn-sm save-extra hidden',
@@ -272,11 +248,7 @@
                                             'class': 'glyphicon glyphicon-ok'
                                         })
                                     ]
-                                })
-                            ]
-                        }),
-                        $('<td/>', {
-                            'html': [
+                                }),
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-default btn-sm cancel-extra hidden',
@@ -395,7 +367,7 @@
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan tbody').on( "click", "input:checkbox", function () {
+        $('.working-plan tbody').on("click", "input:checkbox", function () {
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') === true) {
@@ -416,79 +388,67 @@
         $('.add-break').click(function () {
             var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
 
-                var $newBreak = $('<tr/>', {
-                    'html': [
-                        $('<td/>', {
-                            'class': 'break-day editable',
-                            'text': EALang.sunday
-                        }),
-                        $('<td/>', {
-                            'class': 'break-start editable',
-                            'text': '9:00 AM'
-                        }),
-                        $('<td/>', {
-                            'class': 'break-end editable',
-                            'text': '10:00 AM'
-                        }),
-                        $('<td/>', {
-                            'html': [
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-default btn-sm edit-break',
-                                    'title': EALang.edit,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'glyphicon glyphicon-pencil'
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
-                        $('<td/>', {
-                            'html': [
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-default btn-sm delete-break',
-                                    'title': EALang.delete,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'glyphicon glyphicon-trash'
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
-                        $('<td/>', {
-                            'html': [
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-default btn-sm save-break hidden',
-                                    'title': EALang.save,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'glyphicon glyphicon-ok'
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
-                        $('<td/>', {
-                            'html': [
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-default btn-sm cancel-break hidden',
-                                    'title': EALang.cancel,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'glyphicon glyphicon-ban-circle'
-                                        })
-                                    ]
-                                })
-                            ]
-                        })
-                    ]
-                })
-                    .appendTo('.breaks tbody');
+            var $newBreak = $('<tr/>', {
+                'html': [
+                    $('<td/>', {
+                        'class': 'break-day editable',
+                        'text': EALang.sunday
+                    }),
+                    $('<td/>', {
+                        'class': 'break-start editable',
+                        'text': '9:00 AM'
+                    }),
+                    $('<td/>', {
+                        'class': 'break-end editable',
+                        'text': '10:00 AM'
+                    }),
+                    $('<td/>', {
+                        'html': [
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm edit-break',
+                                'title': EALang.edit,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-pencil'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm delete-break',
+                                'title': EALang.delete,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-trash'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm save-break hidden',
+                                'title': EALang.save,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-ok'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm cancel-break hidden',
+                                'title': EALang.cancel,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-ban-circle'
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+                ]
+            })
+                .appendTo('.breaks tbody');
 
             // Bind editable and event handlers.
             this.editableBreakDay($newBreak.find('.break-day'));
@@ -503,9 +463,10 @@
          * Enables the row editing for the "Breaks" table rows.
          */
         $(document).on('click', '.edit-break', function () {
-            // Reset previous editable tds
-            var $previousEdt = $(this).closest('table').find('.editable').get();
-            $.each($previousEdt, function (index, editable) {
+            // Reset previous editable table cells.
+            var $previousEdits = $(this).closest('table').find('.editable');
+
+            $previousEdits.each(function (index, editable) {
                 if (editable.reset) {
                     editable.reset();
                 }
@@ -525,9 +486,10 @@
             $(this).parent().parent().find('.break-day select').focus();
 
             // Show save - cancel buttons.
-            $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
-            $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-            $(this).closest('tr').find('select,input:text').addClass('form-control input-sm')
+            var $tr = $(this).closest('tr');
+            $tr.find('.edit-break, .delete-break').addClass('hidden');
+            $tr.find('.save-break, .cancel-break').removeClass('hidden');
+            $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-break').prop('disabled', true);
         });
@@ -548,8 +510,8 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.cancel-break', function (e) {
-            var element = e.target;
+        $(document).on('click', '.cancel-break', function (event) {
+            var element = event.target;
             var $modifiedRow = $(element).closest('tr');
             this.enableCancel = true;
             $modifiedRow.find('.cancel-editable').trigger('click');
@@ -567,12 +529,12 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.save-break', function (e) {
+        $(document).on('click', '.save-break', function (event) {
             // Break's start time must always be prior to break's end.
-            var element = e.target,
-                $modifiedRow = $(element).closest('tr'),
-                start = Date.parse($modifiedRow.find('.break-start input').val()),
-                end = Date.parse($modifiedRow.find('.break-end input').val());
+            var element = event.target;
+            var $modifiedRow = $(element).closest('tr');
+            var start = Date.parse($modifiedRow.find('.break-start input').val());
+            var end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
                 $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
@@ -589,7 +551,6 @@
             // Refresh working plan to have the new break sorted in the break list.
             var workingPlan = this.get();
             this.setup(workingPlan);
-
         }.bind(this));
 
         /**
@@ -600,8 +561,6 @@
          */
         $('.add-extra-periods').click(function () {
             var today = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false);
-
-            var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
 
             var $newExtraPeriod = $('<tr/>', {
                 'html': [
@@ -628,11 +587,7 @@
                                         'class': 'glyphicon glyphicon-pencil'
                                     })
                                 ]
-                            })
-                        ]
-                    }),
-                    $('<td/>', {
-                        'html': [
+                            }),
                             $('<button/>', {
                                 'type': 'button',
                                 'class': 'btn btn-default btn-sm delete-extra',
@@ -642,11 +597,7 @@
                                         'class': 'glyphicon glyphicon-trash'
                                     })
                                 ]
-                            })
-                        ]
-                    }),
-                    $('<td/>', {
-                        'html': [
+                            }),
                             $('<button/>', {
                                 'type': 'button',
                                 'class': 'btn btn-default btn-sm save-extra hidden',
@@ -656,11 +607,7 @@
                                         'class': 'glyphicon glyphicon-ok'
                                     })
                                 ]
-                            })
-                        ]
-                    }),
-                    $('<td/>', {
-                        'html': [
+                            }),
                             $('<button/>', {
                                 'type': 'button',
                                 'class': 'btn btn-default btn-sm cancel-extra hidden',
@@ -672,7 +619,7 @@
                                 ]
                             })
                         ]
-                    })
+                    }),
                 ]
             })
                 .appendTo('.extra-periods tbody');
@@ -690,9 +637,10 @@
          * Enables the row editing for the "Extra Period" table rows.
          */
         $(document).on('click', '.edit-extra', function () {
-            // Reset previous editable tds
-            var $previousEdt = $(this).closest('table').find('.editable').get();
-            $.each($previousEdt, function (index, editable) {
+            // Reset previous editable table cells.
+            var $previousEdits = $(this).closest('table').find('.editable');
+
+            $previousEdits.each(function (index, editable) {
                 if (editable.reset) {
                     editable.reset();
                 }
@@ -750,9 +698,10 @@
             });
 
             // Show save - cancel buttons.
-            $(this).closest('table').find('.edit-extra, .delete-extra').addClass('hidden');
-            $(this).parent().find('.save-extra, .cancel-extra').removeClass('hidden');
-            $(this).closest('tr').find('select,input:text').addClass('form-control input-sm')
+            var $tr = $(this).closest('tr');
+            $tr.find('.edit-extra, .delete-extra').addClass('hidden');
+            $tr.find('.save-extra, .cancel-extra').removeClass('hidden');
+            $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-extra-periods').prop('disabled', true);
         });
@@ -773,8 +722,8 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.cancel-extra', function (e) {
-            var element = e.target;
+        $(document).on('click', '.cancel-extra', function (event) {
+            var element = event.target;
             var $modifiedRow = $(element).closest('tr');
             this.enableCancel = true;
             $modifiedRow.find('.cancel-editable').trigger('click');
@@ -792,12 +741,12 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.save-extra', function (e) {
+        $(document).on('click', '.save-extra', function (event) {
             // Break's start time must always be prior to break's end.
-            var element = e.target,
-                $modifiedRow = $(element).closest('tr'),
-                start = Date.parse($modifiedRow.find('.extra-start input').val()),
-                end = Date.parse($modifiedRow.find('.extra-end input').val());
+            var element = event.target;
+            var $modifiedRow = $(element).closest('tr');
+            var start = Date.parse($modifiedRow.find('.extra-start input').val());
+            var end = Date.parse($modifiedRow.find('.extra-end input').val());
 
             if (start > end) {
                 $modifiedRow.find('.extra-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());

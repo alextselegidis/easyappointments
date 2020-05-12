@@ -150,6 +150,8 @@ window.BackendUsers = window.BackendUsers || {};
                     .done(function (response) {
                         GlobalVariables.providers = response;
 
+                        $('#secretary-providers').empty();
+
                         GlobalVariables.providers.forEach(function(provider) {
                             $('<div/>', {
                                 'class': 'checkbox',
