@@ -403,3 +403,7 @@ body .popover-content strong {
 body .popover-content button {
     margin-right: 10px;
 }
+
+body .popover-content a {
+    margin-right: 5px;
+}
