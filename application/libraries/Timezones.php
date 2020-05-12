@@ -12,14 +12,18 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Timezones Model
+ * Timezones
  *
- * @property CI_DB_query_builder db
  * @property CI_Loader load
  *
  * @package Models
  */
-class Timezones_Model extends CI_Model {
+class Timezones {
+    /**
+     * @var CI_Controller
+     */
+    protected $framework;
+
     /**
      * @var string
      */
@@ -460,6 +464,15 @@ class Timezones_Model extends CI_Model {
         ],
     ];
 
+    public function __construct()
+    {
+        $this->framework = & get_instance();
+
+        $this->framework->load->model('user_model');
+
+        $this->framework->load->library('session');
+    }
+
     /**
      * Get all timezones to a grouped array (by continent).
      *
@@ -474,7 +487,9 @@ class Timezones_Model extends CI_Model {
      * Convert the dates of an event to the timezone of the user.
      *
      * @param array $event Must contain the "start_datetime", "end_datetime" and "id_users_provider" properties.
+     *
      * @return array
+     *
      * @throws Exception
      */
     public function convert_event_timezone($event)
@@ -484,7 +499,7 @@ class Timezones_Model extends CI_Model {
             throw new Exception('The provided event does not have the required properties: ' . print_r($event));
         }
 
-        $user_timezone = $this->get_user_timezone($event['id_users_provider']);
+        $user_timezone = $this->framework->user_model->get_user_timezone($event['id_users_provider']);
 
         $session_timezone = $this->get_session_timezone();
 
@@ -497,18 +512,6 @@ class Timezones_Model extends CI_Model {
         return $event;
     }
 
-    /**
-     * Get the timezone of a user.
-     *
-     * @param int $id Database ID of the user.
-     * @return string|null
-     */
-    public function get_user_timezone($id)
-    {
-        $row = $this->db->get_where('users', ['id' => $id])->row_array();
-
-        return $row ? $row['timezone'] : NULL;
-    }
 
     /**
      * Returns the session timezone or the default timezone as a fallback.
@@ -517,11 +520,11 @@ class Timezones_Model extends CI_Model {
      */
     public function get_session_timezone()
     {
-        $this->load->library('session');
-
         $default_timezone = $this->get_default_timezone();
 
-        return isset($this->session->timezone) ? $this->session->timezone : $default_timezone;
+        return $this->framework->session->has_userdata('timezone')
+            ? $this->framework->session->userdata('timezone')
+            : $default_timezone;
     }
 
     /**
@@ -540,7 +543,9 @@ class Timezones_Model extends CI_Model {
      * @param string $value Provide a date time value as a string (format Y-m-d H:i:s).
      * @param string $from_timezone From timezone value.
      * @param string $to_timezone To timezone value.
+     *
      * @return string
+     *
      * @throws Exception
      */
     public function convert($value, $from_timezone, $to_timezone)
@@ -565,6 +570,7 @@ class Timezones_Model extends CI_Model {
      * Get the timezone name for the provided value.
      *
      * @param string $value
+     *
      * @return string|null
      */
     public function get_timezone_name($value)

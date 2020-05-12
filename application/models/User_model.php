@@ -109,9 +109,9 @@ class User_Model extends CI_Model {
             return NULL;
         }
 
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
-        $default_timezone = $this->timezones_model->get_default_timezone();
+        $default_timezone = $this->timezones->get_default_timezone();
 
         return [
             'user_id' => $user['id'],
@@ -191,5 +191,19 @@ class User_Model extends CI_Model {
         $this->db->update('user_settings', ['password' => $hash_password], ['id_users' => $user_id]);
 
         return $new_password;
+    }
+
+    /**
+     * Get the timezone of a user.
+     *
+     * @param int $id Database ID of the user.
+     *
+     * @return string|null
+     */
+    public function get_user_timezone($id)
+    {
+        $row = $this->db->get_where('users', ['id' => $id])->row_array();
+
+        return $row ? $row['timezone'] : NULL;
     }
 }

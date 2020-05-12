@@ -35,7 +35,7 @@ use EA\Engine\Types\Url;
  * @property Services_Model services_model
  * @property Customers_Model customers_model
  * @property Settings_Model settings_model
- * @property Timezones_Model timezones_model
+ * @property Timezones timezones
  * @property Roles_Model roles_model
  * @property Secretaries_Model secretaries_model
  * @property Admins_Model admins_model
@@ -59,7 +59,7 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         if ($this->session->userdata('language'))
         {
@@ -106,7 +106,7 @@ class Appointments extends CI_Controller {
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
-            $timezones = $this->timezones_model->to_array();
+            $timezones = $this->timezones->to_array();
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
