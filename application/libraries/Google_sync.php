@@ -11,10 +11,6 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-// Google API PHP Client is necessary to perform sync operations.
-require_once __DIR__ . '/external/google-api-php-client/Google_Client.php';
-require_once __DIR__ . '/external/google-api-php-client/contrib/Google_CalendarService.php';
-
 /**
  * Google Synchronization Class
  *
@@ -42,7 +38,7 @@ class Google_Sync {
     /**
      * Google Calendar Service
      *
-     * @var Google_CalendarService
+     * @var Google_Service_Calendar
      */
     protected $service;
 
@@ -60,7 +56,7 @@ class Google_Sync {
 
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
-        $this->client->setUseObjects(TRUE);
+//        $this->client->setUseObjects(TRUE);
 
         $this->client->setApplicationName($this->framework->config->item('google_application_name'));
         $this->client->setClientId($this->framework->config->item('google_client_id'));
@@ -68,7 +64,7 @@ class Google_Sync {
         $this->client->setDeveloperKey($this->framework->config->item('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
 
-        $this->service = new Google_CalendarService($this->client);
+        $this->service = new Google_Service_Calendar($this->client);
     }
 
     /**
@@ -131,28 +127,28 @@ class Google_Sync {
      * @param array $customer Contains the customer recod data.
      * @param array $settings Contains some company settings that are used by this method.
      *
-     * @return Google_Event Returns the Google_Event class object.
+     * @return Google_Service_Calendar_Event Returns the Google_Event class object.
      */
     public function add_appointment($appointment, $provider, $service, $customer, $settings)
     {
         $this->framework->load->helper('general');
 
-        $event = new Google_Event();
+        $event = new Google_Service_Calendar_Event();
         $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
         $event->setDescription($appointment['notes']);
         $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $settings['company_name']);
 
-        $start = new Google_EventDateTime();
+        $start = new Google_Service_Calendar_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
         $event->setStart($start);
 
-        $end = new Google_EventDateTime();
+        $end = new Google_Service_Calendar_EventDateTime();
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
 
         $event->attendees = [];
 
-        $event_provider = new Google_EventAttendee();
+        $event_provider = new Google_Service_Calendar_EventAttendee();
         $event_provider->setDisplayName($provider['first_name'] . ' '
             . $provider['last_name']);
         $event_provider->setEmail($provider['email']);
@@ -160,7 +156,7 @@ class Google_Sync {
 
         if ($customer != NULL)
         {
-            $event_customer = new Google_EventAttendee();
+            $event_customer = new Google_Service_Calendar_EventAttendee();
             $event_customer->setDisplayName($customer['first_name'] . ' '
                 . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
@@ -183,9 +179,9 @@ class Google_Sync {
      * @param array $provider Contains the provider record data.
      * @param array $service Contains the service record data.
      * @param array $customer Contains the customer recod data.
-     * @parma array $company_settings Contains some company settings that are used by this method.
+     * @parma array $settings Contains some company settings that are used by this method.
      *
-     * @return Google_Event Returns the Google_Event class object.
+     * @return Google_Service_Calendar_Event Returns the Google_Service_Calendar_Event class object.
      */
     public function update_appointment($appointment, $provider, $service, $customer, $settings)
     {
@@ -198,17 +194,17 @@ class Google_Sync {
         $event->setDescription($appointment['notes']);
         $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $settings['company_name']);
 
-        $start = new Google_EventDateTime();
+        $start = new Google_Service_Calendar_EventDateTime();
         $start->setDateTime(date3339(strtotime($appointment['start_datetime'])));
         $event->setStart($start);
 
-        $end = new Google_EventDateTime();
+        $end = new Google_Service_Calendar_EventDateTime();
         $end->setDateTime(date3339(strtotime($appointment['end_datetime'])));
         $event->setEnd($end);
 
         $event->attendees = [];
 
-        $event_provider = new Google_EventAttendee();
+        $event_provider = new Google_Service_Calendar_EventAttendee();
         $event_provider->setDisplayName($provider['first_name'] . ' '
             . $provider['last_name']);
         $event_provider->setEmail($provider['email']);
@@ -216,7 +212,7 @@ class Google_Sync {
 
         if ($customer != NULL)
         {
-            $event_customer = new Google_EventAttendee();
+            $event_customer = new Google_Service_Calendar_EventAttendee();
             $event_customer->setDisplayName($customer['first_name'] . ' '
                 . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
@@ -254,21 +250,21 @@ class Google_Sync {
      * @param array $provider Contains the provider record data.
      * @param array $unavailable Contains unavailable period's data.
      *
-     * @return Google_Event Returns the google event's object.
+     * @return Google_Service_Calendar_Event Returns the google event's object.
      */
     public function add_unavailable($provider, $unavailable)
     {
         $this->framework->load->helper('general');
 
-        $event = new Google_Event();
+        $event = new Google_Service_Calendar_Event();
         $event->setSummary('Unavailable');
         $event->setDescription($unavailable['notes']);
 
-        $start = new Google_EventDateTime();
+        $start = new Google_Service_Calendar_EventDateTime();
         $start->setDateTime(date3339(strtotime($unavailable['start_datetime'])));
         $event->setStart($start);
 
-        $end = new Google_EventDateTime();
+        $end = new Google_Service_Calendar_EventDateTime();
         $end->setDateTime(date3339(strtotime($unavailable['end_datetime'])));
         $event->setEnd($end);
 
@@ -285,7 +281,7 @@ class Google_Sync {
      * @param array $provider Contains the provider record data.
      * @param array $unavailable Contains the unavailable period data.
      *
-     * @return Google_Event Returns the Google_Event object.
+     * @return Google_Service_Calendar_Event Returns the Google_Service_Calendar_Event object.
      */
     public function update_unavailable($provider, $unavailable)
     {
@@ -295,11 +291,11 @@ class Google_Sync {
             $unavailable['id_google_calendar']);
         $event->setDescription($unavailable['notes']);
 
-        $start = new Google_EventDateTime();
+        $start = new Google_Service_Calendar_EventDateTime();
         $start->setDateTime(date3339(strtotime($unavailable['start_datetime'])));
         $event->setStart($start);
 
-        $end = new Google_EventDateTime();
+        $end = new Google_Service_Calendar_EventDateTime();
         $end->setDateTime(date3339(strtotime($unavailable['end_datetime'])));
         $event->setEnd($end);
 
@@ -333,7 +329,7 @@ class Google_Sync {
      * @param array $provider Contains the provider record data.
      * @param string $google_event_id Id of the google calendar event.
      *
-     * @return Google_Event Returns the google event object.
+     * @return Google_Service_Calendar_Event Returns the google event object.
      */
     public function get_event($provider, $google_event_id)
     {
@@ -347,7 +343,7 @@ class Google_Sync {
      * @param string $start The start date of sync period.
      * @param string $end The end date of sync period.
      *
-     * @return object Returns an array with Google_Event objects that belong on the given
+     * @return object Returns an array with Google_Service_Calendar_Event objects that belong on the given
      * sync period (start, end).
      */
     public function get_sync_events($google_calendar, $start, $end)

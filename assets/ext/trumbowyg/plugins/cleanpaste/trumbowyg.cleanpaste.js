@@ -60,9 +60,8 @@
         // strip out extra spaces -cgCraft
         html = html.replace(/ <\//gi, '</');
 
-        while (html.indexOf('  ') !== -1) {
-            html = html.split('  ').join(' ');
-        }
+        // Remove multiple spaces
+        html.replace(/\s+/g, ' ');
 
         // strip &nbsp; -cgCraft
         html = html.replace(/^\s*|\s*$/g, '');
@@ -78,7 +77,7 @@
             return match;
         });
 
-        // Final cleanout for MS Word crud
+        // Final clean out for MS Word crud
         html = html.replace(/<\?xml[^>]*>/g, '');
         html = html.replace(/<[^ >]+:[^>]*>/g, '');
         html = html.replace(/<\/[^ >]+:[^>]*>/g, '');
@@ -98,15 +97,15 @@
             cleanPaste: {
                 init: function (trumbowyg) {
                     trumbowyg.pasteHandlers.push(function () {
-                        try {
-                            trumbowyg.$ed.html(cleanIt(trumbowyg.$ed.html()));
-                        } catch (c) {
-                        }
+                        setTimeout(function () {
+                          try {
+                              trumbowyg.$ed.html(cleanIt(trumbowyg.$ed.html()));
+                          } catch (c) {
+                          }
+                        }, 0);
                     });
                 }
             }
         }
     });
 })(jQuery);
-
-

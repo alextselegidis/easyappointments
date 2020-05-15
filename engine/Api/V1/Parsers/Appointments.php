@@ -17,6 +17,8 @@ namespace EA\Engine\Api\V1\Parsers;
  * Appointments Parser
  *
  * This class will handle the encoding and decoding from the API requests.
+ *
+ * @deprecated
  */
 class Appointments implements ParsersInterface {
     /**

@@ -46,19 +46,18 @@ window.BackendSettings = window.BackendSettings || {};
      *
      * @param {bool} bindEventHandlers Optional (true), determines whether to bind the default event handlers.
      */
-    exports.initialize = function (bindEventHandlers) {
-        bindEventHandlers = bindEventHandlers || true;
+    exports.initialize = function (defaultEventHandlers) {
+        defaultEventHandlers = defaultEventHandlers || true;
 
         $('#cookie-notice-content, #terms-and-conditions-content, #privacy-policy-content').trumbowyg();
 
         // Apply setting values from database.
-        $.each(GlobalVariables.settings.system, function (index, setting) {
+        var workingPlan = {};
+
+        GlobalVariables.settings.system.forEach(function (setting) {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
             $('select[data-field="' + setting.name + '"]').val(setting.value);
-        });
 
-        var workingPlan = {};
-        $.each(GlobalVariables.settings.system, function (index, setting) {
             if (setting.name === 'company_working_plan') {
                 workingPlan = $.parseJSON(setting.value);
             }
@@ -121,7 +120,6 @@ window.BackendSettings = window.BackendSettings || {};
         $('#zip-code').val(GlobalVariables.settings.user.zip_code);
         $('#notes').val(GlobalVariables.settings.user.notes);
         $('#timezone').val(GlobalVariables.settings.user.timezone);
-
         $('#username').val(GlobalVariables.settings.user.settings.username);
         $('#password, #retype-password').val('');
         $('#calendar-view').val(GlobalVariables.settings.user.settings.calendar_view);
@@ -135,7 +133,7 @@ window.BackendSettings = window.BackendSettings || {};
         // Set default settings helper.
         settings = new SystemSettings();
 
-        if (bindEventHandlers) {
+        if (defaultEventHandlers) {
             bindEventHandlers();
             var $link = $('#settings-page .nav li').not('.hidden').first().find('a');
             $link.tab('show');

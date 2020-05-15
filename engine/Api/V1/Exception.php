@@ -17,6 +17,8 @@ namespace EA\Engine\Api\V1;
  * API v1 Exception Class
  *
  * This exception variation will hold the information needed for exception handling in the API.
+ *
+ * @deprecated
  */
 class Exception extends \Exception {
     /**

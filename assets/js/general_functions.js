@@ -222,41 +222,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         return re.test(email);
     };
 
-    /**
-     * Convert AJAX exceptions to HTML.
-     *
-     * This method returns the exception HTML display for javascript ajax calls. It uses the Bootstrap collapse
-     * module to show exception messages when the user opens the "Details" collapse component.
-     *
-     * @param {Array} exceptions Contains the exceptions to be displayed.
-     *
-     * @return {String} Returns the html markup for the exceptions.
-     */
-    exports.exceptionsToHtml = function (exceptions) {
-        var html =
-            '<div class="accordion" id="error-accordion">' +
-            '<div class="accordion-group">' +
-            '<div class="accordion-heading">' +
-            '<button class="accordion-toggle btn btn-default btn-xs" data-toggle="collapse" ' +
-            'data-parent="#error-accordion" href="#error-technical">' +
-            EALang.details +
-            '</button>' +
-            '</div>' +
-            '<br>';
-
-        $.each(exceptions, function (index, exception) {
-            html +=
-                '<div id="error-technical" class="accordion-body collapse">' +
-                '<div class="accordion-inner">' +
-                '<pre>' + exception.message + '</pre>' +
-                '</div>' +
-                '</div>';
-        });
-
-        html += '</div></div>';
-
-        return html;
-    };
 
     /**
      * Makes the first letter of the string upper case.

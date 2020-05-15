@@ -302,9 +302,9 @@ class Appointments_Model extends CI_Model {
 
         $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
 
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
-        $appointment = $this->timezones_model->convert_event_timezone($appointment);
+        $appointment = $this->timezones->convert_event_timezone($appointment);
 
         return $appointment;
     }
@@ -348,9 +348,9 @@ class Appointments_Model extends CI_Model {
             throw new Exception('The given field name does not exist in the database: ' . $field_name);
         }
 
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
-        $row_data = $this->timezones_model->convert_event_timezone($row_data);
+        $row_data = $this->timezones->convert_event_timezone($row_data);
 
         return $row_data[$field_name];
     }
@@ -385,11 +385,11 @@ class Appointments_Model extends CI_Model {
 
         $appointments = $this->db->get('appointments', $limit, $offset)->result_array();
 
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         foreach ($appointments as &$appointment)
         {
-            $appointment = $this->timezones_model->convert_event_timezone($appointment);
+            $appointment = $this->timezones->convert_event_timezone($appointment);
 
             if ($aggregates)
             {

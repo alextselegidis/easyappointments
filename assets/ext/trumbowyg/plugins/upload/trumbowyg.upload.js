@@ -53,6 +53,16 @@
                 file: 'File',
                 uploadError: 'Error'
             },
+            da: {
+                upload: 'Upload',
+                file: 'Fil',
+                uploadError: 'Fejl'
+            },
+            de: {
+                upload: 'Hochladen',
+                file: 'Datei',
+                uploadError: 'Fehler'
+            },
             sk: {
                 upload: 'Nahrať',
                 file: 'Súbor',
@@ -97,7 +107,12 @@
                 upload: 'Yükle',
                 file: 'Dosya',
                 uploadError: 'Hata'
-            }
+            },
+            ko: {
+                upload: '그림 올리기',
+                file: '파일',
+                uploadError: '에러'
+            },
         },
         // jshint camelcase:true
 
@@ -188,7 +203,7 @@
                                             } else {
                                                 if (!!getDeep(data, trumbowyg.o.plugins.upload.statusPropertyName.split('.'))) {
                                                     var url = getDeep(data, trumbowyg.o.plugins.upload.urlPropertyName.split('.'));
-                                                    trumbowyg.execCmd('insertImage', url);
+                                                    trumbowyg.execCmd('insertImage', url, false, true);
                                                     var $img = $('img[src="' + url + '"]:not([alt])', trumbowyg.$box);
                                                     $img.attr('alt', values.alt);
                                                     if (trumbowyg.o.imageWidthModalEdit && parseInt(values.width) > 0) {
@@ -244,8 +259,9 @@
             var originalXhr = $.ajaxSettings.xhr;
             $.ajaxSetup({
                 xhr: function () {
-                    var req = originalXhr(),
-                        that = this;
+                    var that = this,
+                        req = originalXhr();
+
                     if (req && typeof req.upload === 'object' && that.progressUpload !== undefined) {
                         req.upload.addEventListener('progress', function (e) {
                             that.progressUpload(e);
