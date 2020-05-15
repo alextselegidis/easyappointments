@@ -26,9 +26,6 @@ window.Backend = window.Backend || {};
      * Main javascript code for the backend of Easy!Appointments.
      */
     $(document).ready(function () {
-        window.console = window.console || function () {
-        }; // IE compatibility
-
         $(window)
             .on('resize', function () {
                 Backend.placeFooterToBottom();

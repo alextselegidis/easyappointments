@@ -13,6 +13,13 @@
 
 namespace EA\Engine\Types;
 
+/**
+ * Class Text
+ *
+ * @deprecated
+ *
+ * @package EA\Engine\Types
+ */
 class Text extends Type {
     protected function _validate($value)
     {

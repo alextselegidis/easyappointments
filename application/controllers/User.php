@@ -34,7 +34,7 @@ use EA\Engine\Types\NonEmptyText;
  * @property Services_Model services_model
  * @property Customers_Model customers_model
  * @property Settings_Model settings_model
- * @property Timezones_Model timezones_model
+ * @property Timezones timezones
  * @property Roles_Model roles_model
  * @property Secretaries_Model secretaries_model
  * @property Admins_Model admins_model

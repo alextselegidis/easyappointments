@@ -17,6 +17,8 @@ namespace EA\Engine\Api\V1\Parsers;
  * Parsers Interface
  *
  * Every parser needs the "encode" and "decode" methods.
+ *
+ * @deprecated
  */
 interface ParsersInterface {
     /**

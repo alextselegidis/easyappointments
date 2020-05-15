@@ -62,33 +62,47 @@ window.BackendUsers = window.BackendUsers || {};
         helper.bindEventHandlers();
 
         // Fill the services and providers list boxes.
-        var html = '<div>';
-        $.each(GlobalVariables.services, function (index, service) {
-            html +=
-                '<div class="checkbox">' +
-                '<label class="checkbox">' +
-                '<input type="checkbox" data-id="' + service.id + '" />' +
-                service.name +
-                '</label>' +
-                '</div>';
-
+        GlobalVariables.services.forEach(function(service) {
+            $('<div/>', {
+                'class': 'checkbox',
+                'html': [
+                    $('<label/>', {
+                        'class': 'checkbox',
+                        'html': [
+                            $('<input/>', {
+                                'type': 'checkbox',
+                                'data-id': service.id
+                            }),
+                            $('<span/>', {
+                                'text': service.name
+                            })
+                        ]
+                    })
+                ]
+            })
+                .appendTo('#provider-services');
         });
-        html += '</div>';
-        $('#provider-services').html(html);
 
-        html = '<div>';
-        $.each(GlobalVariables.providers, function (index, provider) {
-            html +=
-                '<div class="checkbox">' +
-                '<label class="checkbox">' +
-                '<input type="checkbox" data-id="' + provider.id + '" />' +
-                provider.first_name + ' ' + provider.last_name +
-                '</label>' +
-                '</div>';
-
+        GlobalVariables.providers.forEach(function(provider) {
+            $('<div/>', {
+                'class': 'checkbox',
+                'html': [
+                    $('<label/>', {
+                        'class': 'checkbox',
+                        'html': [
+                            $('<input/>', {
+                                'type': 'checkbox',
+                                'data-id': provider.id
+                            }),
+                            $('<span/>', {
+                                'text': provider.first_name + ' ' + provider.last_name
+                            })
+                        ]
+                    })
+                ]
+            })
+                .appendTo('#secretary-providers');
         });
-        html += '</div>';
-        $('#secretary-providers').html(html);
 
         $('#reset-working-plan').qtip({
             position: {
@@ -136,19 +150,31 @@ window.BackendUsers = window.BackendUsers || {};
                     .done(function (response) {
                         GlobalVariables.providers = response;
 
-                        var html = '<div>';
-                        $.each(GlobalVariables.providers, function (index, provider) {
-                            html +=
-                                '<div class="checkbox">' +
-                                '<label class="checkbox">' +
-                                '<input type="checkbox" data-id="' + provider.id + '" />' +
-                                provider.first_name + ' ' + provider.last_name +
-                                '</label>' +
-                                '</div>';
+                        $('#secretary-providers').empty();
+
+                        GlobalVariables.providers.forEach(function(provider) {
+                            $('<div/>', {
+                                'class': 'checkbox',
+                                'html': [
+                                    $('<label/>', {
+                                        'class': 'checkbox',
+                                        'html': [
+                                            $('<input/>', {
+                                                'type': 'checkbox',
+                                                'data-id': provider.id,
+                                                'prop': {
+                                                    'disabled': true
+                                                }
+                                            }),
+                                            $('<span/>', {
+                                                'text': provider.first_name + ' ' + provider.last_name
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                                .appendTo('#secretary-providers');
                         });
-                        html += '</div>';
-                        $('#secretary-providers').html(html);
-                        $('#secretary-providers input:checkbox').prop('disabled', true);
                     })
                     .fail(GeneralFunctions.ajaxFailureHandler);
             }

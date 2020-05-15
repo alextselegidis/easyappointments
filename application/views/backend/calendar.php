@@ -2,7 +2,6 @@
 
 <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-fullcalendar/fullcalendar.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-sticky-table-headers/jquery.stickytableheaders.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_default_view.js') ?>"></script>
@@ -104,7 +103,7 @@
             <?php endif ?>
 
             <?php if($calendar_view === 'table'): ?>
-                <a class="btn btn-default" href="<?= site_url('backend') ?>"
+                <a class="btn btn-default" href="<?= site_url('backend?view=default') ?>"
                    title="<?= lang('default') ?>">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </a>

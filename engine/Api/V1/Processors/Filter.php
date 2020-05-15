@@ -20,6 +20,8 @@ namespace EA\Engine\Api\V1\Processors;
  * easier to apply some custom filtering in order to get the required results.
  *
  * @todo Implement this processor class.
+ *
+ * @deprecated
  */
 class Filter implements ProcessorsInterface {
     /**

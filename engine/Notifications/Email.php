@@ -24,6 +24,8 @@ use \EA\Engine\Types\Email as EmailAddress;
  * This library handles all the notification email deliveries on the system.
  *
  * Important: The email configuration settings are located at: /application/config/email.php
+ *
+ * @deprecated
  */
 class Email {
     /**

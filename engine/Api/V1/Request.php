@@ -18,6 +18,8 @@ namespace EA\Engine\Api\V1;
  *
  * This class handles the common request handling before the data are manipulated and
  * returned back with the Response class.
+ *
+ * @deprecated
  */
 class Request {
     /**

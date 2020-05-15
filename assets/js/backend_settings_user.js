@@ -96,9 +96,9 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#user .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#user .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });

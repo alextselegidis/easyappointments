@@ -17,6 +17,8 @@ namespace EA\Engine\Api\V1\Parsers;
  * Admins Parser
  *
  * This class will handle the encoding and decoding from the API requests.
+ *
+ * @deprecated
  */
 class Admins implements ParsersInterface {
     /**
