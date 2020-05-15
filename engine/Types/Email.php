@@ -13,6 +13,13 @@
 
 namespace EA\Engine\Types;
 
+/**
+ * Class Email
+ *
+ * @deprecated
+ *
+ * @package EA\Engine\Types
+ */
 class Email extends NonEmptyText {
     protected function _validate($value)
     {

@@ -67,10 +67,10 @@
         var settings = [];
 
         // General Settings Tab
-        $('#general').find('input, select').each(function () {
+        $('#general').find('input, select').each(function (index, field) {
             settings.push({
-                name: $(this).attr('data-field'),
-                value: $(this).val()
+                name: $(field).attr('data-field'),
+                value: $(field).val()
             });
         });
 
@@ -153,9 +153,9 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#general .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#general .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });

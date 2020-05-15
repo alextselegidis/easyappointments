@@ -19,6 +19,8 @@ use \EA\Engine\Types\NonEmptyText;
  * API v1 Authorization Class
  *
  * This class will handle the authorization procedure of the API.
+ *
+ * @deprecated
  */
 class Authorization {
     /**

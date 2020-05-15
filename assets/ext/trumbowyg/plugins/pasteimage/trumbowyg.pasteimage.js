@@ -18,6 +18,7 @@
                     trumbowyg.pasteHandlers.push(function (pasteEvent) {
                         try {
                             var items = (pasteEvent.originalEvent || pasteEvent).clipboardData.items,
+                                mustPreventDefault = false,
                                 reader;
 
                             for (var i = items.length - 1; i >= 0; i -= 1) {
@@ -25,11 +26,18 @@
                                     reader = new FileReader();
                                     /* jshint -W083 */
                                     reader.onloadend = function (event) {
-                                        trumbowyg.execCmd('insertImage', event.target.result, undefined, true);
+                                        trumbowyg.execCmd('insertImage', event.target.result, false, true);
                                     };
                                     /* jshint +W083 */
                                     reader.readAsDataURL(items[i].getAsFile());
+
+                                    mustPreventDefault = true;
                                 }
+                            }
+
+                            if (mustPreventDefault) {
+                                pasteEvent.stopPropagation();
+                                pasteEvent.preventDefault();
                             }
                         } catch (c) {
                         }

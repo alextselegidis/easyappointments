@@ -71,9 +71,8 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 $.post(url, data)
                                     .done(function (response) {
                                         $('#google-calendar').empty();
-                                        $.each(response, function () {
-                                            var option = '<option value="' + this.id + '">' + this.summary + '</option>';
-                                            $('#google-calendar').append(option);
+                                        response.forEach(response, function (event) {
+                                            $('#google-calendar').append(new Option(event.summary, event.id));
                                         });
 
                                         $('#select-google-calendar').modal('show');
@@ -92,21 +91,21 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 // Disable synchronization for selected provider.
                 // Update page elements and make an AJAX call to remove the google sync setting of the
                 // selected provider.
-                $.each(GlobalVariables.availableProviders, function (index, provider) {
-                    if (Number(provider.id) === Number($('#select-filter-item').val())) {
-                        provider.settings.google_sync = '0';
-                        provider.settings.google_token = null;
+                var providerId = $('#select-filter-item').val();
 
-                        disableProviderSync(provider.id);
-
-                        $('#enable-sync').removeClass('btn-danger enabled');
-                        $('#enable-sync span:eq(1)').text(EALang.enable_sync);
-                        $('#google-sync').prop('disabled', true);
-                        $('#select-filter-item option:selected').attr('google-sync', 'false');
-
-                        return false;
-                    }
+                var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
+                    return Number(provider.id) === Number(providerId);
                 });
+
+                provider.settings.google_sync = '0';
+                provider.settings.google_token = null;
+
+                disableProviderSync(provider.id);
+
+                $('#enable-sync').removeClass('btn-danger enabled');
+                $('#enable-sync span:eq(1)').text(EALang.enable_sync);
+                $('#google-sync').prop('disabled', true);
+                $('#select-filter-item option:selected').attr('google-sync', 'false');
             }
         });
 

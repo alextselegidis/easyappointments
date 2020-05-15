@@ -22,6 +22,8 @@ namespace EA\Engine\Api\V1\Processors;
  *
  * Make sure that the response parameter is a sequential array and not a single entry by the time this
  * processor is executed.
+ *
+ * @deprecated
  */
 class Paginate implements ProcessorsInterface {
     /**

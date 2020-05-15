@@ -13,7 +13,18 @@
 
 namespace EA\Engine\Types;
 
+/**
+ * Class NonEmptyText
+ *
+ * @deprecated
+ *
+ * @package EA\Engine\Types
+ */
 class NonEmptyText extends Text {
+    /**
+     * @param mixed $value
+     * @return bool
+     */
     protected function _validate($value)
     {
         return parent::_validate($value) && $value !== '';

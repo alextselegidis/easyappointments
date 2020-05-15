@@ -19,6 +19,8 @@ namespace EA\Engine\Api\V1\Processors;
  * This class will search the response with the "q" GET parameter and only provide the entries
  * that match the keyword. Make sure that the response parameter is a sequential array and not
  * a single entry by the time this processor is executed.
+ *
+ * @deprecated
  */
 class Search implements ProcessorsInterface {
     /**
