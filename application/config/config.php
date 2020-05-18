@@ -104,7 +104,8 @@ $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
         'ru' => 'russian',
         'sk' => 'slovak',
         'es' => 'spanish',
-        'tr' => 'turkish'
+        'tr' => 'turkish',
+        'sv' => 'swedish'
     ][substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)]
     : Config::LANGUAGE;
 
