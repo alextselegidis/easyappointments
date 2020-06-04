@@ -44,6 +44,17 @@ class Config {
     const DB_PASSWORD   = 'root';
 
     // ------------------------------------------------------------------------
+    // EMAIL SETTINGS
+    // ------------------------------------------------------------------------
+
+    const MAIL_PROTOCOL     = 'mail'; // 'mail' or 'smtp'
+    const MAIL_SMTP_HOST    = '';
+    const MAIL_SMTP_USER    = '';
+    const MAIL_SMTP_PASS    = '';
+    const MAIL_SMTP_CRYPTO  = ''; // 'ssl' or 'tls'
+    const MAIL_SMTP_PORT    = 25;
+
+    // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
     // ------------------------------------------------------------------------
 
