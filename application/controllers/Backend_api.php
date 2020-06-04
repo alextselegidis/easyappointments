@@ -283,6 +283,22 @@ class Backend_api extends CI_Controller {
             $this->load->library('timezones');
             $this->load->model('user_model');
 
+            // Prevent appointment duration to be shorter than 5 minutes
+            if ($this->input->post('appointment_data'))
+            {
+                $appointment = json_decode($this->input->post('appointment_data'), TRUE);
+
+                $startDate = strtotime($appointment['start_datetime']);
+                $endDate = strtotime($appointment['end_datetime']);
+                // todo: move $minInterval as an appointment setting
+                $minInterval = 300; // 5 minutes
+                
+                if (($startDate + $minInterval) >= $endDate)
+                {
+                    throw new Exception('Appointment duration cannot be shorter than 5 minutes.');
+                }
+            }
+
             // Save customer changes to the database.
             if ($this->input->post('customer_data'))
             {
