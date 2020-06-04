@@ -21,7 +21,7 @@
     "url": "https://github.com/alextselegidis/easyappointments/issues"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "dependencies": {
     "bootstrap": "^3.4.1",
