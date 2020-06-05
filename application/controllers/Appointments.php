@@ -95,6 +95,7 @@ class Appointments extends CI_Controller {
             $available_services = $this->services_model->get_available_services();
             $available_providers = $this->providers_model->get_available_providers();
             $company_name = $this->settings_model->get_setting('company_name');
+            $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
             $date_format = $this->settings_model->get_setting('date_format');
             $time_format = $this->settings_model->get_setting('time_format');
             $first_weekday = $this->settings_model->get_setting('first_weekday');
@@ -141,6 +142,27 @@ class Appointments extends CI_Controller {
 
                     $this->load->view('appointments/message', $variables);
 
+                    return;
+                }
+
+                // If the requested apppointment begin date is lower than book_advance_timeout. Display
+                // a message to the customer.
+                $startDate = strtotime($results[0]['start_datetime']);
+                $limit = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
+
+                if ($startDate < $limit)
+                {
+                    $hours = floor($book_advance_timeout / 60);
+                    $minutes = ($book_advance_timeout % 60);
+                    
+                    $view = [
+                        'message_title' => $this->lang->line('appointment_locked'),
+                        'message_text' => strtr($this->lang->line('appointment_locked_message'), [
+                            '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
+                        ]),
+                        'message_icon' => base_url('assets/img/error.png')
+                    ];
+                    $this->load->view('appointments/message', $view);
                     return;
                 }
 
