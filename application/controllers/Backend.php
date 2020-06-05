@@ -99,7 +99,6 @@ class Backend extends CI_Controller {
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_APPOINTMENTS;
-        $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
         $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
