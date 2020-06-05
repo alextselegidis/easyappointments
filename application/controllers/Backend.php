@@ -374,6 +374,13 @@ class Backend extends CI_Controller {
         $view['system_settings'] = $this->settings_model->get_settings();
         $view['user_settings'] = $this->user_model->get_user($user_id);
         $view['timezones'] = $this->timezones->to_array();
+
+        // book_advance_timeout preview
+        $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
+        $hours = floor($book_advance_timeout / 60);
+        $minutes = $book_advance_timeout % 60;
+        $view['book_advance_timeout_preview'] = sprintf('%02d:%02d', $hours, $minutes);
+
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);

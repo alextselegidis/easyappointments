@@ -268,8 +268,12 @@
                             <div class="form-group">
                                 <label for="book-advance-timeout" class="control-label"><?= lang('timeout_minutes') ?></label>
                                 <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" type="number" min="15">
-                                <p class="help-block">
-                                    <?= lang('book_advance_timeout_hint') ?>
+                                <p id="book-advance-timeout-helper" class="help-block">
+                                    <?= strtr(lang('book_advance_timeout_hint'),
+                                        [
+                                            '{$limit}' => $book_advance_timeout_preview
+                                        ])
+                                    ?>
                                 </p>
                             </div>
                         </div>
