@@ -64,12 +64,9 @@
             }
 
             var categoryId = $(this).attr('data-id');
-            var category = {};
-            $.each(instance.filterResults, function (index, item) {
-                if (item.id === categoryId) {
-                    category = item;
-                    return false;
-                }
+
+            var category = instance.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(categoryId);
             });
 
             instance.display(category);
@@ -181,14 +178,20 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-categories .results').html('');
-                $.each(response, function (index, category) {
-                    var html = this.getFilterHtml(category);
-                    $('#filter-categories .results').append(html);
+                $('#filter-categories .results').empty();
+
+                response.forEach(function(category) {
+                    $('#filter-categories .results')
+                        .append(this.getFilterHtml(category))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (response.length === 0) {
-                    $('#filter-categories .results').html('<em>' + EALang.no_records_found + '</em>');
+                    $('#filter-categories .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -279,9 +282,9 @@
         try {
             var missingRequired = false;
 
-            $('#categories .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#categories .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -319,12 +322,16 @@
      * @return {String} Returns the record HTML code.
      */
     CategoriesHelper.prototype.getFilterHtml = function (category) {
-        var html =
-            '<div class="category-row entry" data-id="' + category.id + '">' +
-            '<strong>' + category.name + '</strong>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'category-row entry',
+            'data-id': category.id,
+            'html': [
+                $('<strong/>', {
+                    'text': category.name
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -341,21 +348,16 @@
 
         $('#filter-categories .selected').removeClass('selected');
 
-        $('#filter-categories .category-row').each(function () {
-            if ($(this).attr('data-id') === id) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-categories .category-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, category) {
-                if (category.id === id) {
-                    this.display(category);
-                    $('#edit-category, #delete-category').prop('disabled', false);
-                    return false;
-                }
+            var category = this.filterResults.find(function (category) {
+                return Number(category.id) === Number(id);
             }.bind(this));
+
+            this.display(category);
+
+            $('#edit-category, #delete-category').prop('disabled', false);
         }
     };
 

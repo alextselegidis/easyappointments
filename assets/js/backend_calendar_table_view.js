@@ -89,22 +89,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
 
-                                $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
+                                // $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
 
-                                createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
+                                // createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
 
                                 // Add the appointments to the column.
-                                createAppointments($providerColumn, response.appointments);
+                                // createAppointments($providerColumn, response.appointments);
 
                                 // Add the unavailabilities to the column.
-                                createUnavailabilities($providerColumn, response.unavailabilities);
+                                // createUnavailabilities($providerColumn, response.unavailabilities);
 
                                 // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
                                 var day = date.toString('dddd').toLowerCase();
                                 if (workingPlan[day]) {
                                     var breaks = workingPlan[day].breaks;
-                                    createBreaks($providerColumn, breaks);
+                                    // createBreaks($providerColumn, breaks);
                                 }
                             });
                         });
@@ -132,7 +132,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Hides the open popover element.
          */
         $calendar.on('click', '.close-popover', function () {
-            $(this).parents().eq(2).popover('destroy');
+            $(this).parents('.popover').popover('destroy');
         });
 
         /**
@@ -141,7 +141,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Enables the edit dialog of the selected table event.
          */
         $calendar.on('click', '.edit-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover
+            $(this).parents('.popover').popover('destroy');
 
             var $dialog;
 
@@ -208,7 +208,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendar.on('click', '.delete-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover.
+            $(this).parents('.popover').popover('destroy'); // Hide the popover.
 
             var url;
             var data;
@@ -308,18 +308,37 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .append(new Option('1 ' + EALang.day, 1))
             .append(new Option('3 ' + EALang.days, 3));
 
-        var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar');
+        var $calendarHeader = $('<div/>', {
+            'class': 'calendar-header'
+        })
+            .appendTo('#calendar');
 
-        $calendarHeader
-            .html(
-                '<button class="btn btn-xs btn-default previous">' +
-                '<span class="glyphicon glyphicon-chevron-left"></span>' +
-                '</button>' +
-                '<input type="text" class="select-date" value="' + GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat) + '" />' +
-                '<button class="btn btn-xs btn-default next">' +
-                '<span class="glyphicon glyphicon-chevron-right"></span>' +
-                '</button>'
-            );
+        $('<button/>', {
+            'class': 'btn btn-xs btn-default previous',
+            'html': [
+                $('<span/>', {
+                    'class': 'glyphicon glyphicon-chevron-left'
+                })
+            ]
+        })
+            .appendTo($calendarHeader);
+
+        $('<input/>', {
+            'type': 'text',
+            'class': 'select-date',
+            'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat)
+        })
+            .appendTo($calendarHeader);
+
+        $('<button/>', {
+            'class': 'btn btn-xs btn-default next',
+            'html': [
+                $('<span/>', {
+                    'class': 'glyphicon glyphicon-chevron-right'
+                })
+            ]
+        })
+            .appendTo($calendarHeader);
 
         var dateFormat;
 
@@ -429,12 +448,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      */
     function createView(startDate, endDate) {
         // Disable date navigation.
-        $('#calendar .calendar-header .btn').addClass('disabled').prop('disabled', true);
+        $('#calendar .calendar-header .btn')
+            .addClass('disabled')
+            .prop('disabled', true);
 
         // Remember provider calendar view mode.
         var providerView = {};
-        $('.provider-column').each(function () {
-            var $providerColumn = $(this);
+        $('.provider-column').each(function (index, providerColumn) {
+            var $providerColumn = $(providerColumn);
             var providerId = $providerColumn.data('provider').id;
             providerView[providerId] = $providerColumn.find('.calendar-wrapper').fullCalendar('getView').name;
         });
@@ -472,8 +493,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false);
 
                 // Apply provider calendar view mode.
-                $('.provider-column').each(function () {
-                    var $providerColumn = $(this);
+                $('.provider-column').each(function (index, providerColumn) {
+                    var $providerColumn = $(providerColumn);
                     var providerId = $providerColumn.data('provider').id;
                     $providerColumn.find('.calendar-wrapper')
                         .fullCalendar('changeView', providerView[providerId] || 'agendaDay');
@@ -943,7 +964,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var endHour = entry.end.split(':');
             var endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), endHour[0], endHour[1]);
             var eventDuration = Math.round((endDate - eventDate) / 60000);
-            var $event = $('<div class="event unavailability break" />');
+            var $event = $('<div/>', {
+                'class': 'event unavailability break'
+            });
 
             $event.html(
                 EALang.break +
@@ -981,9 +1004,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * above the calendar item.
      */
     function onEventClick(event, jsEvent) {
-        $('.popover').remove(); // Close all open popovers.
+        $('.popover').popover('destroy'); // Close all open popovers.
 
-        var html;
+        var $html;
         var displayEdit;
         var displayDelete;
 
@@ -1005,109 +1028,217 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 notes = '<strong>Notes</strong> ' + event.data.notes;
             }
 
-            html =
-                '<style type="text/css">'
-                + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                + '.popover-content button {margin-right: 10px;}'
-                + '</style>' +
-                '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>'
-                + notes
-                + '<hr>' +
-                '<center>' +
-                '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang.edit + '</button>' +
-                '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang.delete + '</button>' +
-                '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang.close + '</button>' +
-                '</center>';
+            $html = $('<div/>', {
+                'html': [
+                    $('<strong/>', {
+                        'text': EALang.start
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.end
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<span/>', {
+                        'text': notes
+                    }),
+                    $('<br/>'),
+
+                    $('<hr/>'),
+
+                    $('<div/>', {
+                        'class': 'text-center',
+                        'html': [
+                            $('<button/>', {
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'text': EALang.edit
+                            }),
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'text': EALang.delete
+                            }),
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-default',
+                                'text': EALang.close
+                            })
+                        ]
+                    })
+                ]
+            });
         } else if ($(this).hasClass('fc-extra') || $parent.hasClass('fc-extra') || $altParent.hasClass('fc-extra')) {
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
             var provider = '';
+
             if (event.data) { // Only custom unavailable periods have notes.
                 provider = '<strong>' + EALang.provider + '</strong> ' + event.data.first_name + ' ' + event.data.last_name;
             }
 
             var extraPeriod = jQuery.parseJSON(event.data.settings.extra_working_plan)[event.start.format()];
 
-            html =
-                '<style type="text/css">'
-                + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                + '.popover-content button {margin-right: 10px;}'
-                + '</style>' +
-                '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format() + ' ' + extraPeriod.start, GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format() + ' ' + extraPeriod.end, GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.timezone + '</strong> '
-                + GlobalVariables.timezones[event.data.provider.timezone]
-                + '<br>' +
-                +provider
-                + '<hr>' +
-                '<center>' +
-                '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang.delete + '</button>' +
-                '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang.close + '</button>' +
-                '</center>';
+            $html = $('<div/>', {
+                'html': [
+                    $('<strong/>', {
+                        'text': EALang.provider
+                    }),
+                    $('<span/>', {
+                        'text': event.data ? event.data.first_name + ' ' + event.data.last_name : '-'
+                    }),
+                    $('<br/>'),
 
+                    $('<strong/>', {
+                        'text': EALang.start
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.end
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.timezone
+                    }),
+                    $('<span/>', {
+                        'text': GlobalVariables.timezones[event.data.provider.timezone]
+                    }),
+                    $('<br/>'),
+
+                    $('<hr/>'),
+
+                    $('<div/>', {
+                        'class': 'text-center',
+                        'html': [
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'text': EALang.delete
+                            }),
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-default',
+                                'text': EALang.close
+                            })
+                        ]
+                    })
+                ]
+            });
         } else {
             displayEdit = (GlobalVariables.user.privileges.appointments.edit === true)
                 ? '' : 'hide';
             displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide';
 
-            html =
-                '<style type="text/css">'
-                + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                + '.popover-content button {margin-right: 10px;}'
-                + '</style>' +
-                '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.timezone + '</strong> '
-                + GlobalVariables.timezones[event.data.provider.timezone]
-                + '<br>' +
-                '<strong>' + EALang.service + '</strong> '
-                + event.data.service.name
-                + '<br>' +
-                '<strong>' + EALang.provider + '</strong> '
-                + GeneralFunctions.renderMapIcon(event.data.customer) + ' '
-                + event.data.provider.first_name + ' '
-                + event.data.provider.last_name
-                + '<br>' +
-                '<strong>' + EALang.customer + '</strong> '
-                + GeneralFunctions.renderMapIcon(event.data.customer) + ' '
-                + event.data.customer.first_name + ' '
-                + event.data.customer.last_name
-                + '<br>' +
-                '<strong>' + EALang.email + '</strong> '
-                + GeneralFunctions.renderMailIcon(event.data.customer.email) + ' '
-                + event.data.customer.email
-                + '<br>' +
-                '<strong>' + EALang.phone_number + '</strong> '
-                + GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number) + ' '
-                + event.data.customer.phone_number
-                + '<hr>' +
-                '<div class="text-center">' +
-                '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang.edit + '</button>' +
-                '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang.delete + '</button>' +
-                '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang.close + '</button>' +
-                '</div>';
+            $html = $('<div/>', {
+                'html': [
+                    $('<strong/>', {
+                        'text': EALang.start
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.end
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.timezone
+                    }),
+                    $('<span/>', {
+                        'text': GlobalVariables.timezones[event.data.provider.timezone]
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.service
+                    }),
+                    $('<span/>', {
+                        'text': event.data.service.name
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.provider
+                    }),
+                    GeneralFunctions.renderMapIcon(event.data.provider),
+                    $('<span/>', {
+                        'text': event.data.provider.first_name + ' ' + event.data.provider.last_name
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.customer
+                    }),
+                    GeneralFunctions.renderMapIcon(event.data.customer),
+                    $('<span/>', {
+                        'text': event.data.customer.first_name + ' ' + event.data.customer.last_name
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.email
+                    }),
+                    GeneralFunctions.renderMailIcon(event.data.customer.email),
+                    $('<span/>', {
+                        'text': event.data.customer.email
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.phone_number
+                    }),
+                    GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
+                    $('<span/>', {
+                        'text': event.data.customer.phone_number
+                    }),
+                    $('<br/>'),
+
+                    $('<hr/>'),
+
+                    $('<div/>', {
+                        'class': 'text-center',
+                        'html': [
+                            $('<button/>', {
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'text': EALang.edit
+                            }),
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'text': EALang.delete
+                            }),
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-default',
+                                'text': EALang.close
+                            })
+                        ]
+                    })
+                ]
+            });
         }
 
         $(jsEvent.target).popover({
             placement: 'top',
             title: event.title,
-            content: html,
+            content: $html,
             html: true,
             container: '#calendar',
             trigger: 'manual'

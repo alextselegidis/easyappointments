@@ -19,6 +19,8 @@ namespace EA\Engine\Api\V1\Processors;
  * This class will sort the response array with the provided GET parameters. Make sure that the
  * response parameter is a sequential array and not a single entry by the time this processor is
  * executed.
+ *
+ * @deprecated
  */
 class Sort implements ProcessorsInterface {
     /**

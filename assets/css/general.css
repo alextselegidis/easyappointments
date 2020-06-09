@@ -412,3 +412,15 @@ a {
 a:hover {
     color: #0a6977;
 }
+
+body .popover-content strong {
+    min-width: 80px; display:inline-block;
+}
+
+body .popover-content button {
+    margin-right: 10px;
+}
+
+body .popover-content a {
+    margin-right: 5px;
+}

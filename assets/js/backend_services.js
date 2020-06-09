@@ -41,10 +41,10 @@ window.BackendServices = window.BackendServices || {};
         defaultEventHandlers = defaultEventHandlers || true;
 
         // Fill available service categories listbox.
-        $.each(GlobalVariables.categories, function (index, category) {
-            var option = new Option(category.name, category.id);
-            $('#service-category').append(option);
+        GlobalVariables.categories.forEach(function (category) {
+            $('#service-category').append(new Option(category.name, category.id));
         });
+
         $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
 
         // Instantiate helper object (service helper by default).
@@ -102,11 +102,13 @@ window.BackendServices = window.BackendServices || {};
             .done(function (response) {
                 GlobalVariables.categories = response;
                 var $select = $('#service-category');
+
                 $select.empty();
-                $.each(response, function (index, category) {
-                    var option = new Option(category.name, category.id);
-                    $select.append(option);
+
+                response.forEach(function (category) {
+                    $select.append(new Option(category.name, category.id));
                 });
+
                 $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
             })
             .fail(GeneralFunctions.ajaxFailureHandler);

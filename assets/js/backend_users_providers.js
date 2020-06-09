@@ -58,25 +58,20 @@
          *
          * Display the selected provider data to the user.
          */
-        $('#providers').on('click', '.provider-row', function (e) {
+        $('#providers').on('click', '.provider-row', function (event) {
             if ($('#filter-providers .filter').prop('disabled')) {
                 $('#filter-providers .results').css('color', '#AAA');
                 return; // Exit because we are currently on edit mode.
             }
 
-            var providerId = $(e.currentTarget).attr('data-id');
-            var provider = {};
-
-            $.each(this.filterResults, function (index, item) {
-                if (item.id === providerId) {
-                    provider = item;
-                    return false;
-                }
+            var providerId = $(event.currentTarget).attr('data-id');
+            var provider = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(providerId);
             });
 
             this.display(provider);
             $('#filter-providers .selected').removeClass('selected');
-            $(e.currentTarget).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-provider, #delete-provider').prop('disabled', false);
         }.bind(this));
 
@@ -172,9 +167,9 @@
 
             // Include provider services.
             provider.services = [];
-            $('#provider-services input:checkbox').each(function () {
-                if ($(this).prop('checked')) {
-                    provider.services.push($(this).attr('data-id'));
+            $('#provider-services input:checkbox').each(function (index, checkbox) {
+                if ($(checkbox).prop('checked')) {
+                    provider.services.push($(checkbox).attr('data-id'));
                 }
             });
 
@@ -297,9 +292,9 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#providers .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#providers .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -403,26 +398,47 @@
 
         // Add dedicated provider link.
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id);
-        var linkHtml = '<a href="' + dedicatedUrl + '"><i class="fas fa-link"></i></a>';
+        var $link = $('<a/>', {
+            'href': dedicatedUrl,
+            'html': [
+                $('<span/>', {
+                    'class': 'fas fa-link'
+                })
+            ]
+        });
+
         $('#providers .details-view h3')
             .find('a')
             .remove()
             .end()
-            .append(linkHtml);
+            .append($link);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
-        $.each(provider.services, function (index, serviceId) {
-            $('#provider-services input:checkbox').each(function () {
-                if (Number($(this).attr('data-id')) === Number(serviceId)) {
-                    $(this).prop('checked', true);
-                    // Add dedicated service-provider link.
-                    dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
-                        + '&service=' + encodeURIComponent(serviceId);
-                    linkHtml = '<a href="' + dedicatedUrl + '"><i class="fas fa-link"></i></a>';
-                    $(this).parent().append(linkHtml);
-                }
+
+        provider.services.forEach(function (providerServiceId) {
+            var $checkbox = $('#provider-services input[data-id="' + providerServiceId + '"]');
+
+            if (!$checkbox.length) {
+                return;
+            }
+
+            $checkbox.prop('checked', true);
+
+            // Add dedicated service-provider link.
+            dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
+                + '&service=' + encodeURIComponent(providerServiceId);
+
+            $link = $('<a/>', {
+                'href': dedicatedUrl,
+                'html': [
+                    $('<span/>', {
+                        'class': 'fas fa-link'
+                    })
+                ]
             });
+
+            $checkbox.parent().append($link);
         });
 
         // Display working plan
@@ -457,14 +473,19 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-providers .results').html('');
-                $.each(response, function (index, provider) {
-                    var html = this.getFilterHtml(provider);
-                    $('#filter-providers .results').append(html);
+                $('#filter-providers .results').empty();
+                response.forEach(function (provider) {
+                    $('#filter-providers .results')
+                        .append(this.getFilterHtml(provider))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (!response.length) {
-                    $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
+                    $('#filter-providers .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -493,20 +514,28 @@
      * @return {String} The html code that represents the record on the filter results list.
      */
     ProvidersHelper.prototype.getFilterHtml = function (provider) {
-        var name = provider.first_name + ' ' + provider.last_name,
-            info = provider.email;
+        var name = provider.first_name + ' ' + provider.last_name;
+
+        var info = provider.email;
 
         info = provider.mobile_number ? info + ', ' + provider.mobile_number : info;
 
         info = provider.phone_number ? info + ', ' + provider.phone_number : info;
 
-        var html =
-            '<div class="provider-row entry" data-id="' + provider.id + '">' +
-            '<strong>' + name + '</strong><br>' +
-            info + '<br>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'provider-row entry',
+            'data-id': provider.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -586,22 +615,17 @@
         display = display || false;
 
         // Select record in filter results.
-        $('#filter-providers .provider-row').each(function () {
-            if (Number($(this).attr('data-id')) === Number(id)) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-providers .provider-row[data-id="' + id + '"]').addClass('selected');
 
         // Display record in form (if display = true).
         if (display) {
-            $.each(this.filterResults, function (index, provider) {
-                if (Number(provider.id) === Number(id)) {
-                    this.display(provider);
-                    $('#edit-provider, #delete-provider').prop('disabled', false);
-                    return false;
-                }
+            var provider = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
             }.bind(this));
+
+            this.display(provider);
+
+            $('#edit-provider, #delete-provider').prop('disabled', false);
         }
     };
 

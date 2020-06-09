@@ -21,9 +21,9 @@ function render_timezone_dropdown($attributes = '')
 {
     $framework = get_instance();
 
-    $framework->load->model('timezones_model');
+    $framework->load->library('timezones');
 
-    $timezones = $framework->timezones_model->to_grouped_array();
+    $timezones = $framework->timezones->to_grouped_array();
 
     ob_start();
 

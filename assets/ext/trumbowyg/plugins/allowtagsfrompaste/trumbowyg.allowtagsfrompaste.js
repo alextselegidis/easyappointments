@@ -14,7 +14,11 @@
     'use strict';
 
     var defaultOptions = {
-        allowTagsFromPaste: [
+        // When empty, all tags are allowed making this plugin useless
+        // If you want to remove all tags, use removeformatPasted core option instead
+        allowedTags: [],
+        // List of tags which can be allowed
+        removableTags: [
             'a',
             'abbr',
             'address',
@@ -125,12 +129,27 @@
         plugins: {
             allowTagsFromPaste: {
                 init: function (trumbowyg) {
+                    // Force disable remove format pasted
                     trumbowyg.o.removeformatPasted = false;
-                    trumbowyg.o.plugins.allowTagsFromPaste = trumbowyg.o.allowTagsFromPaste ? $(defaultOptions.allowTagsFromPaste).not(trumbowyg.o.allowTagsFromPaste).get() : [];
+
+                    if (!trumbowyg.o.plugins.allowTagsFromPaste) {
+                        return;
+                    }
+
+                    var allowedTags = trumbowyg.o.plugins.allowTagsFromPaste.allowedTags || defaultOptions.allowedTags;
+                    var removableTags = trumbowyg.o.plugins.allowTagsFromPaste.removableTags || defaultOptions.removableTags;
+
+                    if (allowedTags.length === 0) {
+                        return;
+                    }
+
+                    // Get list of tags to remove
+                    var tagsToRemove = $(removableTags).not(allowedTags).get();
+
                     trumbowyg.pasteHandlers.push(function () {
                         setTimeout(function () {
                             var processNodes = trumbowyg.$ed.html();
-                            $.each(trumbowyg.o.plugins.allowTagsFromPaste, function (iterator, tagName) {
+                            $.each(tagsToRemove, function (iterator, tagName) {
                                 processNodes = processNodes.replace(new RegExp('<\\/?' + tagName + '(\\s[^>]*)?>', 'gi'), '');
                             });
                             trumbowyg.$ed.html(processNodes);

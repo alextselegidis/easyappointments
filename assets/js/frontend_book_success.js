@@ -83,17 +83,22 @@ $(document).ready(function () {
                     }
 
                     $('#success-frame').append(
-                        '<br><br>' +
-                        '<div class="alert alert-success col-xs-12">' +
-                        '<h4>' + EALang.success + '</h4>' +
-                        '<p>' +
-                        EALang.appointment_added_to_google_calendar +
-                        '<br>' +
-                        '<a href="' + response.htmlLink + '" target="_blank">' +
-                        EALang.view_appointment_in_google_calendar +
-                        '</a>' +
-                        '</p>' +
-                        '</div>'
+                        $('<br/>'),
+                        $('<div/>', {
+                            'class': 'alert alert-success col-xs-12',
+                            'html': [
+                                $('<h4/>', {
+                                    'text': EALang.success
+                                }),
+                                $('<p/>', {
+                                    'text': EALang.appointment_added_to_google_calendar
+                                }),
+                                $('<a/>', {
+                                    'href': response.htmlLink,
+                                    'text': EALang.view_appointment_in_google_calendar
+                                })
+                            ]
+                        })
                     );
                     $('#add-to-google-calendar').hide();
                 });
@@ -101,13 +106,22 @@ $(document).ready(function () {
         } catch (error) {
             // The user denied access or something else happened, display corresponding message on the screen.
             $('#success-frame').append(
-                '<div class="alert alert-danger col-xs-12">' +
-                '<h4>' + EALang.oops_something_went_wrong + '</h4>' +
-                '<p>' +
-                EALang.could_not_add_to_google_calendar +
-                '<pre>' + error.message + '</pre>' +
-                '</p>' +
-                '</div>');
+                $('<br/>'),
+                $('<div/>', {
+                    'class': 'alert alert-danger col-xs-12',
+                    'html': [
+                        $('<h4/>', {
+                            'text': EALang.oops_something_went_wrong
+                        }),
+                        $('<p/>', {
+                            'text': EALang.could_not_add_to_google_calendar
+                        }),
+                        $('<pre/>', {
+                            'text': error.message
+                        }),
+                    ]
+                })
+            );
         }
     }
 });

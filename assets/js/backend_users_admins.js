@@ -56,25 +56,21 @@
          *
          * Display the selected admin data to the user.
          */
-        $('#admins').on('click', '.admin-row', function (e) {
+        $('#admins').on('click', '.admin-row', function (event) {
             if ($('#filter-admins .filter').prop('disabled')) {
                 $('#filter-admins .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
             }
 
-            var adminId = $(e.currentTarget).attr('data-id');
-            var admin = {};
+            var adminId = $(event.currentTarget).attr('data-id');
 
-            $.each(this.filterResults, function (index, item) {
-                if (item.id === adminId) {
-                    admin = item;
-                    return false;
-                }
+            var admin = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(adminId);
             });
 
             this.display(admin);
             $('#filter-admins .selected').removeClass('selected');
-            $(e.currentTarget).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-admin, #delete-admin').prop('disabled', false);
         }.bind(this));
 
@@ -245,9 +241,9 @@
             // Validate required fields.
             var missingRequired = false;
 
-            $('#admins .required').each(function () {
-                if (!$(this).val()) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#admins .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
@@ -361,14 +357,20 @@
             .done(function (response) {
                 this.filterResults = response;
 
-                $('#filter-admins .results').html('');
-                $.each(response, function (index, admin) {
-                    var html = this.getFilterHtml(admin);
-                    $('#filter-admins .results').append(html);
+                $('#filter-admins .results').empty();
+
+                response.forEach(function (admin) {
+                    $('#filter-admins .results')
+                        .append(this.getFilterHtml(admin))
+                        .append($('<hr/>'));
                 }.bind(this));
 
                 if (!response.length) {
-                    $('#filter-admins .results').html('<em>' + EALang.no_records_found + '</em>')
+                    $('#filter-admins .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
@@ -398,19 +400,27 @@
      */
     AdminsHelper.prototype.getFilterHtml = function (admin) {
         var name = admin.first_name + ' ' + admin.last_name;
+
         var info = admin.email;
 
         info = admin.mobile_number ? info + ', ' + admin.mobile_number : info;
 
         info = admin.phone_number ? info + ', ' + admin.phone_number : info;
 
-        var html =
-            '<div class="admin-row entry" data-id="' + admin.id + '">' +
-            '<strong>' + name + '</strong><br>' +
-            info + '<br>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'admin-row entry',
+            'data-id': admin.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -426,21 +436,16 @@
 
         $('#filter-admins .selected').removeClass('selected');
 
-        $('.admin-row').each(function () {
-            if (Number($(this).attr('data-id')) === Number(id)) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-admins .admin-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, admin) {
-                if (Number(admin.id) === Number(id)) {
-                    this.display(admin);
-                    $('#edit-admin, #delete-admin').prop('disabled', false);
-                    return false;
-                }
-            }.bind(this));
+            var admin = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
+            });
+
+            this.display(admin);
+
+            $('#edit-admin, #delete-admin').prop('disabled', false);
         }
     };
 

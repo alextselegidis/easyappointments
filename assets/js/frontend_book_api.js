@@ -43,9 +43,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // Default value of duration (in minutes).
         var serviceDuration = 15;
 
-        var service = GlobalVariables.availableServices.filter(function(availableService) {
+        var service = GlobalVariables.availableServices.find(function(availableService) {
             return Number(availableService.id) === Number(serviceId);
-        }).shift();
+        });
 
         if (service) {
             serviceDuration = service.duration;
@@ -78,9 +78,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         providerId = GlobalVariables.availableProviders[0].id; // Use first available provider.
                     }
 
-                    var provider = GlobalVariables.availableProviders.filter(function(availableProvider) {
+                    var provider = GlobalVariables.availableProviders.find(function(availableProvider) {
                         return Number(providerId) === Number(availableProvider.id);
-                    }).shift();
+                    });
 
                     if (!provider) {
                         throw new Error('Could not find provider.');
@@ -90,24 +90,43 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                     var selectedTimezone = $('#select-timezone').val();
 
-                    var currColumn = 1;
+                    var currentColumn = 1;
 
-                    $('#available-hours').html('<div style="width:80px; float:left;"></div>');
+                    $('#available-hours').html(
+                        $('<div/>', {
+                            'css': {
+                                'width': '80px',
+                                'float': 'left'
+                            }
+                        })
+                    );
 
                     var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
                     response.forEach(function (availableHour, index) {
-                        if ((currColumn * 10) < (index + 1)) {
-                            currColumn++;
-                            $('#available-hours').append('<div style="width:80px; float:left;"></div>');
+                        if ((currentColumn * 10) < (index + 1)) {
+                            currentColumn++;
+                            $('#available-hours').append(
+                                $('<div/>', {
+                                    'css': {
+                                        'width': '80px',
+                                        'float': 'left'
+                                    }
+                                })
+                            );
                         }
 
                         var availableHourMoment = moment
                             .tz(selDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
 
-                        $('#available-hours div:eq(' + (currColumn - 1) + ')').append(
-                            '<span class="available-hour">' + availableHourMoment.format(timeFormat) + '</span><br/>');
+                        $('#available-hours div:eq(' + (currentColumn - 1) + ')').append(
+                            $('<span/>', {
+                                'class': 'available-hour',
+                                'text': availableHourMoment.format(timeFormat)
+                            }),
+                            $('<br/>')
+                        );
                     });
 
                     if (FrontendBook.manageMode) {
