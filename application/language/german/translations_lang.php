@@ -20,6 +20,7 @@ $lang['address'] = 'Adresse';
 $lang['city'] = 'Stadt';
 $lang['zip_code'] = 'Postleitzahl';
 $lang['notes'] = 'Bemerkungen';
+$lang['language'] = 'Sprache';
 $lang['fields_are_required'] = 'Die Felder mit einem * sind Pflichtfelder!';
 $lang['step_four_title'] = 'Bitte bestätigen Sie die Terminauswahl';
 $lang['confirm'] = 'Bestätigung';

@@ -133,6 +133,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="language"><?= lang('language') ?></label>
+                        <select id="language" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="timezone"><?= lang('timezone') ?></label>
                         <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
                     </div>

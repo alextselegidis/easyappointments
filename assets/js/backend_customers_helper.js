@@ -150,6 +150,12 @@
                 timezone: $('#timezone').val()
             };
 
+            if ($('#language').val() !== 'null') {
+                customer.language = $('#language').val();
+            } else {
+                customer.language = '';
+            }
+
             if ($('#customer-id').val()) {
                 customer.id = $('#customer-id').val();
             }
@@ -279,6 +285,8 @@
         $('.record-details').find('input, textarea').val('');
         $('.record-details').find('input, textarea').prop('readonly', true);
 
+        $('#language').val('null');
+
         $('#customer-appointments').empty();
         $('#appointment-details').toggleClass('hidden', true).empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
@@ -309,6 +317,9 @@
         $('#zip-code').val(customer.zip_code);
         $('#notes').val(customer.notes);
         $('#timezone').val(customer.timezone);
+
+        var language = (customer.language !== '') ? customer.language : 'null';
+        $('#language').val(language);
 
         $('#customer-appointments').empty();
         customer.appointments.forEach(function (appointment) {
