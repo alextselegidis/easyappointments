@@ -314,7 +314,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 language: $(this).attr('data-language')
             };
             $.post(url, data)
-                done(function () {
+                .done(function () {
                     document.location.reload(true);
                 })
                 .fail(GeneralFunctions.ajaxFailureHandler);
