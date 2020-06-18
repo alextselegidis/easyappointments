@@ -314,6 +314,16 @@ body legend {
     text-align: right;
 }
 
+#calendar-actions > .btn-group {
+    width: auto;
+}
+
+@media all and (max-width: 470px) {
+  #calendar-actions > .btn-group {
+      width: 100%;
+  }
+}
+
 #calendar-page #calendar-actions > .btn {
     margin: 5px 0;
 }

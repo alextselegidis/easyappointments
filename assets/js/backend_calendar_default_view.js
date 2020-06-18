@@ -54,7 +54,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * Hides the open popover element.
          */
         $calendarPage.on('click', '.close-popover', function () {
-            $(this).parents('.popover').popover('destroy');
+            $(this).parents('.popover').popover('dispose');
         });
 
         /**
@@ -63,9 +63,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * Enables the edit dialog of the selected calendar event.
          */
         $calendarPage.on('click', '.edit-popover', function () {
-            $(this).parents('.popover').popover('destroy');
+            $(this).parents('.popover').popover('dispose');
 
             var $dialog;
+
+            console.log(lastFocusedEventData.data)
 
             if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
@@ -130,7 +132,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          * deletion then an AJAX call is made to the server and deletes the appointment from the database.
          */
         $calendarPage.on('click', '.delete-popover', function () {
-            $(this).parents('.popover').popover('destroy');
+            $(this).parents('.popover').popover('dispose');
 
             var url;
             var data;
@@ -277,7 +279,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * above the calendar item.
      */
     function calendarEventClick(event, jsEvent, view) {
-        $('.popover').popover('destroy'); // Close all open popovers.
+        $('.popover').popover('dispose'); // Close all open popovers.
 
         var $html;
         var displayEdit;
@@ -694,6 +696,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $('#notification').hide('bind');
         }
 
+        console.log(event.data)
+
         if (event.data.is_unavailable === '0') {
             // Prepare appointment data.
             var appointment = GeneralFunctions.clone(event.data);
@@ -834,7 +838,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         // Remove all open popovers.
         $('.close-popover').each(function (index, closePopoverButton) {
-            $(closePopoverButton).parents('.popover').popover('destroy');
+            $(closePopoverButton).parents('.popover').popover('dispose');
         });
 
         // Add new pop overs.

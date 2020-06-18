@@ -67,50 +67,47 @@
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-                <div class="btn-group">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                     <button class="btn btn-light" type="button" id="insert-appointment">
-                        <span class="glyphicon glyphicon-plus"></span>
+                        <i class="fas fa-plus"></i>
                         <?= lang('appointment') ?>
                     </button>
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" id="insert-unavailable">
+
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="#" id="insert-unavailable">
                                 <?= lang('unavailable') ?>
                             </a>
-                        </li>
-                        <li>
-                            <a href="#" id="insert-extra-period">
+                            <a class="dropdown-item" href="#" id="insert-extra-period">
                                 <?= lang('extra_period') ?>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             <?php endif ?>
 
             <button id="reload-appointments" class="btn btn-light" title="<?= lang('reload_appointments_hint') ?>">
-                <span class="glyphicon glyphicon-repeat"></span>
+                <i class="fas fa-redo-alt"></i>
             </button>
 
             <?php if($calendar_view === 'default'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
                    title="<?= lang('table') ?>">
-                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <i class="far fa-list-alt"></i>
                 </a>
             <?php endif ?>
 
             <?php if($calendar_view === 'table'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
                    title="<?= lang('default') ?>">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <i class="fas fa-calendar-alt"></i>
                 </a>
             <?php endif ?>
 
             <button id="toggle-fullscreen" class="btn btn-light">
-                <span class="glyphicon glyphicon-fullscreen"></span>
+                <i class="fas fa-expand-arrows-alt"></i>
             </button>
         </div>
     </div>
@@ -334,7 +331,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-message alert hidden"></div>
+                <div class="modal-message alert d-none"></div>
 
                 <form>
                     <fieldset>
@@ -399,7 +396,7 @@
                 <h3 class="modal-title"><?= lang('new_extra_period_title') ?></h3>
             </div>
             <div class="modal-body">
-                <div class="modal-message alert hidden"></div>
+                <div class="modal-message alert d-none"></div>
 
                 <form>
                     <fieldset>
