@@ -258,7 +258,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         $element.popover({
             placement: 'top',
             title: 'Select Language',
-            content: $languageList.html(),
+            content: $languageList[0],
             html: true,
             container: 'body',
             trigger: 'manual'
