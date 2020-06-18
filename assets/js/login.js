@@ -22,7 +22,7 @@ $(function () {
 
         var $alert = $('.alert');
 
-        $alert.addClass('hidden');
+        $alert.addClass('d-none');
 
         $.post(url, data)
             .done(function (response) {
@@ -31,7 +31,7 @@ $(function () {
                 } else {
                     $alert.text(EALang['login_failed']);
                     $alert
-                        .removeClass('hidden alert-danger alert-success')
+                        .removeClass('d-none alert-danger alert-success')
                         .addClass('alert-danger');
                 }
             })

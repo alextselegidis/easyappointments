@@ -241,7 +241,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm save-extra hidden',
+                                    'class': 'btn btn-default btn-sm save-extra d-none',
                                     'title': EALang.save,
                                     'html': [
                                         $('<span/>', {
@@ -251,7 +251,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm cancel-extra hidden',
+                                    'class': 'btn btn-default btn-sm cancel-extra d-none',
                                     'title': EALang.cancel,
                                     'html': [
                                         $('<span/>', {
@@ -600,7 +600,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm save-extra hidden',
+                                'class': 'btn btn-default btn-sm save-extra d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
@@ -610,7 +610,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm cancel-extra hidden',
+                                'class': 'btn btn-default btn-sm cancel-extra d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
@@ -699,8 +699,8 @@
 
             // Show save - cancel buttons.
             var $tr = $(this).closest('tr');
-            $tr.find('.edit-extra, .delete-extra').addClass('hidden');
-            $tr.find('.save-extra, .cancel-extra').removeClass('hidden');
+            $tr.find('.edit-extra, .delete-extra').addClass('d-none');
+            $tr.find('.save-extra, .cancel-extra').removeClass('d-none');
             $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-extra-periods').prop('disabled', true);
@@ -729,8 +729,8 @@
             $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
-            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('hidden');
-            $modifiedRow.find('.save-extra, .cancel-extra').addClass('hidden');
+            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('d-none');
+            $modifiedRow.find('.save-extra, .cancel-extra').addClass('d-none');
             $('.add-extra-periods').prop('disabled', false);
         }.bind(this));
 
@@ -756,8 +756,8 @@
             $modifiedRow.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $modifiedRow.find('.save-extra, .cancel-extra').addClass('hidden');
-            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('hidden');
+            $modifiedRow.find('.save-extra, .cancel-extra').addClass('d-none');
+            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('d-none');
             $('.add-extra-periods').prop('disabled', false);
         }.bind(this));
     };

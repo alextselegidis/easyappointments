@@ -46,7 +46,7 @@
 
     <div id="header-menu" class="collapse navbar-collapse flex-row-reverse">
         <ul class="navbar-nav">
-            <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend') ?>" class="nav-link"
@@ -55,7 +55,7 @@
                 </a>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/customers') ?>" class="nav-link"
@@ -64,7 +64,7 @@
                 </a>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden' ?>
+            <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/services') ?>" class="nav-link"
@@ -73,7 +73,7 @@
                 </a>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'hidden' ?>
+            <?php $hidden = ($privileges[PRIV_USERS]['view'] ==  TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_USERS) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/users') ?>" class="nav-link"
@@ -83,7 +83,7 @@
             </li>
 
             <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
-                    || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+                    || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/settings') ?>" class="nav-link"

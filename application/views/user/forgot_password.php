@@ -67,7 +67,7 @@
         <h2><?= lang('forgot_your_password') ?></h2>
         <p><?= lang('type_username_and_email_for_new_password') ?></p>
         <hr>
-        <div class="alert hidden"></div>
+        <div class="alert d-none"></div>
         <form>
             <div class="form-group">
                 <label for="username"><?= lang('username') ?></label>

@@ -62,11 +62,11 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
                 $dialog.find('.modal-message')
                     .text(EALang.extra_period_saved)
                     .addClass('alert-success')
-                    .removeClass('alert-danger hidden');
+                    .removeClass('alert-danger d-none');
 
                 // Close the modal dialog and refresh the calendar appointments after one second.
                 setTimeout(function () {
-                    $dialog.find('.alert').addClass('hidden');
+                    $dialog.find('.alert').addClass('d-none');
                     $dialog.modal('hide');
 
                     var providerId = $('#extra-provider').val();
@@ -93,7 +93,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
                     'the operation could not complete due to server communication errors.');
 
                 $dialog.find('.modal-message').txt(EALang.service_communication_error);
-                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
+                $dialog.find('.modal-message').addClass('alert-danger').removeClass('d-none');
             };
 
             BackendCalendarApi.saveExtraPeriod(extra, successCallback, errorCallback);

@@ -39,7 +39,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 $dialog.find('.modal-message')
                     .text(EALang.start_date_before_end_error)
                     .addClass('alert-danger')
-                    .removeClass('hidden');
+                    .removeClass('d-none');
 
                 $dialog.find('#unavailable-start, #unavailable-end').closest('.form-group').addClass('has-error');
                 return;
@@ -63,7 +63,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 Backend.displayNotification(EALang.unavailable_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
-                $dialog.find('.alert').addClass('hidden');
+                $dialog.find('.alert').addClass('d-none');
                 $dialog.modal('hide');
                 $('#select-filter-item').trigger('change');
             };
@@ -73,7 +73,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                     'the operation could not complete due to server communication errors.');
 
                 $dialog.find('.modal-message').txt(EALang.service_communication_error);
-                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
+                $dialog.find('.modal-message').addClass('alert-danger').removeClass('d-none');
             };
 
             BackendCalendarApi.saveUnavailable(unavailable, successCallback, errorCallback);

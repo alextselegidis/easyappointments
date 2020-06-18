@@ -66,7 +66,7 @@
         <h2><?= lang('backend_section') ?></h2>
         <p><?= lang('you_need_to_login') ?></p>
         <hr>
-        <div class="alert hidden"></div>
+        <div class="alert d-none"></div>
         <form id="login-form">
             <div class="form-group">
                 <label for="username"><?= lang('username') ?></label>
