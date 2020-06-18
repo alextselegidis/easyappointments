@@ -1054,7 +1054,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'text-center',
+                        'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
@@ -1122,7 +1122,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'text-center',
+                        'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-danger ' + displayDelete,
@@ -1215,7 +1215,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'text-center',
+                        'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,

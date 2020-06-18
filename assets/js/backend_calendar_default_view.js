@@ -67,8 +67,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             var $dialog;
 
-            console.log(lastFocusedEventData.data)
-
             if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
@@ -329,7 +327,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'text-center',
+                        'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
@@ -397,7 +395,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'text-center',
+                        'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-danger ' + displayDelete,
@@ -490,7 +488,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'text-center',
+                        'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
@@ -695,8 +693,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         if ($('#notification').is(':visible')) {
             $('#notification').hide('bind');
         }
-
-        console.log(event.data)
 
         if (event.data.is_unavailable === '0') {
             // Prepare appointment data.
