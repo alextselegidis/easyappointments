@@ -284,7 +284,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             };
 
             $.post(url, data)
-                done(function () {
+                .done(function () {
                     document.location.reload(true);
                 })
                 .fail(GeneralFunctions.ajaxFailureHandler);
