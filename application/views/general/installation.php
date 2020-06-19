@@ -48,7 +48,7 @@
     </style>
 </head>
 <body>
-    <div id="loading" class="invisible">
+    <div id="loading" class="d-none">
         <img src="<?= base_url('assets/img/loading.gif') ?>">
     </div>
 
