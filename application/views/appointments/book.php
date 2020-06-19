@@ -343,7 +343,7 @@
                     Powered By
                     <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
                     |
-                    <span id="select-language" class="label label-success">
+                    <span id="select-language" class="badge badge-success">
     		        	<?= ucfirst(config('language')) ?>
     		        </span>
                     |
