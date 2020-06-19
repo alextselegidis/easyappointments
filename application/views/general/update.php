@@ -71,7 +71,7 @@
         <?php endif; ?>
 
         <div>
-            <a href="<?= site_url('backend') ?>" class="btn btn-default btn-large">
+            <a href="<?= site_url('backend') ?>" class="btn btn-light btn-large">
                 <i class="fas fa-wrench"></i>
                 <?= lang('backend_section') ?>
             </a>

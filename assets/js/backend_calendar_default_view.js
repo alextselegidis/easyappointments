@@ -338,7 +338,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-default',
+                                'class': 'close-popover btn btn-light',
                                 'text': EALang.close
                             })
                         ]
@@ -402,7 +402,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-default',
+                                'class': 'close-popover btn btn-light',
                                 'text': EALang.close
                             })
                         ]
@@ -499,7 +499,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-default',
+                                'class': 'close-popover btn btn-light',
                                 'text': EALang.close
                             })
                         ]

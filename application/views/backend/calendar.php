@@ -440,7 +440,7 @@
             </div>
             <div class="modal-footer">
                 <button id="save-extra" class="btn btn-primary"><?= lang('save') ?></button>
-                <button id="cancel-extra" class="btn btn-default" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="cancel-extra" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>

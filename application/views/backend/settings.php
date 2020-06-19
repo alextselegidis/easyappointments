@@ -194,7 +194,7 @@
                                     <?= lang('phone_number') ?>
                                 </label>
                                 <br>
-                                <button type="button" id="require-phone-number" class="btn btn-default" data-toggle="button" aria-pressed="false">
+                                <button type="button" id="require-phone-number" class="btn btn-light" data-toggle="button" aria-pressed="false">
                                     <span class="glyphicon glyphicon-phone-alt"></span>
                                     <?= lang('require_phone_number') ?>
                                 </button>
@@ -205,7 +205,7 @@
                             <div class="form-group">
                                 <label><?= lang('any_provider') ?></label>
                                 <br>
-                                <button type="button" id="display-any-provider" class="btn btn-default" data-toggle="button" aria-pressed="false">
+                                <button type="button" id="display-any-provider" class="btn btn-light" data-toggle="button" aria-pressed="false">
                                     <span class="glyphicon glyphicon-user"></span>
                                     <?= lang('display_any_provider') ?>
                                 </button>
@@ -255,7 +255,7 @@
                             </table>
 
                             <div class="text-right">
-                                <button class="btn btn-default" id="apply-global-working-plan" type="button">
+                                <button class="btn btn-light" id="apply-global-working-plan" type="button">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     <?= lang('apply_to_all_providers') ?>
                                 </button>

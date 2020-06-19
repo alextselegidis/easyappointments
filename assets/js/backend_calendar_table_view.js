@@ -314,7 +314,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .appendTo('#calendar');
 
         $('<button/>', {
-            'class': 'btn btn-xs btn-default previous',
+            'class': 'btn btn-xs btn-light previous',
             'html': [
                 $('<span/>', {
                     'class': 'glyphicon glyphicon-chevron-left'
@@ -331,7 +331,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .appendTo($calendarHeader);
 
         $('<button/>', {
-            'class': 'btn btn-xs btn-default next',
+            'class': 'btn btn-xs btn-light next',
             'html': [
                 $('<span/>', {
                     'class': 'glyphicon glyphicon-chevron-right'
@@ -1065,7 +1065,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-default',
+                                'class': 'close-popover btn btn-light',
                                 'text': EALang.close
                             })
                         ]
@@ -1129,7 +1129,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-default',
+                                'class': 'close-popover btn btn-light',
                                 'text': EALang.close
                             })
                         ]
@@ -1226,7 +1226,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-default',
+                                'class': 'close-popover btn btn-light',
                                 'text': EALang.close
                             })
                         ]

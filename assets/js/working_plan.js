@@ -221,7 +221,7 @@
                             'html': [
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm edit-extra',
+                                    'class': 'btn btn-light btn-sm edit-extra',
                                     'title': EALang.edit,
                                     'html': [
                                         $('<span/>', {
@@ -231,7 +231,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm delete-extra',
+                                    'class': 'btn btn-light btn-sm delete-extra',
                                     'title': EALang.delete,
                                     'html': [
                                         $('<span/>', {
@@ -241,7 +241,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm save-extra d-none',
+                                    'class': 'btn btn-light btn-sm save-extra d-none',
                                     'title': EALang.save,
                                     'html': [
                                         $('<span/>', {
@@ -251,7 +251,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm cancel-extra d-none',
+                                    'class': 'btn btn-light btn-sm cancel-extra d-none',
                                     'title': EALang.cancel,
                                     'html': [
                                         $('<span/>', {
@@ -580,7 +580,7 @@
                         'html': [
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm edit-extra',
+                                'class': 'btn btn-light btn-sm edit-extra',
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
@@ -590,7 +590,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm delete-extra',
+                                'class': 'btn btn-light btn-sm delete-extra',
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
@@ -600,7 +600,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm save-extra d-none',
+                                'class': 'btn btn-light btn-sm save-extra d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
@@ -610,7 +610,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm cancel-extra d-none',
+                                'class': 'btn btn-light btn-sm cancel-extra d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
