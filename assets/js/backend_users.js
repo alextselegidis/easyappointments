@@ -66,16 +66,19 @@ window.BackendUsers = window.BackendUsers || {};
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
-                    $('<label/>', {
-                        'class': 'checkbox',
+                    $('<div/>', {
+                        'class': 'checkbox form-check',
                         'html': [
                             $('<input/>', {
+                                'class': 'form-check-input',
                                 'type': 'checkbox',
                                 'data-id': service.id
                             }),
-                            $('<span/>', {
-                                'text': service.name
-                            })
+                            $('<label/>', {
+                                'class': 'form-check-label',
+                                'text': service.name,
+                                'for': service.id
+                            }),
                         ]
                     })
                 ]
@@ -87,16 +90,19 @@ window.BackendUsers = window.BackendUsers || {};
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
-                    $('<label/>', {
-                        'class': 'checkbox',
+                    $('<div/>', {
+                        'class': 'checkbox form-check',
                         'html': [
                             $('<input/>', {
+                                'class': 'form-check-input',
                                 'type': 'checkbox',
                                 'data-id': provider.id
                             }),
-                            $('<span/>', {
-                                'text': provider.first_name + ' ' + provider.last_name
-                            })
+                            $('<label/>', {
+                                'class': 'form-check-label',
+                                'text': provider.first_name + ' ' + provider.last_name,
+                                'for': provider.id
+                            }),
                         ]
                     })
                 ]
@@ -156,19 +162,22 @@ window.BackendUsers = window.BackendUsers || {};
                             $('<div/>', {
                                 'class': 'checkbox',
                                 'html': [
-                                    $('<label/>', {
-                                        'class': 'checkbox',
+                                    $('<div/>', {
+                                        'class': 'checkbox form-check',
                                         'html': [
                                             $('<input/>', {
+                                                'class': 'form-check-input',
                                                 'type': 'checkbox',
                                                 'data-id': provider.id,
                                                 'prop': {
                                                     'disabled': true
                                                 }
                                             }),
-                                            $('<span/>', {
-                                                'text': provider.first_name + ' ' + provider.last_name
-                                            })
+                                            $('<label/>', {
+                                                'class': 'form-check-label',
+                                                'text': provider.first_name + ' ' + provider.last_name,
+                                                'for': provider.id
+                                            }),
                                         ]
                                     })
                                 ]

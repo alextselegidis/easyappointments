@@ -66,7 +66,10 @@ body {
 
 #book-appointment-wizard .wizard-frame {
     padding: 10px 20px;
-    height: 560px;
+    height: 570px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #book-appointment-wizard .wizard-frame .frame-container {
@@ -86,7 +89,8 @@ body {
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons .btn {

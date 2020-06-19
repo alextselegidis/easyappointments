@@ -64,19 +64,19 @@
                     $('<td/>', {
                         'html': [
                             $('<div/>', {
-                                'class': 'checkbox',
+                                'class': 'checkbox form-check',
                                 'html': [
+                                    $('<input/>', {
+                                        'class': 'form-check-input',
+                                        'type': 'checkbox',
+                                        'id': index
+                                    }),
                                     $('<label/>', {
-                                        'html': [
-                                            $('<input/>', {
-                                                'type': 'checkbox',
-                                                'id': index
-                                            }),
-                                            $('<span/>', {
-                                                'text': dayDisplayName
-                                            })
-                                        ]
-                                    })
+                                        'class': 'form-check-label',
+                                        'text': dayDisplayName,
+                                        'for': index
+                                    }),
+
                                 ]
                             })
                         ]

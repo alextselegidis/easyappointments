@@ -252,23 +252,34 @@
                                     <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <?php if ($display_terms_and_conditions): ?>
-                            <label>
-                                <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
-                                <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
-                                    [
-                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
-                                        '{/$link}' => '</a>'
-                                    ])
-                                ?>
-                            </label>
-                            <br>
-                            <?php endif ?>
+                    <?php if ($display_terms_and_conditions): ?>
+                        <label>
+                            <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
+                            <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
+                                [
+                                    '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
+                                    '{/$link}' => '</a>'
+                                ])
+                            ?>
+                        </label>
+                    <?php endif ?>
 
-                            <?php if ($display_privacy_policy): ?>
-                            <label>
-                                <input type="checkbox" class="required" id="accept-to-privacy-policy">
+                    <?php if ($display_privacy_policy): ?>
+                        <!-- <label>
+                            <input type="checkbox" class="required" id="accept-to-privacy-policy">
+                            <?= strtr(lang('read_and_agree_to_privacy_policy'),
+                                [
+                                    '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
+                                    '{/$link}' => '</a>'
+                                ])
+                            ?>
+                        </label> -->
+                        <div class="form-check">
+                            <input type="checkbox" class="required form-check-input" id="accept-to-privacy-policy">
+                            <label class="form-check-label" for="defaultCheck1">
                                 <?= strtr(lang('read_and_agree_to_privacy_policy'),
                                     [
                                         '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
@@ -276,12 +287,10 @@
                                     ])
                                 ?>
                             </label>
-                            <br>
-                            <?php endif ?>
-
-                            <span id="form-message" class="text-danger"><?= lang('fields_are_required') ?></span>
                         </div>
-                    </div>
+                    <?php endif ?>
+
+                    <span id="form-message" class="text-danger d-block"><?= lang('fields_are_required') ?></span>
 
                     <div class="command-buttons">
                         <button type="button" id="button-back-3" class="btn button-back btn-light"
