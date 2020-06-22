@@ -1018,10 +1018,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         if ($(this).hasClass('fc-unavailable') || $parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.edit === true)
-                ? '' : 'hide';
+                ? 'mr-2' : 'd-none';
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.delete === true)
-                ? '' : 'hide'; // Same value at the time.
+                ? 'mr-2' : 'd-none'; // Same value at the time.
 
             var notes = '';
             if (event.data) { // Only custom unavailable periods have notes.
@@ -1075,7 +1075,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         } else if ($(this).hasClass('fc-extra') || $parent.hasClass('fc-extra') || $altParent.hasClass('fc-extra')) {
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.delete === true)
-                ? '' : 'hide'; // Same value at the time.
+                ? 'mr-2' : 'd-none'; // Same value at the time.
 
             var provider = '';
 
@@ -1122,7 +1122,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'd-flex justify-content-between',
+                        'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-danger ' + displayDelete,
@@ -1138,9 +1138,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             });
         } else {
             displayEdit = (GlobalVariables.user.privileges.appointments.edit === true)
-                ? '' : 'hide';
+                ? 'mr-2' : 'd-none';
             displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
-                ? '' : 'hide';
+                ? 'mr-2' : 'd-none';
 
             $html = $('<div/>', {
                 'html': [
@@ -1215,7 +1215,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'd-flex justify-content-between',
+                        'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
