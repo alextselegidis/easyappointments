@@ -279,7 +279,7 @@
                         </label> -->
                         <div class="form-check">
                             <input type="checkbox" class="required form-check-input" id="accept-to-privacy-policy">
-                            <label class="form-check-label" for="defaultCheck1">
+                            <label class="form-check-label" for="accept-to-privacy-policy">
                                 <?= strtr(lang('read_and_agree_to_privacy_policy'),
                                     [
                                         '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
