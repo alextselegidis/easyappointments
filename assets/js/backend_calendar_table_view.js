@@ -317,7 +317,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             'class': 'btn btn-xs btn-light previous',
             'html': [
                 $('<span/>', {
-                    'class': 'glyphicon glyphicon-chevron-left'
+                    'class': 'fas fa-chevron-left'
                 })
             ]
         })
@@ -334,7 +334,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             'class': 'btn btn-xs btn-light next',
             'html': [
                 $('<span/>', {
-                    'class': 'glyphicon glyphicon-chevron-right'
+                    'class': 'fas fa-chevron-right'
                 })
             ]
         })

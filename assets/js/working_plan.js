@@ -225,7 +225,7 @@
                                     'title': EALang.edit,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-pencil'
+                                            'class': 'far fa-edit'
                                         })
                                     ]
                                 }),
@@ -235,7 +235,7 @@
                                     'title': EALang.delete,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-trash'
+                                            'class': 'far fa-trash-alt'
                                         })
                                     ]
                                 }),
@@ -245,7 +245,7 @@
                                     'title': EALang.save,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-ok'
+                                            'class': 'far fa-check-circle'
                                         })
                                     ]
                                 }),
@@ -255,7 +255,7 @@
                                     'title': EALang.cancel,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-ban-circle'
+                                            'class': 'fas fa-ban'
                                         })
                                     ]
                                 })
@@ -584,7 +584,7 @@
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-pencil'
+                                        'class': 'far fa-edit'
                                     })
                                 ]
                             }),
@@ -594,7 +594,7 @@
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-trash'
+                                        'class': 'far fa-trash-alt'
                                     })
                                 ]
                             }),
@@ -604,7 +604,7 @@
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-ok'
+                                        'class': 'far fa-check-circle'
                                     })
                                 ]
                             }),
@@ -614,7 +614,7 @@
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-ban-circle'
+                                        'class': 'fas fa-ban'
                                     })
                                 ]
                             })

@@ -518,7 +518,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'glyphicon glyphicon-map-marker'
+                            'class': 'fas fa-map-marker-alt'
                         })
                     ]
                 })
@@ -542,7 +542,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'glyphicon glyphicon-envelope'
+                            'class': 'far fa-envelope'
                         })
                     ]
                 })
@@ -566,7 +566,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'glyphicon glyphicon-earphone'
+                            'class': 'fas fa-phone-alt'
                         })
                     ]
                 })

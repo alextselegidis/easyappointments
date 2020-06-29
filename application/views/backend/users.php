@@ -266,7 +266,7 @@
 
                         <div>
                             <button type="button" class="add-extra-periods btn btn-info">
-                                <span class="glyphicon glyphicon-plus"></span>
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add_extra_period') ?>
                             </button>
                         </div>

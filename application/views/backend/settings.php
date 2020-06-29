@@ -195,7 +195,7 @@
                                 </label>
                                 <br>
                                 <button type="button" id="require-phone-number" class="btn btn-light" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-phone-alt"></span>
+                                    <i class="fas fa-phone-alt"></i>
                                     <?= lang('require_phone_number') ?>
                                 </button>
                                 <span class="help-block">
@@ -206,7 +206,7 @@
                                 <label><?= lang('any_provider') ?></label>
                                 <br>
                                 <button type="button" id="display-any-provider" class="btn btn-light" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-user"></span>
+                                    <i class="fas fa-user"></i>
                                     <?= lang('display_any_provider') ?>
                                 </button>
                                 <span class="help-block">
@@ -256,7 +256,7 @@
 
                             <div class="text-right">
                                 <button class="btn btn-light" id="apply-global-working-plan" type="button">
-                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <i class="fas fa-check"></i>
                                     <?= lang('apply_to_all_providers') ?>
                                 </button>
                             </div>

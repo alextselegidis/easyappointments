@@ -191,12 +191,12 @@ body {
     margin-top: 7px;
 }
 
-#book-appointment-wizard .captcha-title .glyphicon-refresh {
+#book-appointment-wizard .captcha-title .fa-sync-alt {
     cursor: pointer;
     transition: all 0.3s linear;
 }
 
-#book-appointment-wizard .captcha-title .glyphicon-refresh:hover {
+#book-appointment-wizard .captcha-title .fa-sync-alt:hover {
     color: #1A865F;
 }
 
