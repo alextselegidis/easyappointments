@@ -1,0 +1,1 @@
+!function(e,t,o,r){"use strict";"function"==typeof t&&t.amd?t(["jquery"],e):"object"==typeof r&&"object"==typeof r.exports?r.exports=e(o("jquery")):e(jQuery)}(function(e){"use strict";e.fn.uiresizable=e.fn.resizable,delete e.fn.resizable});

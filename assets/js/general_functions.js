@@ -31,15 +31,15 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
     exports.displayMessageBox = function (title, message, buttons) {
-        if (title === undefined || title === '') {
+        if (!title) {
             title = '- No Title Provided -';
         }
 
-        if (message === undefined || message === '') {
+        if (!message) {
             message = '- No Message Provided -';
         }
 
-        if (buttons === undefined) {
+        if (!buttons) {
             buttons = [
                 {
                     text: EALang.close,
@@ -170,19 +170,22 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      */
     exports.clone = function (originalObject) {
         // Handle the 3 simple types, and null or undefined
-        if (null == originalObject || 'object' != typeof originalObject)
+        if (!originalObject || typeof originalObject !== 'object') {
             return originalObject;
+        }
+
+        var copy;
 
         // Handle Date
         if (originalObject instanceof Date) {
-            var copy = new Date();
+            copy = new Date();
             copy.setTime(originalObject.getTime());
             return copy;
         }
 
         // Handle Array
         if (originalObject instanceof Array) {
-            var copy = [];
+            copy = [];
             for (var i = 0, len = originalObject.length; i < len; i++) {
                 copy[i] = GeneralFunctions.clone(originalObject[i]);
             }
@@ -191,7 +194,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         // Handle Object
         if (originalObject instanceof Object) {
-            var copy = {};
+            copy = {};
             for (var attr in originalObject) {
                 if (originalObject.hasOwnProperty(attr))
                     copy[attr] = GeneralFunctions.clone(originalObject[attr]);
@@ -219,41 +222,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         return re.test(email);
     };
 
-    /**
-     * Convert AJAX exceptions to HTML.
-     *
-     * This method returns the exception HTML display for javascript ajax calls. It uses the Bootstrap collapse
-     * module to show exception messages when the user opens the "Details" collapse component.
-     *
-     * @param {Array} exceptions Contains the exceptions to be displayed.
-     *
-     * @return {String} Returns the html markup for the exceptions.
-     */
-    exports.exceptionsToHtml = function (exceptions) {
-        var html =
-            '<div class="accordion" id="error-accordion">' +
-            '<div class="accordion-group">' +
-            '<div class="accordion-heading">' +
-            '<button class="accordion-toggle btn btn-default btn-xs" data-toggle="collapse" ' +
-            'data-parent="#error-accordion" href="#error-technical">' +
-            EALang.details +
-            '</button>' +
-            '</div>' +
-            '<br>';
-
-        $.each(exceptions, function (index, exception) {
-            html +=
-                '<div id="error-technical" class="accordion-body collapse">' +
-                '<div class="accordion-inner">' +
-                '<pre>' + exception.message + '</pre>' +
-                '</div>' +
-                '</div>';
-        });
-
-        html += '</div></div>';
-
-        return html;
-    };
 
     /**
      * Makes the first letter of the string upper case.
@@ -309,10 +277,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         $(document).on('click', 'li.language', function () {
             // Change language with ajax call and refresh page.
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+
             var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 language: $(this).attr('data-language')
             };
+
             $.post(url, data)
                 .done(function () {
                     document.location.reload(true);

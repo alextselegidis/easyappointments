@@ -45,67 +45,136 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        var fDaynum = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
-        var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan,fDaynum);
+        var weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+        var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan, weekDayId);
 
         $('.working-plan tbody').empty();
         $('.breaks tbody').empty();
 
         // Build working plan day list starting with the first weekday as set in the General settings
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
         $.each(workingPlanSorted, function (index, workingDay) {
-
             var day = this.convertValueToDay(index);
-            var dayTranslatedName = GeneralFunctions.upperCaseFirstLetter(day)
 
-            var tr =
-                '<tr>' +
-                '<td>' +
-                '<div class="checkbox">' +
-                '<label> <input type="checkbox" id="' + index + '">' + dayTranslatedName + '</label>' +
-                '</div>' +
-                '</td>' +
-                '<td><input id="'+index+'-start" class="work-start form-control input-sm"></td>' +
-                '<td><input id="'+index+'-end" class="work-end form-control input-sm"></td>' +
-                '</tr>';
+            var dayDisplayName = GeneralFunctions.upperCaseFirstLetter(day)
 
-            $('.working-plan tbody').append(tr);
+            $('<tr/>', {
+                'html': [
+                    $('<td/>', {
+                        'html': [
+                            $('<div/>', {
+                                'class': 'checkbox',
+                                'html': [
+                                    $('<label/>', {
+                                        'html': [
+                                            $('<input/>', {
+                                                'type': 'checkbox',
+                                                'id': index
+                                            }),
+                                            $('<span/>', {
+                                                'text': dayDisplayName
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    }),
+                    $('<td/>', {
+                        'html': [
+                            $('<input/>', {
+                                'id': index + '-start',
+                                'class': 'work-start form-control input-sm'
+                            })
+                        ]
+                    }),
+                    $('<td/>', {
+                        'html': [
+                            $('<input/>', {
+                                'id': index + '-end',
+                                'class': 'work-start form-control input-sm'
+                            })
+                        ]
+                    })
+                ]
+            })
+                .appendTo('.working-plan tbody');
 
-            if (workingDay != null) {
+            if (workingDay) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
-                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(timeFormat).toUpperCase());
+                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(timeFormat).toUpperCase());
 
                 // Sort day's breaks according to the starting hour
                 workingDay.breaks.sort(function (break1, break2) {
-                        // We can do a direct string comparison since we have time based on 24 hours clock.
-                        return (break1.start).localeCompare(break2.start);
-                    });
+                    // We can do a direct string comparison since we have time based on 24 hours clock.
+                    return (break1.start).localeCompare(break2.start);
+                });
 
-                // Add the day's breaks on the breaks table.
-                $.each(workingDay.breaks, function (i, brk) {
-
-                    tr =
-                        '<tr>' +
-                        '<td class="break-day editable">' + dayTranslatedName + '</td>' +
-                        '<td class="break-start editable">' + Date.parse(brk.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
-                        '<td class="break-end editable">' + Date.parse(brk.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase() + '</td>' +
-                        '<td>' +
-                        '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
-                        '<span class="glyphicon glyphicon-pencil"></span>' +
-                        '</button>' +
-                        '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
-                        '<span class="glyphicon glyphicon-remove"></span>' +
-                        '</button>' +
-                        '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
-                        '<span class="glyphicon glyphicon-ok"></span>' +
-                        '</button>' +
-                        '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
-                        '<span class="glyphicon glyphicon-ban-circle"></span>' +
-                        '</button>' +
-                        '</td>' +
-                        '</tr>';
-                    $('.breaks tbody').append(tr);
-                }.bind(this));
+                workingDay.breaks.forEach(function (workingDayBreak) {
+                    $('<tr/>', {
+                        'html': [
+                            $('<td/>', {
+                                'class': 'break-day editable',
+                                'text': dayDisplayName
+                            }),
+                            $('<td/>', {
+                                'class': 'break-start editable',
+                                'text': Date.parse(workingDayBreak.start).toString(timeFormat).toUpperCase()
+                            }),
+                            $('<td/>', {
+                                'class': 'break-end editable',
+                                'text': Date.parse(workingDayBreak.end).toString(timeFormat).toUpperCase()
+                            }),
+                            $('<td/>', {
+                                'html': [
+                                    $('<button/>', {
+                                        'type': 'button',
+                                        'class': 'btn btn-default btn-sm edit-break',
+                                        'title': EALang.edit,
+                                        'html': [
+                                            $('<span/>', {
+                                                'class': 'glyphicon glyphicon-pencil'
+                                            })
+                                        ]
+                                    }),
+                                    $('<button/>', {
+                                        'type': 'button',
+                                        'class': 'btn btn-default btn-sm delete-break',
+                                        'title': EALang.delete,
+                                        'html': [
+                                            $('<span/>', {
+                                                'class': 'glyphicon glyphicon-trash'
+                                            })
+                                        ]
+                                    }),
+                                    $('<button/>', {
+                                        'type': 'button',
+                                        'class': 'btn btn-default btn-sm save-break hidden',
+                                        'title': EALang.save,
+                                        'html': [
+                                            $('<span/>', {
+                                                'class': 'glyphicon glyphicon-ok'
+                                            })
+                                        ]
+                                    }),
+                                    $('<button/>', {
+                                        'type': 'button',
+                                        'class': 'btn btn-default btn-sm cancel-break hidden',
+                                        'title': EALang.cancel,
+                                        'html': [
+                                            $('<span/>', {
+                                                'class': 'glyphicon glyphicon-ban-circle'
+                                            })
+                                        ]
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+                        .appendTo('.breaks tbody');
+                });
             } else {
                 $('#' + index).prop('checked', false);
                 $('#' + index + '-start').prop('disabled', true);
@@ -125,35 +194,76 @@
      */
     WorkingPlan.prototype.setupExtraPeriods = function (extraWorkingPlan) {
         $.each(extraWorkingPlan, function (index, extraWorkingDay) {
-            if (extraWorkingDay != null) {
-
+            if (extraWorkingDay) {
                 $('#' + index).prop('checked', true);
                 $('#' + index + '-start').val(Date.parse(extraWorkingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
                 $('#' + index + '-end').val(Date.parse(extraWorkingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
                 var day = GeneralFunctions.formatDate(Date.parse(index), GlobalVariables.dateFormat, false);
 
-                var tr =
-                    '<tr>' +
-                    '<td class="extra-day editable">' + day + '</td>' +
-                    '<td class="extra-start editable">' + Date.parse(extraWorkingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase().toUpperCase() + '</td>' +
-                    '<td class="extra-end editable">' + Date.parse(extraWorkingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase().toUpperCase() + '</td>' +
-                    '<td>' +
-                    '<button type="button" class="btn btn-default btn-sm edit-extra" title="' + EALang.edit + '">' +
-                    '<span class="glyphicon glyphicon-pencil"></span>' +
-                    '</button>' +
-                    '<button type="button" class="btn btn-default btn-sm delete-extra" title="' + EALang.delete + '">' +
-                    '<span class="glyphicon glyphicon-remove"></span>' +
-                    '</button>' +
-                    '<button type="button" class="btn btn-default btn-sm save-extra hidden" title="' + EALang.save + '">' +
-                    '<span class="glyphicon glyphicon-ok"></span>' +
-                    '</button>' +
-                    '<button type="button" class="btn btn-default btn-sm cancel-extra hidden" title="' + EALang.cancel + '">' +
-                    '<span class="glyphicon glyphicon-ban-circle"></span>' +
-                    '</button>' +
-                    '</td>' +
-                    '</tr>';
-                $('.extra-periods tbody').append(tr);
+                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
+                $('<tr/>', {
+                    'html': [
+                        $('<td/>', {
+                            'class': 'extra-day editable',
+                            'text': day
+                        }),
+                        $('<td/>', {
+                            'class': 'extra-start editable',
+                            'text': Date.parse(extraWorkingDay.start).toString(timeFormat).toUpperCase()
+                        }),
+                        $('<td/>', {
+                            'class': 'extra-end editable',
+                            'text': Date.parse(extraWorkingDay.end).toString(timeFormat).toUpperCase()
+                        }),
+                        $('<td/>', {
+                            'html': [
+                                $('<button/>', {
+                                    'type': 'button',
+                                    'class': 'btn btn-default btn-sm edit-extra',
+                                    'title': EALang.edit,
+                                    'html': [
+                                        $('<span/>', {
+                                            'class': 'glyphicon glyphicon-pencil'
+                                        })
+                                    ]
+                                }),
+                                $('<button/>', {
+                                    'type': 'button',
+                                    'class': 'btn btn-default btn-sm delete-extra',
+                                    'title': EALang.delete,
+                                    'html': [
+                                        $('<span/>', {
+                                            'class': 'glyphicon glyphicon-trash'
+                                        })
+                                    ]
+                                }),
+                                $('<button/>', {
+                                    'type': 'button',
+                                    'class': 'btn btn-default btn-sm save-extra hidden',
+                                    'title': EALang.save,
+                                    'html': [
+                                        $('<span/>', {
+                                            'class': 'glyphicon glyphicon-ok'
+                                        })
+                                    ]
+                                }),
+                                $('<button/>', {
+                                    'type': 'button',
+                                    'class': 'btn btn-default btn-sm cancel-extra hidden',
+                                    'title': EALang.cancel,
+                                    'html': [
+                                        $('<span/>', {
+                                            'class': 'glyphicon glyphicon-ban-circle'
+                                        })
+                                    ]
+                                })
+                            ]
+                        })
+                    ]
+                })
+                    .appendTo('.extra-periods tbody');
             } else {
                 $('#' + index).prop('checked', false);
                 $('#' + index + '-start').prop('disabled', true);
@@ -220,8 +330,20 @@
         }, {
             event: 'edit',
             height: '30px',
-            submit: '<button type="button" class="hidden submit-editable">Submit</button>',
-            cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            submit: $('<button/>', {
+                'type': 'button',
+                'class': 'hidden submit-editable',
+                'text': EALang.save
+            })
+                .get(0)
+                .outerHTML,
+            cancel: $('<button/>', {
+                'type': 'button',
+                'class': 'hidden cancek-editable',
+                'text': EALang.cancel
+            })
+                .get(0)
+                .outerHTML,
             onblur: 'ignore',
             onreset: function (settings, td) {
                 if (!this.enableCancel) {
@@ -245,10 +367,10 @@
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan tbody').on( "click", "input:checkbox", function (event) {
+        $('.working-plan tbody').on("click", "input:checkbox", function () {
             var id = $(this).attr('id');
 
-            if ($(this).prop('checked') == true) {
+            if ($(this).prop('checked') === true) {
                 $('#' + id + '-start').prop('disabled', false).val('9:00 AM');
                 $('#' + id + '-end').prop('disabled', false).val('6:00 PM');
             } else {
@@ -264,33 +386,74 @@
          * data. After that he can either press the save or cancel button.
          */
         $('.add-break').click(function () {
-            var tr =
-                '<tr>' +
-                '<td class="break-day editable">' + EALang.sunday + '</td>' +
-                '<td class="break-start editable">9:00 AM</td>' +
-                '<td class="break-end editable">10:00 AM</td>' +
-                '<td>' +
-                '<button type="button" class="btn btn-default btn-sm edit-break" title="' + EALang.edit + '">' +
-                '<span class="glyphicon glyphicon-pencil"></span>' +
-                '</button>' +
-                '<button type="button" class="btn btn-default btn-sm delete-break" title="' + EALang.delete + '">' +
-                '<span class="glyphicon glyphicon-remove"></span>' +
-                '</button>' +
-                '<button type="button" class="btn btn-default btn-sm save-break hidden" title="' + EALang.save + '">' +
-                '<span class="glyphicon glyphicon-ok"></span>' +
-                '</button>' +
-                '<button type="button" class="btn btn-default btn-sm cancel-break hidden" title="' + EALang.cancel + '">' +
-                '<span class="glyphicon glyphicon-ban-circle"></span>' +
-                '</button>' +
-                '</td>' +
-                '</tr>';
-            $('.breaks').prepend(tr);
+            var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
+            var $newBreak = $('<tr/>', {
+                'html': [
+                    $('<td/>', {
+                        'class': 'break-day editable',
+                        'text': EALang.sunday
+                    }),
+                    $('<td/>', {
+                        'class': 'break-start editable',
+                        'text': '9:00 AM'
+                    }),
+                    $('<td/>', {
+                        'class': 'break-end editable',
+                        'text': '10:00 AM'
+                    }),
+                    $('<td/>', {
+                        'html': [
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm edit-break',
+                                'title': EALang.edit,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-pencil'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm delete-break',
+                                'title': EALang.delete,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-trash'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm save-break hidden',
+                                'title': EALang.save,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-ok'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm cancel-break hidden',
+                                'title': EALang.cancel,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-ban-circle'
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+                ]
+            })
+                .appendTo('.breaks tbody');
 
             // Bind editable and event handlers.
-            tr = $('.breaks tr')[1];
-            this.editableBreakDay($(tr).find('.break-day'));
-            this.editableBreakTime($(tr).find('.break-start, .break-end'));
-            $(tr).find('.edit-break').trigger('click');
+            this.editableBreakDay($newBreak.find('.break-day'));
+            this.editableBreakTime($newBreak.find('.break-start, .break-end'));
+            $newBreak.find('.edit-break').trigger('click');
             $('.add-break').prop('disabled', true);
         }.bind(this));
 
@@ -300,10 +463,11 @@
          * Enables the row editing for the "Breaks" table rows.
          */
         $(document).on('click', '.edit-break', function () {
-            // Reset previous editable tds
-            var $previousEdt = $(this).closest('table').find('.editable').get();
-            $.each($previousEdt, function (index, editable) {
-                if (editable.reset !== undefined) {
+            // Reset previous editable table cells.
+            var $previousEdits = $(this).closest('table').find('.editable');
+
+            $previousEdits.each(function (index, editable) {
+                if (editable.reset) {
                     editable.reset();
                 }
             });
@@ -322,9 +486,10 @@
             $(this).parent().parent().find('.break-day select').focus();
 
             // Show save - cancel buttons.
-            $(this).closest('table').find('.edit-break, .delete-break').addClass('hidden');
-            $(this).parent().find('.save-break, .cancel-break').removeClass('hidden');
-            $(this).closest('tr').find('select,input:text').addClass('form-control input-sm')
+            var $tr = $(this).closest('tr');
+            $tr.find('.edit-break, .delete-break').addClass('hidden');
+            $tr.find('.save-break, .cancel-break').removeClass('hidden');
+            $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-break').prop('disabled', true);
         });
@@ -345,8 +510,8 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.cancel-break', function (e) {
-            var element = e.target;
+        $(document).on('click', '.cancel-break', function (event) {
+            var element = event.target;
             var $modifiedRow = $(element).closest('tr');
             this.enableCancel = true;
             $modifiedRow.find('.cancel-editable').trigger('click');
@@ -364,12 +529,12 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.save-break', function (e) {
+        $(document).on('click', '.save-break', function (event) {
             // Break's start time must always be prior to break's end.
-            var element = e.target,
-                $modifiedRow = $(element).closest('tr'),
-                start = Date.parse($modifiedRow.find('.break-start input').val()),
-                end = Date.parse($modifiedRow.find('.break-end input').val());
+            var element = event.target;
+            var $modifiedRow = $(element).closest('tr');
+            var start = Date.parse($modifiedRow.find('.break-start input').val());
+            var end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
                 $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
@@ -386,7 +551,6 @@
             // Refresh working plan to have the new break sorted in the break list.
             var workingPlan = this.get();
             this.setup(workingPlan);
-
         }.bind(this));
 
         /**
@@ -397,33 +561,73 @@
          */
         $('.add-extra-periods').click(function () {
             var today = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false);
-            var tr =
-                '<tr>' +
-                '<td class="extra-day editable">' + today + '</td>' +
-                '<td class="extra-start editable">' + (GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00').toUpperCase() + '</td>' +
-                '<td class="extra-end editable">' + (GlobalVariables.timeFormat === 'regular' ? '10:00 AM' : '10:00').toUpperCase() + '</td>' +
-                '<td>' +
-                '<button type="button" class="btn btn-default btn-sm edit-extra" title="' + EALang.edit + '">' +
-                '<span class="glyphicon glyphicon-pencil"></span>' +
-                '</button>' +
-                '<button type="button" class="btn btn-default btn-sm delete-extra" title="' + EALang.delete + '">' +
-                '<span class="glyphicon glyphicon-remove"></span>' +
-                '</button>' +
-                '<button type="button" class="btn btn-default btn-sm save-extra hidden" title="' + EALang.save + '">' +
-                '<span class="glyphicon glyphicon-ok"></span>' +
-                '</button>' +
-                '<button type="button" class="btn btn-default btn-sm cancel-extra hidden" title="' + EALang.cancel + '">' +
-                '<span class="glyphicon glyphicon-ban-circle"></span>' +
-                '</button>' +
-                '</td>' +
-                '</tr>';
-            $('.extra-periods').prepend(tr);
+
+            var $newExtraPeriod = $('<tr/>', {
+                'html': [
+                    $('<td/>', {
+                        'class': 'extra-day editable',
+                        'text': today
+                    }),
+                    $('<td/>', {
+                        'class': 'extra-start editable',
+                        'text': '9:00 AM'
+                    }),
+                    $('<td/>', {
+                        'class': 'extra-end editable',
+                        'text': '10:00 AM'
+                    }),
+                    $('<td/>', {
+                        'html': [
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm edit-extra',
+                                'title': EALang.edit,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-pencil'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm delete-extra',
+                                'title': EALang.delete,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-trash'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm save-extra hidden',
+                                'title': EALang.save,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-ok'
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'type': 'button',
+                                'class': 'btn btn-default btn-sm cancel-extra hidden',
+                                'title': EALang.cancel,
+                                'html': [
+                                    $('<span/>', {
+                                        'class': 'glyphicon glyphicon-ban-circle'
+                                    })
+                                ]
+                            })
+                        ]
+                    }),
+                ]
+            })
+                .appendTo('.extra-periods tbody');
 
             // Bind editable and event handlers.
-            tr = $('.extra-periods tr')[1];
-            this.editableBreakTime($(tr).find('.extra-day'));
-            this.editableBreakTime($(tr).find('.extra-start, .extra-end'));
-            $(tr).find('.edit-extra').trigger('click');
+            this.editableBreakTime($newExtraPeriod.find('.extra-day'));
+            this.editableBreakTime($newExtraPeriod.find('.extra-start, .extra-end'));
+            $newExtraPeriod.find('.edit-extra').trigger('click');
             $('.add-extra-periods').prop('disabled', true);
         }.bind(this));
 
@@ -433,10 +637,11 @@
          * Enables the row editing for the "Extra Period" table rows.
          */
         $(document).on('click', '.edit-extra', function () {
-            // Reset previous editable tds
-            var $previousEdt = $(this).closest('table').find('.editable').get();
-            $.each($previousEdt, function (index, editable) {
-                if (editable.reset !== undefined) {
+            // Reset previous editable table cells.
+            var $previousEdits = $(this).closest('table').find('.editable');
+
+            $previousEdits.each(function (index, editable) {
+                if (editable.reset) {
                     editable.reset();
                 }
             });
@@ -493,9 +698,10 @@
             });
 
             // Show save - cancel buttons.
-            $(this).closest('table').find('.edit-extra, .delete-extra').addClass('hidden');
-            $(this).parent().find('.save-extra, .cancel-extra').removeClass('hidden');
-            $(this).closest('tr').find('select,input:text').addClass('form-control input-sm')
+            var $tr = $(this).closest('tr');
+            $tr.find('.edit-extra, .delete-extra').addClass('hidden');
+            $tr.find('.save-extra, .cancel-extra').removeClass('hidden');
+            $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-extra-periods').prop('disabled', true);
         });
@@ -516,8 +722,8 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.cancel-extra', function (e) {
-            var element = e.target;
+        $(document).on('click', '.cancel-extra', function (event) {
+            var element = event.target;
             var $modifiedRow = $(element).closest('tr');
             this.enableCancel = true;
             $modifiedRow.find('.cancel-editable').trigger('click');
@@ -535,12 +741,12 @@
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.save-extra', function (e) {
+        $(document).on('click', '.save-extra', function (event) {
             // Break's start time must always be prior to break's end.
-            var element = e.target,
-                $modifiedRow = $(element).closest('tr'),
-                start = Date.parse($modifiedRow.find('.extra-start input').val()),
-                end = Date.parse($modifiedRow.find('.extra-end input').val());
+            var element = event.target;
+            var $modifiedRow = $(element).closest('tr');
+            var start = Date.parse($modifiedRow.find('.extra-start input').val());
+            var end = Date.parse($modifiedRow.find('.extra-end input').val());
 
             if (start > end) {
                 $modifiedRow.find('.extra-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
@@ -565,7 +771,7 @@
         var workingPlan = {};
         $('.working-plan input:checkbox').each(function (index, checkbox) {
             var id = $(checkbox).attr('id');
-            if ($(checkbox).prop('checked') == true) {
+            if ($(checkbox).prop('checked') === true) {
                 workingPlan[id] = {
                     start: Date.parse($('#' + id + '-start').val()).toString('HH:mm'),
                     end: Date.parse($('#' + id + '-end').val()).toString('HH:mm'),
@@ -575,7 +781,7 @@
                 $('.breaks tr').each(function (index, tr) {
                     var day = this.convertDayToValue($(tr).find('.break-day').text());
 
-                    if (day == id) {
+                    if (day === id) {
                         var start = $(tr).find('.break-start').text();
                         var end = $(tr).find('.break-end').text();
 
@@ -626,12 +832,12 @@
     /**
      * Enables or disables the timepicker functionality from the working plan input text fields.
      *
-     * @param {Boolean} disabled (OPTIONAL = false) If true then the timepickers will be disabled.
+     * @param {Boolean} [disabled] If true then the timepickers will be disabled.
      */
     WorkingPlan.prototype.timepickers = function (disabled) {
         disabled = disabled || false;
 
-        if (disabled == false) {
+        if (disabled === false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
                 timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',

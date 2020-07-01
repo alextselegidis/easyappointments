@@ -25,7 +25,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
     /**
      * Bind event handlers.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Enable - Disable Synchronization Button "Click"
          *
@@ -48,7 +48,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                     // becomes "undefined" and when it comes back to the redirect URL it changes back. So check
                     // whether the variable is undefined to avoid javascript errors.
                     try {
-                        if (windowHandle.document !== undefined) {
+                        if (windowHandle.document) {
                             if (windowHandle.document.URL.indexOf(redirectUrl) !== -1) {
                                 // The user has granted access to his data.
                                 windowHandle.close();
@@ -61,21 +61,23 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 // Display the calendar selection dialog. First we will get a list of the available
                                 // user's calendars and then we will display a selection modal so the user can select
                                 // the sync calendar.
-                                var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_google_calendars';
-                                var postData = {
+                                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_google_calendars';
+
+                                var data = {
                                     csrfToken: GlobalVariables.csrfToken,
                                     provider_id: $('#select-filter-item').val()
                                 };
 
-                                $.post(postUrl, postData, function (response) {
-                                    $('#google-calendar').empty();
-                                    $.each(response, function () {
-                                        var option = '<option value="' + this.id + '">' + this.summary + '</option>';
-                                        $('#google-calendar').append(option);
-                                    });
+                                $.post(url, data)
+                                    .done(function (response) {
+                                        $('#google-calendar').empty();
+                                        response.forEach(response, function (event) {
+                                            $('#google-calendar').append(new Option(event.summary, event.id));
+                                        });
 
-                                    $('#select-google-calendar').modal('show');
-                                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                                        $('#select-google-calendar').modal('show');
+                                    })
+                                    .fail(GeneralFunctions.ajaxFailureHandler);
                             }
                         }
                     } catch (Error) {
@@ -89,21 +91,21 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 // Disable synchronization for selected provider.
                 // Update page elements and make an AJAX call to remove the google sync setting of the
                 // selected provider.
-                $.each(GlobalVariables.availableProviders, function (index, provider) {
-                    if (provider.id == $('#select-filter-item').val()) {
-                        provider.settings.google_sync = '0';
-                        provider.settings.google_token = null;
+                var providerId = $('#select-filter-item').val();
 
-                        _disableProviderSync(provider.id);
-
-                        $('#enable-sync').removeClass('btn-danger enabled');
-                        $('#enable-sync span:eq(1)').text(EALang.enable_sync);
-                        $('#google-sync').prop('disabled', true);
-                        $('#select-filter-item option:selected').attr('google-sync', 'false');
-
-                        return false;
-                    }
+                var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
+                    return Number(provider.id) === Number(providerId);
                 });
+
+                provider.settings.google_sync = '0';
+                provider.settings.google_token = null;
+
+                disableProviderSync(provider.id);
+
+                $('#enable-sync').removeClass('btn-danger enabled');
+                $('#enable-sync span:eq(1)').text(EALang.enable_sync);
+                $('#google-sync').prop('disabled', true);
+                $('#select-filter-item option:selected').attr('google-sync', 'false');
             }
         });
 
@@ -112,6 +114,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          */
         $('#select-calendar').click(function () {
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
+
             var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 provider_id: $('#select-filter-item').val(),
@@ -162,10 +165,11 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
      *
      * @param {Number} providerId The selected provider record ID.
      */
-    function _disableProviderSync(providerId) {
+    function disableProviderSync(providerId) {
         // Make an ajax call to the server in order to disable the setting
         // from the database.
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             provider_id: providerId
@@ -177,7 +181,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
 
 
     exports.initialize = function () {
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarGoogleSync);

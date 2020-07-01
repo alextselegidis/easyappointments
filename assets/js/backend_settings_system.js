@@ -29,28 +29,31 @@
      * @param {Array} settings Contains the system settings data.
      */
     SystemSettings.prototype.save = function (settings) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             settings: JSON.stringify(settings),
             type: BackendSettings.SETTINGS_SYSTEM
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.settings_saved);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.settings_saved);
 
-            // Update the logo title on the header.
-            $('#header-logo span').text($('#company-name').val());
+                // Update the logo title on the header.
+                $('#header-logo span').text($('#company-name').val());
 
-            // Update variables also used in other setting tabs
-            GlobalVariables.timeFormat   = $('#time-format').val();
-            GlobalVariables.firstWeekday = $('#first-weekday').val();
+                // Update variables also used in other setting tabs
+                GlobalVariables.timeFormat   = $('#time-format').val();
+                GlobalVariables.firstWeekday = $('#first-weekday').val();
 
-            // We need to refresh the working plan.
-            var workingPlan = BackendSettings.wp.get();
-            BackendSettings.wp.setup(workingPlan);
-            BackendSettings.wp.timepickers(false);
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                // We need to refresh the working plan.
+                var workingPlan = BackendSettings.wp.get();
+                BackendSettings.wp.setup(workingPlan);
+                BackendSettings.wp.timepickers(false);
+            })
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -64,10 +67,10 @@
         var settings = [];
 
         // General Settings Tab
-        $('#general').find('input, select').each(function () {
+        $('#general').find('input, select').each(function (index, field) {
             settings.push({
-                name: $(this).attr('data-field'),
-                value: $(this).val()
+                name: $(field).attr('data-field'),
+                value: $(field).val()
             });
         });
 
@@ -150,26 +153,26 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#general .required').each(function () {
-                if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#general .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             // Validate company email address.
             if (!GeneralFunctions.validateEmail($('#company-email').val())) {
                 $('#company-email').closest('.form-group').addClass('has-error');
-                throw EALang.invalid_email;
+                throw new Error(EALang.invalid_email);
             }
 
             return true;
-        } catch (message) {
-            Backend.displayNotification(message);
+        } catch (error) {
+            Backend.displayNotification(error.message);
             return false;
         }
     };

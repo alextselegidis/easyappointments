@@ -22,19 +22,19 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
     'use strict';
 
-    function _updateTimezone() {
+    function updateTimezone() {
         var providerId = $('#select-provider').val();
 
-        var provider  = GlobalVariables.availableProviders.filter(function(availableProvider) {
-            return availableProvider.id == providerId;
-        }).shift();
+        var provider  = GlobalVariables.availableProviders.find(function(availableProvider) {
+            return Number(availableProvider.id) === Number(providerId);
+        });
 
         if (provider && provider.timezone) {
             $('.provider-timezone').text(GlobalVariables.timezones[provider.timezone]);
         }
     }
 
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Manage Appointments Dialog Cancel Button "Click"
          *
@@ -51,7 +51,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          */
         $('#manage-appointment #save-appointment').click(function () {
             // Before doing anything the appointment data need to be validated.
-            if (!_validateAppointmentForm()) {
+            if (!validateAppointmentForm()) {
                 return;
             }
 
@@ -129,11 +129,11 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var $dialog = $('#manage-appointment');
 
             // Set the selected filter item and find the next appointment time as the default modal values.
-            if ($('#select-filter-item option:selected').attr('type') == 'provider') {
+            if ($('#select-filter-item option:selected').attr('type') === 'provider') {
                 var providerId = $('#select-filter-item').val();
 
                 var providers = GlobalVariables.availableProviders.filter(function (provider) {
-                    return provider.id == providerId;
+                    return Number(provider.id) === Number(providerId);
                 });
 
                 if (providers.length) {
@@ -145,12 +145,10 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     + $('#select-filter-item').val() + '"]').prop('selected', true);
             }
 
-            var serviceDuration = 0;
-            $.each(GlobalVariables.availableServices, function (index, service) {
-                if (service.id == $dialog.find('#select-service').val()) {
-                    serviceDuration = service.duration;
-                    return false; // exit loop
-                }
+            var serviceId = $dialog.find('#select-service').val();
+
+            var service = GlobalVariables.availableServices.find(function(availableService) {
+                return Number(availableService.id) === Number(serviceId);
             });
 
             var start = new Date();
@@ -167,7 +165,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             }
 
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration),
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(service.duration),
                 GlobalVariables.dateFormat, true));
 
             // Display modal form.
@@ -187,9 +185,12 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
                 $('#filter-existing-customers').val('');
-                $.each(GlobalVariables.customers, function (index, c) {
-                    $list.append('<div data-id="' + c.id + '">'
-                        + c.first_name + ' ' + c.last_name + '</div>');
+                GlobalVariables.customers.forEach(function (customer) {
+                    $('<div/>', {
+                        'data-id': customer.id,
+                        'text': customer.first_name + ' ' + customer.last_name
+                    })
+                        .appendTo($list);
                 });
             } else {
                 $list.slideUp('slow');
@@ -202,24 +203,25 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * Event: Select Existing Customer From List "Click"
          */
         $('#manage-appointment').on('click', '#existing-customers-list div', function () {
-            var id = $(this).attr('data-id');
+            var customerId = $(this).attr('data-id');
 
-            $.each(GlobalVariables.customers, function (index, c) {
-                if (c.id == id) {
-                    $('#customer-id').val(c.id);
-                    $('#first-name').val(c.first_name);
-                    $('#last-name').val(c.last_name);
-                    $('#email').val(c.email);
-                    $('#phone-number').val(c.phone_number);
-                    $('#address').val(c.address);
-                    $('#city').val(c.city);
-                    $('#zip-code').val(c.zip_code);
-                    $('#customer-notes').val(c.notes);
-                    return false;
-                }
+            var customer = GlobalVariables.customers.find(function (customer) {
+                return Number(customer.id) === Number(customerId);
             });
 
-            $('#select-customer').trigger('click'); // hide list
+            if (customer) {
+                $('#customer-id').val(customer.id);
+                $('#first-name').val(customer.first_name);
+                $('#last-name').val(customer.last_name);
+                $('#email').val(customer.email);
+                $('#phone-number').val(customer.phone_number);
+                $('#address').val(customer.address);
+                $('#city').val(customer.city);
+                $('#zip-code').val(customer.zip_code);
+                $('#customer-notes').val(customer.notes);
+            }
+
+            $('#select-customer').trigger('click'); // Hide the list.
         });
 
         /**
@@ -228,56 +230,58 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         $('#filter-existing-customers').keyup(function () {
             var key = $(this).val().toLowerCase();
             var $list = $('#existing-customers-list');
-            var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
-            var postData = {
+
+            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+
+            var data = {
                 csrfToken: GlobalVariables.csrfToken,
                 key: key
             };
 
             // Try to get the updated customer list.
-            $.ajax({
-                type: 'POST',
-                url: postUrl,
-                data: postData,
-                dataType: 'json',
-                timeout: 1000,
-                global: false,
-                success: function (response) {
+            $.post(url, data)
+                .done(function (response) {
                     $list.empty();
-                    $.each(response, function (index, c) {
-                        $list.append('<div data-id="' + c.id + '">'
-                            + c.first_name + ' ' + c.last_name + '</div>');
+
+                    response.forEach(function (customer) {
+                        $('<div/>', {
+                            'data-id': customer.id,
+                            'text': customer.first_name + ' ' + customer.last_name
+                        })
+                            .appendTo($list);
 
                         // Verify if this customer is on the old customer list.
-                        var result = $.grep(GlobalVariables.customers,
-                            function (e) {
-                                return e.id == c.id;
-                            });
+                        var result =  GlobalVariables.customers.filter(function(globalVariablesCustomer) {
+                            return Number(globalVariablesCustomer.id) === Number(customer.id);
+                        });
 
                         // Add it to the customer list.
-                        if (result.length == 0) {
-                            GlobalVariables.customers.push(c);
+                        if (!result.length) {
+                            GlobalVariables.customers.push(customer);
                         }
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
+                    })
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
                     // If there is any error on the request, search by the local client database.
                     $list.empty();
-                    $.each(GlobalVariables.customers, function (index, c) {
-                        if (c.first_name.toLowerCase().indexOf(key) != -1
-                            || c.last_name.toLowerCase().indexOf(key) != -1
-                            || c.email.toLowerCase().indexOf(key) != -1
-                            || c.phone_number.toLowerCase().indexOf(key) != -1
-                            || c.address.toLowerCase().indexOf(key) != -1
-                            || c.city.toLowerCase().indexOf(key) != -1
-                            || c.zip_code.toLowerCase().indexOf(key) != -1
-                            || c.notes.toLowerCase().indexOf(key) != -1) {
-                            $list.append('<div data-id="' + c.id + '">'
-                                + c.first_name + ' ' + c.last_name + '</div>');
+
+                    GlobalVariables.customers.forEach(function(customer, index) {
+                        if (customer.first_name.toLowerCase().indexOf(key) !== -1
+                            || customer.last_name.toLowerCase().indexOf(key) !== -1
+                            || customer.email.toLowerCase().indexOf(key) !== -1
+                            || customer.phone_number.toLowerCase().indexOf(key) !== -1
+                            || customer.address.toLowerCase().indexOf(key) !== -1
+                            || customer.city.toLowerCase().indexOf(key) !== -1
+                            || customer.zip_code.toLowerCase().indexOf(key) !== -1
+                            || customer.notes.toLowerCase().indexOf(key) !== -1) {
+                            $('<div/>', {
+                                'data-id': customer.id,
+                                'text': customer.first_name + ' ' + customer.last_name
+                            })
+                                .appendTo($list);
                         }
                     });
-                }
-            });
+                });
         });
 
         /**
@@ -287,35 +291,34 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * update the start and end time of the appointment.
          */
         $('#select-service').change(function () {
-            var sid = $('#select-service').val();
+            var serviceId = $('#select-service').val();
+
             $('#select-provider').empty();
 
             // Automatically update the service duration.
-            $.each(GlobalVariables.availableServices, function (indexService, service) {
-                if (service.id == sid) {
-                    var start = $('#start-datetime').datetimepicker('getDate');
-                    $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
-                    return false; // break loop
-                }
+            var service = GlobalVariables.availableServices.find(function (availableService) {
+                return Number(availableService.id) === Number(serviceId);
             });
 
+            var start = $('#start-datetime').datetimepicker('getDate');
+            $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+
             // Update the providers select box.
-            $.each(GlobalVariables.availableProviders, function (indexProvider, provider) {
-                $.each(provider.services, function (indexService, serviceId) {
-                    if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && parseInt(provider.id) !== GlobalVariables.user.id) {
-                        return true; // continue
+
+            GlobalVariables.availableProviders.forEach(function (provider) {
+                provider.services.forEach(function (providerServiceId) {
+                    if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && Number(provider.id) !== GlobalVariables.user.id) {
+                        return; // continue
                     }
 
                     if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY && GlobalVariables.secretaryProviders.indexOf(provider.id) === -1) {
-                        return true; // continue
+                        return; // continue
                     }
 
                     // If the current provider is able to provide the selected service, add him to the listbox.
-                    if (serviceId == sid) {
-                        var optionHtml = '<option value="' + provider.id + '">'
-                            + provider.first_name + ' ' + provider.last_name
-                            + '</option>';
-                        $('#select-provider').append(optionHtml);
+                    if (Number(providerServiceId) === Number(serviceId)) {
+                        $('#select-provider')
+                            .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                     }
                 });
             });
@@ -325,7 +328,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * Event: Provider "Change"
          */
         $('#select-provider').change(function () {
-            _updateTimezone();
+            updateTimezone();
         });
 
         /**
@@ -357,20 +360,18 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Fill the providers listbox with providers that can serve the appointment's
         // service and then select the user's provider.
         $dialog.find('#select-provider').empty();
-        $.each(GlobalVariables.availableProviders, function (index, provider) {
+        GlobalVariables.availableProviders.forEach(function (provider, index) {
             var canProvideService = false;
 
-            $.each(provider.services, function (index, serviceId) {
-                if (serviceId == $dialog.find('#select-service').val()) {
-                    canProvideService = true;
-                    return false;
-                }
-            });
+            var serviceId = $dialog.find('#select-service').val();
+
+            var canProvideService = provider.services.filter(function(providerServiceId) {
+                return Number(providerServiceId) === Number(serviceId)
+            }).length > 0;
 
             if (canProvideService) { // Add the provider to the listbox.
-                var option = new Option(provider.first_name
-                    + ' ' + provider.last_name, provider.id);
-                $dialog.find('#select-provider').append(option);
+                $dialog.find('#select-provider')
+                    .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             }
         });
 
@@ -381,16 +382,16 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
-        var serviceDuration = 0;
-        $.each(GlobalVariables.availableServices, function (index, service) {
-            if (service.id == $dialog.find('#select-service').val()) {
-                serviceDuration = service.duration;
-                return false;
-            }
+        var serviceId = $dialog.find('#select-service').val();
+
+        var service = GlobalVariables.availableServices.forEach(function(service) {
+            return Number(service.id) === Number(serviceId);
         });
 
+        var duration = service ? service.duration : 0;
+
         var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout);
-        var endDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(serviceDuration);
+        var endDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(duration);
         var dateFormat;
 
         switch (GlobalVariables.dateFormat) {
@@ -438,16 +439,15 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             minuteText: EALang.minutes,
             firstDay: firstWeekDayNumber,
             onClose: function () {
-                var sid = $('#select-service').val();
+                var serviceId = $('#select-service').val();
 
                 // Automatically update the #end-datetime DateTimePicker based on service duration.
-                $.each(GlobalVariables.availableServices, function (indexService, service) {
-                    if (service.id == sid) {
-                        var start = $('#start-datetime').datetimepicker('getDate');
-                        $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
-                        return false; // break loop
-                    }
+                var service = GlobalVariables.availableServices.find(function (availableService) {
+                    return Number(availableService.id) === Number(serviceId);
                 });
+
+                var start = $('#start-datetime').datetimepicker('getDate');
+                $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
             }
         });
         $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
@@ -489,7 +489,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
      *
      * @return {Boolean} Returns the validation result.
      */
-    function _validateAppointmentForm() {
+    function validateAppointmentForm() {
         var $dialog = $('#manage-appointment');
 
         // Reset previous validation css formatting.
@@ -500,21 +500,21 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Check required fields.
             var missingRequiredField = false;
 
-            $dialog.find('.required').each(function () {
-                if ($(this).val() == '' || $(this).val() == null) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $dialog.find('.required').each(function (index, requiredField) {
+                if ($(requiredField).val() === '' || $(requiredField).val() === null) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequiredField = true;
                 }
             });
 
             if (missingRequiredField) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             // Check email address.
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
                 $dialog.find('#email').closest('.form-group').addClass('has-error');
-                throw EALang.invalid_email;
+                throw new Error(EALang.invalid_email);
             }
 
             // Check appointment start and end time.
@@ -522,18 +522,18 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var end = $('#end-datetime').datetimepicker('getDate');
             if (start > end) {
                 $dialog.find('#start-datetime, #end-datetime').closest('.form-group').addClass('has-error');
-                throw EALang.start_date_before_end_error;
+                throw new Error(EALang.start_date_before_end_error);
             }
 
             return true;
-        } catch (exc) {
-            $dialog.find('.modal-message').addClass('alert-danger').text(exc).removeClass('hidden');
+        } catch (error) {
+            $dialog.find('.modal-message').addClass('alert-danger').text(error.message).removeClass('hidden');
             return false;
         }
     }
 
     exports.initialize = function () {
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarAppointmentsModal);

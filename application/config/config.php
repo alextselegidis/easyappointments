@@ -121,6 +121,7 @@ $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
 $config['available_languages'] = [
     'arabic',
     'bulgarian',
+    'catalan',
     'chinese',
     'czech',
     'danish',

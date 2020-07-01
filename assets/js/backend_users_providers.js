@@ -58,25 +58,20 @@
          *
          * Display the selected provider data to the user.
          */
-        $('#providers').on('click', '.provider-row', function (e) {
+        $('#providers').on('click', '.provider-row', function (event) {
             if ($('#filter-providers .filter').prop('disabled')) {
                 $('#filter-providers .results').css('color', '#AAA');
                 return; // Exit because we are currently on edit mode.
             }
 
-            var providerId = $(e.currentTarget).attr('data-id');
-            var provider = {};
-
-            $.each(this.filterResults, function (index, item) {
-                if (item.id === providerId) {
-                    provider = item;
-                    return false;
-                }
+            var providerId = $(event.currentTarget).attr('data-id');
+            var provider = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(providerId);
             });
 
             this.display(provider);
             $('#filter-providers .selected').removeClass('selected');
-            $(e.currentTarget).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-provider, #delete-provider').prop('disabled', false);
         }.bind(this));
 
@@ -172,9 +167,9 @@
 
             // Include provider services.
             provider.services = [];
-            $('#provider-services input:checkbox').each(function () {
-                if ($(this).prop('checked')) {
-                    provider.services.push($(this).attr('data-id'));
+            $('#provider-services input:checkbox').each(function (index, checkbox) {
+                if ($(checkbox).prop('checked')) {
+                    provider.services.push($(checkbox).attr('data-id'));
                 }
             });
 
@@ -203,7 +198,7 @@
         $('#providers').on('click', '#cancel-provider', function () {
             var id = $('#filter-providers .selected').attr('data-id');
             this.resetForm();
-            if (id != '') {
+            if (id) {
                 this.select(id, true);
             }
         }.bind(this));
@@ -297,45 +292,45 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#providers .required').each(function () {
-                if ($(this).val() == '' || $(this).val() == undefined) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#providers .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             // Validate passwords.
-            if ($('#provider-password').val() != $('#provider-password-confirm').val()) {
+            if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
                 $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
-                throw EALang.passwords_mismatch;
+                throw new Error(EALang.passwords_mismatch);
             }
 
             if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#provider-password').val() != '') {
+                && $('#provider-password').val() !== '') {
                 $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
-                throw EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH);
+                throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
                 $('#provider-email').closest('.form-group').addClass('has-error');
-                throw EALang.invalid_email;
+                throw new Error(EALang.invalid_email);
             }
 
             // Check if username exists
-            if ($('#provider-username').attr('already-exists') == 'true') {
+            if ($('#provider-username').attr('already-exists') === 'true') {
                 $('#provider-username').closest('.form-group').addClass('has-error');
-                throw EALang.username_already_exists;
+                throw new Error(EALang.username_already_exists);
             }
 
             return true;
-        } catch (message) {
+        } catch (error) {
             $('#providers .form-message')
                 .addClass('alert-danger')
-                .text(message)
+                .text(error.message)
                 .show();
             return false;
         }
@@ -395,7 +390,7 @@
 
         $('#provider-username').val(provider.settings.username);
         $('#provider-calendar-view').val(provider.settings.calendar_view);
-        if (provider.settings.notifications == true) {
+        if (provider.settings.notifications === '1') {
             $('#provider-notifications').addClass('active');
         } else {
             $('#provider-notifications').removeClass('active');
@@ -403,26 +398,48 @@
 
         // Add dedicated provider link.
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id);
-        var linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
+
+        var $link = $('<a/>', {
+            'href': dedicatedUrl,
+            'html': [
+                $('<span/>', {
+                    'class': 'glyphicon glyphicon-link'
+                })
+            ]
+        });
+
         $('#providers .details-view h3')
             .find('a')
             .remove()
             .end()
-            .append(linkHtml);
+            .append($link);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
-        $.each(provider.services, function (index, serviceId) {
-            $('#provider-services input:checkbox').each(function () {
-                if ($(this).attr('data-id') == serviceId) {
-                    $(this).prop('checked', true);
-                    // Add dedicated service-provider link.
-                    dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
-                        + '&service=' + encodeURIComponent(serviceId);
-                    linkHtml = '<a href="' + dedicatedUrl + '"><span class="glyphicon glyphicon-link"></span></a>';
-                    $(this).parent().append(linkHtml);
-                }
+
+        provider.services.forEach(function (providerServiceId) {
+            var $checkbox = $('#provider-services input[data-id="' + providerServiceId + '"]');
+
+            if (!$checkbox.length) {
+                return;
+            }
+
+            $checkbox.prop('checked', true);
+
+            // Add dedicated service-provider link.
+            dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
+                + '&service=' + encodeURIComponent(providerServiceId);
+
+            $link = $('<a/>', {
+                'href': dedicatedUrl,
+                'html': [
+                    $('<span/>', {
+                        'class': 'glyphicon glyphicon-link'
+                    })
+                ]
             });
+
+            $checkbox.parent().append($link);
         });
 
         // Display working plan
@@ -446,41 +463,48 @@
     ProvidersHelper.prototype.filter = function (key, selectId, display) {
         display = display || false;
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };
 
-        $.post(postUrl, postData, function (response) {
-            this.filterResults = response;
+        $.post(url, data)
+            .done(function (response) {
+                this.filterResults = response;
 
-            $('#filter-providers .results').html('');
-            $.each(response, function (index, provider) {
-                var html = this.getFilterHtml(provider);
-                $('#filter-providers .results').append(html);
-            }.bind(this));
+                $('#filter-providers .results').empty();
+                response.forEach(function (provider) {
+                    $('#filter-providers .results')
+                        .append(this.getFilterHtml(provider))
+                        .append($('<hr/>'));
+                }.bind(this));
 
-            if (response.length == 0) {
-                $('#filter-providers .results').html('<em>' + EALang.no_records_found + '</em>')
-            } else if (response.length === this.filterLimit) {
-                $('<button/>', {
-                    'type': 'button',
-                    'class': 'well btn-block load-more text-center',
-                    'text': EALang.load_more,
-                    'click': function () {
-                        this.filterLimit += 20;
-                        this.filter(key, selectId, display);
-                    }.bind(this)
-                })
-                    .appendTo('#filter-providers .results');
-            }
+                if (!response.length) {
+                    $('#filter-providers .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
+                } else if (response.length === this.filterLimit) {
+                    $('<button/>', {
+                        'type': 'button',
+                        'class': 'well btn-block load-more text-center',
+                        'text': EALang.load_more,
+                        'click': function () {
+                            this.filterLimit += 20;
+                            this.filter(key, selectId, display);
+                        }.bind(this)
+                    })
+                        .appendTo('#filter-providers .results');
+                }
 
-            if (selectId != undefined) {
-                this.select(selectId, display);
-            }
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                if (selectId) {
+                    this.select(selectId, display);
+                }
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -491,22 +515,28 @@
      * @return {String} The html code that represents the record on the filter results list.
      */
     ProvidersHelper.prototype.getFilterHtml = function (provider) {
-        var name = provider.first_name + ' ' + provider.last_name,
-            info = provider.email;
+        var name = provider.first_name + ' ' + provider.last_name;
 
-        info = (provider.mobile_number != '' && provider.mobile_number != null)
-            ? info + ', ' + provider.mobile_number : info;
+        var info = provider.email;
 
-        info = (provider.phone_number != '' && provider.phone_number != null)
-            ? info + ', ' + provider.phone_number : info;
+        info = provider.mobile_number ? info + ', ' + provider.mobile_number : info;
 
-        var html =
-            '<div class="provider-row entry" data-id="' + provider.id + '">' +
-            '<strong>' + name + '</strong><br>' +
-            info + '<br>' +
-            '</div><hr>';
+        info = provider.phone_number ? info + ', ' + provider.phone_number : info;
 
-        return html;
+        return $('<div/>', {
+            'class': 'provider-row entry',
+            'data-id': provider.id,
+            'html': [
+                $('<strong/>', {
+                    'text': name
+                }),
+                $('<br/>'),
+                $('<span/>', {
+                    'text': info
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -586,22 +616,17 @@
         display = display || false;
 
         // Select record in filter results.
-        $('#filter-providers .provider-row').each(function () {
-            if ($(this).attr('data-id') == id) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-providers .provider-row[data-id="' + id + '"]').addClass('selected');
 
         // Display record in form (if display = true).
         if (display) {
-            $.each(this.filterResults, function (index, provider) {
-                if (provider.id == id) {
-                    this.display(provider);
-                    $('#edit-provider, #delete-provider').prop('disabled', false);
-                    return false;
-                }
+            var provider = this.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(id);
             }.bind(this));
+
+            this.display(provider);
+
+            $('#edit-provider, #delete-provider').prop('disabled', false);
         }
     };
 

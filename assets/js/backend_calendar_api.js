@@ -29,34 +29,30 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      *
      * @param {Object} appointment Contain the new appointment data. The ID of the appointment MUST be
      * already included. The rest values must follow the database structure.
-     * @param {Object} customer Optional, contains the customer data.
-     * @param {Function} successCallback Optional, if defined, this function is going to be executed on post success.
-     * @param {Function} errorCallback Optional, if defined, this function is going to be executed on post failure.
+     * @param {Object} [customer] Optional, contains the customer data.
+     * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
+     * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
      */
     exports.saveAppointment = function (appointment, customer, successCallback, errorCallback) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             appointment_data: JSON.stringify(appointment)
         };
 
-        if (customer !== undefined) {
+        if (customer) {
             data.customer_data = JSON.stringify(customer);
         }
 
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: data,
-            dataType: 'json'
-        })
+        $.post(url, data)
             .done(function (response) {
-                if (successCallback !== undefined) {
+                if (successCallback) {
                     successCallback(response);
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                if (errorCallback !== undefined) {
+                if (errorCallback) {
                     errorCallback();
                 }
             });
@@ -70,19 +66,16 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} errorCallback The ajax failure callback function.
      */
     exports.saveUnavailable = function (unavailable, successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             unavailable: JSON.stringify(unavailable)
         };
 
-        $.ajax({
-            type: 'POST',
-            url: postUrl,
-            data: postData,
-            success: successCallback,
-            error: errorCallback
-        });
+        $.post(url, data)
+            .done(successCallback)
+            .fail(errorCallback);
     };
 
     /**
@@ -92,19 +85,16 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} errorCallback The ajax failure callback function.
      */
     exports.saveExtraPeriod = function (extra_periods, successCallback, errorCallback) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_extra_period';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_extra_period';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             extra_period: JSON.stringify(extra_periods)
         };
 
-        $.ajax({
-            type: 'POST',
-            url: postUrl,
-            data: postData,
-            success: successCallback,
-            error: errorCallback
-        });
+        $.post(url, data)
+            .done(successCallback)
+            .fail(errorCallback);
     }
 
 })(window.BackendCalendarApi);

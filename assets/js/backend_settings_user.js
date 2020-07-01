@@ -47,7 +47,7 @@
             }
         };
 
-        if ($('#password').val() != '') {
+        if ($('#password').val()) {
             user.settings.password = $('#password').val();
         }
 
@@ -65,20 +65,22 @@
             return; // Validation failed, do not proceed.
         }
 
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             type: BackendSettings.SETTINGS_USER,
             settings: JSON.stringify(settings)
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.settings_saved);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.settings_saved);
 
-            // Update footer greetings.
-            $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
-
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                // Update footer greetings.
+                $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
+            })
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -94,37 +96,37 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#user .required').each(function () {
-                if ($(this).val() === '' || $(this).val() === undefined) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#user .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             // Validate passwords (if provided).
-            if ($('#password').val() != $('#retype-password').val()) {
+            if ($('#password').val() !== $('#retype-password').val()) {
                 $('#password, #retype-password').closest('.form-group').addClass('has-error');
-                throw EALang.passwords_mismatch;
+                throw new Error(EALang.passwords_mismatch);
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').closest('.form-group').addClass('has-error');
-                throw EALang.invalid_email;
+                throw new Error(EALang.invalid_email);
             }
 
             if ($('#username').attr('already-exists') === 'true') {
                 $('#username').closest('.form-group').addClass('has-error');
-                throw EALang.username_already_exists;
+                throw new Error(EALang.username_already_exists);
             }
 
             return true;
-        } catch (exc) {
-            Backend.displayNotification(exc);
+        } catch (error) {
+            Backend.displayNotification(exc.message);
             return false;
         }
     };

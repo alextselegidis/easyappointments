@@ -30,7 +30,7 @@
  * @property Services_Model services_model
  * @property Customers_Model customers_model
  * @property Settings_Model settings_model
- * @property Timezones_Model timezones_model
+ * @property Timezones timezones
  * @property Roles_Model roles_model
  * @property Secretaries_Model secretaries_model
  * @property Admins_Model admins_model
@@ -88,7 +88,7 @@ class Backend extends CI_Controller {
         $this->load->model('roles_model');
         $this->load->model('user_model');
         $this->load->model('secretaries_model');
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         $calendar_view_query_param = $this->input->get('view');
 
@@ -108,7 +108,7 @@ class Backend extends CI_Controller {
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
         $view['calendar_view'] = !empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
-        $view['timezones'] = $this->timezones_model->to_array();
+        $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
         if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY)
@@ -225,7 +225,7 @@ class Backend extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
@@ -238,7 +238,7 @@ class Backend extends CI_Controller {
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
-        $view['timezones'] = $this->timezones_model->to_array();
+        $view['timezones'] = $this->timezones->to_array();
 
         if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY)
         {
@@ -278,7 +278,7 @@ class Backend extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
@@ -289,7 +289,7 @@ class Backend extends CI_Controller {
         $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
         $view['services'] = $this->services_model->get_batch();
         $view['categories'] = $this->services_model->get_all_categories();
-        $view['timezones'] = $this->timezones_model->to_array();
+        $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
@@ -318,7 +318,7 @@ class Backend extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
@@ -332,7 +332,7 @@ class Backend extends CI_Controller {
         $view['secretaries'] = $this->secretaries_model->get_batch();
         $view['services'] = $this->services_model->get_batch();
         $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
-        $view['timezones'] = $this->timezones_model->to_array();
+        $view['timezones'] = $this->timezones->to_array();
         $view['extra_working_plan'] = '{}';
         $this->set_user_data($view);
 
@@ -359,7 +359,7 @@ class Backend extends CI_Controller {
 
         $this->load->model('settings_model');
         $this->load->model('user_model');
-        $this->load->model('timezones_model');
+        $this->load->library('timezones');
 
         $this->load->library('session');
         $user_id = $this->session->userdata('user_id');
@@ -374,7 +374,7 @@ class Backend extends CI_Controller {
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['system_settings'] = $this->settings_model->get_settings();
         $view['user_settings'] = $this->user_model->get_user($user_id);
-        $view['timezones'] = $this->timezones_model->to_array();
+        $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);

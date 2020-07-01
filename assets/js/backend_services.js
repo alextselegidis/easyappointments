@@ -35,16 +35,16 @@ window.BackendServices = window.BackendServices || {};
     /**
      * Default initialize method of the page.
      *
-     * @param {Boolean} bindEventHandlers Optional (true), determines whether to bind the  default event handlers.
+     * @param {Boolean} [defaultEventHandlers] Optional (true), determines whether to bind the  default event handlers.
      */
-    exports.initialize = function (bindEventHandlers) {
-        bindEventHandlers = bindEventHandlers || true;
+    exports.initialize = function (defaultEventHandlers) {
+        defaultEventHandlers = defaultEventHandlers || true;
 
         // Fill available service categories listbox.
-        $.each(GlobalVariables.categories, function (index, category) {
-            var option = new Option(category.name, category.id);
-            $('#service-category').append(option);
+        GlobalVariables.categories.forEach(function (category) {
+            $('#service-category').append(new Option(category.name, category.id));
         });
+
         $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
 
         // Instantiate helper object (service helper by default).
@@ -52,8 +52,8 @@ window.BackendServices = window.BackendServices || {};
         helper.resetForm();
         helper.filter('');
 
-        if (bindEventHandlers) {
-            _bindEventHandlers();
+        if (defaultEventHandlers) {
+            bindEventHandlers();
         }
     };
 
@@ -62,7 +62,7 @@ window.BackendServices = window.BackendServices || {};
      *
      * Do not use this method if you include the "BackendServices" namespace on another page.
      */
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Page Tab Button "Click"
          *
@@ -92,20 +92,25 @@ window.BackendServices = window.BackendServices || {};
      */
     exports.updateAvailableCategories = function () {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: ''
         };
 
-        $.post(url, data, function (response) {
-            GlobalVariables.categories = response;
-            var $select = $('#service-category');
-            $select.empty();
-            $.each(response, function (index, category) {
-                var option = new Option(category.name, category.id);
-                $select.append(option);
-            });
-            $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
-        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                GlobalVariables.categories = response;
+                var $select = $('#service-category');
+
+                $select.empty();
+
+                response.forEach(function (category) {
+                    $select.append(new Option(category.name, category.id));
+                });
+
+                $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+            })
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 })(window.BackendServices);

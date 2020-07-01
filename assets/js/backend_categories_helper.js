@@ -64,12 +64,9 @@
             }
 
             var categoryId = $(this).attr('data-id');
-            var category = {};
-            $.each(instance.filterResults, function (index, item) {
-                if (item.id === categoryId) {
-                    category = item;
-                    return false;
-                }
+
+            var category = instance.filterResults.find(function (filterResult) {
+                return Number(filterResult.id) === Number(categoryId);
             });
 
             instance.display(category);
@@ -169,41 +166,50 @@
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
     CategoriesHelper.prototype.filter = function (key, selectId, display) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };
 
-        $.post(postUrl, postData, function (response) {
-            this.filterResults = response;
+        $.post(url, data)
+            .done(function (response) {
+                this.filterResults = response;
 
-            $('#filter-categories .results').html('');
-            $.each(response, function (index, category) {
-                var html = this.getFilterHtml(category);
-                $('#filter-categories .results').append(html);
-            }.bind(this));
+                $('#filter-categories .results').empty();
 
-            if (response.length === 0) {
-                $('#filter-categories .results').html('<em>' + EALang.no_records_found + '</em>');
-            } else if (response.length === this.filterLimit) {
-                $('<button/>', {
-                    'type': 'button',
-                    'class': 'well btn-block load-more text-center',
-                    'text': EALang.load_more,
-                    'click': function () {
-                        this.filterLimit += 20;
-                        this.filter(key, selectId, display);
-                    }.bind(this)
-                })
-                    .appendTo('#filter-categories .results');
-            }
+                response.forEach(function(category) {
+                    $('#filter-categories .results')
+                        .append(this.getFilterHtml(category))
+                        .append($('<hr/>'));
+                }.bind(this));
 
-            if (selectId !== undefined) {
-                this.select(selectId, display);
-            }
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                if (response.length === 0) {
+                    $('#filter-categories .results').append(
+                        $('<em/>', {
+                            'text': EALang.no_records_found
+                        })
+                    );
+                } else if (response.length === this.filterLimit) {
+                    $('<button/>', {
+                        'type': 'button',
+                        'class': 'well btn-block load-more text-center',
+                        'text': EALang.load_more,
+                        'click': function () {
+                            this.filterLimit += 20;
+                            this.filter(key, selectId, display);
+                        }.bind(this)
+                    })
+                        .appendTo('#filter-categories .results');
+                }
+
+                if (selectId) {
+                    this.select(selectId, display);
+                }
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -212,19 +218,22 @@
      * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.save = function (category) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             category: JSON.stringify(category)
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.service_category_saved);
-            this.resetForm();
-            $('#filter-categories .key').val('');
-            this.filter('', response.id, true);
-            BackendServices.updateAvailableCategories();
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data)
+            .done(function (response) {
+                Backend.displayNotification(EALang.service_category_saved);
+                this.resetForm();
+                $('#filter-categories .key').val('');
+                this.filter('', response.id, true);
+                BackendServices.updateAvailableCategories();
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -233,19 +242,22 @@
      * @param Number} id Record ID to be deleted.
      */
     CategoriesHelper.prototype.delete = function (id) {
-        var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
-        var postData = {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
+
+        var data = {
             csrfToken: GlobalVariables.csrfToken,
             category_id: id
         };
 
-        $.post(postUrl, postData, function (response) {
-            Backend.displayNotification(EALang.service_category_deleted);
+        $.post(url, data)
+            .done(function () {
+                Backend.displayNotification(EALang.service_category_deleted);
 
-            this.resetForm();
-            this.filter($('#filter-categories .key').val());
-            BackendServices.updateAvailableCategories();
-        }.bind(this), 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                this.resetForm();
+                this.filter($('#filter-categories .key').val());
+                BackendServices.updateAvailableCategories();
+            }.bind(this))
+            .fail(GeneralFunctions.ajaxFailureHandler);
     };
 
     /**
@@ -270,19 +282,19 @@
         try {
             var missingRequired = false;
 
-            $('#categories .required').each(function () {
-                if ($(this).val() === '' || $(this).val() === undefined) {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('#categories .required').each(function (index, requiredField) {
+                if (!$(requiredField).val()) {
+                    $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw EALang.fields_are_required;
+                throw new Error(EALang.fields_are_required);
             }
 
             return true;
-        } catch (message) {
+        } catch (error) {
             return false;
         }
     };
@@ -310,12 +322,16 @@
      * @return {String} Returns the record HTML code.
      */
     CategoriesHelper.prototype.getFilterHtml = function (category) {
-        var html =
-            '<div class="category-row entry" data-id="' + category.id + '">' +
-            '<strong>' + category.name + '</strong>' +
-            '</div><hr>';
-
-        return html;
+        return $('<div/>', {
+            'class': 'category-row entry',
+            'data-id': category.id,
+            'html': [
+                $('<strong/>', {
+                    'text': category.name
+                }),
+                $('<br/>'),
+            ]
+        });
     };
 
     /**
@@ -332,21 +348,16 @@
 
         $('#filter-categories .selected').removeClass('selected');
 
-        $('#filter-categories .category-row').each(function () {
-            if ($(this).attr('data-id') == id) {
-                $(this).addClass('selected');
-                return false;
-            }
-        });
+        $('#filter-categories .category-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            $.each(this.filterResults, function (index, category) {
-                if (category.id == id) {
-                    this.display(category);
-                    $('#edit-category, #delete-category').prop('disabled', false);
-                    return false;
-                }
+            var category = this.filterResults.find(function (category) {
+                return Number(category.id) === Number(id);
             }.bind(this));
+
+            this.display(category);
+
+            $('#edit-category, #delete-category').prop('disabled', false);
         }
     };
 

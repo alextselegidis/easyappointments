@@ -25,6 +25,8 @@ use EA\Engine\Types\NonEmptyText;
  *   $parser = new \EA\Engine\Api\V1\Parsers\Appointments;
  *   $response = new \EA\Engine\Api\V1\Response($data);
  *   $response->format($parser)->search()->sort()->paginate()->minimize()->output();
+ *
+ * @deprecated
  */
 class Response {
     /**

@@ -22,7 +22,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
 
     'use strict';
 
-    function _bindEventHandlers() {
+    function bindEventHandlers() {
         /**
          * Event: Manage Unavailable Dialog Save Button "Click"
          *
@@ -58,7 +58,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 unavailable.id = $dialog.find('#unavailable-id').val();
             }
 
-            var successCallback = function (response) {
+            var successCallback = function () {
                 // Display success message to the user.
                 Backend.displayNotification(EALang.unavailable_saved);
 
@@ -230,7 +230,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
             $unavailabilityProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }
 
-        _bindEventHandlers();
+        bindEventHandlers();
     };
 
 })(window.BackendCalendarUnavailabilitiesModal);

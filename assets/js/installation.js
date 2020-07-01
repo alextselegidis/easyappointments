@@ -14,6 +14,7 @@ $(function () {
 
     var MIN_PASSWORD_LENGTH = 7;
 
+    var $install = $('#install');
     var $alert = $('.alert');
 
     $(document).ajaxStart(function () {
@@ -27,12 +28,13 @@ $(function () {
     /**
      * Event: Install Easy!Appointments Button "Click"
      */
-    $('#install').click(function () {
+    $install.click(function () {
         if (!validate()) {
             return;
         }
 
         var url = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             admin: getAdminData(),
@@ -49,7 +51,7 @@ $(function () {
                 $alert
                     .text('Easy!Appointments has been successfully installed!')
                     .addClass('alert-success')
-                    .show();
+                    .removeClass('hidden');
 
                 setTimeout(function () {
                     window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
@@ -69,52 +71,52 @@ $(function () {
         try {
             $alert
                 .removeClass('alert-danger')
-                .hide();
+                .addClass('hidden');
             $('input').closest('.form-group').removeClass('has-error');
 
             // Check for empty fields.
             var missingRequired = false;
-            $('input').each(function () {
-                if ($(this).val() == '') {
-                    $(this).closest('.form-group').addClass('has-error');
+            $('input').each(function (index, field) {
+                if (!$(field).val()) {
+                    $(field).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
-                throw 'All the page fields are required.';
+                throw new Error('All the page fields are required.');
             }
 
             // Validate Passwords
-            if ($('#password').val() != $('#retype-password').val()) {
+            if ($('#password').val() !== $('#retype-password').val()) {
                 $('#password').closest('.form-group').addClass('has-error');
                 $('#retype-password').closest('.form-group').addClass('has-error');
-                throw 'Passwords do not match!';
+                throw new Error('Passwords do not match!');
             }
 
             if ($('#password').val().length < MIN_PASSWORD_LENGTH) {
                 $('#password').closest('.form-group').addClass('has-error');
                 $('#retype-password').closest('.form-group').addClass('has-error');
-                throw 'The password must be at least ' + MIN_PASSWORD_LENGTH + ' characters long.';
+                throw new Error('The password must be at least ' + MIN_PASSWORD_LENGTH + ' characters long.');
             }
 
             // Validate Email
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').closest('.form-group').addClass('has-error');
-                throw 'The email address is invalid!';
+                throw new Error('The email address is invalid!');
             }
 
             if (!GeneralFunctions.validateEmail($('#company-email').val())) {
                 $('#company-email').closest('.form-group').addClass('has-error');
-                throw 'The email address is invalid!';
+                throw new Error('The email address is invalid!');
             }
 
             return true;
         } catch (error) {
             $alert
                 .addClass('alert-danger')
-                .text(error)
-                .show();
+                .text(error.message)
+                .removeClass('hidden');
 
             return false;
         }
@@ -126,7 +128,7 @@ $(function () {
      * @return {Object}
      */
     function getAdminData() {
-        var admin = {
+        return {
             first_name: $('#first-name').val(),
             last_name: $('#last-name').val(),
             email: $('#email').val(),
@@ -134,8 +136,6 @@ $(function () {
             username: $('#username').val(),
             password: $('#password').val()
         };
-
-        return admin;
     }
 
     /**
@@ -144,20 +144,18 @@ $(function () {
      * @return {Object}
      */
     function getCompanyData() {
-        var company = {
+        return {
             company_name: $('#company-name').val(),
             company_email: $('#company-email').val(),
             company_link: $('#company-link').val()
         };
-
-        return company;
     }
 
     // Validate the base URL setting (must not contain any trailing slash).
     if (GlobalVariables.baseUrl.slice(-1) === '/') {
-        GeneralFunctions.displayMessageBox('Misconfiguration Detected', 'Please remove any trailing slashes from your '
-            + 'BASE_URL setting of the root config.php file and try again.');
-        $('#install')
+        GeneralFunctions.displayMessageBox('Misconfiguration Detected', 'Please remove any trailing '
+            + 'slashes from your BASE_URL setting of the root config.php file and try again.');
+        $install
             .prop('disabled', true)
             .fadeTo('0.4');
     }

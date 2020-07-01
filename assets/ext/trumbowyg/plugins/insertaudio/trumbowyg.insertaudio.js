@@ -33,8 +33,12 @@
 
     $.extend(true, $.trumbowyg, {
         langs: {
+            // jshint camelcase:false
             en: {
                 insertAudio: 'Insert Audio'
+            },
+            da: {
+                insertAudio: 'Indsæt lyd'
             },
             fr: {
                 insertAudio: 'Insérer un son'
@@ -47,7 +51,14 @@
             },
             tr: {
                 insertAudio: 'Ses Ekle'
-            }
+            },
+            pt_br: {
+                insertAudio: 'Inserir áudio'
+            },
+            ko: {
+                insertAudio: '소리 넣기'
+            },
+            // jshint camelcase:true
         },
         plugins: {
             insertAudio: {

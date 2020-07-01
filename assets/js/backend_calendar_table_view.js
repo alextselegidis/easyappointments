@@ -89,22 +89,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
 
-                                $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
+                                // $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
 
-                                createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
+                                // createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
 
                                 // Add the appointments to the column.
-                                createAppointments($providerColumn, response.appointments);
+                                // createAppointments($providerColumn, response.appointments);
 
                                 // Add the unavailabilities to the column.
-                                createUnavailabilities($providerColumn, response.unavailabilities);
+                                // createUnavailabilities($providerColumn, response.unavailabilities);
 
                                 // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
                                 var day = date.toString('dddd').toLowerCase();
                                 if (workingPlan[day]) {
                                     var breaks = workingPlan[day].breaks;
-                                    createBreaks($providerColumn, breaks);
+                                    // createBreaks($providerColumn, breaks);
                                 }
                             });
                         });
@@ -132,7 +132,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Hides the open popover element.
          */
         $calendar.on('click', '.close-popover', function () {
-            $(this).parents().eq(2).popover('destroy');
+            $(this).parents('.popover').popover('destroy');
         });
 
         /**
@@ -141,11 +141,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Enables the edit dialog of the selected table event.
          */
         $calendar.on('click', '.edit-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover
+            $(this).parents('.popover').popover('destroy');
 
             var $dialog;
 
-            if (lastFocusedEventData.data.is_unavailable == false) {
+            if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
 
@@ -208,46 +208,55 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendar.on('click', '.delete-popover', function () {
-            $(this).parents().eq(2).remove(); // Hide the popover.
+            $(this).parents('.popover').popover('destroy'); // Hide the popover.
+
+            var url;
+            var data;
 
             // If id_role parameter exists the popover is an extra working day.
             if (lastFocusedEventData.data.hasOwnProperty('id_roles')) {
                 // Do not display confirmation prompt.
-                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_extra_period';
-                var data = {
+                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_extra_period';
+
+                data = {
                     csrfToken: GlobalVariables.csrfToken,
                     extra_period: lastFocusedEventData.start.format('YYYY-MM-DD'),
                     provider_id: lastFocusedEventData.data.id
                 };
 
-                $.post(url, data, function (response) {
-                    $('#message_box').dialog('close');
+                $.post(url, data)
+                    .done(function (response) {
+                        $('#message_box').dialog('close');
 
-                    var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
-                    delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
-                    lastFocusedEventData.data.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
+                        var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
+                        delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
+                        lastFocusedEventData.data.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
 
-                    // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
-                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
-            } else if (lastFocusedEventData.data.is_unavailable == false) {
+                        // Refresh calendar event items.
+                        $('#select-filter-item').trigger('change');
+                    })
+                    .fail(GeneralFunctions.ajaxFailureHandler);
+            } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
                         text: 'OK',
                         click: function () {
-                            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
-                            var data = {
+                            url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
+
+                            data = {
                                 csrfToken: GlobalVariables.csrfToken,
                                 appointment_id: lastFocusedEventData.data.id,
                                 delete_reason: $('#delete-reason').val()
                             };
 
-                            $.post(url, data, function (response) {
-                                $('#message_box').dialog('close');
+                            $.post(url, data)
+                                .done(function () {
+                                    $('#message_box').dialog('close');
 
-                                // Refresh calendar event items.
-                                $('#select-filter-item').trigger('change');
-                            }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                                    // Refresh calendar event items.
+                                    $('#select-filter-item').trigger('change');
+                                })
+                                .fail(GeneralFunctions.ajaxFailureHandler);
                         }
                     },
                     {
@@ -266,18 +275,21 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#delete-reason').css('width', '100%');
             } else {
                 // Do not display confirmation prompt.
-                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
-                var data = {
+                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
+
+                data = {
                     csrfToken: GlobalVariables.csrfToken,
                     unavailable_id: lastFocusedEventData.data.id
                 };
 
-                $.post(url, data, function (response) {
-                    $('#message_box').dialog('close');
+                $.post(url, data)
+                    .done(function () {
+                        $('#message_box').dialog('close');
 
-                    // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
-                }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                        // Refresh calendar event items.
+                        $('#select-filter-item').trigger('change');
+                    })
+                    .fail(GeneralFunctions.ajaxFailureHandler);
             }
         });
     }
@@ -296,18 +308,37 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .append(new Option('1 ' + EALang.day, 1))
             .append(new Option('3 ' + EALang.days, 3));
 
-        var $calendarHeader = $('<div class="calendar-header" />').appendTo('#calendar');
+        var $calendarHeader = $('<div/>', {
+            'class': 'calendar-header'
+        })
+            .appendTo('#calendar');
 
-        $calendarHeader
-            .html(
-                '<button class="btn btn-xs btn-default previous">' +
-                '<span class="glyphicon glyphicon-chevron-left"></span>' +
-                '</button>' +
-                '<input type="text" class="select-date" value="' + GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat) + '" />' +
-                '<button class="btn btn-xs btn-default next">' +
-                '<span class="glyphicon glyphicon-chevron-right"></span>' +
-                '</button>'
-            );
+        $('<button/>', {
+            'class': 'btn btn-xs btn-default previous',
+            'html': [
+                $('<span/>', {
+                    'class': 'glyphicon glyphicon-chevron-left'
+                })
+            ]
+        })
+            .appendTo($calendarHeader);
+
+        $('<input/>', {
+            'type': 'text',
+            'class': 'select-date',
+            'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat)
+        })
+            .appendTo($calendarHeader);
+
+        $('<button/>', {
+            'class': 'btn btn-xs btn-default next',
+            'html': [
+                $('<span/>', {
+                    'class': 'glyphicon glyphicon-chevron-right'
+                })
+            ]
+        })
+            .appendTo($calendarHeader);
 
         var dateFormat;
 
@@ -417,12 +448,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      */
     function createView(startDate, endDate) {
         // Disable date navigation.
-        $('#calendar .calendar-header .btn').addClass('disabled').prop('disabled', true);
+        $('#calendar .calendar-header .btn')
+            .addClass('disabled')
+            .prop('disabled', true);
 
         // Remember provider calendar view mode.
         var providerView = {};
-        $('.provider-column').each(function () {
-            var $providerColumn = $(this);
+        $('.provider-column').each(function (index, providerColumn) {
+            var $providerColumn = $(providerColumn);
             var providerId = $providerColumn.data('provider').id;
             providerView[providerId] = $providerColumn.find('.calendar-wrapper').fullCalendar('getView').name;
         });
@@ -460,8 +493,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false);
 
                 // Apply provider calendar view mode.
-                $('.provider-column').each(function () {
-                    var $providerColumn = $(this);
+                $('.provider-column').each(function (index, providerColumn) {
+                    var $providerColumn = $(providerColumn);
                     var providerId = $providerColumn.data('provider').id;
                     $providerColumn.find('.calendar-wrapper')
                         .fullCalendar('changeView', providerView[providerId] || 'agendaDay');
@@ -763,7 +796,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var end = view.end.clone();
         var selDayName = start.toDate().toString('dddd').toLowerCase();
 
-        if (workingPlan[selDayName] == null) {
+        if (workingPlan[selDayName] === null) {
             var nonWorkingDay = {
                 title: EALang.not_working,
                 start: start,
@@ -931,7 +964,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var endHour = entry.end.split(':');
             var endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), endHour[0], endHour[1]);
             var eventDuration = Math.round((endDate - eventDate) / 60000);
-            var $event = $('<div class="event unavailability break" />');
+            var $event = $('<div/>', {
+                'class': 'event unavailability break'
+            });
 
             $event.html(
                 EALang.break +
@@ -963,15 +998,30 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     /**
+     * Get the event notes for the popup widget.
+     *
+     * @param {Event} event
+     */
+    function getEventNotes(event) {
+        if (!event.data || !event.data.notes) {
+            return '-';
+        }
+
+        var notes = event.data.notes;
+
+        return notes.length > 100 ? notes.substring(0, 100) + '...' : notes;
+    }
+
+    /**
      * Calendar Event "Click" Callback
      *
      * When the user clicks on an appointment object on the calendar, then a data preview popover is display
      * above the calendar item.
      */
     function onEventClick(event, jsEvent) {
-        $('.popover').remove(); // Close all open popovers.
+        $('.popover').popover('destroy'); // Close all open popovers.
 
-        var html;
+        var $html;
         var displayEdit;
         var displayDelete;
 
@@ -982,120 +1032,234 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         if ($(this).hasClass('fc-unavailable') || $parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.edit == true)
+                && GlobalVariables.user.privileges.appointments.edit === true)
                 ? '' : 'hide';
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.delete == true)
+                && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
-            var notes = '';
-            if (event.data) { // Only custom unavailable periods have notes.
-                notes = '<strong>Notes</strong> ' + event.data.notes;
-            }
+            $html = $('<div/>', {
+                'html': [
+                    $('<strong/>', {
+                        'text': EALang.start
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
 
-            html =
-                '<style type="text/css">'
-                + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                + '.popover-content button {margin-right: 10px;}'
-                + '</style>' +
-                '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>'
-                + notes
-                + '<hr>' +
-                '<center>' +
-                '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang.edit + '</button>' +
-                '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang.delete + '</button>' +
-                '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang.close + '</button>' +
-                '</center>';
+                    $('<strong/>', {
+                        'text': EALang.end
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.notes
+                    }),
+                    $('<span/>', {
+                        'text': getEventNotes(event)
+                    }),
+                    $('<br/>'),
+
+                    $('<hr/>'),
+
+                    $('<div/>', {
+                        'class': 'text-center',
+                        'html': [
+                            $('<button/>', {
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'text': EALang.edit
+                            }),
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'text': EALang.delete
+                            }),
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-default',
+                                'text': EALang.close
+                            })
+                        ]
+                    })
+                ]
+            });
         } else if ($(this).hasClass('fc-extra') || $parent.hasClass('fc-extra') || $altParent.hasClass('fc-extra')) {
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.delete == true)
+                && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
             var provider = '';
+
             if (event.data) { // Only custom unavailable periods have notes.
                 provider = '<strong>' + EALang.provider + '</strong> ' + event.data.first_name + ' ' + event.data.last_name;
             }
 
             var extraPeriod = jQuery.parseJSON(event.data.settings.extra_working_plan)[event.start.format()];
 
-            html =
-                '<style type="text/css">'
-                + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                + '.popover-content button {margin-right: 10px;}'
-                + '</style>' +
-                '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format() + ' ' + extraPeriod.start, GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format() + ' ' + extraPeriod.end, GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.timezone + '</strong> '
-                + GlobalVariables.timezones[event.data.provider.timezone]
-                + '<br>' +
-                +provider
-                + '<hr>' +
-                '<center>' +
-                '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang.delete + '</button>' +
-                '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang.close + '</button>' +
-                '</center>';
+            $html = $('<div/>', {
+                'html': [
+                    $('<strong/>', {
+                        'text': EALang.provider
+                    }),
+                    $('<span/>', {
+                        'text': event.data ? event.data.first_name + ' ' + event.data.last_name : '-'
+                    }),
+                    $('<br/>'),
 
+                    $('<strong/>', {
+                        'text': EALang.start
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.end
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.timezone
+                    }),
+                    $('<span/>', {
+                        'text': GlobalVariables.timezones[event.data.provider.timezone]
+                    }),
+                    $('<br/>'),
+
+                    $('<hr/>'),
+
+                    $('<div/>', {
+                        'class': 'text-center',
+                        'html': [
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'text': EALang.delete
+                            }),
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-default',
+                                'text': EALang.close
+                            })
+                        ]
+                    })
+                ]
+            });
         } else {
-            displayEdit = (GlobalVariables.user.privileges.appointments.edit == true)
+            displayEdit = (GlobalVariables.user.privileges.appointments.edit === true)
                 ? '' : 'hide';
-            displayDelete = (GlobalVariables.user.privileges.appointments.delete == true)
+            displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide';
 
-            html =
-                '<style type="text/css">'
-                + '.popover-content strong {min-width: 80px; display:inline-block;}'
-                + '.popover-content button {margin-right: 10px;}'
-                + '</style>' +
-                '<strong>' + EALang.start + '</strong> '
-                + GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.end + '</strong> '
-                + GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                + '<br>' +
-                '<strong>' + EALang.timezone + '</strong> '
-                + GlobalVariables.timezones[event.data.provider.timezone]
-                + '<br>' +
-                '<strong>' + EALang.service + '</strong> '
-                + event.data.service.name
-                + '<br>' +
-                '<strong>' + EALang.provider + '</strong> '
-                + GeneralFunctions.renderMapIcon(event.data.customer) + ' '
-                + event.data.provider.first_name + ' '
-                + event.data.provider.last_name
-                + '<br>' +
-                '<strong>' + EALang.customer + '</strong> '
-                + GeneralFunctions.renderMapIcon(event.data.customer) + ' '
-                + event.data.customer.first_name + ' '
-                + event.data.customer.last_name
-                + '<br>' +
-                '<strong>' + EALang.email + '</strong> '
-                + GeneralFunctions.renderMailIcon(event.data.customer.email) + ' '
-                + event.data.customer.email
-                + '<br>' +
-                '<strong>' + EALang.phone_number + '</strong> '
-                + GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number) + ' '
-                + event.data.customer.phone_number
-                + '<hr>' +
-                '<div class="text-center">' +
-                '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang.edit + '</button>' +
-                '<button class="delete-popover btn btn-danger ' + displayDelete + '">' + EALang.delete + '</button>' +
-                '<button class="close-popover btn btn-default" data-po=' + jsEvent.target + '>' + EALang.close + '</button>' +
-                '</div>';
+            $html = $('<div/>', {
+                'html': [
+                    $('<strong/>', {
+                        'text': EALang.start
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.end
+                    }),
+                    $('<span/>', {
+                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.timezone
+                    }),
+                    $('<span/>', {
+                        'text': GlobalVariables.timezones[event.data.provider.timezone]
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.service
+                    }),
+                    $('<span/>', {
+                        'text': event.data.service.name
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.provider
+                    }),
+                    GeneralFunctions.renderMapIcon(event.data.provider),
+                    $('<span/>', {
+                        'text': event.data.provider.first_name + ' ' + event.data.provider.last_name
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.customer
+                    }),
+                    GeneralFunctions.renderMapIcon(event.data.customer),
+                    $('<span/>', {
+                        'text': event.data.customer.first_name + ' ' + event.data.customer.last_name
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.email
+                    }),
+                    GeneralFunctions.renderMailIcon(event.data.customer.email),
+                    $('<span/>', {
+                        'text': event.data.customer.email
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.phone_number
+                    }),
+                    GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
+                    $('<span/>', {
+                        'text': event.data.customer.phone_number
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.notes
+                    }),
+                    $('<span/>', {
+                        'text': getEventNotes(event)
+                    }),
+                    $('<br/>'),
+
+                    $('<hr/>'),
+
+                    $('<div/>', {
+                        'class': 'text-center',
+                        'html': [
+                            $('<button/>', {
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'text': EALang.edit
+                            }),
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'text': EALang.delete
+                            }),
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-default',
+                                'text': EALang.close
+                            })
+                        ]
+                    })
+                ]
+            });
         }
 
         $(jsEvent.target).popover({
             placement: 'top',
             title: event.title,
-            content: html,
+            content: $html,
             html: true,
             container: '#calendar',
             trigger: 'manual'
@@ -1120,7 +1284,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @see updateAppointmentData()
      */
     function onEventResize(event, delta, revertFunc, jsEvent, ui, view) {
-        if (GlobalVariables.user.privileges.appointments.edit == false) {
+        if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
             return;
@@ -1132,7 +1296,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $('#notification').hide('bind');
         }
 
-        if (event.data.is_unavailable == false) {
+        var successCallback;
+
+        if (event.data.is_unavailable === '0') {
             // Prepare appointment data.
             event.data.end_datetime = Date.parseExact(
                 event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
@@ -1147,7 +1313,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             delete appointment.service;
 
             // Success callback
-            var successCallback = function () {
+            successCallback = function () {
                 // Display success notification to user.
                 var undoFunction = function () {
                     appointment.end_datetime = event.data.end_datetime = Date.parseExact(
@@ -1162,10 +1328,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data, function () {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1181,7 +1349,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             };
 
             // Update appointment data.
-            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback);
+            BackendCalendarApi.saveAppointment(appointment, null, successCallback);
         } else {
             // Update unavailable time period.
             var unavailable = {
@@ -1194,7 +1362,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             event.data.end_datetime = unavailable.end_datetime;
 
             // Define success callback function.
-            var successCallback = function () {
+            successCallback = function () {
                 // Display success notification to user.
                 var undoFunction = function () {
                     unavailable.end_datetime = event.data.end_datetime = Date.parseExact(
@@ -1203,15 +1371,18 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .toString('yyyy-MM-dd HH:mm:ss');
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data, function () {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1237,8 +1408,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * This event handler is triggered whenever the user drags and drops an event into a different position
      * on the calendar. We need to update the database with this change. This is done via an ajax call.
      */
-    function onEventDrop(event, delta, revertFunc, jsEvent, ui, view) {
-        if (GlobalVariables.user.privileges.appointments.edit == false) {
+    function onEventDrop(event, delta, revertFunc) {
+        if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);
             return;
@@ -1250,7 +1421,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         var successCallback;
 
-        if (event.data.is_unavailable == false) {
+        if (event.data.is_unavailable === '0') {
             // Prepare appointment data.
             var appointment = GeneralFunctions.clone(event.data);
 
@@ -1290,15 +1461,18 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     event.data.end_datetime = appointment.end_datetime;
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data, function () {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1312,7 +1486,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             };
 
             // Update appointment data.
-            BackendCalendarApi.saveAppointment(appointment, undefined, successCallback);
+            BackendCalendarApi.saveAppointment(appointment, null, successCallback);
         } else {
             // Update unavailable time period.
             var unavailable = {
@@ -1338,15 +1512,18 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     event.data.end_datetime = unavailable.end_datetime;
 
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data, function () {
-                        $('#notification').hide('blind');
-                        revertFunc();
-                    }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+                    $.post(url, data)
+                        .done(function () {
+                            $('#notification').hide('blind');
+                            revertFunc();
+                        })
+                        .fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1405,6 +1582,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      */
     function getCalendarEvents(startDate, endDate) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_events';
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             startDate: startDate.toString('yyyy-MM-dd'),

@@ -37,7 +37,7 @@ use EA\Engine\Types\Url;
  * @property Services_Model services_model
  * @property Customers_Model customers_model
  * @property Settings_Model settings_model
- * @property Timezones_Model timezones_model
+ * @property Timezones timezones
  * @property Roles_Model roles_model
  * @property Secretaries_Model secretaries_model
  * @property Admins_Model admins_model
@@ -280,7 +280,8 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $this->load->model('customers_model');
             $this->load->model('settings_model');
-            $this->load->model('timezones_model');
+            $this->load->library('timezones');
+            $this->load->model('user_model');
 
             // Save customer changes to the database.
             if ($this->input->post('customer_data'))
@@ -319,14 +320,14 @@ class Backend_api extends CI_Controller {
                     $appointment['id_users_customer'] = $customer['id'];
                 }
 
-                $provider_timezone = $this->timezones_model->get_user_timezone($appointment['id_users_provider']);
+                $provider_timezone = $this->user_model->get_user_timezone($appointment['id_users_provider']);
 
-                $session_timezone = $this->timezones_model->get_session_timezone();
+                $session_timezone = $this->timezones->get_session_timezone();
 
-                $appointment['start_datetime'] = $this->timezones_model->convert($appointment['start_datetime'],
+                $appointment['start_datetime'] = $this->timezones->convert($appointment['start_datetime'],
                     $session_timezone, $provider_timezone);
 
-                $appointment['end_datetime'] = $this->timezones_model->convert($appointment['end_datetime'],
+                $appointment['end_datetime'] = $this->timezones->convert($appointment['end_datetime'],
                     $session_timezone, $provider_timezone);
 
                 $appointment['id'] = $this->appointments_model->add($appointment);
@@ -776,6 +777,7 @@ class Backend_api extends CI_Controller {
                     ->set_output(json_encode(AJAX_SUCCESS));
             }
 
+            $response = AJAX_SUCCESS;
         }
         catch (Exception $exception)
         {

@@ -13,6 +13,7 @@ $(function () {
         event.preventDefault();
 
         var url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
+
         var data = {
             'csrfToken': GlobalVariables.csrfToken,
             'username': $('#username').val(),
