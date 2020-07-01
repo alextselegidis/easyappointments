@@ -23,8 +23,8 @@ body {
 }
 
 #main {
-    display: table;
-    vertical-align: middle;
+    display:flex;
+    flex-direction: column;
 }
 
 #main .wrapper {
@@ -43,17 +43,21 @@ body {
 }
 
 #book-appointment-wizard #header {
+    align-items: center;
+    display: flex;
     padding: 5px;
     height: 90px;
     background: #3DD481;
     border-bottom: 4px solid #c0f1d6;
+    justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
 #book-appointment-wizard #company-name {
     display: inline-block;
     font-size: 24px;
     color: #FFF;
-    margin: 16px 10px 0 15px;
+    margin: 0 10px 0 15px;
     float: left;
 }
 
@@ -61,12 +65,10 @@ body {
     width: 180px;
     display: inline-block;
     float: right;
-    margin-top: 17px;
 }
 
 #book-appointment-wizard .wizard-frame {
     padding: 10px 20px;
-    height: 570px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -322,7 +324,6 @@ body {
     }
 
     #book-appointment-wizard .wizard-frame #select-date {
-        width: 260px;
         margin: auto; /* center */
     }
 

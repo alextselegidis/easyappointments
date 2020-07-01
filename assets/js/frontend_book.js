@@ -471,13 +471,13 @@ window.FrontendBook = window.FrontendBook || {};
 
             var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
             if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
-                $acceptToTermsAndConditions.parents('label').addClass('text-danger');
+                $acceptToTermsAndConditions.parents('.form-check').addClass('text-danger');
                 throw new Error(EALang.fields_are_required);
             }
 
             var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
             if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
-                $acceptToPrivacyPolicy.parents('label').addClass('text-danger');
+                $acceptToPrivacyPolicy.parents('.form-check').addClass('text-danger');
                 throw new Error(EALang.fields_are_required);
             }
 

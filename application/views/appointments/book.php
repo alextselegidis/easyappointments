@@ -178,7 +178,7 @@
                         <h3 class="frame-title"><?= lang('step_two_title') ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-md-7 pl-0">
+                            <div class="col-xs-12 col-md-7 pl-0 pr-0 pr-md-3 mb-4 mb-md-0 d-flex">
                                 <div id="select-date"></div>
                             </div>
 
@@ -256,28 +256,21 @@
                     </div>
 
                     <?php if ($display_terms_and_conditions): ?>
-                        <label>
-                            <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
-                            <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
-                                [
-                                    '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
-                                    '{/$link}' => '</a>'
-                                ])
-                            ?>
-                        </label>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="required form-check-input" id="accept-to-terms-and-conditions">
+                            <label class="form-check-label" for="accept-to-terms-and-conditions">
+                                <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
+                                    [
+                                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
+                                        '{/$link}' => '</a>'
+                                    ])
+                                ?>
+                            </label>
+                        </div>
                     <?php endif ?>
 
                     <?php if ($display_privacy_policy): ?>
-                        <!-- <label>
-                            <input type="checkbox" class="required" id="accept-to-privacy-policy">
-                            <?= strtr(lang('read_and_agree_to_privacy_policy'),
-                                [
-                                    '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
-                                    '{/$link}' => '</a>'
-                                ])
-                            ?>
-                        </label> -->
-                        <div class="form-check">
+                        <div class="form-check mb-3">
                             <input type="checkbox" class="required form-check-input" id="accept-to-privacy-policy">
                             <label class="form-check-label" for="accept-to-privacy-policy">
                                 <?= strtr(lang('read_and_agree_to_privacy_policy'),

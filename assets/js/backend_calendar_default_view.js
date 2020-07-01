@@ -304,6 +304,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.start
                     }),
                     $('<span/>', {
@@ -312,6 +313,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.end
                     }),
                     $('<span/>', {
@@ -361,6 +363,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.provider
                     }),
                     $('<span/>', {
@@ -369,6 +372,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.start
                     }),
                     $('<span/>', {
@@ -377,6 +381,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.end
                     }),
                     $('<span/>', {
@@ -385,6 +390,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.timezone
                     }),
                     $('<span/>', {
@@ -418,6 +424,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.start
                     }),
                     $('<span/>', {
@@ -426,6 +433,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.end
                     }),
                     $('<span/>', {
@@ -434,6 +442,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.timezone
                     }),
                     $('<span/>', {
@@ -442,6 +451,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.service
                     }),
                     $('<span/>', {
@@ -450,6 +460,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.provider
                     }),
                     GeneralFunctions.renderMapIcon(event.data.provider),
@@ -459,28 +470,34 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.customer
                     }),
                     GeneralFunctions.renderMapIcon(event.data.customer),
                     $('<span/>', {
+                        'class': 'd-inline-block ml-1',
                         'text': event.data.customer.first_name + ' ' + event.data.customer.last_name
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.email
                     }),
                     GeneralFunctions.renderMailIcon(event.data.customer.email),
                     $('<span/>', {
+                        'class': 'd-inline-block ml-1',
                         'text': event.data.customer.email
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block mr-2',
                         'text': EALang.phone_number
                     }),
                     GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
+                        'class': 'd-inline-block ml-1',
                         'text': event.data.customer.phone_number
                     }),
                     $('<br/>'),
