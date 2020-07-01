@@ -58,7 +58,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 unavailable.id = $dialog.find('#unavailable-id').val();
             }
 
-            var successCallback = function (response) {
+            var successCallback = function () {
                 // Display success message to the user.
                 Backend.displayNotification(EALang.unavailable_saved);
 
@@ -68,15 +68,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 $('#select-filter-item').trigger('change');
             };
 
-            var errorCallback = function (jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
-                    'the operation could not complete due to server communication errors.');
-
-                $dialog.find('.modal-message').txt(EALang.service_communication_error);
-                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
-            };
-
-            BackendCalendarApi.saveUnavailable(unavailable, successCallback, errorCallback);
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback, GeneralFunctions.ajaxFailureHandler);
         });
 
         /**
