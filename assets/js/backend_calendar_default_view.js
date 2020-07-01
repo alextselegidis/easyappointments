@@ -271,6 +271,21 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
     }
 
     /**
+     * Get the event notes for the popup widget.
+     *
+     * @param {Event} event
+     */
+    function getEventNotes(event) {
+        if (!event.data || !event.data.notes) {
+            return '-';
+        }
+
+        var notes = event.data.notes;
+
+        return notes.length > 100 ? notes.substring(0, 100) + '...' : notes;
+    }
+
+    /**
      * Calendar Event "Click" Callback
      *
      * When the user clicks on an appointment object on the calendar, then a data preview popover is display
@@ -296,11 +311,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
-            var notes = '';
-            if (event.data) { // Only custom unavailable periods have notes.
-                notes = '<strong>Notes</strong> ' + event.data.notes;
-            }
-
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
@@ -319,8 +329,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }),
                     $('<br/>'),
 
+                    $('<strong/>', {
+                        'text': EALang.notes
+                    }),
                     $('<span/>', {
-                        'text': notes
+                        'text': getEventNotes(event)
                     }),
                     $('<br/>'),
 
@@ -482,6 +495,14 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
                         'text': event.data.customer.phone_number
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'text': EALang.notes
+                    }),
+                    $('<span/>', {
+                        'text': getEventNotes(event)
                     }),
                     $('<br/>'),
 
