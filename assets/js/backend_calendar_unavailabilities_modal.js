@@ -68,15 +68,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 $('#select-filter-item').trigger('change');
             };
 
-            var errorCallback = function (jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
-                    'the operation could not complete due to server communication errors.');
-
-                $dialog.find('.modal-message').text(EALang.service_communication_error);
-                $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
-            };
-
-            BackendCalendarApi.saveUnavailable(unavailable, successCallback, errorCallback);
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback, GeneralFunctions.ajaxFailureHandler);
         });
 
         /**
