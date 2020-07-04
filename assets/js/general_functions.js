@@ -300,20 +300,44 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      */
     exports.ajaxFailureHandler = function (jqXHR, textStatus, errorThrown) {
         console.error('Unexpected HTTP Error: ', jqXHR, textStatus, errorThrown);
-
-        var response = JSON.parse(jqXHR.responseText);
-
-        if (!response) {
-            return;
+        function hasJsonStructure(str) {
+            if (typeof str !== "string") return false;
+            try {
+                const result = JSON.parse(str);
+                const type = Object.prototype.toString.call(result);
+                return type === "[object Object]" || type === "[object Array]";
+            } catch (err) {
+                return false;
+            }
         }
+        if (hasJsonStructure(jqXHR.responseText)) {
+            var response = JSON.parse(jqXHR.responseText);
 
-        GeneralFunctions.displayMessageBox(EALang.unexpected_issues, EALang.unexpected_issues_message, []);
+            if (!response) {
+                return;
+            }
 
-        $('<div/>', {
-            'class': 'well',
-            'text': response.message
-        })
-            .appendTo('#message_box');
+            GeneralFunctions.displayMessageBox(
+                EALang.unexpected_issues,
+                EALang.unexpected_issues_message,
+                []
+            );
+
+            $("<div/>", {
+                class: "well",
+                text: response.message
+            }).appendTo("#message_box");
+        } else {
+            GeneralFunctions.displayMessageBox(
+                EALang.unexpected_issues,
+                EALang.unexpected_issues_message,
+                []
+            );
+            $("<div/>", {
+                class: "well",
+                text: jqXHR.responseText
+            }).appendTo("#message_box");
+        }
     };
 
     /**
