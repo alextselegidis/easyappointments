@@ -697,8 +697,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#select-provider').val(provider.id).trigger('change');
 
                 // Preselect time
-                $('#start-datetime').datepicker('setDate', new Date(start.format('YYYY-MM-DD HH:mm:ss')));
-                $('#end-datetime').datepicker('setDate', new Date(end.format('YYYY-MM-DD HH:mm:ss')));
+                $('#start-datetime').datepicker('setDate', new Date(start.format('YYY/MM/DD HH:mm:ss')));
+                $('#end-datetime').datepicker('setDate', new Date(end.format('YYYY/MM/DD HH:mm:ss')));
 
                 return false;
             },
