@@ -309,6 +309,8 @@
         $('#categories .record-details').find('input, textarea').prop('readonly', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
+        $('.record-details .has-error').removeClass('has-error');
+
         $('#filter-categories .selected').removeClass('selected');
         $('#filter-categories .results').css('color', '');
         $('#filter-categories button').prop('disabled', false);

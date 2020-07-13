@@ -300,6 +300,8 @@
         $('#admin-notifications').removeClass('active');
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
+        $('#admins .has-error').removeClass('has-error');
+
         $('#filter-admins .selected').removeClass('selected');
         $('#filter-admins button').prop('disabled', false);
         $('#filter-admins .results').css('color', '');
