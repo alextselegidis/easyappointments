@@ -87,9 +87,7 @@ class Email {
     ) {
         $framework = get_instance();
 
-        $framework->load->model('timezones_model');
-
-        $timezones = $framework->timezones_model->to_array();
+        $timezones = $framework->timezones->to_array();
 
         switch ($company['date_format'])
         {
@@ -182,9 +180,8 @@ class Email {
     ) {
         $framework = get_instance();
 
-        $framework->load->model('timezones_model');
 
-        $timezones = $framework->timezones_model->to_array();
+        $timezones = $framework->timezones->to_array();
 
         switch ($company['date_format'])
         {
