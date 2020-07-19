@@ -777,6 +777,7 @@ class Backend_api extends CI_Controller {
                     ->set_output(json_encode(AJAX_SUCCESS));
             }
 
+            $response = AJAX_SUCCESS;
         }
         catch (Exception $exception)
         {
