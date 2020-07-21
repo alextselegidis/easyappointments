@@ -37,6 +37,8 @@
          * @type {Boolean}
          */
         this.enableSubmit = false;
+
+        this.HTMLclass = ".working-plan-view";
     };
 
     /**
@@ -45,11 +47,12 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
+        var HTMLclass = this.HTMLclass;
         $.each(workingPlan, function (index, workingDay) {
             if (workingDay != null) {
-                $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat  === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
-                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $(HTMLclass + ' #' + index).prop('checked', true);
+                $(HTMLclass + ' #' + index + '-start').val(Date.parse(workingDay.start).toString(GlobalVariables.timeFormat  === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $(HTMLclass + ' #' + index + '-end').val(Date.parse(workingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
                 // Add the day's breaks on the breaks table.
                 $.each(workingDay.breaks, function (i, brk) {
@@ -78,9 +81,9 @@
                     $('.breaks tbody').append(tr);
                 }.bind(this));
             } else {
-                $('#' + index).prop('checked', false);
-                $('#' + index + '-start').prop('disabled', true);
-                $('#' + index + '-end').prop('disabled', true);
+                $(HTMLclass + ' #' + index).prop('checked', false);
+                $(HTMLclass + ' #' + index + '-start').prop('disabled', true);
+                $(HTMLclass + ' #' + index + '-end').prop('disabled', true);
             }
         }.bind(this));
 
@@ -163,20 +166,22 @@
      * Binds the event handlers for the working plan dom elements.
      */
     WorkingPlan.prototype.bindEventHandlers = function () {
+    var HTMLclass = this.HTMLclass;
+
         /**
          * Event: Day Checkbox "Click"
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan input:checkbox').click(function () {
+        $(HTMLclass + ' input:checkbox').click(function () {
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') == true) {
-                $('#' + id + '-start').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00');
-                $('#' + id + '-end').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '6:00 PM' : '18:00');
+                $(HTMLclass + ' #' + id + '-start').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '9:00 AM' : '09:00');
+                $(HTMLclass + ' #' + id + '-end').prop('disabled', false).val(GlobalVariables.timeFormat === 'regular' ? '6:00 PM' : '18:00');
             } else {
-                $('#' + id + '-start').prop('disabled', true).val('');
-                $('#' + id + '-end').prop('disabled', true).val('');
+                $(HTMLclass + ' #' + id + '-start').prop('disabled', true).val('');
+                $(HTMLclass + ' #' + id + '-end').prop('disabled', true).val('');
             }
         });
 
@@ -207,14 +212,14 @@
                 '</button>' +
                 '</td>' +
                 '</tr>';
-            $('.breaks').prepend(tr);
+            $(HTMLclass + ' .breaks').prepend(tr);
 
             // Bind editable and event handlers.
-            tr = $('.breaks tr')[1];
+            tr = $(HTMLclass + ' .breaks tr')[1];
             this.editableBreakDay($(tr).find('.break-day'));
             this.editableBreakTime($(tr).find('.break-start, .break-end'));
             $(tr).find('.edit-break').trigger('click');
-            $('.add-break').prop('disabled', true);
+            $(HTMLclass + ' .add-break').prop('disabled', true);
         }.bind(this));
 
         /**
@@ -315,18 +320,20 @@
      */
     WorkingPlan.prototype.get = function () {
         var workingPlan = {};
-        $('.working-plan input:checkbox').each(function (index, checkbox) {
+        var HTMLclass = this.HTMLclass;
+        $(HTMLclass + ' input:checkbox').each(function (index, checkbox) {
             var id = $(checkbox).attr('id');
             if ($(checkbox).prop('checked') == true) {
                 workingPlan[id] = {
-                    start: Date.parse($('#' + id + '-start').val()).toString('HH:mm'),
-                    end: Date.parse($('#' + id + '-end').val()).toString('HH:mm'),
+                    start: Date.parse($(this.HTMLclass + ' #' + id + '-start').val()).toString('HH:mm'),
+                    end: Date.parse($(this.HTMLclass + ' #' + id + '-end').val()).toString('HH:mm'),
                     breaks: []
                 };
 
-                $('.breaks tr').each(function (index, tr) {
+                $(this.HTMLclass + ' .breaks tr').each(function (index, tr) {
                     var day = this.convertDayToValue($(tr).find('.break-day').text());
 
+                    console.log(day + "===" + id);
                     if (day == id) {
                         var start = $(tr).find('.break-start').text();
                         var end = $(tr).find('.break-end').text();
@@ -360,7 +367,7 @@
 
         if (disabled == false) {
             // Set timepickers where needed.
-            $('.working-plan input:text').timepicker({
+            $(this.HTMLclass + ' input:text').timepicker({
                 timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
@@ -380,7 +387,7 @@
                 }
             });
         } else {
-            $('.working-plan input').timepicker('destroy');
+            $(this.HTMLclass + ' input').timepicker('destroy');
         }
     };
 

@@ -33,6 +33,7 @@ window.BackendSettings = window.BackendSettings || {};
      * @type {WorkingPlan}
      */
     exports.wp = {};
+    exports.wpUser = {};
 
     /**
      * Tab settings object.
@@ -40,6 +41,7 @@ window.BackendSettings = window.BackendSettings || {};
      * @type {Object}
      */
     var settings = {};
+    var workingPlan = {};
 
     /**
      * Initialize Page
@@ -57,7 +59,6 @@ window.BackendSettings = window.BackendSettings || {};
             $('select[data-field="' + setting.name + '"]').val(setting.value);
         });
 
-        var workingPlan = {};
         $.each(GlobalVariables.settings.system, function (index, setting) {
             if (setting.name === 'company_working_plan') {
                 workingPlan = $.parseJSON(setting.value);
@@ -97,8 +98,9 @@ window.BackendSettings = window.BackendSettings || {};
         });
 
         exports.wp = new WorkingPlan();
-        exports.wp.setup(workingPlan);
-        exports.wp.timepickers(false);
+        exports.wp.HTMLclass = '.working-plan-admin';
+        exports.wpUser = new WorkingPlan();
+        exports.wpUser.HTMLclass = '.working-plan-user';
 
         // Load user settings into form
         $('#user-id').val(GlobalVariables.settings.user.id);
@@ -152,7 +154,6 @@ window.BackendSettings = window.BackendSettings || {};
      * This method depends on the backend/settings html, so do not use this method on a different page.
      */
     function _bindEventHandlers() {
-        exports.wp.bindEventHandlers();
 
         /**
          * Event: Tab "Click"
@@ -170,6 +171,11 @@ window.BackendSettings = window.BackendSettings || {};
                 settings = new SystemSettings();
             } else if (href === '#business-logic') {
                 settings = new SystemSettings();
+
+                // Update the working plan to reflect the business
+                exports.wp.bindEventHandlers();
+                exports.wp.setup(workingPlan);
+                exports.wp.timepickers(false);
             } else if (href === '#legal-contents') {
                 settings = new SystemSettings();
             } else if (href === '#current-user') {
@@ -181,6 +187,11 @@ window.BackendSettings = window.BackendSettings || {};
                 } else {
                     $('#user-notifications').removeClass('active');
                 }
+
+                // Update the working plan to reflect the current user
+                exports.wpUser.bindEventHandlers();
+                exports.wpUser.setup(JSON.parse(GlobalVariables.settings.user.settings.working_plan));
+                exports.wpUser.timepickers(false);
             }
 
             Backend.placeFooterToBottom();

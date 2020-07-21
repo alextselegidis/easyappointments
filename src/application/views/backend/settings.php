@@ -182,7 +182,7 @@
                         <?php endif ?>
                     </legend>
 
-                    <div class="row">
+                    <div class="row working-plan-admin">
                         <div class="col-xs-12 col-sm-7 working-plan-wrapper">
                             <h4><?= lang('working_plan') ?></h4>
                             <span class="help-block">
@@ -408,7 +408,7 @@
         <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
         <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="current-user">
             <form>
-                <div class="row">
+                <div class="row working-plan-user">
                     <fieldset class="col-xs-12 col-sm-6 personal-info-wrapper">
                         <legend>
                             <?= lang('personal_information') ?>
@@ -475,36 +475,168 @@
                     </fieldset>
 
                     <fieldset class="col-xs-12 col-sm-6 miscellaneous-wrapper">
-                    <legend><?= lang('system_login') ?></legend>
+                        <legend><?= lang('system_login') ?></legend>
 
-                    <div class="form-group">
-                        <label for="username"><?= lang('username') ?> *</label>
-                        <input id="username" class="form-control required">
+                        <div class="form-group">
+                            <label for="username"><?= lang('username') ?> *</label>
+                            <input id="username" class="form-control required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password"><?= lang('password') ?></label>
+                            <input type="password" id="password" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="retype-password"><?= lang('retype_password') ?></label>
+                            <input type="password" id="retype-password" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="calendar-view"><?= lang('calendar') ?> *</label>
+                            <select id="calendar-view" class="form-control required">
+                                <option value="default">Default</option>
+                                <option value="table">Table</option>
+                            </select>
+                        </div>
+
+                        <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <?= lang('receive_notifications') ?>
+                        </button>
+                    </fieldset>
+
+                    <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] != TRUE) ? '' : 'hidden' ?>
+                    <div class="<?= $hidden ?> col-xs-12 col-sm-6 working-plan-wrapper">
+                        <legend><?= lang('working_plan') ?></legend>
+                        <span class="help-block">
+                            <?= lang('edit_working_plan_provider_hint') ?>
+                        </span>
+
+                        <table class="working-plan table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="sunday">
+                                                <?= lang('sunday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="sunday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="sunday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="monday">
+                                                <?= lang('monday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="monday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="monday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="tuesday">
+                                                <?= lang('tuesday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="tuesday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="tuesday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="wednesday">
+                                                <?= lang('wednesday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="wednesday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="wednesday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="thursday">
+                                                <?= lang('thursday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="thursday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="thursday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="friday">
+                                                <?= lang('friday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="friday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="friday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="saturday">
+                                                <?= lang('saturday') ?>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td><input id="saturday-start" class="work-start form-control input-sm"></td>
+                                    <td><input id="saturday-end" class="work-end form-control input-sm"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    <div class="<?= $hidden ?> col-xs-12 col-sm-6 breaks-wrapper">
+                        <legend><?= lang('breaks') ?></legend>
 
-                    <div class="form-group">
-                        <label for="password"><?= lang('password') ?></label>
-                        <input type="password" id="password" class="form-control">
+                        <span class="help-block">
+                            <?= lang('edit_breaks_provider_hint') ?>
+                        </span>
+
+                        <div>
+                            <button type="button" class="add-break btn btn-primary">
+                                <span class="glyphicon glyphicon-white glyphicon glyphicon-plus"></span>
+                                <?= lang('add_break');?>
+                            </button>
+                        </div>
+
+                        <br>
+
+                        <table class="breaks table table-striped">
+                            <thead>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                    <th><?= lang('actions') ?></th>
+                                </tr>
+                            </thead>
+                            <tbody><!-- Dynamic Content --></tbody>
+                        </table>
                     </div>
-
-                    <div class="form-group">
-                        <label for="retype-password"><?= lang('retype_password') ?></label>
-                        <input type="password" id="retype-password" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="calendar-view"><?= lang('calendar') ?> *</label>
-                        <select id="calendar-view" class="form-control required">
-                            <option value="default">Default</option>
-                            <option value="table">Table</option>
-                        </select>
-                    </div>
-
-                    <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
-                        <span class="glyphicon glyphicon-envelope"></span>
-                        <?= lang('receive_notifications') ?>
-                    </button>
-                </fieldset>
                 </div>
             </form>
         </div>

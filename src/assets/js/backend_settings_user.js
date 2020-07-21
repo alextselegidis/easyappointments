@@ -42,7 +42,8 @@
             settings: {
                 username: $('#username').val(),
                 notifications: $('#user-notifications').hasClass('active'),
-                calendar_view: $('#calendar-view').val()
+                calendar_view: $('#calendar-view').val(),
+                working_plan: JSON.stringify(BackendSettings.wpUser.get())
             }
         };
 
@@ -75,6 +76,12 @@
             if (!GeneralFunctions.handleAjaxExceptions(response)) {
                 return;
             }
+
+            // We need to refresh the working plan.
+            var workingPlan = BackendSettings.wpUser.get();
+            $('.breaks tbody').empty();
+            BackendSettings.wpUser.setup(workingPlan);
+            BackendSettings.wpUser.timepickers(false);
 
             Backend.displayNotification(EALang.settings_saved);
 
