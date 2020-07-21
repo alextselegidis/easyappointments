@@ -1260,6 +1260,7 @@ class Appointments extends CI_Controller {
         {
             $this->load->model('providers_model');
             $this->load->model('services_model');
+            $this->load->model('settings_model');
 
             $provider_id = $this->input->get('provider_id');
             $service_id = $this->input->get('service_id');
@@ -1295,6 +1296,8 @@ class Appointments extends CI_Controller {
                     continue;
                 }
 
+                $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
+
                 // Finding at least one slot of availability.
                 foreach ($provider_list as $current_provider_id)
                 {
@@ -1307,6 +1310,23 @@ class Appointments extends CI_Controller {
                     $available_hours = $this->calculate_available_hours($empty_periods, $current_date->format('Y-m-d'),
                         $service['duration'], $service['availabilities_type']);
 
+                    // If the selected date is today, remove past hours. It is important  include the timeout before booking
+                    // that is set in the back-office the system. Normally we might want the customer to book an appointment
+                    // that is at least half or one hour from now. The setting is stored in minutes.
+                    $curr_provider_timezone = new DateTimeZone($curr_provider['timezone']);
+
+                    $threshold = new DateTime('+' . $book_advance_timeout . ' minutes', $curr_provider_timezone);
+
+                    foreach ($available_hours as $index => $value)
+                    {
+                        $available_hour = new DateTime($selected_date . ' ' . $value, $curr_provider_timezone);
+
+                        if ($available_hour->getTimestamp() <= $threshold->getTimestamp())
+                        {
+                            unset($available_hours[$index]);
+                        }
+                    }
+
                     if ( ! empty($available_hours))
                     {
                         break;
@@ -1316,6 +1336,20 @@ class Appointments extends CI_Controller {
                     {
                         $available_hours = $this->get_multiple_attendants_hours($current_date->format('Y-m-d'), $service,
                             $curr_provider);
+
+                        // If the selected date is today, remove past hours. It is important  include the timeout before booking
+                        // that is set in the back-office the system. Normally we might want the customer to book an appointment
+                        // that is at least half or one hour from now. The setting is stored in minutes.
+                        foreach ($available_hours as $index => $value)
+                        {
+                            $available_hour = new DateTime($selected_date . ' ' . $value, $curr_provider_timezone);
+
+                            if ($available_hour->getTimestamp() <= $threshold->getTimestamp())
+                            {
+                                unset($available_hours[$index]);
+                            }
+                        }
+
                         if ( ! empty($available_hours)) break;
                     }
                 }
