@@ -395,7 +395,7 @@ class Appointments extends CI_Controller {
 
             if ($service['attendants_number'] > 1)
             {
-                $available_hours = $this->_get_multiple_attendants_hours($this->input->post('selected_date'), $service,
+                $available_hours = $this->_get_multiple_attendants_hours(date("Y-m-d", strtotime($this->input->post('selected_date')) ), $service,
                     $provider);
             }
 
