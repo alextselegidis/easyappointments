@@ -609,7 +609,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 Backend.displayNotification(EALang.appointment_updated, [
                     {
-                        'label': 'Undo',
+                        'label': EALang.undo,
                         'function': undoFunction
                     }
                 ]);
@@ -658,7 +658,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 Backend.displayNotification(EALang.unavailable_updated, [
                     {
-                        'label': 'Undo',
+                        'label': EALang.undo,
                         'function': undoFunction
                     }
                 ]);
@@ -771,7 +771,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 Backend.displayNotification(EALang.appointment_updated, [
                     {
-                        'label': 'Undo',
+                        'label': EALang.undo,
                         'function': undoFunction
                     }
                 ]);
@@ -821,7 +821,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 Backend.displayNotification(EALang.unavailable_updated, [
                     {
-                        label: 'Undo',
+                        label: EALang.undo,
                         function: undoFunction
                     }
                 ]);
