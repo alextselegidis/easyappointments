@@ -59,40 +59,35 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
 
             var successCallback = function (response) {
                 // Display success message to the user.
-                $dialog.find('.modal-message')
-                    .text(EALang.extra_period_saved)
-                    .addClass('alert-success')
-                    .removeClass('alert-danger hidden');
+                Backend.displayNotification(EALang.extra_period_saved);
 
-                // Close the modal dialog and refresh the calendar appointments after one second.
-                setTimeout(function () {
-                    $dialog.find('.alert').addClass('hidden');
-                    $dialog.modal('hide');
+                // Close the modal dialog and refresh the calendar appointments.
+                $dialog.find('.alert').addClass('hidden');
+                $dialog.modal('hide');
 
-                    var providerId = $('#extra-provider').val();
-                    var provider = GlobalVariables.availableProviders.filter(function (p) {
-                        return p.id === providerId;
-                    })[0];
-                    var providerIdx = GlobalVariables.availableProviders.indexOf(provider);
+                var providerId = $('#extra-provider').val();
+                var provider = GlobalVariables.availableProviders.filter(function (p) {
+                    return p.id === providerId;
+                })[0];
+                var providerIdx = GlobalVariables.availableProviders.indexOf(provider);
 
-                    var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
-                    extraWorkingPlan[start.toString('yyyy-MM-dd')] = {
-                        start: start.toString('HH:mm'),
-                        end: end.toString('HH:mm'),
-                        breaks: []
-                    };
-                    provider.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
-                    GlobalVariables.availableProviders[providerIdx] = provider;
+                var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
+                extraWorkingPlan[start.toString('yyyy-MM-dd')] = {
+                    start: start.toString('HH:mm'),
+                    end: end.toString('HH:mm'),
+                    breaks: []
+                };
+                provider.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
+                GlobalVariables.availableProviders[providerIdx] = provider;
 
-                    $('#select-filter-item').trigger('change');
-                }, 2000);
+                $('#select-filter-item').trigger('change');
             };
 
             var errorCallback = function (jqXHR, textStatus, errorThrown) {
                 GeneralFunctions.displayMessageBox('Communication Error', 'Unfortunately ' +
                     'the operation could not complete due to server communication errors.');
 
-                $dialog.find('.modal-message').txt(EALang.service_communication_error);
+                $dialog.find('.modal-message').text(EALang.service_communication_error);
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
             };
 
