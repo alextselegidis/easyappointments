@@ -63,13 +63,12 @@ class Appointments_Model extends CI_Model {
     {
         $this->load->helper('data_validation');
 
-        // If a appointment id is given, check whether the record exists
-        // in the database.
+        // If a appointment id is given, check whether the record exists in the database.
         if (isset($appointment['id']))
         {
-            $num_rows = $this->db->get_where('appointments',
-                ['id' => $appointment['id']])->num_rows();
-            if ($num_rows == 0)
+            $num_rows = $this->db->get_where('appointments', ['id' => $appointment['id']])->num_rows();
+
+            if ($num_rows === 0)
             {
                 throw new Exception('Provided appointment id does not exist in the database.');
             }
@@ -84,6 +83,15 @@ class Appointments_Model extends CI_Model {
         if ( ! validate_mysql_datetime($appointment['end_datetime']))
         {
             throw new Exception('Appointment end datetime is invalid.');
+        }
+
+        // Ensure the appointment lasts longer than the minimum duration (in minutes).
+        $diff = (strtotime($appointment['end_datetime']) - strtotime($appointment['start_datetime'])) / 60;
+
+        if ($diff < EVENT_MINIMUM_DURATION)
+        {
+            throw new Exception('The appointment duration is less than the minimum duration ('
+                . EVENT_MINIMUM_DURATION . ' minutes).');
         }
 
         // Check if the provider's id is valid.
