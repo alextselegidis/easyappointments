@@ -363,14 +363,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 && GlobalVariables.user.privileges.appointments.delete === true)
                 ? '' : 'hide'; // Same value at the time.
 
-            var provider = '';
-
-            if (event.data) { // Only custom unavailable periods have notes.
-                provider = '<strong>' + EALang.provider + '</strong> ' + event.data.first_name + ' ' + event.data.last_name;
-            }
-
-            var extraPeriod = jQuery.parseJSON(event.data.settings.extra_working_plan)[event.start.format()];
-
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
