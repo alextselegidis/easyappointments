@@ -96,7 +96,7 @@
         try {
             // Validate required fields.
             var missingRequired = false;
-            $('#user .required').each(function (index, requiredField) {
+            $('#current-user .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
                     $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
@@ -126,7 +126,7 @@
 
             return true;
         } catch (error) {
-            Backend.displayNotification(exc.message);
+            Backend.displayNotification(error.message);
             return false;
         }
     };
