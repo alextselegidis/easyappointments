@@ -122,9 +122,9 @@ html body .ui-datepicker td a.ui-state-active {
     font-weight: bold !important;
     background: #3DD481 !important;
     border-radius: 50px;
-    width: 22px;
-    height: 22px;
-    line-height: 1.3;
+    width: 24px;
+    height: 24px;
+    line-height: 1.2;
     margin: 4px;
 }
 
@@ -132,9 +132,9 @@ body .ui-datepicker td a.ui-state-highlight {
     background: #80E3AD !important;
     border-radius: 67px;
     color: #FFF !important;
-    width: 22px;
-    height: 22px;
-    line-height: 1.3;
+    width: 24px;
+    height: 24px;
+    line-height: 1.2;
     margin: 4px;
 
 }
@@ -405,4 +405,13 @@ body .popover-content button {
 
 body .popover-content a {
     margin-right: 5px;
+}
+
+.has-error .control-label,
+.has-error label {
+    color: #dc3545;
+}
+
+.has-error .form-control {
+    border-color: #dc3545;
 }

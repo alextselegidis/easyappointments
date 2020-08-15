@@ -80,7 +80,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         });
 
         $('#message_box').dialog('open');
-        $('.ui-dialog .ui-dialog-buttonset button').addClass('btn btn-default');
+        $('.ui-dialog .ui-dialog-buttonset button').addClass('btn btn-light');
         $('#message_box .ui-dialog-titlebar-close').hide();
     };
 
@@ -258,7 +258,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         $element.popover({
             placement: 'top',
             title: 'Select Language',
-            content: $languageList.html(),
+            content: $languageList[0],
             html: true,
             container: 'body',
             trigger: 'manual'
@@ -524,7 +524,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'glyphicon glyphicon-map-marker'
+                            'class': 'fas fa-map-marker-alt'
                         })
                     ]
                 })
@@ -548,7 +548,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'glyphicon glyphicon-envelope'
+                            'class': 'far fa-envelope'
                         })
                     ]
                 })
@@ -572,7 +572,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'glyphicon glyphicon-earphone'
+                            'class': 'fas fa-phone-alt'
                         })
                     ]
                 })

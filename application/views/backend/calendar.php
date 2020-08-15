@@ -41,35 +41,35 @@
 </script>
 
 <div id="calendar-page" class="container-fluid">
-    <div class="row" id="calendar-toolbar">
-        <div id="calendar-filter" class="form-inline col-xs-12 col-sm-5">
-            <div class="form-group">
-                <label for="select-filter-item"><?= lang('display_calendar') ?></label>
-                <select id="select-filter-item" class="form-control" title="<?= lang('select_filter_item_hint') ?>">
+    <div id="calendar-toolbar" class="d-md-flex">
+        <div id="calendar-filter" class="col-12 col-md-5 d-flex">
+            <div class="form-group calendar-filter-items">
+                <label for="select-filter-item" class="mr-3"><?= lang('display_calendar') ?></label>
+                <select id="select-filter-item" class="form-control col" title="<?= lang('select_filter_item_hint') ?>">
                 </select>
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-xs-12 col-sm-7">
+        <div id="calendar-actions" class="col-12 col-md-7">
             <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
                     && config('google_sync_feature') == TRUE): ?>
-                <button id="google-sync" class="btn btn-primary"
+                <button id="google-sync" class="btn btn-info"
                         title="<?= lang('trigger_google_sync_hint') ?>">
-                    <span class="glyphicon glyphicon-refresh"></span>
+                    <i class="fas fa-sync-alt"></i>
                     <span><?= lang('synchronize') ?></span>
                 </button>
 
-                <button id="enable-sync" class="btn btn-default" data-toggle="button"
+                <button id="enable-sync" class="btn btn-light" data-toggle="button"
                         title="<?= lang('enable_appointment_sync_hint') ?>">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <i class="far fa-calendar-alt"></i>
                     <span><?= lang('enable_sync') ?></span>
                 </button>
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-                <div class="btn-group">
-                    <button class="btn btn-default" type="button" id="insert-appointment">
-                        <span class="glyphicon glyphicon-plus"></span>
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button class="btn btn-light" type="button" id="insert-appointment">
+                        <i class="fas fa-plus"></i>
                         <?= lang('appointment') ?>
                     </button>
                     <button type="button" id="insert-dropdown" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -81,36 +81,34 @@
                             <a href="#" id="insert-unavailable">
                                 <?= lang('unavailable') ?>
                             </a>
-                        </li>
-                        <li>
-                            <a href="#" id="insert-extra-period">
+                            <a class="dropdown-item" href="#" id="insert-extra-period">
                                 <?= lang('extra_period') ?>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             <?php endif ?>
 
-            <button id="reload-appointments" class="btn btn-default" title="<?= lang('reload_appointments_hint') ?>">
-                <span class="glyphicon glyphicon-repeat"></span>
+            <button id="reload-appointments" class="btn btn-light" title="<?= lang('reload_appointments_hint') ?>">
+                <i class="fas fa-redo-alt"></i>
             </button>
 
             <?php if($calendar_view === 'default'): ?>
-                <a class="btn btn-default" href="<?= site_url('backend?view=table') ?>"
+                <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
                    title="<?= lang('table') ?>">
-                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <i class="far fa-list-alt"></i>
                 </a>
             <?php endif ?>
 
             <?php if($calendar_view === 'table'): ?>
-                <a class="btn btn-default" href="<?= site_url('backend?view=default') ?>"
+                <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
                    title="<?= lang('default') ?>">
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <i class="fas fa-calendar-alt"></i>
                 </a>
             <?php endif ?>
 
-            <button id="toggle-fullscreen" class="btn btn-default">
-                <span class="glyphicon glyphicon-fullscreen"></span>
+            <button id="toggle-fullscreen" class="btn btn-light">
+                <i class="fas fa-expand-arrows-alt"></i>
             </button>
         </div>
     </div>
@@ -124,12 +122,12 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title"><?= lang('edit_appointment_title') ?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
             <div class="modal-body">
-                <div class="modal-message alert hidden"></div>
+                <div class="modal-message alert d-none"></div>
 
                 <form>
                     <fieldset>
@@ -138,7 +136,7 @@
                         <input id="appointment-id" type="hidden">
 
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="select-service" class="control-label"><?= lang('service') ?> *</label>
                                     <select id="select-service" class="required form-control">
@@ -214,7 +212,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="start-datetime" class="control-label"><?= lang('start_date_time') ?></label>
                                     <input id="start-datetime" class="required form-control">
@@ -252,11 +250,11 @@
                     <fieldset>
                         <legend>
                             <?= lang('customer_details_title') ?>
-                            <button id="new-customer" class="btn btn-default btn-xs"
+                            <button id="new-customer" class="btn btn-light btn-xs"
                                     title="<?= lang('clear_fields_add_existing_customer_hint') ?>"
                                     type="button"><?= lang('new') ?>
                             </button>
-                            <button id="select-customer" class="btn btn-primary btn-xs"
+                            <button id="select-customer" class="btn btn-info btn-xs"
                                     title="<?= lang('pick_existing_customer_hint') ?>"
                                     type="button"><?= lang('select') ?>
                             </button>
@@ -269,7 +267,7 @@
                         <input id="customer-id" type="hidden">
 
                         <div class="row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
                                     <input id="first-name" class="required form-control">
@@ -290,7 +288,7 @@
                                     <input id="phone-number" class="required form-control">
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label for="address" class="control-label"><?= lang('address') ?></label>
                                     <input id="address" class="form-control">
@@ -317,8 +315,8 @@
             </div>
 
             <div class="modal-footer">
-                <button id="save-appointment" class="btn btn-primary"><?= lang('save') ?></button>
-                <button id="cancel-appointment" class="btn btn-default" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-appointment" class="btn btn-info"><?= lang('save') ?></button>
+                <button id="cancel-appointment" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>
@@ -330,11 +328,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title"><?= lang('new_unavailable_title') ?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-message alert hidden"></div>
+                <div class="modal-message alert d-none"></div>
 
                 <form>
                     <fieldset>
@@ -382,8 +380,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="save-unavailable" class="btn btn-primary"><?= lang('save') ?></button>
-                <button id="cancel-unavailable" class="btn btn-default" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-unavailable" class="btn btn-info"><?= lang('save') ?></button>
+                <button id="cancel-unavailable" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>
@@ -395,11 +393,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title"><?= lang('new_extra_period_title') ?></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="modal-message alert hidden"></div>
+                <div class="modal-message alert d-none"></div>
 
                 <form>
                     <fieldset>
@@ -443,7 +441,7 @@
             </div>
             <div class="modal-footer">
                 <button id="save-extra" class="btn btn-primary"><?= lang('save') ?></button>
-                <button id="cancel-extra" class="btn btn-default" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="cancel-extra" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>
@@ -465,8 +463,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="select-calendar" class="btn btn-primary"><?= lang('select') ?></button>
-                <button id="close-calendar" class="btn btn-default" data-dismiss="modal"><?= lang('close') ?></button>
+                <button id="select-calendar" class="btn btn-info"><?= lang('select') ?></button>
+                <button id="close-calendar" class="btn btn-light" data-dismiss="modal"><?= lang('close') ?></button>
             </div>
         </div>
     </div>

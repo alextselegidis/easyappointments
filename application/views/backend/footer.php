@@ -11,7 +11,7 @@
                 }
             ?></a> |
         <?= lang('licensed_under') ?> GPLv3 |
-        <span id="select-language" class="label label-success">
+        <span id="select-language" class="badge badge-success">
         	<?= ucfirst(config('language')) ?>
         </span>
         |

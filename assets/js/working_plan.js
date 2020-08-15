@@ -64,19 +64,19 @@
                     $('<td/>', {
                         'html': [
                             $('<div/>', {
-                                'class': 'checkbox',
+                                'class': 'checkbox form-check',
                                 'html': [
+                                    $('<input/>', {
+                                        'class': 'form-check-input',
+                                        'type': 'checkbox',
+                                        'id': index
+                                    }),
                                     $('<label/>', {
-                                        'html': [
-                                            $('<input/>', {
-                                                'type': 'checkbox',
-                                                'id': index
-                                            }),
-                                            $('<span/>', {
-                                                'text': dayDisplayName
-                                            })
-                                        ]
-                                    })
+                                        'class': 'form-check-label',
+                                        'text': dayDisplayName,
+                                        'for': index
+                                    }),
+
                                 ]
                             })
                         ]
@@ -131,41 +131,41 @@
                                 'html': [
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-default btn-sm edit-break',
+                                        'class': 'btn btn-light btn-sm edit-break',
                                         'title': EALang.edit,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'glyphicon glyphicon-pencil'
+                                                'class': 'far fa-edit'
                                             })
                                         ]
                                     }),
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-default btn-sm delete-break',
+                                        'class': 'btn btn-light btn-sm delete-break',
                                         'title': EALang.delete,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'glyphicon glyphicon-trash'
+                                                'class': 'far fa-trash-alt'
                                             })
                                         ]
                                     }),
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-default btn-sm save-break hidden',
+                                        'class': 'btn btn-light btn-sm save-break d-none',
                                         'title': EALang.save,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'glyphicon glyphicon-ok'
+                                                'class': 'far fa-check-circle'
                                             })
                                         ]
                                     }),
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-default btn-sm cancel-break hidden',
+                                        'class': 'btn btn-light btn-sm cancel-break d-none',
                                         'title': EALang.cancel,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'glyphicon glyphicon-ban-circle'
+                                                'class': 'fas fa-ban'
                                             })
                                         ]
                                     })
@@ -221,41 +221,41 @@
                             'html': [
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm edit-extra',
+                                    'class': 'btn btn-light btn-sm edit-extra',
                                     'title': EALang.edit,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-pencil'
+                                            'class': 'far fa-edit'
                                         })
                                     ]
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm delete-extra',
+                                    'class': 'btn btn-light btn-sm delete-extra',
                                     'title': EALang.delete,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-trash'
+                                            'class': 'far fa-trash-alt'
                                         })
                                     ]
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm save-extra hidden',
+                                    'class': 'btn btn-light btn-sm save-extra d-none',
                                     'title': EALang.save,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-ok'
+                                            'class': 'far fa-check-circle'
                                         })
                                     ]
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-default btn-sm cancel-extra hidden',
+                                    'class': 'btn btn-light btn-sm cancel-extra d-none',
                                     'title': EALang.cancel,
                                     'html': [
                                         $('<span/>', {
-                                            'class': 'glyphicon glyphicon-ban-circle'
+                                            'class': 'fas fa-ban'
                                         })
                                     ]
                                 })
@@ -300,8 +300,8 @@
             data: weekDays,
             event: 'edit',
             height: '30px',
-            submit: '<button type="button" class="hidden submit-editable">Submit</button>',
-            cancel: '<button type="button" class="hidden cancel-editable">Cancel</button>',
+            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
             onblur: 'ignore',
             onreset: function (settings, td) {
                 if (!this.enableCancel) {
@@ -332,14 +332,14 @@
             height: '30px',
             submit: $('<button/>', {
                 'type': 'button',
-                'class': 'hidden submit-editable',
+                'class': 'd-none submit-editable',
                 'text': EALang.save
             })
                 .get(0)
                 .outerHTML,
             cancel: $('<button/>', {
                 'type': 'button',
-                'class': 'hidden cancek-editable',
+                'class': 'd-none cancek-editable',
                 'text': EALang.cancel
             })
                 .get(0)
@@ -406,41 +406,41 @@
                         'html': [
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm edit-break',
+                                'class': 'btn btn-light btn-sm edit-break',
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-pencil'
+                                        'class': 'far fa-edit'
                                     })
                                 ]
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm delete-break',
+                                'class': 'btn btn-light btn-sm delete-break',
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-trash'
+                                        'class': 'far fa-trash-alt'
                                     })
                                 ]
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm save-break hidden',
+                                'class': 'btn btn-light btn-sm save-break d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-ok'
+                                        'class': 'far fa-check-circle'
                                     })
                                 ]
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm cancel-break hidden',
+                                'class': 'btn btn-light btn-sm cancel-break d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-ban-circle'
+                                        'class': 'fas fa-ban'
                                     })
                                 ]
                             })
@@ -487,8 +487,8 @@
 
             // Show save - cancel buttons.
             var $tr = $(this).closest('tr');
-            $tr.find('.edit-break, .delete-break').addClass('hidden');
-            $tr.find('.save-break, .cancel-break').removeClass('hidden');
+            $tr.find('.edit-break, .delete-break').addClass('d-none');
+            $tr.find('.save-break, .cancel-break').removeClass('d-none');
             $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-break').prop('disabled', true);
@@ -517,8 +517,8 @@
             $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
-            $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
+            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
+            $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
             $('.add-break').prop('disabled', false);
         }.bind(this));
 
@@ -544,8 +544,8 @@
             $modifiedRow.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $modifiedRow.find('.save-break, .cancel-break').addClass('hidden');
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('hidden');
+            $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
+            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
             $('.add-break').prop('disabled', false);
 
             // Refresh working plan to have the new break sorted in the break list.
@@ -580,41 +580,41 @@
                         'html': [
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm edit-extra',
+                                'class': 'btn btn-light btn-sm edit-extra',
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-pencil'
+                                        'class': 'far fa-edit'
                                     })
                                 ]
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm delete-extra',
+                                'class': 'btn btn-light btn-sm delete-extra',
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-trash'
+                                        'class': 'far fa-trash-alt'
                                     })
                                 ]
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm save-extra hidden',
+                                'class': 'btn btn-light btn-sm save-extra d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-ok'
+                                        'class': 'far fa-check-circle'
                                     })
                                 ]
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-default btn-sm cancel-extra hidden',
+                                'class': 'btn btn-light btn-sm cancel-extra d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'glyphicon glyphicon-ban-circle'
+                                        'class': 'fas fa-ban'
                                     })
                                 ]
                             })
@@ -699,8 +699,8 @@
 
             // Show save - cancel buttons.
             var $tr = $(this).closest('tr');
-            $tr.find('.edit-extra, .delete-extra').addClass('hidden');
-            $tr.find('.save-extra, .cancel-extra').removeClass('hidden');
+            $tr.find('.edit-extra, .delete-extra').addClass('d-none');
+            $tr.find('.save-extra, .cancel-extra').removeClass('d-none');
             $tr.find('select,input:text').addClass('form-control input-sm')
 
             $('.add-extra-periods').prop('disabled', true);
@@ -729,8 +729,8 @@
             $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
-            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('hidden');
-            $modifiedRow.find('.save-extra, .cancel-extra').addClass('hidden');
+            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('d-none');
+            $modifiedRow.find('.save-extra, .cancel-extra').addClass('d-none');
             $('.add-extra-periods').prop('disabled', false);
         }.bind(this));
 
@@ -756,8 +756,8 @@
             $modifiedRow.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $modifiedRow.find('.save-extra, .cancel-extra').addClass('hidden');
-            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('hidden');
+            $modifiedRow.find('.save-extra, .cancel-extra').addClass('d-none');
+            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('d-none');
             $('.add-extra-periods').prop('disabled', false);
         }.bind(this));
     };

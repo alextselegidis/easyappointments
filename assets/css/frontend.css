@@ -23,8 +23,8 @@ body {
 }
 
 #main {
-    display: table;
-    vertical-align: middle;
+    display:flex;
+    flex-direction: column;
 }
 
 #main .wrapper {
@@ -43,17 +43,21 @@ body {
 }
 
 #book-appointment-wizard #header {
+    align-items: center;
+    display: flex;
     padding: 5px;
     height: 90px;
     background: #3DD481;
     border-bottom: 4px solid #c0f1d6;
+    justify-content: space-between;
+    margin-bottom: 1rem;
 }
 
 #book-appointment-wizard #company-name {
     display: inline-block;
     font-size: 24px;
     color: #FFF;
-    margin: 16px 10px 0 15px;
+    margin: 0 10px 0 15px;
     float: left;
 }
 
@@ -61,12 +65,13 @@ body {
     width: 180px;
     display: inline-block;
     float: right;
-    margin-top: 17px;
 }
 
 #book-appointment-wizard .wizard-frame {
     padding: 10px 20px;
-    height: 560px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #book-appointment-wizard .wizard-frame .frame-container {
@@ -86,7 +91,8 @@ body {
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons {
-    float: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons .btn {
@@ -96,13 +102,13 @@ body {
 
 #book-appointment-wizard .book-step {
     display: inline-block;
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     float: left;
     background: #FFF;
     padding: 1px;
     margin-right: 10px;
-    margin-top: 9px;
+    margin-top: 10px;
     border: 3px solid #79e2a8;
 }
 
@@ -115,13 +121,13 @@ body {
 
 #book-appointment-wizard .active-step {
     display: inline-block;
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     float: left;
     background: #FFF;
     padding: 1px;
     margin-right: 10px;
-    margin-top: 3px;
+    margin-top: 5px;
     border: 3px solid #c0f1d6;
 }
 
@@ -187,12 +193,12 @@ body {
     margin-top: 7px;
 }
 
-#book-appointment-wizard .captcha-title .glyphicon-refresh {
+#book-appointment-wizard .captcha-title .fa-sync-alt {
     cursor: pointer;
     transition: all 0.3s linear;
 }
 
-#book-appointment-wizard .captcha-title .glyphicon-refresh:hover {
+#book-appointment-wizard .captcha-title .fa-sync-alt:hover {
     color: #1A865F;
 }
 
@@ -318,7 +324,6 @@ body {
     }
 
     #book-appointment-wizard .wizard-frame #select-date {
-        width: 260px;
         margin: auto; /* center */
     }
 

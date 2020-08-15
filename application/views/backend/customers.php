@@ -28,60 +28,60 @@
 
 <div id="customers-page" class="container-fluid backend-page">
     <div class="row">
-    	<div id="filter-customers" class="filter-records column col-xs-12 col-sm-5">
-    		<form>
+        <div id="filter-customers" class="filter-records col col-xs-12 col-md-5">
+            <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
 
                     <div class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
+                                <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
+                            <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-    		</form>
+            </form>
 
             <h3><?= lang('customers') ?></h3>
             <div class="results"></div>
     	</div>
 
-    	<div class="record-details col-xs-12 col-sm-7">
-            <div class="btn-toolbar">
+    	<div class="record-details col-xs-12 col-md-7">
+            <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
-                    <button id="add-customer" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-plus"></span>
+                    <button id="add-customer" class="btn btn-info">
+                        <i class="fas fa-plus"></i>
                         <?= lang('add') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
-                    <button id="edit-customer" class="btn btn-default" disabled="disabled">
-                        <span class="glyphicon glyphicon-pencil"></span>
+                    <button id="edit-customer" class="btn btn-light" disabled="disabled">
+                        <i class="far fa-edit"></i>
                         <?= lang('edit') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
-                    <button id="delete-customer" class="btn btn-default" disabled="disabled">
-                        <span class="glyphicon glyphicon-remove"></span>
+                    <button id="delete-customer" class="btn btn-light" disabled="disabled">
+                        <i class="far fa-trash-alt"></i>
                         <?= lang('delete') ?>
                     </button>
                     <?php endif ?>
                 </div>
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
-                    <button id="save-customer" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-ok"></span>
+                    <button id="save-customer" class="btn btn-info">
+                        <i class="far fa-check-circle"></i>
                         <?= lang('save') ?>
                     </button>
-                    <button id="cancel-customer" class="btn btn-default">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
+                    <button id="cancel-customer" class="btn btn-light">
+                        <i class="fas fa-ban"></i>
                         <?= lang('cancel') ?>
                     </button>
                 </div>
@@ -90,7 +90,7 @@
             <input id="customer-id" type="hidden">
 
             <div class="row">
-                <div class="col-xs-12 col-sm-6" style="margin-left: 0;">
+                <div class="col-xs-12 col-md-6" style="margin-left: 0;">
                     <h3><?= lang('details') ?></h3>
 
                     <div id="form-message" class="alert" style="display:none;"></div>
@@ -147,10 +147,10 @@
                     </p>
                 </div>
 
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-md-6">
                     <h3><?= lang('appointments') ?></h3>
-                    <div id="customer-appointments" class="well"></div>
-                    <div id="appointment-details" class="well hidden"></div>
+                    <div id="customer-appointments" class="card card-body bg-light border-light"></div>
+                    <div id="appointment-details" class="card card-body bg-light border-light d-none"></div>
                 </div>
             </div>
     	</div>

@@ -18,11 +18,11 @@ $(function () {
     var $alert = $('.alert');
 
     $(document).ajaxStart(function () {
-        $('#loading').removeClass('hidden');
+        $('#loading').removeClass('d-none');
     });
 
     $(document).ajaxStop(function () {
-        $('#loading').addClass('hidden');
+        $('#loading').addClass('d-none');
     });
 
     /**

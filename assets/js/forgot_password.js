@@ -22,12 +22,12 @@ $(function () {
 
         var $alert = $('.alert');
 
-        $alert.addClass('hidden');
+        $alert.addClass('d-none');
         $('#get-new-password').prop('disabled', true);
 
         $.post(url, data)
             .done(function (response) {
-                $alert.removeClass('hidden alert-danger alert-success');
+                $alert.removeClass('d-none alert-danger alert-success');
                 $('#get-new-password').prop('disabled', false);
                 if (response === GlobalVariables.AJAX_SUCCESS) {
                     $alert.addClass('alert-success');

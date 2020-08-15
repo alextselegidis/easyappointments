@@ -47,7 +47,7 @@ window.BackendCalendar = window.BackendCalendar || {};
 
                 $toggleFullscreen
                     .removeClass('btn-success')
-                    .addClass('btn-default');
+                    .addClass('btn-light');
             } else {
                 // Switch to fullscreen mode.
                 if (element.requestFullscreen) {
@@ -60,7 +60,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                     element.webkitRequestFullscreen();
                 }
                 $toggleFullscreen
-                    .removeClass('btn-default')
+                    .removeClass('btn-light')
                     .addClass('btn-success');
             }
         });

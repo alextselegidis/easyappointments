@@ -48,7 +48,7 @@
     </style>
 </head>
 <body>
-    <div id="loading" class="hidden">
+    <div id="loading" class="d-none">
         <img src="<?= base_url('assets/img/loading.gif') ?>">
     </div>
 
@@ -77,7 +77,7 @@
             </p>
         </div>
 
-        <div class="alert hidden"></div>
+        <div class="alert d-none"></div>
 
         <div class="row">
             <div class="admin-settings col-xs-12 col-sm-5">
@@ -152,7 +152,7 @@
 
         <p>
             <h3>License</h3>
-            Easy!Appointments is licensed under the <span class="label label-default">GPLv3 license</span>.
+            Easy!Appointments is licensed under the <span class="badge badge-default">GPLv3 license</span>.
             By using the code of Easy!Appointments in any way <br> you agree with the terms described in the
             following url:
             <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
@@ -180,7 +180,7 @@
 
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>

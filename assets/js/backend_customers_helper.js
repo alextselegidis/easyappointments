@@ -283,7 +283,7 @@
         $('.record-details').find('select').prop('disabled', true);
 
         $('#customer-appointments').empty();
-        $('#appointment-details').toggleClass('hidden', true).empty();
+        $('#appointment-details').toggleClass('d-none', true).empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
@@ -497,7 +497,7 @@
         })
             .appendTo('#appointment-details');
 
-        $('#appointment-details').removeClass('hidden');
+        $('#appointment-details').removeClass('d-none');
     };
 
     window.CustomersHelper = CustomersHelper;
