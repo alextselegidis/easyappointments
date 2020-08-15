@@ -22,7 +22,7 @@
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/select2/select2.min.js') ?>"></script>
-    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
 
     <script>
     	// Global JavaScript Variables - Used in all backend pages.
@@ -38,7 +38,7 @@
         <span><?= $company_name ?></span>
     </div>
 
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu" 
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu"
             aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="navbar-toggler-icon"></span>
