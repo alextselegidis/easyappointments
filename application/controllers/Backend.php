@@ -73,7 +73,7 @@ class Backend extends CI_Controller {
      */
     public function index($appointment_hash = '')
     {
-        $this->session->set_userdata('dest_url', site_url('backend'));
+        $this->session->set_userdata('dest_url', site_url('backend/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : '')));
 
         if ( ! $this->has_privileges(PRIV_APPOINTMENTS))
         {
