@@ -473,6 +473,8 @@
         var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
         var timezone = GlobalVariables.timezones[GlobalVariables.user.timezone];
 
+        $('#appointment-details').empty();
+
         $('<div/>', {
             'html': [
                 $('<strong/>', {
@@ -484,7 +486,7 @@
                 }),
                 $('<br/>'),
                 $('<span/>', {
-                    'text': appointment.provider.first_name + ' ' + appointment.provider.last_name
+                    'text': start + ' - ' + end
                 }),
                 $('<br/>'),
                 $('<span/>', {
