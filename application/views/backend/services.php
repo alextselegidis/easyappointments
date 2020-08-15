@@ -26,8 +26,8 @@
 
 <div id="services-page" class="container-fluid backend-page">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#services" aria-controls="services" role="tab" data-toggle="tab"><?= lang('services') ?></a></li>
-        <li role="presentation"><a href="#categories" aria-controls="categories" role="tab" data-toggle="tab"><?= lang('categories') ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link active" href="#services" aria-controls="services" role="tab" data-toggle="tab"><?= lang('services') ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#categories" aria-controls="categories" role="tab" data-toggle="tab"><?= lang('categories') ?></a></li>
     </ul>
 
     <div class="tab-content">
@@ -36,18 +36,18 @@
 
         <div role="tabpanel" class="tab-pane active" id="services">
             <div class="row">
-                <div id="filter-services" class="filter-records column col-xs-12 col-sm-5">
-                    <form>
+                <div id="filter-services" class="filter-records col col-xs-12 col-md-5">
+                    <form class="mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
+                                <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
+                            <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -58,30 +58,30 @@
                     <div class="results"></div>
                 </div>
 
-                <div class="record-details column col-xs-12 col-sm-5">
-                    <div class="btn-toolbar">
+                <div class="record-details column col-xs-12 col-md-5">
+                    <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-service" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span>
+                            <button id="add-service" class="btn btn-info">
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
-                            <button id="edit-service" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                            <button id="edit-service" class="btn btn-light" disabled="disabled">
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-service" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                            <button id="delete-service" class="btn btn-light" disabled="disabled">
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-service" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok"></span>
+                            <button id="save-service" class="btn btn-info">
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
-                            <button id="cancel-service" class="btn btn-default">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                            <button id="cancel-service" class="btn btn-light">
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -156,18 +156,18 @@
 
         <div role="tabpanel" class="tab-pane" id="categories">
             <div class="row">
-                <div id="filter-categories" class="filter-records column col-xs-12 col-sm-5">
-                    <form class="input-append">
+                <div id="filter-categories" class="filter-records column col-xs-12 col-md-5">
+                    <form class="input-append mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-default" type="submit" title="<?= lang('filter') ?>">
-                                <span class="glyphicon glyphicon-search"></span>
+                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
+                                <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-default" type="button" title="<?= lang('clear') ?>">
-                                <span class="glyphicon glyphicon-repeat"></span>
+                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </span>
@@ -178,30 +178,30 @@
                     <div class="results"></div>
                 </div>
 
-                <div class="record-details col-xs-12 col-sm-5">
-                    <div class="btn-toolbar">
+                <div class="record-details col-xs-12 col-md-5">
+                    <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-category" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus glyphicon glyphicon-white"></span>
+                            <button id="add-category" class="btn btn-info">
+                                <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
-                            <button id="edit-category" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                            <button id="edit-category" class="btn btn-light" disabled="disabled">
+                                <i class="far fa-edit"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-category" class="btn btn-default" disabled="disabled">
-                                <span class="glyphicon glyphicon-remove"></span>
+                            <button id="delete-category" class="btn btn-light" disabled="disabled">
+                                <i class="far fa-trash-alt"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-category" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-ok glyphicon glyphicon-white"></span>
+                            <button id="save-category" class="btn btn-info">
+                                <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
-                            <button id="cancel-category" class="btn btn-default">
-                                <span class="glyphicon glyphicon-ban-circle"></span>
+                            <button id="cancel-category" class="btn btn-light">
+                                <i class="fas fa-ban"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>

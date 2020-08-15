@@ -34,27 +34,27 @@
 <div id="settings-page" class="container-fluid">
     <ul class="nav nav-tabs" role="tablist">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation" class="active">
-                <a href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>
+            <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation">
-                <a href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
+            <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation">
-                <a href="#legal-contents" aria-controls="legal-contents" role="tab" data-toggle="tab"><?= lang('legal_contents') ?></a>
+            <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#legal-contents" aria-controls="legal-contents" role="tab" data-toggle="tab"><?= lang('legal_contents') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation">
-                <a href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
+            <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
             </li>
         <?php endif ?>
-        <li role="presentation">
-            <a href="#about-app" aria-controls="about-app" role="tab" data-toggle="tab"><?= lang('about_app') ?></a>
+        <li role="presentation" class="nav-item">
+            <a class="nav-link" href="#about-app" aria-controls="about-app" role="tab" data-toggle="tab"><?= lang('about_app') ?></a>
         </li>
     </ul>
 
@@ -62,16 +62,16 @@
 
         <!-- GENERAL TAB -->
 
-        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
         <div role="tabpanel" class="tab-pane active <?= $hidden ?>" id="general">
             <form>
                 <fieldset>
-                    <legend>
+                    <legend class="border-bottom mb-4">
                         <?= lang('general_settings') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-primary btn-xs"
+                            <button type="button" class="save-settings btn btn-info btn-xs mb-2"
                                     title="<?= lang('save') ?>">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="far fa-save"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <label for="company-name"><?= lang('company_name') ?> *</label>
                                 <input id="company-name" data-field="company_name" class="required form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('company_name_hint') ?>
                                 </span>
                             </div>
@@ -90,7 +90,7 @@
                             <div class="form-group">
                                 <label for="company-email"><?= lang('company_email') ?> *</label>
                                 <input id="company-email" data-field="company_email" class="required form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('company_email_hint') ?>
                                 </span>
                             </div>
@@ -98,11 +98,10 @@
                             <div class="form-group">
                                 <label for="company-link"><?= lang('company_link') ?> *</label>
                                 <input id="company-link" data-field="company_link" class="required form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('company_link_hint') ?>
                                 </span>
                             </div>
-
                             <div class="form-group">
                                 <label for="date-format">
                                     <?= lang('date_format') ?>
@@ -112,7 +111,7 @@
                                     <option value="MDY">MDY</option>
                                     <option value="YMD">YMD</option>
                                 </select>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('date_format_hint') ?>
                                 </span>
                             </div>
@@ -124,7 +123,7 @@
                                     <option value="<?= TIME_FORMAT_REGULAR ?>">H:MM AM/PM</option>
                                     <option value="<?= TIME_FORMAT_MILITARY ?>">HH:MM</option>
                                 </select>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('time_format_hint') ?>
                                 </span>
                             </div>
@@ -169,11 +168,11 @@
                             <div class="form-group">
                                 <label><?= lang('customer_notifications') ?></label>
                                 <br>
-                                <button type="button" id="customer-notifications" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-envelope"></span>
+                                <button type="button" id="customer-notifications" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                    <i class="far fa-envelope"></i>
                                     <?= lang('receive_notifications') ?>
                                 </button>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('customer_notifications_hint') ?>
                                 </span>
                             </div>
@@ -182,11 +181,11 @@
                                     CAPTCHA
                                 </label>
                                 <br>
-                                <button type="button" id="require-captcha" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-lock"></span>
+                                <button type="button" id="require-captcha" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                    <i class="fas fa-lock"></i>
                                     <?= lang('require_captcha') ?>
                                 </button>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                             </div>
@@ -195,8 +194,8 @@
                                     <?= lang('phone_number') ?>
                                 </label>
                                 <br>
-                                <button type="button" id="require-phone-number" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-phone-alt"></span>
+                                <button type="button" id="require-phone-number" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                    <i class="fas fa-phone-alt"></i>
                                     <?= lang('require_phone_number') ?>
                                 </button>
                                 <span class="help-block">
@@ -206,8 +205,8 @@
                             <div class="form-group">
                                 <label><?= lang('any_provider') ?></label>
                                 <br>
-                                <button type="button" id="display-any-provider" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                    <span class="glyphicon glyphicon-user"></span>
+                                <button type="button" id="display-any-provider" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                    <i class="fas fa-user"></i>
                                     <?= lang('display_any_provider') ?>
                                 </button>
                                 <span class="help-block">
@@ -222,16 +221,16 @@
 
         <!-- BUSINESS LOGIC TAB -->
 
-        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
         <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="business-logic">
             <form>
                 <fieldset>
-                    <legend>
+                    <legend class="border-bottom mb-4">
                         <?= lang('business_logic') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-primary btn-xs"
+                            <button type="button" class="save-settings btn btn-info btn-xs mb-2"
                                     title="<?= lang('save') ?>">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="far fa-save"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -240,7 +239,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-7 working-plan-wrapper">
                             <h4><?= lang('working_plan') ?></h4>
-                            <span class="help-block">
+                            <span class="form-text text-muted mb-4">
                                 <?= lang('edit_working_plan_hint') ?>
                             </span>
 
@@ -256,8 +255,8 @@
                             </table>
 
                             <div class="text-right">
-                                <button class="btn btn-default" id="apply-global-working-plan" type="button">
-                                    <span class="glyphicon glyphicon-ok"></span>
+                                <button class="btn btn-light" id="apply-global-working-plan" type="button">
+                                    <i class="fas fa-check"></i>
                                     <?= lang('apply_to_all_providers') ?>
                                 </button>
                             </div>
@@ -268,7 +267,7 @@
                             <div class="form-group">
                                 <label for="book-advance-timeout" class="control-label"><?= lang('timeout_minutes') ?></label>
                                 <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" type="number" min="15">
-                                <p class="help-block">
+                                <p class="form-text text-muted">
                                     <?= lang('book_advance_timeout_hint') ?>
                                 </p>
                             </div>
@@ -276,13 +275,13 @@
                         <div class="col-xs-12 col-sm-5 breaks-wrapper">
                             <h4><?= lang('breaks') ?></h4>
 
-                            <span class="help-block">
+                            <span class="form-text text-muted">
                                 <?= lang('edit_breaks_hint') ?>
                             </span>
 
-                            <div>
-                                <button type="button" class="add-break btn btn-primary">
-                                    <span class="glyphicon glyphicon-white glyphicon glyphicon-plus"></span>
+                            <div class="mt-2">
+                                <button type="button" class="add-break btn btn-info">
+                                    <i class="fas fa-plus"></i>
                                     <?= lang('add_break');?>
                                 </button>
                             </div>
@@ -308,16 +307,16 @@
 
         <!-- LEGAL CONTENTS TAB -->
 
-        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
         <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="legal-contents">
             <form>
                 <fieldset>
-                    <legend>
+                    <legend class="border-bottom mb-4">
                         <?= lang('legal_contents') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-primary btn-xs"
+                            <button type="button" class="save-settings btn btn-info btn-xs mb-2"
                                     title="<?= lang('save') ?>">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                <i class="far fa-save"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -328,9 +327,9 @@
                             <h4><?= lang('cookie_notice') ?></h4>
 
                             <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="display-cookie-notice">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="display-cookie-notice">
+                                    <label class="custom-control-label" for="display-cookie-notice">
                                         <?= lang('display_cookie_notice') ?>
                                     </label>
                                 </div>
@@ -346,11 +345,13 @@
                             <h4><?= lang('terms_and_conditions') ?></h4>
 
                             <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="display-terms-and-conditions">
-                                        <?= lang('display_terms_and_conditions') ?>
-                                    </label>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="display-terms-and-conditions">
+                                        <label class="custom-control-label" for="display-terms-and-conditions">
+                                            <?= lang('display_terms_and_conditions') ?>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -362,11 +363,13 @@
                             <h4><?= lang('privacy_policy') ?></h4>
 
                             <div class="form-group">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="display-privacy-policy">
-                                        <?= lang('display_privacy_policy') ?>
-                                    </label>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="display-privacy-policy">
+                                        <label class="custom-control-label" for="display-privacy-policy">
+                                            <?= lang('display_privacy_policy') ?>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -382,17 +385,17 @@
 
         <!-- CURRENT USER TAB -->
 
-        <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'hidden' ?>
+        <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
         <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="current-user">
             <form>
                 <div class="row">
                     <fieldset class="col-xs-12 col-sm-6 personal-info-wrapper">
-                        <legend>
+                        <legend  class="border-bottom mb-4">
                             <?= lang('personal_information') ?>
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
-                                <button type="button" class="save-settings btn btn-primary btn-xs"
+                                <button type="button" class="save-settings btn btn-info btn-xs mb-2"
                                         title="<?= lang('save') ?>">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    <i class="far fa-save"></i>
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
@@ -452,7 +455,7 @@
                     </fieldset>
 
                     <fieldset class="col-xs-12 col-sm-6 miscellaneous-wrapper">
-                    <legend><?= lang('system_login') ?></legend>
+                    <legend class="border-bottom mb-4"><?= lang('system_login') ?></legend>
 
                     <div class="form-group">
                         <label for="username"><?= lang('username') ?> *</label>
@@ -482,8 +485,8 @@
                         <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
                     </div>
 
-                    <button type="button" id="user-notifications" class="btn btn-default" data-toggle="button">
-                        <span class="glyphicon glyphicon-envelope"></span>
+                    <button type="button" id="user-notifications" class="btn btn-light" data-toggle="button">
+                        <i class="far fa-envelope"></i>
                         <?= lang('receive_notifications') ?>
                     </button>
                 </fieldset>
@@ -500,7 +503,7 @@
                 <?= lang('about_app_info') ?>
             </p>
 
-            <div class="current-version well">
+            <div class="current-version card card-body bg-light border-light mb-3">
                 <?= lang('current_version') ?>
                 <?= config('version') ?>
                 <?php if (config('release_label')): ?>

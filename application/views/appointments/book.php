@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <script src="https://kit.fontawesome.com/bdcbd8a000.js" crossorigin="anonymous"></script>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -21,8 +22,8 @@
 
 <body>
     <div id="main" class="container">
-        <div class="wrapper row">
-            <div id="book-appointment-wizard" class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+        <div class="wrapper row d-md-flex align-items-center justify-content-center">
+            <div id="book-appointment-wizard" class="col-xs-12 col-md-10 col-lg-8">
 
                 <!-- FRAME TOP BAR -->
 
@@ -48,23 +49,23 @@
 
                 <?php if ($manage_mode): ?>
                 <div id="cancel-appointment-frame" class="booking-header-bar row">
-                    <div class="col-xs-12 col-sm-10">
+                    <div class="col-xs-12 col-md-10">
                         <p><?= lang('cancel_appointment_hint') ?></p>
                     </div>
-                    <div class="col-xs-12 col-sm-2">
+                    <div class="col-xs-12 col-md-2">
                         <form id="cancel-appointment-form" method="post"
                               action="<?= site_url('appointments/cancel/' . $appointment_data['hash']) ?>">
                             <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>" />
                             <textarea name="cancel_reason" style="display:none"></textarea>
-                            <button id="cancel-appointment" class="btn btn-default btn-sm"><?= lang('cancel') ?></button>
+                            <button id="cancel-appointment" class="btn btn-light btn-sm"><?= lang('cancel') ?></button>
                         </form>
                     </div>
                 </div>
                 <div class="booking-header-bar row">
-                    <div class="col-xs-12 col-sm-10">
+                    <div class="col-xs-12 col-md-10">
                         <p><?= lang('delete_personal_information_hint') ?></p>
                     </div>
-                    <div class="col-xs-12 col-sm-2">
+                    <div class="col-xs-12 col-md-2">
                         <button id="delete-personal-information" class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                                     <strong><?= lang('select_service') ?></strong>
                                 </label>
 
-                                <select id="select-service" class="col-xs-12 col-sm-4 form-control">
+                                <select id="select-service" class="form-control">
                                     <?php
                                         // Group services by category, only if there is at least one service with a parent category.
                                         $has_category = FALSE;
@@ -153,7 +154,7 @@
                                     <strong><?= lang('select_provider') ?></strong>
                                 </label>
 
-                                <select id="select-provider" class="col-xs-12 col-sm-4 form-control"></select>
+                                <select id="select-provider" class="form-control"></select>
                             </div>
 
                             <div id="service-description"></div>
@@ -161,10 +162,10 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-next-1" class="btn button-next btn-primary"
+                        <button type="button" id="button-next-1" class="btn button-next btn-info"
                                 data-step_index="1">
                             <?= lang('next') ?>
-                            <span class="glyphicon glyphicon-forward"></span>
+                            <i class="fas fa-long-arrow-alt-right"></i>
                         </button>
                     </div>
                 </div>
@@ -177,11 +178,11 @@
                         <h3 class="frame-title"><?= lang('step_two_title') ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-7 pl-0 pr-0 pr-md-3 mb-4 mb-md-0 d-flex">
                                 <div id="select-date"></div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-sm-5 px-0">
                                 <label for="select-timezone"><?= lang('timezone') ?></label>
                                 <?= render_timezone_dropdown('id="select-timezone" class="form-control" value="UTC"'); ?>
 
@@ -191,15 +192,15 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-2" class="btn button-back btn-default"
+                        <button type="button" id="button-back-2" class="btn button-back btn-light"
                                 data-step_index="2">
-                            <span class="glyphicon glyphicon-backward"></span>
+                                <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
-                        <button type="button" id="button-next-2" class="btn button-next btn-primary"
+                        <button type="button" id="button-next-2" class="btn button-next btn-info"
                                 data-step_index="2">
                             <?= lang('next') ?>
-                            <span class="glyphicon glyphicon-forward"></span>
+                            <i class="fas fa-long-arrow-alt-right"></i>
                         </button>
                     </div>
                 </div>
@@ -212,7 +213,7 @@
                         <h3 class="frame-title"><?= lang('step_three_title') ?></h3>
 
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
                                     <input type="text" id="first-name" class="required form-control" maxlength="100" />
@@ -233,7 +234,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-6">
                                 <div class="form-group">
                                     <label for="address" class="control-label"><?= lang('address') ?></label>
                                     <input type="text" id="address" class="form-control" maxlength="120" />
@@ -251,10 +252,13 @@
                                     <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <?php if ($display_terms_and_conditions): ?>
-                            <label>
-                                <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
+                    <?php if ($display_terms_and_conditions): ?>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="required form-check-input" id="accept-to-terms-and-conditions">
+                            <label class="form-check-label" for="accept-to-terms-and-conditions">
                                 <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
                                     [
                                         '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
@@ -262,12 +266,13 @@
                                     ])
                                 ?>
                             </label>
-                            <br>
-                            <?php endif ?>
+                        </div>
+                    <?php endif ?>
 
-                            <?php if ($display_privacy_policy): ?>
-                            <label>
-                                <input type="checkbox" class="required" id="accept-to-privacy-policy">
+                    <?php if ($display_privacy_policy): ?>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="required form-check-input" id="accept-to-privacy-policy">
+                            <label class="form-check-label" for="accept-to-privacy-policy">
                                 <?= strtr(lang('read_and_agree_to_privacy_policy'),
                                     [
                                         '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
@@ -275,22 +280,20 @@
                                     ])
                                 ?>
                             </label>
-                            <br>
-                            <?php endif ?>
-
-                            <span id="form-message" class="text-danger"><?= lang('fields_are_required') ?></span>
                         </div>
-                    </div>
+                    <?php endif ?>
+
+                    <span id="form-message" class="text-danger d-block"><?= lang('fields_are_required') ?></span>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-3" class="btn button-back btn-default"
-                                data-step_index="3"><span class="glyphicon glyphicon-backward"></span>
+                        <button type="button" id="button-back-3" class="btn button-back btn-light"
+                                data-step_index="3"><i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
-                        <button type="button" id="button-next-3" class="btn button-next btn-primary"
+                        <button type="button" id="button-next-3" class="btn button-next btn-info"
                                 data-step_index="3">
                             <?= lang('next') ?>
-                            <span class="glyphicon glyphicon-forward"></span>
+                            <i class="fas fa-long-arrow-alt-right"></i>
                         </button>
                     </div>
                 </div>
@@ -301,15 +304,15 @@
                     <div class="frame-container">
                         <h3 class="frame-title"><?= lang('step_four_title') ?></h3>
                         <div class="frame-content row">
-                            <div id="appointment-details" class="col-xs-12 col-sm-6"></div>
-                            <div id="customer-details" class="col-xs-12 col-sm-6"></div>
+                            <div id="appointment-details" class="col-xs-12 col-md-6"></div>
+                            <div id="customer-details" class="col-xs-12 col-md-6"></div>
                         </div>
                         <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
                         <div class="frame-content row">
-                            <div class="col-xs-12 col-sm-6">
+                            <div class="col-xs-12 col-md-6">
                                 <h4 class="captcha-title">
                                     CAPTCHA
-                                    <small class="glyphicon glyphicon-refresh"></small>
+                                    <small class="fas fa-sync-alt"></small>
                                 </h4>
                                 <img class="captcha-image" src="<?= site_url('captcha') ?>">
                                 <input class="captcha-text" type="text" value="" />
@@ -320,14 +323,14 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-4" class="btn button-back btn-default"
+                        <button type="button" id="button-back-4" class="btn button-back btn-light"
                                 data-step_index="4">
-                            <span class="glyphicon glyphicon-backward"></span>
+                                <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
                         <form id="book-appointment-form" style="display:inline-block" method="post">
                             <button id="book-appointment-submit" type="button" class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                <i class="far fa-check-circle"></i>
                                 <?= !$manage_mode ? lang('confirm') : lang('update') ?>
                             </button>
                             <input type="hidden" name="csrfToken" />
@@ -342,7 +345,7 @@
                     Powered By
                     <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
                     |
-                    <span id="select-language" class="label label-success">
+                    <span id="select-language" class="badge badge-success">
     		        	<?= ucfirst(config('language')) ?>
     		        </span>
                     |
@@ -393,7 +396,7 @@
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>

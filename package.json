@@ -24,7 +24,7 @@
     "node": ">=12"
   },
   "dependencies": {
-    "bootstrap": "^3.4.1",
+    "bootstrap": "^4.5.0",
     "cookieconsent": "^3.1.1",
     "datejs": "0.0.2",
     "fullcalendar": "^3.10.1",

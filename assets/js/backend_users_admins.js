@@ -81,7 +81,7 @@
             this.resetForm();
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
-            $('#admins .record-details').find('input, textarea').prop('readonly', false);
+            $('#admins .record-details').find('input, textarea').prop('disabled', false);
             $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').addClass('required');
             $('#admin-notifications').prop('disabled', false);
@@ -95,7 +95,7 @@
         $('#admins').on('click', '#edit-admin', function () {
             $('#admins .add-edit-delete-group').hide();
             $('#admins .save-cancel-group').show();
-            $('#admins .record-details').find('input, textarea').prop('readonly', false);
+            $('#admins .record-details').find('input, textarea').prop('disabled', false);
             $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').removeClass('required');
             $('#admin-notifications').prop('disabled', false);
@@ -292,7 +292,7 @@
     AdminsHelper.prototype.resetForm = function () {
         $('#admins .add-edit-delete-group').show();
         $('#admins .save-cancel-group').hide();
-        $('#admins .record-details').find('input, textarea').prop('readonly', true);
+        $('#admins .record-details').find('input, textarea').prop('disabled', true);
         $('#admins .record-details').find('select').prop('disabled', true);
         $('#admins .form-message').hide();
         $('#admin-notifications').prop('disabled', true);
