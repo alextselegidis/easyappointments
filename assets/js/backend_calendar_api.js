@@ -27,8 +27,8 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      *
      * This method stores the changes of an already registered appointment into the database, via an ajax call.
      *
-     * @param {Object} appointment Contain the new appointment data. The ID of the appointment MUST be
-     * already included. The rest values must follow the database structure.
+     * @param {Object} appointment Contain the new appointment data. The ID of the appointment MUST be already included.
+     * The rest values must follow the database structure.
      * @param {Object} [customer] Optional, contains the customer data.
      * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
@@ -52,6 +52,8 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
+                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
+
                 if (errorCallback) {
                     errorCallback();
                 }
@@ -74,12 +76,23 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         };
 
         $.post(url, data)
-            .done(successCallback)
-            .fail(errorCallback);
+            .done(function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
+
+                if (errorCallback) {
+                    errorCallback();
+                }
+            });
     };
 
     /**
      * Save extra period of work to database.
+     *
      * @param {Object} extra_periods Contains the extra period data.
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
@@ -93,8 +106,18 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         };
 
         $.post(url, data)
-            .done(successCallback)
-            .fail(errorCallback);
+            .done(function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
+
+                if (errorCallback) {
+                    errorCallback();
+                }
+            });
     }
 
 })(window.BackendCalendarApi);
