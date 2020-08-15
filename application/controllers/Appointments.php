@@ -425,30 +425,7 @@ class Appointments extends CI_Controller {
                     $provider);
             }
 
-            // If the selected date is today, remove past hours. It is important  include the timeout before booking
-            // that is set in the back-office the system. Normally we might want the customer to book an appointment
-            // that is at least half or one hour from now. The setting is stored in minutes.
-            $provider_timezone = new DateTimeZone($provider['timezone']);
-
-            $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
-
-            $threshold = new DateTime('+' . $book_advance_timeout . ' minutes', $provider_timezone);
-
-            foreach ($available_hours as $index => $value)
-            {
-                $available_hour = new DateTime($selected_date . ' ' . $value, $provider_timezone);
-
-                if ($available_hour->getTimestamp() <= $threshold->getTimestamp())
-                {
-                    unset($available_hours[$index]);
-                }
-            }
-
-            $available_hours = array_values($available_hours);
-            sort($available_hours, SORT_STRING);
-            $available_hours = array_values($available_hours);
-
-            $response = $available_hours;
+            $response = $this->consider_book_advance_timeout($selected_date, $available_hours, $provider);
         }
         catch (Exception $exception)
         {
@@ -1299,7 +1276,7 @@ class Appointments extends CI_Controller {
                 foreach ($provider_list as $current_provider_id)
                 {
                     // Get the provider record.
-                    $curr_provider = $this->providers_model->get_row($current_provider_id);
+                    $current_provider = $this->providers_model->get_row($current_provider_id);
 
                     $empty_periods = $this->get_provider_available_time_periods($current_provider_id,
                         $current_date->format('Y-m-d'), $exclude_appointments);
@@ -1314,10 +1291,17 @@ class Appointments extends CI_Controller {
 
                     if ($service['attendants_number'] > 1)
                     {
-                        $available_hours = $this->get_multiple_attendants_hours($current_date->format('Y-m-d'), $service,
-                            $curr_provider);
-                        if ( ! empty($available_hours)) break;
+                        $available_hours = $this->get_multiple_attendants_hours($current_date->format('Y-m-d'),
+                            $service, $current_provider);
+
+                        if ( ! empty($available_hours))
+                        {
+                            break;
+                        }
                     }
+
+                    $available_hours = $this->consider_book_advance_timeout($current_date->format('Y-m-d'),
+                        $available_hours, $current_provider);
                 }
 
                 // No availability amongst all the provider.
@@ -1372,5 +1356,43 @@ class Appointments extends CI_Controller {
         }
 
         return $provider_list;
+    }
+
+    /**
+     * Consider the book advance timeout and remove available hours that have passed the threshold.
+     *
+     * If the selected date is today, remove past hours. It is important  include the timeout before booking
+     * that is set in the back-office the system. Normally we might want the customer to book an appointment
+     * that is at least half or one hour from now. The setting is stored in minutes.
+     *
+     * @param string $selected_date The selected date.
+     * @param array $available_hours Already generated available hours.
+     * @param array $provider Provider information.
+     *
+     * @return array Returns the updated available hours.
+     *
+     * @throws Exception
+     */
+    protected function consider_book_advance_timeout($selected_date, $available_hours, $provider)
+    {
+        $provider_timezone = new DateTimeZone($provider['timezone']);
+
+        $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
+
+        $threshold = new DateTime('+' . $book_advance_timeout . ' minutes', $provider_timezone);
+
+        foreach ($available_hours as $index => $value)
+        {
+            $available_hour = new DateTime($selected_date . ' ' . $value, $provider_timezone);
+
+            if ($available_hour->getTimestamp() <= $threshold->getTimestamp())
+            {
+                unset($available_hours[$index]);
+            }
+        }
+
+        $available_hours = array_values($available_hours);
+        sort($available_hours, SORT_STRING);
+        return array_values($available_hours);
     }
 }
