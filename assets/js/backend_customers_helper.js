@@ -106,6 +106,7 @@
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
             $('.record-details').find('input, textarea').prop('readonly', false);
+            $('.record-details').find('select').prop('disabled', false);
 
             $('#filter-customers button').prop('disabled', true);
             $('#filter-customers .results').css('color', '#AAA');
@@ -116,6 +117,7 @@
          */
         $('#edit-customer').click(function () {
             $('.record-details').find('input, textarea').prop('readonly', false);
+            $('.record-details select').prop('disabled', false);
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
 
@@ -278,6 +280,7 @@
     CustomersHelper.prototype.resetForm = function () {
         $('.record-details').find('input, textarea').val('');
         $('.record-details').find('input, textarea').prop('readonly', true);
+        $('.record-details').find('select').prop('disabled', true);
 
         $('#customer-appointments').empty();
         $('#appointment-details').toggleClass('hidden', true).empty();
