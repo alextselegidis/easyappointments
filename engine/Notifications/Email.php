@@ -17,6 +17,7 @@ use \EA\Engine\Types\Text;
 use \EA\Engine\Types\NonEmptyText;
 use \EA\Engine\Types\Url;
 use \EA\Engine\Types\Email as EmailAddress;
+use \PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Email Notifications Class
@@ -282,11 +283,11 @@ class Email {
     /**
      * Create PHP Mailer Instance
      *
-     * @return \PHPMailer
+     * @return PHPMailer
      */
     protected function _createMailer()
     {
-        $mailer = new \PHPMailer;
+        $mailer = new PHPMailer();
 
         if ($this->config['protocol'] === 'smtp')
         {
