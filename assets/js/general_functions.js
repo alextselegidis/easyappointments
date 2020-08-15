@@ -301,7 +301,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     exports.ajaxFailureHandler = function (jqXHR, textStatus, errorThrown) {
         console.error('Unexpected HTTP Error: ', jqXHR, textStatus, errorThrown);
 
-        var response = JSON.parse(jqXHR.responseText);
+        var response;
+
+        try {
+            response = JSON.parse(jqXHR.responseText); // JSON response
+        } catch(error) {
+            response = { message: jqXHR.responseText }; // String response
+        }
 
         if (!response) {
             return;
@@ -311,7 +317,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         $('<div/>', {
             'class': 'well',
-            'text': response.message
+            'html': response.message || '→ No error information provided.'
         })
             .appendTo('#message_box');
     };
