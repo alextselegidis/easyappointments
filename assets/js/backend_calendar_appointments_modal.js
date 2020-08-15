@@ -125,6 +125,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * create a new appointment.
          */
         $('#insert-appointment').click(function () {
+            $('.popover').remove();
+
             BackendCalendarAppointmentsModal.resetAppointmentDialog();
             var $dialog = $('#manage-appointment');
 
