@@ -277,6 +277,8 @@
         $('#services .record-details').find('input, textarea').prop('readonly', true);
         $('#services .record-details').find('select').prop('disabled', true);
 
+        $('.record-details .has-error').removeClass('has-error');
+
         $('#filter-services .selected').removeClass('selected');
         $('#filter-services button').prop('disabled', false);
         $('#filter-services .results').css('color', '');

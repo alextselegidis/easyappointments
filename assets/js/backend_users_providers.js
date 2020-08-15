@@ -360,6 +360,8 @@
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
         $('.extra-periods').find('.edit-extra, .delete-extra').prop('disabled', true);
 
+        $('#providers .has-error').removeClass('has-error');
+
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#providers .record-details').find('input, textarea').val('');
         $('#provider-services input:checkbox').prop('checked', false);
