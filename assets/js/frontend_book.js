@@ -545,7 +545,7 @@ window.FrontendBook = window.FrontendBook || {};
                                 $('<br/>'),
                                 $('<span/>', {
                                     'text': $('#select-timezone option:selected').text()
-                                        + ' - ' + servicePrice + ' ' + serviceCurrency
+                                        + (servicePrice ? ' - ' + servicePrice + ' ' + serviceCurrency : '')
                                 })
                             ]
                         })
@@ -582,15 +582,15 @@ window.FrontendBook = window.FrontendBook || {};
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.address + ': ' + address
+                            'text': address ? EALang.address + ': ' + address : ''
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.city + ': ' + city
+                            'text': city ? EALang.city + ': ' + city : ''
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.zip_code + ': ' + zipCode
+                            'text': zipCode ? EALang.zip_code + ': ' + zipCode : ''
                         }),
                         $('<br/>'),
                     ]
