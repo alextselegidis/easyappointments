@@ -737,7 +737,9 @@ window.FrontendBook = window.FrontendBook || {};
                 'text': service.description
             })
                 .appendTo($serviceDescription);
+        }
 
+        if (service.duration || Number(service.price) > 0 || service.location) {
             $('<br/>')
                 .appendTo($serviceDescription);
         }
