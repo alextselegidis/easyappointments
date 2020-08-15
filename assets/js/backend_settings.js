@@ -44,7 +44,7 @@ window.BackendSettings = window.BackendSettings || {};
     /**
      * Initialize Page
      *
-     * @param {bool} bindEventHandlers Optional (true), determines whether to bind the default event handlers.
+     * @param {bool} defaultEventHandlers Optional (true), determines whether to bind the default event handlers.
      */
     exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
