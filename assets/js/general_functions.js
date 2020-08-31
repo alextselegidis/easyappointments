@@ -316,8 +316,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         GeneralFunctions.displayMessageBox(EALang.unexpected_issues, EALang.unexpected_issues_message);
 
         $('<div/>', {
-            'class': 'well',
-            'html': response.message || '→ No error information provided.'
+            'class': 'card',
+            'html': [
+                $('<div/>', {
+                    'class': 'card-body',
+                    'html': response.message || '→ No error information provided.'
+                })
+            ]
         })
             .appendTo('#message_box');
     };
