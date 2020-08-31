@@ -48,9 +48,9 @@
             </div>
 
             <?php if ($manage_mode): ?>
-                <div id="cancel-appointment-frame" class="booking-header-bar row">
+                <div id="cancel-appointment-frame" class="row booking-header-bar">
                     <div class="col-12 col-md-10">
-                        <p><?= lang('cancel_appointment_hint') ?></p>
+                        <small><?= lang('cancel_appointment_hint') ?></small>
                     </div>
                     <div class="col-12 col-md-2">
                         <form id="cancel-appointment-form" method="post"
@@ -60,7 +60,7 @@
 
                             <textarea name="cancel_reason" style="display:none"></textarea>
 
-                            <button id="cancel-appointment" class="btn btn-warning">
+                            <button id="cancel-appointment" class="btn btn-warning btn-sm">
                                 <?= lang('cancel') ?>
                             </button>
                         </form>
@@ -68,11 +68,11 @@
                 </div>
                 <div class="booking-header-bar row">
                     <div class="col-12 col-md-10">
-                        <p><?= lang('delete_personal_information_hint') ?></p>
+                        <small><?= lang('delete_personal_information_hint') ?></small>
                     </div>
                     <div class="col-12 col-md-2">
                         <button id="delete-personal-information"
-                                class="btn btn-danger"><?= lang('delete') ?></button>
+                                class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
                     </div>
                 </div>
             <?php endif; ?>
@@ -92,7 +92,7 @@
 
             <div id="wizard-frame-1" class="wizard-frame">
                 <div class="frame-container">
-                    <h4 class="frame-title"><?= lang('step_one_title') ?></h4>
+                    <h2 class="frame-title"><?= lang('step_one_title') ?></h2>
 
                     <div class="row frame-content">
                         <div class="col">
@@ -197,7 +197,7 @@
             <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
 
-                    <h4 class="frame-title"><?= lang('step_two_title') ?></h4>
+                    <h2 class="frame-title"><?= lang('step_two_title') ?></h2>
 
                     <div class="row frame-content">
                         <div class="col-12 col-md-7">
@@ -236,7 +236,7 @@
             <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
 
-                    <h4 class="frame-title"><?= lang('step_three_title') ?></h4>
+                    <h2 class="frame-title"><?= lang('step_three_title') ?></h2>
 
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">
@@ -332,7 +332,7 @@
 
             <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
-                    <h4 class="frame-title"><?= lang('step_four_title') ?></h4>
+                    <h2 class="frame-title"><?= lang('step_four_title') ?></h2>
                     <div class="row frame-content">
                         <div id="appointment-details" class="col-12 col-md-6"></div>
                         <div id="customer-details" class="col-12 col-md-6"></div>

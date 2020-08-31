@@ -400,8 +400,10 @@ li.language:hover {
     margin-bottom: -30px;
 }
 
-#message_box pre {
+#message_box pre,
+#message_box .card {
     max-height: 250px;
+    max-width: 500px;
 }
 
 body .popover-content strong {
