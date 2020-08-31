@@ -1,20 +1,26 @@
 <div id="footer">
     <div id="footer-content" class="col-xs-12 col-sm-8">
         Powered by
-        <a href="https://easyappointments.org">Easy!Appointments
-            <?php
-                echo 'v' . config('version');
+        <a href="https://easyappointments.org">
+            Easy!Appointments
 
-                $release_title = config('release_label');
-                if ($release_title != '') {
-                    echo ' - ' . $release_title;
-                }
-            ?></a> |
+            v<?= config('version') ?>
+
+            <?php if (config('release_label')): ?>
+                - <?= config('release_label') ?>
+            <?php endif ?>
+        </a>
+
+        |
+
         <?= lang('licensed_under') ?> GPLv3 |
+
         <span id="select-language" class="badge badge-success">
         	<?= ucfirst(config('language')) ?>
         </span>
+
         |
+
         <a href="<?= site_url('appointments') ?>">
             <?= lang('go_to_booking_page') ?>
         </a>

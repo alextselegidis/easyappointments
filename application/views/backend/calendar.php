@@ -167,8 +167,8 @@
                                                 }
                                             }
 
-                                            // We need the uncategorized services at the end of the list so
-                                            // we will use another iteration only for the uncategorized services.
+                                            // We need the uncategorized services at the end of the list so we will use
+                                            // another iteration only for the uncategorized services.
                                             $grouped_services['uncategorized'] = [];
                                             foreach ($available_services as $service)
                                             {
