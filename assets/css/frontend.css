@@ -55,7 +55,7 @@ body {
 #book-appointment-wizard #company-name {
     display: inline-block;
     font-size: 24px;
-    font-weight: light;
+    font-weight: lighter;
     color: #FFF;
     margin: 0 10px 0 15px;
     float: left;
@@ -105,19 +105,18 @@ body {
     height: 35px;
     width: 35px;
     float: left;
-    background: #FFF;
+    background: #225d4d;
     padding: 8px;
     margin-right: 12px;
     margin-top: 5px;
     border-radius: 8px;
-    transition: all .2s linear;
 }
 
 #book-appointment-wizard .book-step strong {
     font-size: 12px;
     display: block;
     text-align: center;
-    color: #a2b9b3;
+    color: #0bb98d;
 }
 
 #book-appointment-wizard .active-step {
@@ -126,14 +125,14 @@ body {
     width: 45px;
     float: left;
     background: #FFF;
-    padding: 8px;
+    padding: 6px;
     margin-right: 12px;
     margin-top: 0;
 }
 
 #book-appointment-wizard .active-step strong {
     color: #429a82;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 #book-appointment-wizard #frame-footer {
