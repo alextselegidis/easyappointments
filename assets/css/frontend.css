@@ -19,11 +19,11 @@ body {
 }
 
 body {
-    background-color: #CAEDF3;
+    background-color: #f1f3f3;
 }
 
 #main {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
@@ -37,7 +37,7 @@ body {
  ------------------------------------------------------------------------------ */
 #book-appointment-wizard {
     background: #FFF;
-    box-shadow: 0px 1px 1px #B6B6B6;
+    box-shadow: 0 1px 1px #e6e6e6;
     min-height: 480px;
     padding: 0;
 }
@@ -47,8 +47,7 @@ body {
     display: flex;
     padding: 5px;
     height: 90px;
-    background: #3DD481;
-    border-bottom: 4px solid #c0f1d6;
+    background: #429a82;
     justify-content: space-between;
     margin-bottom: 1rem;
 }
@@ -56,13 +55,14 @@ body {
 #book-appointment-wizard #company-name {
     display: inline-block;
     font-size: 24px;
+    font-weight: light;
     color: #FFF;
     margin: 0 10px 0 15px;
     float: left;
 }
 
 #book-appointment-wizard #steps {
-    width: 180px;
+    width: 200px;
     display: inline-block;
     float: right;
 }
@@ -102,37 +102,37 @@ body {
 
 #book-appointment-wizard .book-step {
     display: inline-block;
-    height: 25px;
-    width: 25px;
+    height: 35px;
+    width: 35px;
     float: left;
     background: #FFF;
-    padding: 1px;
-    margin-right: 10px;
-    margin-top: 10px;
-    border: 3px solid #79e2a8;
+    padding: 8px;
+    margin-right: 12px;
+    margin-top: 5px;
+    border-radius: 8px;
+    transition: all .2s linear;
 }
 
 #book-appointment-wizard .book-step strong {
     font-size: 12px;
     display: block;
     text-align: center;
-    color: #A9C5BB;
+    color: #a2b9b3;
 }
 
 #book-appointment-wizard .active-step {
     display: inline-block;
-    height: 35px;
-    width: 35px;
+    height: 45px;
+    width: 45px;
     float: left;
     background: #FFF;
-    padding: 1px;
-    margin-right: 10px;
-    margin-top: 5px;
-    border: 3px solid #c0f1d6;
+    padding: 8px;
+    margin-right: 12px;
+    margin-top: 0;
 }
 
 #book-appointment-wizard .active-step strong {
-    color: #4cc281;
+    color: #429a82;
     font-size: 18px;
 }
 
@@ -155,7 +155,7 @@ body {
 
 #book-appointment-wizard #available-hours .available-hour:hover {
     font-weight: bold;
-    background-color: #CAEDF3;
+    background-color: #f1f3f3;
     cursor: pointer;
 }
 
