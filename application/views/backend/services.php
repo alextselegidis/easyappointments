@@ -61,7 +61,7 @@
                 <div class="record-details column col-xs-12 col-md-5">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-service" class="btn btn-info">
+                            <button id="add-service" class="btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-service" class="btn btn-info">
+                            <button id="save-service" class="btn btn-primary">
                                 <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
@@ -181,7 +181,7 @@
                 <div class="record-details col-xs-12 col-md-5">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-category" class="btn btn-info">
+                            <button id="add-category" class="btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
@@ -196,7 +196,7 @@
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-category" class="btn btn-info">
+                            <button id="save-category" class="btn btn-primary">
                                 <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>

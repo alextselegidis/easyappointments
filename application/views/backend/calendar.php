@@ -13,36 +13,36 @@
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {
-        'csrfToken'             : <?= json_encode($this->security->get_csrf_hash()) ?>,
-        'availableProviders'    : <?= json_encode($available_providers) ?>,
-        'availableServices'     : <?= json_encode($available_services) ?>,
-        'baseUrl'               : <?= json_encode($base_url) ?>,
-        'bookAdvanceTimeout'    : <?= $book_advance_timeout ?>,
-        'dateFormat'            : <?= json_encode($date_format) ?>,
-        'timeFormat'            : <?= json_encode($time_format) ?>,
-        'firstWeekday'          : <?= json_encode($first_weekday) ?>,
-        'editAppointment'       : <?= json_encode($edit_appointment) ?>,
-        'customers'             : <?= json_encode($customers) ?>,
-        'secretaryProviders'    : <?= json_encode($secretary_providers) ?>,
-        'calendarView'          : <?= json_encode($calendar_view) ?>,
-        'timezones'             : <?= json_encode($timezones) ?>,
-        'user'                  : {
-            'id'        : <?= $user_id ?>,
-            'email'     : <?= json_encode($user_email) ?>,
-            'timezone'  : <?= json_encode($timezone) ?>,
-            'role_slug' : <?= json_encode($role_slug) ?>,
+        'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
+        'availableProviders': <?= json_encode($available_providers) ?>,
+        'availableServices': <?= json_encode($available_services) ?>,
+        'baseUrl': <?= json_encode($base_url) ?>,
+        'bookAdvanceTimeout': <?= $book_advance_timeout ?>,
+        'dateFormat': <?= json_encode($date_format) ?>,
+        'timeFormat': <?= json_encode($time_format) ?>,
+        'firstWeekday': <?= json_encode($first_weekday) ?>,
+        'editAppointment': <?= json_encode($edit_appointment) ?>,
+        'customers': <?= json_encode($customers) ?>,
+        'secretaryProviders': <?= json_encode($secretary_providers) ?>,
+        'calendarView': <?= json_encode($calendar_view) ?>,
+        'timezones': <?= json_encode($timezones) ?>,
+        'user': {
+            'id': <?= $user_id ?>,
+            'email': <?= json_encode($user_email) ?>,
+            'timezone': <?= json_encode($timezone) ?>,
+            'role_slug': <?= json_encode($role_slug) ?>,
             'privileges': <?= json_encode($privileges) ?>,
         }
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         BackendCalendar.initialize(GlobalVariables.calendarView);
     });
 </script>
 
 <div id="calendar-page" class="container-fluid">
-    <div id="calendar-toolbar" class="d-md-flex">
-        <div id="calendar-filter" class="col-12 col-md-5 d-flex">
+    <div id="calendar-toolbar">
+        <div id="calendar-filter" class="col-12 col-md-5">
             <div class="form-group calendar-filter-items">
                 <label for="select-filter-item" class="mr-3"><?= lang('display_calendar') ?></label>
                 <select id="select-filter-item" class="form-control col" title="<?= lang('select_filter_item_hint') ?>">
@@ -52,8 +52,8 @@
 
         <div id="calendar-actions" class="col-12 col-md-7">
             <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
-                    && config('google_sync_feature') == TRUE): ?>
-                <button id="google-sync" class="btn btn-info"
+                && config('google_sync_feature') == TRUE): ?>
+                <button id="google-sync" class="btn btn-primary"
                         title="<?= lang('trigger_google_sync_hint') ?>">
                     <i class="fas fa-sync-alt"></i>
                     <span><?= lang('synchronize') ?></span>
@@ -67,26 +67,26 @@
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <button class="btn btn-light" type="button" id="insert-appointment">
-                        <i class="fas fa-plus"></i>
-                        <?= lang('appointment') ?>
-                    </button>
-                    <button type="button" id="insert-dropdown" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#" id="insert-unavailable">
-                                <?= lang('unavailable') ?>
-                            </a>
-                            <a class="dropdown-item" href="#" id="insert-extra-period">
-                                <?= lang('extra_period') ?>
-                            </a>
-                        </div>
-                    </div>
+            <div class="btn-group">
+                <button class="btn btn-light" id="insert-appointment">
+                    <i class="fas fa-plus"></i>
+                    <?= lang('appointment') ?>
+                </button>
+
+                <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" id="insert-unavailable">
+                        <?= lang('unavailable') ?>
+                    </a>
+                    <a class="dropdown-item" href="#" id="insert-extra-period">
+                        <?= lang('extra_period') ?>
+                    </a>
                 </div>
+            </div>
             <?php endif ?>
 
             <button id="reload-appointments" class="btn btn-light" title="<?= lang('reload_appointments_hint') ?>">
@@ -106,15 +106,12 @@
                     <i class="fas fa-calendar-alt"></i>
                 </a>
             <?php endif ?>
-
-            <button id="toggle-fullscreen" class="btn btn-light">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </button>
         </div>
     </div>
 
     <div id="calendar"><!-- Dynamically Generated Content --></div>
 </div>
+
 
 <!-- MANAGE APPOINTMENT MODAL -->
 
@@ -123,7 +120,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('edit_appointment_title') ?></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
 
             <div class="modal-body">
@@ -144,20 +141,26 @@
                                         // Group services by category, only if there is at least one service
                                         // with a parent category.
                                         $has_category = FALSE;
-                                        foreach($available_services as $service) {
-                                            if ($service['category_id'] != NULL) {
+                                        foreach ($available_services as $service)
+                                        {
+                                            if ($service['category_id'] != NULL)
+                                            {
                                                 $has_category = TRUE;
                                                 break;
                                             }
                                         }
 
-                                        if ($has_category) {
-                                            $grouped_services = array();
+                                        if ($has_category)
+                                        {
+                                            $grouped_services = [];
 
-                                            foreach($available_services as $service) {
-                                                if ($service['category_id'] != NULL) {
-                                                    if (!isset($grouped_services[$service['category_name']])) {
-                                                        $grouped_services[$service['category_name']] = array();
+                                            foreach ($available_services as $service)
+                                            {
+                                                if ($service['category_id'] != NULL)
+                                                {
+                                                    if ( ! isset($grouped_services[$service['category_name']]))
+                                                    {
+                                                        $grouped_services[$service['category_name']] = [];
                                                     }
 
                                                     $grouped_services[$service['category_name']][] = $service;
@@ -166,28 +169,36 @@
 
                                             // We need the uncategorized services at the end of the list so
                                             // we will use another iteration only for the uncategorized services.
-                                            $grouped_services['uncategorized'] = array();
-                                            foreach($available_services as $service) {
-                                                if ($service['category_id'] == NULL) {
+                                            $grouped_services['uncategorized'] = [];
+                                            foreach ($available_services as $service)
+                                            {
+                                                if ($service['category_id'] == NULL)
+                                                {
                                                     $grouped_services['uncategorized'][] = $service;
                                                 }
                                             }
 
-                                            foreach($grouped_services as $key => $group) {
+                                            foreach ($grouped_services as $key => $group)
+                                            {
                                                 $group_label = ($key != 'uncategorized')
                                                     ? $group[0]['category_name'] : 'Uncategorized';
 
-                                                if (count($group) > 0) {
+                                                if (count($group) > 0)
+                                                {
                                                     echo '<optgroup label="' . $group_label . '">';
-                                                    foreach($group as $service) {
+                                                    foreach ($group as $service)
+                                                    {
                                                         echo '<option value="' . $service['id'] . '">'
                                                             . $service['name'] . '</option>';
                                                     }
                                                     echo '</optgroup>';
                                                 }
                                             }
-                                        }  else {
-                                            foreach($available_services as $service) {
+                                        }
+                                        else
+                                        {
+                                            foreach ($available_services as $service)
+                                            {
                                                 echo '<option value="' . $service['id'] . '">'
                                                     . $service['name'] . '</option>';
                                             }
@@ -202,7 +213,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="appointment-location" class="control-label"><?= lang('location') ?></label>
+                                    <label for="appointment-location"
+                                           class="control-label"><?= lang('location') ?></label>
                                     <input id="appointment-location" class="form-control">
                                 </div>
 
@@ -214,7 +226,8 @@
 
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label for="start-datetime" class="control-label"><?= lang('start_date_time') ?></label>
+                                    <label for="start-datetime"
+                                           class="control-label"><?= lang('start_date_time') ?></label>
                                     <input id="start-datetime" class="required form-control">
                                 </div>
 
@@ -250,13 +263,13 @@
                     <fieldset>
                         <legend>
                             <?= lang('customer_details_title') ?>
-                            <button id="new-customer" class="btn btn-light btn-xs"
-                                    title="<?= lang('clear_fields_add_existing_customer_hint') ?>"
-                                    type="button"><?= lang('new') ?>
+                            <button id="new-customer" class="btn btn-light btn-sm" type="button"
+                                    title="<?= lang('clear_fields_add_existing_customer_hint') ?>">
+                                <?= lang('new') ?>
                             </button>
-                            <button id="select-customer" class="btn btn-info btn-xs"
-                                    title="<?= lang('pick_existing_customer_hint') ?>"
-                                    type="button"><?= lang('select') ?>
+                            <button id="select-customer" class="btn btn-primary btn-sm" type="button"
+                                    title="<?= lang('pick_existing_customer_hint') ?>">
+                                <?= lang('select') ?>
                             </button>
                             <input id="filter-existing-customers"
                                    placeholder="<?= lang('type_to_filter_customers') ?>"
@@ -284,7 +297,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="phone-number" class="control-label"><?= lang('phone_number') ?> *</label>
+                                    <label for="phone-number" class="control-label"><?= lang('phone_number') ?>
+                                        *</label>
                                     <input id="phone-number" class="required form-control">
                                 </div>
                             </div>
@@ -315,8 +329,9 @@
             </div>
 
             <div class="modal-footer">
-                <button id="save-appointment" class="btn btn-info"><?= lang('save') ?></button>
-                <button id="cancel-appointment" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-appointment" class="btn btn-primary"><?= lang('save') ?></button>
+                <button id="cancel-appointment" class="btn btn-light"
+                        data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>
@@ -329,7 +344,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('new_unavailable_title') ?></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-message alert d-none"></div>
@@ -380,8 +395,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="save-unavailable" class="btn btn-info"><?= lang('save') ?></button>
-                <button id="cancel-unavailable" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-unavailable" class="btn btn-primary"><?= lang('save') ?></button>
+                <button id="cancel-unavailable" class="btn btn-light"
+                        data-dismiss="modal"><?= lang('cancel') ?></button>
             </div>
         </div>
     </div>
@@ -394,7 +410,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('new_extra_period_title') ?></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-message alert d-none"></div>
@@ -453,17 +469,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title"><?= lang('select_google_calendar') ?></h3>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="google-calendar" class="control-label"><?= lang('select_google_calendar_prompt') ?></label>
+                    <label for="google-calendar"
+                           class="control-label"><?= lang('select_google_calendar_prompt') ?></label>
                     <select id="google-calendar" class="form-control"></select>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="select-calendar" class="btn btn-info"><?= lang('select') ?></button>
+                <button id="select-calendar" class="btn btn-primary"><?= lang('select') ?></button>
                 <button id="close-calendar" class="btn btn-light" data-dismiss="modal"><?= lang('close') ?></button>
             </div>
         </div>

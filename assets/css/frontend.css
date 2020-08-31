@@ -232,6 +232,7 @@ body {
 #message-frame #message-icon,
 #success-frame #success-icon {
     margin-top: 20px;
+    margin-right: 20px;
 }
 
 #message-frame .alert,

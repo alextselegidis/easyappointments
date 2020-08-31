@@ -21,36 +21,40 @@
                 <div class="col-xs-12">
                     <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" />
                 </div>
-                <div class="col-xs-12 col">
-                    <?php
-                        echo '
-                            <h3>' . lang('appointment_registered') . '</h3>
-                            <p>' . lang('appointment_details_was_sent_to_you') . '</p>
-                            <p><strong>' . lang('check_spam_folder') . '</strong></p>
-                            <a href="' . site_url() . '" class="btn btn-success btn-large">
-                                <i class="far fa-calendar-alt"></i> ' .
-                                lang('go_to_booking_page') . '
-                            </a>
-                        ';
+                <div class="col-xs-12">
+                    <h3><?= lang('appointment_registered') ?></h3>
 
-                        if (config('google_sync_feature')) {
-                            echo '
-                                <button id="add-to-google-calendar" class="btn btn-primary">
-                                    <i class="fas fa-plus"></i>
-                                    ' . lang('add_to_google_calendar') . '
-                                </button>';
-                        }
+                    <p>
+                        <?=  lang('appointment_details_was_sent_to_you') ?>
+                    </p>
 
-                        // Display exceptions (if any).
-                        if (isset($exceptions)) {
-                            echo '<div class="col-xs-12" style="margin:10px">';
-                            echo '<h4>Unexpected Errors</h4>';
-                            foreach($exceptions as $exception) {
-                                echo exceptionToHtml($exception);
-                            }
-                            echo '</div>';
-                        }
-                    ?>
+                    <p>
+                        <strong>
+                            <?= lang('check_spam_folder') ?>
+                        </strong>
+                    </p>
+
+                    <a href="<?= site_url() ?>" class="btn btn-success btn-large">
+                        <i class="far fa-calendar-alt"></i>
+                        <?= lang('go_to_booking_page') ?>
+                    </a>
+
+                    <?php if(config('google_sync_feature')): ?>
+                        <button id="add-to-google-calendar" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            <?= lang('add_to_google_calendar') ?>
+                        </button>
+                    <?php endif ?>
+
+                    <?php if (isset($exceptions)): ?>
+                        <div class="col-xs-12" style="margin:10px">
+                            <h4><?= lang('unexpected_issues') ?></h4>
+
+                            <?php foreach($exceptions as $exception): ?>
+                                <?= exceptionToHtml($exception) ?>
+                            <?php endforeach ?>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
         </div>

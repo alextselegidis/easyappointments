@@ -20,8 +20,7 @@ root {
 /* BACKEND GENERAL ELEMENTS
    -------------------------------------------------------------------- */
 #header {
-    background-color: #39c678;
-    border-bottom: 4px solid #c0f1d6;
+    background-color: #429a82;
     box-shadow: none;
     border-radius: 0;
     margin-bottom: 15px;
@@ -249,7 +248,7 @@ body legend {
 
 .backend-page .filter-records .results .entry.selected {
     background-color: #F4F4F4;
-    border-right: 5px solid #39c678;
+    border-right: 5px solid #429a82;
 }
 
 .backend-page .filter-records .results hr {
@@ -514,13 +513,8 @@ body .form-horizontal .controls {
     margin-right: 20px;
 }
 
-#calendar .calendar-view .date-column .provider-column .not-working {
-    width: 115px;
-    border-radius: 3px;
-    padding: 10px;
-    text-align: center;
+#calendar .fc-unavailable {
     background: #eaeaea url('../img/unavailable.jpg');
-    opacity: 0.7;
 }
 
 #calendar .calendar-view .date-column .provider-column {

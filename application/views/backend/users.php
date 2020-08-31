@@ -73,7 +73,7 @@
                 <div class="record-details column col-xs-12 col-md-7">
                     <div class="float-md-left mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-provider" class="btn btn-info">
+                            <button id="add-provider" class="btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-provider" class="btn btn-info">
+                            <button id="save-provider" class="btn btn-primary">
                                 <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
@@ -212,7 +212,7 @@
 
                     <div class="working-plan-view provider-view" style="display: none;">
                         <h3><?= lang('working_plan') ?></h3>
-                        <button id="reset-working-plan" class="btn btn-info"
+                        <button id="reset-working-plan" class="btn btn-primary"
                                 title="<?= lang('reset_working_plan') ?>">
                             <i class="fas fa-redo-alt"></i>
                             <?= lang('reset_plan') ?></button>
@@ -236,7 +236,7 @@
                         </span>
 
                         <div>
-                            <button type="button" class="add-break btn btn-info">
+                            <button type="button" class="add-break btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add_break') ?>
                             </button>
@@ -265,7 +265,7 @@
                         </span>
 
                         <div>
-                            <button type="button" class="add-extra-periods btn btn-info">
+                            <button type="button" class="add-extra-periods btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add_extra_period') ?>
                             </button>
@@ -319,7 +319,7 @@
                 <div class="record-details column col-xs-12 col-md-7">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-secretary" class="btn btn-info">
+                            <button id="add-secretary" class="btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
@@ -334,7 +334,7 @@
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-secretary" class="btn btn-info">
+                            <button id="save-secretary" class="btn btn-primary">
                                 <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>
@@ -479,7 +479,7 @@
                 <div class="record-details column col-xs-12 col-md-7">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-admin" class="btn btn-info">
+                            <button id="add-admin" class="btn btn-primary">
                                 <i class="fas fa-plus"></i>
                                 <?= lang('add') ?>
                             </button>
@@ -494,7 +494,7 @@
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
-                            <button id="save-admin" class="btn btn-info">
+                            <button id="save-admin" class="btn btn-primary">
                                 <i class="far fa-check-circle"></i>
                                 <?= lang('save') ?>
                             </button>

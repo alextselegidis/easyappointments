@@ -69,7 +69,7 @@
                     <legend class="border-bottom mb-4">
                         <?= lang('general_settings') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-info btn-xs mb-2"
+                            <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
                                 <i class="far fa-save"></i>
                                 <?= lang('save') ?>
@@ -149,7 +149,7 @@
                             <div class="form-group">
                                 <label for="google-analytics-code">
                                     Google Analytics ID</label>
-                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
+                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX"
                                        data-field="google_analytics_code" class="form-control">
                                 <span class="help-block">
                                     <?= lang('google_analytics_code_hint') ?>
@@ -228,7 +228,7 @@
                     <legend class="border-bottom mb-4">
                         <?= lang('business_logic') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-info btn-xs mb-2"
+                            <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
                                 <i class="far fa-save"></i>
                                 <?= lang('save') ?>
@@ -280,7 +280,7 @@
                             </span>
 
                             <div class="mt-2">
-                                <button type="button" class="add-break btn btn-info">
+                                <button type="button" class="add-break btn btn-primary">
                                     <i class="fas fa-plus"></i>
                                     <?= lang('add_break');?>
                                 </button>
@@ -314,7 +314,7 @@
                     <legend class="border-bottom mb-4">
                         <?= lang('legal_contents') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-info btn-xs mb-2"
+                            <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
                                 <i class="far fa-save"></i>
                                 <?= lang('save') ?>
@@ -393,7 +393,7 @@
                         <legend  class="border-bottom mb-4">
                             <?= lang('personal_information') ?>
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
-                                <button type="button" class="save-settings btn btn-info btn-xs mb-2"
+                                <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                         title="<?= lang('save') ?>">
                                     <i class="far fa-save"></i>
                                     <?= lang('save') ?>

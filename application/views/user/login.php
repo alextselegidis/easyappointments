@@ -82,7 +82,7 @@
             </div>
             <br>
 
-            <button type="submit" id="login" class="btn btn-info">
+            <button type="submit" id="login" class="btn btn-primary">
             	<?= lang('login') ?>
             </button>
 

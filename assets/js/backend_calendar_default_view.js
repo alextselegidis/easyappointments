@@ -1542,7 +1542,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $selectFilterItem.find('option:selected').attr('type'),
                 $calendar.fullCalendar('getView').start,
                 $calendar.fullCalendar('getView').end);
-        }, 10000);
+        }, 30000);
     };
 
 })(window.BackendCalendarDefaultView);

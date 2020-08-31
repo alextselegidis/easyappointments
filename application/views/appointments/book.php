@@ -71,16 +71,17 @@
                 </div>
                 <?php endif; ?>
 
-                <?php
-                    if (isset($exceptions)) {
-                        echo '<div style="margin: 10px">';
-                        echo '<h4>' . lang('unexpected_issues') . '</h4>';
-                        foreach($exceptions as $exception) {
-                            echo exceptionToHtml($exception);
-                        }
-                        echo '</div>';
-                    }
-                ?>
+                <?php if (isset($exceptions)): ?>
+                <div style="margin: 10px">
+                    <h4><?= lang('unexpected_issues') ?></h4>
+
+                    <?php foreach($exceptions as $exception): ?>
+                        <?= exceptionToHtml($exception) ?>
+                    <?php endforeach ?>
+                </div>
+                <?php endif ?>
+
+
 
                 <!-- SELECT SERVICE AND PROVIDER -->
 
@@ -162,7 +163,7 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-next-1" class="btn button-next btn-info"
+                        <button type="button" id="button-next-1" class="btn button-next btn-primary"
                                 data-step_index="1">
                             <?= lang('next') ?>
                             <i class="fas fa-long-arrow-alt-right"></i>
@@ -197,7 +198,7 @@
                                 <i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
-                        <button type="button" id="button-next-2" class="btn button-next btn-info"
+                        <button type="button" id="button-next-2" class="btn button-next btn-primary"
                                 data-step_index="2">
                             <?= lang('next') ?>
                             <i class="fas fa-long-arrow-alt-right"></i>
@@ -290,7 +291,7 @@
                                 data-step_index="3"><i class="fas fa-long-arrow-alt-left"></i>
                             <?= lang('back') ?>
                         </button>
-                        <button type="button" id="button-next-3" class="btn button-next btn-info"
+                        <button type="button" id="button-next-3" class="btn button-next btn-primary"
                                 data-step_index="3">
                             <?= lang('next') ?>
                             <i class="fas fa-long-arrow-alt-right"></i>

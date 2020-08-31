@@ -54,7 +54,7 @@
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
-                    <button id="add-customer" class="btn btn-info">
+                    <button id="add-customer" class="btn btn-primary">
                         <i class="fas fa-plus"></i>
                         <?= lang('add') ?>
                     </button>
@@ -76,7 +76,7 @@
                 </div>
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
-                    <button id="save-customer" class="btn btn-info">
+                    <button id="save-customer" class="btn btn-primary">
                         <i class="far fa-check-circle"></i>
                         <?= lang('save') ?>
                     </button>

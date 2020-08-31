@@ -26,19 +26,13 @@
 
 <body>
     <div id="main" class="container">
-        <div class="wrapper row">
-
-            <div id="message-frame" class="frame-container
-                    col-xs-12
-                    col-sm-offset-1 col-sm-10
-                    col-md-offset-2 col-md-8
-                    col-lg-offset-2 col-lg-8">
-
-                <div class="col-xs-12 col-sm-2">
+        <div class="wrapper row d-md-flex align-items-center justify-content-center">
+            <div id="message-frame" class="frame-container col-xs-12 d-md-flex">
+                <div class="col-xs-12">
                     <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
                 </div>
 
-                <div class="col-xs-12 col-sm-10">
+                <div class="col-xs-12">
                     <h3><?= $message_title ?></h3>
                     <p><?= $message_text ?></p>
 
@@ -52,7 +46,6 @@
                     <?php endif ?>
                 </div>
             </div>
-
         </div>
     </div>
 

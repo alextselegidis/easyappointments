@@ -76,22 +76,22 @@
 
         settings.push({
             name: 'customer_notifications',
-            value: $('#customer-notifications').hasClass('active') === true ? '1' : '0'
+            value: $('#customer-notifications').hasClass('active') ? '1' : '0'
         });
 
         settings.push({
             name: 'require_captcha',
-            value: $('#require-captcha').hasClass('active') === true ? '1' : '0'
+            value: $('#require-captcha').hasClass('active') ? '1' : '0'
         });
 
         settings.push({
             name: 'require_phone_number',
-            value: $('#require-phone-number').hasClass('active') === true ? '1' : '0'
+            value: $('#require-phone-number').hasClass('active') ? '1' : '0'
         });
 
         settings.push({
             name: 'display_any_provider',
-            value: $('#display-any-provider').hasClass('active') === true ? '1' : '0'
+            value: $('#display-any-provider').hasClass('active') ? '1' : '0'
         });
 
 
