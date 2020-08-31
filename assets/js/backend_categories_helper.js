@@ -195,7 +195,7 @@
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
-                        'class': 'well btn-block load-more text-center',
+                        'class': 'btn btn-block btn-light load-more text-center',
                         'text': EALang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
