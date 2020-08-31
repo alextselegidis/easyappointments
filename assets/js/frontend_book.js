@@ -690,7 +690,7 @@ window.FrontendBook = window.FrontendBook || {};
             // Set Appointment Date
             $('#select-date').datepicker('setDate',
                 Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss'));
-            FrontendBookApi.getAvailableHours($('#select-date').val());
+            FrontendBookApi.getAvailableHours(moment(appointment.start_datetime).format('YYYY-MM-DD'));
 
             // Apply Customer's Data
             $('#last-name').val(customer.last_name);

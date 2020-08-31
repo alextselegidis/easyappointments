@@ -32,9 +32,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * This function makes an AJAX call and returns the available hours for the selected service,
      * provider and date.
      *
-     * @param {String} selDate The selected date of which the available hours we need to receive.
+     * @param {String} selectedDate The selected date of the available hours we need.
      */
-    exports.getAvailableHours = function (selDate) {
+    exports.getAvailableHours = function (selectedDate) {
         $('#available-hours').empty();
 
         // Find the selected service duration (it is going to be send within the "data" object).
@@ -61,7 +61,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             csrfToken: GlobalVariables.csrfToken,
             service_id: $('#select-service').val(),
             provider_id: $('#select-provider').val(),
-            selected_date: selDate,
+            selected_date: selectedDate,
             service_duration: serviceDuration,
             manage_mode: FrontendBook.manageMode,
             appointment_id: appointmentId
@@ -117,7 +117,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         }
 
                         var availableHourMoment = moment
-                            .tz(selDate + ' ' + availableHour + ':00', providerTimezone)
+                            .tz(selectedDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
 
                         $('#available-hours div:eq(' + (currentColumn - 1) + ')').append(
