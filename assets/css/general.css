@@ -82,6 +82,11 @@ body #ui-datepicker-div {
     margin-top: 4px;
 }
 
+body .ui-datepicker {
+    width: auto;
+    max-width: 288px;
+}
+
 body .ui-datepicker .ui-widget-header {
     border: none;
     background: #429a82;
@@ -203,7 +208,7 @@ li.language:hover {
 #select-language {
     cursor: pointer;
     display: inline-block;
-    padding: 4px 5px;
+    padding: 10px 5px;
 }
 
 #select-language.active {

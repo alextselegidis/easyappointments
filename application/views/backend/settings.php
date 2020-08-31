@@ -78,7 +78,7 @@
                     </legend>
 
                     <div class="wrapper row">
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="company-name"><?= lang('company_name') ?> *</label>
                                 <input id="company-name" data-field="company_name" class="required form-control">
@@ -145,7 +145,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6">
+                        <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="google-analytics-code">
                                     Google Analytics ID</label>
@@ -237,7 +237,7 @@
                     </legend>
 
                     <div class="row">
-                        <div class="col-xs-12 col-sm-7 working-plan-wrapper">
+                        <div class="col-12 col-sm-7 working-plan-wrapper">
                             <h4><?= lang('working_plan') ?></h4>
                             <span class="form-text text-muted mb-4">
                                 <?= lang('edit_working_plan_hint') ?>
@@ -272,7 +272,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-5 breaks-wrapper">
+                        <div class="col-12 col-sm-5 breaks-wrapper">
                             <h4><?= lang('breaks') ?></h4>
 
                             <span class="form-text text-muted">
@@ -323,7 +323,7 @@
                     </legend>
 
                     <div class="row">
-                        <div class="col-xs-12 col-sm-11 col-md-10 col-lg-9">
+                        <div class="col-12 col-sm-11 col-md-10 col-lg-9">
                             <h4><?= lang('cookie_notice') ?></h4>
 
                             <div class="form-group">
@@ -389,7 +389,7 @@
         <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="current-user">
             <form>
                 <div class="row">
-                    <fieldset class="col-xs-12 col-sm-6 personal-info-wrapper">
+                    <fieldset class="col-12 col-sm-6 personal-info-wrapper">
                         <legend  class="border-bottom mb-4">
                             <?= lang('personal_information') ?>
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
@@ -454,7 +454,7 @@
                         </div>
                     </fieldset>
 
-                    <fieldset class="col-xs-12 col-sm-6 miscellaneous-wrapper">
+                    <fieldset class="col-12 col-sm-6 miscellaneous-wrapper">
                     <legend class="border-bottom mb-4"><?= lang('system_login') ?></legend>
 
                     <div class="form-group">

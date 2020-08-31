@@ -17,11 +17,11 @@
 <body>
     <div id="main" class="container">
         <div class="wrapper row d-md-flex align-items-center justify-content-center">
-            <div id="success-frame" class="frame-container col-xs-12 d-md-flex">
-                <div class="col-xs-12">
+            <div id="success-frame" class="frame-container col-12 d-md-flex">
+                <div class="col-12">
                     <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" />
                 </div>
-                <div class="col-xs-12">
+                <div class="col-12">
                     <h3><?= lang('appointment_registered') ?></h3>
 
                     <p>
@@ -47,7 +47,7 @@
                     <?php endif ?>
 
                     <?php if (isset($exceptions)): ?>
-                        <div class="col-xs-12" style="margin:10px">
+                        <div class="col-12" style="margin:10px">
                             <h4><?= lang('unexpected_issues') ?></h4>
 
                             <?php foreach($exceptions as $exception): ?>

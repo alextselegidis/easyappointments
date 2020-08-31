@@ -1,5 +1,5 @@
 <div id="footer">
-    <div id="footer-content" class="col-xs-12 col-sm-8">
+    <div id="footer-content" class="col-12 col-sm-8">
         Powered by
         <a href="https://easyappointments.org">
             Easy!Appointments
@@ -26,7 +26,7 @@
         </a>
     </div>
 
-    <div id="footer-user-display-name" class="col-xs-12 col-sm-4">
+    <div id="footer-user-display-name" class="col-12 col-sm-4">
         <?= lang('hello') . ', ' . $user_display_name ?>!
     </div>
 </div>

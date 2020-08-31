@@ -27,12 +27,12 @@
 <body>
     <div id="main" class="container">
         <div class="wrapper row d-md-flex align-items-center justify-content-center">
-            <div id="message-frame" class="frame-container col-xs-12 d-md-flex">
-                <div class="col-xs-12">
+            <div id="message-frame" class="frame-container col-12 d-md-flex">
+                <div class="col-12">
                     <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
                 </div>
 
-                <div class="col-xs-12">
+                <div class="col-12">
                     <h3><?= $message_title ?></h3>
                     <p><?= $message_text ?></p>
 

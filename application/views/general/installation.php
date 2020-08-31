@@ -80,7 +80,7 @@
         <div class="alert d-none"></div>
 
         <div class="row">
-            <div class="admin-settings col-xs-12 col-sm-5">
+            <div class="admin-settings col-12 col-sm-5">
                 <h3>Administrator</h3>
 
                 <div class="form-group">
@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <div class="company-settings col-xs-12 col-sm-5">
+            <div class="company-settings col-12 col-sm-5">
                 <h3>Company</h3>
 
                 <div class="form-group">

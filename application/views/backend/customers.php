@@ -28,7 +28,7 @@
 
 <div id="customers-page" class="container-fluid backend-page">
     <div class="row">
-        <div id="filter-customers" class="filter-records col col-xs-12 col-md-5">
+        <div id="filter-customers" class="filter-records col col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
@@ -50,7 +50,7 @@
             <div class="results"></div>
     	</div>
 
-    	<div class="record-details col-xs-12 col-md-7">
+    	<div class="record-details col-12 col-md-7">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
@@ -90,7 +90,7 @@
             <input id="customer-id" type="hidden">
 
             <div class="row">
-                <div class="col-xs-12 col-md-6" style="margin-left: 0;">
+                <div class="col-12 col-md-6" style="margin-left: 0;">
                     <h3><?= lang('details') ?></h3>
 
                     <div id="form-message" class="alert" style="display:none;"></div>
@@ -147,7 +147,7 @@
                     </p>
                 </div>
 
-                <div class="col-xs-12 col-md-6">
+                <div class="col-12 col-md-6">
                     <h3><?= lang('appointments') ?></h3>
                     <div id="customer-appointments" class="card card-body bg-light border-light"></div>
                     <div id="appointment-details" class="card card-body bg-light border-light d-none"></div>

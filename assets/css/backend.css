@@ -19,6 +19,7 @@ root {
 
 /* BACKEND GENERAL ELEMENTS
    -------------------------------------------------------------------- */
+
 #header {
     background-color: #429a82;
     box-shadow: none;
@@ -269,6 +270,7 @@ body legend {
 
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
+
 #calendar-page #calendar-toolbar {
     border-bottom: 1px solid #D6D6D6;
     border-radius: 3px;
@@ -292,7 +294,6 @@ body legend {
     display: inline-block;
     margin: 0 10px 0 0;
     margin-right: 7px;
-    margin-bottom: 0;
     font-size: 18px;
     font-weight: lighter;
 }
@@ -590,6 +591,7 @@ body .form-horizontal .controls {
 
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
+
 #services-page h2 {
     color: #525252;
 }
@@ -618,6 +620,7 @@ body .form-horizontal .controls {
 
 /* BACKEND USERS PAGE
    -------------------------------------------------------------------- */
+
 #users-page h2 {
     color: #525252;
 }
@@ -746,6 +749,7 @@ body .form-horizontal .controls {
 
 /* BACKEND SETTINGS PAGE
    -------------------------------------------------------------------- */
+
 #settings-page h2 {
     color: #525252;
 }

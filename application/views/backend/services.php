@@ -36,7 +36,7 @@
 
         <div role="tabpanel" class="tab-pane active" id="services">
             <div class="row">
-                <div id="filter-services" class="filter-records col col-xs-12 col-md-5">
+                <div id="filter-services" class="filter-records col col-12 col-md-5">
                     <form class="mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
@@ -58,7 +58,7 @@
                     <div class="results"></div>
                 </div>
 
-                <div class="record-details column col-xs-12 col-md-5">
+                <div class="record-details column col-12 col-md-5">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-service" class="btn btn-primary">
@@ -156,7 +156,7 @@
 
         <div role="tabpanel" class="tab-pane" id="categories">
             <div class="row">
-                <div id="filter-categories" class="filter-records column col-xs-12 col-md-5">
+                <div id="filter-categories" class="filter-records column col-12 col-md-5">
                     <form class="input-append mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
@@ -178,7 +178,7 @@
                     <div class="results"></div>
                 </div>
 
-                <div class="record-details col-xs-12 col-md-5">
+                <div class="record-details col-12 col-md-5">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-category" class="btn btn-primary">
