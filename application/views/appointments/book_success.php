@@ -16,12 +16,13 @@
 </head>
 <body>
     <div id="main" class="container">
-        <div class="wrapper row d-md-flex align-items-center justify-content-center">
-            <div id="success-frame" class="frame-container col-12 d-md-flex">
-                <div class="col-12">
+        <div class="row wrapper">
+            <div id="success-frame" class="col-12 my-auto frame-container">
+                <div>
                     <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" />
                 </div>
-                <div class="col-12">
+
+                <div>
                     <h3><?= lang('appointment_registered') ?></h3>
 
                     <p>
@@ -47,7 +48,7 @@
                     <?php endif ?>
 
                     <?php if (isset($exceptions)): ?>
-                        <div class="col-12" style="margin:10px">
+                        <div class="m-2">
                             <h4><?= lang('unexpected_issues') ?></h4>
 
                             <?php foreach($exceptions as $exception): ?>

@@ -26,13 +26,13 @@
 
 <body>
     <div id="main" class="container">
-        <div class="wrapper row d-md-flex align-items-center justify-content-center">
-            <div id="message-frame" class="frame-container col-12 d-md-flex">
-                <div class="col-12">
+        <div class="row wrapper">
+            <div id="message-frame" class="col-12 my-auto frame-container">
+                <div>
                     <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
                 </div>
 
-                <div class="col-12">
+                <div>
                     <h3><?= $message_title ?></h3>
                     <p><?= $message_text ?></p>
 
