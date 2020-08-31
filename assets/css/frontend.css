@@ -369,19 +369,15 @@ body {
    ------------------------------------------------------------------------- */
 
 .booking-header-bar {
-    padding: 10px 0;
+    padding: 15px 0;
     margin: 0;
-    background: #FAFAFA;
+    background: #f6f5ee;
     border-bottom: 1px solid #E2E2E2;
 }
 
 .booking-header-bar p {
     margin-top: 2px;
     margin-bottom: 0;
-}
-
-#cancel-appointment-frame {
-    text-align: center;
 }
 
 .ui-dialog .ui-dialog-title {

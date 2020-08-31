@@ -369,20 +369,20 @@ window.FrontendBook = window.FrontendBook || {};
             $('#cancel-appointment').click(function (event) {
                 var buttons = [
                     {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message_box').dialog('close');
+                        }
+                    },
+                    {
                         text: 'OK',
                         click: function () {
                             if ($('#cancel-reason').val() === '') {
-                                $('#cancel-reason').css('border', '2px solid red');
+                                $('#cancel-reason').css('border', '2px solid #DC3545');
                                 return;
                             }
                             $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
                             $('#cancel-appointment-form').submit();
-                        }
-                    },
-                    {
-                        text: EALang.cancel,
-                        click: function () {
-                            $('#message_box').dialog('close');
                         }
                     }
                 ];
@@ -390,23 +390,31 @@ window.FrontendBook = window.FrontendBook || {};
                 GeneralFunctions.displayMessageBox(EALang.cancel_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
 
-                $('#message_box').append('<textarea id="cancel-reason" rows="3"></textarea>');
-                $('#cancel-reason').css('width', '100%');
+                $('<textarea/>', {
+                    'class': 'form-control',
+                    'id': 'cancel-reason',
+                    'rows': '3',
+                    'css': {
+                        'width': '100%'
+                    }
+                })
+                    .appendTo('#message_box');
+
                 return false;
             });
 
             $('#delete-personal-information').on('click', function () {
                 var buttons = [
                     {
-                        text: EALang.delete,
-                        click: function () {
-                            FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
-                        }
-                    },
-                    {
                         text: EALang.cancel,
                         click: function () {
                             $('#message_box').dialog('close');
+                        }
+                    },
+                    {
+                        text: EALang.delete,
+                        click: function () {
+                            FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
                         }
                     }
                 ];

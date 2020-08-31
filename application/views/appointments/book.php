@@ -55,9 +55,14 @@
                     <div class="col-12 col-md-2">
                         <form id="cancel-appointment-form" method="post"
                               action="<?= site_url('appointments/cancel/' . $appointment_data['hash']) ?>">
+
                             <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
+
                             <textarea name="cancel_reason" style="display:none"></textarea>
-                            <button id="cancel-appointment" class="btn btn-light btn-sm"><?= lang('cancel') ?></button>
+
+                            <button id="cancel-appointment" class="btn btn-warning">
+                                <?= lang('cancel') ?>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -67,7 +72,7 @@
                     </div>
                     <div class="col-12 col-md-2">
                         <button id="delete-personal-information"
-                                class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
+                                class="btn btn-danger"><?= lang('delete') ?></button>
                     </div>
                 </div>
             <?php endif; ?>
