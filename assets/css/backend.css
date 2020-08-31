@@ -24,53 +24,68 @@ root {
     background-color: #429a82;
     box-shadow: none;
     border-radius: 0;
-    margin-bottom: 15px;
+    padding: 0;
 }
 
 #header #header-logo {
-    padding: 6px;
+    padding: 5px;
 }
 
 #header #header-logo img {
     float: left;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     margin-right: 10px;
 }
 
 #header #header-logo span {
     float: left;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: bold;
     color: white;
-    margin-top: 14px;
-    font-weight: lighter;
+    margin-top: 12px;
+}
+
+#header .navbar-toggler {
+    margin-right: 5px;
 }
 
 #header .nav-link {
     color: white;
+    padding: 20px 10px;
+    font-weight: lighter;
 }
 
 #header #header-menu .nav-item {
-    position: relative;
+    min-width: 100px;
+    text-align: center;
 }
 
-#header #header-menu .nav-item::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 3px;
-    display: block;
-    right: 0;
-    background: white;
-    transition: width .2s ease;
+#header #header-menu .nav-item:hover {
+    background: #3a8873;
 }
 
-#header #header-menu .nav-item:hover:not(.active)::after,
-#header #header-menu .active::after {
-    width: 90%;
-    left: 5px;
-    background: white;
+#header #header-menu .nav-item.active {
+    background: #2e6a5b;
 }
+
+/*#header #header-menu .nav-item::after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    width: 0;*/
+/*    height: 3px;*/
+/*    display: block;*/
+/*    right: 0;*/
+/*    background: white;*/
+/*    transition: width .2s ease;*/
+/*}*/
+
+/*#header #header-menu .nav-item:hover:not(.active)::after,*/
+/*#header #header-menu .active::after {*/
+/*    width: 90%;*/
+/*    left: 5px;*/
+/*    background: white;*/
+/*}*/
 
 #footer {
     background-color: #F7F7F7;
@@ -129,8 +144,8 @@ root {
 
 #loading {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: 999999;
@@ -272,37 +287,21 @@ body legend {
    -------------------------------------------------------------------- */
 
 #calendar-page #calendar-toolbar {
-    border-bottom: 1px solid #D6D6D6;
-    border-radius: 3px;
-    background: #3A3A3A;
-    padding: 5px;
-    margin: 0 0 15px;
+    margin-bottom: 15px;
     color: white;
+    background: #353535;
+    padding: 15px 0;
 }
 
 #calendar-page #calendar-filter .form-group {
-    margin: 5px 0;
+    margin-bottom: 0;
 }
 
-#calendar-page .calendar-filter-items {
-  display: flex;
-  align-items: center;
-}
-
-#calendar-page #calendar-filter label {
-    float: left;
-    display: inline-block;
-    margin: 0 10px 0 0;
-    margin-right: 7px;
-    font-size: 18px;
-    font-weight: lighter;
-}
-
-#calendar-page #calendar-filter select {
+#calendar-page #calendar-filter .form-control {
     background-color: #FFF;
     padding: 0 10px;
     background-position-x: 95%;
-    min-width: 240px;
+    margin-bottom: 5px;
 }
 
 #calendar-page #calendar-filter select:disabled {
@@ -310,22 +309,25 @@ body legend {
     cursor: auto;
 }
 
-#calendar-page #calendar-actions {
-    text-align: right;
+#calendar-page #calendar-actions .btn {
+    width: 100%;
+    margin-bottom: 5px;
 }
 
-#calendar-actions > .btn-group {
+#calendar-page #calendar-actions > .btn-group  {
+    width: 100%;
+}
+
+#calendar-page #calendar-actions > .btn-group .btn {
     width: auto;
 }
 
-@media all and (max-width: 470px) {
-  #calendar-actions > .btn-group {
-      width: 100%;
-  }
+#calendar-page #calendar-actions > .btn-group .btn:not(.dropdown-toggle)  {
+    text-align: right;
 }
 
-#calendar-page #calendar-actions > .btn {
-    margin: 5px 0;
+#calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle  {
+    text-align: left;
 }
 
 #calendar-page #calendar {
@@ -338,7 +340,7 @@ body legend {
 }
 
 #calendar-page #calendar .fc-toolbar.fc-header-toolbar .fc-center {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 #calendar-page #calendar .fc-unavailable {
@@ -347,7 +349,7 @@ body legend {
     border-radius: 0;
     font-weight: bold;
     color: #333;
-    text-shadow: 0px 1px 0px #E6E6E6;
+    text-shadow: 0 1px 0 #E6E6E6;
     opacity: 0.7;
 }
 
@@ -378,7 +380,7 @@ body legend {
 
 #calendar .fc-header-title h2 {
     font-size: 16px;
-    margin: 0px;
+    margin: 0;
     line-height: 26px;
 }
 
@@ -548,6 +550,39 @@ body .form-horizontal .controls {
 
 }
 
+@media (min-width: 768px) {
+    #calendar-page #calendar-actions {
+        text-align: right;
+    }
+
+    #calendar-page #calendar-filter .form-group .form-control {
+        max-width: 300px;
+        margin-bottom: 0;
+    }
+
+    #calendar-page #calendar-actions .btn {
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    #calendar-page #calendar-actions > .btn-group  {
+        width: auto;
+    }
+
+    #calendar-page #calendar-actions > .btn-group .btn {
+        width: auto;
+    }
+
+    #calendar-page #calendar-actions > .btn-group .btn:not(.dropdown-toggle)  {
+        text-align: center;
+    }
+
+    #calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle  {
+        text-align: center;
+    }
+}
+
+
 /* BACKEND CUSTOMERS PAGE
    -------------------------------------------------------------------- */
 
@@ -610,7 +645,7 @@ body .form-horizontal .controls {
 }
 
 #services-page #service-duration {
-    margin: 0px;
+    margin: 0;
 }
 
 #services-page .record-details h3 a {
@@ -735,7 +770,7 @@ body .form-horizontal .controls {
 #users-page .editable form,
 #users-page .editable select,
 #users-page .editable input {
-    margin: 0px;
+    margin: 0;
 }
 
 #users-page #providers .record-details h3 a {
@@ -859,85 +894,86 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
-@media (max-width: 1200px) {
-    #header #header-menu .menu-item {
-        min-width: 100px;
-    }
-}
+/*@media (max-width: 1200px) {*/
+/*    #header #header-menu .menu-item {*/
+/*        min-width: 100px;*/
+/*    }*/
+/*}*/
 
-@media (max-width: 1000px) {
-    #header #header-menu .nav-item:hover:not(.active)::after,
-    #header #header-menu .active::after {
-      width: 100%;
-      left: 0;
-      background: white;
-    }
-}
+/*@media (max-width: 1000px) {*/
+/*    #header #header-menu .nav-item:hover:not(.active)::after,*/
+/*    #header #header-menu .active::after {*/
+/*        width: 100%;*/
+/*        left: 0;*/
+/*        background: white;*/
+/*        position: relative;*/
+/*    }*/
+/*}*/
 
-@media (max-width: 860px) {
-    #header #header-menu .menu-item {
-        min-width: 85px;
-    }
+/*@media (max-width: 860px) {*/
+/*    #header #header-menu .menu-item {*/
+/*        min-width: 85px;*/
+/*    }*/
 
-    #footer #footer-user-display-name {
-        text-align: left;
-    }
+/*    #footer #footer-user-display-name {*/
+/*        text-align: left;*/
+/*    }*/
 
-    #calendar-page #calendar-filter label {
-        margin-bottom: 5px;
-    }
+/*    #calendar-page #calendar-filter label {*/
+/*        margin-bottom: 5px;*/
+/*    }*/
 
-    #calendar-page .calendar-filter-items {
-      display: block;
-      width: 100%;
-    }
-}
+/*    #calendar-page .calendar-filter-items {*/
+/*        display: block;*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
 
-@media (max-width: 768px) {
-    #calendar-page #calendar-actions {
-        text-align: left;
-    }
-}
+/*@media (max-width: 768px) {*/
+/*    #calendar-page #calendar-actions {*/
+/*        text-align: left;*/
+/*    }*/
+/*}*/
 
-@media (max-width: 468px) {
-    #calendar-page #calendar .fc-toolbar.fc-header-toolbar .fc-center {
-      margin-top: 1rem;
-    }
+/*@media (max-width: 468px) {*/
+/*    #calendar-page #calendar .fc-toolbar.fc-header-toolbar .fc-center {*/
+/*        margin-top: 1rem;*/
+/*    }*/
 
-    #calendar-page .fc-header td {
-        display: block;
-        width: 70vw;
-        float: left;
-        margin: 10px auto;
-        text-align: left;
-    }
+/*    #calendar-page .fc-header td {*/
+/*        display: block;*/
+/*        width: 70vw;*/
+/*        float: left;*/
+/*        margin: 10px auto;*/
+/*        text-align: left;*/
+/*    }*/
 
-    #calendar-page #calendar-actions .btn {
-        width: 100%;
-        margin: 5px 0;
-    }
+/*    #calendar-page #calendar-actions .btn {*/
+/*        width: 100%;*/
+/*        margin: 5px 0;*/
+/*    }*/
 
-    .ui-dialog {
-        margin: 0 12px;
-    }
+/*    .ui-dialog {*/
+/*        margin: 0 12px;*/
+/*    }*/
 
-    #calendar-page #calendar-filter select {
-        min-width: auto;
-    }
+/*    #calendar-page #calendar-filter select {*/
+/*        min-width: auto;*/
+/*    }*/
 
-    #users-page #providers .switch-view {
-        margin: 20px 0;
-        width: 100%;
-    }
+/*    #users-page #providers .switch-view {*/
+/*        margin: 20px 0;*/
+/*        width: 100%;*/
+/*    }*/
 
-    #users-page #providers .switch-view strong {
-        display: block;
-        width: 100%;
-        text-align: center;
-        margin: 16px 0;
-    }
+/*    #users-page #providers .switch-view strong {*/
+/*        display: block;*/
+/*        width: 100%;*/
+/*        text-align: center;*/
+/*        margin: 16px 0;*/
+/*    }*/
 
-    #users-page #providers .switch-view div {
-        width: 48%;
-    }
-}
+/*    #users-page #providers .switch-view div {*/
+/*        width: 48%;*/
+/*    }*/
+/*}*/

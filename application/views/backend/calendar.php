@@ -40,17 +40,17 @@
     });
 </script>
 
-<div id="calendar-page" class="container-fluid">
-    <div id="calendar-toolbar">
-        <div id="calendar-filter" class="col-12 col-md-5">
+<div class="container-fluid" id="calendar-page">
+    <div class="row" id="calendar-toolbar">
+        <div id="calendar-filter" class="col-12 col-sm-5">
             <div class="form-group calendar-filter-items">
-                <label for="select-filter-item" class="mr-3"><?= lang('display_calendar') ?></label>
-                <select id="select-filter-item" class="form-control col" title="<?= lang('select_filter_item_hint') ?>">
+                <select id="select-filter-item" class="form-control col"
+                        title="<?= lang('select_filter_item_hint') ?>">
                 </select>
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-12 col-md-7">
+        <div id="calendar-actions" class="col-12 col-sm-7">
             <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
                 && config('google_sync_feature') == TRUE): ?>
                 <button id="google-sync" class="btn btn-primary"
