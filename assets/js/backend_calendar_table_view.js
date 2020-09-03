@@ -325,7 +325,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $('<input/>', {
             'type': 'text',
-            'class': 'select-date',
+            'class': 'form-control d-inline-block select-date',
             'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat)
         })
             .appendTo($calendarHeader);
