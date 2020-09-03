@@ -120,7 +120,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('edit_appointment_title') ?></h3>
-                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <div class="modal-body">
@@ -344,7 +344,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('new_unavailable_title') ?></h3>
-                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-message alert d-none"></div>
@@ -410,7 +410,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('new_extra_period_title') ?></h3>
-                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="modal-message alert d-none"></div>
@@ -469,7 +469,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title"><?= lang('select_google_calendar') ?></h3>
             </div>
             <div class="modal-body">

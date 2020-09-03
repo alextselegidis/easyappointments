@@ -25,16 +25,24 @@
 </script>
 
 <div class="container-fluid backend-page" id="services-page">
-    <ul class="nav nav-pills" role="tablist">
-        <li role="presentation" class="nav-item"><a class="nav-link active" href="#services" aria-controls="services" role="tab" data-toggle="tab"><?= lang('services') ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#categories" aria-controls="categories" role="tab" data-toggle="tab"><?= lang('categories') ?></a></li>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" href="#services" data-toggle="tab">
+                <?= lang('services') ?>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#categories" data-toggle="tab">
+                <?= lang('categories') ?>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
 
         <!-- SERVICES TAB -->
 
-        <div role="tabpanel" class="tab-pane active" id="services">
+        <div class="tab-pane active" id="services">
             <div class="row">
                 <div id="filter-services" class="filter-records col col-12 col-md-5">
                     <form class="mb-4">
@@ -154,7 +162,7 @@
 
         <!-- CATEGORIES TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="categories">
+        <div class="tab-pane" id="categories">
             <div class="row">
                 <div id="filter-categories" class="filter-records column col-12 col-md-5">
                     <form class="input-append mb-4">

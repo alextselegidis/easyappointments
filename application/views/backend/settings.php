@@ -32,29 +32,29 @@
 </script>
 
 <div id="settings-page" class="container-fluid backend-page">
-    <ul class="nav nav-pills" role="tablist">
+    <ul class="nav nav-pills">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation" class="nav-item">
-                <a class="nav-link" href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>
+            <li class="nav-item">
+                <a class="nav-link" href="#general" data-toggle="tab"><?= lang('general') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation" class="nav-item">
-                <a class="nav-link" href="#business-logic" aria-controls="business-logic" role="tab" data-toggle="tab"><?= lang('business_logic') ?></a>
+            <li class="nav-item">
+                <a class="nav-link" href="#business-logic" data-toggle="tab"><?= lang('business_logic') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation" class="nav-item">
-                <a class="nav-link" href="#legal-contents" aria-controls="legal-contents" role="tab" data-toggle="tab"><?= lang('legal_contents') ?></a>
+            <li class="nav-item">
+                <a class="nav-link" href="#legal-contents" data-toggle="tab"><?= lang('legal_contents') ?></a>
             </li>
         <?php endif ?>
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE): ?>
-            <li role="presentation" class="nav-item">
-                <a class="nav-link" href="#current-user" aria-controls="current-user" role="tab" data-toggle="tab"><?= lang('current_user') ?></a>
+            <li class="nav-item">
+                <a class="nav-link" href="#current-user" data-toggle="tab"><?= lang('current_user') ?></a>
             </li>
         <?php endif ?>
-        <li role="presentation" class="nav-item">
-            <a class="nav-link" href="#about-app" aria-controls="about-app" role="tab" data-toggle="tab"><?= lang('about_app') ?></a>
+        <li class="nav-item">
+            <a class="nav-link" href="#about-app" data-toggle="tab"><?= lang('about_app') ?></a>
         </li>
     </ul>
 
@@ -63,7 +63,7 @@
         <!-- GENERAL TAB -->
 
         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
-        <div role="tabpanel" class="tab-pane active <?= $hidden ?>" id="general">
+        <div class="tab-pane active <?= $hidden ?>" id="general">
             <form>
                 <fieldset>
                     <legend class="border-bottom mb-4">
@@ -168,7 +168,7 @@
                             <div class="form-group">
                                 <label><?= lang('customer_notifications') ?></label>
                                 <br>
-                                <button type="button" id="customer-notifications" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                <button type="button" id="customer-notifications" class="btn btn-light" data-toggle="button">
                                     <i class="far fa-envelope"></i>
                                     <?= lang('receive_notifications') ?>
                                 </button>
@@ -181,7 +181,7 @@
                                     CAPTCHA
                                 </label>
                                 <br>
-                                <button type="button" id="require-captcha" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                <button type="button" id="require-captcha" class="btn btn-light" data-toggle="button">
                                     <i class="fas fa-lock"></i>
                                     <?= lang('require_captcha') ?>
                                 </button>
@@ -194,7 +194,7 @@
                                     <?= lang('phone_number') ?>
                                 </label>
                                 <br>
-                                <button type="button" id="require-phone-number" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                <button type="button" id="require-phone-number" class="btn btn-light" data-toggle="button">
                                     <i class="fas fa-phone-alt"></i>
                                     <?= lang('require_phone_number') ?>
                                 </button>
@@ -205,7 +205,7 @@
                             <div class="form-group">
                                 <label><?= lang('any_provider') ?></label>
                                 <br>
-                                <button type="button" id="display-any-provider" class="btn btn-light" data-toggle="button" aria-pressed="false">
+                                <button type="button" id="display-any-provider" class="btn btn-light" data-toggle="button">
                                     <i class="fas fa-user"></i>
                                     <?= lang('display_any_provider') ?>
                                 </button>
@@ -222,7 +222,7 @@
         <!-- BUSINESS LOGIC TAB -->
 
         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
-        <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="business-logic">
+        <div class="tab-pane <?= $hidden ?>" id="business-logic">
             <form>
                 <fieldset>
                     <legend class="border-bottom mb-4">
@@ -308,7 +308,7 @@
         <!-- LEGAL CONTENTS TAB -->
 
         <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
-        <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="legal-contents">
+        <div class="tab-pane <?= $hidden ?>" id="legal-contents">
             <form>
                 <fieldset>
                     <legend class="border-bottom mb-4">
@@ -386,7 +386,7 @@
         <!-- CURRENT USER TAB -->
 
         <?php $hidden = ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
-        <div role="tabpanel" class="tab-pane <?= $hidden ?>" id="current-user">
+        <div class="tab-pane <?= $hidden ?>" id="current-user">
             <form>
                 <div class="row">
                     <fieldset class="col-12 col-sm-6 personal-info-wrapper">
@@ -496,7 +496,7 @@
 
         <!-- ABOUT TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="about-app">
+        <div class="tab-pane" id="about-app">
             <h3>Easy!Appointments</h3>
 
             <p>

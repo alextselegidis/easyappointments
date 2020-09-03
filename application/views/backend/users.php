@@ -36,17 +36,29 @@
 <div class="container-fluid backend-page" id="users-page">
 
     <!-- PAGE NAVIGATION -->
-    <ul class="nav nav-pills" role="tablist">
-        <li role="presentation" class="nav-item"><a class="nav-link active" href="#providers" aria-controls="providers" role="tab" data-toggle="tab"><?= lang('providers') ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#secretaries" aria-controls="secretaries" role="tab" data-toggle="tab"><?= lang('secretaries') ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#admins" aria-controls="admins" role="tab" data-toggle="tab"><?= lang('admins') ?></a></li>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active" href="#providers" data-toggle="tab">
+                <?= lang('providers') ?>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#secretaries" data-toggle="tab">
+                <?= lang('secretaries') ?>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#admins" data-toggle="tab">
+                <?= lang('admins') ?>
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
 
         <!-- PROVIDERS TAB -->
 
-        <div role="tabpanel" class="tab-pane active" id="providers">
+        <div class="tab-pane active" id="providers">
             <div class="row">
                 <div id="filter-providers" class="filter-records column col-12 col-md-5">
                     <form class="mb-4">
@@ -291,7 +303,7 @@
 
         <!-- SECRETARIES TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="secretaries">
+        <div class="tab-pane" id="secretaries">
             <div class="row">
                 <div id="filter-secretaries" class="filter-records column col-12 col-md-5">
                     <form class="mb-4">
@@ -451,7 +463,7 @@
 
         <!-- ADMINS TAB -->
 
-        <div role="tabpanel" class="tab-pane" id="admins">
+        <div class="tab-pane" id="admins">
             <div class="row">
                 <div id="filter-admins" class="filter-records column col-12 col-md-5">
                     <form class="mb-4">

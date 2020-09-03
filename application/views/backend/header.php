@@ -38,8 +38,7 @@
         <span>EASY!APPOINTMENTS</span>
     </div>
 
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu"
-            aria-expanded="false" aria-controls="navbar">
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu">
         <span class="sr-only">Toggle navigation</span>
         <span class="navbar-toggler-icon"></span>
     </button>
