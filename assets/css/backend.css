@@ -85,8 +85,6 @@ root {
 
 #footer #footer-user-display-name {
     display: inline-block;
-    float: right;
-    text-align: right;
     padding: 10px 15px;
     font-weight: bold;
 }
@@ -208,6 +206,13 @@ body .jspTrack {
 
 body legend {
     color: #666;
+}
+
+@media (min-width: 768px) {
+    #footer #footer-user-display-name {
+        float: right;
+        text-align: right;
+    }
 }
 
 /* BACKEND COMPONENTS
