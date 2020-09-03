@@ -184,7 +184,7 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-next-1" class="btn button-next btn-primary"
+                    <button type="button" id="button-next-1" class="btn button-next btn-info"
                             data-step_index="1">
                         <?= lang('next') ?>
                         <i class="fas fa-long-arrow-alt-right"></i>
@@ -200,11 +200,11 @@
                     <h2 class="frame-title"><?= lang('step_two_title') ?></h2>
 
                     <div class="row frame-content">
-                        <div class="col-12 col-md-7">
+                        <div class="col-12 col-md-6">
                             <div id="select-date"></div>
                         </div>
 
-                        <div class="col-12 col-sm-5">
+                        <div class="col-12 col-sm-6">
                             <div id="select-time">
                                 <div class="form-group">
                                     <label for="select-timezone"><?= lang('timezone') ?></label>
@@ -223,7 +223,7 @@
                         <i class="fas fa-long-arrow-alt-left"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-2" class="btn button-next btn-primary"
+                    <button type="button" id="button-next-2" class="btn button-next btn-info"
                             data-step_index="2">
                         <?= lang('next') ?>
                         <i class="fas fa-long-arrow-alt-right"></i>
@@ -320,7 +320,7 @@
                             data-step_index="3"><i class="fas fa-long-arrow-alt-left"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-3" class="btn button-next btn-primary"
+                    <button type="button" id="button-next-3" class="btn button-next btn-info"
                             data-step_index="3">
                         <?= lang('next') ?>
                         <i class="fas fa-long-arrow-alt-right"></i>

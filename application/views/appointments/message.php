@@ -27,7 +27,7 @@
 <body>
     <div id="main" class="container">
         <div class="row wrapper">
-            <div id="message-frame" class="col-12 my-auto frame-container">
+            <div id="message-frame" class="col-12 border my-auto frame-container">
                 <div>
                     <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
                 </div>

@@ -87,45 +87,19 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     }
 
                     var providerTimezone = provider.timezone;
-
                     var selectedTimezone = $('#select-timezone').val();
-
-                    var currentColumn = 1;
-
-                    $('#available-hours').html(
-                        $('<div/>', {
-                            'css': {
-                                'width': '80px',
-                                'float': 'left'
-                            }
-                        })
-                    );
-
                     var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
                     response.forEach(function (availableHour, index) {
-                        if ((currentColumn * 10) < (index + 1)) {
-                            currentColumn++;
-                            $('#available-hours').append(
-                                $('<div/>', {
-                                    'css': {
-                                        'width': '80px',
-                                        'float': 'left'
-                                    }
-                                })
-                            );
-                        }
-
                         var availableHourMoment = moment
                             .tz(selectedDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
 
-                        $('#available-hours div:eq(' + (currentColumn - 1) + ')').append(
-                            $('<span/>', {
-                                'class': 'available-hour',
+                        $('#available-hours').append(
+                            $('<button/>', {
+                                'class': 'btn btn-outline-info btn-block shadow-none available-hour',
                                 'text': availableHourMoment.format(timeFormat)
-                            }),
-                            $('<br/>')
+                            })
                         );
                     });
 

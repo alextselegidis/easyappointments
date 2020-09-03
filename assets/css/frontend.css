@@ -19,7 +19,7 @@ body {
 }
 
 body {
-    background-color: #FAFAFA;
+    background-color: #F2F2F2;
 }
 
 #main {
@@ -68,7 +68,7 @@ body {
 
 #book-appointment-wizard #form-message {
     text-align: center;
-    margin: 15px 0;
+    margin-bottom: 30px;
 }
 
 #book-appointment-wizard .wizard-frame {
@@ -78,6 +78,7 @@ body {
 
 #book-appointment-wizard .wizard-frame .frame-container {
     height: auto;
+    min-height: 500px;
     padding: 15px 0;
 }
 
@@ -125,7 +126,7 @@ body {
 
 #book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
     width: 100%;
-    max-width: 300px;
+    max-width: 200px;
     margin: auto;
 }
 
@@ -137,7 +138,7 @@ body {
     background: #225d4d;
     padding: 8px;
     margin-right: 12px;
-    margin-top: 5px;
+    margin-top: 6px;
     border-radius: 8px;
 }
 
@@ -182,7 +183,9 @@ body {
 #book-appointment-wizard #available-hours {
     overflow: auto;
     margin: 15px 0;
+    padding-right: 10px;
     width: auto;
+    max-height: 255px;
 }
 
 #book-appointment-wizard #available-hours div {
@@ -190,21 +193,13 @@ body {
 }
 
 #book-appointment-wizard #available-hours .available-hour {
-    display: inline-block;
-    font-size: 15px;
-    padding: 5px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-}
-
-#book-appointment-wizard #available-hours .available-hour:hover {
-    background-color: #d6eaf5;
-    cursor: pointer;
+    margin-bottom: 10px;
 }
 
 #book-appointment-wizard #available-hours .selected-hour {
-    background-color: #d6eaf5;
-    color: #0088cc;
+    background-color: #439a82;
+    border-color: #439a82;
+    color: white;
 }
 
 #book-appointment-wizard .span3 {
@@ -298,10 +293,6 @@ body {
         padding: 10px 20px;
     }
 
-    #book-appointment-wizard .wizard-frame .frame-container {
-        height: 440px;
-    }
-
     #book-appointment-wizard .wizard-frame .command-buttons {
         display: flex;
         justify-content: center;
@@ -314,6 +305,12 @@ body {
 
     #book-appointment-wizard .captcha-image {
         float: right;
+    }
+
+    #book-appointment-wizard #select-language {
+        width: 100px;
+        padding: 5px;
+        margin: 5px auto;
     }
 }
 

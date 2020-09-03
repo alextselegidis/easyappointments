@@ -17,7 +17,7 @@
 <body>
     <div id="main" class="container">
         <div class="row wrapper">
-            <div id="success-frame" class="col-12 my-auto frame-container">
+            <div id="success-frame" class="col-12 border my-auto frame-container">
                 <div>
                     <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" />
                 </div>
