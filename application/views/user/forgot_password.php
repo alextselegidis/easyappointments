@@ -28,7 +28,7 @@
             height: 100vh;
             display: table-cell;
             vertical-align: middle;
-            background-color: #CAEDF3;
+            background-color: #F2F2F2;
         }
 
         #forgot-password-frame {
