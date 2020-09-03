@@ -31,7 +31,7 @@
     });
 </script>
 
-<div id="settings-page" class="container-fluid">
+<div id="settings-page" class="container-fluid backend-page">
     <ul class="nav nav-tabs" role="tablist">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
             <li role="presentation" class="nav-item">

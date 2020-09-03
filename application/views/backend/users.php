@@ -33,7 +33,7 @@
     });
 </script>
 
-<div id="users-page" class="container-fluid backend-page">
+<div class="container-fluid backend-page" id="users-page">
 
     <!-- PAGE NAVIGATION -->
     <ul class="nav nav-tabs" role="tablist">

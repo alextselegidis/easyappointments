@@ -26,7 +26,7 @@
     });
 </script>
 
-<div id="customers-page" class="container-fluid backend-page">
+<div class="container-fluid backend-page" id="customers-page">
     <div class="row">
         <div id="filter-customers" class="filter-records col col-12 col-md-5">
             <form class="mb-4">

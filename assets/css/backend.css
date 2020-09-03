@@ -218,6 +218,11 @@ body legend {
 /* BACKEND COMPONENTS
    -------------------------------------------------------------------- */
 
+.backend-page {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
 .backend-page .filter-records {
     max-width: 350px;
     margin-bottom: 20px;
@@ -272,6 +277,11 @@ body legend {
 
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
+
+#calendar-page {
+    padding-top: 0;
+    padding-bottom: 0;
+}
 
 #calendar-page #calendar-toolbar {
     margin-bottom: 15px;
