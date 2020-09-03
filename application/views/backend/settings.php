@@ -32,7 +32,7 @@
 </script>
 
 <div id="settings-page" class="container-fluid backend-page">
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-pills" role="tablist">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
             <li role="presentation" class="nav-item">
                 <a class="nav-link" href="#general" aria-controls="general" role="tab" data-toggle="tab"><?= lang('general') ?></a>

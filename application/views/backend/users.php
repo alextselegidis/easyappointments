@@ -36,7 +36,7 @@
 <div class="container-fluid backend-page" id="users-page">
 
     <!-- PAGE NAVIGATION -->
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-pills" role="tablist">
         <li role="presentation" class="nav-item"><a class="nav-link active" href="#providers" aria-controls="providers" role="tab" data-toggle="tab"><?= lang('providers') ?></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#secretaries" aria-controls="secretaries" role="tab" data-toggle="tab"><?= lang('secretaries') ?></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#admins" aria-controls="admins" role="tab" data-toggle="tab"><?= lang('admins') ?></a></li>

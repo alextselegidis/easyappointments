@@ -25,7 +25,7 @@
 </script>
 
 <div class="container-fluid backend-page" id="services-page">
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-pills" role="tablist">
         <li role="presentation" class="nav-item"><a class="nav-link active" href="#services" aria-controls="services" role="tab" data-toggle="tab"><?= lang('services') ?></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#categories" aria-controls="categories" role="tab" data-toggle="tab"><?= lang('categories') ?></a></li>
     </ul>
