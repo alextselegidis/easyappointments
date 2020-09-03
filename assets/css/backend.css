@@ -317,8 +317,16 @@ body legend {
     font-size: 15.2px;
 }
 
+#calendar-page #calendar .fc-toolbar .fc-left,
+#calendar-page #calendar .fc-toolbar .fc-right {
+    float: none;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+
 #calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
     font-size: 22px;
+    display: block
 }
 
 #calendar-page #calendar .fc-toolbar.fc-header-toolbar .fc-center {
@@ -561,6 +569,21 @@ body .form-horizontal .controls {
 
     #calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle  {
         text-align: center;
+    }
+
+    #calendar-page #calendar .fc-toolbar .fc-left {
+        float: left;
+        margin-bottom: 0;
+    }
+
+    #calendar-page #calendar .fc-toolbar .fc-right {
+        float: right;
+        margin-bottom: 0;
+    }
+
+    #calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
+        font-size: 22px;
+        display: inline-block;
     }
 }
 
