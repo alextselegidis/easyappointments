@@ -31,17 +31,17 @@
                 <span id="company-name"><?= $company_name ?></span>
 
                 <div id="steps">
-                    <div id="step-1" class="book-step active-step" title="<?= lang('step_one_title') ?>">
+                    <div id="step-1" class="book-step active-step" title="<?= lang('service_and_provider') ?>">
                         <strong>1</strong>
                     </div>
 
-                    <div id="step-2" class="book-step" title="<?= lang('step_two_title') ?>">
+                    <div id="step-2" class="book-step" title="<?= lang('appointment_date_and_time') ?>">
                         <strong>2</strong>
                     </div>
-                    <div id="step-3" class="book-step" title="<?= lang('step_three_title') ?>">
+                    <div id="step-3" class="book-step" title="<?= lang('customer_information') ?>">
                         <strong>3</strong>
                     </div>
-                    <div id="step-4" class="book-step" title="<?= lang('step_four_title') ?>">
+                    <div id="step-4" class="book-step" title="<?= lang('appointment_confirmation') ?>">
                         <strong>4</strong>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
 
             <div id="wizard-frame-1" class="wizard-frame">
                 <div class="frame-container">
-                    <h2 class="frame-title"><?= lang('step_one_title') ?></h2>
+                    <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
 
                     <div class="row frame-content">
                         <div class="col">
@@ -197,7 +197,7 @@
             <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
 
-                    <h2 class="frame-title"><?= lang('step_two_title') ?></h2>
+                    <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
 
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">
@@ -236,7 +236,7 @@
             <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
 
-                    <h2 class="frame-title"><?= lang('step_three_title') ?></h2>
+                    <h2 class="frame-title"><?= lang('customer_information') ?></h2>
 
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">
@@ -332,7 +332,7 @@
 
             <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
                 <div class="frame-container">
-                    <h2 class="frame-title"><?= lang('step_four_title') ?></h2>
+                    <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
                     <div class="row frame-content">
                         <div id="appointment-details" class="col-12 col-md-6"></div>
                         <div id="customer-details" class="col-12 col-md-6"></div>

@@ -1,17 +1,17 @@
 <?php
 // Arabic
 $lang['page_title'] = 'احجز موعد مع';
-$lang['step_one_title'] = 'اختر الخدمة والمزود';
+$lang['service_and_provider'] = 'اختر الخدمة والمزود';
 $lang['select_service'] = 'اختر الخدمة';
 $lang['select_provider'] = 'اختر المزود';
 $lang['duration'] = 'المدة';
 $lang['minutes'] = 'دقائق';
 $lang['price'] = 'السعر';
 $lang['back'] = 'الخلف';
-$lang['step_two_title'] = 'اختر وقت وتاريخ الموعد';
+$lang['appointment_date_and_time'] = 'اختر وقت وتاريخ الموعد';
 $lang['no_available_hours'] = 'لا يوجد مواعيد متاحة في الوقت الذي تم إختياره الرجاء اختيار وقت آخر';
 $lang['appointment_hour_missing'] = 'الرجاء اختيار ساعة الموعد قبل الإكمال';
-$lang['step_three_title'] = 'أدخل بياناتك';
+$lang['customer_information'] = 'أدخل بياناتك';
 $lang['first_name'] = 'الاسم الأول';
 $lang['last_name'] = 'العائلة';
 $lang['email'] = 'البريد الإلكتروني';
@@ -21,7 +21,7 @@ $lang['city'] = 'المدينة';
 $lang['zip_code'] = 'الرمز البريدي';
 $lang['notes'] = 'ملاحظات';
 $lang['fields_are_required'] = 'الحقول ب* مطلوب تعبئتها';
-$lang['step_four_title'] = 'تأكيد الموعد';
+$lang['appointment_confirmation'] = 'تأكيد الموعد';
 $lang['confirm'] = 'تأكيد';
 $lang['update'] = 'تحديث';
 $lang['cancel_appointment_hint'] = ' .إضغط زر "إلغاء" لحذف الموعد من الجدول';
