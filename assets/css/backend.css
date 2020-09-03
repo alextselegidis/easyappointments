@@ -283,7 +283,7 @@ body legend {
     background-color: #FFF;
     padding: 0 10px;
     background-position-x: 95%;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #calendar-page #calendar-filter select:disabled {
@@ -293,7 +293,7 @@ body legend {
 
 #calendar-page #calendar-actions .btn {
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 #calendar-page #calendar-actions > .btn-group  {
