@@ -1121,8 +1121,7 @@ class Appointments extends CI_Controller {
 
         $unavailabilities = $this->appointments_model->get_batch([
             'is_unavailable' => TRUE,
-            'DATE(start_datetime) <=' => $selected_date,
-            'DATE(end_datetime) >=' => $selected_date,
+            'DATE(start_datetime)' => $selected_date,
             'id_users_provider' => $provider['id']
         ]);
 
