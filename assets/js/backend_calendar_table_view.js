@@ -267,7 +267,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     }
                 ];
 
-
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
 
@@ -318,7 +317,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .appendTo('#calendar');
 
         $('<button/>', {
-            'class': 'btn btn-xs btn-light previous',
+            'class': 'btn btn-xs btn-light previous mr-2',
             'html': [
                 $('<span/>', {
                     'class': 'fas fa-chevron-left'
@@ -329,7 +328,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $('<input/>', {
             'type': 'text',
-            'class': 'form-control d-inline-block select-date',
+            'class': 'form-control d-inline-block select-date mr-2',
             'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat)
         })
             .appendTo($calendarHeader);

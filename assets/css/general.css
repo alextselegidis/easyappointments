@@ -83,7 +83,8 @@ body .ui-widget.ui-widget-content {
 }
 
 body #ui-datepicker-div {
-    margin-top: 4px;
+    margin-top: 5px;
+    z-index: 5 !important;
 }
 
 body .ui-datepicker {

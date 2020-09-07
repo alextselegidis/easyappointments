@@ -466,11 +466,7 @@ body .form-horizontal .controls {
 
 #calendar .calendar-header input {
     width: 120px;
-}
-
-#calendar .calendar-header .btn,
-#calendar .calendar-header input {
-    margin: 10px 10px 10px 0;
+    vertical-align: middle;
 }
 
 #calendar .calendar-header select {
@@ -478,31 +474,24 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-header label {
-    margin: 0 10px;
+    margin: 10px 0;
+    vertical-align: middle;
+    display: block;
 }
 
 #calendar .calendar-header .select2-container--default .select2-selection--multiple {
-    border: none !important;
-    border-bottom: 1px solid #ddd !important;
-    border-radius: 0 !important;
-    height: 29px;
+    height: 38px;
 }
 
-#calendar .calendar-header .select2-search__field {
-    margin: 0 !important;
+#calendar .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
-#calendar .calendar-header .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    margin-top: 0;
-    padding: 0 3px;
-    border-radius: 2px;
-    border: 1px solid #d9d9d9;
-    font-size: 12px;
-}
-
-.select2-dropdown {
-    border: 1px solid #ddd;
-    border-radius: 0;
+#calendar .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
 }
 
 #calendar .calendar-view {
@@ -599,6 +588,11 @@ body .form-horizontal .controls {
     #calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
         font-size: 22px;
         display: inline-block;
+    }
+
+    #calendar .calendar-header label {
+        display: inline-block;
+        margin: 0 10px;
     }
 }
 
