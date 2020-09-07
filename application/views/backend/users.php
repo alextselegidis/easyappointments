@@ -28,7 +28,7 @@
         }
     };
 
-    $(function() {
+    $(function () {
         BackendUsers.initialize(true);
     });
 </script>
@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="record-details column col-12 col-md-7">
-                    <div class="float-md-left mb-4">
+                    <div class="float-md-left mb-4 mr-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-provider" class="btn btn-primary">
                                 <i class="far fa-plus-square mr-2"></i>
@@ -111,193 +111,208 @@
                         </div>
                     </div>
 
-                    <div class="switch-view float-md-right d-md-flex align-items-center mb-4">
-                        <strong><?= lang('current_view') ?></strong>
-                        <div class="display-details current"><?= lang('details') ?></div>
-                        <div class="display-working-plan"><?= lang('working_plan') ?></div>
-                    </div>
+                    <ul class="nav nav-pills switch-view">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#details" data-toggle="tab">
+                                <?= lang('details') ?>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#working-plan" data-toggle="tab">
+                                <?= lang('working_plan') ?>
+                            </a>
+                        </li>
+                    </ul>
 
-                    <?php // This form message is outside the details view, so that it can be
-                    // visible when the user has working plan view active. ?>
+                    <?php
+                    // This form message is outside the details view, so that it can be
+                    // visible when the user has working plan view active.
+                    ?>
+
                     <div class="form-message alert" style="display:none;"></div>
 
-                    <div class="details-view provider-view">
-                        <h3><?= lang('details') ?></h3>
+                    <div class="tab-content">
+                        <div class="details-view tab-pane fade show active clearfix" id="details">
+                            <h3><?= lang('details') ?></h3>
 
-                        <input type="hidden" id="provider-id" class="record-id">
+                            <input type="hidden" id="provider-id" class="record-id">
 
-                        <div class="row">
-                            <div class="provider-details col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="provider-first-name"><?= lang('first_name') ?> *</label>
-                                    <input id="provider-first-name" class="form-control required" maxlength="256">
+                            <div class="row">
+                                <div class="provider-details col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="provider-first-name"><?= lang('first_name') ?> *</label>
+                                        <input id="provider-first-name" class="form-control required" maxlength="256">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-last-name"><?= lang('last_name') ?> *</label>
+                                        <input id="provider-last-name" class="form-control required" maxlength="512">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-email"><?= lang('email') ?> *</label>
+                                        <input id="provider-email" class="form-control required" max="512">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-phone-number"><?= lang('phone_number') ?> *</label>
+                                        <input id="provider-phone-number" class="form-control required" max="128">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-mobile-number"><?= lang('mobile_number') ?></label>
+                                        <input id="provider-mobile-number" class="form-control" maxlength="128">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-address"><?= lang('address') ?></label>
+                                        <input id="provider-address" class="form-control" maxlength="256">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-city"><?= lang('city') ?></label>
+                                        <input id="provider-city" class="form-control" maxlength="256">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-state"><?= lang('state') ?></label>
+                                        <input id="provider-state" class="form-control" maxlength="256">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-zip-code"><?= lang('zip_code') ?></label>
+                                        <input id="provider-zip-code" class="form-control" maxlength="64">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-notes"><?= lang('notes') ?></label>
+                                        <textarea id="provider-notes" class="form-control" rows="3"></textarea>
+                                    </div>
                                 </div>
+                                <div class="provider-settings col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="provider-username"><?= lang('username') ?> *</label>
+                                        <input id="provider-username" class="form-control required" maxlength="256">
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="provider-last-name"><?= lang('last_name') ?> *</label>
-                                    <input id="provider-last-name" class="form-control required" maxlength="512">
+                                    <div class="form-group">
+                                        <label for="provider-password"><?= lang('password') ?> *</label>
+                                        <input type="password" id="provider-password" class="form-control required"
+                                               maxlength="512" autocomplete="new-password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-password-confirm"><?= lang('retype_password') ?> *</label>
+                                        <input type="password" id="provider-password-confirm"
+                                               class="form-control required" maxlength="512"
+                                               autocomplete="new-password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-calendar-view"><?= lang('calendar') ?> *</label>
+                                        <select id="provider-calendar-view" class="form-control required">
+                                            <option value="default">Default</option>
+                                            <option value="table">Table</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-timezone"><?= lang('timezone') ?></label>
+                                        <?= render_timezone_dropdown('id="provider-timezone" class="form-control"') ?>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="provider-notifications">
+                                        <label class="custom-control-label" for="provider-notifications">
+                                            <?= lang('receive_notifications') ?>
+                                        </label>
+                                    </div>
+
+                                    <br>
+
+                                    <h4><?= lang('services') ?></h4>
+                                    <div id="provider-services" class="card card-body bg-light border-light"></div>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="provider-email"><?= lang('email') ?> *</label>
-                                    <input id="provider-email" class="form-control required" max="512">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-phone-number"><?= lang('phone_number') ?> *</label>
-                                    <input id="provider-phone-number" class="form-control required" max="128">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-mobile-number"><?= lang('mobile_number') ?></label>
-                                    <input id="provider-mobile-number" class="form-control" maxlength="128">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-address"><?= lang('address') ?></label>
-                                    <input id="provider-address" class="form-control" maxlength="256">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-city"><?= lang('city') ?></label>
-                                    <input id="provider-city" class="form-control" maxlength="256">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-state"><?= lang('state') ?></label>
-                                    <input id="provider-state" class="form-control" maxlength="256">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-zip-code"><?= lang('zip_code') ?></label>
-                                    <input id="provider-zip-code" class="form-control" maxlength="64">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-notes"><?= lang('notes') ?></label>
-                                    <textarea id="provider-notes" class="form-control" rows="3"></textarea>
-                                </div>
-                            </div>
-                            <div class="provider-settings col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="provider-username"><?= lang('username') ?> *</label>
-                                    <input id="provider-username" class="form-control required" maxlength="256">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-password"><?= lang('password') ?> *</label>
-                                    <input type="password" id="provider-password" class="form-control required" maxlength="512" autocomplete="new-password">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-password-confirm"><?= lang('retype_password') ?> *</label>
-                                    <input type="password" id="provider-password-confirm" class="form-control required" maxlength="512" autocomplete="new-password">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-calendar-view"><?= lang('calendar') ?> *</label>
-                                    <select id="provider-calendar-view" class="form-control required">
-                                        <option value="default">Default</option>
-                                        <option value="table">Table</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="provider-timezone"><?= lang('timezone') ?></label>
-                                    <?= render_timezone_dropdown('id="provider-timezone" class="form-control"') ?>
-                                </div>
-
-                                <br>
-
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="provider-notifications">
-                                    <label class="custom-control-label" for="provider-notifications">
-                                        <?= lang('receive_notifications') ?>
-                                    </label>
-                                </div>
-
-                                <br>
-
-                                <h4><?= lang('services') ?></h4>
-                                <div id="provider-services" class="card card-body bg-light border-light"></div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="working-plan-view provider-view" style="display: none;">
-                        <h3><?= lang('working_plan') ?></h3>
-                        <button id="reset-working-plan" class="btn btn-primary"
-                                title="<?= lang('reset_working_plan') ?>">
-                            <i class="fas fa-redo-alt"></i>
-                            <?= lang('reset_plan') ?></button>
-                        <table class="working-plan table table-striped mt-2">
-                            <thead>
+                        <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
+                            <h3><?= lang('working_plan') ?></h3>
+                            <button id="reset-working-plan" class="btn btn-primary"
+                                    title="<?= lang('reset_working_plan') ?>">
+                                <i class="fas fa-redo-alt"></i>
+                                <?= lang('reset_plan') ?></button>
+                            <table class="working-plan table table-striped mt-2">
+                                <thead>
                                 <tr>
                                     <th><?= lang('day') ?></th>
                                     <th><?= lang('start') ?></th>
                                     <th><?= lang('end') ?></th>
                                 </tr>
-                            </thead>
-                            <tbody><!-- Dynamic Content --></tbody>
-                        </table>
+                                </thead>
+                                <tbody><!-- Dynamic Content --></tbody>
+                            </table>
 
-                        <br>
+                            <br>
 
-                        <h3><?= lang('breaks') ?></h3>
+                            <h3><?= lang('breaks') ?></h3>
 
-                        <span class="help-block">
+                            <span class="help-block">
                             <?= lang('add_breaks_during_each_day') ?>
                         </span>
 
-                        <div>
-                            <button type="button" class="add-break btn btn-primary">
-                                <i class="far fa-plus-square"></i>
-                                <?= lang('add_break') ?>
-                            </button>
-                        </div>
+                            <div>
+                                <button type="button" class="add-break btn btn-primary">
+                                    <i class="far fa-plus-square"></i>
+                                    <?= lang('add_break') ?>
+                                </button>
+                            </div>
 
-                        <br>
+                            <br>
 
-                        <table class="breaks table table-striped">
-                            <thead>
+                            <table class="breaks table table-striped">
+                                <thead>
                                 <tr>
                                     <th><?= lang('day') ?></th>
                                     <th><?= lang('start') ?></th>
                                     <th><?= lang('end') ?></th>
                                     <th><?= lang('actions') ?></th>
                                 </tr>
-                            </thead>
-                            <tbody><!-- Dynamic Content --></tbody>
-                        </table>
+                                </thead>
+                                <tbody><!-- Dynamic Content --></tbody>
+                            </table>
 
-                        <br>
+                            <br>
 
-                        <h3><?= lang('extra_periods') ?></h3>
+                            <h3><?= lang('extra_periods') ?></h3>
 
-                        <span class="help-block">
+                            <span class="help-block">
                             <?= lang('add_extra_periods_during_each_day') ?>
                         </span>
 
-                        <div>
-                            <button type="button" class="add-extra-periods btn btn-primary">
-                                <i class="far fa-plus-square"></i>
-                                <?= lang('add_extra_period') ?>
-                            </button>
+                            <div>
+                                <button type="button" class="add-extra-periods btn btn-primary">
+                                    <i class="far fa-plus-square"></i>
+                                    <?= lang('add_extra_period') ?>
+                                </button>
+                            </div>
+
+                            <br>
+
+                            <table class="extra-periods table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                    <th><?= lang('actions') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody><!-- Dynamic Content --></tbody>
+                            </table>
                         </div>
-
-                        <br>
-
-                        <table class="extra-periods table table-striped">
-                            <thead>
-                            <tr>
-                                <th><?= lang('day') ?></th>
-                                <th><?= lang('start') ?></th>
-                                <th><?= lang('end') ?></th>
-                                <th><?= lang('actions') ?></th>
-                            </tr>
-                            </thead>
-                            <tbody><!-- Dynamic Content --></tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -425,12 +440,14 @@
 
                             <div class="form-group">
                                 <label for="secretary-password"><?= lang('password') ?> *</label>
-                                <input type="password" id="secretary-password" class="form-control required" maxlength="512" autocomplete="new-password">
+                                <input type="password" id="secretary-password" class="form-control required"
+                                       maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
                                 <label for="secretary-password-confirm"><?= lang('retype_password') ?> *</label>
-                                <input type="password" id="secretary-password-confirm" class="form-control required" maxlength="512" autocomplete="new-password">
+                                <input type="password" id="secretary-password-confirm" class="form-control required"
+                                       maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
@@ -587,12 +604,14 @@
 
                             <div class="form-group">
                                 <label for="admin-password"><?= lang('password') ?> *</label>
-                                <input type="password" id="admin-password" class="form-control required" maxlength="512" autocomplete="new-password">
+                                <input type="password" id="admin-password" class="form-control required" maxlength="512"
+                                       autocomplete="new-password">
                             </div>
 
                             <div class="form-group">
                                 <label for="admin-password-confirm"><?= lang('retype_password') ?> *</label>
-                                <input type="password" id="admin-password-confirm" class="form-control required" maxlength="512" autocomplete="new-password">
+                                <input type="password" id="admin-password-confirm" class="form-control required"
+                                       maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="form-group">

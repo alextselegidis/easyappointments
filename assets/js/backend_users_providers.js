@@ -205,23 +205,8 @@
         /**
          * Event: Display Provider Details "Click"
          */
-        $('#providers').on('click', '.display-details', function () {
-            $('#providers .switch-view .current').removeClass('current');
-            $(this).addClass('current');
-            $('.working-plan-view').hide('fade', function () {
-                $('.details-view').show('fade');
-            });
-        });
-
-        /**
-         * Event: Display Provider Working Plan "Click"
-         */
-        $('#providers').on('click', '.display-working-plan', function () {
-            $('#providers .switch-view .current').removeClass('current');
-            $(this).addClass('current');
-            $('.details-view').hide('fade', function () {
-                $('.working-plan-view').show('fade');
-            });
+        $('#providers').on('shown.bs.tab', 'a[data-toggle="tab"]', function () {
+            Backend.placeFooterToBottom();
         });
 
         /**

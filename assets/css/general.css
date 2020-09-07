@@ -436,3 +436,7 @@ body .popover-body a {
 .has-error .form-control {
     border-color: #dc3545;
 }
+
+body .clearfix {
+    clear: both;
+}

@@ -714,40 +714,13 @@ body .form-horizontal .controls {
 
 #users-page #providers .switch-view {
     overflow: auto;
-    margin-bottom: 5px;
+    background: none;
+    padding: 0;
+    margin: 0;
 }
 
-#users-page #providers .switch-view div {
-    display: inline-block;
-    padding: 6px 13px;
-    color: #333;
-    float: left;
-    margin-right: 3px;
-    cursor: pointer;
-    min-width: 100px;
-    text-align: center;
-}
-
-#users-page #providers .switch-view div:hover:not(.current) {
-    background: #F5F5F5;
-}
-
-#users-page #providers .switch-view strong {
-    display: inline-block;
-    float: left;
-    margin-right: 20px;
-    font-size: 17px;
-}
-
-#users-page #providers .switch-view .current {
-    color: #FFF;
-    background: #39c678;
-}
-
-#users-page #providers .details-view,
-#users-page #providers .working-plan-view {
-    clear: both;
-    overflow: auto;
+#users-page #providers .switch-view .nav-item {
+    margin: 0;
 }
 
 #users-page #providers .working-plan-view .work-start,
