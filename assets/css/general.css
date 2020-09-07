@@ -400,21 +400,30 @@ li.language:hover {
     margin-bottom: -30px;
 }
 
-#message_box pre,
-#message_box .card {
+#message-box pre,
+#message-box .card {
     max-height: 250px;
     max-width: 500px;
 }
 
-body .popover-content strong {
-    min-width: 80px; display:inline-block;
+body .popover {
+    max-width: 300px;
 }
 
-body .popover-content button {
-    margin-right: 10px;
+body .popover-body strong {
+    min-width: 90px;
+    display:inline-block;
 }
 
-body .popover-content a {
+body .popover-body button {
+    font-size: 1em;
+    box-sizing: border-box;
+    margin: 0;
+    height: 2.1em;
+    padding: 0 .6em;
+}
+
+body .popover-body a {
     margin-right: 5px;
 }
 

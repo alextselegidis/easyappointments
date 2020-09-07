@@ -132,7 +132,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Hides the open popover element.
          */
         $calendar.on('click', '.close-popover', function () {
-            $(this).parents('.popover').popover('destroy');
+            $(this).parents('.popover').popover('dispose');
         });
 
         /**
@@ -141,7 +141,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * Enables the edit dialog of the selected table event.
          */
         $calendar.on('click', '.edit-popover', function () {
-            $(this).parents('.popover').popover('destroy');
+            $(this).parents('.popover').popover('dispose');
 
             var $dialog;
 
@@ -208,7 +208,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendar.on('click', '.delete-popover', function () {
-            $(this).parents('.popover').popover('destroy'); // Hide the popover.
+            $(this).parents('.popover').popover('dispose'); // Hide the popover.
 
             var url;
             var data;
@@ -271,8 +271,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
 
-                $('#message-box').append('<textarea id="delete-reason" rows="3"></textarea>');
-                $('#delete-reason').css('width', '100%');
+                $('<textarea/>', {
+                    'class': 'form-control w-100',
+                    'id': 'delete-reason',
+                    'rows': '3'
+                })
+                    .appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
                 url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
@@ -1019,7 +1023,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * above the calendar item.
      */
     function onEventClick(event, jsEvent) {
-        $('.popover').popover('destroy'); // Close all open popovers.
+        $('.popover').popover('dispose'); // Close all open popovers.
 
         var $html;
         var displayEdit;
@@ -1263,7 +1267,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.phone_number
+                        'text': EALang.phone
                     }),
                     GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
