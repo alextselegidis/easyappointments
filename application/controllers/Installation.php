@@ -112,6 +112,7 @@ class Installation extends CI_Controller {
             $admin['timezone'] = 'UTC';
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
+            $admin['settings']['notifications'] = true;
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
             unset($admin['username'], $admin['password']);
             $admin['id'] = $this->admins_model->add($admin);
