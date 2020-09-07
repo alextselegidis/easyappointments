@@ -70,7 +70,7 @@ class Installation extends CI_Controller {
      */
     public function index()
     {
-        if (is_ea_installed())
+        if (is_app_installed())
         {
             redirect('appointments/index');
             return;
@@ -88,7 +88,7 @@ class Installation extends CI_Controller {
     {
         try
         {
-            if (is_ea_installed())
+            if (is_app_installed())
             {
                 return;
             }

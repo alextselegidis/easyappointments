@@ -86,7 +86,7 @@ class Appointments extends CI_Controller {
     {
         try
         {
-            if ( ! is_ea_installed())
+            if ( ! is_app_installed())
             {
                 redirect('installation/index');
                 return;

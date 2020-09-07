@@ -21,7 +21,7 @@
  *
  * @return bool Returns whether E!A is installed or not.
  */
-function is_ea_installed()
+function is_app_installed()
 {
     $framework =& get_instance();
 
