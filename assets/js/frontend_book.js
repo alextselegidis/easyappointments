@@ -371,7 +371,7 @@ window.FrontendBook = window.FrontendBook || {};
                     {
                         text: EALang.cancel,
                         click: function () {
-                            $('#message_box').dialog('close');
+                            $('#message-box').dialog('close');
                         }
                     },
                     {
@@ -398,7 +398,7 @@ window.FrontendBook = window.FrontendBook || {};
                         'width': '100%'
                     }
                 })
-                    .appendTo('#message_box');
+                    .appendTo('#message-box');
 
                 return false;
             });
@@ -408,7 +408,7 @@ window.FrontendBook = window.FrontendBook || {};
                     {
                         text: EALang.cancel,
                         click: function () {
-                            $('#message_box').dialog('close');
+                            $('#message-box').dialog('close');
                         }
                     },
                     {

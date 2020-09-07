@@ -44,7 +44,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 {
                     text: EALang.close,
                     click: function () {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
 
                     }
                 }
@@ -52,13 +52,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         }
 
         // Destroy previous dialog instances.
-        $('#message_box')
+        $('#message-box')
             .dialog('destroy')
             .remove();
 
         // Create the html of the message box.
         $('<div/>', {
-            'id': 'message_box',
+            'id': 'message-box',
             'title': title,
             'html': [
                 $('<p/>', {
@@ -68,7 +68,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         })
             .appendTo('body');
 
-        $("#message_box").dialog({
+        $("#message-box").dialog({
             autoOpen: false,
             modal: true,
             resize: 'auto',
@@ -79,9 +79,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             closeOnEscape: true
         });
 
-        $('#message_box').dialog('open');
+        $('#message-box').dialog('open');
         $('.ui-dialog .ui-dialog-buttonset button').addClass('btn btn-light');
-        $('#message_box .ui-dialog-titlebar-close').hide();
+        $('#message-box .ui-dialog-titlebar-close').hide();
     };
 
     /**
@@ -324,7 +324,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 })
             ]
         })
-            .appendTo('#message_box');
+            .appendTo('#message-box');
     };
 
     /**

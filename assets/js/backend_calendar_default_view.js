@@ -148,7 +148,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 $.post(url, data)
                     .done(function () {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
 
                         var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
                         delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
@@ -174,7 +174,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                             $.post(url, data)
                                 .done(function () {
-                                    $('#message_box').dialog('close');
+                                    $('#message-box').dialog('close');
 
                                     // Refresh calendar event items.
                                     $('#select-filter-item').trigger('change');
@@ -185,7 +185,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     {
                         text: EALang.cancel,
                         click: function () {
-                            $('#message_box').dialog('close');
+                            $('#message-box').dialog('close');
                         }
                     }
                 ];
@@ -199,7 +199,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     'id': 'delete-reason',
                     'rows': '3',
                 })
-                    .appendTo('#message_box');
+                    .appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
                 url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
@@ -211,7 +211,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 $.post(url, data)
                     .done(function () {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');

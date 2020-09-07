@@ -259,14 +259,14 @@ window.BackendSettings = window.BackendSettings || {};
                             })
                             .fail(GeneralFunctions.ajaxFailureHandler)
                             .always(function() {
-                                $('#message_box').dialog('close');
+                                $('#message-box').dialog('close');
                             });
                     }
                 },
                 {
                     text: EALang.cancel,
                     click: function() {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
                     }
                 }
             ];

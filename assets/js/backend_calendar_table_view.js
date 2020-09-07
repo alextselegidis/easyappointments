@@ -226,7 +226,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 $.post(url, data)
                     .done(function (response) {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
 
                         var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
                         delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
@@ -251,7 +251,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                             $.post(url, data)
                                 .done(function () {
-                                    $('#message_box').dialog('close');
+                                    $('#message-box').dialog('close');
 
                                     // Refresh calendar event items.
                                     $('#select-filter-item').trigger('change');
@@ -262,7 +262,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     {
                         text: EALang.cancel,
                         click: function () {
-                            $('#message_box').dialog('close');
+                            $('#message-box').dialog('close');
                         }
                     }
                 ];
@@ -271,7 +271,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
 
-                $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
+                $('#message-box').append('<textarea id="delete-reason" rows="3"></textarea>');
                 $('#delete-reason').css('width', '100%');
             } else {
                 // Do not display confirmation prompt.
@@ -284,7 +284,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 $.post(url, data)
                     .done(function () {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');

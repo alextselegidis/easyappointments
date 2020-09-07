@@ -114,13 +114,13 @@
                     text: EALang.delete,
                     click: function () {
                         this.delete(adminId);
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
                     }.bind(this)
                 },
                 {
                     text: EALang.cancel,
                     click: function () {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
                     }
                 }
             ];

@@ -110,13 +110,13 @@
                     text: EALang.delete,
                     click: function () {
                         instance.delete(categoryId);
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
                     }
                 },
                 {
                     text: EALang.cancel,
                     click: function () {
-                        $('#message_box').dialog('close');
+                        $('#message-box').dialog('close');
                     }
                 }
             ];
