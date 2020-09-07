@@ -194,8 +194,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
 
-                $('#message_box').append('<textarea id="delete-reason" rows="3"></textarea>');
-                $('#delete-reason').css('width', '100%');
+                $('<textarea/>', {
+                    'class': 'form-control w-100',
+                    'id': 'delete-reason',
+                    'rows': '3',
+                })
+                    .appendTo('#message_box');
             } else {
                 // Do not display confirmation prompt.
                 url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
