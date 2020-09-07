@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
 
-	<title><?= lang('page_not_found') . ' - ' . $company_name ?></title>
+	<title><?= lang('page_not_found') ?> | Easy!Appointments</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/error404.css') ?>">
