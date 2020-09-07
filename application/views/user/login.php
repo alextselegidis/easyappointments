@@ -7,41 +7,13 @@
     <meta name="theme-color" content="#35A768">
     <title><?= lang('login') . ' - ' . $company_name ?></title>
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
-
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/login.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-
-    <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            display: table-cell;
-            vertical-align: middle;
-            background-color: #F2F2F2;
-        }
-
-        #login-frame {
-            width: 630px;
-            margin: auto;
-            background: #FFF;
-            border: 1px solid #DDDADA;
-            padding: 70px;
-        }
-
-        @media(max-width: 640px) {
-            #login-frame {
-                width: 100%;
-                padding: 20px;
-            }
-        }
-    </style>
+	<link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
     <script>
         var GlobalVariables = {
@@ -60,6 +32,11 @@
         	GeneralFunctions.enableLanguageSelection($('#select-language'));
         });
     </script>
+
+	<script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
 </head>
 <body>
     <div id="login-frame" class="frame-container">

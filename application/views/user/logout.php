@@ -8,54 +8,20 @@
 
     <title><?= lang('log_out') . ' - ' . $company_name ?></title>
 
-    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/login.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
+	<link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+	<link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <script>
+	<script>
         var EALang = <?= json_encode($this->lang->language) ?>;
-    </script>
+	</script>
 
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
-
-    <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            display: table-cell;
-            vertical-align: middle;
-            background-color: #F2F2F2;
-        }
-
-        #logout-frame {
-            width: 630px;
-            margin: auto;
-            background: #FFF;
-            border: 1px solid #DDDADA;
-            padding: 70px;
-        }
-
-        .btn {
-            margin-right: 10px;
-        }
-
-        @media(max-width: 640px) {
-            #logout-frame {
-                width: 100%;
-                padding: 20px;
-            }
-
-            .btn {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
+	<script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
 </head>
 <body>
     <div id="logout-frame" class="frame-container">

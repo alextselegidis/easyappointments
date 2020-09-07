@@ -8,46 +8,15 @@
 
     <title><?= lang('no_privileges') . ' - ' . $company_name ?></title>
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/no_privileges.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            display: table-cell;
-            vertical-align: middle;
-            background-color: #F2F2F2;
-        }
-
-        #no-priv-frame {
-            width: 630px;
-            margin: auto;
-            background: #FFF;
-            border: 1px solid #DDDADA;
-            padding: 70px;
-        }
-
-        .btn {
-            margin-right: 10px;
-        }
-
-        @media(max-width: 640px) {
-            #no-priv-frame {
-                width: 100%;
-                padding: 20px;
-            }
-
-            .btn {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
+    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 </head>
 <body>
     <div id="no-priv-frame" class="frame-container">

@@ -1,41 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Easy!Appointments - Update</title>
-
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <title>Easy!Appointments - Update</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url ('assets/ext/jquery-ui/jquery-ui.min.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/update.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-
-    <style>
-        html {
-            position: relative;
-            min-height: 100%;
-        }
-
-        .header {
-            background: #DAFFEB;
-        }
-
-        h3 {
-            margin-bottom: 40px;
-        }
-
-        .content {
-            margin-top: 30px;
-        }
-
-        footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background-color: #f5f5f5;
-            padding: 15px 40px;
-        }
-    </style>
 </head>
 <body>
     <div class="container-fluid header">

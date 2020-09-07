@@ -1,0 +1,22 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #F2F2F2;
+}
+
+#login-frame {
+    width: 630px;
+    margin: auto;
+    background: #FFF;
+    border: 1px solid #DDDADA;
+    padding: 70px;
+}
+
+@media(max-width: 640px) {
+    #login-frame {
+        width: 100%;
+        padding: 20px;
+    }
+}

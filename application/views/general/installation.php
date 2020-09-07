@@ -1,51 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Easy!Appointments - Installation</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+	<title>Easy!Appointments - Installation</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url ('assets/ext/jquery-ui/jquery-ui.min.css')?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/installation.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-
-    <style>
-        header {
-            background: #DAFFEB;
-            margin-bottom: 25px;
-        }
-
-        .content {
-            margin: 32px;
-            max-width: 980px;
-        }
-
-        .alert {
-            margin: 25px 0 10px 0;
-        }
-
-        footer {
-           padding: 10px 35px;
-           background-color: #FAFAFA;
-           margin-top: 20px;
-           border-top: 1px solid #EEE;
-        }
-
-        #loading {
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            height: 100%;
-            z-index: 999999;
-            background: rgba(255, 255, 255, 0.75);
-        }
-
-        #loading img {
-            margin: auto;
-            display: block;
-        }
-    </style>
 </head>
 <body>
     <div id="loading" class="d-none">

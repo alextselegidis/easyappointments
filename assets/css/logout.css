@@ -1,0 +1,31 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #F2F2F2;
+}
+
+#logout-frame {
+    width: 630px;
+    margin: auto;
+    background: #FFF;
+    border: 1px solid #DDDADA;
+    padding: 70px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+@media(max-width: 640px) {
+    #logout-frame {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
