@@ -13,25 +13,25 @@
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {
-        'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
-        'availableProviders': <?= json_encode($available_providers) ?>,
-        'availableServices': <?= json_encode($available_services) ?>,
-        'baseUrl': <?= json_encode($base_url) ?>,
-        'bookAdvanceTimeout': <?= $book_advance_timeout ?>,
-        'dateFormat': <?= json_encode($date_format) ?>,
-        'timeFormat': <?= json_encode($time_format) ?>,
-        'firstWeekday': <?= json_encode($first_weekday) ?>,
-        'editAppointment': <?= json_encode($edit_appointment) ?>,
-        'customers': <?= json_encode($customers) ?>,
-        'secretaryProviders': <?= json_encode($secretary_providers) ?>,
-        'calendarView': <?= json_encode($calendar_view) ?>,
-        'timezones': <?= json_encode($timezones) ?>,
-        'user': {
-            'id': <?= $user_id ?>,
-            'email': <?= json_encode($user_email) ?>,
-            'timezone': <?= json_encode($timezone) ?>,
-            'role_slug': <?= json_encode($role_slug) ?>,
-            'privileges': <?= json_encode($privileges) ?>,
+        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+        availableProviders: <?= json_encode($available_providers) ?>,
+        availableServices: <?= json_encode($available_services) ?>,
+        baseUrl: <?= json_encode($base_url) ?>,
+        bookAdvanceTimeout: <?= $book_advance_timeout ?>,
+        dateFormat: <?= json_encode($date_format) ?>,
+        timeFormat: <?= json_encode($time_format) ?>,
+        firstWeekday: <?= json_encode($first_weekday) ?>,
+        editAppointment: <?= json_encode($edit_appointment) ?>,
+        customers: <?= json_encode($customers) ?>,
+        secretaryProviders: <?= json_encode($secretary_providers) ?>,
+        calendarView: <?= json_encode($calendar_view) ?>,
+        timezones: <?= json_encode($timezones) ?>,
+        user: {
+            id: <?= $user_id ?>,
+            email: <?= json_encode($user_email) ?>,
+            timezone: <?= json_encode($timezone) ?>,
+            role_slug: <?= json_encode($role_slug) ?>,
+            privileges: <?= json_encode($privileges) ?>,
         }
     };
 

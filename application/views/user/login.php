@@ -45,11 +45,11 @@
 
     <script>
         var GlobalVariables = {
-            'csrfToken': <?= json_encode($this->security->get_csrf_hash()) ?>,
-            'baseUrl': <?= json_encode($base_url) ?>,
-            'destUrl': <?= json_encode($dest_url) ?>,
-            'AJAX_SUCCESS': 'SUCCESS',
-            'AJAX_FAILURE': 'FAILURE'
+            csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+            baseUrl: <?= json_encode($base_url) ?>,
+            destUrl: <?= json_encode($dest_url) ?>,
+            AJAX_SUCCESS: 'SUCCESS',
+            AJAX_FAILURE: 'FAILURE'
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;

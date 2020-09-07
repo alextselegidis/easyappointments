@@ -68,14 +68,14 @@
 
     <script>
         var GlobalVariables = {
-            'csrfToken'         : <?= json_encode($this->security->get_csrf_hash()) ?>,
-            'appointmentData'   : <?= json_encode($appointment_data) ?>,
-            'providerData'      : <?= json_encode($provider_data) ?>,
-            'serviceData'       : <?= json_encode($service_data) ?>,
-            'companyName'       : <?= json_encode($company_name) ?>,
-            'googleApiKey'      : <?= json_encode(config('google_api_key')) ?>,
-            'googleClientId'    : <?= json_encode(config('google_client_id')) ?>,
-            'googleApiScope'    : 'https://www.googleapis.com/auth/calendar'
+            csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+            appointmentData: <?= json_encode($appointment_data) ?>,
+            providerData: <?= json_encode($provider_data) ?>,
+            serviceData: <?= json_encode($service_data) ?>,
+            companyName: <?= json_encode($company_name) ?>,
+            googleApiKey: <?= json_encode(config('google_api_key')) ?>,
+            googleClientId: <?= json_encode(config('google_client_id')) ?>,
+            googleApiScope: 'https://www.googleapis.com/auth/calendar'
         };
 
         var EALang = <?= json_encode($this->lang->language) ?>;
