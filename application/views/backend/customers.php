@@ -55,21 +55,21 @@
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
                     <button id="add-customer" class="btn btn-primary">
-                        <i class="fas fa-plus"></i>
+                        <i class="far fa-plus-square mr-2"></i>
                         <?= lang('add') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
                     <button id="edit-customer" class="btn btn-light" disabled="disabled">
-                        <i class="far fa-edit"></i>
+                        <i class="far fa-edit mr-2"></i>
                         <?= lang('edit') ?>
                     </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
                     <button id="delete-customer" class="btn btn-light" disabled="disabled">
-                        <i class="far fa-trash-alt"></i>
+                        <i class="far fa-trash-alt mr-2"></i>
                         <?= lang('delete') ?>
                     </button>
                     <?php endif ?>
@@ -77,11 +77,11 @@
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
                     <button id="save-customer" class="btn btn-primary">
-                        <i class="far fa-check-circle"></i>
+                        <i class="far fa-check-circle mr-2"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-customer" class="btn btn-light">
-                        <i class="fas fa-ban"></i>
+                        <i class="fas fa-ban mr-2"></i>
                         <?= lang('cancel') ?>
                     </button>
                 </div>

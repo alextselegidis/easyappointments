@@ -71,7 +71,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
-                                <i class="far fa-save"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -224,7 +224,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
-                                <i class="far fa-save"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -275,7 +275,7 @@
 
                             <div class="mt-2">
                                 <button type="button" class="add-break btn btn-primary">
-                                    <i class="fas fa-plus"></i>
+                                    <i class="far fa-plus-square"></i>
                                     <?= lang('add_break');?>
                                 </button>
                             </div>
@@ -310,7 +310,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
-                                <i class="far fa-save"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -389,7 +389,7 @@
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                                 <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                         title="<?= lang('save') ?>">
-                                    <i class="far fa-save"></i>
+                                    <i class="far fa-check-circle mr-2"></i>
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>

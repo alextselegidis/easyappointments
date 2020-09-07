@@ -69,7 +69,7 @@
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
             <div class="btn-group">
                 <button class="btn btn-light" id="insert-appointment">
-                    <i class="fas fa-plus"></i>
+                    <i class="far fa-plus-square mr-2"></i>
                     <?= lang('appointment') ?>
                 </button>
 
@@ -80,9 +80,11 @@
 
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#" id="insert-unavailable">
+                        <i class="far fa-plus-square mr-2"></i>
                         <?= lang('unavailable') ?>
                     </a>
                     <a class="dropdown-item" href="#" id="insert-extra-period">
+                        <i class="far fa-plus-square mr-2"></i>
                         <?= lang('extra_period') ?>
                     </a>
                 </div>
@@ -90,13 +92,13 @@
             <?php endif ?>
 
             <button id="reload-appointments" class="btn btn-light" title="<?= lang('reload_appointments_hint') ?>">
-                <i class="fas fa-redo-alt"></i>
+                <i class="fas fa-sync-alt"></i>
             </button>
 
             <?php if($calendar_view === 'default'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
                    title="<?= lang('table') ?>">
-                    <i class="far fa-list-alt"></i>
+                    <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
@@ -265,11 +267,15 @@
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-light btn-sm" type="button"
                                     title="<?= lang('clear_fields_add_existing_customer_hint') ?>">
+                                <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('new') ?>
                             </button>
                             <button id="select-customer" class="btn btn-primary btn-sm" type="button"
                                     title="<?= lang('pick_existing_customer_hint') ?>">
-                                <?= lang('select') ?>
+                                <i class="far fa-hand-pointer mr-2"></i>
+                                <span>
+                                    <?= lang('select') ?>
+                                </span>
                             </button>
                             <input id="filter-existing-customers"
                                    placeholder="<?= lang('type_to_filter_customers') ?>"
@@ -329,9 +335,14 @@
             </div>
 
             <div class="modal-footer">
-                <button id="cancel-appointment" class="btn btn-light"
-                        data-dismiss="modal"><?= lang('cancel') ?></button>
-                <button id="save-appointment" class="btn btn-primary"><?= lang('save') ?></button>
+                <button id="cancel-appointment" class="btn btn-light" data-dismiss="modal">
+                    <i class="fas fa-ban"></i>
+                    <?= lang('cancel') ?>
+                </button>
+                <button id="save-appointment" class="btn btn-primary">
+                    <i class="far fa-check-circle mr-2"></i>
+                    <?= lang('save') ?>
+                </button>
             </div>
         </div>
     </div>
@@ -395,9 +406,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-unavailable" class="btn btn-light"
-                        data-dismiss="modal"><?= lang('cancel') ?></button>
-                <button id="save-unavailable" class="btn btn-primary"><?= lang('save') ?></button>
+                <button id="cancel-unavailable" class="btn btn-light" data-dismiss="modal">
+                    <i class="fas fa-ban"></i>
+                    <?= lang('cancel') ?>
+                </button>
+                <button id="save-unavailable" class="btn btn-primary">
+                    <i class="far fa-check-circle mr-2"></i>
+                    <?= lang('save') ?>
+                </button>
             </div>
         </div>
     </div>
@@ -456,8 +472,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-extra" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
-                <button id="save-extra" class="btn btn-primary"><?= lang('save') ?></button>
+                <button id="cancel-extra" class="btn btn-light" data-dismiss="modal">
+                    <i class="fas fa-ban"></i>
+                    <?= lang('cancel') ?>
+                </button>
+                <button id="save-extra" class="btn btn-primary">
+                    <i class="far fa-check-circle mr-2"></i>
+                    <?= lang('save') ?>
+                </button>
             </div>
         </div>
     </div>
@@ -480,8 +502,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="close-calendar" class="btn btn-light" data-dismiss="modal"><?= lang('close') ?></button>
-                <button id="select-calendar" class="btn btn-primary"><?= lang('select') ?></button>
+                <button id="close-calendar" class="btn btn-light" data-dismiss="modal">
+                    <i class="fas fa-ban"></i>
+                    <?= lang('cancel') ?>
+                </button>
+                <button id="select-calendar" class="btn btn-primary">
+                    <i class="far fa-check-circle"></i>
+                    <?= lang('select') ?>
+                </button>
             </div>
         </div>
     </div>

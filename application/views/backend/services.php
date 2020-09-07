@@ -70,26 +70,26 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-service" class="btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-service" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-service" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-trash-alt"></i>
+                                <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-service" class="btn btn-primary">
-                                <i class="far fa-check-circle"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-service" class="btn btn-light">
-                                <i class="fas fa-ban"></i>
+                                <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -190,26 +190,26 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-category" class="btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-category" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-category" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-trash-alt"></i>
+                                <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-category" class="btn btn-primary">
-                                <i class="far fa-check-circle"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-category" class="btn btn-light">
-                                <i class="fas fa-ban"></i>
+                                <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>

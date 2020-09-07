@@ -86,26 +86,26 @@
                     <div class="float-md-left mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-provider" class="btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-provider" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-provider" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-trash-alt"></i>
+                                <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-provider" class="btn btn-primary">
-                                <i class="far fa-check-circle"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-provider" class="btn btn-light">
-                                <i class="fas fa-ban"></i>
+                                <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -251,7 +251,7 @@
 
                         <div>
                             <button type="button" class="add-break btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square"></i>
                                 <?= lang('add_break') ?>
                             </button>
                         </div>
@@ -280,7 +280,7 @@
 
                         <div>
                             <button type="button" class="add-extra-periods btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square"></i>
                                 <?= lang('add_extra_period') ?>
                             </button>
                         </div>
@@ -334,26 +334,26 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-secretary" class="btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-secretary" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-secretary" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-trash-alt"></i>
+                                <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-secretary" class="btn btn-primary">
-                                <i class="far fa-check-circle"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-secretary" class="btn btn-light">
-                                <i class="fas fa-ban"></i>
+                                <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>
@@ -496,26 +496,26 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-admin" class="btn btn-primary">
-                                <i class="fas fa-plus"></i>
+                                <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-admin" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-edit"></i>
+                                <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-admin" class="btn btn-light" disabled="disabled">
-                                <i class="far fa-trash-alt"></i>
+                                <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-admin" class="btn btn-primary">
-                                <i class="far fa-check-circle"></i>
+                                <i class="far fa-check-circle mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-admin" class="btn btn-light">
-                                <i class="fas fa-ban"></i>
+                                <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
                         </div>

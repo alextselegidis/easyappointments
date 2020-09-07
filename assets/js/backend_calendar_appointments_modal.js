@@ -182,7 +182,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var $list = $('#existing-customers-list');
 
             if (!$list.is(':visible')) {
-                $(this).text(EALang.hide);
+                $(this).find('span').text(EALang.hide);
                 $list.empty();
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
@@ -197,7 +197,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             } else {
                 $list.slideUp('slow');
                 $('#filter-existing-customers').fadeOut('slow');
-                $(this).text(EALang.select);
+                $(this).find('span').text(EALang.select);
             }
         });
 
@@ -380,7 +380,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Close existing customers-filter frame.
         $('#existing-customers-list').slideUp('slow');
         $('#filter-existing-customers').fadeOut('slow');
-        $('#select-customer').text(EALang.select);
+        $('#select-customer span').text(EALang.select);
 
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.

@@ -350,15 +350,36 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
-                                'text': EALang.edit
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'far fa-edit mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.edit
+                                    })
+                                ]
                             }),
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-danger ' + displayDelete,
-                                'text': EALang.delete
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'far fa-trash-alt mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.delete
+                                    })
+                                ]
                             }),
                             $('<button/>', {
                                 'class': 'close-popover btn btn-light',
-                                'text': EALang.close
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'fas fa-ban mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.close
+                                    })
+                                ]
                             })
                         ]
                     })
@@ -418,7 +439,14 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                             }),
                             $('<button/>', {
                                 'class': 'close-popover btn btn-light',
-                                'text': EALang.close
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'fas fa-ban mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.close
+                                    })
+                                ]
                             })
                         ]
                     })
@@ -526,15 +554,36 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'html': [
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
-                                'text': EALang.edit
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'far fa-edit mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.edit
+                                    })
+                                ]
                             }),
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-danger ' + displayDelete,
-                                'text': EALang.delete
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'far fa-trash-alt mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.delete
+                                    })
+                                ]
                             }),
                             $('<button/>', {
                                 'class': 'close-popover btn btn-light',
-                                'text': EALang.close
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'fas fa-ban mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.close
+                                    })
+                                ]
                             })
                         ]
                     })
