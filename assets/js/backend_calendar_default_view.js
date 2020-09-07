@@ -530,7 +530,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                     $('<strong/>', {
                         'class': 'd-inline-block mr-2',
-                        'text': EALang.phone_number
+                        'text': EALang.phone
                     }),
                     GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
