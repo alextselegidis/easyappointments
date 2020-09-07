@@ -16,20 +16,6 @@
  *
  * Handles the database actions for admin users management.
  *
- * Data Structure:
- *      'fist_name'
- *      'last_name' (required)
- *      'email' (required)
- *      'mobile_number'
- *      'phone_number' (required)
- *      'address'
- *      'city'
- *      'state'
- *      'zip_code'
- *      'notes'
- *      'id_roles'
- *      'settings' >>> array that contains user settings (username, password etc)
- *
  * @property CI_DB_query_builder db
  * @property CI_Loader load
  *

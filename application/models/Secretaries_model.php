@@ -16,22 +16,6 @@
  *
  * Handles the db actions that have to do with secretaries.
  *
- * Data Structure:
- *
- *  'first_name'
- *  'last_name'
- *  'email'
- *  'mobile_number'
- *  'phone_number'
- *  'address'
- *  'city'
- *  'state'
- *  'zip_code'
- *  'notes'
- *  'id_roles'
- *  'providers' >> array with provider ids that the secretary handles
- *  'settings' >> array with the secretary settings
- *
  * @property CI_DB_query_builder db
  * @property CI_Loader load
  *

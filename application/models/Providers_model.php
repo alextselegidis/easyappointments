@@ -16,31 +16,6 @@
  *
  * Contains the database operations for the service provider users of Easy!Appointments.
  *
- * Data Structure:
- *      'fist_name'
- *      'last_name' (required)
- *      'email' (required)
- *      'mobile_number'
- *      'phone_number' (required)
- *      'address'
- *      'city'
- *      'state'
- *      'zip_code'
- *      'notes'
- *      'id_roles'
- *      'services' >> array that contains the ids that the provider can provide
- *      'settings'
- *          'username'
- *          'password'
- *          'notifications'
- *          'working_plan'
- *          'google_sync'
- *          'google_token'
- *          'google_calendar'
- *          'sync_past_days'
- *          'sync_future_days',
- *          'calendar_view'
- *
  * @property CI_DB_query_builder db
  * @property CI_Loader load
  *
