@@ -159,7 +159,7 @@
                     username: $('#provider-username').val(),
                     working_plan: JSON.stringify(BackendUsers.wp.get()),
                     extra_working_plan: JSON.stringify(BackendUsers.wp.getExtraWP()),
-                    notifications: $('#provider-notifications').hasClass('active'),
+                    notifications: $('#provider-notifications').prop('checked'),
                     calendar_view: $('#provider-calendar-view').val()
                 }
             };
@@ -391,11 +391,7 @@
 
         $('#provider-username').val(provider.settings.username);
         $('#provider-calendar-view').val(provider.settings.calendar_view);
-        if (provider.settings.notifications === '1') {
-            $('#provider-notifications').addClass('active');
-        } else {
-            $('#provider-notifications').removeClass('active');
-        }
+        $('#provider-notifications').prop('checked', Boolean(Number(provider.settings.notifications)));
 
         // Add dedicated provider link.
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id);

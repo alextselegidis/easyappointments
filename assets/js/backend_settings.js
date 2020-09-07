@@ -62,24 +62,24 @@ window.BackendSettings = window.BackendSettings || {};
                 workingPlan = $.parseJSON(setting.value);
             }
 
-            if (setting.name === 'customer_notifications' && setting.value === '1') {
-                $('#customer-notifications').addClass('active');
+            if (setting.name === 'customer_notifications') {
+                $('#customer-notifications').prop('checked', Boolean(Number(setting.value)));
             }
 
-            if (setting.name === 'require_captcha' && setting.value === '1') {
-                $('#require-captcha').addClass('active');
+            if (setting.name === 'require_captcha') {
+                $('#require-captcha').prop('checked', Boolean(Number(setting.value)));
             }
 
-            if (setting.name === 'require_phone_number' && setting.value === '1') {
-                $('#require-phone-number').addClass('active');
+            if (setting.name === 'require_phone_number') {
+                $('#require-phone-number').prop('checked', Boolean(Number(setting.value)));
             }
 
-            if (setting.name === 'display_any_provider' && setting.value === '1') {
-                $('#display-any-provider').addClass('active');
+            if (setting.name === 'display_any_provider') {
+                $('#display-any-provider').prop('checked', Boolean(Number(setting.value)));
             }
 
             if (setting.name === 'display_cookie_notice') {
-                $('#display-cookie-notice').prop('checked', setting.value === '1');
+                $('#display-cookie-notice').prop('checked', Boolean(Number(setting.value)));
             }
 
             if (setting.name === 'cookie_notice_content') {
@@ -87,7 +87,7 @@ window.BackendSettings = window.BackendSettings || {};
             }
 
             if (setting.name === 'display_terms_and_conditions') {
-                $('#display-terms-and-conditions').prop('checked', setting.value === '1');
+                $('#display-terms-and-conditions').prop('checked', Boolean(Number(setting.value)));
             }
 
             if (setting.name === 'terms_and_conditions_content') {
@@ -95,7 +95,7 @@ window.BackendSettings = window.BackendSettings || {};
             }
 
             if (setting.name === 'display_privacy_policy') {
-                $('#display-privacy-policy').prop('checked', setting.value === '1');
+                $('#display-privacy-policy').prop('checked', Boolean(Number(setting.value)));
             }
 
             if (setting.name === 'privacy_policy_content') {

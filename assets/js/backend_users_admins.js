@@ -146,7 +146,7 @@
                 timezone: $('#admin-timezone').val(),
                 settings: {
                     username: $('#admin-username').val(),
-                    notifications: $('#admin-notifications').hasClass('active'),
+                    notifications: $('#admin-notifications').prop('checked'),
                     calendar_view: $('#admin-calendar-view').val()
                 }
             };
@@ -327,11 +327,7 @@
 
         $('#admin-username').val(admin.settings.username);
         $('#admin-calendar-view').val(admin.settings.calendar_view);
-        if (admin.settings.notifications === true) {
-            $('#admin-notifications').addClass('active');
-        } else {
-            $('#admin-notifications').removeClass('active');
-        }
+        $('#admin-notifications').prop('checked', Boolean(Number(admin.settings.notifications)));
     };
 
     /**

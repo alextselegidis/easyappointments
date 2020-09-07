@@ -67,7 +67,8 @@
         var settings = [];
 
         // General Settings Tab
-        $('#general').find('input, select').each(function (index, field) {
+
+        $('#general').find('input, select').not('input:checkbox').each(function (index, field) {
             settings.push({
                 name: $(field).attr('data-field'),
                 value: $(field).val()
@@ -76,26 +77,27 @@
 
         settings.push({
             name: 'customer_notifications',
-            value: $('#customer-notifications').hasClass('active') ? '1' : '0'
+            value: $('#customer-notifications').prop('checked') ? '1' : '0'
         });
 
         settings.push({
             name: 'require_captcha',
-            value: $('#require-captcha').hasClass('active') ? '1' : '0'
+            value: $('#require-captcha').prop('checked') ? '1' : '0'
         });
 
         settings.push({
             name: 'require_phone_number',
-            value: $('#require-phone-number').hasClass('active') ? '1' : '0'
+            value: $('#require-phone-number').prop('checked') ? '1' : '0'
         });
 
         settings.push({
             name: 'display_any_provider',
-            value: $('#display-any-provider').hasClass('active') ? '1' : '0'
+            value: $('#display-any-provider').prop('checked') ? '1' : '0'
         });
 
 
         // Business Logic Tab
+
         settings.push({
             name: 'company_working_plan',
             value: JSON.stringify(BackendSettings.wp.get())
@@ -107,6 +109,7 @@
         });
 
         // Legal Contents Tab
+
         settings.push({
             name: 'display_cookie_notice',
             value: $('#display-cookie-notice').prop('checked') ? '1' : '0'

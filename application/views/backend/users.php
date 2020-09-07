@@ -209,12 +209,14 @@
 
                                 <br>
 
-                                <button type="button" id="provider-notifications" class="btn btn-light" data-toggle="button">
-                                    <i class="far fa-envelope"></i>
-                                    <span><?= lang('receive_notifications') ?></span>
-                                </button>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="provider-notifications">
+                                    <label class="custom-control-label" for="provider-notifications">
+                                        <?= lang('receive_notifications') ?>
+                                    </label>
+                                </div>
 
-                                <br><br>
+                                <br>
 
                                 <h4><?= lang('services') ?></h4>
                                 <div id="provider-services" class="card card-body bg-light border-light"></div>
@@ -446,12 +448,14 @@
 
                             <br>
 
-                            <button type="button" id="secretary-notifications" class="btn btn-light" data-toggle="button">
-                                <i class="far fa-envelope"></i>
-                                <span><?= lang('receive_notifications') ?></span>
-                            </button>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="secretary-notifications">
+                                <label class="custom-control-label" for="secretary-notifications">
+                                    <?= lang('receive_notifications') ?>
+                                </label>
+                            </div>
 
-                            <br><br>
+                            <br>
 
                             <h4><?= lang('providers') ?></h4>
                             <div id="secretary-providers" class="card card-body bg-light border-light"></div>
@@ -606,10 +610,12 @@
 
                             <br>
 
-                            <button type="button" id="admin-notifications" class="btn btn-light" data-toggle="button">
-                                <i class="far fa-envelope"></i>
-                                <span><?= lang('receive_notifications') ?></span>
-                            </button>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="admin-notifications">
+                                <label class="custom-control-label" for="admin-notifications">
+                                    <?= lang('receive_notifications') ?>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

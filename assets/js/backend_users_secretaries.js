@@ -342,11 +342,7 @@
 
         $('#secretary-username').val(secretary.settings.username);
         $('#secretary-calendar-view').val(secretary.settings.calendar_view);
-        if (secretary.settings.notifications === '1') {
-            $('#secretary-notifications').addClass('active');
-        } else {
-            $('#secretary-notifications').removeClass('active');
-        }
+        $('#secretary-notifications').prop('checked', Boolean(Number(secretary.settings.notifications)));
 
         $('#secretary-providers input:checkbox').prop('checked', false);
 

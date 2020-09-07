@@ -156,59 +156,53 @@
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="api-token">
-                                    API Token</label>
-                                <input id="api-token"
-                                       data-field="api_token" class="form-control">
+                                <label for="api-token">API Token</label>
+                                <input id="api-token" data-field="api_token" class="form-control">
                                 <span class="help-block">
                                     <?= lang('api_token_hint') ?>
                                 </span>
                             </div>
 
                             <div class="form-group">
-                                <label><?= lang('customer_notifications') ?></label>
-                                <br>
-                                <button type="button" id="customer-notifications" class="btn btn-light" data-toggle="button">
-                                    <i class="far fa-envelope"></i>
-                                    <?= lang('receive_notifications') ?>
-                                </button>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customer-notifications">
+                                    <label class="custom-control-label" for="customer-notifications">
+                                        <?= lang('customer_notifications') ?>
+                                    </label>
+                                </div>
                                 <span class="form-text text-muted">
                                     <?= lang('customer_notifications_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="require-captcha">
-                                    CAPTCHA
-                                </label>
-                                <br>
-                                <button type="button" id="require-captcha" class="btn btn-light" data-toggle="button">
-                                    <i class="fas fa-lock"></i>
-                                    <?= lang('require_captcha') ?>
-                                </button>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="require-captcha">
+                                    <label class="custom-control-label" for="require-captcha">
+                                        CAPTCHA
+                                    </label>
+                                </div>
                                 <span class="form-text text-muted">
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="require-phone-number">
-                                    <?= lang('phone_number') ?>
-                                </label>
-                                <br>
-                                <button type="button" id="require-phone-number" class="btn btn-light" data-toggle="button">
-                                    <i class="fas fa-phone-alt"></i>
-                                    <?= lang('require_phone_number') ?>
-                                </button>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="require-phone-number">
+                                    <label class="custom-control-label" for="require-phone-number">
+                                        <?= lang('phone_number') ?>
+                                    </label>
+                                </div>
                                 <span class="help-block">
                                     <?= lang('require_phone_number_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label><?= lang('any_provider') ?></label>
-                                <br>
-                                <button type="button" id="display-any-provider" class="btn btn-light" data-toggle="button">
-                                    <i class="fas fa-user"></i>
-                                    <?= lang('display_any_provider') ?>
-                                </button>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="display-any-provider">
+                                    <label class="custom-control-label" for="display-any-provider">
+                                        <?= lang('any_provider') ?>
+                                    </label>
+                                </div>
                                 <span class="help-block">
                                     <?= lang('display_any_provider_hint') ?>
                                 </span>
