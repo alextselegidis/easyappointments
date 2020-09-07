@@ -244,6 +244,12 @@ window.BackendSettings = window.BackendSettings || {};
         $('#apply-global-working-plan').on('click', function() {
             var buttons = [
                 {
+                    text: EALang.cancel,
+                    click: function() {
+                        $('#message-box').dialog('close');
+                    }
+                },
+                {
                     text: 'OK',
                     click: function() {
                         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_apply_global_working_plan';
@@ -261,12 +267,6 @@ window.BackendSettings = window.BackendSettings || {};
                             .always(function() {
                                 $('#message-box').dialog('close');
                             });
-                    }
-                },
-                {
-                    text: EALang.cancel,
-                    click: function() {
-                        $('#message-box').dialog('close');
                     }
                 }
             ];

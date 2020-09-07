@@ -169,15 +169,15 @@
             var serviceId = $('#service-id').val();
             var buttons = [
                 {
-                    text: EALang.delete,
+                    text: EALang.cancel,
                     click: function () {
-                        instance.delete(serviceId);
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: EALang.cancel,
+                    text: EALang.delete,
                     click: function () {
+                        instance.delete(serviceId);
                         $('#message-box').dialog('close');
                     }
                 }

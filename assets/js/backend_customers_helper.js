@@ -170,15 +170,15 @@
             var customerId = $('#customer-id').val();
             var buttons = [
                 {
-                    text: EALang.delete,
+                    text: EALang.cancel,
                     click: function () {
-                        instance.delete(customerId);
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: EALang.cancel,
+                    text: EALang.delete,
                     click: function () {
+                        instance.delete(customerId);
                         $('#message-box').dialog('close');
                     }
                 }

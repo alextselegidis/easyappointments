@@ -162,6 +162,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
                         text: 'OK',
                         click: function () {
                             url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
@@ -181,12 +187,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 })
                                 .fail(GeneralFunctions.ajaxFailureHandler);
                         }
-                    },
-                    {
-                        text: EALang.cancel,
-                        click: function () {
-                            $('#message-box').dialog('close');
-                        }
                     }
                 ];
 
@@ -197,7 +197,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('<textarea/>', {
                     'class': 'form-control w-100',
                     'id': 'delete-reason',
-                    'rows': '3',
+                    'rows': '3'
                 })
                     .appendTo('#message-box');
             } else {

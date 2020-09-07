@@ -329,9 +329,9 @@
             </div>
 
             <div class="modal-footer">
-                <button id="save-appointment" class="btn btn-primary"><?= lang('save') ?></button>
                 <button id="cancel-appointment" class="btn btn-light"
                         data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-appointment" class="btn btn-primary"><?= lang('save') ?></button>
             </div>
         </div>
     </div>
@@ -395,9 +395,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="save-unavailable" class="btn btn-primary"><?= lang('save') ?></button>
                 <button id="cancel-unavailable" class="btn btn-light"
                         data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-unavailable" class="btn btn-primary"><?= lang('save') ?></button>
             </div>
         </div>
     </div>
@@ -456,8 +456,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="save-extra" class="btn btn-primary"><?= lang('save') ?></button>
                 <button id="cancel-extra" class="btn btn-light" data-dismiss="modal"><?= lang('cancel') ?></button>
+                <button id="save-extra" class="btn btn-primary"><?= lang('save') ?></button>
             </div>
         </div>
     </div>
@@ -480,8 +480,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="select-calendar" class="btn btn-primary"><?= lang('select') ?></button>
                 <button id="close-calendar" class="btn btn-light" data-dismiss="modal"><?= lang('close') ?></button>
+                <button id="select-calendar" class="btn btn-primary"><?= lang('select') ?></button>
             </div>
         </div>
     </div>

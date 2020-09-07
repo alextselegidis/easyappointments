@@ -107,18 +107,18 @@
 
             var buttons = [
                 {
+                    text: EALang.cancel,
+                    click: function () {
+                        $('#message-box').dialog('close');
+                    }
+                },
+                {
                     text: EALang.delete,
                     click: function () {
                         instance.delete(categoryId);
                         $('#message-box').dialog('close');
                     }
                 },
-                {
-                    text: EALang.cancel,
-                    click: function () {
-                        $('#message-box').dialog('close');
-                    }
-                }
             ];
 
             GeneralFunctions.displayMessageBox(EALang.delete_category,

@@ -116,17 +116,17 @@
             var secretaryId = $('#secretary-id').val();
             var buttons = [
                 {
+                    text: EALang.cancel,
+                    click: function () {
+                        $('#message-box').dialog('close');
+                    }
+                },
+                {
                     text: EALang.delete,
                     click: function () {
                         this.delete(secretaryId);
                         $('#message-box').dialog('close');
                     }.bind(this)
-                },
-                {
-                    text: EALang.cancel,
-                    click: function () {
-                        $('#message-box').dialog('close');
-                    }
                 }
             ];
 

@@ -122,22 +122,21 @@
 
             var buttons = [
                 {
+                    text: EALang.cancel,
+                    click: function () {
+                        $('#message-box').dialog('close');
+                    }
+                },
+                {
                     text: EALang.delete,
                     click: function () {
                         this.delete(providerId);
                         $('#message-box').dialog('close');
                     }.bind(this)
-                },
-                {
-                    text: EALang.cancel,
-                    click: function () {
-                        $('#message-box').dialog('close');
-                    }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_provider,
-                EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_provider, EALang.delete_record_prompt, buttons);
         }.bind(this));
 
         /**

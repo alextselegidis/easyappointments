@@ -239,6 +239,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
                         text: 'OK',
                         click: function () {
                             url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
@@ -257,12 +263,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                     $('#select-filter-item').trigger('change');
                                 })
                                 .fail(GeneralFunctions.ajaxFailureHandler);
-                        }
-                    },
-                    {
-                        text: EALang.cancel,
-                        click: function () {
-                            $('#message-box').dialog('close');
                         }
                     }
                 ];
