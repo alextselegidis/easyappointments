@@ -523,24 +523,16 @@
                     <?= lang('project_issues') ?>
                 </a>
                 |
-                <a href="http://easyappointments.wordpress.com">
-                    E!A Blog
+                <a href="https://easyappointments.org/blog">
+                    Blog
                 </a>
                 |
                 <a href="https://www.facebook.com/easyappointments.org">
                     Facebook
                 </a>
                 |
-                <a href="https://plus.google.com/+EasyappointmentsOrg">
-                    Google+
-                </a>
-                |
-                <a href="https://twitter.com/EasyAppts">
+                <a href="https://twitter.com/easyappts">
                     Twitter
-                </a>
-                |
-                <a href="https://plus.google.com/communities/105333709485142846840">
-                    <?= lang('google_plus_community') ?>
                 </a>
             </p>
 
