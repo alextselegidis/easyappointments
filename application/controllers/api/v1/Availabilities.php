@@ -42,7 +42,6 @@ use EA\Engine\Types\UnsignedInteger;
  * @property User_Model user_model
  *
  * @package Controllers
- * @subpackage API
  */
 class Availabilities extends API_V1_Controller {
     /**

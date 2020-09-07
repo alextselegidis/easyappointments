@@ -21,7 +21,6 @@ use EA\Engine\Types\NonEmptyText;
  * and call the parent constructor.
  *
  * @package Controllers
- * @subpackage API
  */
 class API_V1_Controller extends CI_Controller {
     /**

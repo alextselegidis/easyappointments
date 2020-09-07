@@ -43,7 +43,6 @@ use EA\Engine\Types\NonEmptyText;
  * @property User_Model user_model
  *
  * @package Controllers
- * @subpackage API
  */
 class Appointments extends API_V1_Controller {
     /**

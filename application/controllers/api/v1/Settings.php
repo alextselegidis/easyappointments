@@ -42,7 +42,6 @@ use EA\Engine\Api\V1\Response;
  * @property User_Model user_model
  *
  * @package Controllers
- * @subpackage API
  */
 class Settings extends API_V1_Controller {
     /**
