@@ -7,5 +7,4 @@ indent_style = space
 indent_size = 4
 
 [{package.json,.travis.yml}]
-indent_style = space
 indent_size = 2
