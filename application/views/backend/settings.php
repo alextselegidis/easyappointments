@@ -492,10 +492,12 @@
                             <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
                         </div>
 
-                        <button type="button" id="user-notifications" class="btn btn-light" data-toggle="button">
-                            <i class="far fa-envelope"></i>
-                            <?= lang('receive_notifications') ?>
-                        </button>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="user-notifications">
+                            <label class="custom-control-label" for="user-notifications">
+                                <?= lang('receive_notifications') ?>
+                            </label>
+                        </div>
                     </fieldset>
                 </div>
             </form>

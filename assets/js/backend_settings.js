@@ -123,12 +123,7 @@ window.BackendSettings = window.BackendSettings || {};
         $('#username').val(GlobalVariables.settings.user.settings.username);
         $('#password, #retype-password').val('');
         $('#calendar-view').val(GlobalVariables.settings.user.settings.calendar_view);
-
-        if (GlobalVariables.settings.user.settings.notifications === true) {
-            $('#user-notifications').addClass('active');
-        } else {
-            $('#user-notifications').removeClass('active');
-        }
+        $('#user-notifications').prop('checked', Boolean(Number(GlobalVariables.settings.user.settings.notifications)));
 
         // Set default settings helper.
         settings = new SystemSettings();
@@ -166,11 +161,7 @@ window.BackendSettings = window.BackendSettings || {};
          *
          * Change the visible tab contents.
          */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (event) {
-            // Bootstrap has a bug with toggle buttons. Their toggle state is lost when the button is hidden or shown.
-            // Show before anything else we need to store the toggle and apply it whenever the user tab is clicked.
-            var areNotificationsActive = $('#user-notifications').hasClass('active');
-
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
             var href = $(this).attr('href');
 
             if (href === '#general') {
@@ -181,13 +172,6 @@ window.BackendSettings = window.BackendSettings || {};
                 settings = new SystemSettings();
             } else if (href === '#current-user') {
                 settings = new UserSettings();
-
-                // Apply toggle state to user notifications button.
-                if (areNotificationsActive) {
-                    $('#user-notifications').addClass('active');
-                } else {
-                    $('#user-notifications').removeClass('active');
-                }
             }
 
             Backend.placeFooterToBottom();

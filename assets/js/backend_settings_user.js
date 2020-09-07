@@ -42,7 +42,7 @@
             timezone: $('#timezone').val(),
             settings: {
                 username: $('#username').val(),
-                notifications: $('#user-notifications').hasClass('active'),
+                notifications: $('#user-notifications').prop('checked'),
                 calendar_view: $('#calendar-view').val()
             }
         };
