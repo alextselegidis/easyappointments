@@ -26,7 +26,7 @@
         }
     };
 
-    $(function() {
+    $(function () {
         BackendSettings.initialize(true);
     });
 </script>
@@ -144,6 +144,10 @@
                                     <?= lang('first_weekday_hint') ?>
                                 </span>
                             </div>
+
+                            <p class="text-danger">
+                                <small><?= lang('fields_are_required') ?></small>
+                            </p>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
@@ -239,11 +243,11 @@
 
                             <table class="working-plan table table-striped">
                                 <thead>
-                                    <tr>
-                                        <th><?= lang('day') ?></th>
-                                        <th><?= lang('start') ?></th>
-                                        <th><?= lang('end') ?></th>
-                                    </tr>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                </tr>
                                 </thead>
                                 <tbody><!-- Dynamic Content --></tbody>
                             </table>
@@ -259,8 +263,10 @@
 
                             <h4><?= lang('book_advance_timeout') ?></h4>
                             <div class="form-group">
-                                <label for="book-advance-timeout" class="control-label"><?= lang('timeout_minutes') ?></label>
-                                <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" type="number" min="15">
+                                <label for="book-advance-timeout"
+                                       class="control-label"><?= lang('timeout_minutes') ?></label>
+                                <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control"
+                                       type="number" min="15">
                                 <p class="form-text text-muted">
                                     <?= lang('book_advance_timeout_hint') ?>
                                 </p>
@@ -276,7 +282,7 @@
                             <div class="mt-2">
                                 <button type="button" class="add-break btn btn-primary">
                                     <i class="far fa-plus-square"></i>
-                                    <?= lang('add_break');?>
+                                    <?= lang('add_break'); ?>
                                 </button>
                             </div>
 
@@ -284,12 +290,12 @@
 
                             <table class="breaks table table-striped">
                                 <thead>
-                                    <tr>
-                                        <th><?= lang('day') ?></th>
-                                        <th><?= lang('start') ?></th>
-                                        <th><?= lang('end') ?></th>
-                                        <th><?= lang('actions') ?></th>
-                                    </tr>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                    <th><?= lang('actions') ?></th>
+                                </tr>
                                 </thead>
                                 <tbody><!-- Dynamic Content --></tbody>
                             </table>
@@ -341,7 +347,8 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="display-terms-and-conditions">
+                                        <input class="custom-control-input" type="checkbox"
+                                               id="display-terms-and-conditions">
                                         <label class="custom-control-label" for="display-terms-and-conditions">
                                             <?= lang('display_terms_and_conditions') ?>
                                         </label>
@@ -351,7 +358,8 @@
 
                             <div class="form-group">
                                 <label><?= lang('terms_and_conditions_content') ?></label>
-                                <textarea id="terms-and-conditions-content" cols="30" rows="10" class="form-group"></textarea>
+                                <textarea id="terms-and-conditions-content" cols="30" rows="10"
+                                          class="form-group"></textarea>
                             </div>
 
                             <h4><?= lang('privacy_policy') ?></h4>
@@ -384,7 +392,7 @@
             <form>
                 <div class="row">
                     <fieldset class="col-12 col-sm-6 personal-info-wrapper">
-                        <legend  class="border-bottom mb-4">
+                        <legend class="border-bottom mb-4">
                             <?= lang('personal_information') ?>
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                                 <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
@@ -446,44 +454,49 @@
                             <label for="notes"><?= lang('notes') ?></label>
                             <textarea id="notes" class="form-control" rows="3"></textarea>
                         </div>
+
+                        <p class="text-danger">
+                            <small><?= lang('fields_are_required') ?></small>
+                        </p>
                     </fieldset>
 
                     <fieldset class="col-12 col-sm-6 miscellaneous-wrapper">
-                    <legend class="border-bottom mb-4"><?= lang('system_login') ?></legend>
+                        <legend class="border-bottom mb-4"><?= lang('system_login') ?></legend>
 
-                    <div class="form-group">
-                        <label for="username"><?= lang('username') ?> *</label>
-                        <input id="username" class="form-control required">
-                    </div>
+                        <div class="form-group">
+                            <label for="username"><?= lang('username') ?> *</label>
+                            <input id="username" class="form-control required">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="password"><?= lang('password') ?></label>
-                        <input type="password" id="password" class="form-control" autocomplete="new-password">
-                    </div>
+                        <div class="form-group">
+                            <label for="password"><?= lang('password') ?></label>
+                            <input type="password" id="password" class="form-control" autocomplete="new-password">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="retype-password"><?= lang('retype_password') ?></label>
-                        <input type="password" id="retype-password" class="form-control" autocomplete="new-password">
-                    </div>
+                        <div class="form-group">
+                            <label for="retype-password"><?= lang('retype_password') ?></label>
+                            <input type="password" id="retype-password" class="form-control"
+                                   autocomplete="new-password">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="calendar-view"><?= lang('calendar') ?> *</label>
-                        <select id="calendar-view" class="form-control required">
-                            <option value="default">Default</option>
-                            <option value="table">Table</option>
-                        </select>
-                    </div>
+                        <div class="form-group">
+                            <label for="calendar-view"><?= lang('calendar') ?> *</label>
+                            <select id="calendar-view" class="form-control required">
+                                <option value="default">Default</option>
+                                <option value="table">Table</option>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="timezone"><?= lang('timezone') ?></label>
-                        <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
-                    </div>
+                        <div class="form-group">
+                            <label for="timezone"><?= lang('timezone') ?></label>
+                            <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
+                        </div>
 
-                    <button type="button" id="user-notifications" class="btn btn-light" data-toggle="button">
-                        <i class="far fa-envelope"></i>
-                        <?= lang('receive_notifications') ?>
-                    </button>
-                </fieldset>
+                        <button type="button" id="user-notifications" class="btn btn-light" data-toggle="button">
+                            <i class="far fa-envelope"></i>
+                            <?= lang('receive_notifications') ?>
+                        </button>
+                    </fieldset>
                 </div>
             </form>
         </div>

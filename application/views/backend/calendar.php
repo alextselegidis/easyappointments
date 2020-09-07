@@ -303,10 +303,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="phone-number" class="control-label"><?= lang('phone_number') ?>
-                                        *</label>
+                                    <label for="phone-number" class="control-label">
+                                        <?= lang('phone_number') ?> *
+                                    </label>
                                     <input id="phone-number" class="required form-control">
                                 </div>
+
+                                <p class="text-danger">
+                                    <small><?= lang('fields_are_required') ?></small>
+                                </p>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">

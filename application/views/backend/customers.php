@@ -142,8 +142,8 @@
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
 
-                    <p class="text-center">
-                        <em id="form-message" class="text-danger"><?= lang('fields_are_required') ?></em>
+                    <p class="text-danger">
+                        <small><?= lang('fields_are_required') ?></small>
                     </p>
                 </div>
 
