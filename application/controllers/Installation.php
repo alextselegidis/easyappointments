@@ -140,6 +140,9 @@ class Installation extends CI_Controller {
             ];
             $services['id'] = $this->services_model->add($services);
 
+            $salt = generate_salt();
+            $password = generate_random_string(100);
+
             $sample_provider = [
                 'first_name' => 'John',
                 'last_name' => 'Doe',
@@ -150,8 +153,8 @@ class Installation extends CI_Controller {
                 ],
                 'settings' => [
                     'username' => 'johndoe',
-                    'password' => '59fe9d073a9c3c606a7e01e402dca4b49b6aa517bd0fdf940c46cb13a7b63dd0',
-                    'salt' => 'dc5570debc71fc1fe94b1b0aee444fcde5b8cb83d62a6a2b736ead6557d7a2e1',
+                    'password' =>   hash_password($salt, $password),
+                    'salt' => $salt,
                     'working_plan' => '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"saturday":null,"sunday":null}',
                     'notifications' => FALSE,
                     'google_sync' => FALSE,
