@@ -90,7 +90,6 @@
             $('#secretaries .record-details').find('input, textarea').prop('disabled', false);
             $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').addClass('required');
-            $('#secretary-notifications').prop('disabled', false);
             $('#secretary-providers input:checkbox').prop('disabled', false);
         }.bind(this));
 
@@ -105,7 +104,6 @@
             $('#secretaries .record-details').find('input, textarea').prop('disabled', false);
             $('#secretaries .record-details').find('select').prop('disabled', false);
             $('#secretary-password, #secretary-password-confirm').removeClass('required');
-            $('#secretary-notifications').prop('disabled', false);
             $('#secretary-providers input:checkbox').prop('disabled', false);
         });
 
@@ -152,7 +150,7 @@
                 timezone: $('#secretary-timezone').val(),
                 settings: {
                     username: $('#secretary-username').val(),
-                    notifications: $('#secretary-notifications').hasClass('active'),
+                    notifications: $('#secretary-notifications').prop('checked'),
                     calendar_view: $('#secretary-calendar-view').val()
                 }
             };
@@ -303,17 +301,14 @@
      * Resets the secretary tab form back to its initial state.
      */
     SecretariesHelper.prototype.resetForm = function () {
-        $('#secretaries .record-details').find('input, textarea').val('');
+        $('#secretaries .record-details').find('input, select, textarea')
+            .val('')
+            .prop('disabled', true);
         $('#secretaries .add-edit-delete-group').show();
         $('#secretaries .save-cancel-group').hide();
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
-        $('#secretaries .record-details').find('input, textarea').prop('disabled', true);
-        $('#secretaries .record-details').find('select').prop('disabled', true);
         $('#secretaries .form-message').hide();
-        $('#secretary-notifications').removeClass('active');
-        $('#secretary-notifications').prop('disabled', true);
         $('#secretary-providers input:checkbox').prop('checked', false);
-        $('#secretary-providers input:checkbox').prop('disabled', true);
         $('#secretaries .has-error').removeClass('has-error');
 
         $('#filter-secretaries .selected').removeClass('selected');

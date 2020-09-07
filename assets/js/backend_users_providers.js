@@ -84,10 +84,8 @@
             $('#filter-providers .results').css('color', '#AAA');
             $('#providers .add-edit-delete-group').hide();
             $('#providers .save-cancel-group').show();
-            $('#providers .record-details').find('input, textarea').prop('disabled', false);
-            $('#providers .record-details').find('select').prop('disabled', false);
+            $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').addClass('required');
-            $('#provider-notifications').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, .add-extra-periods, .edit-extra, .delete-extra, #reset-working-plan').prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
 
@@ -104,8 +102,7 @@
             $('#providers .save-cancel-group').show();
             $('#filter-providers button').prop('disabled', true);
             $('#filter-providers .results').css('color', '#AAA');
-            $('#providers .record-details').find('input, textarea').prop('disabled', false);
-            $('#providers .record-details').find('select').prop('disabled', false);
+            $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-notifications').prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
@@ -331,12 +328,10 @@
         $('#providers .add-edit-delete-group').show();
         $('#providers .save-cancel-group').hide();
         $('#providers .record-details h3 a').remove();
-        $('#providers .record-details').find('input, textarea').prop('disabled', true);
-        $('#providers .record-details').find('select').prop('disabled', true);
+        $('#providers .record-details').find('input, select, textarea')
+            .val('')
+            .prop('disabled', true);
         $('#providers .form-message').hide();
-        $('#provider-notifications').removeClass('active');
-        $('#provider-notifications').prop('disabled', true);
-        $('#provider-services input:checkbox').prop('disabled', true);
         $('#providers .add-break, .add-extra-periods, #reset-working-plan').prop('disabled', true);
         BackendUsers.wp.timepickers(true);
         $('#providers .working-plan input:text').timepicker('destroy');
@@ -347,8 +342,9 @@
         $('#providers .has-error').removeClass('has-error');
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
-        $('#providers .record-details').find('input, textarea').val('');
-        $('#provider-services input:checkbox').prop('checked', false);
+        $('#provider-services input:checkbox')
+            .prop('disabled', true)
+            .prop('checked', false);
         $('#provider-services a').remove();
         $('#providers .working-plan tbody').empty();
         $('#providers .breaks tbody').empty();
@@ -426,12 +422,14 @@
         // Display working plan
         var workingPlan = $.parseJSON(provider.settings.working_plan);
         BackendUsers.wp.setup(workingPlan);
+        $('.working-plan').find('input').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
         $('#providers .extra-periods tbody').empty();
         var extraWorkingPlan = $.parseJSON(provider.settings.extra_working_plan);
         BackendUsers.wp.setupExtraPeriods(extraWorkingPlan);
         $('.extra-periods').find('.edit-extra, .delete-extra').prop('disabled', true);
         $('#providers .working-plan input:checkbox').prop('disabled', true);
+        Backend.placeFooterToBottom();
     };
 
     /**

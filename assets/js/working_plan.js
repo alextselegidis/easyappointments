@@ -475,7 +475,7 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -649,7 +649,7 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.extra-start input, .extra-end input').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -840,7 +840,7 @@
         if (disabled === false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,

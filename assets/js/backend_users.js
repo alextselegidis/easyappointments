@@ -72,13 +72,16 @@ window.BackendUsers = window.BackendUsers || {};
                             $('<input/>', {
                                 'class': 'form-check-input',
                                 'type': 'checkbox',
-                                'data-id': service.id
+                                'data-id': service.id,
+                                'prop': {
+                                    'disabled': true
+                                }
                             }),
                             $('<label/>', {
                                 'class': 'form-check-label',
                                 'text': service.name,
                                 'for': service.id
-                            }),
+                            })
                         ]
                     })
                 ]
@@ -102,7 +105,7 @@ window.BackendUsers = window.BackendUsers || {};
                                 'class': 'form-check-label',
                                 'text': provider.first_name + ' ' + provider.last_name,
                                 'for': provider.id
-                            }),
+                            })
                         ]
                     })
                 ]

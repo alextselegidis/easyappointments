@@ -242,7 +242,7 @@
                             <h3><?= lang('working_plan') ?></h3>
                             <button id="reset-working-plan" class="btn btn-primary"
                                     title="<?= lang('reset_working_plan') ?>">
-                                <i class="fas fa-redo-alt"></i>
+                                <i class="fas fa-redo-alt mr-2"></i>
                                 <?= lang('reset_plan') ?></button>
                             <table class="working-plan table table-striped mt-2">
                                 <thead>
@@ -265,7 +265,7 @@
 
                             <div>
                                 <button type="button" class="add-break btn btn-primary">
-                                    <i class="far fa-plus-square"></i>
+                                    <i class="far fa-plus-square mr-2"></i>
                                     <?= lang('add_break') ?>
                                 </button>
                             </div>
@@ -293,7 +293,7 @@
                         </span>
 
                             <div>
-                                <button type="button" class="add-extra-periods btn btn-primary">
+                                <button type="button" class="add-extra-periods btn btn-primary mr-2">
                                     <i class="far fa-plus-square"></i>
                                     <?= lang('add_extra_period') ?>
                                 </button>
