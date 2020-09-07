@@ -75,17 +75,17 @@ window.BackendCalendar = window.BackendCalendar || {};
      * @param {String} view Optional (default), the calendar view to be loaded.
      */
     exports.initialize = function (view) {
+        BackendCalendarGoogleSync.initialize();
+        BackendCalendarAppointmentsModal.initialize();
+        BackendCalendarUnavailabilitiesModal.initialize();
+        BackendCalendarExtraPeriodsModal.initialize();
+
         // Load and initialize the calendar view.
         if (view === 'table') {
             BackendCalendarTableView.initialize();
         } else {
             BackendCalendarDefaultView.initialize();
         }
-
-        BackendCalendarGoogleSync.initialize();
-        BackendCalendarAppointmentsModal.initialize();
-        BackendCalendarUnavailabilitiesModal.initialize();
-        BackendCalendarExtraPeriodsModal.initialize();
 
         bindEventHandlers();
     };
