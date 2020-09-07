@@ -275,6 +275,19 @@ body legend {
     box-shadow: none;
 }
 
+.backend-page .nav-pills li {
+    width: 100%;
+    text-align: center;
+    margin: 5px;
+}
+
+@media (min-width: 768px) {
+    .backend-page .nav-pills li {
+        width: auto;
+    }
+}
+
+
 /* BACKEND CALENDAR PAGE
    -------------------------------------------------------------------- */
 
@@ -806,10 +819,6 @@ body .form-horizontal .controls {
 #settings-page .nav {
     background-color: #F4F4F4;
     margin-bottom: 15px;
-}
-
-#settings-page .nav li {
-    cursor: pointer;
 }
 
 #business-logic .working-plan .checkbox,
