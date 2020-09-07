@@ -39,7 +39,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          *
          * When the user clicks the reload button an the calendar items need to be refreshed.
          */
-        $('#reload-appointments').click(function () {
+        $('#reload-appointments').on('click', function () {
             refreshCalendarAppointments(
                 $('#calendar'),
                 $('#select-filter-item').val(),
@@ -221,7 +221,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
          *
          * Load the appointments that correspond to the select filter item and display them on the calendar.
          */
-        $('#select-filter-item').change(function () {
+        $('#select-filter-item').on('change', function () {
             // If current value is service, then the sync buttons must be disabled.
             if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);

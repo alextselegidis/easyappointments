@@ -44,7 +44,7 @@
         /**
          * Event: Filter Service Cancel Button "Click"
          */
-        $('#filter-services .clear').click(function () {
+        $('#filter-services .clear').on('click', function () {
             $('#filter-services .key').val('');
             instance.filter('');
             instance.resetForm();
@@ -93,7 +93,7 @@
         /**
          * Event: Add New Service Button "Click"
          */
-        $('#add-service').click(function () {
+        $('#add-service').on('click', function () {
             instance.resetForm();
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
@@ -109,7 +109,7 @@
          *
          * Cancel add or edit of a service record.
          */
-        $('#cancel-service').click(function () {
+        $('#cancel-service').on('click', function () {
             var id = $('#service-id').val();
             instance.resetForm();
             if (id !== '') {
@@ -120,7 +120,7 @@
         /**
          * Event: Save Service Button "Click"
          */
-        $('#save-service').click(function () {
+        $('#save-service').on('click', function () {
             var service = {
                 name: $('#service-name').val(),
                 duration: $('#service-duration').val(),
@@ -152,7 +152,7 @@
         /**
          * Event: Edit Service Button "Click"
          */
-        $('#edit-service').click(function () {
+        $('#edit-service').on('click', function () {
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
             $('#services .record-details').find('input, textarea').prop('disabled', false);
@@ -165,7 +165,7 @@
         /**
          * Event: Delete Service Button "Click"
          */
-        $('#delete-service').click(function () {
+        $('#delete-service').on('click', function () {
             var serviceId = $('#service-id').val();
             var buttons = [
                 {

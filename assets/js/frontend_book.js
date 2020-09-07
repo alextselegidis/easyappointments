@@ -212,7 +212,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $('#select-provider').change(function () {
+        $('#select-provider').on('change', function () {
             FrontendBookApi.getUnavailableDates($(this).val(), $('#select-service').val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
@@ -224,7 +224,7 @@ window.FrontendBook = window.FrontendBook || {};
          * When the user clicks on a service, its available providers should
          * become visible.
          */
-        $('#select-service').change(function () {
+        $('#select-service').on('change', function () {
             var serviceId = $('#select-service').val();
 
             $('#select-provider').empty();
@@ -257,7 +257,7 @@ window.FrontendBook = window.FrontendBook || {};
          * This handler is triggered every time the user pressed the "next" button on the book wizard.
          * Some special tasks might be performed, depending the current wizard step.
          */
-        $('.button-next').click(function () {
+        $('.button-next').on('click', function () {
             // If we are on the first step and there is not provider selected do not continue
             // with the next step.
             if ($(this).attr('data-step_index') === '1' && !$('#select-provider').val()) {
@@ -334,7 +334,7 @@ window.FrontendBook = window.FrontendBook || {};
          * This handler is triggered every time the user pressed the "back" button on the
          * book wizard.
          */
-        $('.button-back').click(function () {
+        $('.button-back').on('click', function () {
             var prevTabIndex = parseInt($(this).attr('data-step_index')) - 1;
 
             $(this).parents().eq(1).hide('fade', function () {
@@ -366,7 +366,7 @@ window.FrontendBook = window.FrontendBook || {};
              *
              * @param {jQuery.Event} event
              */
-            $('#cancel-appointment').click(function (event) {
+            $('#cancel-appointment').on('click', function (event) {
                 var buttons = [
                     {
                         text: EALang.cancel,
@@ -433,7 +433,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('#book-appointment-submit').click(function (event) {
+        $('#book-appointment-submit').on('click', function (event) {
             FrontendBookApi.registerAppointment();
         });
 
@@ -442,7 +442,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('.captcha-title small').click(function (event) {
+        $('.captcha-title small').on('click', function (event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 

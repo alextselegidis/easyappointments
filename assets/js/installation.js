@@ -28,7 +28,7 @@ $(function () {
     /**
      * Event: Install Easy!Appointments Button "Click"
      */
-    $install.click(function () {
+    $install.on('click', function () {
         if (!validate()) {
             return;
         }

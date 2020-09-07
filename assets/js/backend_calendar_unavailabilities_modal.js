@@ -28,7 +28,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          *
          * Stores the unavailable period changes or inserts a new record.
          */
-        $('#manage-unavailable #save-unavailable').click(function () {
+        $('#manage-unavailable #save-unavailable').on('click', function () {
             var $dialog = $('#manage-unavailable');
             $dialog.find('.has-error').removeClass('has-error');
             var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
@@ -76,7 +76,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          *
          * Closes the dialog without saveing any changes to the database.
          */
-        $('#manage-unavailable #cancel-unavailable').click(function () {
+        $('#manage-unavailable #cancel-unavailable').on('click', function () {
             $('#manage-unavailable').modal('hide');
         });
 
@@ -86,7 +86,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          * When the user clicks this button a popup dialog appears and the use can set a time period where
          * he cannot accept any appointments.
          */
-        $('#insert-unavailable').click(function () {
+        $('#insert-unavailable').on('click', function () {
             BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
 

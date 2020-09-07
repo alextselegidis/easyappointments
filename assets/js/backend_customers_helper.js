@@ -46,7 +46,7 @@
         /**
          * Event: Filter Customers Clear Button "Click"
          */
-        $('#filter-customers .clear').click(function () {
+        $('#filter-customers .clear').on('click', function () {
             $('#filter-customers .key').val('');
             instance.filterLimit = 20;
             instance.filter('');
@@ -101,7 +101,7 @@
         /**
          * Event: Add Customer Button "Click"
          */
-        $('#add-customer').click(function () {
+        $('#add-customer').on('click', function () {
             instance.resetForm();
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
@@ -115,7 +115,7 @@
         /**
          * Event: Edit Customer Button "Click"
          */
-        $('#edit-customer').click(function () {
+        $('#edit-customer').on('click', function () {
             $('.record-details').find('input, textarea').prop('readonly', false);
             $('.record-details select').prop('disabled', false);
             $('#add-edit-delete-group').hide();
@@ -128,7 +128,7 @@
         /**
          * Event: Cancel Customer Add/Edit Operation Button "Click"
          */
-        $('#cancel-customer').click(function () {
+        $('#cancel-customer').on('click', function () {
             var id = $('#customer-id').val();
             instance.resetForm();
             if (id) {
@@ -139,7 +139,7 @@
         /**
          * Event: Save Add/Edit Customer Operation "Click"
          */
-        $('#save-customer').click(function () {
+        $('#save-customer').on('click', function () {
             var customer = {
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
@@ -166,7 +166,7 @@
         /**
          * Event: Delete Customer Button "Click"
          */
-        $('#delete-customer').click(function () {
+        $('#delete-customer').on('click', function () {
             var customerId = $('#customer-id').val();
             var buttons = [
                 {

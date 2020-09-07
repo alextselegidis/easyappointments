@@ -40,7 +40,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          *
          * Closes the dialog without saving any changes to the database.
          */
-        $('#manage-appointment #cancel-appointment').click(function () {
+        $('#manage-appointment #cancel-appointment').on('click', function () {
             $('#manage-appointment').modal('hide');
         });
 
@@ -49,7 +49,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          *
          * Stores the appointment changes or inserts a new appointment depending the dialog mode.
          */
-        $('#manage-appointment #save-appointment').click(function () {
+        $('#manage-appointment #save-appointment').on('click', function () {
             // Before doing anything the appointment data need to be validated.
             if (!validateAppointmentForm()) {
                 return;
@@ -124,7 +124,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * When the user presses this button, the manage appointment dialog opens and lets the user to
          * create a new appointment.
          */
-        $('#insert-appointment').click(function () {
+        $('#insert-appointment').on('click', function () {
             $('.popover').remove();
 
             BackendCalendarAppointmentsModal.resetAppointmentDialog();
@@ -178,7 +178,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         /**
          * Event: Pick Existing Customer Button "Click"
          */
-        $('#select-customer').click(function () {
+        $('#select-customer').on('click', function () {
             var $list = $('#existing-customers-list');
 
             if (!$list.is(':visible')) {
@@ -229,7 +229,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         /**
          * Event: Filter Existing Customers "Change"
          */
-        $('#filter-existing-customers').keyup(function () {
+        $('#filter-existing-customers').on('keyup', function () {
             var key = $(this).val().toLowerCase();
             var $list = $('#existing-customers-list');
 
@@ -292,7 +292,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * When the user clicks on a service, its available providers should become visible. Also we need to
          * update the start and end time of the appointment.
          */
-        $('#select-service').change(function () {
+        $('#select-service').on('change', function () {
             var serviceId = $('#select-service').val();
 
             $('#select-provider').empty();
@@ -329,14 +329,14 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         /**
          * Event: Provider "Change"
          */
-        $('#select-provider').change(function () {
+        $('#select-provider').on('change', function () {
             updateTimezone();
         });
 
         /**
          * Event: Enter New Customer Button "Click"
          */
-        $('#new-customer').click(function () {
+        $('#new-customer').on('click', function () {
             $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
                 + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
         });

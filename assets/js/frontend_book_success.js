@@ -17,7 +17,7 @@ $(document).ready(function () {
      * be added to the "primary" calendar. In order to use the API the javascript client library provided by
      * Google is necessary.
      */
-    $('#add-to-google-calendar').click(function () {
+    $('#add-to-google-calendar').on('click', function () {
         gapi.client.setApiKey(GlobalVariables.googleApiKey);
         gapi.auth.authorize({
             client_id: GlobalVariables.googleClientId,

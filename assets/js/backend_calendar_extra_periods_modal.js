@@ -28,7 +28,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
          *
          * Stores the extra period changes or inserts a new record.
          */
-        $('#manage-extra #save-extra').click(function () {
+        $('#manage-extra #save-extra').on('click', function () {
             var $dialog = $('#manage-extra');
             $dialog.find('.has-error').removeClass('has-error');
             var start = $dialog.find('#extra-start').datetimepicker('getDate');
@@ -99,7 +99,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
          *
          * Closes the dialog without saveing any changes to the database.
          */
-        $('#manage-extra #cancel-extra').click(function () {
+        $('#manage-extra #cancel-extra').on('click', function () {
             $('#manage-extra').modal('hide');
         });
 
@@ -109,7 +109,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
          * When the user clicks this button a popup dialog appears and the use can set a time period where
          * he cannot accept any appointments.
          */
-        $('#insert-extra-period').click(function () {
+        $('#insert-extra-period').on('click', function () {
             BackendCalendarExtraPeriodsModal.resetExtraDialog();
             var $dialog = $('#manage-extra');
 

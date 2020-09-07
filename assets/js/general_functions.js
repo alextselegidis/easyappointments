@@ -264,7 +264,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             trigger: 'manual'
         });
 
-        $element.click(function () {
+        $element.on('click', function () {
             if ($('#language-list').length === 0) {
                 $(this).popover('show');
             } else {

@@ -35,7 +35,7 @@
         /**
          * Event: Filter Categories Cancel Button "Click"
          */
-        $('#filter-categories .clear').click(function () {
+        $('#filter-categories .clear').on('click', function () {
             $('#filter-categories .key').val('');
             instance.filter('');
             instance.resetForm();
@@ -78,7 +78,7 @@
         /**
          * Event: Add Category Button "Click"
          */
-        $('#add-category').click(function () {
+        $('#add-category').on('click', function () {
             instance.resetForm();
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
@@ -90,7 +90,7 @@
         /**
          * Event: Edit Category Button "Click"
          */
-        $('#edit-category').click(function () {
+        $('#edit-category').on('click', function () {
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
             $('#categories .record-details').find('input, textarea').prop('readonly', false);
@@ -102,7 +102,7 @@
         /**
          * Event: Delete Category Button "Click"
          */
-        $('#delete-category').click(function () {
+        $('#delete-category').on('click', function () {
             var categoryId = $('#category-id').val();
 
             var buttons = [
@@ -128,7 +128,7 @@
         /**
          * Event: Categories Save Button "Click"
          */
-        $('#save-category').click(function () {
+        $('#save-category').on('click', function () {
             var category = {
                 name: $('#category-name').val(),
                 description: $('#category-description').val()
@@ -148,7 +148,7 @@
         /**
          * Event: Cancel Category Button "Click"
          */
-        $('#cancel-category').click(function () {
+        $('#cancel-category').on('click', function () {
             var id = $('#category-id').val();
             instance.resetForm();
             if (id !== '') {

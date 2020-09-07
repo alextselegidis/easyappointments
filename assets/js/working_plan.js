@@ -385,7 +385,7 @@
          * A new row is added on the table and the user can enter the new break
          * data. After that he can either press the save or cancel button.
          */
-        $('.add-break').click(function () {
+        $('.add-break').on('click', function () {
             var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
 
             var $newBreak = $('<tr/>', {
@@ -559,7 +559,7 @@
          * A new row is added on the table and the user can enter the new extra day
          * data. After that he can either press the save or cancel button.
          */
-        $('.add-extra-periods').click(function () {
+        $('.add-extra-periods').on('click', function () {
             var today = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false);
 
             var $newExtraPeriod = $('<tr/>', {
@@ -897,7 +897,7 @@
     /**
      * This is necessary for translated days.
      *
-     * @param {String} value Day value could be like "Monday", "Tuesday" etc.
+     * @param {String} day Day value could be like "Monday", "Tuesday" etc.
      */
     WorkingPlan.prototype.convertDayToValue = function (day) {
         switch (day) {

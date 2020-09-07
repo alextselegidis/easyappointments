@@ -198,7 +198,7 @@ window.BackendSettings = window.BackendSettings || {};
          *
          * Store the setting changes into the database.
          */
-        $('.save-settings').click(function () {
+        $('.save-settings').on('click', function () {
             var data = settings.get();
             settings.save(data);
         });

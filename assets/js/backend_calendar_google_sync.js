@@ -32,7 +32,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          * When the user clicks on the "Enable Sync" button, a popup should appear
          * that is going to follow the web server authorization flow of OAuth.
          */
-        $('#enable-sync').click(function () {
+        $('#enable-sync').on('click', function () {
             if ($('#enable-sync').hasClass('enabled') === false) {
                 // Enable synchronization for selected provider.
                 var authUrl = GlobalVariables.baseUrl + '/index.php/google/oauth/'
@@ -112,7 +112,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
         /**
          * Event: Select Google Calendar "Click"
          */
-        $('#select-calendar').click(function () {
+        $('#select-calendar').on('click', function () {
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
 
             var data = {
@@ -131,7 +131,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
         /**
          * Event: Close Google Calendar "Click"
          */
-        $('#close-calendar').click(function () {
+        $('#close-calendar').on('click', function () {
             $('#select-google-calendar').modal('hide');
         });
 
@@ -140,7 +140,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          *
          * Trigger the synchronization algorithm.
          */
-        $('#google-sync').click(function () {
+        $('#google-sync').on('click', function () {
             var url = GlobalVariables.baseUrl + '/index.php/google/sync/' + $('#select-filter-item').val();
 
             $.ajax({
