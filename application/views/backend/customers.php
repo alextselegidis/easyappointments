@@ -21,7 +21,7 @@
         }
     };
 
-    $(document).ready(function() {
+    $(function() {
         BackendCustomers.initialize(true);
     });
 </script>

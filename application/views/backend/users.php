@@ -28,7 +28,7 @@
         }
     };
 
-    $(document).ready(function() {
+    $(function() {
         BackendUsers.initialize(true);
     });
 </script>

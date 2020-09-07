@@ -26,7 +26,7 @@
         }
     };
 
-    $(document).ready(function() {
+    $(function() {
         BackendSettings.initialize(true);
     });
 </script>

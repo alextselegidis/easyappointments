@@ -437,7 +437,7 @@
 <script src="<?= asset_url('assets/js/frontend_book.js') ?>"></script>
 
 <script>
-    $(document).ready(function () {
+    $(function () {
         FrontendBook.initialize(true, GlobalVariables.manageMode);
         GeneralFunctions.enableLanguageSelection($('#select-language'));
     });

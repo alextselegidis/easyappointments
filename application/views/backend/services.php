@@ -19,7 +19,7 @@
         }
     };
 
-    $(document).ready(function() {
+    $(function() {
         BackendServices.initialize(true);
     });
 </script>

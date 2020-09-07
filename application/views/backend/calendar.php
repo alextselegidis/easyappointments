@@ -35,7 +35,7 @@
         }
     };
 
-    $(document).ready(function () {
+    $(function () {
         BackendCalendar.initialize(GlobalVariables.calendarView);
     });
 </script>

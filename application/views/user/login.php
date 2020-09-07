@@ -56,7 +56,7 @@
 
         var availableLanguages = <?= json_encode(config('available_languages')) ?>;
 
-        $(document).ready(function() {
+        $(function() {
         	GeneralFunctions.enableLanguageSelection($('#select-language'));
         });
     </script>
