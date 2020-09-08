@@ -31,6 +31,13 @@
             <i class="icon-calendar icon-white"></i>
             <?= lang('backend_calendar') ?>
         </a>
+
+        <div class="mt-4">
+            <small>
+                Powered by
+                <a href="https://easyappointments.org">Easy!Appointments</a>
+            </small>
+        </div>
     </div>
 </body>
 </html>

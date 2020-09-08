@@ -10,7 +10,7 @@
 
 	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
-	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/logout.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/forgot_password.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
 	<link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
@@ -57,6 +57,13 @@
             <a href="<?= site_url('user/login') ?>" class="user-login">
                 <?= lang('go_to_login') ?></a>
         </form>
+
+        <div class="mt-4">
+            <small>
+                Powered by
+                <a href="https://easyappointments.org">Easy!Appointments</a>
+            </small>
+        </div>
     </div>
     <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>

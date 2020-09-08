@@ -313,7 +313,9 @@
                 <?php endif ?>
 
                 <div id="form-message" class="text-danger">
-                    <?= lang('fields_are_required') ?>
+                    <small>
+                        <?= lang('fields_are_required') ?>
+                    </small>
                 </div>
 
                 <div class="command-buttons">

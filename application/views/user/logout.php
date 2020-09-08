@@ -9,7 +9,7 @@
     <title><?= lang('log_out') ?> | Easy!Appointments</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
-	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/login.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/logout.css') ?>">
 	<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
 	<link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
@@ -41,6 +41,13 @@
             <i class="fas fa-wrench"></i>
             <?= lang('backend_section') ?>
         </a>
+
+        <div class="mt-4">
+            <small>
+                Powered by
+                <a href="https://easyappointments.org">Easy!Appointments</a>
+            </small>
+        </div>
     </div>
 </body>
 </html>

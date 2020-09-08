@@ -12,7 +12,7 @@
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
-	
+
     <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
 </head>
 <body>
@@ -57,6 +57,13 @@
                             <?php endforeach ?>
                         </div>
                     <?php endif ?>
+                </div>
+
+                <div class="mt-2">
+                    <small>
+                        Powered by
+                        <a href="https://easyappointments.org">Easy!Appointments</a>
+                    </small>
                 </div>
             </div>
         </div>
