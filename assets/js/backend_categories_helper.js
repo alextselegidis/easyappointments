@@ -82,7 +82,7 @@
             instance.resetForm();
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
-            $('#categories .record-details').find('input, textarea').prop('readonly', false);
+            $('#categories .record-details').find('input, select, textarea').prop('disabled', false);
             $('#filter-categories button').prop('disabled', true);
             $('#filter-categories .results').css('color', '#AAA');
         });
@@ -93,8 +93,7 @@
         $('#edit-category').on('click', function () {
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
-            $('#categories .record-details').find('input, textarea').prop('readonly', false);
-
+            $('#categories .record-details').find('input, select, textarea').prop('disbaled', false);
             $('#filter-categories button').prop('disabled', true);
             $('#filter-categories .results').css('color', '#AAA');
         });
@@ -278,6 +277,9 @@
      */
     CategoriesHelper.prototype.validate = function () {
         $('#categories .has-error').removeClass('has-error');
+        $('#categories .form-message')
+            .removeClass('alert-danger')
+            .hide();
 
         try {
             var missingRequired = false;
@@ -295,6 +297,10 @@
 
             return true;
         } catch (error) {
+            $('#categories .form-message')
+                .addClass('alert-danger')
+                .text(error.message)
+                .show();
             return false;
         }
     };
@@ -303,17 +309,20 @@
      * Bring the category form back to its initial state.
      */
     CategoriesHelper.prototype.resetForm = function () {
+        $('#filter-categories .selected').removeClass('selected');
+        $('#filter-categories button').prop('disabled', false);
+        $('#filter-categories .results').css('color', '');
+
         $('#categories .add-edit-delete-group').show();
         $('#categories .save-cancel-group').hide();
-        $('#categories .record-details').find('input, textarea').val('');
-        $('#categories .record-details').find('input, textarea').prop('readonly', true);
+        $('#categories .record-details')
+            .find('input, select, textarea')
+            .val('')
+            .prop('disabled', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
-        $('.record-details .has-error').removeClass('has-error');
-
-        $('#filter-categories .selected').removeClass('selected');
-        $('#filter-categories .results').css('color', '');
-        $('#filter-categories button').prop('disabled', false);
+        $('#categories .record-details .has-error').removeClass('has-error');
+        $('#categories .record-details .form-message').hide();
     };
 
     /**

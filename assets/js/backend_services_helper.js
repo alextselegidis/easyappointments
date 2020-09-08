@@ -97,9 +97,9 @@
             instance.resetForm();
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .record-details').find('input, textarea').prop('disabled', false);
-            $('#services .record-details').find('select').prop('disabled', false);
-
+            $('#services .record-details')
+                .find('input, select textarea')
+                .prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
         });
@@ -155,9 +155,9 @@
         $('#edit-service').on('click', function () {
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .record-details').find('input, textarea').prop('disabled', false);
-            $('#services .record-details select').prop('disabled', false);
-
+            $('#services .record-details')
+                .find('input, select textarea')
+                .prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
         });
@@ -242,6 +242,9 @@
      */
     ServicesHelper.prototype.validate = function () {
         $('#services .has-error').removeClass('has-error');
+        $('#services .form-message')
+            .removeClass('alert-danger')
+            .hide();
 
         try {
             // validate required fields.
@@ -260,6 +263,10 @@
 
             return true;
         } catch (error) {
+            $('#services .form-message')
+                .addClass('alert-danger')
+                .text(error.message)
+                .show();
             return false;
         }
     };
@@ -268,19 +275,21 @@
      * Resets the service tab form back to its initial state.
      */
     ServicesHelper.prototype.resetForm = function () {
-        $('#services .record-details').find('input, textarea').val('');
-        $('#service-category').val('null');
-        $('#services .add-edit-delete-group').show();
-        $('#services .save-cancel-group').hide();
-        $('#edit-service, #delete-service').prop('disabled', true);
-        $('#services .record-details').find('input, textarea').prop('disabled', true);
-        $('#services .record-details').find('select').prop('disabled', true);
-
-        $('.record-details .has-error').removeClass('has-error');
-
         $('#filter-services .selected').removeClass('selected');
         $('#filter-services button').prop('disabled', false);
         $('#filter-services .results').css('color', '');
+
+        $('#services .record-details')
+            .find('input, select, textarea')
+            .val('')
+            .prop('disabled', true);
+
+        $('#services .add-edit-delete-group').show();
+        $('#services .save-cancel-group').hide();
+        $('#edit-service, #delete-service').prop('disabled', true);
+
+        $('#services .record-details .has-error').removeClass('has-error');
+        $('#services .record-details .form-message').hide();
     };
 
     /**

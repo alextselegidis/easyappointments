@@ -301,7 +301,12 @@
      * Resets the secretary tab form back to its initial state.
      */
     SecretariesHelper.prototype.resetForm = function () {
-        $('#secretaries .record-details').find('input, select, textarea')
+        $('#filter-secretaries .selected').removeClass('selected');
+        $('#filter-secretaries button').prop('disabled', false);
+        $('#filter-secretaries .results').css('color', '');
+
+        $('#secretaries .record-details')
+            .find('input, select, textarea')
             .val('')
             .prop('disabled', true);
         $('#secretaries .add-edit-delete-group').show();
@@ -310,10 +315,6 @@
         $('#secretaries .form-message').hide();
         $('#secretary-providers input:checkbox').prop('checked', false);
         $('#secretaries .has-error').removeClass('has-error');
-
-        $('#filter-secretaries .selected').removeClass('selected');
-        $('#filter-secretaries button').prop('disabled', false);
-        $('#filter-secretaries .results').css('color', '');
     };
 
     /**

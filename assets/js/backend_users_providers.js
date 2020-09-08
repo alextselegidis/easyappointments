@@ -104,7 +104,6 @@
             $('#filter-providers .results').css('color', '#AAA');
             $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
-            $('#provider-notifications').prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
             $('#providers').find('.add-break, .edit-break, .delete-break, .add-extra-periods, .edit-extra, .delete-extra, #reset-working-plan').prop('disabled', false);
             $('#providers input:checkbox').prop('disabled', false);
@@ -269,6 +268,9 @@
      */
     ProvidersHelper.prototype.validate = function () {
         $('#providers .has-error').removeClass('has-error');
+        $('#providers .form-message')
+            .removeClass('alert-danger')
+            .hide();
 
         try {
             // Validate required fields.
@@ -331,7 +333,6 @@
         $('#providers .record-details').find('input, select, textarea')
             .val('')
             .prop('disabled', true);
-        $('#providers .form-message').hide();
         $('#providers .add-break, .add-extra-periods, #reset-working-plan').prop('disabled', true);
         BackendUsers.wp.timepickers(true);
         $('#providers .working-plan input:text').timepicker('destroy');
@@ -339,7 +340,8 @@
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
         $('.extra-periods').find('.edit-extra, .delete-extra').prop('disabled', true);
 
-        $('#providers .has-error').removeClass('has-error');
+        $('#providers .record-details .has-error').removeClass('has-error');
+        $('#providers .record-details .form-message').hide();
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#provider-services input:checkbox')

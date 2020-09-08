@@ -84,7 +84,6 @@
             $('#admins .record-details').find('input, textarea').prop('disabled', false);
             $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').addClass('required');
-            $('#admin-notifications').prop('disabled', false);
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
         }.bind(this));
@@ -98,7 +97,6 @@
             $('#admins .record-details').find('input, textarea').prop('disabled', false);
             $('#admins .record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').removeClass('required');
-            $('#admin-notifications').prop('disabled', false);
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
         });
@@ -289,21 +287,18 @@
      * Resets the admin form back to its initial state.
      */
     AdminsHelper.prototype.resetForm = function () {
-        $('#admins .add-edit-delete-group').show();
-        $('#admins .save-cancel-group').hide();
-        $('#admins .record-details').find('input, textarea').prop('disabled', true);
-        $('#admins .record-details').find('select').prop('disabled', true);
-        $('#admins .form-message').hide();
-        $('#admin-notifications').prop('disabled', true);
-        $('#admins .record-details').find('input, textarea').val('');
-        $('#admin-notifications').removeClass('active');
-        $('#edit-admin, #delete-admin').prop('disabled', true);
-
-        $('#admins .has-error').removeClass('has-error');
-
         $('#filter-admins .selected').removeClass('selected');
         $('#filter-admins button').prop('disabled', false);
         $('#filter-admins .results').css('color', '');
+
+        $('#admins .add-edit-delete-group').show();
+        $('#admins .save-cancel-group').hide();
+        $('#admins .record-details').find('input, select, textarea').prop('disabled', true);
+        $('#admins .record-details').find('input, textarea').val('');
+        $('#edit-admin, #delete-admin').prop('disabled', true);
+
+        $('#admins .has-error').removeClass('has-error');
+        $('#admins .form-message').hide();
     };
 
     /**
