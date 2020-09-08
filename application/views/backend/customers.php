@@ -149,8 +149,8 @@
 
                 <div class="col-12 col-md-6">
                     <h3><?= lang('appointments') ?></h3>
-                    <div id="customer-appointments" class="card card-body bg-light border-light"></div>
-                    <div id="appointment-details" class="card card-body bg-light border-light d-none"></div>
+                    <div id="customer-appointments" class="card bg-light border-light"></div>
+                    <div id="appointment-details" class="card bg-light border-light d-none"></div>
                 </div>
             </div>
     	</div>

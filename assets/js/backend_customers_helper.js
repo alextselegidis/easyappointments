@@ -75,30 +75,6 @@
         });
 
         /**
-         * Event: Appointment Row "Click"
-         *
-         * Display appointment data of the selected row.
-         */
-        $(document).on('click', '.appointment-row', function () {
-            $('#customer-appointments .selected').removeClass('selected');
-            $(this).addClass('selected');
-
-            var customerId = $('#filter-customers .selected').attr('data-id');
-
-            var customer = instance.filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(customerId);
-            });
-
-            var appointmentId = $(this).attr('data-id');
-
-            var appointment = customer.appointments.find(function (customerAppointment) {
-                return Number(customerAppointment.id) === Number(appointmentId);
-            });
-
-            instance.displayAppointment(appointment);
-        });
-
-        /**
          * Event: Add Customer Button "Click"
          */
         $('#add-customer').on('click', function () {
@@ -284,7 +260,6 @@
             .prop('disabled', true);
 
         $('#customer-appointments').empty();
-        $('#appointment-details').toggleClass('d-none', true).empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
@@ -315,6 +290,14 @@
         $('#timezone').val(customer.timezone);
 
         $('#customer-appointments').empty();
+
+        if (!customer.appointments.length) {
+            $('<p/>', {
+                'text': EALang.no_records_found
+            })
+                .appendTo('#customer-appointments');
+        }
+
         customer.appointments.forEach(function (appointment) {
             if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && parseInt(appointment.id_users_provider) !== GlobalVariables.user.id) {
                 return;
@@ -331,22 +314,44 @@
                 'class': 'appointment-row',
                 'data-id': appointment.id,
                 'html': [
-                    $('<span/>', {
-                        'text': start + ' - ' + end
+                    // Service - Provider
+
+                    $('<a/>', {
+                        'href': GlobalVariables.baseUrl + '/index.php/backend/index/' + appointment.hash,
+                        'html': [
+                            $('<i/>', {
+                                'class': 'far fa-edit mr-1'
+                            }),
+                            $('<strong/>', {
+                                'text': appointment.service.name + ' - ' + appointment.provider.first_name + ' ' + appointment.provider.last_name
+                            }),
+                            $('<br/>'),
+                        ]
+                    }),
+
+                    // Start
+
+                    $('<small/>', {
+                        'text': start
                     }),
                     $('<br/>'),
-                    $('<span/>', {
-                        'text': appointment.service.name
+
+                    // End
+
+                    $('<small/>', {
+                        'text': end
                     }),
-                    $('<span/>', {
-                        'text': appointment.provider.first_name + ' ' + appointment.provider.last_name
+                    $('<br/>'),
+
+                    // Timezone
+
+                    $('<small/>', {
+                        'text': GlobalVariables.timezones[GlobalVariables.user.timezone]
                     })
                 ]
             })
                 .appendTo('#customer-appointments');
         });
-
-        $('#appointment-details').empty();
     };
 
     /**
@@ -462,43 +467,6 @@
 
             $('#edit-customer, #delete-customer').prop('disabled', false);
         }
-    };
-
-    /**
-     * Display appointment details on customers backend page.
-     *
-     * @param {Object} appointment Appointment data
-     */
-    CustomersHelper.prototype.displayAppointment = function (appointment) {
-        var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
-        var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
-        var timezone = GlobalVariables.timezones[GlobalVariables.user.timezone];
-
-        $('#appointment-details').empty();
-
-        $('<div/>', {
-            'html': [
-                $('<strong/>', {
-                    'text': appointment.service.name
-                }),
-                $('<br/>'),
-                $('<span/>', {
-                    'text': appointment.provider.first_name + ' ' + appointment.provider.last_name
-                }),
-                $('<br/>'),
-                $('<span/>', {
-                    'text': start + ' - ' + end
-                }),
-                $('<br/>'),
-                $('<span/>', {
-                    'text': EALang.timezone + ': ' + timezone
-                }),
-                $('<br/>')
-            ]
-        })
-            .appendTo('#appointment-details');
-
-        $('#appointment-details').removeClass('d-none');
     };
 
     window.CustomersHelper = CustomersHelper;

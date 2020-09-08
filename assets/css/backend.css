@@ -614,12 +614,14 @@ body .form-horizontal .controls {
    -------------------------------------------------------------------- */
 
 #customers-page #customer-appointments {
-    height: 370px;
+    min-height: 400px;
+    max-height: 800px;
     max-width: 330px;
     width: 100%;
     margin-bottom: 20px;
     overflow-y: auto;
     outline: none;
+    padding: 15px;
 }
 
 #customers-page #customer-appointments .appointment-row {
@@ -632,24 +634,6 @@ body .form-horizontal .controls {
     border-bottom: none;
 }
 
-#customers-page #customer-appointments .appointment-row:hover:not(.selected) {
-    background-color: #F3F3F3;
-    cursor: pointer;
-}
-
-#customers-page #customer-appointments .appointment-row.selected {
-    background-color: #E2E2E2;
-}
-
-#customers-page #appointment-details {
-    max-width: 330px;
-    margin-bottom: 20px;
-}
-
-#customers-page #appointment-details div {
-    padding: 10px;
-    background: #F8F8F8;
-}
 
 /* BACKEND SERVICES PAGE
    -------------------------------------------------------------------- */
