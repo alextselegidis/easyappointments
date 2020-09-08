@@ -85,7 +85,7 @@
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-service" class="btn btn-primary">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-service" class="btn btn-light">
@@ -205,7 +205,7 @@
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-category" class="btn btn-primary">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-category" class="btn btn-light">

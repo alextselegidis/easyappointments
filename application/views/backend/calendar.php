@@ -345,7 +345,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-appointment" class="btn btn-primary">
-                    <i class="far fa-check-circle mr-2"></i>
+                    <i class="far fa-check-square mr-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>
@@ -416,7 +416,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-unavailable" class="btn btn-primary">
-                    <i class="far fa-check-circle mr-2"></i>
+                    <i class="far fa-check-square mr-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>
@@ -482,7 +482,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-extra" class="btn btn-primary">
-                    <i class="far fa-check-circle mr-2"></i>
+                    <i class="far fa-check-square mr-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>
@@ -512,7 +512,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="select-calendar" class="btn btn-primary">
-                    <i class="far fa-check-circle"></i>
+                    <i class="far fa-check-square"></i>
                     <?= lang('select') ?>
                 </button>
             </div>

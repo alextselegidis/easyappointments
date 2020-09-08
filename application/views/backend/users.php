@@ -101,7 +101,7 @@
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-provider" class="btn btn-primary">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-provider" class="btn btn-light">
@@ -368,7 +368,7 @@
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-secretary" class="btn btn-primary">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-secretary" class="btn btn-light">
@@ -536,7 +536,7 @@
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-admin" class="btn btn-primary">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-admin" class="btn btn-light">

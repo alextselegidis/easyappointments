@@ -77,7 +77,7 @@
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
                     <button id="save-customer" class="btn btn-primary">
-                        <i class="far fa-check-circle mr-2"></i>
+                        <i class="far fa-check-square mr-2"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-customer" class="btn btn-light">

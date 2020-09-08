@@ -71,7 +71,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -228,7 +228,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -316,7 +316,7 @@
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     title="<?= lang('save') ?>">
-                                <i class="far fa-check-circle mr-2"></i>
+                                <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                         <?php endif ?>
@@ -397,7 +397,7 @@
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                                 <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                         title="<?= lang('save') ?>">
-                                    <i class="far fa-check-circle mr-2"></i>
+                                    <i class="far fa-check-square mr-2"></i>
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
