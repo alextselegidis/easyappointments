@@ -97,6 +97,6 @@ GitHub [alextselegidis](https://github.com/alextselegidis) &nbsp;&middot;&nbsp;
 Twitter [@alextselegidis](https://twitter.com/AlexTselegidis)
 
 ###### More Projects On Github
-###### ⇾ [Plainpad &middot; Self Hosted Note Taking App](https://github.com/alextselegidis/easyappointments)
+###### ⇾ [Plainpad &middot; Self Hosted Note Taking App](https://github.com/alextselegidis/plainpad)
 ###### ⇾ [Questionful &middot; Web Questionnaires Made Easy](https://github.com/alextselegidis/questionful)
 ###### ⇾ [Integravy &middot; Service Orchestration At Your Fingertips](https://github.com/alextselegidis/integravy)
