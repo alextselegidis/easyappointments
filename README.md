@@ -92,6 +92,11 @@ Code Licensed Under [GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) | C
 
 ---
 
-> Website [easyappointments.org](https://easyappointments.org) &nbsp;&middot;&nbsp;
-> GitHub [@alextselegidis](https://github.com/alextselegidis) &nbsp;&middot;&nbsp;
-> Twitter [@EasyAppts](https://twitter.com/EasyAppts)
+Website [alextselegidis.com](https://alextselegidis.com) &nbsp;&middot;&nbsp;
+GitHub [alextselegidis](https://github.com/alextselegidis) &nbsp;&middot;&nbsp;
+Twitter [@alextselegidis](https://twitter.com/AlexTselegidis)
+
+###### More Projects On Github
+###### ⇾ [Plainpad &middot; Self Hosted Note Taking App](https://github.com/alextselegidis/easyappointments)
+###### ⇾ [Questionful &middot; Web Questionnaires Made Easy](https://github.com/alextselegidis/questionful)
+###### ⇾ [Integravy &middot; Service Orchestration At Your Fingertips](https://github.com/alextselegidis/integravy)
