@@ -1533,10 +1533,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             // Set the start and end datetime of the appointment.
             var startDatetime = Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss');
-            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(startDatetime, GlobalVariables.dateFormat, true));
+            $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
             var endDatetime = Date.parseExact(appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss');
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
+            $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
 
             var customer = appointment.customer;
             $dialog.find('#customer-id').val(appointment.id_users_customer);
