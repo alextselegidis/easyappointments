@@ -125,14 +125,9 @@
                 city: $('#city').val(),
                 zip_code: $('#zip-code').val(),
                 notes: $('#notes').val(),
-                timezone: $('#timezone').val()
+                timezone: $('#timezone').val(),
+                language: $('#language').val() || 'english'
             };
-
-            if ($('#language').val() !== 'null') {
-                customer.language = $('#language').val();
-            } else {
-                customer.language = '';
-            }
 
             if ($('#customer-id').val()) {
                 customer.id = $('#customer-id').val();
@@ -265,7 +260,7 @@
             .val('')
             .prop('disabled', true);
 
-        $('#language').val('null');
+        $('#language').val('english');
 
         $('#customer-appointments').empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
@@ -296,9 +291,7 @@
         $('#zip-code').val(customer.zip_code);
         $('#notes').val(customer.notes);
         $('#timezone').val(customer.timezone);
-
-        var language = (customer.language !== '') ? customer.language : 'null';
-        $('#language').val(language);
+        $('#language').val(customer.language || 'english');
 
         $('#customer-appointments').empty();
 

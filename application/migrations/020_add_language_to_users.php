@@ -29,7 +29,7 @@ class Migration_Add_language_to_users extends CI_Migration {
                 'language' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'default' => '',
+                    'default' => 'english',
                     'after' => 'timezone'
                 ]
             ];

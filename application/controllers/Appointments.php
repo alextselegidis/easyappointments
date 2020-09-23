@@ -1041,7 +1041,7 @@ class Appointments extends CI_Controller {
                 $appointment['location'] = $service['location'];
             }
 
-            // save customer language (the language which is used to render the booking page)
+            // Save customer language (the language which is used to render the booking page).
             $customer['language'] = $this->config->item('language');
             $customer_id = $this->customers_model->add($customer);
 
