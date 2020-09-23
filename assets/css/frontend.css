@@ -312,6 +312,29 @@ body {
         padding: 5px;
         margin: 5px auto;
     }
+
+    #book-appointment-wizard #frame-footer small {
+        display: flex;
+    }
+
+    #book-appointment-wizard .footer-powered-by,
+    #book-appointment-wizard .footer-options {
+        width: 50%;
+    }
+
+    #book-appointment-wizard .footer-powered-by {
+        text-align: left;
+        padding: 5px 5px 5px 0;
+    }
+
+    #book-appointment-wizard .footer-options {
+        text-align: right;
+    }
+
+    #book-appointment-wizard #select-language {
+        display: inline-block;
+        margin-right: 10px;
+    }
 }
 
 /* BOOK SUCCESS & MESSAGE

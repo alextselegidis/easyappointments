@@ -377,17 +377,21 @@
 
             <div id="frame-footer">
                 <small>
-                    Powered By
+                    <span class="footer-powered-by">
+                        Powered By
 
-                    <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+                        <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+                    </span>
 
-                    <span id="select-language" class="badge badge-success">
-    		        	<?= ucfirst(config('language')) ?>
-    		        </span>
+                    <span class="footer-options">
+                        <span id="select-language" class="badge badge-success">
+                            <?= ucfirst(config('language')) ?>
+                        </span>
 
-                    <a href="<?= site_url('backend'); ?>">
-                        <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
-                    </a>
+                        <a class="backend-link" href="<?= site_url('backend'); ?>">
+                            <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
+                        </a>
+                    </span>
                 </small>
             </div>
         </div>
