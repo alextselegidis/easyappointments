@@ -277,6 +277,8 @@ class Backend_api extends CI_Controller {
         {
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
+            $this->load->model('admins_model');
+            $this->load->model('secretaries_model');
             $this->load->model('services_model');
             $this->load->model('customers_model');
             $this->load->model('settings_model');
@@ -338,7 +340,7 @@ class Backend_api extends CI_Controller {
             $customer = $this->customers_model->get_row($appointment['id_users_customer']);
             $service = $this->services_model->get_row($appointment['id_services']);
 
-            $company_settings = [
+            $settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
@@ -363,14 +365,14 @@ class Backend_api extends CI_Controller {
                     if ($appointment['id_google_calendar'] == NULL)
                     {
                         $google_event = $this->google_sync->add_appointment($appointment, $provider,
-                            $service, $customer, $company_settings);
+                            $service, $customer, $settings);
                         $appointment['id_google_calendar'] = $google_event->id;
                         $this->appointments_model->add($appointment); // Store google calendar id.
                     }
                     else
                     {
                         $this->google_sync->update_appointment($appointment, $provider,
-                            $service, $customer, $company_settings);
+                            $service, $customer, $settings);
                     }
                 }
             }
@@ -417,17 +419,51 @@ class Backend_api extends CI_Controller {
                 if ((bool)$send_customer === TRUE)
                 {
                     $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $company_settings, $customer_title,
+                        $service, $customer, $settings, $customer_title,
                         $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
                 }
 
                 if ($send_provider == TRUE)
                 {
                     $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $company_settings, $provider_title,
+                        $service, $customer, $settings, $provider_title,
                         $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream));
                 }
 
+                // Notify admins
+                $admins = $this->admins_model->get_batch();
+
+                foreach($admins as $admin)
+                {
+                    if (!$admin['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    $email->sendAppointmentDetails($appointment, $provider,
+                        $service, $customer, $settings, $provider_title,
+                        $provider_message, $provider_link, new Email($admin['email']), new Text($ics_stream));
+                }
+
+                // Notify secretaries
+                $secretaries = $this->secretaries_model->get_batch();
+
+                foreach($secretaries as $secretary)
+                {
+                    if (!$secretary['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    if (in_array($provider['id'], $secretary['providers']))
+                    {
+                        continue;
+                    }
+
+                    $email->sendAppointmentDetails($appointment, $provider,
+                        $service, $customer, $settings, $provider_title,
+                        $provider_message, $provider_link, new Email($secretary['email']), new Text($ics_stream));
+                }
             }
             catch (Exception $exception)
             {
@@ -485,6 +521,8 @@ class Backend_api extends CI_Controller {
             // Store appointment data for later use in this method.
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
+            $this->load->model('admins_model');
+            $this->load->model('secretaries_model');
             $this->load->model('customers_model');
             $this->load->model('services_model');
             $this->load->model('settings_model');
@@ -494,7 +532,7 @@ class Backend_api extends CI_Controller {
             $customer = $this->customers_model->get_row($appointment['id_users_customer']);
             $service = $this->services_model->get_row($appointment['id_services']);
 
-            $company_settings = [
+            $settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'company_link' => $this->settings_model->get_setting('company_link'),
@@ -543,7 +581,7 @@ class Backend_api extends CI_Controller {
                 if ((bool)$send_provider === TRUE)
                 {
                     $email->sendDeleteAppointment($appointment, $provider,
-                        $service, $customer, $company_settings, new Email($provider['email']),
+                        $service, $customer, $settings, new Email($provider['email']),
                         new Text($this->input->post('delete_reason')));
                 }
 
@@ -552,8 +590,43 @@ class Backend_api extends CI_Controller {
                 if ((bool)$send_customer === TRUE)
                 {
                     $email->sendDeleteAppointment($appointment, $provider,
-                        $service, $customer, $company_settings, new Email($customer['email']),
+                        $service, $customer, $settings, new Email($customer['email']),
                         new Text($this->input->post('delete_reason')));
+                }
+
+                // Notify admins
+                $admins = $this->admins_model->get_batch();
+
+                foreach($admins as $admin)
+                {
+                    if (!$admin['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $settings, new Email($admin['email']),
+                        new Text($this->input->post('cancel_reason')));
+                }
+
+                // Notify secretaries
+                $secretaries = $this->secretaries_model->get_batch();
+
+                foreach($secretaries as $secretary)
+                {
+                    if (!$secretary['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    if (in_array($provider['id'], $secretary['providers']))
+                    {
+                        continue;
+                    }
+
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $settings, new Email($secretary['email']),
+                        new Text($this->input->post('cancel_reason')));
                 }
             }
             catch (Exception $exception)

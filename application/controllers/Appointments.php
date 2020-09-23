@@ -56,6 +56,8 @@ class Appointments extends CI_Controller {
         $this->load->helper('google_analytics');
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
+        $this->load->model('admins_model');
+        $this->load->model('secretaries_model');
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
@@ -288,6 +290,40 @@ class Appointments extends CI_Controller {
                         new Text($this->input->post('cancel_reason')));
                 }
 
+                // Notify admins
+                $admins = $this->admins_model->get_batch();
+
+                foreach($admins as $admin)
+                {
+                    if (!$admin['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $settings, new Email($admin['email']),
+                        new Text($this->input->post('cancel_reason')));
+                }
+
+                // Notify secretaries
+                $secretaries = $this->secretaries_model->get_batch();
+
+                foreach($secretaries as $secretary)
+                {
+                    if (!$secretary['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    if (in_array($provider['id'], $secretary['providers']))
+                    {
+                        continue;
+                    }
+
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $settings, new Email($secretary['email']),
+                        new Text($this->input->post('cancel_reason')));
+                }
             }
             catch (Exception $exception)
             {
@@ -957,6 +993,8 @@ class Appointments extends CI_Controller {
         {
             $this->load->model('appointments_model');
             $this->load->model('providers_model');
+            $this->load->model('admins_model');
+            $this->load->model('secretaries_model');
             $this->load->model('services_model');
             $this->load->model('customers_model');
             $this->load->model('settings_model');
@@ -1109,6 +1147,41 @@ class Appointments extends CI_Controller {
                     $email->sendAppointmentDetails($appointment, $provider,
                         $service, $customer, $settings, $provider_title,
                         $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream));
+                }
+
+                // Notify admins
+                $admins = $this->admins_model->get_batch();
+
+                foreach($admins as $admin)
+                {
+                    if (!$admin['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    $email->sendAppointmentDetails($appointment, $provider,
+                        $service, $customer, $settings, $provider_title,
+                        $provider_message, $provider_link, new Email($admin['email']), new Text($ics_stream));
+                }
+
+                // Notify secretaries
+                $secretaries = $this->secretaries_model->get_batch();
+
+                foreach($secretaries as $secretary)
+                {
+                    if (!$secretary['settings']['notifications'] === '0')
+                    {
+                        continue;
+                    }
+
+                    if (in_array($provider['id'], $secretary['providers']))
+                    {
+                        continue;
+                    }
+
+                    $email->sendAppointmentDetails($appointment, $provider,
+                        $service, $customer, $settings, $provider_title,
+                        $provider_message, $provider_link, new Email($secretary['email']), new Text($ics_stream));
                 }
             }
             catch (Exception $exception)
