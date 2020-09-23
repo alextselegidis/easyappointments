@@ -213,7 +213,7 @@ li.language:hover {
 #select-language {
     cursor: pointer;
     display: inline-block;
-    padding: 10px 5px;
+    padding: 5px;
 }
 
 #select-language.active {
