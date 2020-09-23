@@ -14,7 +14,7 @@
 /**
  * Class Migration_Add_timezone_to_users
  *
- * @property CI_DB_query_builder db
+ * @property CI_DB_query_builder $db
  * @property CI_DB_forge dbforge
  */
 class Migration_Add_timezone_to_users extends CI_Migration {

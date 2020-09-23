@@ -14,7 +14,7 @@
 /**
  * Class Migration_Add_customer_notifications_setting
  *
- * @property CI_DB_query_builder db
+ * @property CI_DB_query_builder $db
  * @property CI_DB_forge dbforge
  */
 class Migration_Add_customer_notifications_setting extends CI_Migration {

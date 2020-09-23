@@ -14,7 +14,7 @@
 /**
  * Class Migration_Add_require_captcha_setting
  *
- * @property CI_DB_query_builder db
+ * @property CI_DB_query_builder $db
  * @property CI_DB_forge dbforge
  */
 class Migration_Add_require_captcha_setting extends CI_Migration {

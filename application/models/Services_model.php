@@ -14,8 +14,8 @@
 /**
  * Services Model
  *
- * @property CI_DB_query_builder db
- * @property CI_Loader load
+ * @property CI_DB_query_builder $db
+ * @property CI_Loader $load
  *
  * @package Models
  */

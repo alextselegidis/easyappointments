@@ -14,7 +14,7 @@
 /**
  * Timezones
  *
- * @property CI_Loader load
+ * @property CI_Loader $load
  *
  * @package Models
  */

@@ -14,27 +14,27 @@
 /**
  * Backend Controller
  *
- * @property CI_Session session
- * @property CI_Loader load
- * @property CI_Input input
- * @property CI_Output output
- * @property CI_Config config
- * @property CI_Lang lang
- * @property CI_Cache cache
- * @property CI_DB_query_builder db
- * @property CI_Security security
- * @property Google_Sync google_sync
- * @property Ics_file ics_file
- * @property Appointments_Model appointments_model
- * @property Providers_Model providers_model
- * @property Services_Model services_model
- * @property Customers_Model customers_model
- * @property Settings_Model settings_model
- * @property Timezones timezones
- * @property Roles_Model roles_model
- * @property Secretaries_Model secretaries_model
- * @property Admins_Model admins_model
- * @property User_Model user_model
+ * @property CI_Session $session
+ * @property CI_Loader $load
+ * @property CI_Input $input
+ * @property CI_Output $output
+ * @property CI_Config $config
+ * @property CI_Lang $lang
+ * @property CI_Cache $cache
+ * @property CI_DB_query_builder $db
+ * @property CI_Security $security
+ * @property Google_Sync $google_sync
+ * @property Ics_file $ics_file
+ * @property Appointments_Model $appointments_model
+ * @property Providers_Model $providers_model
+ * @property Services_Model $services_model
+ * @property Customers_Model $customers_model
+ * @property Settings_Model $settings_model
+ * @property Timezones $timezones
+ * @property Roles_Model $roles_model
+ * @property Secretaries_Model $secretaries_model
+ * @property Admins_Model $admins_model
+ * @property User_Model $user_model
  *
  * @package Controllers
  */

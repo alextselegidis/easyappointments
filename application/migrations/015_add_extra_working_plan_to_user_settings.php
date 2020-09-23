@@ -14,7 +14,7 @@
 /**
  * Class Migration_Add_custom_availability_periods_to_user_settings
  *
- * @property CI_DB_query_builder db
+ * @property CI_DB_query_builder $db
  * @property CI_DB_forge dbforge
  */
 class Migration_Add_custom_availability_periods_to_user_settings extends CI_Migration {
