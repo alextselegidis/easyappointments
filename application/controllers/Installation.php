@@ -134,7 +134,7 @@ class Installation extends CI_Controller {
                 'name' => 'Test Service',
                 'duration' => 30,
                 'price' => 50.0,
-                'currency' => 'Euro',
+                'currency' => 'EUR',
                 'description' => 'This is a test service automatically inserted by the installer.',
                 'availabilities_type' => 'flexible',
                 'attendants_number' => 1,
