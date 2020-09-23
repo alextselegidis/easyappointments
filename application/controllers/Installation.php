@@ -143,7 +143,7 @@ class Installation extends CI_Controller {
             $services['id'] = $this->services_model->add($services);
 
             $salt = generate_salt();
-            $password = random_string('sha1', 12);
+            $password = random_string('alnum', 12);
 
             $sample_provider = [
                 'first_name' => 'John',

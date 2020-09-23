@@ -186,7 +186,7 @@ class User_Model extends CI_Model {
         $user_id = $result->row()->id;
 
         // Create a new password and send it with an email to the given email address.
-        $new_password = random_string('sha1', 12);
+        $new_password = random_string('alnum', 12);
         $salt = $this->db->get_where('user_settings', ['id_users' => $user_id])->row()->salt;
         $hash_password = hash_password($salt, $new_password);
         $this->db->update('user_settings', ['password' => $hash_password], ['id_users' => $user_id]);
