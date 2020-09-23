@@ -384,11 +384,11 @@
                     </span>
 
                     <span class="footer-options">
-                        <span id="select-language" class="badge badge-success">
+                        <span id="select-language" class="badge badge-secondary">
                             <?= ucfirst(config('language')) ?>
                         </span>
 
-                        <a class="backend-link" href="<?= site_url('backend'); ?>">
+                        <a class="backend-link text-dark" href="<?= site_url('backend'); ?>">
                             <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
                         </a>
                     </span>
