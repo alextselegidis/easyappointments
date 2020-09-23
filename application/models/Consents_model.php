@@ -28,6 +28,8 @@ class Consents_model extends CI_Model {
      * @param array $consent Associative array with the consent's data.
      *
      * @return int Returns the consent ID.
+     *
+     * @throws Exception
      */
     public function add($consent)
     {
@@ -77,8 +79,8 @@ class Consents_model extends CI_Model {
      */
     protected function insert($consent)
     {
-        $consent['created'] = time();
-        $consent['modified'] = time();
+        $consent['created'] = date('Y-m-d H:i:s');
+        $consent['modified'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->insert('consents', $consent))
         {
@@ -101,7 +103,7 @@ class Consents_model extends CI_Model {
      */
     protected function update($consent)
     {
-        $consent['modified'] = time();
+        $consent['modified'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->update('consents', $consent, ['id' => $consent['id']]))
         {
