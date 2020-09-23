@@ -42,6 +42,13 @@ window.BackendCustomers = window.BackendCustomers || {};
     exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || false;
 
+        // Fill available service categories listbox.
+        availableLanguages.forEach(function (language) {
+            $('#language').append(new Option(language, language));
+        });
+
+        $('#language').append(new Option('- ' + EALang.no_language + ' -', null)).val('null');
+
         helper = new CustomersHelper();
         helper.resetForm();
         helper.filter('');

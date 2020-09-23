@@ -128,6 +128,12 @@
                 timezone: $('#timezone').val()
             };
 
+            if ($('#language').val() !== 'null') {
+                customer.language = $('#language').val();
+            } else {
+                customer.language = '';
+            }
+
             if ($('#customer-id').val()) {
                 customer.id = $('#customer-id').val();
             }
@@ -259,6 +265,8 @@
             .val('')
             .prop('disabled', true);
 
+        $('#language').val('null');
+
         $('#customer-appointments').empty();
         $('#edit-customer, #delete-customer').prop('disabled', true);
         $('#add-edit-delete-group').show();
@@ -288,6 +296,9 @@
         $('#zip-code').val(customer.zip_code);
         $('#notes').val(customer.notes);
         $('#timezone').val(customer.timezone);
+
+        var language = (customer.language !== '') ? customer.language : 'null';
+        $('#language').val(language);
 
         $('#customer-appointments').empty();
 
