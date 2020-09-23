@@ -56,7 +56,6 @@ class Google_Sync {
 
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
-//        $this->client->setUseObjects(TRUE);
 
         $this->client->setApplicationName($this->framework->config->item('google_application_name'));
         $this->client->setClientId($this->framework->config->item('google_client_id'));
