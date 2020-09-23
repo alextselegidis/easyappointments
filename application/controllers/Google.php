@@ -47,6 +47,7 @@ class Google extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->library('session');
     }
 
@@ -116,14 +117,16 @@ class Google extends CI_Controller {
      *
      * @param int $provider_id Provider record to be synced.
      */
-    public function sync($provider_id = NULL)
+    public static function sync($provider_id = NULL)
     {
         try
         {
-            // The user must be logged in.
-            $this->load->library('session');
+            $framework = get_instance();
 
-            if ($this->session->userdata('user_id') == FALSE)
+            // The user must be logged in.
+            $framework->load->library('session');
+
+            if ($framework->session->userdata('user_id') == FALSE && is_cli() === FALSE)
             {
                 return;
             }
@@ -133,29 +136,29 @@ class Google extends CI_Controller {
                 throw new Exception('Provider id not specified.');
             }
 
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('services_model');
-            $this->load->model('customers_model');
-            $this->load->model('settings_model');
+            $framework->load->model('appointments_model');
+            $framework->load->model('providers_model');
+            $framework->load->model('services_model');
+            $framework->load->model('customers_model');
+            $framework->load->model('settings_model');
 
-            $provider = $this->providers_model->get_row($provider_id);
+            $provider = $framework->providers_model->get_row($provider_id);
 
             // Check whether the selected provider has google sync enabled.
-            $google_sync = $this->providers_model->get_setting('google_sync', $provider['id']);
+            $google_sync = $framework->providers_model->get_setting('google_sync', $provider['id']);
 
             if ( ! $google_sync)
             {
                 throw new Exception('The selected provider has not the google synchronization setting enabled.');
             }
 
-            $google_token = json_decode($this->providers_model->get_setting('google_token', $provider['id']));
-            $this->load->library('google_sync');
-            $this->google_sync->refresh_token($google_token->refresh_token);
+            $google_token = json_decode($framework->providers_model->get_setting('google_token', $provider['id']));
+            $framework->load->library('google_sync');
+            $framework->google_sync->refresh_token($google_token->refresh_token);
 
             // Fetch provider's appointments that belong to the sync time period.
-            $sync_past_days = $this->providers_model->get_setting('sync_past_days', $provider['id']);
-            $sync_future_days = $this->providers_model->get_setting('sync_future_days', $provider['id']);
+            $sync_past_days = $framework->providers_model->get_setting('sync_past_days', $provider['id']);
+            $sync_future_days = $framework->providers_model->get_setting('sync_future_days', $provider['id']);
             $start = strtotime('-' . $sync_past_days . ' days', strtotime(date('Y-m-d')));
             $end = strtotime('+' . $sync_future_days . ' days', strtotime(date('Y-m-d')));
 
@@ -165,12 +168,12 @@ class Google extends CI_Controller {
                 'id_users_provider' => $provider['id']
             ];
 
-            $appointments = $this->appointments_model->get_batch($where_clause);
+            $appointments = $framework->appointments_model->get_batch($where_clause);
 
             $company_settings = [
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'company_email' => $this->settings_model->get_setting('company_email')
+                'company_name' => $framework->settings_model->get_setting('company_name'),
+                'company_link' => $framework->settings_model->get_setting('company_link'),
+                'company_email' => $framework->settings_model->get_setting('company_email')
             ];
 
             $provider_timezone = new DateTimeZone($provider['timezone']);
@@ -180,8 +183,8 @@ class Google extends CI_Controller {
             {
                 if ($appointment['is_unavailable'] == FALSE)
                 {
-                    $service = $this->services_model->get_row($appointment['id_services']);
-                    $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+                    $service = $framework->services_model->get_row($appointment['id_services']);
+                    $customer = $framework->customers_model->get_row($appointment['id_users_customer']);
                 }
                 else
                 {
@@ -192,17 +195,17 @@ class Google extends CI_Controller {
                 // If current appointment not synced yet, add to Google Calendar.
                 if ($appointment['id_google_calendar'] == NULL)
                 {
-                    $google_event = $this->google_sync->add_appointment($appointment, $provider,
+                    $google_event = $framework->google_sync->add_appointment($appointment, $provider,
                         $service, $customer, $company_settings);
                     $appointment['id_google_calendar'] = $google_event->id;
-                    $this->appointments_model->add($appointment); // Save the Google Calendar ID.
+                    $framework->appointments_model->add($appointment); // Save the Google Calendar ID.
                 }
                 else
                 {
                     // Appointment is synced with google calendar.
                     try
                     {
-                        $google_event = $this->google_sync->get_event($provider, $appointment['id_google_calendar']);
+                        $google_event = $framework->google_sync->get_event($provider, $appointment['id_google_calendar']);
 
                         if ($google_event->status == 'cancelled')
                         {
@@ -231,14 +234,14 @@ class Google extends CI_Controller {
                             $appointment['start_datetime'] = $event_start->format('Y-m-d H:i:s');
                             $appointment['end_datetime'] = $event_end->format('Y-m-d H:i:s');
                             $appointment['notes'] = $google_event->getDescription();
-                            $this->appointments_model->add($appointment);
+                            $framework->appointments_model->add($appointment);
                         }
 
                     }
                     catch (Exception $exception)
                     {
                         // Appointment not found on Google Calendar, delete from Easy!Appoinmtents.
-                        $this->appointments_model->delete($appointment['id']);
+                        $framework->appointments_model->delete($appointment['id']);
                         $appointment['id_google_calendar'] = NULL;
                     }
                 }
@@ -246,7 +249,7 @@ class Google extends CI_Controller {
 
             // Add Google Calendar events that do not exist in Easy!Appointments.
             $google_calendar = $provider['settings']['google_calendar'];
-            $google_events = $this->google_sync->get_sync_events($google_calendar, $start, $end);
+            $google_events = $framework->google_sync->get_sync_events($google_calendar, $start, $end);
 
             foreach ($google_events->getItems() as $google_event)
             {
@@ -260,7 +263,7 @@ class Google extends CI_Controller {
                     continue;
                 }
 
-                $results = $this->appointments_model->get_batch(['id_google_calendar' => $google_event->getId()]);
+                $results = $framework->appointments_model->get_batch(['id_google_calendar' => $google_event->getId()]);
 
                 if ( ! empty($results))
                 {
@@ -285,14 +288,14 @@ class Google extends CI_Controller {
                     'id_services' => NULL,
                 ];
 
-                $this->appointments_model->add($appointment);
+                $framework->appointments_model->add($appointment);
             }
 
             $response = AJAX_SUCCESS;
         }
         catch (Exception $exception)
         {
-            $this->output->set_status_header(500);
+            $framework->output->set_status_header(500);
 
             $response = [
                 'message' => $exception->getMessage(),
@@ -300,8 +303,10 @@ class Google extends CI_Controller {
             ];
         }
 
-        $this->output
+        $framework->output
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
     }
+
+
 }
