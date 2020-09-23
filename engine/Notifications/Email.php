@@ -255,11 +255,11 @@ class Email {
     public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
     {
         $email_title = $this->framework->lang->line('new_account_password');
-        $email_message = $this->framework->lang->line('new_password_is');
+        $password = '<strong>' . $password->get() . '</strong>';
+        $email_message = str_replace('$password', $password, $this->framework->lang->line('new_password_is'));
         $company_name = $company['company_name'];
         $company_email = $company['company_email'];
         $company_link = $company['company_link'];
-        $password = '<strong>' . $password->get() . '</strong>';
 
         ob_start();
         require __DIR__ . '/../../application/views/emails/new_password.php';
