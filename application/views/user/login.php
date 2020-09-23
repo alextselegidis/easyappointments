@@ -60,7 +60,8 @@
             <br>
 
             <button type="submit" id="login" class="btn btn-primary">
-            	<?= lang('login') ?>
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                <?= lang('login') ?>
             </button>
 
             <br>

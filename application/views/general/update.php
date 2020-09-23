@@ -46,7 +46,7 @@
 
         <div>
             <a href="<?= site_url('backend') ?>" class="btn btn-light btn-large">
-                <i class="fas fa-wrench"></i>
+                <i class="fas fa-wrench mr-2"></i>
                 <?= lang('backend_section') ?>
             </a>
         </div>

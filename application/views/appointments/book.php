@@ -188,7 +188,7 @@
                     <button type="button" id="button-next-1" class="btn button-next btn-info"
                             data-step_index="1">
                         <?= lang('next') ?>
-                        <i class="fas fa-long-arrow-alt-right"></i>
+                        <i class="fas fa-long-arrow-alt-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -221,13 +221,13 @@
                 <div class="command-buttons">
                     <button type="button" id="button-back-2" class="btn button-back btn-light"
                             data-step_index="2">
-                        <i class="fas fa-long-arrow-alt-left"></i>
+                        <i class="fas fa-long-arrow-alt-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <button type="button" id="button-next-2" class="btn button-next btn-info"
                             data-step_index="2">
                         <?= lang('next') ?>
-                        <i class="fas fa-long-arrow-alt-right"></i>
+                        <i class="fas fa-long-arrow-alt-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -320,13 +320,14 @@
 
                 <div class="command-buttons">
                     <button type="button" id="button-back-3" class="btn button-back btn-light"
-                            data-step_index="3"><i class="fas fa-long-arrow-alt-left"></i>
+                            data-step_index="3">
+                        <i class="fas fa-long-arrow-alt-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <button type="button" id="button-next-3" class="btn button-next btn-info"
                             data-step_index="3">
                         <?= lang('next') ?>
-                        <i class="fas fa-long-arrow-alt-right"></i>
+                        <i class="fas fa-long-arrow-alt-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -358,12 +359,12 @@
                 <div class="command-buttons">
                     <button type="button" id="button-back-4" class="btn button-back btn-light"
                             data-step_index="4">
-                        <i class="fas fa-long-arrow-alt-left"></i>
+                        <i class="fas fa-long-arrow-alt-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button id="book-appointment-submit" type="button" class="btn btn-success">
-                            <i class="far fa-check-circle"></i>
+                            <i class="far fa-plus-square mr-2"></i>
                             <?= ! $manage_mode ? lang('confirm') : lang('update') ?>
                         </button>
                         <input type="hidden" name="csrfToken"/>

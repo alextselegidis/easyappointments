@@ -52,6 +52,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend') ?>" class="nav-link"
                         title="<?= lang('manage_appointment_record_hint') ?>">
+                    <i class="far fa-calendar-alt mr-2"></i>
                     <?= lang('calendar') ?>
                 </a>
             </li>
@@ -61,6 +62,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/customers') ?>" class="nav-link"
                         title="<?= lang('manage_customers_hint') ?>">
+                    <i class="fas fa-user-friends mr-2"></i>
                     <?= lang('customers') ?>
                 </a>
             </li>
@@ -70,6 +72,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/services') ?>" class="nav-link"
                         title="<?= lang('manage_services_hint') ?>">
+                    <i class="fas fa-business-time mr-2"></i>
                     <?= lang('services') ?>
                 </a>
             </li>
@@ -79,6 +82,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/users') ?>" class="nav-link"
                         title="<?= lang('manage_users_hint') ?>">
+                    <i class="fas fa-users-cog mr-2"></i>
                     <?= lang('users') ?>
                 </a>
             </li>
@@ -89,6 +93,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/settings') ?>" class="nav-link"
                         title="<?= lang('settings_hint') ?>">
+                    <i class="fas fa-cogs mr-2"></i>
                     <?= lang('settings') ?>
                 </a>
             </li>
@@ -96,6 +101,7 @@
             <li class="nav-item">
                 <a href="<?= site_url('user/logout') ?>" class="nav-link"
                         title="<?= lang('log_out_hint') ?>">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
                     <?= lang('log_out') ?>
                 </a>
             </li>

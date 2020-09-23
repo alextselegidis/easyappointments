@@ -125,7 +125,7 @@
         <br>
 
         <button type="button" id="install" class="btn btn-success btn-large">
-            <i class="icon-white icon-ok"></i>
+            <i class="icon-white icon-ok mr-2"></i>
             Install Easy!Appointments</button>
     </div>
 

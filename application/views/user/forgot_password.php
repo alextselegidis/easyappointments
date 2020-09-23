@@ -51,6 +51,7 @@
             <br>
 
             <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
+                <i class="fas fa-unlock-alt mr-2"></i>
                 <?= lang('regenerate_password') ?>
             </button>
 

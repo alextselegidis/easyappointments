@@ -33,12 +33,12 @@
         <br>
 
         <a href="<?= site_url() ?>" class="btn btn-success btn-large">
-            <i class="far fa-calendar-alt"></i>
+            <i class="far fa-calendar-alt mr-2"></i>
             <?= lang('book_appointment_title') ?>
         </a>
 
         <a href="<?= site_url('backend') ?>" class="btn btn-light btn-large">
-            <i class="fas fa-wrench"></i>
+            <i class="fas fa-wrench mr-2"></i>
             <?= lang('backend_section') ?>
         </a>
 

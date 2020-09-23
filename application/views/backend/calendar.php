@@ -61,7 +61,7 @@
 
                 <button id="enable-sync" class="btn btn-light" data-toggle="button"
                         title="<?= lang('enable_appointment_sync_hint') ?>">
-                    <i class="far fa-calendar-alt"></i>
+                    <i class="far fa-calendar-alt mr-2"></i>
                     <span><?= lang('enable_sync') ?></span>
                 </button>
             <?php endif ?>
