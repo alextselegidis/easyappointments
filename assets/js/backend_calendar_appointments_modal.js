@@ -392,8 +392,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         var duration = service ? service.duration : 0;
 
-        var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout);
-        var endDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(duration);
+        var startDatetime = new Date();
+        var endDatetime = new Date().addMinutes(duration);
         var dateFormat;
 
         switch (GlobalVariables.dateFormat) {

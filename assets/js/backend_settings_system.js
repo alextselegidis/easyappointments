@@ -44,6 +44,14 @@
                 // Update the logo title on the header.
                 $('#header-logo span').text($('#company-name').val());
 
+                // Update book_advance_timeout preview
+                var totalMinutes = $('#book-advance-timeout').val();
+                var hours = Math.floor(totalMinutes / 60);
+                var minutes = totalMinutes % 60;
+                $('#book-advance-timeout-helper').text(
+                    EALang.book_advance_timeout_hint.replace('{$limit}', ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2))
+                );
+
                 // Update variables also used in other setting tabs
                 GlobalVariables.timeFormat   = $('#time-format').val();
                 GlobalVariables.firstWeekday = $('#first-weekday').val();
