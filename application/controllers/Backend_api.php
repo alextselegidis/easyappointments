@@ -857,16 +857,16 @@ class Backend_api extends CI_Controller {
     }
 
     /**
-     * Insert of update extra working plan time period to database.
+     * Insert of update custom availability periods to database.
      */
-    public function ajax_save_extra_period()
+    public function ajax_save_custom_availability_period()
     {
         try
         {
             // Check privileges
-            $extra_period = json_decode($this->input->post('extra_period'), TRUE);
+            $custom_availability_period = json_decode($this->input->post('custom_availability_period'), TRUE);
 
-            $required_privileges = ( ! isset($extra_period['id']))
+            $required_privileges = ( ! isset($custom_availability_period['id']))
                 ? $this->privileges[PRIV_APPOINTMENTS]['add']
                 : $this->privileges[PRIV_APPOINTMENTS]['edit'];
             if ($required_privileges == FALSE)
@@ -876,7 +876,7 @@ class Backend_api extends CI_Controller {
 
             $this->load->model('providers_model');
 
-            $success = $this->providers_model->set_extra_working_day($extra_period, $extra_period['id_users_provider']);
+            $success = $this->providers_model->set_custom_availability_period($custom_availability_period, $custom_availability_period['id_users_provider']);
 
             if ($success)
             {
@@ -884,7 +884,7 @@ class Backend_api extends CI_Controller {
             }
             else
             {
-                $response = ['warnings' => 'Error on saving extra period.'];
+                $response = ['warnings' => 'Error on saving custom availability period.'];
             }
         }
         catch (Exception $exception)
@@ -903,9 +903,9 @@ class Backend_api extends CI_Controller {
     }
 
     /**
-     * Delete an extra working plan time period to database.
+     * Delete an custom availability periods time period to database.
      */
-    public function ajax_delete_extra_period()
+    public function ajax_delete_custom_availability_period()
     {
         try
         {
@@ -915,13 +915,13 @@ class Backend_api extends CI_Controller {
             }
 
             // Check privileges
-            $extra_period = $this->input->post('extra_period');
+            $custom_availability_period = $this->input->post('custom_availability_period');
             $provider_id = $this->input->post('provider_id');
 
             $this->load->model('providers_model');
 
             // Delete unavailable
-            $success = $this->providers_model->delete_extra_working_day($extra_period, $provider_id);
+            $success = $this->providers_model->delete_custom_availability_period($custom_availability_period, $provider_id);
 
             if ($success)
             {
@@ -929,7 +929,7 @@ class Backend_api extends CI_Controller {
             }
             else
             {
-                $response = ['warnings' => 'Error on deleting extra period.'];
+                $response = ['warnings' => 'Error on deleting custom availability period.'];
             }
         }
         catch (Exception $exception)

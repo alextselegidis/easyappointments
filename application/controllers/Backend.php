@@ -333,7 +333,7 @@ class Backend extends CI_Controller {
         $view['services'] = $this->services_model->get_batch();
         $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
         $view['timezones'] = $this->timezones->to_array();
-        $view['extra_working_plan'] = '{}';
+        $view['custom_availability_periods'] = '{}';
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);

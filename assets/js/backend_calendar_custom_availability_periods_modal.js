@@ -10,13 +10,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar Extra Periods Modal
+ * Backend Calendar Custom availability periods Modal
  *
- * This module implements the extra periods modal functionality.
+ * This module implements the custom availability periods modal functionality.
  *
- * @module BackendCalendarExtraPeriodsModal
+ * @module BackendCalendarCustomAvailabilityPeriodsModal
  */
-window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModal || {};
+window.BackendCalendarCustomAvailabilityPeriodsModal = window.BackendCalendarCustomAvailabilityPeriodsModal || {};
 
 (function (exports) {
 
@@ -24,15 +24,15 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
 
     function bindEventHandlers() {
         /**
-         * Event: Manage extra Dialog Save Button "Click"
+         * Event: Manage Dialog Save Button "Click"
          *
-         * Stores the extra period changes or inserts a new record.
+         * Stores the custom availability period changes or inserts a new record.
          */
-        $('#manage-extra #save-extra').on('click', function () {
-            var $dialog = $('#manage-extra');
+        $('#manage-custom-availability-periods #save-custom-availability-period').on('click', function () {
+            var $dialog = $('#manage-custom-availability-periods');
             $dialog.find('.has-error').removeClass('has-error');
-            var start = $dialog.find('#extra-start').datetimepicker('getDate');
-            var end = Date.parse($dialog.find('#extra-end').datetimepicker('getDate'));
+            var start = $dialog.find('#custom-availability-period-start').datetimepicker('getDate');
+            var end = Date.parse($dialog.find('#custom-availability-period-end').datetimepicker('getDate'));
 
             if (start.toString('HH:mm') > end.toString('HH:mm')) {
                 // Start time is after end time - display message to user.
@@ -41,43 +41,43 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
                     .addClass('alert-danger')
                     .removeClass('hidden');
 
-                $dialog.find('#extra-start, #extra-end').closest('.form-group').addClass('has-error');
+                $dialog.find('#custom-availability-period-start, #custom-availability-period-end').closest('.form-group').addClass('has-error');
                 return;
             }
 
-            // extra period records go to the appointments table.
-            var extra = {
+            // Custom availability period period records go to the appointments table.
+            var customAvailabilityPeriod = {
                 start_datetime: start.toString('yyyy-MM-dd HH:mm'),
                 end_datetime: start.toString('yyyy-MM-dd') + ' ' + end.toString('HH:mm'),
-                id_users_provider: $('#extra-provider').val() // curr provider
+                id_users_provider: $('#custom-availability-period-provider').val() // curr provider
             };
 
-            //if ($dialog.find('#extra-id').val() !== '') {
-            //    // Set the id value, only if we are editing an appointment.
-            //    extra.id = $dialog.find('#extra-id').val();
+            //if ($dialog.find('#custom-availability-period-id').val() !== '') {
+            //    // Set the id value, only if we are editing a custom availability period.
+            //    customAvailabilityPeriod.id = $dialog.find('#custom-availability-period-id').val();
             //}
 
             var successCallback = function (response) {
                 // Display success message to the user.
-                Backend.displayNotification(EALang.extra_period_saved);
+                Backend.displayNotification(EALang.custom_availability_period_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $dialog.find('.alert').addClass('hidden');
                 $dialog.modal('hide');
 
-                var providerId = $('#extra-provider').val();
+                var providerId = $('#custom-availability-period-provider').val();
                 var provider = GlobalVariables.availableProviders.filter(function (p) {
                     return p.id === providerId;
                 })[0];
                 var providerIdx = GlobalVariables.availableProviders.indexOf(provider);
 
-                var extraWorkingPlan = jQuery.parseJSON(provider.settings.extra_working_plan);
-                extraWorkingPlan[start.toString('yyyy-MM-dd')] = {
+                var customAvailabilityPeriods = jQuery.parseJSON(provider.settings.custom_availability_periods);
+                customAvailabilityPeriods[start.toString('yyyy-MM-dd')] = {
                     start: start.toString('HH:mm'),
                     end: end.toString('HH:mm'),
                     breaks: []
                 };
-                provider.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
+                provider.settings.custom_availability_periods = JSON.stringify(customAvailabilityPeriods);
                 GlobalVariables.availableProviders[providerIdx] = provider;
 
                 $('#select-filter-item').trigger('change');
@@ -88,27 +88,27 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('hidden');
             };
 
-            BackendCalendarApi.saveExtraPeriod(extra, successCallback, errorCallback);
+            BackendCalendarApi.saveCustomavailabilityperiod(customAvailabilityPeriod, successCallback, errorCallback);
         });
 
         /**
-         * Event: Manage extra Dialog Cancel Button "Click"
+         * Event: Manage Dialog Cancel Button "Click"
          *
-         * Closes the dialog without saveing any changes to the database.
+         * Closes the dialog without saving any changes to the database.
          */
-        $('#manage-extra #cancel-extra').on('click', function () {
-            $('#manage-extra').modal('hide');
+        $('#manage-custom-availability-periods #cancel-custom-availability-period').on('click', function () {
+            $('#manage-custom-availability-periods').modal('hide');
         });
 
         /**
-         * Event : Insert extra Time Period Button "Click"
+         * Event: Insert Custom Working Time Period Button "Click"
          *
-         * When the user clicks this button a popup dialog appears and the use can set a time period where
-         * he cannot accept any appointments.
+         * When the user clicks this button a popup dialog appears and the use can set a time period where he cannot
+         * accept any appointments.
          */
-        $('#insert-extra-period').on('click', function () {
-            BackendCalendarExtraPeriodsModal.resetExtraDialog();
-            var $dialog = $('#manage-extra');
+        $('#insert-custom-availability-period').on('click', function () {
+            BackendCalendarCustomAvailabilityPeriodsModal.resetCustomavailabilityperiodDialog();
+            var $dialog = $('#manage-custom-availability-periods');
 
             // Set the default datetime values.
             var start = new Date();
@@ -117,29 +117,29 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             start.set({'minute': 30});
 
             if ($('.calendar-view').length === 0) {
-                $dialog.find('#extra-provider')
+                $dialog.find('#custom-availability-period-provider')
                     .val($('#select-filter-item').val())
                     .closest('.form-group')
                     .hide();
             }
 
-            $dialog.find('#extra-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#extra-end').val(GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '19:00');
-            $dialog.find('.modal-header h3').text(EALang.new_extra_period_title);
+            $dialog.find('#custom-availability-period-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
+            $dialog.find('#custom-availability-period-end').val(GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '19:00');
+            $dialog.find('.modal-header h3').text(EALang.new_custom_availability_period_title);
             $dialog.modal('show');
         });
     }
 
     /**
-     * Reset extra dialog form.
+     * Reset custom availability period dialog form.
      *
-     * Reset the "#manage-extra" dialog. Use this method to bring the dialog to the initial state
+     * Reset the "#manage-custom-availability-periods" dialog. Use this method to bring the dialog to the initial state
      * before it becomes visible to the user.
      */
-    exports.resetExtraDialog = function () {
-        var $dialog = $('#manage-extra');
+    exports.resetCustomavailabilityperiodDialog = function () {
+        var $dialog = $('#manage-custom-availability-periods');
 
-        $dialog.find('#extra-id').val('');
+        $dialog.find('#custom-availability-period-id').val('');
 
         // Set the default datetime values.
         var start = new Date();
@@ -163,7 +163,7 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
         }
 
 
-        $dialog.find('#extra-start').datetimepicker({
+        $dialog.find('#custom-availability-period-start').datetimepicker({
             dateFormat: dateFormat,
             timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
 
@@ -191,10 +191,10 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             minuteText: EALang.minutes,
             firstDay: 0
         });
-        $dialog.find('#extra-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-        $dialog.find('#extra-start').draggable();
+        $dialog.find('#custom-availability-period-start').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
+        $dialog.find('#custom-availability-period-start').draggable();
 
-        $dialog.find('#extra-end').timepicker({
+        $dialog.find('#custom-availability-period-end').timepicker({
             timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : GlobalVariables.timeFormat,
             currentText: EALang.now,
             closeText: EALang.close,
@@ -203,22 +203,22 @@ window.BackendCalendarExtraPeriodsModal = window.BackendCalendarExtraPeriodsModa
             hourText: EALang.hour,
             minuteText: EALang.minutes
         });
-        $dialog.find('#extra-end').val(end);
+        $dialog.find('#custom-availability-period-end').val(end);
 
-        // Clear the extra notes field.
-        $dialog.find('#extra-notes').val('');
+        // Clear the custom availability period notes field.
+        $dialog.find('#custom-availability-period-notes').val('');
     };
 
     exports.initialize = function () {
-        var extraProvider = $('#extra-provider');
+        var customAvailabilityPeriodProvider = $('#custom-availability-period-provider');
 
         for (var index in GlobalVariables.availableProviders) {
             var provider = GlobalVariables.availableProviders[index];
 
-            extraProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+            customAvailabilityPeriodProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }
 
         bindEventHandlers();
     };
 
-})(window.BackendCalendarExtraPeriodsModal);
+})(window.BackendCalendarCustomAvailabilityPeriodsModal);

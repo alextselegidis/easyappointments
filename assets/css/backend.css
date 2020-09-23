@@ -148,8 +148,7 @@ body .modal .modal-title {
 
 body .modal-header {
     padding: 12px 15px;
-    background: #39c678;
-    border-bottom: 4px solid #c0f1d6;
+    background: #429a82;
 }
 
 body .modal-header h3 {
@@ -726,7 +725,7 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
-#users-page #providers .extra-periods .btn {
+#users-page #providers .custom-availability-periods .btn {
     margin-right: 5px;
     padding: 4px 7px;
 }
@@ -736,7 +735,7 @@ body .form-horizontal .controls {
         height: 36px;
     }
 
-    .extra-periods .extra-day select {
+    .custom-availability-periods .custom-availability-period select {
         height: 36px;
     }
 }

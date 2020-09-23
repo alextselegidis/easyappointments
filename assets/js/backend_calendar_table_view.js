@@ -71,7 +71,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var endDate = endDateMoment.toDate();
 
             getCalendarEvents(startDate, endDate)
-                .done(function (response) {
+                .done(function () {
                     var currentDate = startDate;
 
                     while (currentDate <= endDate) {
@@ -89,22 +89,22 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 var $providerColumn = $(providerColumn);
                                 var provider = $providerColumn.data('provider');
 
-                                // $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
+                                $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
 
-                                // createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
+                                createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
 
                                 // Add the appointments to the column.
-                                // createAppointments($providerColumn, response.appointments);
+                                createAppointments($providerColumn, response.appointments);
 
                                 // Add the unavailabilities to the column.
-                                // createUnavailabilities($providerColumn, response.unavailabilities);
+                                createUnavailabilities($providerColumn, response.unavailabilities);
 
                                 // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
                                 var day = date.toString('dddd').toLowerCase();
                                 if (workingPlan[day]) {
                                     var breaks = workingPlan[day].breaks;
-                                    // createBreaks($providerColumn, breaks);
+                                    createBreaks($providerColumn, breaks);
                                 }
                             });
                         });
@@ -213,24 +213,24 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var url;
             var data;
 
-            // If id_role parameter exists the popover is an extra working day.
+            // If id_role parameter exists the popover is an custom availability period.
             if (lastFocusedEventData.data.hasOwnProperty('id_roles')) {
                 // Do not display confirmation prompt.
-                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_extra_period';
+                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_custom_availability_period';
 
                 data = {
                     csrfToken: GlobalVariables.csrfToken,
-                    extra_period: lastFocusedEventData.start.format('YYYY-MM-DD'),
+                    custom_availability_period: lastFocusedEventData.start.format('YYYY-MM-DD'),
                     provider_id: lastFocusedEventData.data.id
                 };
 
                 $.post(url, data)
-                    .done(function (response) {
+                    .done(function () {
                         $('#message-box').dialog('close');
 
-                        var extraWorkingPlan = jQuery.parseJSON(lastFocusedEventData.data.settings.extra_working_plan);
-                        delete extraWorkingPlan[lastFocusedEventData.start.format('YYYY-MM-DD')];
-                        lastFocusedEventData.data.settings.extra_working_plan = JSON.stringify(extraWorkingPlan);
+                        var customAvailabilityPeriods = jQuery.parseJSON(lastFocusedEventData.data.settings.custom_availability_periods);
+                        delete customAvailabilityPeriods[lastFocusedEventData.start.format('YYYY-MM-DD')];
+                        lastFocusedEventData.data.settings.custom_availability_periods = JSON.stringify(customAvailabilityPeriods);
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
@@ -329,7 +329,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $('<input/>', {
             'type': 'text',
             'class': 'form-control d-inline-block select-date mr-2',
-            'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat)
+            'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false)
         })
             .appendTo($calendarHeader);
 
@@ -359,7 +359,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided!', GlobalVariables.dateFormat);
+                throw new Error('Invalid date format setting provided: ' + GlobalVariables.dateFormat);
         }
 
         $calendarHeader.find('.select-date').datepicker({
@@ -677,7 +677,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             // Selectable
             selectable: true,
             selectHelper: true,
-            select: function (start, end, jsEvent, view) {
+            select: function (start, end, jsEvent) {
                 if (!start.hasTime() || !end.hasTime()) {
                     return;
                 }
@@ -850,7 +850,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var breakStart;
         var breakEnd;
 
-        workingPlan[selDayName].breaks.forEach(function (currentBreak, index) {
+        workingPlan[selDayName].breaks.forEach(function (currentBreak) {
             breakStart = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + currentBreak.start);
             breakEnd = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + currentBreak.end);
 
@@ -1109,18 +1109,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     })
                 ]
             });
-        } else if ($(this).hasClass('fc-extra') || $parent.hasClass('fc-extra') || $altParent.hasClass('fc-extra')) {
+        } else if ($(this).hasClass('fc-custom-availability-period') || $parent.hasClass('fc-custom-availability-period') || $altParent.hasClass('fc-custom-availability-period')) {
+            displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
+                && GlobalVariables.user.privileges.appointments.edit === true)
+                ? 'mr-2' : 'd-none'; // Same value at the time.
+
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.delete === true)
                 ? 'mr-2' : 'd-none'; // Same value at the time.
-
-            var provider = '';
-
-            if (event.data) { // Only custom unavailable periods have notes.
-                provider = '<strong>' + EALang.provider + '</strong> ' + event.data.first_name + ' ' + event.data.last_name;
-            }
-
-            var extraPeriod = jQuery.parseJSON(event.data.settings.extra_working_plan)[event.start.format()];
 
             $html = $('<div/>', {
                 'html': [
@@ -1353,7 +1349,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      *
      * @see updateAppointmentData()
      */
-    function onEventResize(event, delta, revertFunc, jsEvent, ui, view) {
+    function onEventResize(event, delta, revertFunc) {
         if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
             Backend.displayNotification(EALang.no_privileges_edit_appointments);

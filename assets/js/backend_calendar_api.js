@@ -91,18 +91,18 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
     };
 
     /**
-     * Save extra period of work to database.
+     * Save custom availability period of work to database.
      *
-     * @param {Object} extra_periods Contains the extra period data.
+     * @param {Object} customAvailabilityPeriods Contains the custom availability periods data.
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */
-    exports.saveExtraPeriod = function (extra_periods, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_extra_period';
+    exports.saveCustomavailabilityperiod = function (customAvailabilityPeriods, successCallback, errorCallback) {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_custom_availability_period';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            extra_period: JSON.stringify(extra_periods)
+            custom_availability_period: JSON.stringify(customAvailabilityPeriods)
         };
 
         $.post(url, data)

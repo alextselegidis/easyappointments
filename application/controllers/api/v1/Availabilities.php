@@ -369,13 +369,13 @@ class Availabilities extends API_V1_Controller {
     /**
      * Get multiple attendants hours.
      *
-     * This method will add the extra appointment hours whenever a service accepts multiple attendants.
+     * This method will add the additional appointment hours whenever a service accepts multiple attendants.
      *
      * @param string $selected_date The selected appointment date.
      * @param array $service Selected service data.
      * @param array $provider Selected provider data.
      *
-     * @return array Retunrs the available hours array.
+     * @return array Returns the available hours array.
      */
     protected function _getMultipleAttendantsHours(
         $selected_date,

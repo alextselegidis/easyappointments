@@ -18,7 +18,7 @@
         services: <?= json_encode($services) ?>,
         timezones: <?= json_encode($timezones) ?>,
         workingPlan: <?= json_encode(json_decode($working_plan)) ?>,
-        extraWorkingPlan: <?= json_encode(json_decode($extra_working_plan)) ?>,
+        customavailabilityperiods: <?= json_encode(json_decode($custom_availability_periods)) ?>,
         user: {
             id: <?= $user_id ?>,
             email: <?= json_encode($user_email) ?>,
@@ -290,22 +290,22 @@
 
                             <br>
 
-                            <h3><?= lang('extra_periods') ?></h3>
+                            <h3><?= lang('custom_availability_periods') ?></h3>
 
                             <span class="help-block">
-                            <?= lang('add_extra_periods_during_each_day') ?>
+                            <?= lang('add_custom_availability_periods_during_each_day') ?>
                         </span>
 
                             <div>
-                                <button type="button" class="add-extra-periods btn btn-primary mr-2">
+                                <button type="button" class="add-custom-availability-periods btn btn-primary mr-2">
                                     <i class="far fa-plus-square"></i>
-                                    <?= lang('add_extra_period') ?>
+                                    <?= lang('add_custom_availability_period') ?>
                                 </button>
                             </div>
 
                             <br>
 
-                            <table class="extra-periods table table-striped">
+                            <table class="custom-availability-periods table table-striped">
                                 <thead>
                                 <tr>
                                     <th><?= lang('day') ?></th>

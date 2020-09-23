@@ -519,8 +519,8 @@ class Appointments extends CI_Controller {
         // Get the service, provider's working plan and provider appointments.
         $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), TRUE);
 
-        // Get the provider's extra working plan.
-        $extra_working_plan = json_decode($this->providers_model->get_setting('extra_working_plan', $provider_id), TRUE);
+        // Get the provider's custom availability periods.
+        $custom_availability_periods = json_decode($this->providers_model->get_setting('custom_availability_periods', $provider_id), TRUE);
 
         $provider_appointments = $this->appointments_model->get_batch([
             'id_users_provider' => $provider_id,
@@ -543,12 +543,12 @@ class Appointments extends CI_Controller {
         // every reserved appointment is considered to be a taken space in the plan.
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
 
-        // Search if the $selected_date is an extra date added outside the normal working plan
+        // Search if the $selected_date is an custom availability period added outside the normal working plan.
         if ($selected_date_working_plan == NULL)
         {
-            if (isset($extra_working_plan[strtolower(date('Y-m-d', strtotime($selected_date)))]))
+            if (isset($custom_availability_periods[strtolower(date('Y-m-d', strtotime($selected_date)))]))
             {
-                $selected_date_working_plan = $extra_working_plan[strtolower(date('Y-m-d', strtotime($selected_date)))];
+                $selected_date_working_plan = $custom_availability_periods[strtolower(date('Y-m-d', strtotime($selected_date)))];
             }
         }
 
@@ -757,7 +757,7 @@ class Appointments extends CI_Controller {
     /**
      * Get multiple attendants hours.
      *
-     * This method will add the extra appointment hours whenever a service accepts multiple attendants.
+     * This method will add the additional appointment hours whenever a service accepts multiple attendants.
      *
      * @param string $selected_date The selected appointment date.
      * @param array $service Selected service data.

@@ -188,16 +188,16 @@
     };
 
     /**
-     * Setup the dom elements of a given extra working plan day.
+     * Setup the dom elements of a given Custom availability period.
      *
-     * @param {Object} extraWorkingPlan Contains the extra working day.
+     * @param {Object} customAvailabilityPeriods Contains the custom availability period.
      */
-    WorkingPlan.prototype.setupExtraPeriods = function (extraWorkingPlan) {
-        $.each(extraWorkingPlan, function (index, extraWorkingDay) {
-            if (extraWorkingDay) {
+    WorkingPlan.prototype.setupcustomAvailabilityPeriods = function (customAvailabilityPeriods) {
+        $.each(customAvailabilityPeriods, function (index, customAvailabilityPeriod) {
+            if (customAvailabilityPeriod) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(extraWorkingDay.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
-                $('#' + index + '-end').val(Date.parse(extraWorkingDay.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $('#' + index + '-start').val(Date.parse(customAvailabilityPeriod.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $('#' + index + '-end').val(Date.parse(customAvailabilityPeriod.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
 
                 var day = GeneralFunctions.formatDate(Date.parse(index), GlobalVariables.dateFormat, false);
 
@@ -206,22 +206,22 @@
                 $('<tr/>', {
                     'html': [
                         $('<td/>', {
-                            'class': 'extra-day editable',
+                            'class': 'custom-availability-period editable',
                             'text': day
                         }),
                         $('<td/>', {
-                            'class': 'extra-start editable',
-                            'text': Date.parse(extraWorkingDay.start).toString(timeFormat).toUpperCase()
+                            'class': 'custom-availability-period-start editable',
+                            'text': Date.parse(customAvailabilityPeriod.start).toString(timeFormat).toUpperCase()
                         }),
                         $('<td/>', {
-                            'class': 'extra-end editable',
-                            'text': Date.parse(extraWorkingDay.end).toString(timeFormat).toUpperCase()
+                            'class': 'custom-availability-period-end editable',
+                            'text': Date.parse(customAvailabilityPeriod.end).toString(timeFormat).toUpperCase()
                         }),
                         $('<td/>', {
                             'html': [
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm edit-extra',
+                                    'class': 'btn btn-light btn-sm edit-custom-availability-period',
                                     'title': EALang.edit,
                                     'html': [
                                         $('<span/>', {
@@ -231,7 +231,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm delete-extra',
+                                    'class': 'btn btn-light btn-sm delete-custom-availability-period',
                                     'title': EALang.delete,
                                     'html': [
                                         $('<span/>', {
@@ -241,7 +241,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm save-extra d-none',
+                                    'class': 'btn btn-light btn-sm save-custom-availability-period d-none',
                                     'title': EALang.save,
                                     'html': [
                                         $('<span/>', {
@@ -251,7 +251,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm cancel-extra d-none',
+                                    'class': 'btn btn-light btn-sm cancel-custom-availability-period d-none',
                                     'title': EALang.cancel,
                                     'html': [
                                         $('<span/>', {
@@ -263,7 +263,7 @@
                         })
                     ]
                 })
-                    .appendTo('.extra-periods tbody');
+                    .appendTo('.custom-availability-periods tbody');
             } else {
                 $('#' + index).prop('checked', false);
                 $('#' + index + '-start').prop('disabled', true);
@@ -272,8 +272,8 @@
         }.bind(this));
 
         // Make break cells editable.
-        this.editableBreakTime($('.extra-periods .extra-day'));
-        this.editableBreakTime($('.extra-periods').find('.extra-start, .extra-end'));
+        this.editableBreakTime($('.custom-availability-periods .custom-availability-period'));
+        this.editableBreakTime($('.custom-availability-periods').find('.custom-availability-period-start, .custom-availability-period-end'));
     };
 
     /**
@@ -554,33 +554,33 @@
         }.bind(this));
 
         /**
-         * Event: Add Extra Period Button "Click"
+         * Event: Add custom availability period Button "Click"
          *
-         * A new row is added on the table and the user can enter the new extra day
-         * data. After that he can either press the save or cancel button.
+         * A new row is added on the table and the user can enter the new custom availability period. After that he can
+         * either press the save or cancel button.
          */
-        $('.add-extra-periods').on('click', function () {
+        $('.add-custom-availability-periods').on('click', function () {
             var today = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false);
 
-            var $newExtraPeriod = $('<tr/>', {
+            var $newcustomAvailabilityPeriod = $('<tr/>', {
                 'html': [
                     $('<td/>', {
-                        'class': 'extra-day editable',
+                        'class': 'custom-availability-period editable',
                         'text': today
                     }),
                     $('<td/>', {
-                        'class': 'extra-start editable',
+                        'class': 'custom-availability-period-start editable',
                         'text': '9:00 AM'
                     }),
                     $('<td/>', {
-                        'class': 'extra-end editable',
+                        'class': 'custom-availability-period-end editable',
                         'text': '10:00 AM'
                     }),
                     $('<td/>', {
                         'html': [
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm edit-extra',
+                                'class': 'btn btn-light btn-sm edit-custom-availability-period',
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
@@ -590,7 +590,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm delete-extra',
+                                'class': 'btn btn-light btn-sm delete-custom-availability-period',
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
@@ -600,7 +600,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm save-extra d-none',
+                                'class': 'btn btn-light btn-sm save-custom-availability-period d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
@@ -610,7 +610,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm cancel-extra d-none',
+                                'class': 'btn btn-light btn-sm cancel-custom-availability-period d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
@@ -622,21 +622,21 @@
                     }),
                 ]
             })
-                .appendTo('.extra-periods tbody');
+                .appendTo('.custom-availability-periods tbody');
 
             // Bind editable and event handlers.
-            this.editableBreakTime($newExtraPeriod.find('.extra-day'));
-            this.editableBreakTime($newExtraPeriod.find('.extra-start, .extra-end'));
-            $newExtraPeriod.find('.edit-extra').trigger('click');
-            $('.add-extra-periods').prop('disabled', true);
+            this.editableBreakTime($newcustomAvailabilityPeriod.find('.custom-availability-period'));
+            this.editableBreakTime($newcustomAvailabilityPeriod.find('.custom-availability-period-start, .custom-availability-period-end'));
+            $newcustomAvailabilityPeriod.find('.edit-custom-availability-period').trigger('click');
+            $('.add-custom-availability-periods').prop('disabled', true);
         }.bind(this));
 
         /**
-         * Event: Edit Extra Period Button "Click"
+         * Event: Edit custom availability period Button "Click"
          *
-         * Enables the row editing for the "Extra Period" table rows.
+         * Enables the row editing for the "custom availability period" table rows.
          */
-        $(document).on('click', '.edit-extra', function () {
+        $(document).on('click', '.edit-custom-availability-period', function () {
             // Reset previous editable table cells.
             var $previousEdits = $(this).closest('table').find('.editable');
 
@@ -648,7 +648,7 @@
 
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
-            $(this).parent().parent().find('.extra-start input, .extra-end input').timepicker({
+            $(this).parent().parent().find('.custom-availability-period-start input, .custom-availability-period-end input').timepicker({
                 timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
@@ -672,7 +672,7 @@
                     break;
             }
 
-            $(this).parent().parent().find('.extra-day input').datetimepicker({
+            $(this).parent().parent().find('.custom-availability-period input').datetimepicker({
                 dateFormat: dateFormat,
 
                 // Translation
@@ -699,66 +699,66 @@
 
             // Show save - cancel buttons.
             var $tr = $(this).closest('tr');
-            $tr.find('.edit-extra, .delete-extra').addClass('d-none');
-            $tr.find('.save-extra, .cancel-extra').removeClass('d-none');
+            $tr.find('.edit-custom-availability-period, .delete-custom-availability-period').addClass('d-none');
+            $tr.find('.save-custom-availability-period, .cancel-custom-availability-period').removeClass('d-none');
             $tr.find('select,input:text').addClass('form-control input-sm')
 
-            $('.add-extra-periods').prop('disabled', true);
+            $('.add-custom-availability-periods').prop('disabled', true);
         });
 
         /**
-         * Event: Delete Extra Period Button "Click"
+         * Event: Delete custom availability period Button "Click"
          *
-         * Removes the current line from the "Extra Periods" table.
+         * Removes the current line from the "custom availability periods" table.
          */
-        $(document).on('click', '.delete-extra', function () {
+        $(document).on('click', '.delete-custom-availability-period', function () {
             $(this).parent().parent().remove();
         });
 
         /**
-         * Event: Cancel Extra Period Button "Click"
+         * Event: Cancel custom availability period Button "Click"
          *
-         * Bring the ".extra-period" table back to its initial state.
+         * Bring the ".custom-availability-period" table back to its initial state.
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.cancel-extra', function (event) {
+        $(document).on('click', '.cancel-custom-availability-period', function (event) {
             var element = event.target;
             var $modifiedRow = $(element).closest('tr');
             this.enableCancel = true;
             $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
-            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('d-none');
-            $modifiedRow.find('.save-extra, .cancel-extra').addClass('d-none');
-            $('.add-extra-periods').prop('disabled', false);
+            $(element).closest('table').find('.edit-custom-availability-period, .delete-custom-availability-period').removeClass('d-none');
+            $modifiedRow.find('.save-custom-availability-period, .cancel-custom-availability-period').addClass('d-none');
+            $('.add-custom-availability-periods').prop('disabled', false);
         }.bind(this));
 
         /**
-         * Event: Save Extra Period Button "Click"
+         * Event: Save custom availability period Button "Click"
          *
          * Save the editable values and restore the table to its initial state.
          *
          * @param {jQuery.Event} e
          */
-        $(document).on('click', '.save-extra', function (event) {
+        $(document).on('click', '.save-custom-availability-period', function (event) {
             // Break's start time must always be prior to break's end.
             var element = event.target;
             var $modifiedRow = $(element).closest('tr');
-            var start = Date.parse($modifiedRow.find('.extra-start input').val());
-            var end = Date.parse($modifiedRow.find('.extra-end input').val());
+            var start = Date.parse($modifiedRow.find('.custom-availability-period-start input').val());
+            var end = Date.parse($modifiedRow.find('.custom-availability-period-end input').val());
 
             if (start > end) {
-                $modifiedRow.find('.extra-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+                $modifiedRow.find('.custom-availability-period-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
             }
 
             this.enableSubmit = true;
             $modifiedRow.find('.editable .submit-editable').trigger('click');
             this.enableSubmit = false;
 
-            $modifiedRow.find('.save-extra, .cancel-extra').addClass('d-none');
-            $(element).closest('table').find('.edit-extra, .delete-extra').removeClass('d-none');
-            $('.add-extra-periods').prop('disabled', false);
+            $modifiedRow.find('.save-custom-availability-period, .cancel-custom-availability-period').addClass('d-none');
+            $(element).closest('table').find('.edit-custom-availability-period, .delete-custom-availability-period').removeClass('d-none');
+            $('.add-custom-availability-periods').prop('disabled', false);
         }.bind(this));
     };
 
@@ -806,27 +806,27 @@
     };
 
     /**
-     * Get the extra working plan settings.
+     * Get the custom availability periods settings.
      *
-     * @return {Object} Returns the extra working plan settings object.
+     * @return {Object} Returns the custom availability periods settings object.
      */
-    WorkingPlan.prototype.getExtraWP = function () {
-        var extraWorkingPlan = {};
-        $('.extra-periods tbody tr').each(function (index, tr) {
+    WorkingPlan.prototype.getCustomavailabilityperiods = function () {
+        var customAvailabilityPeriods = {};
+        $('.custom-availability-periods tbody tr').each(function (index, tr) {
 
-            var day = GeneralFunctions.ISO8601DateString($(tr).find('.extra-day').text(), GlobalVariables.dateFormat);
+            var day = GeneralFunctions.ISO8601DateString($(tr).find('.custom-availability-period').text(), GlobalVariables.dateFormat);
 
-            var start = $(tr).find('.extra-start').text();
-            var end = $(tr).find('.extra-end').text();
+            var start = $(tr).find('.custom-availability-period-start').text();
+            var end = $(tr).find('.custom-availability-period-end').text();
 
-            extraWorkingPlan[day] = {
+            customAvailabilityPeriods[day] = {
                 start: Date.parse(start).toString('HH:mm'),
                 end: Date.parse(end).toString('HH:mm'),
                 breaks: []
             };
         }.bind(this));
 
-        return extraWorkingPlan;
+        return customAvailabilityPeriods;
     };
 
     /**

@@ -12,21 +12,21 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Add_extra_working_plan_to_user_settings
+ * Class Migration_Add_custom_availability_periods_to_user_settings
  *
  * @property CI_DB_query_builder db
  * @property CI_DB_forge dbforge
  */
-class Migration_Add_extra_working_plan_to_user_settings extends CI_Migration {
+class Migration_Add_custom_availability_periods_to_user_settings extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('extra_working_plan', 'user_settings'))
+        if ( ! $this->db->field_exists('custom_availability_periods', 'user_settings'))
         {
             $fields = [
-                'extra_working_plan' => [
+                'custom_availability_periods' => [
                     'type' => 'TEXT',
                     'null' => TRUE,
                     'after' => 'working_plan'
@@ -42,9 +42,9 @@ class Migration_Add_extra_working_plan_to_user_settings extends CI_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->field_exists('extra_working_plan', 'user_settings'))
+        if ( ! $this->db->field_exists('custom_availability_periods', 'user_settings'))
         {
-            $this->dbforge->drop_column('user_settings', 'extra_working_plan');
+            $this->dbforge->drop_column('user_settings', 'custom_availability_periods');
         }
     }
 }

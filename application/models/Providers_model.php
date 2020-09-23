@@ -322,8 +322,8 @@ class Providers_Model extends CI_Model {
 
         foreach ($settings as $name => $value)
         {
-            // Sort in descending order the extra working plan days
-            if ($name == 'extra_working_plan')
+            // Sort in descending order the custom availability periods
+            if ($name == 'custom_availability_periods')
             {
                 $value = json_decode($value, TRUE);
                 // Sort the array and put in reverse order
@@ -634,22 +634,22 @@ class Providers_Model extends CI_Model {
     }
 
     /**
-     * Save the provider extra working plan days.
+     * Save the provider custom availability period.
      *
-     * @param array $extra_period Contains the date and the hours of the extra working plan day.
+     * @param array $custom_availability_period Contains the date and the hours of the Custom availability period.
      * @param int $provider_id The selected provider record id.
      *
-     * @return bool Return if the new extra working plan is correctly saved to DB.
+     * @return bool Return if the new custom availability periods is correctly saved to DB.
      *
      * @throws Exception If start time is after the end time.
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function set_extra_working_day($extra_period, $provider_id)
+    public function set_custom_availability_period($custom_availability_period, $provider_id)
     {
         // Validate period
-        $dateStart = date('Y-m-d', strtotime($extra_period['start_datetime']));
-        $start = date('H:i', strtotime($extra_period['start_datetime']));
-        $end = date('H:i', strtotime($extra_period['end_datetime']));
+        $dateStart = date('Y-m-d', strtotime($custom_availability_period['start_datetime']));
+        $start = date('H:i', strtotime($custom_availability_period['start_datetime']));
+        $end = date('H:i', strtotime($custom_availability_period['end_datetime']));
         if ($start > $end)
         {
             throw new Exception('Unavailable period start must be prior to end.');
@@ -667,17 +667,15 @@ class Providers_Model extends CI_Model {
         }
 
         // Add record to database.
-        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), TRUE);
+        $custom_availability_periods = json_decode($this->get_setting('custom_availability_periods', $provider_id), TRUE);
 
-        $extra_working_plan[$dateStart] = [
+        $custom_availability_periods[$dateStart] = [
             'start' => $start,
             'end' => $end,
             'breaks' => []
         ];
 
-        $success = $this->set_setting('extra_working_plan', json_encode($extra_working_plan), $provider_id);
-
-        return $success;
+        return $this->set_setting('custom_availability_periods', json_encode($custom_availability_periods), $provider_id);
     }
 
     /**
@@ -695,16 +693,16 @@ class Providers_Model extends CI_Model {
     }
 
     /**
-     * Delete a provider extra working plan day.
+     * Delete a provider custom availability period.
      *
-     * @param string $extra_period Contains the date to be deleted from the extra working plan.
+     * @param string $custom_availability_period Contains the date to be deleted from the custom availability periods.
      * @param int $provider_id The selected provider record id.
      *
-     * @return bool Return if the new extra working plan is correctly deleted from DB.
+     * @return bool Return if the new custom availability periods is correctly deleted from DB.
      *
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function delete_extra_working_day($extra_period, $provider_id)
+    public function delete_custom_availability_period($custom_availability_period, $provider_id)
     {
         // Validate provider record
         $where_clause = [
@@ -718,12 +716,10 @@ class Providers_Model extends CI_Model {
         }
 
         // Add record to database.
-        $extra_working_plan = json_decode($this->get_setting('extra_working_plan', $provider_id), TRUE);
+        $custom_availability_periods = json_decode($this->get_setting('custom_availability_periods', $provider_id), TRUE);
 
-        unset($extra_working_plan[$extra_period]);
+        unset($custom_availability_periods[$custom_availability_period]);
 
-        $success = $this->set_setting('extra_working_plan', json_encode($extra_working_plan), $provider_id);
-
-        return $success;
+        return $this->set_setting('custom_availability_periods', json_encode($custom_availability_periods), $provider_id);
     }
 }

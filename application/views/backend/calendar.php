@@ -9,7 +9,7 @@
 <script src="<?= asset_url('assets/js/backend_calendar_google_sync.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_appointments_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_unavailabilities_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_calendar_extra_periods_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_calendar_custom_availability_periods_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {
@@ -83,9 +83,9 @@
                         <i class="far fa-plus-square mr-2"></i>
                         <?= lang('unavailable') ?>
                     </a>
-                    <a class="dropdown-item" href="#" id="insert-extra-period">
+                    <a class="dropdown-item" href="#" id="insert-custom-availability-period">
                         <i class="far fa-plus-square mr-2"></i>
-                        <?= lang('extra_period') ?>
+                        <?= lang('custom_availability_period') ?>
                     </a>
                 </div>
             </div>
@@ -117,7 +117,7 @@
 
 <!-- MANAGE APPOINTMENT MODAL -->
 
-<div id="manage-appointment" class="modal fade" data-keyboard="true" tabindex="-1">
+<div id="manage-appointment" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -355,7 +355,7 @@
 
 <!-- MANAGE UNAVAILABLE MODAL -->
 
-<div id="manage-unavailable" class="modal fade">
+<div id="manage-unavailable" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -424,13 +424,13 @@
     </div>
 </div>
 
-<!-- MANAGE EXTRA PERIOD MODAL -->
+<!-- MANAGE CUSTOM AVAILABILITY PERIODS MODAL -->
 
-<div id="manage-extra" class="modal fade">
+<div id="manage-custom-availability-periods" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title"><?= lang('new_extra_period_title') ?></h3>
+                <h3 class="modal-title"><?= lang('new_custom_availability_period_title') ?></h3>
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -438,21 +438,21 @@
 
                 <form>
                     <fieldset>
-                        <input id="extra-id" type="hidden">
+                        <input id="custom-availability-period-id" type="hidden">
 
                         <div class="form-group">
-                            <label for="extra-provider" class="control-label"><?= lang('provider') ?></label>
-                            <select id="extra-provider" class="form-control"></select>
+                            <label for="custom-availability-period-provider" class="control-label"><?= lang('provider') ?></label>
+                            <select id="custom-availability-period-provider" class="form-control"></select>
                         </div>
 
                         <div class="form-group">
-                            <label for="extra-start" class="control-label"><?= lang('start') ?></label>
-                            <input id="extra-start" class="form-control">
+                            <label for="custom-availability-period-start" class="control-label"><?= lang('start') ?></label>
+                            <input id="custom-availability-period-start" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="extra-end" class="control-label"><?= lang('end') ?></label>
-                            <input id="extra-end" class="form-control">
+                            <label for="custom-availability-period-end" class="control-label"><?= lang('end') ?></label>
+                            <input id="custom-availability-period-end" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -477,11 +477,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-extra" class="btn btn-light" data-dismiss="modal">
+                <button id="cancel-custom-availability-period" class="btn btn-light" data-dismiss="modal">
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
-                <button id="save-extra" class="btn btn-primary">
+                <button id="save-custom-availability-period" class="btn btn-primary">
                     <i class="far fa-check-square mr-2"></i>
                     <?= lang('save') ?>
                 </button>
