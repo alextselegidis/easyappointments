@@ -1673,7 +1673,7 @@ class Backend_api extends CI_Controller {
 
                 $this->load->model('settings_model');
 
-                $settings = json_decode($this->input->post('settings'), TRUE);
+                $settings = json_decode($this->input->post('settings', FALSE), TRUE);
 
                 $this->settings_model->save_settings($settings);
             }
