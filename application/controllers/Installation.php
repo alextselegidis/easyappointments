@@ -99,6 +99,7 @@ class Installation extends CI_Controller {
             $this->load->model('providers_model');
             $this->load->library('session');
             $this->load->library('migration');
+            $this->load->helper('string');
 
             $admin = $this->input->post('admin');
             $company = $this->input->post('company');
@@ -142,7 +143,7 @@ class Installation extends CI_Controller {
             $services['id'] = $this->services_model->add($services);
 
             $salt = generate_salt();
-            $password = generate_random_string(100);
+            $password = random_string('sha1', 12);
 
             $sample_provider = [
                 'first_name' => 'John',

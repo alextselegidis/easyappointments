@@ -83,23 +83,3 @@ function generate_salt()
     $salt = hash('sha256', (uniqid(rand(), TRUE)));
     return substr($salt, 0, $max_length);
 }
-
-/**
- * This method generates a random string.
- *
- * @link http://stackoverflow.com/a/4356295/1718162
- *
- * @param int $length (OPTIONAL = 10) The length of the generated string.
- *
- * @return string Returns the randomly generated string.
- */
-function generate_random_string($length = 10)
-{
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $random_string = '';
-    for ($i = 0; $i < $length; $i++)
-    {
-        $random_string .= $characters[rand(0, strlen($characters) - 1)];
-    }
-    return $random_string;
-}
