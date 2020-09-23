@@ -264,7 +264,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             trigger: 'manual'
         });
 
-        $element.on('click', function () {
+        $element.on('click', function (event) {
+            event.stopPropagation();
+
             if ($('#language-list').length === 0) {
                 $(this).popover('show');
             } else {
@@ -288,6 +290,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     document.location.reload(true);
                 })
                 .fail(GeneralFunctions.ajaxFailureHandler);
+        });
+
+        $(document).on('click', function() {
+            $element.popover('hide');
         });
     };
 
