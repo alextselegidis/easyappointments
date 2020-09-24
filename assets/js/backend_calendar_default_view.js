@@ -250,12 +250,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
-                    $('#enable-sync').addClass('btn-danger enabled');
-                    $('#enable-sync span:eq(1)').text(EALang.disable_sync);
+                    $('#enable-sync').removeClass('btn-light').addClass('btn-danger enabled');
+                    $('#enable-sync span').text(EALang.disable_sync);
                     $('#google-sync').prop('disabled', false);
                 } else {
-                    $('#enable-sync').removeClass('btn-danger enabled');
-                    $('#enable-sync span:eq(1)').text(EALang.enable_sync);
+                    $('#enable-sync').removeClass('btn-danger enabled').addClass('btn-light');
+                    $('#enable-sync span').text(EALang.enable_sync);
                     $('#google-sync').prop('disabled', true);
                 }
             }

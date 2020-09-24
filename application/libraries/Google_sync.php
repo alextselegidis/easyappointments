@@ -62,7 +62,11 @@ class Google_Sync {
         $this->client->setClientSecret($this->framework->config->item('google_client_secret'));
         $this->client->setDeveloperKey($this->framework->config->item('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
-        $this->client->setScopes('https://www.googleapis.com/auth/calendar');
+        $this->client->setAccessType('offline');
+        $this->client->addScope([
+            Google_Service_Calendar::CALENDAR,
+            Google_Service_Calendar::CALENDAR_READONLY
+        ]);
 
         $this->service = new Google_Service_Calendar($this->client);
     }
@@ -88,12 +92,22 @@ class Google_Sync {
      * provided. Using this code, we can authenticate the API usage and store the
      * token information to the database.
      *
-     * @see Google Controller
+     * @param $code
+     *
+     * @return array
+     *
+     * @throws Exception
      */
-    public function authenticate($auth_code)
+    public function authenticate($code)
     {
-        $this->client->authenticate($auth_code);
-        return $this->client->getAccessToken();
+        $response = $this->client->fetchAccessTokenWithAuthCode($code);
+
+        if (isset($response['error']))
+        {
+            throw new Exception('Google Authentication Error (' . $response['error'] . '): ' . $response['error_description']);
+        }
+
+        return $response;
     }
 
     /**

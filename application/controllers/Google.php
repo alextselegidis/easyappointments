@@ -82,29 +82,37 @@ class Google extends CI_Controller {
      */
     public function oauth_callback()
     {
-        if ($this->input->get('code'))
+        $code = $this->input->get('code');
+
+        if (empty($code))
         {
-            $this->load->library('Google_sync');
-            $token = $this->google_sync->authenticate($this->input->get('code'));
+            $this->output->set_output('Code authorization failed.');
+            return;
+        }
 
-            // Store the token into the database for future reference.
-            $oauth_provider_id = $this->session->userdata('oauth_provider_id');
+        $this->load->library('Google_sync');
 
-            if ($oauth_provider_id)
-            {
-                $this->load->model('providers_model');
-                $this->providers_model->set_setting('google_sync', TRUE, $oauth_provider_id);
-                $this->providers_model->set_setting('google_token', $token, $oauth_provider_id);
-                $this->providers_model->set_setting('google_calendar', 'primary', $oauth_provider_id);
-            }
-            else
-            {
-                $this->output->set_output('<h1>Sync provider id not specified!</h1>');
-            }
+        $token = $this->google_sync->authenticate($code);
+
+        if (empty($token))
+        {
+            $this->output->set_output('Token authorization failed.');
+            return;
+        }
+
+        // Store the token into the database for future reference.
+        $oauth_provider_id = $this->session->userdata('oauth_provider_id');
+
+        if ($oauth_provider_id)
+        {
+            $this->load->model('providers_model');
+            $this->providers_model->set_setting('google_sync', TRUE, $oauth_provider_id);
+            $this->providers_model->set_setting('google_token', json_encode($token), $oauth_provider_id);
+            $this->providers_model->set_setting('google_calendar', 'primary', $oauth_provider_id);
         }
         else
         {
-            $this->output->set_output('<h1>Authorization Failed!</h1>');
+            $this->output->set_output('Sync provider id not specified.');
         }
     }
 

@@ -53,8 +53,8 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 // The user has granted access to his data.
                                 windowHandle.close();
                                 window.clearInterval(authInterval);
-                                $('#enable-sync').addClass('btn-danger enabled');
-                                $('#enable-sync span:eq(1)').text(EALang.disable_sync);
+                                $('#enable-sync').addClass('btn-danger enabled').removeClass('btn-light');
+                                $('#enable-sync span').text(EALang.disable_sync);
                                 $('#google-sync').prop('disabled', false);
                                 $('#select-filter-item option:selected').attr('google-sync', 'true');
 
@@ -71,8 +71,9 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 $.post(url, data)
                                     .done(function (response) {
                                         $('#google-calendar').empty();
-                                        response.forEach(response, function (event) {
-                                            $('#google-calendar').append(new Option(event.summary, event.id));
+
+                                        response.forEach(function (calendar) {
+                                            $('#google-calendar').append(new Option(calendar.summary, calendar.id));
                                         });
 
                                         $('#select-google-calendar').modal('show');
@@ -94,7 +95,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 var providerId = $('#select-filter-item').val();
 
                 var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
-                    return Number(provider.id) === Number(providerId);
+                    return Number(availableProvider.id) === Number(providerId);
                 });
 
                 provider.settings.google_sync = '0';
@@ -102,8 +103,8 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
 
                 disableProviderSync(provider.id);
 
-                $('#enable-sync').removeClass('btn-danger enabled');
-                $('#enable-sync span:eq(1)').text(EALang.enable_sync);
+                $('#enable-sync').removeClass('btn-danger enabled').addClass('btn-light');
+                $('#enable-sync span').text(EALang.enable_sync);
                 $('#google-sync').prop('disabled', true);
                 $('#select-filter-item option:selected').attr('google-sync', 'false');
             }
