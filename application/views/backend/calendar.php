@@ -136,7 +136,10 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label for="select-service" class="control-label"><?= lang('service') ?> *</label>
+                                    <label for="select-service" class="control-label">
+                                        <?= lang('service') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <select id="select-service" class="required form-control">
                                         <?php
                                         // Group services by category, only if there is at least one service
@@ -209,13 +212,17 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="select-provider" class="control-label"><?= lang('provider') ?> *</label>
+                                    <label for="select-provider" class="control-label">
+                                        <?= lang('provider') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="appointment-location"
-                                           class="control-label"><?= lang('location') ?></label>
+                                    <label for="appointment-location" class="control-label">
+                                        <?= lang('location') ?>
+                                    </label>
                                     <input id="appointment-location" class="form-control">
                                 </div>
 
@@ -264,12 +271,12 @@
                     <fieldset>
                         <legend>
                             <?= lang('customer_details_title') ?>
-                            <button id="new-customer" class="btn btn-light btn-sm" type="button"
+                            <button id="new-customer" class="btn btn-secondary btn-sm" type="button"
                                     title="<?= lang('clear_fields_add_existing_customer_hint') ?>">
                                 <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('new') ?>
                             </button>
-                            <button id="select-customer" class="btn btn-primary btn-sm" type="button"
+                            <button id="select-customer" class="btn btn-secondary btn-sm" type="button"
                                     title="<?= lang('pick_existing_customer_hint') ?>">
                                 <i class="far fa-hand-pointer mr-2"></i>
                                 <span>
@@ -287,49 +294,65 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
+                                    <label for="first-name" class="control-label">
+                                        <?= lang('first_name') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input id="first-name" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="last-name" class="control-label"><?= lang('last_name') ?> *</label>
+                                    <label for="last-name" class="control-label">
+                                        <?= lang('last_name') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input id="last-name" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email" class="control-label"><?= lang('email') ?> *</label>
+                                    <label for="email" class="control-label">
+                                        <?= lang('email') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
                                     <input id="email" class="required form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="phone-number" class="control-label">
-                                        <?= lang('phone_number') ?> *
+                                        <?= lang('phone_number') ?>
+                                        <?php if ($require_phone_number === '1'): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="phone-number" class="required form-control">
+                                    <input id="phone-number" class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
                                 </div>
-
-                                <p class="text-danger">
-                                    <small><?= lang('fields_are_required') ?></small>
-                                </p>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label for="address" class="control-label"><?= lang('address') ?></label>
+                                    <label for="address" class="control-label">
+                                        <?= lang('address') ?>
+                                    </label>
                                     <input id="address" class="form-control">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="city" class="control-label"><?= lang('city') ?></label>
+                                    <label for="city" class="control-label">
+                                        <?= lang('city') ?>
+                                    </label>
                                     <input id="city" class="form-control">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="zip-code" class="control-label"><?= lang('zip_code') ?></label>
+                                    <label for="zip-code" class="control-label">
+                                        <?= lang('zip_code') ?>
+                                    </label>
                                     <input id="zip-code" class="form-control">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="customer-notes" class="control-label"><?= lang('notes') ?></label>
+                                    <label for="customer-notes" class="control-label">
+                                        <?= lang('notes') ?>
+                                    </label>
                                     <textarea id="customer-notes" rows="2" class="form-control"></textarea>
                                 </div>
                             </div>
@@ -339,7 +362,7 @@
             </div>
 
             <div class="modal-footer">
-                <button id="cancel-appointment" class="btn btn-light" data-dismiss="modal">
+                <button id="cancel-appointment" class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
@@ -369,17 +392,25 @@
                         <input id="unavailable-id" type="hidden">
 
                         <div class="form-group">
-                            <label for="unavailable-provider" class="control-label"><?= lang('provider') ?></label>
+                            <label for="unavailable-provider" class="control-label">
+                                <?= lang('provider') ?>
+                            </label>
                             <select id="unavailable-provider" class="form-control"></select>
                         </div>
 
                         <div class="form-group">
-                            <label for="unavailable-start" class="control-label"><?= lang('start') ?></label>
+                            <label for="unavailable-start" class="control-label">
+                                <?= lang('start') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="unavailable-start" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="unavailable-end" class="control-label"><?= lang('end') ?></label>
+                            <label for="unavailable-end" class="control-label">
+                                <?= lang('end') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="unavailable-end" class="form-control">
                         </div>
 
@@ -403,14 +434,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="unavailable-notes" class="control-label"><?= lang('notes') ?></label>
+                            <label for="unavailable-notes" class="control-label">
+                                <?= lang('notes') ?>
+                            </label>
                             <textarea id="unavailable-notes" rows="3" class="form-control"></textarea>
                         </div>
                     </fieldset>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-unavailable" class="btn btn-light" data-dismiss="modal">
+                <button id="cancel-unavailable" class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
@@ -440,22 +473,32 @@
                         <input id="custom-availability-period-id" type="hidden">
 
                         <div class="form-group">
-                            <label for="custom-availability-period-provider" class="control-label"><?= lang('provider') ?></label>
+                            <label for="custom-availability-period-provider" class="control-label">
+                                <?= lang('provider') ?>
+                            </label>
                             <select id="custom-availability-period-provider" class="form-control"></select>
                         </div>
 
                         <div class="form-group">
-                            <label for="custom-availability-period-start" class="control-label"><?= lang('start') ?></label>
+                            <label for="custom-availability-period-start" class="control-label">
+                                <?= lang('start') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="custom-availability-period-start" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="custom-availability-period-end" class="control-label"><?= lang('end') ?></label>
+                            <label for="custom-availability-period-end" class="control-label">
+                                <?= lang('end') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="custom-availability-period-end" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label"><?= lang('timezone') ?></label>
+                            <label class="control-label">
+                                <?= lang('timezone') ?>
+                            </label>
 
                             <ul>
                                 <li>
@@ -477,7 +520,7 @@
             </div>
             <div class="modal-footer">
                 <button id="cancel-custom-availability-period" class="btn btn-light" data-dismiss="modal">
-                    <i class="fas fa-ban"></i>
+                    <i class="fas fa-ban mr-2"></i>
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-custom-availability-period" class="btn btn-primary">
@@ -500,18 +543,19 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="google-calendar"
-                           class="control-label"><?= lang('select_google_calendar_prompt') ?></label>
+                    <label for="google-calendar" class="control-label">
+                        <?= lang('select_google_calendar_prompt') ?>
+                    </label>
                     <select id="google-calendar" class="form-control"></select>
                 </div>
             </div>
             <div class="modal-footer">
                 <button id="close-calendar" class="btn btn-light" data-dismiss="modal">
-                    <i class="fas fa-ban"></i>
+                    <i class="fas fa-ban mr-2"></i>
                     <?= lang('cancel') ?>
                 </button>
                 <button id="select-calendar" class="btn btn-primary">
-                    <i class="far fa-check-square"></i>
+                    <i class="far fa-check-square mr-2"></i>
                     <?= lang('select') ?>
                 </button>
             </div>

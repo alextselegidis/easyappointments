@@ -250,11 +250,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
-                    $('#enable-sync').removeClass('btn-light').addClass('btn-danger enabled');
+                    $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
                     $('#enable-sync span').text(EALang.disable_sync);
                     $('#google-sync').prop('disabled', false);
                 } else {
-                    $('#enable-sync').removeClass('btn-danger enabled').addClass('btn-light');
+                    $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
                     $('#enable-sync span').text(EALang.enable_sync);
                     $('#google-sync').prop('disabled', true);
                 }
@@ -351,13 +351,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'class': 'close-popover btn btn-outline-secondary mr-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-ban mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.close
                                     })
                                 ]
                             }),
@@ -373,13 +373,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-light',
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'far fa-edit'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': EALang.edit
                                     })
                                 ]
                             })
@@ -440,7 +440,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'text': EALang.delete
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-light',
+                                'class': 'close-popover btn btn-outline-secondary',
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-ban mr-2'
@@ -555,13 +555,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'class': 'close-popover btn btn-outline-secondary mr-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-ban mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.close
                                     })
                                 ]
                             }),
@@ -577,13 +577,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-light',
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'far fa-edit'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': EALang.edit
                                     })
                                 ]
                             })

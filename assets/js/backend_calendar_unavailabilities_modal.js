@@ -30,9 +30,22 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          */
         $('#manage-unavailable #save-unavailable').on('click', function () {
             var $dialog = $('#manage-unavailable');
+            $dialog.find('.modal-message').addClass('d-none');
             $dialog.find('.has-error').removeClass('has-error');
+
             var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
+
+            if (!start) {
+                $dialog.find('#unavailable-start').closest('.form-group').addClass('has-error');
+                return;
+            }
+
             var end = Date.parse($dialog.find('#unavailable-end').datetimepicker('getDate'));
+
+            if (!end) {
+                $dialog.find('#unavailable-end').closest('.form-group').addClass('has-error');
+                return;
+            }
 
             if (start > end) {
                 // Start time is after end time - display message to user.

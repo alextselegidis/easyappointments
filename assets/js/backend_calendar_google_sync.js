@@ -53,7 +53,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 // The user has granted access to his data.
                                 windowHandle.close();
                                 window.clearInterval(authInterval);
-                                $('#enable-sync').addClass('btn-danger enabled').removeClass('btn-light');
+                                $('#enable-sync').addClass('btn-secondary enabled').removeClass('btn-light');
                                 $('#enable-sync span').text(EALang.disable_sync);
                                 $('#google-sync').prop('disabled', false);
                                 $('#select-filter-item option:selected').attr('google-sync', 'true');
@@ -103,7 +103,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
 
                 disableProviderSync(provider.id);
 
-                $('#enable-sync').removeClass('btn-danger enabled').addClass('btn-light');
+                $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
                 $('#enable-sync span').text(EALang.enable_sync);
                 $('#google-sync').prop('disabled', true);
                 $('#select-filter-item option:selected').attr('google-sync', 'false');
