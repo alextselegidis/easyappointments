@@ -216,10 +216,6 @@ li.language:hover {
     padding: 5px;
 }
 
-#select-language.active {
-    box-shadow: 0 0 20px #1A865F;
-}
-
 #language-list {
     list-style: none;
     padding-left: 0px;

@@ -258,10 +258,12 @@ body {
     box-shadow: none;
 }
 
-#book-appointment-wizard #select-language {
+#book-appointment-wizard #select-language,
+#book-appointment-wizard .backend-link {
     display: block;
     width: 150px;
     margin: 15px auto;
+    padding: 5px;
 }
 
 .popover .popover-title {
@@ -333,7 +335,14 @@ body {
 
     #book-appointment-wizard #select-language {
         display: inline-block;
-        margin-right: 30px;
+        margin-right: 15px;
+    }
+
+    #book-appointment-wizard .backend-link {
+        display: inline-block;
+        width: 100px;
+        padding: 5px;
+        margin: 5px auto;
     }
 }
 

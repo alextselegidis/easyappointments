@@ -385,10 +385,12 @@
 
                     <span class="footer-options">
                         <span id="select-language" class="badge badge-secondary">
+                            <i class="fas fa-language mr-2"></i>
                             <?= ucfirst(config('language')) ?>
                         </span>
 
-                        <a class="backend-link text-dark" href="<?= site_url('backend'); ?>">
+                        <a class="backend-link badge badge-primary" href="<?= site_url('backend'); ?>">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
                             <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
                         </a>
                     </span>
