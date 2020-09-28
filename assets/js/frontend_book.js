@@ -536,27 +536,32 @@ window.FrontendBook = window.FrontendBook || {};
         $('<div/>', {
             'html': [
                 $('<h4/>', {
-                    'text': $('#select-service option:selected').text()
+                    'text': EALang.appointment
                 }),
                 $('<p/>', {
                     'html': [
-                        $('<strong/>', {
-                            'class': 'text-info',
-                            'html': [
-                                $('<span/>', {
-                                    'text': $('#select-provider option:selected').text()
-                                }),
-                                $('<br/>'),
-                                $('<span/>', {
-                                    'text': selectedDate + ' ' + $('.selected-hour').text()
-                                }),
-                                $('<br/>'),
-                                $('<span/>', {
-                                    'text': $('#select-timezone option:selected').text()
-                                        + (servicePrice ? ' - ' + servicePrice + ' ' + serviceCurrency : '')
-                                })
-                            ]
-                        })
+                        $('<span/>', {
+                            'text': EALang.service + ': ' + $('#select-service option:selected').text()
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.provider + ': ' + $('#select-provider option:selected').text()
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.start + ': ' + selectedDate + ' ' + $('.selected-hour').text()
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.timezone + ': ' +  $('#select-timezone option:selected').text()
+                        }),
+                        $('<br/>'),
+                        $('<span/>', {
+                            'text': EALang.price + ': ' + servicePrice + ' ' + serviceCurrency,
+                            'prop': {
+                                'hidden': !servicePrice
+                            }
+                        }),
                     ]
                 })
             ]
@@ -577,10 +582,14 @@ window.FrontendBook = window.FrontendBook || {};
         $('<div/>', {
             'html': [
                 $('<h4/>)', {
-                    'text': firstName + ' ' + lastName
+                    'text': EALang.customer
                 }),
                 $('<p/>', {
                     'html': [
+                        $('<span/>', {
+                            'text': EALang.customer + ': ' + firstName + ' ' + lastName
+                        }),
+                        $('<br/>'),
                         $('<span/>', {
                             'text': EALang.phone_number + ': ' + phoneNumber
                         }),

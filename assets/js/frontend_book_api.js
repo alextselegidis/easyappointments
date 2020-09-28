@@ -97,7 +97,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                         $('#available-hours').append(
                             $('<button/>', {
-                                'class': 'btn btn-outline-info btn-block shadow-none available-hour',
+                                'class': 'btn btn-outline-secondary btn-block shadow-none available-hour',
                                 'text': availableHourMoment.format(timeFormat)
                             })
                         );

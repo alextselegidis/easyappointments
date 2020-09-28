@@ -19,7 +19,7 @@ body {
 }
 
 body {
-    background-color: #F2F2F2;
+    background-color: #f5f8fa;
 }
 
 #main {
@@ -39,7 +39,7 @@ body {
 #book-appointment-wizard #header {
     overflow: auto;
     height: auto;
-    padding: 15px;
+    padding: 20px 15px;
     background: #429a82;
 }
 
@@ -58,7 +58,7 @@ body {
     display: block;
     overflow: auto;
     margin: 15px auto;
-    width: 186px;
+    width: 190px;
 }
 
 #book-appointment-wizard #book-appointment-form #book-appointment-submit {
@@ -126,7 +126,7 @@ body {
 
 #book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
     width: 100%;
-    max-width: 200px;
+    max-width: 150px;
     margin: auto;
 }
 
@@ -139,7 +139,8 @@ body {
     padding: 8px;
     margin-right: 12px;
     margin-top: 6px;
-    border-radius: 8px;
+    border-radius: .25rem;
+    transition: all .3s linear;
 }
 
 #book-appointment-wizard .book-step:last-child {
@@ -151,6 +152,7 @@ body {
     display: block;
     text-align: center;
     color: #0bb98d;
+    transition: all .3s linear;
 }
 
 #book-appointment-wizard .active-step {
@@ -160,20 +162,19 @@ body {
     float: left;
     background: #FFF;
     padding: 7px;
-    margin-right: 12px;
+    margin-right: 13px;
     margin-top: 0;
 }
 
 #book-appointment-wizard .active-step strong {
     color: #429a82;
-    font-size: 20px;
+    font-size: 21px;
 }
 
 #book-appointment-wizard #frame-footer {
     padding: 15px;
     text-align: center;
-    border-top: 1px solid #EEE;
-    background: #FAFAFA;
+    border-top: 1px solid #ebeef1;
 }
 
 #book-appointment-wizard #steps .custom-qtip {
@@ -261,7 +262,7 @@ body {
 #book-appointment-wizard #select-language,
 #book-appointment-wizard .backend-link {
     display: block;
-    width: 150px;
+    min-width: 120px;
     margin: 15px auto;
     padding: 5px;
 }
@@ -277,6 +278,12 @@ body {
 @media (min-width: 768px) {
     .wrapper {
         min-height: 100vh;
+    }
+
+    #book-appointment-wizard {
+        border-radius: .25rem;
+        overflow: hidden;
+        box-shadow: rgba(45, 62, 80, 0.12) 0 1px 5px 0;
     }
 
     #book-appointment-wizard #company-name {
@@ -297,7 +304,7 @@ body {
 
     #book-appointment-wizard .wizard-frame .command-buttons {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
     }
 
     #book-appointment-wizard .captcha-title {
@@ -340,7 +347,7 @@ body {
 
     #book-appointment-wizard .backend-link {
         display: inline-block;
-        width: 100px;
+        min-width: 120px;
         padding: 5px;
         margin: 5px auto;
     }

@@ -185,10 +185,10 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-next-1" class="btn button-next btn-info"
+                    <button type="button" id="button-next-1" class="btn button-next btn-dark"
                             data-step_index="1">
                         <?= lang('next') ?>
-                        <i class="fas fa-long-arrow-alt-right ml-2"></i>
+                        <i class="fas fa-chevron-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -219,15 +219,15 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-2" class="btn button-back btn-light"
+                    <button type="button" id="button-back-2" class="btn button-back btn-secondary"
                             data-step_index="2">
-                        <i class="fas fa-long-arrow-alt-left mr-2"></i>
+                        <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-2" class="btn button-next btn-info"
+                    <button type="button" id="button-next-2" class="btn button-next btn-dark"
                             data-step_index="2">
                         <?= lang('next') ?>
-                        <i class="fas fa-long-arrow-alt-right ml-2"></i>
+                        <i class="fas fa-chevron-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -242,21 +242,21 @@
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="first-name" class="control-label"><?= lang('first_name') ?> *</label>
+                                <label for="first-name" class="control-label"><?= lang('first_name') ?> <span class="text-danger">*</span></label>
                                 <input type="text" id="first-name" class="required form-control" maxlength="100"/>
                             </div>
                             <div class="form-group">
-                                <label for="last-name" class="control-label"><?= lang('last_name') ?> *</label>
+                                <label for="last-name" class="control-label"><?= lang('last_name') ?> <span class="text-danger">*</span></label>
                                 <input type="text" id="last-name" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="control-label"><?= lang('email') ?> *</label>
+                                <label for="email" class="control-label"><?= lang('email') ?> <span class="text-danger">*</span></label>
                                 <input type="text" id="email" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="phone-number" class="control-label">
                                     <?= lang('phone_number') ?>
-                                    <?= $require_phone_number === '1' ? '*' : '' ?>
+                                    <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
                                 <input type="text" id="phone-number" maxlength="60"
                                        class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
@@ -278,9 +278,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="notes" class="control-label"><?= lang('notes') ?></label>
-                                <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
+                                <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>
                             </div>
                         </div>
+                    </div>
+
+                    <div id="form-message" class="text-danger" hidden>
+                        <small>
+                            <?= lang('fields_are_required') ?>
+                        </small>
                     </div>
                 </div>
 
@@ -312,22 +318,16 @@
                     </div>
                 <?php endif ?>
 
-                <div id="form-message" class="text-danger">
-                    <small>
-                        <?= lang('fields_are_required') ?>
-                    </small>
-                </div>
-
                 <div class="command-buttons">
-                    <button type="button" id="button-back-3" class="btn button-back btn-light"
+                    <button type="button" id="button-back-3" class="btn button-back btn-secondary"
                             data-step_index="3">
-                        <i class="fas fa-long-arrow-alt-left mr-2"></i>
+                        <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-3" class="btn button-next btn-info"
+                    <button type="button" id="button-next-3" class="btn button-next btn-dark"
                             data-step_index="3">
                         <?= lang('next') ?>
-                        <i class="fas fa-long-arrow-alt-right ml-2"></i>
+                        <i class="fas fa-chevron-right ml-2"></i>
                     </button>
                 </div>
             </div>
@@ -357,14 +357,14 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-4" class="btn button-back btn-light"
+                    <button type="button" id="button-back-4" class="btn button-back btn-secondary"
                             data-step_index="4">
-                        <i class="fas fa-long-arrow-alt-left mr-2"></i>
+                        <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button id="book-appointment-submit" type="button" class="btn btn-success">
-                            <i class="far fa-plus-square mr-2"></i>
+                            <i class="far fa-check-square mr-2"></i>
                             <?= ! $manage_mode ? lang('confirm') : lang('update') ?>
                         </button>
                         <input type="hidden" name="csrfToken"/>

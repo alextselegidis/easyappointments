@@ -3,7 +3,7 @@ body {
     height: 100vh;
     display: table-cell;
     vertical-align: middle;
-    background-color: #F2F2F2;
+    background-color: #f5f8fa;
 }
 
 #logout-frame {
