@@ -131,7 +131,7 @@
                                 'html': [
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-light btn-sm edit-break',
+                                        'class': 'btn btn-outline-secondary btn-sm edit-break',
                                         'title': EALang.edit,
                                         'html': [
                                             $('<span/>', {
@@ -141,7 +141,7 @@
                                     }),
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-light btn-sm delete-break',
+                                        'class': 'btn btn-outline-secondary btn-sm delete-break',
                                         'title': EALang.delete,
                                         'html': [
                                             $('<span/>', {
@@ -151,7 +151,7 @@
                                     }),
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-light btn-sm save-break d-none',
+                                        'class': 'btn btn-outline-secondary btn-sm save-break d-none',
                                         'title': EALang.save,
                                         'html': [
                                             $('<span/>', {
@@ -161,7 +161,7 @@
                                     }),
                                     $('<button/>', {
                                         'type': 'button',
-                                        'class': 'btn btn-light btn-sm cancel-break d-none',
+                                        'class': 'btn btn-outline-secondary btn-sm cancel-break d-none',
                                         'title': EALang.cancel,
                                         'html': [
                                             $('<span/>', {
@@ -221,7 +221,7 @@
                             'html': [
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm edit-custom-availability-period',
+                                    'class': 'btn btn-outline-secondary btn-sm edit-custom-availability-period',
                                     'title': EALang.edit,
                                     'html': [
                                         $('<span/>', {
@@ -231,7 +231,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm delete-custom-availability-period',
+                                    'class': 'btn btn-outline-secondary btn-sm delete-custom-availability-period',
                                     'title': EALang.delete,
                                     'html': [
                                         $('<span/>', {
@@ -241,7 +241,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm save-custom-availability-period d-none',
+                                    'class': 'btn btn-outline-secondary btn-sm save-custom-availability-period d-none',
                                     'title': EALang.save,
                                     'html': [
                                         $('<span/>', {
@@ -251,7 +251,7 @@
                                 }),
                                 $('<button/>', {
                                     'type': 'button',
-                                    'class': 'btn btn-light btn-sm cancel-custom-availability-period d-none',
+                                    'class': 'btn btn-outline-secondary btn-sm cancel-custom-availability-period d-none',
                                     'title': EALang.cancel,
                                     'html': [
                                         $('<span/>', {
@@ -406,7 +406,7 @@
                         'html': [
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm edit-break',
+                                'class': 'btn btn-outline-secondary btn-sm edit-break',
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
@@ -416,7 +416,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm delete-break',
+                                'class': 'btn btn-outline-secondary btn-sm delete-break',
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
@@ -426,7 +426,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm save-break d-none',
+                                'class': 'btn btn-outline-secondary btn-sm save-break d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
@@ -436,7 +436,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm cancel-break d-none',
+                                'class': 'btn btn-outline-secondary btn-sm cancel-break d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {
@@ -580,7 +580,7 @@
                         'html': [
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm edit-custom-availability-period',
+                                'class': 'btn btn-outline-secondary btn-sm edit-custom-availability-period',
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
@@ -590,7 +590,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm delete-custom-availability-period',
+                                'class': 'btn btn-outline-secondary btn-sm delete-custom-availability-period',
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
@@ -600,7 +600,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm save-custom-availability-period d-none',
+                                'class': 'btn btn-outline-secondary btn-sm save-custom-availability-period d-none',
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
@@ -610,7 +610,7 @@
                             }),
                             $('<button/>', {
                                 'type': 'button',
-                                'class': 'btn btn-light btn-sm cancel-custom-availability-period d-none',
+                                'class': 'btn btn-outline-secondary btn-sm cancel-custom-availability-period d-none',
                                 'title': EALang.cancel,
                                 'html': [
                                     $('<span/>', {

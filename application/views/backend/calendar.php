@@ -519,7 +519,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-custom-availability-period" class="btn btn-light" data-dismiss="modal">
+                <button id="cancel-custom-availability-period" class="btn btn-outline-secondar" data-dismiss="modal">
                     <i class="fas fa-ban mr-2"></i>
                     <?= lang('cancel') ?>
                 </button>
@@ -550,7 +550,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="close-calendar" class="btn btn-light" data-dismiss="modal">
+                <button id="close-calendar" class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban mr-2"></i>
                     <?= lang('cancel') ?>
                 </button>

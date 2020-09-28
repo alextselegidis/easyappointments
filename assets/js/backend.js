@@ -139,7 +139,7 @@ window.Backend = window.Backend || {};
 
         actions.forEach(function(action) {
             $('<button/>', {
-                'class': 'btn btn-light btn-xs',
+                'class': 'btn btn-outline-secondary btn-xs',
                 'text': action.label,
                 'on': {
                     'click': action.function

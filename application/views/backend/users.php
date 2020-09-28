@@ -67,10 +67,10 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
@@ -89,11 +89,11 @@
                                 <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
-                            <button id="edit-provider" class="btn btn-light" disabled="disabled">
+                            <button id="edit-provider" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-provider" class="btn btn-light" disabled="disabled">
+                            <button id="delete-provider" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
@@ -104,7 +104,7 @@
                                 <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
-                            <button id="cancel-provider" class="btn btn-light">
+                            <button id="cancel-provider" class="btn btn-outline-secondary">
                                 <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
@@ -333,10 +333,10 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
@@ -356,11 +356,11 @@
                                 <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
-                            <button id="edit-secretary" class="btn btn-light" disabled="disabled">
+                            <button id="edit-secretary" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-secretary" class="btn btn-light" disabled="disabled">
+                            <button id="delete-secretary" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
@@ -371,7 +371,7 @@
                                 <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
-                            <button id="cancel-secretary" class="btn btn-light">
+                            <button id="cancel-secretary" class="btn btn-outline-secondary">
                                 <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>
@@ -501,10 +501,10 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-light" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-light" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
@@ -524,11 +524,11 @@
                                 <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
-                            <button id="edit-admin" class="btn btn-light" disabled="disabled">
+                            <button id="edit-admin" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="far fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-admin" class="btn btn-light" disabled="disabled">
+                            <button id="delete-admin" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="far fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
@@ -539,7 +539,7 @@
                                 <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
-                            <button id="cancel-admin" class="btn btn-light">
+                            <button id="cancel-admin" class="btn btn-outline-secondary">
                                 <i class="fas fa-ban mr-2"></i>
                                 <?= lang('cancel') ?>
                             </button>

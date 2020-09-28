@@ -80,7 +80,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         });
 
         $('#message-box').dialog('open');
-        $('.ui-dialog .ui-dialog-buttonset button').addClass('btn btn-light');
+        $('.ui-dialog .ui-dialog-buttonset button').addClass('btn btn-outline-secondary');
         $('#message-box .ui-dialog-titlebar-close').hide();
     };
 

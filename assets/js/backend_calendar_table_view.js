@@ -317,7 +317,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .appendTo('#calendar');
 
         $('<button/>', {
-            'class': 'btn btn-xs btn-light previous mr-2',
+            'class': 'btn btn-xs btn-outline-secondary previous mr-2',
             'html': [
                 $('<span/>', {
                     'class': 'fas fa-chevron-left'
@@ -334,7 +334,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             .appendTo($calendarHeader);
 
         $('<button/>', {
-            'class': 'btn btn-xs btn-light next',
+            'class': 'btn btn-xs btn-outline-secondary next',
             'html': [
                 $('<span/>', {
                     'class': 'fas fa-chevron-right'
@@ -1095,7 +1095,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-light',
+                                'class': 'close-popover btn btn-outline-secondary',
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-ban mr-2'
@@ -1180,7 +1180,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-light',
+                                'class': 'close-popover btn btn-outline-secondary',
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-ban mr-2'
@@ -1306,7 +1306,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-light',
+                                'class': 'close-popover btn btn-outline-secondary',
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-ban mr-2'
