@@ -188,10 +188,6 @@
                                         <label for="provider-notes"><?= lang('notes') ?></label>
                                         <textarea id="provider-notes" class="form-control" rows="3"></textarea>
                                     </div>
-
-                                    <p class="text-danger">
-                                        <small><?= lang('fields_are_required') ?></small>
-                                    </p>
                                 </div>
                                 <div class="provider-settings col-12 col-md-6">
                                     <div class="form-group">
@@ -435,10 +431,6 @@
                                 <label for="secretary-notes"><?= lang('notes') ?></label>
                                 <textarea id="secretary-notes" class="form-control" rows="3"></textarea>
                             </div>
-
-                            <p class="text-danger">
-                                <small><?= lang('fields_are_required') ?></small>
-                            </p>
                         </div>
                         <div class="secretary-settings col-12 col-md-6">
                             <div class="form-group">
@@ -603,10 +595,6 @@
                                 <label for="admin-notes"><?= lang('notes') ?></label>
                                 <textarea id="admin-notes" class="form-control" rows="3"></textarea>
                             </div>
-
-                            <p class="text-danger">
-                                <small><?= lang('fields_are_required') ?></small>
-                            </p>
                         </div>
                         <div class="admin-settings col-12 col-md-6">
                             <div class="form-group">

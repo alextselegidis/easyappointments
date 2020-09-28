@@ -144,10 +144,6 @@
                                     <?= lang('first_weekday_hint') ?>
                                 </span>
                             </div>
-
-                            <p class="text-danger">
-                                <small><?= lang('fields_are_required') ?></small>
-                            </p>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
@@ -454,10 +450,6 @@
                             <label for="notes"><?= lang('notes') ?></label>
                             <textarea id="notes" class="form-control" rows="3"></textarea>
                         </div>
-
-                        <p class="text-danger">
-                            <small><?= lang('fields_are_required') ?></small>
-                        </p>
                     </fieldset>
 
                     <fieldset class="col-12 col-sm-6 miscellaneous-wrapper">

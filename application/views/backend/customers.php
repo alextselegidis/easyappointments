@@ -146,10 +146,6 @@
                         <label class="control-label" for="notes"><?= lang('notes') ?></label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
-
-                    <p class="text-danger">
-                        <small><?= lang('fields_are_required') ?></small>
-                    </p>
                 </div>
 
                 <div class="col-12 col-md-6">

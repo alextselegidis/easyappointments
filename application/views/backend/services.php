@@ -152,10 +152,6 @@
                         <label for="service-description"><?= lang('description') ?></label>
                         <textarea id="service-description" rows="4" class="form-control"></textarea>
                     </div>
-
-                    <p class="text-danger">
-                        <small><?= lang('fields_are_required') ?></small>
-                    </p>
                 </div>
             </div>
         </div>
@@ -230,10 +226,6 @@
                         <label for="category-description"><?= lang('description') ?></label>
                         <textarea id="category-description" rows="4" class="form-control"></textarea>
                     </div>
-
-                    <p class="text-danger">
-                        <small><?= lang('fields_are_required') ?></small>
-                    </p>
                 </div>
             </div>
         </div>
