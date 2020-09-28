@@ -19,7 +19,7 @@
         var EALang = <?= json_encode($this->lang->language) ?>;
 	</script>
 
-	<script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
 	<script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 	<script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
 </head>

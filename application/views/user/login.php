@@ -57,15 +57,13 @@
                 		placeholder="<?= lang('enter_password_here') ?>"
                 		class="form-control" />
             </div>
-            <br>
 
-            <button type="submit" id="login" class="btn btn-primary">
-                <i class="fas fa-sign-in-alt mr-2"></i>
-                <?= lang('login') ?>
-            </button>
-
-            <br>
-            <br>
+            <div class="form-group">
+                <button type="submit" id="login" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    <?= lang('login') ?>
+                </button>
+            </div>
 
             <a href="<?= site_url('user/forgot_password') ?>" class="forgot-password">
             	<?= lang('forgot_your_password') ?></a>
@@ -83,6 +81,7 @@
         </form>
     </div>
 
+    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
     <script src="<?= asset_url('assets/js/login.js') ?>"></script>

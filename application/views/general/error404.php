@@ -21,6 +21,7 @@
 
     <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
@@ -33,9 +34,7 @@
             <?= lang('page_not_found_message') ?>
         </p>
 
-        <br>
-
-        <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
+        <a href="<?= site_url() ?>" class="btn btn-success btn-large">
             <i class="far fa-calendar-alt mr-2"></i>
             <?= lang('book_appointment_title') ?>
         </a>

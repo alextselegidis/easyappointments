@@ -66,6 +66,7 @@
             </small>
         </div>
     </div>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
     <script src="<?= asset_url('assets/js/forgot_password.js') ?>"></script>
