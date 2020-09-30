@@ -319,3 +319,4 @@ $lang['load_more'] = 'Carica di più';
 $lang['list'] = 'Elenco';
 $lang['default'] = 'Default';
 $lang['table'] = 'Tabella';
+$lang['date'] = 'Date';
