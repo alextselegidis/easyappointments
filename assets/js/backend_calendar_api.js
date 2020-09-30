@@ -97,7 +97,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */
-    exports.saveCustomavailabilityperiod = function (customAvailabilityPeriods, successCallback, errorCallback) {
+    exports.saveCustomAvailabilityPeriod = function (customAvailabilityPeriods, successCallback, errorCallback) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_custom_availability_period';
 
         var data = {

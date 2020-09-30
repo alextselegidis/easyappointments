@@ -810,7 +810,7 @@
      *
      * @return {Object} Returns the custom availability periods settings object.
      */
-    WorkingPlan.prototype.getCustomavailabilityperiods = function () {
+    WorkingPlan.prototype.getCustomAvailabilityPeriods = function () {
         var customAvailabilityPeriods = {};
         $('.custom-availability-periods tbody tr').each(function (index, tr) {
 

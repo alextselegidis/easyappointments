@@ -154,7 +154,7 @@
                 settings: {
                     username: $('#provider-username').val(),
                     working_plan: JSON.stringify(BackendUsers.wp.get()),
-                    custom_availability_periods: JSON.stringify(BackendUsers.wp.getCustomavailabilityperiods()),
+                    custom_availability_periods: JSON.stringify(BackendUsers.wp.getCustomAvailabilityPeriods()),
                     notifications: $('#provider-notifications').prop('checked'),
                     calendar_view: $('#provider-calendar-view').val()
                 }

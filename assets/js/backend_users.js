@@ -199,6 +199,7 @@ window.BackendUsers = window.BackendUsers || {};
             helper.filter('');
             helper.bindEventHandlers();
             $('.filter-key').val('');
+            Backend.placeFooterToBottom();
         });
 
         /**
