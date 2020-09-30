@@ -249,7 +249,7 @@
                             </table>
 
                             <div class="text-right">
-                                <button class="btn btn-light" id="apply-global-working-plan" type="button">
+                                <button class="btn btn-outline-secondary" id="apply-global-working-plan" type="button">
                                     <i class="fas fa-check"></i>
                                     <?= lang('apply_to_all_providers') ?>
                                 </button>

@@ -362,7 +362,7 @@
             </div>
 
             <div class="modal-footer">
-                <button id="cancel-appointment" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
@@ -443,7 +443,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-unavailable" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
@@ -477,6 +477,14 @@
                                 <?= lang('provider') ?>
                             </label>
                             <select id="custom-availability-period-provider" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="custom-availability-period-date" class="control-label">
+                                <?= lang('date') ?>
+                                <span class="text-danger">*</span>
+                            </label>
+                            <input id="custom-availability-period-date" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -519,7 +527,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel-custom-availability-period" class="btn btn-outline-secondar" data-dismiss="modal">
+                <button class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban mr-2"></i>
                     <?= lang('cancel') ?>
                 </button>
@@ -550,7 +558,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="close-calendar" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button class="btn btn-outline-secondary" data-dismiss="modal">
                     <i class="fas fa-ban mr-2"></i>
                     <?= lang('cancel') ?>
                 </button>

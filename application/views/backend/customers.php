@@ -96,54 +96,79 @@
                     <div id="form-message" class="alert" style="display:none;"></div>
 
                     <div class="form-group">
-                        <label class="control-label" for="first-name"><?= lang('first_name') ?> *</label>
+                        <label class="control-label" for="first-name">
+                            <?= lang('first_name') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="first-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="last-name"><?= lang('last_name') ?> *</label>
+                        <label class="control-label" for="last-name">
+                            <?= lang('last_name') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="last-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="email"><?= lang('email') ?> *</label>
+                        <label class="control-label" for="email">
+                            <?= lang('email') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="email" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="phone-number"><?= lang('phone_number') ?>
-                            <?= $require_phone_number === '1' ? '*' : ''; ?></label>
+                        <label class="control-label" for="phone-number">
+                            <?= lang('phone_number') ?>
+                            <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : ''; ?></label>
                         <input id="phone-number" class="form-control
                             <?= $require_phone_number === '1' ? 'required' : '' ?>">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="address"><?= lang('address') ?></label>
+                        <label class="control-label" for="address">
+                            <?= lang('address') ?>
+                        </label>
                         <input id="address" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="city"><?= lang('city') ?></label>
+                        <label class="control-label" for="city">
+                            <?= lang('city') ?>
+
+                        </label>
                         <input id="city" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="zip-code"><?= lang('zip_code') ?></label>
+                        <label class="control-label" for="zip-code">
+                            <?= lang('zip_code') ?>
+                        </label>
                         <input id="zip-code" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="language"><?= lang('language') ?></label>
+                        <label for="language">
+                            <?= lang('language') ?>
+
+                        </label>
                         <select id="language" class="form-control"></select>
                     </div>
 
                     <div class="form-group">
-                        <label for="timezone"><?= lang('timezone') ?></label>
+                        <label for="timezone">
+                            <?= lang('timezone') ?>
+                        </label>
                         <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="notes"><?= lang('notes') ?></label>
+                        <label class="control-label" for="notes">
+                            <?= lang('notes') ?>
+
+                        </label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
                 </div>

@@ -49,16 +49,16 @@
                         <div class="input-group">
                             <input type="text" class="key form-control">
 
-                            <span class="input-group-addon">
-                        <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
-                            <i class="fas fa-redo-alt"></i>
-                            </button>
-                        </div>
-                    </span>
+                            <div class="input-group-addon">
+                                <div>
+                                    <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
+                                    <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
@@ -102,32 +102,49 @@
                     <input type="hidden" id="service-id">
 
                     <div class="form-group">
-                        <label for="service-name"><?= lang('name') ?> *</label>
+                        <label for="service-name">
+                            <?= lang('name') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="service-name" class="form-control required" maxlength="128">
                     </div>
 
                     <div class="form-group">
-                        <label for="service-duration"><?= lang('duration_minutes') ?> *</label>
+                        <label for="service-duration">
+                            <?= lang('duration_minutes') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="service-duration" class="form-control required" type="number" min="15">
                     </div>
 
                     <div class="form-group">
-                        <label for="service-price"><?= lang('price') ?> *</label>
+                        <label for="service-price">
+                            <?= lang('price') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="service-price" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label for="service-currency"><?= lang('currency') ?></label>
+                        <label for="service-currency">
+                            <?= lang('currency') ?>
+
+                        </label>
                         <input id="service-currency" class="form-control" maxlength="32">
                     </div>
 
                     <div class="form-group">
-                        <label for="service-category"><?= lang('category') ?></label>
+                        <label for="service-category">
+                            <?= lang('category') ?>
+                        </label>
                         <select id="service-category" class="form-control"></select>
                     </div>
 
                     <div class="form-group">
-                        <label for="service-availabilities-type"><?= lang('availabilities_type') ?></label>
+                        <label for="service-availabilities-type">
+                            <?= lang('availabilities_type') ?>
+
+                        </label>
                         <select id="service-availabilities-type" class="form-control">
                             <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
                                 <?= lang('flexible') ?>
@@ -139,17 +156,25 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="service-attendants-number"><?= lang('attendants_number') ?> *</label>
+                        <label for="service-attendants-number">
+                            <?= lang('attendants_number') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="service-attendants-number" class="form-control required" type="number" min="1">
                     </div>
 
                     <div class="form-group">
-                        <label for="service-location"><?= lang('location') ?></label>
+                        <label for="service-location">
+                            <?= lang('location') ?>
+
+                        </label>
                         <input id="service-location" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="service-description"><?= lang('description') ?></label>
+                        <label for="service-description">
+                            <?= lang('description') ?>
+                        </label>
                         <textarea id="service-description" rows="4" class="form-control"></textarea>
                     </div>
                 </div>
@@ -165,16 +190,16 @@
                         <div class="input-group">
                             <input type="text" class="key form-control">
 
-                            <span class="input-group-addon">
-                        <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
-                                <i class="fas fa-redo-alt"></i>
-                            </button>
-                        </div>
-                    </span>
+                            <div class="input-group-addon">
+                                <div>
+                                    <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
+                                        <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
@@ -218,12 +243,18 @@
                     <input type="hidden" id="category-id">
 
                     <div class="form-group">
-                        <label for="category-name"><?= lang('name') ?> *</label>
+                        <label for="category-name">
+                            <?= lang('name') ?>
+                            <span class="text-danger">*</span>
+                        </label>
                         <input id="category-name" class="form-control required">
                     </div>
 
                     <div class="form-group">
-                        <label for="category-description"><?= lang('description') ?></label>
+                        <label for="category-description">
+                            <?= lang('description') ?>
+
+                        </label>
                         <textarea id="category-description" rows="4" class="form-control"></textarea>
                     </div>
                 </div>
