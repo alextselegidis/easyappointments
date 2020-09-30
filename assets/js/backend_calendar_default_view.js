@@ -376,7 +376,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit'
+                                        'class': 'far fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -580,7 +580,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit'
+                                        'class': 'far fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
