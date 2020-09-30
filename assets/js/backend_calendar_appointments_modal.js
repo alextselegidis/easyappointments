@@ -36,15 +36,6 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
     function bindEventHandlers() {
         /**
-         * Event: Manage Appointments Dialog Cancel Button "Click"
-         *
-         * Closes the dialog without saving any changes to the database.
-         */
-        $('#manage-appointment #cancel-appointment').on('click', function () {
-            $('#manage-appointment').modal('hide');
-        });
-
-        /**
          * Event: Manage Appointments Dialog Save Button "Click"
          *
          * Stores the appointment changes or inserts a new appointment depending the dialog mode.

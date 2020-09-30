@@ -81,16 +81,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
                 $('#select-filter-item').trigger('change');
             };
 
-            BackendCalendarApi.saveUnavailable(unavailable, successCallback, GeneralFunctions.ajaxFailureHandler);
-        });
-
-        /**
-         * Event: Manage Unavailable Dialog Cancel Button "Click"
-         *
-         * Closes the dialog without saveing any changes to the database.
-         */
-        $('#manage-unavailable #cancel-unavailable').on('click', function () {
-            $('#manage-unavailable').modal('hide');
+            BackendCalendarApi.saveUnavailable(unavailable, successCallback, null);
         });
 
         /**

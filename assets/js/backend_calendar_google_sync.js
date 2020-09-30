@@ -130,13 +130,6 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
         });
 
         /**
-         * Event: Close Google Calendar "Click"
-         */
-        $('#close-calendar').on('click', function () {
-            $('#select-google-calendar').modal('hide');
-        });
-
-        /**
          * Event: Google Sync Button "Click"
          *
          * Trigger the synchronization algorithm.
