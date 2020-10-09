@@ -15,6 +15,12 @@
 </h4>
 
 <p align="center">
+  <img alt="GitHub" src="https://img.shields.io/github/license/alextselegidis/easyappointments?style=for-the-badge">
+  <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/alextselegidis/easyappointments?style=for-the-badge">
+  <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/alextselegidis/easyappointments/total?style=for-the-badge">
+</p>
+
+<p align="center">
   <a href="#about">About</a> •
   <a href="#features">Features</a> •
   <a href="#setup">Setup</a> •
