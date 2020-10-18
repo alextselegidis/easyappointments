@@ -39,7 +39,7 @@ elif [ "$1" = "dev" ]; then
     createAppSettings
     sed -i "s/DEBUG_MODE    = FALSE/DEBUG_MODE    = TRUE/g" $PROJECT_DIR/config.php
 
-    echo "Starting Easy!Appointments production server.."
+    echo "Starting Easy!Appointments development server.."
     
     exec docker-php-entrypoint apache2-foreground
 fi
