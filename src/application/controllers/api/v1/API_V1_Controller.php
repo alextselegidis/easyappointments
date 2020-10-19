@@ -101,4 +101,14 @@ class API_V1_Controller extends CI_Controller {
     {
         throw new \EA\Engine\Api\V1\Exception('The requested record was not found!', 404, 'Not Found');
     }
+
+    /**
+     * Throw an API exception stating that the requested record already exists.
+     *
+     * @throws \EA\Engine\Api\V1\Exception
+     */
+    protected function _throwRecordAlreadyExists($message='The requested record already exists!')
+    {
+        throw new \EA\Engine\Api\V1\Exception($message, 409, 'Conflict');
+    }
 }

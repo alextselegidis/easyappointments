@@ -466,7 +466,7 @@ class Appointments extends CI_Controller {
             }
 
             // Check appointment availability.
-            if ( ! $this->_check_datetime_availability())
+            if ( ! $this->_check_datetime_availability($_POST['post_data']['appointment']) ) 
             {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
@@ -707,12 +707,10 @@ class Appointments extends CI_Controller {
      *
      * @return bool Returns whether the selected datetime is still available.
      */
-    protected function _check_datetime_availability()
+    protected function _check_datetime_availability($appointment)
     {
         $this->load->model('services_model');
         $this->load->model('appointments_model');
-
-        $appointment = $_POST['post_data']['appointment'];
 
         $service_duration = $this->services_model->get_value('duration', $appointment['id_services']);
 
