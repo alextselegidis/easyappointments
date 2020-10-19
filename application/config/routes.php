@@ -39,7 +39,7 @@
 |
 */
 
-$route['default_controller'] = "appointments";
+$route['default_controller'] = 'appointments';
 $route['404_override'] = 'errors/error404';
 
 
@@ -48,7 +48,7 @@ $route['404_override'] = 'errors/error404';
 | REST API ROUTING
 | -------------------------------------------------------------------------
 | The following routes will point the API calls into the correct controller
-| callback methods. This routes also define the HTTP verbs that they are 
+| callback methods. This routes also define the HTTP verbs that they are
 | used for each operation.
 |
 */
