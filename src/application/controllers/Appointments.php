@@ -444,6 +444,7 @@ class Appointments extends CI_Controller {
     {
         try
         {
+            $this->load->library('appointmentservice');
             $post_data = $this->input->post('post_data'); // alias
             $post_data['manage_mode'] = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
 
@@ -466,7 +467,7 @@ class Appointments extends CI_Controller {
             }
 
             // Check appointment availability.
-            if ( ! $this->_check_datetime_availability($_POST['post_data']['appointment']) ) 
+            if ( ! $this->appointmentservice->check_datetime_availability($_POST['post_data']['appointment']) ) 
             {
                 throw new Exception($this->lang->line('requested_hour_is_unavailable'));
             }
