@@ -245,6 +245,7 @@ You can also try the GET requests with your browser by navigating to the respect
     "notes": "Test admin notes.",
     "settings":{  
         "username": "chrisdoe",
+        "password": "p@ssw0rd",
         "notifications": true,
         "calendarView": "default"
     }
@@ -255,6 +256,8 @@ You can also try the GET requests with your browser by navigating to the respect
 - `POST /api/v1/admins` Provide the new admin JSON in the request body to insert a new record. 
 - `PUT /api/v1/admins/:id` Provide the updated admin JSON in the request body to update an existing record. The ID in the URI is required. 
 - `DELETE /api/v1/admins/:id` Remove an existing admin record.
+
+**Note: The `password` field is optional and should only be provided when creating (POST) or updating (PUT) a record.** 
 
 ### Providers
 
@@ -280,6 +283,7 @@ You can also try the GET requests with your browser by navigating to the respect
     ],
     "settings":{  
         "username": "chloedoe",
+        "password": "p@ssw0rd",
         "notifications":true,
         "googleSync":true,
         "googleCalendar": "calendar-id",
@@ -341,6 +345,8 @@ You can also try the GET requests with your browser by navigating to the respect
 - `PUT /api/v1/providers/:id` Provide the updated provider JSON in the request body to update an existing record. The ID in the URI is required. 
 - `DELETE /api/v1/providers/:id` Remove an existing provider record.
 
+**Note: The `password` field is optional and should only be provided when creating (POST) or updating (PUT) a record.** 
+
 ### Secretaries
 
 **Resource JSON**
@@ -363,6 +369,7 @@ You can also try the GET requests with your browser by navigating to the respect
     ],
     "settings":{  
         "username":"chrisdoe",
+        "password":"p@ssw0rd",
         "notifications": true,
         "calendarView": "default"
     }
@@ -373,6 +380,8 @@ You can also try the GET requests with your browser by navigating to the respect
 - `POST /api/v1/secretaries` Provide the new secretary JSON in the request body to insert a new record. 
 - `PUT /api/v1/secretaries/:id` Provide the updated secretary JSON in the request body to update an existing record. The ID in the URI is required. 
 - `DELETE /api/v1/secretaries/:id` Remove an existing secretary record.
+
+**Note: The `password` field is optional and should only be provided when creating (POST) or updating (PUT) a record.** 
 
 ### Settings
 
