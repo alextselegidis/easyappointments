@@ -185,6 +185,8 @@
                 </div>
 
                 <div class="command-buttons">
+                    <span>&nbsp;</span>
+
                     <button type="button" id="button-next-1" class="btn button-next btn-dark"
                             data-step_index="1">
                         <?= lang('next') ?>

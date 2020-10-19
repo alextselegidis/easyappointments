@@ -127,7 +127,7 @@ body {
 #book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
     width: 100%;
     max-width: 150px;
-    margin: auto;
+    /*margin: auto;*/
 }
 
 #book-appointment-wizard .book-step {
