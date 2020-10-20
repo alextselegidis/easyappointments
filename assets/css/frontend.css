@@ -124,12 +124,6 @@ body {
     padding: 15px 0;
 }
 
-#book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
-    width: 100%;
-    max-width: 150px;
-    /*margin: auto;*/
-}
-
 #book-appointment-wizard .book-step {
     display: inline-block;
     height: 35px;
