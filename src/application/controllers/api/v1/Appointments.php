@@ -177,17 +177,23 @@ class Appointments extends API_V1_Controller {
     /**
      * DELETE API Method
      *
-     * @param int $id The record ID to be deleted.
+     * @param int $appointment_id The record ID to be cancelled.
+     * @param string $reason Reason why the appointment is cancelled.
      */
-    public function delete($id)
+    public function delete($appointment_id, $reason='')
     {
         try
         {
-            $this->appointments_model->delete($id);
+            $appointment = $this->appointments_model->get_row($appointment_id);
+            if (count($appointment)  == 0){
+                $this->_throwRecordNotFound();
+            }
+            // Note: Reason will not be available from the API
+            $this->appointmentservice->cancel($appointment['hash'], $reason);
 
             $response = new Response([
                 'code' => 200,
-                'message' => 'Record was deleted successfully!'
+                'message' => 'Appointment was cancelled successfully!'
             ]);
 
             $response->output();

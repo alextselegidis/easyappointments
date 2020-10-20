@@ -673,4 +673,111 @@ class AppointmentService
             log_message('error', $exc->getTraceAsString());
         }
     }
+
+    /**
+     * Cancel an existing appointment.
+     *
+     * This method removes an appointment from the company's schedule. In order for the appointment to be deleted, the
+     * hash string must be provided. The customer can only cancel the appointment if the edit time period is not over
+     * yet. Provide the $_POST['cancel_reason'] parameter to describe the cancellation reason.
+     *
+     * @param string $appointment_hash This is used to distinguish the appointment record.
+     */
+    public function cancel($appointment_hash, $cancelReason)
+    {
+        try
+        {
+            $this->ci->load->model('appointments_model');
+            $this->ci->load->model('providers_model');
+            $this->ci->load->model('customers_model');
+            $this->ci->load->model('services_model');
+            $this->ci->load->model('settings_model');
+
+            // Check whether the appointment hash exists in the database.
+            $records = $this->ci->appointments_model->get_batch(['hash' => $appointment_hash]);
+            if (count($records) == 0)
+            {
+                throw new Exception('No record matches the provided hash.');
+            }
+
+            $appointment = $records[0];
+            $provider = $this->ci->providers_model->get_row($appointment['id_users_provider']);
+            $customer = $this->ci->customers_model->get_row($appointment['id_users_customer']);
+            $service = $this->ci->services_model->get_row($appointment['id_services']);
+
+            $company_settings = [
+                'company_name' => $this->ci->settings_model->get_setting('company_name'),
+                'company_email' => $this->ci->settings_model->get_setting('company_email'),
+                'company_link' => $this->ci->settings_model->get_setting('company_link'),
+                'date_format' => $this->ci->settings_model->get_setting('date_format'),
+                'time_format' => $this->ci->settings_model->get_setting('time_format')
+            ];
+
+            // :: DELETE APPOINTMENT RECORD FROM THE DATABASE.
+            if ( ! $this->ci->appointments_model->delete($appointment['id']))
+            {
+                throw new Exception('Appointment could not be deleted from the database.');
+            }
+
+            // :: SYNC APPOINTMENT REMOVAL WITH GOOGLE CALENDAR
+            if ($appointment['id_google_calendar'] != NULL)
+            {
+                try
+                {
+                    $google_sync = filter_var($this->ci->providers_model
+                        ->get_setting('google_sync', $appointment['id_users_provider']), FILTER_VALIDATE_BOOLEAN);
+
+                    if ($google_sync == TRUE)
+                    {
+                        $google_token = json_decode($this->ci->providers_model
+                            ->get_setting('google_token', $provider['id']));
+                        $this->ci->load->library('Google_sync');
+                        $this->ci->google_sync->refresh_token($google_token->refresh_token);
+                        $this->ci->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
+                    }
+                }
+                catch (Exception $exc)
+                {
+                    $exceptions[] = $exc;
+                }
+            }
+
+            // :: SEND NOTIFICATION EMAILS TO CUSTOMER AND PROVIDER
+            try
+            {
+                $this->ci->config->load('email');
+                $email = new \EA\Engine\Notifications\Email($this->ci, $this->ci->config->config);
+
+                $send_provider = filter_var($this->ci->providers_model
+                    ->get_setting('notifications', $provider['id']), FILTER_VALIDATE_BOOLEAN);
+
+                if ($send_provider === TRUE)
+                {
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $company_settings, new Email($provider['email']),
+                        new Text($cancelReason));
+                }
+
+                $send_customer = filter_var($this->ci->settings_model->get_setting('customer_notifications'),
+                    FILTER_VALIDATE_BOOLEAN);
+
+                if ($send_customer === TRUE)
+                {
+                    $email->sendDeleteAppointment($appointment, $provider,
+                        $service, $customer, $company_settings, new Email($customer['email']),
+                        new Text($cancelReason));
+                }
+
+            }
+            catch (Exception $exc)
+            {
+                $exceptions[] = $exc;
+            }
+        }
+        catch (Exception $exc)
+        {
+            // Display the error message to the customer.
+            $exceptions[] = $exc;
+        }
+    }
 }
