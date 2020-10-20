@@ -6,9 +6,9 @@ developers to maintain and readjust their custom modifications on the main proje
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.3.2]
+## [1.3.2] - 2018-07-29
 
-## Fixed
+### Fixed
 
 - #480: Make the app GDPR - new EU privacy regulations compliant.
 - #485: Make REST API search check with "q" parameter case insensitive. 
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #510: Providers should not be able to create appointments for other providers in the backend calendar page.
 - #512: Only show appointments of the currently logged in provider.
 
-## [1.3.1]
+## [1.3.1] - 2018-06-03
 
 ### Added
 
@@ -25,11 +25,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #441: Added time format selection
 - #452: Provide more information when errors occur during the installation. 
 
-## Changed
+### Changed
 
 - #494: French translation corrections/improvements.
 
-## Fixed
+### Fixed
 
 - #433: Selected date when editing an appointment
 - #436: All days unavailable in agendaDay view
@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - #495: Database migration fixes (from 1.2.1 to 1.3.x).
 - #497: Backend settings are not being displayed on page load when the user is not an admin. 
 
-## [1.3.0]
+## [1.3.0] - 2018-02-28
 
 ### Added 
 

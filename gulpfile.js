@@ -1,80 +1,69 @@
-const gulp = require('gulp');
-const exec = require('child_process').execSync;
-const del = require('del');
-const fs = require('fs-extra');
-const path = require('path');
-const zip = require('zip-dir');
-
-/**
- * Install and copy the required files from the "composer_modules" directory.
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
  *
- * Composer needs to be installed and configured in order for this command to
- * work properly.
- */
-gulp.task('composer', function() {
-    del.sync([
-        './src/vendor/**/*',
-        '!./src/vendor/index.html'
-    ]);
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        http://easyappointments.org
+ * @since       v1.4.0
+ * ---------------------------------------------------------------------------- */
 
-    return gulp.src([
-        'vendor/**/*',
-        '!vendor/**/demo{,/**}',
-        '!vendor/**/{demo,docs,examples,test,tests,extras,language}{,/**}',
-        '!vendor/**/{composer.json,composer.lock,.gitignore}',
-        '!vendor/**/{*.yml,*.md,*phpunit*,*.mdown}',
-        '!vendor/bin{,/**}',
-        '!vendor/codeigniter{,/**}',
-        '!vendor/doctrine{,/**}',
-        '!vendor/myclabs{,/**}',
-        '!vendor/phpdocumentor{,/**}',
-        '!vendor/phpspec{,/**}',
-        '!vendor/phpunit{,/**}',
-        '!vendor/sebastian{,/**}',
-        '!vendor/symfony{,/**}',
-        '!vendor/webmozart{,/**}'
-    ])
-        .pipe(gulp.dest('./src/vendor/'));
-});
+// Gulp instance and plugins.
+const gulp = require('gulp');
+const fs = require('fs-extra');
+const zip = require('zip-dir');
+const plugins = require('gulp-load-plugins')();
+const {execSync} = require('child_process');
 
-/**
- * Build the project and create an easyappointments.zip file ready for distribution.
- */
-gulp.task('build', function(done) {
-    del.sync([
-        '.tmp-package',
-        'easyappointments.zip'
-    ]);
+// Gulp error handling.
+const source = gulp.src;
+gulp.src = function () {
+    return source.apply(gulp, arguments)
+        .pipe(plugins.plumber({
+            errorHandler: plugins.notify.onError('Error: <%= error.message %>')
+        }));
+};
 
-    fs.copySync('src', '.tmp-package');
-    fs.removeSync('.tmp-package/config.php');
-    fs.copySync('CHANGELOG.md', '.tmp-package/CHANGELOG.md');
-    fs.copySync('README.md', '.tmp-package/README.md');
-    fs.copySync('LICENSE', '.tmp-package/LICENSE');
+gulp.task('build', (done) => {
+    const archive = 'easyappointments-0.0.0.zip';
 
-    del.sync([
-        '.tmp-package/storage/uploads/*',
-        '!.tmp-package/storage/uploads/index.html'
-    ]);
+    fs.removeSync('build');
+    fs.removeSync(archive);
 
-    del.sync([
-        '.tmp-package/storage/logs/*',
-        '!.tmp-package/storage/logs/index.html'
-    ]);
+    fs.mkdirsSync('build');
 
-    del.sync([
-        '.tmp-package/storage/sessions/*',
-        '!.tmp-package/storage/sessions/.htaccess',
-        '!.tmp-package/storage/sessions/index.html'
-    ]);
+    fs.copySync('application', 'build/application');
+    fs.copySync('assets', 'build/assets');
+    fs.copySync('engine', 'build/engine');
+    fs.copySync('storage', 'build/storage');
+    fs.copySync('index.php', 'build/index.php');
+    fs.copySync('composer.json', 'build/composer.json');
+    fs.copySync('composer.lock', 'build/composer.lock');
+    fs.copySync('config-sample.php', 'build/config-sample.php');
+    fs.copySync('CHANGELOG.md', 'build/CHANGELOG.md');
+    fs.copySync('README.md', 'build/README.md');
+    fs.copySync('LICENSE', 'build/LICENSE');
 
-    del.sync([
-        '.tmp-package/storage/cache/*',
-        '!.tmp-package/storage/cache/.htaccess',
-        '!.tmp-package/storage/cache/index.html'
-    ]);
+    execSync('cd build && composer install --no-dev --no-interaction --no-scripts --optimize-autoloader', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
 
-    zip('.tmp-package', { saveTo: 'easyappointments.zip' }, function (err, buffer) {
+    fs.removeSync('build/composer.json');
+    fs.removeSync('build/composer.lock');
+    fs.removeSync('build/storage/uploads/*');
+    fs.removeSync('!build/storage/uploads/index.html');
+    fs.removeSync('build/storage/logs/*');
+    fs.removeSync('!build/storage/logs/index.html');
+    fs.removeSync('build/storage/sessions/*');
+    fs.removeSync('!build/storage/sessions/.htaccess');
+    fs.removeSync('!build/storage/sessions/index.html');
+    fs.removeSync('build/storage/cache/*');
+    fs.removeSync('!build/storage/cache/.htaccess');
+    fs.removeSync('!build/storage/cache/index.html');
+
+    zip('build', {saveTo: archive}, function (err) {
         if (err)
             console.log('Zip Error', err);
 
@@ -82,29 +71,34 @@ gulp.task('build', function(done) {
     });
 });
 
-/**
- * Generate code documentation.
- */
-gulp.task('doc', function(done) {
-    fs.removeSync('doc/apigen');
-    fs.mkdirSync('doc/apigen');
-    fs.removeSync('doc/jsdoc');
-    fs.mkdirSync('doc/jsdoc');
-    fs.removeSync('doc/plato');
-    fs.mkdirSync('doc/plato');
+gulp.task('clean', (done) => {
+    fs.removeSync('assets/js/**/*.min.js');
+    fs.removeSync('assets/css/**/*.min.css');
+
+    done();
+});
+
+gulp.task('docs', (done) => {
+    fs.removeSync('docs/apigen/html');
+    fs.removeSync('docs/jsdoc/html');
+    fs.removeSync('docs/plato/html');
+
+    fs.mkdirSync('docs/apigen/html');
+    fs.mkdirSync('docs/jsdoc/html');
+    fs.mkdirSync('docs/plato/html');
 
     const commands = [
-        'php rsc/apigen.phar generate ' +
-            '-s "src/application/controllers,src/application/models,src/application/libraries" ' +
-            '-d "doc/apigen" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
+        'php docs/apigen/apigen.phar generate ' +
+        '-s "application/controllers,application/models,application/libraries" ' +
+        '-d "docs/apigen/html" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
 
-        path.join('.', 'node_modules', '.bin', 'jsdoc') + ' "src/assets/js" -d "doc/jsdoc"',
+        'npx jsdoc "assets/js" -d "docs/jsdoc/html"',
 
-        path.join('.', 'node_modules', '.bin', 'plato') + ' -r -d "doc/plato" "src/assets/js"'
+        'npx plato -r -d "docs/plato/html" "assets/js"'
     ];
 
-    commands.forEach(function(command) {
-        exec(command, function (err, stdout, stderr) {
+    commands.forEach(function (command) {
+        execSync(command, function (err, stdout, stderr) {
             console.log(stdout);
             console.log(stderr);
         });
@@ -112,3 +106,47 @@ gulp.task('doc', function(done) {
 
     done();
 });
+
+gulp.task('scripts', (done) => {
+    gulp.src([
+        'assets/js/**/*.js',
+        '!assets/js/**/*.min.js'
+    ])
+        .pipe(plugins.changed('assets/js/**/*'))
+        .pipe(plugins.uglify().on('error', console.log))
+        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/js'));
+
+    done();
+});
+
+gulp.task('styles', (done) => {
+    gulp.src([
+        'assets/css/**/*.css',
+        '!assets/css/**/*.min.css'
+    ])
+        .pipe(plugins.changed('assets/css/**/*'))
+        .pipe(plugins.cleanCss())
+        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/css'));
+
+    done();
+});
+
+gulp.task('watch', (done) => {
+    gulp.watch([
+        'assets/js/**/*.js',
+        '!assets/js/**/*.min.js'
+    ], gulp.parallel('scripts'));
+
+    gulp.watch([
+        'assets/css/**/*.css',
+        '!assets/css/**/*.min.css'
+    ], gulp.parallel('styles'));
+
+    done();
+});
+
+gulp.task('dev', gulp.series('clean', 'scripts', 'styles', 'watch'));
+
+gulp.task('default', gulp.parallel('dev'));

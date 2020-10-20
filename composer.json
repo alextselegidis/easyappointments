@@ -1,17 +1,8 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
-    "keywords": [
-        "calendar",
-        "scheduler",
-        "appointments",
-        "events",
-        "dates",
-        "google",
-        "services"
-    ],
+    "homepage": "https://easyappointments.org",
     "type": "project",
-    "homepage": "http://easyappointments.org",
     "license": "GPL-3.0",
     "authors": [
         {
@@ -22,19 +13,42 @@
     "support": {
         "issues": "https://github.com/alextselegidis/easyappointments/issues",
         "forum": "https://groups.google.com/forum/#!forum/easy-appointments",
-        "wiki": "http://easyappointments.org/docs.html#1.2.1/readme.md",
+        "wiki": "https://easyappointments.org/docs",
         "source": "https://github.com/alextselegidis/easyappointments"
     },
+    "keywords": [
+        "calendar",
+        "scheduler",
+        "appointments",
+        "events",
+        "dates",
+        "google",
+        "services"
+    ],
     "minimum-stability": "stable",
-    "require-dev": {
-        "phpunit/phpunit": "^5.6"
+    "autoload": {
+        "psr-4": {
+            "EA\\Engine\\": "engine/"
+        }
     },
     "require": {
         "php": ">=5.6",
-        "roave/security-advisories": "dev-master",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-gd": "*",
         "gregwar/captcha": "^1.1",
-        "phpmailer/phpmailer": "^5.2",
+        "phpmailer/phpmailer": "^6.1",
         "codeigniter/framework": "^3.1.6",
-        "jsvrcek/ics": "^0.5.1"
+        "jsvrcek/ics": "^0.5.1",
+        "monolog/monolog": "^1",
+        "google/apiclient": "^2.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^7.4"
+    },
+    "scripts": {
+        "test": "php vendor/bin/phpunit tests"
     }
 }
