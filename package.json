@@ -24,15 +24,15 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.14.0",
-    "bootstrap": "^4.5.0",
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "bootstrap": "^4.5.3",
     "cookieconsent": "^3.1.1",
     "datejs": "0.0.2",
-    "fullcalendar": "^3.10.1",
+    "fullcalendar": "^3.10.2",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.0",
-    "moment": "^2.25.3",
-    "moment-timezone": "^0.5.28",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.31",
     "qtip2": "^3.0.3",
     "trumbowyg": "^2.21.0"
   },
@@ -47,7 +47,7 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
-    "jsdoc": "^3.6.4",
+    "jsdoc": "^3.6.6",
     "node-notifier": "^5.4.3",
     "plato": "^1.7.0",
     "zip-dir": "^1.0.2"
