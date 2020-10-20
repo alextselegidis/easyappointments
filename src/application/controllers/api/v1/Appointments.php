@@ -148,6 +148,7 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
+            log_message('info', 'Updating appointment');
             // Update the appointment record. 
             $batch = $this->appointments_model->get_batch('id = ' . $id);
 
@@ -158,10 +159,26 @@ class Appointments extends API_V1_Controller {
 
             $request = new Request();
             $updatedAppointment = $request->getBody();
+            
             $baseAppointment = $batch[0];
             $this->parser->decode($updatedAppointment, $baseAppointment);
             $updatedAppointment['id'] = $id;
+            // Check appointment
+            if (!$this->appointmentservice->checkAppointment($updatedAppointment)){
+                $this->_throwRecordNotFound();
+            }
             $id = $this->appointments_model->add($updatedAppointment);
+            // Check availability
+            if (!$this->appointmentservice->check_datetime_availability($updatedAppointment)){
+                log_message('info', 'Not available');
+                $this->_throwRecordAlreadyExists('Provider not available.');
+            }
+
+            // Send notifications
+            $provider = $this->providers_model->get_row($updatedAppointment['id_users_provider']);
+            $service  = $this->services_model->get_row($updatedAppointment['id_services']);
+            $customer = $this->customers_model->get_row($updatedAppointment['id_users_customer']);
+            $this->appointmentservice->sendAppointmentNotification($updatedAppointment, $service, $provider, $customer, false);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->appointments_model->get_batch('id = ' . $id);
