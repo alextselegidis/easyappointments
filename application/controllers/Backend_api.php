@@ -930,26 +930,27 @@ class Backend_api extends CI_Controller {
     }
 
     /**
-     * Insert of update custom availability periods to database.
+     * Insert of update working plan exceptions to database.
      */
-    public function ajax_save_custom_availability_period()
+    public function ajax_save_working_plan_exception()
     {
         try
         {
             // Check privileges
-            $custom_availability_period = json_decode($this->input->post('custom_availability_period'), TRUE);
+            $required_privileges = $this->privileges[PRIV_USERS]['edit'];
 
-            $required_privileges = ( ! isset($custom_availability_period['id']))
-                ? $this->privileges[PRIV_APPOINTMENTS]['add']
-                : $this->privileges[PRIV_APPOINTMENTS]['edit'];
             if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
+            $date = $this->input->post('date');
+            $working_plan_exception = $this->input->post('working_plan_exception');
+            $provider_id = $this->input->post('provider_id');
+
             $this->load->model('providers_model');
 
-            $success = $this->providers_model->set_custom_availability_period($custom_availability_period, $custom_availability_period['id_users_provider']);
+            $success = $this->providers_model->save_working_plan_exception($date, $working_plan_exception, $provider_id);
 
             if ($success)
             {
@@ -957,7 +958,7 @@ class Backend_api extends CI_Controller {
             }
             else
             {
-                $response = ['warnings' => 'Error on saving custom availability period.'];
+                $response = ['warnings' => 'Error on saving working plan exception.'];
             }
         }
         catch (Exception $exception)
@@ -976,25 +977,26 @@ class Backend_api extends CI_Controller {
     }
 
     /**
-     * Delete an custom availability periods time period to database.
+     * Delete an working plan exceptions time period to database.
      */
-    public function ajax_delete_custom_availability_period()
+    public function ajax_delete_working_plan_exception()
     {
         try
         {
-            if ($this->privileges[PRIV_APPOINTMENTS]['delete'] == FALSE)
+            // Check privileges
+            $required_privileges = $this->privileges[PRIV_USERS]['edit'];
+
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            // Check privileges
-            $custom_availability_period = $this->input->post('custom_availability_period');
+            $date = $this->input->post('date');
             $provider_id = $this->input->post('provider_id');
 
             $this->load->model('providers_model');
 
-            // Delete unavailable
-            $success = $this->providers_model->delete_custom_availability_period($custom_availability_period, $provider_id);
+            $success = $this->providers_model->delete_working_plan_exception($date, $provider_id);
 
             if ($success)
             {
@@ -1002,7 +1004,7 @@ class Backend_api extends CI_Controller {
             }
             else
             {
-                $response = ['warnings' => 'Error on deleting custom availability period.'];
+                $response = ['warnings' => 'Error on deleting working plan exception.'];
             }
         }
         catch (Exception $exception)

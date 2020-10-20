@@ -151,6 +151,9 @@ class Availabilities extends API_V1_Controller {
         // Get the provider's working plan and reserved appointments.
         $working_plan = json_decode($this->providers_model->get_setting('working_plan', $provider_id), TRUE);
 
+        // Get the provider's working plan exceptions.
+        $working_plan_exceptions = json_decode($this->providers_model->get_setting('working_plan_exceptions', $provider_id), TRUE);
+
         $where_clause = [
             'id_users_provider' => $provider_id
         ];
@@ -170,10 +173,15 @@ class Availabilities extends API_V1_Controller {
             }
         }
 
-        // Find the empty spaces on the plan. The first split between the plan is due to
-        // a break (if exist). After that every reserved appointment is considered to be
-        // a taken space in the plan.
+        // Find the empty spaces on the plan. The first split between the plan is due to a break (if exist). After that
+        // every reserved appointment is considered to be a taken space in the plan.
         $selected_date_working_plan = $working_plan[strtolower(date('l', strtotime($selected_date)))];
+
+        if (isset($working_plan_exceptions[$selected_date]))
+        {
+            $selected_date_working_plan = $working_plan_exceptions[$selected_date];
+        }
+
         $available_periods_with_breaks = [];
 
         if (isset($selected_date_working_plan['breaks']))
@@ -219,8 +227,8 @@ class Availabilities extends API_V1_Controller {
                             $open_start = $s;
                             $open_end = $break_start;
                             $available_periods_with_breaks[] = [
-                                'start' => $open_start->format("H:i"),
-                                'end' => $open_end->format("H:i")
+                                'start' => $open_start->format('H:i'),
+                                'end' => $open_end->format('H:i')
                             ];
                             $changed = TRUE;
                         }
@@ -230,8 +238,8 @@ class Availabilities extends API_V1_Controller {
                             $open_start = $break_end;
                             $open_end = $e;
                             $available_periods_with_breaks[] = [
-                                'start' => $open_start->format("H:i"),
-                                'end' => $open_end->format("H:i")
+                                'start' => $open_start->format('H:i'),
+                                'end' => $open_end->format('H:i')
                             ];
                             $changed = TRUE;
                         }

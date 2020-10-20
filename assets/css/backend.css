@@ -725,7 +725,7 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
-#users-page #providers .custom-availability-periods .btn {
+#users-page #providers .working-plan-exceptions .btn {
     margin-right: 5px;
     padding: 4px 7px;
 }
@@ -735,7 +735,7 @@ body .form-horizontal .controls {
         height: 36px;
     }
 
-    .custom-availability-periods .custom-availability-period select {
+    .working-plan-exceptions .working-plan-exception select {
         height: 36px;
     }
 }

@@ -27,7 +27,8 @@
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/select2/select2.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>

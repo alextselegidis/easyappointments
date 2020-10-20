@@ -91,18 +91,23 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
     };
 
     /**
-     * Save custom availability period of work to database.
+     * Save working plan exception of work to database.
      *
-     * @param {Object} customAvailabilityPeriods Contains the custom availability periods data.
+     * @param {Date} date Contains the working plan exceptions data.
+     * @param {Object} workingPlanException Contains the working plan exceptions data.
+     * @param {Number} providerId Contains the working plan exceptions data.
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */
-    exports.saveCustomAvailabilityPeriod = function (customAvailabilityPeriods, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_custom_availability_period';
+    exports.saveWorkingPlanException = function (date, workingPlanException, providerId,
+                                                 successCallback, errorCallback) {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_working_plan_exception';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            custom_availability_period: JSON.stringify(customAvailabilityPeriods)
+            date: date,
+            working_plan_exception: workingPlanException,
+            provider_id: providerId
         };
 
         $.post(url, data)
@@ -120,4 +125,27 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
             });
     }
 
+    exports.deleteWorkingPlanException = function (date, providerId, successCallback, errorCallback) {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_working_plan_exception';
+
+        var data = {
+            csrfToken: GlobalVariables.csrfToken,
+            date: date,
+            provider_id: providerId
+        };
+
+        $.post(url, data)
+            .done(function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
+
+                if (errorCallback) {
+                    errorCallback();
+                }
+            });
+    }
 })(window.BackendCalendarApi);

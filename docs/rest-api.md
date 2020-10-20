@@ -335,6 +335,18 @@ You can also try the GET requests with your browser by navigating to the respect
             },
             "saturday":null,
             "sunday":null
+        },
+        "workingPlanExceptions": {
+            "2020-01-01": {
+                "start": "08:00",
+                "end": "20:00",
+                "breaks":[  
+                    {  
+                        "start": "12:00",
+                        "end": "14:00"
+                    }
+                ]
+            }
         }
     }
 }

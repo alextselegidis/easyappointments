@@ -314,22 +314,22 @@ class Providers_Model extends CI_Model {
         }
 
         // Check if the setting record exists in db.
-        if ($this->db->get_where('user_settings', ['id_users' => $provider_id])
-                ->num_rows() == 0)
+        if ($this->db->get_where('user_settings', ['id_users' => $provider_id])->num_rows() === 0)
         {
             $this->db->insert('user_settings', ['id_users' => $provider_id]);
         }
 
         foreach ($settings as $name => $value)
         {
-            // Sort in descending order the custom availability periods
-            if ($name == 'custom_availability_periods')
+            // Sort in descending order the working plan exceptions in a reverse order (makes it easier to edit them
+            // later on).
+            if ($name === 'working_plan_exceptions')
             {
                 $value = json_decode($value, TRUE);
-                // Sort the array and put in reverse order
                 krsort($value);
                 $value = json_encode($value);
             }
+
             $this->set_setting($name, $value, $provider_id);
         }
     }
@@ -473,7 +473,6 @@ class Providers_Model extends CI_Model {
         // Get provider data.
         $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
 
-
         // Include provider services.
         $services = $this->db->get_where('services_providers',
             ['id_users' => $provider_id])->result_array();
@@ -484,8 +483,7 @@ class Providers_Model extends CI_Model {
         }
 
         // Include provider settings.
-        $provider['settings'] = $this->db->get_where('user_settings',
-            ['id_users' => $provider_id])->row_array();
+        $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
         unset($provider['settings']['id_users']);
 
         // Return provider data array.
@@ -634,51 +632,6 @@ class Providers_Model extends CI_Model {
     }
 
     /**
-     * Save the provider custom availability period.
-     *
-     * @param array $custom_availability_period Contains the date and the hours of the Custom availability period.
-     * @param int $provider_id The selected provider record id.
-     *
-     * @return bool Return if the new custom availability periods is correctly saved to DB.
-     *
-     * @throws Exception If start time is after the end time.
-     * @throws Exception If $provider_id argument is invalid.
-     */
-    public function set_custom_availability_period($custom_availability_period, $provider_id)
-    {
-        // Validate period
-        $dateStart = date('Y-m-d', strtotime($custom_availability_period['start_datetime']));
-        $start = date('H:i', strtotime($custom_availability_period['start_datetime']));
-        $end = date('H:i', strtotime($custom_availability_period['end_datetime']));
-        if ($start > $end)
-        {
-            throw new Exception('Unavailable period start must be prior to end.');
-        }
-
-        // Validate provider record
-        $where_clause = [
-            'id' => $provider_id,
-            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
-        ];
-
-        if ($this->db->get_where('users', $where_clause)->num_rows() == 0)
-        {
-            throw new Exception('Provider id was not found in database.');
-        }
-
-        // Add record to database.
-        $custom_availability_periods = json_decode($this->get_setting('custom_availability_periods', $provider_id), TRUE);
-
-        $custom_availability_periods[$dateStart] = [
-            'start' => $start,
-            'end' => $end,
-            'breaks' => []
-        ];
-
-        return $this->set_setting('custom_availability_periods', json_encode($custom_availability_periods), $provider_id);
-    }
-
-    /**
      * Get a providers setting from the database.
      *
      * @param string $setting_name The setting name that is going to be returned.
@@ -689,37 +642,89 @@ class Providers_Model extends CI_Model {
     public function get_setting($setting_name, $provider_id)
     {
         $provider_settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
+
         return $provider_settings[$setting_name];
     }
 
     /**
-     * Delete a provider custom availability period.
+     * Save the provider working plan exception.
      *
-     * @param string $custom_availability_period Contains the date to be deleted from the custom availability periods.
+     * @param string $date The working plan exception date (in YYYY-MM-DD format).
+     * @param array $working_plan_exception Contains the working plan exception information ("start", "end" and "breaks"
+     * properties).
      * @param int $provider_id The selected provider record id.
      *
-     * @return bool Return if the new custom availability periods is correctly deleted from DB.
+     * @return bool Return if the new working plan exceptions is correctly saved to DB.
      *
+     * @throws Exception If start time is after the end time.
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function delete_custom_availability_period($custom_availability_period, $provider_id)
+    public function save_working_plan_exception($date, $working_plan_exception, $provider_id)
     {
-        // Validate provider record
-        $where_clause = [
+        // Validate the working plan exception data.
+        $start = date('H:i', strtotime($working_plan_exception['start']));
+        $end = date('H:i', strtotime($working_plan_exception['end']));
+
+        if ($start > $end)
+        {
+            throw new Exception('Working plan exception "start" must be prior to "end".');
+        }
+
+        // Make sure the provider record exists.
+        $conditions = [
             'id' => $provider_id,
             'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
         ];
 
-        if ($this->db->get_where('users', $where_clause)->num_rows() == 0)
+        if ($this->db->get_where('users', $conditions)->num_rows() === 0)
         {
-            throw new Exception('Provider id was not found in database.');
+            throw new Exception('Provider record was not found in database: ' . $provider_id);
         }
 
         // Add record to database.
-        $custom_availability_periods = json_decode($this->get_setting('custom_availability_periods', $provider_id), TRUE);
+        $working_plan_exceptions = json_decode($this->get_setting('working_plan_exceptions', $provider_id), TRUE);
 
-        unset($custom_availability_periods[$custom_availability_period]);
+        if (!isset($working_plan_exception['breaks']))
+        {
+            $working_plan_exception['breaks'] = [];
+        }
 
-        return $this->set_setting('custom_availability_periods', json_encode($custom_availability_periods), $provider_id);
+        $working_plan_exceptions[$date] = $working_plan_exception;
+
+        return $this->set_setting(
+            'working_plan_exceptions',
+            json_encode($working_plan_exceptions),
+            $provider_id
+        );
+    }
+
+    /**
+     * Delete a provider working plan exception.
+     *
+     * @param string $date The working plan exception date (in YYYY-MM-DD format).
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new working plan exceptions is correctly deleted from DB.
+     *
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function delete_working_plan_exception($date, $provider_id)
+    {
+        $provider = $this->get_row($provider_id);
+
+        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
+
+        if ( ! isset($working_plan_exceptions[$date]))
+        {
+            return TRUE; // The selected date does not exist in provider's settings.
+        }
+
+        unset($working_plan_exceptions[$date]);
+
+        return $this->set_setting(
+            'working_plan_exceptions',
+            json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
+            $provider_id
+        );
     }
 }

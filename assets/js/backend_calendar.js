@@ -64,6 +64,43 @@ window.BackendCalendar = window.BackendCalendar || {};
                     .addClass('btn-success');
             }
         });
+
+        $('#insert-working-plan-exception').on('click', function () {
+            var providerId = $('#select-filter-item').val();
+
+            var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
+                return Number(availableProvider.id) === Number(providerId);
+            });
+
+            if (!provider) {
+                throw new Error('Provider could not be found: ' + providerId);
+            }
+
+            WorkingPlanExceptionsModal
+                .add()
+                .done(function (date, workingPlanException) {
+                    var successCallback = function () {
+                        Backend.displayNotification(EALang.working_plan_exception_saved);
+
+                        var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+
+                        workingPlanExceptions[date] = workingPlanException;
+
+                        for (var index in GlobalVariables.availableProviders) {
+                            var availableProvider = GlobalVariables.availableProviders[index];
+
+                            if (Number(availableProvider.id) === Number(providerId)) {
+                                availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
+                                break;
+                            }
+                        }
+
+                        $('#select-filter-item').trigger('change'); // Update the calendar.
+                    };
+
+                    BackendCalendarApi.saveWorkingPlanException(date, workingPlanException, providerId, successCallback, null);
+                });
+        });
     }
 
     /**
@@ -78,7 +115,6 @@ window.BackendCalendar = window.BackendCalendar || {};
         BackendCalendarGoogleSync.initialize();
         BackendCalendarAppointmentsModal.initialize();
         BackendCalendarUnavailabilitiesModal.initialize();
-        BackendCalendarCustomAvailabilityPeriodsModal.initialize();
 
         // Load and initialize the calendar view.
         if (view === 'table') {

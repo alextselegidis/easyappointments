@@ -59,6 +59,7 @@ class Providers implements ParsersInterface {
                 'syncFutureDays' => $response['settings']['sync_future_days'] !== NULL ? (int)$response['settings']['sync_future_days'] : NULL,
                 'syncPastDays' => $response['settings']['sync_past_days'] !== NULL ? (int)$response['settings']['sync_past_days'] : NULL,
                 'workingPlan' => json_decode($response['settings']['working_plan'], TRUE),
+                'workingPlanExceptions' => json_decode($response['settings']['working_plan_exceptions'], TRUE),
             ];
         }
 
@@ -192,6 +193,11 @@ class Providers implements ParsersInterface {
             if ( ! empty($request['settings']['workingPlan']))
             {
                 $decodedRequest['settings']['working_plan'] = json_encode($request['settings']['workingPlan']);
+            }
+
+            if ( ! empty($request['settings']['workingPlanExceptions']))
+            {
+                $decodedRequest['settings']['working_plan_exceptions'] = json_encode($request['settings']['workingPlanExceptions']);
             }
         }
 

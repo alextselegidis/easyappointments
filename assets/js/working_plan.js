@@ -183,97 +183,23 @@
         }.bind(this));
 
         // Make break cells editable.
-        this.editableBreakDay($('.breaks .break-day'));
-        this.editableBreakTime($('.breaks').find('.break-start, .break-end'));
+        this.editableDayCell($('.breaks .break-day'));
+        this.editableTimeCell($('.breaks').find('.break-start, .break-end'));
     };
 
     /**
-     * Setup the dom elements of a given Custom availability period.
+     * Setup the dom elements of a given working plan exception.
      *
-     * @param {Object} customAvailabilityPeriods Contains the custom availability period.
+     * @param {Object} workingPlanExceptions Contains the working plan exception.
      */
-    WorkingPlan.prototype.setupcustomAvailabilityPeriods = function (customAvailabilityPeriods) {
-        $.each(customAvailabilityPeriods, function (index, customAvailabilityPeriod) {
-            if (customAvailabilityPeriod) {
-                $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(customAvailabilityPeriod.start).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
-                $('#' + index + '-end').val(Date.parse(customAvailabilityPeriod.end).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
+    WorkingPlan.prototype.setupWorkingPlanExceptions = function (workingPlanExceptions) {
+        for (var date in workingPlanExceptions) {
+            var workingPlanException = workingPlanExceptions[date];
 
-                var day = GeneralFunctions.formatDate(Date.parse(index), GlobalVariables.dateFormat, false);
-
-                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
-
-                $('<tr/>', {
-                    'html': [
-                        $('<td/>', {
-                            'class': 'custom-availability-period editable',
-                            'text': day
-                        }),
-                        $('<td/>', {
-                            'class': 'custom-availability-period-start editable',
-                            'text': Date.parse(customAvailabilityPeriod.start).toString(timeFormat).toUpperCase()
-                        }),
-                        $('<td/>', {
-                            'class': 'custom-availability-period-end editable',
-                            'text': Date.parse(customAvailabilityPeriod.end).toString(timeFormat).toUpperCase()
-                        }),
-                        $('<td/>', {
-                            'html': [
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-outline-secondary btn-sm edit-custom-availability-period',
-                                    'title': EALang.edit,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'far fa-edit'
-                                        })
-                                    ]
-                                }),
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-outline-secondary btn-sm delete-custom-availability-period',
-                                    'title': EALang.delete,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'far fa-trash-alt'
-                                        })
-                                    ]
-                                }),
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-outline-secondary btn-sm save-custom-availability-period d-none',
-                                    'title': EALang.save,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'far fa-check-circle'
-                                        })
-                                    ]
-                                }),
-                                $('<button/>', {
-                                    'type': 'button',
-                                    'class': 'btn btn-outline-secondary btn-sm cancel-custom-availability-period d-none',
-                                    'title': EALang.cancel,
-                                    'html': [
-                                        $('<span/>', {
-                                            'class': 'fas fa-ban'
-                                        })
-                                    ]
-                                })
-                            ]
-                        })
-                    ]
-                })
-                    .appendTo('.custom-availability-periods tbody');
-            } else {
-                $('#' + index).prop('checked', false);
-                $('#' + index + '-start').prop('disabled', true);
-                $('#' + index + '-end').prop('disabled', true);
-            }
-        }.bind(this));
-
-        // Make break cells editable.
-        this.editableBreakTime($('.custom-availability-periods .custom-availability-period'));
-        this.editableBreakTime($('.custom-availability-periods').find('.custom-availability-period-start, .custom-availability-period-end'));
+            this
+                .renderWorkingPlanExceptionRow(date, workingPlanException)
+                .appendTo('.working-plan-exceptions tbody');
+        }
     };
 
     /**
@@ -283,7 +209,7 @@
      *
      * @param {Object} $selector The jquery selector ready for use.
      */
-    WorkingPlan.prototype.editableBreakDay = function ($selector) {
+    WorkingPlan.prototype.editableDayCell = function ($selector) {
         var weekDays = {};
         weekDays[EALang.sunday] = EALang.sunday; //'Sunday';
         weekDays[EALang.monday] = EALang.monday; //'Monday';
@@ -323,7 +249,7 @@
      *
      * @param {Object} $selector The jquery selector ready for use.
      */
-    WorkingPlan.prototype.editableBreakTime = function ($selector) {
+    WorkingPlan.prototype.editableTimeCell = function ($selector) {
         $selector.editable(function (value, settings) {
             // Do not return the value because the user needs to press the "Save" button.
             return value;
@@ -339,7 +265,7 @@
                 .outerHTML,
             cancel: $('<button/>', {
                 'type': 'button',
-                'class': 'd-none cancek-editable',
+                'class': 'd-none cancel-editable',
                 'text': EALang.cancel
             })
                 .get(0)
@@ -359,6 +285,63 @@
     };
 
     /**
+     * Enable editable break time.
+     *
+     * This method makes editable the break time cells.
+     *
+     * @param {String} date In "Y-m-d" format.
+     * @param {Object} workingPlanException Contains exception information.
+     */
+    WorkingPlan.prototype.renderWorkingPlanExceptionRow = function (date, workingPlanException) {
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
+        return $('<tr/>', {
+            'data': {
+                'date': date,
+                'workingPlanException': workingPlanException
+            },
+            'html': [
+                $('<td/>', {
+                    'class': 'working-plan-exception-date',
+                    'text': GeneralFunctions.formatDate(date, GlobalVariables.dateFormat, false)
+                }),
+                $('<td/>', {
+                    'class': 'working-plan-exception--start',
+                    'text': Date.parse(workingPlanException.start).toString(timeFormat)
+                }),
+                $('<td/>', {
+                    'class': 'working-plan-exception--end',
+                    'text': Date.parse(workingPlanException.end).toString(timeFormat)
+                }),
+                $('<td/>', {
+                    'html': [
+                        $('<button/>', {
+                            'type': 'button',
+                            'class': 'btn btn-outline-secondary btn-sm edit-working-plan-exception',
+                            'title': EALang.edit,
+                            'html': [
+                                $('<span/>', {
+                                    'class': 'far fa-edit'
+                                })
+                            ]
+                        }),
+                        $('<button/>', {
+                            'type': 'button',
+                            'class': 'btn btn-outline-secondary btn-sm delete-working-plan-exception',
+                            'title': EALang.delete,
+                            'html': [
+                                $('<span/>', {
+                                    'class': 'far fa-trash-alt'
+                                })
+                            ]
+                        }),
+                    ]
+                })
+            ]
+        });
+    };
+
+    /**
      * Binds the event handlers for the working plan dom elements.
      */
     WorkingPlan.prototype.bindEventHandlers = function () {
@@ -367,7 +350,7 @@
          *
          * Enable or disable the time selection for each day.
          */
-        $('.working-plan tbody').on("click", "input:checkbox", function () {
+        $('.working-plan tbody').on('click', 'input:checkbox', function () {
             var id = $(this).attr('id');
 
             if ($(this).prop('checked') === true) {
@@ -396,11 +379,11 @@
                     }),
                     $('<td/>', {
                         'class': 'break-start editable',
-                        'text': '9:00 AM'
+                        'text': Date.parse('12:00:00').toString(timeFormat)
                     }),
                     $('<td/>', {
                         'class': 'break-end editable',
-                        'text': '10:00 AM'
+                        'text': Date.parse('14:00:00').toString(timeFormat)
                     }),
                     $('<td/>', {
                         'html': [
@@ -451,8 +434,8 @@
                 .appendTo('.breaks tbody');
 
             // Bind editable and event handlers.
-            this.editableBreakDay($newBreak.find('.break-day'));
-            this.editableBreakTime($newBreak.find('.break-start, .break-end'));
+            this.editableDayCell($newBreak.find('.break-day'));
+            this.editableTimeCell($newBreak.find('.break-start, .break-end'));
             $newBreak.find('.edit-break').trigger('click');
             $('.add-break').prop('disabled', true);
         }.bind(this));
@@ -508,7 +491,7 @@
          *
          * Bring the ".breaks" table back to its initial state.
          *
-         * @param {jQuery.Event} e
+         * @param {jQuery.Event} event
          */
         $(document).on('click', '.cancel-break', function (event) {
             var element = event.target;
@@ -554,212 +537,62 @@
         }.bind(this));
 
         /**
-         * Event: Add custom availability period Button "Click"
+         * Event: Add Working Plan Exception Button "Click"
          *
-         * A new row is added on the table and the user can enter the new custom availability period. After that he can
-         * either press the save or cancel button.
+         * A new row is added on the table and the user can enter the new working plan exception.
          */
-        $('.add-custom-availability-periods').on('click', function () {
-            var today = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false);
+        $(document).on('click', '.add-working-plan-exception', function () {
+            WorkingPlanExceptionsModal
+                .add()
+                .done(function (date, workingPlanException) {
+                    var $tr = null;
 
-            var $newcustomAvailabilityPeriod = $('<tr/>', {
-                'html': [
-                    $('<td/>', {
-                        'class': 'custom-availability-period editable',
-                        'text': today
-                    }),
-                    $('<td/>', {
-                        'class': 'custom-availability-period-start editable',
-                        'text': '9:00 AM'
-                    }),
-                    $('<td/>', {
-                        'class': 'custom-availability-period-end editable',
-                        'text': '10:00 AM'
-                    }),
-                    $('<td/>', {
-                        'html': [
-                            $('<button/>', {
-                                'type': 'button',
-                                'class': 'btn btn-outline-secondary btn-sm edit-custom-availability-period',
-                                'title': EALang.edit,
-                                'html': [
-                                    $('<span/>', {
-                                        'class': 'far fa-edit'
-                                    })
-                                ]
-                            }),
-                            $('<button/>', {
-                                'type': 'button',
-                                'class': 'btn btn-outline-secondary btn-sm delete-custom-availability-period',
-                                'title': EALang.delete,
-                                'html': [
-                                    $('<span/>', {
-                                        'class': 'far fa-trash-alt'
-                                    })
-                                ]
-                            }),
-                            $('<button/>', {
-                                'type': 'button',
-                                'class': 'btn btn-outline-secondary btn-sm save-custom-availability-period d-none',
-                                'title': EALang.save,
-                                'html': [
-                                    $('<span/>', {
-                                        'class': 'far fa-check-circle'
-                                    })
-                                ]
-                            }),
-                            $('<button/>', {
-                                'type': 'button',
-                                'class': 'btn btn-outline-secondary btn-sm cancel-custom-availability-period d-none',
-                                'title': EALang.cancel,
-                                'html': [
-                                    $('<span/>', {
-                                        'class': 'fas fa-ban'
-                                    })
-                                ]
-                            })
-                        ]
-                    }),
-                ]
-            })
-                .appendTo('.custom-availability-periods tbody');
+                    $('.working-plan-exceptions tbody tr').each(function(index, tr) {
+                        if (date === $(tr).data('date')) {
+                            $tr = $(tr);
+                            return false;
+                        }
+                    });
 
-            // Bind editable and event handlers.
-            this.editableBreakTime($newcustomAvailabilityPeriod.find('.custom-availability-period'));
-            this.editableBreakTime($newcustomAvailabilityPeriod.find('.custom-availability-period-start, .custom-availability-period-end'));
-            $newcustomAvailabilityPeriod.find('.edit-custom-availability-period').trigger('click');
-            $('.add-custom-availability-periods').prop('disabled', true);
+                    var $newTr = this.renderWorkingPlanExceptionRow(date, workingPlanException);
+
+                    if ($tr) {
+                        $tr.replaceWith($newTr);
+                    } else {
+                        $newTr.appendTo('.working-plan-exceptions tbody');
+                    }
+                }.bind(this));
         }.bind(this));
 
         /**
-         * Event: Edit custom availability period Button "Click"
+         * Event: Edit working plan exception Button "Click"
          *
-         * Enables the row editing for the "custom availability period" table rows.
+         * Enables the row editing for the "working plan exception" table rows.
+         *
+         * @param {jQuery.Event} event
          */
-        $(document).on('click', '.edit-custom-availability-period', function () {
-            // Reset previous editable table cells.
-            var $previousEdits = $(this).closest('table').find('.editable');
+        $(document).on('click', '.edit-working-plan-exception', function (event) {
+            var $tr = $(event.target).closest('tr');
+            var date = $tr.data('date');
+            var workingPlanException = $tr.data('workingPlanException');
 
-            $previousEdits.each(function (index, editable) {
-                if (editable.reset) {
-                    editable.reset();
-                }
-            });
+            WorkingPlanExceptionsModal
+                .edit(date, workingPlanException)
+                .done(function (date, workingPlanException) {
+                    $tr.replaceWith(
+                        this.renderWorkingPlanExceptionRow(date, workingPlanException)
+                    );
+                }.bind(this));
+        }.bind(this));
 
-            // Make all cells in current row editable.
-            $(this).parent().parent().children().trigger('edit');
-            $(this).parent().parent().find('.custom-availability-period-start input, .custom-availability-period-end input').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
-                currentText: EALang.now,
-                closeText: EALang.close,
-                timeOnlyTitle: EALang.select_time,
-                timeText: EALang.time,
-                hourText: EALang.hour,
-                minuteText: EALang.minutes
-            });
-
-            var dateFormat;
-
-            switch (GlobalVariables.dateFormat) {
-                case 'DMY':
-                    dateFormat = 'dd/mm/yy';
-                    break;
-                case 'MDY':
-                    dateFormat = 'mm/dd/yy';
-                    break;
-                case 'YMD':
-                    dateFormat = 'yy/mm/dd';
-                    break;
-            }
-
-            $(this).parent().parent().find('.custom-availability-period input').datetimepicker({
-                dateFormat: dateFormat,
-
-                // Translation
-                dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
-                    EALang.thursday, EALang.friday, EALang.saturday],
-                dayNamesShort: [EALang.sunday.substr(0, 3), EALang.monday.substr(0, 3),
-                    EALang.tuesday.substr(0, 3), EALang.wednesday.substr(0, 3),
-                    EALang.thursday.substr(0, 3), EALang.friday.substr(0, 3),
-                    EALang.saturday.substr(0, 3)],
-                dayNamesMin: [EALang.sunday.substr(0, 2), EALang.monday.substr(0, 2),
-                    EALang.tuesday.substr(0, 2), EALang.wednesday.substr(0, 2),
-                    EALang.thursday.substr(0, 2), EALang.friday.substr(0, 2),
-                    EALang.saturday.substr(0, 2)],
-                monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
-                    EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
-                    EALang.october, EALang.november, EALang.december],
-                prevText: EALang.previous,
-                nextText: EALang.next,
-                currentText: EALang.now,
-                closeText: EALang.close,
-                firstDay: 1,
-                showTimepicker: false
-            });
-
-            // Show save - cancel buttons.
-            var $tr = $(this).closest('tr');
-            $tr.find('.edit-custom-availability-period, .delete-custom-availability-period').addClass('d-none');
-            $tr.find('.save-custom-availability-period, .cancel-custom-availability-period').removeClass('d-none');
-            $tr.find('select,input:text').addClass('form-control input-sm')
-
-            $('.add-custom-availability-periods').prop('disabled', true);
+        /**
+         * Event: Delete working plan exception Button "Click"
+         *
+         * Removes the current line from the "working plan exceptions" table.
+         */
+        $(document).on('click', '.delete-working-plan-exception', function () {
+            $(this).closest('tr').remove();
         });
-
-        /**
-         * Event: Delete custom availability period Button "Click"
-         *
-         * Removes the current line from the "custom availability periods" table.
-         */
-        $(document).on('click', '.delete-custom-availability-period', function () {
-            $(this).parent().parent().remove();
-        });
-
-        /**
-         * Event: Cancel custom availability period Button "Click"
-         *
-         * Bring the ".custom-availability-period" table back to its initial state.
-         *
-         * @param {jQuery.Event} e
-         */
-        $(document).on('click', '.cancel-custom-availability-period', function (event) {
-            var element = event.target;
-            var $modifiedRow = $(element).closest('tr');
-            this.enableCancel = true;
-            $modifiedRow.find('.cancel-editable').trigger('click');
-            this.enableCancel = false;
-
-            $(element).closest('table').find('.edit-custom-availability-period, .delete-custom-availability-period').removeClass('d-none');
-            $modifiedRow.find('.save-custom-availability-period, .cancel-custom-availability-period').addClass('d-none');
-            $('.add-custom-availability-periods').prop('disabled', false);
-        }.bind(this));
-
-        /**
-         * Event: Save custom availability period Button "Click"
-         *
-         * Save the editable values and restore the table to its initial state.
-         *
-         * @param {jQuery.Event} e
-         */
-        $(document).on('click', '.save-custom-availability-period', function (event) {
-            // Break's start time must always be prior to break's end.
-            var element = event.target;
-            var $modifiedRow = $(element).closest('tr');
-            var start = Date.parse($modifiedRow.find('.custom-availability-period-start input').val());
-            var end = Date.parse($modifiedRow.find('.custom-availability-period-end input').val());
-
-            if (start > end) {
-                $modifiedRow.find('.custom-availability-period-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toUpperCase());
-            }
-
-            this.enableSubmit = true;
-            $modifiedRow.find('.editable .submit-editable').trigger('click');
-            this.enableSubmit = false;
-
-            $modifiedRow.find('.save-custom-availability-period, .cancel-custom-availability-period').addClass('d-none');
-            $(element).closest('table').find('.edit-custom-availability-period, .delete-custom-availability-period').removeClass('d-none');
-            $('.add-custom-availability-periods').prop('disabled', false);
-        }.bind(this));
     };
 
     /**
@@ -769,6 +602,7 @@
      */
     WorkingPlan.prototype.get = function () {
         var workingPlan = {};
+
         $('.working-plan input:checkbox').each(function (index, checkbox) {
             var id = $(checkbox).attr('id');
             if ($(checkbox).prop('checked') === true) {
@@ -806,27 +640,20 @@
     };
 
     /**
-     * Get the custom availability periods settings.
+     * Get the working plan exceptions settings.
      *
-     * @return {Object} Returns the custom availability periods settings object.
+     * @return {Object} Returns the working plan exceptions settings object.
      */
-    WorkingPlan.prototype.getCustomAvailabilityPeriods = function () {
-        var customAvailabilityPeriods = {};
-        $('.custom-availability-periods tbody tr').each(function (index, tr) {
+    WorkingPlan.prototype.getWorkingPlanExceptions = function () {
+        var workingPlanExceptions = {};
 
-            var day = GeneralFunctions.ISO8601DateString($(tr).find('.custom-availability-period').text(), GlobalVariables.dateFormat);
+        $('.working-plan-exceptions tbody tr').each(function (index, tr) {
+            var $tr = $(tr);
+            var date = $tr.data('date');
+            workingPlanExceptions[date] = $tr.data('workingPlanException');
+        });
 
-            var start = $(tr).find('.custom-availability-period-start').text();
-            var end = $(tr).find('.custom-availability-period-end').text();
-
-            customAvailabilityPeriods[day] = {
-                start: Date.parse(start).toString('HH:mm'),
-                end: Date.parse(end).toString('HH:mm'),
-                breaks: []
-            };
-        }.bind(this));
-
-        return customAvailabilityPeriods;
+        return workingPlanExceptions;
     };
 
     /**

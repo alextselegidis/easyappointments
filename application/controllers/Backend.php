@@ -97,6 +97,7 @@ class Backend extends CI_Controller {
         $user = $this->user_model->get_user($user_id);
 
         $view['base_url'] = $this->config->item('base_url');
+        $view['page_title'] = lang('calendar');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_APPOINTMENTS;
         $view['date_format'] = $this->settings_model->get_setting('date_format');
@@ -228,6 +229,7 @@ class Backend extends CI_Controller {
         $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
+        $view['page_title'] = lang('customers');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_CUSTOMERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
@@ -281,6 +283,7 @@ class Backend extends CI_Controller {
         $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
+        $view['page_title'] = lang('services');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_SERVICES;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
@@ -321,6 +324,7 @@ class Backend extends CI_Controller {
         $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
+        $view['page_title'] = lang('users');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_USERS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');
@@ -333,7 +337,7 @@ class Backend extends CI_Controller {
         $view['services'] = $this->services_model->get_batch();
         $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
         $view['timezones'] = $this->timezones->to_array();
-        $view['custom_availability_periods'] = '{}';
+        $view['working_plan_exceptions'] = '{}';
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
@@ -365,6 +369,7 @@ class Backend extends CI_Controller {
         $user_id = $this->session->userdata('user_id');
 
         $view['base_url'] = $this->config->item('base_url');
+        $view['page_title'] = lang('settings');
         $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_SYSTEM_SETTINGS;
         $view['company_name'] = $this->settings_model->get_setting('company_name');

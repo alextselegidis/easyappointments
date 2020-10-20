@@ -213,14 +213,14 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var url;
             var data;
 
-            // If id_role parameter exists the popover is an custom availability period.
+            // If id_role parameter exists the popover is an working plan exception.
             if (lastFocusedEventData.data.hasOwnProperty('id_roles')) {
                 // Do not display confirmation prompt.
-                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_custom_availability_period';
+                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_working_plan_exception';
 
                 data = {
                     csrfToken: GlobalVariables.csrfToken,
-                    custom_availability_period: lastFocusedEventData.start.format('YYYY-MM-DD'),
+                    working_plan_exception: lastFocusedEventData.start.format('YYYY-MM-DD'),
                     provider_id: lastFocusedEventData.data.id
                 };
 
@@ -228,9 +228,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     .done(function () {
                         $('#message-box').dialog('close');
 
-                        var customAvailabilityPeriods = jQuery.parseJSON(lastFocusedEventData.data.settings.custom_availability_periods);
-                        delete customAvailabilityPeriods[lastFocusedEventData.start.format('YYYY-MM-DD')];
-                        lastFocusedEventData.data.settings.custom_availability_periods = JSON.stringify(customAvailabilityPeriods);
+                        var workingPlanExceptions = jQuery.parseJSON(lastFocusedEventData.data.settings.working_plan_exceptions);
+                        delete workingPlanExceptions[lastFocusedEventData.start.format('YYYY-MM-DD')];
+                        lastFocusedEventData.data.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
@@ -1084,7 +1084,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
                                         'class': 'far fa-trash-alt mr-2'
@@ -1109,7 +1109,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     })
                 ]
             });
-        } else if ($(this).hasClass('fc-custom-availability-period') || $parent.hasClass('fc-custom-availability-period') || $altParent.hasClass('fc-custom-availability-period')) {
+        } else if ($(this).hasClass('fc-working-plan-exception') || $parent.hasClass('fc-working-plan-exception') || $altParent.hasClass('fc-working-plan-exception')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.edit === true)
                 ? 'mr-2' : 'd-none'; // Same value at the time.
@@ -1169,7 +1169,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
                                         'class': 'far fa-trash-alt mr-2'
@@ -1295,7 +1295,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-danger ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
                                         'class': 'far fa-trash-alt mr-2'

@@ -3,6 +3,7 @@
 <script src="<?= asset_url('assets/js/backend_users_secretaries.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_users.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan.js') ?>"></script>
+<script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>
@@ -18,7 +19,7 @@
         services: <?= json_encode($services) ?>,
         timezones: <?= json_encode($timezones) ?>,
         workingPlan: <?= json_encode(json_decode($working_plan)) ?>,
-        customavailabilityperiods: <?= json_encode(json_decode($custom_availability_periods)) ?>,
+        workingPlanExceptions: <?= json_encode(json_decode($working_plan_exceptions)) ?>,
         user: {
             id: <?= $user_id ?>,
             email: <?= json_encode($user_email) ?>,
@@ -328,22 +329,22 @@
 
                             <br>
 
-                            <h3><?= lang('custom_availability_periods') ?></h3>
+                            <h3><?= lang('working_plan_exceptions') ?></h3>
 
                             <p>
-								<?= lang('add_custom_availability_periods_during_each_day') ?>
+								<?= lang('add_working_plan_exceptions_during_each_day') ?>
 							</p>
 
                             <div>
-                                <button type="button" class="add-custom-availability-periods btn btn-primary mr-2">
+                                <button type="button" class="add-working-plan-exception btn btn-primary mr-2">
                                     <i class="far fa-plus-square"></i>
-                                    <?= lang('add_custom_availability_period') ?>
+                                    <?= lang('add_working_plan_exception') ?>
                                 </button>
                             </div>
 
                             <br>
 
-                            <table class="custom-availability-periods table table-striped">
+                            <table class="working-plan-exceptions table table-striped">
                                 <thead>
                                 <tr>
                                     <th><?= lang('day') ?></th>
@@ -354,6 +355,8 @@
                                 </thead>
                                 <tbody><!-- Dynamic Content --></tbody>
                             </table>
+
+                            <?php require __DIR__ . '/working_plan_exceptions_modal.php' ?>
                         </div>
                     </div>
                 </div>

@@ -1,15 +1,15 @@
 <link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/ext/jquery-fullcalendar/fullcalendar.min.css') ?>">
 
-<script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-fullcalendar/fullcalendar.min.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_table_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_google_sync.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_appointments_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_unavailabilities_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_calendar_custom_availability_periods_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {
@@ -82,9 +82,9 @@
                         <i class="far fa-plus-square mr-2"></i>
                         <?= lang('unavailable') ?>
                     </a>
-                    <a class="dropdown-item" href="#" id="insert-custom-availability-period">
+                    <a class="dropdown-item" href="#" id="insert-working-plan-exception">
                         <i class="far fa-plus-square mr-2"></i>
-                        <?= lang('custom_availability_period') ?>
+                        <?= lang('working_plan_exception') ?>
                     </a>
                 </div>
             </div>
@@ -271,12 +271,12 @@
                     <fieldset>
                         <legend>
                             <?= lang('customer_details_title') ?>
-                            <button id="new-customer" class="btn btn-secondary btn-sm" type="button"
+                            <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     title="<?= lang('clear_fields_add_existing_customer_hint') ?>">
                                 <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('new') ?>
                             </button>
-                            <button id="select-customer" class="btn btn-secondary btn-sm" type="button"
+                            <button id="select-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     title="<?= lang('pick_existing_customer_hint') ?>">
                                 <i class="far fa-hand-pointer mr-2"></i>
                                 <span>
@@ -456,90 +456,6 @@
     </div>
 </div>
 
-<!-- MANAGE CUSTOM AVAILABILITY PERIODS MODAL -->
-
-<div id="manage-custom-availability-periods" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title"><?= lang('new_custom_availability_period_title') ?></h3>
-                <button class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-message alert d-none"></div>
-
-                <form>
-                    <fieldset>
-                        <input id="custom-availability-period-id" type="hidden">
-
-                        <div class="form-group">
-                            <label for="custom-availability-period-provider" class="control-label">
-                                <?= lang('provider') ?>
-                            </label>
-                            <select id="custom-availability-period-provider" class="form-control"></select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="custom-availability-period-date" class="control-label">
-                                <?= lang('date') ?>
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input id="custom-availability-period-date" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="custom-availability-period-start" class="control-label">
-                                <?= lang('start') ?>
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input id="custom-availability-period-start" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="custom-availability-period-end" class="control-label">
-                                <?= lang('end') ?>
-                                <span class="text-danger">*</span>
-                            </label>
-                            <input id="custom-availability-period-end" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label">
-                                <?= lang('timezone') ?>
-                            </label>
-
-                            <ul>
-                                <li>
-                                    <?= lang('provider') ?>:
-                                    <span class="provider-timezone">
-                                        -
-                                    </span>
-                                </li>
-                                <li>
-                                    <?= lang('current_user') ?>:
-                                    <span>
-                                        <?= $timezones[$timezone] ?>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline-secondary" data-dismiss="modal">
-                    <i class="fas fa-ban mr-2"></i>
-                    <?= lang('cancel') ?>
-                </button>
-                <button id="save-custom-availability-period" class="btn btn-primary">
-                    <i class="far fa-check-square mr-2"></i>
-                    <?= lang('save') ?>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- SELECT GOOGLE CALENDAR MODAL -->
 
 <div id="select-google-calendar" class="modal fade">
@@ -570,3 +486,8 @@
         </div>
     </div>
 </div>
+
+<!-- WORKING PLAN EXCEPTIONS MODAL -->
+
+<?php require __DIR__ . '/working_plan_exceptions_modal.php' ?>
+
