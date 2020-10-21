@@ -29,6 +29,12 @@ root {
 
 #header #header-logo {
     padding: 5px;
+    line-height: 0;
+}
+
+#header #header-logo small {
+    font-size: 11px;
+    color: #2e6a5b;
 }
 
 #header #header-logo img {
@@ -38,12 +44,11 @@ root {
     margin-right: 10px;
 }
 
-#header #header-logo span {
-    float: left;
+#header #header-logo h6 {
+    margin-top: 6px;
     font-size: 14px;
     font-weight: bold;
     color: white;
-    margin-top: 12px;
 }
 
 #header .navbar-toggler {
