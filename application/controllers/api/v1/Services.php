@@ -76,7 +76,7 @@ class Services extends API_V1_Controller {
 
             if ($id !== NULL && count($services) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($services);
@@ -92,7 +92,7 @@ class Services extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -123,7 +123,7 @@ class Services extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -141,15 +141,15 @@ class Services extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
-            $updatedService = $request->getBody();
-            $baseService = $batch[0];
-            $this->parser->decode($updatedService, $baseService);
-            $updatedService['id'] = $id;
-            $id = $this->services_model->add($updatedService);
+            $updated_service = $request->getBody();
+            $base_service = $batch[0];
+            $this->parser->decode($updated_service, $base_service);
+            $updated_service['id'] = $id;
+            $id = $this->services_model->add($updated_service);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->services_model->get_batch('id = ' . $id);
@@ -158,7 +158,7 @@ class Services extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -182,7 +182,7 @@ class Services extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 }

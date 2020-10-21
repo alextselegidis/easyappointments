@@ -76,7 +76,7 @@ class Unavailabilities extends API_V1_Controller {
 
             if ($id !== NULL && count($unavailabilities) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($unavailabilities);
@@ -92,7 +92,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -123,7 +123,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -141,7 +141,7 @@ class Unavailabilities extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
@@ -158,7 +158,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -182,7 +182,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 }

@@ -92,7 +92,7 @@ class Appointments extends API_V1_Controller {
 
             if ($id !== NULL && count($appointments) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($appointments);
@@ -108,7 +108,7 @@ class Appointments extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -166,7 +166,7 @@ class Appointments extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -184,19 +184,19 @@ class Appointments extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
-            $updatedAppointment = $request->getBody();
-            $baseAppointment = $batch[0];
-            $this->parser->decode($updatedAppointment, $baseAppointment);
-            $updatedAppointment['id'] = $id;
-            $id = $this->appointments_model->add($updatedAppointment);
+            $updated_appointment = $request->getBody();
+            $base_appointment = $batch[0];
+            $this->parser->decode($updated_appointment, $base_appointment);
+            $updated_appointment['id'] = $id;
+            $id = $this->appointments_model->add($updated_appointment);
 
-            $service = $this->services_model->get_row($updatedAppointment['id_services']);
-            $provider = $this->providers_model->get_row($updatedAppointment['id_users_provider']);
-            $customer = $this->customers_model->get_row($updatedAppointment['id_users_customer']);
+            $service = $this->services_model->get_row($updated_appointment['id_services']);
+            $provider = $this->providers_model->get_row($updated_appointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($updated_appointment['id_users_customer']);
             $settings = [
                 'company_name' => $this->settings_model->get_setting('company_name'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
@@ -205,8 +205,8 @@ class Appointments extends API_V1_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_saved($updatedAppointment, $service, $provider, $customer, $settings, TRUE);
-            $this->notifications->notify_appointment_saved($updatedAppointment, $service, $provider, $customer, $settings, TRUE);
+            $this->synchronization->sync_appointment_saved($updated_appointment, $service, $provider, $customer, $settings, TRUE);
+            $this->notifications->notify_appointment_saved($updated_appointment, $service, $provider, $customer, $settings, TRUE);
 
 
             // Fetch the updated object from the database and return it to the client.
@@ -216,7 +216,7 @@ class Appointments extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -255,7 +255,7 @@ class Appointments extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 }

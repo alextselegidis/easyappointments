@@ -76,7 +76,7 @@ class Customers extends API_V1_Controller {
 
             if ($id !== NULL && count($customers) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($customers);
@@ -92,7 +92,7 @@ class Customers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -123,7 +123,7 @@ class Customers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -141,15 +141,15 @@ class Customers extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
-            $updatedCustomer = $request->getBody();
-            $baseCustomer = $batch[0];
-            $this->parser->decode($updatedCustomer, $baseCustomer);
-            $updatedCustomer['id'] = $id;
-            $id = $this->customers_model->add($updatedCustomer);
+            $updated_customer = $request->getBody();
+            $base_customer = $batch[0];
+            $this->parser->decode($updated_customer, $base_customer);
+            $updated_customer['id'] = $id;
+            $id = $this->customers_model->add($updated_customer);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->customers_model->get_batch('id = ' . $id);
@@ -158,7 +158,7 @@ class Customers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -182,7 +182,7 @@ class Customers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 }
