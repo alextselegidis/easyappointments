@@ -104,7 +104,7 @@ class Backend_api extends CI_Controller {
                     'start_datetime >=' => $startDate,
                     'end_datetime <=' => $endDate
                 ]),
-                'unavailabilities' => $this->appointments_model->get_batch([
+                'unavailability_events' => $this->appointments_model->get_batch([
                     'is_unavailable' => TRUE,
                     'start_datetime >=' => $startDate,
                     'end_datetime <=' => $endDate
@@ -132,11 +132,11 @@ class Backend_api extends CI_Controller {
                     }
                 }
 
-                foreach ($response['unavailabilities'] as $index => $unavailability)
+                foreach ($response['unavailability_events'] as $index => $unavailability_event)
                 {
-                    if ((int)$unavailability['id_users_provider'] !== (int)$userId)
+                    if ((int)$unavailability_event['id_users_provider'] !== (int)$userId)
                     {
-                        unset($response['unavailabilities'][$index]);
+                        unset($response['unavailability_events'][$index]);
                     }
                 }
             }
@@ -154,11 +154,11 @@ class Backend_api extends CI_Controller {
                     }
                 }
 
-                foreach ($response['unavailabilities'] as $index => $unavailability)
+                foreach ($response['unavailability_events'] as $index => $unavailability_event)
                 {
-                    if ( ! in_array((int)$unavailability['id_users_provider'], $providers))
+                    if ( ! in_array((int)$unavailability_event['id_users_provider'], $providers))
                     {
-                        unset($response['unavailabilities'][$index]);
+                        unset($response['unavailability_events'][$index]);
                     }
                 }
             }

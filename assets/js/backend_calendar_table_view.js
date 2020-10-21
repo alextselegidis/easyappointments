@@ -96,8 +96,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 // Add the appointments to the column.
                                 createAppointments($providerColumn, response.appointments);
 
-                                // Add the unavailabilities to the column.
-                                createUnavailabilities($providerColumn, response.unavailabilities);
+                                // Add the unavailability events to the column.
+                                createUnavailabilityEvents($providerColumn, response.unavailability_events);
 
                                 // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
@@ -597,8 +597,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         // Add the appointments to the column.
         createAppointments($providerColumn, events.appointments);
 
-        // Add the unavailabilities to the column.
-        createUnavailabilities($providerColumn, events.unavailabilities);
+        // Add the unavailability events to the column.
+        createUnavailabilityEvents($providerColumn, events.unavailability_events);
 
         Backend.placeFooterToBottom();
     }
@@ -606,8 +606,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     /**
      * Get Calendar Component Height
      *
-     * This method calculates the proper calendar height, in order to be displayed correctly, even when the
-     * browser window is resizing.
+     * This method calculates the proper calendar height, in order to be displayed correctly, even when the browser
+     * window is resizing.
      *
      * @return {Number} Returns the calendar element height in pixels.
      */
@@ -912,20 +912,20 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     /**
-     * Create Unavailabilities Events
+     * Create Unavailability Events
      *
      * This method will add the unavailability events on the table view.
      *
      * @param {jQuery} $providerColumn The provider column container.
-     * @param {Object[]} unavailabilities Contains the unavailability events data.
+     * @param {Object[]} unavailabilityEvents Contains the unavailability events data.
      */
-    function createUnavailabilities($providerColumn, unavailabilities) {
-        if (unavailabilities.length === 0) {
+    function createUnavailabilityEvents($providerColumn, unavailabilityEvents) {
+        if (unavailabilityEvents.length === 0) {
             return;
         }
 
-        for (var index in unavailabilities) {
-            var unavailability = unavailabilities[index];
+        for (var index in unavailabilityEvents) {
+            var unavailability = unavailabilityEvents[index];
 
             if (unavailability.id_users_provider !== $providerColumn.data('provider').id) {
                 continue;
