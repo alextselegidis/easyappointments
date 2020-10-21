@@ -90,7 +90,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     var selectedTimezone = $('#select-timezone').val();
                     var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
-                    response.forEach(function (availableHour, index) {
+                    response.forEach(function (availableHour) {
                         var availableHourMoment = moment
                             .tz(selectedDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
@@ -98,6 +98,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         $('#available-hours').append(
                             $('<button/>', {
                                 'class': 'btn btn-outline-secondary btn-block shadow-none available-hour',
+                                'data': {
+                                    'value': availableHour
+                                },
                                 'text': availableHourMoment.format(timeFormat)
                             })
                         );

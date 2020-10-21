@@ -632,7 +632,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         data.appointment = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
-            + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm') + ':00',
+            + ' ' + Date.parse($('.selected-hour').data('value') || '').toString('HH:mm') + ':00',
             end_datetime: calculateEndDatetime(),
             notes: $('#notes').val(),
             is_unavailable: false,
@@ -666,7 +666,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         // Add the duration to the start datetime.
         var startDatetime = $('#select-date').datepicker('getDate').toString('dd-MM-yyyy')
-            + ' ' + Date.parse($('.selected-hour').text()).toString('HH:mm');
+            + ' ' + Date.parse($('.selected-hour').data('value') || '').toString('HH:mm');
         startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
         var endDatetime;
 
