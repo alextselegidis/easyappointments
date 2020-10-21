@@ -37,6 +37,8 @@ use EA\Engine\Types\NonEmptyText;
  * @property Customers_Model $customers_model
  * @property Settings_Model $settings_model
  * @property Timezones $timezones
+ * @property Notifications $notifications
+ * @property Synchronization $synchronization
  * @property Roles_Model $roles_model
  * @property Secretaries_Model $secretaries_model
  * @property Admins_Model $admins_model
@@ -59,6 +61,12 @@ class Appointments extends API_V1_Controller {
     {
         parent::__construct();
         $this->load->model('appointments_model');
+        $this->load->model('services_model');
+        $this->load->model('providers_model');
+        $this->load->model('customers_model');
+        $this->load->model('settings_model');
+        $this->load->library('synchronization');
+        $this->load->library('notifications');
         $this->parser = new \EA\Engine\Api\V1\Parsers\Appointments;
     }
 
@@ -109,8 +117,6 @@ class Appointments extends API_V1_Controller {
      */
     public function post()
     {
-        $this->load->model('services_model');
-
         try
         {
             // Insert the appointment to the database.
@@ -137,6 +143,20 @@ class Appointments extends API_V1_Controller {
             }
 
             $id = $this->appointments_model->add($appointment);
+
+            $service = $this->services_model->get_row($appointment['id_services']);
+            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $settings = [
+                'company_name' => $this->settings_model->get_setting('company_name'),
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
+            ];
+
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, FALSE);
+            $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, FALSE);
 
             // Fetch the new object from the database and return it to the client.
             $batch = $this->appointments_model->get_batch('id = ' . $id);
@@ -174,6 +194,21 @@ class Appointments extends API_V1_Controller {
             $updatedAppointment['id'] = $id;
             $id = $this->appointments_model->add($updatedAppointment);
 
+            $service = $this->services_model->get_row($updatedAppointment['id_services']);
+            $provider = $this->providers_model->get_row($updatedAppointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($updatedAppointment['id_users_customer']);
+            $settings = [
+                'company_name' => $this->settings_model->get_setting('company_name'),
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
+            ];
+
+            $this->synchronization->sync_appointment_saved($updatedAppointment, $service, $provider, $customer, $settings, TRUE);
+            $this->notifications->notify_appointment_saved($updatedAppointment, $service, $provider, $customer, $settings, TRUE);
+
+
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->appointments_model->get_batch('id = ' . $id);
             $response = new Response($batch);
@@ -194,7 +229,22 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
+            $appointment = $this->appointments_model->get_row($id);
+            $service = $this->services_model->get_row($appointment['id_services']);
+            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
+            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $settings = [
+                'company_name' => $this->settings_model->get_setting('company_name'),
+                'company_email' => $this->settings_model->get_setting('company_email'),
+                'company_link' => $this->settings_model->get_setting('company_link'),
+                'date_format' => $this->settings_model->get_setting('date_format'),
+                'time_format' => $this->settings_model->get_setting('time_format')
+            ];
+
             $this->appointments_model->delete($id);
+
+            $this->synchronization->sync_appointment_deleted($appointment, $provider);
+            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
 
             $response = new Response([
                 'code' => 200,

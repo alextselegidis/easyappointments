@@ -38,6 +38,8 @@ use EA\Engine\Types\Url;
  * @property Customers_Model $customers_model
  * @property Settings_Model $settings_model
  * @property Timezones $timezones
+ * @property Synchronization $synchronization
+ * @property Notifications $notifications
  * @property Roles_Model $roles_model
  * @property Secretaries_Model $secretaries_model
  * @property Admins_Model $admins_model
@@ -283,6 +285,8 @@ class Backend_api extends CI_Controller {
             $this->load->model('customers_model');
             $this->load->model('settings_model');
             $this->load->library('timezones');
+            $this->load->library('synchronization');
+            $this->load->library('notifications');
             $this->load->model('user_model');
 
             // Save customer changes to the database.
@@ -290,10 +294,10 @@ class Backend_api extends CI_Controller {
             {
                 $customer = json_decode($this->input->post('customer_data'), TRUE);
 
-                $required_privilegesileges = ( ! isset($customer['id']))
+                $required_privileges = ( ! isset($customer['id']))
                     ? $this->privileges[PRIV_CUSTOMERS]['add']
                     : $this->privileges[PRIV_CUSTOMERS]['edit'];
-                if ($required_privilegesileges == FALSE)
+                if ($required_privileges == FALSE)
                 {
                     throw new Exception('You do not have the required privileges for this task.');
                 }
@@ -306,17 +310,17 @@ class Backend_api extends CI_Controller {
             {
                 $appointment = json_decode($this->input->post('appointment_data'), TRUE);
 
-                $required_privilegesileges = ( ! isset($appointment['id']))
+                $required_privileges = ( ! isset($appointment['id']))
                     ? $this->privileges[PRIV_APPOINTMENTS]['add']
                     : $this->privileges[PRIV_APPOINTMENTS]['edit'];
-                if ($required_privilegesileges == FALSE)
+                if ($required_privileges == FALSE)
                 {
                     throw new Exception('You do not have the required privileges for this task.');
                 }
 
                 $manage_mode = isset($appointment['id']);
-                // If the appointment does not contain the customer record id, then it
-                // means that is is going to be inserted. Get the customer's record id.
+                // If the appointment does not contain the customer record id, then it means that is is going to be
+                // inserted. Get the customer's record ID.
                 if ( ! isset($appointment['id_users_customer']))
                 {
                     $appointment['id_users_customer'] = $customer['id'];
@@ -348,139 +352,10 @@ class Backend_api extends CI_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            // Sync appointment changes with Google Calendar.
-            try
-            {
-                $google_sync = $this->providers_model->get_setting('google_sync',
-                    $appointment['id_users_provider']);
+            $this->synchronization->sync_appointment_deleted($appointment, $provider);
+            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
 
-                if ($google_sync == TRUE)
-                {
-                    $google_token = json_decode($this->providers_model->get_setting('google_token',
-                        $appointment['id_users_provider']));
-
-                    $this->load->library('Google_sync');
-                    $this->google_sync->refresh_token($google_token->refresh_token);
-
-                    if ($appointment['id_google_calendar'] == NULL)
-                    {
-                        $google_event = $this->google_sync->add_appointment($appointment, $provider,
-                            $service, $customer, $settings);
-                        $appointment['id_google_calendar'] = $google_event->id;
-                        $this->appointments_model->add($appointment); // Store google calendar id.
-                    }
-                    else
-                    {
-                        $this->google_sync->update_appointment($appointment, $provider,
-                            $service, $customer, $settings);
-                    }
-                }
-            }
-            catch (Exception $exception)
-            {
-                $warnings[] = [
-                    'message' => $exception->getMessage(),
-                    'trace' => config('debug') ? $exception->getTrace() : []
-                ];
-            }
-
-            // Send email notifications to provider and customer.
-            try
-            {
-                $this->config->load('email');
-                $email = new EmailClient($this, $this->config->config);
-
-                $send_provider = $this->providers_model
-                    ->get_setting('notifications', $provider['id']);
-
-                if ( ! $manage_mode)
-                {
-                    $customer_title = new Text(lang('appointment_booked'));
-                    $customer_message = new Text(lang('thank_you_for_appointment'));
-                    $provider_title = new Text(lang('appointment_added_to_your_plan'));
-                    $provider_message = new Text(lang('appointment_link_description'));
-                }
-                else
-                {
-                    $customer_title = new Text(lang('appointment_details_changed'));
-                    $customer_message = new Text('');
-                    $provider_title = new Text(lang('appointment_changes_saved'));
-                    $provider_message = new Text('');
-                }
-
-                $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
-                $provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
-
-                $send_customer = $this->settings_model->get_setting('customer_notifications');
-
-                $this->load->library('ics_file');
-                $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
-
-                if ((bool)$send_customer === TRUE)
-                {
-                    $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $settings, $customer_title,
-                        $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
-                }
-
-                if ($send_provider == TRUE)
-                {
-                    $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $settings, $provider_title,
-                        $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream));
-                }
-
-                // Notify admins
-                $admins = $this->admins_model->get_batch();
-
-                foreach($admins as $admin)
-                {
-                    if (!$admin['settings']['notifications'] === '0')
-                    {
-                        continue;
-                    }
-
-                    $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $settings, $provider_title,
-                        $provider_message, $provider_link, new Email($admin['email']), new Text($ics_stream));
-                }
-
-                // Notify secretaries
-                $secretaries = $this->secretaries_model->get_batch();
-
-                foreach($secretaries as $secretary)
-                {
-                    if (!$secretary['settings']['notifications'] === '0')
-                    {
-                        continue;
-                    }
-
-                    if (in_array($provider['id'], $secretary['providers']))
-                    {
-                        continue;
-                    }
-
-                    $email->sendAppointmentDetails($appointment, $provider,
-                        $service, $customer, $settings, $provider_title,
-                        $provider_message, $provider_link, new Email($secretary['email']), new Text($ics_stream));
-                }
-            }
-            catch (Exception $exception)
-            {
-                $warnings[] = [
-                    'message' => $exception->getMessage(),
-                    'trace' => config('debug') ? $exception->getTrace() : []
-                ];
-            }
-
-            if (empty($warnings))
-            {
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = ['warnings' => $warnings];
-            }
+            $response = AJAX_SUCCESS;
         }
         catch (Exception $exception)
         {
@@ -1032,10 +907,10 @@ class Backend_api extends CI_Controller {
             $this->load->model('customers_model');
             $customer = json_decode($this->input->post('customer'), TRUE);
 
-            $required_privilegesileges = ( ! isset($customer['id']))
+            $required_privileges = ( ! isset($customer['id']))
                 ? $this->privileges[PRIV_CUSTOMERS]['add']
                 : $this->privileges[PRIV_CUSTOMERS]['edit'];
-            if ($required_privilegesileges == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -1105,10 +980,10 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $service = json_decode($this->input->post('service'), TRUE);
 
-            $required_privilegesileges = ( ! isset($service['id']))
+            $required_privileges = ( ! isset($service['id']))
                 ? $this->privileges[PRIV_SERVICES]['add']
                 : $this->privileges[PRIV_SERVICES]['edit'];
-            if ($required_privilegesileges == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -1215,10 +1090,10 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $category = json_decode($this->input->post('category'), TRUE);
 
-            $required_privilegesileges = ( ! isset($category['id']))
+            $required_privileges = ( ! isset($category['id']))
                 ? $this->privileges[PRIV_SERVICES]['add']
                 : $this->privileges[PRIV_SERVICES]['edit'];
-            if ($required_privilegesileges == FALSE)
+            if ($required_privileges == FALSE)
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
