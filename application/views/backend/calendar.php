@@ -9,7 +9,7 @@
 <script src="<?= asset_url('assets/js/backend_calendar_table_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_google_sync.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_appointments_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_calendar_unavailabilities_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_calendar_unavailability_events_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {

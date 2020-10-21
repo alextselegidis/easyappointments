@@ -142,7 +142,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 endDatetime = Date.parseExact(unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss');
 
                 $dialog = $('#manage-unavailable');
-                BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
+                BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
@@ -1066,7 +1066,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // Add custom unavailable periods (they are always displayed on the calendar, even if the provider won't
                 // work on that day).
-                var unavailableEvents = [];
+                var unavailabilityEvents = [];
                 response.unavailables.forEach(function (unavailable) {
                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
@@ -1074,7 +1074,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         notes = unavailable.notes.substring(0, 30) + '...'
                     }
 
-                    var unavailableEvent = {
+                    var unavailabilityEvent = {
                         title: EALang.unavailable + notes,
                         start: moment(unavailable.start_datetime),
                         end: moment(unavailable.end_datetime),
@@ -1085,10 +1085,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         data: unavailable
                     };
 
-                    unavailableEvents.push(unavailableEvent);
+                    unavailabilityEvents.push(unavailabilityEvent);
                 });
 
-                $calendar.fullCalendar('addEventSource', unavailableEvents);
+                $calendar.fullCalendar('addEventSource', unavailabilityEvents);
 
                 var calendarView = $('#calendar').fullCalendar('getView');
 
@@ -1103,7 +1103,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                     var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
                     var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions);
-                    var unavailableEvent;
+                    var unavailabilityEvent;
                     var viewStart;
                     var viewEnd;
                     var breakStart;
@@ -1157,7 +1157,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                             // Non-working day.
                             if (sortedWorkingPlan[weekdayName] === null) {
                                 // Working plan exception.
-                                unavailableEvent = {
+                                unavailabilityEvent = {
                                     title: EALang.not_working,
                                     start: calendarView.intervalStart.clone(),
                                     end: calendarView.intervalEnd.clone(),
@@ -1167,7 +1167,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     className: 'fc-unavailable'
                                 };
 
-                                $calendar.fullCalendar('renderEvent', unavailableEvent, false);
+                                $calendar.fullCalendar('renderEvent', unavailabilityEvent, false);
 
                                 return; // Go to next loop.
                             }
@@ -1276,7 +1276,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 // Non-working day.
                                 if (sortedWorkingPlan[weekdayName] === null) {
                                     // Add a full day unavailable event.
-                                    unavailableEvent = {
+                                    unavailabilityEvent = {
                                         title: EALang.not_working,
                                         start: calendarDate.clone(),
                                         end: calendarDate.clone().add(1, 'day'),
@@ -1286,7 +1286,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailableEvent, true);
+                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, true);
 
                                     calendarDate.add(1, 'day');
 
@@ -1300,7 +1300,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 workDateStart.minute(parseInt(startHour[1]));
 
                                 if (calendarDate < workDateStart) {
-                                    unavailableEvent = {
+                                    unavailabilityEvent = {
                                         title: EALang.not_working,
                                         start: calendarDate.clone(),
                                         end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + sortedWorkingPlan[weekdayName].start + ':00'),
@@ -1310,7 +1310,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailableEvent, true);
+                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, true);
                                 }
 
                                 // Add unavailable period after work ends.
@@ -1320,7 +1320,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 workDateEnd.minute(parseInt(endHour[1]));
 
                                 if (calendarView.end > workDateEnd) {
-                                    unavailableEvent = {
+                                    unavailabilityEvent = {
                                         title: EALang.not_working,
                                         start: moment(calendarDate.format('YYYY-MM-DD') + ' ' + sortedWorkingPlan[weekdayName].end + ':00'),
                                         end: calendarDate.clone().add(1, 'day'),
@@ -1330,7 +1330,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailableEvent, false);
+                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, false);
                                 }
 
                                 // Add unavailable periods during day breaks.
@@ -1345,7 +1345,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     breakEnd.hour(parseInt(breakEndString[0]));
                                     breakEnd.minute(parseInt(breakEndString[1]));
 
-                                    var unavailableEvent = {
+                                    var unavailabilityEvent = {
                                         title: EALang.break,
                                         start: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.start),
                                         end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.end),
@@ -1355,7 +1355,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable fc-break'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailableEvent, false);
+                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, false);
                                 });
 
                                 calendarDate.add(1, 'day');

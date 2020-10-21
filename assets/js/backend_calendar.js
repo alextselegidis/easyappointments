@@ -114,7 +114,7 @@ window.BackendCalendar = window.BackendCalendar || {};
     exports.initialize = function (view) {
         BackendCalendarGoogleSync.initialize();
         BackendCalendarAppointmentsModal.initialize();
-        BackendCalendarUnavailabilitiesModal.initialize();
+        BackendCalendarUnavailabilityEventsModal.initialize();
 
         // Load and initialize the calendar view.
         if (view === 'table') {

@@ -186,7 +186,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var endDatetime = Date.parseExact(unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss');
 
                 $dialog = $('#manage-unavailable');
-                BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
+                BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');

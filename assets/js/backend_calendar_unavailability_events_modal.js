@@ -10,13 +10,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar Unavailabilities Modal
+ * Backend Calendar Unavailability Events Modal
  *
- * This module implements the unavailabilities modal functionality.
+ * This module implements the unavailability events modal functionality.
  *
- * @module BackendCalendarUnavailabilitiesModal
+ * @module BackendCalendarUnavailabilityEventsModal
  */
-window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabilitiesModal || {};
+window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavailabilityEventsModal || {};
 
 (function (exports) {
 
@@ -91,7 +91,7 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
          * he cannot accept any appointments.
          */
         $('#insert-unavailable').on('click', function () {
-            BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
+            BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
             var $dialog = $('#manage-unavailable');
 
             // Set the default datetime values.
@@ -229,4 +229,4 @@ window.BackendCalendarUnavailabilitiesModal = window.BackendCalendarUnavailabili
         bindEventHandlers();
     };
 
-})(window.BackendCalendarUnavailabilitiesModal);
+})(window.BackendCalendarUnavailabilityEventsModal);
