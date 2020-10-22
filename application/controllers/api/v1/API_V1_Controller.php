@@ -62,7 +62,7 @@ class API_V1_Controller extends CI_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -142,7 +142,7 @@ class API_V1_Controller extends CI_Controller {
      *
      * @param Exception $exception Thrown exception to be outputted.
      */
-    protected function _handleException(Exception $exception)
+    protected function handle_exception(Exception $exception)
     {
         $error = [
             'code' => $exception->getCode() ?: 500,
@@ -166,7 +166,7 @@ class API_V1_Controller extends CI_Controller {
      *
      * @throws \EA\Engine\Api\V1\Exception
      */
-    protected function _throwRecordNotFound()
+    protected function throw_record_not_found()
     {
         throw new \EA\Engine\Api\V1\Exception('The requested record was not found!', 404, 'Not Found');
     }

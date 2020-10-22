@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
@@ -32,17 +31,17 @@
                 <span id="company-name"><?= $company_name ?></span>
 
                 <div id="steps">
-                    <div id="step-1" class="book-step active-step" title="<?= lang('service_and_provider') ?>">
+                    <div id="step-1" class="book-step active-step" data-tippy-content="<?= lang('service_and_provider') ?>">
                         <strong>1</strong>
                     </div>
 
-                    <div id="step-2" class="book-step" title="<?= lang('appointment_date_and_time') ?>">
+                    <div id="step-2" class="book-step" data-toggle="tooltip" data-tippy-content="<?= lang('appointment_date_and_time') ?>">
                         <strong>2</strong>
                     </div>
-                    <div id="step-3" class="book-step" title="<?= lang('customer_information') ?>">
+                    <div id="step-3" class="book-step" data-toggle="tooltip" data-tippy-content="<?= lang('customer_information') ?>">
                         <strong>3</strong>
                     </div>
-                    <div id="step-4" class="book-step" title="<?= lang('appointment_confirmation') ?>">
+                    <div id="step-4" class="book-step" data-toggle="tooltip" data-tippy-content="<?= lang('appointment_confirmation') ?>">
                         <strong>4</strong>
                     </div>
                 </div>
@@ -450,9 +449,10 @@
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-qtip/jquery.qtip.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/cookieconsent/cookieconsent.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/popper/popper.min.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/tippy/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>

@@ -25,7 +25,7 @@ window.Backend = window.Backend || {};
     /**
      * Main javascript code for the backend of Easy!Appointments.
      */
-    $(document).ready(function () {
+    $(function () {
         $(window)
             .on('resize', function () {
                 Backend.placeFooterToBottom();
@@ -40,15 +40,7 @@ window.Backend = window.Backend || {};
             $('#loading').hide();
         });
 
-        $('.menu-item').qtip({
-            position: {
-                my: 'top center',
-                at: 'bottom center'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
+        tippy('[data-tippy-content]');
 
         GeneralFunctions.enableLanguageSelection($('#select-language'));
     });

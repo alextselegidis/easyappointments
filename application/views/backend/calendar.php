@@ -9,7 +9,7 @@
 <script src="<?= asset_url('assets/js/backend_calendar_table_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_google_sync.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_appointments_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_calendar_unavailabilities_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/backend_calendar_unavailability_events_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_api.js') ?>"></script>
 <script>
     var GlobalVariables = {
@@ -44,7 +44,7 @@
         <div id="calendar-filter" class="col-12 col-sm-5">
             <div class="form-group calendar-filter-items">
                 <select id="select-filter-item" class="form-control col"
-                        title="<?= lang('select_filter_item_hint') ?>">
+                        data-tippy-content="<?= lang('select_filter_item_hint') ?>">
                 </select>
             </div>
         </div>
@@ -53,13 +53,13 @@
             <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
                 && config('google_sync_feature') == TRUE): ?>
                 <button id="google-sync" class="btn btn-primary"
-                        title="<?= lang('trigger_google_sync_hint') ?>">
+                        data-tippy-content="<?= lang('trigger_google_sync_hint') ?>">
                     <i class="fas fa-sync-alt"></i>
                     <span><?= lang('synchronize') ?></span>
                 </button>
 
                 <button id="enable-sync" class="btn btn-light" data-toggle="button"
-                        title="<?= lang('enable_appointment_sync_hint') ?>">
+                        data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>">
                     <i class="far fa-calendar-alt mr-2"></i>
                     <span><?= lang('enable_sync') ?></span>
                 </button>
@@ -90,20 +90,20 @@
             </div>
             <?php endif ?>
 
-            <button id="reload-appointments" class="btn btn-light" title="<?= lang('reload_appointments_hint') ?>">
+            <button id="reload-appointments" class="btn btn-light" data-tippy-content="<?= lang('reload_appointments_hint') ?>">
                 <i class="fas fa-sync-alt"></i>
             </button>
 
             <?php if($calendar_view === 'default'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
-                   title="<?= lang('table') ?>">
+                   data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
             <?php if($calendar_view === 'table'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
-                   title="<?= lang('default') ?>">
+                   data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
                 </a>
             <?php endif ?>
@@ -272,12 +272,12 @@
                         <legend>
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
-                                    title="<?= lang('clear_fields_add_existing_customer_hint') ?>">
+                                    data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
                                 <i class="far fa-plus-square mr-2"></i>
                                 <?= lang('new') ?>
                             </button>
                             <button id="select-customer" class="btn btn-outline-secondary btn-sm" type="button"
-                                    title="<?= lang('pick_existing_customer_hint') ?>">
+                                    data-tippy-content="<?= lang('pick_existing_customer_hint') ?>">
                                 <i class="far fa-hand-pointer mr-2"></i>
                                 <span>
                                     <?= lang('select') ?>

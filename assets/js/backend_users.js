@@ -113,16 +113,6 @@ window.BackendUsers = window.BackendUsers || {};
                 .appendTo('#secretary-providers');
         });
 
-        $('#reset-working-plan').qtip({
-            position: {
-                my: 'top center',
-                at: 'bottom center'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
-
         // Bind event handlers.
         if (defaultEventHandlers) {
             bindEventHandlers();

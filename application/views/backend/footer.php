@@ -16,6 +16,7 @@
         <?= lang('licensed_under') ?> GPLv3 |
 
         <span id="select-language" class="badge badge-secondary">
+            <i class="fas fa-language mr-2"></i>
         	<?= ucfirst(config('language')) ?>
         </span>
 

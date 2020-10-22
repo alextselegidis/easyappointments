@@ -76,7 +76,7 @@ class Categories extends API_V1_Controller {
 
             if ($id !== NULL && count($categories) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($categories);
@@ -92,7 +92,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -123,7 +123,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -141,15 +141,15 @@ class Categories extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
-            $updatedCategory = $request->getBody();
-            $baseCategory = $batch[0];
-            $this->parser->decode($updatedCategory, $baseCategory);
-            $updatedCategory['id'] = $id;
-            $id = $this->services_model->add_category($updatedCategory);
+            $updated_category = $request->getBody();
+            $base_category = $batch[0];
+            $this->parser->decode($updated_category, $base_category);
+            $updated_category['id'] = $id;
+            $id = $this->services_model->add_category($updated_category);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->services_model->get_all_categories('id = ' . $id);
@@ -158,7 +158,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -182,7 +182,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 }

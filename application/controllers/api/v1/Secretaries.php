@@ -76,7 +76,7 @@ class Secretaries extends API_V1_Controller {
 
             if ($id !== NULL && count($secretaries) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($secretaries);
@@ -92,7 +92,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -123,7 +123,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -141,15 +141,15 @@ class Secretaries extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
-            $updatedSecretary = $request->getBody();
-            $baseSecretary = $batch[0];
-            $this->parser->decode($updatedSecretary, $baseSecretary);
-            $updatedSecretary['id'] = $id;
-            $id = $this->secretaries_model->add($updatedSecretary);
+            $updated_secretary = $request->getBody();
+            $base_secretary = $batch[0];
+            $this->parser->decode($updated_secretary, $base_secretary);
+            $updated_secretary['id'] = $id;
+            $id = $this->secretaries_model->add($updated_secretary);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->secretaries_model->get_batch('id = ' . $id);
@@ -158,7 +158,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -182,7 +182,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 }

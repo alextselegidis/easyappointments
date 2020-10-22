@@ -91,13 +91,16 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                                 $providerColumn.find('.calendar-wrapper').fullCalendar('removeEvents');
 
-                                createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse($providerColumn.data('provider').settings.working_plan));
+                                createNonWorkingHours(
+                                    $providerColumn.find('.calendar-wrapper'),
+                                    $providerColumn.data('provider')
+                                );
 
                                 // Add the appointments to the column.
                                 createAppointments($providerColumn, response.appointments);
 
-                                // Add the unavailabilities to the column.
-                                createUnavailabilities($providerColumn, response.unavailabilities);
+                                // Add the unavailability events to the column.
+                                createUnavailabilityEvents($providerColumn, response.unavailability_events);
 
                                 // Add the provider breaks to the column.
                                 var workingPlan = JSON.parse(provider.settings.working_plan);
@@ -145,7 +148,36 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             var $dialog;
 
-            if (lastFocusedEventData.data.is_unavailable === '0') {
+            if (lastFocusedEventData.data.workingPlanException) {
+                var date = lastFocusedEventData.data.date;
+                var workingPlanException = lastFocusedEventData.data.workingPlanException;
+                var provider = lastFocusedEventData.data.provider;
+
+                WorkingPlanExceptionsModal
+                    .edit(date, workingPlanException)
+                    .done(function (date, workingPlanException) {
+                        var successCallback = function () {
+                            Backend.displayNotification(EALang.working_plan_exception_saved);
+
+                            var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+
+                            workingPlanExceptions[date] = workingPlanException;
+
+                            for (var index in GlobalVariables.availableProviders) {
+                                var availableProvider = GlobalVariables.availableProviders[index];
+
+                                if (Number(availableProvider.id) === Number(provider.id)) {
+                                    availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
+                                    break;
+                                }
+                            }
+
+                            $('#select-filter-item').trigger('change'); // Update the calendar.
+                        };
+
+                        BackendCalendarApi.saveWorkingPlanException(date, workingPlanException, provider.id, successCallback, null);
+                    });
+            } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
 
@@ -186,7 +218,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var endDatetime = Date.parseExact(unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss');
 
                 $dialog = $('#manage-unavailable');
-                BackendCalendarUnavailabilitiesModal.resetUnavailableDialog();
+                BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');
@@ -592,13 +624,16 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         createCalendar($providerColumn, date, provider);
 
         // Create non working hours.
-        createNonWorkingHours($providerColumn.find('.calendar-wrapper'), JSON.parse(provider.settings.working_plan))
+        createNonWorkingHours(
+            $providerColumn.find('.calendar-wrapper'),
+            provider
+        );
 
         // Add the appointments to the column.
         createAppointments($providerColumn, events.appointments);
 
-        // Add the unavailabilities to the column.
-        createUnavailabilities($providerColumn, events.unavailabilities);
+        // Add the unavailability events to the column.
+        createUnavailabilityEvents($providerColumn, events.unavailability_events);
 
         Backend.placeFooterToBottom();
     }
@@ -606,8 +641,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     /**
      * Get Calendar Component Height
      *
-     * This method calculates the proper calendar height, in order to be displayed correctly, even when the
-     * browser window is resizing.
+     * This method calculates the proper calendar height, in order to be displayed correctly, even when the browser
+     * window is resizing.
      *
      * @return {Number} Returns the calendar element height in pixels.
      */
@@ -793,11 +828,38 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $(element).fullCalendar('option', 'height', getCalendarHeight());
     }
 
-    function createNonWorkingHours($calendar, workingPlan) {
+    function createNonWorkingHours($calendar, provider) {
+        var workingPlan = JSON.parse(provider.settings.working_plan);
+        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
         var view = $calendar.fullCalendar('getView');
         var start = view.start.clone();
         var end = view.end.clone();
         var selDayName = start.toDate().toString('dddd').toLowerCase();
+        var selDayDate = start.format('YYYY-MM-DD');
+
+        if (workingPlanExceptions[selDayDate]) {
+            workingPlan[selDayName] = workingPlanExceptions[selDayDate];
+
+            var workingPlanExceptionStart = selDayDate + ' ' + workingPlan[selDayName].start;
+            var workingPlanExceptionEnd = selDayDate + ' ' + workingPlan[selDayName].end;
+
+            var workingPlanExceptionEvent = {
+                title: EALang.working_plan_exception,
+                start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true),
+                end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
+                allDay: true,
+                color: '#879DB4',
+                editable: false,
+                className: 'fc-working-plan-exception fc-custom',
+                data: {
+                    date: selDayDate,
+                    workingPlanException: workingPlanExceptions[selDayDate],
+                    provider: provider
+                }
+            };
+
+            $calendar.fullCalendar('renderEvent', workingPlanExceptionEvent, false);
+        }
 
         if (workingPlan[selDayName] === null) {
             var nonWorkingDay = {
@@ -912,20 +974,20 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     }
 
     /**
-     * Create Unavailabilities Events
+     * Create Unavailability Events
      *
      * This method will add the unavailability events on the table view.
      *
      * @param {jQuery} $providerColumn The provider column container.
-     * @param {Object[]} unavailabilities Contains the unavailability events data.
+     * @param {Object[]} unavailabilityEvents Contains the unavailability events data.
      */
-    function createUnavailabilities($providerColumn, unavailabilities) {
-        if (unavailabilities.length === 0) {
+    function createUnavailabilityEvents($providerColumn, unavailabilityEvents) {
+        if (unavailabilityEvents.length === 0) {
             return;
         }
 
-        for (var index in unavailabilities) {
-            var unavailability = unavailabilities[index];
+        for (var index in unavailabilityEvents) {
+            var unavailability = unavailabilityEvents[index];
 
             if (unavailability.id_users_provider !== $providerColumn.data('provider').id) {
                 continue;
@@ -1036,10 +1098,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         if ($(this).hasClass('fc-unavailable') || $parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.edit === true)
-                ? 'mr-2' : 'd-none';
+                ? '' : 'd-none';
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.delete === true)
-                ? 'mr-2' : 'd-none'; // Same value at the time.
+                ? '' : 'd-none'; // Same value at the time.
 
             $html = $('<div/>', {
                 'html': [
@@ -1070,8 +1132,30 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<hr/>'),
 
                     $('<div/>', {
-                        'class': 'd-flex justify-content-between',
+                        'class': 'd-flex justify-content-center',
                         'html': [
+                            $('<button/>', {
+                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'fas fa-ban mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.close
+                                    })
+                                ]
+                            }),
+                            $('<button/>', {
+                                'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
+                                'html': [
+                                    $('<i/>', {
+                                        'class': 'far fa-trash-alt mr-2'
+                                    }),
+                                    $('<span/>', {
+                                        'text': EALang.delete
+                                    })
+                                ]
+                            }),
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
@@ -1083,28 +1167,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                     })
                                 ]
                             }),
-                            $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
-                                    }),
-                                    $('<span/>', {
-                                        'text': EALang.delete
-                                    })
-                                ]
-                            }),
-                            $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary',
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
-                                    }),
-                                    $('<span/>', {
-                                        'text': EALang.close
-                                    })
-                                ]
-                            })
                         ]
                     })
                 ]
@@ -1112,11 +1174,11 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         } else if ($(this).hasClass('fc-working-plan-exception') || $parent.hasClass('fc-working-plan-exception') || $altParent.hasClass('fc-working-plan-exception')) {
             displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.edit === true)
-                ? 'mr-2' : 'd-none'; // Same value at the time.
+                ? '' : 'd-none'; // Same value at the time.
 
             displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
                 && GlobalVariables.user.privileges.appointments.delete === true)
-                ? 'mr-2' : 'd-none'; // Same value at the time.
+                ? '' : 'd-none'; // Same value at the time.
 
             $html = $('<div/>', {
                 'html': [
@@ -1124,7 +1186,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'text': EALang.provider
                     }),
                     $('<span/>', {
-                        'text': event.data ? event.data.first_name + ' ' + event.data.last_name : '-'
+                        'text': event.data ? event.data.provider.first_name + ' ' + event.data.provider.last_name : '-'
                     }),
                     $('<br/>'),
 
@@ -1158,18 +1220,18 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'edit-popover btn btn-danger ' + displayEdit,
+                                'class': 'close-popover btn btn-outline-secondary mr-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-ban mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.close
                                     })
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
                                         'class': 'far fa-trash-alt mr-2'
@@ -1180,13 +1242,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary',
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'far fa-edit mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': EALang.edit
                                     })
                                 ]
                             })
@@ -1196,9 +1258,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             });
         } else {
             displayEdit = (GlobalVariables.user.privileges.appointments.edit === true)
-                ? 'mr-2' : 'd-none';
+                ? '' : 'd-none';
             displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
-                ? 'mr-2' : 'd-none';
+                ? '' : 'd-none';
 
             $html = $('<div/>', {
                 'html': [
@@ -1284,18 +1346,18 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'class': 'close-popover btn btn-outline-secondary mr-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-ban mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.close
                                     })
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary mr-2' + displayDelete,
                                 'html': [
                                     $('<i/>', {
                                         'class': 'far fa-trash-alt mr-2'
@@ -1306,13 +1368,13 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary',
+                                'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'far fa-edit mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': EALang.edit
                                     })
                                 ]
                             })
@@ -1678,6 +1740,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var endDate = moment().add(Number($('#select-filter-item').val()) - 1, 'days').toDate();
 
         createView(startDate, endDate);
+
+        $('#insert-working-plan-exception').hide();
 
         bindEventHandlers();
 

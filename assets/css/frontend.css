@@ -147,6 +147,7 @@ body {
     text-align: center;
     color: #0bb98d;
     transition: all .3s linear;
+    cursor: default;
 }
 
 #book-appointment-wizard .active-step {
@@ -169,10 +170,6 @@ body {
     padding: 15px;
     text-align: center;
     border-top: 1px solid #ebeef1;
-}
-
-#book-appointment-wizard #steps .custom-qtip {
-    border-width: 2px;
 }
 
 #book-appointment-wizard #available-hours {

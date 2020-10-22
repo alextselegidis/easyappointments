@@ -66,8 +66,8 @@ class Availabilities extends API_V1_Controller {
     {
         try
         {
-            $providerId = new UnsignedInteger($this->input->get('providerId'));
-            $serviceId = new UnsignedInteger($this->input->get('serviceId'));
+            $provider_id = new UnsignedInteger($this->input->get('providerId'));
+            $service_id = new UnsignedInteger($this->input->get('serviceId'));
 
             if ($this->input->get('date'))
             {
@@ -78,49 +78,49 @@ class Availabilities extends API_V1_Controller {
                 $date = new DateTime();
             }
 
-            $provider = $this->providers_model->get_row($providerId->get());
-            $service = $this->services_model->get_row($serviceId->get());
+            $provider = $this->providers_model->get_row($provider_id->get());
+            $service = $this->services_model->get_row($service_id->get());
 
-            $emptyPeriods = $this->_getProviderAvailableTimePeriods($providerId->get(),
+            $empty_periods = $this->get_provider_available_time_periods($provider_id->get(),
                 $date->format('Y-m-d'), []);
 
-            $availableHours = $this->_calculateAvailableHours($emptyPeriods,
+            $available_hours = $this->calculate_available_hours($empty_periods,
                 $date->format('Y-m-d'), $service['duration'], FALSE, $service['availabilities_type']);
 
             if ($service['attendants_number'] > 1)
             {
-                $availableHours = $this->_getMultipleAttendantsHours($date->format('Y-m-d'), $service, $provider);
+                $available_hours = $this->get_multiple_attendants_hours($date->format('Y-m-d'), $service, $provider);
             }
 
-            // If the selected date is today, remove past hours. It is important  include the timeout before
-            // booking that is set in the back-office the system. Normally we might want the customer to book
-            // an appointment that is at least half or one hour from now. The setting is stored in minutes.
+            // If the selected date is today, remove past hours. It is important  include the timeout before booking
+            // that is set in the back-office the system. Normally we might want the customer to book an appointment
+            // that is at least half or one hour from now. The setting is stored in minutes.
             if ($date->format('Y-m-d') === date('Y-m-d'))
             {
-                $bookAdvanceTimeout = $this->settings_model->get_setting('book_advance_timeout');
+                $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
 
-                foreach ($availableHours as $index => $value)
+                foreach ($available_hours as $index => $value)
                 {
-                    $availableHour = strtotime($value);
-                    $currentHour = strtotime('+' . $bookAdvanceTimeout . ' minutes', strtotime('now'));
-                    if ($availableHour <= $currentHour)
+                    $available_hour = strtotime($value);
+                    $currentHour = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
+                    if ($available_hour <= $currentHour)
                     {
-                        unset($availableHours[$index]);
+                        unset($available_hours[$index]);
                     }
                 }
             }
 
-            $availableHours = array_values($availableHours);
-            sort($availableHours, SORT_STRING);
-            $availableHours = array_values($availableHours);
+            $available_hours = array_values($available_hours);
+            sort($available_hours, SORT_STRING);
+            $available_hours = array_values($available_hours);
 
             $this->output
                 ->set_content_type('application/json')
-                ->set_output(json_encode($availableHours));
+                ->set_output(json_encode($available_hours));
         }
         catch (Exception $exception)
         {
-            exit($this->_handleException($exception));
+            exit($this->handle_exception($exception));
         }
     }
 
@@ -139,7 +139,7 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns an array with the available time periods of the provider.
      */
-    protected function _getProviderAvailableTimePeriods(
+    protected function get_provider_available_time_periods(
         $provider_id,
         $selected_date,
         $exclude_appointments = []
@@ -342,7 +342,7 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns an array with the available hours for the appointment.
      */
-    protected function _calculateAvailableHours(
+    protected function calculate_available_hours(
         array $empty_periods,
         $selected_date,
         $service_duration,
@@ -385,7 +385,7 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns the available hours array.
      */
-    protected function _getMultipleAttendantsHours(
+    protected function get_multiple_attendants_hours(
         $selected_date,
         $service,
         $provider
@@ -412,8 +412,8 @@ class Availabilities extends API_V1_Controller {
             ]
         ];
 
-        $periods = $this->_removeBreaks($selected_date, $periods, $working_hours['breaks']);
-        $periods = $this->_removeUnavailabilities($periods, $unavailabilities);
+        $periods = $this->remove_breaks($selected_date, $periods, $working_hours['breaks']);
+        $periods = $this->remove_unavailabilities($periods, $unavailabilities);
 
         $hours = [];
 
@@ -455,7 +455,7 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns the available time periods without the breaks.
      */
-    public function _removeBreaks($selected_date, $periods, $breaks)
+    public function remove_breaks($selected_date, $periods, $breaks)
     {
         if ( ! $breaks)
         {
@@ -517,7 +517,7 @@ class Availabilities extends API_V1_Controller {
      *
      * @return array Returns the available time periods without the unavailabilities.
      */
-    public function _removeUnavailabilities($periods, $unavailabilities)
+    public function remove_unavailabilities($periods, $unavailabilities)
     {
         foreach ($unavailabilities as $unavailability)
         {

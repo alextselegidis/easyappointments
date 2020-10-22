@@ -68,10 +68,10 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
@@ -284,7 +284,7 @@
                         <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
                             <h3><?= lang('working_plan') ?></h3>
                             <button id="reset-working-plan" class="btn btn-primary"
-                                    title="<?= lang('reset_working_plan') ?>">
+                                    data-tippy-content="<?= lang('reset_working_plan') ?>">
                                 <i class="fas fa-redo-alt mr-2"></i>
                                 <?= lang('reset_plan') ?></button>
                             <table class="working-plan table table-striped mt-2">
@@ -374,10 +374,10 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
@@ -580,10 +580,10 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" title="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-outline-secondary" type="button" title="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>

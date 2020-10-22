@@ -76,7 +76,7 @@ class Providers extends API_V1_Controller {
 
             if ($id !== NULL && count($providers) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $response = new Response($providers);
@@ -92,7 +92,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -123,7 +123,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -141,15 +141,15 @@ class Providers extends API_V1_Controller {
 
             if ($id !== NULL && count($batch) === 0)
             {
-                $this->_throwRecordNotFound();
+                $this->throw_record_not_found();
             }
 
             $request = new Request();
-            $updatedProvider = $request->getBody();
-            $baseProvider = $batch[0];
-            $this->parser->decode($updatedProvider, $baseProvider);
-            $updatedProvider['id'] = $id;
-            $id = $this->providers_model->add($updatedProvider);
+            $updated_provider = $request->getBody();
+            $base_provider = $batch[0];
+            $this->parser->decode($updated_provider, $base_provider);
+            $updated_provider['id'] = $id;
+            $id = $this->providers_model->add($updated_provider);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->providers_model->get_batch('id = ' . $id);
@@ -158,7 +158,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 
@@ -182,7 +182,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            $this->_handleException($exception);
+            $this->handle_exception($exception);
         }
     }
 }
