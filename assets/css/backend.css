@@ -33,7 +33,7 @@ root {
 }
 
 #header #header-logo small {
-    font-size: 11px;
+    font-size: 9px;
     color: #2e6a5b;
 }
 
@@ -46,7 +46,7 @@ root {
 
 #header #header-logo h6 {
     margin-top: 6px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: bold;
     color: white;
 }
