@@ -3,9 +3,19 @@ header {
     margin-bottom: 25px;
 }
 
+header .page-title {
+    font-weight: lighter;
+    padding: 40px 0;
+    color: #429a82;
+}
+
 .content {
     margin: 32px;
     max-width: 980px;
+}
+
+.content p {
+    word-break: break-all;
 }
 
 .alert {

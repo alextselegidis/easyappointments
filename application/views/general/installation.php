@@ -17,10 +17,9 @@
     </div>
 
     <header>
-        <a href="https://easyappointments.org" target="_blank">
-            <img src="<?= base_url('assets/img/installation-banner.png') ?>"
-                 alt="Easy!Appointments Installation Banner">
-        </a>
+        <div class="container">
+            <h1 class="page-title">Easy!Appointments Installation</h1>
+        </div>
     </header>
 
     <div class="content container-fluid">
