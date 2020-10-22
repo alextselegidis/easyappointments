@@ -1186,7 +1186,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'text': EALang.provider
                     }),
                     $('<span/>', {
-                        'text': event.data ? event.data.first_name + ' ' + event.data.last_name : '-'
+                        'text': event.data ? event.data.provider.first_name + ' ' + event.data.provider.last_name : '-'
                     }),
                     $('<br/>'),
 
@@ -1740,6 +1740,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var endDate = moment().add(Number($('#select-filter-item').val()) - 1, 'days').toDate();
 
         createView(startDate, endDate);
+
+        $('#insert-working-plan-exception').hide();
 
         bindEventHandlers();
 
