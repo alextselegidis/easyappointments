@@ -70,7 +70,7 @@
                         <?= lang('general_settings') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
-                                    title="<?= lang('save') ?>">
+                                    data-tippy-content="<?= lang('save') ?>">
                                 <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
@@ -223,7 +223,7 @@
                         <?= lang('business_logic') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
-                                    title="<?= lang('save') ?>">
+                                    data-tippy-content="<?= lang('save') ?>">
                                 <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
@@ -311,7 +311,7 @@
                         <?= lang('legal_contents') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
-                                    title="<?= lang('save') ?>">
+                                    data-tippy-content="<?= lang('save') ?>">
                                 <i class="far fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
@@ -392,7 +392,7 @@
                             <?= lang('personal_information') ?>
                             <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
                                 <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
-                                        title="<?= lang('save') ?>">
+                                        data-tippy-content="<?= lang('save') ?>">
                                     <i class="far fa-check-square mr-2"></i>
                                     <?= lang('save') ?>
                                 </button>

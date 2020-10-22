@@ -34,6 +34,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "qtip2": "^3.0.3",
+    "tippy.js": "^6.2.7",
     "trumbowyg": "^2.21.0"
   },
   "devDependencies": {

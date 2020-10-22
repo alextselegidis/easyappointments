@@ -89,15 +89,7 @@ window.FrontendBook = window.FrontendBook || {};
         FrontendBook.manageMode = manageMode;
 
         // Initialize page's components (tooltips, datepickers etc).
-        $('.book-step').qtip({
-            position: {
-                my: 'top center',
-                at: 'bottom center'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
+        tippy('[data-tippy-content]');
 
         var weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
 

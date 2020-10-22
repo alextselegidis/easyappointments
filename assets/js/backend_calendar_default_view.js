@@ -1612,27 +1612,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $dialog.modal('show');
         }
 
-        // Apply qtip to control tooltips.
-        $('#calendar-toolbar button').qtip({
-            position: {
-                my: 'top center',
-                at: 'bottom center'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
-
-        $('#select-filter-item').qtip({
-            position: {
-                my: 'middle left',
-                at: 'middle right'
-            },
-            style: {
-                classes: 'qtip-green qtip-shadow custom-qtip'
-            }
-        });
-
         if (!$('#select-filter-item option').length) {
             $('#calendar-actions button').prop('disabled', true);
         }

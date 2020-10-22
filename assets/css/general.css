@@ -15,17 +15,6 @@
     }
 }
 
-body .custom-qtip {
-    border: none;
-    border-radius: 0;
-    padding: 10px;
-    box-shadow: 1px 1px 3px #767676;
-    background: #EFFDF6;
-    font-size: 12px;
-    line-height: 20px;
-    color: #258D53;
-}
-
 body .ui-widget {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1.1em;
