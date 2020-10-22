@@ -9,7 +9,7 @@
 |
 */
 $config['version'] = '1.4.0'; // This must be changed manually.
-$config['release_label'] = 'Dev'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['release_label'] = 'Beta.1'; // Leave empty for no title or add Alpha, Beta etc ...
 $config['debug'] = Config::DEBUG_MODE;
 
 /*
@@ -302,7 +302,7 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
 | new release.
 |
 */
-$config['cache_busting_token'] = '93GX4';
+$config['cache_busting_token'] = '824HX';
 
 /*
 |--------------------------------------------------------------------------
