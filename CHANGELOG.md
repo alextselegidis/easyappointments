@@ -3,13 +3,9 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
-
 ## [1.4.0] - TBA
 
-## Added
+### Added
  
 - #203: Appointment location / 12-hour format / sync notes and location in Google Calendar.
 - #221: Fixed/Improved sort breaks increasingly by hour within day.
