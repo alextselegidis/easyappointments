@@ -22,7 +22,7 @@
         </div>
     </header>
 
-    <div class="content container-fluid">
+    <div class="content container">
         <div class="welcome">
             <h3>Welcome to the Easy!Appointments installation page.</h3>
             <p>
