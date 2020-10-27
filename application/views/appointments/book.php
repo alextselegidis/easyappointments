@@ -206,7 +206,7 @@
                             <div id="select-date"></div>
                         </div>
 
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-md-6">
                             <div id="select-time">
                                 <div class="form-group">
                                     <label for="select-timezone"><?= lang('timezone') ?></label>
