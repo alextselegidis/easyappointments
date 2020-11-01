@@ -278,6 +278,21 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         });
 
         /**
+         * Event: Select datetime start "change"
+         */
+        $('#start-datetime').change(function () {
+            var sid = $('#select-service').val();
+            // Automatically update the service duration.
+            $.each(GlobalVariables.availableServices, function (indexService, service) {
+                if (service.id == sid) {
+                    var start = $('#start-datetime').datetimepicker('getDate');
+                    $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+                    return false; // break loop
+                }
+            });
+        });
+
+        /**
          * Event: Selected Service "Change"
          *
          * When the user clicks on a service, its available providers should become visible. Also we need to
