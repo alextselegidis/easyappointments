@@ -345,6 +345,11 @@ class Availability {
         $working_day = strtolower(date('l', strtotime($date)));
         $working_hours = $working_plan[$working_day];
 
+        if ( ! $working_hours)
+        {
+            return [];
+        }
+
         $periods = [
             [
                 'start' => new DateTime($date . ' ' . $working_hours['start']),
