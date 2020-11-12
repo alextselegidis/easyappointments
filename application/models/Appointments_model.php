@@ -21,6 +21,18 @@
  */
 class Appointments_Model extends CI_Model {
     /**
+     * Appointments_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('data_validation');
+
+        $this->load->library('timezones');
+    }
+
+    /**
      * Add an appointment record to the database.
      *
      * This method adds a new appointment to the database. If the appointment doesn't exists it is going to be inserted,
@@ -61,8 +73,6 @@ class Appointments_Model extends CI_Model {
      */
     public function validate($appointment)
     {
-        $this->load->helper('data_validation');
-
         // If a appointment id is given, check whether the record exists in the database.
         if (isset($appointment['id']))
         {
@@ -310,8 +320,6 @@ class Appointments_Model extends CI_Model {
 
         $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
 
-        $this->load->library('timezones');
-
         $appointment = $this->timezones->convert_event_timezone($appointment);
 
         return $appointment;
@@ -356,8 +364,6 @@ class Appointments_Model extends CI_Model {
             throw new Exception('The given field name does not exist in the database: ' . $field_name);
         }
 
-        $this->load->library('timezones');
-
         $row_data = $this->timezones->convert_event_timezone($row_data);
 
         return $row_data[$field_name];
@@ -392,8 +398,6 @@ class Appointments_Model extends CI_Model {
         }
 
         $appointments = $this->db->get('appointments', $limit, $offset)->result_array();
-
-        $this->load->library('timezones');
 
         foreach ($appointments as &$appointment)
         {

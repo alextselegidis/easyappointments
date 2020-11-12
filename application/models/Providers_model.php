@@ -23,6 +23,17 @@
  */
 class Providers_Model extends CI_Model {
     /**
+     * Providers_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('data_validation');
+        $this->load->helper('general');
+    }
+
+    /**
      * Add (insert - update) a service provider record.
      *
      * If the record already exists (id value provided) then it is going to be updated, otherwise inserted into the
@@ -66,7 +77,6 @@ class Providers_Model extends CI_Model {
      */
     public function validate($provider)
     {
-        $this->load->helper('data_validation');
 
         // If a provider id is present, check whether the record exist in the database.
         if (isset($provider['id']))
@@ -254,7 +264,6 @@ class Providers_Model extends CI_Model {
      */
     protected function insert($provider)
     {
-        $this->load->helper('general');
 
         // Get provider role id.
         $provider['id_roles'] = $this->get_providers_role_id();
@@ -394,8 +403,6 @@ class Providers_Model extends CI_Model {
      */
     protected function update($provider)
     {
-        $this->load->helper('general');
-
         // Store service and settings (must not be present on the $provider array).
         $services = $provider['services'];
         unset($provider['services']);

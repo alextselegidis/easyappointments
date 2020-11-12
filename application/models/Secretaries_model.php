@@ -23,6 +23,17 @@
  */
 class Secretaries_Model extends CI_Model {
     /**
+     * Secretaries_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('general');
+        $this->load->helper('data_validation');
+    }
+
+    /**
      * Add (insert or update) a secretary user record into database.
      *
      * @param array $secretary Contains the secretary user data.
@@ -63,8 +74,6 @@ class Secretaries_Model extends CI_Model {
      */
     public function validate($secretary)
     {
-        $this->load->helper('data_validation');
-
         // If a record id is provided then check whether the record exists in the database.
         if (isset($secretary['id']))
         {
@@ -233,8 +242,6 @@ class Secretaries_Model extends CI_Model {
      */
     protected function insert($secretary)
     {
-        $this->load->helper('general');
-
         $providers = $secretary['providers'];
         unset($secretary['providers']);
         $settings = $secretary['settings'];
@@ -358,8 +365,6 @@ class Secretaries_Model extends CI_Model {
      */
     protected function update($secretary)
     {
-        $this->load->helper('general');
-
         $providers = $secretary['providers'];
         unset($secretary['providers']);
         $settings = $secretary['settings'];

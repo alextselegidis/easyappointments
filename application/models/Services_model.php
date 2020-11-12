@@ -21,6 +21,16 @@
  */
 class Services_Model extends CI_Model {
     /**
+     * Services_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('data_validation');
+    }
+
+    /**
      * Add (insert or update) a service record on the database
      *
      * @param array $service Contains the service data. If an 'id' value is provided then the record will be updated.
@@ -55,14 +65,11 @@ class Services_Model extends CI_Model {
      */
     public function validate($service)
     {
-        $this->load->helper('data_validation');
-
-        // If record id is provided we need to check whether the record exists
-        // in the database.
+        // If record id is provided we need to check whether the record exists in the database.
         if (isset($service['id']))
         {
-            $num_rows = $this->db->get_where('services', ['id' => $service['id']])
-                ->num_rows();
+            $num_rows = $this->db->get_where('services', ['id' => $service['id']])->num_rows();
+
             if ($num_rows == 0)
             {
                 throw new Exception('Provided service id does not exist in the database.');

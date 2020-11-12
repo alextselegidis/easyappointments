@@ -21,6 +21,16 @@
  */
 class Customers_Model extends CI_Model {
     /**
+     * Customers_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('data_validation');
+    }
+
+    /**
      * Add a customer record to the database.
      *
      * This method adds a customer to the database. If the customer doesn't exists it is going to be inserted, otherwise
@@ -68,10 +78,7 @@ class Customers_Model extends CI_Model {
      */
     public function validate($customer)
     {
-        $this->load->helper('data_validation');
-
-        // If a customer id is provided, check whether the record
-        // exist in the database.
+        // If a customer id is provided, check whether the record exist in the database.
         if (isset($customer['id']))
         {
             $num_rows = $this->db->get_where('users',

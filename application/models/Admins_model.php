@@ -22,6 +22,14 @@
  * @package Models
  */
 class Admins_Model extends CI_Model {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('general');
+        $this->load->helper('data_validation');
+    }
+
     /**
      * Add (insert or update) an admin user record into database.
      *
@@ -63,8 +71,6 @@ class Admins_Model extends CI_Model {
      */
     public function validate($admin)
     {
-        $this->load->helper('data_validation');
-
         // If a record id is provided then check whether the record exists in the database.
         if (isset($admin['id']))
         {
@@ -227,8 +233,6 @@ class Admins_Model extends CI_Model {
      */
     protected function insert($admin)
     {
-        $this->load->helper('general');
-
         $admin['id_roles'] = $this->get_admin_role_id();
         $settings = $admin['settings'];
         unset($admin['settings']);
@@ -278,8 +282,6 @@ class Admins_Model extends CI_Model {
      */
     protected function update($admin)
     {
-        $this->load->helper('general');
-
         $settings = $admin['settings'];
         unset($admin['settings']);
         $settings['id_users'] = $admin['id'];
