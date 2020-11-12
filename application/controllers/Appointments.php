@@ -578,23 +578,15 @@ class Appointments extends CI_Controller {
 
         $provider = $this->providers_model->get_row($appointment['id_users_provider']);
 
-        $available_periods = $this->availability->get_available_periods($date, $provider, $exclude_appointment_id);
+        $available_hours = $this->availability->get_available_hours($date, $service, $provider, $exclude_appointment_id);
 
         $is_still_available = FALSE;
 
-        foreach ($available_periods as $available_period)
+        $appointment_hour = date('H:i', strtotime($appointment['start_datetime']));
+
+        foreach ($available_hours as $available_hour)
         {
-            $appointment_start = new DateTime($appointment['start_datetime']);
-            $appointment_start = $appointment_start->format('H:i');
-
-            $appointment_end = new DateTime($appointment['start_datetime']);
-            $appointment_end->add(new DateInterval('PT' . $service['duration'] . 'M'));
-            $appointment_end = $appointment_end->format('H:i');
-
-            $available_period_start = date('H:i', strtotime($available_period['start']));
-            $available_period_end = date('H:i', strtotime($available_period['end']));
-
-            if ($available_period_start <= $appointment_start && $available_period_end >= $appointment_end)
+            if ($appointment_hour === $available_hour)
             {
                 $is_still_available = TRUE;
                 break;

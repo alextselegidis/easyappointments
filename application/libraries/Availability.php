@@ -79,7 +79,7 @@ class Availability {
      *
      * @throws Exception
      */
-    public function get_available_periods(
+    protected function get_available_periods(
         $date,
         $provider,
         $exclude_appointment_id = NULL
