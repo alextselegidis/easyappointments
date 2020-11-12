@@ -365,7 +365,7 @@ class Appointments extends CI_Controller {
             // that will provide the requested service.
             if ($provider_id === ANY_PROVIDER)
             {
-                $provider_id = $this->search_any_provider($service_id, $selected_date);
+                $provider_id = $this->search_any_provider($selected_date, $service_id);
 
                 if ($provider_id === NULL)
                 {
