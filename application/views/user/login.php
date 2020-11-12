@@ -15,6 +15,11 @@
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
 	<link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
+	<script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+	<script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
+
     <script>
         var GlobalVariables = {
             csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
@@ -29,14 +34,9 @@
         var availableLanguages = <?= json_encode(config('available_languages')) ?>;
 
         $(function() {
-        	GeneralFunctions.enableLanguageSelection($('#select-language'));
+            GeneralFunctions.enableLanguageSelection($('#select-language'));
         });
     </script>
-
-	<script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-	<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-	<script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-	<script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
 </head>
 <body>
     <div id="login-frame" class="frame-container">
