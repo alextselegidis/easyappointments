@@ -1565,7 +1565,15 @@ class Backend_api extends CI_Controller {
 
                     $this->load->model('user_model');
 
-                    $this->user_model->save_user(json_decode($this->input->post('settings'), TRUE));
+                    $settings = json_decode($this->input->post('settings'), TRUE);
+
+                    $this->user_model->save_user($settings);
+
+                    $this->session->set_userdata([
+                        'user_email' => $settings['email'],
+                        'username' => $settings['settings']['username'],
+                        'timezone' => $settings['timezone'],
+                    ]);
                 }
             }
 
