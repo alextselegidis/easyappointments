@@ -22,7 +22,7 @@
 !/storage/sessions/.htaccess
 !/storage/sessions/index.html
 /storage/uploads/*
-/!storage/uploads/index.html
+!/storage/uploads/index.html
 /vendor/
 /metafile
 .DS_Store
