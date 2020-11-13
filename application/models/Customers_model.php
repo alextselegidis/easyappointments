@@ -19,7 +19,7 @@
  *
  * @package Models
  */
-class Customers_Model extends CI_Model {
+class Customers_model extends CI_Model {
     /**
      * Customers_Model constructor.
      */
@@ -47,14 +47,14 @@ class Customers_Model extends CI_Model {
         // Validate the customer data before doing anything.
         $this->validate($customer);
 
-        // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).
+        // Check if a customer already exists (by email).
         if ($this->exists($customer) && ! isset($customer['id']))
         {
             // Find the customer id from the database.
             $customer['id'] = $this->find_record_id($customer);
         }
 
-        // :: INSERT OR UPDATE CUSTOMER RECORD
+        // Insert or update the customer record.
         if ( ! isset($customer['id']))
         {
             $customer['id'] = $this->insert($customer);
@@ -355,7 +355,7 @@ class Customers_Model extends CI_Model {
      * $this->Model->getBatch('id = ' . $recordId);
      *
      * @param mixed|null $where
-     * @param midex|null $order_by
+     * @param mixed|null $order_by
      * @param int|null $limit
      * @param int|null $offset
      * @return array Returns the rows from the database.

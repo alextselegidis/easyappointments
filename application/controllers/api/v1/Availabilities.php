@@ -30,16 +30,16 @@ use EA\Engine\Types\UnsignedInteger;
  * @property CI_Security $security
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
- * @property Appointments_Model $appointments_model
- * @property Providers_Model $providers_model
- * @property Services_Model $services_model
- * @property Customers_Model $customers_model
- * @property Settings_Model $settings_model
+ * @property Appointments_model $appointments_model
+ * @property Providers_model $providers_model
+ * @property Services_model $services_model
+ * @property Customers_model $customers_model
+ * @property Settings_model $settings_model
  * @property Timezones $timezones
- * @property Roles_Model $roles_model
- * @property Secretaries_Model $secretaries_model
- * @property Admins_Model $admins_model
- * @property User_Model $user_model
+ * @property Roles_model $roles_model
+ * @property Secretaries_model $secretaries_model
+ * @property Admins_model $admins_model
+ * @property User_model $user_model
  *
  * @package Controllers
  */

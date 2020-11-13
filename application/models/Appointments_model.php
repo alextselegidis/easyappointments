@@ -19,7 +19,7 @@
  *
  * @package Models
  */
-class Appointments_Model extends CI_Model {
+class Appointments_model extends CI_Model {
     /**
      * Appointments_Model constructor.
      */

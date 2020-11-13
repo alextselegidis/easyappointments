@@ -19,7 +19,7 @@
  *
  * @package Models
  */
-class Services_Model extends CI_Model {
+class Services_model extends CI_Model {
     /**
      * Services_Model constructor.
      */

@@ -19,7 +19,7 @@
  *
  * @package Models
  */
-class Roles_Model extends CI_Model {
+class Roles_model extends CI_Model {
     /**
      * Get the record id of a particular role.
      *

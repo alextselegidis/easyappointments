@@ -21,7 +21,7 @@
  *
  * @package Models
  */
-class Providers_Model extends CI_Model {
+class Providers_model extends CI_Model {
     /**
      * Providers_Model constructor.
      */

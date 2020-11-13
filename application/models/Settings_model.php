@@ -19,7 +19,7 @@
  *
  * @package Models
  */
-class Settings_Model extends CI_Model {
+class Settings_model extends CI_Model {
     /**
      * Get setting value from database.
      *

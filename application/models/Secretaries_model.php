@@ -21,7 +21,7 @@
  *
  * @package Models
  */
-class Secretaries_Model extends CI_Model {
+class Secretaries_model extends CI_Model {
     /**
      * Secretaries_Model constructor.
      */
