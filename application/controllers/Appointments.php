@@ -6,8 +6,8 @@
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -51,6 +51,7 @@ class Appointments extends CI_Controller {
 
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
+
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('admins_model');
@@ -58,11 +59,14 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
+
         $this->load->library('session');
         $this->load->library('timezones');
         $this->load->library('synchronization');
         $this->load->library('notifications');
         $this->load->library('availability');
+
+        $this->load->driver('cache', ['adapter' => 'file']);
 
         if ($this->session->userdata('language'))
         {
@@ -174,8 +178,6 @@ class Appointments extends CI_Controller {
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
                 $customer_token = md5(uniqid(mt_rand(), TRUE));
-
-                $this->load->driver('cache', ['adapter' => 'file']);
 
                 // Save the token for 10 minutes.
                 $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600);
@@ -451,16 +453,6 @@ class Appointments extends CI_Controller {
     {
         try
         {
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('admins_model');
-            $this->load->model('secretaries_model');
-            $this->load->model('services_model');
-            $this->load->model('customers_model');
-            $this->load->model('settings_model');
-            $this->load->library('notifications');
-            $this->load->library('synchronization');
-
             $post_data = $this->input->post('post_data');
             $captcha = $this->input->post('captcha');
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
@@ -609,9 +601,6 @@ class Appointments extends CI_Controller {
     {
         try
         {
-            $this->load->model('providers_model');
-            $this->load->model('services_model');
-
             $provider_id = $this->input->get('provider_id');
             $service_id = $this->input->get('service_id');
             $appointment_id = $this->input->get_post('appointment_id');
@@ -694,7 +683,6 @@ class Appointments extends CI_Controller {
      */
     protected function search_providers_by_service($service_id)
     {
-        $this->load->model('providers_model');
         $available_providers = $this->providers_model->get_available_providers();
         $provider_list = [];
 
