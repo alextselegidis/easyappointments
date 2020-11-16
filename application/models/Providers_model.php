@@ -187,7 +187,7 @@ class Providers_model extends EA_Model {
     {
         $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
+        return $num_rows > 0 ? FALSE : TRUE;
     }
 
     /**
@@ -215,7 +215,7 @@ class Providers_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get()->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**
@@ -348,6 +348,8 @@ class Providers_model extends EA_Model {
      * @param string $setting_name The setting's name.
      * @param string $value The setting's value.
      * @param int $provider_id The selected provider id.
+     *
+     * @return bool
      */
     public function set_setting($setting_name, $value, $provider_id)
     {
@@ -429,7 +431,7 @@ class Providers_model extends EA_Model {
     /**
      * Delete an existing provider record from the database.
      *
-     * @param int $customer_id The record id to be deleted.
+     * @param $provider_id
      *
      * @return bool Returns the delete operation result.
      *

@@ -158,7 +158,7 @@ class Customers_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get()->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**

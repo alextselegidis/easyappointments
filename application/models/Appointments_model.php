@@ -232,7 +232,7 @@ class Appointments_model extends EA_Model {
         ])
             ->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**
@@ -381,6 +381,7 @@ class Appointments_model extends EA_Model {
      * @param bool $aggregates (OPTIONAL) Defines whether to add aggregations or not.
      *
      * @return array Returns the rows from the database.
+     * @throws Exception
      */
     public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL, $aggregates = FALSE)
     {

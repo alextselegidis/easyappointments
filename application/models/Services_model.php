@@ -186,16 +186,18 @@ class Services_model extends EA_Model {
             'price' => $service['price']
         ])->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**
      * Get the record id of an existing record.
      *
-     * NOTICE: The record must exist, otherwise an exception will be raised.
+     * Notice: The record must exist, otherwise an exception will be raised.
      *
      * @param array $service Contains the service record data. Name, duration and price values are mandatory for this
      * method to complete.
+     *
+     * @return int
      *
      * @throws Exception If required fields are missing.
      * @throws Exception If requested service was not found.
@@ -312,12 +314,14 @@ class Services_model extends EA_Model {
     /**
      * Get all, or specific records from service's table.
      *
-     * @param string $whereClause (OPTIONAL) The WHERE clause of
-     * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
-     *
-     * @return array Returns the rows from the database.
      * @example $this->Model->getBatch('id = ' . $recordId);
      *
+     * @param mixed $where
+     * @param mixed $order_by
+     * @param int|null $limit
+     * @param int|null $offset
+     *
+     * @return array Returns the rows from the database.
      */
     public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
@@ -474,6 +478,11 @@ class Services_model extends EA_Model {
 
     /**
      * Get all service category records from database.
+     *
+     * @param mixed $where
+     * @param mixed $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      *
      * @return array Returns an array that contains all the service category records.
      */

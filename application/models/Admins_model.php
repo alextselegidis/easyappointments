@@ -156,7 +156,7 @@ class Admins_model extends EA_Model {
     {
         $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
+        return $num_rows > 0 ? FALSE : TRUE;
     }
 
     /**
