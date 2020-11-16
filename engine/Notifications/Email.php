@@ -13,11 +13,16 @@
 
 namespace EA\Engine\Notifications;
 
-use \EA\Engine\Types\Text;
-use \EA\Engine\Types\NonEmptyText;
-use \EA\Engine\Types\Url;
-use \EA\Engine\Types\Email as EmailAddress;
-use \PHPMailer\PHPMailer\PHPMailer;
+use DateTime;
+use DateTimeZone;
+use EA\Engine\Types\Email as EmailAddress;
+use EA\Engine\Types\NonEmptyText;
+use EA\Engine\Types\Text;
+use EA\Engine\Types\Url;
+use EA_Controller;
+use Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use RuntimeException;
 
 /**
  * Email Notifications Class
@@ -32,7 +37,7 @@ class Email {
     /**
      * Framework Instance
      *
-     * @var CI_Controller
+     * @var EA_Controller
      */
     protected $framework;
 
@@ -65,32 +70,37 @@ class Email {
      * @param array $provider Contains the provider data.
      * @param array $service Contains the service data.
      * @param array $customer Contains the customer data.
-     * @param array $company Contains settings of the company. By the time the
-     * "company_name", "company_link" and "company_email" values are required in the array.
+     * @param array $settings Contains settings of the company. At the time the "company_name", "company_link" and
+     * "company_email" values are required in the array.
      * @param \EA\Engine\Types\Text $title The email title may vary depending the receiver.
      * @param \EA\Engine\Types\Text $message The email message may vary depending the receiver.
-     * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes
-     * to the appointment record.
+     * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes to the
+     * appointment record.
      * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
      * @param \EA\Engine\Types\Text $icsStream Stream contents of the ICS file.
+     * @param string|null $timezone Custom timezone for the notification.
+     *
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function sendAppointmentDetails(
         array $appointment,
         array $provider,
         array $service,
         array $customer,
-        array $company,
+        array $settings,
         Text $title,
         Text $message,
         Url $appointmentLink,
         EmailAddress $recipientEmail,
-        Text $icsStream
-    ) {
+        Text $icsStream,
+        $timezone = NULL
+    )
+    {
         $framework = get_instance();
 
         $timezones = $framework->timezones->to_array();
 
-        switch ($company['date_format'])
+        switch ($settings['date_format'])
         {
             case 'DMY':
                 $date_format = 'd/m/Y';
@@ -102,19 +112,30 @@ class Email {
                 $date_format = 'Y/m/d';
                 break;
             default:
-                throw new \Exception('Invalid date_format value: ' . $company['date_format']);
+                throw new Exception('Invalid date_format value: ' . $settings['date_format']);
         }
 
-        switch ($company['time_format'])
+        switch ($settings['time_format'])
         {
             case 'military':
-                $timeFormat = 'H:i';
+                $time_format = 'H:i';
                 break;
             case 'regular':
-                $timeFormat = 'g:i A';
+                $time_format = 'g:i A';
                 break;
             default:
-                throw new \Exception('Invalid time_format value: ' . $company['time_format']);
+                throw new Exception('Invalid time_format value: ' . $settings['time_format']);
+        }
+
+        $appointment_timezone = new DateTimeZone($provider['timezone']);
+        $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
+        $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
+
+        if ($timezone && $timezone !== $provider['timezone'])
+        {
+            $appointment_timezone = new DateTimeZone($timezone);
+            $appointment_start->setTimezone($appointment_timezone);
+            $appointment_end->setTimezone($appointment_timezone);
         }
 
         // Prepare template replace array.
@@ -122,12 +143,12 @@ class Email {
         $email_message = $message->get();
         $appointment_service = $service['name'];
         $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
-        $appointment_start_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime']));
-        $appointment_end_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['end_datetime']));
-        $appointment_timezone = $timezones[$provider['timezone']];
+        $appointment_start_date = $appointment_start->format($date_format . ' ' . $time_format);
+        $appointment_end_date = $appointment_end->format($date_format . ' ' . $time_format);
+        $appointment_timezone = $timezones[empty($timezone) ? $provider['timezone'] : $timezone];
         $appointment_link = $appointmentLink->get();
-        $company_link = $company['company_link'];
-        $company_name = $company['company_name'];
+        $company_link = $settings['company_link'];
+        $company_name = $settings['company_name'];
         $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
         $customer_email = $customer['email'];
         $customer_phone = $customer['phone_number'];
@@ -137,9 +158,9 @@ class Email {
         require __DIR__ . '/../../application/views/emails/appointment_details.php';
         $html = ob_get_clean();
 
-        $mailer = $this->_createMailer();
-        $mailer->From = $company['company_email'];
-        $mailer->FromName = $company['company_name'];
+        $mailer = $this->create_mailer();
+        $mailer->From = $settings['company_email'];
+        $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipientEmail->get());
         $mailer->Subject = $title->get();
         $mailer->Body = $html;
@@ -147,7 +168,7 @@ class Email {
 
         if ( ! $mailer->Send())
         {
-            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
+            throw new RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
                 . $mailer->ErrorInfo);
         }
     }
@@ -165,26 +186,31 @@ class Email {
      * @param array $provider The record data of the appointment provider.
      * @param array $service The record data of the appointment service.
      * @param array $customer The record data of the appointment customer.
-     * @param array $company Some settings that are required for this function. By now this array must contain
+     * @param array $settings Some settings that are required for this function. As of now this array must contain
      * the following values: "company_link", "company_name", "company_email".
      * @param \EA\Engine\Types\Email $recipientEmail The email address of the email recipient.
      * @param \EA\Engine\Types\Text $reason The reason why the appointment is deleted.
+     * @param string|null $timezone Custom timezone.
+     *
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     public function sendDeleteAppointment(
         array $appointment,
         array $provider,
         array $service,
         array $customer,
-        array $company,
+        array $settings,
         EmailAddress $recipientEmail,
-        Text $reason
-    ) {
+        Text $reason,
+        $timezone = NULL
+    )
+    {
         $framework = get_instance();
 
 
         $timezones = $framework->timezones->to_array();
 
-        switch ($company['date_format'])
+        switch ($settings['date_format'])
         {
             case 'DMY':
                 $date_format = 'd/m/Y';
@@ -196,29 +222,38 @@ class Email {
                 $date_format = 'Y/m/d';
                 break;
             default:
-                throw new \Exception('Invalid date_format value: ' . $company['date_format']);
+                throw new Exception('Invalid date_format value: ' . $settings['date_format']);
         }
 
-        switch ($company['time_format'])
+        switch ($settings['time_format'])
         {
             case 'military':
-                $timeFormat = 'H:i';
+                $time_format = 'H:i';
                 break;
             case 'regular':
-                $timeFormat = 'g:i A';
+                $time_format = 'g:i A';
                 break;
             default:
-                throw new \Exception('Invalid time_format value: ' . $company['time_format']);
+                throw new Exception('Invalid time_format value: ' . $settings['time_format']);
+        }
+
+        $appointment_timezone = new DateTimeZone($provider['timezone']);
+        $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
+
+        if ($timezone && $timezone !== $provider['timezone'])
+        {
+            $appointment_timezone = new DateTimeZone($timezone);
+            $appointment_start->setTimezone($appointment_timezone);
         }
 
         // Prepare email template data.
         $appointment_service = $service['name'];
         $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
-        $appointment_date = date($date_format . ' ' . $timeFormat, strtotime($appointment['start_datetime']));
+        $appointment_date = $appointment_start->format($date_format . ' ' . $time_format);
         $appointment_duration = $service['duration'] . ' ' . $this->framework->lang->line('minutes');
-        $appointment_timezone = $timezones[$provider['timezone']];
-        $company_link = $company['company_link'];
-        $company_name = $company['company_name'];
+        $appointment_timezone = $timezones[empty($timezone) ? $provider['timezone'] : $timezone];
+        $company_link = $settings['company_link'];
+        $company_name = $settings['company_name'];
         $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
         $customer_email = $customer['email'];
         $customer_phone = $customer['phone_number'];
@@ -229,18 +264,18 @@ class Email {
         require __DIR__ . '/../../application/views/emails/delete_appointment.php';
         $html = ob_get_clean();
 
-        $mailer = $this->_createMailer();
+        $mailer = $this->create_mailer();
 
         // Send email to recipient.
-        $mailer->From = $company['company_email'];
-        $mailer->FromName = $company['company_name'];
+        $mailer->From = $settings['company_email'];
+        $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
         $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
         $mailer->Body = $html;
 
         if ( ! $mailer->Send())
         {
-            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
+            throw new RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
                 . $mailer->ErrorInfo);
         }
     }
@@ -265,7 +300,7 @@ class Email {
         require __DIR__ . '/../../application/views/emails/new_password.php';
         $html = ob_get_clean();
 
-        $mailer = $this->_createMailer();
+        $mailer = $this->create_mailer();
 
         $mailer->From = $company['company_email'];
         $mailer->FromName = $company['company_name'];
@@ -275,7 +310,7 @@ class Email {
 
         if ( ! $mailer->Send())
         {
-            throw new \RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
+            throw new RuntimeException('Email could not been sent. Mailer Error (Line ' . __LINE__ . '): '
                 . $mailer->ErrorInfo);
         }
     }
@@ -285,7 +320,7 @@ class Email {
      *
      * @return PHPMailer
      */
-    protected function _createMailer()
+    protected function create_mailer()
     {
         $mailer = new PHPMailer();
 
