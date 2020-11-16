@@ -83,7 +83,7 @@ class Providers extends API_V1_Controller {
         {
             // Insert the provider to the database.
             $request = new Request();
-            $provider = $request->getBody();
+            $provider = $request->get_body();
             $this->parser->decode($provider);
 
             if (isset($provider['id']))
@@ -123,7 +123,7 @@ class Providers extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updated_provider = $request->getBody();
+            $updated_provider = $request->get_body();
             $base_provider = $batch[0];
             $this->parser->decode($updated_provider, $base_provider);
             $updated_provider['id'] = $id;

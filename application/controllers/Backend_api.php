@@ -431,7 +431,7 @@ class Backend_api extends EA_Controller {
 
                 if ((bool)$send_provider === TRUE)
                 {
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($provider['email']),
                         new Text($this->input->post('delete_reason')));
                 }
@@ -440,7 +440,7 @@ class Backend_api extends EA_Controller {
 
                 if ((bool)$send_customer === TRUE)
                 {
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($customer['email']),
                         new Text($this->input->post('delete_reason')));
                 }
@@ -455,7 +455,7 @@ class Backend_api extends EA_Controller {
                         continue;
                     }
 
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($admin['email']),
                         new Text($this->input->post('cancel_reason')));
                 }
@@ -475,7 +475,7 @@ class Backend_api extends EA_Controller {
                         continue;
                     }
 
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($secretary['email']),
                         new Text($this->input->post('cancel_reason')));
                 }

@@ -150,7 +150,7 @@ class API_V1_Controller extends EA_Controller {
         ];
 
         $header = $exception instanceof \EA\Engine\Api\V1\Exception
-            ? $exception->getCode() . ' ' . $exception->getHeader()
+            ? $exception->getCode() . ' ' . $exception->get_header()
             : '500 Internal Server Error';
 
         header('HTTP/1.0 ' . $header);

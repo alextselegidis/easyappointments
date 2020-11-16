@@ -51,7 +51,7 @@ class Exception extends \Exception {
      *
      * @return string
      */
-    public function getHeader()
+    public function get_header()
     {
         return $this->header;
     }

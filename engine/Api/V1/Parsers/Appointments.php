@@ -28,7 +28,7 @@ class Appointments implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'book' => $response['book_datetime'],
             'start' => $response['start_datetime'],
@@ -44,26 +44,26 @@ class Appointments implements ParsersInterface {
 
         if (isset($response['provider']))
         {
-            $providerParser = new Providers();
-            $providerParser->encode($response['provider']);
-            $encodedResponse['provider'] = $response['provider'];
+            $provider_parser = new Providers();
+            $provider_parser->encode($response['provider']);
+            $encoded_response['provider'] = $response['provider'];
         }
 
         if (isset($response['customer']))
         {
-            $customerParser = new Customers();
-            $customerParser->encode($response['customer']);
-            $encodedResponse['customer'] = $response['customer'];
+            $customer_parser = new Customers();
+            $customer_parser->encode($response['customer']);
+            $encoded_response['customer'] = $response['customer'];
         }
 
         if (isset($response['service']))
         {
-            $serviceParser = new Services();
-            $serviceParser->encode($response['service']);
-            $encodedResponse['service'] = $response['service'];
+            $service_parser = new Services();
+            $service_parser->encode($response['service']);
+            $encoded_response['service'] = $response['service'];
         }
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**
@@ -74,65 +74,65 @@ class Appointments implements ParsersInterface {
      */
     public function decode(array &$request, array $base = NULL)
     {
-        $decodedRequest = $base ?: [];
+        $decoded_request = $base ?: [];
 
         if ( ! empty($request['id']))
         {
-            $decodedRequest['id'] = $request['id'];
+            $decoded_request['id'] = $request['id'];
         }
 
         if ( ! empty($request['book']))
         {
-            $decodedRequest['book_datetime'] = $request['book'];
+            $decoded_request['book_datetime'] = $request['book'];
         }
 
         if ( ! empty($request['start']))
         {
-            $decodedRequest['start_datetime'] = $request['start'];
+            $decoded_request['start_datetime'] = $request['start'];
         }
 
         if ( ! empty($request['end']))
         {
-            $decodedRequest['end_datetime'] = $request['end'];
+            $decoded_request['end_datetime'] = $request['end'];
         }
 
         if ( ! empty($request['hash']))
         {
-            $decodedRequest['hash'] = $request['hash'];
+            $decoded_request['hash'] = $request['hash'];
         }
 
         if ( ! empty($request['location']))
         {
-            $decodedRequest['location'] = $request['location'];
+            $decoded_request['location'] = $request['location'];
         }
 
         if ( ! empty($request['notes']))
         {
-            $decodedRequest['notes'] = $request['notes'];
+            $decoded_request['notes'] = $request['notes'];
         }
 
         if ( ! empty($request['customerId']))
         {
-            $decodedRequest['id_users_customer'] = $request['customerId'];
+            $decoded_request['id_users_customer'] = $request['customerId'];
         }
 
         if ( ! empty($request['providerId']))
         {
-            $decodedRequest['id_users_provider'] = $request['providerId'];
+            $decoded_request['id_users_provider'] = $request['providerId'];
         }
 
         if ( ! empty($request['serviceId']))
         {
-            $decodedRequest['id_services'] = $request['serviceId'];
+            $decoded_request['id_services'] = $request['serviceId'];
         }
 
         if ( ! empty($request['googleCalendarId']))
         {
-            $decodedRequest['id_google_calendar'] = $request['googleCalendarId'];
+            $decoded_request['id_google_calendar'] = $request['googleCalendarId'];
         }
 
-        $decodedRequest['is_unavailable'] = FALSE;
+        $decoded_request['is_unavailable'] = FALSE;
 
-        $request = $decodedRequest;
+        $request = $decoded_request;
     }
 }

@@ -13,7 +13,9 @@
 
 namespace EA\Engine\Api\V1;
 
-use \EA\Engine\Types\NonEmptyText;
+use CI_Controller;
+use EA\Engine\Types\NonEmptyText;
+use EA_Controller;
 
 /**
  * API v1 Authorization Class
@@ -26,18 +28,18 @@ class Authorization {
     /**
      * Framework Instance
      *
-     * @var CI_Controller
+     * @var EA_Controller
      */
-    protected $framework;
+    protected $CI;
 
     /**
      * Class Constructor
      *
-     * @param \CI_Controller $framework
+     * @param CI_Controller $CI
      */
-    public function __construct(\CI_Controller $framework)
+    public function __construct(EA_Controller $CI)
     {
-        $this->framework = $framework;
+        $this->CI = $CI;
     }
 
     /**
@@ -50,9 +52,9 @@ class Authorization {
      */
     public function basic(NonEmptyText $username, NonEmptyText $password)
     {
-        $this->framework->load->model('user_model');
+        $this->CI->load->model('user_model');
 
-        if ( ! $this->framework->user_model->check_login($username->get(), $password->get()))
+        if ( ! $this->CI->user_model->check_login($username->get(), $password->get()))
         {
             throw new Exception('The provided credentials do not match any admin user!', 401, 'Unauthorized');
         }

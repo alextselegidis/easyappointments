@@ -83,7 +83,7 @@ class Admins extends API_V1_Controller {
         {
             // Insert the admin to the database.
             $request = new Request();
-            $admin = $request->getBody();
+            $admin = $request->get_body();
             $this->parser->decode($admin);
 
             if (isset($admin['id']))
@@ -123,7 +123,7 @@ class Admins extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updatedAdmin = $request->getBody();
+            $updatedAdmin = $request->get_body();
             $baseAdmin = $batch[0];
             $this->parser->decode($updatedAdmin, $baseAdmin);
             $updatedAdmin['id'] = $id;

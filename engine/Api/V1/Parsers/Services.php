@@ -28,7 +28,7 @@ class Services implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'name' => $response['name'],
             'duration' => (int)$response['duration'],
@@ -41,7 +41,7 @@ class Services implements ParsersInterface {
             'categoryId' => $response['id_service_categories'] !== NULL ? (int)$response['id_service_categories'] : NULL
         ];
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**
@@ -52,58 +52,58 @@ class Services implements ParsersInterface {
      */
     public function decode(array &$request, array $base = NULL)
     {
-        $decodedRequest = $base ?: [];
+        $decoded_request = $base ?: [];
 
         if ( ! empty($request['id']))
         {
-            $decodedRequest['id'] = $request['id'];
+            $decoded_request['id'] = $request['id'];
         }
 
         if ( ! empty($request['name']))
         {
-            $decodedRequest['name'] = $request['name'];
+            $decoded_request['name'] = $request['name'];
         }
 
         if ( ! empty($request['duration']))
         {
-            $decodedRequest['duration'] = $request['duration'];
+            $decoded_request['duration'] = $request['duration'];
         }
 
         if ( ! empty($request['price']))
         {
-            $decodedRequest['price'] = $request['price'];
+            $decoded_request['price'] = $request['price'];
         }
 
         if ( ! empty($request['currency']))
         {
-            $decodedRequest['currency'] = $request['currency'];
+            $decoded_request['currency'] = $request['currency'];
         }
 
         if ( ! empty($request['description']))
         {
-            $decodedRequest['description'] = $request['description'];
+            $decoded_request['description'] = $request['description'];
         }
 
         if ( ! empty($request['location']))
         {
-            $decodedRequest['location'] = $request['location'];
+            $decoded_request['location'] = $request['location'];
         }
 
         if ( ! empty($request['availabilitiesType']))
         {
-            $decodedRequest['availabilities_type'] = $request['availabilitiesType'];
+            $decoded_request['availabilities_type'] = $request['availabilitiesType'];
         }
 
         if ( ! empty($request['attendantsNumber']))
         {
-            $decodedRequest['attendants_number'] = $request['attendantsNumber'];
+            $decoded_request['attendants_number'] = $request['attendantsNumber'];
         }
 
         if ( ! empty($request['categoryId']))
         {
-            $decodedRequest['id_service_categories'] = $request['categoryId'];
+            $decoded_request['id_service_categories'] = $request['categoryId'];
         }
 
-        $request = $decodedRequest;
+        $request = $decoded_request;
     }
 }

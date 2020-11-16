@@ -89,7 +89,7 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $customer_title,
                     $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream), $customer['timezone']);
             }
@@ -100,7 +100,7 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $provider_title,
                     $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream), $provider['timezone']);
             }
@@ -115,7 +115,7 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $provider_title,
                     $provider_message, $provider_link, new Email($admin['email']), new Text($ics_stream), $admin['timezone']);
             }
@@ -135,7 +135,7 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $provider_title,
                     $provider_message, $provider_link, new Email($secretary['email']), new Text($ics_stream), $secretary['timezone']);
             }
@@ -168,7 +168,7 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($provider['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }
@@ -179,7 +179,7 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($customer['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }
@@ -194,7 +194,7 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($admin['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }
@@ -214,7 +214,7 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($secretary['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }

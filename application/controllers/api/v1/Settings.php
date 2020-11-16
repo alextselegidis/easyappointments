@@ -102,7 +102,7 @@ class Settings extends API_V1_Controller {
         try
         {
             $request = new Request();
-            $value = $request->getBody()['value'];
+            $value = $request->get_body()['value'];
             $this->settings_model->set_setting($name, $value);
 
             // Fetch the updated object from the database and return it to the client.

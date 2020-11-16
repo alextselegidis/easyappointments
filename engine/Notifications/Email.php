@@ -74,15 +74,15 @@ class Email {
      * "company_email" values are required in the array.
      * @param \EA\Engine\Types\Text $title The email title may vary depending the receiver.
      * @param \EA\Engine\Types\Text $message The email message may vary depending the receiver.
-     * @param \EA\Engine\Types\Url $appointmentLink This link is going to enable the receiver to make changes to the
-     * appointment record.
-     * @param \EA\Engine\Types\Email $recipientEmail The recipient email address.
-     * @param \EA\Engine\Types\Text $icsStream Stream contents of the ICS file.
+     * @param \EA\Engine\Types\Url $appointment_link_address This link is going to enable the receiver to make changes
+     * to the appointment record.
+     * @param \EA\Engine\Types\Email $recipient_email The recipient email address.
+     * @param \EA\Engine\Types\Text $ics_stream Stream contents of the ICS file.
      * @param string|null $timezone Custom timezone for the notification.
      *
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function sendAppointmentDetails(
+    public function send_appointment_details(
         array $appointment,
         array $provider,
         array $service,
@@ -90,9 +90,9 @@ class Email {
         array $settings,
         Text $title,
         Text $message,
-        Url $appointmentLink,
-        EmailAddress $recipientEmail,
-        Text $icsStream,
+        Url $appointment_link_address,
+        EmailAddress $recipient_email,
+        Text $ics_stream,
         $timezone = NULL
     )
     {
@@ -146,7 +146,7 @@ class Email {
         $appointment_start_date = $appointment_start->format($date_format . ' ' . $time_format);
         $appointment_end_date = $appointment_end->format($date_format . ' ' . $time_format);
         $appointment_timezone = $timezones[empty($timezone) ? $provider['timezone'] : $timezone];
-        $appointment_link = $appointmentLink->get();
+        $appointment_link = $appointment_link_address->get();
         $company_link = $settings['company_link'];
         $company_name = $settings['company_name'];
         $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
@@ -161,10 +161,10 @@ class Email {
         $mailer = $this->create_mailer();
         $mailer->From = $settings['company_email'];
         $mailer->FromName = $settings['company_name'];
-        $mailer->AddAddress($recipientEmail->get());
+        $mailer->AddAddress($recipient_email->get());
         $mailer->Subject = $title->get();
         $mailer->Body = $html;
-        $mailer->addStringAttachment($icsStream->get(), 'invitation.ics');
+        $mailer->addStringAttachment($ics_stream->get(), 'invitation.ics');
 
         if ( ! $mailer->Send())
         {
@@ -188,19 +188,19 @@ class Email {
      * @param array $customer The record data of the appointment customer.
      * @param array $settings Some settings that are required for this function. As of now this array must contain
      * the following values: "company_link", "company_name", "company_email".
-     * @param \EA\Engine\Types\Email $recipientEmail The email address of the email recipient.
+     * @param \EA\Engine\Types\Email $recipient_email The email address of the email recipient.
      * @param \EA\Engine\Types\Text $reason The reason why the appointment is deleted.
      * @param string|null $timezone Custom timezone.
      *
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function sendDeleteAppointment(
+    public function send_delete_appointment(
         array $appointment,
         array $provider,
         array $service,
         array $customer,
         array $settings,
-        EmailAddress $recipientEmail,
+        EmailAddress $recipient_email,
         Text $reason,
         $timezone = NULL
     )
@@ -269,7 +269,7 @@ class Email {
         // Send email to recipient.
         $mailer->From = $settings['company_email'];
         $mailer->FromName = $settings['company_name'];
-        $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
+        $mailer->AddAddress($recipient_email->get()); // "Name" argument crushes the phpmailer class.
         $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
         $mailer->Body = $html;
 
@@ -286,8 +286,10 @@ class Email {
      * @param \EA\Engine\Types\NonEmptyText $password Contains the new password.
      * @param \EA\Engine\Types\Email $recipientEmail The receiver's email address.
      * @param array $company The company settings to be included in the email.
+     *
+     * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function sendPassword(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
+    public function send_password(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
     {
         $email_title = $this->framework->lang->line('new_account_password');
         $password = '<strong>' . $password->get() . '</strong>';

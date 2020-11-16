@@ -83,7 +83,7 @@ class Secretaries extends API_V1_Controller {
         {
             // Insert the secretary to the database.
             $request = new Request();
-            $secretary = $request->getBody();
+            $secretary = $request->get_body();
             $this->parser->decode($secretary);
 
             if (isset($secretary['id']))
@@ -123,7 +123,7 @@ class Secretaries extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updated_secretary = $request->getBody();
+            $updated_secretary = $request->get_body();
             $base_secretary = $batch[0];
             $this->parser->decode($updated_secretary, $base_secretary);
             $updated_secretary['id'] = $id;

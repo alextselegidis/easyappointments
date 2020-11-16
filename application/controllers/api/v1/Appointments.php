@@ -97,7 +97,7 @@ class Appointments extends API_V1_Controller {
         {
             // Insert the appointment to the database.
             $request = new Request();
-            $appointment = $request->getBody();
+            $appointment = $request->get_body();
             $this->parser->decode($appointment);
 
             if (isset($appointment['id']))
@@ -164,7 +164,7 @@ class Appointments extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updated_appointment = $request->getBody();
+            $updated_appointment = $request->get_body();
             $base_appointment = $batch[0];
             $this->parser->decode($updated_appointment, $base_appointment);
             $updated_appointment['id'] = $id;

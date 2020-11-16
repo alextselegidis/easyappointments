@@ -83,7 +83,7 @@ class Services extends API_V1_Controller {
         {
             // Insert the service to the database.
             $request = new Request();
-            $service = $request->getBody();
+            $service = $request->get_body();
             $this->parser->decode($service);
 
             if (isset($service['id']))
@@ -123,7 +123,7 @@ class Services extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updated_service = $request->getBody();
+            $updated_service = $request->get_body();
             $base_service = $batch[0];
             $this->parser->decode($updated_service, $base_service);
             $updated_service['id'] = $id;

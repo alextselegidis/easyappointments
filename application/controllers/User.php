@@ -204,7 +204,7 @@ class User extends EA_Controller {
                     'company_email' => $this->settings_model->get_setting('company_email')
                 ];
 
-                $email->sendPassword(new NonEmptyText($new_password), new Email($this->input->post('email')),
+                $email->send_password(new NonEmptyText($new_password), new Email($this->input->post('email')),
                     $company_settings);
             }
 

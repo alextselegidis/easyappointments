@@ -30,7 +30,7 @@ class Paginate implements ProcessorsInterface {
      * Process Response Array
      *
      * Example:
-     *   http://ea-installation.com/api/v1/appointments?page=3&length=30
+     *   http://example.org/api/v1/appointments?page=3&length=30
      *
      * @param array &$response The response array to be processed.
      */

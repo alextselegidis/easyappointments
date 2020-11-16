@@ -314,7 +314,9 @@ class Services_model extends EA_Model {
     /**
      * Get all, or specific records from service's table.
      *
-     * @example $this->Model->getBatch('id = ' . $recordId);
+     * Example:
+     *
+     * $this->model->get_batch(['id' => $record_id]);
      *
      * @param mixed $where
      * @param mixed $order_by

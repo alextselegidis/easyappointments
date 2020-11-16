@@ -83,7 +83,7 @@ class Unavailabilities extends API_V1_Controller {
         {
             // Insert the appointment to the database.
             $request = new Request();
-            $unavailability = $request->getBody();
+            $unavailability = $request->get_body();
             $this->parser->decode($unavailability);
 
             if (isset($unavailability['id']))
@@ -123,7 +123,7 @@ class Unavailabilities extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updatedUnavailability = $request->getBody();
+            $updatedUnavailability = $request->get_body();
             $baseUnavailability = $batch[0];
             $this->parser->decode($updatedUnavailability, $baseUnavailability);
             $updatedUnavailability['id'] = $id;

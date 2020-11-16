@@ -25,7 +25,7 @@ class Boolean extends Type {
      * @param mixed $value
      * @return bool
      */
-    protected function _validate($value)
+    protected function validate($value)
     {
         return is_bool($value);
     }

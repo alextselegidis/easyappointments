@@ -83,7 +83,7 @@ class Customers extends API_V1_Controller {
         {
             // Insert the customer to the database.
             $request = new Request();
-            $customer = $request->getBody();
+            $customer = $request->get_body();
             $this->parser->decode($customer);
 
             if (isset($customer['id']))
@@ -123,7 +123,7 @@ class Customers extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updated_customer = $request->getBody();
+            $updated_customer = $request->get_body();
             $base_customer = $batch[0];
             $this->parser->decode($updated_customer, $base_customer);
             $updated_customer['id'] = $id;

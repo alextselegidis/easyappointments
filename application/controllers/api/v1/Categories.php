@@ -83,7 +83,7 @@ class Categories extends API_V1_Controller {
         {
             // Insert the category to the database.
             $request = new Request();
-            $category = $request->getBody();
+            $category = $request->get_body();
             $this->parser->decode($category);
 
             if (isset($category['id']))
@@ -123,7 +123,7 @@ class Categories extends API_V1_Controller {
             }
 
             $request = new Request();
-            $updated_category = $request->getBody();
+            $updated_category = $request->get_body();
             $base_category = $batch[0];
             $this->parser->decode($updated_category, $base_category);
             $updated_category['id'] = $id;
