@@ -1245,7 +1245,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                             var calendarDate = calendarView.start.clone();
 
                             while (calendarDate < calendarView.end) {
-                                weekdayName = calendarDate.format('dddd').toLowerCase();
+                                weekdayNumber = parseInt(calendarDate.format('d'))
+                                weekdayName = GeneralFunctions.getWeekdayName(weekdayNumber);
                                 weekdayDate = calendarDate.format('YYYY-MM-DD');
 
                                 // Add working plan exception event.
