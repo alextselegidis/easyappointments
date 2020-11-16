@@ -332,7 +332,14 @@ class Providers_model extends EA_Model {
             if ($name === 'working_plan_exceptions')
             {
                 $value = json_decode($value, TRUE);
+
+                if (!$value)
+                {
+                    $value = [];
+                }
+
                 krsort($value);
+
                 $value = json_encode($value);
             }
 
