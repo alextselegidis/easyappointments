@@ -16,32 +16,9 @@
  *
  * Handles user consent related operations.
  *
- * @property CI_Session $session
- * @property CI_Loader $load
- * @property CI_Input $input
- * @property CI_Output $output
- * @property CI_Config $config
- * @property CI_Lang $lang
- * @property CI_Cache $cache
- * @property CI_DB_query_builder $db
- * @property CI_Security $security
- * @property Google_Sync $google_sync
- * @property Ics_file $ics_file
- * @property Appointments_model $appointments_model
- * @property Providers_model $providers_model
- * @property Services_model $services_model
- * @property Customers_model $customers_model
- * @property Consents_Model consents_model
- * @property Settings_model $settings_model
- * @property Timezones $timezones
- * @property Roles_model $roles_model
- * @property Secretaries_model $secretaries_model
- * @property Admins_model $admins_model
- * @property User_model $user_model
- *
  * @package Controllers
  */
-class Consents extends CI_Controller {
+class Consents extends EA_Controller {
     /**
      * Save the user's consent.
      */

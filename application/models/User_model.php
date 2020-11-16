@@ -16,12 +16,9 @@
  *
  * Contains current user's methods.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class User_model extends CI_Model {
+class User_model extends EA_Model {
     /**
      * User_Model constructor.
      */

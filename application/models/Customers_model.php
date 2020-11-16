@@ -14,12 +14,9 @@
 /**
  * Customers Model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Customers_model extends CI_Model {
+class Customers_model extends EA_Model {
     /**
      * Customers_Model constructor.
      */

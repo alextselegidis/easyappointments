@@ -22,7 +22,7 @@ use EA\Engine\Types\NonEmptyText;
  *
  * @package Controllers
  */
-class API_V1_Controller extends CI_Controller {
+class API_V1_Controller extends EA_Controller {
     /**
      * Class Constructor
      *

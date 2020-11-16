@@ -14,12 +14,9 @@
 /**
  * Services Model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Services_model extends CI_Model {
+class Services_model extends EA_Model {
     /**
      * Services_Model constructor.
      */

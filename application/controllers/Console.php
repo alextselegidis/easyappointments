@@ -17,11 +17,8 @@ require_once __DIR__ .'/Google.php';
  * Class Console
  *
  * CLI commands of Easy!Appointments, can only be executed from a terminal and not with a direct request.
- *
- * @property CI_Migration $migration
- * @property Providers_model $providers_model
  */
-class Console extends CI_Controller {
+class Console extends EA_Controller {
     /**
      * Console constructor.
      */

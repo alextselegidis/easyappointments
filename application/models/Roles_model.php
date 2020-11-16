@@ -14,12 +14,9 @@
 /**
  * Roles Model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Roles_model extends CI_Model {
+class Roles_model extends EA_Model {
     /**
      * Get the record id of a particular role.
      *

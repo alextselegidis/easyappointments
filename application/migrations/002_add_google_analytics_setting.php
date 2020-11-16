@@ -13,11 +13,8 @@
 
 /**
  * Class Migration_Add_google_analytics_setting
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge dbforge
  */
-class Migration_Add_google_analytics_setting extends CI_Migration {
+class Migration_Add_google_analytics_setting extends EA_Migration {
     /**
      * Upgrade method.
      *

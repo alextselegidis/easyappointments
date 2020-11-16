@@ -23,7 +23,7 @@ use EA\Engine\Types\Url;
  */
 class Notifications {
     /**
-     * @var CI_Controller
+     * @var EA_Controller
      */
     protected $CI;
 

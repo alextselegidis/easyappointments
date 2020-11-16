@@ -16,12 +16,9 @@
  *
  * Handles the db actions that have to do with secretaries.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Secretaries_model extends CI_Model {
+class Secretaries_model extends EA_Model {
     /**
      * Secretaries_Model constructor.
      */

@@ -16,12 +16,9 @@
  *
  * Handles the database actions for admin users management.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Admins_model extends CI_Model {
+class Admins_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();

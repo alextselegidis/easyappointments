@@ -13,11 +13,8 @@
 
 /**
  * Class Migration_Create_appointment_location_column
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge dbforge
  */
-class Migration_Create_appointment_location_column extends CI_Migration {
+class Migration_Create_appointment_location_column extends EA_Migration {
     /**
      * Upgrade method.
      */

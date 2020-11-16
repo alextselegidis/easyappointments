@@ -14,12 +14,9 @@
 /**
  * Appointments Model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Appointments_model extends CI_Model {
+class Appointments_model extends EA_Model {
     /**
      * Appointments_Model constructor.
      */

@@ -16,12 +16,9 @@
  *
  * Contains the database operations for the service provider users of Easy!Appointments.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Providers_model extends CI_Model {
+class Providers_model extends EA_Model {
     /**
      * Providers_Model constructor.
      */

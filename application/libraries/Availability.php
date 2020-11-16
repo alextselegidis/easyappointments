@@ -19,7 +19,7 @@
  */
 class Availability {
     /**
-     * @var CI_Controller
+     * @var EA_Controller
      */
     protected $CI;
 
