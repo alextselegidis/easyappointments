@@ -413,31 +413,37 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         });
 
         // Create providers and service filters.
-        if (GlobalVariables.user.role_slug !== Backend.DB_SLUG_PROVIDER) {
-            $('<label/>', {
-                'text': EALang.provider
-            })
-                .appendTo($calendarHeader);
+        $('<label/>', {
+            'text': EALang.provider
+        })
+            .appendTo($calendarHeader);
 
-            $filterProvider = $('<select/>', {
-                'id': 'filter-provider',
-                'multiple': 'multiple',
-                'on': {
-                    'change': function () {
-                        var startDate = new Date($('.calendar-view .date-column:first').data('date'));
-                        var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-date').val()) - 1});
-                        createView(startDate, endDate);
-                    }
+        $filterProvider = $('<select/>', {
+            'id': 'filter-provider',
+            'multiple': 'multiple',
+            'on': {
+                'change': function () {
+                    var startDate = new Date($('.calendar-view .date-column:first').data('date'));
+                    var endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-date').val()) - 1});
+                    createView(startDate, endDate);
                 }
-            })
-                .appendTo($calendarHeader);
+            }
+        })
+            .appendTo($calendarHeader);
 
+        if (GlobalVariables.user.role_slug !== Backend.DB_SLUG_PROVIDER) {
             providers.forEach(function (provider) {
                 $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             });
-
-            $filterProvider.select2();
+        } else {
+            providers.forEach(function (provider) {
+                if (Number(provider.id) === Number(GlobalVariables.user.id)) {
+                    $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+                }
+            });
         }
+
+        $filterProvider.select2();
 
         var services = GlobalVariables.availableServices.filter(function (service) {
             var provider = providers.find(function (provider) {
