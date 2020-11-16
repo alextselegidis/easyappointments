@@ -13,8 +13,11 @@
 
 /**
  * Class Migration_Add_language_to_users
+ *
+ * @property CI_DB_query_builder $db
+ * @property CI_DB_forge $dbforge
  */
-class Migration_Add_language_to_users extends EA_Migration {
+class Migration_Add_language_to_users extends CI_Migration {
     /**
      * Upgrade method.
      */

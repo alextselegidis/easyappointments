@@ -16,8 +16,11 @@
  *
  * Notice: This first migration got altered to include the creation of the initial database structure so that external
  * SQL are not required.
+ *
+ * @property CI_DB_query_builder $db
+ * @property CI_DB_forge $dbforge
  */
-class Migration_Specific_calendar_sync extends EA_Migration {
+class Migration_Specific_calendar_sync extends CI_Migration {
     /**
      * Upgrade method.
      */

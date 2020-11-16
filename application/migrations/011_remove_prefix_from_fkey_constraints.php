@@ -13,8 +13,11 @@
 
 /**
  * Class Migration_Remove_prefix_from_foreign_keys
+ *
+ * @property CI_DB_query_builder $db
+ * @property CI_DB_forge $dbforge
  */
-class Migration_Remove_prefix_from_fkey_constraints extends EA_Migration {
+class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
     /**
      * Upgrade method.
      */

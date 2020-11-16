@@ -13,8 +13,11 @@
 
 /**
  * Class Migration_Add_calendar_view_setting
+ *
+ * @property CI_DB_query_builder $db
+ * @property CI_DB_forge $dbforge
  */
-class Migration_Add_calendar_view_setting extends EA_Migration {
+class Migration_Add_calendar_view_setting extends CI_Migration {
     /**
      * Upgrade method.
      */
