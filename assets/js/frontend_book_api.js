@@ -229,6 +229,10 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             return;
         }
 
+        if (!providerId || !serviceId) {
+            return;
+        }
+
         var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : null;
 
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
