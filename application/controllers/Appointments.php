@@ -284,7 +284,6 @@ class Appointments extends EA_Controller {
         unset($appointment['notes']);
 
         $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-        unset($provider['settings'], $provider['notes']);
 
         $service = $this->services_model->get_row($appointment['id_services']);
 
@@ -295,7 +294,13 @@ class Appointments extends EA_Controller {
 
         $view = [
             'appointment_data' => $appointment,
-            'provider_data' => $provider,
+            'provider_data' => [
+                'id' => $provider['id'],
+                'first_name' => $provider['first_name'],
+                'last_name' => $provider['last_name'],
+                'email' => $provider['email'],
+                'timezone' => $provider['timezone'],
+            ],
             'service_data' => $service,
             'company_name' => $company_name,
         ];
