@@ -342,22 +342,29 @@ class Availability {
         ]);
 
         $working_plan = json_decode($provider['settings']['working_plan'], TRUE);
+        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
         $working_day = strtolower(date('l', strtotime($date)));
-        $working_hours = $working_plan[$working_day];
+        $date_working_plan = $working_plan[$working_day];
 
-        if ( ! $working_hours)
+        // Search if the $date is an custom availability period added outside the normal working plan.
+        if (isset($working_plan_exceptions[$date]))
+        {
+            $date_working_plan = $working_plan_exceptions[$date];
+        }
+
+        if ( ! $date_working_plan)
         {
             return [];
         }
 
         $periods = [
             [
-                'start' => new DateTime($date . ' ' . $working_hours['start']),
-                'end' => new DateTime($date . ' ' . $working_hours['end'])
+                'start' => new DateTime($date . ' ' . $date_working_plan['start']),
+                'end' => new DateTime($date . ' ' . $date_working_plan['end'])
             ]
         ];
 
-        $periods = $this->remove_breaks($date, $periods, $working_hours['breaks']);
+        $periods = $this->remove_breaks($date, $periods, $date_working_plan['breaks']);
         $periods = $this->remove_unavailability_events($periods, $unavailability_events);
 
         $hours = [];
