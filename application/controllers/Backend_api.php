@@ -295,6 +295,7 @@ class Backend_api extends EA_Controller {
                 }
 
                 $manage_mode = isset($appointment['id']);
+
                 // If the appointment does not contain the customer record id, then it means that is is going to be
                 // inserted. Get the customer's record ID.
                 if ( ! isset($appointment['id_users_customer']))
@@ -328,8 +329,8 @@ class Backend_api extends EA_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_deleted($appointment, $provider);
-            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $service, $manage_mode);
+            $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
             $response = AJAX_SUCCESS;
         }
