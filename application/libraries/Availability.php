@@ -106,7 +106,9 @@ class Availability {
 
         // Find the empty spaces on the plan. The first split between the plan is due to a break (if any). After that
         // every reserved appointment is considered to be a taken space in the plan.
-        $date_working_plan = $working_plan[strtolower(date('l', strtotime($date)))];
+        $working_day = strtolower(date('l', strtotime($date)));
+
+        $date_working_plan = $working_plan[$working_day] ?? null;
 
         // Search if the $date is an custom availability period added outside the normal working plan.
         if (isset($working_plan_exceptions[$date]))
@@ -342,9 +344,12 @@ class Availability {
         ]);
 
         $working_plan = json_decode($provider['settings']['working_plan'], TRUE);
+
         $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
+
         $working_day = strtolower(date('l', strtotime($date)));
-        $date_working_plan = $working_plan[$working_day];
+
+        $date_working_plan = $working_plan[$working_day] ?? null;
 
         // Search if the $date is an custom availability period added outside the normal working plan.
         if (isset($working_plan_exceptions[$date]))
