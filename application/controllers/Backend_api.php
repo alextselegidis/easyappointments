@@ -215,6 +215,8 @@ class Backend_api extends EA_Controller {
             }
 
             // Get unavailable periods (only for provider).
+            $response['unavailables'] = [];
+
             if ($this->input->post('filter_type') == FILTER_TYPE_PROVIDER)
             {
                 $where_clause = $where_id . ' = ' . $record_id . '
