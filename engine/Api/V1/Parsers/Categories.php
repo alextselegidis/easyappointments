@@ -28,13 +28,13 @@ class Categories implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'name' => $response['name'],
             'description' => $response['description']
         ];
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**
@@ -45,23 +45,23 @@ class Categories implements ParsersInterface {
      */
     public function decode(array &$request, array $base = NULL)
     {
-        $decodedRequest = $base ?: [];
+        $decoded_request = $base ?: [];
 
         if ( ! empty($request['id']))
         {
-            $decodedRequest['id'] = $request['id'];
+            $decoded_request['id'] = $request['id'];
         }
 
         if ( ! empty($request['name']))
         {
-            $decodedRequest['name'] = $request['name'];
+            $decoded_request['name'] = $request['name'];
         }
 
         if ( ! empty($request['description']))
         {
-            $decodedRequest['description'] = $request['description'];
+            $decoded_request['description'] = $request['description'];
         }
 
-        $request = $decodedRequest;
+        $request = $decoded_request;
     }
 }

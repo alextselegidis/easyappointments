@@ -6,8 +6,8 @@
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
@@ -17,11 +17,8 @@ require_once __DIR__ .'/Google.php';
  * Class Console
  *
  * CLI commands of Easy!Appointments, can only be executed from a terminal and not with a direct request.
- *
- * @property CI_Migration $migration
- * @property Providers_model $providers_model
  */
-class Console extends CI_Controller {
+class Console extends EA_Controller {
     /**
      * Console constructor.
      */

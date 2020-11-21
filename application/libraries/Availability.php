@@ -19,7 +19,7 @@
  */
 class Availability {
     /**
-     * @var CI_Controller
+     * @var EA_Controller
      */
     protected $CI;
 
@@ -79,7 +79,7 @@ class Availability {
      *
      * @throws Exception
      */
-    public function get_available_periods(
+    protected function get_available_periods(
         $date,
         $provider,
         $exclude_appointment_id = NULL
@@ -344,6 +344,11 @@ class Availability {
         $working_plan = json_decode($provider['settings']['working_plan'], TRUE);
         $working_day = strtolower(date('l', strtotime($date)));
         $working_hours = $working_plan[$working_day];
+
+        if ( ! $working_hours)
+        {
+            return [];
+        }
 
         $periods = [
             [

@@ -44,24 +44,24 @@ class Minimize implements ProcessorsInterface {
 
         $fields = explode(',', $_GET['fields']);
 
-        $temporaryResponse = [];
+        $temporary_response = [];
 
         foreach ($response as &$entry)
         {
-            $temporaryEntry = [];
+            $temporary_entry = [];
 
             foreach ($fields as $field)
             {
                 $field = trim($field);
                 if (isset($entry[$field]))
                 {
-                    $temporaryEntry[$field] = $entry[$field];
+                    $temporary_entry[$field] = $entry[$field];
                 }
             }
 
-            $temporaryResponse[] = $temporaryEntry;
+            $temporary_response[] = $temporary_entry;
         }
 
-        $response = $temporaryResponse;
+        $response = $temporary_response;
     }
 }

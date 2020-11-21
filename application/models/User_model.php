@@ -16,12 +16,22 @@
  *
  * Contains current user's methods.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class User_Model extends CI_Model {
+class User_model extends EA_Model {
+    /**
+     * User_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->library('timezones');
+
+        $this->load->helper('general');
+        $this->load->helper('string');
+    }
+
     /**
      * Returns the user from the database for the "settings" page.
      *
@@ -53,7 +63,6 @@ class User_Model extends CI_Model {
         // Prepare user password (hash).
         if (isset($user_settings['password']))
         {
-            $this->load->helper('general');
             $salt = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row()->salt;
             $user_settings['password'] = hash_password($salt, $user_settings['password']);
         }
@@ -81,7 +90,6 @@ class User_Model extends CI_Model {
      */
     public function check_login($username, $password)
     {
-        $this->load->helper('general');
         $salt = $this->get_salt($username);
         $password = hash_password($salt, $password);
 
@@ -108,8 +116,6 @@ class User_Model extends CI_Model {
         {
             return NULL;
         }
-
-        $this->load->library('timezones');
 
         $default_timezone = $this->timezones->get_default_timezone();
 
@@ -167,9 +173,6 @@ class User_Model extends CI_Model {
      */
     public function regenerate_password($username, $email)
     {
-        $this->load->helper('general');
-        $this->load->helper('string');
-
         $result = $this->db
             ->select('users.id')
             ->from('users')

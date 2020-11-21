@@ -27,7 +27,7 @@ class Request {
      *
      * @return array
      */
-    public function getBody()
+    public function get_body()
     {
         return json_decode(file_get_contents('php://input'), TRUE);
     }

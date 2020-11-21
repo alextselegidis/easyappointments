@@ -15,7 +15,7 @@
  * Class Migration_Change_column_types
  *
  * @property CI_DB_query_builder $db
- * @property CI_DB_forge dbforge
+ * @property CI_DB_forge $dbforge
  */
 class Migration_Change_column_types extends CI_Migration {
     /**

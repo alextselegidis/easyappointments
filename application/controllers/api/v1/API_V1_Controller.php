@@ -6,8 +6,8 @@
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
@@ -22,7 +22,7 @@ use EA\Engine\Types\NonEmptyText;
  *
  * @package Controllers
  */
-class API_V1_Controller extends CI_Controller {
+class API_V1_Controller extends EA_Controller {
     /**
      * Class Constructor
      *
@@ -150,7 +150,7 @@ class API_V1_Controller extends CI_Controller {
         ];
 
         $header = $exception instanceof \EA\Engine\Api\V1\Exception
-            ? $exception->getCode() . ' ' . $exception->getHeader()
+            ? $exception->getCode() . ' ' . $exception->get_header()
             : '500 Internal Server Error';
 
         header('HTTP/1.0 ' . $header);

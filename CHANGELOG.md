@@ -3,8 +3,73 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+## [1.4.0] - TBA
+
+### Added
+ 
+- #203: Appointment location / 12-hour format / sync notes and location in Google Calendar.
+- #221: Fixed/Improved sort breaks increasingly by hour within day.
+- #247: Add new system-wide setting for removing the "Any Provider" option of the booking page.
+- #251: Automatically populate the appointment end datetime in API.
+- #301: Automatically reload the backend calendar events.
+- #313: How to set the timezone from the user booking the appointment.
+- #365: Only allow appointments for a few weeks in advance.
+- #431: Add support for working plan exceptions.
+- #471: Add new system-wide setting that enable users to choose the first day of the week.
+- #496: Add pagination on every backend page in order to make filter requests faster.
+- #501: Integrate script for assets minification.
+- #502: Config::DEBUG value toggles the use of normal or minified asset files.
+- #546: Add appointment edit link in the backend customers page.
+- #550: Multi-Lang Front-End selection popup not working on mobile.
+- #551: Front-End booking calendar not syncing with business logic working plan.
+- #572: Ensure the database structure is compatible to at least MySQL 5.5.
+- #576: Appointment cancelled exception not showing properly.
+- #610: Token based authentication for the Rest API.
+- #648: Add a warning when customers delete their personal information.
+- #655: Creating an appointment requires user to enter their phone number enhancement.
+- #659: Automatically detect browser language enhancement.
+- #663: Language selector not working under legacy iOS (v.10.3.1).
+- #680: Generate new password in the generate_random_string function may create duplicate passwords, plus it is not secure enough.
+- #739: Enhance the table view mode by replacing the tables with fullcalendar instances.
+- #770: Store customer's language and use it with notifications or when the customer manages and existing appointment.
+- #889: Notify admins and secretaries on appointment changes.
+
+
+### Changed 
+
+- #386: Service price should be optional.
+- #428: Enable book advance timeout values in days.
+- #568: Sort providers alphabetically in the booking page.
+- #745: Add appointment notes preview in the event popover.
+
+
+### Fixed 
+
+- #171: Google calendar sync - wrong timezone for appointments.
+- #195: Fix Google calendar sync activation error (JavaScript).
+- #298: Provider availability issue when selecting the "Any Provider" option.
+- #396: Start and end time do not update correctly during calendar time selection on iPad (and other Safari based devices).
+- #447: Captcha error using docker (500 error).
+- #506: Working plan created in version v1.2.1 wrongly displayed in backend with version v1.3.1.
+- #507: Need to manually clean the cache when migrating from v1.2.1 to v1.3.1.
+- #541: Can't remove (empty) customer notes field.
+- #549: Querying appointments API endpoint with the q parmeter produces PHP warnings.
+- #557: App not connecting to MySQL with fresh docker run.
+- #562: Unavailability periods with length of more than 1 day are not handled correctly.
+- #563: Description field overflows with long text.
+- #600: Unable to select Language on mobile phones.
+- #611: Double replacement when using translation to other languages.
+- #664: Easy!Appointments v1.3.2 allows sensitive information disclosure (username and password hash).
+- #687: Errors when the provider modifies an appointment.
+- #705: The alert notification of the installation is not being displayed on error.
+- #757: Corrected display of datetimepickers when editing events.
+- #801: Invalid time duration during appointment registration could lead to DOS of the service.
+- #813: Hyperlinks are not being displayed correctly inside legal contents (they are escaped).
+- #839: Provider is missing on appointment modal opened after a click on the link sent with the provider email confirmation.
+- #840: Start/end datetime are not correctly initialized on Safari when the appointment modal is opened after a click in the backend calendar.
+- #883: Appointment date is wrongly changed to today in some case.
+- #903: Notification not working when creating/updating/deleting an appointment from the REST API.
+
 
 ## [1.3.2] - 2018-07-29
 

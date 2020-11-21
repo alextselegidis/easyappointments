@@ -21,7 +21,11 @@ namespace EA\Engine\Types;
  * @package EA\Engine\Types
  */
 class Text extends Type {
-    protected function _validate($value)
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    protected function validate($value)
     {
         return is_string($value);
     }

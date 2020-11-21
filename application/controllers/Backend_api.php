@@ -6,8 +6,8 @@
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -21,33 +21,9 @@ use EA\Engine\Types\Url;
  *
  * Contains all the backend AJAX callbacks.
  *
- * @property CI_Session $session
- * @property CI_Loader $load
- * @property CI_Input $input
- * @property CI_Output $output
- * @property CI_Config $config
- * @property CI_Lang $lang
- * @property CI_Cache $cache
- * @property CI_DB_query_builder $db
- * @property CI_Security $security
- * @property Google_Sync $google_sync
- * @property Ics_file $ics_file
- * @property Appointments_Model $appointments_model
- * @property Providers_Model $providers_model
- * @property Services_Model $services_model
- * @property Customers_Model $customers_model
- * @property Settings_Model $settings_model
- * @property Timezones $timezones
- * @property Synchronization $synchronization
- * @property Notifications $notifications
- * @property Roles_Model $roles_model
- * @property Secretaries_Model $secretaries_model
- * @property Admins_Model $admins_model
- * @property User_Model $user_model
- *
  * @package Controllers
  */
-class Backend_api extends CI_Controller {
+class Backend_api extends EA_Controller {
     /**
      * @var array
      */
@@ -455,7 +431,7 @@ class Backend_api extends CI_Controller {
 
                 if ((bool)$send_provider === TRUE)
                 {
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($provider['email']),
                         new Text($this->input->post('delete_reason')));
                 }
@@ -464,7 +440,7 @@ class Backend_api extends CI_Controller {
 
                 if ((bool)$send_customer === TRUE)
                 {
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($customer['email']),
                         new Text($this->input->post('delete_reason')));
                 }
@@ -479,7 +455,7 @@ class Backend_api extends CI_Controller {
                         continue;
                     }
 
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($admin['email']),
                         new Text($this->input->post('cancel_reason')));
                 }
@@ -499,7 +475,7 @@ class Backend_api extends CI_Controller {
                         continue;
                     }
 
-                    $email->sendDeleteAppointment($appointment, $provider,
+                    $email->send_delete_appointment($appointment, $provider,
                         $service, $customer, $settings, new Email($secretary['email']),
                         new Text($this->input->post('cancel_reason')));
                 }
@@ -1565,7 +1541,15 @@ class Backend_api extends CI_Controller {
 
                     $this->load->model('user_model');
 
-                    $this->user_model->save_user(json_decode($this->input->post('settings'), TRUE));
+                    $settings = json_decode($this->input->post('settings'), TRUE);
+
+                    $this->user_model->save_user($settings);
+
+                    $this->session->set_userdata([
+                        'user_email' => $settings['email'],
+                        'username' => $settings['settings']['username'],
+                        'timezone' => $settings['timezone'],
+                    ]);
                 }
             }
 

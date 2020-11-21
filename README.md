@@ -11,7 +11,7 @@
 <br>
 
 <h4 align="center">
-    A powerful Open Source Web Scheduler that can be installed on your server. 
+    A powerful Open Source Appointment Scheduler that can be installed on your server. 
 </h4>
 
 <p align="center">

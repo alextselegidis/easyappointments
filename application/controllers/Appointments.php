@@ -6,42 +6,17 @@
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
  * Appointments Controller
  *
- * @property CI_Session $session
- * @property CI_Loader $load
- * @property CI_Input $input
- * @property CI_Output $output
- * @property CI_Config $config
- * @property CI_Lang $lang
- * @property CI_Cache $cache
- * @property CI_DB_query_builder $db
- * @property CI_Security $security
- * @property Google_Sync $google_sync
- * @property Ics_file $ics_file
- * @property Appointments_Model $appointments_model
- * @property Providers_Model $providers_model
- * @property Services_Model $services_model
- * @property Customers_Model $customers_model
- * @property Settings_Model $settings_model
- * @property Roles_Model $roles_model
- * @property Secretaries_Model $secretaries_model
- * @property Admins_Model $admins_model
- * @property User_Model $user_model
- * @property Timezones $timezones
- * @property Synchronization $synchronization
- * @property Notifications $notifications
- * @property Availability $availability
- *
  * @package Controllers
  */
-class Appointments extends CI_Controller {
+class Appointments extends EA_Controller {
     /**
      * Class Constructor
      */
@@ -51,6 +26,7 @@ class Appointments extends CI_Controller {
 
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
+
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('admins_model');
@@ -58,11 +34,14 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
+
         $this->load->library('session');
         $this->load->library('timezones');
         $this->load->library('synchronization');
         $this->load->library('notifications');
         $this->load->library('availability');
+
+        $this->load->driver('cache', ['adapter' => 'file']);
 
         if ($this->session->userdata('language'))
         {
@@ -174,8 +153,6 @@ class Appointments extends CI_Controller {
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
                 $customer_token = md5(uniqid(mt_rand(), TRUE));
-
-                $this->load->driver('cache', ['adapter' => 'file']);
 
                 // Save the token for 10 minutes.
                 $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600);
@@ -307,7 +284,6 @@ class Appointments extends CI_Controller {
         unset($appointment['notes']);
 
         $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-        unset($provider['settings'], $provider['notes']);
 
         $service = $this->services_model->get_row($appointment['id_services']);
 
@@ -318,7 +294,13 @@ class Appointments extends CI_Controller {
 
         $view = [
             'appointment_data' => $appointment,
-            'provider_data' => $provider,
+            'provider_data' => [
+                'id' => $provider['id'],
+                'first_name' => $provider['first_name'],
+                'last_name' => $provider['last_name'],
+                'email' => $provider['email'],
+                'timezone' => $provider['timezone'],
+            ],
             'service_data' => $service,
             'company_name' => $company_name,
         ];
@@ -365,7 +347,7 @@ class Appointments extends CI_Controller {
             // that will provide the requested service.
             if ($provider_id === ANY_PROVIDER)
             {
-                $provider_id = $this->search_any_provider($service_id, $selected_date);
+                $provider_id = $this->search_any_provider($selected_date, $service_id);
 
                 if ($provider_id === NULL)
                 {
@@ -451,16 +433,6 @@ class Appointments extends CI_Controller {
     {
         try
         {
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('admins_model');
-            $this->load->model('secretaries_model');
-            $this->load->model('services_model');
-            $this->load->model('customers_model');
-            $this->load->model('settings_model');
-            $this->load->library('notifications');
-            $this->load->library('synchronization');
-
             $post_data = $this->input->post('post_data');
             $captcha = $this->input->post('captcha');
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
@@ -578,23 +550,15 @@ class Appointments extends CI_Controller {
 
         $provider = $this->providers_model->get_row($appointment['id_users_provider']);
 
-        $available_periods = $this->availability->get_available_periods($date, $provider, $exclude_appointment_id);
+        $available_hours = $this->availability->get_available_hours($date, $service, $provider, $exclude_appointment_id);
 
         $is_still_available = FALSE;
 
-        foreach ($available_periods as $available_period)
+        $appointment_hour = date('H:i', strtotime($appointment['start_datetime']));
+
+        foreach ($available_hours as $available_hour)
         {
-            $appointment_start = new DateTime($appointment['start_datetime']);
-            $appointment_start = $appointment_start->format('H:i');
-
-            $appointment_end = new DateTime($appointment['start_datetime']);
-            $appointment_end->add(new DateInterval('PT' . $service['duration'] . 'M'));
-            $appointment_end = $appointment_end->format('H:i');
-
-            $available_period_start = date('H:i', strtotime($available_period['start']));
-            $available_period_end = date('H:i', strtotime($available_period['end']));
-
-            if ($available_period_start <= $appointment_start && $available_period_end >= $appointment_end)
+            if ($appointment_hour === $available_hour)
             {
                 $is_still_available = TRUE;
                 break;
@@ -617,9 +581,6 @@ class Appointments extends CI_Controller {
     {
         try
         {
-            $this->load->model('providers_model');
-            $this->load->model('services_model');
-
             $provider_id = $this->input->get('provider_id');
             $service_id = $this->input->get('service_id');
             $appointment_id = $this->input->get_post('appointment_id');
@@ -702,7 +663,6 @@ class Appointments extends CI_Controller {
      */
     protected function search_providers_by_service($service_id)
     {
-        $this->load->model('providers_model');
         $available_providers = $this->providers_model->get_available_providers();
         $provider_list = [];
 

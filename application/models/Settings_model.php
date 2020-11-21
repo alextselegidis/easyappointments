@@ -14,12 +14,9 @@
 /**
  * Settings Model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Settings_Model extends CI_Model {
+class Settings_model extends EA_Model {
     /**
      * Get setting value from database.
      *

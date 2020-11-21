@@ -28,7 +28,7 @@ class Customers implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'firstName' => $response['first_name'],
             'lastName' => $response['last_name'],
@@ -40,7 +40,7 @@ class Customers implements ParsersInterface {
             'notes' => $response['notes']
         ];
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**
@@ -51,53 +51,53 @@ class Customers implements ParsersInterface {
      */
     public function decode(array &$request, array $base = NULL)
     {
-        $decodedRequest = $base ?: [];
+        $decoded_request = $base ?: [];
 
         if ( ! empty($request['id']))
         {
-            $decodedRequest['id'] = $request['id'];
+            $decoded_request['id'] = $request['id'];
         }
 
         if ( ! empty($request['firstName']))
         {
-            $decodedRequest['first_name'] = $request['firstName'];
+            $decoded_request['first_name'] = $request['firstName'];
         }
 
         if ( ! empty($request['lastName']))
         {
-            $decodedRequest['last_name'] = $request['lastName'];
+            $decoded_request['last_name'] = $request['lastName'];
         }
 
         if ( ! empty($request['email']))
         {
-            $decodedRequest['email'] = $request['email'];
+            $decoded_request['email'] = $request['email'];
         }
 
         if ( ! empty($request['phone']))
         {
-            $decodedRequest['phone_number'] = $request['phone'];
+            $decoded_request['phone_number'] = $request['phone'];
         }
 
         if ( ! empty($request['address']))
         {
-            $decodedRequest['address'] = $request['address'];
+            $decoded_request['address'] = $request['address'];
         }
 
         if ( ! empty($request['city']))
         {
-            $decodedRequest['city'] = $request['city'];
+            $decoded_request['city'] = $request['city'];
         }
 
         if ( ! empty($request['zip']))
         {
-            $decodedRequest['zip_code'] = $request['zip'];
+            $decoded_request['zip_code'] = $request['zip'];
         }
 
         if ( ! empty($request['notes']))
         {
-            $decodedRequest['notes'] = $request['notes'];
+            $decoded_request['notes'] = $request['notes'];
         }
 
-        $request = $decodedRequest;
+        $request = $decoded_request;
     }
 }

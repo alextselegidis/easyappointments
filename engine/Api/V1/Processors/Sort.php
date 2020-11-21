@@ -40,56 +40,56 @@ class Sort implements ProcessorsInterface {
 
         $sort = explode(',', (string)$_GET['sort']);
 
-        $sortDirection1 = substr($sort[0], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
+        $sort_direction1 = substr($sort[0], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
 
         if (isset($sort[1]))
         {
-            $sortDirection2 = substr($sort[1], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
+            $sort_direction2 = substr($sort[1], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
         }
         else
         {
-            $sortDirection2 = NULL;
+            $sort_direction2 = NULL;
         }
 
         if (isset($sort[2]))
         {
-            $sortDirection3 = substr($sort[2], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
+            $sort_direction3 = substr($sort[2], 0, 1) === '-' ? SORT_DESC : SORT_ASC;
         }
         else
         {
-            $sortDirection3 = NULL;
+            $sort_direction3 = NULL;
         }
 
         foreach ($response as $index => $entry)
         {
-            $sortOrder1[$index] = $entry[substr($sort[0], 1)];
+            $sort_order1[$index] = $entry[substr($sort[0], 1)];
 
-            if ($sortDirection2)
+            if ($sort_direction2)
             {
-                $sortOrder2[$index] = $entry[substr($sort[1], 1)];
+                $sort_order2[$index] = $entry[substr($sort[1], 1)];
             }
 
-            if ($sortDirection3)
+            if ($sort_direction3)
             {
-                $sortOrder3[$index] = $entry[substr($sort[2], 1)];
+                $sort_order3[$index] = $entry[substr($sort[2], 1)];
             }
         }
 
         $arguments = [
-            &$sortOrder1,
-            &$sortDirection1
+            &$sort_order1,
+            &$sort_direction1
         ];
 
-        if ($sortDirection2)
+        if ($sort_direction2)
         {
-            $arguments[] = $sortOrder2;
-            $arguments[] = $sortDirection2;
+            $arguments[] = $sort_order2;
+            $arguments[] = $sort_direction2;
         }
 
-        if ($sortDirection3)
+        if ($sort_direction3)
         {
-            $arguments[] = $sortOrder3;
-            $arguments[] = $sortDirection3;
+            $arguments[] = $sort_order3;
+            $arguments[] = $sort_direction3;
         }
 
         $arguments[] = &$response;

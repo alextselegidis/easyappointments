@@ -16,12 +16,20 @@
  *
  * Contains the database operations for the service provider users of Easy!Appointments.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Providers_Model extends CI_Model {
+class Providers_model extends EA_Model {
+    /**
+     * Providers_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('data_validation');
+        $this->load->helper('general');
+    }
+
     /**
      * Add (insert - update) a service provider record.
      *
@@ -66,7 +74,6 @@ class Providers_Model extends CI_Model {
      */
     public function validate($provider)
     {
-        $this->load->helper('data_validation');
 
         // If a provider id is present, check whether the record exist in the database.
         if (isset($provider['id']))
@@ -180,7 +187,7 @@ class Providers_Model extends CI_Model {
     {
         $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
+        return $num_rows > 0 ? FALSE : TRUE;
     }
 
     /**
@@ -208,7 +215,7 @@ class Providers_Model extends CI_Model {
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get()->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**
@@ -254,7 +261,6 @@ class Providers_Model extends CI_Model {
      */
     protected function insert($provider)
     {
-        $this->load->helper('general');
 
         // Get provider role id.
         $provider['id_roles'] = $this->get_providers_role_id();
@@ -326,7 +332,14 @@ class Providers_Model extends CI_Model {
             if ($name === 'working_plan_exceptions')
             {
                 $value = json_decode($value, TRUE);
+
+                if (!$value)
+                {
+                    $value = [];
+                }
+
                 krsort($value);
+
                 $value = json_encode($value);
             }
 
@@ -342,6 +355,8 @@ class Providers_Model extends CI_Model {
      * @param string $setting_name The setting's name.
      * @param string $value The setting's value.
      * @param int $provider_id The selected provider id.
+     *
+     * @return bool
      */
     public function set_setting($setting_name, $value, $provider_id)
     {
@@ -394,8 +409,6 @@ class Providers_Model extends CI_Model {
      */
     protected function update($provider)
     {
-        $this->load->helper('general');
-
         // Store service and settings (must not be present on the $provider array).
         $services = $provider['services'];
         unset($provider['services']);
@@ -425,7 +438,7 @@ class Providers_Model extends CI_Model {
     /**
      * Delete an existing provider record from the database.
      *
-     * @param int $customer_id The record id to be deleted.
+     * @param $provider_id
      *
      * @return bool Returns the delete operation result.
      *

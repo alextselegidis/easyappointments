@@ -23,7 +23,7 @@ use EA\Engine\Types\Url;
  */
 class Notifications {
     /**
-     * @var CI_Controller
+     * @var EA_Controller
      */
     protected $CI;
 
@@ -33,13 +33,18 @@ class Notifications {
     public function __construct()
     {
         $this->CI =& get_instance();
+
         $this->CI->load->model('providers_model');
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('admins_model');
         $this->CI->load->model('appointments_model');
         $this->CI->load->model('settings_model');
+
         $this->CI->load->library('ics_file');
+        $this->CI->load->library('timezones');
+
+        $this->CI->config->load('email');
     }
 
     /**
@@ -54,44 +59,39 @@ class Notifications {
      */
     public function notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode = FALSE)
     {
-        // Send email notifications to customer and provider.
         try
         {
-            $this->CI->config->load('email');
-
             $email = new EmailClient($this->CI, $this->CI->config->config);
 
-            if ($manage_mode === FALSE)
-            {
-                $customer_title = new Text(lang('appointment_booked'));
-                $customer_message = new Text(lang('thank_you_for_appointment'));
-                $provider_title = new Text(lang('appointment_added_to_your_plan'));
-                $provider_message = new Text(lang('appointment_link_description'));
-
-            }
-            else
+            if ($manage_mode)
             {
                 $customer_title = new Text(lang('appointment_changes_saved'));
                 $customer_message = new Text('');
                 $provider_title = new Text(lang('appointment_details_changed'));
                 $provider_message = new Text('');
             }
+            else
+            {
+                $customer_title = new Text(lang('appointment_booked'));
+                $customer_message = new Text(lang('thank_you_for_appointment'));
+                $provider_title = new Text(lang('appointment_added_to_your_plan'));
+                $provider_message = new Text(lang('appointment_link_description'));
+            }
 
             $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
             $provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
+
+            $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
 
             $send_customer = filter_var(
                 $this->CI->settings_model->get_setting('customer_notifications'),
                 FILTER_VALIDATE_BOOLEAN);
 
-
-            $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
-
             if ($send_customer === TRUE)
             {
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $customer_title,
-                    $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream));
+                    $customer_message, $customer_link, new Email($customer['email']), new Text($ics_stream), $customer['timezone']);
             }
 
             $send_provider = filter_var(
@@ -100,9 +100,9 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $provider_title,
-                    $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream));
+                    $provider_message, $provider_link, new Email($provider['email']), new Text($ics_stream), $provider['timezone']);
             }
 
             // Notify admins
@@ -110,14 +110,14 @@ class Notifications {
 
             foreach ($admins as $admin)
             {
-                if ( ! $admin['settings']['notifications'] === '0')
+                if ($admin['settings']['notifications'] === '0')
                 {
                     continue;
                 }
 
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $provider_title,
-                    $provider_message, $provider_link, new Email($admin['email']), new Text($ics_stream));
+                    $provider_message, $provider_link, new Email($admin['email']), new Text($ics_stream), $admin['timezone']);
             }
 
             // Notify secretaries
@@ -125,7 +125,7 @@ class Notifications {
 
             foreach ($secretaries as $secretary)
             {
-                if ( ! $secretary['settings']['notifications'] === '0')
+                if ($secretary['settings']['notifications'] === '0')
                 {
                     continue;
                 }
@@ -135,9 +135,9 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendAppointmentDetails($appointment, $provider,
+                $email->send_appointment_details($appointment, $provider,
                     $service, $customer, $settings, $provider_title,
-                    $provider_message, $provider_link, new Email($secretary['email']), new Text($ics_stream));
+                    $provider_message, $provider_link, new Email($secretary['email']), new Text($ics_stream), $secretary['timezone']);
             }
         }
         catch (Exception $exception)
@@ -168,7 +168,7 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($provider['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }
@@ -179,7 +179,7 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($customer['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }
@@ -194,7 +194,7 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($admin['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }
@@ -214,7 +214,7 @@ class Notifications {
                     continue;
                 }
 
-                $email->sendDeleteAppointment($appointment, $provider,
+                $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($secretary['email']),
                     new Text($this->CI->input->post('cancel_reason')));
             }

@@ -98,7 +98,7 @@
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
             $('#services .record-details')
-                .find('input, select textarea')
+                .find('input, select, textarea')
                 .prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
@@ -156,7 +156,7 @@
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
             $('#services .record-details')
-                .find('input, select textarea')
+                .find('input, select, textarea')
                 .prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');

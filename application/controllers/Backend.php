@@ -6,8 +6,8 @@
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -15,37 +15,30 @@
  * Backend Controller
  *
  * @property CI_Session $session
- * @property CI_Loader $load
- * @property CI_Input $input
- * @property CI_Output $output
- * @property CI_Config $config
- * @property CI_Lang $lang
- * @property CI_Cache $cache
- * @property CI_DB_query_builder $db
- * @property CI_Security $security
- * @property Google_Sync $google_sync
- * @property Ics_file $ics_file
- * @property Appointments_Model $appointments_model
- * @property Providers_Model $providers_model
- * @property Services_Model $services_model
- * @property Customers_Model $customers_model
- * @property Settings_Model $settings_model
- * @property Timezones $timezones
- * @property Roles_Model $roles_model
- * @property Secretaries_Model $secretaries_model
- * @property Admins_Model $admins_model
- * @property User_Model $user_model
  *
  * @package Controllers
  */
-class Backend extends CI_Controller {
+class Backend extends EA_Controller {
     /**
      * Class Constructor
      */
     public function __construct()
     {
         parent::__construct();
+
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
+        $this->load->model('services_model');
+        $this->load->model('customers_model');
+        $this->load->model('settings_model');
+        $this->load->model('roles_model');
+        $this->load->model('user_model');
+        $this->load->model('secretaries_model');
+        $this->load->model('admins_model');
+
+        $this->load->library('timezones');
         $this->load->library('session');
+        $this->load->library('migration');
 
         if ($this->session->userdata('language'))
         {
@@ -79,16 +72,6 @@ class Backend extends CI_Controller {
         {
             return;
         }
-
-        $this->load->model('appointments_model');
-        $this->load->model('providers_model');
-        $this->load->model('services_model');
-        $this->load->model('customers_model');
-        $this->load->model('settings_model');
-        $this->load->model('roles_model');
-        $this->load->model('user_model');
-        $this->load->model('secretaries_model');
-        $this->load->library('timezones');
 
         $calendar_view_query_param = $this->input->get('view');
 
@@ -196,9 +179,6 @@ class Backend extends CI_Controller {
      */
     protected function set_user_data(&$view)
     {
-        $this->load->model('roles_model');
-
-        // Get privileges
         $view['user_id'] = $this->session->userdata('user_id');
         $view['user_email'] = $this->session->userdata('user_email');
         $view['timezone'] = $this->session->userdata('timezone');
@@ -219,14 +199,6 @@ class Backend extends CI_Controller {
         {
             return;
         }
-
-        $this->load->model('providers_model');
-        $this->load->model('customers_model');
-        $this->load->model('secretaries_model');
-        $this->load->model('services_model');
-        $this->load->model('settings_model');
-        $this->load->model('user_model');
-        $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['page_title'] = lang('customers');
@@ -276,12 +248,6 @@ class Backend extends CI_Controller {
             return;
         }
 
-        $this->load->model('customers_model');
-        $this->load->model('services_model');
-        $this->load->model('settings_model');
-        $this->load->model('user_model');
-        $this->load->library('timezones');
-
         $view['base_url'] = $this->config->item('base_url');
         $view['page_title'] = lang('services');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
@@ -314,14 +280,6 @@ class Backend extends CI_Controller {
         {
             return;
         }
-
-        $this->load->model('providers_model');
-        $this->load->model('secretaries_model');
-        $this->load->model('admins_model');
-        $this->load->model('services_model');
-        $this->load->model('settings_model');
-        $this->load->model('user_model');
-        $this->load->library('timezones');
 
         $view['base_url'] = $this->config->item('base_url');
         $view['page_title'] = lang('users');
@@ -361,11 +319,6 @@ class Backend extends CI_Controller {
             return;
         }
 
-        $this->load->model('settings_model');
-        $this->load->model('user_model');
-        $this->load->library('timezones');
-
-        $this->load->library('session');
         $user_id = $this->session->userdata('user_id');
 
         $view['base_url'] = $this->config->item('base_url');
@@ -411,8 +364,6 @@ class Backend extends CI_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task!');
             }
-
-            $this->load->library('migration');
 
             if ( ! $this->migration->current())
             {

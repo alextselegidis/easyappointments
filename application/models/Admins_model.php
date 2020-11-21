@@ -16,12 +16,17 @@
  *
  * Handles the database actions for admin users management.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Admins_Model extends CI_Model {
+class Admins_model extends EA_Model {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('general');
+        $this->load->helper('data_validation');
+    }
+
     /**
      * Add (insert or update) an admin user record into database.
      *
@@ -63,8 +68,6 @@ class Admins_Model extends CI_Model {
      */
     public function validate($admin)
     {
-        $this->load->helper('data_validation');
-
         // If a record id is provided then check whether the record exists in the database.
         if (isset($admin['id']))
         {
@@ -153,7 +156,7 @@ class Admins_Model extends CI_Model {
     {
         $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
+        return $num_rows > 0 ? FALSE : TRUE;
     }
 
     /**
@@ -227,8 +230,6 @@ class Admins_Model extends CI_Model {
      */
     protected function insert($admin)
     {
-        $this->load->helper('general');
-
         $admin['id_roles'] = $this->get_admin_role_id();
         $settings = $admin['settings'];
         unset($admin['settings']);
@@ -278,8 +279,6 @@ class Admins_Model extends CI_Model {
      */
     protected function update($admin)
     {
-        $this->load->helper('general');
-
         $settings = $admin['settings'];
         unset($admin['settings']);
         $settings['id_users'] = $admin['id'];

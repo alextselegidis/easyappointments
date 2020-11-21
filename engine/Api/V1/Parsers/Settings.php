@@ -28,12 +28,12 @@ class Settings implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'name' => $response['name'],
             'value' => $response['value']
         ];
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**
@@ -44,18 +44,18 @@ class Settings implements ParsersInterface {
      */
     public function decode(array &$request, array $base = NULL)
     {
-        $decodedRequest = $base ?: [];
+        $decoded_request = $base ?: [];
 
         if ( ! empty($request['name']))
         {
-            $decodedRequest['name'] = $request['name'];
+            $decoded_request['name'] = $request['name'];
         }
 
         if ( ! empty($request['value']))
         {
-            $decodedRequest['value'] = $request['value'];
+            $decoded_request['value'] = $request['value'];
         }
 
-        $request = $decodedRequest;
+        $request = $decoded_request;
     }
 }

@@ -35,18 +35,18 @@ class Search implements ProcessorsInterface {
             return;
         }
 
-        $searchedResponse = [];
+        $searched_response = [];
         $keyword = (string)$_GET['q'];
 
         foreach ($response as $entry)
         {
-            if (self::_recursiveArraySearch($entry, $keyword) !== FALSE)
+            if (self::recursive_array_search($entry, $keyword) !== FALSE)
             {
-                $searchedResponse[] = $entry;
+                $searched_response[] = $entry;
             }
         }
 
-        $response = $searchedResponse;
+        $response = $searched_response;
     }
 
     /**
@@ -57,13 +57,13 @@ class Search implements ProcessorsInterface {
      *
      * @return int|bool Returns the index of the search occurrence or false it nothing was found.
      */
-    protected static function _recursiveArraySearch(array $haystack, $needle)
+    protected static function recursive_array_search(array $haystack, $needle)
     {
         foreach ($haystack as $key => $value)
         {
             $currentKey = $key;
 
-            if (is_array($value) && self::_recursiveArraySearch($value, $needle) !== FALSE)
+            if (is_array($value) && self::recursive_array_search($value, $needle) !== FALSE)
             {
                 return $currentKey;
             }

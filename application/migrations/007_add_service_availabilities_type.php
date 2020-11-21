@@ -15,7 +15,7 @@
  * Class Migration_Add_service_availabilities_type
  *
  * @property CI_DB_query_builder $db
- * @property CI_DB_forge dbforge
+ * @property CI_DB_forge $dbforge
  */
 class Migration_Add_service_availabilities_type extends CI_Migration {
     /**

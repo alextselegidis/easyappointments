@@ -14,12 +14,19 @@
 /**
  * Services Model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Services_Model extends CI_Model {
+class Services_model extends EA_Model {
+    /**
+     * Services_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('data_validation');
+    }
+
     /**
      * Add (insert or update) a service record on the database
      *
@@ -55,14 +62,11 @@ class Services_Model extends CI_Model {
      */
     public function validate($service)
     {
-        $this->load->helper('data_validation');
-
-        // If record id is provided we need to check whether the record exists
-        // in the database.
+        // If record id is provided we need to check whether the record exists in the database.
         if (isset($service['id']))
         {
-            $num_rows = $this->db->get_where('services', ['id' => $service['id']])
-                ->num_rows();
+            $num_rows = $this->db->get_where('services', ['id' => $service['id']])->num_rows();
+
             if ($num_rows == 0)
             {
                 throw new Exception('Provided service id does not exist in the database.');
@@ -182,16 +186,18 @@ class Services_Model extends CI_Model {
             'price' => $service['price']
         ])->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**
      * Get the record id of an existing record.
      *
-     * NOTICE: The record must exist, otherwise an exception will be raised.
+     * Notice: The record must exist, otherwise an exception will be raised.
      *
      * @param array $service Contains the service record data. Name, duration and price values are mandatory for this
      * method to complete.
+     *
+     * @return int
      *
      * @throws Exception If required fields are missing.
      * @throws Exception If requested service was not found.
@@ -308,12 +314,16 @@ class Services_Model extends CI_Model {
     /**
      * Get all, or specific records from service's table.
      *
-     * @param string $whereClause (OPTIONAL) The WHERE clause of
-     * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
+     * Example:
+     *
+     * $this->model->get_batch(['id' => $record_id]);
+     *
+     * @param mixed $where
+     * @param mixed $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      *
      * @return array Returns the rows from the database.
-     * @example $this->Model->getBatch('id = ' . $recordId);
-     *
      */
     public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
     {
@@ -470,6 +480,11 @@ class Services_Model extends CI_Model {
 
     /**
      * Get all service category records from database.
+     *
+     * @param mixed $where
+     * @param mixed $order_by
+     * @param int|null $limit
+     * @param int|null $offset
      *
      * @return array Returns an array that contains all the service category records.
      */

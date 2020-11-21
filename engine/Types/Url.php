@@ -25,8 +25,8 @@ class Url extends NonEmptyText {
      * @param mixed $value
      * @return bool
      */
-    protected function _validate($value)
+    protected function validate($value)
     {
-        return parent::_validate($value) && filter_var($value, FILTER_VALIDATE_URL);
+        return parent::validate($value) && filter_var($value, FILTER_VALIDATE_URL);
     }
 }

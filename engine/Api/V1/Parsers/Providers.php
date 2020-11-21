@@ -28,7 +28,7 @@ class Providers implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'firstName' => $response['first_name'],
             'lastName' => $response['last_name'],
@@ -44,12 +44,12 @@ class Providers implements ParsersInterface {
 
         if (array_key_exists('services', $response))
         {
-            $encodedResponse['services'] = $response['services'];
+            $encoded_response['services'] = $response['services'];
         }
 
         if (array_key_exists('settings', $response))
         {
-            $encodedResponse['settings'] = [
+            $encoded_response['settings'] = [
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
                 'calendarView' => $response['settings']['calendar_view'],
@@ -63,7 +63,7 @@ class Providers implements ParsersInterface {
             ];
         }
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**
@@ -74,133 +74,133 @@ class Providers implements ParsersInterface {
      */
     public function decode(array &$request, array $base = NULL)
     {
-        $decodedRequest = $base ?: [];
+        $decoded_request = $base ?: [];
 
         if ( ! empty($request['id']))
         {
-            $decodedRequest['id'] = $request['id'];
+            $decoded_request['id'] = $request['id'];
         }
 
         if ( ! empty($request['firstName']))
         {
-            $decodedRequest['first_name'] = $request['firstName'];
+            $decoded_request['first_name'] = $request['firstName'];
         }
 
         if ( ! empty($request['lastName']))
         {
-            $decodedRequest['last_name'] = $request['lastName'];
+            $decoded_request['last_name'] = $request['lastName'];
         }
 
         if ( ! empty($request['email']))
         {
-            $decodedRequest['email'] = $request['email'];
+            $decoded_request['email'] = $request['email'];
         }
 
         if ( ! empty($request['mobile']))
         {
-            $decodedRequest['mobile_number'] = $request['mobile'];
+            $decoded_request['mobile_number'] = $request['mobile'];
         }
 
         if ( ! empty($request['phone']))
         {
-            $decodedRequest['phone_number'] = $request['phone'];
+            $decoded_request['phone_number'] = $request['phone'];
         }
 
         if ( ! empty($request['address']))
         {
-            $decodedRequest['address'] = $request['address'];
+            $decoded_request['address'] = $request['address'];
         }
 
         if ( ! empty($request['city']))
         {
-            $decodedRequest['city'] = $request['city'];
+            $decoded_request['city'] = $request['city'];
         }
 
         if ( ! empty($request['state']))
         {
-            $decodedRequest['state'] = $request['state'];
+            $decoded_request['state'] = $request['state'];
         }
 
         if ( ! empty($request['zip']))
         {
-            $decodedRequest['zip_code'] = $request['zip'];
+            $decoded_request['zip_code'] = $request['zip'];
         }
 
         if ( ! empty($request['notes']))
         {
-            $decodedRequest['notes'] = $request['notes'];
+            $decoded_request['notes'] = $request['notes'];
         }
 
         if ( ! empty($request['services']))
         {
-            $decodedRequest['services'] = $request['services'];
+            $decoded_request['services'] = $request['services'];
         }
 
         if ( ! empty($request['settings']))
         {
-            if (empty($decodedRequest['settings']))
+            if (empty($decoded_request['settings']))
             {
-                $decodedRequest['settings'] = [];
+                $decoded_request['settings'] = [];
             }
 
             if ( ! empty($request['settings']['username']))
             {
-                $decodedRequest['settings']['username'] = $request['settings']['username'];
+                $decoded_request['settings']['username'] = $request['settings']['username'];
             }
 
             if ( ! empty($request['settings']['password']))
             {
-                $decodedRequest['settings']['password'] = $request['settings']['password'];
+                $decoded_request['settings']['password'] = $request['settings']['password'];
             }
 
             if ( ! empty($request['settings']['calendarView']))
             {
-                $decodedRequest['settings']['calendar_view'] = $request['settings']['calendarView'];
+                $decoded_request['settings']['calendar_view'] = $request['settings']['calendarView'];
             }
 
             if ($request['settings']['notifications'] !== NULL)
             {
-                $decodedRequest['settings']['notifications'] = filter_var($request['settings']['notifications'],
+                $decoded_request['settings']['notifications'] = filter_var($request['settings']['notifications'],
                     FILTER_VALIDATE_BOOLEAN);
             }
 
             if ($request['settings']['googleSync'] !== NULL)
             {
-                $decodedRequest['settings']['google_sync'] = filter_var($request['settings']['googleSync'],
+                $decoded_request['settings']['google_sync'] = filter_var($request['settings']['googleSync'],
                     FILTER_VALIDATE_BOOLEAN);
             }
 
             if ( ! empty($request['settings']['googleCalendar']))
             {
-                $decodedRequest['settings']['google_calendar'] = $request['settings']['googleCalendar'];
+                $decoded_request['settings']['google_calendar'] = $request['settings']['googleCalendar'];
             }
 
             if ( ! empty($request['settings']['googleToken']))
             {
-                $decodedRequest['settings']['google_token'] = $request['settings']['googleToken'];
+                $decoded_request['settings']['google_token'] = $request['settings']['googleToken'];
             }
 
             if ( ! empty($request['settings']['syncFutureDays']))
             {
-                $decodedRequest['settings']['sync_future_days'] = $request['settings']['syncFutureDays'];
+                $decoded_request['settings']['sync_future_days'] = $request['settings']['syncFutureDays'];
             }
 
             if ( ! empty($request['settings']['syncPastDays']))
             {
-                $decodedRequest['settings']['sync_past_days'] = $request['settings']['syncPastDays'];
+                $decoded_request['settings']['sync_past_days'] = $request['settings']['syncPastDays'];
             }
 
             if ( ! empty($request['settings']['workingPlan']))
             {
-                $decodedRequest['settings']['working_plan'] = json_encode($request['settings']['workingPlan']);
+                $decoded_request['settings']['working_plan'] = json_encode($request['settings']['workingPlan']);
             }
 
             if ( ! empty($request['settings']['workingPlanExceptions']))
             {
-                $decodedRequest['settings']['working_plan_exceptions'] = json_encode($request['settings']['workingPlanExceptions']);
+                $decoded_request['settings']['working_plan_exceptions'] = json_encode($request['settings']['workingPlanExceptions']);
             }
         }
 
-        $request = $decodedRequest;
+        $request = $decoded_request;
     }
 }

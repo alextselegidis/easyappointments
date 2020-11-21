@@ -28,7 +28,7 @@ class Unavailabilities implements ParsersInterface {
      */
     public function encode(array &$response)
     {
-        $encodedResponse = [
+        $encoded_response = [
             'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
             'book' => $response['book_datetime'],
             'start' => $response['start_datetime'],
@@ -38,7 +38,7 @@ class Unavailabilities implements ParsersInterface {
             'googleCalendarId' => $response['id_google_calendar'] !== NULL ? (int)$response['id_google_calendar'] : NULL
         ];
 
-        $response = $encodedResponse;
+        $response = $encoded_response;
     }
 
     /**

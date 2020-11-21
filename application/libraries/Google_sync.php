@@ -24,9 +24,9 @@ class Google_Sync {
     /**
      * CodeIgniter Instance
      *
-     * @var CI_Controller
+     * @var EA_Controller
      */
-    protected $framework;
+    protected $CI;
 
     /**
      * Google API Client
@@ -50,17 +50,17 @@ class Google_Sync {
      */
     public function __construct()
     {
-        $this->framework =& get_instance();
+        $this->CI =& get_instance();
 
-        $this->framework->load->library('session');
+        $this->CI->load->library('session');
 
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
 
-        $this->client->setApplicationName($this->framework->config->item('google_application_name'));
-        $this->client->setClientId($this->framework->config->item('google_client_id'));
-        $this->client->setClientSecret($this->framework->config->item('google_client_secret'));
-        $this->client->setDeveloperKey($this->framework->config->item('google_api_key'));
+        $this->client->setApplicationName($this->CI->config->item('google_application_name'));
+        $this->client->setClientId($this->CI->config->item('google_client_id'));
+        $this->client->setClientSecret($this->CI->config->item('google_client_secret'));
+        $this->client->setDeveloperKey($this->CI->config->item('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setAccessType('offline');
         $this->client->addScope([
@@ -145,7 +145,7 @@ class Google_Sync {
      */
     public function add_appointment($appointment, $provider, $service, $customer, $settings)
     {
-        $this->framework->load->helper('general');
+        $this->CI->load->helper('general');
 
         $event = new Google_Service_Calendar_Event();
         $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
@@ -199,7 +199,7 @@ class Google_Sync {
      */
     public function update_appointment($appointment, $provider, $service, $customer, $settings)
     {
-        $this->framework->load->helper('general');
+        $this->CI->load->helper('general');
 
         $event = $this->service->events->get($provider['settings']['google_calendar'],
             $appointment['id_google_calendar']);
@@ -268,7 +268,7 @@ class Google_Sync {
      */
     public function add_unavailable($provider, $unavailable)
     {
-        $this->framework->load->helper('general');
+        $this->CI->load->helper('general');
 
         $event = new Google_Service_Calendar_Event();
         $event->setSummary('Unavailable');
@@ -299,7 +299,7 @@ class Google_Sync {
      */
     public function update_unavailable($provider, $unavailable)
     {
-        $this->framework->load->helper('general');
+        $this->CI->load->helper('general');
 
         $event = $this->service->events->get($provider['settings']['google_calendar'],
             $unavailable['id_google_calendar']);
@@ -362,7 +362,7 @@ class Google_Sync {
      */
     public function get_sync_events($google_calendar, $start, $end)
     {
-        $this->framework->load->helper('general');
+        $this->CI->load->helper('general');
 
         $params = [
             'timeMin' => date3339($start),

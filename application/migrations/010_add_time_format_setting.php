@@ -15,7 +15,7 @@
  * Class Migration_Add_time_format_setting
  *
  * @property CI_DB_query_builder $db
- * @property CI_DB_forge dbforge
+ * @property CI_DB_forge $dbforge
  */
 class Migration_Add_time_format_setting extends CI_Migration {
     /**

@@ -93,7 +93,7 @@
         $('#edit-category').on('click', function () {
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
-            $('#categories .record-details').find('input, select, textarea').prop('disbaled', false);
+            $('#categories .record-details').find('input, select, textarea').prop('disabled', false);
             $('#filter-categories button').prop('disabled', true);
             $('#filter-categories .results').css('color', '#AAA');
         });

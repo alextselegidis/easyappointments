@@ -16,12 +16,20 @@
  *
  * Handles the db actions that have to do with secretaries.
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Secretaries_Model extends CI_Model {
+class Secretaries_model extends EA_Model {
+    /**
+     * Secretaries_Model constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('general');
+        $this->load->helper('data_validation');
+    }
+
     /**
      * Add (insert or update) a secretary user record into database.
      *
@@ -63,8 +71,6 @@ class Secretaries_Model extends CI_Model {
      */
     public function validate($secretary)
     {
-        $this->load->helper('data_validation');
-
         // If a record id is provided then check whether the record exists in the database.
         if (isset($secretary['id']))
         {
@@ -159,7 +165,7 @@ class Secretaries_Model extends CI_Model {
     {
         $num_rows = $this->db->get_where('user_settings',
             ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return ($num_rows > 0) ? FALSE : TRUE;
+        return $num_rows > 0 ? FALSE : TRUE;
     }
 
     /**
@@ -187,7 +193,7 @@ class Secretaries_Model extends CI_Model {
             ->where('roles.slug', DB_SLUG_SECRETARY)
             ->get()->num_rows();
 
-        return ($num_rows > 0) ? TRUE : FALSE;
+        return $num_rows > 0;
     }
 
     /**
@@ -233,8 +239,6 @@ class Secretaries_Model extends CI_Model {
      */
     protected function insert($secretary)
     {
-        $this->load->helper('general');
-
         $providers = $secretary['providers'];
         unset($secretary['providers']);
         $settings = $secretary['settings'];
@@ -340,6 +344,8 @@ class Secretaries_Model extends CI_Model {
      * @param string $setting_name The setting's name.
      * @param string $value The setting's value.
      * @param int $secretary_id The selected provider id.
+     *
+     * @return bool
      */
     public function set_setting($setting_name, $value, $secretary_id)
     {
@@ -358,8 +364,6 @@ class Secretaries_Model extends CI_Model {
      */
     protected function update($secretary)
     {
-        $this->load->helper('general');
-
         $providers = $secretary['providers'];
         unset($secretary['providers']);
         $settings = $secretary['settings'];

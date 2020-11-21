@@ -45,7 +45,7 @@ gulp.task('build', (done) => {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
-    execSync('cd build && composer install --no-dev --no-interaction --no-scripts --optimize-autoloader', function (err, stdout, stderr) {
+    execSync('cd build && composer install --no-interaction --no-scripts --optimize-autoloader', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
     });

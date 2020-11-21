@@ -25,8 +25,8 @@ class NonEmptyText extends Text {
      * @param mixed $value
      * @return bool
      */
-    protected function _validate($value)
+    protected function validate($value)
     {
-        return parent::_validate($value) && $value !== '';
+        return parent::validate($value) && $value !== '';
     }
 }

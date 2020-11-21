@@ -14,12 +14,9 @@
 /**
  * Class Consents_model
  *
- * @property CI_DB_query_builder $db
- * @property CI_Loader $load
- *
  * @package Models
  */
-class Consents_model extends CI_Model {
+class Consents_model extends EA_Model {
     /**
      * Add a consent record to the database.
      *

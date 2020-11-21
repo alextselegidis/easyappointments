@@ -28,7 +28,7 @@ abstract class Type {
      */
     public function __construct($value)
     {
-        if ( ! $this->_validate($value))
+        if ( ! $this->validate($value))
         {
             throw new \InvalidArgumentException(__CLASS__ . ': Invalid argument value provided (' . $value . ')');
         }
@@ -53,5 +53,5 @@ abstract class Type {
      *
      * @return bool Returns whether the value is valid or not.
      */
-    abstract protected function _validate($value);
+    abstract protected function validate($value);
 }
