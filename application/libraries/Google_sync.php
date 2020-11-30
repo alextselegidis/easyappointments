@@ -62,6 +62,7 @@ class Google_Sync {
         $this->client->setClientSecret($this->CI->config->item('google_client_secret'));
         $this->client->setDeveloperKey($this->CI->config->item('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
+        $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');
         $this->client->addScope([
             Google_Service_Calendar::CALENDAR,
