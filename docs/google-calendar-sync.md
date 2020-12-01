@@ -16,7 +16,7 @@ The synchronization feature requires valid Google API credentials in order to re
 
 - Go to the Google Cloud Console and create a new project.
 - Click on **Use Google APIs** box and enable the Google Calendar API.
-- Then click on the **Credentials** menu item (on the left) and create an **OAuth client ID** for your installation. You will need to fill the consent screen information and then select **Web Application** in the next frame. Give it a client name and add your installation domain as the **Authorised JavaScript origins** (important give only the domain not the complete URL e.g. `http://mywebsite.com`). The **Authorised redirect URIs** field will need the following value `http://url/to/easyappointments/installation/index.php/google/oauth_callback` (replace `url/to/easyappointments/installation` with your real domain).
+- Then click on the **Credentials** menu item (on the left) and create an **OAuth client ID** for your installation. You will need to fill the consent screen information and then select **Web Application** in the next frame. Give it a client name and add your installation domain as the **Authorised JavaScript origins** (important give only the domain not the complete URL e.g. `http://mywebsite.com`). The **Authorised redirect URIs** field will need the following value `https://url/to/easyappointments/folder/index.php/google/oauth_callback` (replace `url/to/easyappointments/installation` with your real domain).
 - Click on **Create** button to complete the wizard. Afterwards Google Cloud will show you two key strings that you need to mark for the following step.
 
 ## Google API Key
