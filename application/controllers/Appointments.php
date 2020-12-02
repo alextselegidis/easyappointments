@@ -41,18 +41,6 @@ class Appointments extends EA_Controller {
         $this->load->library('availability');
 
         $this->load->driver('cache', ['adapter' => 'file']);
-
-        if ($this->session->userdata('language'))
-        {
-            // Set the user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
     }
 
     /**
@@ -475,7 +463,7 @@ class Appointments extends EA_Controller {
             }
 
             // Save customer language (the language which is used to render the booking page).
-            $customer['language'] = $this->config->item('language');
+            $customer['language'] = config('language');
             $customer_id = $this->customers_model->add($customer);
 
             $appointment['id_users_customer'] = $customer_id;

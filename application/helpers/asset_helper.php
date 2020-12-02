@@ -26,9 +26,9 @@ function asset_url($uri = '', $protocol = NULL)
 {
     $CI =& get_instance();
 
-    $debug = $CI->config->item('debug');
+    $debug = config('debug');
 
-    $cache_busting_token = ! $debug ? '?' . $CI->config->item('cache_busting_token') : '';
+    $cache_busting_token = ! $debug ? '?' . config('cache_busting_token') : '';
 
     if (strpos(basename($uri), '.js') !== FALSE && strpos(basename($uri), '.min.js') === FALSE && ! $debug)
     {

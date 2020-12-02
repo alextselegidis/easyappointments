@@ -55,10 +55,10 @@ class Google_Sync {
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
 
-        $this->client->setApplicationName($this->CI->config->item('google_application_name'));
-        $this->client->setClientId($this->CI->config->item('google_client_id'));
-        $this->client->setClientSecret($this->CI->config->item('google_client_secret'));
-        $this->client->setDeveloperKey($this->CI->config->item('google_api_key'));
+        $this->client->setApplicationName(config('google_application_name'));
+        $this->client->setClientId(config('google_client_id'));
+        $this->client->setClientSecret(config('google_client_secret'));
+        $this->client->setDeveloperKey(config('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');

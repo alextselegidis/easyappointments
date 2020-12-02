@@ -66,7 +66,7 @@ class Backend extends EA_Controller {
 
         $user = $this->user_model->get_user($user_id);
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('calendar');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_APPOINTMENTS;
@@ -187,7 +187,7 @@ class Backend extends EA_Controller {
             return;
         }
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('customers');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_CUSTOMERS;
@@ -235,7 +235,7 @@ class Backend extends EA_Controller {
             return;
         }
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('services');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_SERVICES;
@@ -268,7 +268,7 @@ class Backend extends EA_Controller {
             return;
         }
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('users');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_USERS;
@@ -308,7 +308,7 @@ class Backend extends EA_Controller {
 
         $user_id = $this->session->userdata('user_id');
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('settings');
         $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_SYSTEM_SETTINGS;

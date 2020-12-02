@@ -42,17 +42,6 @@ class Backend_api extends EA_Controller {
         {
             $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
         }
-
-        // Set user's selected language.
-        if ($this->session->userdata('language'))
-        {
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            $this->lang->load('translations', $this->config->item('language')); // default
-        }
     }
 
     /**
@@ -1616,7 +1605,7 @@ class Backend_api extends EA_Controller {
             // Check if language exists in the available languages.
             $found = FALSE;
 
-            foreach ($this->config->item('available_languages') as $lang)
+            foreach (config('available_languages') as $lang)
             {
                 if ($lang == $this->input->post('language'))
                 {

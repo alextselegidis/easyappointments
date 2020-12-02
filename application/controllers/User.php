@@ -40,7 +40,7 @@ class User extends EA_Controller {
     {
         $this->load->model('settings_model');
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['dest_url'] = $this->session->userdata('dest_url');
 
         if ( ! $view['dest_url'])
@@ -66,7 +66,7 @@ class User extends EA_Controller {
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('dest_url');
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $this->load->view('user/logout', $view);
     }
@@ -78,7 +78,7 @@ class User extends EA_Controller {
     public function forgot_password()
     {
         $this->load->model('settings_model');
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $this->load->view('user/forgot_password', $view);
     }
@@ -90,7 +90,7 @@ class User extends EA_Controller {
     public function no_privileges()
     {
         $this->load->model('settings_model');
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $this->load->view('user/no_privileges', $view);
     }
