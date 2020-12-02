@@ -48,9 +48,16 @@ class Console extends EA_Controller {
      * Usage:
      *
      * php index.php console migrate
+     *
+     * @param string $type
      */
-    public function migrate()
+    public function migrate($type = '')
     {
+        if ($type === 'fresh' && $this->migration->version(0) === FALSE)
+        {
+            show_error($this->migration->error_string());
+        }
+
         if ($this->migration->current() === FALSE)
         {
             show_error($this->migration->error_string());
