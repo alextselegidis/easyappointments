@@ -52,8 +52,6 @@ class Google_Sync {
     {
         $this->CI =& get_instance();
 
-        $this->CI->load->library('session');
-
         // Initialize google client and calendar service.
         $this->client = new Google_Client();
 

@@ -24,7 +24,6 @@
  * @property CI_Session $session
  * @property CI_Security $security
  * @property CI_Migration $migration
-
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
  * @property Consents_model $consents_model
@@ -44,5 +43,26 @@
  * @property Timezones $timezones
  */
 class EA_Controller extends CI_Controller {
-    //
+    /**
+     * EA_Controller constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->configure_language();
+    }
+
+    /**
+     * Configure the language
+     */
+    private function configure_language()
+    {
+        if ($this->session->has_userdata('language'))
+        {
+            $this->config->set_item('language');
+        }
+
+        $this->lang->load('translations');
+    }
 }

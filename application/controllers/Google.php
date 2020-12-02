@@ -20,16 +20,6 @@
  */
 class Google extends EA_Controller {
     /**
-     * Class Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->library('session');
-    }
-
-    /**
      * Authorize Google Calendar API usage for a specific provider.
      *
      * Since it is required to follow the web application flow, in order to retrieve a refresh token from the Google API
@@ -110,8 +100,6 @@ class Google extends EA_Controller {
             $framework = get_instance();
 
             // The user must be logged in.
-            $framework->load->library('session');
-
             if ($framework->session->userdata('user_id') == FALSE && is_cli() === FALSE)
             {
                 return;

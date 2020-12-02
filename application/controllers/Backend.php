@@ -37,20 +37,7 @@ class Backend extends EA_Controller {
         $this->load->model('admins_model');
 
         $this->load->library('timezones');
-        $this->load->library('session');
         $this->load->library('migration');
-
-        if ($this->session->userdata('language'))
-        {
-            // Set user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
     }
 
     /**

@@ -20,26 +20,13 @@
  */
 class Installation extends EA_Controller {
     /**
-     * Class Constructor
+     * Installation constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
         $this->load->helper('installation');
-        $this->load->library('session');
-
-        if ($this->session->userdata('language'))
-        {
-            // Set user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
     }
 
     /**
@@ -74,7 +61,6 @@ class Installation extends EA_Controller {
             $this->load->model('settings_model');
             $this->load->model('services_model');
             $this->load->model('providers_model');
-            $this->load->library('session');
             $this->load->library('migration');
             $this->load->helper('string');
 

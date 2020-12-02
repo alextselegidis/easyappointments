@@ -36,7 +36,6 @@ class Backend_api extends EA_Controller {
     {
         parent::__construct();
 
-        $this->load->library('session');
         $this->load->model('roles_model');
 
         if ($this->session->userdata('role_slug'))

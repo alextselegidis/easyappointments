@@ -35,7 +35,6 @@ class Appointments extends EA_Controller {
         $this->load->model('customers_model');
         $this->load->model('settings_model');
 
-        $this->load->library('session');
         $this->load->library('timezones');
         $this->load->library('synchronization');
         $this->load->library('notifications');

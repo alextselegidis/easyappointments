@@ -22,28 +22,6 @@ use EA\Engine\Types\NonEmptyText;
  */
 class User extends EA_Controller {
     /**
-     * Class Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->library('session');
-
-        if ($this->session->userdata('language'))
-        {
-            // Set user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language')); // default
-        }
-    }
-
-    /**
      * Default Method
      *
      * The default method will redirect the browser to the user/login URL.

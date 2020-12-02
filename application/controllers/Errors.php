@@ -18,28 +18,6 @@
  */
 class Errors extends EA_Controller {
     /**
-     * Class Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->library('session');
-
-        if ($this->session->userdata('language'))
-        {
-            // Set user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
-    }
-
-    /**
      * Display the 404 error page.
      */
     public function index()
