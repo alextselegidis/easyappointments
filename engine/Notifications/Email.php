@@ -242,7 +242,7 @@ class Email {
             'appointment_service' => $service['name'],
             'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             'appointment_date' => $appointment_start->format($date_format . ' ' . $time_format),
-            'appointment_duration' => $service['duration'] . ' ' . $this->CI->lang->line('minutes'),
+            'appointment_duration' => $service['duration'] . ' ' . lang('minutes'),
             'appointment_timezone' => $timezones[empty($timezone) ? $provider['timezone'] : $timezone],
             'company_link' => $settings['company_link'],
             'company_name' => $settings['company_name'],
@@ -259,7 +259,7 @@ class Email {
         $mailer->From = $settings['company_email'];
         $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipient_email->get()); // "Name" argument crushes the phpmailer class.
-        $mailer->Subject = $this->CI->lang->line('appointment_cancelled_title');
+        $mailer->Subject = lang('appointment_cancelled_title');
         $mailer->Body = $html;
 
         if ( ! $mailer->Send())
@@ -293,7 +293,7 @@ class Email {
         $mailer->From = $settings['company_email'];
         $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
-        $mailer->Subject = $this->CI->lang->line('new_account_password');
+        $mailer->Subject = lang('new_account_password');
         $mailer->Body = $html;
 
         if ( ! $mailer->Send())

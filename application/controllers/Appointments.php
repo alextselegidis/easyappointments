@@ -137,8 +137,8 @@ class Appointments extends EA_Controller {
                     $minutes = ($book_advance_timeout % 60);
 
                     $view = [
-                        'message_title' => $this->lang->line('appointment_locked'),
-                        'message_text' => strtr($this->lang->line('appointment_locked_message'), [
+                        'message_title' => lang('appointment_locked'),
+                        'message_text' => strtr(lang('appointment_locked_message'), [
                             '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
                         ]),
                         'message_icon' => base_url('assets/img/error.png')
