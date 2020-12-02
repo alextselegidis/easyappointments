@@ -95,10 +95,10 @@ class Backend_api extends EA_Controller {
             }
 
             $userId = $this->session->userdata('user_id');
-            $roleSlug = $this->session->userdata('role_slug');
+            $role_slug = $this->session->userdata('role_slug');
 
             // If the current user is a provider he must only see his own appointments.
-            if ($roleSlug === DB_SLUG_PROVIDER)
+            if ($role_slug === DB_SLUG_PROVIDER)
             {
                 foreach ($response['appointments'] as $index => $appointment)
                 {
@@ -118,7 +118,7 @@ class Backend_api extends EA_Controller {
             }
 
             // If the current user is a secretary he must only see the appointments of his providers.
-            if ($roleSlug === DB_SLUG_SECRETARY)
+            if ($role_slug === DB_SLUG_SECRETARY)
             {
                 $this->load->model('secretaries_model');
                 $providers = $this->secretaries_model->get_row($userId)['providers'];
