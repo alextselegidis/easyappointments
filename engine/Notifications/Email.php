@@ -138,25 +138,22 @@ class Email {
             $appointment_end->setTimezone($appointment_timezone);
         }
 
-        // Prepare template replace array.
-        $email_title = $title->get();
-        $email_message = $message->get();
-        $appointment_service = $service['name'];
-        $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
-        $appointment_start_date = $appointment_start->format($date_format . ' ' . $time_format);
-        $appointment_end_date = $appointment_end->format($date_format . ' ' . $time_format);
-        $appointment_timezone = $timezones[empty($timezone) ? $provider['timezone'] : $timezone];
-        $appointment_link = $appointment_link_address->get();
-        $company_link = $settings['company_link'];
-        $company_name = $settings['company_name'];
-        $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
-        $customer_email = $customer['email'];
-        $customer_phone = $customer['phone_number'];
-        $customer_address = $customer['address'];
-
-        ob_start();
-        require __DIR__ . '/../../application/views/emails/appointment_details.php';
-        $html = ob_get_clean();
+        $html = $this->framework->load->view('emails/appointment_details', [
+            'email_title' => $title->get(),
+            'email_message' => $message->get(),
+            'appointment_service' => $service['name'],
+            'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
+            'appointment_start_date' => $appointment_start->format($date_format . ' ' . $time_format),
+            'appointment_end_date' => $appointment_end->format($date_format . ' ' . $time_format),
+            'appointment_timezone' => $timezones[empty($timezone) ? $provider['timezone'] : $timezone],
+            'appointment_link' => $appointment_link_address->get(),
+            'company_link' => $settings['company_link'],
+            'company_name' => $settings['company_name'],
+            'customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
+            'customer_email' => $customer['email'],
+            'customer_phone' => $customer['phone_number'],
+            'customer_address' => $customer['address'],
+        ], TRUE);
 
         $mailer = $this->create_mailer();
         $mailer->From = $settings['company_email'];
@@ -205,10 +202,7 @@ class Email {
         $timezone = NULL
     )
     {
-        $framework = get_instance();
-
-
-        $timezones = $framework->timezones->to_array();
+        $timezones = $this->framework->timezones->to_array();
 
         switch ($settings['date_format'])
         {
@@ -246,23 +240,20 @@ class Email {
             $appointment_start->setTimezone($appointment_timezone);
         }
 
-        // Prepare email template data.
-        $appointment_service = $service['name'];
-        $appointment_provider = $provider['first_name'] . ' ' . $provider['last_name'];
-        $appointment_date = $appointment_start->format($date_format . ' ' . $time_format);
-        $appointment_duration = $service['duration'] . ' ' . $this->framework->lang->line('minutes');
-        $appointment_timezone = $timezones[empty($timezone) ? $provider['timezone'] : $timezone];
-        $company_link = $settings['company_link'];
-        $company_name = $settings['company_name'];
-        $customer_name = $customer['first_name'] . ' ' . $customer['last_name'];
-        $customer_email = $customer['email'];
-        $customer_phone = $customer['phone_number'];
-        $customer_address = $customer['address'];
-        $reason = $reason->get();
-
-        ob_start();
-        require __DIR__ . '/../../application/views/emails/delete_appointment.php';
-        $html = ob_get_clean();
+        $html = $this->framework->load->view('emails/delete_appointment', [
+            'appointment_service' => $service['name'],
+            'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
+            'appointment_date' => $appointment_start->format($date_format . ' ' . $time_format),
+            'appointment_duration' => $service['duration'] . ' ' . $this->framework->lang->line('minutes'),
+            'appointment_timezone' => $timezones[empty($timezone) ? $provider['timezone'] : $timezone],
+            'company_link' => $settings['company_link'],
+            'company_name' => $settings['company_name'],
+            'customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
+            'customer_email' => $customer['email'],
+            'customer_phone' => $customer['phone_number'],
+            'customer_address' => $customer['address'],
+            'reason' => $reason->get(),
+        ], TRUE);
 
         $mailer = $this->create_mailer();
 
@@ -285,27 +276,24 @@ class Email {
      *
      * @param \EA\Engine\Types\NonEmptyText $password Contains the new password.
      * @param \EA\Engine\Types\Email $recipientEmail The receiver's email address.
-     * @param array $company The company settings to be included in the email.
+     * @param array $settings The company settings to be included in the email.
      *
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public function send_password(NonEmptyText $password, EmailAddress $recipientEmail, array $company)
+    public function send_password(NonEmptyText $password, EmailAddress $recipientEmail, array $settings)
     {
-        $email_title = $this->framework->lang->line('new_account_password');
-        $password = '<strong>' . $password->get() . '</strong>';
-        $email_message = str_replace('$password', $password, $this->framework->lang->line('new_password_is'));
-        $company_name = $company['company_name'];
-        $company_email = $company['company_email'];
-        $company_link = $company['company_link'];
-
-        ob_start();
-        require __DIR__ . '/../../application/views/emails/new_password.php';
-        $html = ob_get_clean();
+        $html = $this->framework->load->view('emails/new_password', [
+            'email_title' => lang('new_account_password'),
+            'email_message' => str_replace('$password', '<strong>' . $password->get() . '</strong>', lang('new_password_is')),
+            'company_name' => $settings['company_name'],
+            'company_email' => $settings['company_email'],
+            'company_link' => $settings['company_link'],
+        ], TRUE);
 
         $mailer = $this->create_mailer();
 
-        $mailer->From = $company['company_email'];
-        $mailer->FromName = $company['company_name'];
+        $mailer->From = $settings['company_email'];
+        $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
         $mailer->Subject = $this->framework->lang->line('new_account_password');
         $mailer->Body = $html;
