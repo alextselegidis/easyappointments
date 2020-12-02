@@ -25,8 +25,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Register global error handler.
      */
-    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-        GeneralFunctions.ajaxFailureHandler(jqxhr, settings, thrownError);
+    document.addEventListener('DOMContentLoaded', function() {
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            GeneralFunctions.ajaxFailureHandler(jqxhr, settings, thrownError);
+        });
     });
 
     /**
