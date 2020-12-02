@@ -39,7 +39,7 @@ class Email {
      *
      * @var EA_Controller
      */
-    protected $framework;
+    protected $CI;
 
     /**
      * Contains email configuration.
@@ -51,12 +51,12 @@ class Email {
     /**
      * Class Constructor
      *
-     * @param \CI_Controller $framework
+     * @param \CI_Controller $CI
      * @param array $config Contains the email configuration to be used.
      */
-    public function __construct(\CI_Controller $framework, array $config)
+    public function __construct(\CI_Controller $CI, array $config)
     {
-        $this->framework = $framework;
+        $this->CI = $CI;
         $this->config = $config;
     }
 
@@ -96,9 +96,7 @@ class Email {
         $timezone = NULL
     )
     {
-        $framework = get_instance();
-
-        $timezones = $framework->timezones->to_array();
+        $timezones = $this->framework->timezones->to_array();
 
         switch ($settings['date_format'])
         {
@@ -138,7 +136,7 @@ class Email {
             $appointment_end->setTimezone($appointment_timezone);
         }
 
-        $html = $this->framework->load->view('emails/appointment_details', [
+        $html = $this->CI->load->view('emails/appointment_details', [
             'email_title' => $title->get(),
             'email_message' => $message->get(),
             'appointment_service' => $service['name'],
@@ -202,7 +200,7 @@ class Email {
         $timezone = NULL
     )
     {
-        $timezones = $this->framework->timezones->to_array();
+        $timezones = $this->CI->timezones->to_array();
 
         switch ($settings['date_format'])
         {
@@ -240,11 +238,11 @@ class Email {
             $appointment_start->setTimezone($appointment_timezone);
         }
 
-        $html = $this->framework->load->view('emails/delete_appointment', [
+        $html = $this->CI->load->view('emails/delete_appointment', [
             'appointment_service' => $service['name'],
             'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             'appointment_date' => $appointment_start->format($date_format . ' ' . $time_format),
-            'appointment_duration' => $service['duration'] . ' ' . $this->framework->lang->line('minutes'),
+            'appointment_duration' => $service['duration'] . ' ' . $this->CI->lang->line('minutes'),
             'appointment_timezone' => $timezones[empty($timezone) ? $provider['timezone'] : $timezone],
             'company_link' => $settings['company_link'],
             'company_name' => $settings['company_name'],
@@ -261,7 +259,7 @@ class Email {
         $mailer->From = $settings['company_email'];
         $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipient_email->get()); // "Name" argument crushes the phpmailer class.
-        $mailer->Subject = $this->framework->lang->line('appointment_cancelled_title');
+        $mailer->Subject = $this->CI->lang->line('appointment_cancelled_title');
         $mailer->Body = $html;
 
         if ( ! $mailer->Send())
@@ -282,7 +280,7 @@ class Email {
      */
     public function send_password(NonEmptyText $password, EmailAddress $recipientEmail, array $settings)
     {
-        $html = $this->framework->load->view('emails/new_password', [
+        $html = $this->CI->load->view('emails/new_password', [
             'email_title' => lang('new_account_password'),
             'email_message' => str_replace('$password', '<strong>' . $password->get() . '</strong>', lang('new_password_is')),
             'company_name' => $settings['company_name'],
@@ -295,7 +293,7 @@ class Email {
         $mailer->From = $settings['company_email'];
         $mailer->FromName = $settings['company_name'];
         $mailer->AddAddress($recipientEmail->get()); // "Name" argument crushes the phpmailer class.
-        $mailer->Subject = $this->framework->lang->line('new_account_password');
+        $mailer->Subject = $this->CI->lang->line('new_account_password');
         $mailer->Body = $html;
 
         if ( ! $mailer->Send())

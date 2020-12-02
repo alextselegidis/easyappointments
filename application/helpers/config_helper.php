@@ -20,7 +20,7 @@
  */
 function config($key)
 {
-    $framework = &get_instance();
+    $CI = &get_instance();
 
-    return $framework->config->item($key);
+    return $CI->config->item($key);
 }
