@@ -9,11 +9,6 @@ header .page-title {
     color: #429a82;
 }
 
-.content {
-    margin: 32px;
-    max-width: 980px;
-}
-
 .content p {
     word-break: break-all;
 }
