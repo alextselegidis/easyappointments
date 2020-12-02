@@ -214,8 +214,7 @@
                 this.resetForm();
                 $('#filter-secretaries .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -236,8 +235,7 @@
                 Backend.displayNotification(EALang.secretary_deleted);
                 this.resetForm();
                 this.filter($('#filter-secretaries .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -406,8 +404,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

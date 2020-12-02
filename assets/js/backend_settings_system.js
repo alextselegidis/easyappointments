@@ -60,8 +60,7 @@
                 var workingPlan = BackendSettings.wp.get();
                 BackendSettings.wp.setup(workingPlan);
                 BackendSettings.wp.timepickers(false);
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 
     /**

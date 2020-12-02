@@ -34,8 +34,7 @@ $(function () {
                         .removeClass('d-none alert-danger alert-success')
                         .addClass('alert-danger');
                 }
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     }
 
     $loginForm.on('submit', onLoginFormSubmit);

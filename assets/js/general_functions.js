@@ -23,6 +23,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     'use strict';
 
     /**
+     * Register global error handler.
+     */
+    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+        GeneralFunctions.ajaxFailureHandler(jqxhr, settings, thrownError);
+    });
+
+    /**
      * This functions displays a message box in the admin array. It is useful when user
      * decisions or verifications are needed.
      *
@@ -288,8 +295,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             $.post(url, data)
                 .done(function () {
                     document.location.reload(true);
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
         $(document).on('click', function() {

@@ -110,7 +110,6 @@ window.BackendServices = window.BackendServices || {};
                 });
 
                 $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 })(window.BackendServices);

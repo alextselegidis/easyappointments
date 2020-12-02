@@ -185,8 +185,7 @@
                 this.resetForm();
                 $('#filter-customers .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -207,8 +206,7 @@
                 Backend.displayNotification(EALang.customer_deleted);
                 this.resetForm();
                 this.filter($('#filter-customers .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -412,8 +410,7 @@
                     this.select(selectId, display);
                 }
 
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

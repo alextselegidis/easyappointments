@@ -56,8 +56,7 @@ $(function () {
                 setTimeout(function () {
                     window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
                 }, 1000);
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     });
 
     /**

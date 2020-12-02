@@ -218,8 +218,7 @@ window.BackendSettings = window.BackendSettings || {};
                         $input.closest('.form-group').removeClass('has-error');
                         $input.attr('already-exists', 'false');
                     }
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
         /**
@@ -247,7 +246,6 @@ window.BackendSettings = window.BackendSettings || {};
                             .done(function () {
                                 Backend.displayNotification(EALang.working_plans_got_updated);
                             })
-                            .fail(GeneralFunctions.ajaxFailureHandler)
                             .always(function() {
                                 $('#message-box').dialog('close');
                             });

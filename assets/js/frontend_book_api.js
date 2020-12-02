@@ -126,8 +126,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 } else {
                     $('#available-hours').text(EALang.no_available_hours);
                 }
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 
     /**
@@ -206,7 +205,6 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             })
             .fail(function (jqxhr, textStatus, errorThrown) {
                 $('.captcha-title small').trigger('click');
-                GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
             })
             .always(function () {
                 $layer.remove();
@@ -256,8 +254,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 unavailableDatesBackup = response;
                 selectedDateStringBackup = selectedDateString;
                 applyUnavailableDates(response, selectedDateString, true);
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 
     exports.applyPreviousUnavailableDates = function () {
@@ -313,7 +310,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             consent: consent
         };
 
-        $.post(url, data).fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data);
     };
 
     /**
@@ -331,9 +328,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         $.post(url, data)
             .done(function () {
-                location.href = GlobalVariables.baseUrl;
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+                window.location.href = GlobalVariables.baseUrl;
+            });
     };
 
 })(window.FrontendBookApi);

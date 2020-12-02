@@ -208,8 +208,7 @@
                 this.resetForm();
                 $('#filter-services .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -231,8 +230,7 @@
 
                 this.resetForm();
                 this.filter($('#filter-services .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -365,8 +363,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

@@ -181,8 +181,7 @@ window.BackendUsers = window.BackendUsers || {};
                             })
                                 .appendTo('#secretary-providers');
                         });
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             }
 
             helper.resetForm();
@@ -233,8 +232,7 @@ window.BackendUsers = window.BackendUsers || {};
                             $input.parents().eq(3).find('.form-message').hide();
                         }
                     }
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
     }
 

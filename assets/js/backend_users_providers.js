@@ -236,8 +236,7 @@
                 this.resetForm();
                 $('#filter-providers .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -257,8 +256,7 @@
                 Backend.displayNotification(EALang.provider_deleted);
                 this.resetForm();
                 this.filter($('#filter-providers .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -484,8 +482,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

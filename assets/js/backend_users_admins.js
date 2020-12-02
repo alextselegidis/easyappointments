@@ -200,8 +200,7 @@
                 this.resetForm();
                 $('#filter-admins .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -222,8 +221,7 @@
                 Backend.displayNotification(EALang.admin_deleted);
                 this.resetForm();
                 this.filter($('#filter-admins .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -379,8 +377,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

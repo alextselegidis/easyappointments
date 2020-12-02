@@ -224,8 +224,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                                     // Refresh calendar event items.
                                     $('#select-filter-item').trigger('change');
-                                })
-                                .fail(GeneralFunctions.ajaxFailureHandler);
+                                });
                         }
                     }
                 ];
@@ -255,8 +254,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             }
         });
 
@@ -728,8 +726,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -777,8 +774,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -898,8 +894,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -948,8 +943,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1366,7 +1360,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }
                 }
             })
-            .fail(GeneralFunctions.ajaxFailureHandler)
             .always(function () {
                 $('#loading').css('visibility', '')
             });

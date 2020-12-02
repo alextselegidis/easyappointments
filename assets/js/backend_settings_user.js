@@ -79,8 +79,7 @@
 
                 // Update footer greetings.
                 $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 
     /**

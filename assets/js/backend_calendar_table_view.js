@@ -117,9 +117,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                     // setCalendarViewSize();
                     Backend.placeFooterToBottom();
-
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
         /**
@@ -266,8 +264,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
@@ -293,8 +290,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                                     // Refresh calendar event items.
                                     $('#select-filter-item').trigger('change');
-                                })
-                                .fail(GeneralFunctions.ajaxFailureHandler);
+                                });
                         }
                     }
                 ];
@@ -323,8 +319,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             }
         });
     }
@@ -540,9 +535,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $providerColumn.find('.calendar-wrapper')
                         .fullCalendar('changeView', providerView[providerId] || 'agendaDay');
                 });
-
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     }
 
     /**
@@ -1466,8 +1459,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1515,8 +1507,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1605,8 +1596,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1656,8 +1646,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         .done(function () {
                             $('#notification').hide('blind');
                             revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [

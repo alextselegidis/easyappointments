@@ -207,8 +207,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -231,8 +230,7 @@
                 $('#filter-categories .key').val('');
                 this.filter('', response.id, true);
                 BackendServices.updateAvailableCategories();
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -255,8 +253,7 @@
                 this.resetForm();
                 this.filter($('#filter-categories .key').val());
                 BackendServices.updateAvailableCategories();
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
