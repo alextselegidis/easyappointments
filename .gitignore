@@ -12,6 +12,9 @@
 /assets/js/**/*.min.js
 /assets/css/**/*.min.css
 /config.php
+/storage/backups/*
+!/storage/backups/.htaccess
+!/storage/backups/index.html
 /storage/cache/*
 !/storage/cache/.htaccess
 !/storage/cache/index.html

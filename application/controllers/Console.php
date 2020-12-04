@@ -31,6 +31,8 @@ class Console extends EA_Controller {
 
         parent::__construct();
 
+        $this->load->helper('file');
+        $this->load->dbutil();
         $this->load->library('migration');
         $this->load->model('admins_model');
         $this->load->model('customers_model');
@@ -154,6 +156,40 @@ class Console extends EA_Controller {
         $this->migrate('fresh');
         $this->seed();
         $this->output->set_output(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
+    }
+
+    /**
+     * Create a backup file.
+     *
+     * Use this method to backup your Easy!Appointments data.
+     *
+     * Usage:
+     *
+     * php index.php console backup
+     *
+     * php index.php console backup /path/to/backup/folder
+     *
+     * @throws Exception
+     */
+    public function backup()
+    {
+        $path = isset($GLOBALS['argv'][3]) ? $GLOBALS['argv'][3] : APPPATH . '/../storage/backups';
+
+        if ( ! file_exists($path))
+        {
+            throw new Exception('The backup path does not exist™: ' . $path);
+        }
+
+        if ( ! is_writable($path))
+        {
+            throw new Exception('The backup path is not writable: ' . $path);
+        }
+
+        $contents = $this->dbutil->backup();
+
+        $filename = 'easyappointments-backup-' . date('Y-m-d-His') . '.gz';
+
+        write_file(rtrim($path, '/') . '/' . $filename, $contents);
     }
 
     /**
