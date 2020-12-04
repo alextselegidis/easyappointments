@@ -96,7 +96,7 @@ class Email {
         $timezone = NULL
     )
     {
-        $timezones = $this->framework->timezones->to_array();
+        $timezones = $this->CI->timezones->to_array();
 
         switch ($settings['date_format'])
         {
