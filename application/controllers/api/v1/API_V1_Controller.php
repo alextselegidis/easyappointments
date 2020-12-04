@@ -45,14 +45,14 @@ class API_V1_Controller extends EA_Controller {
 
             $authorization = new Authorization($this);
 
-            if ( ! empty($api_token) && $api_token === $this->_getBearerToken())
+            if ( ! empty($api_token) && $api_token === $this->get_bearer_token())
             {
                 return;
             }
 
             if ( ! isset($_SERVER['PHP_AUTH_USER']))
             {
-                $this->_requestAuthentication();
+                $this->request_authentication();
                 return;
             }
 
@@ -62,7 +62,8 @@ class API_V1_Controller extends EA_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
+            exit;
         }
     }
 
@@ -71,9 +72,9 @@ class API_V1_Controller extends EA_Controller {
      *
      * @return string
      */
-    protected function _getBearerToken()
+    protected function get_bearer_token()
     {
-        $headers = $this->_getAuthorizationHeader();
+        $headers = $this->get_authorization_header();
 
         // HEADER: Get the access token from the header
 
@@ -92,7 +93,7 @@ class API_V1_Controller extends EA_Controller {
      *
      * @return string
      */
-    protected function _getAuthorizationHeader()
+    protected function get_authorization_header()
     {
         $headers = NULL;
 
@@ -128,7 +129,7 @@ class API_V1_Controller extends EA_Controller {
     /**
      * Sets request authentication headers.
      */
-    protected function _requestAuthentication()
+    protected function request_authentication()
     {
         header('WWW-Authenticate: Basic realm="Easy!Appointments"');
         header('HTTP/1.0 401 Unauthorized');
