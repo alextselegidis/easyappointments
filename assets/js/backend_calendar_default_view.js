@@ -692,7 +692,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $('#notification').hide('bind');
         }
 
-        if (event.data.is_unavailable === false) {
+        if (Boolean(Number(event.data.is_unavailable)) === false) {
             // Prepare appointment data.
             event.data.end_datetime = Date.parseExact(
                 event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
