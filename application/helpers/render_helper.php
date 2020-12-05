@@ -25,7 +25,7 @@ function render_timezone_dropdown($attributes = '')
 
     $timezones = $CI->timezones->to_grouped_array();
 
-    return $CI->load->view('partial/timezone_dropdown', [
+    return $CI->load->view('partials/timezone_dropdown', [
         'timezones' => $timezones,
         'attributes' => $attributes
     ], TRUE);
