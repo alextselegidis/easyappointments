@@ -17,6 +17,13 @@
  * @package Controllers
  */
 class Errors extends EA_Controller {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->helper('google_analytics');
+        $this->load->model('settings_model');
+    }
+
     /**
      * Display the 404 error page.
      */
@@ -30,9 +37,6 @@ class Errors extends EA_Controller {
      */
     public function error404()
     {
-        $this->load->helper('google_analytics');
-        $this->load->model('settings_model');
-
         $view['company_name'] = $this->settings_model->get_setting('company_name');
 
         $this->load->view('general/error404', $view);

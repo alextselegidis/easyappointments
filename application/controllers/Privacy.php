@@ -18,6 +18,15 @@
  */
 class Privacy extends EA_Controller {
     /**
+     * Privacy constructor
+     */
+    public function __construct()
+    {
+        $this->load->driver('cache', ['adapter' => 'file']);
+        $this->load->model('customers_model');
+    }
+
+    /**
      * Remove all customer data (including appointments from the system).
      */
     public function ajax_delete_personal_information()
@@ -31,8 +40,6 @@ class Privacy extends EA_Controller {
                 throw new InvalidArgumentException('Invalid customer token value provided.');
             }
 
-            $this->load->driver('cache', ['adapter' => 'file']);
-
             $customer_id = $this->cache->get('customer-token-' . $customer_token);
 
             if (empty($customer_id))
@@ -40,8 +47,6 @@ class Privacy extends EA_Controller {
                 throw new InvalidArgumentException('Customer ID could not be found, please reload the page '
                     . 'and try again.');
             }
-
-            $this->load->model('customers_model');
 
             $this->customers_model->delete($customer_id);
 

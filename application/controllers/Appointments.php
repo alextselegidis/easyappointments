@@ -26,7 +26,6 @@ class Appointments extends EA_Controller {
 
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
-
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('admins_model');
@@ -34,12 +33,10 @@ class Appointments extends EA_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
-
         $this->load->library('timezones');
         $this->load->library('synchronization');
         $this->load->library('notifications');
         $this->load->library('availability');
-
         $this->load->driver('cache', ['adapter' => 'file']);
     }
 

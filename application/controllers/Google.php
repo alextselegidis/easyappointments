@@ -20,6 +20,16 @@
  */
 class Google extends EA_Controller {
     /**
+     * Google constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('google_sync');
+        $this->load->model('providers_model');
+    }
+
+    /**
      * Authorize Google Calendar API usage for a specific provider.
      *
      * Since it is required to follow the web application flow, in order to retrieve a refresh token from the Google API
@@ -33,7 +43,6 @@ class Google extends EA_Controller {
         $this->session->set_userdata('oauth_provider_id', $provider_id);
 
         // Redirect browser to google user content page.
-        $this->load->library('google_sync');
         header('Location: ' . $this->google_sync->get_auth_url());
     }
 
@@ -58,8 +67,6 @@ class Google extends EA_Controller {
             return;
         }
 
-        $this->load->library('Google_sync');
-
         $token = $this->google_sync->authenticate($code);
 
         if (empty($token))
@@ -73,7 +80,6 @@ class Google extends EA_Controller {
 
         if ($oauth_provider_id)
         {
-            $this->load->model('providers_model');
             $this->providers_model->set_setting('google_sync', TRUE, $oauth_provider_id);
             $this->providers_model->set_setting('google_token', json_encode($token), $oauth_provider_id);
             $this->providers_model->set_setting('google_calendar', 'primary', $oauth_provider_id);

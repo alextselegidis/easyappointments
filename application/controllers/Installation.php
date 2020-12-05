@@ -25,8 +25,13 @@ class Installation extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
-
+        $this->load->model('admins_model');
+        $this->load->model('settings_model');
+        $this->load->model('services_model');
+        $this->load->model('providers_model');
+        $this->load->library('migration');
         $this->load->helper('installation');
+        $this->load->helper('string');
     }
 
     /**
@@ -56,13 +61,6 @@ class Installation extends EA_Controller {
             {
                 return;
             }
-
-            $this->load->model('admins_model');
-            $this->load->model('settings_model');
-            $this->load->model('services_model');
-            $this->load->model('providers_model');
-            $this->load->library('migration');
-            $this->load->helper('string');
 
             $admin = $this->input->post('admin');
             $company = $this->input->post('company');

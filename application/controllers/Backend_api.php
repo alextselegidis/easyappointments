@@ -36,18 +36,21 @@ class Backend_api extends EA_Controller {
     {
         parent::__construct();
 
-        $this->load->model('roles_model');
-        $this->load->model('appointments_model');
-        $this->load->model('providers_model');
         $this->load->model('admins_model');
+        $this->load->model('appointments_model');
+        $this->load->model('consents_model');
+        $this->load->model('customers_model');
+        $this->load->model('providers_model');
+        $this->load->model('roles_model');
         $this->load->model('secretaries_model');
         $this->load->model('services_model');
-        $this->load->model('customers_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
-        $this->load->library('timezones');
-        $this->load->library('synchronization');
+        $this->load->library('google_sync');
+        $this->load->library('ics_file');
         $this->load->library('notifications');
+        $this->load->library('synchronization');
+        $this->load->library('timezones');
 
         if ($this->session->userdata('role_slug'))
         {
@@ -113,7 +116,6 @@ class Backend_api extends EA_Controller {
             // If the current user is a secretary he must only see the appointments of his providers.
             if ($role_slug === DB_SLUG_SECRETARY)
             {
-                $this->load->model('secretaries_model');
                 $providers = $this->secretaries_model->get_row($user_id)['providers'];
                 foreach ($response['appointments'] as $index => $appointment)
                 {
@@ -349,14 +351,6 @@ class Backend_api extends EA_Controller {
             }
 
             // Store appointment data for later use in this method.
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('admins_model');
-            $this->load->model('secretaries_model');
-            $this->load->model('customers_model');
-            $this->load->model('services_model');
-            $this->load->model('settings_model');
-
             $appointment = $this->appointments_model->get_row($this->input->post('appointment_id'));
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
             $customer = $this->customers_model->get_row($appointment['id_users_customer']);
@@ -384,7 +378,6 @@ class Backend_api extends EA_Controller {
                     {
                         $google_token = json_decode($this->providers_model
                             ->get_setting('google_token', $provider['id']));
-                        $this->load->library('Google_sync');
                         $this->google_sync->refresh_token($google_token->refresh_token);
                         $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
                     }
@@ -512,8 +505,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('providers_model');
-            $this->load->model('appointments_model');
             $this->providers_model->set_setting('google_sync', FALSE, $this->input->post('provider_id'));
             $this->providers_model->set_setting('google_token', NULL, $this->input->post('provider_id'));
             $this->appointments_model->clear_google_sync_ids($this->input->post('provider_id'));
@@ -548,11 +539,6 @@ class Backend_api extends EA_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
-
-            $this->load->model('appointments_model');
-            $this->load->model('services_model');
-            $this->load->model('providers_model');
-            $this->load->model('customers_model');
 
             $key = $this->db->escape_str($this->input->post('key'));
             $key = strtoupper($key);
@@ -627,9 +613,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-
             $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
 
             // Add appointment
@@ -647,7 +630,6 @@ class Backend_api extends EA_Controller {
                     $google_token = json_decode($this->providers_model->get_setting('google_token',
                         $unavailable['id_users_provider']));
 
-                    $this->load->library('google_sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
 
                     if ($unavailable['id_google_calendar'] == NULL)
@@ -709,9 +691,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-
             $unavailable = $this->appointments_model->get_row($this->input->post('unavailable_id'));
             $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
 
@@ -725,7 +704,6 @@ class Backend_api extends EA_Controller {
                 if ($google_sync == TRUE)
                 {
                     $google_token = json_decode($this->providers_model->get_setting('google_token', $provider['id']));
-                    $this->load->library('google_sync');
                     $this->google_sync->refresh_token($google_token->refresh_token);
                     $this->google_sync->delete_unavailable($provider, $unavailable['id_google_calendar']);
                 }
@@ -778,8 +756,6 @@ class Backend_api extends EA_Controller {
             $working_plan_exception = $this->input->post('working_plan_exception');
             $provider_id = $this->input->post('provider_id');
 
-            $this->load->model('providers_model');
-
             $success = $this->providers_model->save_working_plan_exception($date, $working_plan_exception, $provider_id);
 
             if ($success)
@@ -824,8 +800,6 @@ class Backend_api extends EA_Controller {
             $date = $this->input->post('date');
             $provider_id = $this->input->post('provider_id');
 
-            $this->load->model('providers_model');
-
             $success = $this->providers_model->delete_working_plan_exception($date, $provider_id);
 
             if ($success)
@@ -859,7 +833,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('customers_model');
             $customer = json_decode($this->input->post('customer'), TRUE);
 
             $required_privileges = ( ! isset($customer['id']))
@@ -904,8 +877,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('customers_model');
-
             $this->customers_model->delete($this->input->post('customer_id'));
 
             $response = AJAX_SUCCESS;
@@ -932,7 +903,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('services_model');
             $service = json_decode($this->input->post('service'), TRUE);
 
             $required_privileges = ( ! isset($service['id']))
@@ -976,8 +946,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('services_model');
-
             $result = $this->services_model->delete($this->input->post('service_id'));
 
             $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
@@ -1008,8 +976,6 @@ class Backend_api extends EA_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
-
-            $this->load->model('services_model');
 
             $key = $this->db->escape_str($this->input->post('key'));
 
@@ -1042,7 +1008,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('services_model');
             $category = json_decode($this->input->post('category'), TRUE);
 
             $required_privileges = ( ! isset($category['id']))
@@ -1087,8 +1052,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('services_model');
-
             $result = $this->services_model->delete_category($this->input->post('category_id'));
 
             $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
@@ -1119,8 +1082,6 @@ class Backend_api extends EA_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
-
-            $this->load->model('services_model');
 
             $key = $this->db->escape_str($this->input->post('key'));
 
@@ -1155,8 +1116,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('admins_model');
-
             $key = $this->db->escape_str($this->input->post('key'));
 
             $where =
@@ -1190,7 +1149,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('admins_model');
             $admin = json_decode($this->input->post('admin'), TRUE);
 
             $required_privileges = ( ! isset($admin['id']))
@@ -1235,8 +1193,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('admins_model');
-
             $result = $this->admins_model->delete($this->input->post('admin_id'));
 
             $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
@@ -1267,8 +1223,6 @@ class Backend_api extends EA_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
-
-            $this->load->model('providers_model');
 
             $key = $this->db->escape_str($this->input->post('key'));
 
@@ -1303,7 +1257,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('providers_model');
             $provider = json_decode($this->input->post('provider'), TRUE);
 
             $required_privileges = ( ! isset($provider['id']))
@@ -1316,7 +1269,6 @@ class Backend_api extends EA_Controller {
 
             if ( ! isset($provider['settings']['working_plan']))
             {
-                $this->load->model('settings_model');
                 $provider['settings']['working_plan'] = $this->settings_model
                     ->get_setting('company_working_plan');
             }
@@ -1355,8 +1307,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('providers_model');
-
             $result = $this->providers_model->delete($this->input->post('provider_id'));
 
             $response =$result ? AJAX_SUCCESS : AJAX_FAILURE;
@@ -1387,8 +1337,6 @@ class Backend_api extends EA_Controller {
             {
                 throw new Exception('You do not have the required privileges for this task.');
             }
-
-            $this->load->model('secretaries_model');
 
             $key = $this->db->escape_str($this->input->post('key'));
 
@@ -1423,7 +1371,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('secretaries_model');
             $secretary = json_decode($this->input->post('secretary'), TRUE);
 
             $required_privileges = ( ! isset($secretary['id']))
@@ -1468,8 +1415,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('secretaries_model');
-
             $result = $this->secretaries_model->delete($this->input->post('secretary_id'));
 
             $response =$result ? AJAX_SUCCESS : AJAX_FAILURE;
@@ -1503,8 +1448,6 @@ class Backend_api extends EA_Controller {
                     throw new Exception('You do not have the required privileges for this task.');
                 }
 
-                $this->load->model('settings_model');
-
                 $settings = json_decode($this->input->post('settings', FALSE), TRUE);
 
                 $this->settings_model->save_settings($settings);
@@ -1517,8 +1460,6 @@ class Backend_api extends EA_Controller {
                     {
                         throw new Exception('You do not have the required privileges for this task.');
                     }
-
-                    $this->load->model('user_model');
 
                     $settings = json_decode($this->input->post('settings'), TRUE);
 
@@ -1558,9 +1499,6 @@ class Backend_api extends EA_Controller {
         {
             // We will only use the function in the admins_model because it is sufficient for the rest user types for
             // now (providers, secretaries).
-
-            $this->load->model('admins_model');
-
             $is_valid = $this->admins_model->validate_username($this->input->post('username'),
                 $this->input->post('user_id'));
 
@@ -1637,9 +1575,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->library('google_sync');
-            $this->load->model('providers_model');
-
             if ( ! $this->input->post('provider_id'))
             {
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
@@ -1693,8 +1628,6 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
-            $this->load->model('providers_model');
-
             $result = $this->providers_model->set_setting('google_calendar', $this->input->post('calendar_id'),
                 $this->input->post('provider_id'));
 
@@ -1728,8 +1661,6 @@ class Backend_api extends EA_Controller {
             }
 
             $working_plan = $this->input->post('working_plan');
-
-            $this->load->model('providers_model');
 
             $providers = $this->providers_model->get_batch();
 

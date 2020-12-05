@@ -31,8 +31,8 @@ class Console extends EA_Controller {
 
         parent::__construct();
 
-        $this->load->helper('file');
         $this->load->dbutil();
+        $this->load->helper('file');
         $this->load->library('migration');
         $this->load->model('admins_model');
         $this->load->model('customers_model');

@@ -35,7 +35,6 @@ class Backend extends EA_Controller {
         $this->load->model('user_model');
         $this->load->model('secretaries_model');
         $this->load->model('admins_model');
-
         $this->load->library('timezones');
         $this->load->library('migration');
     }

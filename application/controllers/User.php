@@ -22,6 +22,16 @@ use EA\Engine\Types\NonEmptyText;
  */
 class User extends EA_Controller {
     /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('settings_model');
+        $this->load->model('user_model');
+    }
+
+    /**
      * Default Method
      *
      * The default method will redirect the browser to the user/login URL.
@@ -38,8 +48,6 @@ class User extends EA_Controller {
      */
     public function login()
     {
-        $this->load->model('settings_model');
-
         $view['base_url'] = config('base_url');
         $view['dest_url'] = $this->session->userdata('dest_url');
 
@@ -58,8 +66,6 @@ class User extends EA_Controller {
      */
     public function logout()
     {
-        $this->load->model('settings_model');
-
         $this->session->unset_userdata('user_id');
         $this->session->unset_userdata('user_email');
         $this->session->unset_userdata('role_slug');
@@ -77,7 +83,6 @@ class User extends EA_Controller {
      */
     public function forgot_password()
     {
-        $this->load->model('settings_model');
         $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $this->load->view('user/forgot_password', $view);
@@ -89,7 +94,6 @@ class User extends EA_Controller {
      */
     public function no_privileges()
     {
-        $this->load->model('settings_model');
         $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $this->load->view('user/no_privileges', $view);
@@ -112,8 +116,6 @@ class User extends EA_Controller {
             {
                 throw new Exception('Invalid credentials given!');
             }
-
-            $this->load->model('user_model');
 
             $user_data = $this->user_model->check_login($this->input->post('username'), $this->input->post('password'));
 
@@ -161,9 +163,6 @@ class User extends EA_Controller {
                 throw new Exception('You must enter a valid username and email address in '
                     . 'order to get a new password!');
             }
-
-            $this->load->model('user_model');
-            $this->load->model('settings_model');
 
             $new_password = $this->user_model->regenerate_password(
                 $this->input->post('username'),
