@@ -102,6 +102,15 @@
                 .prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
+
+            // Default values
+            $('#service-name').val('Service');
+            $('#service-duration').val('30');
+            $('#service-price').val('0');
+            $('#service-currency').val('');
+            $('#service-category').val('null');
+            $('#service-availabilities-type').val('flexible');
+            $('#service-attendants-number').val('1');
         });
 
         /**
