@@ -219,4 +219,39 @@ class Console extends EA_Controller {
             Google::sync($provider['id']);
         }
     }
+
+
+    /**
+     * Show help information about the console capabilities.
+     *
+     * Use this method to see the available commands.
+     *
+     * Usage:
+     *
+     * php index.php console help
+     */
+    public function help()
+    {
+        $help = [
+            '',
+            'Easy!Appointments ' . config('version'),
+            '',
+            'Usage:',
+            '',
+            '⇾ php index.php console [command] [arguments]',
+            '',
+            'Commands:',
+            '',
+            '⇾ php index.php console migrate',
+            '⇾ php index.php console migrate fresh',
+            '⇾ php index.php console seed',
+            '⇾ php index.php console install',
+            '⇾ php index.php console backup',
+            '⇾ php index.php console sync',
+            '',
+            '',
+        ];
+
+        $this->output->set_output(implode(PHP_EOL, $help));
+    }
 }
