@@ -7,6 +7,7 @@ Welcome to the documentation pages of Easy!Appointments. Navigate through the av
 - [Manage Translations](manage-translations.md)
 - [Google Calendar Sync](google-calendar-sync.md)
 - [REST API](rest-api.md)
+- [Console](console.md)
 - [Docker](docker.md)
 - [FAQ](faq.md)
 
