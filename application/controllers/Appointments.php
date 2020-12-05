@@ -479,7 +479,7 @@ class Appointments extends EA_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
             $response = [

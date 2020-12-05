@@ -37,6 +37,17 @@ class Backend_api extends EA_Controller {
         parent::__construct();
 
         $this->load->model('roles_model');
+        $this->load->model('appointments_model');
+        $this->load->model('providers_model');
+        $this->load->model('admins_model');
+        $this->load->model('secretaries_model');
+        $this->load->model('services_model');
+        $this->load->model('customers_model');
+        $this->load->model('settings_model');
+        $this->load->model('user_model');
+        $this->load->library('timezones');
+        $this->load->library('synchronization');
+        $this->load->library('notifications');
 
         if ($this->session->userdata('role_slug'))
         {
@@ -53,25 +64,19 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->output->set_content_type('application/json');
-            $this->load->model('appointments_model');
-            $this->load->model('customers_model');
-            $this->load->model('services_model');
-            $this->load->model('providers_model');
-
-            $startDate = $this->input->post('startDate') . ' 00:00:00';
-            $endDate = $this->input->post('endDate') . ' 23:59:59';
+            $start_date = $this->input->post('startDate') . ' 00:00:00';
+            $end_date = $this->input->post('endDate') . ' 23:59:59';
 
             $response = [
                 'appointments' => $this->appointments_model->get_batch([
                     'is_unavailable' => FALSE,
-                    'start_datetime >=' => $startDate,
-                    'end_datetime <=' => $endDate
+                    'start_datetime >=' => $start_date,
+                    'end_datetime <=' => $end_date
                 ]),
                 'unavailability_events' => $this->appointments_model->get_batch([
                     'is_unavailable' => TRUE,
-                    'start_datetime >=' => $startDate,
-                    'end_datetime <=' => $endDate
+                    'start_datetime >=' => $start_date,
+                    'end_datetime <=' => $end_date
                 ])
             ];
 
@@ -82,7 +87,7 @@ class Backend_api extends EA_Controller {
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
 
-            $userId = $this->session->userdata('user_id');
+            $user_id = $this->session->userdata('user_id');
             $role_slug = $this->session->userdata('role_slug');
 
             // If the current user is a provider he must only see his own appointments.
@@ -90,7 +95,7 @@ class Backend_api extends EA_Controller {
             {
                 foreach ($response['appointments'] as $index => $appointment)
                 {
-                    if ((int)$appointment['id_users_provider'] !== (int)$userId)
+                    if ((int)$appointment['id_users_provider'] !== (int)$user_id)
                     {
                         unset($response['appointments'][$index]);
                     }
@@ -98,7 +103,7 @@ class Backend_api extends EA_Controller {
 
                 foreach ($response['unavailability_events'] as $index => $unavailability_event)
                 {
-                    if ((int)$unavailability_event['id_users_provider'] !== (int)$userId)
+                    if ((int)$unavailability_event['id_users_provider'] !== (int)$user_id)
                     {
                         unset($response['unavailability_events'][$index]);
                     }
@@ -109,7 +114,7 @@ class Backend_api extends EA_Controller {
             if ($role_slug === DB_SLUG_SECRETARY)
             {
                 $this->load->model('secretaries_model');
-                $providers = $this->secretaries_model->get_row($userId)['providers'];
+                $providers = $this->secretaries_model->get_row($user_id)['providers'];
                 foreach ($response['appointments'] as $index => $appointment)
                 {
                     if ( ! in_array((int)$appointment['id_users_provider'], $providers))
@@ -166,11 +171,6 @@ class Backend_api extends EA_Controller {
                     ->set_output(json_encode(['appointments' => []]));
                 return;
             }
-
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('services_model');
-            $this->load->model('customers_model');
 
             if ($this->input->post('filter_type') == FILTER_TYPE_PROVIDER)
             {
@@ -243,18 +243,6 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $this->load->model('appointments_model');
-            $this->load->model('providers_model');
-            $this->load->model('admins_model');
-            $this->load->model('secretaries_model');
-            $this->load->model('services_model');
-            $this->load->model('customers_model');
-            $this->load->model('settings_model');
-            $this->load->library('timezones');
-            $this->load->library('synchronization');
-            $this->load->library('notifications');
-            $this->load->model('user_model');
-
             // Save customer changes to the database.
             if ($this->input->post('customer_data'))
             {
@@ -320,7 +308,7 @@ class Backend_api extends EA_Controller {
             ];
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $service, $manage_mode);
-            $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings);
+            $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
             $response = AJAX_SUCCESS;
         }
