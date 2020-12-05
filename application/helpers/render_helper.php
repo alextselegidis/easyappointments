@@ -15,7 +15,8 @@
  * Render the HTML output of a timezone dropdown element.
  *
  * @param string $attributes HTML element attributes of the dropdown.
- * @return false|string
+ *
+ * @return string
  */
 function render_timezone_dropdown($attributes = '')
 {

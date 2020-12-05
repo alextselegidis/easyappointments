@@ -24,8 +24,6 @@
  */
 function asset_url($uri = '', $protocol = NULL)
 {
-    $CI =& get_instance();
-
     $debug = config('debug');
 
     $cache_busting_token = ! $debug ? '?' . config('cache_busting_token') : '';
