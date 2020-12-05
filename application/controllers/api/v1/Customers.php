@@ -49,8 +49,9 @@ class Customers extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? ['id' => $id] : NULL;
-            $customers = $this->customers_model->get_batch($condition);
+            $conditions = $id !== NULL ? ['id' => $id] : NULL;
+
+            $customers = $this->customers_model->get_batch($conditions);
 
             if ($id !== NULL && count($customers) === 0)
             {

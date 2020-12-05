@@ -49,8 +49,9 @@ class Providers extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? ['id' => $id] : NULL;
-            $providers = $this->providers_model->get_batch($condition);
+            $conditions = $id !== NULL ? ['id' => $id] : NULL;
+            
+            $providers = $this->providers_model->get_batch($conditions);
 
             if ($id !== NULL && count($providers) === 0)
             {
