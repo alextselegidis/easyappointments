@@ -404,21 +404,23 @@ class Admins_model extends EA_Model {
 
         // Check whether the admin record exists.
         $result = $this->db->get_where('users', ['id' => $admin_id]);
-        if ($result->num_rows() == 0)
+
+        if ($result->num_rows() === 0)
         {
             throw new Exception('The record with the given id does not exist in the '
                 . 'database: ' . $admin_id);
         }
 
         // Check if the required field name exist in database.
-        $provider = $result->row_array();
-        if ( ! isset($provider[$field_name]))
+        $row_data = $result->row_array();
+
+        if ( ! array_key_exists($field_name, $row_data))
         {
             throw new Exception('The given $field_name argument does not exist in the '
                 . 'database: ' . $field_name);
         }
 
-        return $provider[$field_name];
+        return $row_data[$field_name];
     }
 
     /**

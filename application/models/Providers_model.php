@@ -493,18 +493,18 @@ class Providers_model extends EA_Model {
 
         if ($result->num_rows() == 0)
         {
-            throw new Exception('The record with the $provider_id argument does not exist in '
-                . 'the database: ' . $provider_id);
+            throw new Exception('The record with the $provider_id argument does not exist in the database: '
+                . $provider_id);
         }
 
-        $provider = $result->row_array();
+        $row_data = $result->row_array();
 
-        if ( ! isset($provider[$field_name]))
+        if ( ! isset($row_data[$field_name]))
         {
             throw new Exception('The given $field_name argument does not exist in the database: ' . $field_name);
         }
 
-        return $provider[$field_name];
+        return $row_data[$field_name];
     }
 
     /**

@@ -352,13 +352,13 @@ class Appointments_model extends EA_Model {
 
         if ($this->db->get_where('appointments', ['id' => $appointment_id])->num_rows() == 0)
         {
-            throw new Exception('The record with the provided id '
-                . 'does not exist in the database: ' . $appointment_id);
+            throw new Exception('The record with the provided ID does not exist in the database: '
+                . $appointment_id);
         }
 
         $row_data = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
 
-        if ( ! isset($row_data[$field_name]))
+        if ( ! array_key_exists($field_name, $row_data))
         {
             throw new Exception('The given field name does not exist in the database: ' . $field_name);
         }

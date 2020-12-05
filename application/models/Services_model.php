@@ -303,13 +303,14 @@ class Services_model extends EA_Model {
         }
 
         $row_data = $this->db->get_where('services', ['id' => $service_id])->row_array();
-        if ( ! isset($row_data[$field_name]))
+
+        if ( ! array_key_exists($field_name, $row_data))
         {
-            throw new Exception('The given $field_name argument does not exist in the database: ' . $field_name);
+            throw new Exception('The given $field_name argument does not exist in the database: '
+                . $field_name);
         }
 
-        $setting = $this->db->get_where('services', ['id' => $service_id])->row_array();
-        return $setting[$field_name];
+        return $row_data[$field_name];
     }
 
     /**
