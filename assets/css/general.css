@@ -157,7 +157,7 @@ body .ui-datepicker .ui-datepicker-next-hover {
 }
 
 body .ui-datepicker .ui-slider-handle {
-    border-radius: none;
+    border-radius: 0;
     border-color: #429a82;
     background-color: #429a82;
 }
@@ -207,7 +207,7 @@ li.language:hover {
 
 #language-list {
     list-style: none;
-    padding-left: 0px;
+    padding-left: 0;
     max-height: 500px;
     overflow-y: auto;
 }
