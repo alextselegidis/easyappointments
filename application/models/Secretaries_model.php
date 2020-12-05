@@ -25,7 +25,6 @@ class Secretaries_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();
-
         $this->load->helper('general');
         $this->load->helper('data_validation');
     }
@@ -74,9 +73,9 @@ class Secretaries_model extends EA_Model {
         // If a record id is provided then check whether the record exists in the database.
         if (isset($secretary['id']))
         {
-            $num_rows = $this->db->get_where('users', ['id' => $secretary['id']])
-                ->num_rows();
-            if ($num_rows == 0)
+            $num_rows = $this->db->get_where('users', ['id' => $secretary['id']])->num_rows();
+
+            if ($num_rows === 0)
             {
                 throw new Exception('Given secretary id does not exist in database: ' . $secretary['id']);
             }
@@ -89,9 +88,11 @@ class Secretaries_model extends EA_Model {
         }
 
         // Validate required fields integrity.
-        if ( ! isset($secretary['last_name'])
-            || ! isset($secretary['email'])
-            || ! isset($secretary['phone_number']))
+        if ( ! isset(
+            $secretary['last_name'],
+            $secretary['email'],
+            $secretary['phone_number']
+        ))
         {
             throw new Exception('Not all required fields are provided: ' . print_r($secretary, TRUE));
         }
@@ -140,7 +141,7 @@ class Secretaries_model extends EA_Model {
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_SECRETARY)
             ->where('users.email', $secretary['email'])
-            ->where('users.id <>', $secretary_id)
+            ->where('users.id !=', $secretary_id)
             ->get()
             ->num_rows();
 
@@ -164,7 +165,7 @@ class Secretaries_model extends EA_Model {
     public function validate_username($username, $user_id)
     {
         $num_rows = $this->db->get_where('user_settings',
-            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
+            ['username' => $username, 'id_users != ' => $user_id])->num_rows();
         return $num_rows > 0 ? FALSE : TRUE;
     }
 
@@ -499,14 +500,14 @@ class Secretaries_model extends EA_Model {
     /**
      * Get all, or specific secretary records from database.
      *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
-     * specific secretary records.
-     * @param mixed|null $order_by
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
      * @param int|null $limit
      * @param int|null $offset
+     * @param mixed|null $order_by
+     *
      * @return array Returns an array with secretary records.
      */
-    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
+    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
     {
         $role_id = $this->get_secretary_role_id();
 

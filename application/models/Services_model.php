@@ -23,7 +23,6 @@ class Services_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();
-
         $this->load->helper('data_validation');
     }
 
@@ -172,9 +171,11 @@ class Services_model extends EA_Model {
      */
     public function exists($service)
     {
-        if ( ! isset($service['name'])
-            || ! isset($service['duration'])
-            || ! isset($service['price']))
+        if ( ! isset(
+            $service['name'],
+            $service['duration'],
+            $service['price']
+        ))
         {
             throw new Exception('Not all service fields are provided in order to check whether '
                 . 'a service record already exists: ' . print_r($service, TRUE));
@@ -316,16 +317,16 @@ class Services_model extends EA_Model {
      *
      * Example:
      *
-     * $this->model->get_batch(['id' => $record_id]);
+     * $this->services_model->get_batch(['id' => $record_id]);
      *
      * @param mixed $where
-     * @param mixed $order_by
      * @param int|null $limit
      * @param int|null $offset
+     * @param mixed $order_by
      *
      * @return array Returns the rows from the database.
      */
-    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
+    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
     {
         if ($where !== NULL)
         {

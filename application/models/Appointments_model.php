@@ -23,9 +23,7 @@ class Appointments_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();
-
         $this->load->helper('data_validation');
-
         $this->load->library('timezones');
     }
 
@@ -109,7 +107,8 @@ class Appointments_model extends EA_Model {
             ->where('users.id', $appointment['id_users_provider'])
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->get()->num_rows();
-        if ($num_rows == 0)
+
+        if ($num_rows === 0)
         {
             throw new Exception('Appointment provider id is invalid.');
         }
@@ -124,15 +123,16 @@ class Appointments_model extends EA_Model {
                 ->where('users.id', $appointment['id_users_customer'])
                 ->where('roles.slug', DB_SLUG_CUSTOMER)
                 ->get()->num_rows();
-            if ($num_rows == 0)
+
+            if ($num_rows === 0)
             {
                 throw new Exception('Appointment customer id is invalid.');
             }
 
             // Check if the service id is valid.
-            $num_rows = $this->db->get_where('services',
-                ['id' => $appointment['id_services']])->num_rows();
-            if ($num_rows == 0)
+            $num_rows = $this->db->get_where('services', ['id' => $appointment['id_services']])->num_rows();
+
+            if ($num_rows === 0)
             {
                 throw new Exception('Appointment service id is invalid.');
             }
@@ -213,11 +213,13 @@ class Appointments_model extends EA_Model {
      */
     public function exists($appointment)
     {
-        if ( ! isset($appointment['start_datetime'])
-            || ! isset($appointment['end_datetime'])
-            || ! isset($appointment['id_users_provider'])
-            || ! isset($appointment['id_users_customer'])
-            || ! isset($appointment['id_services']))
+        if ( ! isset(
+            $appointment['start_datetime'],
+            $appointment['end_datetime'],
+            $appointment['id_users_provider'],
+            $appointment['id_users_customer'],
+            $appointment['id_services']
+        ))
         {
             throw new Exception('Not all appointment field values are provided: '
                 . print_r($appointment, TRUE));
@@ -371,19 +373,19 @@ class Appointments_model extends EA_Model {
      *
      * Example:
      *
-     * $this->Model->getBatch('id = ' . $recordId);
+     * $this->appointments_model->get_batch(['id' => $record_id]);
      *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. DO NOT INCLUDE 'WHERE'
-     * KEYWORD.
-     * @param mixed|null $order_by
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
      * @param int|null $limit
      * @param int|null $offset
+     * @param mixed|null $order_by
      * @param bool $aggregates (OPTIONAL) Defines whether to add aggregations or not.
      *
      * @return array Returns the rows from the database.
+     *
      * @throws Exception
      */
-    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL, $aggregates = FALSE)
+    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL, $aggregates = FALSE)
     {
         if ($where !== NULL)
         {
@@ -419,12 +421,18 @@ class Appointments_model extends EA_Model {
      */
     private function get_aggregates(array $appointment)
     {
-        $appointment['service'] = $this->db->get_where('services',
-            ['id' => $appointment['id_services']])->row_array();
-        $appointment['provider'] = $this->db->get_where('users',
-            ['id' => $appointment['id_users_provider']])->row_array();
-        $appointment['customer'] = $this->db->get_where('users',
-            ['id' => $appointment['id_users_customer']])->row_array();
+        $appointment['service'] = $this->db->get_where('services', [
+            'id' => $appointment['id_services']
+        ])->row_array();
+
+        $appointment['provider'] = $this->db->get_where('users', [
+            'id' => $appointment['id_users_provider']
+        ])->row_array();
+
+        $appointment['customer'] = $this->db->get_where('users', [
+            'id' => $appointment['id_users_customer']
+        ])->row_array();
+
         return $appointment;
     }
 
@@ -443,6 +451,7 @@ class Appointments_model extends EA_Model {
         // Validate period
         $start = strtotime($unavailable['start_datetime']);
         $end = strtotime($unavailable['end_datetime']);
+
         if ($start > $end)
         {
             throw new Exception('Unavailable period start must be prior to end.');
@@ -495,7 +504,7 @@ class Appointments_model extends EA_Model {
 
         $num_rows = $this->db->get_where('appointments', ['id' => $unavailable_id])->num_rows();
 
-        if ($num_rows == 0)
+        if ($num_rows === 0)
         {
             return FALSE; // Record does not exist.
         }
@@ -519,8 +528,9 @@ class Appointments_model extends EA_Model {
             throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
         }
 
-        $this->db->update('appointments', ['id_google_calendar' => NULL],
-            ['id_users_provider' => $provider_id]);
+        $this->db->update('appointments', ['id_google_calendar' => NULL], [
+            'id_users_provider' => $provider_id
+        ]);
     }
 
     /**

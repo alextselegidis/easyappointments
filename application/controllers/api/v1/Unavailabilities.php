@@ -49,9 +49,9 @@ class Unavailabilities extends API_V1_Controller {
     {
         try
         {
-            $conditions = $id !== NULL ? ['id' => $id] : ['is_unavailable' => true];
+            $where = $id !== NULL ? ['id' => $id] : ['is_unavailable' => true];
 
-            $unavailabilities = $this->appointments_model->get_batch($conditions);
+            $unavailabilities = $this->appointments_model->get_batch($where);
 
             if ($id !== NULL && count($unavailabilities) === 0)
             {

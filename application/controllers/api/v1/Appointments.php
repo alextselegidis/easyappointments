@@ -55,16 +55,16 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
-            $conditions = [
+            $where = [
                 'is_unavailable' => FALSE
             ];
 
             if ($id !== NULL)
             {
-                $conditions['id'] = $id;
+                $where['id'] = $id;
             }
 
-            $appointments = $this->appointments_model->get_batch($conditions, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
+            $appointments = $this->appointments_model->get_batch($where, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
 
             if ($id !== NULL && count($appointments) === 0)
             {

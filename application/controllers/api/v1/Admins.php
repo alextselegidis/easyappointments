@@ -49,9 +49,9 @@ class Admins extends API_V1_Controller {
     {
         try
         {
-            $conditions = $id !== NULL ? ['id' => $id] : NULL;
+            $where = $id !== NULL ? ['id' => $id] : NULL;
 
-            $admins = $this->admins_model->get_batch($conditions);
+            $admins = $this->admins_model->get_batch($where);
 
             if ($id !== NULL && count($admins) === 0)
             {

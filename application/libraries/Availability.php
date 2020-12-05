@@ -108,7 +108,7 @@ class Availability {
         // every reserved appointment is considered to be a taken space in the plan.
         $working_day = strtolower(date('l', strtotime($date)));
 
-        $date_working_plan = $working_plan[$working_day] ?? null;
+        $date_working_plan = $working_plan[$working_day] ?? NULL;
 
         // Search if the $date is an custom availability period added outside the normal working plan.
         if (isset($working_plan_exceptions[$date]))
@@ -349,7 +349,7 @@ class Availability {
 
         $working_day = strtolower(date('l', strtotime($date)));
 
-        $date_working_plan = $working_plan[$working_day] ?? null;
+        $date_working_plan = $working_plan[$working_day] ?? NULL;
 
         // Search if the $date is an custom availability period added outside the normal working plan.
         if (isset($working_plan_exceptions[$date]))
