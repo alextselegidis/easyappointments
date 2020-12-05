@@ -1417,7 +1417,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             slotLabelFormat: slotTimeFormat,
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
-            titleFormat: 'MMMM YYYY',
             header: {
                 left: 'prev,next today',
                 center: 'title',

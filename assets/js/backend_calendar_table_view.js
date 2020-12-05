@@ -702,7 +702,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             slotLabelFormat: slotTimeFormat,
             allDaySlot: true,
             columnFormat: columnFormat,
-            titleFormat: 'MMMM YYYY',
             header: {
                 left: 'listDay,agendaDay',
                 center: '',
