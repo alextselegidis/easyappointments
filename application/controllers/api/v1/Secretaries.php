@@ -49,7 +49,7 @@ class Secretaries extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
+            $condition = $id !== NULL ? ['id' => $id] : NULL;
             $secretaries = $this->secretaries_model->get_batch($condition);
 
             if ($id !== NULL && count($secretaries) === 0)
@@ -94,7 +94,7 @@ class Secretaries extends API_V1_Controller {
             $id = $this->secretaries_model->add($secretary);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->secretaries_model->get_batch('id = ' . $id);
+            $batch = $this->secretaries_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
@@ -115,7 +115,7 @@ class Secretaries extends API_V1_Controller {
         try
         {
             // Update the secretary record.
-            $batch = $this->secretaries_model->get_batch('id = ' . $id);
+            $batch = $this->secretaries_model->get_batch(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -130,7 +130,7 @@ class Secretaries extends API_V1_Controller {
             $id = $this->secretaries_model->add($updated_secretary);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->secretaries_model->get_batch('id = ' . $id);
+            $batch = $this->secretaries_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }

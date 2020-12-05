@@ -49,7 +49,7 @@ class Categories extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
+            $condition = $id !== NULL ? ['id' => $id] : NULL;
             $categories = $this->services_model->get_all_categories($condition);
 
             if ($id !== NULL && count($categories) === 0)
@@ -94,7 +94,7 @@ class Categories extends API_V1_Controller {
             $id = $this->services_model->add_category($category);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->services_model->get_all_categories('id = ' . $id);
+            $batch = $this->services_model->get_all_categories(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
@@ -115,7 +115,7 @@ class Categories extends API_V1_Controller {
         try
         {
             // Update the category record.
-            $batch = $this->services_model->get_all_categories('id = ' . $id);
+            $batch = $this->services_model->get_all_categories(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -130,7 +130,7 @@ class Categories extends API_V1_Controller {
             $id = $this->services_model->add_category($updated_category);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->services_model->get_all_categories('id = ' . $id);
+            $batch = $this->services_model->get_all_categories(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
