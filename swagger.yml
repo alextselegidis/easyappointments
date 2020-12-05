@@ -1,0 +1,1092 @@
+swagger: '2.0'
+info:
+    version: 1.0.0
+    title: 'easyappointments-api'
+host: demo.easyappointments.org
+basePath: /index.php/api/v1/
+tags:
+    -   name: admins
+    -   name: providers
+    -   name: secretaries
+    -   name: customers
+    -   name: availabilities
+    -   name: unavailabilities
+    -   name: appointments
+    -   name: services
+    -   name: categories
+    -   name: settings
+schemes:
+    - https
+    - http
+securityDefinitions:
+    ApiKeyAuth:
+        description: "A bearer token is required when accessing or editing administrative data. The value is required to have the following format \"Bearer ##############\""
+        type: apiKey
+        in: header
+        name: Authorization
+paths:
+    # AVAILABILITY
+
+    '/availabilities':
+        get:
+            tags:
+                - availabilities
+            summary: Gets availability
+            parameters:
+                -   name: providerId
+                    in: query
+                    type: integer
+                -   name: serviceId
+                    in: query
+                    type: integer
+                -   name: date
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Availabilities'
+
+    # APPOINTMENTS
+
+    '/appointments':
+        get:
+            tags:
+                - appointments
+            summary: Get all appointments
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+                -   name: aggregates
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Appointment'
+        post:
+            tags:
+                - appointments
+            summary: Create single appointment
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Appointment'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Appointment'
+    '/appointments/{appointmentId}':
+        get:
+            tags:
+                - appointments
+            summary: Get single appointment
+            parameters:
+                -   name: appointmentId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Appointment'
+        put:
+            tags:
+                - appointments
+            summary: Update single appointment
+            parameters:
+                -   name: appointmentId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Appointment'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Appointment'
+        delete:
+            tags:
+                - appointments
+            summary: Delete single appointment
+            parameters:
+                -   name: appointmentId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Appointment'
+                '404':
+                    description: not found
+
+    # UNAVAILABILITY
+
+    '/unavailabilities':
+        get:
+            tags:
+                - unavailabilities
+            summary: Get all unavailabilities
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Unavailability'
+        post:
+            tags:
+                - unavailabilities
+            summary: Create single unavailability
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Unavailability'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Unavailability'
+    '/unavailabilities/{unavailabilityId}':
+        get:
+            tags:
+                - unavailabilities
+            summary: Get single unavailability
+            parameters:
+                -   name: unavailabilityId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Unavailability'
+        put:
+            tags:
+                - unavailabilities
+            summary: Update single unavailability
+            parameters:
+                -   name: unavailabilityId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Unavailability'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Unavailability'
+        delete:
+            tags:
+                - unavailabilities
+            summary: Delete single unavailability
+            parameters:
+                -   name: unavailabilityId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Unavailability'
+                '404':
+                    description: not found
+
+    # CUSTOMERS
+
+    '/customers':
+        get:
+            tags:
+                - customers
+            summary: Get all customers
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Customer'
+        post:
+            tags:
+                - customers
+            summary: Create single customer
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Customer'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Customer'
+    '/customers/{customerId}':
+        get:
+            tags:
+                - customers
+            summary: Get single customer
+            parameters:
+                -   name: customerId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Customer'
+        put:
+            tags:
+                - customers
+            summary: Update single customer
+            parameters:
+                -   name: customerId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Customer'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Customer'
+        delete:
+            tags:
+                - customers
+            summary: Delete single customer
+            parameters:
+                -   name: customerId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Customer'
+                '404':
+                    description: not found
+
+    # SERVICES
+
+    '/services':
+        get:
+            tags:
+                - services
+            summary: Get all services
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Service'
+        post:
+            tags:
+                - services
+            summary: Create single service
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Service'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Service'
+    '/services/{serviceId}':
+        get:
+            tags:
+                - services
+            summary: Get single service
+            parameters:
+                -   name: serviceId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Service'
+        put:
+            tags:
+                - services
+            summary: Update single service
+            parameters:
+                -   name: serviceId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Service'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Service'
+        delete:
+            tags:
+                - services
+            summary: Delete single service
+            parameters:
+                -   name: serviceId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Service'
+                '404':
+                    description: not found
+
+    # CATEGORIES
+
+    '/categories':
+        get:
+            tags:
+                - categories
+            summary: Get all categories
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Category'
+        post:
+            tags:
+                - categories
+            summary: Create single category
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Category'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Category'
+    '/categories/{categoryId}':
+        get:
+            tags:
+                - categories
+            summary: Get single category
+            parameters:
+                -   name: categoryId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Category'
+        put:
+            tags:
+                - categories
+            summary: Update single category
+            parameters:
+                -   name: categoryId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Category'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Category'
+        delete:
+            tags:
+                - categories
+            summary: Delete single category
+            parameters:
+                -   name: categoryId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Category'
+                '404':
+                    description: not found
+
+    # ADMINS
+
+    '/admins':
+        get:
+            tags:
+                - admins
+            summary: Get all admins
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Admin'
+        post:
+            tags:
+                - admins
+            summary: Create single admin
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        items:
+                            $ref: '#/definitions/Admin'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Admin'
+    '/admins/{adminId}':
+        get:
+            tags:
+                - admins
+            summary: Get single admin
+            parameters:
+                -   name: adminId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Admin'
+        put:
+            tags:
+                - admins
+            summary: Update single admin
+            parameters:
+                -   name: adminId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Admin'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Admin'
+        delete:
+            tags:
+                - admins
+            summary: Delete single admin
+            parameters:
+                -   name: adminId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Admin'
+                '404':
+                    description: not found
+
+    # PROVIDERS
+
+    '/providers':
+        get:
+            tags:
+                - providers
+            summary: Get all providers
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Provider'
+        post:
+            tags:
+                - providers
+            summary: Create single provider
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Provider'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Provider'
+    '/providers/{providerId}':
+        get:
+            tags:
+                - providers
+            summary: Get single provider
+            parameters:
+                -   name: providerId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Provider'
+        put:
+            tags:
+                - providers
+            summary: Update single provider
+            parameters:
+                -   name: providerId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Provider'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Provider'
+        delete:
+            tags:
+                - providers
+            summary: Delete single provider
+            parameters:
+                -   name: providerId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Provider'
+                '404':
+                    description: not found
+
+    # SECRETARIES
+
+    '/secretaries':
+        get:
+            tags:
+                - secretaries
+            summary: Get all secretaries
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Secretary'
+        post:
+            tags:
+                - secretaries
+            summary: Create single secretary
+            parameters:
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Secretary'
+            responses:
+                '201':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Secretary'
+    '/secretaries/{secretaryId}':
+        get:
+            tags:
+                - secretaries
+            summary: Get single secretary
+            parameters:
+                -   name: secretaryId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Secretary'
+        put:
+            tags:
+                - secretaries
+            summary: Update single secretary
+            parameters:
+                -   name: secretaryId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Secretary'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Secretary'
+        delete:
+            tags:
+                - secretaries
+            summary: Delete single secretary
+            parameters:
+                -   name: secretaryId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Secretary'
+                '404':
+                    description: not found
+
+    # SETTINGS
+
+    '/settings':
+        get:
+            tags:
+                - settings
+            summary: Get all settings
+            parameters:
+                -   name: page
+                    in: query
+                    type: integer
+                -   name: length
+                    in: query
+                    type: integer
+                -   name: sort
+                    in: query
+                    type: string
+                -   name: q
+                    in: query
+                    type: string
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        items:
+                            $ref: '#/definitions/Setting'
+    '/settings/{settingId}':
+        get:
+            tags:
+                - settings
+            summary: Get single setting
+            parameters:
+                -   name: settingId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '200':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Setting'
+        put:
+            tags:
+                - settings
+            summary: Update single setting
+            parameters:
+                -   name: settingId
+                    in: path
+                    type: integer
+                    required: true
+                -   name: body
+                    in: body
+                    schema:
+                        $ref: '#/definitions/Setting'
+            responses:
+                '200':
+                    description: successful operation
+                    schema:
+                        $ref: '#/definitions/Setting'
+        delete:
+            tags:
+                - settings
+            summary: Delete single setting
+            parameters:
+                -   name: settingId
+                    in: path
+                    type: integer
+                    required: true
+            responses:
+                '204':
+                    description: success
+                    schema:
+                        $ref: '#/definitions/Setting'
+                '404':
+                    description: not found
+
+# DEFINITIONS
+
+definitions:
+    Availabilities:
+        type: array
+        items:
+            type: string
+
+    Appointment:
+        type: object
+        properties:
+            id:
+                type: integer
+            book:
+                type: string
+            start:
+                type: string
+            end:
+                type: string
+            hash:
+                type: string
+            location:
+                type: string
+            status:
+                type: string
+            notes:
+                type: string
+            customerId:
+                type: integer
+            providerId:
+                type: integer
+            serviceId:
+                type: integer
+            googleCalendarId:
+                type: string
+
+    Unavailability:
+        type: object
+        properties:
+            id:
+                type: integer
+            book:
+                type: string
+            start:
+                type: string
+            end:
+                type: string
+            notes:
+                type: string
+            providerId:
+                type: integer
+
+    Customer:
+        type: object
+        properties:
+            id:
+                type: integer
+            firstName:
+                type: string
+            lastName:
+                type: string
+            email:
+                type: string
+            phone:
+                type: string
+            address:
+                type: string
+            city:
+                type: string
+            zip:
+                type: string
+            notes:
+                type: string
+
+    Service:
+        type: object
+        properties:
+            id:
+                type: integer
+            name:
+                type: string
+            duration:
+                type: integer
+            price:
+                type: string
+            currency:
+                type: string
+            description:
+                type: string
+            availabilitiesType:
+                type: string
+            attendantsNumber:
+                type: string
+            categoryId:
+                type: integer
+
+    Category:
+        type: object
+        properties:
+            id:
+                type: integer
+            name:
+                type: string
+            description:
+                type: string
+
+    Admin:
+        type: object
+        properties:
+            id:
+                type: integer
+            firstName:
+                type: string
+            lastName:
+                type: string
+            email:
+                type: string
+            mobile:
+                type: string
+            phone:
+                type: string
+            address:
+                type: string
+            city:
+                type: string
+            zip:
+                type: string
+            notes:
+                type: string
+            settings:
+                type: object
+                properties:
+                    username:
+                        type: string
+                    password:
+                        type: string
+                    notifications:
+                        type: boolean
+                    calendarView:
+                        type: string
+
+    Provider:
+        type: object
+        properties:
+            id:
+                type: integer
+            firstName:
+                type: string
+            lastName:
+                type: string
+            email:
+                type: string
+            mobile:
+                type: string
+            phone:
+                type: string
+            address:
+                type: string
+            city:
+                type: string
+            zip:
+                type: string
+            notes:
+                type: string
+            services:
+                type: array
+                items:
+                    type: integer
+            settings:
+                type: object
+                properties:
+                    username:
+                        type: string
+                    password:
+                        type: string
+                    notifications:
+                        type: boolean
+                    calendarView:
+                        type: boolean
+                    googleSync:
+                        type: boolean
+                    googleCalendar:
+                        type: string
+                    googleToken:
+                        type: string
+                    syncFutureDays:
+                        type: string
+                    syncPastDays:
+                        type: string
+                    workingPlan:
+                        type: string
+
+    Secretary:
+        type: object
+        properties:
+            id:
+                type: integer
+            firstName:
+                type: string
+            lastName:
+                type: string
+            email:
+                type: string
+            mobile:
+                type: string
+            phone:
+                type: string
+            address:
+                type: string
+            city:
+                type: string
+            zip:
+                type: string
+            notes:
+                type: string
+            providers:
+                type: array
+                items:
+                    type: integer
+            settings:
+                type: object
+                properties:
+                    username:
+                        type: string
+                    password:
+                        type: string
+                    notifications:
+                        type: boolean
+                    calendarView:
+                        type: string
+
+    Setting:
+        type: object
+        properties:
+            name:
+                type: string
+            value:
+                type: string
+
+externalDocs:
+    description: Find out more about Easy!Appointments
+    url: 'https://easyappointments.org/docs.html'
