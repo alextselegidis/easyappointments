@@ -530,10 +530,6 @@
                     <?= lang('project_issues') ?>
                 </a>
                 |
-                <a href="https://easyappointments.org/blog">
-                    Blog
-                </a>
-                |
                 <a href="https://www.facebook.com/easyappointments.org">
                     Facebook
                 </a>
