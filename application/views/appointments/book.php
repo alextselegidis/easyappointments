@@ -17,7 +17,8 @@
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
 </head>
 
 <body>
@@ -376,7 +377,7 @@
                     </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button id="book-appointment-submit" type="button" class="btn btn-success">
-                            <i class="far fa-check-square mr-2"></i>
+                            <i class="fas fa-check-square mr-2"></i>
                             <?= ! $manage_mode ? lang('confirm') : lang('update') ?>
                         </button>
                         <input type="hidden" name="csrfToken"/>

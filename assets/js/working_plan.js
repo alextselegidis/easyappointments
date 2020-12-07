@@ -135,7 +135,7 @@
                                         'title': EALang.edit,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'far fa-edit'
+                                                'class': 'fas fa-edit'
                                             })
                                         ]
                                     }),
@@ -145,7 +145,7 @@
                                         'title': EALang.delete,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'far fa-trash-alt'
+                                                'class': 'fas fa-trash-alt'
                                             })
                                         ]
                                     }),
@@ -155,7 +155,7 @@
                                         'title': EALang.save,
                                         'html': [
                                             $('<span/>', {
-                                                'class': 'far fa-check-circle'
+                                                'class': 'fas fa-check-circle'
                                             })
                                         ]
                                     }),
@@ -321,7 +321,7 @@
                             'title': EALang.edit,
                             'html': [
                                 $('<span/>', {
-                                    'class': 'far fa-edit'
+                                    'class': 'fas fa-edit'
                                 })
                             ]
                         }),
@@ -331,7 +331,7 @@
                             'title': EALang.delete,
                             'html': [
                                 $('<span/>', {
-                                    'class': 'far fa-trash-alt'
+                                    'class': 'fas fa-trash-alt'
                                 })
                             ]
                         }),
@@ -393,7 +393,7 @@
                                 'title': EALang.edit,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'far fa-edit'
+                                        'class': 'fas fa-edit'
                                     })
                                 ]
                             }),
@@ -403,7 +403,7 @@
                                 'title': EALang.delete,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'far fa-trash-alt'
+                                        'class': 'fas fa-trash-alt'
                                     })
                                 ]
                             }),
@@ -413,7 +413,7 @@
                                 'title': EALang.save,
                                 'html': [
                                     $('<span/>', {
-                                        'class': 'far fa-check-circle'
+                                        'class': 'fas fa-check-circle'
                                     })
                                 ]
                             }),

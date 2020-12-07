@@ -405,7 +405,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -416,7 +416,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -627,7 +627,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -638,7 +638,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit

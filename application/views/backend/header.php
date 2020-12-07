@@ -31,7 +31,8 @@
 	<script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/select2/select2.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
 </head>
 
 <body>
@@ -54,7 +55,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend') ?>" class="nav-link"
                         data-tippy-content="<?= lang('manage_appointment_record_hint') ?>">
-                    <i class="far fa-calendar-alt mr-2"></i>
+                    <i class="fas fa-calendar-alt mr-2"></i>
                     <?= lang('calendar') ?>
                 </a>
             </li>

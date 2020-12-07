@@ -13,7 +13,8 @@
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
 </head>
 <body>
     <div id="main" class="container">
@@ -37,7 +38,7 @@
                     </p>
 
                     <a href="<?= site_url() ?>" class="btn btn-success btn-large">
-                        <i class="far fa-calendar-alt"></i>
+                        <i class="fas fa-calendar-alt"></i>
                         <?= lang('go_to_booking_page') ?>
                     </a>
 

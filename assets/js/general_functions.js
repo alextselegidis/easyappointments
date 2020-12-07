@@ -567,7 +567,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'far fa-envelope'
+                            'class': 'fas fa-envelope'
                         })
                     ]
                 })

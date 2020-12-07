@@ -184,7 +184,7 @@ $(function () {
                             'title': EALang.edit,
                             'html': [
                                 $('<span/>', {
-                                    'class': 'far fa-edit'
+                                    'class': 'fas fa-edit'
                                 })
                             ]
                         }),
@@ -194,7 +194,7 @@ $(function () {
                             'title': EALang.delete,
                             'html': [
                                 $('<span/>', {
-                                    'class': 'far fa-trash-alt'
+                                    'class': 'fas fa-trash-alt'
                                 })
                             ]
                         }),
@@ -204,7 +204,7 @@ $(function () {
                             'title': EALang.save,
                             'html': [
                                 $('<span/>', {
-                                    'class': 'far fa-check-circle'
+                                    'class': 'fas fa-check-circle'
                                 })
                             ]
                         }),

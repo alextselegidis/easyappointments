@@ -94,10 +94,6 @@ root {
     font-weight: bold;
 }
 
-#notification {
-    margin: 15px;
-}
-
 #notification strong {
     margin-right: 15px;
 }

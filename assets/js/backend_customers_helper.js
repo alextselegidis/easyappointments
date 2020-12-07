@@ -322,7 +322,7 @@
                         'href': GlobalVariables.baseUrl + '/index.php/backend/index/' + appointment.hash,
                         'html': [
                             $('<i/>', {
-                                'class': 'far fa-edit mr-1'
+                                'class': 'fas fa-edit mr-1'
                             }),
                             $('<strong/>', {
                                 'text': appointment.service.name + ' - ' + appointment.provider.first_name + ' ' + appointment.provider.last_name
