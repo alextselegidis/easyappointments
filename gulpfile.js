@@ -25,7 +25,7 @@ gulp.src = function () {
         }));
 };
 
-gulp.task('build', (done) => {
+gulp.task('package', (done) => {
     const archive = 'easyappointments-0.0.0.zip';
 
     fs.removeSync('build');
@@ -153,5 +153,7 @@ gulp.task('watch', (done) => {
 });
 
 gulp.task('dev', gulp.series('clean', 'scripts', 'styles', 'watch'));
+
+gulp.task('build', gulp.series('clean', 'scripts', 'styles', 'package'));
 
 gulp.task('default', gulp.parallel('dev'));
