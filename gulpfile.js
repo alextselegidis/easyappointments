@@ -50,6 +50,11 @@ gulp.task('build', (done) => {
         console.log(stderr);
     });
 
+    execSync('cd build && find . -name ".DS_Store" -type f -delete', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
+
     fs.removeSync('build/composer.json');
     fs.removeSync('build/composer.lock');
     fs.removeSync('build/storage/uploads/*');
