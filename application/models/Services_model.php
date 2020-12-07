@@ -484,13 +484,13 @@ class Services_model extends EA_Model {
      * Get all service category records from database.
      *
      * @param mixed $where
-     * @param mixed $order_by
      * @param int|null $limit
      * @param int|null $offset
+     * @param mixed $order_by
      *
      * @return array Returns an array that contains all the service category records.
      */
-    public function get_all_categories($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
+    public function get_all_categories($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
     {
         if ($where !== NULL)
         {

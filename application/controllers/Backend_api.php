@@ -562,7 +562,7 @@ class Backend_api extends EA_Controller {
                 $limit = 1000;
             }
 
-            $customers = $this->customers_model->get_batch($where, $order_by, $limit);
+            $customers = $this->customers_model->get_batch($where, $limit, null, $order_by);
 
             foreach ($customers as &$customer)
             {
