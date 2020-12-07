@@ -49,9 +49,9 @@ class Categories extends API_V1_Controller {
     {
         try
         {
-            $conditions = $id !== NULL ? ['id' => $id] : NULL;
+            $where = $id !== NULL ? ['id' => $id] : NULL;
 
-            $categories = $this->services_model->get_all_categories($conditions);
+            $categories = $this->services_model->get_all_categories($where);
 
             if ($id !== NULL && count($categories) === 0)
             {
