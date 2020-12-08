@@ -2,7 +2,15 @@
 
 ## Introduction 
 
-Easy!Appointments exposes a flexible REST API that will enables you to handle all the information of your installations through HTTP requests. The API is using JSON as its data transaction format and features many best practices in order to make the resources easily consumable. 
+Easy!Appointments offers a flexible REST API that will enables you to handle all the information of your installations through HTTP requests. The API is using JSON as its data transaction format and features many best practices in order to make the resources easily consumable. 
+
+### Open API Specification (Swagger File)
+
+The project has a ready-made [swagger file](https://github.com/alextselegidis/easyappointments/blob/master/swagger.json) you can download and use in order to create your client. 
+
+This file can also be imported into Postman, so that you can quickly get started making requests towards your installation. 
+
+You will find more information about Open API and Swagger on [swagger.io](https://swagger.io).
 
 ## Making Requests
 
