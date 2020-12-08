@@ -1408,11 +1408,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         // Initialize page calendar
         $('#calendar').fullCalendar({
+            nowIndicator: true,
             defaultView: defaultView,
             height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,
-            snapDuration: '00:30:00',
+            snapDuration: '00:15:00',
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,
             allDayText: EALang.all_day,

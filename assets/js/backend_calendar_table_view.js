@@ -697,11 +697,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             defaultView: 'agendaDay',
             height: getCalendarHeight(),
             editable: true,
-            firstDay: firstWeekdayNumber,
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,
             allDaySlot: true,
             columnFormat: columnFormat,
+            firstDay: firstWeekdayNumber,
+            snapDuration: '00:15:00',
             header: {
                 left: 'listDay,agendaDay',
                 center: '',
