@@ -83,11 +83,11 @@ class Backend_api extends EA_Controller {
                 ])
             ];
 
-            foreach ($response['appointments'] as &$appointment)
+            foreach ($response['appointments'] as $index => $appointment)
             {
-                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
-                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                $response['appointments'][$index]['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                $response['appointments'][$index]['service'] = $this->services_model->get_row($appointment['id_services']);
+                $response['appointments'][$index]['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
 
             $user_id = $this->session->userdata('user_id');

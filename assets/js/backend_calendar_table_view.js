@@ -71,7 +71,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var endDate = endDateMoment.toDate();
 
             getCalendarEvents(startDate, endDate)
-                .done(function () {
+                .done(function (response) {
                     var currentDate = startDate;
 
                     while (currentDate <= endDate) {
