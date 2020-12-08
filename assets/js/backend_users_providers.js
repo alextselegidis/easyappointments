@@ -35,13 +35,15 @@
          * Event: Filter Providers Form "Submit"
          *
          * Filter the provider records with the given key string.
+         *
+         * @param {jQuery.Event} event
          */
-        $('#providers').on('submit', '#filter-providers form', function () {
+        $('#providers').on('submit', '#filter-providers form', function (event) {
+            event.preventDefault();
             var key = $('#filter-providers .key').val();
             $('.selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
-            return false;
         }.bind(this));
 
         /**
@@ -215,6 +217,23 @@
             BackendUsers.wp.setup(GlobalVariables.workingPlan);
             BackendUsers.wp.timepickers(false);
         });
+    };
+
+    /**
+     * Remove the previously registered event handlers.
+     */
+    ProvidersHelper.prototype.unbindEventHandlers = function() {
+        $('#providers')
+            .off('submit', '#filter-providers form')
+            .off('click', '#filter-providers .clear')
+            .off('click', '.provider-row')
+            .off('click', '#add-provider')
+            .off('click', '#edit-provider')
+            .off('click', '#delete-provider')
+            .off('click', '#save-provider')
+            .off('click', '#cancel-provider')
+            .off('shown.bs.tab', 'a[data-toggle="tab"]')
+            .off('click', '#reset-working-plan');
     };
 
     /**

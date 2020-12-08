@@ -249,13 +249,12 @@ $(function () {
 
         // Make all cells in current row editable.
         var $tr = $(this).closest('tr');
-
         $tr.children().trigger('edit');
         initializeTimepicker($tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input'));
         $(this).closest('tr').find('.working-plan-exceptions-break-start').focus();
 
         // Show save - cancel buttons.
-        var $tr = $(this).closest('tr');
+        $tr = $(this).closest('tr');
         $tr.find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break').addClass('d-none');
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').removeClass('d-none');
         $tr.find('select,input:text').addClass('form-control input-sm')

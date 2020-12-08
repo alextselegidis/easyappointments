@@ -35,13 +35,15 @@
          * Event: Filter Secretaries Form "Submit"
          *
          * Filter the secretary records with the given key string.
+         *
+         * @param {jQuery.Event} event
          */
-        $('#secretaries').on('submit', '#filter-secretaries form', function () {
+        $('#secretaries').on('submit', '#filter-secretaries form', function (event) {
+            event.preventDefault();
             var key = $('#filter-secretaries .key').val();
             $('#filter-secretaries .selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
-            return false;
         }.bind(this));
 
         /**
@@ -192,6 +194,21 @@
                 this.select(id, true);
             }
         }.bind(this));
+    };
+
+    /**
+     * Remove the previously registered event handlers.
+     */
+    SecretariesHelper.prototype.unbindEventHandlers = function() {
+        $('#secretaries')
+            .off('submit', '#filter-secretaries form')
+            .off('click', '#filter-secretaries .clear')
+            .off('click', '.secretary-row')
+            .off('click', '#add-secretary')
+            .off('click', '#edit-secretary')
+            .off('click', '#delete-secretary')
+            .off('click', '#save-secretary')
+            .off('click', '#cancel-secretary');
     };
 
     /**

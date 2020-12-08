@@ -129,9 +129,13 @@ window.BackendUsers = window.BackendUsers || {};
          *
          * Changes the displayed tab.
          */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+        $('#users-page > .nav-pills a[data-toggle="tab"]').on('shown.bs.tab', function () {
             if ($(this).parents('.switch-view').length) {
                 return; // Do not proceed if this was the sub navigation.
+            }
+
+            if (helper) {
+                helper.unbindEventHandlers();
             }
 
             if ($(this).attr('href') === '#admins') {

@@ -33,13 +33,15 @@
          * Event: Filter Admins Form "Submit"
          *
          * Filter the admin records with the given key string.
+         *
+         * @param {jQuery.Event} event
          */
-        $('#admins').on('submit', '#filter-admins form', function () {
+        $('#admins').on('submit', '#filter-admins form', function (event) {
+            event.preventDefault();
             var key = $('#filter-admins .key').val();
             $('#filter-admins .selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
-            return false;
         }.bind(this));
 
         /**
@@ -178,6 +180,21 @@
                 this.select(id, true);
             }
         }.bind(this));
+    };
+
+    /**
+     * Remove the previously registered event handlers.
+     */
+    AdminsHelper.prototype.unbindEventHandlers = function() {
+        $('#admins')
+            .off('submit', '#filter-admins form')
+            .off('click', '#filter-admins .clear')
+            .off('click', '.admin-row')
+            .off('click', '#add-admin')
+            .off('click', '#edit-admin')
+            .off('click', '#delete-admin')
+            .off('click', '#save-admin')
+            .off('click', '#cancel-admin');
     };
 
     /**

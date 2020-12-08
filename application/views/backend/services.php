@@ -55,7 +55,7 @@
                                         <i class="fas fa-search"></i>
                                     </button>
                                     <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
-                                    <i class="fas fa-redo-alt"></i>
+                                        <i class="fas fa-redo-alt"></i>
                                     </button>
                                 </div>
                             </div>

@@ -33,18 +33,18 @@
          *
          * @param {jQuery.Event} event
          */
-        $('#filter-services form').submit(function (event) {
+        $('#services').on('submit', '#filter-services form', function (event) {
+            event.preventDefault();
             var key = $('#filter-services .key').val();
             $('#filter-services .selected').removeClass('selected');
             instance.resetForm();
             instance.filter(key);
-            return false;
         });
 
         /**
          * Event: Filter Service Cancel Button "Click"
          */
-        $('#filter-services .clear').on('click', function () {
+        $('#services').on('click', '#filter-services .clear', function () {
             $('#filter-services .key').val('');
             instance.filter('');
             instance.resetForm();
@@ -55,7 +55,7 @@
          *
          * Display the selected service data to the user.
          */
-        $(document).on('click', '.service-row', function () {
+        $('#services').on('click', '.service-row', function () {
             if ($('#filter-services .filter').prop('disabled')) {
                 $('#filter-services .results').css('color', '#AAA');
                 return; // exit because we are on edit mode
@@ -93,7 +93,7 @@
         /**
          * Event: Add New Service Button "Click"
          */
-        $('#add-service').on('click', function () {
+        $('#services').on('click', '#add-service', function () {
             instance.resetForm();
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
@@ -118,7 +118,7 @@
          *
          * Cancel add or edit of a service record.
          */
-        $('#cancel-service').on('click', function () {
+        $('#services').on('click', '#cancel-service', function () {
             var id = $('#service-id').val();
             instance.resetForm();
             if (id !== '') {
@@ -129,7 +129,7 @@
         /**
          * Event: Save Service Button "Click"
          */
-        $('#save-service').on('click', function () {
+        $('#services').on('click', '#save-service', function () {
             var service = {
                 name: $('#service-name').val(),
                 duration: $('#service-duration').val(),
@@ -161,7 +161,7 @@
         /**
          * Event: Edit Service Button "Click"
          */
-        $('#edit-service').on('click', function () {
+        $('#services').on('click', '#edit-service', function () {
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
             $('#services .record-details')
@@ -174,7 +174,7 @@
         /**
          * Event: Delete Service Button "Click"
          */
-        $('#delete-service').on('click', function () {
+        $('#services').on('click', '#delete-service', function () {
             var serviceId = $('#service-id').val();
             var buttons = [
                 {
@@ -195,6 +195,21 @@
             GeneralFunctions.displayMessageBox(EALang.delete_service,
                 EALang.delete_record_prompt, buttons);
         });
+    };
+
+    /**
+     * Remove the previously registered event handlers.
+     */
+    ServicesHelper.prototype.unbindEventHandlers = function () {
+        $('#services')
+            .off('submit', '#filter-services form')
+            .off('click', '#filter-services .clear')
+            .off('click', '.service-row')
+            .off('click', '#add-service')
+            .off('click', '#cancel-service')
+            .off('click', '#save-service')
+            .off('click', '#edit-service')
+            .off('click', '#delete-service');
     };
 
     /**
@@ -290,6 +305,7 @@
             .find('input, select, textarea')
             .val('')
             .prop('disabled', true);
+        $('#services .record-details h3 a').remove();
 
         $('#services .add-edit-delete-group').show();
         $('#services .save-cancel-group').hide();
@@ -347,7 +363,7 @@
                 response.forEach(function (service, index) {
                     $('#filter-services .results')
                         .append(ServicesHelper.prototype.getFilterHtml(service))
-                        .append( $('<hr/>'))
+                        .append($('<hr/>'))
                 });
 
                 if (response.length === 0) {
