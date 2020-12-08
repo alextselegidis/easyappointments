@@ -1456,8 +1456,25 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         return provider.services.indexOf(service.id) !== -1
                     });
 
-                    $('#select-service').val(service.id).trigger('change');
-                    $('#select-provider').val(provider.id).trigger('change');
+                    if (service) {
+                        $('#select-service').val(service.id);
+                    }
+
+                    if (!$('#select-service').val()) {
+                        $('#select-service option:first').prop('selected', true);
+                    }
+
+                    $('#select-service').trigger('change');
+
+                    if (provider) {
+                        $('#select-provider').val(provider.id);
+                    }
+                    
+                    if (!$('#select-provider').val()) {
+                        $('#select-provider option:first').prop('selected', true);
+                    }
+
+                    $('#select-provider').trigger('change');
                 }
 
                 // Preselect time
