@@ -69,13 +69,13 @@ class EA_Controller extends CI_Controller {
     }
 
     /**
-     * Configure the language
+     * Configure the language.
      */
     private function configure_language()
     {
         if ($this->session->has_userdata('language'))
         {
-            $this->config->set_item('language');
+            $this->config->set_item('language', $this->session->userdata('language'));
         }
 
         $this->lang->load('translations');
