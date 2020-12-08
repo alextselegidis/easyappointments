@@ -133,9 +133,13 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     $dialog.find('#select-service').val(providers[0].services[0]).trigger('change');
                     $dialog.find('#select-provider').val(providerId);
                 }
+            } else if ($('#select-filter-item option:selected').attr('type') === 'service') {
+                $dialog.find('#select-service option[value="' + $('#select-filter-item').val() + '"]')
+                    .prop('selected', true);
             } else {
-                $dialog.find('#select-service option[value="'
-                    + $('#select-filter-item').val() + '"]').prop('selected', true);
+                $dialog.find('#select-service option:first')
+                    .prop('selected', true)
+                    .trigger('change');
             }
 
             var serviceId = $dialog.find('#select-service').val();
@@ -143,6 +147,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var service = GlobalVariables.availableServices.find(function(availableService) {
                 return Number(availableService.id) === Number(serviceId);
             });
+
+            var duration = service ? service.duration : 60;
 
             var start = new Date();
             var currentMin = parseInt(start.toString('mm'));
@@ -158,7 +164,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             }
 
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(service.duration),
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(duration),
                 GlobalVariables.dateFormat, true));
 
             // Display modal form.
@@ -293,8 +299,10 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 return Number(availableService.id) === Number(serviceId);
             });
 
+            var duration = service ? service.duration : 60;
+
             var start = $('#start-datetime').datetimepicker('getDate');
-            $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+            $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + duration * 60000));
 
             // Update the providers select box.
 
