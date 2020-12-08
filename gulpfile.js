@@ -32,11 +32,29 @@ gulp.task('package', (done) => {
     fs.removeSync(archive);
 
     fs.mkdirsSync('build');
-
     fs.copySync('application', 'build/application');
     fs.copySync('assets', 'build/assets');
     fs.copySync('engine', 'build/engine');
-    fs.copySync('storage', 'build/storage');
+
+    fs.ensureDirSync('build/storage/backups');
+    fs.copySync('storage/backups/.htaccess', 'build/storage/backups/.htaccess');
+    fs.copySync('storage/backups/index.html', 'build/storage/backups/index.html');
+
+    fs.ensureDirSync('build/storage/cache');
+    fs.copySync('storage/cache/index.html', 'build/storage/cache/index.html');
+    fs.copySync('storage/cache/.htaccess', 'build/storage/cache/.htaccess');
+
+    fs.ensureDirSync('build/storage/logs');
+    fs.copySync('storage/logs/.htaccess', 'build/storage/logs/.htaccess');
+    fs.copySync('storage/logs/index.html', 'build/storage/logs/index.html');
+
+    fs.ensureDirSync('build/storage/sessions');
+    fs.copySync('storage/sessions/.htaccess', 'build/storage/sessions/.htaccess');
+    fs.copySync('storage/sessions/index.html', 'build/storage/sessions/index.html');
+
+    fs.ensureDirSync('build/storage/uploads');
+    fs.copySync('storage/uploads/index.html', 'build/storage/uploads/index.html');
+
     fs.copySync('index.php', 'build/index.php');
     fs.copySync('composer.json', 'build/composer.json');
     fs.copySync('composer.lock', 'build/composer.lock');
@@ -55,18 +73,7 @@ gulp.task('package', (done) => {
         console.log(stderr);
     });
 
-    fs.removeSync('build/composer.json');
     fs.removeSync('build/composer.lock');
-    fs.removeSync('build/storage/uploads/*');
-    fs.removeSync('!build/storage/uploads/index.html');
-    fs.removeSync('build/storage/logs/*');
-    fs.removeSync('!build/storage/logs/index.html');
-    fs.removeSync('build/storage/sessions/*');
-    fs.removeSync('!build/storage/sessions/.htaccess');
-    fs.removeSync('!build/storage/sessions/index.html');
-    fs.removeSync('build/storage/cache/*');
-    fs.removeSync('!build/storage/cache/.htaccess');
-    fs.removeSync('!build/storage/cache/index.html');
 
     zip('build', {saveTo: archive}, function (err) {
         if (err)
@@ -79,7 +86,6 @@ gulp.task('package', (done) => {
 gulp.task('clean', (done) => {
     fs.removeSync('assets/js/**/*.min.js');
     fs.removeSync('assets/css/**/*.min.css');
-
     done();
 });
 
@@ -113,7 +119,7 @@ gulp.task('docs', (done) => {
 });
 
 gulp.task('scripts', (done) => {
-    gulp.src([
+    return gulp.src([
         'assets/js/**/*.js',
         '!assets/js/**/*.min.js'
     ])
@@ -121,12 +127,10 @@ gulp.task('scripts', (done) => {
         .pipe(plugins.uglify().on('error', console.log))
         .pipe(plugins.rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/js'));
-
-    done();
 });
 
-gulp.task('styles', (done) => {
-    gulp.src([
+gulp.task('styles', () => {
+    return gulp.src([
         'assets/css/**/*.css',
         '!assets/css/**/*.min.css'
     ])
@@ -134,8 +138,6 @@ gulp.task('styles', (done) => {
         .pipe(plugins.cleanCss())
         .pipe(plugins.rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/css'));
-
-    done();
 });
 
 gulp.task('watch', (done) => {
