@@ -1458,8 +1458,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1506,8 +1507,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1595,8 +1597,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1645,8 +1648,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [

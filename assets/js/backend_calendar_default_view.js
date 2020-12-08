@@ -725,8 +725,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -773,8 +774,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -893,8 +895,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -942,8 +945,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
                         });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
