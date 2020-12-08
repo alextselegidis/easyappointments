@@ -187,9 +187,14 @@ class Providers_model extends EA_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('user_settings',
-            ['username' => $username, 'id_users != ' => $user_id])->num_rows();
-        return $num_rows > 0 ? FALSE : TRUE;
+        if ( ! empty($user_id))
+        {
+            $this->db->where('id_users !=', $user_id);
+        }
+
+        $this->db->where('username', $username);
+
+        return $this->db->get('user_settings')->num_rows() === 0;
     }
 
     /**
