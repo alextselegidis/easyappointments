@@ -29,6 +29,7 @@ class Installation extends EA_Controller {
         $this->load->model('settings_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
+        $this->load->model('customers_model');
         $this->load->library('migration');
         $this->load->helper('installation');
         $this->load->helper('string');
@@ -90,44 +91,44 @@ class Installation extends EA_Controller {
             $this->settings_model->set_setting('company_email', $company['company_email']);
             $this->settings_model->set_setting('company_link', $company['company_link']);
 
-            // Create sample records.
-            $services = [
-                'name' => 'Test Service',
-                'duration' => 30,
-                'price' => 50.0,
-                'currency' => 'EUR',
-                'description' => 'This is a test service automatically inserted by the installer.',
+            // Service
+            $service_id = $this->services_model->add([
+                'name' => 'Service',
+                'duration' => '30',
+                'price' => '0',
+                'currency' => '',
                 'availabilities_type' => 'flexible',
-                'attendants_number' => 1,
-                'id_service_categories' => NULL
-            ];
-            $services['id'] = $this->services_model->add($services);
+                'attendants_number' => '1'
+            ]);
 
-            $salt = generate_salt();
-            $password = random_string('alnum', 12);
-
-            $sample_provider = [
-                'first_name' => 'John',
+            // Provider
+            $this->providers_model->add([
+                'first_name' => 'Jane',
                 'last_name' => 'Doe',
-                'email' => 'john@example.org',
-                'phone_number' => '0123456789',
+                'email' => 'jane@example.org',
+                'phone_number' => '+1 (000) 000-0000',
                 'services' => [
-                    $services['id']
+                    $service_id
                 ],
                 'settings' => [
-                    'username' => 'johndoe',
-                    'password' => hash_password($salt, $password),
-                    'salt' => $salt,
-                    'working_plan' => '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"saturday":null,"sunday":null}',
-                    'notifications' => FALSE,
+                    'username' => 'janedoe',
+                    'password' => 'janedoe',
+                    'working_plan' => $this->settings_model->get_setting('company_working_plan'),
+                    'notifications' => TRUE,
                     'google_sync' => FALSE,
-                    'sync_past_days' => 5,
-                    'sync_future_days' => 5,
+                    'sync_past_days' => 30,
+                    'sync_future_days' => 90,
                     'calendar_view' => CALENDAR_VIEW_DEFAULT
-                ]
-            ];
+                ],
+            ]);
 
-            $this->providers_model->add($sample_provider);
+            // Customer
+            $this->customers_model->add([
+                'first_name' => 'James',
+                'last_name' => 'Doe',
+                'email' => 'james@example.org',
+                'phone_number' => '+1 (000) 000-0000',
+            ]);
 
             $response = AJAX_SUCCESS;
         }

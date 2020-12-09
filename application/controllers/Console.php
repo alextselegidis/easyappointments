@@ -113,7 +113,7 @@ class Console extends EA_Controller {
             'settings' => [
                 'username' => 'administrator',
                 'password' => 'administrator',
-                'notifications' => FALSE,
+                'notifications' => TRUE,
                 'calendar_view' => CALENDAR_VIEW_DEFAULT
             ],
         ]);
@@ -141,10 +141,10 @@ class Console extends EA_Controller {
                 'username' => 'janedoe',
                 'password' => 'janedoe',
                 'working_plan' => $this->settings_model->get_setting('company_working_plan'),
-                'notifications' => FALSE,
+                'notifications' => TRUE,
                 'google_sync' => FALSE,
-                'sync_past_days' => 5,
-                'sync_future_days' => 5,
+                'sync_past_days' => 30,
+                'sync_future_days' => 90,
                 'calendar_view' => CALENDAR_VIEW_DEFAULT
             ],
         ]);
