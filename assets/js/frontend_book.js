@@ -424,7 +424,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('#book-appointment-submit').on('click', function (event) {
+        $('#book-appointment-submit').on('click', function () {
             FrontendBookApi.registerAppointment();
         });
 
@@ -433,7 +433,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('.captcha-title small').on('click', function (event) {
+        $('.captcha-title svg').on('click', function (event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 

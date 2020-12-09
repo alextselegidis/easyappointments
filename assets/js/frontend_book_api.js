@@ -146,7 +146,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         }
 
-        var formData = jQuery.parseJSON($('input[name="post_data"]').val());
+        var formData = JSON.parse($('input[name="post_data"]').val());
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             post_data: formData
@@ -193,7 +194,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         $('#captcha-hint').fadeTo(400, 0);
                     }, 3000);
 
-                    $('.captcha-title small').trigger('click');
+                    $('.captcha-title svg').trigger('click');
 
                     $captchaText.closest('.form-group').addClass('has-error');
 
@@ -204,7 +205,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     + '/index.php/appointments/book_success/' + response.appointment_hash;
             })
             .fail(function (jqxhr, textStatus, errorThrown) {
-                $('.captcha-title small').trigger('click');
+                $('.captcha-title svg').trigger('click');
             })
             .always(function () {
                 $layer.remove();

@@ -366,7 +366,7 @@
                                     <small class="fas fa-sync-alt"></small>
                                 </h4>
                                 <img class="captcha-image" src="<?= site_url('captcha') ?>">
-                                <input class="captcha-text" type="text" value=""/>
+                                <input class="captcha-text form-control" type="text" value=""/>
                                 <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
                             </div>
                         </div>
