@@ -847,7 +847,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
     function createNonWorkingHours($calendar, provider) {
         var workingPlan = JSON.parse(provider.settings.working_plan);
-        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
+        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
         var view = $calendar.fullCalendar('getView');
         var start = view.start.clone();
         var end = view.end.clone();
