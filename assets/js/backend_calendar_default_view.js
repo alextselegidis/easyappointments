@@ -82,7 +82,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         var successCallback = function () {
                             Backend.displayNotification(EALang.working_plan_exception_saved);
 
-                            var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+                            var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                             workingPlanExceptions[date] = workingPlanException;
 
