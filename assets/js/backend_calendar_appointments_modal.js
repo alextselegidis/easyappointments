@@ -223,64 +223,78 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             $('#select-customer').trigger('click'); // Hide the list.
         });
 
+        var filterExistingCustomersTimeout = null;
+
         /**
          * Event: Filter Existing Customers "Change"
          */
         $('#filter-existing-customers').on('keyup', function () {
+            if (filterExistingCustomersTimeout) {
+                clearTimeout(filterExistingCustomersTimeout);
+            }
+
             var key = $(this).val().toLowerCase();
-            var $list = $('#existing-customers-list');
 
-            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+            filterExistingCustomersTimeout = setTimeout(function() {
+                var $list = $('#existing-customers-list');
 
-            var data = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: key
-            };
+                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
 
-            // Try to get the updated customer list.
-            $.post(url, data)
-                .done(function (response) {
-                    $list.empty();
+                var data = {
+                    csrfToken: GlobalVariables.csrfToken,
+                    key: key
+                };
 
-                    response.forEach(function (customer) {
-                        $('<div/>', {
-                            'data-id': customer.id,
-                            'text': customer.first_name + ' ' + customer.last_name
-                        })
-                            .appendTo($list);
+                $('#loading').css('visibility', 'hidden');
 
-                        // Verify if this customer is on the old customer list.
-                        var result = GlobalVariables.customers.filter(function (globalVariablesCustomer) {
-                            return Number(globalVariablesCustomer.id) === Number(customer.id);
-                        });
+                // Try to get the updated customer list.
+                $.post(url, data)
+                    .done(function (response) {
+                        $list.empty();
 
-                        // Add it to the customer list.
-                        if (!result.length) {
-                            GlobalVariables.customers.push(customer);
-                        }
-                    })
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    // If there is any error on the request, search by the local client database.
-                    $list.empty();
-
-                    GlobalVariables.customers.forEach(function (customer, index) {
-                        if (customer.first_name.toLowerCase().indexOf(key) !== -1
-                            || customer.last_name.toLowerCase().indexOf(key) !== -1
-                            || customer.email.toLowerCase().indexOf(key) !== -1
-                            || customer.phone_number.toLowerCase().indexOf(key) !== -1
-                            || customer.address.toLowerCase().indexOf(key) !== -1
-                            || customer.city.toLowerCase().indexOf(key) !== -1
-                            || customer.zip_code.toLowerCase().indexOf(key) !== -1
-                            || customer.notes.toLowerCase().indexOf(key) !== -1) {
+                        response.forEach(function (customer) {
                             $('<div/>', {
                                 'data-id': customer.id,
                                 'text': customer.first_name + ' ' + customer.last_name
                             })
                                 .appendTo($list);
-                        }
+
+                            // Verify if this customer is on the old customer list.
+                            var result = GlobalVariables.customers.filter(function (globalVariablesCustomer) {
+                                return Number(globalVariablesCustomer.id) === Number(customer.id);
+                            });
+
+                            // Add it to the customer list.
+                            if (!result.length) {
+                                GlobalVariables.customers.push(customer);
+                            }
+                        })
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // If there is any error on the request, search by the local client database.
+                        $list.empty();
+
+                        GlobalVariables.customers.forEach(function (customer, index) {
+                            if (customer.first_name.toLowerCase().indexOf(key) !== -1
+                                || customer.last_name.toLowerCase().indexOf(key) !== -1
+                                || customer.email.toLowerCase().indexOf(key) !== -1
+                                || customer.phone_number.toLowerCase().indexOf(key) !== -1
+                                || customer.address.toLowerCase().indexOf(key) !== -1
+                                || customer.city.toLowerCase().indexOf(key) !== -1
+                                || customer.zip_code.toLowerCase().indexOf(key) !== -1
+                                || customer.notes.toLowerCase().indexOf(key) !== -1) {
+                                $('<div/>', {
+                                    'data-id': customer.id,
+                                    'text': customer.first_name + ' ' + customer.last_name
+                                })
+                                    .appendTo($list);
+                            }
+                        });
+                    })
+                    .always(function() {
+                        $('#loading').css('visibility', '');
                     });
-                });
+            }, 1000);
         });
 
         /**
