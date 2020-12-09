@@ -9,7 +9,7 @@
 |
 */
 $config['version'] = '1.4.0'; // This must be changed manually.
-$config['release_label'] = 'Beta.1'; // Leave empty for no title or add Alpha, Beta etc ...
+$config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
 $config['debug'] = Config::DEBUG_MODE;
 
 /*
