@@ -556,11 +556,17 @@ class Appointments_model extends EA_Model {
      * @param DateTime $slot_start When the slot starts
      * @param DateTime $slot_end When the slot ends.
      * @param int $service_id Selected service ID.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
      *
      * @return int Returns the number of attendants for selected time period.
      */
-    public function get_attendants_number_for_period(DateTime $slot_start, DateTime $slot_end, $service_id)
+    public function get_attendants_number_for_period(DateTime $slot_start, DateTime $slot_end, $service_id, $exclude_appointment_id = NULL)
     {
+        if ($exclude_appointment_id)
+        {
+            $this->db->where('id !=', $exclude_appointment_id);
+        }
+
         return (int)$this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')

@@ -58,7 +58,7 @@ class Availability {
 
         if ($service['attendants_number'] > 1)
         {
-            $available_hours = $this->consider_multiple_attendants($date, $service, $provider);
+            $available_hours = $this->consider_multiple_attendants($date, $service, $provider, $exclude_appointment_id);
         }
 
         return $this->consider_book_advance_timeout($date, $available_hours, $provider);
@@ -326,6 +326,7 @@ class Availability {
      * @param string $date Selected date (Y-m-d).
      * @param array $service Service record.
      * @param array $provider Provider record.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
      *
      * @return array Returns the available hours array.
      *
@@ -334,7 +335,8 @@ class Availability {
     protected function consider_multiple_attendants(
         $date,
         $service,
-        $provider
+        $provider,
+        $exclude_appointment_id = NULL
     )
     {
         $unavailability_events = $this->CI->appointments_model->get_batch([
@@ -390,7 +392,8 @@ class Availability {
                 $appointment_attendants_number = $this->CI->appointments_model->get_attendants_number_for_period(
                     $slot_start,
                     $slot_end,
-                    $service['id']
+                    $service['id'],
+                    $exclude_appointment_id
                 );
 
                 if ($appointment_attendants_number < $service['attendants_number'])
