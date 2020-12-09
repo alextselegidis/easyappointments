@@ -23,6 +23,15 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     'use strict';
 
     /**
+     * Register global error handler.
+     */
+    document.addEventListener('DOMContentLoaded', function () {
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            GeneralFunctions.ajaxFailureHandler(jqxhr, settings, thrownError);
+        });
+    });
+
+    /**
      * This functions displays a message box in the admin array. It is useful when user
      * decisions or verifications are needed.
      *
@@ -288,11 +297,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             $.post(url, data)
                 .done(function () {
                     document.location.reload(true);
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
-        $(document).on('click', function() {
+        $(document).on('click', function () {
             $element.popover('hide');
         });
     };
@@ -311,8 +319,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         try {
             response = JSON.parse(jqXHR.responseText); // JSON response
-        } catch(error) {
-            response = { message: jqXHR.responseText }; // String response
+        } catch (error) {
+            response = {message: jqXHR.responseText}; // String response
         }
 
         if (!response) {
@@ -488,9 +496,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {Object} Returns a sorted dictionary
      */
     exports.sortWeekDictionary = function (weekDictionary, startDayId) {
-        var sortedWeekDictionary={};
+        var sortedWeekDictionary = {};
 
-        for (var i = startDayId; i < startDayId+7; i++) {
+        for (var i = startDayId; i < startDayId + 7; i++) {
             var weekdayName = GeneralFunctions.getWeekdayName(i % 7);
             sortedWeekDictionary[weekdayName] = weekDictionary[weekdayName];
         }
@@ -559,7 +567,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'far fa-envelope'
+                            'class': 'fas fa-envelope'
                         })
                     ]
                 })
@@ -615,7 +623,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 date = dayArray[2] + '-' + dayArray[0] + '-' + dayArray[1];
                 break;
             case 'YMD':
-                date = date.replace('/','-');
+                date = date.replace('/', '-');
                 break;
             default:
                 throw new Error('Invalid date format setting provided:' + dateFormatSetting);

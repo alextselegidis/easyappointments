@@ -43,7 +43,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // Default value of duration (in minutes).
         var serviceDuration = 15;
 
-        var service = GlobalVariables.availableServices.find(function(availableService) {
+        var service = GlobalVariables.availableServices.find(function (availableService) {
             return Number(availableService.id) === Number(serviceId);
         });
 
@@ -78,7 +78,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         providerId = GlobalVariables.availableProviders[0].id; // Use first available provider.
                     }
 
-                    var provider = GlobalVariables.availableProviders.find(function(availableProvider) {
+                    var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
                         return Number(providerId) === Number(availableProvider.id);
                     });
 
@@ -126,8 +126,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 } else {
                     $('#available-hours').text(EALang.no_available_hours);
                 }
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 
     /**
@@ -147,7 +146,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         }
 
-        var formData = jQuery.parseJSON($('input[name="post_data"]').val());
+        var formData = JSON.parse($('input[name="post_data"]').val());
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             post_data: formData
@@ -194,7 +194,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         $('#captcha-hint').fadeTo(400, 0);
                     }, 3000);
 
-                    $('.captcha-title small').trigger('click');
+                    $('.captcha-title svg').trigger('click');
 
                     $captchaText.closest('.form-group').addClass('has-error');
 
@@ -205,8 +205,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     + '/index.php/appointments/book_success/' + response.appointment_hash;
             })
             .fail(function (jqxhr, textStatus, errorThrown) {
-                $('.captcha-title small').trigger('click');
-                GeneralFunctions.ajaxFailureHandler(jqxhr, textStatus, errorThrown);
+                $('.captcha-title svg').trigger('click');
             })
             .always(function () {
                 $layer.remove();
@@ -256,8 +255,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 unavailableDatesBackup = response;
                 selectedDateStringBackup = selectedDateString;
                 applyUnavailableDates(response, selectedDateString, true);
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 
     exports.applyPreviousUnavailableDates = function () {
@@ -313,7 +311,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             consent: consent
         };
 
-        $.post(url, data).fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data);
     };
 
     /**
@@ -331,9 +329,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         $.post(url, data)
             .done(function () {
-                location.href = GlobalVariables.baseUrl;
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+                window.location.href = GlobalVariables.baseUrl;
+            });
     };
 
 })(window.FrontendBookApi);

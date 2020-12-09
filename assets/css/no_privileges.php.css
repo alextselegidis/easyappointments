@@ -18,7 +18,7 @@ body {
     margin-right: 10px;
 }
 
-@media(max-width: 640px) {
+@media (max-width: 640px) {
     #no-priv-frame {
         width: 100%;
         padding: 20px;

@@ -49,8 +49,9 @@ class Customers extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
-            $customers = $this->customers_model->get_batch($condition);
+            $conditions = $id !== NULL ? ['id' => $id] : NULL;
+
+            $customers = $this->customers_model->get_batch($conditions);
 
             if ($id !== NULL && count($customers) === 0)
             {
@@ -94,7 +95,7 @@ class Customers extends API_V1_Controller {
             $id = $this->customers_model->add($customer);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->customers_model->get_batch('id = ' . $id);
+            $batch = $this->customers_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
@@ -115,7 +116,7 @@ class Customers extends API_V1_Controller {
         try
         {
             // Update the customer record.
-            $batch = $this->customers_model->get_batch('id = ' . $id);
+            $batch = $this->customers_model->get_batch(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -130,7 +131,7 @@ class Customers extends API_V1_Controller {
             $id = $this->customers_model->add($updated_customer);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->customers_model->get_batch('id = ' . $id);
+            $batch = $this->customers_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }

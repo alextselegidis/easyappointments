@@ -80,9 +80,11 @@ class Admins_model extends EA_Model {
         }
 
         // Validate required fields integrity.
-        if ( ! isset($admin['last_name'])
-            || ! isset($admin['email'])
-            || ! isset($admin['phone_number']))
+        if ( ! isset(
+            $admin['last_name'],
+            $admin['email'],
+            $admin['phone_number']
+        ))
         {
             throw new Exception('Not all required fields are provided: ' . print_r($admin, TRUE));
         }
@@ -123,7 +125,7 @@ class Admins_model extends EA_Model {
         }
 
         // When inserting a record the email address must be unique.
-        $admin_id = (isset($admin['id'])) ? $admin['id'] : '';
+        $admin_id = isset($admin['id']) ? $admin['id'] : '';
 
         $num_rows = $this->db
             ->select('*')
@@ -131,7 +133,7 @@ class Admins_model extends EA_Model {
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->where('users.email', $admin['email'])
-            ->where('users.id <>', $admin_id)
+            ->where('users.id !=', $admin_id)
             ->get()
             ->num_rows();
 
@@ -154,9 +156,14 @@ class Admins_model extends EA_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('user_settings',
-            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return $num_rows > 0 ? FALSE : TRUE;
+        if ( ! empty($user_id))
+        {
+            $this->db->where('id_users !=', $user_id);
+        }
+
+        $this->db->where('username', $username);
+
+        return $this->db->get('user_settings')->num_rows() === 0;
     }
 
     /**
@@ -399,34 +406,36 @@ class Admins_model extends EA_Model {
 
         // Check whether the admin record exists.
         $result = $this->db->get_where('users', ['id' => $admin_id]);
-        if ($result->num_rows() == 0)
+
+        if ($result->num_rows() === 0)
         {
             throw new Exception('The record with the given id does not exist in the '
                 . 'database: ' . $admin_id);
         }
 
         // Check if the required field name exist in database.
-        $provider = $result->row_array();
-        if ( ! isset($provider[$field_name]))
+        $row_data = $result->row_array();
+
+        if ( ! array_key_exists($field_name, $row_data))
         {
             throw new Exception('The given $field_name argument does not exist in the '
                 . 'database: ' . $field_name);
         }
 
-        return $provider[$field_name];
+        return $row_data[$field_name];
     }
 
     /**
      * Get all, or specific admin records from database.
      *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
-     * specific admin records.
-     * @param mixed|null $order_by
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
      * @param int|null $limit
      * @param int|null $offset
+     * @param mixed|null $order_by
+     *
      * @return array Returns an array with admin records.
      */
-    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
+    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
     {
         $role_id = $this->get_admin_role_id();
 

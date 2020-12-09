@@ -49,8 +49,9 @@ class Providers extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
-            $providers = $this->providers_model->get_batch($condition);
+            $conditions = $id !== NULL ? ['id' => $id] : NULL;
+
+            $providers = $this->providers_model->get_batch($conditions);
 
             if ($id !== NULL && count($providers) === 0)
             {
@@ -94,7 +95,7 @@ class Providers extends API_V1_Controller {
             $id = $this->providers_model->add($provider);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->providers_model->get_batch('id = ' . $id);
+            $batch = $this->providers_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
@@ -115,7 +116,7 @@ class Providers extends API_V1_Controller {
         try
         {
             // Update the provider record.
-            $batch = $this->providers_model->get_batch('id = ' . $id);
+            $batch = $this->providers_model->get_batch(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -130,7 +131,7 @@ class Providers extends API_V1_Controller {
             $id = $this->providers_model->add($updated_provider);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->providers_model->get_batch('id = ' . $id);
+            $batch = $this->providers_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }

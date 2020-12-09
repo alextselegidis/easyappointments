@@ -71,7 +71,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var endDate = endDateMoment.toDate();
 
             getCalendarEvents(startDate, endDate)
-                .done(function () {
+                .done(function (response) {
                     var currentDate = startDate;
 
                     while (currentDate <= endDate) {
@@ -117,9 +117,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                     // setCalendarViewSize();
                     Backend.placeFooterToBottom();
-
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
         /**
@@ -208,6 +206,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $dialog.find('#appointment-location').val(appointment.location);
                 $dialog.find('#appointment-notes').val(appointment.notes);
                 $dialog.find('#customer-notes').val(customer.notes);
+
+                $dialog.modal('show');
             } else {
                 var unavailable = lastFocusedEventData.data;
 
@@ -227,10 +227,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
                 $dialog.find('#unavailable-end').datetimepicker('setDate', endDatetime);
                 $dialog.find('#unavailable-notes').val(unavailable.notes);
-            }
 
-            // :: DISPLAY EDIT DIALOG
-            $dialog.modal('show');
+                $dialog.modal('show');
+            }
         });
 
         /**
@@ -266,8 +265,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
@@ -293,8 +291,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                                     // Refresh calendar event items.
                                     $('#select-filter-item').trigger('change');
-                                })
-                                .fail(GeneralFunctions.ajaxFailureHandler);
+                                });
                         }
                     }
                 ];
@@ -323,8 +320,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             }
         });
     }
@@ -540,9 +536,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $providerColumn.find('.calendar-wrapper')
                         .fullCalendar('changeView', providerView[providerId] || 'agendaDay');
                 });
-
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     }
 
     /**
@@ -704,12 +698,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             defaultView: 'agendaDay',
             height: getCalendarHeight(),
             editable: true,
-            firstDay: firstWeekdayNumber,
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,
             allDaySlot: true,
             columnFormat: columnFormat,
-            titleFormat: 'MMMM YYYY',
+            firstDay: firstWeekdayNumber,
+            snapDuration: '00:15:00',
             header: {
                 left: 'listDay,agendaDay',
                 center: '',
@@ -737,8 +731,25 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     return provider.services.indexOf(service.id) !== -1
                 });
 
-                $('#select-service').val(service.id).trigger('change');
-                $('#select-provider').val(provider.id).trigger('change');
+                if (service) {
+                    $('#select-service').val(service.id);
+                }
+
+                if (!$('#select-service').val()) {
+                    $('#select-service option:first').prop('selected', true);
+                }
+
+                $('#select-service').trigger('change');
+
+                if (provider) {
+                    $('#select-provider').val(provider.id);
+                }
+
+                if (!$('#select-provider').val()) {
+                    $('#select-provider option:first').prop('selected', true);
+                }
+
+                $('#select-provider').trigger('change');
 
                 // Preselect time
                 $('#start-datetime').datepicker('setDate', new Date(start.format('YYY/MM/DD HH:mm:ss')));
@@ -836,7 +847,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
     function createNonWorkingHours($calendar, provider) {
         var workingPlan = JSON.parse(provider.settings.working_plan);
-        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
+        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
         var view = $calendar.fullCalendar('getView');
         var start = view.start.clone();
         var end = view.end.clone();
@@ -1074,7 +1085,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Event} event
      */
     function getEventNotes(event) {
-        if (!event.data || !event.data.notes) {
+        if (!event.data || !event.data.notes) {
             return '-';
         }
 
@@ -1155,7 +1166,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -1166,7 +1177,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -1240,7 +1251,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -1251,7 +1262,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -1366,7 +1377,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'delete-popover btn btn-outline-secondary mr-2' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -1377,7 +1388,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -1465,9 +1476,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1514,9 +1525,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1604,9 +1615,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -1655,9 +1666,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [

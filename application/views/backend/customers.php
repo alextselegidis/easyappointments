@@ -12,7 +12,7 @@
         baseUrl: <?= json_encode($base_url) ?>,
         customers: <?= json_encode($customers) ?>,
         timezones: <?= json_encode($timezones) ?>,
-        user : {
+        user: {
             id: <?= $user_id ?>,
             email: <?= json_encode($user_email) ?>,
             timezone: <?= json_encode($timezone) ?>,
@@ -21,13 +21,13 @@
         }
     };
 
-    $(function() {
+    $(function () {
         BackendCustomers.initialize(true);
     });
 </script>
 
 <div class="container-fluid backend-page" id="customers-page">
-    <div class="row">
+    <div class="row" id="customers">
         <div id="filter-customers" class="filter-records col col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
@@ -35,11 +35,13 @@
 
                     <div class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit"
+                                    data-tippy-content="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
-                            <i class="fas fa-redo-alt"></i>
+                            <button class="clear btn btn-outline-secondary" type="button"
+                                    data-tippy-content="<?= lang('clear') ?>">
+                                <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
                     </div>
@@ -48,36 +50,36 @@
 
             <h3><?= lang('customers') ?></h3>
             <div class="results"></div>
-    	</div>
+        </div>
 
-    	<div class="record-details col-12 col-md-7">
+        <div class="record-details col-12 col-md-7">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
-                    <button id="add-customer" class="btn btn-primary">
-                        <i class="far fa-plus-square mr-2"></i>
-                        <?= lang('add') ?>
-                    </button>
+                        <button id="add-customer" class="btn btn-primary">
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('add') ?>
+                        </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
-                    <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="far fa-edit mr-2"></i>
-                        <?= lang('edit') ?>
-                    </button>
+                        <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
+                            <i class="fas fa-edit mr-2"></i>
+                            <?= lang('edit') ?>
+                        </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
-                    <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="far fa-trash-alt mr-2"></i>
-                        <?= lang('delete') ?>
-                    </button>
+                        <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
+                            <i class="fas fa-trash-alt mr-2"></i>
+                            <?= lang('delete') ?>
+                        </button>
                     <?php endif ?>
                 </div>
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
                     <button id="save-customer" class="btn btn-primary">
-                        <i class="far fa-check-square mr-2"></i>
+                        <i class="fas fa-check-square mr-2"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-customer" class="btn btn-outline-secondary">
@@ -179,6 +181,6 @@
                     <div id="appointment-details" class="card bg-light border-light d-none"></div>
                 </div>
             </div>
-    	</div>
+        </div>
     </div>
 </div>

@@ -218,24 +218,23 @@ window.BackendSettings = window.BackendSettings || {};
                         $input.closest('.form-group').removeClass('has-error');
                         $input.attr('already-exists', 'false');
                     }
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
         /**
          * Event: Apply Global Working Plan
          */
-        $('#apply-global-working-plan').on('click', function() {
+        $('#apply-global-working-plan').on('click', function () {
             var buttons = [
                 {
                     text: EALang.cancel,
-                    click: function() {
+                    click: function () {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
                     text: 'OK',
-                    click: function() {
+                    click: function () {
                         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_apply_global_working_plan';
 
                         var data = {
@@ -247,8 +246,7 @@ window.BackendSettings = window.BackendSettings || {};
                             .done(function () {
                                 Backend.displayNotification(EALang.working_plans_got_updated);
                             })
-                            .fail(GeneralFunctions.ajaxFailureHandler)
-                            .always(function() {
+                            .always(function () {
                                 $('#message-box').dialog('close');
                             });
                     }

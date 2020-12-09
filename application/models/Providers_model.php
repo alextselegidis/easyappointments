@@ -25,7 +25,6 @@ class Providers_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();
-
         $this->load->helper('data_validation');
         $this->load->helper('general');
     }
@@ -87,9 +86,11 @@ class Providers_model extends EA_Model {
         }
 
         // Validate required fields.
-        if ( ! isset($provider['last_name'])
-            || ! isset($provider['email'])
-            || ! isset($provider['phone_number']))
+        if ( ! isset(
+            $provider['last_name'],
+            $provider['email'],
+            $provider['phone_number']
+        ))
         {
             throw new Exception('Not all required fields are provided: ' . print_r($provider, TRUE));
         }
@@ -106,7 +107,8 @@ class Providers_model extends EA_Model {
             throw new Exception('Invalid provider services given: ' . print_r($provider, TRUE));
         }
         else
-        { // Check if services are valid int values.
+        {
+            // Check if services are valid int values.
             foreach ($provider['services'] as $service_id)
             {
                 if ( ! is_numeric($service_id))
@@ -118,7 +120,7 @@ class Providers_model extends EA_Model {
         }
 
         // Validate provider settings.
-        if ( ! isset($provider['settings']) || count($provider['settings']) == 0
+        if ( ! isset($provider['settings']) || count($provider['settings']) === 0
             || ! is_array($provider['settings']))
         {
             throw new Exception('Invalid provider settings given: ' . print_r($provider, TRUE));
@@ -162,7 +164,7 @@ class Providers_model extends EA_Model {
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->where('users.email', $provider['email'])
-            ->where('users.id <>', $provider_id)
+            ->where('users.id !=', $provider_id)
             ->get()
             ->num_rows();
 
@@ -185,9 +187,14 @@ class Providers_model extends EA_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('user_settings',
-            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return $num_rows > 0 ? FALSE : TRUE;
+        if ( ! empty($user_id))
+        {
+            $this->db->where('id_users !=', $user_id);
+        }
+
+        $this->db->where('username', $username);
+
+        return $this->db->get('user_settings')->num_rows() === 0;
     }
 
     /**
@@ -333,7 +340,7 @@ class Providers_model extends EA_Model {
             {
                 $value = json_decode($value, TRUE);
 
-                if (!$value)
+                if ( ! $value)
                 {
                     $value = [];
                 }
@@ -388,6 +395,7 @@ class Providers_model extends EA_Model {
 
         // Save provider services in the database (delete old records and add new).
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
+
         foreach ($services as $service_id)
         {
             $service_provider = [
@@ -452,12 +460,250 @@ class Providers_model extends EA_Model {
         }
 
         $num_rows = $this->db->get_where('users', ['id' => $provider_id])->num_rows();
-        if ($num_rows == 0)
+        if ($num_rows === 0)
         {
             return FALSE; // Record does not exist in database.
         }
 
         return $this->db->delete('users', ['id' => $provider_id]);
+    }
+
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param string $field_name The field name of the value to be returned.
+     * @param int $provider_id Record id of the value to be returned.
+     *
+     * @return string Returns the selected record value from the database.
+     *
+     * @throws Exception When the $field_name argument is not a valid string.
+     * @throws Exception When the $provider_id is not a valid int.
+     * @throws Exception When the provider record does not exist in the database.
+     * @throws Exception When the selected field value is not present on database.
+     */
+    public function get_value($field_name, $provider_id)
+    {
+        if ( ! is_numeric($provider_id))
+        {
+            throw new Exception('Invalid argument provided as $provider_id: ' . $provider_id);
+        }
+
+        if ( ! is_string($field_name))
+        {
+            throw new Exception('$field_name argument is not a string: ' . $field_name);
+        }
+
+        // Check whether the provider record exists in database.
+        $result = $this->db->get_where('users', ['id' => $provider_id]);
+
+        if ($result->num_rows() == 0)
+        {
+            throw new Exception('The record with the $provider_id argument does not exist in the database: '
+                . $provider_id);
+        }
+
+        $row_data = $result->row_array();
+
+        if ( ! isset($row_data[$field_name]))
+        {
+            throw new Exception('The given $field_name argument does not exist in the database: ' . $field_name);
+        }
+
+        return $row_data[$field_name];
+    }
+
+    /**
+     * Get all, or specific records from provider's table.
+     *
+     * Example:
+     *
+     * $this->Model->get_batch('id = ' . $recordId);
+     *
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param mixed|null $order_by
+     *
+     * @return array Returns the rows from the database.
+     */
+    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
+    {
+        // CI db class may confuse two where clauses made in the same time, so get the role id first and then apply the
+        // get_batch() where clause.
+        $role_id = $this->get_providers_role_id();
+
+        if ($where !== NULL)
+        {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+
+        // Include each provider services and settings.
+        foreach ($batch as &$provider)
+        {
+            // Services
+            $services = $this->db->get_where('services_providers',
+                ['id_users' => $provider['id']])->result_array();
+            $provider['services'] = [];
+            foreach ($services as $service)
+            {
+                $provider['services'][] = $service['id_services'];
+            }
+
+            // Settings
+            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
+            unset($provider['settings']['id_users']);
+        }
+
+        // Return provider records in an array.
+        return $batch;
+    }
+
+    /**
+     * Get the available system providers.
+     *
+     * This method returns the available providers and the services that can provide.
+     *
+     * @return array Returns an array with the providers data.
+     */
+    public function get_available_providers()
+    {
+        // Get provider records from database.
+        $this->db
+            ->select('users.*')
+            ->from('users')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
+            ->where('roles.slug', DB_SLUG_PROVIDER)
+            ->order_by('first_name ASC, last_name ASC, email ASC');
+
+        $providers = $this->db->get()->result_array();
+
+        // Include each provider services and settings.
+        foreach ($providers as &$provider)
+        {
+            // Services
+            $services = $this->db->get_where('services_providers', ['id_users' => $provider['id']])->result_array();
+
+            $provider['services'] = [];
+            foreach ($services as $service)
+            {
+                $provider['services'][] = $service['id_services'];
+            }
+
+            // Settings
+            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
+            unset(
+                $provider['settings']['username'],
+                $provider['settings']['password'],
+                $provider['settings']['salt']
+            );
+        }
+
+        // Return provider records.
+        return $providers;
+    }
+
+    /**
+     * Save the provider working plan exception.
+     *
+     * @param string $date The working plan exception date (in YYYY-MM-DD format).
+     * @param array $working_plan_exception Contains the working plan exception information ("start", "end" and "breaks"
+     * properties).
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new working plan exceptions is correctly saved to DB.
+     *
+     * @throws Exception If start time is after the end time.
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function save_working_plan_exception($date, $working_plan_exception, $provider_id)
+    {
+        // Validate the working plan exception data.
+        $start = date('H:i', strtotime($working_plan_exception['start']));
+        $end = date('H:i', strtotime($working_plan_exception['end']));
+
+        if ($start > $end)
+        {
+            throw new Exception('Working plan exception "start" must be prior to "end".');
+        }
+
+        // Make sure the provider record exists.
+        $conditions = [
+            'id' => $provider_id,
+            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+        ];
+
+        if ($this->db->get_where('users', $conditions)->num_rows() === 0)
+        {
+            throw new Exception('Provider record was not found in database: ' . $provider_id);
+        }
+
+        // Add record to database.
+        $working_plan_exceptions = json_decode($this->get_setting('working_plan_exceptions', $provider_id), TRUE);
+
+        if ( ! isset($working_plan_exception['breaks']))
+        {
+            $working_plan_exception['breaks'] = [];
+        }
+
+        $working_plan_exceptions[$date] = $working_plan_exception;
+
+        return $this->set_setting(
+            'working_plan_exceptions',
+            json_encode($working_plan_exceptions),
+            $provider_id
+        );
+    }
+
+    /**
+     * Get a providers setting from the database.
+     *
+     * @param string $setting_name The setting name that is going to be returned.
+     * @param int $provider_id The selected provider id.
+     *
+     * @return string Returns the value of the selected user setting.
+     */
+    public function get_setting($setting_name, $provider_id)
+    {
+        $provider_settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
+
+        return $provider_settings[$setting_name];
+    }
+
+    /**
+     * Delete a provider working plan exception.
+     *
+     * @param string $date The working plan exception date (in YYYY-MM-DD format).
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new working plan exceptions is correctly deleted from DB.
+     *
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function delete_working_plan_exception($date, $provider_id)
+    {
+        $provider = $this->get_row($provider_id);
+
+        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
+
+        if ( ! isset($working_plan_exceptions[$date]))
+        {
+            return TRUE; // The selected date does not exist in provider's settings.
+        }
+
+        unset($working_plan_exceptions[$date]);
+
+        return $this->set_setting(
+            'working_plan_exceptions',
+            json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
+            $provider_id
+        );
     }
 
     /**
@@ -501,243 +747,5 @@ class Providers_model extends EA_Model {
 
         // Return provider data array.
         return $provider;
-    }
-
-    /**
-     * Get a specific field value from the database.
-     *
-     * @param string $field_name The field name of the value to be returned.
-     * @param int $provider_id Record id of the value to be returned.
-     *
-     * @return string Returns the selected record value from the database.
-     *
-     * @throws Exception When the $field_name argument is not a valid string.
-     * @throws Exception When the $provider_id is not a valid int.
-     * @throws Exception When the provider record does not exist in the database.
-     * @throws Exception When the selected field value is not present on database.
-     */
-    public function get_value($field_name, $provider_id)
-    {
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid argument provided as $provider_id: ' . $provider_id);
-        }
-
-        if ( ! is_string($field_name))
-        {
-            throw new Exception('$field_name argument is not a string: ' . $field_name);
-        }
-
-        // Check whether the provider record exists in database.
-        $result = $this->db->get_where('users', ['id' => $provider_id]);
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('The record with the $provider_id argument does not exist in '
-                . 'the database: ' . $provider_id);
-        }
-
-        $provider = $result->row_array();
-        if ( ! isset($provider[$field_name]))
-        {
-            throw new Exception('The given $field_name argument does not exist in the '
-                . 'database: ' . $field_name);
-        }
-
-        return $provider[$field_name];
-    }
-
-    /**
-     * Get all, or specific records from provider's table.
-     *
-     * Example:
-     *
-     * $this->Model->get_batch('id = ' . $recordId);
-     *
-     *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
-     * @param mixed|null $order_by
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return array Returns the rows from the database.
-     */
-    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
-    {
-        // CI db class may confuse two where clauses made in the same time, so
-        // get the role id first and then apply the get_batch() where clause.
-        $role_id = $this->get_providers_role_id();
-
-        if ($where !== NULL)
-        {
-            $this->db->where($where);
-        }
-
-        if ($order_by !== NULL)
-        {
-            $this->db->order_by($order_by);
-        }
-
-        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
-
-        // Include each provider services and settings.
-        foreach ($batch as &$provider)
-        {
-            // Services
-            $services = $this->db->get_where('services_providers',
-                ['id_users' => $provider['id']])->result_array();
-            $provider['services'] = [];
-            foreach ($services as $service)
-            {
-                $provider['services'][] = $service['id_services'];
-            }
-
-            // Settings
-            $provider['settings'] = $this->db->get_where('user_settings',
-                ['id_users' => $provider['id']])->row_array();
-            unset($provider['settings']['id_users']);
-        }
-
-        // Return provider records in an array.
-        return $batch;
-    }
-
-    /**
-     * Get the available system providers.
-     *
-     * This method returns the available providers and the services that can provide.
-     *
-     * @return array Returns an array with the providers data.
-     */
-    public function get_available_providers()
-    {
-        // Get provider records from database.
-        $this->db
-            ->select('users.*')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->order_by('first_name ASC, last_name ASC, email ASC');
-
-        $providers = $this->db->get()->result_array();
-
-        // Include each provider services and settings.
-        foreach ($providers as &$provider)
-        {
-            // Services
-            $services = $this->db->get_where('services_providers',
-                ['id_users' => $provider['id']])->result_array();
-
-            $provider['services'] = [];
-            foreach ($services as $service)
-            {
-                $provider['services'][] = $service['id_services'];
-            }
-
-            // Settings
-            $provider['settings'] = $this->db->get_where('user_settings',
-                ['id_users' => $provider['id']])->row_array();
-            unset($provider['settings']['username']);
-            unset($provider['settings']['password']);
-            unset($provider['settings']['salt']);
-        }
-
-        // Return provider records.
-        return $providers;
-    }
-
-    /**
-     * Get a providers setting from the database.
-     *
-     * @param string $setting_name The setting name that is going to be returned.
-     * @param int $provider_id The selected provider id.
-     *
-     * @return string Returns the value of the selected user setting.
-     */
-    public function get_setting($setting_name, $provider_id)
-    {
-        $provider_settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
-
-        return $provider_settings[$setting_name];
-    }
-
-    /**
-     * Save the provider working plan exception.
-     *
-     * @param string $date The working plan exception date (in YYYY-MM-DD format).
-     * @param array $working_plan_exception Contains the working plan exception information ("start", "end" and "breaks"
-     * properties).
-     * @param int $provider_id The selected provider record id.
-     *
-     * @return bool Return if the new working plan exceptions is correctly saved to DB.
-     *
-     * @throws Exception If start time is after the end time.
-     * @throws Exception If $provider_id argument is invalid.
-     */
-    public function save_working_plan_exception($date, $working_plan_exception, $provider_id)
-    {
-        // Validate the working plan exception data.
-        $start = date('H:i', strtotime($working_plan_exception['start']));
-        $end = date('H:i', strtotime($working_plan_exception['end']));
-
-        if ($start > $end)
-        {
-            throw new Exception('Working plan exception "start" must be prior to "end".');
-        }
-
-        // Make sure the provider record exists.
-        $conditions = [
-            'id' => $provider_id,
-            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
-        ];
-
-        if ($this->db->get_where('users', $conditions)->num_rows() === 0)
-        {
-            throw new Exception('Provider record was not found in database: ' . $provider_id);
-        }
-
-        // Add record to database.
-        $working_plan_exceptions = json_decode($this->get_setting('working_plan_exceptions', $provider_id), TRUE);
-
-        if (!isset($working_plan_exception['breaks']))
-        {
-            $working_plan_exception['breaks'] = [];
-        }
-
-        $working_plan_exceptions[$date] = $working_plan_exception;
-
-        return $this->set_setting(
-            'working_plan_exceptions',
-            json_encode($working_plan_exceptions),
-            $provider_id
-        );
-    }
-
-    /**
-     * Delete a provider working plan exception.
-     *
-     * @param string $date The working plan exception date (in YYYY-MM-DD format).
-     * @param int $provider_id The selected provider record id.
-     *
-     * @return bool Return if the new working plan exceptions is correctly deleted from DB.
-     *
-     * @throws Exception If $provider_id argument is invalid.
-     */
-    public function delete_working_plan_exception($date, $provider_id)
-    {
-        $provider = $this->get_row($provider_id);
-
-        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
-
-        if ( ! isset($working_plan_exceptions[$date]))
-        {
-            return TRUE; // The selected date does not exist in provider's settings.
-        }
-
-        unset($working_plan_exceptions[$date]);
-
-        return $this->set_setting(
-            'working_plan_exceptions',
-            json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
-            $provider_id
-        );
     }
 }

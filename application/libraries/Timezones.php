@@ -472,8 +472,6 @@ class Timezones {
         $this->CI = & get_instance();
 
         $this->CI->load->model('user_model');
-
-        $this->CI->load->library('session');
     }
 
     /**
@@ -553,7 +551,7 @@ class Timezones {
      */
     public function convert($value, $from_timezone, $to_timezone)
     {
-        if ( ! $to_timezone)
+        if ( ! $to_timezone || $from_timezone === $to_timezone)
         {
             return $value;
         }

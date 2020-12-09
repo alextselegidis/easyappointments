@@ -23,7 +23,7 @@
  */
 function is_app_installed()
 {
-    $framework =& get_instance();
+    $CI =& get_instance();
 
-    return $framework->db->table_exists('users');
+    return $CI->db->table_exists('users');
 }

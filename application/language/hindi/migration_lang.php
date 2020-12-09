@@ -1,13 +1,13 @@
 <?php
 /**
-* System messages translation for CodeIgniter(tm)
-*
-* @author	CodeIgniter community
-* @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
-* @license	http://opensource.org/licenses/MIT MIT License
-* @link	https://codeigniter.com
-*/
-defined('BASEPATH') OR exit('No direct script access allowed');
+ * System messages translation for CodeIgniter(tm)
+ *
+ * @author    CodeIgniter community
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT MIT License
+ * @link    https://codeigniter.com
+ */
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['migration_none_found'] = 'कोई माइग्रेशन नहीं पाए गए।';
 $lang['migration_not_found'] = 'कोई माइग्रेशन वर्जन नंबर के साथनहीं नहीं पाया जा सका:% s।';

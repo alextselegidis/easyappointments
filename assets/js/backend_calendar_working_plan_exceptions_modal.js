@@ -81,7 +81,7 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                 $('#manage-working-plan-exceptions').modal('hide');
 
                 var providerId = $('#working-plan-exception-provider').val();
-                var provider = GlobalVariables.availableProviders.find(function(availableProvider) {
+                var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
                     return Number(availableProvider.id) === Number(providerId);
                 });
 

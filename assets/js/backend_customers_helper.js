@@ -33,20 +33,22 @@
 
         /**
          * Event: Filter Customers Form "Submit"
+         *
+         * @param {jQuery.Event} event
          */
-        $('#filter-customers form').submit(function (event) {
+        $('#customers').on('submit', '#filter-customers form', function (event) {
+            event.preventDefault();
             var key = $('#filter-customers .key').val();
             $('#filter-customers .selected').removeClass('selected');
             instance.filterLimit = 20;
             instance.resetForm();
             instance.filter(key);
-            return false;
         });
 
         /**
          * Event: Filter Customers Clear Button "Click"
          */
-        $('#filter-customers .clear').on('click', function () {
+        $('#customers').on('click', '#filter-customers .clear', function () {
             $('#filter-customers .key').val('');
             instance.filterLimit = 20;
             instance.filter('');
@@ -58,7 +60,7 @@
          *
          * Display the customer data of the selected row.
          */
-        $(document).on('click', '.entry', function () {
+        $('#customers').on('click', '.customer-row', function () {
             if ($('#filter-customers .filter').prop('disabled')) {
                 return; // Do nothing when user edits a customer record.
             }
@@ -77,7 +79,7 @@
         /**
          * Event: Add Customer Button "Click"
          */
-        $('#add-customer').on('click', function () {
+        $('#customers').on('click', '#add-customer', function () {
             instance.resetForm();
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
@@ -91,7 +93,7 @@
         /**
          * Event: Edit Customer Button "Click"
          */
-        $('#edit-customer').on('click', function () {
+        $('#customers').on('click', '#edit-customer', function () {
             $('.record-details')
                 .find('input, select, textarea')
                 .prop('disabled', false);
@@ -104,7 +106,7 @@
         /**
          * Event: Cancel Customer Add/Edit Operation Button "Click"
          */
-        $('#cancel-customer').on('click', function () {
+        $('#customers').on('click', '#cancel-customer', function () {
             var id = $('#customer-id').val();
             instance.resetForm();
             if (id) {
@@ -115,7 +117,7 @@
         /**
          * Event: Save Add/Edit Customer Operation "Click"
          */
-        $('#save-customer').on('click', function () {
+        $('#customers').on('click', '#save-customer', function () {
             var customer = {
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
@@ -143,7 +145,7 @@
         /**
          * Event: Delete Customer Button "Click"
          */
-        $('#delete-customer').on('click', function () {
+        $('#customers').on('click', '#delete-customer', function () {
             var customerId = $('#customer-id').val();
             var buttons = [
                 {
@@ -185,8 +187,7 @@
                 this.resetForm();
                 $('#filter-customers .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -207,8 +208,7 @@
                 Backend.displayNotification(EALang.customer_deleted);
                 this.resetForm();
                 this.filter($('#filter-customers .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -324,7 +324,7 @@
                         'href': GlobalVariables.baseUrl + '/index.php/backend/index/' + appointment.hash,
                         'html': [
                             $('<i/>', {
-                                'class': 'far fa-edit mr-1'
+                                'class': 'fas fa-edit mr-1'
                             }),
                             $('<strong/>', {
                                 'text': appointment.service.name + ' - ' + appointment.provider.first_name + ' ' + appointment.provider.last_name
@@ -412,8 +412,7 @@
                     this.select(selectId, display);
                 }
 
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

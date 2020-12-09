@@ -17,26 +17,11 @@
  * @package Controllers
  */
 class Errors extends EA_Controller {
-    /**
-     * Class Constructor
-     */
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('session');
-
-        if ($this->session->userdata('language'))
-        {
-            // Set user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
+        $this->load->helper('google_analytics');
+        $this->load->model('settings_model');
     }
 
     /**
@@ -52,9 +37,6 @@ class Errors extends EA_Controller {
      */
     public function error404()
     {
-        $this->load->helper('google_analytics');
-        $this->load->model('settings_model');
-
         $view['company_name'] = $this->settings_model->get_setting('company_name');
 
         $this->load->view('general/error404', $view);

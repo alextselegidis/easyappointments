@@ -65,7 +65,7 @@ window.FrontendBook = window.FrontendBook || {};
                         text: '#666666'
                     },
                     button: {
-                        background: '#3DD481',
+                        background: '#429a82',
                         text: '#ffffff'
                     }
                 },
@@ -424,7 +424,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('#book-appointment-submit').on('click', function (event) {
+        $('#book-appointment-submit').on('click', function () {
             FrontendBookApi.registerAppointment();
         });
 
@@ -433,7 +433,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('.captcha-title small').on('click', function (event) {
+        $('.captcha-title svg').on('click', function (event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 
@@ -515,7 +515,7 @@ window.FrontendBook = window.FrontendBook || {};
         var serviceCurrency = '';
 
         GlobalVariables.availableServices.forEach(function (service, index) {
-			if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
+            if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
                 servicePrice = service.price;
                 serviceCurrency = service.currency;
                 return false; // break loop
@@ -544,7 +544,7 @@ window.FrontendBook = window.FrontendBook || {};
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.timezone + ': ' +  $('#select-timezone option:selected').text()
+                            'text': EALang.timezone + ': ' + $('#select-timezone option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
@@ -624,7 +624,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         data.appointment = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
-            + ' ' + Date.parse($('.selected-hour').data('value') || '').toString('HH:mm') + ':00',
+                + ' ' + Date.parse($('.selected-hour').data('value') || '').toString('HH:mm') + ':00',
             end_datetime: calculateEndDatetime(),
             notes: $('#notes').val(),
             is_unavailable: false,
@@ -724,7 +724,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         $serviceDescription.empty();
 
-        var service = GlobalVariables.availableServices.find(function(availableService) {
+        var service = GlobalVariables.availableServices.find(function (availableService) {
             return Number(availableService.id) === Number(serviceId);
         });
 

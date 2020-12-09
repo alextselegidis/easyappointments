@@ -33,13 +33,15 @@
          * Event: Filter Admins Form "Submit"
          *
          * Filter the admin records with the given key string.
+         *
+         * @param {jQuery.Event} event
          */
-        $('#admins').on('submit', '#filter-admins form', function () {
+        $('#admins').on('submit', '#filter-admins form', function (event) {
+            event.preventDefault();
             var key = $('#filter-admins .key').val();
             $('#filter-admins .selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
-            return false;
         }.bind(this));
 
         /**
@@ -181,6 +183,21 @@
     };
 
     /**
+     * Remove the previously registered event handlers.
+     */
+    AdminsHelper.prototype.unbindEventHandlers = function () {
+        $('#admins')
+            .off('submit', '#filter-admins form')
+            .off('click', '#filter-admins .clear')
+            .off('click', '.admin-row')
+            .off('click', '#add-admin')
+            .off('click', '#edit-admin')
+            .off('click', '#delete-admin')
+            .off('click', '#save-admin')
+            .off('click', '#cancel-admin');
+    };
+
+    /**
      * Save admin record to database.
      *
      * @param {Object} admin Contains the admin record data. If an 'id' value is provided
@@ -200,8 +217,7 @@
                 this.resetForm();
                 $('#filter-admins .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -222,8 +238,7 @@
                 Backend.displayNotification(EALang.admin_deleted);
                 this.resetForm();
                 this.filter($('#filter-admins .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -379,8 +394,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

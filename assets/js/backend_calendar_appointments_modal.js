@@ -25,7 +25,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     function updateTimezone() {
         var providerId = $('#select-provider').val();
 
-        var provider  = GlobalVariables.availableProviders.find(function(availableProvider) {
+        var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
             return Number(availableProvider.id) === Number(providerId);
         });
 
@@ -133,16 +133,22 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     $dialog.find('#select-service').val(providers[0].services[0]).trigger('change');
                     $dialog.find('#select-provider').val(providerId);
                 }
+            } else if ($('#select-filter-item option:selected').attr('type') === 'service') {
+                $dialog.find('#select-service option[value="' + $('#select-filter-item').val() + '"]')
+                    .prop('selected', true);
             } else {
-                $dialog.find('#select-service option[value="'
-                    + $('#select-filter-item').val() + '"]').prop('selected', true);
+                $dialog.find('#select-service option:first')
+                    .prop('selected', true)
+                    .trigger('change');
             }
 
             var serviceId = $dialog.find('#select-service').val();
 
-            var service = GlobalVariables.availableServices.find(function(availableService) {
+            var service = GlobalVariables.availableServices.find(function (availableService) {
                 return Number(availableService.id) === Number(serviceId);
             });
+
+            var duration = service ? service.duration : 60;
 
             var start = new Date();
             var currentMin = parseInt(start.toString('mm'));
@@ -158,7 +164,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             }
 
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(service.duration),
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(duration),
                 GlobalVariables.dateFormat, true));
 
             // Display modal form.
@@ -217,64 +223,78 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             $('#select-customer').trigger('click'); // Hide the list.
         });
 
+        var filterExistingCustomersTimeout = null;
+
         /**
          * Event: Filter Existing Customers "Change"
          */
         $('#filter-existing-customers').on('keyup', function () {
+            if (filterExistingCustomersTimeout) {
+                clearTimeout(filterExistingCustomersTimeout);
+            }
+
             var key = $(this).val().toLowerCase();
-            var $list = $('#existing-customers-list');
 
-            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+            filterExistingCustomersTimeout = setTimeout(function() {
+                var $list = $('#existing-customers-list');
 
-            var data = {
-                csrfToken: GlobalVariables.csrfToken,
-                key: key
-            };
+                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
 
-            // Try to get the updated customer list.
-            $.post(url, data)
-                .done(function (response) {
-                    $list.empty();
+                var data = {
+                    csrfToken: GlobalVariables.csrfToken,
+                    key: key
+                };
 
-                    response.forEach(function (customer) {
-                        $('<div/>', {
-                            'data-id': customer.id,
-                            'text': customer.first_name + ' ' + customer.last_name
-                        })
-                            .appendTo($list);
+                $('#loading').css('visibility', 'hidden');
 
-                        // Verify if this customer is on the old customer list.
-                        var result =  GlobalVariables.customers.filter(function(globalVariablesCustomer) {
-                            return Number(globalVariablesCustomer.id) === Number(customer.id);
-                        });
+                // Try to get the updated customer list.
+                $.post(url, data)
+                    .done(function (response) {
+                        $list.empty();
 
-                        // Add it to the customer list.
-                        if (!result.length) {
-                            GlobalVariables.customers.push(customer);
-                        }
-                    })
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    // If there is any error on the request, search by the local client database.
-                    $list.empty();
-
-                    GlobalVariables.customers.forEach(function(customer, index) {
-                        if (customer.first_name.toLowerCase().indexOf(key) !== -1
-                            || customer.last_name.toLowerCase().indexOf(key) !== -1
-                            || customer.email.toLowerCase().indexOf(key) !== -1
-                            || customer.phone_number.toLowerCase().indexOf(key) !== -1
-                            || customer.address.toLowerCase().indexOf(key) !== -1
-                            || customer.city.toLowerCase().indexOf(key) !== -1
-                            || customer.zip_code.toLowerCase().indexOf(key) !== -1
-                            || customer.notes.toLowerCase().indexOf(key) !== -1) {
+                        response.forEach(function (customer) {
                             $('<div/>', {
                                 'data-id': customer.id,
                                 'text': customer.first_name + ' ' + customer.last_name
                             })
                                 .appendTo($list);
-                        }
+
+                            // Verify if this customer is on the old customer list.
+                            var result = GlobalVariables.customers.filter(function (globalVariablesCustomer) {
+                                return Number(globalVariablesCustomer.id) === Number(customer.id);
+                            });
+
+                            // Add it to the customer list.
+                            if (!result.length) {
+                                GlobalVariables.customers.push(customer);
+                            }
+                        })
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // If there is any error on the request, search by the local client database.
+                        $list.empty();
+
+                        GlobalVariables.customers.forEach(function (customer, index) {
+                            if (customer.first_name.toLowerCase().indexOf(key) !== -1
+                                || customer.last_name.toLowerCase().indexOf(key) !== -1
+                                || customer.email.toLowerCase().indexOf(key) !== -1
+                                || customer.phone_number.toLowerCase().indexOf(key) !== -1
+                                || customer.address.toLowerCase().indexOf(key) !== -1
+                                || customer.city.toLowerCase().indexOf(key) !== -1
+                                || customer.zip_code.toLowerCase().indexOf(key) !== -1
+                                || customer.notes.toLowerCase().indexOf(key) !== -1) {
+                                $('<div/>', {
+                                    'data-id': customer.id,
+                                    'text': customer.first_name + ' ' + customer.last_name
+                                })
+                                    .appendTo($list);
+                            }
+                        });
+                    })
+                    .always(function() {
+                        $('#loading').css('visibility', '');
                     });
-                });
+            }, 1000);
         });
 
         /**
@@ -293,8 +313,10 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 return Number(availableService.id) === Number(serviceId);
             });
 
+            var duration = service ? service.duration : 60;
+
             var start = $('#start-datetime').datetimepicker('getDate');
-            $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+            $('#end-datetime').datetimepicker('setDate', new Date(start.getTime() + duration * 60000));
 
             // Update the providers select box.
 
@@ -358,7 +380,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var serviceId = $dialog.find('#select-service').val();
 
-            var canProvideService = provider.services.filter(function(providerServiceId) {
+            var canProvideService = provider.services.filter(function (providerServiceId) {
                 return Number(providerServiceId) === Number(serviceId)
             }).length > 0;
 
@@ -377,7 +399,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
         var serviceId = $dialog.find('#select-service').val();
 
-        var service = GlobalVariables.availableServices.forEach(function(service) {
+        var service = GlobalVariables.availableServices.forEach(function (service) {
             return Number(service.id) === Number(serviceId);
         });
 

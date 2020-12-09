@@ -82,7 +82,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         var successCallback = function () {
                             Backend.displayNotification(EALang.working_plan_exception_saved);
 
-                            var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+                            var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                             workingPlanExceptions[date] = workingPlanException;
 
@@ -224,8 +224,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                                     // Refresh calendar event items.
                                     $('#select-filter-item').trigger('change');
-                                })
-                                .fail(GeneralFunctions.ajaxFailureHandler);
+                                });
                         }
                     }
                 ];
@@ -255,8 +254,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             }
         });
 
@@ -292,11 +290,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
-                    // $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
+                    $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
                     $('#enable-sync span').text(EALang.disable_sync);
                     $('#google-sync').prop('disabled', false);
                 } else {
-                    // $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
+                    $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
                     $('#enable-sync span').text(EALang.enable_sync);
                     $('#google-sync').prop('disabled', true);
                 }
@@ -407,7 +405,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -418,7 +416,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -629,7 +627,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -640,7 +638,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'far fa-edit mr-2'
+                                        'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -694,7 +692,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $('#notification').hide('bind');
         }
 
-        if (event.data.is_unavailable === false) {
+        if (Boolean(Number(event.data.is_unavailable)) === false) {
             // Prepare appointment data.
             event.data.end_datetime = Date.parseExact(
                 event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
@@ -727,9 +725,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -776,9 +774,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -897,9 +895,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.appointment_updated, [
@@ -947,9 +945,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $.post(url, data)
                         .done(function () {
                             $('#notification').hide('blind');
-                            revertFunc();
-                        })
-                        .fail(GeneralFunctions.ajaxFailureHandler);
+                        });
+
+                    revertFunc();
                 };
 
                 Backend.displayNotification(EALang.unavailable_updated, [
@@ -1070,8 +1068,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 response.unavailables.forEach(function (unavailable) {
                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
-                    if (unavailable.notes.length > 30) {
-                        notes = unavailable.notes.substring(0, 30) + '...'
+                    if (unavailable.notes && unavailable.notes.length > 30) {
+                        notes = unavilable.notes.substring(0, 30) + '...'
                     }
 
                     var unavailabilityEvent = {
@@ -1366,7 +1364,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }
                 }
             })
-            .fail(GeneralFunctions.ajaxFailureHandler)
             .always(function () {
                 $('#loading').css('visibility', '')
             });
@@ -1415,16 +1412,16 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         // Initialize page calendar
         $('#calendar').fullCalendar({
+            nowIndicator: true,
             defaultView: defaultView,
             height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,
-            snapDuration: '00:30:00',
+            snapDuration: '00:15:00',
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
-            titleFormat: 'MMMM YYYY',
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -1459,8 +1456,25 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         return provider.services.indexOf(service.id) !== -1
                     });
 
-                    $('#select-service').val(service.id).trigger('change');
-                    $('#select-provider').val(provider.id).trigger('change');
+                    if (service) {
+                        $('#select-service').val(service.id);
+                    }
+
+                    if (!$('#select-service').val()) {
+                        $('#select-service option:first').prop('selected', true);
+                    }
+
+                    $('#select-service').trigger('change');
+
+                    if (provider) {
+                        $('#select-provider').val(provider.id);
+                    }
+
+                    if (!$('#select-provider').val()) {
+                        $('#select-provider option:first').prop('selected', true);
+                    }
+
+                    $('#select-provider').trigger('change');
                 }
 
                 // Preselect time
@@ -1635,7 +1649,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $selectFilterItem.find('option:selected').attr('type'),
                 calendarView.start,
                 calendarView.end);
-        }, 30000);
+        }, 60000);
     };
 
 })(window.BackendCalendarDefaultView);

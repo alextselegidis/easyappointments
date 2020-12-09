@@ -24,11 +24,9 @@
  */
 function asset_url($uri = '', $protocol = NULL)
 {
-    $framework =& get_instance();
+    $debug = config('debug');
 
-    $debug = $framework->config->item('debug');
-
-    $cache_busting_token = ! $debug ? '?' . $framework->config->item('cache_busting_token') : '';
+    $cache_busting_token = ! $debug ? '?' . config('cache_busting_token') : '';
 
     if (strpos(basename($uri), '.js') !== FALSE && strpos(basename($uri), '.min.js') === FALSE && ! $debug)
     {

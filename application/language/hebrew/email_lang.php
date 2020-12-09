@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['email_must_be_array'] = 'שיטת אימות הדוא"ל חחיבת להיות במערך.';
 $lang['email_invalid_address'] = 'כתובת דוא"ל לא תקנית: %s';

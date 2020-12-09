@@ -51,6 +51,7 @@ window.BackendServices = window.BackendServices || {};
         helper = servicesHelper;
         helper.resetForm();
         helper.filter('');
+        helper.bindEventHandlers();
 
         if (defaultEventHandlers) {
             bindEventHandlers();
@@ -69,6 +70,10 @@ window.BackendServices = window.BackendServices || {};
          * Changes the displayed tab.
          */
         $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            if (helper) {
+                helper.unbindEventHandlers();
+            }
+
             if ($(this).attr('href') === '#services') {
                 helper = servicesHelper;
             } else if ($(this).attr('href') === '#categories') {
@@ -77,16 +82,14 @@ window.BackendServices = window.BackendServices || {};
 
             helper.resetForm();
             helper.filter('');
+            helper.bindEventHandlers();
             $('.filter-key').val('');
             Backend.placeFooterToBottom();
         });
-
-        servicesHelper.bindEventHandlers();
-        categoriesHelper.bindEventHandlers();
     }
 
     /**
-     * Update the service category listbox.
+     * Update the service category list box.
      *
      * Use this method every time a change is made to the service categories db table.
      */
@@ -110,7 +113,6 @@ window.BackendServices = window.BackendServices || {};
                 });
 
                 $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     };
 })(window.BackendServices);

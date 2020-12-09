@@ -62,7 +62,7 @@ window.BackendUsers = window.BackendUsers || {};
         helper.bindEventHandlers();
 
         // Fill the services and providers list boxes.
-        GlobalVariables.services.forEach(function(service) {
+        GlobalVariables.services.forEach(function (service) {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -89,7 +89,7 @@ window.BackendUsers = window.BackendUsers || {};
                 .appendTo('#provider-services');
         });
 
-        GlobalVariables.providers.forEach(function(provider) {
+        GlobalVariables.providers.forEach(function (provider) {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -129,9 +129,13 @@ window.BackendUsers = window.BackendUsers || {};
          *
          * Changes the displayed tab.
          */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+        $('#users-page > .nav-pills a[data-toggle="tab"]').on('shown.bs.tab', function () {
             if ($(this).parents('.switch-view').length) {
                 return; // Do not proceed if this was the sub navigation.
+            }
+
+            if (helper) {
+                helper.unbindEventHandlers();
             }
 
             if ($(this).attr('href') === '#admins') {
@@ -155,7 +159,7 @@ window.BackendUsers = window.BackendUsers || {};
 
                         $('#secretary-providers').empty();
 
-                        GlobalVariables.providers.forEach(function(provider) {
+                        GlobalVariables.providers.forEach(function (provider) {
                             $('<div/>', {
                                 'class': 'checkbox',
                                 'html': [
@@ -181,8 +185,7 @@ window.BackendUsers = window.BackendUsers || {};
                             })
                                 .appendTo('#secretary-providers');
                         });
-                    })
-                    .fail(GeneralFunctions.ajaxFailureHandler);
+                    });
             }
 
             helper.resetForm();
@@ -233,8 +236,7 @@ window.BackendUsers = window.BackendUsers || {};
                             $input.parents().eq(3).find('.form-message').hide();
                         }
                     }
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
     }
 

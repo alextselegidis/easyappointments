@@ -35,22 +35,8 @@ class Backend extends EA_Controller {
         $this->load->model('user_model');
         $this->load->model('secretaries_model');
         $this->load->model('admins_model');
-
         $this->load->library('timezones');
-        $this->load->library('session');
         $this->load->library('migration');
-
-        if ($this->session->userdata('language'))
-        {
-            // Set user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
     }
 
     /**
@@ -66,7 +52,7 @@ class Backend extends EA_Controller {
      */
     public function index($appointment_hash = '')
     {
-        $this->session->set_userdata('dest_url', site_url('backend/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : '')));
+        $this->session->set_userdata('dest_url', site_url('backend/index' . (! empty($appointment_hash) ? '/' . $appointment_hash : '')));
 
         if ( ! $this->has_privileges(PRIV_APPOINTMENTS))
         {
@@ -79,7 +65,7 @@ class Backend extends EA_Controller {
 
         $user = $this->user_model->get_user($user_id);
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('calendar');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_APPOINTMENTS;
@@ -91,7 +77,7 @@ class Backend extends EA_Controller {
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
-        $view['calendar_view'] = !empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
+        $view['calendar_view'] = ! empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
@@ -200,7 +186,7 @@ class Backend extends EA_Controller {
             return;
         }
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('customers');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_CUSTOMERS;
@@ -248,7 +234,7 @@ class Backend extends EA_Controller {
             return;
         }
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('services');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_SERVICES;
@@ -281,7 +267,7 @@ class Backend extends EA_Controller {
             return;
         }
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('users');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_USERS;
@@ -321,7 +307,7 @@ class Backend extends EA_Controller {
 
         $user_id = $this->session->userdata('user_id');
 
-        $view['base_url'] = $this->config->item('base_url');
+        $view['base_url'] = config('base_url');
         $view['page_title'] = lang('settings');
         $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_SYSTEM_SETTINGS;

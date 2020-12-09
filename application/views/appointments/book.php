@@ -17,7 +17,8 @@
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <script src="<?= asset_url('assets/ext/fontawesome/js/all.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
 </head>
 
 <body>
@@ -31,17 +32,21 @@
                 <span id="company-name"><?= $company_name ?></span>
 
                 <div id="steps">
-                    <div id="step-1" class="book-step active-step" data-tippy-content="<?= lang('service_and_provider') ?>">
+                    <div id="step-1" class="book-step active-step"
+                         data-tippy-content="<?= lang('service_and_provider') ?>">
                         <strong>1</strong>
                     </div>
 
-                    <div id="step-2" class="book-step" data-toggle="tooltip" data-tippy-content="<?= lang('appointment_date_and_time') ?>">
+                    <div id="step-2" class="book-step" data-toggle="tooltip"
+                         data-tippy-content="<?= lang('appointment_date_and_time') ?>">
                         <strong>2</strong>
                     </div>
-                    <div id="step-3" class="book-step" data-toggle="tooltip" data-tippy-content="<?= lang('customer_information') ?>">
+                    <div id="step-3" class="book-step" data-toggle="tooltip"
+                         data-tippy-content="<?= lang('customer_information') ?>">
                         <strong>3</strong>
                     </div>
-                    <div id="step-4" class="book-step" data-toggle="tooltip" data-tippy-content="<?= lang('appointment_confirmation') ?>">
+                    <div id="step-4" class="book-step" data-toggle="tooltip"
+                         data-tippy-content="<?= lang('appointment_confirmation') ?>">
                         <strong>4</strong>
                     </div>
                 </div>
@@ -361,7 +366,7 @@
                                     <small class="fas fa-sync-alt"></small>
                                 </h4>
                                 <img class="captcha-image" src="<?= site_url('captcha') ?>">
-                                <input class="captcha-text" type="text" value=""/>
+                                <input class="captcha-text form-control" type="text" value=""/>
                                 <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
                             </div>
                         </div>
@@ -376,7 +381,7 @@
                     </button>
                     <form id="book-appointment-form" style="display:inline-block" method="post">
                         <button id="book-appointment-submit" type="button" class="btn btn-success">
-                            <i class="far fa-check-square mr-2"></i>
+                            <i class="fas fa-check-square mr-2"></i>
                             <?= ! $manage_mode ? lang('confirm') : lang('update') ?>
                         </button>
                         <input type="hidden" name="csrfToken"/>

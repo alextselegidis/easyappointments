@@ -50,6 +50,7 @@ window.BackendCustomers = window.BackendCustomers || {};
         helper = new CustomersHelper();
         helper.resetForm();
         helper.filter('');
+        helper.bindEventHandlers();
 
         if (defaultEventHandlers) {
             bindEventHandlers();
@@ -60,7 +61,7 @@ window.BackendCustomers = window.BackendCustomers || {};
      * Default event handlers declaration for backend customers page.
      */
     function bindEventHandlers() {
-        helper.bindEventHandlers();
+        //
     }
 
 })(window.BackendCustomers);

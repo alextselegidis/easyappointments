@@ -32,12 +32,14 @@ class Settings_model extends EA_Model {
     public function get_setting($name)
     {
         if ( ! is_string($name))
-        { // Check argument type.
+        {
+            // Check argument type.
             throw new Exception('$name argument is not a string: ' . $name);
         }
 
         if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
-        { // Check if setting exists in db.
+        {
+            // Check if setting exists in db.
             throw new Exception('$name setting does not exist in database: ' . $name);
         }
 
@@ -67,6 +69,7 @@ class Settings_model extends EA_Model {
         }
 
         $query = $this->db->get_where('settings', ['name' => $name]);
+
         if ($query->num_rows() > 0)
         {
             // Update setting
@@ -83,10 +86,12 @@ class Settings_model extends EA_Model {
                 'name' => $name,
                 'value' => $value
             ];
+
             if ( ! $this->db->insert('settings', $insert_data))
             {
                 throw new Exception('Could not insert database setting');
             }
+
             $setting_id = (int)$this->db->insert_id();
         }
 

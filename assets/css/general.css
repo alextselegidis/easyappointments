@@ -157,7 +157,7 @@ body .ui-datepicker .ui-datepicker-next-hover {
 }
 
 body .ui-datepicker .ui-slider-handle {
-    border-radius: none;
+    border-radius: 0;
     border-color: #429a82;
     background-color: #429a82;
 }
@@ -192,7 +192,7 @@ body .ui-datepicker .ui-datepicker-buttonpane button {
 }
 
 li.language {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 li.language:hover {
@@ -207,7 +207,7 @@ li.language:hover {
 
 #language-list {
     list-style: none;
-    padding-left: 0px;
+    padding-left: 0;
     max-height: 500px;
     overflow-y: auto;
 }
@@ -393,12 +393,12 @@ li.language:hover {
 }
 
 body .popover {
-    max-width: 300px;
+    max-width: 400px;
 }
 
 body .popover-body strong {
     min-width: 90px;
-    display:inline-block;
+    display: inline-block;
 }
 
 body .popover-body button {

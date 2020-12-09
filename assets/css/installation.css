@@ -9,11 +9,6 @@ header .page-title {
     color: #429a82;
 }
 
-.content {
-    margin: 32px;
-    max-width: 980px;
-}
-
 .content p {
     word-break: break-all;
 }
@@ -31,8 +26,8 @@ footer {
 
 #loading {
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: 999999;

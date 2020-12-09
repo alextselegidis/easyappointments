@@ -19,25 +19,25 @@
     <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 </head>
 <body>
-    <div id="no-priv-frame" class="frame-container">
-        <h3><?= lang('no_privileges') ?></h3>
-        <p>
-            <?= lang('no_privileges_message') ?>
-        </p>
+<div id="no-priv-frame" class="frame-container">
+    <h3><?= lang('no_privileges') ?></h3>
+    <p>
+        <?= lang('no_privileges_message') ?>
+    </p>
 
-        <br>
+    <br>
 
-        <a href="<?= site_url('backend') ?>" class="btn btn-success btn-large">
-            <i class="icon-calendar icon-white mr-2"></i>
-            <?= lang('backend_calendar') ?>
-        </a>
+    <a href="<?= site_url('backend') ?>" class="btn btn-success btn-large">
+        <i class="icon-calendar icon-white mr-2"></i>
+        <?= lang('backend_calendar') ?>
+    </a>
 
-        <div class="mt-4">
-            <small>
-                Powered by
-                <a href="https://easyappointments.org">Easy!Appointments</a>
-            </small>
-        </div>
+    <div class="mt-4">
+        <small>
+            Powered by
+            <a href="https://easyappointments.org">Easy!Appointments</a>
+        </small>
     </div>
+</div>
 </body>
 </html>

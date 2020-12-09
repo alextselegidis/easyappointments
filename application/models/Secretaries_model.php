@@ -25,7 +25,6 @@ class Secretaries_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();
-
         $this->load->helper('general');
         $this->load->helper('data_validation');
     }
@@ -74,9 +73,9 @@ class Secretaries_model extends EA_Model {
         // If a record id is provided then check whether the record exists in the database.
         if (isset($secretary['id']))
         {
-            $num_rows = $this->db->get_where('users', ['id' => $secretary['id']])
-                ->num_rows();
-            if ($num_rows == 0)
+            $num_rows = $this->db->get_where('users', ['id' => $secretary['id']])->num_rows();
+
+            if ($num_rows === 0)
             {
                 throw new Exception('Given secretary id does not exist in database: ' . $secretary['id']);
             }
@@ -89,9 +88,11 @@ class Secretaries_model extends EA_Model {
         }
 
         // Validate required fields integrity.
-        if ( ! isset($secretary['last_name'])
-            || ! isset($secretary['email'])
-            || ! isset($secretary['phone_number']))
+        if ( ! isset(
+            $secretary['last_name'],
+            $secretary['email'],
+            $secretary['phone_number']
+        ))
         {
             throw new Exception('Not all required fields are provided: ' . print_r($secretary, TRUE));
         }
@@ -140,7 +141,7 @@ class Secretaries_model extends EA_Model {
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_SECRETARY)
             ->where('users.email', $secretary['email'])
-            ->where('users.id <>', $secretary_id)
+            ->where('users.id !=', $secretary_id)
             ->get()
             ->num_rows();
 
@@ -163,9 +164,14 @@ class Secretaries_model extends EA_Model {
      */
     public function validate_username($username, $user_id)
     {
-        $num_rows = $this->db->get_where('user_settings',
-            ['username' => $username, 'id_users <> ' => $user_id])->num_rows();
-        return $num_rows > 0 ? FALSE : TRUE;
+        if ( ! empty($user_id))
+        {
+            $this->db->where('id_users !=', $user_id);
+        }
+
+        $this->db->where('username', $username);
+
+        return $this->db->get('user_settings')->num_rows() === 0;
     }
 
     /**
@@ -479,34 +485,36 @@ class Secretaries_model extends EA_Model {
 
         // Check whether the secretary record exists.
         $result = $this->db->get_where('users', ['id' => $secretary_id]);
-        if ($result->num_rows() == 0)
+
+        if ($result->num_rows() === 0)
         {
             throw new Exception('The record with the given id does not exist in the '
                 . 'database: ' . $secretary_id);
         }
 
         // Check if the required field name exist in database.
-        $provider = $result->row_array();
-        if ( ! isset($provider[$field_name]))
+        $row_data = $result->row_array();
+
+        if ( ! array_key_exists($field_name, $row_data))
         {
-            throw new Exception('The given $field_name argument does not exist in the '
-                . 'database: ' . $field_name);
+            throw new Exception('The given $field_name argument does not exist in the database: '
+                . $field_name);
         }
 
-        return $provider[$field_name];
+        return $row_data[$field_name];
     }
 
     /**
      * Get all, or specific secretary records from database.
      *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed. Use this to get
-     * specific secretary records.
-     * @param mixed|null $order_by
+     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
      * @param int|null $limit
      * @param int|null $offset
+     * @param mixed|null $order_by
+     *
      * @return array Returns an array with secretary records.
      */
-    public function get_batch($where = NULL, $order_by = NULL, $limit = NULL, $offset = NULL)
+    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
     {
         $role_id = $this->get_secretary_role_id();
 

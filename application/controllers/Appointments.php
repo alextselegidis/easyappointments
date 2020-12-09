@@ -26,7 +26,6 @@ class Appointments extends EA_Controller {
 
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
-
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('admins_model');
@@ -34,26 +33,11 @@ class Appointments extends EA_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
-
-        $this->load->library('session');
         $this->load->library('timezones');
         $this->load->library('synchronization');
         $this->load->library('notifications');
         $this->load->library('availability');
-
         $this->load->driver('cache', ['adapter' => 'file']);
-
-        if ($this->session->userdata('language'))
-        {
-            // Set the user's selected language.
-            $this->config->set_item('language', $this->session->userdata('language'));
-            $this->lang->load('translations', $this->session->userdata('language'));
-        }
-        else
-        {
-            // Set the default language.
-            $this->lang->load('translations', $this->config->item('language'));
-        }
     }
 
     /**
@@ -138,8 +122,8 @@ class Appointments extends EA_Controller {
                     $minutes = ($book_advance_timeout % 60);
 
                     $view = [
-                        'message_title' => $this->lang->line('appointment_locked'),
-                        'message_text' => strtr($this->lang->line('appointment_locked_message'), [
+                        'message_title' => lang('appointment_locked'),
+                        'message_text' => strtr(lang('appointment_locked_message'), [
                             '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
                         ]),
                         'message_icon' => base_url('assets/img/error.png')
@@ -314,7 +298,7 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * [AJAX] Get the available appointment hours for the given date.
+     * Get the available appointment hours for the given date.
      *
      * This method answers to an AJAX request. It calculates the available hours for the given service, provider and
      * date.
@@ -425,7 +409,7 @@ class Appointments extends EA_Controller {
 
 
     /**
-     * [AJAX] Register the appointment to the database.
+     * Register the appointment to the database.
      *
      * Outputs a JSON string with the appointment ID.
      */
@@ -476,7 +460,7 @@ class Appointments extends EA_Controller {
             }
 
             // Save customer language (the language which is used to render the booking page).
-            $customer['language'] = $this->config->item('language');
+            $customer['language'] = config('language');
             $customer_id = $this->customers_model->add($customer);
 
             $appointment['id_users_customer'] = $customer_id;
@@ -492,7 +476,7 @@ class Appointments extends EA_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
             $response = [
@@ -569,7 +553,7 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * [AJAX] Get Unavailable Dates
+     * Get Unavailable Dates
      *
      * Get an array with the available dates of a specific provider, service and month of the year. Provide the
      * "provider_id", "service_id" and "selected_date" as GET parameters to the request. The "selected_date" parameter

@@ -52,8 +52,6 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
-
                 if (errorCallback) {
                     errorCallback();
                 }
@@ -82,8 +80,6 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
-
                 if (errorCallback) {
                     errorCallback();
                 }
@@ -117,8 +113,6 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
-
                 if (errorCallback) {
                     errorCallback();
                 }
@@ -141,8 +135,6 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                GeneralFunctions.ajaxFailureHandler(jqXHR, textStatus, errorThrown);
-
                 if (errorCallback) {
                     errorCallback();
                 }

@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // Czech
 $lang['page_title'] = 'Rezervace schůzky s';
 $lang['service_and_provider'] = 'Výběr služby & poskytovatele';

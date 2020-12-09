@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><?= lang('terms_and_conditions') ?></h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <p><?= $terms_and_conditions_content ?></p>

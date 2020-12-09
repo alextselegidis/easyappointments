@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'Z řetězce spojení které jste zadali nelze určit nastavení databáze.';
 $lang['db_unable_to_connect'] = 'Se zadanými nastaveními se není možné připojit k databázovému serveru.';

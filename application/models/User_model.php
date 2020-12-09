@@ -25,9 +25,7 @@ class User_model extends EA_Model {
     public function __construct()
     {
         parent::__construct();
-
         $this->load->library('timezones');
-
         $this->load->helper('general');
         $this->load->helper('string');
     }

@@ -49,8 +49,9 @@ class Admins extends API_V1_Controller {
     {
         try
         {
-            $condition = $id !== NULL ? 'id = ' . $id : NULL;
-            $admins = $this->admins_model->get_batch($condition);
+            $where = $id !== NULL ? ['id' => $id] : NULL;
+
+            $admins = $this->admins_model->get_batch($where);
 
             if ($id !== NULL && count($admins) === 0)
             {
@@ -94,7 +95,7 @@ class Admins extends API_V1_Controller {
             $id = $this->admins_model->add($admin);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->admins_model->get_batch('id = ' . $id);
+            $batch = $this->admins_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
@@ -115,7 +116,7 @@ class Admins extends API_V1_Controller {
         try
         {
             // Update the admin record.
-            $batch = $this->admins_model->get_batch('id = ' . $id);
+            $batch = $this->admins_model->get_batch(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -130,7 +131,7 @@ class Admins extends API_V1_Controller {
             $id = $this->admins_model->add($updatedAdmin);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->admins_model->get_batch('id = ' . $id);
+            $batch = $this->admins_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }

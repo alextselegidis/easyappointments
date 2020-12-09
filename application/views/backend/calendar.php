@@ -60,49 +60,50 @@
 
                 <button id="enable-sync" class="btn btn-light" data-toggle="button"
                         data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>">
-                    <i class="far fa-calendar-alt mr-2"></i>
+                    <i class="fas fa-calendar-alt mr-2"></i>
                     <span><?= lang('enable_sync') ?></span>
                 </button>
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-            <div class="btn-group">
-                <button class="btn btn-light" id="insert-appointment">
-                    <i class="far fa-plus-square mr-2"></i>
-                    <?= lang('appointment') ?>
-                </button>
+                <div class="btn-group">
+                    <button class="btn btn-light" id="insert-appointment">
+                        <i class="fas fa-plus-square mr-2"></i>
+                        <?= lang('appointment') ?>
+                    </button>
 
-                <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
+                    <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
 
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" id="insert-unavailable">
-                        <i class="far fa-plus-square mr-2"></i>
-                        <?= lang('unavailable') ?>
-                    </a>
-                    <a class="dropdown-item" href="#" id="insert-working-plan-exception"
-                        <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
-                        <i class="far fa-plus-square mr-2"></i>
-                        <?= lang('working_plan_exception') ?>
-                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" id="insert-unavailable">
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('unavailable') ?>
+                        </a>
+                        <a class="dropdown-item" href="#" id="insert-working-plan-exception"
+                            <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('working_plan_exception') ?>
+                        </a>
+                    </div>
                 </div>
-            </div>
             <?php endif ?>
 
-            <button id="reload-appointments" class="btn btn-light" data-tippy-content="<?= lang('reload_appointments_hint') ?>">
+            <button id="reload-appointments" class="btn btn-light"
+                    data-tippy-content="<?= lang('reload_appointments_hint') ?>">
                 <i class="fas fa-sync-alt"></i>
             </button>
 
-            <?php if($calendar_view === 'default'): ?>
+            <?php if ($calendar_view === 'default'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
-            <?php if($calendar_view === 'table'): ?>
+            <?php if ($calendar_view === 'table'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
                    data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
@@ -274,12 +275,12 @@
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
-                                <i class="far fa-plus-square mr-2"></i>
+                                <i class="fas fa-plus-square mr-2"></i>
                                 <?= lang('new') ?>
                             </button>
                             <button id="select-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('pick_existing_customer_hint') ?>">
-                                <i class="far fa-hand-pointer mr-2"></i>
+                                <i class="fas fa-hand-pointer mr-2"></i>
                                 <span>
                                     <?= lang('select') ?>
                                 </span>
@@ -325,7 +326,8 @@
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
-                                    <input id="phone-number" class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
+                                    <input id="phone-number"
+                                           class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
@@ -368,7 +370,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-appointment" class="btn btn-primary">
-                    <i class="far fa-check-square mr-2"></i>
+                    <i class="fas fa-check-square mr-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>
@@ -449,7 +451,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-unavailable" class="btn btn-primary">
-                    <i class="far fa-check-square mr-2"></i>
+                    <i class="fas fa-check-square mr-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>
@@ -463,8 +465,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title"><?= lang('select_google_calendar') ?></h3>
+                <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -480,7 +482,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="select-calendar" class="btn btn-primary">
-                    <i class="far fa-check-square mr-2"></i>
+                    <i class="fas fa-check-square mr-2"></i>
                     <?= lang('select') ?>
                 </button>
             </div>

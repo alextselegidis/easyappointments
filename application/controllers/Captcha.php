@@ -18,15 +18,6 @@
  */
 class Captcha extends EA_Controller {
     /**
-     * Class Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->library('session');
-    }
-
-    /**
      * Make a request to this method to get a captcha image.
      */
     public function index()

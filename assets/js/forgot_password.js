@@ -37,8 +37,7 @@ $(function () {
                     $alert.text('The operation failed! Please enter a valid username '
                         + 'and email address in order to get a new password.');
                 }
-            })
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            });
     }
 
 

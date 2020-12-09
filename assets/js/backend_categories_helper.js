@@ -35,7 +35,7 @@
         /**
          * Event: Filter Categories Cancel Button "Click"
          */
-        $('#filter-categories .clear').on('click', function () {
+        $('#categories').on('click', '#filter-categories .clear', function () {
             $('#filter-categories .key').val('');
             instance.filter('');
             instance.resetForm();
@@ -43,13 +43,15 @@
 
         /**
          * Event: Filter Categories Form "Submit"
+         *
+         * @param {jQuery.Event} event
          */
-        $('#filter-categories form').submit(function () {
+        $('#categories').on('submit', '#filter-categories form', function (event) {
+            event.preventDefault();
             var key = $('#filter-categories .key').val();
             $('.selected').removeClass('selected');
             instance.resetForm();
             instance.filter(key);
-            return false;
         });
 
         /**
@@ -57,7 +59,7 @@
          *
          * Displays the selected row data on the right side of the page.
          */
-        $(document).on('click', '.category-row', function () {
+        $('#categories').on('click', '.category-row', function () {
             if ($('#filter-categories .filter').prop('disabled')) {
                 $('#filter-categories .results').css('color', '#AAA');
                 return; // exit because we are on edit mode
@@ -78,7 +80,7 @@
         /**
          * Event: Add Category Button "Click"
          */
-        $('#add-category').on('click', function () {
+        $('#categories').on('click', '#add-category', function () {
             instance.resetForm();
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
@@ -90,7 +92,7 @@
         /**
          * Event: Edit Category Button "Click"
          */
-        $('#edit-category').on('click', function () {
+        $('#categories').on('click', '#edit-category', function () {
             $('#categories .add-edit-delete-group').hide();
             $('#categories .save-cancel-group').show();
             $('#categories .record-details').find('input, select, textarea').prop('disabled', false);
@@ -101,7 +103,7 @@
         /**
          * Event: Delete Category Button "Click"
          */
-        $('#delete-category').on('click', function () {
+        $('#categories').on('click', '#delete-category', function () {
             var categoryId = $('#category-id').val();
 
             var buttons = [
@@ -127,7 +129,7 @@
         /**
          * Event: Categories Save Button "Click"
          */
-        $('#save-category').on('click', function () {
+        $('#categories').on('click', '#save-category', function () {
             var category = {
                 name: $('#category-name').val(),
                 description: $('#category-description').val()
@@ -147,13 +149,28 @@
         /**
          * Event: Cancel Category Button "Click"
          */
-        $('#cancel-category').on('click', function () {
+        $('#categories').on('click', '#cancel-category', function () {
             var id = $('#category-id').val();
             instance.resetForm();
             if (id !== '') {
                 instance.select(id, true);
             }
         });
+    };
+
+    /**
+     * Remove the previously registered event handlers.
+     */
+    CategoriesHelper.prototype.unbindEventHandlers = function () {
+        $('#categories')
+            .off('click', '#filter-categories .clear')
+            .off('submit', '#filter-categories form')
+            .off('click', '.category-row')
+            .off('click', '#add-category')
+            .off('click', '#edit-category')
+            .off('click', '#delete-category')
+            .off('click', '#save-category')
+            .off('click', '#cancel-category');
     };
 
     /**
@@ -179,7 +196,7 @@
 
                 $('#filter-categories .results').empty();
 
-                response.forEach(function(category) {
+                response.forEach(function (category) {
                     $('#filter-categories .results')
                         .append(this.getFilterHtml(category))
                         .append($('<hr/>'));
@@ -207,8 +224,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -231,8 +247,7 @@
                 $('#filter-categories .key').val('');
                 this.filter('', response.id, true);
                 BackendServices.updateAvailableCategories();
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -255,8 +270,7 @@
                 this.resetForm();
                 this.filter($('#filter-categories .key').val());
                 BackendServices.updateAvailableCategories();
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

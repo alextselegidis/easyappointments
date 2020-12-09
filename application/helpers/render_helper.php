@@ -15,19 +15,19 @@
  * Render the HTML output of a timezone dropdown element.
  *
  * @param string $attributes HTML element attributes of the dropdown.
- * @return false|string
+ *
+ * @return string
  */
 function render_timezone_dropdown($attributes = '')
 {
-    $framework = get_instance();
+    $CI = get_instance();
 
-    $framework->load->library('timezones');
+    $CI->load->library('timezones');
 
-    $timezones = $framework->timezones->to_grouped_array();
+    $timezones = $CI->timezones->to_grouped_array();
 
-    ob_start();
-
-    require __DIR__ . '/../views/partial/timezone_dropdown.php';
-
-    return ob_get_clean();
+    return $CI->load->view('partials/timezone_dropdown', [
+        'timezones' => $timezones,
+        'attributes' => $attributes
+    ], TRUE);
 }

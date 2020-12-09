@@ -31,7 +31,7 @@
 
                 <div>
                     <button type="button" class="btn btn-primary working-plan-exceptions-add-break">
-                        <i class="far fa-plus-square mr-2"></i>
+                        <i class="fas fa-plus-square mr-2"></i>
                         <?= lang('add_break') ?>
                     </button>
                 </div>
@@ -51,7 +51,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= lang('cancel') ?></button>
-                <button type="button" class="btn btn-primary" id="working-plan-exceptions-save"><?= lang('save') ?></button>
+                <button type="button" class="btn btn-primary"
+                        id="working-plan-exceptions-save"><?= lang('save') ?></button>
             </div>
         </div>
     </div>

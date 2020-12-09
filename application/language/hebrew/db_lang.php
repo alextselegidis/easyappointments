@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'לא ניתן לקבוע את הגדרות מסד הנתונים בהתבסס על מחרוזת החיבור שהגשת.';
 $lang['db_unable_to_connect'] = 'לא ניתן להתחבר לשרת מסד הנתונים שלך באמצעות ההגדרות שסופקו.';

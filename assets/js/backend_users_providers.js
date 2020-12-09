@@ -35,13 +35,15 @@
          * Event: Filter Providers Form "Submit"
          *
          * Filter the provider records with the given key string.
+         *
+         * @param {jQuery.Event} event
          */
-        $('#providers').on('submit', '#filter-providers form', function () {
+        $('#providers').on('submit', '#filter-providers form', function (event) {
+            event.preventDefault();
             var key = $('#filter-providers .key').val();
             $('.selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
-            return false;
         }.bind(this));
 
         /**
@@ -218,6 +220,23 @@
     };
 
     /**
+     * Remove the previously registered event handlers.
+     */
+    ProvidersHelper.prototype.unbindEventHandlers = function () {
+        $('#providers')
+            .off('submit', '#filter-providers form')
+            .off('click', '#filter-providers .clear')
+            .off('click', '.provider-row')
+            .off('click', '#add-provider')
+            .off('click', '#edit-provider')
+            .off('click', '#delete-provider')
+            .off('click', '#save-provider')
+            .off('click', '#cancel-provider')
+            .off('shown.bs.tab', 'a[data-toggle="tab"]')
+            .off('click', '#reset-working-plan');
+    };
+
+    /**
      * Save provider record to database.
      *
      * @param {Object} provider Contains the admin record data. If an 'id' value is provided
@@ -236,8 +255,7 @@
                 this.resetForm();
                 $('#filter-providers .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -257,8 +275,7 @@
                 Backend.displayNotification(EALang.provider_deleted);
                 this.resetForm();
                 this.filter($('#filter-providers .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -484,8 +501,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

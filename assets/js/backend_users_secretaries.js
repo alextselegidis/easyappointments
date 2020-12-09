@@ -35,13 +35,15 @@
          * Event: Filter Secretaries Form "Submit"
          *
          * Filter the secretary records with the given key string.
+         *
+         * @param {jQuery.Event} event
          */
-        $('#secretaries').on('submit', '#filter-secretaries form', function () {
+        $('#secretaries').on('submit', '#filter-secretaries form', function (event) {
+            event.preventDefault();
             var key = $('#filter-secretaries .key').val();
             $('#filter-secretaries .selected').removeClass('selected');
             this.resetForm();
             this.filter(key);
-            return false;
         }.bind(this));
 
         /**
@@ -195,6 +197,21 @@
     };
 
     /**
+     * Remove the previously registered event handlers.
+     */
+    SecretariesHelper.prototype.unbindEventHandlers = function () {
+        $('#secretaries')
+            .off('submit', '#filter-secretaries form')
+            .off('click', '#filter-secretaries .clear')
+            .off('click', '.secretary-row')
+            .off('click', '#add-secretary')
+            .off('click', '#edit-secretary')
+            .off('click', '#delete-secretary')
+            .off('click', '#save-secretary')
+            .off('click', '#cancel-secretary');
+    };
+
+    /**
      * Save secretary record to database.
      *
      * @param {Object} secretary Contains the secretary record data. If an 'id' value is provided
@@ -214,8 +231,7 @@
                 this.resetForm();
                 $('#filter-secretaries .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -236,8 +252,7 @@
                 Backend.displayNotification(EALang.secretary_deleted);
                 this.resetForm();
                 this.filter($('#filter-secretaries .key').val());
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**
@@ -272,7 +287,7 @@
                 && $('#secretary-password').val() !== '') {
                 $('#secretary-password, #secretary-password-confirm').closest('.form-group').addClass('has-error');
                 throw new Error('Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH
-                + ' characters long.');
+                    + ' characters long.');
             }
 
             // Validate user email.
@@ -406,8 +421,7 @@
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this))
-            .fail(GeneralFunctions.ajaxFailureHandler);
+            }.bind(this));
     };
 
     /**

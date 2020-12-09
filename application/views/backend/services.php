@@ -19,7 +19,7 @@
         }
     };
 
-    $(function() {
+    $(function () {
         BackendServices.initialize(true);
     });
 </script>
@@ -51,11 +51,13 @@
 
                             <div class="input-group-addon">
                                 <div>
-                                    <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
                                         <i class="fas fa-search"></i>
                                     </button>
-                                    <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
-                                    <i class="fas fa-redo-alt"></i>
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
+                                        <i class="fas fa-redo-alt"></i>
                                     </button>
                                 </div>
                             </div>
@@ -70,22 +72,22 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-service" class="btn btn-primary">
-                                <i class="far fa-plus-square mr-2"></i>
+                                <i class="fas fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-service" class="btn btn-outline-secondary" disabled="disabled">
-                                <i class="far fa-edit mr-2"></i>
+                                <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-service" class="btn btn-outline-secondary" disabled="disabled">
-                                <i class="far fa-trash-alt mr-2"></i>
+                                <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-service" class="btn btn-primary">
-                                <i class="far fa-check-square mr-2"></i>
+                                <i class="fas fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-service" class="btn btn-outline-secondary">
@@ -192,10 +194,12 @@
 
                             <div class="input-group-addon">
                                 <div>
-                                    <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
                                         <i class="fas fa-search"></i>
                                     </button>
-                                    <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
                                         <i class="fas fa-redo-alt"></i>
                                     </button>
                                 </div>
@@ -211,22 +215,22 @@
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
                             <button id="add-category" class="btn btn-primary">
-                                <i class="far fa-plus-square mr-2"></i>
+                                <i class="fas fa-plus-square mr-2"></i>
                                 <?= lang('add') ?>
                             </button>
                             <button id="edit-category" class="btn btn-outline-secondary" disabled="disabled">
-                                <i class="far fa-edit mr-2"></i>
+                                <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
                             <button id="delete-category" class="btn btn-outline-secondary" disabled="disabled">
-                                <i class="far fa-trash-alt mr-2"></i>
+                                <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
                         </div>
 
                         <div class="save-cancel-group btn-group" style="display:none;">
                             <button id="save-category" class="btn btn-primary">
-                                <i class="far fa-check-square mr-2"></i>
+                                <i class="fas fa-check-square mr-2"></i>
                                 <?= lang('save') ?>
                             </button>
                             <button id="cancel-category" class="btn btn-outline-secondary">

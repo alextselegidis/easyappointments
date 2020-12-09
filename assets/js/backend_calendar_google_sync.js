@@ -77,8 +77,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                         });
 
                                         $('#select-google-calendar').modal('show');
-                                    })
-                                    .fail(GeneralFunctions.ajaxFailureHandler);
+                                    });
                             }
                         }
                     } catch (Error) {
@@ -125,8 +124,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 .done(function () {
                     Backend.displayNotification(EALang.google_calendar_selected);
                     $('#select-google-calendar').modal('hide');
-                })
-                .fail(GeneralFunctions.ajaxFailureHandler);
+                });
         });
 
         /**
@@ -169,8 +167,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
             provider_id: providerId
         };
 
-        $.post(url, data)
-            .fail(GeneralFunctions.ajaxFailureHandler);
+        $.post(url, data);
     }
 
 

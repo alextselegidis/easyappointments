@@ -20,11 +20,11 @@
  */
 function google_analytics_script()
 {
-    $framework =& get_instance();
+    $CI =& get_instance();
 
-    $framework->load->model('settings_model');
+    $CI->load->model('settings_model');
 
-    $google_analytics_code = $framework->settings_model->get_setting('google_analytics_code');
+    $google_analytics_code = $CI->settings_model->get_setting('google_analytics_code');
 
     if ($google_analytics_code !== '')
     {

@@ -55,16 +55,16 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
-            $conditions = [
+            $where = [
                 'is_unavailable' => FALSE
             ];
 
             if ($id !== NULL)
             {
-                $conditions['id'] = $id;
+                $where['id'] = $id;
             }
 
-            $appointments = $this->appointments_model->get_batch($conditions, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
+            $appointments = $this->appointments_model->get_batch($where, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
 
             if ($id !== NULL && count($appointments) === 0)
             {
@@ -135,7 +135,7 @@ class Appointments extends API_V1_Controller {
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, FALSE);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->appointments_model->get_batch('id = ' . $id);
+            $batch = $this->appointments_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
@@ -156,7 +156,7 @@ class Appointments extends API_V1_Controller {
         try
         {
             // Update the appointment record.
-            $batch = $this->appointments_model->get_batch('id = ' . $id);
+            $batch = $this->appointments_model->get_batch(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -186,7 +186,7 @@ class Appointments extends API_V1_Controller {
 
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->appointments_model->get_batch('id = ' . $id);
+            $batch = $this->appointments_model->get_batch(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
