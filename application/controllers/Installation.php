@@ -52,7 +52,7 @@ class Installation extends EA_Controller {
     }
 
     /**
-     * [AJAX] Installs Easy!Appointments on the server.
+     * Installs Easy!Appointments on the server.
      */
     public function ajax_install()
     {

@@ -298,7 +298,7 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * [AJAX] Get the available appointment hours for the given date.
+     * Get the available appointment hours for the given date.
      *
      * This method answers to an AJAX request. It calculates the available hours for the given service, provider and
      * date.
@@ -409,7 +409,7 @@ class Appointments extends EA_Controller {
 
 
     /**
-     * [AJAX] Register the appointment to the database.
+     * Register the appointment to the database.
      *
      * Outputs a JSON string with the appointment ID.
      */
@@ -553,7 +553,7 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * [AJAX] Get Unavailable Dates
+     * Get Unavailable Dates
      *
      * Get an array with the available dates of a specific provider, service and month of the year. Provide the
      * "provider_id", "service_id" and "selected_date" as GET parameters to the request. The "selected_date" parameter

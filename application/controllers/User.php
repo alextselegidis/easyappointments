@@ -100,7 +100,7 @@ class User extends EA_Controller {
     }
 
     /**
-     * [AJAX] Check whether the user has entered the correct login credentials.
+     * Check whether the user has entered the correct login credentials.
      *
      * The session data of a logged in user are the following:
      *   - 'user_id'
