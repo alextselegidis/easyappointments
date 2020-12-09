@@ -309,7 +309,7 @@ class Backend_api extends EA_Controller {
                 'time_format' => $this->settings_model->get_setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $service, $manage_mode);
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
             $response = AJAX_SUCCESS;
@@ -616,6 +616,16 @@ class Backend_api extends EA_Controller {
             $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
 
             // Add appointment
+            $provider_timezone = $this->user_model->get_user_timezone($unavailable['id_users_provider']);
+
+            $session_timezone = $this->timezones->get_session_timezone();
+
+            $unavailable['start_datetime'] = $this->timezones->convert($unavailable['start_datetime'],
+                $session_timezone, $provider_timezone);
+
+            $unavailable['end_datetime'] = $this->timezones->convert($unavailable['end_datetime'],
+                $session_timezone, $provider_timezone);
+
             $unavailable['id'] = $this->appointments_model->add_unavailable($unavailable);
             $unavailable = $this->appointments_model->get_row($unavailable['id']); // fetch all inserted data
 
