@@ -22,6 +22,7 @@ class Privacy extends EA_Controller {
      */
     public function __construct()
     {
+        parent::__construct();
         $this->load->driver('cache', ['adapter' => 'file']);
         $this->load->model('customers_model');
     }
