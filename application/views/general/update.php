@@ -69,6 +69,6 @@
 </footer>
 
 <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
 </body>
 </html>

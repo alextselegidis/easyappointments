@@ -192,7 +192,7 @@ body .ui-datepicker .ui-datepicker-buttonpane button {
 }
 
 li.language {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 li.language:hover {
@@ -398,7 +398,7 @@ body .popover {
 
 body .popover-body strong {
     min-width: 90px;
-    display:inline-block;
+    display: inline-block;
 }
 
 body .popover-body button {

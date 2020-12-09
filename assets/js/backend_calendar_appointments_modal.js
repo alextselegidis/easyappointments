@@ -25,7 +25,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     function updateTimezone() {
         var providerId = $('#select-provider').val();
 
-        var provider  = GlobalVariables.availableProviders.find(function(availableProvider) {
+        var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
             return Number(availableProvider.id) === Number(providerId);
         });
 
@@ -144,7 +144,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var serviceId = $dialog.find('#select-service').val();
 
-            var service = GlobalVariables.availableServices.find(function(availableService) {
+            var service = GlobalVariables.availableServices.find(function (availableService) {
                 return Number(availableService.id) === Number(serviceId);
             });
 
@@ -250,7 +250,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                             .appendTo($list);
 
                         // Verify if this customer is on the old customer list.
-                        var result =  GlobalVariables.customers.filter(function(globalVariablesCustomer) {
+                        var result = GlobalVariables.customers.filter(function (globalVariablesCustomer) {
                             return Number(globalVariablesCustomer.id) === Number(customer.id);
                         });
 
@@ -264,7 +264,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     // If there is any error on the request, search by the local client database.
                     $list.empty();
 
-                    GlobalVariables.customers.forEach(function(customer, index) {
+                    GlobalVariables.customers.forEach(function (customer, index) {
                         if (customer.first_name.toLowerCase().indexOf(key) !== -1
                             || customer.last_name.toLowerCase().indexOf(key) !== -1
                             || customer.email.toLowerCase().indexOf(key) !== -1
@@ -366,7 +366,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var serviceId = $dialog.find('#select-service').val();
 
-            var canProvideService = provider.services.filter(function(providerServiceId) {
+            var canProvideService = provider.services.filter(function (providerServiceId) {
                 return Number(providerServiceId) === Number(serviceId)
             }).length > 0;
 
@@ -385,7 +385,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
         var serviceId = $dialog.find('#select-service').val();
 
-        var service = GlobalVariables.availableServices.forEach(function(service) {
+        var service = GlobalVariables.availableServices.forEach(function (service) {
             return Number(service.id) === Number(serviceId);
         });
 

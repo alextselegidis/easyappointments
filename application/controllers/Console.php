@@ -42,6 +42,22 @@ class Console extends EA_Controller {
     }
 
     /**
+     * Perform a console installation.
+     *
+     * Use this method to install Easy!Appointments directly from the terminal.
+     *
+     * Usage:
+     *
+     * php index.php console install
+     */
+    public function install()
+    {
+        $this->migrate('fresh');
+        $this->seed();
+        $this->output->set_output(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
+    }
+
+    /**
      * Migrate the database to the latest state.
      *
      * Use this method to upgrade an existing installation to the latest database state.
@@ -140,22 +156,6 @@ class Console extends EA_Controller {
             'email' => 'james@example.org',
             'phone_number' => '+1 (000) 000-0000',
         ]);
-    }
-
-    /**
-     * Perform a console installation.
-     *
-     * Use this method to install Easy!Appointments directly from the terminal.
-     *
-     * Usage:
-     *
-     * php index.php console install
-     */
-    public function install()
-    {
-        $this->migrate('fresh');
-        $this->seed();
-        $this->output->set_output(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
     }
 
     /**

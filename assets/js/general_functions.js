@@ -25,7 +25,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     /**
      * Register global error handler.
      */
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             GeneralFunctions.ajaxFailureHandler(jqxhr, settings, thrownError);
         });
@@ -300,7 +300,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 });
         });
 
-        $(document).on('click', function() {
+        $(document).on('click', function () {
             $element.popover('hide');
         });
     };
@@ -319,8 +319,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         try {
             response = JSON.parse(jqXHR.responseText); // JSON response
-        } catch(error) {
-            response = { message: jqXHR.responseText }; // String response
+        } catch (error) {
+            response = {message: jqXHR.responseText}; // String response
         }
 
         if (!response) {
@@ -496,9 +496,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {Object} Returns a sorted dictionary
      */
     exports.sortWeekDictionary = function (weekDictionary, startDayId) {
-        var sortedWeekDictionary={};
+        var sortedWeekDictionary = {};
 
-        for (var i = startDayId; i < startDayId+7; i++) {
+        for (var i = startDayId; i < startDayId + 7; i++) {
             var weekdayName = GeneralFunctions.getWeekdayName(i % 7);
             sortedWeekDictionary[weekdayName] = weekDictionary[weekdayName];
         }
@@ -623,7 +623,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 date = dayArray[2] + '-' + dayArray[0] + '-' + dayArray[1];
                 break;
             case 'YMD':
-                date = date.replace('/','-');
+                date = date.replace('/', '-');
                 break;
             default:
                 throw new Error('Invalid date format setting provided:' + dateFormatSetting);

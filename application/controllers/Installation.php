@@ -74,7 +74,7 @@ class Installation extends EA_Controller {
             $admin['timezone'] = 'UTC';
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
-            $admin['settings']['notifications'] = true;
+            $admin['settings']['notifications'] = TRUE;
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
             unset($admin['username'], $admin['password']);
             $admin['id'] = $this->admins_model->add($admin);
@@ -116,7 +116,7 @@ class Installation extends EA_Controller {
                 ],
                 'settings' => [
                     'username' => 'johndoe',
-                    'password' =>   hash_password($salt, $password),
+                    'password' => hash_password($salt, $password),
                     'salt' => $salt,
                     'working_plan' => '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"saturday":null,"sunday":null}',
                     'notifications' => FALSE,

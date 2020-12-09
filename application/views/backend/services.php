@@ -19,7 +19,7 @@
         }
     };
 
-    $(function() {
+    $(function () {
         BackendServices.initialize(true);
     });
 </script>
@@ -51,10 +51,12 @@
 
                             <div class="input-group-addon">
                                 <div>
-                                    <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
                                         <i class="fas fa-search"></i>
                                     </button>
-                                    <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
                                         <i class="fas fa-redo-alt"></i>
                                     </button>
                                 </div>
@@ -192,10 +194,12 @@
 
                             <div class="input-group-addon">
                                 <div>
-                                    <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
                                         <i class="fas fa-search"></i>
                                     </button>
-                                    <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
                                         <i class="fas fa-redo-alt"></i>
                                     </button>
                                 </div>

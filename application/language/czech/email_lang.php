@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['email_must_be_array'] = 'Metoda validace emailu musí být předána jako pole.';
 $lang['email_invalid_address'] = 'Neplatná emailová adresa: %s';

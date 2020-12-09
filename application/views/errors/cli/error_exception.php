@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed') ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed') ?>
 
 An uncaught Exception was encountered
 
@@ -7,7 +7,7 @@ Message:     <?= $message, "\n" ?>
 Filename:    <?= $exception->getFile(), "\n" ?>
 Line Number: <?= $exception->getLine() ?>
 
-<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true): ?>
+<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
     Backtrace:
     <?php foreach ($exception->getTrace() as $error): ?>
         <?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>

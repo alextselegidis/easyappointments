@@ -52,7 +52,7 @@ class Backend extends EA_Controller {
      */
     public function index($appointment_hash = '')
     {
-        $this->session->set_userdata('dest_url', site_url('backend/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : '')));
+        $this->session->set_userdata('dest_url', site_url('backend/index' . (! empty($appointment_hash) ? '/' . $appointment_hash : '')));
 
         if ( ! $this->has_privileges(PRIV_APPOINTMENTS))
         {
@@ -77,7 +77,7 @@ class Backend extends EA_Controller {
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
-        $view['calendar_view'] = !empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
+        $view['calendar_view'] = ! empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 

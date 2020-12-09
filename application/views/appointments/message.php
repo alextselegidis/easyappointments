@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
 
-	<title><?= $message_title ?> | Easy!Appointments</title>
+    <title><?= $message_title ?> | Easy!Appointments</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
@@ -26,37 +26,37 @@
 </head>
 
 <body>
-    <div id="main" class="container">
-        <div class="row wrapper">
-            <div id="message-frame" class="col-12 border my-auto frame-container">
-                <div>
-                    <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
-                </div>
+<div id="main" class="container">
+    <div class="row wrapper">
+        <div id="message-frame" class="col-12 border my-auto frame-container">
+            <div>
+                <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
+            </div>
 
-                <div>
-                    <h3><?= $message_title ?></h3>
-                    <p><?= $message_text ?></p>
+            <div>
+                <h3><?= $message_title ?></h3>
+                <p><?= $message_text ?></p>
 
-                    <?php if (isset($exceptions) && config('debug')): ?>
-                        <div>
-                            <h4><?= lang('unexpected_issues') ?></h4>
-                            <?php foreach($exceptions as $exception): ?>
-                                <?= exceptionToHtml($exception) ?>
-                            <?php endforeach ?>
-                        </div>
-                    <?php endif ?>
-                </div>
+                <?php if (isset($exceptions) && config('debug')): ?>
+                    <div>
+                        <h4><?= lang('unexpected_issues') ?></h4>
+                        <?php foreach ($exceptions as $exception): ?>
+                            <?= exceptionToHtml($exception) ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif ?>
+            </div>
 
-                <div class="mt-2">
-                    <small>
-                        Powered by
-                        <a href="https://easyappointments.org">Easy!Appointments</a>
-                    </small>
-                </div>
+            <div class="mt-2">
+                <small>
+                    Powered by
+                    <a href="https://easyappointments.org">Easy!Appointments</a>
+                </small>
             </div>
         </div>
     </div>
+</div>
 
-    <?php google_analytics_script() ?>
+<?php google_analytics_script() ?>
 </body>
 </html>

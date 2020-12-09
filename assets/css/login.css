@@ -14,7 +14,7 @@ body {
     padding: 70px;
 }
 
-@media(max-width: 640px) {
+@media (max-width: 640px) {
     #login-frame {
         width: 100%;
         padding: 20px;

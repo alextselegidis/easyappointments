@@ -51,7 +51,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= lang('cancel') ?></button>
-                <button type="button" class="btn btn-primary" id="working-plan-exceptions-save"><?= lang('save') ?></button>
+                <button type="button" class="btn btn-primary"
+                        id="working-plan-exceptions-save"><?= lang('save') ?></button>
             </div>
         </div>
     </div>

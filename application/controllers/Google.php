@@ -30,67 +30,6 @@ class Google extends EA_Controller {
     }
 
     /**
-     * Authorize Google Calendar API usage for a specific provider.
-     *
-     * Since it is required to follow the web application flow, in order to retrieve a refresh token from the Google API
-     * service, this method is going to authorize the given provider.
-     *
-     * @param int $provider_id The provider id, for whom the sync authorization is made.
-     */
-    public function oauth($provider_id)
-    {
-        // Store the provider id for use on the callback function.
-        $this->session->set_userdata('oauth_provider_id', $provider_id);
-
-        // Redirect browser to google user content page.
-        header('Location: ' . $this->google_sync->get_auth_url());
-    }
-
-    /**
-     * Callback method for the Google Calendar API authorization process.
-     *
-     * Once the user grants consent with his Google Calendar data usage, the Google OAuth service will redirect him back
-     * in this page. Here we are going to store the refresh token, because this is what will be used to generate access
-     * tokens in the future.
-     *
-     * IMPORTANT: Because it is necessary to authorize the application using the web server flow (see official
-     * documentation of OAuth), every Easy!Appointments installation should use its own calendar api key. So in every
-     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an allowed redirect URL.
-     */
-    public function oauth_callback()
-    {
-        $code = $this->input->get('code');
-
-        if (empty($code))
-        {
-            $this->output->set_output('Code authorization failed.');
-            return;
-        }
-
-        $token = $this->google_sync->authenticate($code);
-
-        if (empty($token))
-        {
-            $this->output->set_output('Token authorization failed.');
-            return;
-        }
-
-        // Store the token into the database for future reference.
-        $oauth_provider_id = $this->session->userdata('oauth_provider_id');
-
-        if ($oauth_provider_id)
-        {
-            $this->providers_model->set_setting('google_sync', TRUE, $oauth_provider_id);
-            $this->providers_model->set_setting('google_token', json_encode($token), $oauth_provider_id);
-            $this->providers_model->set_setting('google_calendar', 'primary', $oauth_provider_id);
-        }
-        else
-        {
-            $this->output->set_output('Sync provider id not specified.');
-        }
-    }
-
-    /**
      * Complete synchronization of appointments between Google Calendar and Easy!Appointments.
      *
      * This method will completely sync the appointments of a provider with his Google Calendar account. The sync period
@@ -286,6 +225,67 @@ class Google extends EA_Controller {
         $CI->output
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
+    }
+
+    /**
+     * Authorize Google Calendar API usage for a specific provider.
+     *
+     * Since it is required to follow the web application flow, in order to retrieve a refresh token from the Google API
+     * service, this method is going to authorize the given provider.
+     *
+     * @param int $provider_id The provider id, for whom the sync authorization is made.
+     */
+    public function oauth($provider_id)
+    {
+        // Store the provider id for use on the callback function.
+        $this->session->set_userdata('oauth_provider_id', $provider_id);
+
+        // Redirect browser to google user content page.
+        header('Location: ' . $this->google_sync->get_auth_url());
+    }
+
+    /**
+     * Callback method for the Google Calendar API authorization process.
+     *
+     * Once the user grants consent with his Google Calendar data usage, the Google OAuth service will redirect him back
+     * in this page. Here we are going to store the refresh token, because this is what will be used to generate access
+     * tokens in the future.
+     *
+     * IMPORTANT: Because it is necessary to authorize the application using the web server flow (see official
+     * documentation of OAuth), every Easy!Appointments installation should use its own calendar api key. So in every
+     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an allowed redirect URL.
+     */
+    public function oauth_callback()
+    {
+        $code = $this->input->get('code');
+
+        if (empty($code))
+        {
+            $this->output->set_output('Code authorization failed.');
+            return;
+        }
+
+        $token = $this->google_sync->authenticate($code);
+
+        if (empty($token))
+        {
+            $this->output->set_output('Token authorization failed.');
+            return;
+        }
+
+        // Store the token into the database for future reference.
+        $oauth_provider_id = $this->session->userdata('oauth_provider_id');
+
+        if ($oauth_provider_id)
+        {
+            $this->providers_model->set_setting('google_sync', TRUE, $oauth_provider_id);
+            $this->providers_model->set_setting('google_token', json_encode($token), $oauth_provider_id);
+            $this->providers_model->set_setting('google_calendar', 'primary', $oauth_provider_id);
+        }
+        else
+        {
+            $this->output->set_output('Sync provider id not specified.');
+        }
     }
 
 

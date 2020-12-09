@@ -1,14 +1,14 @@
 <?php
 /**
-* System messages translation for CodeIgniter(tm)
-*
-* @author	CodeIgniter community
-* @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
-* @copyright	Pieter Krul
-* @license	http://opensource.org/licenses/MIT MIT License
-* @link	https://codeigniter.com
-*/
-defined('BASEPATH') OR exit('Directe toegang tot scripts is niet toegestaan');
+ * System messages translation for CodeIgniter(tm)
+ *
+ * @author    CodeIgniter community
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright    Pieter Krul
+ * @license    http://opensource.org/licenses/MIT MIT License
+ * @link    https://codeigniter.com
+ */
+defined('BASEPATH') or exit('Directe toegang tot scripts is niet toegestaan');
 $lang['email_must_be_array'] = 'ईमेल सत्यापन विधि को  सरणी (array) भेजी जानी चाहिए।';
 $lang['email_invalid_address'] = 'अवैध ईमेल पता है:% s';
 $lang['email_attachment_missing'] = '% S: निम्नलिखित ईमेल संलग्नक (अटैचमेंट) पता लगाने में असमर्थ';

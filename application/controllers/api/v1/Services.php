@@ -50,7 +50,7 @@ class Services extends API_V1_Controller {
         try
         {
             $conditions = $id !== NULL ? ['id' => $id] : NULL;
-            
+
             $services = $this->services_model->get_batch($conditions);
 
             if ($id !== NULL && count($services) === 0)

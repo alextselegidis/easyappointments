@@ -66,7 +66,7 @@ $(document).ready(function () {
                     {
                         email: GlobalVariables.providerData.email,
                         displayName: GlobalVariables.providerData.first_name + ' '
-                        + GlobalVariables.providerData.last_name
+                            + GlobalVariables.providerData.last_name
                     }
                 ]
             };

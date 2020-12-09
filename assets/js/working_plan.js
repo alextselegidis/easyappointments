@@ -547,7 +547,7 @@
                 .done(function (date, workingPlanException) {
                     var $tr = null;
 
-                    $('.working-plan-exceptions tbody tr').each(function(index, tr) {
+                    $('.working-plan-exceptions tbody tr').each(function (index, tr) {
                         if (date === $(tr).data('date')) {
                             $tr = $(tr);
                             return false;

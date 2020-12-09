@@ -323,7 +323,7 @@ body legend {
     margin-bottom: 10px;
 }
 
-#calendar-page #calendar-actions > .btn-group  {
+#calendar-page #calendar-actions > .btn-group {
     width: 100%;
 }
 
@@ -331,11 +331,11 @@ body legend {
     width: auto;
 }
 
-#calendar-page #calendar-actions > .btn-group .btn:not(.dropdown-toggle)  {
+#calendar-page #calendar-actions > .btn-group .btn:not(.dropdown-toggle) {
     text-align: right;
 }
 
-#calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle  {
+#calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle {
     text-align: left;
 }
 
@@ -498,7 +498,7 @@ body .form-horizontal .controls {
 #calendar .select2-container--default.select2-container--focus .select2-selection--multiple {
     border-color: #80bdff;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 
 #calendar .select2-container--default .select2-selection--multiple .select2-selection__choice {
@@ -571,7 +571,7 @@ body .form-horizontal .controls {
         margin-bottom: 0;
     }
 
-    #calendar-page #calendar-actions > .btn-group  {
+    #calendar-page #calendar-actions > .btn-group {
         width: auto;
     }
 
@@ -579,11 +579,11 @@ body .form-horizontal .controls {
         width: auto;
     }
 
-    #calendar-page #calendar-actions > .btn-group .btn:not(.dropdown-toggle)  {
+    #calendar-page #calendar-actions > .btn-group .btn:not(.dropdown-toggle) {
         text-align: center;
     }
 
-    #calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle  {
+    #calendar-page #calendar-actions > .btn-group .btn.dropdown-toggle {
         text-align: center;
     }
 

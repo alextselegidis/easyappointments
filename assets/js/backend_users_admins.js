@@ -185,7 +185,7 @@
     /**
      * Remove the previously registered event handlers.
      */
-    AdminsHelper.prototype.unbindEventHandlers = function() {
+    AdminsHelper.prototype.unbindEventHandlers = function () {
         $('#admins')
             .off('submit', '#filter-admins form')
             .off('click', '#filter-admins .clear')

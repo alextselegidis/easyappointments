@@ -14,7 +14,6 @@
 use EA\Engine\Notifications\Email as EmailClient;
 use EA\Engine\Types\Email;
 use EA\Engine\Types\Text;
-use EA\Engine\Types\Url;
 
 /**
  * Backend API Controller
@@ -420,9 +419,9 @@ class Backend_api extends EA_Controller {
                 // Notify admins
                 $admins = $this->admins_model->get_batch();
 
-                foreach($admins as $admin)
+                foreach ($admins as $admin)
                 {
-                    if (!$admin['settings']['notifications'] === '0')
+                    if ( ! $admin['settings']['notifications'] === '0')
                     {
                         continue;
                     }
@@ -435,9 +434,9 @@ class Backend_api extends EA_Controller {
                 // Notify secretaries
                 $secretaries = $this->secretaries_model->get_batch();
 
-                foreach($secretaries as $secretary)
+                foreach ($secretaries as $secretary)
                 {
-                    if (!$secretary['settings']['notifications'] === '0')
+                    if ( ! $secretary['settings']['notifications'] === '0')
                     {
                         continue;
                     }
@@ -562,7 +561,7 @@ class Backend_api extends EA_Controller {
                 $limit = 1000;
             }
 
-            $customers = $this->customers_model->get_batch($where, $limit, null, $order_by);
+            $customers = $this->customers_model->get_batch($where, $limit, NULL, $order_by);
 
             foreach ($customers as &$customer)
             {
@@ -1319,7 +1318,7 @@ class Backend_api extends EA_Controller {
 
             $result = $this->providers_model->delete($this->input->post('provider_id'));
 
-            $response =$result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
         catch (Exception $exception)
         {
@@ -1393,7 +1392,7 @@ class Backend_api extends EA_Controller {
 
             $secretary_id = $this->secretaries_model->add($secretary);
 
-            $response =[
+            $response = [
                 'status' => AJAX_SUCCESS,
                 'id' => $secretary_id
             ];
@@ -1427,7 +1426,7 @@ class Backend_api extends EA_Controller {
 
             $result = $this->secretaries_model->delete($this->input->post('secretary_id'));
 
-            $response =$result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
         }
         catch (Exception $exception)
         {
@@ -1605,7 +1604,7 @@ class Backend_api extends EA_Controller {
             }
             else
             {
-                $response =AJAX_FAILURE;
+                $response = AJAX_FAILURE;
             }
         }
         catch (Exception $exception)
@@ -1679,7 +1678,7 @@ class Backend_api extends EA_Controller {
                 $this->providers_model->set_setting('working_plan', $working_plan, $provider['id']);
             }
 
-            $response =AJAX_SUCCESS;
+            $response = AJAX_SUCCESS;
         }
         catch (Exception $exception)
         {

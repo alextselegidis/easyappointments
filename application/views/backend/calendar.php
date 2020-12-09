@@ -66,43 +66,44 @@
             <?php endif ?>
 
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
-            <div class="btn-group">
-                <button class="btn btn-light" id="insert-appointment">
-                    <i class="fas fa-plus-square mr-2"></i>
-                    <?= lang('appointment') ?>
-                </button>
-
-                <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" id="insert-unavailable">
+                <div class="btn-group">
+                    <button class="btn btn-light" id="insert-appointment">
                         <i class="fas fa-plus-square mr-2"></i>
-                        <?= lang('unavailable') ?>
-                    </a>
-                    <a class="dropdown-item" href="#" id="insert-working-plan-exception"
-                        <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
-                        <i class="fas fa-plus-square mr-2"></i>
-                        <?= lang('working_plan_exception') ?>
-                    </a>
+                        <?= lang('appointment') ?>
+                    </button>
+
+                    <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" id="insert-unavailable">
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('unavailable') ?>
+                        </a>
+                        <a class="dropdown-item" href="#" id="insert-working-plan-exception"
+                            <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('working_plan_exception') ?>
+                        </a>
+                    </div>
                 </div>
-            </div>
             <?php endif ?>
 
-            <button id="reload-appointments" class="btn btn-light" data-tippy-content="<?= lang('reload_appointments_hint') ?>">
+            <button id="reload-appointments" class="btn btn-light"
+                    data-tippy-content="<?= lang('reload_appointments_hint') ?>">
                 <i class="fas fa-sync-alt"></i>
             </button>
 
-            <?php if($calendar_view === 'default'): ?>
+            <?php if ($calendar_view === 'default'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
-            <?php if($calendar_view === 'table'): ?>
+            <?php if ($calendar_view === 'table'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
                    data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
@@ -325,7 +326,8 @@
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
-                                    <input id="phone-number" class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
+                                    <input id="phone-number"
+                                           class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">

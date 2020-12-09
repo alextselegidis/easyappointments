@@ -67,15 +67,17 @@
                             <input type="text" class="key form-control">
 
                             <div class="input-group-addon">
-								<div>
-									<button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
-										<i class="fas fa-search"></i>
-									</button>
-									<button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
-										<i class="fas fa-redo-alt"></i>
-									</button>
-								</div>
-							</div>
+                                <div>
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
+                                        <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
@@ -303,8 +305,8 @@
                             <h3><?= lang('breaks') ?></h3>
 
                             <p>
-								<?= lang('add_breaks_during_each_day') ?>
-							</p>
+                                <?= lang('add_breaks_during_each_day') ?>
+                            </p>
 
                             <div>
                                 <button type="button" class="add-break btn btn-primary">
@@ -332,8 +334,8 @@
                             <h3><?= lang('working_plan_exceptions') ?></h3>
 
                             <p>
-								<?= lang('add_working_plan_exceptions_during_each_day') ?>
-							</p>
+                                <?= lang('add_working_plan_exceptions_during_each_day') ?>
+                            </p>
 
                             <div>
                                 <button type="button" class="add-working-plan-exception btn btn-primary mr-2">
@@ -374,10 +376,12 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit"
+                                    data-tippy-content="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button"
+                                    data-tippy-content="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>
@@ -580,10 +584,12 @@
 
                             <span class="input-group-addon">
                         <div>
-                            <button class="filter btn btn-outline-secondary" type="submit" data-tippy-content="<?= lang('filter') ?>">
+                            <button class="filter btn btn-outline-secondary" type="submit"
+                                    data-tippy-content="<?= lang('filter') ?>">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button class="clear btn btn-outline-secondary" type="button" data-tippy-content="<?= lang('clear') ?>">
+                            <button class="clear btn btn-outline-secondary" type="button"
+                                    data-tippy-content="<?= lang('clear') ?>">
                                 <i class="fas fa-redo-alt"></i>
                             </button>
                         </div>

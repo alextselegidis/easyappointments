@@ -1085,7 +1085,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      * @param {Event} event
      */
     function getEventNotes(event) {
-        if (!event.data || !event.data.notes) {
+        if (!event.data || !event.data.notes) {
             return '-';
         }
 

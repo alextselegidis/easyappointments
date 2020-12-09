@@ -129,7 +129,7 @@ window.Backend = window.Backend || {};
         })
             .appendTo($notification);
 
-        actions.forEach(function(action) {
+        actions.forEach(function (action) {
             $('<button/>', {
                 'class': 'btn btn-outline-secondary btn-xs',
                 'text': action.label,

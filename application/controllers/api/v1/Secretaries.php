@@ -50,7 +50,7 @@ class Secretaries extends API_V1_Controller {
         try
         {
             $conditions = $id !== NULL ? ['id' => $id] : NULL;
-            
+
             $secretaries = $this->secretaries_model->get_batch($conditions);
 
             if ($id !== NULL && count($secretaries) === 0)

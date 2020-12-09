@@ -62,7 +62,7 @@ window.BackendUsers = window.BackendUsers || {};
         helper.bindEventHandlers();
 
         // Fill the services and providers list boxes.
-        GlobalVariables.services.forEach(function(service) {
+        GlobalVariables.services.forEach(function (service) {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -89,7 +89,7 @@ window.BackendUsers = window.BackendUsers || {};
                 .appendTo('#provider-services');
         });
 
-        GlobalVariables.providers.forEach(function(provider) {
+        GlobalVariables.providers.forEach(function (provider) {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -159,7 +159,7 @@ window.BackendUsers = window.BackendUsers || {};
 
                         $('#secretary-providers').empty();
 
-                        GlobalVariables.providers.forEach(function(provider) {
+                        GlobalVariables.providers.forEach(function (provider) {
                             $('<div/>', {
                                 'class': 'checkbox',
                                 'html': [

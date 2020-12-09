@@ -222,7 +222,7 @@
     /**
      * Remove the previously registered event handlers.
      */
-    ProvidersHelper.prototype.unbindEventHandlers = function() {
+    ProvidersHelper.prototype.unbindEventHandlers = function () {
         $('#providers')
             .off('submit', '#filter-providers form')
             .off('click', '#filter-providers .clear')

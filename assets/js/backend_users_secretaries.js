@@ -199,7 +199,7 @@
     /**
      * Remove the previously registered event handlers.
      */
-    SecretariesHelper.prototype.unbindEventHandlers = function() {
+    SecretariesHelper.prototype.unbindEventHandlers = function () {
         $('#secretaries')
             .off('submit', '#filter-secretaries form')
             .off('click', '#filter-secretaries .clear')
@@ -287,7 +287,7 @@
                 && $('#secretary-password').val() !== '') {
                 $('#secretary-password, #secretary-password-confirm').closest('.form-group').addClass('has-error');
                 throw new Error('Password must be at least ' + BackendUsers.MIN_PASSWORD_LENGTH
-                + ' characters long.');
+                    + ' characters long.');
             }
 
             // Validate user email.

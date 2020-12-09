@@ -53,7 +53,7 @@
                 );
 
                 // Update variables also used in other setting tabs
-                GlobalVariables.timeFormat   = $('#time-format').val();
+                GlobalVariables.timeFormat = $('#time-format').val();
                 GlobalVariables.firstWeekday = $('#first-weekday').val();
 
                 // We need to refresh the working plan.

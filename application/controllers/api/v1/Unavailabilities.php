@@ -49,7 +49,7 @@ class Unavailabilities extends API_V1_Controller {
     {
         try
         {
-            $where = $id !== NULL ? ['id' => $id] : ['is_unavailable' => true];
+            $where = $id !== NULL ? ['id' => $id] : ['is_unavailable' => TRUE];
 
             $unavailabilities = $this->appointments_model->get_batch($where);
 

@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // Danish
 $lang['page_title'] = 'Book tid ved ...';
 $lang['service_and_provider'] = 'Vælg tjeneste og leverandør';
