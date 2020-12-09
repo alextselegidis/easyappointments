@@ -551,7 +551,7 @@ class Timezones {
      */
     public function convert($value, $from_timezone, $to_timezone)
     {
-        if ( ! $to_timezone)
+        if ( ! $to_timezone || $from_timezone === $to_timezone)
         {
             return $value;
         }
