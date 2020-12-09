@@ -290,11 +290,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
-                    // $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
+                    $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
                     $('#enable-sync span').text(EALang.disable_sync);
                     $('#google-sync').prop('disabled', false);
                 } else {
-                    // $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
+                    $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
                     $('#enable-sync span').text(EALang.enable_sync);
                     $('#google-sync').prop('disabled', true);
                 }
@@ -1068,8 +1068,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 response.unavailables.forEach(function (unavailable) {
                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
-                    if (unavailable.notes.length > 30) {
-                        notes = unavailable.notes.substring(0, 30) + '...'
+                    if (unavailable.notes && unavailable.notes.length > 30) {
+                        notes = unavilable.notes.substring(0, 30) + '...'
                     }
 
                     var unavailabilityEvent = {
@@ -1469,7 +1469,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     if (provider) {
                         $('#select-provider').val(provider.id);
                     }
-                    
+
                     if (!$('#select-provider').val()) {
                         $('#select-provider option:first').prop('selected', true);
                     }
