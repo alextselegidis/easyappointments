@@ -182,6 +182,11 @@ class Google extends EA_Controller {
                     continue;
                 }
 
+                if ($google_event->getStart()->getDateTime() === $google_event->getEnd()->getDateTime())
+                {
+                    continue; // Skip all day events
+                }
+
                 $results = $CI->appointments_model->get_batch(['id_google_calendar' => $google_event->getId()]);
 
                 if ( ! empty($results))
