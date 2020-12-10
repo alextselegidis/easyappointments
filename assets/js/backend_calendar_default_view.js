@@ -1069,7 +1069,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
                     if (unavailable.notes && unavailable.notes.length > 30) {
-                        notes = unavilable.notes.substring(0, 30) + '...'
+                        notes = unavailable.notes.substring(0, 30) + '...';
                     }
 
                     var unavailabilityEvent = {
