@@ -124,6 +124,11 @@ class Secretaries_model extends EA_Model {
             }
         }
 
+        if ( ! isset($secretary['id']) && ! isset($secretary['settings']['password']))
+        {
+            throw new Exception('The user password cannot be empty for new users.');
+        }
+
         // Validate calendar view mode.
         if (isset($secretary['settings']['calendar_view']) && ($secretary['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
                 && $secretary['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))

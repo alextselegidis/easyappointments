@@ -116,6 +116,11 @@ class Admins_model extends EA_Model {
             }
         }
 
+        if ( ! isset($admin['id']) && ! isset($admin['settings']['password']))
+        {
+            throw new Exception('The user password cannot be empty for new users.');
+        }
+
         // Validate calendar view mode.
         if (isset($admin['settings']['calendar_view']) && ($admin['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
                 && $admin['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))

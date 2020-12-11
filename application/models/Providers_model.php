@@ -73,7 +73,6 @@ class Providers_model extends EA_Model {
      */
     public function validate($provider)
     {
-
         // If a provider id is present, check whether the record exist in the database.
         if (isset($provider['id']))
         {
@@ -145,6 +144,11 @@ class Providers_model extends EA_Model {
                 throw new Exception('The user password must be at least '
                     . MIN_PASSWORD_LENGTH . ' characters long.');
             }
+        }
+
+        if ( ! isset($provider['id']) && ! isset($provider['settings']['password']))
+        {
+            throw new Exception('The user password cannot be empty for new users.');
         }
 
         // Validate calendar view mode.
