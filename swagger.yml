@@ -798,15 +798,15 @@ paths:
                     schema:
                         items:
                             $ref: '#/definitions/Setting'
-    '/settings/{settingId}':
+    '/settings/{settingName}':
         get:
             tags:
                 - settings
             summary: Get single setting
             parameters:
-                -   name: settingId
+                -   name: settingName
                     in: path
-                    type: integer
+                    type: string
                     required: true
             responses:
                 '200':
@@ -818,7 +818,7 @@ paths:
                 - settings
             summary: Update single setting
             parameters:
-                -   name: settingId
+                -   name: settingName
                     in: path
                     type: integer
                     required: true
@@ -836,7 +836,7 @@ paths:
                 - settings
             summary: Delete single setting
             parameters:
-                -   name: settingId
+                -   name: settingName
                     in: path
                     type: integer
                     required: true
