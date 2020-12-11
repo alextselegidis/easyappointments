@@ -88,7 +88,7 @@ class Settings extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 
@@ -116,7 +116,7 @@ class Settings extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 
@@ -129,7 +129,7 @@ class Settings extends API_V1_Controller {
     {
         try
         {
-            $result = $this->settings_model->remove_setting($name);
+            $this->settings_model->remove_setting($name);
 
             $response = new Response([
                 'code' => 200,
@@ -140,7 +140,7 @@ class Settings extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 }

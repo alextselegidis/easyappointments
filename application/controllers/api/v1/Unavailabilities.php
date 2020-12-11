@@ -71,7 +71,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 
@@ -102,7 +102,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 
@@ -137,7 +137,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 
@@ -161,7 +161,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Exception $exception)
         {
-            exit($this->handle_exception($exception));
+            $this->handle_exception($exception);
         }
     }
 }

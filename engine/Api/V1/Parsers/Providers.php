@@ -29,7 +29,7 @@ class Providers implements ParsersInterface {
     public function encode(array &$response)
     {
         $encoded_response = [
-            'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
+            'id' => array_key_exists('id', $response) ? (int)$response['id'] : NULL,
             'firstName' => $response['first_name'],
             'lastName' => $response['last_name'],
             'email' => $response['email'],
@@ -54,13 +54,27 @@ class Providers implements ParsersInterface {
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
                 'calendarView' => $response['settings']['calendar_view'],
-                'googleSync' => filter_var($response['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN),
-                'googleCalendar' => $response['settings']['google_calendar'],
-                'googleToken' => $response['settings']['google_token'],
-                'syncFutureDays' => $response['settings']['sync_future_days'] !== NULL ? (int)$response['settings']['sync_future_days'] : NULL,
-                'syncPastDays' => $response['settings']['sync_past_days'] !== NULL ? (int)$response['settings']['sync_past_days'] : NULL,
-                'workingPlan' => json_decode($response['settings']['working_plan'], TRUE),
-                'workingPlanExceptions' => json_decode($response['settings']['working_plan_exceptions'], TRUE),
+                'googleSync' => array_key_exists('google_sync', $response['settings'])
+                    ? filter_var($response['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN)
+                    : NULL,
+                'googleCalendar' => array_key_exists('google_calendar', $response['settings'])
+                    ? $response['settings']['google_calendar']
+                    : NULL,
+                'googleToken' => array_key_exists('google_token', $response['settings'])
+                    ? $response['settings']['google_token']
+                    : NULL,
+                'syncFutureDays' => array_key_exists('sync_future_days', $response['settings'])
+                    ? (int)$response['settings']['sync_future_days']
+                    : NULL,
+                'syncPastDays' => array_key_exists('sync_past_days', $response['settings'])
+                    ? (int)$response['settings']['sync_past_days']
+                    : NULL,
+                'workingPlan' => array_key_exists('working_plan', $response['settings'])
+                    ? json_decode($response['settings']['working_plan'], TRUE)
+                    : NULL,
+                'workingPlanExceptions' => array_key_exists('working_plan_exceptions', $response['settings'])
+                    ? json_decode($response['settings']['working_plan_exceptions'], TRUE)
+                    : NULL,
             ];
         }
 
@@ -77,131 +91,131 @@ class Providers implements ParsersInterface {
     {
         $decoded_request = $base ?: [];
 
-        if ( ! empty($request['id']))
+        if (array_key_exists('id', $request))
         {
             $decoded_request['id'] = $request['id'];
         }
 
-        if ( ! empty($request['firstName']))
+        if (array_key_exists('firstName', $request))
         {
             $decoded_request['first_name'] = $request['firstName'];
         }
 
-        if ( ! empty($request['lastName']))
+        if (array_key_exists('lastName', $request))
         {
             $decoded_request['last_name'] = $request['lastName'];
         }
 
-        if ( ! empty($request['email']))
+        if (array_key_exists('email', $request))
         {
             $decoded_request['email'] = $request['email'];
         }
 
-        if ( ! empty($request['mobile']))
+        if (array_key_exists('mobile', $request))
         {
             $decoded_request['mobile_number'] = $request['mobile'];
         }
 
-        if ( ! empty($request['phone']))
+        if (array_key_exists('phone', $request))
         {
             $decoded_request['phone_number'] = $request['phone'];
         }
 
-        if ( ! empty($request['address']))
+        if (array_key_exists('address', $request))
         {
             $decoded_request['address'] = $request['address'];
         }
 
-        if ( ! empty($request['city']))
+        if (array_key_exists('city', $request))
         {
             $decoded_request['city'] = $request['city'];
         }
 
-        if ( ! empty($request['state']))
+        if (array_key_exists('state', $request))
         {
             $decoded_request['state'] = $request['state'];
         }
 
-        if ( ! empty($request['zip']))
+        if (array_key_exists('zip', $request))
         {
             $decoded_request['zip_code'] = $request['zip'];
         }
 
-        if ( ! empty($request['notes']))
+        if (array_key_exists('notes', $request))
         {
             $decoded_request['notes'] = $request['notes'];
         }
 
-        if ( ! empty($request['timezone']))
+        if (array_key_exists('timezone', $request))
         {
             $decoded_request['timezone'] = $request['timezone'];
         }
 
-        if ( ! empty($request['services']))
+        if (array_key_exists('services', $request))
         {
             $decoded_request['services'] = $request['services'];
         }
 
-        if ( ! empty($request['settings']))
+        if (array_key_exists('settings', $request))
         {
             if (empty($decoded_request['settings']))
             {
                 $decoded_request['settings'] = [];
             }
 
-            if ( ! empty($request['settings']['username']))
+            if (array_key_exists('username', $request['settings']))
             {
                 $decoded_request['settings']['username'] = $request['settings']['username'];
             }
 
-            if ( ! empty($request['settings']['password']))
+            if (array_key_exists('password', $request['settings']))
             {
                 $decoded_request['settings']['password'] = $request['settings']['password'];
             }
 
-            if ( ! empty($request['settings']['calendarView']))
+            if (array_key_exists('calendarView', $request['settings']))
             {
                 $decoded_request['settings']['calendar_view'] = $request['settings']['calendarView'];
             }
 
-            if ($request['settings']['notifications'] !== NULL)
+            if (array_key_exists('notifications', $request['settings']))
             {
                 $decoded_request['settings']['notifications'] = filter_var($request['settings']['notifications'],
                     FILTER_VALIDATE_BOOLEAN);
             }
 
-            if ($request['settings']['googleSync'] !== NULL)
+            if (array_key_exists('googleSync', $request['settings']))
             {
                 $decoded_request['settings']['google_sync'] = filter_var($request['settings']['googleSync'],
                     FILTER_VALIDATE_BOOLEAN);
             }
 
-            if ( ! empty($request['settings']['googleCalendar']))
+            if (array_key_exists('googleCalendar', $request['settings']))
             {
                 $decoded_request['settings']['google_calendar'] = $request['settings']['googleCalendar'];
             }
 
-            if ( ! empty($request['settings']['googleToken']))
+            if (array_key_exists('googleToken', $request['settings']))
             {
                 $decoded_request['settings']['google_token'] = $request['settings']['googleToken'];
             }
 
-            if ( ! empty($request['settings']['syncFutureDays']))
+            if (array_key_exists('syncFutureDays', $request['settings']))
             {
                 $decoded_request['settings']['sync_future_days'] = $request['settings']['syncFutureDays'];
             }
 
-            if ( ! empty($request['settings']['syncPastDays']))
+            if (array_key_exists('syncPastDays', $request['settings']))
             {
                 $decoded_request['settings']['sync_past_days'] = $request['settings']['syncPastDays'];
             }
 
-            if ( ! empty($request['settings']['workingPlan']))
+            if (array_key_exists('workingPlan', $request['settings']))
             {
                 $decoded_request['settings']['working_plan'] = json_encode($request['settings']['workingPlan']);
             }
 
-            if ( ! empty($request['settings']['workingPlanExceptions']))
+            if (array_key_exists('workingPlanExceptions', $request['settings']))
             {
                 $decoded_request['settings']['working_plan_exceptions'] = json_encode($request['settings']['workingPlanExceptions']);
             }

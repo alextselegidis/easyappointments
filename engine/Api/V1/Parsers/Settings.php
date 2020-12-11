@@ -46,12 +46,12 @@ class Settings implements ParsersInterface {
     {
         $decoded_request = $base ?: [];
 
-        if ( ! empty($request['name']))
+        if (array_key_exists('name', $request))
         {
             $decoded_request['name'] = $request['name'];
         }
 
-        if ( ! empty($request['value']))
+        if (array_key_exists('value', $request))
         {
             $decoded_request['value'] = $request['value'];
         }
