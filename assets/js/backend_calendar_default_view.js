@@ -1412,7 +1412,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         // Initialize page calendar
         $('#calendar').fullCalendar({
-            nowIndicator: true,
             defaultView: defaultView,
             height: getCalendarHeight(),
             editable: true,
