@@ -1,4 +1,4 @@
-#FAQ 
+# FAQ 
 
 ## How do I check that my server has Apache, Php and MySQL already installed?
 
