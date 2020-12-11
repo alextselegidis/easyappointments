@@ -41,6 +41,7 @@ class Secretaries implements ParsersInterface {
             'zip' => $response['zip_code'],
             'notes' => $response['notes'],
             'providers' => $response['providers'],
+            'timezone' => $response['timezone'],
             'settings' => [
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
@@ -114,6 +115,11 @@ class Secretaries implements ParsersInterface {
         if ( ! empty($request['notes']))
         {
             $decoded_request['notes'] = $request['notes'];
+        }
+
+        if ( ! empty($request['timezone']))
+        {
+            $decoded_request['timezone'] = $request['timezone'];
         }
 
         if ( ! empty($request['providers']))

@@ -40,6 +40,7 @@ class Admins implements ParsersInterface {
             'state' => $response['state'],
             'zip' => $response['zip_code'],
             'notes' => $response['notes'],
+            'timezone' => $response['timezone'],
             'settings' => [
                 'username' => $response['settings']['username'],
                 'notifications' => filter_var($response['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
@@ -113,6 +114,11 @@ class Admins implements ParsersInterface {
         if ( ! empty($request['notes']))
         {
             $decoded_request['notes'] = $request['notes'];
+        }
+
+        if ( ! empty($request['timezone']))
+        {
+            $decoded_request['timezone'] = $request['timezone'];
         }
 
         if ( ! empty($request['settings']))

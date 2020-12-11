@@ -977,6 +977,8 @@ definitions:
                 type: string
             notes:
                 type: string
+            timezone:
+                type: string
             settings:
                 type: object
                 properties:
@@ -1011,6 +1013,8 @@ definitions:
             zip:
                 type: string
             notes:
+                type: string
+            timezone:
                 type: string
             services:
                 type: array
@@ -1062,6 +1066,8 @@ definitions:
             zip:
                 type: string
             notes:
+                type: string
+            timezone:
                 type: string
             providers:
                 type: array

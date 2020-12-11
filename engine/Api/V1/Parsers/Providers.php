@@ -40,6 +40,7 @@ class Providers implements ParsersInterface {
             'state' => $response['state'],
             'zip' => $response['zip_code'],
             'notes' => $response['notes'],
+            'timezone' => $response['timezone'],
         ];
 
         if (array_key_exists('services', $response))
@@ -129,6 +130,11 @@ class Providers implements ParsersInterface {
         if ( ! empty($request['notes']))
         {
             $decoded_request['notes'] = $request['notes'];
+        }
+
+        if ( ! empty($request['timezone']))
+        {
+            $decoded_request['timezone'] = $request['timezone'];
         }
 
         if ( ! empty($request['services']))
