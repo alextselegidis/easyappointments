@@ -1026,7 +1026,7 @@ definitions:
                     notifications:
                         type: boolean
                     calendarView:
-                        type: boolean
+                        type: string
                     googleSync:
                         type: boolean
                     googleCalendar:
