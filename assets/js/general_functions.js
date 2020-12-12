@@ -365,16 +365,21 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
         var hours = addHours ? ' ' + timeFormat : '';
         var result;
+        var parsedDate = Date.parse(date);
+
+        if (!parsedDate) {
+            return date;
+        }
 
         switch (dateFormatSetting) {
             case 'DMY':
-                result = Date.parse(date).toString('dd/MM/yyyy' + hours);
+                result = parsedDate.toString('dd/MM/yyyy' + hours);
                 break;
             case 'MDY':
-                result = Date.parse(date).toString('MM/dd/yyyy' + hours);
+                result = parsedDate.toString('MM/dd/yyyy' + hours);
                 break;
             case 'YMD':
-                result = Date.parse(date).toString('yyyy/MM/dd' + hours);
+                result = parsedDate.toString('yyyy/MM/dd' + hours);
                 break;
             default:
                 throw new Error('Invalid date format setting provided!', dateFormatSetting);
