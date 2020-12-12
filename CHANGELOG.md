@@ -7,16 +7,17 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Added 
 
-- #952 Add timezone support in the REST API, when managing users.
+- #952: Add timezone support in the REST API, when managing users.
+- #955: Display confirmation modal when disabling a connected Google Calendar Sync.
 
 ### Fixed 
 
-- #945 Google Calendar sync throws an error with all day Google Calendar Events.
-- #946 Typo in JavaScript code leads to a broken calendar view, when loading unavailability events with note contents.
-- #948 Multiple attendant services may lead to double booking.
-- #950 Cannot create provider without services via the API, some values (other endpoints) are optional too.
-- #953 Current time indicator in fullcalendar is showing time in local timezone and not in the user selected timezone.
-- #954 The password must be provided via the API when creating new users.
+- #945: Google Calendar sync throws an error with all day Google Calendar Events.
+- #946: Typo in JavaScript code leads to a broken calendar view, when loading unavailability events with note contents.
+- #948: Multiple attendant services may lead to double booking.
+- #950: Cannot create provider without services via the API, some values (other endpoints) are optional too.
+- #953: Current time indicator in fullcalendar is showing time in local timezone and not in the user selected timezone.
+- #954: The password must be provided via the API when creating new users.
 
 ## [1.4.0] - 2020-12-09
 
