@@ -3,6 +3,21 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [1.4.1] - 2020-12-14
+
+### Added 
+
+- #952 Add timezone support in the REST API, when managing users.
+
+### Fixed 
+
+- #945 Google Calendar sync throws an error with all day Google Calendar Events.
+- #946 Typo in JavaScript code leads to a broken calendar view, when loading unavailability events with note contents.
+- #948 Multiple attendant services may lead to double booking.
+- #950 Cannot create provider without services via the API, some values (other endpoints) are optional too.
+- #953 Current time indicator in fullcalendar is showing time in local timezone and not in the user selected timezone.
+- #954 The password must be provided via the API when creating new users.
+
 ## [1.4.0] - 2020-12-09
 
 ### Added
@@ -34,14 +49,12 @@ developers to maintain and readjust their custom modifications on the main proje
 - #770: Store customer's language and use it with notifications or when the customer manages and existing appointment.
 - #889: Notify admins and secretaries on appointment changes.
 
-
 ### Changed 
 
 - #386: Service price should be optional.
 - #428: Enable book advance timeout values in days.
 - #568: Sort providers alphabetically in the booking page.
 - #745: Add appointment notes preview in the event popover.
-
 
 ### Fixed 
 
@@ -69,7 +82,6 @@ developers to maintain and readjust their custom modifications on the main proje
 - #840: Start/end datetime are not correctly initialized on Safari when the appointment modal is opened after a click in the backend calendar.
 - #883: Appointment date is wrongly changed to today in some case.
 - #903: Notification not working when creating/updating/deleting an appointment from the REST API.
-
 
 ## [1.3.2] - 2018-07-29
 
