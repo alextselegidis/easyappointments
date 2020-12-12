@@ -82,7 +82,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                     var successCallback = function () {
                         Backend.displayNotification(EALang.working_plan_exception_saved);
 
-                        var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+                        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                         workingPlanExceptions[date] = workingPlanException;
 
@@ -90,7 +90,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                             var availableProvider = GlobalVariables.availableProviders[index];
 
                             if (Number(availableProvider.id) === Number(providerId)) {
-                                availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
+                                GlobalVariables.availableProviders[index].settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
                                 break;
                             }
                         }
