@@ -29,6 +29,6 @@ Finally just add a link in your website that points to your Easy!Appointments in
 
 Happy Bookin'!
 
-*This document applies to Easy!Appointments v1.4.0.*
+*This document applies to Easy!Appointments v1.4.1.*
 
 [Back](readme.md)

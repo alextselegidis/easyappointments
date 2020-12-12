@@ -49,6 +49,6 @@ Google Developers – https://developers.google.com/google-apps/calendar
 
 E!A Support Group – https://groups.google.com/forum/#!forum/easy-appointments
 
-*This document applies to Easy!Appointments v1.4.0.*
+*This document applies to Easy!Appointments v1.4.1.*
 
 [Back](readme.md)
