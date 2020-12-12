@@ -574,8 +574,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 return matches.length;
             });
 
-            return (!filterProviderIds.length && !filterServiceIds.length) || servedServiceIds.length
-                || filterProviderIds.indexOf(provider.id) !== -1;
+            return (!filterProviderIds.length && !filterServiceIds.length)
+                || (filterProviderIds.length && !filterServiceIds.length && filterProviderIds.indexOf(provider.id) !== -1)
+                || (!filterProviderIds.length && filterServiceIds.length && servedServiceIds.length)
+                || (filterProviderIds.length && filterServiceIds.length && servedServiceIds.length && filterProviderIds.indexOf(provider.id) !== -1);
         });
 
         if (GlobalVariables.user.role_slug === 'provider') {
@@ -792,7 +794,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             eventClick: onEventClick,
             eventResize: onEventResize,
             eventDrop: onEventDrop,
-            dayClick: onDayClick,
             viewRender: onViewRender
         });
 
@@ -802,43 +803,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             'text': provider.first_name + ' ' + provider.last_name
         })
             .prependTo($providerColumn);
-    }
-
-    /**
-     * Calendar Day "Click" Callback
-     *
-     * When the user clicks on a day square on the calendar, then he will automatically be transferred to that
-     * day view calendar.
-     */
-    function onDayClick(date) {
-        $('#insert-appointment').trigger('click');
-
-        var $dialog = $('#manage-appointment');
-
-        var providerId = $(this).closest('.provider-column').data('provider').id;
-
-        var provider = GlobalVariables.availableProviders.find(function (provider) {
-            return Number(provider.id) === Number(providerId);
-        });
-
-        if (!provider) {
-            return;
-        }
-
-        var service = GlobalVariables.availableServices.find(function (service) {
-            return provider.services.indexOf(service.id) !== -1;
-        });
-
-        if (provider.services.length) {
-            $dialog.find('#select-service').val([provider.services[0]]).trigger('change');
-            $dialog.find('#select-provider').val(provider.id);
-
-            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(date, GlobalVariables.dateFormat, true));
-            $dialog.find('#start-datetime').datepicker('setDate', date);
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(date.addMinutes(service.duration),
-                GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').datepicker('setDate', date);
-        }
     }
 
     function onViewRender(view, element) {
