@@ -229,7 +229,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     }
                 ];
 
-
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
 

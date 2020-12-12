@@ -60,6 +60,7 @@ $lang['log_out'] = 'Ofmellen';
 $lang['synchronize'] = 'Synchroniséieren';
 $lang['enable_sync'] = 'Sync aschalten';
 $lang['disable_sync'] = 'Sync ausschalten';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Nei lueden';
 $lang['appointment'] = 'Termäin';
 $lang['unavailable'] = 'Net méiglech';

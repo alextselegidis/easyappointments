@@ -60,6 +60,7 @@ $lang['log_out'] = 'Kirjaudu ulos';
 $lang['synchronize'] = 'Synkronoi';
 $lang['enable_sync'] = 'Aktivoi synkronointi';
 $lang['disable_sync'] = 'Poista synkronointi';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Lataa uudelleen';
 $lang['appointment'] = 'Varaus';
 $lang['unavailable'] = 'Poissaolo';

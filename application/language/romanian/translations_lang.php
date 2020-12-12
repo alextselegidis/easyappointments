@@ -60,6 +60,7 @@ $lang['log_out'] = 'Iesire';
 $lang['synchronize'] = 'Sincronizare';
 $lang['enable_sync'] = 'Activeaza Sincronizare';
 $lang['disable_sync'] = 'Dezactiveaza Sincronizare';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Reîncarcare';
 $lang['appointment'] = 'Întâlnire';
 $lang['unavailable'] = 'Indisponibil';

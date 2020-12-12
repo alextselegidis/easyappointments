@@ -60,6 +60,7 @@ $lang['log_out'] = 'ログアウト';
 $lang['synchronize'] = '同期';
 $lang['enable_sync'] = '同期有効化';
 $lang['disable_sync'] = '同期無効化';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = '再読込';
 $lang['appointment'] = '予約';
 $lang['unavailable'] = '空き無し';

@@ -60,6 +60,7 @@ $lang['log_out'] = 'Afmelden';
 $lang['synchronize'] = 'Synchroniseren';
 $lang['enable_sync'] = 'Synchronisatie inschakelen';
 $lang['disable_sync'] = 'Synchronisatie uitschakelen';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Herladen';
 $lang['appointment'] = 'Afspraak';
 $lang['unavailable'] = 'Niet beschikbaar';

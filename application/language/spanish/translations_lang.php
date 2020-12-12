@@ -60,6 +60,7 @@ $lang['log_out'] = 'Cerrar sesión';
 $lang['synchronize'] = 'Sincronizar';
 $lang['enable_sync'] = 'Habilitar sincronización';
 $lang['disable_sync'] = 'Deshabilitar sincronización';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Cargar nuevamente';
 $lang['appointment'] = 'Cita';
 $lang['unavailable'] = 'No disponible';

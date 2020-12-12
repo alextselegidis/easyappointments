@@ -62,6 +62,7 @@ $lang['log_out'] = 'Odhlášení';
 $lang['synchronize'] = 'Synchronizace';
 $lang['enable_sync'] = 'Povolit synchronizaci';
 $lang['disable_sync'] = 'Zakázat synchronizaci';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Obnovit';
 $lang['appointment'] = 'Schůzka';
 $lang['unavailable'] = 'Nedostupnost';
