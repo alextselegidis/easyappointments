@@ -324,6 +324,8 @@
             .find('input, select, textarea')
             .val('')
             .prop('disabled', true);
+        $('#secretaries .record-details #secretary-calendar-view').val('default');
+        $('#secretaries .record-details #secretary-timezone').val('UTC');
         $('#secretaries .add-edit-delete-group').show();
         $('#secretaries .save-cancel-group').hide();
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
