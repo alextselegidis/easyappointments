@@ -15,6 +15,7 @@ const fs = require('fs-extra');
 const zip = require('zip-dir');
 const plugins = require('gulp-load-plugins')();
 const {execSync} = require('child_process');
+const del = require('del');
 
 // Gulp error handling.
 const source = gulp.src;
@@ -68,12 +69,11 @@ gulp.task('package', (done) => {
         console.log(stderr);
     });
 
-    execSync('cd build && find . -name ".DS_Store" -type f -delete', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-    });
+    del.sync('**/.DS_Store');
 
     fs.removeSync('build/composer.lock');
+
+    del.sync('**/.DS_Store')
 
     zip('build', {saveTo: archive}, function (err) {
         if (err)
