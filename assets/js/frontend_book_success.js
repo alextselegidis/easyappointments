@@ -40,27 +40,21 @@ $(document).ready(function () {
                 throw new Error('Could not authorize user.');
             }
 
-            // The user has granted access, add the appointment to his calendar.
-            // Before making the event.insert request the the event resource data
-            // must be prepared.
-            var appointmentData = GlobalVariables.appointmentData;
+            // The user has granted access, add the appointment to his calendar. Before making the event.insert request
+            // the the event resource data must be prepared.
+            var providerData = GlobalVariables.providerData;
 
-            appointmentData.start_datetime = GeneralFunctions.ISODateString(
-                Date.parseExact(appointmentData.start_datetime,
-                    'yyyy-MM-dd HH:mm:ss'));
-            appointmentData.end_datetime = GeneralFunctions.ISODateString(
-                Date.parseExact(appointmentData.end_datetime,
-                    'yyyy-MM-dd HH:mm:ss'));
+            var appointmentData = GlobalVariables.appointmentData;
 
             // Create a valid Google Calendar API resource for the new event.
             var resource = {
                 summary: GlobalVariables.serviceData.name,
                 location: GlobalVariables.companyName,
                 start: {
-                    dateTime: appointmentData.start_datetime
+                    dateTime: moment.tz(appointmentData.start_datetime, providerData.timezone).format()
                 },
                 end: {
-                    dateTime: appointmentData.end_datetime
+                    dateTime: moment.tz(appointmentData.end_datetime, providerData.timezone).format()
                 },
                 attendees: [
                     {

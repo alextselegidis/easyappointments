@@ -73,6 +73,8 @@
 <script src="<?= base_url('assets/ext/jquery/jquery.min.js') ?>"></script>
 <script src="<?= base_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= base_url('assets/ext/datejs/date.min.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
+<script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>
 <script src="https://apis.google.com/js/client.js"></script>
 
 <script>
@@ -80,6 +82,7 @@
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
         appointmentData: <?= json_encode($appointment_data) ?>,
         providerData: <?= json_encode($provider_data) ?>,
+        customerData: <?= json_encode($customer_data) ?>,
         serviceData: <?= json_encode($service_data) ?>,
         companyName: <?= json_encode($company_name) ?>,
         googleApiKey: <?= json_encode(config('google_api_key')) ?>,
