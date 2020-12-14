@@ -24,7 +24,6 @@ class Appointments_model extends EA_Model {
     {
         parent::__construct();
         $this->load->helper('data_validation');
-        $this->load->library('timezones');
     }
 
     /**
@@ -317,11 +316,7 @@ class Appointments_model extends EA_Model {
                 . $appointment_id);
         }
 
-        $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
-
-        $appointment = $this->timezones->convert_event_timezone($appointment);
-
-        return $appointment;
+        return $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
     }
 
     /**
@@ -363,8 +358,6 @@ class Appointments_model extends EA_Model {
             throw new Exception('The given field name does not exist in the database: ' . $field_name);
         }
 
-        $row_data = $this->timezones->convert_event_timezone($row_data);
-
         return $row_data[$field_name];
     }
 
@@ -401,8 +394,6 @@ class Appointments_model extends EA_Model {
 
         foreach ($appointments as &$appointment)
         {
-            $appointment = $this->timezones->convert_event_timezone($appointment);
-
             if ($aggregates)
             {
                 $appointment = $this->get_aggregates($appointment);
