@@ -157,7 +157,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         var successCallback = function () {
                             Backend.displayNotification(EALang.working_plan_exception_saved);
 
-                            var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+                            var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                             workingPlanExceptions[date] = workingPlanException;
 
@@ -259,7 +259,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     .done(function () {
                         $('#message-box').dialog('close');
 
-                        var workingPlanExceptions = jQuery.parseJSON(lastFocusedEventData.data.settings.working_plan_exceptions);
+                        var workingPlanExceptions = JSON.parse(lastFocusedEventData.data.settings.working_plan_exceptions);
                         delete workingPlanExceptions[lastFocusedEventData.start.format('YYYY-MM-DD')];
                         lastFocusedEventData.data.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
 

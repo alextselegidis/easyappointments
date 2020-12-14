@@ -181,7 +181,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var successCallback = function () {
                     Backend.displayNotification(EALang.working_plan_exception_deleted);
 
-                    var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+                    var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
                     delete workingPlanExceptions[date];
 
                     for (var index in GlobalVariables.availableProviders) {
@@ -1098,8 +1098,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         throw new Error('Provider was not found.');
                     }
 
-                    var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
-                    var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions);
+                    var workingPlan = JSON.parse(provider.settings.working_plan);
+                    var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
                     var unavailabilityEvent;
                     var viewStart;
                     var viewEnd;
