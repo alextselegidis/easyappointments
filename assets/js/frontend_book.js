@@ -433,7 +433,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('.captcha-title svg').on('click', function (event) {
+        $('.captcha-title button').on('click', function (event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 
