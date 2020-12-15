@@ -1566,11 +1566,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }
 
         if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
-            $('#select-filter-item optgroup:eq(1)').remove();
-        }
-
-        if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
+            $('#select-filter-item optgroup:eq(1)').remove();
+
             $('#select-filter-item option[type="provider"]').each(function (index, option) {
                 var provider = GlobalVariables.secretaryProviders.find(function (secretaryProviderId) {
                     return Number($(option).val()) === Number(secretaryProviderId);
