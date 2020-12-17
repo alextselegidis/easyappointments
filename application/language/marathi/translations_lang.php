@@ -62,6 +62,7 @@ $lang['log_out'] = 'लॉग आउट';
 $lang['synchronize'] = 'समक्रमित करा';
 $lang['enable_sync'] = 'समक्रमित सक्षम करा';
 $lang['disable_sync'] = 'समक्रमित अक्षम कर';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'रीलोड करा';
 $lang['appointment'] = 'अपॉइंटमेंट';
 $lang['unavailable'] = 'अनुपलब्ध';

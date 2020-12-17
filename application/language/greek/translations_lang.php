@@ -60,6 +60,7 @@ $lang['log_out'] = 'Αποσύνδεση';
 $lang['synchronize'] = 'Συγχρονισμός';
 $lang['enable_sync'] = 'Ενεργοποίηση Συγχρ.';
 $lang['disable_sync'] = 'Απενεργοποίηση Συγχρ.';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Επαναφόρτωση';
 $lang['appointment'] = 'Ραντεβού';
 $lang['unavailable'] = 'Μη Διαθέσιμος';

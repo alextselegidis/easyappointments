@@ -87,9 +87,24 @@ class Providers extends API_V1_Controller {
             $provider = $request->get_body();
             $this->parser->decode($provider);
 
-            if (isset($provider['id']))
+            if (array_key_exists('id', $provider))
             {
                 unset($provider['id']);
+            }
+
+            if ( ! array_key_exists('services', $provider))
+            {
+                throw new Exception('No services property provided.');
+            }
+
+            if ( ! array_key_exists('settings', $provider))
+            {
+                throw new Exception('No settings property provided.');
+            }
+
+            if ( ! array_key_exists('working_plan', $provider['settings']['working_plan']))
+            {
+                $provider['settings']['working_plan'] = $this->settings_model->get_setting('company_working_plan');
             }
 
             $id = $this->providers_model->add($provider);

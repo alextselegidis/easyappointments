@@ -82,11 +82,11 @@ class Backend_api extends EA_Controller {
                 ])
             ];
 
-            foreach ($response['appointments'] as $index => $appointment)
+            foreach ($response['appointments'] as &$appointment)
             {
-                $response['appointments'][$index]['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
-                $response['appointments'][$index]['service'] = $this->services_model->get_row($appointment['id_services']);
-                $response['appointments'][$index]['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
+                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
 
             $user_id = $this->session->userdata('user_id');
@@ -218,6 +218,11 @@ class Backend_api extends EA_Controller {
                 $response['unavailables'] = $this->appointments_model->get_batch($where_clause);
             }
 
+            foreach ($response['unavailables'] as &$unavailable)
+            {
+                $unavailable['provider'] = $this->providers_model->get_row($unavailable['id_users_provider']);
+            }
+
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode($response));
@@ -281,16 +286,6 @@ class Backend_api extends EA_Controller {
                 {
                     $appointment['id_users_customer'] = $customer['id'];
                 }
-
-                $provider_timezone = $this->user_model->get_user_timezone($appointment['id_users_provider']);
-
-                $session_timezone = $this->timezones->get_session_timezone();
-
-                $appointment['start_datetime'] = $this->timezones->convert($appointment['start_datetime'],
-                    $session_timezone, $provider_timezone);
-
-                $appointment['end_datetime'] = $this->timezones->convert($appointment['end_datetime'],
-                    $session_timezone, $provider_timezone);
 
                 $appointment['id'] = $this->appointments_model->add($appointment);
             }
@@ -565,8 +560,7 @@ class Backend_api extends EA_Controller {
 
             foreach ($customers as &$customer)
             {
-                $appointments = $this->appointments_model
-                    ->get_batch(['id_users_customer' => $customer['id']]);
+                $appointments = $this->appointments_model->get_batch(['id_users_customer' => $customer['id']]);
 
                 foreach ($appointments as &$appointment)
                 {
@@ -615,16 +609,6 @@ class Backend_api extends EA_Controller {
             $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
 
             // Add appointment
-            $provider_timezone = $this->user_model->get_user_timezone($unavailable['id_users_provider']);
-
-            $session_timezone = $this->timezones->get_session_timezone();
-
-            $unavailable['start_datetime'] = $this->timezones->convert($unavailable['start_datetime'],
-                $session_timezone, $provider_timezone);
-
-            $unavailable['end_datetime'] = $this->timezones->convert($unavailable['end_datetime'],
-                $session_timezone, $provider_timezone);
-
             $unavailable['id'] = $this->appointments_model->add_unavailable($unavailable);
             $unavailable = $this->appointments_model->get_row($unavailable['id']); // fetch all inserted data
 

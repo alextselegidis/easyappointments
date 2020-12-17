@@ -363,7 +363,9 @@
                             <div class="col-12 col-md-6">
                                 <h4 class="captcha-title">
                                     CAPTCHA
-                                    <small class="fas fa-sync-alt"></small>
+                                    <button class="btn btn-link text-dark text-decoration-none py-0">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
                                 </h4>
                                 <img class="captcha-image" src="<?= site_url('captcha') ?>">
                                 <input class="captcha-text form-control" type="text" value=""/>

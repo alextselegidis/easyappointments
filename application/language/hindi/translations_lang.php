@@ -60,6 +60,7 @@ $lang['log_out'] = 'लॉग आउट';
 $lang['synchronize'] = 'सिंक्रनाइज़';
 $lang['enable_sync'] = 'सिंक सक्षम करें';
 $lang['disable_sync'] = 'सिंक अक्षम करें';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'रीलोड';
 $lang['appointment'] = 'अपॉइंटमेंट';
 $lang['unavailable'] = 'अनुपलब्ध';

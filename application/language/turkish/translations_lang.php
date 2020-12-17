@@ -60,6 +60,7 @@ $lang['log_out'] = 'Çıkış';
 $lang['synchronize'] = 'Eşitle';
 $lang['enable_sync'] = 'Eşitlemeyi Aç';
 $lang['disable_sync'] = 'Eşitlemeyi Kapat';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Tekrar Yükle';
 $lang['appointment'] = 'Randevu';
 $lang['unavailable'] = 'Uygun Değil';

@@ -1,4 +1,4 @@
-#FAQ 
+# FAQ 
 
 ## How do I check that my server has Apache, Php and MySQL already installed?
 
@@ -54,6 +54,6 @@ You get this warning because PHP is not configured with a timezone setting. This
  `date_default_timezone_set('America/Los_Angeles'); // Use your own timezone string.`
 
 
-*This document applies to Easy!Appointments v1.4.0.*
+*This document applies to Easy!Appointments v1.4.1.*
 
 [Back](readme.md)

@@ -60,6 +60,7 @@ $lang['log_out'] = 'Kijelentkezés';
 $lang['synchronize'] = 'Szinkronizálás';
 $lang['enable_sync'] = 'Szinkronizálás engedélyezése';
 $lang['disable_sync'] = 'Szinkronizálás tiltása';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Frissít';
 $lang['appointment'] = 'Időpont';
 $lang['unavailable'] = 'Nem áll rendelkezésre';

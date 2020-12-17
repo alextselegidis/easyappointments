@@ -14,6 +14,6 @@ Easy!Appointments is based upon CodeIgniter (PHP Framework) and it uses its buil
 
 Follow these steps in order to add or adjust your translations and modify the message of the user interface of Easy!Appointments. If you want contribute to the translation process of Easy!Appointments please read the [Get Involved](https://github.com/alextselegidis/easyappointments/wiki/Get-Involved!) wiki page for more information. Please share your translations with the user community. 
 
-*This document applies to Easy!Appointments v1.4.0.*
+*This document applies to Easy!Appointments v1.4.1.*
 
 [Back](readme.md)

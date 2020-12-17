@@ -29,9 +29,9 @@ class Categories implements ParsersInterface {
     public function encode(array &$response)
     {
         $encoded_response = [
-            'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
+            'id' => array_key_exists('id', $response) ? (int)$response['id'] : NULL,
             'name' => $response['name'],
-            'description' => $response['description']
+            'description' => array_key_exists('description', $response) ? $response['description'] : NULL
         ];
 
         $response = $encoded_response;
@@ -47,17 +47,17 @@ class Categories implements ParsersInterface {
     {
         $decoded_request = $base ?: [];
 
-        if ( ! empty($request['id']))
+        if (array_key_exists('id', $request))
         {
             $decoded_request['id'] = $request['id'];
         }
 
-        if ( ! empty($request['name']))
+        if (array_key_exists('name', $request))
         {
             $decoded_request['name'] = $request['name'];
         }
 
-        if ( ! empty($request['description']))
+        if (array_key_exists('description', $request))
         {
             $decoded_request['description'] = $request['description'];
         }

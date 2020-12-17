@@ -29,7 +29,7 @@ class Customers implements ParsersInterface {
     public function encode(array &$response)
     {
         $encoded_response = [
-            'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
+            'id' => array_key_exists('id', $response) ? (int)$response['id'] : NULL,
             'firstName' => $response['first_name'],
             'lastName' => $response['last_name'],
             'email' => $response['email'],
@@ -53,47 +53,47 @@ class Customers implements ParsersInterface {
     {
         $decoded_request = $base ?: [];
 
-        if ( ! empty($request['id']))
+        if ( array_key_exists('id', $request))
         {
             $decoded_request['id'] = $request['id'];
         }
 
-        if ( ! empty($request['firstName']))
+        if ( array_key_exists('firstName', $request))
         {
             $decoded_request['first_name'] = $request['firstName'];
         }
 
-        if ( ! empty($request['lastName']))
+        if ( array_key_exists('lastName', $request))
         {
             $decoded_request['last_name'] = $request['lastName'];
         }
 
-        if ( ! empty($request['email']))
+        if ( array_key_exists('email', $request))
         {
             $decoded_request['email'] = $request['email'];
         }
 
-        if ( ! empty($request['phone']))
+        if ( array_key_exists('phone', $request))
         {
             $decoded_request['phone_number'] = $request['phone'];
         }
 
-        if ( ! empty($request['address']))
+        if ( array_key_exists('address', $request))
         {
             $decoded_request['address'] = $request['address'];
         }
 
-        if ( ! empty($request['city']))
+        if ( array_key_exists('city', $request))
         {
             $decoded_request['city'] = $request['city'];
         }
 
-        if ( ! empty($request['zip']))
+        if ( array_key_exists('zip', $request))
         {
             $decoded_request['zip_code'] = $request['zip'];
         }
 
-        if ( ! empty($request['notes']))
+        if ( array_key_exists('notes', $request))
         {
             $decoded_request['notes'] = $request['notes'];
         }

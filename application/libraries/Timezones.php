@@ -13,10 +13,6 @@
 
 /**
  * Timezones
- *
- * @property CI_Loader $load
- *
- * @package Models
  */
 class Timezones {
     /**
@@ -483,36 +479,6 @@ class Timezones {
     {
         return $this->timezones;
     }
-
-    /**
-     * Convert the dates of an event to the timezone of the user.
-     *
-     * @param array $event Must contain the "start_datetime", "end_datetime" and "id_users_provider" properties.
-     *
-     * @return array
-     *
-     * @throws Exception
-     */
-    public function convert_event_timezone($event)
-    {
-        if ( ! isset($event['start_datetime'], $event['end_datetime'], $event['id_users_provider']))
-        {
-            throw new Exception('The provided event does not have the required properties: ' . print_r($event));
-        }
-
-        $user_timezone = $this->CI->user_model->get_user_timezone($event['id_users_provider']);
-
-        $session_timezone = $this->get_session_timezone();
-
-        $event['start_datetime'] = $this->convert($event['start_datetime'],
-            $user_timezone, $session_timezone);
-
-        $event['end_datetime'] = $this->convert($event['end_datetime'],
-            $user_timezone, $session_timezone);
-
-        return $event;
-    }
-
 
     /**
      * Returns the session timezone or the default timezone as a fallback.

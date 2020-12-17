@@ -81,31 +81,50 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                             }
                         }
                     } catch (Error) {
-                        // Accessing the document object before the window is loaded throws an error, but
-                        // it will only happen during the initialization of the window. Attaching "load"
-                        // event handling is not possible due to CORS restrictions.
+                        // Accessing the document object before the window is loaded throws an error, but it will only
+                        // happen during the initialization of the window. Attaching "load" event handling is not
+                        // possible due to CORS restrictions.
                     }
                 }, 100);
 
             } else {
-                // Disable synchronization for selected provider.
-                // Update page elements and make an AJAX call to remove the google sync setting of the
-                // selected provider.
-                var providerId = $('#select-filter-item').val();
+                var buttons = [
+                    {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
+                        text: 'OK',
+                        click: function () {
+                            // Disable synchronization for selected provider.
+                            var providerId = $('#select-filter-item').val();
 
-                var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
-                    return Number(availableProvider.id) === Number(providerId);
-                });
+                            var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
+                                return Number(availableProvider.id) === Number(providerId);
+                            });
 
-                provider.settings.google_sync = '0';
-                provider.settings.google_token = null;
+                            if (!provider) {
+                                throw new Error('Provider not found: ' + providerId);
+                            }
 
-                disableProviderSync(provider.id);
+                            provider.settings.google_sync = '0';
+                            provider.settings.google_token = null;
 
-                $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
-                $('#enable-sync span').text(EALang.enable_sync);
-                $('#google-sync').prop('disabled', true);
-                $('#select-filter-item option:selected').attr('google-sync', 'false');
+                            disableProviderSync(provider.id);
+
+                            $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
+                            $('#enable-sync span').text(EALang.enable_sync);
+                            $('#google-sync').prop('disabled', true);
+                            $('#select-filter-item option:selected').attr('google-sync', 'false');
+
+                            $('#message-box').dialog('close');
+                        }
+                    }
+                ];
+
+                GeneralFunctions.displayMessageBox(EALang.disable_sync, EALang.disable_sync_prompt, buttons);
             }
         });
 
@@ -158,8 +177,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
      * @param {Number} providerId The selected provider record ID.
      */
     function disableProviderSync(providerId) {
-        // Make an ajax call to the server in order to disable the setting
-        // from the database.
+        // Make an ajax call to the server in order to disable the setting from the database.
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
 
         var data = {

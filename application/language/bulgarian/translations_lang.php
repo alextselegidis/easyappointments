@@ -60,6 +60,7 @@ $lang['log_out'] = 'Изход';
 $lang['synchronize'] = 'синхронизиране';
 $lang['enable_sync'] = 'Активиране на синхронизиране';
 $lang['disable_sync'] = 'Изключване на синхронизиране';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Презареждане';
 $lang['appointment'] = 'Час';
 $lang['unavailable'] = 'не е на лице';

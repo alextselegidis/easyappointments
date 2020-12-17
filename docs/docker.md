@@ -45,6 +45,6 @@ You can remove the docker containers with `docker rm easyappointments-server eas
 
 You can remove the server image with `docker rmi easyappointments-server:v1`.
 
-*This document applies to Easy!Appointments v1.4.0.*
+*This document applies to Easy!Appointments v1.4.1.*
 
 [Back](readme.md)

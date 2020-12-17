@@ -28,6 +28,7 @@
     "bootstrap": "^4.5.3",
     "cookieconsent": "^3.1.1",
     "datejs": "0.0.2",
+    "del": "^6.0.0",
     "fullcalendar": "^3.10.2",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.0",

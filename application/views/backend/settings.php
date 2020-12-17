@@ -530,7 +530,7 @@
                     <?= lang('project_issues') ?>
                 </a>
                 |
-                <a href="https://www.facebook.com/easyappointments.org">
+                <a href="https://facebook.com/easyappts">
                     Facebook
                 </a>
                 |

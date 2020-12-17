@@ -181,7 +181,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var successCallback = function () {
                     Backend.displayNotification(EALang.working_plan_exception_deleted);
 
-                    var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions) || {};
+                    var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
                     delete workingPlanExceptions[date];
 
                     for (var index in GlobalVariables.availableProviders) {
@@ -228,7 +228,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         }
                     }
                 ];
-
 
                 GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
                     EALang.write_appointment_removal_reason, buttons);
@@ -1069,7 +1068,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
                     if (unavailable.notes && unavailable.notes.length > 30) {
-                        notes = unavilable.notes.substring(0, 30) + '...'
+                        notes = unavailable.notes.substring(0, 30) + '...';
                     }
 
                     var unavailabilityEvent = {
@@ -1099,8 +1098,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         throw new Error('Provider was not found.');
                     }
 
-                    var workingPlan = jQuery.parseJSON(provider.settings.working_plan);
-                    var workingPlanExceptions = jQuery.parseJSON(provider.settings.working_plan_exceptions);
+                    var workingPlan = JSON.parse(provider.settings.working_plan);
+                    var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
                     var unavailabilityEvent;
                     var viewStart;
                     var viewEnd;
@@ -1412,7 +1411,6 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         // Initialize page calendar
         $('#calendar').fullCalendar({
-            nowIndicator: true,
             defaultView: defaultView,
             height: getCalendarHeight(),
             editable: true,
@@ -1568,11 +1566,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }
 
         if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
-            $('#select-filter-item optgroup:eq(1)').remove();
-        }
-
-        if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
+            $('#select-filter-item optgroup:eq(1)').remove();
+
             $('#select-filter-item option[type="provider"]').each(function (index, option) {
                 var provider = GlobalVariables.secretaryProviders.find(function (secretaryProviderId) {
                     return Number($(option).val()) === Number(secretaryProviderId);

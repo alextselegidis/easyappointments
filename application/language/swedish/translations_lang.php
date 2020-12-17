@@ -60,6 +60,7 @@ $lang['log_out'] = 'Logga ut';
 $lang['synchronize'] = 'Synkronisera';
 $lang['enable_sync'] = 'Aktivera';
 $lang['disable_sync'] = 'Deaktivera';
+$lang['disable_sync_prompt'] = 'Are you sure that you want to disable the calendar synchronization?';
 $lang['reload'] = 'Uppdatera';
 $lang['appointment'] = 'Bokning';
 $lang['unavailable'] = 'Inte tillgänglig';

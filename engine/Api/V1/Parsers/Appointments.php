@@ -29,7 +29,7 @@ class Appointments implements ParsersInterface {
     public function encode(array &$response)
     {
         $encoded_response = [
-            'id' => $response['id'] !== NULL ? (int)$response['id'] : NULL,
+            'id' => array_key_exists('id', $response) ? (int)$response['id'] : NULL,
             'book' => $response['book_datetime'],
             'start' => $response['start_datetime'],
             'end' => $response['end_datetime'],
@@ -76,57 +76,57 @@ class Appointments implements ParsersInterface {
     {
         $decoded_request = $base ?: [];
 
-        if ( ! empty($request['id']))
+        if (array_key_exists('id', $request))
         {
             $decoded_request['id'] = $request['id'];
         }
 
-        if ( ! empty($request['book']))
+        if (array_key_exists('book', $request))
         {
             $decoded_request['book_datetime'] = $request['book'];
         }
 
-        if ( ! empty($request['start']))
+        if (array_key_exists('start', $request))
         {
             $decoded_request['start_datetime'] = $request['start'];
         }
 
-        if ( ! empty($request['end']))
+        if (array_key_exists('end', $request))
         {
             $decoded_request['end_datetime'] = $request['end'];
         }
 
-        if ( ! empty($request['hash']))
+        if (array_key_exists('hash', $request))
         {
             $decoded_request['hash'] = $request['hash'];
         }
 
-        if ( ! empty($request['location']))
+        if (array_key_exists('location', $request))
         {
             $decoded_request['location'] = $request['location'];
         }
 
-        if ( ! empty($request['notes']))
+        if (array_key_exists('notes', $request))
         {
             $decoded_request['notes'] = $request['notes'];
         }
 
-        if ( ! empty($request['customerId']))
+        if (array_key_exists('customerId', $request))
         {
             $decoded_request['id_users_customer'] = $request['customerId'];
         }
 
-        if ( ! empty($request['providerId']))
+        if (array_key_exists('providerId', $request))
         {
             $decoded_request['id_users_provider'] = $request['providerId'];
         }
 
-        if ( ! empty($request['serviceId']))
+        if (array_key_exists('serviceId', $request))
         {
             $decoded_request['id_services'] = $request['serviceId'];
         }
 
-        if ( ! empty($request['googleCalendarId']))
+        if (array_key_exists('googleCalendarId', $request))
         {
             $decoded_request['id_google_calendar'] = $request['googleCalendarId'];
         }

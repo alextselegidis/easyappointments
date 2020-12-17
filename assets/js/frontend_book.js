@@ -249,28 +249,28 @@ window.FrontendBook = window.FrontendBook || {};
          * Some special tasks might be performed, depending the current wizard step.
          */
         $('.button-next').on('click', function () {
-            // If we are on the first step and there is not provider selected do not continue
-            // with the next step.
+            // If we are on the first step and there is not provider selected do not continue with the next step.
             if ($(this).attr('data-step_index') === '1' && !$('#select-provider').val()) {
                 return;
             }
 
-            // If we are on the 2nd tab then the user should have an appointment hour
-            // selected.
+            // If we are on the 2nd tab then the user should have an appointment hour selected.
             if ($(this).attr('data-step_index') === '2') {
                 if (!$('.selected-hour').length) {
                     if (!$('#select-hour-prompt').length) {
-                        $('#available-hours').append('<br><br>'
-                            + '<span id="select-hour-prompt" class="text-danger">'
-                            + EALang.appointment_hour_missing
-                            + '</span>');
+                        $('<div/>', {
+                            'id': 'select-hour-prompt',
+                            'class': 'text-danger mb-4',
+                            'text': EALang.appointment_hour_missing,
+                        })
+                            .prependTo('#available-hours');
                     }
                     return;
                 }
             }
 
-            // If we are on the 3rd tab then we will need to validate the user's
-            // input before proceeding to the next step.
+            // If we are on the 3rd tab then we will need to validate the user's input before proceeding to the next
+            // step.
             if ($(this).attr('data-step_index') === '3') {
                 if (!validateCustomerForm()) {
                     return; // Validation failed, do not continue.
@@ -433,7 +433,7 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('.captcha-title svg').on('click', function (event) {
+        $('.captcha-title button').on('click', function (event) {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 
@@ -700,6 +700,9 @@ window.FrontendBook = window.FrontendBook || {};
             $('#address').val(customer.address);
             $('#city').val(customer.city);
             $('#zip-code').val(customer.zip_code);
+            if (customer.timezone) {
+                $('#select-timezone').val(customer.timezone)
+            }
             var appointmentNotes = (appointment.notes !== null)
                 ? appointment.notes : '';
             $('#notes').val(appointmentNotes);
