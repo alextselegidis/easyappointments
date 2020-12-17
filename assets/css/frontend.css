@@ -384,7 +384,7 @@ body {
 #success-frame .btn {
     margin-bottom: 10px;
     width: 80%;
-    max-width: 250px;
+    max-width: 300px;
 }
 
 @media (min-width: 768px) {
