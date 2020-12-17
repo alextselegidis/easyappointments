@@ -73,11 +73,14 @@ gulp.task('package', (done) => {
 
     fs.removeSync('build/composer.lock');
 
-    del.sync('**/.DS_Store')
+    del.sync('**/.DS_Store');
+
+    del.sync('build/vendor/codeigniter/framework/user_guide');
 
     zip('build', {saveTo: archive}, function (err) {
-        if (err)
+        if (err) {
             console.log('Zip Error', err);
+        }
 
         done();
     });
