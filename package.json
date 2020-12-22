@@ -49,7 +49,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
     "jsdoc": "^3.6.6",
-    "node-notifier": "^5.4.3",
+    "node-notifier": "^8.0.1",
     "plato": "^1.7.0",
     "zip-dir": "^1.0.2"
   },
