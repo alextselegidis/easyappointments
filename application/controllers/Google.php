@@ -184,7 +184,20 @@ class Google extends EA_Controller {
 
                 if ($google_event->getStart()->getDateTime() === $google_event->getEnd()->getDateTime())
                 {
-                    continue; // Skip all day events
+                    $event_start = new DateTime($google_event->getStart()->getDate());
+                    date_time_set($event_start, 0, 0);
+                    $event_start->setTimezone($provider_timezone);
+                    $event_end = new DateTime($google_event->getEnd()->getDate());
+                    date_modify($event_end, '-1 day');
+                    date_time_set($event_end, 23, 59);
+                    $event_end->setTimezone($provider_timezone);
+                }
+                else
+                {
+                    $event_start = new DateTime($google_event->getStart()->getDateTime());
+                    $event_start->setTimezone($provider_timezone);
+                    $event_end = new DateTime($google_event->getEnd()->getDateTime());
+                    $event_end->setTimezone($provider_timezone);
                 }
 
                 $results = $CI->appointments_model->get_batch(['id_google_calendar' => $google_event->getId()]);
@@ -194,10 +207,6 @@ class Google extends EA_Controller {
                     continue;
                 }
 
-                $event_start = new DateTime($google_event->getStart()->getDateTime());
-                $event_start->setTimezone($provider_timezone);
-                $event_end = new DateTime($google_event->getEnd()->getDateTime());
-                $event_end->setTimezone($provider_timezone);
 
                 // Record doesn't exist in the Easy!Appointments, so add the event now.
                 $appointment = [
