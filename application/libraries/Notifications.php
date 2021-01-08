@@ -130,7 +130,7 @@ class Notifications {
                     continue;
                 }
 
-                if (in_array($provider['id'], $secretary['providers']))
+                if (!in_array($provider['id'], $secretary['providers']))
                 {
                     continue;
                 }
@@ -209,7 +209,7 @@ class Notifications {
                     continue;
                 }
 
-                if (in_array($provider['id'], $secretary['providers']))
+                if (!in_array($provider['id'], $secretary['providers']))
                 {
                     continue;
                 }
