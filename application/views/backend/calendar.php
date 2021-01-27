@@ -220,7 +220,36 @@
                                     </label>
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
+                          
+                                <div class="form-group">
+                                    <label class="my-1 mr-2" for="appointment-bg-color">Color</label>
+                                    
+                                    <div class="form-control text-center">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="colorOption" id="colorRadio1"  value="#FCA5A5">
+                                            <label class="form-check-label" for="inlineRadio1"  style="background-color:#FCA5A5;color:transparent;">KO</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="colorOption" id="colorRadio2" value="#93C5FD" >
+                                            <label class="form-check-label" for="inlineRadio2" style="background-color:#93C5FD;color:transparent;">KO</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="colorOption" id="colorRadio3" value="#C4B5FD">
+                                            <label class="form-check-label" for="inlineRadio3" style="background-color:#C4B5FD;color:transparent">KO</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="colorOption" id="colorRadio4" value="#a0d468">
+                                            <label class="form-check-label" for="inlineRadio1" style="background-color:#a0d468;color:transparent">KO</label>
+                                        </div>
+                                    </div>
 
+                                <!-- Or a color picker
+
+                                    <input type="color" class="form-control" id="bg-color-input" value="#93CFD2">
+
+                                -->
+                                </div>
+                                
                                 <div class="form-group">
                                     <label for="appointment-location" class="control-label">
                                         <?= lang('location') ?>
