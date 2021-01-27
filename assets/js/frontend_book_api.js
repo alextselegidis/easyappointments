@@ -75,7 +75,12 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     var providerId = $('#select-provider').val();
 
                     if (providerId === 'any-provider') {
-                        providerId = GlobalVariables.availableProviders[0].id; // Use first available provider.
+                        for (var availableProvider of GlobalVariables.availableProviders) {
+                            if (availableProvider.services.indexOf(serviceId) !== -1) {
+                                providerId = availableProvider.id; // Use first available provider.
+                                break;
+                            }
+                        }
                     }
 
                     var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
