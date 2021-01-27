@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_Create_appointment_location_column
+ * Class Migration_Create_appointment_bg_color_column
  *
  * @property CI_DB_query_builder $db
  * @property CI_DB_forge $dbforge
