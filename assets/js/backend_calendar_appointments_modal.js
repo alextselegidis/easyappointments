@@ -61,6 +61,8 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 start_datetime: startDatetime,
                 end_datetime: endDatetime,
                 location: $dialog.find('#appointment-location').val(),
+                bg_color: $('input[name="colorOption"]:checked').val(),
+              //bg_color: $dialog.find('#bg-color-input').val(), //for color picker
                 notes: $dialog.find('#appointment-notes').val(),
                 is_unavailable: false
             };
@@ -365,7 +367,11 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         var $dialog = $('#manage-appointment');
 
         // Empty form fields.
-        $dialog.find('input, textarea').val('');
+        
+        //$dialog.find('input, textarea').val('');
+        
+        //i had to disable this because the input color option becomes empty...
+        
         $dialog.find('.modal-message').fadeOut();
 
         // Prepare service and provider select boxes.
