@@ -947,6 +947,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 start: moment(appointment.start_datetime),
                 end: moment(appointment.end_datetime),
                 allDay: false,
+                color: appointment.bg_color,
                 data: appointment // Store appointment data for later use.
             });
         }
