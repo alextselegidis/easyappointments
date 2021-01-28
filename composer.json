@@ -40,13 +40,13 @@
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^6.1",
         "codeigniter/framework": "^3.1.6",
-        "jsvrcek/ics": "^0.5.1",
+        "jsvrcek/ics": "^0.8",
         "monolog/monolog": "^1",
         "google/apiclient": "^2.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^7.4"
+        "phpunit/phpunit": "^9"
     },
     "scripts": {
         "test": "php vendor/bin/phpunit tests"
