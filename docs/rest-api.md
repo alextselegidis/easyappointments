@@ -6,7 +6,7 @@ Easy!Appointments offers a flexible REST API that will enables you to handle all
 
 ### Open API Specification (Swagger File)
 
-The project has a ready-made [swagger file](https://github.com/alextselegidis/easyappointments/blob/master/swagger.json) you can download and use in order to create your client. 
+The project has a ready-made [swagger file](https://raw.githubusercontent.com/alextselegidis/easyappointments/master/swagger.yml) you can download and use in order to create your client. 
 
 This file can also be imported into Postman, so that you can quickly get started making requests towards your installation. 
 
