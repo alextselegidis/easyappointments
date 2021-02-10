@@ -368,11 +368,14 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         // Empty form fields.
         
-        //$dialog.find('input, textarea').val('');
-        
-        //i had to disable this because the input color option becomes empty...
-        
+        $dialog.find('input, textarea').val('');
         $dialog.find('.modal-message').fadeOut();
+
+        // prepare colors
+        $dialog.find('#colorRadio1').val('#FCA5A5');
+        $dialog.find('#colorRadio2').val('#93C5FD');
+        $dialog.find('#colorRadio3').val('#C4B5FD');
+        $dialog.find('#colorRadio4').val('#a0d468');
 
         // Prepare service and provider select boxes.
         $dialog.find('#select-service').val(
