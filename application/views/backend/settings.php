@@ -108,6 +108,7 @@
                                 </label>
                                 <select class="form-control" id="date-format" data-field="date_format">
                                     <option value="DMY">DMY</option>
+                                    <option value="DDMY">DDMY</option>
                                     <option value="MDY">MDY</option>
                                     <option value="YMD">YMD</option>
                                 </select>

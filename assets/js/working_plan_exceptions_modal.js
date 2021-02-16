@@ -305,6 +305,10 @@ $(function () {
                 dateFormat = 'dd/mm/yy';
                 break;
 
+            case 'DDMY':
+                dateFormat = 'dd.mm.yy';
+                break;
+
             case 'MDY':
                 dateFormat = 'mm/dd/yy';
                 break;

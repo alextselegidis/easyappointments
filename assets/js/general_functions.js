@@ -356,7 +356,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * Format a given date according to the date format setting.
      *
      * @param {String} date The date to be formatted.
-     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "MDY" or "YMD".
+     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "DDMY", "MDY" or "YMD".
      * @param {Boolean} addHours (optional) Whether to add hours to the result.
 
      * @return {String} Returns the formatted date string.
@@ -374,6 +374,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         switch (dateFormatSetting) {
             case 'DMY':
                 result = parsedDate.toString('dd/MM/yyyy' + hours);
+                break;
+            case 'DDMY':
+                result = parsedDate.toString('dd.MM.yyyy' + hours);
                 break;
             case 'MDY':
                 result = parsedDate.toString('MM/dd/yyyy' + hours);
@@ -609,7 +612,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * Format a given date according to ISO 8601 date format string yyyy-mm-dd
      *
      * @param {String} date The date to be formatted.
-     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "MDY" or "YMD".
+     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "DDMY", "MDY" or "YMD".
      *
      * @return {String} Returns the formatted date string.
      */
@@ -621,6 +624,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         switch (dateFormatSetting) {
             case 'DMY':
                 dayArray = date.split('/');
+                date = dayArray[2] + '-' + dayArray[1] + '-' + dayArray[0];
+                break;
+            case 'DDMY':
+                dayArray = date.split('.');
                 date = dayArray[2] + '-' + dayArray[1] + '-' + dayArray[0];
                 break;
             case 'MDY':

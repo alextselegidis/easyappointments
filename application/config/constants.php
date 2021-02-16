@@ -72,6 +72,7 @@ define('PRIV_SYSTEM_SETTINGS', 'system_settings');
 define('PRIV_USER_SETTINGS', 'user_settings');
 
 define('DATE_FORMAT_DMY', 'DMY');
+define('DATE_FORMAT_DDMY', 'DDMY');
 define('DATE_FORMAT_MDY', 'MDY');
 define('DATE_FORMAT_YMD', 'YMD');
 

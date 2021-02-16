@@ -103,6 +103,9 @@ class Email {
             case 'DMY':
                 $date_format = 'd/m/Y';
                 break;
+            case 'DDMY':
+                $date_format = 'd.m.Y';
+                break;
             case 'MDY':
                 $date_format = 'm/d/Y';
                 break;
@@ -206,6 +209,9 @@ class Email {
         {
             case 'DMY':
                 $date_format = 'd/m/Y';
+                break;
+            case 'DDMY':
+                $date_format = 'd.m.Y';
                 break;
             case 'MDY':
                 $date_format = 'm/d/Y';

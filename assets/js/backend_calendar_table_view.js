@@ -378,6 +378,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 dateFormat = 'dd/mm/yy';
                 break;
 
+            case 'DDMY':
+                dateFormat = 'dd.mm.yy';
+                break;
+
             case 'MDY':
                 dateFormat = 'mm/dd/yy';
                 break;
@@ -665,6 +669,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         switch (GlobalVariables.dateFormat) {
             case 'DMY':
                 columnFormat = 'ddd D/M';
+                break;
+
+            case 'DDMY':
+                columnFormat = 'dddd, D.M.';
                 break;
 
             case 'MDY':
