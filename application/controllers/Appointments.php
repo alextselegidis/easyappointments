@@ -340,9 +340,8 @@ class Appointments extends EA_Controller {
             // that will provide the requested service.
             if ($provider_id === ANY_PROVIDER)
             {
-                $provider_id = $this->search_any_provider($selected_date, $service_id);
-
-                if ($provider_id === NULL)
+                $provider_ids = $this->search_all_provider($selected_date, $service_id);
+                if (count($provider_ids) == 0)
                 {
                     $this->output
                         ->set_content_type('application/json')
@@ -350,13 +349,26 @@ class Appointments extends EA_Controller {
 
                     return;
                 }
+
+                $hours = [];
+                foreach ($provider_ids as $p_id) {
+                    $service = $this->services_model->get_row($service_id);
+                    $provider = $this->providers_model->get_row($p_id);
+
+                    $availability = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id);
+                    $hours = array_merge($hours, $availability);
+                }
+
+                sort($hours);
+                $unique_hours = array_unique($hours);
+                $response = array_values($unique_hours);
+            } else {
+                $service = $this->services_model->get_row($service_id);
+
+                $provider = $this->providers_model->get_row($provider_id);
+
+                $response = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id);
             }
-
-            $service = $this->services_model->get_row($service_id);
-
-            $provider = $this->providers_model->get_row($provider_id);
-
-            $response = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id);
         }
         catch (Exception $exception)
         {
@@ -374,26 +386,25 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * Search for any provider that can handle the requested service.
+     * Search for all providers that can handle the requested service.
      *
-     * This method will return the database ID of the provider with the most available periods.
+     * This method will return the database ID of all the providers available.
      *
      * @param string $date The date to be searched (Y-m-d).
      * @param int $service_id The requested service ID.
      *
-     * @return int Returns the ID of the provider that can provide the service at the selected date.
+     * @return array Returns the IDs of the providers that can provide the service at the selected date.
      *
      * @throws Exception
      */
-    protected function search_any_provider($date, $service_id)
+
+    protected function search_all_provider($date, $service_id)
     {
         $available_providers = $this->providers_model->get_available_providers();
 
         $service = $this->services_model->get_row($service_id);
 
-        $provider_id = NULL;
-
-        $max_hours_count = 0;
+        $provider_id = [];
 
         foreach ($available_providers as $provider)
         {
@@ -404,10 +415,9 @@ class Appointments extends EA_Controller {
                     // Check if the provider is available for the requested date.
                     $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 
-                    if (count($available_hours) > $max_hours_count)
+                    if (count($available_hours) > 0)
                     {
-                        $provider_id = $provider['id'];
-                        $max_hours_count = count($available_hours);
+                        array_push($provider_id, $provider['id']);
                     }
                 }
             }
@@ -521,7 +531,7 @@ class Appointments extends EA_Controller {
      *
      * @throws Exception
      */
-    protected function check_datetime_availability()
+    protected function check_datetime_availability($provider_id=NULL)
     {
         $post_data = $this->input->post('post_data');
 
@@ -529,12 +539,21 @@ class Appointments extends EA_Controller {
 
         $date = date('Y-m-d', strtotime($appointment['start_datetime']));
 
+        $appointment['id_users_provider'] = $provider_id === NULL ? $appointment['id_users_provider'] : $provider_id;
+
         if ($appointment['id_users_provider'] === ANY_PROVIDER)
         {
 
-            $appointment['id_users_provider'] = $this->search_any_provider($date, $appointment['id_services']);
+            $providers_id = $this->search_all_provider($date, $appointment['id_services']);
 
-            return $appointment['id_users_provider'];
+            foreach ($providers_id as $provider) {
+                $available_provider = $this->check_datetime_availability($provider);
+                if (!is_null($available_provider)) {
+                    return $available_provider;
+                }
+            }
+
+            return NULL;
         }
 
         $service = $this->services_model->get_row($appointment['id_services']);
