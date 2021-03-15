@@ -88,6 +88,7 @@ class Backend_api extends EA_Controller {
                 $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
+            unset ($appointment);
 
             $user_id = $this->session->userdata('user_id');
             $role_slug = $this->session->userdata('role_slug');
