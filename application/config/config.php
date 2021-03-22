@@ -82,32 +82,40 @@ $config['url_suffix'] = '';
 |
 */
 
-$config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
-    [
-        'ar' => 'arabic',
-        'bu' => 'bulgarian',
-        'zh' => 'chinese',
-        'da' => 'danish',
-        'nl' => 'dutch',
-        'en' => 'english',
-        'fi' => 'finnish',
-        'fr' => 'french',
-        'de' => 'german',
-        'el' => 'greek',
-        'he' => 'hebrew',
-        'hi' => 'hindi',
-        'hu' => 'hungarian',
-        'it' => 'italian',
-        'ja' => 'japanese',
-        'pl' => 'polish',
-        'pt' => 'portuguese',
-        'ro' => 'romanian',
-        'ru' => 'russian',
-        'sk' => 'slovak',
-        'es' => 'spanish',
-        'tr' => 'turkish',
-        'sv' => 'swedish'
-    ][substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)]
+$languages = [
+    'ar' => 'arabic',
+    'bu' => 'bulgarian',
+    'ca' => 'catalan',
+    'zh' => 'chinese',
+    'cs' => 'czech',
+    'da' => 'danish',
+    'nl' => 'dutch',
+    'en' => 'english',
+    'fi' => 'finnish',
+    'fr' => 'french',
+    'de' => 'german',
+    'el' => 'greek',
+    'he' => 'hebrew',
+    'hi' => 'hindi',
+    'hu' => 'hungarian',
+    'it' => 'italian',
+    'ja' => 'japanese',
+    'lb' => 'luxembourgish',
+    'mr' => 'marathi',
+    'pl' => 'polish',
+    'pt' => 'portuguese',
+    'ro' => 'romanian',
+    'ru' => 'russian',
+    'sk' => 'slovak',
+    'es' => 'spanish',
+    'sv' => 'swedish',
+    'tr' => 'turkish',
+];
+
+$language_code = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+$config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
+    ? $languages[$language_code]
     : Config::LANGUAGE;
 
 /*
