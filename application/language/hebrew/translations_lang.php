@@ -1,22 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 // English
 $lang['page_title'] = 'קבע פגישה עם';
-$lang['step_one_title'] = 'בחירת שירות וספק';
+$lang['service_and_provider'] = 'בחירת שירות וספק';
 $lang['select_service'] = 'בחירת שירות';
 $lang['select_provider'] = 'בחירת ספק';
 $lang['duration'] = 'אורך הפגישה';
 $lang['minutes'] = 'דקות';
 $lang['price'] = 'מחיר';
 $lang['back'] = 'חזרה';
-$lang['step_two_title'] = 'בחרו תאריך ושעה לפגישה';
+$lang['appointment_date_and_time'] = 'בחרו תאריך ושעה לפגישה';
 $lang['no_available_hours'] = 'אין שעות פגישה זמינות לתאריך שנבחר. אנא בחר תאריך אחר.';
 $lang['appointment_hour_missing'] = 'יש לבחור פגישה לפני המשך רישום!';
-$lang['step_three_title'] = 'מלאו את הפרטים שלכם';
+$lang['customer_information'] = 'מלאו את הפרטים שלכם';
 $lang['first_name'] = 'שם פרטי';
 $lang['last_name'] = 'שם משפחה';
 $lang['email'] = 'אימייל';
 $lang['phone_number'] = 'מספר טלפון';
-$lang['phone_number'] = 'טלפון';
+$lang['phone'] = 'טלפון';
 $lang['address'] = 'כתובת';
 $lang['city'] = 'עיר';
 $lang['zip_code'] = 'מיקוד';
