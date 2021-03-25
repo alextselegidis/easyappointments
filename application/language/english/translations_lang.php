@@ -110,6 +110,7 @@ $lang['new_unavailable_title'] = 'New Unavailable Period';
 $lang['edit_unavailable_title'] = 'Edit Unavailable Period';
 $lang['unavailable_saved'] = 'Unavailable period saved successfully.';
 $lang['start_date_before_end_error'] = 'Start date value is latter than end date.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Invalid email address.';
 $lang['customers'] = 'Customers';
 $lang['details'] = 'Details';

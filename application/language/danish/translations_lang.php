@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Ny ikke tilgængelig periode';
 $lang['edit_unavailable_title'] = 'Redigere ikke tilgængelig periode';
 $lang['unavailable_saved'] = 'Ikke tilgængelig periode er gemt.';
 $lang['start_date_before_end_error'] = 'Start dato er større end slut dato';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Ugyldig email adresse';
 $lang['customers'] = 'Kunderne';
 $lang['details'] = 'Detaljer';

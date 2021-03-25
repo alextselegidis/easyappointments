@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Nuevo periodo No disponible';
 $lang['edit_unavailable_title'] = 'Editar periodo No disponible';
 $lang['unavailable_saved'] = 'Periodo No disponible guardado exitosamente';
 $lang['start_date_before_end_error'] = 'La fecha del inicio es posterior a la fecha del final';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Dirección de E-mail inválida';
 $lang['customers'] = 'Clientes';
 $lang['details'] = 'Detalles';

@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Nové nedostupné obdobie';
 $lang['edit_unavailable_title'] = 'Upraviť nedostupné obdobie';
 $lang['unavailable_saved'] = 'Nedostupné obdobie úspešne uložené.';
 $lang['start_date_before_end_error'] = 'Dátum začatia je väčší ako dátum konca.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Neplatné emailová adresa.';
 $lang['customers'] = 'Zákazníci';
 $lang['details'] = 'Podrobnosti';

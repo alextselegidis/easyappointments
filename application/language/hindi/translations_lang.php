@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'नए अनुपलब्ध अवधि';
 $lang['edit_unavailable_title'] = 'अनुपलब्ध अवधि संपादित करें';
 $lang['unavailable_saved'] = 'अनुपलब्ध अवधि सफलतापूर्वक बचाया.';
 $lang['start_date_before_end_error'] = 'प्रारंभ दिनांक मान के अंत की तारीख से भी बड़ा है';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'अमान्य ईमेल पता.';
 $lang['customers'] = 'उपभोक्ता';
 $lang['details'] = 'विवरण';

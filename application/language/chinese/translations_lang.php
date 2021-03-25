@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = '新的不可预约时间段';
 $lang['edit_unavailable_title'] = '编辑不可预定时间段';
 $lang['unavailable_saved'] = '不可预定时间段保存成功.';
 $lang['start_date_before_end_error'] = '开始日期数值晚于结束日期.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = '无效电子邮箱地址.';
 $lang['customers'] = '客户';
 $lang['details'] = '详细资料';

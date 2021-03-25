@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Нов неработен период';
 $lang['edit_unavailable_title'] = 'Промяна на неработен период';
 $lang['unavailable_saved'] = 'Неработен период запазен успешно.';
 $lang['start_date_before_end_error'] = 'Стартовият период е по-дълъг от крайната дата.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Невалиден адрес на електронна поща.';
 $lang['customers'] = 'Клиенти';
 $lang['details'] = 'Детайли';

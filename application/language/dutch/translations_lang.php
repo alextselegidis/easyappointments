@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Nieuwe periode waarop men niet beschikbaar is'
 $lang['edit_unavailable_title'] = 'Bewerk beschikbare periode';
 $lang['unavailable_saved'] = 'Onbeschikbaar periode succesvol opgeslagen.';
 $lang['start_date_before_end_error'] = 'De startdatum is later dan de einddatum.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Ongeldig e-mailadres.';
 $lang['customers'] = 'Klanten';
 $lang['details'] = 'Details';

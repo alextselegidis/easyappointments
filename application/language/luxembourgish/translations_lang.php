@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Neien Zäitraum deen net zur Verfügung steet'
 $lang['edit_unavailable_title'] = 'Zäitraum, deen net zur Verfügung steet, änneren';
 $lang['unavailable_saved'] = 'Zäitraum, deen net zur Verfügung steet erfollegräich gespäichert.';
 $lang['start_date_before_end_error'] = 'Den Ufanksdatum ass méi héich wéi de Schlussdatum.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Déi E-Mail-Adresse ass ongülteg.';
 $lang['customers'] = 'Clienten';
 $lang['details'] = 'Detailer';

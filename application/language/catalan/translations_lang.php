@@ -110,6 +110,7 @@ $lang['new_unavailable_title'] = 'Nou període de no disponibilitat';
 $lang['edit_unavailable_title'] = 'Edita el període de no disponibilitat';
 $lang['unavailable_saved'] = 'El període de no disponibilitat s\'ha desat correctament.';
 $lang['start_date_before_end_error'] = 'La data d\'inici és posterior de la de fi.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'L\'adreça de correu electrònic no és vàlida.';
 $lang['customers'] = 'Clients';
 $lang['details'] = 'Detalls';

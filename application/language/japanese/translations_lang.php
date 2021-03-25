@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = '新規の都合悪い時間';
 $lang['edit_unavailable_title'] = '都合悪い時間の編集';
 $lang['unavailable_saved'] = '都合の悪い時間の保存が完了しました。';
 $lang['start_date_before_end_error'] = '開始時間が終了時間よりも後になっています。';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Emailアドレスのフォーマットエラー';
 $lang['customers'] = 'お客様';
 $lang['details'] = '詳細';

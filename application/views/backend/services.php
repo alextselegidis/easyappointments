@@ -116,7 +116,7 @@
                             <?= lang('duration_minutes') ?>
                             <span class="text-danger">*</span>
                         </label>
-                        <input id="service-duration" class="form-control required" type="number" min="15">
+                        <input id="service-duration" class="form-control required" type="number" min="5">
                     </div>
 
                     <div class="form-group">

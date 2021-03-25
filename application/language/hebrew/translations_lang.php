@@ -110,6 +110,7 @@ $lang['new_unavailable_title'] = ' מועד לא זמין חדש';
 $lang['edit_unavailable_title'] = 'עריכת מועד לא זמין';
 $lang['unavailable_saved'] = 'מועד לא זמין נשמר בהצלחה!';
 $lang['start_date_before_end_error'] = 'ערך תאריך ההתחלה גדול מתאריך הסיום!';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'כתובת דוא"ל לא חוקית!';
 $lang['customers'] = 'לקוחות';
 $lang['details'] = 'פרטים';

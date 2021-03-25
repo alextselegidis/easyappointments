@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'فترة غير متاحة جديدة';
 $lang['edit_unavailable_title'] = 'تعديل فترة غير متاحة';
 $lang['unavailable_saved'] = 'تم حفظ الفترة الغير متاحة بنجاح';
 $lang['start_date_before_end_error'] = 'تاريخ البداية أكبر من تاريخ الانتهاء.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'بريد الكتروني غير صحيح';
 $lang['customers'] = 'الزبائن';
 $lang['details'] = 'التفاصيل';

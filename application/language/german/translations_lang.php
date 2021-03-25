@@ -108,6 +108,7 @@ $lang['new_unavailable_title'] = 'Neuer nicht zur Verfügung stehender Zeitraum'
 $lang['edit_unavailable_title'] = 'Nicht zur Verfügung stehenden Zeitraum bearbeiten';
 $lang['unavailable_saved'] = 'Nicht zur Verfügung stehender Zeitraum erfolgreich gespeichert.';
 $lang['start_date_before_end_error'] = 'Das Startdatum ist größer als das Enddatum.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Ungültige E-Mail-Adresse.';
 $lang['customers'] = 'Kunden';
 $lang['details'] = 'Details';

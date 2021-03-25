@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Nowy Niedostępny Okres';
 $lang['edit_unavailable_title'] = 'Edytuj Niedostępny Okres';
 $lang['unavailable_saved'] = 'Niedostępny okres zapisano pomyślnie.';
 $lang['start_date_before_end_error'] = 'Wartość początkowa jest większa niż data końcowa.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Niepoprawny adres email.';
 $lang['customers'] = 'Klienci';
 $lang['details'] = 'Szczegóły';

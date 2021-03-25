@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Perioada de indisponibilitate noua';
 $lang['edit_unavailable_title'] = 'Editeaza perioada de indisponibilitate';
 $lang['unavailable_saved'] = 'Perioada de indisponibilitate a fost salvata.';
 $lang['start_date_before_end_error'] = 'Data de început se afla dupa data de sfârsit.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Adresa de email este invalida.';
 $lang['customers'] = 'Clienti';
 $lang['details'] = 'Detalii';

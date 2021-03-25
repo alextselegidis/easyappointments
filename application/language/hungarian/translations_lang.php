@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Új nem foglalható időpont ';
 $lang['edit_unavailable_title'] = 'Nem foglalható időpont szerkesztése';
 $lang['unavailable_saved'] = 'A nem foglalható időpont sikeresen mentve.';
 $lang['start_date_before_end_error'] = 'A kezdeti időpont későbbre esik, mint vég időpont.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Érvénytelen email cím.';
 $lang['customers'] = 'Vendégek';
 $lang['details'] = 'Részletek';

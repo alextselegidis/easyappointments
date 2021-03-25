@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Uusi poissaolojakso';
 $lang['edit_unavailable_title'] = 'Muokkaa poissaolojaksoa';
 $lang['unavailable_saved'] = 'Poissaolojakso tallennettiin.';
 $lang['start_date_before_end_error'] = 'Aloituspäivämäärä on loppupäivää myöhäisempi.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Virheellinen sähköpostiosoite.';
 $lang['customers'] = 'Asiakkaat';
 $lang['details'] = 'Lisätiedot';

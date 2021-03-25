@@ -105,6 +105,7 @@ $lang['new_unavailable_title'] = 'Yeni Uygun Olmayan Zaman Aralığı';
 $lang['edit_unavailable_title'] = 'Uygun Olmayan Zaman Aralığı Düzenle';
 $lang['unavailable_saved'] = 'Uygun Olmayan Zaman Aralığı Başarıyla Kaydedildi.';
 $lang['start_date_before_end_error'] = 'Başlangıç tarihi bitiş tarihinden büyük olamaz.';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Hatalı eposta adresi.';
 $lang['customers'] = 'Müşteriler';
 $lang['details'] = 'Detaylar';

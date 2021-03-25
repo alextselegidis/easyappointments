@@ -109,6 +109,7 @@ $lang['new_unavailable_title'] = 'Nouvelle période d\'indisponibilité';
 $lang['edit_unavailable_title'] = 'Editer une période d\'indisponibilité';
 $lang['unavailable_saved'] = 'Période d\'indisponibilité sauvegardée avec succès .';
 $lang['start_date_before_end_error'] = 'La date de début est ultérieure à la date de fin .';
+$lang['invalid_duration'] = 'Invalid duration.';
 $lang['invalid_email'] = 'Adresse email non valide .';
 $lang['customers'] = 'Clients';
 $lang['details'] = 'Détails';
