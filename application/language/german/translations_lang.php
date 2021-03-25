@@ -329,3 +329,4 @@ $lang['list'] = 'Liste';
 $lang['default'] = 'Standard';
 $lang['table'] = 'Tabelle';
 $lang['date'] = 'Datum';
+// End

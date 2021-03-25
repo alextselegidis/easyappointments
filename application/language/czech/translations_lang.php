@@ -329,3 +329,4 @@ $lang['list'] = 'Seznam';
 $lang['default'] = 'Výchozí';
 $lang['table'] = 'Tabulka';
 $lang['date'] = 'Datum';
+// End
