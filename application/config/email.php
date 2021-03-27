@@ -9,7 +9,7 @@ $config['protocol'] = 'mail'; // or 'smtp'
 $config['mailtype'] = 'html'; // or 'text'
 
 // $config['smtp_debug'] = '0'; // or '1'
-// $config['smtp_auth'] = 'TRUE'; //or 'FALSE' for anonymous relay
+// $config['smtp_auth'] = TRUE; //or FALSE for anonymous relay NOTE: DONT USE QUOTES ' !
 
 // $config['smtp_host'] = '';
 // $config['smtp_host'] = '';
