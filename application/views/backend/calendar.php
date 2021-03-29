@@ -4,6 +4,7 @@
 <script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/working_plan_periods_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_table_view.js') ?>"></script>
@@ -86,6 +87,11 @@
                             <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
                             <i class="fas fa-plus-square mr-2"></i>
                             <?= lang('working_plan_exception') ?>
+                        </a>
+                        <a class="dropdown-item" href="#" id="insert-working-plan-period"
+                            <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('working_plan_period') ?>
                         </a>
                     </div>
                 </div>
@@ -493,4 +499,5 @@
 <!-- WORKING PLAN EXCEPTIONS MODAL -->
 
 <?php require __DIR__ . '/working_plan_exceptions_modal.php' ?>
+<?php require __DIR__ . '/working_plan_periods_modal.php' ?>
 

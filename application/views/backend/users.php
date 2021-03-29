@@ -4,6 +4,7 @@
 <script src="<?= asset_url('assets/js/backend_users.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/working_plan_periods_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>
@@ -359,6 +360,37 @@
                             </table>
 
                             <?php require __DIR__ . '/working_plan_exceptions_modal.php' ?>
+
+
+                            <br>
+
+                            <h3><?= lang('working_plan_periods') ?></h3>
+
+                            <p>
+                                <?= lang('add_working_plan_period-description') ?>
+                            </p>
+
+                            <div>
+                                <button type="button" class="add-working-plan-period btn btn-primary mr-2">
+                                    <i class="fas fa-plus-square"></i>
+                                    <?= lang('add_working_plan_period') ?>
+                                </button>
+                            </div>
+
+                            <br>
+
+                            <table class="working-plan-periods table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><?= lang('startdate') ?></th>
+                                    <th><?= lang('enddate') ?></th>
+                                    <th><?= lang('actions') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody><!-- Dynamic Content --></tbody>
+                            </table>
+
+                            <?php require __DIR__ . '/working_plan_periods_modal.php' ?>
                         </div>
                     </div>
                 </div>

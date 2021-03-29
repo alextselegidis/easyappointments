@@ -88,7 +88,8 @@ class Backend_api extends EA_Controller {
                 $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
             }
-
+            unset ($appointment);
+            
             $user_id = $this->session->userdata('user_id');
             $role_slug = $this->session->userdata('role_slug');
 
@@ -802,6 +803,96 @@ class Backend_api extends EA_Controller {
             else
             {
                 $response = ['warnings' => 'Error on deleting working plan exception.'];
+            }
+        }
+        catch (Exception $exception)
+        {
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
+    }
+
+
+    /**
+     * Insert of update working plan periods to database.
+     */
+    public function ajax_save_working_plan_period()
+    {
+        try
+        {
+            // Check privileges
+            $required_privileges = $this->privileges[PRIV_USERS]['edit'];
+
+            if ($required_privileges == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            $startdate = $this->input->post('startdate');
+            $working_plan_period = $this->input->post('working_plan_period');
+            $provider_id = $this->input->post('provider_id');
+
+            $success = $this->providers_model->save_working_plan_period($startdate, $working_plan_period, $provider_id);
+
+            if ($success)
+            {
+                $response = AJAX_SUCCESS;
+            }
+            else
+            {
+                $response = ['warnings' => 'Error on saving working plan period.'];
+            }
+        }
+        catch (Exception $exception)
+        {
+            $this->output->set_status_header(500);
+
+            $response = [
+                'message' => $exception->getMessage(),
+                'trace' => config('debug') ? $exception->getTrace() : []
+            ];
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($response));
+    }
+
+    /**
+     * Delete an working plan periods time period to database.
+     */
+    public function ajax_delete_working_plan_period()
+    {
+        try
+        {
+            // Check privileges
+            $required_privileges = $this->privileges[PRIV_USERS]['edit'];
+
+            if ($required_privileges == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
+            $startdate = $this->input->post('startdate');
+            $provider_id = $this->input->post('provider_id');
+
+            $success = $this->providers_model->delete_working_plan_period($startdate, $provider_id);
+
+            if ($success)
+            {
+                $response = AJAX_SUCCESS;
+            }
+            else
+            {
+                $response = ['warnings' => 'Error on deleting working plan period.'];
             }
         }
         catch (Exception $exception)

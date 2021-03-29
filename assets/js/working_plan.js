@@ -192,7 +192,7 @@
      *
      * @param {Object} workingPlanExceptions Contains the working plan exception.
      */
-    WorkingPlan.prototype.setupWorkingPlanExceptions = function (workingPlanExceptions) {
+     WorkingPlan.prototype.setupWorkingPlanExceptions = function (workingPlanExceptions) {
         for (var date in workingPlanExceptions) {
             var workingPlanException = workingPlanExceptions[date];
 
@@ -202,6 +202,21 @@
         }
     };
 
+    /**
+     * Setup the dom elements of a given working plan period.
+     *
+     * @param {Object} workingPlanPeriods Contains the working plan period.
+     */
+         WorkingPlan.prototype.setupWorkingPlanPeriods = function (workingPlanPeriods) {
+            for (var startdate in workingPlanPeriods) {
+                var workingPlanPeriod = workingPlanPeriods[startdate];
+    
+                this
+                    .renderWorkingPlanPeriodRow(startdate, workingPlanPeriod)
+                    .appendTo('.working-plan-periods tbody');
+            }
+        };
+    
     /**
      * Enable editable break day.
      *
@@ -285,14 +300,67 @@
     };
 
     /**
-     * Enable editable break time.
+     * Enable editable Worplan Periods.
      *
-     * This method makes editable the break time cells.
+     * This method makes editable the Period cells.
+     *
+     * @param {String} startdate In "Y-m-d" format.
+     * @param {Object} workingPlanPeriod Contains period information.
+     */
+    WorkingPlan.prototype.renderWorkingPlanPeriodRow = function (startdate, workingPlanPeriod) {
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+
+        return $('<tr/>', {
+            'data': {
+                'startdate': startdate,
+                'workingPlanPeriod': workingPlanPeriod
+            },
+            'html': [
+                $('<td/>', {
+                    'class': 'working-plan-period-startdate',
+                    'text': GeneralFunctions.formatDate(startdate, GlobalVariables.dateFormat, false)
+                }),
+                $('<td/>', {
+                    'class': 'working-plan-period-enddate',
+                    'text': GeneralFunctions.formatDate(workingPlanPeriod.enddate, GlobalVariables.dateFormat, false)
+                }),
+                $('<td/>', {
+                    'html': [
+                        $('<button/>', {
+                            'type': 'button',
+                            'class': 'btn btn-outline-secondary btn-sm edit-working-plan-period',
+                            'title': EALang.edit,
+                            'html': [
+                                $('<span/>', {
+                                    'class': 'fas fa-edit'
+                                })
+                            ]
+                        }),
+                        $('<button/>', {
+                            'type': 'button',
+                            'class': 'btn btn-outline-secondary btn-sm delete-working-plan-period',
+                            'title': EALang.delete,
+                            'html': [
+                                $('<span/>', {
+                                    'class': 'fas fa-trash-alt'
+                                })
+                            ]
+                        }),
+                    ]
+                })
+            ]
+        });
+    };
+
+    /**
+     * Enable editable Worplan Exceptions.
+     *
+     * This method makes editable the Exception cells.
      *
      * @param {String} date In "Y-m-d" format.
      * @param {Object} workingPlanException Contains exception information.
      */
-    WorkingPlan.prototype.renderWorkingPlanExceptionRow = function (date, workingPlanException) {
+     WorkingPlan.prototype.renderWorkingPlanExceptionRow = function (date, workingPlanException) {
         var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
 
         return $('<tr/>', {
@@ -593,6 +661,66 @@
         $(document).on('click', '.delete-working-plan-exception', function () {
             $(this).closest('tr').remove();
         });
+
+
+        /**
+         * Event: Add Working Plan Period Button "Click"
+         *
+         * A new row is added on the table and the user can enter the new working plan period.
+         */
+         $(document).on('click', '.add-working-plan-period', function () {
+            WorkingPlanPeriodsModal
+                .add()
+                .done(function (startdate, workingPlanPeriod) {
+                    var $tr = null;
+
+                    $('.working-plan-periods tbody tr').each(function (index, tr) {
+                        if (startdate === $(tr).data('date')) {
+                            $tr = $(tr);
+                            return false;
+                        }
+                    });
+
+                    var $newTr = this.renderWorkingPlanPeriodRow(startdate, workingPlanPeriod);
+
+                    if ($tr) {
+                        $tr.replaceWith($newTr);
+                    } else {
+                        $newTr.appendTo('.working-plan-periods tbody');
+                    }
+                }.bind(this));
+        }.bind(this));
+
+        /**
+         * Event: Edit working plan period Button "Click"
+         *
+         * Enables the row editing for the "working plan period" table rows.
+         *
+         * @param {jQuery.Event} event
+         */
+        $(document).on('click', '.edit-working-plan-period', function (event) {
+            var $tr = $(event.target).closest('tr');
+            var startdate = $tr.data('startdate');
+            var workingPlanPeriod = $tr.data('workingPlanPeriod');
+
+            WorkingPlanPeriodsModal
+                .edit(startdate, workingPlanPeriod)
+                .done(function (startdate, workingPlanPeriod) {
+                    $tr.replaceWith(
+                        this.renderWorkingPlanPeriodRow(startdate, workingPlanPeriod)
+                    );
+                }.bind(this));
+        }.bind(this));
+
+        /**
+         * Event: Delete working plan period Button "Click"
+         *
+         * Removes the current line from the "working plan periods" table.
+         */
+        $(document).on('click', '.delete-working-plan-period', function () {
+            $(this).closest('tr').remove();
+        });
+
     };
 
     /**
@@ -656,6 +784,23 @@
         return workingPlanExceptions;
     };
 
+
+    /**
+     * Get the working plan periods settings.
+     *
+     * @return {Object} Returns the working plan periods settings object.
+     */
+     WorkingPlan.prototype.getWorkingPlanPeriods = function () {
+        var workingPlanPeriods = {};
+
+        $('.working-plan-periods tbody tr').each(function (index, tr) {
+            var $tr = $(tr);
+            var startdate = $tr.data('startdate');
+            workingPlanPeriods[startdate] = $tr.data('workingPlanPeriod');
+        });
+
+        return workingPlanPeriods;
+    };
     /**
      * Enables or disables the timepicker functionality from the working plan input text fields.
      *

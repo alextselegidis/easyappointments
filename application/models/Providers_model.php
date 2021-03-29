@@ -354,6 +354,20 @@ class Providers_model extends EA_Model {
                 $value = json_encode($value);
             }
 
+            if ($name === 'working_plan_periods')
+            {
+                $value = json_decode($value, TRUE);
+
+                if ( ! $value)
+                {
+                    $value = [];
+                }
+
+                ksort($value);
+
+                $value = json_encode($value);
+            }
+
             $this->set_setting($name, $value, $provider_id);
         }
     }
@@ -666,6 +680,53 @@ class Providers_model extends EA_Model {
     }
 
     /**
+     * Save the provider working plan period.
+     *JDDEVTODO
+     * @param string $startdate The working plan period startdate (in YYYY-MM-DD format).
+     * @param array $working_plan_period Contains the working plan exception information ("enddate"
+     * properties).
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new working plan exceptions is correctly saved to DB.
+     *
+     * @throws Exception If start time is after the end time.
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function save_working_plan_period($startdate, $working_plan_period, $provider_id)
+    {
+        // Validate the working plan exception data.
+        //$enddate = date('YYYY-MM-DD', $working_plan_period['enddate']);
+        $enddate = $working_plan_period['enddate'];
+
+        if ($startdate > $enddate)
+        {
+            throw new Exception('Working plan period "startdate" must not be after "enddate".');
+        }
+
+        // Make sure the provider record exists.
+        $conditions = [
+            'id' => $provider_id,
+            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+        ];
+
+        if ($this->db->get_where('users', $conditions)->num_rows() === 0)
+        {
+            throw new Exception('Provider record was not found in database: ' . $provider_id);
+        }
+
+        // Add record to database.
+        $working_plan_periods = json_decode($this->get_setting('working_plan_periods', $provider_id), TRUE);
+
+        $working_plan_periods[$startdate] = $working_plan_period;
+
+        return $this->set_setting(
+            'working_plan_periods',
+            json_encode($working_plan_periods),
+            $provider_id
+        );
+    }
+
+    /**
      * Get a providers setting from the database.
      *
      * @param string $setting_name The setting name that is going to be returned.
@@ -706,6 +767,36 @@ class Providers_model extends EA_Model {
         return $this->set_setting(
             'working_plan_exceptions',
             json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
+            $provider_id
+        );
+    }
+
+    /**
+     * Delete a provider working plan period.
+     *JDDEVTODO
+     * @param string $startdate The working plan exception date (in YYYY-MM-DD format).
+     * @param int $provider_id The selected provider record id.
+     *
+     * @return bool Return if the new working plan exceptions is correctly deleted from DB.
+     *
+     * @throws Exception If $provider_id argument is invalid.
+     */
+    public function delete_working_plan_period($startdate, $provider_id)
+    {
+        $provider = $this->get_row($provider_id);
+
+        $working_plan_periods = json_decode($provider['settings']['working_plan_periods'], TRUE);
+
+        if ( ! isset($working_plan_periods[$startdate]))
+        {
+            return TRUE; // The selected date does not exist in provider's settings.
+        }
+
+        unset($working_plan_periods[$startdate]);
+
+        return $this->set_setting(
+            'working_plan_periods',
+            json_encode(empty($working_plan_periods) ? new stdClass() : $working_plan_periods),
             $provider_id
         );
     }

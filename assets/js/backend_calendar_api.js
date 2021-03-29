@@ -140,4 +140,60 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                 }
             });
     }
+
+    /**
+     * Save working plan period of work to database.
+     *
+     * @param {Date} startdate Contains the working plan periods data.
+     * @param {Object} workingPlanPeriod Contains the working plan periods data.
+     * @param {Number} providerId Contains the working plan periods data.
+     * @param {Function} successCallback The ajax success callback function.
+     * @param {Function} errorCallback The ajax failure callback function.
+     */
+     exports.saveWorkingPlanPeriod = function (startdate, workingPlanPeriod, providerId,
+        successCallback, errorCallback) {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_working_plan_period';
+
+        var data = {
+            csrfToken: GlobalVariables.csrfToken,
+            startdate: startdate,
+            working_plan_period: workingPlanPeriod,
+            provider_id: providerId
+        };
+
+        $.post(url, data)
+            .done(function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            });
+    }
+
+    exports.deleteWorkingPlanPeriod = function (startdate, providerId, successCallback, errorCallback) {
+        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_working_plan_period';
+
+        var data = {
+            csrfToken: GlobalVariables.csrfToken,
+            startdate: startdate,
+            provider_id: providerId
+        };
+
+        $.post(url, data)
+            .done(function (response) {
+                if (successCallback) {
+                    successCallback(response);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            });
+    }
+
 })(window.BackendCalendarApi);

@@ -175,6 +175,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                         BackendCalendarApi.saveWorkingPlanException(date, workingPlanException, provider.id, successCallback, null);
                     });
+                //JDDevTODO WorkingPlanPeriodsModal
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');

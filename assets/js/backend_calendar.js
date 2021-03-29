@@ -100,6 +100,31 @@ window.BackendCalendar = window.BackendCalendar || {};
 
                     BackendCalendarApi.saveWorkingPlanException(date, workingPlanException, providerId, successCallback, null);
                 });
+
+            WorkingPlanPeriodsModal
+                .add()
+                .done(function (startdate, workingPlanPeriod) {
+                    var successCallback = function () {
+                        Backend.displayNotification(EALang.working_plan_period_saved);
+
+                        var workingPlanPeriods = JSON.parse(provider.settings.working_plan_periods) || {};
+
+                        workingPlanPeriods[startdate] = workingPlanPeriod;
+
+                        for (var index in GlobalVariables.availableProviders) {
+                            var availableProvider = GlobalVariables.availableProviders[index];
+
+                            if (Number(availableProvider.id) === Number(providerId)) {
+                                GlobalVariables.availableProviders[index].settings.working_plan_periods = JSON.stringify(workingPlanPeriods);
+                                break;
+                            }
+                        }
+
+                        $('#select-filter-item').trigger('change'); // Update the calendar.
+                    };
+
+                    BackendCalendarApi.saveWorkingPlanPeriod(startdate, workingPlanPeriod, providerId, successCallback, null);
+                });
         });
     }
 

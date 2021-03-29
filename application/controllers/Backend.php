@@ -282,6 +282,7 @@ class Backend extends EA_Controller {
         $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
         $view['timezones'] = $this->timezones->to_array();
         $view['working_plan_exceptions'] = '{}';
+        $view['working_plan_periods'] = '{}';
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
