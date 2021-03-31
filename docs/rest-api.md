@@ -355,6 +355,11 @@ You can also try the GET requests with your browser by navigating to the respect
                     }
                 ]
             }
+        },
+        "workingPlanPeriods": {
+            "2020-01-01": {
+                "enddate": "2020-01-20"
+            }
         }
     }
 }

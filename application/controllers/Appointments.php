@@ -603,21 +603,45 @@ class Appointments extends EA_Controller {
                     continue;
                 }
 
-                // Finding at least one slot of availability.
+
+                // Checking if date is in available workplan-period.
                 foreach ($provider_ids as $current_provider_id)
                 {
                     $provider = $this->providers_model->get_row($current_provider_id);
 
-                    $available_hours = $this->availability->get_available_hours(
+                    $active_period = $this->availability->get_active_period(
                         $current_date->format('Y-m-d'),
-                        $service,
-                        $provider,
-                        $exclude_appointment_id
+                        $provider
                     );
 
-                    if ( ! empty($available_hours))
+                    if ( ! empty($active_period))
                     {
                         break;
+                    }
+                }
+                // No active period amongst all the provider.
+                if (empty($active_period))
+                {
+                    $unavailable_dates[] = $current_date->format('Y-m-d');
+                }
+                else
+                { 
+                    // Finding at least one slot of availability.
+                    foreach ($provider_ids as $current_provider_id)
+                    {
+                        $provider = $this->providers_model->get_row($current_provider_id);
+
+                        $available_hours = $this->availability->get_available_hours(
+                            $current_date->format('Y-m-d'),
+                            $service,
+                            $provider,
+                            $exclude_appointment_id
+                        );
+
+                        if ( ! empty($available_hours))
+                        {
+                            break;
+                        }
                     }
                 }
 

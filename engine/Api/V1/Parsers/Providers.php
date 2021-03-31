@@ -75,6 +75,9 @@ class Providers implements ParsersInterface {
                 'workingPlanExceptions' => array_key_exists('working_plan_exceptions', $response['settings'])
                     ? json_decode($response['settings']['working_plan_exceptions'], TRUE)
                     : NULL,
+                'workingPlanPeriods' => array_key_exists('working_plan_periods', $response['settings'])
+                    ? json_decode($response['settings']['working_plan_periods'], TRUE)
+                    : NULL,
             ];
         }
 
@@ -219,6 +222,12 @@ class Providers implements ParsersInterface {
             {
                 $decoded_request['settings']['working_plan_exceptions'] = json_encode($request['settings']['workingPlanExceptions']);
             }
+
+            if (array_key_exists('workingPlanPeriods', $request['settings']))
+            {
+                $decoded_request['settings']['working_plan_periods'] = json_encode($request['settings']['workingPlanPeriods']);
+            }
+
         }
 
         $request = $decoded_request;

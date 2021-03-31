@@ -64,6 +64,68 @@ class Availability {
         return $this->consider_book_advance_timeout($date, $available_hours, $provider);
     }
 
+
+
+    /**
+     * Check to see if the date is in the workplan-period of a provider.
+     *
+     * @param string $date Selected date (Y-m-d).
+     * @param array $provider Provider record.
+     *
+     * @return boolean
+     *
+     * @throws Exception
+     */
+    public function get_active_period($date, $provider)
+    {
+        // Get the provider's working plan periods.
+        $working_plan_periods = $this->get_workplan_periods($provider);
+        if ($working_plan_periods)
+        {
+            return $this->check_date_in_workplanperiod($date, $working_plan_periods);
+        }
+        else
+        {
+            //no workplan periods, so the date is considered valid
+            return True;
+        }  
+    }
+
+    /**
+     * Get all the workplan periods of a provider 
+     * 
+     * @param array $workplan_periods Workplan Periods Record.
+     * 
+     *@return array Returns an array of all the workplan-periods. 
+     */
+    protected function get_workplan_periods($provider)
+    {
+        return json_decode($provider['settings']['working_plan_periods'], TRUE);;
+    } 
+
+    /**
+     * Check if the date is included in the workplan period of the provider
+     * 
+     * @param string $date Select date string
+     * @param array $workplan_periods Workplan Periods Record.
+     * 
+     *@return boolean Returns an boolean to say, wether it is in the workplan period or not. 
+     */
+    protected function check_date_in_workplanperiod($date, $workplanperiods)
+    {
+        foreach($workplanperiods as $workplanperiodkey => $workplanperioditem)
+        {
+            $startdate = $workplanperiodkey;
+            $enddate = $workplanperioditem['enddate'];
+            if ($date >= $startdate && $date <= $enddate)
+            {
+                return TRUE;
+            }  
+        }
+        return FALSE;
+    } 
+ 
+ 
     /**
      * Get an array containing the free time periods (start - end) of a selected date.
      *
