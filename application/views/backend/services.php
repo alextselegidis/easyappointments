@@ -79,7 +79,7 @@
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-service" class="btn btn-outline-secondary" disabled="disabled">
+                            <button id="delete-service" class="btn btn-outline-danger" disabled="disabled">
                                 <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
@@ -222,7 +222,7 @@
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-category" class="btn btn-outline-secondary" disabled="disabled">
+                            <button id="delete-category" class="btn btn-outline-danger" disabled="disabled">
                                 <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>

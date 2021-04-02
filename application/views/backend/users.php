@@ -96,7 +96,7 @@
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-provider" class="btn btn-outline-secondary" disabled="disabled">
+                            <button id="delete-provider" class="btn btn-outline-danger" disabled="disabled">
                                 <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
@@ -285,7 +285,7 @@
 
                         <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
                             <h3><?= lang('working_plan') ?></h3>
-                            <button id="reset-working-plan" class="btn btn-primary"
+                            <button id="reset-working-plan" class="btn btn-danger"
                                     data-tippy-content="<?= lang('reset_working_plan') ?>">
                                 <i class="fas fa-redo-alt mr-2"></i>
                                 <?= lang('reset_plan') ?></button>
@@ -405,7 +405,7 @@
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-secretary" class="btn btn-outline-secondary" disabled="disabled">
+                            <button id="delete-secretary" class="btn btn-outline-danger" disabled="disabled">
                                 <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>
@@ -613,7 +613,7 @@
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
                             </button>
-                            <button id="delete-admin" class="btn btn-outline-secondary" disabled="disabled">
+                            <button id="delete-admin" class="btn btn-outline-danger" disabled="disabled">
                                 <i class="fas fa-trash-alt mr-2"></i>
                                 <?= lang('delete') ?>
                             </button>

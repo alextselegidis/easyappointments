@@ -70,7 +70,7 @@
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
-                        <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
+                        <button id="delete-customer" class="btn btn-outline-danger" disabled="disabled">
                             <i class="fas fa-trash-alt mr-2"></i>
                             <?= lang('delete') ?>
                         </button>
