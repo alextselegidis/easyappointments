@@ -321,6 +321,8 @@ class Email {
             $mailer->Password = $this->config['smtp_pass'];
             $mailer->SMTPSecure = $this->config['smtp_crypto'];
             $mailer->Port = $this->config['smtp_port'];
+            $mailer->Sender = $settings['company_email'];
+            $mailer->SetFrom($settings['company_email'], $settings['company_name'], FALSE); 
         }
 
         $mailer->IsHTML($this->config['mailtype'] === 'html');
