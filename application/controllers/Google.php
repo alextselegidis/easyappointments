@@ -185,11 +185,8 @@ class Google extends EA_Controller {
                 if ($google_event->getStart()->getDateTime() === $google_event->getEnd()->getDateTime())
                 {
                     $event_start = new DateTime($google_event->getStart()->getDate());
-                    date_time_set($event_start, 0, 0);
                     $event_start->setTimezone($provider_timezone);
                     $event_end = new DateTime($google_event->getEnd()->getDate());
-                    date_modify($event_end, '-1 day');
-                    date_time_set($event_end, 23, 59);
                     $event_end->setTimezone($provider_timezone);
                 }
                 else
