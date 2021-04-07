@@ -204,7 +204,7 @@ class Notifications {
 
             foreach ($secretaries as $secretary)
             {
-                if ( ! $secretary['settings']['notifications'] === '0')
+                if ($secretary['settings']['notifications'] === '0')
                 {
                     continue;
                 }
