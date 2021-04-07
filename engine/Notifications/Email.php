@@ -315,8 +315,9 @@ class Email {
         if ($this->config['protocol'] === 'smtp')
         {
             $mailer->isSMTP();
+            $mailer->SMTPDebug  = $this->config['smtp_debug'];
             $mailer->Host = $this->config['smtp_host'];
-            $mailer->SMTPAuth = TRUE;
+            $mailer->SMTPAuth = $this->config['smtp_auth'];
             $mailer->Username = $this->config['smtp_user'];
             $mailer->Password = $this->config['smtp_pass'];
             $mailer->SMTPSecure = $this->config['smtp_crypto'];
