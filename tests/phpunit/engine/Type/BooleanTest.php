@@ -11,8 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
-
+use EA\Engine\Types\Boolean;
 use PHPUnit\Framework\TestCase;
 
 class BooleanTest extends TestCase {

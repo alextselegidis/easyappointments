@@ -11,8 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
-
+use EA\Engine\Types\Url;
 use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase {

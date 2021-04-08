@@ -28,7 +28,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "EA\\Engine\\": "engine/"
+            "EA\\Engine\\": "build/engine/"
         }
     },
     "require": {
@@ -46,9 +46,9 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^7.4"
+        "phpunit/phpunit": "^9.5"
     },
     "scripts": {
-        "test": "php vendor/bin/phpunit tests"
+        "test": "phpunit"
     }
 }
