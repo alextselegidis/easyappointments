@@ -28,7 +28,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "EA\\Engine\\": "build/engine/"
+            "EA\\Engine\\": "engine/"
         }
     },
     "require": {
