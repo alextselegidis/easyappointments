@@ -58,7 +58,7 @@ class Providers extends API_V1_Controller {
                 $this->throw_record_not_found();
             }
 
-            $response = new Response($providers);
+            $response = new Response($providers, $this);
 
             $response->encode($this->parser)
                 ->search()
@@ -111,7 +111,7 @@ class Providers extends API_V1_Controller {
 
             // Fetch the new object from the database and return it to the client.
             $batch = $this->providers_model->get_batch(['id' => $id]);
-            $response = new Response($batch);
+            $response = new Response($batch, $this);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
@@ -147,7 +147,7 @@ class Providers extends API_V1_Controller {
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->providers_model->get_batch(['id' => $id]);
-            $response = new Response($batch);
+            $response = new Response($batch, $this);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
         catch (Exception $exception)
@@ -170,7 +170,7 @@ class Providers extends API_V1_Controller {
             $response = new Response([
                 'code' => 200,
                 'message' => 'Record was deleted successfully!'
-            ]);
+            ], $this);
 
             $response->output();
         }

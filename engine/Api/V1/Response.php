@@ -13,6 +13,7 @@
 
 namespace EA\Engine\Api\V1;
 
+use API_V1_Controller;
 use EA\Engine\Types\NonEmptyText;
 
 /**
@@ -35,15 +36,22 @@ class Response {
      * @var array
      */
     protected $response;
+    /**
+     * Controller
+     *
+     * @var API_V1_Controller
+     */
+    protected $controller;
 
     /**
      * Class Constructor
      *
      * @param array $response Provide unfiltered data to be processed as an array.
      */
-    public function __construct(array $response)
+    public function __construct(array $response, $controller)
     {
         $this->response = $response;
+        $this->controller = $controller;
     }
 
     /**
@@ -144,10 +152,10 @@ class Response {
     {
         $header = $status ? $status->get() : '200 OK';
 
-        header('HTTP/1.0 ' . $header);
-        header('Content-Type: application/json');
+        $this->controller->output->set_header('HTTP/1.0 ' . $header);
+        $this->controller->output->set_header('Content-Type: application/json');
 
-        echo json_encode($this->response, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $this->controller->output->set_output(json_encode($this->response, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
         return $this;
     }

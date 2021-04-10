@@ -131,9 +131,9 @@ class API_V1_Controller extends EA_Controller {
      */
     protected function request_authentication()
     {
-        header('WWW-Authenticate: Basic realm="Easy!Appointments"');
-        header('HTTP/1.0 401 Unauthorized');
-        exit('You are not authorized to use the API.');
+        $this->output->set_header('WWW-Authenticate: Basic realm="Easy!Appointments"');
+        $this->output->set_header('HTTP/1.0 401 Unauthorized');
+        $this->output->set_output('You are not authorized to use the API.');
     }
 
     /**
@@ -154,8 +154,8 @@ class API_V1_Controller extends EA_Controller {
             ? $exception->getCode() . ' ' . $exception->get_header()
             : '500 Internal Server Error';
 
-        header('HTTP/1.0 ' . $header);
-        header('Content-Type: application/json');
+        $this->output->set_header('HTTP/1.0 ' . $header);
+        $this->output->set_header('Content-Type: application/json');
 
         $this->output
             ->set_content_type('application/json')

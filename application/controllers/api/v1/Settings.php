@@ -75,7 +75,7 @@ class Settings extends API_V1_Controller {
                 ];
             }
 
-            $response = new Response($settings);
+            $response = new Response($settings, $this);
 
             $response->encode($this->parser)
                 ->search()
@@ -111,7 +111,7 @@ class Settings extends API_V1_Controller {
                     'name' => $name,
                     'value' => $value
                 ]
-            ]);
+            ], $this);
             $response->encode($this->parser)->singleEntry($name)->output();
         }
         catch (Exception $exception)
@@ -134,7 +134,7 @@ class Settings extends API_V1_Controller {
             $response = new Response([
                 'code' => 200,
                 'message' => 'Record was deleted successfully!'
-            ]);
+            ], $this);
 
             $response->output();
         }
