@@ -30,7 +30,6 @@ class TestCase extends CIPHPUnitTestCase
     {
         parent::tearDown();
 
-        $this->CI->db->trans_rollback();
         $this->CI->db->simple_query('DROP DATABASE ' . $this->CI->db->database . '_test');
     }
 }
