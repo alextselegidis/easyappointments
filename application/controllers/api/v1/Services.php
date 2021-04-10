@@ -155,7 +155,7 @@ class Services extends API_V1_Controller {
             $response = new Response([
                 'code' => 200,
                 'message' => 'Record was deleted successfully!'
-            ]);
+            ], $this);
 
             $response->output();
         }
