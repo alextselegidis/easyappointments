@@ -29,6 +29,8 @@ class Request {
      */
     public function get_body()
     {
-        return json_decode(file_get_contents('php://input'), TRUE);
+        $INPUT =& load_class('Input', 'core');
+        $raw = $INPUT->raw_input_stream;
+        return json_decode($raw, TRUE);
     }
 }
