@@ -46,7 +46,8 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "kenjis/ci-phpunit-test": "^3.0"
     },
     "scripts": {
         "test": "phpunit"

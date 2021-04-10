@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "335ea02dff255922294c8d0b4c910bac",
+    "content-hash": "7464567e94b41b142e5bde08cafda904",
     "packages": [
         {
             "name": "codeigniter/framework",
@@ -1188,6 +1188,57 @@
                 }
             ],
             "time": "2020-11-10T18:47:58+00:00"
+        },
+        {
+            "name": "kenjis/ci-phpunit-test",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kenjis/ci-phpunit-test.git",
+                "reference": "d6be984ea405c3e7c6adc9692f2e27f883d90af1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kenjis/ci-phpunit-test/zipball/d6be984ea405c3e7c6adc9692f2e27f883d90af1",
+                "reference": "d6be984ea405c3e7c6adc9692f2e27f883d90af1",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.2",
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kenji Suzuki",
+                    "homepage": "https://github.com/kenjis"
+                }
+            ],
+            "description": "An easier way to use PHPUnit with CodeIgniter 3.x",
+            "homepage": "http://kenjis.github.io/ci-phpunit-test/",
+            "keywords": [
+                "codeigniter",
+                "codeigniter3",
+                "monkey patch",
+                "phpunit",
+                "test",
+                "unit testing"
+            ],
+            "support": {
+                "forum": "http://forum.codeigniter.com/thread-61725.html",
+                "issues": "https://github.com/kenjis/ci-phpunit-test/issues",
+                "source": "https://github.com/kenjis/ci-phpunit-test/tree/v3.0.0"
+            },
+            "time": "2021-03-03T05:44:41+00:00"
         },
         {
             "name": "myclabs/deep-copy",
