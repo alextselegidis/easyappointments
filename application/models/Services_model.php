@@ -84,14 +84,14 @@ class Services_model extends EA_Model {
         }
 
         // Check for required fields
-        if ($service['name'] == '')
+        if (empty($service['name']))
         {
             throw new Exception('Not all required service fields where provided: '
                 . print_r($service, TRUE));
         }
 
         // Duration must be int
-        if ($service['duration'] !== NULL)
+        if (isset($service['duration']))
         {
             if ( ! is_numeric($service['duration']))
             {
@@ -99,7 +99,7 @@ class Services_model extends EA_Model {
             }
         }
 
-        if ($service['price'] !== NULL)
+        if (isset($service['price']))
         {
             if ( ! is_numeric($service['price']))
             {
@@ -108,14 +108,14 @@ class Services_model extends EA_Model {
         }
 
         // Availabilities type must have the correct value.
-        if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE
+        if (!empty($service['availabilities_type']) && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE
             && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED)
         {
             throw new Exception('Service availabilities type must be either ' . AVAILABILITIES_TYPE_FLEXIBLE
                 . ' or ' . AVAILABILITIES_TYPE_FIXED . ' (given ' . $service['availabilities_type'] . ')');
         }
 
-        if ($service['attendants_number'] !== NULL && ( ! is_numeric($service['attendants_number'])
+        if (!empty($service['attendants_number']) && ( ! is_numeric($service['attendants_number'])
                 || $service['attendants_number'] < 1))
         {
             throw new Exception('Service attendants number must be numeric and greater or equal to one: '
