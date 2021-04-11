@@ -15,6 +15,37 @@ class ServicesTest extends TestCase
 	{
 		return [
 			[
+				'POST',
+				'api/v1/services/post',
+				<<<REQUEST_BODY
+				{
+				    "name": "Service 02",
+				    "duration": 30,
+				    "price": 0,
+				    "currency": "",
+				    "description": null,
+				    "location": null,
+				    "availabilitiesType": "flexible",
+				    "attendantsNumber": 1,
+				    "categoryId": null
+				}
+				REQUEST_BODY,
+				<<<EXPECTED
+				{
+				    "id": 2,
+				    "name": "Service 02",
+				    "duration": 30,
+				    "price": 0,
+				    "currency": "",
+				    "description": null,
+				    "location": null,
+				    "availabilitiesType": "flexible",
+				    "attendantsNumber": 1,
+				    "categoryId": null
+				}
+				EXPECTED
+			],
+			[
 				'GET',
 				'api/v1/services/get',
 				null,
@@ -23,6 +54,18 @@ class ServicesTest extends TestCase
 				    {
 				        "id": 1,
 				        "name": "Service",
+				        "duration": 30,
+				        "price": 0,
+				        "currency": "",
+				        "description": null,
+				        "location": null,
+				        "availabilitiesType": "flexible",
+				        "attendantsNumber": 1,
+				        "categoryId": null
+				    },
+				    {
+				        "id": 2,
+				        "name": "Service 02",
 				        "duration": 30,
 				        "price": 0,
 				        "currency": "",
@@ -62,37 +105,6 @@ class ServicesTest extends TestCase
 				{
 				    "code": 404,
 				    "message": "The requested record was not found!"
-				}
-				EXPECTED
-			],
-			[
-				'POST',
-				'api/v1/services/post',
-				<<<REQUEST_BODY
-				{
-				    "name": "Service 02",
-				    "duration": 30,
-				    "price": 0,
-				    "currency": "",
-				    "description": null,
-				    "location": null,
-				    "availabilitiesType": "flexible",
-				    "attendantsNumber": 1,
-				    "categoryId": null
-				}
-				REQUEST_BODY,
-				<<<EXPECTED
-				{
-				    "id": 2,
-				    "name": "Service 02",
-				    "duration": 30,
-				    "price": 0,
-				    "currency": "",
-				    "description": null,
-				    "location": null,
-				    "availabilitiesType": "flexible",
-				    "attendantsNumber": 1,
-				    "categoryId": null
 				}
 				EXPECTED
 			],
