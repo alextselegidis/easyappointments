@@ -15,21 +15,10 @@ class TestCase extends CIPHPUnitTestCase
         $this->request(null, 'console/install');
     }
 
-    public static function setUpBeforeClass(): void
+    public static function tearDownAfterClass(): void
     {
-        parent::setUpBeforeClass();
-
+        parent::tearDownAfterClass();
         $CI =& get_instance();
-
-        if (!$CI->db->trans_status()) {
-            $CI->db->trans_begin();
-        }
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        $this->CI->db->simple_query('DROP DATABASE ' . $this->CI->db->database . '_test');
+        $CI->db->simple_query('DROP DATABASE ' . $CI->db->database . '_test');
     }
 }
