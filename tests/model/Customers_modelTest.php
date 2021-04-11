@@ -41,9 +41,9 @@ class Customers_modelTest extends TestCase
                 [
                     [
                         'id' => 5,
-                        'first_name' => 'Jane',
+                        'first_name' => 'Juliet',
                         'last_name' => 'Doe',
-                        'email' => 'Jane@example.org',
+                        'email' => 'juliet@example.org',
                         'phone_number' => '987654321',
                     ]
                 ],
@@ -53,9 +53,9 @@ class Customers_modelTest extends TestCase
                 'exists',
                 [
                     [
-                        'first_name' => 'Jane',
+                        'first_name' => 'Juliet',
                         'last_name' => 'Doe',
-                        'email' => 'Jane@example.org',
+                        'email' => 'juliet@example.org',
                         'phone_number' => '987654321'
                     ]
                 ],
@@ -65,7 +65,7 @@ class Customers_modelTest extends TestCase
                 'find_record_id',
                 [
                     [
-                        'email' => 'Jane@example.org'
+                        'email' => 'juliet@example.org'
                     ]
                 ],
                 5
@@ -76,9 +76,9 @@ class Customers_modelTest extends TestCase
                     5
                 ],
                 [
-                    'first_name' => 'Jane',
+                    'first_name' => 'Juliet',
                     'last_name' => 'Doe',
-                    'email' => 'Jane@example.org',
+                    'email' => 'juliet@example.org',
                     'phone_number' => '987654321',
                     'id' => '5',
                     'mobile_number' => null,
