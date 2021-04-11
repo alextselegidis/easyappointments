@@ -15,9 +15,9 @@ class Services_modelTest extends TestCase
     /**
      * @dataProvider providerModel
      */
-    public function testModel($service, $expected)
+    public function testModel($method, $arguments, $expected)
     {
-        $output = $this->model->add($service);
+        $output = call_user_func_array([$this->model, $method], [$arguments]);
         $this->assertEquals($expected, $output);
     }
 
@@ -25,8 +25,9 @@ class Services_modelTest extends TestCase
     {
         return [
             [
+                'add',
                 [
-                    'name' => 'Service 02'
+                    'name' => 'Service 02',
                 ],
                 3
             ]
