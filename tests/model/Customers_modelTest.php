@@ -70,6 +70,28 @@ class Customers_modelTest extends TestCase
                 ],
                 5
             ],
+            [
+                'get_row',
+                [
+                    5
+                ],
+                [
+                    'first_name' => 'Jane',
+                    'last_name' => 'Doe',
+                    'email' => 'Jane@example.org',
+                    'phone_number' => '987654321',
+                    'id' => '5',
+                    'mobile_number' => null,
+                    'address' => null,
+                    'city' => null,
+                    'state' => null,
+                    'zip_code' => null,
+                    'notes' => null,
+                    'timezone' => 'UTC',
+                    'language' => 'english',
+                    'id_roles' => '3'
+                ]
+            ]
         ];
     }
 }
