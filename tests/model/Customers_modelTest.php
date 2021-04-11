@@ -91,6 +91,14 @@ class Customers_modelTest extends TestCase
                     'language' => 'english',
                     'id_roles' => '3'
                 ]
+            ],
+            [
+                'get_value',
+                [
+                    'first_name',
+                    5
+                ],
+                'Jane'
             ]
         ];
     }
