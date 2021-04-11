@@ -61,6 +61,15 @@ class Customers_modelTest extends TestCase
                 ],
                 true
             ],
+            [
+                'find_record_id',
+                [
+                    [
+                        'email' => 'Jane@example.org'
+                    ]
+                ],
+                5
+            ],
         ];
     }
 }
