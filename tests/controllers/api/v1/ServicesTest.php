@@ -97,6 +97,37 @@ class ServicesTest extends TestCase
 				EXPECTED
 			],
 			[
+				'PUT',
+				'api/v1/services/put/2',
+				<<<REQUEST_BODY
+				{
+				    "name": "Service 2",
+				    "duration": 60,
+				    "price": 0,
+				    "currency": "USD",
+				    "description": "Test description",
+				    "location": null,
+				    "availabilitiesType": "flexible",
+				    "attendantsNumber": 1,
+				    "categoryId": null
+				}
+				REQUEST_BODY,
+				<<<EXPECTED
+				{
+				    "id": 2,
+				    "name": "Service 2",
+				    "duration": 60,
+				    "price": 0,
+				    "currency": "USD",
+				    "description": "Test description",
+				    "location": null,
+				    "availabilitiesType": "flexible",
+				    "attendantsNumber": 1,
+				    "categoryId": null
+				}
+				EXPECTED
+			],
+			[
 				'DELETE',
 				'api/v1/services/delete/2',
 				null,
