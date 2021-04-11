@@ -149,6 +149,13 @@ class Services_modelTest extends TestCase
                         'category_id' => null
                     ]
                 ]
+            ],
+            [
+                'delete',
+                [
+                    3
+                ],
+                true
             ]
         ];
     }
