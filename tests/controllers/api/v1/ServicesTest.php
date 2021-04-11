@@ -95,6 +95,17 @@ class ServicesTest extends TestCase
 				    "categoryId": null
 				}
 				EXPECTED
+			],
+			[
+				'DELETE',
+				'api/v1/services/delete/2',
+				null,
+				<<<EXPECTED
+				{
+				    "code": 200,
+				    "message": "Record was deleted successfully!"
+				}
+				EXPECTED
 			]
 		];
 	}
