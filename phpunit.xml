@@ -23,6 +23,7 @@
     verbose="false">
     <php>
         <env name="DB_NAME" value="easyappointments_test"/>
+        <env name="HTTP_ACCEPT_LANGUAGE" value="en"/>
     </php>
     <coverage>
         <include>

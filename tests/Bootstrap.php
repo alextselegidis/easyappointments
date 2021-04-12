@@ -397,6 +397,8 @@ MonkeyPatchManager::init([
 define('TESTPATH', APPPATH.'tests'.DIRECTORY_SEPARATOR);
 */
 
+$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $_ENV['HTTP_ACCEPT_LANGUAGE'];
+
 require CI_PHPUNIT_TESTPATH . '/CIPHPUnitTest.php';
 
 CIPHPUnitTest::init();
