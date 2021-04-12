@@ -33,24 +33,25 @@ class Services_modelTest extends TestCase
                         'price' => 10.00
                     ]
                 ],
-                3
+                2
             ],
             [
                 'add',
                 [
                     [
-                        'id' => 3,
-                        'name' => 'Service 03',
+                        'id' => 2,
+                        'name' => 'Service 02',
+                        'duration' => 80,
                     ]
                 ],
-                3
+                2
             ],
             [
                 'exists',
                 [
                     [
-                        'name' => 'Service 03',
-                        'duration' => 60,
+                        'name' => 'Service 02',
+                        'duration' => 80,
                         'price' => 10.00
                     ]
                 ],
@@ -60,23 +61,23 @@ class Services_modelTest extends TestCase
                 'find_record_id',
                 [
                     [
-                        'name' => 'Service 03',
-                        'duration' => 60,
+                        'name' => 'Service 02',
+                        'duration' => 80,
                         'price' => 10.00
                     ]
                 ],
-                3
+                2
             ],
             [
                 'get_row',
                 [
-                    3
+                    2
                 ],
                 [
-                    'name' => 'Service 03',
-                    'duration' => '60',
+                    'name' => 'Service 02',
+                    'duration' => '80',
                     'price' => '10.00',
-                    'id' => '3',
+                    'id' => '2',
                     'currency' => null,
                     'description' => null,
                     'location' => null,
@@ -89,24 +90,24 @@ class Services_modelTest extends TestCase
                 'get_value',
                 [
                     'name',
-                    3
+                    2
                 ],
-                'Service 03'
+                'Service 02'
             ],
             [
                 'get_batch',
                 [
-                    ['name' => 'Service 03'],
+                    ['name' => 'Service 02'],
                     null,
                     null,
                     null
                 ],
                 [
                     [
-                        'name' => 'Service 03',
-                        'duration' => '60',
+                        'name' => 'Service 02',
+                        'duration' => '80',
                         'price' => '10.00',
-                        'id' => '3',
+                        'id' => '2',
                         'currency' => null,
                         'description' => null,
                         'location' => null,
@@ -135,10 +136,10 @@ class Services_modelTest extends TestCase
                         'category_id' => null
                     ],
                     [
-                        'name' => 'Service 03',
-                        'duration' => '60',
+                        'name' => 'Service 02',
+                        'duration' => '80',
                         'price' => '10.00',
-                        'id' => '3',
+                        'id' => '2',
                         'currency' => null,
                         'description' => null,
                         'location' => null,
@@ -153,7 +154,7 @@ class Services_modelTest extends TestCase
             [
                 'delete',
                 [
-                    3
+                    2
                 ],
                 true
             ]

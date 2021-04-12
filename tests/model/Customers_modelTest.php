@@ -34,20 +34,20 @@ class Customers_modelTest extends TestCase
                         'phone_number' => '123456789',
                     ]
                 ],
-                5
+                4
             ],
             [
                 'add',
                 [
                     [
-                        'id' => 5,
+                        'id' => 4,
                         'first_name' => 'Juliet',
                         'last_name' => 'Doe',
                         'email' => 'juliet@example.org',
                         'phone_number' => '987654321',
                     ]
                 ],
-                5
+                4
             ],
             [
                 'exists',
@@ -68,19 +68,19 @@ class Customers_modelTest extends TestCase
                         'email' => 'juliet@example.org'
                     ]
                 ],
-                5
+                4
             ],
             [
                 'get_row',
                 [
-                    5
+                    4
                 ],
                 [
                     'first_name' => 'Juliet',
                     'last_name' => 'Doe',
                     'email' => 'juliet@example.org',
                     'phone_number' => '987654321',
-                    'id' => '5',
+                    'id' => '4',
                     'mobile_number' => null,
                     'address' => null,
                     'city' => null,
@@ -96,7 +96,7 @@ class Customers_modelTest extends TestCase
                 'get_value',
                 [
                     'first_name',
-                    5
+                    4
                 ],
                 'Juliet'
             ],
@@ -114,7 +114,7 @@ class Customers_modelTest extends TestCase
                         'last_name' => 'Doe',
                         'email' => 'juliet@example.org',
                         'phone_number' => '987654321',
-                        'id' => '5',
+                        'id' => '4',
                         'mobile_number' => null,
                         'address' => null,
                         'city' => null,

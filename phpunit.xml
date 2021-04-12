@@ -21,6 +21,9 @@
     timeoutForMediumTests="10"
     timeoutForLargeTests="60"
     verbose="false">
+    <php>
+        <env name="DB_NAME" value="easyappointments_test"/>
+    </php>
     <coverage>
         <include>
             <directory suffix=".php">src/engine</directory>
