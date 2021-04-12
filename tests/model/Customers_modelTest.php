@@ -89,7 +89,8 @@ class Customers_modelTest extends TestCase
                     'notes' => null,
                     'timezone' => 'UTC',
                     'language' => 'english',
-                    'id_roles' => '3'
+                    'id_roles' => '3',
+                    'slug' => null
                 ]
             ],
             [
@@ -123,7 +124,8 @@ class Customers_modelTest extends TestCase
                         'notes' => null,
                         'timezone' => 'UTC',
                         'language' => 'english',
-                        'id_roles' => '3'
+                        'id_roles' => '3',
+                        'slug' => null
                     ]
                 ]
             ]

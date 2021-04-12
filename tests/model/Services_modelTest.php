@@ -83,7 +83,8 @@ class Services_modelTest extends TestCase
                     'location' => null,
                     'availabilities_type' => 'flexible',
                     'attendants_number' => '1',
-                    'id_service_categories' => null
+                    'id_service_categories' => null,
+                    'slug' => null
                 ]
             ],
             [
@@ -113,7 +114,8 @@ class Services_modelTest extends TestCase
                         'location' => null,
                         'availabilities_type' => 'flexible',
                         'attendants_number' => '1',
-                        'id_service_categories' => null
+                        'id_service_categories' => null,
+                        'slug' => null
                     ]
                 ]
             ],
@@ -133,7 +135,8 @@ class Services_modelTest extends TestCase
                         'attendants_number' => '1',
                         'id_service_categories' => null,
                         'category_name' => null,
-                        'category_id' => null
+                        'category_id' => null,
+                        'slug' => null
                     ],
                     [
                         'name' => 'Service 02',
@@ -147,7 +150,8 @@ class Services_modelTest extends TestCase
                         'attendants_number' => '1',
                         'id_service_categories' => null,
                         'category_name' => null,
-                        'category_id' => null
+                        'category_id' => null,
+                        'slug' => null
                     ]
                 ]
             ],
