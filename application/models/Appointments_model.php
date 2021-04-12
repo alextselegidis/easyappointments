@@ -24,6 +24,7 @@ class Appointments_model extends EA_Model {
     {
         parent::__construct();
         $this->load->helper('data_validation');
+        $this->load->helper('string');
     }
 
     /**
@@ -153,7 +154,7 @@ class Appointments_model extends EA_Model {
     protected function insert($appointment)
     {
         $appointment['book_datetime'] = date('Y-m-d H:i:s');
-        $appointment['hash'] = $this->generate_hash();
+        $appointment['hash'] = random_string('alnum', 12);
 
         if ( ! $this->db->insert('appointments', $appointment))
         {
@@ -161,20 +162,6 @@ class Appointments_model extends EA_Model {
         }
 
         return (int)$this->db->insert_id();
-    }
-
-    /**
-     * Generate a unique hash for the given appointment data.
-     *
-     * This method uses the current date-time to generate a unique hash string that is later used to identify this
-     * appointment. Hash is needed when the email is send to the user with an edit link.
-     *
-     * @return string Returns the unique appointment hash.
-     */
-    public function generate_hash()
-    {
-        $current_date = new DateTime();
-        return md5($current_date->getTimestamp());
     }
 
     /**

@@ -32,7 +32,7 @@
         }
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.3",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -40,7 +40,7 @@
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^6.1",
         "codeigniter/framework": "^3.1.6",
-        "jsvrcek/ics": "^0.5.1",
+        "jsvrcek/ics": "^0.8",
         "monolog/monolog": "^1",
         "google/apiclient": "^2.0"
     },
