@@ -1036,6 +1036,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         $('#loading').css('visibility', 'hidden');
 
+        var calendarEventSource = [];
+
         return $.post(url, data)
             .done(function (response) {
                 var $calendar = $('#calendar');
@@ -1056,14 +1058,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         data: appointment // Store appointment data for later use.
                     };
 
-                    appointmentEvents.push(appointmentEvent);
+                    calendarEventSource.push(appointmentEvent);
                 });
-
-                $calendar.fullCalendar('addEventSource', appointmentEvents);
 
                 // Add custom unavailable periods (they are always displayed on the calendar, even if the provider won't
                 // work on that day).
-                var unavailabilityEvents = [];
                 response.unavailables.forEach(function (unavailable) {
                     var notes = unavailable.notes ? ' - ' + unavailable.notes : '';
 
@@ -1082,10 +1081,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         data: unavailable
                     };
 
-                    unavailabilityEvents.push(unavailabilityEvent);
+                    calendarEventSource.push(unavailabilityEvent);
                 });
-
-                $calendar.fullCalendar('addEventSource', unavailabilityEvents);
 
                 var calendarView = $('#calendar').fullCalendar('getView');
 
@@ -1148,7 +1145,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     }
                                 };
 
-                                $calendar.fullCalendar('renderEvent', workingPlanExceptionEvent, false);
+                                calendarEventSource.push(workingPlanExceptionEvent);
                             }
 
                             // Non-working day.
@@ -1164,7 +1161,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     className: 'fc-unavailable'
                                 };
 
-                                $calendar.fullCalendar('renderEvent', unavailabilityEvent, false);
+                                calendarEventSource.push(unavailabilityEvent);
 
                                 return; // Go to next loop.
                             }
@@ -1187,7 +1184,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     className: 'fc-unavailable'
                                 };
 
-                                $calendar.fullCalendar('renderEvent', unavailablePeriodBeforeWorkStarts, false);
+                                calendarEventSource.push(unavailablePeriodBeforeWorkStarts);
                             }
 
                             // Add unavailable period after work ends.
@@ -1208,7 +1205,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     className: 'fc-unavailable'
                                 };
 
-                                $calendar.fullCalendar('renderEvent', unavailablePeriodAfterWorkEnds, false);
+                                calendarEventSource.push(unavailablePeriodAfterWorkEnds);
                             }
 
                             // Add unavailable periods for breaks.
@@ -1233,7 +1230,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     className: 'fc-unavailable fc-break'
                                 };
 
-                                $calendar.fullCalendar('renderEvent', unavailablePeriod, false);
+                                calendarEventSource.push(unavailablePeriod);
                             });
 
                             break;
@@ -1268,7 +1265,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         }
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', workingPlanExceptionEvent, false);
+                                    calendarEventSource.push(workingPlanExceptionEvent);
                                 }
 
                                 // Non-working day.
@@ -1284,7 +1281,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, true);
+                                    calendarEventSource.push(unavailabilityEvent);
 
                                     calendarDate.add(1, 'day');
 
@@ -1308,7 +1305,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, true);
+                                    calendarEventSource.push(unavailabilityEvent);
                                 }
 
                                 // Add unavailable period after work ends.
@@ -1328,7 +1325,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, false);
+                                    calendarEventSource.push(unavailabilityEvent);
                                 }
 
                                 // Add unavailable periods during day breaks.
@@ -1353,7 +1350,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         className: 'fc-unavailable fc-break'
                                     };
 
-                                    $calendar.fullCalendar('renderEvent', unavailabilityEvent, false);
+                                    calendarEventSource.push(unavailabilityEvent);
                                 });
 
                                 calendarDate.add(1, 'day');
@@ -1365,6 +1362,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             })
             .always(function () {
                 $('#loading').css('visibility', '')
+                $calendar.fullCalendar('addEventSource', calendarEventSource);
             });
     }
 
