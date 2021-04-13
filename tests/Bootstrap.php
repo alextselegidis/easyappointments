@@ -412,3 +412,14 @@ CIPHPUnitTest::init([
 	APPPATH.'modules',
 ]);
 */
+$CI =& get_instance();
+$CI->load->dbutil();
+require APPPATH.'config/testing/database.php';
+if (!$CI->dbutil->database_exists($db['default']['database'])) {
+	$CI->db->simple_query('CREATE DATABASE ' . $db['default']['database']);
+}
+register_shutdown_function(function(){
+	$CI =& get_instance();
+	$CI->db->simple_query('DROP DATABASE ' . $_ENV['DB_NAME']);
+});
+

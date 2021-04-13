@@ -17,8 +17,15 @@ class Customers_modelTest extends TestCase
      */
     public function testModel($method, $arguments, $expected)
     {
-        $output = call_user_func([$this->model, $method], ...$arguments);
-        $this->assertEquals($expected, $output);
+        if (is_callable($arguments)) {
+            $arguments = $arguments();
+        }
+        $actual = call_user_func([$this->model, $method], ...$arguments);
+        if (is_callable($expected)) {
+            $expected($actual);
+        } else {
+            $this->assertEquals($expected, $actual);
+        }
     }
 
     public function providerModel()
@@ -34,20 +41,28 @@ class Customers_modelTest extends TestCase
                         'phone_number' => '123456789',
                     ]
                 ],
-                4
+                function($actual) {
+                    $this->assertIsNumeric($actual);
+                    $this->lastId = $actual;
+                }
             ],
             [
                 'add',
-                [
-                    [
-                        'id' => 4,
-                        'first_name' => 'Juliet',
-                        'last_name' => 'Doe',
-                        'email' => 'juliet@example.org',
-                        'phone_number' => '987654321',
-                    ]
-                ],
-                4
+                function() {
+                    return [
+                        [
+                            'id' => $this->lastId,
+                            'first_name' => 'Juliet',
+                            'last_name' => 'Doe',
+                            'email' => 'juliet@example.org',
+                            'phone_number' => '987654321',
+                        ]
+                    ];
+                },
+                function($actual) {
+                    $this->assertIsNumeric($actual);
+                    $this->assertEquals($this->lastId, $actual);
+                }
             ],
             [
                 'exists',
@@ -68,37 +83,44 @@ class Customers_modelTest extends TestCase
                         'email' => 'juliet@example.org'
                     ]
                 ],
-                4
+                function($actual) {
+                    $this->assertIsNumeric($actual);
+                    $this->assertEquals($this->lastId, $actual);
+                }
             ],
             [
                 'get_row',
-                [
-                    4
-                ],
-                [
-                    'first_name' => 'Juliet',
-                    'last_name' => 'Doe',
-                    'email' => 'juliet@example.org',
-                    'phone_number' => '987654321',
-                    'id' => '4',
-                    'mobile_number' => null,
-                    'address' => null,
-                    'city' => null,
-                    'state' => null,
-                    'zip_code' => null,
-                    'notes' => null,
-                    'timezone' => 'UTC',
-                    'language' => 'english',
-                    'id_roles' => '3',
-                    'slug' => null
-                ]
+                function() {
+                    return [$this->lastId];
+                },
+                function($actual) {
+                    $expected = [
+                        'first_name' => 'Juliet',
+                        'last_name' => 'Doe',
+                        'email' => 'juliet@example.org',
+                        'phone_number' => '987654321',
+                        'id' => (string) $this->lastId,
+                        'mobile_number' => null,
+                        'address' => null,
+                        'city' => null,
+                        'state' => null,
+                        'zip_code' => null,
+                        'notes' => null,
+                        'timezone' => 'UTC',
+                        'language' => 'english',
+                        'id_roles' => '3'
+                    ];
+                    $this->assertEquals($expected, $actual);
+                }
             ],
             [
                 'get_value',
-                [
-                    'first_name',
-                    4
-                ],
+                function() {
+                    return [
+                        'first_name',
+                        $this->lastId
+                    ];
+                },
                 'Juliet'
             ],
             [
@@ -109,25 +131,27 @@ class Customers_modelTest extends TestCase
                     null,
                     null
                 ],
-                [
-                    [
-                        'first_name' => 'Juliet',
-                        'last_name' => 'Doe',
-                        'email' => 'juliet@example.org',
-                        'phone_number' => '987654321',
-                        'id' => '4',
-                        'mobile_number' => null,
-                        'address' => null,
-                        'city' => null,
-                        'state' => null,
-                        'zip_code' => null,
-                        'notes' => null,
-                        'timezone' => 'UTC',
-                        'language' => 'english',
-                        'id_roles' => '3',
-                        'slug' => null
-                    ]
-                ]
+                function ($actual) {
+                    $expected = [
+                        [
+                            'first_name' => 'Juliet',
+                            'last_name' => 'Doe',
+                            'email' => 'juliet@example.org',
+                            'phone_number' => '987654321',
+                            'id' => (string) $this->lastId,
+                            'mobile_number' => null,
+                            'address' => null,
+                            'city' => null,
+                            'state' => null,
+                            'zip_code' => null,
+                            'notes' => null,
+                            'timezone' => 'UTC',
+                            'language' => 'english',
+                            'id_roles' => '3'
+                        ]
+                    ];
+                    $this->assertEquals($expected, $actual);
+                }
             ]
         ];
     }

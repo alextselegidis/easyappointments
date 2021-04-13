@@ -7,7 +7,6 @@ class Services_modelTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->resetInstance();
         $this->CI->load->model('Services_model');
         $this->model = $this->CI->Services_model;
     }
@@ -17,8 +16,15 @@ class Services_modelTest extends TestCase
      */
     public function testModel($method, $arguments, $expected)
     {
-        $output = call_user_func([$this->model, $method], ...$arguments);
-        $this->assertEquals($expected, $output);
+        if (is_callable($arguments)) {
+            $arguments = $arguments();
+        }
+        $actual = call_user_func([$this->model, $method], ...$arguments);
+        if (is_callable($expected)) {
+            $expected($actual);
+        } else {
+            $this->assertEquals($expected, $actual);
+        }
     }
 
     public function providerModel()
@@ -28,29 +34,37 @@ class Services_modelTest extends TestCase
                 'add',
                 [
                     [
-                        'name' => 'Service 02',
+                        'name' => 'Service 01',
                         'duration' => 60,
                         'price' => 10.00
                     ]
                 ],
-                2
+                function($actual) {
+                    $this->assertIsNumeric($actual);
+                    $this->lastId = $actual;
+                }
             ],
             [
                 'add',
-                [
-                    [
-                        'id' => 2,
-                        'name' => 'Service 02',
-                        'duration' => 80,
-                    ]
-                ],
-                2
+                function() {
+                    return [
+                        [
+                            'id' => $this->lastId,
+                            'name' => 'Service 01',
+                            'duration' => 80,
+                        ]
+                    ];
+                },
+                function($actual) {
+                    $this->assertIsNumeric($actual);
+                    $this->assertEquals($this->lastId, $actual);
+                }
             ],
             [
                 'exists',
                 [
                     [
-                        'name' => 'Service 02',
+                        'name' => 'Service 01',
                         'duration' => 80,
                         'price' => 10.00
                     ]
@@ -61,88 +75,82 @@ class Services_modelTest extends TestCase
                 'find_record_id',
                 [
                     [
-                        'name' => 'Service 02',
+                        'name' => 'Service 01',
                         'duration' => 80,
                         'price' => 10.00
                     ]
                 ],
-                2
+                function($actual) {
+                    $this->assertIsNumeric($actual);
+                    $this->assertEquals($this->lastId, $actual);
+                }
             ],
             [
                 'get_row',
-                [
-                    2
-                ],
-                [
-                    'name' => 'Service 02',
-                    'duration' => '80',
-                    'price' => '10.00',
-                    'id' => '2',
-                    'currency' => null,
-                    'description' => null,
-                    'location' => null,
-                    'availabilities_type' => 'flexible',
-                    'attendants_number' => '1',
-                    'id_service_categories' => null,
-                    'slug' => null
-                ]
+                function() {
+                    return [$this->lastId];
+                },
+                function($actual) {
+                    $expected = [
+                        'name' => 'Service 01',
+                        'duration' => '80',
+                        'price' => '10.00',
+                        'id' => (string) $this->lastId,
+                        'currency' => null,
+                        'description' => null,
+                        'location' => null,
+                        'availabilities_type' => 'flexible',
+                        'attendants_number' => '1',
+                        'id_service_categories' => null
+                    ];
+                    $this->assertEquals($expected, $actual);
+                }
             ],
             [
                 'get_value',
-                [
-                    'name',
-                    2
-                ],
-                'Service 02'
+                function() {
+                    return [
+                        'name',
+                        $this->lastId
+                    ];
+                },
+                'Service 01'
             ],
             [
                 'get_batch',
                 [
-                    ['name' => 'Service 02'],
+                    ['name' => 'Service 01'],
                     null,
                     null,
                     null
                 ],
-                [
-                    [
-                        'name' => 'Service 02',
-                        'duration' => '80',
-                        'price' => '10.00',
-                        'id' => '2',
-                        'currency' => null,
-                        'description' => null,
-                        'location' => null,
-                        'availabilities_type' => 'flexible',
-                        'attendants_number' => '1',
-                        'id_service_categories' => null,
-                        'slug' => null
-                    ]
-                ]
+                function ($actual) {
+                    $expected = [
+                        [
+                            'name' => 'Service 01',
+                            'duration' => '80',
+                            'price' => '10.00',
+                            'id' => (string) $this->lastId,
+                            'currency' => null,
+                            'description' => null,
+                            'location' => null,
+                            'availabilities_type' => 'flexible',
+                            'attendants_number' => '1',
+                            'id_service_categories' => null
+                        ]
+                    ];
+                    $this->assertEquals($expected, $actual);
+                }
             ],
             [
                 'get_available_services',
                 [null],
-                [
-                    [
-                        'name' => 'Service',
-                        'duration' => '30',
-                        'price' => '0.00',
-                        'id' => '1',
-                        'currency' => '',
-                        'description' => null,
-                        'location' => null,
-                        'availabilities_type' => 'flexible',
-                        'attendants_number' => '1',
-                        'id_service_categories' => null,
-                        'category_name' => null,
-                        'category_id' => null,
-                        'slug' => null
-                    ],
-                    [
-                        'name' => 'Service 02',
+                function($actual) {
+                    $expected = [
+                        'name' => 'Service 01',
                         'duration' => '80',
                         'price' => '10.00',
-                        'id' => '2',
+                        'id' => (string) $this->lastId,
                         'currency' => null,
                         'description' => null,
                         'location' => null,
@@ -150,16 +158,19 @@ class Services_modelTest extends TestCase
                         'attendants_number' => '1',
                         'id_service_categories' => null,
                         'category_name' => null,
-                        'category_id' => null,
-                        'slug' => null
-                    ]
-                ]
+                        'category_id' => null
+                    ];
+                    $this->assertGreaterThan(0, count($actual));
+                    $this->assertEquals($expected, end($actual));
+                }
             ],
             [
                 'delete',
-                [
-                    2
-                ],
+                function () {
+                    return [
+                        $this->lastId
+                    ];
+                },
                 true
             ]
         ];
