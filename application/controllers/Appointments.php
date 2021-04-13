@@ -193,6 +193,7 @@ class Appointments extends EA_Controller {
                 'privacy_policy_content' => $privacy_policy_content,
                 'timezones' => $timezones,
                 'display_any_provider' => $display_any_provider,
+                'user' => $user
             ];
         }
         catch (Exception $exception)
@@ -697,9 +698,19 @@ class Appointments extends EA_Controller {
 
     public function bookWithServiceAndCustomer($serviceSlug, $customerSlug, $userHash = null)
     {
-        $service = $this->getService($serviceSlug);
-        $customer = $this->getCustomer($customerSlug);
-        $user = $this->getUserByHash($userHash);
+        try {
+            $service = $this->getService($serviceSlug);
+            $customer = $this->getCustomer($customerSlug);
+            $user = $this->getUserByHash($userHash);
+        } catch (Exception $exception) {
+            $variables = [
+                'message_title' => lang('page_not_found'),
+                'message_text' => lang('page_not_found_message'),
+                'message_icon' => base_url('assets/img/error.png')
+            ];
+            $this->load->view('appointments/message', $variables);
+            return;
+        }
 
         $this->index('', $service, $customer, $user);
     }
@@ -708,15 +719,7 @@ class Appointments extends EA_Controller {
     {
         $service = $this->services_model->get_batch(['slug' => $serviceSlug]);
         if (empty($service)) {
-            $variables = [
-                'message_title' => lang('page_not_found'),
-                'message_text' => lang('page_not_found_message'),
-                'message_icon' => base_url('assets/img/error.png')
-            ];
-
-            $this->load->view('appointments/message', $variables);
-
-            return;
+            throw new Exception('Invalid service slug', 1);
         }
         return $service[0];
     }
@@ -725,15 +728,7 @@ class Appointments extends EA_Controller {
     {
         $customer = $this->customers_model->get_batch(['slug' => $customerSlug]);
         if (empty($customer)) {
-            $variables = [
-                'message_title' => lang('page_not_found'),
-                'message_text' => lang('page_not_found_message'),
-                'message_icon' => base_url('assets/img/error.png')
-            ];
-
-            $this->load->view('appointments/message', $variables);
-
-            return;
+            throw new Exception('Invalid customer slug', 1);
         }
         return $customer[0];
     }
@@ -743,15 +738,7 @@ class Appointments extends EA_Controller {
         if ($userHash) {
             $user = $this->customers_model->get_batch(['hash' => $userHash]);
             if (empty($user)) {
-                $variables = [
-                    'message_title' => lang('page_not_found'),
-                    'message_text' => lang('page_not_found_message'),
-                    'message_icon' => base_url('assets/img/error.png')
-                ];
-
-                $this->load->view('appointments/message', $variables);
-
-                return;
+                throw new Exception('Invalid user hash', 1);
             }
             return $$user[0];
         }
