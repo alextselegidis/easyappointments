@@ -108,7 +108,8 @@ class Customers_modelTest extends TestCase
                         'notes' => null,
                         'timezone' => 'UTC',
                         'language' => 'english',
-                        'id_roles' => '3'
+                        'id_roles' => '3',
+                        'slug' => null
                     ];
                     $this->assertEquals($expected, $actual);
                 }
@@ -147,7 +148,8 @@ class Customers_modelTest extends TestCase
                             'notes' => null,
                             'timezone' => 'UTC',
                             'language' => 'english',
-                            'id_roles' => '3'
+                            'id_roles' => '3',
+                            'slug' => null
                         ]
                     ];
                     $this->assertEquals($expected, $actual);
