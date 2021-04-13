@@ -694,6 +694,14 @@ class Appointments extends EA_Controller {
 
     public function bookWithServiceAndCustomer($serviceSlug, $customerSlug)
     {
+        $service = $this->getService($serviceSlug);
+        $customer = $this->getCustomer($customerSlug);
+
+        $this->index('', $service, $customer);
+    }
+
+    private function getService($serviceSlug)
+    {
         $service = $this->services_model->get_batch(['slug' => $serviceSlug]);
         if (empty($service)) {
             $variables = [
@@ -706,7 +714,11 @@ class Appointments extends EA_Controller {
 
             return;
         }
-        $service = $service[0];
+        return $service[0];
+    }
+
+    private function getCustomer($customerSlug)
+    {
         $customer = $this->customers_model->get_batch(['slug' => $customerSlug]);
         if (empty($customer)) {
             $variables = [
@@ -719,9 +731,7 @@ class Appointments extends EA_Controller {
 
             return;
         }
-        $customer = $customer[0];
-
-        $this->index('', $service, $customer);
+        return $customer[0];
     }
 
 }
