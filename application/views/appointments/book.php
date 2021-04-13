@@ -33,7 +33,7 @@
 
                 <div id="steps">
                     <?php $stepCounter = 1; ?>
-                    <?php if ($show_step_1): ?>
+                    <?php if ($show_step[1]): ?>
                         <div id="step-1" class="book-step<?php echo $active_step == 1 ? ' active-step':'';?>"
                             data-tippy-content="<?= lang('service_and_provider') ?>">
                             <strong><?php echo $stepCounter++; ?></strong>
@@ -45,11 +45,15 @@
                          data-tippy-content="<?= lang('appointment_date_and_time') ?>">
                         <strong><?php echo $stepCounter++; ?></strong>
                     </div>
-                    <div id="step-3" class="book-step<?php echo $active_step == 3 ? ' active-step':'';?>"
-                         data-toggle="tooltip"
-                         data-tippy-content="<?= lang('customer_information') ?>">
-                        <strong><?php echo $stepCounter++; ?></strong>
-                    </div>
+
+                    <?php if ($show_step[3]): ?>
+                        <div id="step-3" class="book-step<?php echo $active_step == 3 ? ' active-step':'';?>"
+                            data-toggle="tooltip"
+                            data-tippy-content="<?= lang('customer_information') ?>">
+                            <strong><?php echo $stepCounter++; ?></strong>
+                        </div>
+                    <?php endif; ?>
+
                     <div id="step-4" class="book-step<?php echo $active_step == 4 ? ' active-step':'';?>"
                          data-toggle="tooltip"
                          data-tippy-content="<?= lang('appointment_confirmation') ?>">
@@ -98,10 +102,10 @@
                 </div>
             <?php endif ?>
 
-
+            <?php $stepCounter = 1; ?>
             <!-- SELECT SERVICE AND PROVIDER -->
 
-            <div id="wizard-frame-1" class="wizard-frame"<?php echo $active_step != 1 ? ' style="display:none;"':'';?>>
+            <div id="wizard-frame-<?php echo $show_step[1] ? $stepCounter++ : 'disabled' ?>" class="wizard-frame"<?php echo $active_step != 1 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
 
@@ -236,7 +240,7 @@
                 </div>
 
                 <div class="command-buttons">
-                    <?php if ($show_step_1): ?>
+                    <?php if ($show_step[1]): ?>
                         <button type="button" id="button-back-2" class="btn button-back btn-outline-secondary"
                                 data-step_index="2">
                             <i class="fas fa-chevron-left mr-2"></i>

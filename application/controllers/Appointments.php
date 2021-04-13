@@ -168,7 +168,10 @@ class Appointments extends EA_Controller {
             // Load the book appointment view.
             $variables = [
                 'active_step' => $active_step,
-                'show_step_1' => !$service && !$provider,
+                'show_step' => [
+                    1 => !$service && !$provider,
+                    3 => !$service && !$provider && !$user
+                ],
                 'available_services' => $available_services,
                 'available_providers' => $available_providers,
                 'company_name' => $company_name,
