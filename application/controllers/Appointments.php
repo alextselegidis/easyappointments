@@ -170,7 +170,9 @@ class Appointments extends EA_Controller {
                 'active_step' => $active_step,
                 'show_step' => [
                     1 => !$service && !$provider,
-                    3 => !$service && !$provider && !$user
+                    2 => true,
+                    3 => !$service && !$provider && !$user,
+                    4 => true
                 ],
                 'available_services' => $available_services,
                 'available_providers' => $available_providers,
