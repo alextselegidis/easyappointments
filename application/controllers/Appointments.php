@@ -340,7 +340,7 @@ class Appointments extends EA_Controller {
             // that will provide the requested service.
             if ($provider_id === ANY_PROVIDER)
             {
-                $provider_id = $this->search_any_provider($selected_date, $service_id);
+                $provider_id = $this->search_any_provider($service_id, $selected_date);
 
                 if ($provider_id === NULL)
                 {
@@ -378,14 +378,15 @@ class Appointments extends EA_Controller {
      *
      * This method will return the database ID of the provider with the most available periods.
      *
-     * @param string $date The date to be searched (Y-m-d).
      * @param int $service_id The requested service ID.
+     * @param string $date The date to be searched (Y-m-d).
+     * @param string $hour The hour to be searched (H:i).
      *
      * @return int Returns the ID of the provider that can provide the service at the selected date.
      *
      * @throws Exception
      */
-    protected function search_any_provider($date, $service_id)
+    protected function search_any_provider($service_id, $date, $hour = null)
     {
         $available_providers = $this->providers_model->get_available_providers();
 
@@ -404,7 +405,7 @@ class Appointments extends EA_Controller {
                     // Check if the provider is available for the requested date.
                     $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 
-                    if (count($available_hours) > $max_hours_count)
+                    if (count($available_hours) > $max_hours_count && (empty($hour) || in_array($hour, $available_hours, false)))
                     {
                         $provider_id = $provider['id'];
                         $max_hours_count = count($available_hours);
@@ -527,12 +528,13 @@ class Appointments extends EA_Controller {
 
         $appointment = $post_data['appointment'];
 
-        $date = date('Y-m-d', strtotime($appointment['start_datetime']));
+        $appointment_start = new DateTime($appointment['start_datetime']);
+        $date = $appointment_start->format('Y-m-d');
+        $hour = $appointment_start->format('H:i');
 
         if ($appointment['id_users_provider'] === ANY_PROVIDER)
         {
-
-            $appointment['id_users_provider'] = $this->search_any_provider($date, $appointment['id_services']);
+            $appointment['id_users_provider'] = $this->search_any_provider($appointment['id_services'], $date, $hour);
 
             return $appointment['id_users_provider'];
         }

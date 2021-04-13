@@ -97,6 +97,11 @@ class Services_model extends EA_Model {
             {
                 throw new Exception('Service duration is not numeric.');
             }
+
+            if ((int)$service['duration'] < EVENT_MINIMUM_DURATION)
+            {
+                throw new Exception('The service duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.');
+            }
         }
 
         if ($service['price'] !== NULL)
