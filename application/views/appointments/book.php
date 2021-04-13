@@ -206,7 +206,7 @@
                 <div class="command-buttons">
                     <span>&nbsp;</span>
 
-                    <button type="button" id="button-next-1" class="btn button-next btn-dark"
+                    <button type="button" class="btn button-next btn-dark"
                             data-step_index="1">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
@@ -241,13 +241,13 @@
 
                 <div class="command-buttons">
                     <?php if ($show_step[1]): ?>
-                        <button type="button" id="button-back-2" class="btn button-back btn-outline-secondary"
+                        <button type="button" class="btn button-back btn-outline-secondary"
                                 data-step_index="2">
                             <i class="fas fa-chevron-left mr-2"></i>
                             <?= lang('back') ?>
                         </button>
                     <?php endif; ?>
-                    <button type="button" id="button-next-2" class="btn button-next btn-dark"
+                    <button type="button" class="btn button-next btn-dark"
                             data-step_index="2">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
@@ -353,12 +353,12 @@
                 <?php endif ?>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-3" class="btn button-back btn-outline-secondary"
+                    <button type="button" class="btn button-back btn-outline-secondary"
                             data-step_index="3">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-3" class="btn button-next btn-dark"
+                    <button type="button" class="btn button-next btn-dark"
                             data-step_index="3">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
@@ -393,7 +393,7 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-4" class="btn button-back btn-outline-secondary"
+                    <button type="button" class="btn button-back btn-outline-secondary"
                             data-step_index="4">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
