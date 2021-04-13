@@ -32,22 +32,28 @@
                 <span id="company-name"><?= $company_name ?></span>
 
                 <div id="steps">
-                    <div id="step-1" class="book-step active-step"
-                         data-tippy-content="<?= lang('service_and_provider') ?>">
-                        <strong>1</strong>
-                    </div>
+                    <?php $stepCounter = 1; ?>
+                    <?php if ($show_step_1): ?>
+                        <div id="step-1" class="book-step<?php echo $active_step == 1 ? ' active-step':'';?>"
+                            data-tippy-content="<?= lang('service_and_provider') ?>">
+                            <strong><?php echo $stepCounter++; ?></strong>
+                        </div>
+                    <?php endif; ?>
 
-                    <div id="step-2" class="book-step" data-toggle="tooltip"
+                    <div id="step-2" class="book-step<?php echo $active_step == 2 ? ' active-step':'';?>"
+                         data-toggle="tooltip"
                          data-tippy-content="<?= lang('appointment_date_and_time') ?>">
-                        <strong>2</strong>
+                        <strong><?php echo $stepCounter++; ?></strong>
                     </div>
-                    <div id="step-3" class="book-step" data-toggle="tooltip"
+                    <div id="step-3" class="book-step<?php echo $active_step == 3 ? ' active-step':'';?>"
+                         data-toggle="tooltip"
                          data-tippy-content="<?= lang('customer_information') ?>">
-                        <strong>3</strong>
+                        <strong><?php echo $stepCounter++; ?></strong>
                     </div>
-                    <div id="step-4" class="book-step" data-toggle="tooltip"
+                    <div id="step-4" class="book-step<?php echo $active_step == 4 ? ' active-step':'';?>"
+                         data-toggle="tooltip"
                          data-tippy-content="<?= lang('appointment_confirmation') ?>">
-                        <strong>4</strong>
+                        <strong><?php echo $stepCounter++; ?></strong>
                     </div>
                 </div>
             </div>
@@ -95,7 +101,7 @@
 
             <!-- SELECT SERVICE AND PROVIDER -->
 
-            <div id="wizard-frame-1" class="wizard-frame">
+            <div id="wizard-frame-1" class="wizard-frame"<?php echo $active_step != 1 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
 
@@ -157,8 +163,10 @@
                                                 echo '<optgroup label="' . $group_label . '">';
                                                 foreach ($group as $service)
                                                 {
-                                                    echo '<option value="' . $service['id'] . '">'
-                                                        . $service['name'] . '</option>';
+                                                    echo '<option value="' . $service['id'] . '"' .
+                                                        ($service_data && $service['id'] == $service_data['id']? ' selected="true"' : '') .
+                                                        '>' .
+                                                        $service['name'] . '</option>';
                                                 }
                                                 echo '</optgroup>';
                                             }
@@ -168,7 +176,10 @@
                                     {
                                         foreach ($available_services as $service)
                                         {
-                                            echo '<option value="' . $service['id'] . '">' . $service['name'] . '</option>';
+                                            echo '<option value="' . $service['id'] . '"' .
+                                                ($service_data && $service['id'] == $service_data['id']? ' selected="true"' : '') .
+                                                '>' .
+                                                $service['name'] . '</option>';
                                         }
                                     }
                                     ?>
@@ -201,7 +212,7 @@
 
             <!-- SELECT APPOINTMENT DATE -->
 
-            <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
+            <div id="wizard-frame-2" class="wizard-frame"<?php echo $active_step != 2 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
 
                     <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
@@ -225,11 +236,13 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-2" class="btn button-back btn-outline-secondary"
-                            data-step_index="2">
-                        <i class="fas fa-chevron-left mr-2"></i>
-                        <?= lang('back') ?>
-                    </button>
+                    <?php if ($show_step_1): ?>
+                        <button type="button" id="button-back-2" class="btn button-back btn-outline-secondary"
+                                data-step_index="2">
+                            <i class="fas fa-chevron-left mr-2"></i>
+                            <?= lang('back') ?>
+                        </button>
+                    <?php endif; ?>
                     <button type="button" id="button-next-2" class="btn button-next btn-dark"
                             data-step_index="2">
                         <?= lang('next') ?>
@@ -240,7 +253,7 @@
 
             <!-- ENTER CUSTOMER DATA -->
 
-            <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
+            <div id="wizard-frame-3" class="wizard-frame"<?php echo $active_step != 3 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
 
                     <h2 class="frame-title"><?= lang('customer_information') ?></h2>
@@ -351,7 +364,7 @@
 
             <!-- APPOINTMENT DATA CONFIRMATION -->
 
-            <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
+            <div id="wizard-frame-4" class="wizard-frame"<?php echo $active_step != 4 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
                     <div class="row frame-content">
