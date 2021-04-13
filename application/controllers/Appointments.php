@@ -47,8 +47,10 @@ class Appointments extends EA_Controller {
      * customer followed the appointment manage link that was send with the book success email.
      *
      * @param string $appointment_hash The appointment hash identifier.
+     * @param array $definedService The defined service by URL.
+     * @param array $definedProvider The defined provider by URL.
      */
-    public function index($appointment_hash = '')
+    public function index($appointment_hash = '', $definedService = [], $definedProvider = [])
     {
         try
         {
@@ -74,6 +76,7 @@ class Appointments extends EA_Controller {
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
             $timezones = $this->timezones->to_array();
+            $active_step = 1;
 
             // Remove the data that are not needed inside the $available_providers array.
             foreach ($available_providers as $index => $provider)
@@ -148,12 +151,24 @@ class Appointments extends EA_Controller {
                 $manage_mode = FALSE;
                 $customer_token = FALSE;
                 $appointment = [];
-                $provider = [];
+                if ($definedProvider) {
+                    $provider = $definedProvider;
+                    $active_step = 2;
+                } else {
+                    $provider = [];
+                }
+                if ($definedService) {
+                    $service = $definedService;
+                } else {
+                    $service = [];
+                }
                 $customer = [];
             }
 
             // Load the book appointment view.
             $variables = [
+                'active_step' => $active_step,
+                'show_step_1' => !$service && !$provider,
                 'available_services' => $available_services,
                 'available_providers' => $available_providers,
                 'company_name' => $company_name,
@@ -164,6 +179,7 @@ class Appointments extends EA_Controller {
                 'first_weekday' => $first_weekday,
                 'require_phone_number' => $require_phone_number,
                 'appointment_data' => $appointment,
+                'service_data' => $service,
                 'provider_data' => $provider,
                 'customer_data' => $customer,
                 'display_cookie_notice' => $display_cookie_notice,
@@ -676,5 +692,36 @@ class Appointments extends EA_Controller {
         return $provider_list;
     }
 
+    public function bookWithServiceAndCustomer($serviceSlug, $customerSlug)
+    {
+        $service = $this->services_model->get_batch(['slug' => $serviceSlug]);
+        if (empty($service)) {
+            $variables = [
+                'message_title' => lang('page_not_found'),
+                'message_text' => lang('page_not_found_message'),
+                'message_icon' => base_url('assets/img/error.png')
+            ];
+
+            $this->load->view('appointments/message', $variables);
+
+            return;
+        }
+        $service = $service[0];
+        $customer = $this->customers_model->get_batch(['slug' => $customerSlug]);
+        if (empty($customer)) {
+            $variables = [
+                'message_title' => lang('page_not_found'),
+                'message_text' => lang('page_not_found_message'),
+                'message_icon' => base_url('assets/img/error.png')
+            ];
+
+            $this->load->view('appointments/message', $variables);
+
+            return;
+        }
+        $customer = $customer[0];
+
+        $this->index('', $service, $customer);
+    }
 
 }
