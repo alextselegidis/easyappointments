@@ -50,7 +50,7 @@ class Appointments extends EA_Controller {
      * @param array $definedService The defined service by URL.
      * @param array $definedProvider The defined provider by URL.
      */
-    public function index($appointment_hash = '', $definedService = [], $definedProvider = [])
+    public function index($appointment_hash = '', $definedService = [], $definedProvider = [], $user = [])
     {
         try
         {
@@ -692,12 +692,13 @@ class Appointments extends EA_Controller {
         return $provider_list;
     }
 
-    public function bookWithServiceAndCustomer($serviceSlug, $customerSlug)
+    public function bookWithServiceAndCustomer($serviceSlug, $customerSlug, $userHash = null)
     {
         $service = $this->getService($serviceSlug);
         $customer = $this->getCustomer($customerSlug);
+        $user = $this->getUserByHash($userHash);
 
-        $this->index('', $service, $customer);
+        $this->index('', $service, $customer, $user);
     }
 
     private function getService($serviceSlug)
@@ -732,6 +733,25 @@ class Appointments extends EA_Controller {
             return;
         }
         return $customer[0];
+    }
+
+    public function getUserByHash($userHash)
+    {
+        if ($userHash) {
+            $user = $this->customers_model->get_batch(['hash' => $userHash]);
+            if (empty($user)) {
+                $variables = [
+                    'message_title' => lang('page_not_found'),
+                    'message_text' => lang('page_not_found_message'),
+                    'message_icon' => base_url('assets/img/error.png')
+                ];
+
+                $this->load->view('appointments/message', $variables);
+
+                return;
+            }
+            return $$user[0];
+        }
     }
 
 }
