@@ -176,6 +176,17 @@
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="aways-edit-customer">
+                                    <label class="custom-control-label" for="aways-edit-customer">
+                                        <?= lang('aways_edit_customer') ?>
+                                    </label>
+                                </div>
+                                <span class="form-text text-muted">
+                                    <?= lang('aways_edit_customer_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="require-captcha">
                                     <label class="custom-control-label" for="require-captcha">
                                         CAPTCHA
