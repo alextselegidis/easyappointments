@@ -89,6 +89,7 @@ class Appointments extends EA_Controller {
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
+            $aways_edit_customer = $this->settings_model->get_setting('aways_edit_customer');
             $timezones = $this->timezones->to_array();
             $active_step = 1;
 
@@ -177,7 +178,7 @@ class Appointments extends EA_Controller {
                 'show_step' => [
                     1 => !$definedService || !$definedProvider,
                     2 => true,
-                    3 => !$user,
+                    3 => $aways_edit_customer || !$user,
                     4 => true
                 ],
                 'available_services' => $available_services,
