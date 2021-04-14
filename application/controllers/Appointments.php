@@ -723,7 +723,7 @@ class Appointments extends EA_Controller {
         if (empty($service)) {
             throw new Exception('Invalid service slug', 1);
         }
-        return $service[0];
+        return current($service);
     }
 
     private function getCustomer($customerSlug)
@@ -732,7 +732,7 @@ class Appointments extends EA_Controller {
         if (empty($customer)) {
             throw new Exception('Invalid customer slug', 1);
         }
-        return $customer[0];
+        return current($customer);
     }
 
     public function getUserByHash($userHash)
@@ -742,7 +742,7 @@ class Appointments extends EA_Controller {
             if (empty($user)) {
                 throw new Exception('Invalid user hash', 1);
             }
-            return $$user[0];
+            return current($user);
         }
     }
 
