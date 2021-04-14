@@ -102,6 +102,11 @@
             value: $('#display-any-provider').prop('checked') ? '1' : '0'
         });
 
+        settings.push({
+            name: 'login_on_footer',
+            value: $('#disable-login-on-footer').prop('checked') ? '1' : '0'
+        });
+
 
         // Business Logic Tab
 

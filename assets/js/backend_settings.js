@@ -74,6 +74,10 @@ window.BackendSettings = window.BackendSettings || {};
                 $('#require-phone-number').prop('checked', Boolean(Number(setting.value)));
             }
 
+            if (setting.name === 'login_on_footer') {
+                $('#disable-login-on-footer').prop('checked', Boolean(Number(setting.value)));
+            }
+
             if (setting.name === 'display_any_provider') {
                 $('#display-any-provider').prop('checked', Boolean(Number(setting.value)));
             }
