@@ -75,6 +75,7 @@ class Appointments extends EA_Controller {
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
+            $login_on_footer = $this->settings_model->get_setting('login_on_footer');
             $timezones = $this->timezones->to_array();
             $active_step = 1;
 
@@ -195,6 +196,7 @@ class Appointments extends EA_Controller {
                 'privacy_policy_content' => $privacy_policy_content,
                 'timezones' => $timezones,
                 'display_any_provider' => $display_any_provider,
+                'login_on_footer' => $login_on_footer,
                 'user' => $user
             ];
         }
