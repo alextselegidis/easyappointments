@@ -80,7 +80,7 @@ $route['api/v1/settings/(:any)']['delete'] = 'api/v1/settings/delete/$1';
 
 $route['api/v1/availabilities']['get'] = 'api/v1/availabilities/get';
 
-$route['b/(:any)/(:any)']['get'] = 'appointments/bookWithServiceAndCustomer/$1/$2';
+$route['b/(:any)/(:any)/?(:any)?']['get'] = 'appointments/bookWithServiceAndCustomer/$1/$2/$3';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

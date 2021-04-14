@@ -32,29 +32,25 @@
                 <span id="company-name"><?= $company_name ?></span>
 
                 <div id="steps">
-                    <?php $stepCounter = 1; ?>
-                    <?php if ($show_step_1): ?>
-                        <div id="step-1" class="book-step<?php echo $active_step == 1 ? ' active-step':'';?>"
-                            data-tippy-content="<?= lang('service_and_provider') ?>">
-                            <strong><?php echo $stepCounter++; ?></strong>
-                        </div>
-                    <?php endif; ?>
-
-                    <div id="step-2" class="book-step<?php echo $active_step == 2 ? ' active-step':'';?>"
-                         data-toggle="tooltip"
-                         data-tippy-content="<?= lang('appointment_date_and_time') ?>">
-                        <strong><?php echo $stepCounter++; ?></strong>
-                    </div>
-                    <div id="step-3" class="book-step<?php echo $active_step == 3 ? ' active-step':'';?>"
-                         data-toggle="tooltip"
-                         data-tippy-content="<?= lang('customer_information') ?>">
-                        <strong><?php echo $stepCounter++; ?></strong>
-                    </div>
-                    <div id="step-4" class="book-step<?php echo $active_step == 4 ? ' active-step':'';?>"
-                         data-toggle="tooltip"
-                         data-tippy-content="<?= lang('appointment_confirmation') ?>">
-                        <strong><?php echo $stepCounter++; ?></strong>
-                    </div>
+                    <?php
+                    $stepCounter = 0;
+                    $steps = [
+                        1 => 'service_and_provider',
+                        2 => 'appointment_date_and_time',
+                        3 => 'customer_information',
+                        4 => 'appointment_confirmation'
+                    ];
+                    foreach ($steps as $id => $step) {
+                        if (!$show_step[$id]) {
+                            continue;
+                        }
+                        $stepCounter++;
+                        ?><div id="step-<?php echo $stepCounter; ?>" class="book-step<?php echo $active_step == $id ? ' active-step':'';?>"
+                            data-toggle="tooltip"
+                            data-tippy-content="<?= lang($step) ?>">
+                            <strong><?php echo $stepCounter; ?></strong>
+                        </div><?php
+                    } ?>
                 </div>
             </div>
 
@@ -98,10 +94,10 @@
                 </div>
             <?php endif ?>
 
-
+            <?php $stepCounter = 0; ?>
             <!-- SELECT SERVICE AND PROVIDER -->
-
-            <div id="wizard-frame-1" class="wizard-frame"<?php echo $active_step != 1 ? ' style="display:none;"':'';?>>
+            <?php ($show_step[1] ? $stepCounter++ : null) ?>
+            <div id="wizard-frame-<?php echo $show_step[1] ? $stepCounter : 'disabled' ?>" class="wizard-frame"<?php echo $active_step != 1 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
 
@@ -202,17 +198,18 @@
                 <div class="command-buttons">
                     <span>&nbsp;</span>
 
-                    <button type="button" id="button-next-1" class="btn button-next btn-dark"
-                            data-step_index="1">
+                    <button type="button" class="btn button-next btn-dark"
+                            data-step_index="<?php echo $show_step[1] ? $stepCounter : 'disabled' ?>">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
                 </div>
             </div>
 
+            <?php ($show_step[2] ? $stepCounter++ : null) ?>
             <!-- SELECT APPOINTMENT DATE -->
 
-            <div id="wizard-frame-2" class="wizard-frame"<?php echo $active_step != 2 ? ' style="display:none;"':'';?>>
+            <div id="wizard-frame-<?php echo $show_step[2] ? $stepCounter : 'disabled' ?>" class="wizard-frame"<?php echo $active_step != 2 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
 
                     <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
@@ -236,24 +233,25 @@
                 </div>
 
                 <div class="command-buttons">
-                    <?php if ($show_step_1): ?>
-                        <button type="button" id="button-back-2" class="btn button-back btn-outline-secondary"
-                                data-step_index="2">
+                    <?php if ($show_step[1]): ?>
+                        <button type="button" class="btn button-back btn-outline-secondary"
+                                data-step_index="<?php echo $stepCounter; ?>">
                             <i class="fas fa-chevron-left mr-2"></i>
                             <?= lang('back') ?>
                         </button>
                     <?php endif; ?>
-                    <button type="button" id="button-next-2" class="btn button-next btn-dark"
-                            data-step_index="2">
+                    <button type="button" class="btn button-next btn-dark"
+                            data-step_index="<?php echo $stepCounter; ?>">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
                 </div>
             </div>
 
+            <?php ($show_step[3] ? $stepCounter++ : null) ?>
             <!-- ENTER CUSTOMER DATA -->
 
-            <div id="wizard-frame-3" class="wizard-frame"<?php echo $active_step != 3 ? ' style="display:none;"':'';?>>
+            <div id="wizard-frame-<?php echo $show_step[3] ? $stepCounter : 'disabled' ?>" class="wizard-frame"<?php echo $active_step != 3 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
 
                     <h2 class="frame-title"><?= lang('customer_information') ?></h2>
@@ -265,21 +263,24 @@
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="100"/>
+                                <input type="text" id="first-name" class="required form-control" maxlength="100"
+                                       value="<?php echo $user['first_name'] ?? null;?>" />
                             </div>
                             <div class="form-group">
                                 <label for="last-name" class="control-label">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="last-name" class="required form-control" maxlength="120"/>
+                                <input type="text" id="last-name" class="required form-control" maxlength="120"
+                                       value="<?php echo $user['last_name'] ?? null;?>" />
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="email" class="required form-control" maxlength="120"/>
+                                <input type="text" id="email" class="required form-control" maxlength="120"
+                                       value="<?php echo $user['email'] ?? null;?>" />
                             </div>
                             <div class="form-group">
                                 <label for="phone-number" class="control-label">
@@ -287,7 +288,8 @@
                                     <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
                                 <input type="text" id="phone-number" maxlength="60"
-                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
+                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"
+                                       value="<?php echo $user['phone_number'] ?? null;?>" />
                             </div>
                         </div>
 
@@ -296,25 +298,28 @@
                                 <label for="address" class="control-label">
                                     <?= lang('address') ?>
                                 </label>
-                                <input type="text" id="address" class="form-control" maxlength="120"/>
+                                <input type="text" id="address" class="form-control" maxlength="120"
+                                       value="<?php echo $user['address'] ?? null;?>" />
                             </div>
                             <div class="form-group">
                                 <label for="city" class="control-label">
                                     <?= lang('city') ?>
                                 </label>
-                                <input type="text" id="city" class="form-control" maxlength="120"/>
+                                <input type="text" id="city" class="form-control" maxlength="120"
+                                       value="<?php echo $user['city'] ?? null;?>" />
                             </div>
                             <div class="form-group">
                                 <label for="zip-code" class="control-label">
                                     <?= lang('zip_code') ?>
                                 </label>
-                                <input type="text" id="zip-code" class="form-control" maxlength="120"/>
+                                <input type="text" id="zip-code" class="form-control" maxlength="120"
+                                       value="<?php echo $user['zip_code'] ?? null;?>" />
                             </div>
                             <div class="form-group">
                                 <label for="notes" class="control-label">
                                     <?= lang('notes') ?>
                                 </label>
-                                <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>
+                                <textarea id="notes" maxlength="500" class="form-control" rows="1"><?php echo $user['notes'] ?? null;?></textarea>
                             </div>
                         </div>
                     </div>
@@ -349,22 +354,23 @@
                 <?php endif ?>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-3" class="btn button-back btn-outline-secondary"
-                            data-step_index="3">
+                    <button type="button" class="btn button-back btn-outline-secondary"
+                            data-step_index="<?php echo $stepCounter; ?>">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-3" class="btn button-next btn-dark"
-                            data-step_index="3">
+                    <button type="button" class="btn button-next btn-dark"
+                            data-step_index="<?php echo $stepCounter; ?>">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
                 </div>
             </div>
 
+            <?php ($show_step[4] ? $stepCounter++ : null) ?>
             <!-- APPOINTMENT DATA CONFIRMATION -->
 
-            <div id="wizard-frame-4" class="wizard-frame"<?php echo $active_step != 4 ? ' style="display:none;"':'';?>>
+            <div id="wizard-frame-<?php echo $show_step[4] ? $stepCounter : 'disabled' ?>" class="wizard-frame"<?php echo $active_step != 4 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
                     <div class="row frame-content">
@@ -389,8 +395,8 @@
                 </div>
 
                 <div class="command-buttons">
-                    <button type="button" id="button-back-4" class="btn button-back btn-outline-secondary"
-                            data-step_index="4">
+                    <button type="button" class="btn button-back btn-outline-secondary"
+                            data-step_index="<?php echo $stepCounter; ?>">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
