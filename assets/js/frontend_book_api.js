@@ -75,7 +75,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     var providerId = $('#select-provider').val();
 
                     if (providerId === 'any-provider') {
-                        for (var availableProvider of GlobalVariables.availableProviders) {
+                        for (var i = 0;  i < GlobalVariables.availableProviders.length; i++) {
+                            var availableProvider = GlobalVariables.availableProviders[i];
                             if (availableProvider.services.indexOf(serviceId) !== -1) {
                                 providerId = availableProvider.id; // Use first available provider.
                                 break;
