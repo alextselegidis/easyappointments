@@ -137,10 +137,15 @@ window.FrontendBook = window.FrontendBook || {};
             bindEventHandlers();
         }
 
+        // Fill customer data
+        if (!jQuery.isEmptyObject(GlobalVariables.customerData)) {
+            applyCustomerData(GlobalVariables.customerData);
+        }
+
         // If the manage mode is true, the appointments data should be loaded by default.
         if (FrontendBook.manageMode) {
             applyAppointmentData(GlobalVariables.appointmentData,
-                GlobalVariables.providerData, GlobalVariables.customerData);
+                GlobalVariables.providerData);
         } else {
             var $selectProvider = $('#select-provider');
             var $selectService = $('#select-service');
@@ -695,6 +700,23 @@ window.FrontendBook = window.FrontendBook || {};
                 Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss'));
             FrontendBookApi.getAvailableHours(moment(appointment.start_datetime).format('YYYY-MM-DD'));
 
+            FrontendBook.updateConfirmFrame();
+
+            return true;
+        } catch (exc) {
+            return false;
+        }
+    }
+
+    /**
+     * This method applies the customer's data to the wizard.
+     *
+     * @param {Object} customer Selected customer's data.
+     *
+     * @return {Boolean} Returns the operation result.
+     */
+    function applyCustomerData(customer) {
+        try {
             // Apply Customer's Data
             $('#last-name').val(customer.last_name);
             $('#first-name').val(customer.first_name);

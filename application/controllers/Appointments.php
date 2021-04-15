@@ -49,9 +49,9 @@ class Appointments extends EA_Controller {
      * @param string $appointment_hash The appointment hash identifier.
      * @param string $definedServiceSlug The defined service by URL.
      * @param string $definedProviderSlug The defined provider by URL.
-     * @param string $userHash The user hash
+     * @param string $customerHash The customer hash
      */
-    public function index($appointment_hash = '', $definedServiceSlug = '', $definedProviderSlug = '', $userHash = '')
+    public function index($appointment_hash = '', $definedServiceSlug = '', $definedProviderSlug = '', $customerHash = '')
     {
         if ( ! is_app_installed())
         {
@@ -61,7 +61,7 @@ class Appointments extends EA_Controller {
         try {
             $definedService = $this->getServiceBySlug($definedServiceSlug);
             $definedProvider = $this->getProviderBySlug($definedProviderSlug);
-            $user = $this->getUserByHash($userHash);
+            $customer = $this->getCustomerByHash($customerHash);
         } catch (Exception $exception) {
             $variables = [
                 'message_title' => lang('page_not_found'),
@@ -173,7 +173,6 @@ class Appointments extends EA_Controller {
                 $manage_mode = FALSE;
                 $customer_token = FALSE;
                 $appointment = [];
-                $customer = [];
             }
 
             // Load the book appointment view.
@@ -204,8 +203,7 @@ class Appointments extends EA_Controller {
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
                 'timezones' => $timezones,
-                'display_any_provider' => $display_any_provider,
-                'user' => $user
+                'display_any_provider' => $display_any_provider
             ];
             foreach ($variables['show_step'] as $step_number => $show_step) {
                 if ($show_step) {
@@ -732,7 +730,7 @@ class Appointments extends EA_Controller {
     private function getServiceBySlug($serviceSlug)
     {
         if (!$serviceSlug) {
-            return;
+            return [];
         }
         $service = $this->services_model->get_batch(['slug' => $serviceSlug]);
         if (empty($service)) {
@@ -744,7 +742,7 @@ class Appointments extends EA_Controller {
     private function getProviderBySlug($providerSlug)
     {
         if (!$providerSlug) {
-            return;
+            return [];
         }
         $provider = $this->providers_model->get_batch(['slug' => $providerSlug]);
         if (empty($provider)) {
@@ -753,12 +751,12 @@ class Appointments extends EA_Controller {
         return current($provider);
     }
 
-    public function getUserByHash($userHash)
+    public function getCustomerByHash($customerHash)
     {
-        if (!$userHash) {
-            return;
+        if (!$customerHash) {
+            return [];
         }
-        $user = $this->customers_model->get_batch(['hash' => $userHash]);
+        $user = $this->customers_model->get_batch(['hash' => $customerHash]);
         if (empty($user)) {
             throw new Exception('Invalid user hash', 1);
         }
