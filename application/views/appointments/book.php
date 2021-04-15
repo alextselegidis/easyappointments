@@ -213,7 +213,9 @@
                 <div class="frame-container">
 
                     <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
-
+                    <div class="row frame-content">
+                        <div id="service-description-in-appointment-date-selection" class="col-12 col-md-12"></div>
+                    </div>
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">
                             <div id="select-date"></div>
