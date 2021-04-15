@@ -98,5 +98,6 @@
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 
 <?php google_analytics_script() ?>
+<?php custom_script() ?>
 </body>
 </html>

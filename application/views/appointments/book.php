@@ -474,5 +474,6 @@
 </script>
 
 <?php google_analytics_script(); ?>
+<?php custom_script() ?>
 </body>
 </html>

@@ -82,6 +82,10 @@ window.BackendSettings = window.BackendSettings || {};
                 $('#display-cookie-notice').prop('checked', Boolean(Number(setting.value)));
             }
 
+            if (setting.name === 'custom_script') {
+                $('#custom-script').val(setting.value);
+            }
+
             if (setting.name === 'cookie_notice_content') {
                 $('#cookie-notice-content').trumbowyg('html', setting.value);
             }

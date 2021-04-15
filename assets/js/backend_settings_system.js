@@ -102,6 +102,11 @@
             value: $('#display-any-provider').prop('checked') ? '1' : '0'
         });
 
+        settings.push({
+            name: 'custom_script',
+            value: $('#custom-script').val()
+        });
+
 
         // Business Logic Tab
 

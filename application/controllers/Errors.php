@@ -21,6 +21,7 @@ class Errors extends EA_Controller {
     {
         parent::__construct();
         $this->load->helper('google_analytics');
+        $this->load->helper('custom_script');
         $this->load->model('settings_model');
     }
 
