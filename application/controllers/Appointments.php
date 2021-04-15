@@ -60,7 +60,7 @@ class Appointments extends EA_Controller {
         }
         try {
             $definedService = $this->getServiceBySlug($definedServiceSlug);
-            $definedProvider = $this->getCustomerBySlug($definedProviderSlug);
+            $definedProvider = $this->getProviderBySlug($definedProviderSlug);
             $user = $this->getUserByHash($userHash);
         } catch (Exception $exception) {
             $variables = [
@@ -74,8 +74,16 @@ class Appointments extends EA_Controller {
 
         try
         {
-            $available_services = $this->services_model->get_available_services();
-            $available_providers = $this->providers_model->get_available_providers();
+            if ($definedService) {
+                $available_services[] = $definedService;
+            } else {
+                $available_services = $this->services_model->get_available_services();
+            }
+            if ($definedProvider) {
+                $available_providers[] = $definedProvider;
+            } else {
+                $available_providers = $this->providers_model->get_available_providers();
+            }
             $company_name = $this->settings_model->get_setting('company_name');
             $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
             $date_format = $this->settings_model->get_setting('date_format');
@@ -192,7 +200,7 @@ class Appointments extends EA_Controller {
                 'require_phone_number' => $require_phone_number,
                 'appointment_data' => $appointment,
                 'service_data' => $definedService,
-                'provider_data' => $definedService,
+                'provider_data' => $definedProvider,
                 'customer_data' => $customer,
                 'display_cookie_notice' => $display_cookie_notice,
                 'cookie_notice_content' => $cookie_notice_content,
@@ -727,16 +735,16 @@ class Appointments extends EA_Controller {
         return current($service);
     }
 
-    private function getCustomerBySlug($customerSlug)
+    private function getProviderBySlug($providerSlug)
     {
-        if (!$customerSlug) {
+        if (!$providerSlug) {
             return;
         }
-        $customer = $this->customers_model->get_batch(['slug' => $customerSlug]);
-        if (empty($customer)) {
-            throw new Exception('Invalid customer slug', 1);
+        $provider = $this->providers_model->get_batch(['slug' => $providerSlug]);
+        if (empty($provider)) {
+            throw new Exception('Invalid provider slug', 1);
         }
-        return current($customer);
+        return current($provider);
     }
 
     public function getUserByHash($userHash)
