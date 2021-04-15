@@ -99,7 +99,6 @@ class Appointments extends EA_Controller {
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
             $aways_edit_customer = $this->settings_model->get_setting('aways_edit_customer');
             $timezones = $this->timezones->to_array();
-            $active_step = 1;
 
             // Remove the data that are not needed inside the $available_providers array.
             $available_providers = array_map(function($provider) {
@@ -176,15 +175,11 @@ class Appointments extends EA_Controller {
                 $appointment = [];
                 $customer = [];
             }
-            if ($definedProvider) {
-                $active_step = 2;
-            }
 
             // Load the book appointment view.
             $variables = [
-                'active_step' => $active_step,
                 'show_step' => [
-                    1 => !$definedService || !$definedProvider,
+                    1 => count($available_services) > 1 || count($available_providers) > 1,
                     2 => true,
                     3 => $aways_edit_customer || !$user,
                     4 => true
@@ -212,6 +207,12 @@ class Appointments extends EA_Controller {
                 'display_any_provider' => $display_any_provider,
                 'user' => $user
             ];
+            foreach ($variables['show_step'] as $step_number => $show_step) {
+                if ($show_step) {
+                    $variables['active_step'] = $step_number;
+                    break;
+                }
+            }
         }
         catch (Exception $exception)
         {
