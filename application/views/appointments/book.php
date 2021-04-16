@@ -235,14 +235,14 @@
                     <?php if ($show_step[1]): ?>
                         <button type="button" class="btn button-back btn-outline-secondary"
                                 data-step_index="<?php echo $stepCounter; ?>"
-                                data-step_code="appointment_date">
+                                data-step_code="appointment_date_and_time">
                             <i class="fas fa-chevron-left mr-2"></i>
                             <?= lang('back') ?>
                         </button>
                     <?php endif; ?>
                     <button type="button" class="btn button-next btn-dark"
                             data-step_index="<?php echo $stepCounter; ?>"
-                            data-step_code="appointment_date">
+                            data-step_code="appointment_date_and_time">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -350,13 +350,13 @@
                 <div class="command-buttons">
                     <button type="button" class="btn button-back btn-outline-secondary"
                             data-step_index="<?php echo $stepCounter; ?>"
-                            data-step_code="customer_data">
+                            data-step_code="customer_information">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <button type="button" class="btn button-next btn-dark"
                             data-step_index="<?php echo $stepCounter; ?>"
-                            data-step_code="customer_data">
+                            data-step_code="customer_information">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -393,7 +393,7 @@
                 <div class="command-buttons">
                     <button type="button" class="btn button-back btn-outline-secondary"
                             data-step_index="<?php echo $stepCounter; ?>"
-                            data-step_code="data_confirmation">
+                            data-step_code="appointment_confirmation">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>

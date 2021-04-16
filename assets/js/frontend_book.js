@@ -261,8 +261,8 @@ window.FrontendBook = window.FrontendBook || {};
                 return;
             }
 
-            // If we are on the 2nd tab then the user should have an appointment hour selected.
-            if ($(this).attr('data-step_code') === 'appointment_date') {
+            // If we are on the "appointment date and time" tab then the user should have an appointment hour selected.
+            if ($(this).attr('data-step_code') === 'appointment_date_and_time') {
                 if (!$('.selected-hour').length) {
                     if (!$('#select-hour-prompt').length) {
                         $('<div/>', {
@@ -276,9 +276,9 @@ window.FrontendBook = window.FrontendBook || {};
                 }
             }
 
-            // If we are on the "customer data" tab then we will need to validate the user's input before proceeding to the next
+            // If we are on the "customer information" tab then we will need to validate the user's input before proceeding to the next
             // step.
-            if ($(this).attr('data-step_code') === 'customer_data') {
+            if ($(this).attr('data-step_code') === 'customer_information') {
                 if (!validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
