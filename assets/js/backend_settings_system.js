@@ -102,11 +102,6 @@
             value: $('#display-any-provider').prop('checked') ? '1' : '0'
         });
 
-        settings.push({
-            name: 'custom_code_block',
-            value: $('#custom-script').val()
-        });
-
 
         // Business Logic Tab
 
