@@ -745,7 +745,7 @@ window.FrontendBook = window.FrontendBook || {};
                 .appendTo($serviceDescription);
 
             $('<span/>', {
-                'html': service.description
+                'html': service.description.replaceAll('\n', '<br/>')
             })
                 .appendTo($serviceDescription);
         }
