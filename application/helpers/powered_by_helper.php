@@ -12,22 +12,18 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Render the HTML output of a timezone dropdown element.
- *
- * @param string $attributes HTML element attributes of the dropdown.
+ * Return Powered by.
  *
  * @return string
  */
-function render_timezone_dropdown($attributes = '')
+function powered_by($company_name = 'Easy!Appointments', $company_link = 'https://easyappointments.org')
 {
-    $CI = get_instance();
-
-    $CI->load->library('timezones');
-
-    $timezones = $CI->timezones->to_grouped_array();
-
-    return $CI->load->view('partials/timezone_dropdown', [
-        'timezones' => $timezones,
-        'attributes' => $attributes
-    ], TRUE);
+    $return =
+        'Powered by
+        <a href="https://easyappointments.org">Easy!Appointments</a>';
+    if ($company_name != 'Easy!Appointments') {
+        $return .= ' | ' .
+            '<a href="' . $company_link . '" style="text-decoration: none;">' . $company_name . '</a>';
+    }
+    return $return;
 }
