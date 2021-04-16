@@ -227,8 +227,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="disable-login-on-footer">
-                                    <label class="custom-control-label" for="disable-login-on-footer">
+                                    <input type="checkbox" class="custom-control-input" id="login-on-footer">
+                                    <label class="custom-control-label" for="login-on-footer">
                                         <?= lang('login_on_footer') ?>
                                     </label>
                                 </div>
