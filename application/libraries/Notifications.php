@@ -79,12 +79,21 @@ class Notifications {
             }
 
             if (!$settings['show_steps'][0]) {
-                $customer_link = new Url(site_url(
-                    'appointments/index/' .
-                    $appointment['hash'] .
-                    '/' . $service['slug'] .
-                    '/' . $provider['slug']
-                ));
+                if ($service['slug'] && $provider['slug']) {
+                    $customer_link = new Url(site_url(
+                        'appointments/index/' .
+                        $appointment['hash'] .
+                        '/' . $service['slug'] .
+                        '/' . $provider['slug']
+                    ));
+                } else {
+                    $customer_link = new Url(site_url(
+                        'appointments/index/' .
+                        $appointment['hash'] .
+                        '/?service=' . $service['id'] .
+                        '&provider=' . $provider['id']
+                    ));
+                }
             } else {
                 $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
             }

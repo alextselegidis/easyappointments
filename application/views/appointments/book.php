@@ -159,9 +159,7 @@
                                                 echo '<optgroup label="' . $group_label . '">';
                                                 foreach ($group as $service)
                                                 {
-                                                    echo '<option value="' . $service['id'] . '"' .
-                                                        ($service_data && $service['id'] == $service_data['id']? ' selected="true"' : '') .
-                                                        '>' .
+                                                    echo '<option value="' . $service['id'] . '">' .
                                                         $service['name'] . '</option>';
                                                 }
                                                 echo '</optgroup>';
@@ -172,9 +170,7 @@
                                     {
                                         foreach ($available_services as $service)
                                         {
-                                            echo '<option value="' . $service['id'] . '"' .
-                                                ($service_data && $service['id'] == $service_data['id']? ' selected="true"' : '') .
-                                                '>' .
+                                            echo '<option value="' . $service['id'] . '">' .
                                                 $service['name'] . '</option>';
                                         }
                                     }
@@ -199,7 +195,8 @@
                     <span>&nbsp;</span>
 
                     <button type="button" class="btn button-next btn-dark"
-                            data-step_index="<?php echo $show_step[1] ? $stepCounter : 'disabled' ?>">
+                            data-step_index="<?php echo $show_step[1] ? $stepCounter : 'disabled' ?>"
+                            data-step_code="service_and_provider">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -237,13 +234,15 @@
                 <div class="command-buttons">
                     <?php if ($show_step[1]): ?>
                         <button type="button" class="btn button-back btn-outline-secondary"
-                                data-step_index="<?php echo $stepCounter; ?>">
+                                data-step_index="<?php echo $stepCounter; ?>"
+                                data-step_code="appointment_date_and_time">
                             <i class="fas fa-chevron-left mr-2"></i>
                             <?= lang('back') ?>
                         </button>
                     <?php endif; ?>
                     <button type="button" class="btn button-next btn-dark"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="appointment_date_and_time">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -265,21 +264,21 @@
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="100" />
+                                <input type="text" id="first-name" class="required form-control" maxlength="100"/>
                             </div>
                             <div class="form-group">
                                 <label for="last-name" class="control-label">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="last-name" class="required form-control" maxlength="120" />
+                                <input type="text" id="last-name" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="email" class="required form-control" maxlength="120" />
+                                <input type="text" id="email" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="phone-number" class="control-label">
@@ -287,7 +286,7 @@
                                     <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
                                 <input type="text" id="phone-number" maxlength="60"
-                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control" />
+                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
                             </div>
                         </div>
 
@@ -296,19 +295,19 @@
                                 <label for="address" class="control-label">
                                     <?= lang('address') ?>
                                 </label>
-                                <input type="text" id="address" class="form-control" maxlength="120" />
+                                <input type="text" id="address" class="form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="city" class="control-label">
                                     <?= lang('city') ?>
                                 </label>
-                                <input type="text" id="city" class="form-control" maxlength="120" />
+                                <input type="text" id="city" class="form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="zip-code" class="control-label">
                                     <?= lang('zip_code') ?>
                                 </label>
-                                <input type="text" id="zip-code" class="form-control" maxlength="120" />
+                                <input type="text" id="zip-code" class="form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="notes" class="control-label">
@@ -350,12 +349,14 @@
 
                 <div class="command-buttons">
                     <button type="button" class="btn button-back btn-outline-secondary"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="customer_information">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <button type="button" class="btn button-next btn-dark"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="customer_information">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -391,7 +392,8 @@
 
                 <div class="command-buttons">
                     <button type="button" class="btn button-back btn-outline-secondary"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="appointment_confirmation">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
@@ -459,7 +461,6 @@
         firstWeekday: <?= json_encode($first_weekday) ?>,
         displayCookieNotice: <?= json_encode($display_cookie_notice === '1') ?>,
         appointmentData: <?= json_encode($appointment_data) ?>,
-        providerData: <?= json_encode($provider_data) ?>,
         customerData: <?= json_encode($customer_data) ?>,
         displayAnyProvider: <?= json_encode($display_any_provider) ?>,
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
