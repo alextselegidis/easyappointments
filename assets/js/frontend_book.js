@@ -144,8 +144,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         // If the manage mode is true, the appointments data should be loaded by default.
         if (FrontendBook.manageMode) {
-            applyAppointmentData(GlobalVariables.appointmentData,
-                GlobalVariables.providerData);
+            applyAppointmentData(GlobalVariables.appointmentData);
         } else {
             var $selectProvider = $('#select-provider');
             var $selectService = $('#select-service');
@@ -257,13 +256,13 @@ window.FrontendBook = window.FrontendBook || {};
          * Some special tasks might be performed, depending the current wizard step.
          */
         $('.button-next').on('click', function () {
-            // If we are on the first step and there is not provider selected do not continue with the next step.
-            if ($(this).attr('data-step_index') === '1' && !$('#select-provider').val()) {
+            // If we are on the step "service and provider" and there is not provider selected do not continue with the next step.
+            if ($(this).attr('data-step_code') === 'service_and_provider' && !$('#select-provider').val()) {
                 return;
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
-            if ($(this).attr('data-step_index') === '2') {
+            if ($(this).attr('data-step_code') === 'appointment_date') {
                 if (!$('.selected-hour').length) {
                     if (!$('#select-hour-prompt').length) {
                         $('<div/>', {
@@ -277,9 +276,9 @@ window.FrontendBook = window.FrontendBook || {};
                 }
             }
 
-            // If we are on the 3rd tab then we will need to validate the user's input before proceeding to the next
+            // If we are on the "customer data" tab then we will need to validate the user's input before proceeding to the next
             // step.
-            if ($(this).attr('data-step_index') === '3') {
+            if ($(this).attr('data-step_code') === 'customer_data') {
                 if (!validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
@@ -684,12 +683,10 @@ window.FrontendBook = window.FrontendBook || {};
      * that the user can start making changes on an existing record.
      *
      * @param {Object} appointment Selected appointment's data.
-     * @param {Object} provider Selected provider's data.
-     * @param {Object} customer Selected customer's data.
      *
      * @return {Boolean} Returns the operation result.
      */
-    function applyAppointmentData(appointment, provider, customer) {
+    function applyAppointmentData(appointment) {
         try {
             // Select Service & Provider
             $('#select-service').val(appointment.id_services).trigger('change');

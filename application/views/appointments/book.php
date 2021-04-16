@@ -159,9 +159,7 @@
                                                 echo '<optgroup label="' . $group_label . '">';
                                                 foreach ($group as $service)
                                                 {
-                                                    echo '<option value="' . $service['id'] . '"' .
-                                                        ($service_data && $service['id'] == $service_data['id']? ' selected="true"' : '') .
-                                                        '>' .
+                                                    echo '<option value="' . $service['id'] . '">' .
                                                         $service['name'] . '</option>';
                                                 }
                                                 echo '</optgroup>';
@@ -172,9 +170,7 @@
                                     {
                                         foreach ($available_services as $service)
                                         {
-                                            echo '<option value="' . $service['id'] . '"' .
-                                                ($service_data && $service['id'] == $service_data['id']? ' selected="true"' : '') .
-                                                '>' .
+                                            echo '<option value="' . $service['id'] . '">' .
                                                 $service['name'] . '</option>';
                                         }
                                     }
@@ -199,7 +195,8 @@
                     <span>&nbsp;</span>
 
                     <button type="button" class="btn button-next btn-dark"
-                            data-step_index="<?php echo $show_step[1] ? $stepCounter : 'disabled' ?>">
+                            data-step_index="<?php echo $show_step[1] ? $stepCounter : 'disabled' ?>"
+                            data-step_code="service_and_provider">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -237,13 +234,15 @@
                 <div class="command-buttons">
                     <?php if ($show_step[1]): ?>
                         <button type="button" class="btn button-back btn-outline-secondary"
-                                data-step_index="<?php echo $stepCounter; ?>">
+                                data-step_index="<?php echo $stepCounter; ?>"
+                                data-step_code="appointment_date">
                             <i class="fas fa-chevron-left mr-2"></i>
                             <?= lang('back') ?>
                         </button>
                     <?php endif; ?>
                     <button type="button" class="btn button-next btn-dark"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="appointment_date">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -350,12 +349,14 @@
 
                 <div class="command-buttons">
                     <button type="button" class="btn button-back btn-outline-secondary"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="customer_data">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
                     <button type="button" class="btn button-next btn-dark"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="customer_data">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
                     </button>
@@ -391,7 +392,8 @@
 
                 <div class="command-buttons">
                     <button type="button" class="btn button-back btn-outline-secondary"
-                            data-step_index="<?php echo $stepCounter; ?>">
+                            data-step_index="<?php echo $stepCounter; ?>"
+                            data-step_code="data_confirmation">
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
@@ -457,7 +459,6 @@
         firstWeekday: <?= json_encode($first_weekday) ?>,
         displayCookieNotice: <?= json_encode($display_cookie_notice === '1') ?>,
         appointmentData: <?= json_encode($appointment_data) ?>,
-        providerData: <?= json_encode($provider_data) ?>,
         customerData: <?= json_encode($customer_data) ?>,
         displayAnyProvider: <?= json_encode($display_any_provider) ?>,
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
