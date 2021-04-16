@@ -469,10 +469,6 @@ class Appointments extends EA_Controller {
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
             $appointment = $post_data['appointment'];
             $customer = $post_data['customer'];
-            $show_steps = array_map(
-                fn($show) => filter_var($show, FILTER_VALIDATE_BOOLEAN),
-                $this->input->post('show_steps')
-            );
 
             // Check appointment availability before registering it to the database.
             $appointment['id_users_provider'] = $this->check_datetime_availability();
@@ -525,7 +521,10 @@ class Appointments extends EA_Controller {
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'date_format' => $this->settings_model->get_setting('date_format'),
                 'time_format' => $this->settings_model->get_setting('time_format'),
-                'show_steps' => $show_steps
+                'show_steps' => array_map(
+                    fn($show) => filter_var($show, FILTER_VALIDATE_BOOLEAN),
+                    $this->input->post('show_steps')
+                )
             ];
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
