@@ -47,11 +47,11 @@ class Appointments extends EA_Controller {
      * customer followed the appointment manage link that was send with the book success email.
      *
      * @param string $appointment_hash The appointment hash identifier.
-     * @param string $definedServiceSlug The defined service by URL.
-     * @param string $definedProviderSlug The defined provider by URL.
+     * @param string $serviceSlug The service by URL.
+     * @param string $providerSlug The provider by URL.
      * @param string $customerHash The customer hash
      */
-    public function index($appointment_hash = '', $definedServiceSlug = '', $definedProviderSlug = '', $customerHash = '')
+    public function index($appointment_hash = '', $serviceSlug = '', $providerSlug = '', $customerHash = '')
     {
         if ( ! is_app_installed())
         {
@@ -59,8 +59,8 @@ class Appointments extends EA_Controller {
             return;
         }
         try {
-            $available_services = $this->getServices($definedServiceSlug, $this->input->get('service'));
-            $available_providers = $this->getProviders($definedProviderSlug, $this->input->get('provider'));
+            $available_services = $this->getServices($serviceSlug, $this->input->get('service'));
+            $available_providers = $this->getProviders($providerSlug, $this->input->get('provider'));
             $customer = $this->getCustomerByHash($customerHash);
 
             $replace_home = $this->settings_model->get_setting('replace_home');
@@ -216,9 +216,9 @@ class Appointments extends EA_Controller {
         $this->load->view('appointments/book', $variables);
     }
 
-    public function b($definedServiceSlug = '', $definedProviderSlug = '', $appointment_hash = '')
+    public function b($serviceSlug = '', $providerSlug = '', $appointment_hash = '')
     {
-        return $this->index($appointment_hash, $definedServiceSlug, $definedProviderSlug);
+        return $this->index($appointment_hash, $serviceSlug, $providerSlug);
     }
 
     /**
