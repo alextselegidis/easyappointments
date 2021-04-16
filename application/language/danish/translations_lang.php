@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Vælg dato og tid';
 $lang['no_available_hours'] = 'Der er ingen ledig tid på den valgte dato.';
 $lang['appointment_hour_missing'] = 'Vælg en tid før du kan fortsætte.';
 $lang['customer_information'] = 'Udfyld informationer';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Fornavn';
 $lang['last_name'] = 'Efternavn';
 $lang['email'] = 'Email';

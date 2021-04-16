@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'اختر وقت وتاريخ الموعد'
 $lang['no_available_hours'] = 'لا يوجد مواعيد متاحة في الوقت الذي تم إختياره الرجاء اختيار وقت آخر';
 $lang['appointment_hour_missing'] = 'الرجاء اختيار ساعة الموعد قبل الإكمال';
 $lang['customer_information'] = 'أدخل بياناتك';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'الاسم الأول';
 $lang['last_name'] = 'العائلة';
 $lang['email'] = 'البريد الإلكتروني';

@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Výběr data a času schůzky';
 $lang['no_available_hours'] = 'V rámci zvoleného data nejsou k dispozici žádné termíny pro rezervaci schůzky. Zvolte prosím jiné datum.';
 $lang['appointment_hour_missing'] = 'Než budete pokračovat, zvolte prosím termín schůzky.';
 $lang['customer_information'] = 'Zadání vašich údajů';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Jméno';
 $lang['last_name'] = 'Příjmení';
 $lang['email'] = 'Email';

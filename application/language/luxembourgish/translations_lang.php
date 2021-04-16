@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Auswiel vum Datum an der Auerzäit vum Ter
 $lang['no_available_hours'] = 'Et gëtt leider kee fräie Termäin méi fir deen ausgewielten Dag. Wielt w.e.g. en aner Dag aus.';
 $lang['appointment_hour_missing'] = 'Wielt w.e.g. ee Termäin iert Der weider maacht.';
 $lang['customer_information'] = 'Gitt w.e.g. Är perséinlech Donnéeën an';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Virnumm';
 $lang['last_name'] = 'Familljennumm';
 $lang['email'] = 'E-Mail';

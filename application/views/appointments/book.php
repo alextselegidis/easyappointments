@@ -255,7 +255,13 @@
             <div id="wizard-frame-<?php echo $show_step[3] ? $stepCounter : 'disabled' ?>" class="wizard-frame"<?php echo $active_step != 3 ? ' style="display:none;"':'';?>>
                 <div class="frame-container">
 
-                    <h2 class="frame-title"><?= lang('customer_information') ?></h2>
+                    <h2 class="frame-title"><?php
+                    if ($customer_data) {
+                        echo lang('update_customer_information');
+                    } else {
+                        echo lang('customer_information');
+                    }
+                    ?></h2>
 
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">

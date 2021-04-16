@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Выбор даты и времени за
 $lang['no_available_hours'] = 'Нет доступного времени назначения на выбранной дате. Пожвлуйста выберите другую дату.';
 $lang['appointment_hour_missing'] = 'Пожалуйста выберите час назначения и продолжите.';
 $lang['customer_information'] = 'Заполните информацию о себе';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Имя';
 $lang['last_name'] = 'Фамилия';
 $lang['email'] = 'E-mail';

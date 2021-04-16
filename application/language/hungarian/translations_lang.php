@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Válaszd ki az időpont dátumát és idej
 $lang['no_available_hours'] = 'A kiválasztott napon nincsen szabad időpont. Kérlek válassz másik dátumot.';
 $lang['appointment_hour_missing'] = 'Válassz egy időpontot mielőtt folytatnád.';
 $lang['customer_information'] = 'Töltsd ki az adataidat.';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Keresztnév';
 $lang['last_name'] = 'Vezetéknév';
 $lang['email'] = 'Email';

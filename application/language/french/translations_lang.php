@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Choisissez la date et l\'heure de votre re
 $lang['no_available_hours'] = 'Il n\'y a pas d\'heures de rendez-vous disponibles pour la date sélectionnée. Choisissez une autre date s\'il vous plaît.';
 $lang['appointment_hour_missing'] = 'S\'il vous plaît, choisissez une heure de rendez-vous avant de pouvoir poursuivre.';
 $lang['customer_information'] = 'Remplissez vos informations';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Prénom';
 $lang['last_name'] = 'Nom';
 $lang['email'] = 'Email';

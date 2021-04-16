@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Randevu Tarihini ve Zamanını Seçin';
 $lang['no_available_hours'] = 'Seçilen tarih için uygun saat bulunmuyor. Lütfen başka bir tarih seçin. ';
 $lang['appointment_hour_missing'] = 'Lütfen devam etmeden önce bir randevu saati seçin.';
 $lang['customer_information'] = 'Bilgilerinizi Girin';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Ad';
 $lang['last_name'] = 'Soyad';
 $lang['email'] = 'Eposta';

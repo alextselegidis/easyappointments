@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Selecione a data e hora do evento';
 $lang['no_available_hours'] = 'Não existem eventos para a data selecionada, Por favor, selecione outra data.';
 $lang['appointment_hour_missing'] = 'Por favor, selecione a hora do evento antes de continuar.';
 $lang['customer_information'] = 'Preencha as suas informações';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Primeiro Nome';
 $lang['last_name'] = 'Ultimo Nome';
 $lang['email'] = 'Email';

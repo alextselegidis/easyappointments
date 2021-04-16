@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Selecteer een datum en tijd';
 $lang['no_available_hours'] = 'Het is momenteel niet mogelijk een afspraak te maken op die datum. Kies een andere datum.';
 $lang['appointment_hour_missing'] = 'Kies een tijd voordat u verder gaat.';
 $lang['customer_information'] = 'Vul uw informatie in';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Voornaam';
 $lang['last_name'] = 'Achternaam';
 $lang['email'] = 'E-mail';

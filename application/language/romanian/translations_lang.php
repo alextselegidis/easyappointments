@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Selecteaza data si ora întâlnirii';
 $lang['no_available_hours'] = 'Nu este timp disponibil pentru data selectata. Va rugam sa selectati alta data.';
 $lang['appointment_hour_missing'] = 'Va rugam selectati ora întâlnirii înainte de a continua.';
 $lang['customer_information'] = 'Informatii despre dumneavoastra';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Prenume';
 $lang['last_name'] = 'Nume';
 $lang['email'] = 'Email';

@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Seleccione fecha y hora de cita';
 $lang['no_available_hours'] = 'No hay horarios disponibles para una cita en la fecha seleccionada. Por favor, elija otra fecha.';
 $lang['appointment_hour_missing'] = 'Por favor, seleccione un horario para la cita antes de continuar.';
 $lang['customer_information'] = 'Ingrese su información';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Nombre';
 $lang['last_name'] = 'Apellido';
 $lang['email'] = 'Dirección de E-mail';

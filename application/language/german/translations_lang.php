@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Datum & Uhrzeit des Termins';
 $lang['no_available_hours'] = 'Es gibt leider keine freien Termine für das ausgewählte Datum. Bitte wählen Sie ein anderes Datum.';
 $lang['appointment_hour_missing'] = 'Bitte wählen Sie einen Termin aus bevor Sie fortfahren.';
 $lang['customer_information'] = 'Kundeninformationen';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Vorname';
 $lang['last_name'] = 'Nachname';
 $lang['email'] = 'E-Mail';

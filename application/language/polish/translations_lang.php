@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Wybierz Datę i Czas Wizyty';
 $lang['no_available_hours'] = 'Brak dostępnych terminów w wybranym dniu, proszę wybrać inny dzień.';
 $lang['appointment_hour_missing'] = 'Proszę wybrać godzinę wizyty przed kontynuowaniem.';
 $lang['customer_information'] = 'Wypełnij Twoje informacje.';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Imię';
 $lang['last_name'] = 'Nazwisko';
 $lang['email'] = 'E-mail';

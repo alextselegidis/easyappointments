@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Zvoľte si dátum a čas rezervácie';
 $lang['no_available_hours'] = 'Čas pre vybraný dátum nieje k dispozícii. Prosím, vyberte si iný termín.';
 $lang['appointment_hour_missing'] = 'Prosím, vyberte si hodinu pred pokračovaním.';
 $lang['customer_information'] = 'Vyplňte svoje údaje';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Meno';
 $lang['last_name'] = 'Priezvisko';
 $lang['email'] = 'Email';

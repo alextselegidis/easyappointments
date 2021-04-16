@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'تاریخ و زمان ملاقات';
 $lang['no_available_hours'] = 'برای تاریخ انتخاب شده، زمان خالی برای ملاقات وجود ندارد. لطفا تاریخ دیگری را انتخاب کنید';
 $lang['appointment_hour_missing'] = 'لطفا قبل از ادامه، ساعتی برای ملاقات انتخاب کنید';
 $lang['customer_information'] = 'اطلاعات مشتری';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'نام';
 $lang['last_name'] = 'نام خانوادگی';
 $lang['email'] = 'پست الکترونیک';

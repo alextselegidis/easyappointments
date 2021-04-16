@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Appointment Date & Time';
 $lang['no_available_hours'] = 'There are no available appointment hours for the selected date. Please choose another date.';
 $lang['appointment_hour_missing'] = 'Please select an appointment hour before continuing.';
 $lang['customer_information'] = 'Customer Information';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'First Name';
 $lang['last_name'] = 'Last Name';
 $lang['email'] = 'Email';

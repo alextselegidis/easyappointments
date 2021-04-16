@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Selecció de la data i l\'hora de la cita'
 $lang['no_available_hours'] = 'No hi ha hores disponibles per a la data seleccionada. Seleccioneu una altra data.';
 $lang['appointment_hour_missing'] = 'Seleccioneu-ne una altra abans de continuar.';
 $lang['customer_information'] = 'Introducció de dades personals';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Nom';
 $lang['last_name'] = 'Cognoms';
 $lang['email'] = 'Correu electrònic';

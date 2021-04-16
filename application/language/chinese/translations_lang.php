@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = '选择预约的日期和时间';
 $lang['no_available_hours'] = '您所选择的日期和时间没有空位。请选择其他日期.';
 $lang['appointment_hour_missing'] = '继续之前请选择您的预约时间.';
 $lang['customer_information'] = '填写您的信息';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = '名字';
 $lang['last_name'] = '姓氏';
 $lang['email'] = '电子邮箱';

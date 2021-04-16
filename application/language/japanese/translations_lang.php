@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = '日時の選択';
 $lang['no_available_hours'] = '選択された日に空席がありません。別の日を選択してください。';
 $lang['appointment_hour_missing'] = '次に行く前に予約時間を選択してください。';
 $lang['customer_information'] = 'お客様のご連絡先';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = '名前';
 $lang['last_name'] = '名字';
 $lang['email'] = 'メールアドレス';

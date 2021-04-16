@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'Valitse päivämäärä ja aika';
 $lang['no_available_hours'] = 'Valitsemallesi päivälle ei ole vapaita aikoja';
 $lang['appointment_hour_missing'] = 'Valitse kellonaika ennen jatkamista';
 $lang['customer_information'] = 'Syötä tietosi';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'Etunimi';
 $lang['last_name'] = 'Sukunimi';
 $lang['email'] = 'Sähköposti';
