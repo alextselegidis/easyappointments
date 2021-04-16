@@ -26,7 +26,7 @@ class Appointments extends EA_Controller {
 
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
-        $this->load->helper('custom_script');
+        $this->load->helper('custom_code_block');
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('admins_model');

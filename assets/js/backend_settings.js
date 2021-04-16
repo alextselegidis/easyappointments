@@ -82,7 +82,7 @@ window.BackendSettings = window.BackendSettings || {};
                 $('#display-cookie-notice').prop('checked', Boolean(Number(setting.value)));
             }
 
-            if (setting.name === 'custom_script') {
+            if (setting.name === 'custom_code_block') {
                 $('#custom-script').val(setting.value);
             }
 

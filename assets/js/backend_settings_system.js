@@ -103,7 +103,7 @@
         });
 
         settings.push({
-            name: 'custom_script',
+            name: 'custom_code_block',
             value: $('#custom-script').val()
         });
 

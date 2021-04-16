@@ -12,19 +12,19 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_add_users_hash
+ * Class Migration_custom_code_block_hash
  *
  * @property CI_DB_query_builder $db
  * @property CI_DB_forge $dbforge
  */
-class Migration_add_users_hash extends CI_Migration {
+class Migration_custom_code_block_hash extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
         $this->db->insert('settings', [
-            'name' => 'custom_script',
+            'name' => 'custom_code_block',
             'value' => null
         ]);
     }
@@ -34,6 +34,6 @@ class Migration_add_users_hash extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'custom_script']);
+        $this->db->delete('settings', ['name' => 'custom_code_block']);
     }
 }

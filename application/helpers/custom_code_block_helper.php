@@ -18,15 +18,15 @@
  * whether the code is set in the database and print it, otherwise nothing will be outputted. This eliminates the need
  * for extra checking before outputting.
  */
-function custom_script()
+function custom_code_block()
 {
     $CI =& get_instance();
 
     $CI->load->model('settings_model');
 
-    $custom_script = $CI->settings_model->get_setting('custom_script');
+    $custom_code_block = $CI->settings_model->get_setting('custom_code_block');
 
-    if ($custom_script !== '') {
-        echo $custom_script;
+    if ($custom_code_block !== '') {
+        echo $custom_code_block;
     }
 }

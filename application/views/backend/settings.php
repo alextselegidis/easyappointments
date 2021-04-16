@@ -163,10 +163,10 @@
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="custom-script"><?= lang('custom_script') ?></label>
+                                <label for="custom-script"><?= lang('custom_code_block') ?></label>
                                 <textarea id="custom-script" cols="30" rows="3" class="form-control"></textarea>
                                 <span class="help-block">
-                                    <?= lang('custom_script_hint') ?>
+                                    <?= lang('custom_code_block_hint') ?>
                                 </span>
                             </div>
 
