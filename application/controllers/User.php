@@ -57,6 +57,7 @@ class User extends EA_Controller {
         }
 
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_link'] = $this->settings_model->get_setting('company_link');
 
         $this->load->view('user/login', $view);
     }
@@ -74,6 +75,7 @@ class User extends EA_Controller {
 
         $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_link'] = $this->settings_model->get_setting('company_link');
         $this->load->view('user/logout', $view);
     }
 
@@ -85,6 +87,7 @@ class User extends EA_Controller {
     {
         $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_link'] = $this->settings_model->get_setting('company_link');
         $this->load->view('user/forgot_password', $view);
     }
 
@@ -96,6 +99,7 @@ class User extends EA_Controller {
     {
         $view['base_url'] = config('base_url');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_link'] = $this->settings_model->get_setting('company_link');
         $this->load->view('user/no_privileges', $view);
     }
 

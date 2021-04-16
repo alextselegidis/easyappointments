@@ -38,6 +38,7 @@ class Errors extends EA_Controller {
     public function error404()
     {
         $view['company_name'] = $this->settings_model->get_setting('company_name');
+        $view['company_link'] = $this->settings_model->get_setting('company_link');
 
         $this->load->view('general/error404', $view);
     }

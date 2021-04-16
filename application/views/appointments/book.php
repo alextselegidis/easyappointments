@@ -397,9 +397,7 @@
             <div id="frame-footer">
                 <small>
                     <span class="footer-powered-by">
-                        Powered By
-
-                        <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+                        <?= powered_by($company_name, $company_link) ?>
                     </span>
 
                     <span class="footer-options">

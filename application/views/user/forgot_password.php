@@ -61,8 +61,7 @@
 
     <div class="mt-4">
         <small>
-            Powered by
-            <a href="https://easyappointments.org">Easy!Appointments</a>
+            <?= powered_by($company_name, $company_link) ?>
         </small>
     </div>
 </div>
