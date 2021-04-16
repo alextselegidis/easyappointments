@@ -433,7 +433,13 @@
 
 <script>
     var GlobalVariables = {
-        availableServices: <?= json_encode($available_services) ?>,
+        availableServices: <?php
+            $available_services = array_map(function($service) {
+                $service['description'] = nl2br($service['description']);
+                return $service;
+            }, $available_services);
+            echo json_encode($available_services);
+        ?>,
         availableProviders: <?= json_encode($available_providers) ?>,
         baseUrl: <?= json_encode(config('base_url')) ?>,
         manageMode: <?= $manage_mode ? 'true' : 'false' ?>,
