@@ -332,6 +332,7 @@ class Appointments extends EA_Controller {
                 'timezone' => $customer['timezone'],
             ],
             'service_data' => $service,
+            'replace_home' => $this->settings_model->get_setting('replace_home'),
             'company_name' => $company_name,
         ];
 
