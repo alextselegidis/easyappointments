@@ -16,7 +16,6 @@ $lang['first_name'] = 'Primeiro Nome';
 $lang['last_name'] = 'Ultimo Nome';
 $lang['email'] = 'Email';
 $lang['phone_number'] = 'Telefone';
-$lang['phone_number'] = 'Phone Number';
 $lang['address'] = 'Endereço';
 $lang['city'] = 'Cidade';
 $lang['zip_code'] = 'CEP';
