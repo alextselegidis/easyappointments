@@ -21,7 +21,7 @@ function powered_by($company_name = 'Easy!Appointments', $company_link = 'https:
     $return =
         'Powered by
         <a href="https://easyappointments.org">Easy!Appointments</a>';
-    if ($company_name != 'Easy!Appointments') {
+    if ($company_name && $company_name != 'Easy!Appointments' && $company_link) {
         $return .= ' | ' .
             '<a href="' . $company_link . '" style="text-decoration: none;">' . $company_name . '</a>';
     }
