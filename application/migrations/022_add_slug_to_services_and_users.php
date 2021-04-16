@@ -47,6 +47,10 @@ class Migration_add_slug_to_services_and_users extends CI_Migration {
             'name' => 'aways_edit_customer',
             'value' => '1'
         ]);
+        $this->db->insert('settings', [
+            'name' => 'replace_home',
+            'value' => null
+        ]);
     }
 
     /**
@@ -57,5 +61,6 @@ class Migration_add_slug_to_services_and_users extends CI_Migration {
         $this->dbforge->drop_column('users', 'slug');
         $this->dbforge->drop_column('services', 'slug');
         $this->db->delete('settings', ['name' => 'aways_edit_customer']);
+        $this->db->delete('settings', ['name' => 'replace_home']);
     }
 }
