@@ -3,12 +3,12 @@
 class Services_modelTest extends TestCase
 {
     /** @var Services_model */
-    private $model;
+    private $services_model;
     public function setUp(): void
     {
         parent::setUp();
         $this->CI->load->model('Services_model');
-        $this->model = $this->CI->Services_model;
+        $this->services_model = $this->CI->Services_model;
     }
 
     /**
@@ -19,7 +19,7 @@ class Services_modelTest extends TestCase
         if (is_callable($arguments)) {
             $arguments = $arguments();
         }
-        $actual = call_user_func([$this->model, $method], ...$arguments);
+        $actual = call_user_func([$this->services_model, $method], ...$arguments);
         if (is_callable($expected)) {
             $expected($actual);
         } else {
@@ -144,7 +144,22 @@ class Services_modelTest extends TestCase
             ],
             [
                 'get_available_services',
-                [null],
+                function() {
+                    $CI = & get_instance();
+                    $CI->load->model('Providers_model');
+                    $this->lastProviderId = $CI->Providers_model->add([
+                        'last_name' => 'Test',
+                        'email' => 'test@test.test',
+                        'phone_number' => '12345789',
+                        'services' => [
+                            $this->lastServiceId
+                        ],
+                        'settings' => [
+                            'password' => 123456789
+                        ]
+                    ]);
+                    return [];
+                },
                 function($actual) {
                     $expected = [
                         'name' => 'Service 01',

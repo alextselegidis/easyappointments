@@ -360,7 +360,7 @@ class Services_model extends EA_Model {
                 . 'service_categories.id AS category_id')
             ->from('services')
             ->join('services_providers',
-                'services_providers.id_services = services.id', 'left')
+                'services_providers.id_services = services.id', 'inner')
             ->join('service_categories',
                 'service_categories.id = services.id_service_categories', 'left')
             ->order_by('name ASC')
