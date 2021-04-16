@@ -12,12 +12,12 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_custom_code_block_hash
+ * Class Migration_Add_custom_code_block_setting
  *
  * @property CI_DB_query_builder $db
  * @property CI_DB_forge $dbforge
  */
-class Migration_custom_code_block_hash extends CI_Migration {
+class Migration_Add_custom_code_block_setting extends CI_Migration {
     /**
      * Upgrade method.
      */
