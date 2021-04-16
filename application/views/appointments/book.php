@@ -264,21 +264,21 @@
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="100" />
+                                <input type="text" id="first-name" class="required form-control" maxlength="100"/>
                             </div>
                             <div class="form-group">
                                 <label for="last-name" class="control-label">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="last-name" class="required form-control" maxlength="120" />
+                                <input type="text" id="last-name" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="email" class="required form-control" maxlength="120" />
+                                <input type="text" id="email" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="phone-number" class="control-label">
@@ -286,7 +286,7 @@
                                     <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
                                 <input type="text" id="phone-number" maxlength="60"
-                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control" />
+                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
                             </div>
                         </div>
 
@@ -295,19 +295,19 @@
                                 <label for="address" class="control-label">
                                     <?= lang('address') ?>
                                 </label>
-                                <input type="text" id="address" class="form-control" maxlength="120" />
+                                <input type="text" id="address" class="form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="city" class="control-label">
                                     <?= lang('city') ?>
                                 </label>
-                                <input type="text" id="city" class="form-control" maxlength="120" />
+                                <input type="text" id="city" class="form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="zip-code" class="control-label">
                                     <?= lang('zip_code') ?>
                                 </label>
-                                <input type="text" id="zip-code" class="form-control" maxlength="120" />
+                                <input type="text" id="zip-code" class="form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
                                 <label for="notes" class="control-label">
