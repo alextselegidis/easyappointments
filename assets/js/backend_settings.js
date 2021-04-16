@@ -79,7 +79,7 @@ window.BackendSettings = window.BackendSettings || {};
             }
 
             if (setting.name === 'login_on_footer') {
-                $('#disable-login-on-footer').prop('checked', Boolean(Number(setting.value)));
+                $('#login-on-footer').prop('checked', Boolean(Number(setting.value)));
             }
 
             if (setting.name === 'display_any_provider') {
