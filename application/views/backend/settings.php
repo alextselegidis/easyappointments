@@ -162,6 +162,13 @@
                                     <?= lang('api_token_hint') ?>
                                 </span>
                             </div>
+                            <div class="form-group">
+                                <label for="replace-home"><?= lang('replace_home') ?></label>
+                                <input id="replace-home" data-field="replace_home" class="form-control">
+                                <span class="help-block">
+                                    <?= lang('replace_home_hint') ?>
+                                </span>
+                            </div>
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">

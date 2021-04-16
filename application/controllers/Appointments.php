@@ -84,6 +84,15 @@ class Appointments extends EA_Controller {
             } else {
                 $available_providers = $this->providers_model->get_available_providers();
             }
+
+            $replace_home = $this->settings_model->get_setting('replace_home');
+            if ($replace_home && filter_var($replace_home, FILTER_VALIDATE_URL) !== false) {
+                if (!$appointment_hash && !$definedServiceSlug && !$definedProviderSlug) {
+                    redirect($replace_home);
+                    return;
+                }
+            }
+
             $company_name = $this->settings_model->get_setting('company_name');
             $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
             $date_format = $this->settings_model->get_setting('date_format');
@@ -180,7 +189,7 @@ class Appointments extends EA_Controller {
                 'show_step' => [
                     1 => count($available_services) > 1 || count($available_providers) > 1,
                     2 => true,
-                    3 => $aways_edit_customer || !$user,
+                    3 => $aways_edit_customer || !$definedProvider,
                     4 => true
                 ],
                 'available_services' => $available_services,

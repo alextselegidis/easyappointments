@@ -320,6 +320,8 @@ $lang['require_phone_number_hint'] = 'در صورت فعال بودن ، هنگ�
 $lang['check_spam_folder'] = 'اگر تا دقایقی دیگر ایمیل را دریافت نکردید ، لطفاً پوشه هرزنامه خود را بررسی کنید.';
 $lang['api_token_hint'] = 'برای فعال سازی احراز هویت مبتنی بر token برای دسترسی به API برنامه، یک رمز مخفی تنظیم کنید.';
 $lang['timezone'] = 'منطقه زمانی';
+$lang['replace_home'] = 'Replace home';
+$lang['replace_home_hint'] = 'If you want that when accessing the root route ( / ) the user does not see the schedule screen, enter the URL to where the user should be redirected.';
 $lang['overwrite_existing_working_plans'] = 'این کار باعث بازنویسی  برنامه های کاری موجود می شود. آیا از این کار اطمینان دارید؟';
 $lang['working_plans_got_updated'] = 'تمامی برنامه های کاری به روز رسانی شدند';
 $lang['apply_to_all_providers'] = 'اعمال کردن به همه ارائه دهنده ها';
