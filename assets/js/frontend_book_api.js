@@ -76,7 +76,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
                     if (providerId === 'any-provider') {
                         for (var i = 0; i < GlobalVariables.availableProviders.length; i++) {
-                            availableProvider = GlobalVariables.availableProviders[i];
+                            var availableProvider = GlobalVariables.availableProviders[i];
                             if (availableProvider.services.indexOf(serviceId) !== -1) {
                                 providerId = availableProvider.id; // Use first available provider.
                                 break;
@@ -166,6 +166,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         if (GlobalVariables.manageMode) {
             data.exclude_appointment_id = GlobalVariables.appointmentData.id;
         }
+        data.show_steps = GlobalVariables.showSteps;
 
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment';
 

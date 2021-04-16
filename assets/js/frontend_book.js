@@ -137,10 +137,15 @@ window.FrontendBook = window.FrontendBook || {};
             bindEventHandlers();
         }
 
+        // Fill customer data
+        if (!jQuery.isEmptyObject(GlobalVariables.customerData)) {
+            applyCustomerData(GlobalVariables.customerData);
+        }
+
         // If the manage mode is true, the appointments data should be loaded by default.
         if (FrontendBook.manageMode) {
             applyAppointmentData(GlobalVariables.appointmentData,
-                GlobalVariables.providerData, GlobalVariables.customerData);
+                GlobalVariables.providerData);
         } else {
             var $selectProvider = $('#select-provider');
             var $selectService = $('#select-service');
@@ -176,6 +181,9 @@ window.FrontendBook = window.FrontendBook || {};
                     .trigger('change');
             }
 
+        }
+        if (!GlobalVariables.showSteps[1]) {
+            updateServiceDescription($('#select-service').val(), $('#service-description-in-appointment-date-selection'));
         }
     };
 
@@ -239,7 +247,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
-            updateServiceDescription(serviceId);
+            updateServiceDescription(serviceId, $('#service-description'));
         });
 
         /**
@@ -692,6 +700,23 @@ window.FrontendBook = window.FrontendBook || {};
                 Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss'));
             FrontendBookApi.getAvailableHours(moment(appointment.start_datetime).format('YYYY-MM-DD'));
 
+            FrontendBook.updateConfirmFrame();
+
+            return true;
+        } catch (exc) {
+            return false;
+        }
+    }
+
+    /**
+     * This method applies the customer's data to the wizard.
+     *
+     * @param {Object} customer Selected customer's data.
+     *
+     * @return {Boolean} Returns the operation result.
+     */
+    function applyCustomerData(customer) {
+        try {
             // Apply Customer's Data
             $('#last-name').val(customer.last_name);
             $('#first-name').val(customer.first_name);
@@ -722,10 +747,8 @@ window.FrontendBook = window.FrontendBook || {};
      *
      * @param {Number} serviceId The selected service record id.
      */
-    function updateServiceDescription(serviceId) {
-        var $serviceDescription = $('#service-description');
-
-        $serviceDescription.empty();
+    function updateServiceDescription(serviceId, descriptionContainer) {
+        descriptionContainer.empty();
 
         var service = GlobalVariables.availableServices.find(function (availableService) {
             return Number(availableService.id) === Number(serviceId);
@@ -738,42 +761,42 @@ window.FrontendBook = window.FrontendBook || {};
         $('<strong/>', {
             'text': service.name
         })
-            .appendTo($serviceDescription);
+            .appendTo(descriptionContainer);
 
         if (service.description) {
             $('<br/>')
-                .appendTo($serviceDescription);
+                .appendTo(descriptionContainer);
 
             $('<span/>', {
                 'text': service.description
             })
-                .appendTo($serviceDescription);
+                .appendTo(descriptionContainer);
         }
 
         if (service.duration || Number(service.price) > 0 || service.location) {
             $('<br/>')
-                .appendTo($serviceDescription);
+                .appendTo(descriptionContainer);
         }
 
         if (service.duration) {
             $('<span/>', {
                 'text': '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']'
             })
-                .appendTo($serviceDescription);
+                .appendTo(descriptionContainer);
         }
 
         if (Number(service.price) > 0) {
             $('<span/>', {
                 'text': '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']'
             })
-                .appendTo($serviceDescription);
+                .appendTo(descriptionContainer);
         }
 
         if (service.location) {
             $('<span/>', {
                 'text': '[' + EALang.location + ' ' + service.location + ']'
             })
-                .appendTo($serviceDescription);
+                .appendTo(descriptionContainer);
         }
     }
 

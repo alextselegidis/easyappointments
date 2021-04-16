@@ -213,7 +213,9 @@
                 <div class="frame-container">
 
                     <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
-
+                    <div class="row frame-content">
+                        <div id="service-description-in-appointment-date-selection" class="col-12 col-md-12"></div>
+                    </div>
                     <div class="row frame-content">
                         <div class="col-12 col-md-6">
                             <div id="select-date"></div>
@@ -263,24 +265,21 @@
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="first-name" class="required form-control" maxlength="100"
-                                       value="<?php echo $user['first_name'] ?? null;?>" />
+                                <input type="text" id="first-name" class="required form-control" maxlength="100" />
                             </div>
                             <div class="form-group">
                                 <label for="last-name" class="control-label">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="last-name" class="required form-control" maxlength="120"
-                                       value="<?php echo $user['last_name'] ?? null;?>" />
+                                <input type="text" id="last-name" class="required form-control" maxlength="120" />
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" id="email" class="required form-control" maxlength="120"
-                                       value="<?php echo $user['email'] ?? null;?>" />
+                                <input type="text" id="email" class="required form-control" maxlength="120" />
                             </div>
                             <div class="form-group">
                                 <label for="phone-number" class="control-label">
@@ -288,8 +287,7 @@
                                     <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
                                 <input type="text" id="phone-number" maxlength="60"
-                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"
-                                       value="<?php echo $user['phone_number'] ?? null;?>" />
+                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control" />
                             </div>
                         </div>
 
@@ -298,28 +296,25 @@
                                 <label for="address" class="control-label">
                                     <?= lang('address') ?>
                                 </label>
-                                <input type="text" id="address" class="form-control" maxlength="120"
-                                       value="<?php echo $user['address'] ?? null;?>" />
+                                <input type="text" id="address" class="form-control" maxlength="120" />
                             </div>
                             <div class="form-group">
                                 <label for="city" class="control-label">
                                     <?= lang('city') ?>
                                 </label>
-                                <input type="text" id="city" class="form-control" maxlength="120"
-                                       value="<?php echo $user['city'] ?? null;?>" />
+                                <input type="text" id="city" class="form-control" maxlength="120" />
                             </div>
                             <div class="form-group">
                                 <label for="zip-code" class="control-label">
                                     <?= lang('zip_code') ?>
                                 </label>
-                                <input type="text" id="zip-code" class="form-control" maxlength="120"
-                                       value="<?php echo $user['zip_code'] ?? null;?>" />
+                                <input type="text" id="zip-code" class="form-control" maxlength="120" />
                             </div>
                             <div class="form-group">
                                 <label for="notes" class="control-label">
                                     <?= lang('notes') ?>
                                 </label>
-                                <textarea id="notes" maxlength="500" class="form-control" rows="1"><?php echo $user['notes'] ?? null;?></textarea>
+                                <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>
                             </div>
                         </div>
                     </div>
@@ -467,7 +462,8 @@
         providerData: <?= json_encode($provider_data) ?>,
         customerData: <?= json_encode($customer_data) ?>,
         displayAnyProvider: <?= json_encode($display_any_provider) ?>,
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>
+        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+        showSteps: <?= json_encode($show_step) ?>
     };
 
     var EALang = <?= json_encode($this->lang->language) ?>;

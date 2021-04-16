@@ -162,6 +162,13 @@
                                     <?= lang('api_token_hint') ?>
                                 </span>
                             </div>
+                            <div class="form-group">
+                                <label for="replace-home"><?= lang('replace_home') ?></label>
+                                <input id="replace-home" data-field="replace_home" class="form-control">
+                                <span class="help-block">
+                                    <?= lang('replace_home_hint') ?>
+                                </span>
+                            </div>
 
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
@@ -172,6 +179,17 @@
                                 </div>
                                 <span class="form-text text-muted">
                                     <?= lang('customer_notifications_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="aways-edit-customer">
+                                    <label class="custom-control-label" for="aways-edit-customer">
+                                        <?= lang('aways_edit_customer') ?>
+                                    </label>
+                                </div>
+                                <span class="form-text text-muted">
+                                    <?= lang('aways_edit_customer_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">

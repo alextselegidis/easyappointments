@@ -88,6 +88,11 @@
         });
 
         settings.push({
+            name: 'aways_edit_customer',
+            value: $('#aways-edit-customer').prop('checked') ? '1' : '0'
+        });
+
+        settings.push({
             name: 'require_captcha',
             value: $('#require-captcha').prop('checked') ? '1' : '0'
         });

@@ -12,39 +12,19 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Migration_add_slug_to_services_and_users
+ * Class Migration_Add_replace_home_setting
  *
  * @property CI_DB_query_builder $db
  * @property CI_DB_forge $dbforge
  */
-class Migration_add_slug_to_services_and_users extends CI_Migration {
+class Migration_Add_replace_home_setting extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
-        $fields = [
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => '256',
-                'null' => TRUE
-            ]
-        ];
-
-        $this->dbforge->add_column('users', $fields);
-
-        $fields = [
-            'slug' => [
-                'type' => 'VARCHAR',
-                'constraint' => '256',
-                'null' => TRUE
-            ]
-        ];
-
-        $this->dbforge->add_column('services', $fields);
-
         $this->db->insert('settings', [
-            'name' => 'aways_edit_customer',
+            'name' => 'replace_home',
             'value' => '1'
         ]);
     }
@@ -54,8 +34,8 @@ class Migration_add_slug_to_services_and_users extends CI_Migration {
      */
     public function down()
     {
-        $this->dbforge->drop_column('users', 'slug');
-        $this->dbforge->drop_column('services', 'slug');
-        $this->db->delete('settings', ['name' => 'aways_edit_customer']);
+        $this->db->delete('settings', [
+            'name' => 'replace_home'
+        ]);
     }
 }

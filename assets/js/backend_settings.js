@@ -66,6 +66,10 @@ window.BackendSettings = window.BackendSettings || {};
                 $('#customer-notifications').prop('checked', Boolean(Number(setting.value)));
             }
 
+            if (setting.name === 'aways_edit_customer') {
+                $('#aways-edit-customer').prop('checked', Boolean(Number(setting.value)));
+            }
+
             if (setting.name === 'require_captcha') {
                 $('#require-captcha').prop('checked', Boolean(Number(setting.value)));
             }
