@@ -32,11 +32,13 @@
         	<?= ucfirst(config('language')) ?>
         </span>
 
-        |
+        <?php if (!$replace_home): ?>
+            |
 
-        <a href="<?= site_url('appointments') ?>">
-            <?= lang('go_to_booking_page') ?>
-        </a>
+            <a href="<?= site_url('appointments') ?>">
+                <?= lang('go_to_booking_page') ?>
+            </a>
+        <?php endif; ?>
     </div>
 
     <div id="footer-user-display-name" class="col-12 col-sm-4">

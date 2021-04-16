@@ -316,6 +316,7 @@ class Backend extends EA_Controller {
         $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
         $view['time_format'] = $this->settings_model->get_setting('time_format');
         $view['role_slug'] = $this->session->userdata('role_slug');
+        $view['replace_home'] = $this->settings_model->get_setting('replace_home');
         $view['system_settings'] = $this->settings_model->get_settings();
         $view['user_settings'] = $this->user_model->get_user($user_id);
         $view['timezones'] = $this->timezones->to_array();
