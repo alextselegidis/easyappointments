@@ -41,7 +41,7 @@ class Services_modelTest extends TestCase
                 ],
                 function($actual) {
                     $this->assertIsNumeric($actual);
-                    $this->lastId = $actual;
+                    $this->lastServiceId = $actual;
                 }
             ],
             [
@@ -49,7 +49,7 @@ class Services_modelTest extends TestCase
                 function() {
                     return [
                         [
-                            'id' => $this->lastId,
+                            'id' => $this->lastServiceId,
                             'name' => 'Service 01',
                             'duration' => 80,
                         ]
@@ -57,7 +57,7 @@ class Services_modelTest extends TestCase
                 },
                 function($actual) {
                     $this->assertIsNumeric($actual);
-                    $this->assertEquals($this->lastId, $actual);
+                    $this->assertEquals($this->lastServiceId, $actual);
                 }
             ],
             [
@@ -82,20 +82,20 @@ class Services_modelTest extends TestCase
                 ],
                 function($actual) {
                     $this->assertIsNumeric($actual);
-                    $this->assertEquals($this->lastId, $actual);
+                    $this->assertEquals($this->lastServiceId, $actual);
                 }
             ],
             [
                 'get_row',
                 function() {
-                    return [$this->lastId];
+                    return [$this->lastServiceId];
                 },
                 function($actual) {
                     $expected = [
                         'name' => 'Service 01',
                         'duration' => '80',
                         'price' => '10.00',
-                        'id' => (string) $this->lastId,
+                        'id' => (string) $this->lastServiceId,
                         'currency' => null,
                         'description' => null,
                         'location' => null,
@@ -111,7 +111,7 @@ class Services_modelTest extends TestCase
                 function() {
                     return [
                         'name',
-                        $this->lastId
+                        $this->lastServiceId
                     ];
                 },
                 'Service 01'
@@ -130,7 +130,7 @@ class Services_modelTest extends TestCase
                             'name' => 'Service 01',
                             'duration' => '80',
                             'price' => '10.00',
-                            'id' => (string) $this->lastId,
+                            'id' => (string) $this->lastServiceId,
                             'currency' => null,
                             'description' => null,
                             'location' => null,
@@ -150,7 +150,7 @@ class Services_modelTest extends TestCase
                         'name' => 'Service 01',
                         'duration' => '80',
                         'price' => '10.00',
-                        'id' => (string) $this->lastId,
+                        'id' => (string) $this->lastServiceId,
                         'currency' => null,
                         'description' => null,
                         'location' => null,
@@ -168,7 +168,7 @@ class Services_modelTest extends TestCase
                 'delete',
                 function () {
                     return [
-                        $this->lastId
+                        $this->lastServiceId
                     ];
                 },
                 true
