@@ -65,9 +65,13 @@ class Appointments extends EA_Controller {
 
             $replace_home = $this->settings_model->get_setting('replace_home');
             if ($replace_home && filter_var($replace_home, FILTER_VALIDATE_URL) !== false) {
-                if (!$appointment_hash && !$serviceSlug && !$providerSlug) {
-                    redirect($replace_home);
-                    return;
+                if (!$appointment_hash) {
+                    if (!($this->input->get('service') || $serviceSlug) ) {
+                        if (!($this->input->get('provider') || $providerSlug) ) {
+                            redirect($replace_home);
+                            return;
+                        }
+                    }
                 }
             }
         } catch (Exception $exception) {
