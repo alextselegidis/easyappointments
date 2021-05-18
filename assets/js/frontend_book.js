@@ -150,6 +150,8 @@ window.FrontendBook = window.FrontendBook || {};
 
             if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
                 $selectService.val(selectedServiceId);
+                $selectService.css('pointer-events','none');
+                $selectService.css('background-color', '#A0A0A0'); 
             }
 
             $selectService.trigger('change'); // Load the available hours.
@@ -166,6 +168,7 @@ window.FrontendBook = window.FrontendBook || {};
                         $selectService
                             .val(provider.services[0])
                             .trigger('change');
+                        
                     }
                 }
             }
@@ -174,6 +177,8 @@ window.FrontendBook = window.FrontendBook || {};
                 $selectProvider
                     .val(selectedProviderId)
                     .trigger('change');
+                $selectProvider.css('pointer-events','none');
+                $selectProvider.css('background-color', '#A0A0A0');
             }
 
         }
