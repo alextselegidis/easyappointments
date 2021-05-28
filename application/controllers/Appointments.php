@@ -168,6 +168,7 @@ class Appointments extends EA_Controller {
                 'time_format' => $time_format,
                 'first_weekday' => $first_weekday,
                 'require_phone_number' => $require_phone_number,
+                'show_field' => $show_field,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
                 'customer_data' => $customer,
@@ -437,6 +438,12 @@ class Appointments extends EA_Controller {
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
             $appointment = $post_data['appointment'];
             $customer = $post_data['customer'];
+
+            if (!array_key_exists('address', $customer)){ $customer['address'] = ""; }
+            if (!array_key_exists('city', $customer)){ $customer['city'] = ""; }
+            if (!array_key_exists('zip_code', $customer)){ $customer['zip_code'] = ""; }
+            if (!array_key_exists('notes', $customer)){ $customer['notes'] = ""; }
+            if (!array_key_exists('phone_number', $customer)){ $customer['address'] = ""; }
 
             // Check appointment availability before registering it to the database.
             $appointment['id_users_provider'] = $this->check_datetime_availability();
