@@ -66,6 +66,11 @@ class Appointments extends EA_Controller {
             $time_format = $this->settings_model->get_setting('time_format');
             $first_weekday = $this->settings_model->get_setting('first_weekday');
             $require_phone_number = $this->settings_model->get_setting('require_phone_number');
+            $show_field['phone-number'] = $this->settings_model->get_setting('show_phone_number');
+            $show_field['address'] = $this->settings_model->get_setting('show_address');
+            $show_field['city'] = $this->settings_model->get_setting('show_city');
+            $show_field['zip-code'] = $this->settings_model->get_setting('show_zip_code');
+            $show_field['notes'] = $this->settings_model->get_setting('show_notes');
             $display_cookie_notice = $this->settings_model->get_setting('display_cookie_notice');
             $cookie_notice_content = $this->settings_model->get_setting('cookie_notice_content');
             $display_terms_and_conditions = $this->settings_model->get_setting('display_terms_and_conditions');
