@@ -280,6 +280,14 @@ body legend {
     margin: 5px;
 }
 
+.form-sub-button {
+    width: auto;
+}
+
+.form-sub-button img{
+    margin-top: -.3rem;
+}
+
 @media (min-width: 768px) {
     .backend-page .nav-pills li {
         width: auto;
@@ -837,6 +845,10 @@ body .form-horizontal .controls {
 }
 
 #settings-page #general fieldset .wrapper {
+    max-width: 1024px;
+}
+
+#settings-page #client-form fieldset .wrapper {
     max-width: 1024px;
 }
 
