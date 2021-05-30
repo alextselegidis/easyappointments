@@ -1444,6 +1444,24 @@ class Backend_api extends EA_Controller {
 
                 $settings = json_decode($this->input->post('settings', FALSE), TRUE);
 
+                //check if phone number settings are valid
+                $phone_number_required = false;
+                $phone_number_shown = false;
+                foreach ($settings as $setting)
+                {
+                    if ($setting['name'] == "require_phone_number"){
+                        $phone_number_required = $setting['value'];
+                    }
+
+                    if ($setting['name'] == "show_phone_number"){
+                        $phone_number_shown = $setting['value'];
+                    }
+                }
+
+                if ($phone_number_required && !$phone_number_shown){//we have settings that break the appointments field.
+                    throw new Exception("You cannot hide the phone number in the booking form while it's also required!");
+                }
+
                 $this->settings_model->save_settings($settings);
             }
             else

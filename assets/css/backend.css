@@ -285,7 +285,16 @@ body legend {
 }
 
 .form-sub-button img{
-    margin-top: -.3rem;
+    margin-top: -.25rem;
+}
+
+.hidden{
+    visibility: hidden;
+    height: 0;
+}
+
+.hide-toggle div{
+    display: flex;
 }
 
 @media (min-width: 768px) {

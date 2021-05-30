@@ -101,6 +101,26 @@ window.BackendSettings = window.BackendSettings || {};
             if (setting.name === 'privacy_policy_content') {
                 $('#privacy-policy-content').trumbowyg('html', setting.value);
             }
+
+            if (setting.name === 'show_phone_number' && setting.value === "1") {
+                $('#show-phone-number').find("div").toggleClass("hidden");
+            }
+
+            if (setting.name === 'show_address' && setting.value === "1") {
+                $('#show-address').find("div").toggleClass("hidden");
+            }
+
+            if (setting.name === 'show_city' && setting.value === "1") {
+                $('#show-city').find("div").toggleClass("hidden");
+            }
+
+            if (setting.name === 'show_zip_code' && setting.value === "1") {
+                $('#show-zip-code').find("div").toggleClass("hidden");
+            }
+
+            if (setting.name === 'show_notes' && setting.value === "1") {
+                $('#show-notes').find("div").toggleClass("hidden");
+            }
         });
 
         exports.wp = new WorkingPlan();
@@ -185,6 +205,63 @@ window.BackendSettings = window.BackendSettings || {};
         $('.save-settings').on('click', function () {
             var data = settings.get();
             settings.save(data);
+        });
+
+        /**
+         * Event: Visible/Hidden button "Click"
+         *
+         * Change the state of the Visible/Hidden button
+         */
+        $('.hide-toggle').on('click', function () {
+            let $input = $(this);
+            $input.find("div").toggleClass("hidden");
+        });
+
+        /**
+         * set a Visible/Hidden toggle button to a certain state
+         *
+         * @argument $element for which jquery element to set the state for
+         * @argument isVisible a boolean which is true if the button should display 'visible' and false when the button should display 'hidden'
+         *
+         */
+        function setShowToggleValue($element, isVisible){
+            if (getShowToggleValue($element) !== isVisible){
+                $element.find("div").toggleClass("hidden");
+            }
+        }
+
+        /**
+         * get the Visible/Hidden toggle button
+         *
+         * @argument $element for which jquery element to set the state for
+         *
+         * @return the state of the button. True for visible, false for hidden.
+         */
+        function getShowToggleValue($element){
+            let visiblePartArray = $element.find(".hide-toggle-visible");
+            return !visiblePartArray.hasClass("hidden");
+        }
+
+        /**
+         * Event: require phone number switch "Click"
+         *
+         * make sure that our phone number is visible when it is required.
+         */
+        $('#show-phone-number').on('click', function () {
+            if (!getShowToggleValue($(this))){//if button is set to hidden
+                $('#require-phone-number').prop('checked', false);
+            }
+        });
+
+        /**
+         * Event: require phone number switch "Click"
+         *
+         * make sure that our phone number is visible when it is required.
+         */
+        $('#require-phone-number').on('click', function () {
+            if ($(this).prop('checked')){
+                setShowToggleValue($('#show-phone-number'), true);
+            }
         });
 
         /**
