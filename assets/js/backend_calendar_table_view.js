@@ -1717,10 +1717,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     exports.initialize = function () {
         createHeader();
 
-        var startDate = moment().toDate();
-        var endDate = moment().add(Number($('#select-filter-item').val()) - 1, 'days').toDate();
+        var startDate = moment().startOf('day');
+        var endDate = startDate.clone().add(Number($('#select-filter-item').val()) - 1, 'days');
 
-        createView(startDate, endDate);
+        createView(startDate.toDate(), endDate.toDate());
 
         $('#insert-working-plan-exception').hide();
 
