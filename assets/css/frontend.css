@@ -258,6 +258,10 @@ body {
     padding: 5px;
 }
 
+.captcha-hint-recaptcha {
+    margin-top: 50px;
+}
+
 .popover .popover-title {
     text-align: center;
 }

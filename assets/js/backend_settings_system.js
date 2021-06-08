@@ -89,7 +89,7 @@
 
         settings.push({
             name: 'require_captcha',
-            value: $('#require-captcha').prop('checked') ? '1' : '0'
+            value: $('#require-captcha').val()
         });
 
         settings.push({

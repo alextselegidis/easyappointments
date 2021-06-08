@@ -39,6 +39,13 @@ window.FrontendBook = window.FrontendBook || {};
     var privacyPolicyConsent;
 
     /**
+     * Contains recaptcha response data.
+     * Only available when it is enabled in settings.
+     * @type {Object}
+     */
+    var recaptchaData = {};
+
+    /**
      * Determines the functionality of the page.
      *
      * @type {Boolean}
@@ -425,7 +432,7 @@ window.FrontendBook = window.FrontendBook || {};
          * @param {jQuery.Event} event
          */
         $('#book-appointment-submit').on('click', function () {
-            FrontendBookApi.registerAppointment();
+            FrontendBookApi.registerAppointment(recaptchaData);
         });
 
         /**
@@ -443,6 +450,10 @@ window.FrontendBook = window.FrontendBook || {};
                 FrontendBookApi.applyPreviousUnavailableDates(); // New jQuery UI version will replace the td elements.
             }, 300); // There is no draw event unfortunately.
         })
+
+        window.recaptchaCallback = function recaptchaCallback(response) {
+            recaptchaData = response;
+        }
     }
 
     /**

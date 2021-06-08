@@ -140,7 +140,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * This method will make an ajax call to the appointments controller that will register
      * the appointment to the database.
      */
-    exports.registerAppointment = function () {
+    exports.registerAppointment = function (recaptchaData) {
         var $captchaText = $('.captcha-text');
 
         if ($captchaText.length > 0) {
@@ -155,7 +155,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            post_data: formData
+            post_data: formData,
+            recaptcha: recaptchaData
         };
 
         if ($captchaText.length > 0) {
