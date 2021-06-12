@@ -47,6 +47,7 @@ $lang['customer'] = 'לקוח';
 $lang['start'] = 'להתחלה';
 $lang['end'] = 'סיום';
 $lang['name'] = 'שם';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'קישור לפרטי הפגישה';
 $lang['success'] = 'הצלחה!';
 $lang['appointment_added_to_google_calendar'] = 'הפגישה שלך נוספה לחשבון יומן הגוגל שלך.';

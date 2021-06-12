@@ -47,6 +47,7 @@ $lang['customer'] = 'Client';
 $lang['start'] = 'Début';
 $lang['end'] = 'Fin';
 $lang['name'] = 'Nom';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Lien du rendez-vous';
 $lang['success'] = 'Réussi .';
 $lang['appointment_added_to_google_calendar'] = 'Votre rendez-vous a été ajouté à votre compte calendrier Google.';

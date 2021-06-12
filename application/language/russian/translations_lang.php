@@ -47,6 +47,7 @@ $lang['customer'] = 'Заказчик';
 $lang['start'] = 'Начало';
 $lang['end'] = 'Окончание';
 $lang['name'] = 'Имя';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Ссылка на назначение';
 $lang['success'] = 'Готово.';
 $lang['appointment_added_to_google_calendar'] = 'Ваше назначение было внесено в Google-календарь вашего аккаунта.';

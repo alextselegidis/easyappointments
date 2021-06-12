@@ -47,6 +47,7 @@ $lang['customer'] = 'Asiakas';
 $lang['start'] = 'Aloitusaika';
 $lang['end'] = 'Lopetus';
 $lang['name'] = 'Nimi';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Varauslinkki';
 $lang['success'] = 'Onnistui.';
 $lang['appointment_added_to_google_calendar'] = 'Varauksesi lisättiin Google-kalenteriisi.';

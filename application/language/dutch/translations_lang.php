@@ -47,6 +47,7 @@ $lang['customer'] = 'Klant';
 $lang['start'] = 'Begin';
 $lang['end'] = 'Einde';
 $lang['name'] = 'Naam';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Afspraak link';
 $lang['success'] = 'Succes.';
 $lang['appointment_added_to_google_calendar'] = 'Uw afspraak is toegevoegd aan het Google Agenda-account.';

@@ -47,6 +47,7 @@ $lang['customer'] = 'Client';
 $lang['start'] = 'Ufank';
 $lang['end'] = 'Enn';
 $lang['name'] = 'Numm';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Termäin Link';
 $lang['success'] = 'Erfolleg.';
 $lang['appointment_added_to_google_calendar'] = 'Äre Termäin ass an Ärem Google Kalenner bäigesat ginn.';

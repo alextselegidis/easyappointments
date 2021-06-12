@@ -47,6 +47,7 @@ $lang['customer'] = 'Cliente';
 $lang['start'] = 'Inicio';
 $lang['end'] = 'Final';
 $lang['name'] = 'Nombre';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Enlace a la cita';
 $lang['success'] = '¡Cita completada.';
 $lang['appointment_added_to_google_calendar'] = 'Su cita ha sido agregada a su cuenta de Google Calendar.';

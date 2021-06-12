@@ -47,6 +47,7 @@ $lang['customer'] = 'Client';
 $lang['start'] = 'Start';
 $lang['end'] = 'Sfârsit';
 $lang['name'] = 'Nume';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Linkul întâlnirii';
 $lang['success'] = 'Succes.';
 $lang['appointment_added_to_google_calendar'] = 'Întâlnirea a fost adaugata în Calendarul Google.';

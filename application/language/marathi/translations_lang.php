@@ -47,6 +47,7 @@ $lang['customer'] = 'ग्राहक';
 $lang['start'] = 'प्रारंभ करा';
 $lang['end'] = 'समाप्त';
 $lang['name'] = 'नाव';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'नियुक्ती दुवा';
 $lang['success'] = 'यश.';
 $lang['appointment_added_to_google_calendar'] = 'आपली भेट आपल्या Google कॅलेंडर खात्यात जोडली गेली आहे.';

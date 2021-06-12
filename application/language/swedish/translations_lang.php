@@ -47,6 +47,7 @@ $lang['customer'] = 'Kund';
 $lang['start'] = 'Start';
 $lang['end'] = 'Slut';
 $lang['name'] = 'Namn';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Länk till bokning..';
 $lang['success'] = 'Lyckades.';
 $lang['appointment_added_to_google_calendar'] = 'Din bokning är skickad till din Google-kalender.';

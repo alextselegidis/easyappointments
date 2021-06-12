@@ -47,6 +47,7 @@ $lang['customer'] = 'Zákazník';
 $lang['start'] = 'Začiatok';
 $lang['end'] = 'Koniec';
 $lang['name'] = 'Meno';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Link na rezerváciu';
 $lang['success'] = 'Úspech.';
 $lang['appointment_added_to_google_calendar'] = 'Vaša rezervácia bola pridaná do vášho konta služby Kalendár Google.';

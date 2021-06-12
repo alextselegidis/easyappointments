@@ -47,6 +47,7 @@ $lang['customer'] = 'Customer';
 $lang['start'] = 'Start';
 $lang['end'] = 'End';
 $lang['name'] = 'Name';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Appointment Link';
 $lang['success'] = 'Success.';
 $lang['appointment_added_to_google_calendar'] = 'Your appointment has been added to your Google Calendar account.';

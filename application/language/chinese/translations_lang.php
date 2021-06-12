@@ -47,6 +47,7 @@ $lang['customer'] = '客户';
 $lang['start'] = '开始';
 $lang['end'] = '结束';
 $lang['name'] = '名字';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = '预约连接';
 $lang['success'] = '成功.';
 $lang['appointment_added_to_google_calendar'] = '您的预约已经添加到您的谷歌日历.';

@@ -47,6 +47,7 @@ $lang['customer'] = 'お客様';
 $lang['start'] = '開始';
 $lang['end'] = '終了';
 $lang['name'] = '名前';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = '予約へのリンク';
 $lang['success'] = '成功';
 $lang['appointment_added_to_google_calendar'] = 'お客様の予約スケジュールがGoogleカレンダーに登録されました。';

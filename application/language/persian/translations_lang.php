@@ -47,6 +47,7 @@ $lang['customer'] = 'مشتری';
 $lang['start'] = 'شروع';
 $lang['end'] = 'پایان';
 $lang['name'] = 'نام';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'لینک قرار';
 $lang['success'] = 'موفق';
 $lang['appointment_added_to_google_calendar'] = 'قرار ملاقات به تقویم گوگل شما اضافه شد';

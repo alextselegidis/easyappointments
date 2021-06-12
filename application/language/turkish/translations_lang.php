@@ -47,6 +47,7 @@ $lang['customer'] = 'Müşteri';
 $lang['start'] = 'Başlangıç';
 $lang['end'] = 'Bitiş';
 $lang['name'] = 'Ad';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Randevunun Bağlantısı';
 $lang['success'] = 'Başarılı.';
 $lang['appointment_added_to_google_calendar'] = 'Randevunuz Google Takvim hesabınıza eklendi.';

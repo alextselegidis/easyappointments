@@ -47,6 +47,7 @@ $lang['customer'] = 'Πελάτης';
 $lang['start'] = 'Έναρξη';
 $lang['end'] = 'Λήξη';
 $lang['name'] = 'Όνομα';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Σύνδεσμος Ραντεβού';
 $lang['success'] = 'Επιτυχία.';
 $lang['appointment_added_to_google_calendar'] = 'Το ραντεβού έχει προστεθεί στον λογαριασμό σας στο Google Calendar.';

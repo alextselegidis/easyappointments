@@ -47,6 +47,7 @@ $lang['customer'] = 'उपभोक्ता';
 $lang['start'] = 'प्रारंभ';
 $lang['end'] = 'समाप्त';
 $lang['name'] = 'नाम';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'अपॉइंटमेंट की लिंक';
 $lang['success'] = 'सफलता.';
 $lang['appointment_added_to_google_calendar'] = 'आपकी अपॉइंटमेंट अपने गूगल कैलेंडर खाते में जोड़ दिया गया है.';

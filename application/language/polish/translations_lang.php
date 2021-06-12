@@ -47,6 +47,7 @@ $lang['customer'] = 'Klient';
 $lang['start'] = 'Początek';
 $lang['end'] = 'Koniec';
 $lang['name'] = 'Nazwisko';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Link Wizyty';
 $lang['success'] = 'Sukces.';
 $lang['appointment_added_to_google_calendar'] = 'Twoja wizyta została dodana do konta Kalendarza Google.';

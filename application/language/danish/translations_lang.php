@@ -47,6 +47,7 @@ $lang['customer'] = 'Customer';
 $lang['start'] = 'Start';
 $lang['end'] = 'Slut';
 $lang['name'] = 'Navn';
+$lang['slug'] = 'Slug';
 $lang['appointment_link_title'] = 'Link til aftale.';
 $lang['success'] = 'Succes.';
 $lang['appointment_added_to_google_calendar'] = 'Din aftale er blevet tilføjet til din Google kalender.';
