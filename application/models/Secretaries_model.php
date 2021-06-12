@@ -81,6 +81,20 @@ class Secretaries_model extends EA_Model {
             }
         }
 
+        // Check if slug is unique (only when present).
+        if ( !empty($secretary['slug']) && isset($secretary['id']))
+        {
+            $num_rows = $this->db->get_where('users', [
+                'slug' => $secretary['slug'],
+                'id !=' => $secretary['id']
+            ])->num_rows();
+
+            if ($num_rows !== 0)
+            {
+                throw new Exception('Slug alreay used.');
+            }
+        }
+
         // Validate 'providers' value data type (must be array)
         if (isset($secretary['providers']) && ! is_array($secretary['providers']))
         {

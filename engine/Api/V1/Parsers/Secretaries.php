@@ -33,6 +33,7 @@ class Secretaries implements ParsersInterface {
             'firstName' => $response['first_name'],
             'lastName' => $response['last_name'],
             'email' => $response['email'],
+            'slug' => $response['slug'],
             'mobile' => $response['mobile_number'],
             'phone' => $response['phone_number'],
             'address' => $response['address'],
@@ -75,6 +76,11 @@ class Secretaries implements ParsersInterface {
         if (array_key_exists('lastName', $request))
         {
             $decoded_request['last_name'] = $request['lastName'];
+        }
+
+        if (array_key_exists('slug', $request))
+        {
+            $decoded_request['slug'] = $request['slug'];
         }
 
         if (array_key_exists('email', $request))

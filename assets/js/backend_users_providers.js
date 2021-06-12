@@ -144,6 +144,7 @@
             var provider = {
                 first_name: $('#provider-first-name').val(),
                 last_name: $('#provider-last-name').val(),
+                slug: $('#provider-slug').val(),
                 email: $('#provider-email').val(),
                 mobile_number: $('#provider-mobile-number').val(),
                 phone_number: $('#provider-phone-number').val(),
@@ -381,6 +382,7 @@
         $('#provider-id').val(provider.id);
         $('#provider-first-name').val(provider.first_name);
         $('#provider-last-name').val(provider.last_name);
+        $('#provider-slug').val(provider.slug);
         $('#provider-email').val(provider.email);
         $('#provider-mobile-number').val(provider.mobile_number);
         $('#provider-phone-number').val(provider.phone_number);

@@ -159,6 +159,13 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="provider-slug">
+                                            <?= lang('slug') ?>
+                                        </label>
+                                        <input id="provider-slug" class="form-control required" maxlength="512">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="provider-email">
                                             <?= lang('email') ?>
                                             <span class="text-danger">*</span>
@@ -448,6 +455,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="secretary-slug">
+                                    <?= lang('slug') ?>
+                                </label>
+                                <input id="secretary-slug" class="form-control required" maxlength="512">
+                            </div>
+
+                            <div class="form-group">
                                 <label for="secretary-email">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
@@ -653,6 +667,13 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="admin-last-name" class="form-control required" maxlength="512">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-slug">
+                                    <?= lang('slug') ?>
+                                </label>
+                                <input id="admin-slug" class="form-control required" maxlength="512">
                             </div>
 
                             <div class="form-group">

@@ -135,6 +135,7 @@
             var admin = {
                 first_name: $('#admin-first-name').val(),
                 last_name: $('#admin-last-name').val(),
+                slug: $('#admin-slug').val(),
                 email: $('#admin-email').val(),
                 mobile_number: $('#admin-mobile-number').val(),
                 phone_number: $('#admin-phone-number').val(),
@@ -329,6 +330,7 @@
         $('#admin-id').val(admin.id);
         $('#admin-first-name').val(admin.first_name);
         $('#admin-last-name').val(admin.last_name);
+        $('#admin-slug').val(admin.slug);
         $('#admin-email').val(admin.email);
         $('#admin-mobile-number').val(admin.mobile_number);
         $('#admin-phone-number').val(admin.phone_number);

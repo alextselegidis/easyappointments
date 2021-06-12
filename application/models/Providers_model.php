@@ -84,6 +84,20 @@ class Providers_model extends EA_Model {
             }
         }
 
+        // Check if slug is unique (only when present).
+        if ( !empty($provider['slug']) && isset($provider['id']))
+        {
+            $num_rows = $this->db->get_where('users', [
+                'slug' => $provider['slug'],
+                'id !=' => $provider['id']
+            ])->num_rows();
+
+            if ($num_rows !== 0)
+            {
+                throw new Exception('Slug alreay used.');
+            }
+        }
+
         // Validate required fields.
         if ( ! isset(
             $provider['last_name'],

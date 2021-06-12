@@ -73,6 +73,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var customer = {
                 first_name: $dialog.find('#first-name').val(),
                 last_name: $dialog.find('#last-name').val(),
+                slug: $dialog.find('#slug').val(),
                 email: $dialog.find('#email').val(),
                 phone_number: $dialog.find('#phone-number').val(),
                 address: $dialog.find('#address').val(),
@@ -212,6 +213,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 $('#customer-id').val(customer.id);
                 $('#first-name').val(customer.first_name);
                 $('#last-name').val(customer.last_name);
+                $('#slug').val(customer.slug);
                 $('#email').val(customer.email);
                 $('#phone-number').val(customer.phone_number);
                 $('#address').val(customer.address);
@@ -350,7 +352,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * Event: Enter New Customer Button "Click"
          */
         $('#new-customer').on('click', function () {
-            $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
+            $('#manage-appointment').find('#customer-id, #first-name, #last-name, #slug #email, '
                 + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
         });
     }

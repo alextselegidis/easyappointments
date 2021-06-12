@@ -32,6 +32,7 @@ class Providers implements ParsersInterface {
             'id' => array_key_exists('id', $response) ? (int)$response['id'] : NULL,
             'firstName' => $response['first_name'],
             'lastName' => $response['last_name'],
+            'slug' => $response['slug'],
             'email' => $response['email'],
             'mobile' => $response['mobile_number'],
             'phone' => $response['phone_number'],
@@ -104,6 +105,11 @@ class Providers implements ParsersInterface {
         if (array_key_exists('lastName', $request))
         {
             $decoded_request['last_name'] = $request['lastName'];
+        }
+
+        if (array_key_exists('slug', $request))
+        {
+            $decoded_request['slug'] = $request['slug'];
         }
 
         if (array_key_exists('email', $request))
