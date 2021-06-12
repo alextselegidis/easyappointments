@@ -83,6 +83,20 @@ class Services_model extends EA_Model {
             }
         }
 
+        // Check if slug is unique (only when present).
+        if ( ! empty($service['slug']) && isset($service['id']))
+        {
+            $num_rows = $this->db
+                ->get_where('services', [
+                    'slug' => $service['slug'],
+                    'id !=' => $service['id']
+                ])->num_rows();
+            if ($num_rows != 0)
+            {
+                throw new Exception('Slug alreay used.');
+            }
+        }
+
         // Check for required fields
         if (empty($service['name']))
         {
