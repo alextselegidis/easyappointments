@@ -132,6 +132,7 @@
         $('#services').on('click', '#save-service', function () {
             var service = {
                 name: $('#service-name').val(),
+                slug: $('#service-slug').val(),
                 duration: $('#service-duration').val(),
                 price: $('#service-price').val(),
                 currency: $('#service-currency').val(),
@@ -329,6 +330,7 @@
     ServicesHelper.prototype.display = function (service) {
         $('#service-id').val(service.id);
         $('#service-name').val(service.name);
+        $('#service-slug').val(service.slug);
         $('#service-duration').val(service.duration);
         $('#service-price').val(service.price);
         $('#service-currency').val(service.currency);

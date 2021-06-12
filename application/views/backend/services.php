@@ -112,6 +112,14 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="service-slug">
+                            <?= lang('slug') ?>
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input id="service-slug" class="form-control required" maxlength="128">
+                    </div>
+
+                    <div class="form-group">
                         <label for="service-duration">
                             <?= lang('duration_minutes') ?>
                             <span class="text-danger">*</span>
