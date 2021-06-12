@@ -20,6 +20,7 @@ class ServicesTest extends TestCase
 				<<<REQUEST_BODY
 				{
 				    "name": "Service 02",
+				    "slug": "service-02",
 				    "duration": 30,
 				    "price": 0,
 				    "currency": "",
@@ -34,6 +35,7 @@ class ServicesTest extends TestCase
 				{
 				    "id": 2,
 				    "name": "Service 02",
+				    "slug": "service-02",
 				    "duration": 30,
 				    "price": 0,
 				    "currency": "",
@@ -54,6 +56,7 @@ class ServicesTest extends TestCase
 				    {
 				        "id": 1,
 				        "name": "Service",
+				        "slug": null,
 				        "duration": 30,
 				        "price": 0,
 				        "currency": "",
@@ -66,6 +69,7 @@ class ServicesTest extends TestCase
 				    {
 				        "id": 2,
 				        "name": "Service 02",
+				        "slug": "service-02",
 				        "duration": 30,
 				        "price": 0,
 				        "currency": "",
@@ -86,6 +90,7 @@ class ServicesTest extends TestCase
 				{
 				    "id": 1,
 				    "name": "Service",
+				    "slug": null,
 				    "duration": 30,
 				    "price": 0,
 				    "currency": "",
@@ -114,6 +119,7 @@ class ServicesTest extends TestCase
 				<<<REQUEST_BODY
 				{
 				    "name": "Service 2",
+				    "slug": "service-2",
 				    "duration": 60,
 				    "price": 0,
 				    "currency": "USD",
@@ -128,6 +134,7 @@ class ServicesTest extends TestCase
 				{
 				    "id": 2,
 				    "name": "Service 2",
+				    "slug": "service-2",
 				    "duration": 60,
 				    "price": 0,
 				    "currency": "USD",
