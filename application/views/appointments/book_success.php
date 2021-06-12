@@ -37,10 +37,12 @@
                     </strong>
                 </p>
 
-                <a href="<?= site_url() ?>" class="btn btn-success btn-large">
-                    <i class="fas fa-calendar-alt"></i>
-                    <?= lang('go_to_booking_page') ?>
-                </a>
+                <?php if (!$replace_home): ?>
+                    <a href="<?= site_url() ?>" class="btn btn-success btn-large">
+                        <i class="fas fa-calendar-alt"></i>
+                        <?= lang('go_to_booking_page') ?>
+                    </a>
+                <?php endif; ?>
 
                 <?php if (config('google_sync_feature')): ?>
                     <button id="add-to-google-calendar" class="btn btn-primary">

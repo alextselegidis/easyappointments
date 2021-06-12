@@ -47,11 +47,11 @@ class Appointments extends EA_Controller {
      * customer followed the appointment manage link that was send with the book success email.
      *
      * @param string $appointment_hash The appointment hash identifier.
-     * @param string $definedServiceSlug The defined service by URL.
-     * @param string $definedProviderSlug The defined provider by URL.
-     * @param string $userHash The user hash
+     * @param string $serviceSlug The service by URL.
+     * @param string $providerSlug The provider by URL.
+     * @param string $customerHash The customer hash
      */
-    public function index($appointment_hash = '', $definedServiceSlug = '', $definedProviderSlug = '', $userHash = '')
+    public function index($appointment_hash = '', $serviceSlug = '', $providerSlug = '', $customerHash = '')
     {
         if ( ! is_app_installed())
         {
@@ -59,9 +59,21 @@ class Appointments extends EA_Controller {
             return;
         }
         try {
-            $definedService = $this->getServiceBySlug($definedServiceSlug);
-            $definedProvider = $this->getCustomerBySlug($definedProviderSlug);
-            $user = $this->getUserByHash($userHash);
+            $available_services = $this->getServices($serviceSlug, $this->input->get('service'));
+            $available_providers = $this->getProviders($providerSlug, $this->input->get('provider'));
+            $customer = $this->getCustomerByHash($customerHash);
+
+            $replace_home = $this->settings_model->get_setting('replace_home');
+            if ($replace_home && filter_var($replace_home, FILTER_VALIDATE_URL) !== false) {
+                if (!$appointment_hash) {
+                    if (!($this->input->get('service') || $serviceSlug) ) {
+                        if (!($this->input->get('provider') || $providerSlug) ) {
+                            redirect($replace_home);
+                            return;
+                        }
+                    }
+                }
+            }
         } catch (Exception $exception) {
             $variables = [
                 'message_title' => lang('page_not_found'),
@@ -74,8 +86,6 @@ class Appointments extends EA_Controller {
 
         try
         {
-            $available_services = $this->services_model->get_available_services();
-            $available_providers = $this->providers_model->get_available_providers();
             $company_name = $this->settings_model->get_setting('company_name');
             $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
             $date_format = $this->settings_model->get_setting('date_format');
@@ -91,7 +101,6 @@ class Appointments extends EA_Controller {
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
             $aways_edit_customer = $this->settings_model->get_setting('aways_edit_customer');
             $timezones = $this->timezones->to_array();
-            $active_step = 1;
 
             // Remove the data that are not needed inside the $available_providers array.
             $available_providers = array_map(function($provider) {
@@ -149,8 +158,8 @@ class Appointments extends EA_Controller {
                 }
 
                 $appointment = $results[0];
-                if (!$definedService) {
-                    $definedService = $this->providers_model->get_row($appointment['id_users_provider']);
+                if (!$available_services) {
+                    $available_services = $this->providers_model->get_batch(['id' => $appointment['id_users_provider']]);
                 }
                 $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
@@ -166,19 +175,14 @@ class Appointments extends EA_Controller {
                 $manage_mode = FALSE;
                 $customer_token = FALSE;
                 $appointment = [];
-                $customer = [];
-            }
-            if ($definedProvider) {
-                $active_step = 2;
             }
 
             // Load the book appointment view.
             $variables = [
-                'active_step' => $active_step,
                 'show_step' => [
-                    1 => !$definedService || !$definedProvider,
+                    1 => count($available_services) > 1 || count($available_providers) > 1,
                     2 => true,
-                    3 => $aways_edit_customer || !$user,
+                    3 => $aways_edit_customer || !$customer,
                     4 => true
                 ],
                 'available_services' => $available_services,
@@ -191,8 +195,6 @@ class Appointments extends EA_Controller {
                 'first_weekday' => $first_weekday,
                 'require_phone_number' => $require_phone_number,
                 'appointment_data' => $appointment,
-                'service_data' => $definedService,
-                'provider_data' => $definedService,
                 'customer_data' => $customer,
                 'display_cookie_notice' => $display_cookie_notice,
                 'cookie_notice_content' => $cookie_notice_content,
@@ -201,9 +203,14 @@ class Appointments extends EA_Controller {
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
                 'timezones' => $timezones,
-                'display_any_provider' => $display_any_provider,
-                'user' => $user
+                'display_any_provider' => $display_any_provider
             ];
+            foreach ($variables['show_step'] as $step_number => $show_step) {
+                if ($show_step) {
+                    $variables['active_step'] = $step_number;
+                    break;
+                }
+            }
         }
         catch (Exception $exception)
         {
@@ -213,9 +220,9 @@ class Appointments extends EA_Controller {
         $this->load->view('appointments/book', $variables);
     }
 
-    public function b($definedServiceSlug = '', $definedProviderSlug = '', $appointment_hash = '')
+    public function b($serviceSlug = '', $providerSlug = '', $appointment_hash = '')
     {
-        return $this->index($appointment_hash, $definedServiceSlug, $definedProviderSlug);
+        return $this->index($appointment_hash, $serviceSlug, $providerSlug);
     }
 
     /**
@@ -329,6 +336,7 @@ class Appointments extends EA_Controller {
                 'timezone' => $customer['timezone'],
             ],
             'service_data' => $service,
+            'replace_home' => $this->settings_model->get_setting('replace_home'),
             'company_name' => $company_name,
         ];
 
@@ -517,7 +525,11 @@ class Appointments extends EA_Controller {
                 'company_link' => $this->settings_model->get_setting('company_link'),
                 'company_email' => $this->settings_model->get_setting('company_email'),
                 'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'time_format' => $this->settings_model->get_setting('time_format'),
+                'show_steps' => array_map(
+                    fn($show) => filter_var($show, FILTER_VALIDATE_BOOLEAN),
+                    $this->input->post('show_steps')
+                )
             ];
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
@@ -715,36 +727,42 @@ class Appointments extends EA_Controller {
         $this->index('', $serviceSlug, $customerSlug, $userHash);
     }
 
-    private function getServiceBySlug($serviceSlug)
+    private function getServices($serviceSlug, $serviceId)
     {
-        if (!$serviceSlug) {
-            return;
+        if ($serviceSlug) {
+            $services = $this->services_model->get_batch(['slug' => $serviceSlug]);
+        } elseif ($serviceId) {
+            $services = $this->services_model->get_batch(['id' => $serviceId]);
+        } else {
+            $services = $this->services_model->get_available_services();
         }
-        $service = $this->services_model->get_batch(['slug' => $serviceSlug]);
-        if (empty($service)) {
+        if (empty($services)) {
             throw new Exception('Invalid service slug', 1);
         }
-        return current($service);
+        return $services;
     }
 
-    private function getCustomerBySlug($customerSlug)
+    private function getProviders($providerSlug, $providerId)
     {
-        if (!$customerSlug) {
-            return;
+        if ($providerSlug) {
+            $providers = $this->providers_model->get_batch(['slug' => $providerSlug]);
+        } elseif ($providerId) {
+            $providers = $this->providers_model->get_batch(['id' => $providerId]);
+        } else {
+            $providers = $this->providers_model->get_available_providers();
         }
-        $customer = $this->customers_model->get_batch(['slug' => $customerSlug]);
-        if (empty($customer)) {
-            throw new Exception('Invalid customer slug', 1);
+        if (empty($providers)) {
+            throw new Exception('Invalid provider slug', 1);
         }
-        return current($customer);
+        return $providers;
     }
 
-    public function getUserByHash($userHash)
+    public function getCustomerByHash($customerHash)
     {
-        if (!$userHash) {
-            return;
+        if (!$customerHash) {
+            return [];
         }
-        $user = $this->customers_model->get_batch(['hash' => $userHash]);
+        $user = $this->customers_model->get_batch(['hash' => $customerHash]);
         if (empty($user)) {
             throw new Exception('Invalid user hash', 1);
         }

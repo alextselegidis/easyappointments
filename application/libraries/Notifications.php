@@ -78,7 +78,25 @@ class Notifications {
                 $provider_message = new Text(lang('appointment_link_description'));
             }
 
-            $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
+            if (!$settings['show_steps'][0]) {
+                if ($service['slug'] && $provider['slug']) {
+                    $customer_link = new Url(site_url(
+                        'appointments/index/' .
+                        $appointment['hash'] .
+                        '/' . $service['slug'] .
+                        '/' . $provider['slug']
+                    ));
+                } else {
+                    $customer_link = new Url(site_url(
+                        'appointments/index/' .
+                        $appointment['hash'] .
+                        '/?service=' . $service['id'] .
+                        '&provider=' . $provider['id']
+                    ));
+                }
+            } else {
+                $customer_link = new Url(site_url('appointments/index/' . $appointment['hash']));
+            }
             $provider_link = new Url(site_url('backend/index/' . $appointment['hash']));
 
             $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);

@@ -12,6 +12,7 @@ $lang['appointment_date_and_time'] = 'تاریخ و زمان ملاقات';
 $lang['no_available_hours'] = 'برای تاریخ انتخاب شده، زمان خالی برای ملاقات وجود ندارد. لطفا تاریخ دیگری را انتخاب کنید';
 $lang['appointment_hour_missing'] = 'لطفا قبل از ادامه، ساعتی برای ملاقات انتخاب کنید';
 $lang['customer_information'] = 'اطلاعات مشتری';
+$lang['update_customer_information'] = 'Update customer Information';
 $lang['first_name'] = 'نام';
 $lang['last_name'] = 'نام خانوادگی';
 $lang['email'] = 'پست الکترونیک';
@@ -276,7 +277,7 @@ $lang['captcha_is_wrong'] = 'کد امنیتی صحیح نمی باشد. لطف�
 $lang['any_provider'] = 'Any Provider';
 $lang['requested_hour_is_unavailable'] = 'متاسفانه ملاقات در زمان درخواستی امکانپذیر نمی باشد. لطفا ساعتی دیگر برای قرار خود انتخاب کنید';
 $lang['aways_edit_customer'] = 'Always edit customer data';
-$lang['aways_edit_customer_hint'] = 'Always edit customer data even if a customer hash is passed in the URL';
+$lang['aways_edit_customer_hint'] = 'Always edit customer data even customer identification is passed in the URL';
 $lang['customer_notifications'] = 'اطلاعیه های مشتریان';
 $lang['customer_notifications_hint'] = 'تعیین کنید که در صورت تغییری در قرار ملاقات، به مشتری توسط پست الکترونیکی اطلاع داده شود';
 $lang['date_format'] = 'قالب تاریخ';
@@ -321,6 +322,8 @@ $lang['require_phone_number_hint'] = 'در صورت فعال بودن ، هنگ�
 $lang['check_spam_folder'] = 'اگر تا دقایقی دیگر ایمیل را دریافت نکردید ، لطفاً پوشه هرزنامه خود را بررسی کنید.';
 $lang['api_token_hint'] = 'برای فعال سازی احراز هویت مبتنی بر token برای دسترسی به API برنامه، یک رمز مخفی تنظیم کنید.';
 $lang['timezone'] = 'منطقه زمانی';
+$lang['replace_home'] = 'Replace home';
+$lang['replace_home_hint'] = 'If you want that when accessing the root route ( / ) the user does not see the schedule screen, enter the URL to where the user should be redirected.';
 $lang['overwrite_existing_working_plans'] = 'این کار باعث بازنویسی  برنامه های کاری موجود می شود. آیا از این کار اطمینان دارید؟';
 $lang['working_plans_got_updated'] = 'تمامی برنامه های کاری به روز رسانی شدند';
 $lang['apply_to_all_providers'] = 'اعمال کردن به همه ارائه دهنده ها';
