@@ -566,12 +566,17 @@ class Providers_model extends EA_Model {
         foreach ($batch as &$provider)
         {
             // Services
-            $services = $this->db->get_where('services_providers',
-                ['id_users' => $provider['id']])->result_array();
+            $services = $this->db
+                ->select('services.id, services.slug')
+                ->from('services')
+                ->join('services_providers', 'services.id = services_providers.id_services', 'inner')
+                ->where('id_users', $provider['id'])
+                ->get()->result_array();
             $provider['services'] = [];
             foreach ($services as $service)
             {
-                $provider['services'][] = $service['id_services'];
+                $provider['services'][] = $service['id'];
+                $provider['services_slug'][] = $service['slug'];
             }
 
             // Settings

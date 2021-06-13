@@ -417,7 +417,7 @@
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
 
-        provider.services.forEach(function (providerServiceId) {
+        provider.services.forEach(function (providerServiceId, index) {
             var $checkbox = $('#provider-services input[data-id="' + providerServiceId + '"]');
 
             if (!$checkbox.length) {
@@ -427,8 +427,13 @@
             $checkbox.prop('checked', true);
 
             // Add dedicated service-provider link.
-            dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
-                + '&service=' + encodeURIComponent(providerServiceId);
+            if (provider.slug.length && provider.services_slug[index].length) {
+                dedicatedUrl = GlobalVariables.baseUrl + '/b/' + encodeURIComponent(provider.services_slug[index])
+                    + '/' + encodeURIComponent(provider.slug);
+            } else {
+                dedicatedUrl = GlobalVariables.baseUrl + '/b/' + encodeURIComponent(provider.id)
+                    + '&service=' + encodeURIComponent(providerServiceId);
+            }
 
             $link = $('<a/>', {
                 'href': dedicatedUrl,
