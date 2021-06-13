@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8bb4f5940fdb7f7e3e042248ba52e8dd",
+    "content-hash": "ea328a6443bd8fb685d48544566c1d1f",
     "packages": [
         {
             "name": "codeigniter/framework",
@@ -1245,6 +1245,49 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "supportpal/accept-language-parser",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/supportpal/accept-language-parser.git",
+                "reference": "1344a63079b64a40876af5d62aa335bfdd29c924"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/supportpal/accept-language-parser/zipball/1344a63079b64a40876af5d62aa335bfdd29c924",
+                "reference": "1344a63079b64a40876af5d62aa335bfdd29c924",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SupportPal\\AcceptLanguageParser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kieran Brahney",
+                    "email": "kieran@supportpal.com"
+                }
+            ],
+            "description": "An alternative to ext-intl's locale_accept_from_http function.",
+            "support": {
+                "issues": "https://github.com/supportpal/accept-language-parser/issues",
+                "source": "https://github.com/supportpal/accept-language-parser/tree/0.1.1"
+            },
+            "time": "2021-02-02T14:01:59+00:00"
         },
         {
             "name": "symfony/finder",

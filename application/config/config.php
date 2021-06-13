@@ -105,6 +105,7 @@ $languages = [
     'mr' => 'marathi',
     'pl' => 'polish',
     'pt' => 'portuguese',
+    'pt-BR' => 'portuguese-br',
     'ro' => 'romanian',
     'ru' => 'russian',
     'sk' => 'slovak',
@@ -113,7 +114,11 @@ $languages = [
     'tr' => 'turkish',
 ];
 
-$language_code = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+$parser = new \SupportPal\AcceptLanguageParser\Parser($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+$locales = $parser->parse();
+if ($locales) {
+    $language_code = $locales[0]->__toString();
+}
 
 $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
     ? $languages[$language_code]
