@@ -427,11 +427,12 @@
             $checkbox.prop('checked', true);
 
             // Add dedicated service-provider link.
-            if (provider.slug.length && provider.services_slug[index].length) {
+            if (provider.slug && provider.services_slug[index]) {
+                console.log(provider)
                 dedicatedUrl = GlobalVariables.baseUrl + '/b/' + encodeURIComponent(provider.services_slug[index])
                     + '/' + encodeURIComponent(provider.slug);
             } else {
-                dedicatedUrl = GlobalVariables.baseUrl + '/b/' + encodeURIComponent(provider.id)
+                dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
                     + '&service=' + encodeURIComponent(providerServiceId);
             }
 
