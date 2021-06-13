@@ -114,9 +114,8 @@
                     <div class="form-group">
                         <label for="service-slug">
                             <?= lang('slug') ?>
-                            <span class="text-danger">*</span>
                         </label>
-                        <input id="service-slug" class="form-control required" maxlength="128">
+                        <input id="service-slug" class="form-control" maxlength="128">
                     </div>
 
                     <div class="form-group">

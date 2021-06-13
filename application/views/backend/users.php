@@ -162,7 +162,7 @@
                                         <label for="provider-slug">
                                             <?= lang('slug') ?>
                                         </label>
-                                        <input id="provider-slug" class="form-control required" maxlength="512">
+                                        <input id="provider-slug" class="form-control" maxlength="512">
                                     </div>
 
                                     <div class="form-group">
@@ -458,7 +458,7 @@
                                 <label for="secretary-slug">
                                     <?= lang('slug') ?>
                                 </label>
-                                <input id="secretary-slug" class="form-control required" maxlength="512">
+                                <input id="secretary-slug" class="form-control" maxlength="512">
                             </div>
 
                             <div class="form-group">
@@ -673,7 +673,7 @@
                                 <label for="admin-slug">
                                     <?= lang('slug') ?>
                                 </label>
-                                <input id="admin-slug" class="form-control required" maxlength="512">
+                                <input id="admin-slug" class="form-control" maxlength="512">
                             </div>
 
                             <div class="form-group">
