@@ -73,8 +73,8 @@
      * @return '0' when the button shows 'invisible' and '1' when the button shows 'visible'. Will always return '0' on an error.
      */
     function getToggleButtonState($element) {
-        let visiblePartArray = $element.find(".hide-toggle-visible");
-        let invisiblePartArray = $element.find(".hide-toggle-hidden");
+        var visiblePartArray = $element.find(".hide-toggle-visible");
+        var invisiblePartArray = $element.find(".hide-toggle-hidden");
         if (!(visiblePartArray.length === 0 || invisiblePartArray.length === 0)) {
             if (visiblePartArray.hasClass("hidden")){//our button is currently invisible
                 return '0';//invisible
