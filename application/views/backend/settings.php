@@ -164,7 +164,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="custom-script"><?= lang('custom_code_block') ?></label>
-                                <textarea id="custom-script" cols="30" rows="3" class="form-control"></textarea>
+                                <textarea id="custom-script" data-field="custom_code_block" cols="30" rows="3" class="form-control"></textarea>
                                 <span class="help-block">
                                     <?= lang('custom_code_block_hint') ?>
                                 </span>

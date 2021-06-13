@@ -75,7 +75,7 @@
 
         // General Settings Tab
 
-        $('#general').find('input, select').not('input:checkbox').each(function (index, field) {
+        $('#general').find('input, select, textarea').not('input:checkbox').each(function (index, field) {
             settings.push({
                 name: $(field).attr('data-field'),
                 value: $(field).val()
