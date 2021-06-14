@@ -113,7 +113,7 @@ $languages = [
     'tr' => 'turkish',
 ];
 
-$language_code = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+$language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
 
 $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
     ? $languages[$language_code]
