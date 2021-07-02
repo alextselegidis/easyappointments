@@ -136,6 +136,13 @@ class Email {
             $appointment_end->setTimezone($appointment_timezone);
         }
 
+        $model='emails/appointment_details';
+		if(file_exists(__DIR__ . '/../../application/views/emails/appointment_details_'.$service['id'].'.php')){
+            $model='emails/appointment_details_'.$service['id'];
+        }
+
+        $html = $this->CI->load->view($model, [
+
         $html = $this->CI->load->view('emails/appointment_details', [
             'email_title' => $title->get(),
             'email_message' => $message->get(),
