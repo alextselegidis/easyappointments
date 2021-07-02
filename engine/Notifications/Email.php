@@ -137,15 +137,20 @@ class Email {
         }
 
         $model='emails/appointment_details';
+        
 		if(file_exists(__DIR__ . '/../../application/views/emails/appointment_details_'.$service['id'].'.php')){
             $model='emails/appointment_details_'.$service['id'];
         }
 
         $html = $this->CI->load->view($model, [
 
-        $html = $this->CI->load->view('emails/appointment_details', [
             'email_title' => $title->get(),
             'email_message' => $message->get(),
+            
+            'appointment_provider_adress' => $provider['address'],
+			'appointment_provider_city' => $provider['zip_code']." ".$provider['city'],
+            'appointment_provider_email' => $provider['email'],
+            
             'appointment_service' => $service['name'],
             'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             'appointment_start_date' => $appointment_start->format($date_format . ' ' . $time_format),
