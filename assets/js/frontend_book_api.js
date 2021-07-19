@@ -99,6 +99,10 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         var availableHourMoment = moment
                             .tz(selectedDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
+                        
+                        if (availableHourMoment.format('YYYY-MM-DD') !== selectedDate) {
+                            return; // Due to the selected timezone the available hour belongs to another date.  
+                        }
 
                         $('#available-hours').append(
                             $('<button/>', {
@@ -127,8 +131,9 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     }
 
                     FrontendBook.updateConfirmFrame();
+                }
 
-                } else {
+                if (!$('.available-hour').length) {
                     $('#available-hours').text(EALang.no_available_hours);
                 }
             });
