@@ -119,7 +119,7 @@ class Email {
                 $time_format = 'H:i';
                 break;
             case 'regular':
-                $time_format = 'g:i A';
+                $time_format = 'g:i a';
                 break;
             default:
                 throw new Exception('Invalid time_format value: ' . $settings['time_format']);
@@ -223,7 +223,7 @@ class Email {
                 $time_format = 'H:i';
                 break;
             case 'regular':
-                $time_format = 'g:i A';
+                $time_format = 'g:i a';
                 break;
             default:
                 throw new Exception('Invalid time_format value: ' . $settings['time_format']);
