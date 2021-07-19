@@ -427,6 +427,7 @@ body legend {
 #calendar .fc-event {
     border: 1px solid #4790CA;
     background-color: #4790CA;
+    min-height: 12px; 
 }
 
 #existing-customers-list {
