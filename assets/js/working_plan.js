@@ -437,7 +437,6 @@
             this.editableDayCell($newBreak.find('.break-day'));
             this.editableTimeCell($newBreak.find('.break-start, .break-end'));
             $newBreak.find('.edit-break').trigger('click');
-            $('.add-break').prop('disabled', true);
         }.bind(this));
 
         /**
@@ -473,8 +472,6 @@
             $tr.find('.edit-break, .delete-break').addClass('d-none');
             $tr.find('.save-break, .cancel-break').removeClass('d-none');
             $tr.find('select,input:text').addClass('form-control input-sm')
-
-            $('.add-break').prop('disabled', true);
         });
 
         /**
@@ -502,7 +499,6 @@
 
             $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
             $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
-            $('.add-break').prop('disabled', false);
         }.bind(this));
 
         /**
@@ -528,12 +524,7 @@
             this.enableSubmit = false;
 
             $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
-            $('.add-break').prop('disabled', false);
-
-            // Refresh working plan to have the new break sorted in the break list.
-            var workingPlan = this.get();
-            this.setup(workingPlan);
+            $modifiedRow.find('.edit-break, .delete-break').removeClass('d-none');
         }.bind(this));
 
         /**
