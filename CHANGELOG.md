@@ -3,6 +3,36 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [1.4.2] - TBA
+
+### Added 
+
+- #1004: Add support for line breaks when displaying the service description in the frontend.
+- #1040: Support all-day events while syncing with Google Calendar.
+
+### Fixed
+
+- #1000: Small fix for the display of the delete button in table view.
+- #1011: Working plan exception - details pane shows incorrect details.
+- #1023: Backend calendar table events missing or duplicated.
+- #1026: The timepicker sliders do not work when using an iOS device.
+- #1029: Enhance SMTP functions of PHPMailer.
+- #1043: Unavailable events do not block time from services with multiple attendants.
+- #1046: Make sure that saving the modifications of a single break does not cancel any pending break edits.
+- #1068: Set minimum service duration field value to honor the value of EVENT_MINIMUM_DURATION.
+- #1073: Update PHPMailer dependencies.
+- #1074: In case of deletion of one appointment, system sends email to admins anyway even if they have email notifications disabled.
+- #1092: Javascript RangeError on appointment change causing disabled calendar dates.
+- #961: Timezone/UX issue: Wrong day is selected when timezone differs by -1 day.
+- #966: Secretaries are getting notification emails for providers that are not assigned to them.
+- #980: Missing Pacific (and potentially other) timezones.
+- #982: The Any-Provider option might lead to double bookings, if all the providers have the same number of appointments for the selected date.
+- #986: Managed to replicate appointment hash collisions. 
+- #989: Fix Critical mistake resulting in wrong date
+- #990: The API availabilities controller throws an error when generating availability for services with multiple attendants.
+- #991: Available hours generated with the "Any Provider" option in the booking page, may use the information of a provider that is not assigned to the selected service.
+- #993: Add support for PHP8 (vendor packages need to be updated).
+
 ## [1.4.1] - 2020-12-14
 
 ### Added 
