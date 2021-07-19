@@ -447,7 +447,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.start
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(event.data.date + ' ' + event.data.workingPlanException.start, GlobalVariables.dateFormat, true)
                     }),
                     $('<br/>'),
 
@@ -456,7 +456,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.end
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(event.data.date + ' ' + event.data.workingPlanException.end, GlobalVariables.dateFormat, true)
                     }),
                     $('<br/>'),
 
@@ -475,7 +475,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary',
+                                'class': 'close-popover btn btn-outline-secondary mr-2',
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-ban mr-2'
