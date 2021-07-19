@@ -274,7 +274,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         // Select first enabled date.
         var selectedDate = Date.parse(selectedDateString);
-        var numberOfDays = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
+        var numberOfDays = moment(selectedDate).daysInMonth();
 
         if (setDate && !GlobalVariables.manageMode) {
             for (var i = 1; i <= numberOfDays; i++) {
