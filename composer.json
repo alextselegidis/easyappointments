@@ -31,6 +31,12 @@
             "EA\\Engine\\": "engine/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/alextselegidis/CodeIgniter.git"
+        }
+    ],
     "require": {
         "php": ">=7.3",
         "ext-curl": "*",
@@ -39,7 +45,7 @@
         "ext-gd": "*",
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^6.1",
-        "codeigniter/framework": "^3.1.6",
+        "codeigniter/framework": "dev-3.1.11-php8.0",
         "jsvrcek/ics": "^0.8",
         "monolog/monolog": "^1",
         "google/apiclient": "^2.0"
