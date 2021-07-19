@@ -130,7 +130,7 @@ class Notifications {
                     continue;
                 }
 
-                if (in_array($provider['id'], $secretary['providers']))
+                if (!in_array($provider['id'], $secretary['providers']))
                 {
                     continue;
                 }
@@ -189,7 +189,7 @@ class Notifications {
 
             foreach ($admins as $admin)
             {
-                if ( ! $admin['settings']['notifications'] === '0')
+                if ($admin['settings']['notifications'] === '0')
                 {
                     continue;
                 }
@@ -204,12 +204,12 @@ class Notifications {
 
             foreach ($secretaries as $secretary)
             {
-                if ( ! $secretary['settings']['notifications'] === '0')
+                if ($secretary['settings']['notifications'] === '0')
                 {
                     continue;
                 }
 
-                if (in_array($provider['id'], $secretary['providers']))
+                if (!in_array($provider['id'], $secretary['providers']))
                 {
                     continue;
                 }

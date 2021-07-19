@@ -27,6 +27,7 @@
     <script src="<?= asset_url('assets/ext/popper/popper.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/tippy/tippy-bundle.umd.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.touch-punch.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>

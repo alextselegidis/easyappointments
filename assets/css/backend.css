@@ -427,6 +427,7 @@ body legend {
 #calendar .fc-event {
     border: 1px solid #4790CA;
     background-color: #4790CA;
+    min-height: 12px; 
 }
 
 #existing-customers-list {
@@ -708,7 +709,7 @@ body .form-horizontal .controls {
 
 #users-page #providers .working-plan-view .work-start,
 #users-page #providers .working-plan-view .work-end {
-    max-width: 88px;
+    max-width: 100px;
 }
 
 #users-page .btn-toolbar {
@@ -718,6 +719,11 @@ body .form-horizontal .controls {
 
 #users-page #providers .form-message {
     clear: both;
+}
+
+#users-page #providers .breaks.table,
+#settings-page .breaks.table {
+    table-layout: fixed;
 }
 
 #users-page #providers .breaks .btn {
@@ -784,12 +790,12 @@ body .form-horizontal .controls {
 }
 
 #business-logic .working-plan td input[type="text"] {
-    max-width: 88px;
+    max-width: 100px;
 }
 
 #business-logic .working-plan .work-start,
 #business-logic .working-plan .work-end {
-    max-width: 88px;
+    max-width: 100px;
 }
 
 #business-logic .working-plan label.checkbox {

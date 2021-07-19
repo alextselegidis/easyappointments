@@ -8,8 +8,8 @@
 | Declare some of the global config values of Easy!Appointments.
 |
 */
-$config['version'] = '1.4.1'; // This must be changed manually.
-$config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
+$config['version'] = '1.4.2'; // This must be changed manually.
+$config['release_label'] = 'beta.1'; // Leave empty for no title or add Alpha, Beta etc ...
 $config['debug'] = Config::DEBUG_MODE;
 
 /*
@@ -82,32 +82,41 @@ $config['url_suffix'] = '';
 |
 */
 
-$config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
-    [
-        'ar' => 'arabic',
-        'bu' => 'bulgarian',
-        'zh' => 'chinese',
-        'da' => 'danish',
-        'nl' => 'dutch',
-        'en' => 'english',
-        'fi' => 'finnish',
-        'fr' => 'french',
-        'de' => 'german',
-        'el' => 'greek',
-        'he' => 'hebrew',
-        'hi' => 'hindi',
-        'hu' => 'hungarian',
-        'it' => 'italian',
-        'ja' => 'japanese',
-        'pl' => 'polish',
-        'pt' => 'portuguese',
-        'ro' => 'romanian',
-        'ru' => 'russian',
-        'sk' => 'slovak',
-        'es' => 'spanish',
-        'tr' => 'turkish',
-        'sv' => 'swedish'
-    ][substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)]
+$languages = [
+    'ar' => 'arabic',
+    'bu' => 'bulgarian',
+    'ca' => 'catalan',
+    'zh' => 'chinese',
+    'cs' => 'czech',
+    'da' => 'danish',
+    'nl' => 'dutch',
+    'en' => 'english',
+    'fi' => 'finnish',
+    'fr' => 'french',
+    'de' => 'german',
+    'el' => 'greek',
+    'he' => 'hebrew',
+    'hi' => 'hindi',
+    'hu' => 'hungarian',
+    'it' => 'italian',
+    'ja' => 'japanese',
+    'fa' => 'persian',
+    'lb' => 'luxembourgish',
+    'mr' => 'marathi',
+    'pl' => 'polish',
+    'pt' => 'portuguese',
+    'ro' => 'romanian',
+    'ru' => 'russian',
+    'sk' => 'slovak',
+    'es' => 'spanish',
+    'sv' => 'swedish',
+    'tr' => 'turkish',
+];
+
+$language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
+
+$config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
+    ? $languages[$language_code]
     : Config::LANGUAGE;
 
 /*
@@ -138,8 +147,9 @@ $config['available_languages'] = [
     'hungarian',
     'italian',
     'japanese',
-    'marathi',
     'luxembourgish',
+    'marathi',
+    'persian',
     'polish',
     'portuguese',
     'portuguese-br',
@@ -304,7 +314,7 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
 | new release.
 |
 */
-$config['cache_busting_token'] = '924WX';
+$config['cache_busting_token'] = '624TB';
 
 /*
 |--------------------------------------------------------------------------

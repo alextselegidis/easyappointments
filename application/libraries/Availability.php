@@ -307,7 +307,7 @@ class Availability {
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
 
-            while (($diff->h * 60 + $diff->i) >= (int)$service['duration'])
+            while (($diff->h * 60 + $diff->i) >= (int)$service['duration'] && $diff->invert === 0)
             {
                 $available_hours[] = $current_hour->format('H:i');
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
