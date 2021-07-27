@@ -3,7 +3,7 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
-## [1.4.2] - TBA
+## [1.4.2] - 2021-07-27
 
 ### Added 
 
