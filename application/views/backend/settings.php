@@ -140,7 +140,7 @@
                                     <option value="friday"><?= lang('friday') ?></option>
                                     <option value="saturday"><?= lang('saturday') ?></option>
                                 </select>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('first_weekday_hint') ?>
                                 </span>
                             </div>
@@ -151,14 +151,14 @@
                                     Google Analytics ID</label>
                                 <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
                                        data-field="google_analytics_code" class="form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('google_analytics_code_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">
                                 <label for="api-token">API Token</label>
                                 <input id="api-token" data-field="api_token" class="form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('api_token_hint') ?>
                                 </span>
                             </div>
@@ -192,7 +192,7 @@
                                         <?= lang('phone_number') ?>
                                     </label>
                                 </div>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('require_phone_number_hint') ?>
                                 </span>
                             </div>
@@ -203,7 +203,7 @@
                                         <?= lang('any_provider') ?>
                                     </label>
                                 </div>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('display_any_provider_hint') ?>
                                 </span>
                             </div>
