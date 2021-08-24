@@ -162,7 +162,7 @@ class Secretaries_model extends EA_Model {
     /**
      * Validate Records Username
      *
-     * @param string $username The provider records username.
+     * @param string $username The secretary records username.
      * @param int $user_id The user record id.
      *
      * @return bool Returns the validation result.
@@ -348,13 +348,13 @@ class Secretaries_model extends EA_Model {
     }
 
     /**
-     * Set a provider's setting value in the database.
+     * Set a secretary's setting value in the database.
      *
-     * The provider and settings record must already exist.
+     * The secretary and settings record must already exist.
      *
      * @param string $setting_name The setting's name.
      * @param string $value The setting's value.
-     * @param int $secretary_id The selected provider id.
+     * @param int $secretary_id The selected secretary id.
      *
      * @return bool
      */
@@ -556,7 +556,7 @@ class Secretaries_model extends EA_Model {
     }
 
     /**
-     * Get a providers setting from the database.
+     * Get a secretaries setting from the database.
      *
      * @param string $setting_name The setting name that is going to be returned.
      * @param int $secretary_id The selected provider id.
@@ -565,8 +565,8 @@ class Secretaries_model extends EA_Model {
      */
     public function get_setting($setting_name, $secretary_id)
     {
-        $provider_settings = $this->db->get_where('user_settings',
+        $secretary_settings = $this->db->get_where('user_settings',
             ['id_users' => $secretary_id])->row_array();
-        return $provider_settings[$setting_name];
+        return $secretary_settings[$setting_name];
     }
 }
