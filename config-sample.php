@@ -52,6 +52,20 @@ class Config {
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
     const GOOGLE_API_KEY        = '';
+
+    // ------------------------------------------------------------------------
+    // EMAIL SETTINGS
+    // ------------------------------------------------------------------------
+    const EMAIL_PROTOCOL   = 'mail';
+    const EMAIL_MAILTYPE   = 'html'; // or 'text'
+    const EMAIL_SMTP_DEBUG = '0'; // or '1'
+    const EMAIL_SMTP_AUTH  = FALSE; //or TRUE for non-anonymous relay.
+    const EMAIL_SMTP_HOST  = '';
+    const EMAIL_SMTP_USER  = '';
+    const EMAIL_SMTP_PASS  = '';
+    const EMAIL_SMTP_CRYPTO= '';// or 'ssl' or 'tls'
+    const EMAIL_SMTP_PORT = '';
+
 }
 
 /* End of file config.php */
