@@ -175,7 +175,7 @@
 
                     <div class="form-group">
                         <label for="service-description">
-                            <?= lang('description') ?>
+                            <?= nl2br(lang('description')) ?>
                         </label>
                         <textarea id="service-description" rows="4" class="form-control"></textarea>
                     </div>
