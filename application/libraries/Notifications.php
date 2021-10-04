@@ -163,6 +163,13 @@ class Notifications {
         {
             $email = new EmailClient($this->CI, $this->CI->config->config);
 
+            $delete_reason = (string)$this->CI->input->post('delete_reason');
+
+            if ( ! $delete_reason)
+            {
+                $delete_reason = (string)$this->CI->input->post('cancel_reason');
+            }
+
             $send_provider = filter_var($this->CI->providers_model->get_setting('notifications', $provider['id']),
                 FILTER_VALIDATE_BOOLEAN);
 
@@ -170,7 +177,7 @@ class Notifications {
             {
                 $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($provider['email']),
-                    new Text($this->CI->input->post('cancel_reason')));
+                    new Text($delete_reason));
             }
 
             $send_customer = filter_var(
@@ -181,7 +188,7 @@ class Notifications {
             {
                 $email->send_delete_appointment($appointment, $provider,
                     $service, $customer, $settings, new Email($customer['email']),
-                    new Text($this->CI->input->post('cancel_reason')));
+                    new Text($delete_reason));
             }
 
             // Notify admins
