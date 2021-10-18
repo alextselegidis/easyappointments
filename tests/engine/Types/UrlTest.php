@@ -11,26 +11,26 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 use PHPUnit\Framework\TestCase;
 
-class UnsignedIntegerTest extends TestCase {
-    public function testUnsignedIntType()
+class UrlTest extends TestCase {
+    public function testUrlType()
     {
-        $type = new UnsignedInteger(1);
-        $this->assertEquals(1, $type->get());
+        $type = new Url('http://localhost');
+        $this->assertEquals('http://localhost', $type->get());
     }
 
-    public function testUnsignedIntTypeThrowsExceptionWithNegative()
+    public function testUrlTypeThrowsExceptionWithInvalidUrl()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new UnsignedInteger(-1);
+        new Url('abcdef');
     }
 
-    public function testUnsignedIntTypeThrowsExceptionWithWithString()
+    public function testUrlTypeThrowsExceptionWithInvalidValue()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new UnsignedInteger('invalid');
+        new Url(NULL);
     }
 }

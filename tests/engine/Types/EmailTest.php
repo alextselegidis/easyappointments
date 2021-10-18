@@ -11,26 +11,26 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 use PHPUnit\Framework\TestCase;
 
-class UrlTest extends TestCase {
-    public function testUrlType()
+class EmailTest extends TestCase {
+    public function testEmailType()
     {
-        $type = new Url('http://localhost');
-        $this->assertEquals('http://localhost', $type->get());
+        $type = new Email('john@doe.com');
+        $this->assertEquals('john@doe.com', $type->get());
     }
 
-    public function testUrlTypeThrowsExceptionWithInvalidUrl()
+    public function testEmailTypeThrowsExceptionWithInvalidEmail()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Url('abcdef');
+        new Email('abcdef');
     }
 
-    public function testUrlTypeThrowsExceptionWithInvalidValue()
+    public function testEmailTypeThrowsExceptionWithInvalidValue()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Url(NULL);
+        new Email(NULL);
     }
 }
