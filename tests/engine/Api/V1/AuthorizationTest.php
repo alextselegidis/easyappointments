@@ -11,26 +11,19 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Api\V1;
 
+use EA\Engine\Types\NonEmptyText;
 use PHPUnit\Framework\TestCase;
 
-class IntegerTest extends TestCase {
-    public function testIntType()
+class AuthorizationTest extends TestCase {
+    public function testBasicMethodPerformsBasicAuthentication()
     {
-        $type = new Integer(1);
-        $this->assertEquals(1, $type->get());
+        $this->markTestIncomplete();
     }
 
-    public function testIntTypeThrowsExceptionWithFloat()
+    public function testBasicMethodReturnsForbiddenResponse()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        new Integer(100.00);
-    }
-
-    public function testIntTypeThrowsExceptionWithWithString()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new Integer('invalid');
+        $this->markTestIncomplete();
     }
 }

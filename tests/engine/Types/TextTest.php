@@ -11,20 +11,20 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 use PHPUnit\Framework\TestCase;
 
-class DecimalTest extends TestCase {
-    public function testFloatType()
+class TextTest extends TestCase {
+    public function testStringType()
     {
-        $type = new Decimal(100.00);
-        $this->assertEquals(100.00, $type->get());
+        $type = new Text('Hello!');
+        $this->assertEquals('Hello!', $type->get());
     }
 
-    public function testFloatTypeThrowsExceptionWithInvalidValue()
+    public function testStringTypeThrowsExceptionWithInvalidValue()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Decimal(NULL);
+        new Text(NULL);
     }
 }

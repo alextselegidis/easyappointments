@@ -11,26 +11,20 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 use PHPUnit\Framework\TestCase;
 
-class EmailTest extends TestCase {
-    public function testEmailType()
+class DecimalTest extends TestCase {
+    public function testFloatType()
     {
-        $type = new Email('john@doe.com');
-        $this->assertEquals('john@doe.com', $type->get());
+        $type = new Decimal(100.00);
+        $this->assertEquals(100.00, $type->get());
     }
 
-    public function testEmailTypeThrowsExceptionWithInvalidEmail()
+    public function testFloatTypeThrowsExceptionWithInvalidValue()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Email('abcdef');
-    }
-
-    public function testEmailTypeThrowsExceptionWithInvalidValue()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        new Email(NULL);
+        new Decimal(NULL);
     }
 }

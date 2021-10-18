@@ -11,20 +11,26 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 use PHPUnit\Framework\TestCase;
 
-class TextTest extends TestCase {
-    public function testStringType()
+class UnsignedIntegerTest extends TestCase {
+    public function testUnsignedIntType()
     {
-        $type = new Text('Hello!');
-        $this->assertEquals('Hello!', $type->get());
+        $type = new UnsignedInteger(1);
+        $this->assertEquals(1, $type->get());
     }
 
-    public function testStringTypeThrowsExceptionWithInvalidValue()
+    public function testUnsignedIntTypeThrowsExceptionWithNegative()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Text(NULL);
+        new UnsignedInteger(-1);
+    }
+
+    public function testUnsignedIntTypeThrowsExceptionWithWithString()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new UnsignedInteger('invalid');
     }
 }

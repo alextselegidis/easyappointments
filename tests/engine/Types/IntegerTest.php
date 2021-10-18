@@ -11,20 +11,26 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Type;
+namespace EA\Engine\Types;
 
 use PHPUnit\Framework\TestCase;
 
-class BooleanTest extends TestCase {
-    public function testBoolType()
+class IntegerTest extends TestCase {
+    public function testIntType()
     {
-        $type = new Boolean(TRUE);
-        $this->assertEquals(TRUE, $type->get());
+        $type = new Integer(1);
+        $this->assertEquals(1, $type->get());
     }
 
-    public function testBoolTypeThrowsExceptionWithInvalidValue()
+    public function testIntTypeThrowsExceptionWithFloat()
     {
         $this->expectException(\InvalidArgumentException::class);
-        new Boolean(NULL);
+        new Integer(100.00);
+    }
+
+    public function testIntTypeThrowsExceptionWithWithString()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Integer('invalid');
     }
 }

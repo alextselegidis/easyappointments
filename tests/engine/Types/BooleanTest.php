@@ -11,19 +11,20 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-namespace EA\Engine\Api\V1;
+namespace EA\Engine\Types;
 
-use EA\Engine\Type\NonEmptyText;
 use PHPUnit\Framework\TestCase;
 
-class AuthorizationTest extends TestCase {
-    public function testBasicMethodPerformsBasicAuthentication()
+class BooleanTest extends TestCase {
+    public function testBoolType()
     {
-        $this->markTestIncomplete();
+        $type = new Boolean(TRUE);
+        $this->assertEquals(TRUE, $type->get());
     }
 
-    public function testBasicMethodReturnsForbiddenResponse()
+    public function testBoolTypeThrowsExceptionWithInvalidValue()
     {
-        $this->markTestIncomplete();
+        $this->expectException(\InvalidArgumentException::class);
+        new Boolean(NULL);
     }
 }
