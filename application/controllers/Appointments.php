@@ -338,25 +338,34 @@ class Appointments extends EA_Controller {
 
             // If the user has selected the "any-provider" option then we will need to search for an available provider
             // that will provide the requested service.
+            $service = $this->services_model->get_row($service_id);
+            
             if ($provider_id === ANY_PROVIDER)
             {
-                $provider_id = $this->search_any_provider($service_id, $selected_date);
-
-                if ($provider_id === NULL)
+                $providers = $this->providers_model->get_batch(); 
+                
+                $available_hours = []; 
+                
+                foreach($providers as $provider)
                 {
-                    $this->output
-                        ->set_content_type('application/json')
-                        ->set_output(json_encode([]));
-
-                    return;
+                    if (!in_array($service_id, $provider['services']))
+                    {
+                        continue; 
+                    }
+                    
+                    $provider_available_hours = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id); 
+                    
+                    $available_hours = array_merge($available_hours, $provider_available_hours);
                 }
+
+                $response = array_unique(array_values($available_hours)); 
             }
+            else
+            {
+                $provider = $this->providers_model->get_row($provider_id);
 
-            $service = $this->services_model->get_row($service_id);
-
-            $provider = $this->providers_model->get_row($provider_id);
-
-            $response = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id);
+                $response = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id);
+            }
         }
         catch (Exception $exception)
         {
