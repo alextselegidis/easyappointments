@@ -1355,6 +1355,28 @@ class Backend_api extends EA_Controller {
 
                 $settings = json_decode($this->input->post('settings', FALSE), TRUE);
 
+                foreach ($settings as $setting)
+                {
+                    if (
+                        $setting['name'] == "company_email" ||
+                        $setting['name'] == "company_link" ||
+                        $setting['name'] == "company_name" ||
+                        $setting['name'] == "cookie_notice_content" ||
+                        $setting['name'] == "privacy_policy_content"
+                    ){
+                        $setting['value'] = htmlspecialchars($setting['value']);
+                    }
+
+                    if (
+                        $setting['name'] == "customer_notifications" ||
+                        $setting['name'] == "require_phone_number" ||
+                        $setting['name'] == "require_captcha" ||
+                        $setting['name'] == "display_any_provider"
+                    ){
+                        $setting['value'] = preg_replace('/\D/', '', $setting['value']);
+                    }
+                }
+
                 $this->settings_model->save_settings($settings);
             }
             else

@@ -19,6 +19,10 @@
 
     <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
     <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
+    <?php if ($require_captcha === '2'): ?>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <?php endif; ?>
+
 </head>
 
 <body>
@@ -358,7 +362,7 @@
                         <div id="appointment-details" class="col-12 col-md-6"></div>
                         <div id="customer-details" class="col-12 col-md-6"></div>
                     </div>
-                    <?php if ($this->settings_model->get_setting('require_captcha') === '1'): ?>
+                    <?php if ($require_captcha === '1'): ?>
                         <div class="row frame-content">
                             <div class="col-12 col-md-6">
                                 <h4 class="captcha-title">
@@ -371,6 +375,18 @@
                                 <input class="captcha-text form-control" type="text" value=""/>
                                 <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
                             </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($require_captcha === '2'): ?>
+                        <div class="row frame-content">
+                            <div class="col-12 col-md-6">
+                                <h4 class="captcha-title">
+                                    CAPTCHA
+                                </h4>
+                                <div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $recaptcha_client_token ?>"></div>
+                                <div id="captcha-hint" class="help-block captcha-hint-recaptcha" style="opacity:0">&nbsp;</div>
+                            </div>
+
                         </div>
                     <?php endif; ?>
                 </div>

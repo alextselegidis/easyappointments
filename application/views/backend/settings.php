@@ -184,14 +184,32 @@
                                 </span>
                             </div>
                             <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="require-captcha">
-                                    <label class="custom-control-label" for="require-captcha">
-                                        CAPTCHA
-                                    </label>
-                                </div>
-                                <span class="form-text text-muted">
+                                <label for="require-captcha">
+                                    CAPTCHA
+                                </label>
+                                <select class="form-control" id="require-captcha" name="require-captcha" data-field="require_captcha">
+                                    <option value="0"><?= lang('none') ?></option>
+                                    <option value="1">Server CAPTCHA</option>
+                                    <option value="2">Google reCAPTCHA v2</option>
+                                </select>
+                                <span class="help-block form-text text-muted">
                                     <?= lang('require_captcha_hint') ?>
+                                </span>
+                            </div>
+                            <div class="form-group" id="recaptcha-group" style="display: none;">
+                                <label for="recaptcha-server-token">
+                                    <?= lang('recaptcha_server_token') ?>
+                                </label>
+                                <input id="recaptcha-server-token" data-field="recaptcha_server_token" class="form-control">
+                                <label for="recaptcha-client-token">
+                                    <?= lang('recaptcha_client_token') ?>
+                                </label>
+                                <input id="recaptcha-client-token" data-field="recaptcha_client_token" class="form-control">
+                                <span class="help-block form-text text-muted">
+                                    <?= lang('recaptcha_hint') ?>
+                                </span>
+                                <span class="help-block form-text text-warning">
+                                    <?= lang('recaptcha_warning') ?>
                                 </span>
                             </div>
                             <div class="form-group">

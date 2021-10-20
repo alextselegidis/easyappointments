@@ -67,7 +67,13 @@ window.BackendSettings = window.BackendSettings || {};
             }
 
             if (setting.name === 'require_captcha') {
-                $('#require-captcha').prop('checked', Boolean(Number(setting.value)));
+                $('#require-captcha').val(Number(setting.value)).change();
+                if (Number(setting.value) === 2){//for recaptcha
+                    $('#recaptcha-group').show();
+                }else{
+                    $('#recaptcha-group').hide();
+                }
+
             }
 
             if (setting.name === 'require_phone_number') {
@@ -185,6 +191,18 @@ window.BackendSettings = window.BackendSettings || {};
         $('.save-settings').on('click', function () {
             var data = settings.get();
             settings.save(data);
+        });
+
+        /**
+         * Event: User changes CAPTCHA option value
+         * Make the reCAPTCHA settings visible/invisible
+         */
+        $('#require-captcha').change(function() {
+            if ($(this).val() === '2') {//when 'Google reCAPTCHA v2' is selected
+                $('#recaptcha-group').show();
+            }else{
+                $('#recaptcha-group').hide();
+            }
         });
 
         /**

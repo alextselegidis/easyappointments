@@ -73,6 +73,8 @@ class Appointments extends EA_Controller {
             $display_privacy_policy = $this->settings_model->get_setting('display_privacy_policy');
             $privacy_policy_content = $this->settings_model->get_setting('privacy_policy_content');
             $display_any_provider = $this->settings_model->get_setting('display_any_provider');
+            $require_captcha = $this->settings_model->get_setting('require_captcha');
+            $recaptcha_client_token = $this->settings_model->get_setting('recaptcha_client_token');
             $timezones = $this->timezones->to_array();
 
             // Remove the data that are not needed inside the $available_providers array.
@@ -174,6 +176,8 @@ class Appointments extends EA_Controller {
                 'privacy_policy_content' => $privacy_policy_content,
                 'timezones' => $timezones,
                 'display_any_provider' => $display_any_provider,
+                'recaptcha_client_token' => $recaptcha_client_token,
+                'require_captcha' => $require_captcha,
             ];
         }
         catch (Exception $exception)
@@ -466,6 +470,32 @@ class Appointments extends EA_Controller {
                     ]));
 
                 return;
+            }
+
+            if ($require_captcha === '2')
+            {
+                $recaptcha_server_token = $this->settings_model->get_setting('recaptcha_server_token');
+                $recaptcha = $this->input->post('recaptcha');
+                if (!$recaptcha) {
+                    $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode([
+                            'captcha_verification' => FALSE
+                        ]));
+                    return;
+                }
+
+                $captchaUrl = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($recaptcha_server_token) .  '&response=' . urlencode($recaptcha);
+                $captchaResponse = json_decode(file_get_contents($captchaUrl),true);
+
+                if($captchaResponse["success"] === false) {
+                    $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode([
+                            'captcha_verification' => FALSE
+                        ]));
+                    return;
+                }
             }
 
             if ($this->customers_model->exists($customer))
