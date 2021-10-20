@@ -29,6 +29,10 @@
      * @param {Array} settings Contains the system settings data.
      */
     SystemSettings.prototype.save = function (settings) {
+        if (!this.validate()) {
+            return; // Validation failed, do not proceed.
+        }
+        
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
 
         var data = {

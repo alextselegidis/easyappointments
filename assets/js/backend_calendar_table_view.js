@@ -754,7 +754,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 $('#select-provider').trigger('change');
 
                 // Preselect time
-                $('#start-datetime').datepicker('setDate', new Date(start.format('YYY/MM/DD HH:mm:ss')));
+                $('#start-datetime').datepicker('setDate', new Date(start.format('YYYY/MM/DD HH:mm:ss')));
                 $('#end-datetime').datepicker('setDate', new Date(end.format('YYYY/MM/DD HH:mm:ss')));
 
                 return false;
@@ -1186,7 +1186,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'text': EALang.start
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(event.data.date + ' ' + event.data.workingPlanException.start, GlobalVariables.dateFormat, true)
                     }),
                     $('<br/>'),
 
@@ -1194,7 +1194,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'text': EALang.end
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(event.data.date + ' ' + event.data.workingPlanException.end, GlobalVariables.dateFormat, true)
                     }),
                     $('<br/>'),
 
@@ -1349,7 +1349,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary mr-2' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-trash-alt mr-2'

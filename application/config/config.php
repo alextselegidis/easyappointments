@@ -8,7 +8,7 @@
 | Declare some of the global config values of Easy!Appointments.
 |
 */
-$config['version'] = '1.4.1'; // This must be changed manually.
+$config['version'] = '1.4.2'; // This must be changed manually.
 $config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
 $config['debug'] = Config::DEBUG_MODE;
 
@@ -100,6 +100,7 @@ $languages = [
     'hu' => 'hungarian',
     'it' => 'italian',
     'ja' => 'japanese',
+    'fa' => 'persian',
     'lb' => 'luxembourgish',
     'mr' => 'marathi',
     'pl' => 'polish',
@@ -112,7 +113,7 @@ $languages = [
     'tr' => 'turkish',
 ];
 
-$language_code = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+$language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
 
 $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
     ? $languages[$language_code]
@@ -146,8 +147,9 @@ $config['available_languages'] = [
     'hungarian',
     'italian',
     'japanese',
-    'marathi',
     'luxembourgish',
+    'marathi',
+    'persian',
     'polish',
     'portuguese',
     'portuguese-br',
@@ -312,7 +314,7 @@ $config['cache_path'] = __DIR__ . '/../../storage/cache/';
 | new release.
 |
 */
-$config['cache_busting_token'] = '924WX';
+$config['cache_busting_token'] = 'ZV947';
 
 /*
 |--------------------------------------------------------------------------

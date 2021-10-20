@@ -119,7 +119,7 @@ class Email {
                 $time_format = 'H:i';
                 break;
             case 'regular':
-                $time_format = 'g:i A';
+                $time_format = 'g:i a';
                 break;
             default:
                 throw new Exception('Invalid time_format value: ' . $settings['time_format']);
@@ -223,7 +223,7 @@ class Email {
                 $time_format = 'H:i';
                 break;
             case 'regular':
-                $time_format = 'g:i A';
+                $time_format = 'g:i a';
                 break;
             default:
                 throw new Exception('Invalid time_format value: ' . $settings['time_format']);
@@ -315,12 +315,15 @@ class Email {
         if ($this->config['protocol'] === 'smtp')
         {
             $mailer->isSMTP();
+            $mailer->SMTPDebug  = $this->config['smtp_debug'];
             $mailer->Host = $this->config['smtp_host'];
-            $mailer->SMTPAuth = TRUE;
+            $mailer->SMTPAuth = $this->config['smtp_auth'];
             $mailer->Username = $this->config['smtp_user'];
             $mailer->Password = $this->config['smtp_pass'];
             $mailer->SMTPSecure = $this->config['smtp_crypto'];
             $mailer->Port = $this->config['smtp_port'];
+            $mailer->Sender = $settings['company_email'];
+            $mailer->SetFrom($settings['company_email'], $settings['company_name'], FALSE); 
         }
 
         $mailer->IsHTML($this->config['mailtype'] === 'html');

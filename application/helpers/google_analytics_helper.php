@@ -26,9 +26,12 @@ function google_analytics_script()
 
     $google_analytics_code = $CI->settings_model->get_setting('google_analytics_code');
 
-    if ($google_analytics_code !== '')
-    {
-        echo '
+    if ($google_analytics_code !== '') {
+
+        // If the google analytics code starts with UA then it is a Universal Analytics Property and the script stays
+        // the legacy one
+        if (substr($google_analytics_code, 0, 2) === "UA") {
+            echo '
             <script>
                 (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -38,5 +41,20 @@ function google_analytics_script()
                 ga("send", "pageview");
             </script>
         ';
+        }
+
+        // If the google analytics code starts with a G then it is a Google Analytics 4-Property and the script 
+        // to inject it looks different.
+        if (substr($google_analytics_code, 0, 2) === "G-") {
+            echo '
+                    <script async src="https://www.googletagmanager.com/gtag/js?id=' . $google_analytics_code . '"></script>
+                    <script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag("js", new Date());
+                    gtag("config", "' . $google_analytics_code . '");
+                    </script>
+                ';
+        }
     }
 }
