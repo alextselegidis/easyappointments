@@ -202,7 +202,7 @@
                     </legend>
 
                     <div class="wrapper row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-3">
                         <div class="form-group">
                                     <label for="show-phone-number"><?= lang('phone_number') ?></label>
                                 <button id="show-phone-number" data-field="show_phone_number" type="button" class="hide-toggle form-control form-sub-button">
@@ -240,7 +240,7 @@
                             </div>
                         </div>
                         
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-9">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="customer-notifications">
