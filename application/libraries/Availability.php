@@ -307,7 +307,7 @@ class Availability {
             $current_hour = $start_hour;
             $diff = $current_hour->diff($end_hour);
 
-            while (($diff->h * 60 + $diff->i) >= (int)$service['duration'])
+            while (($diff->h * 60 + $diff->i) >= (int)$service['duration'] && $diff->invert === 0)
             {
                 $available_hours[] = $current_hour->format('H:i');
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
@@ -341,7 +341,8 @@ class Availability {
     {
         $unavailability_events = $this->CI->appointments_model->get_batch([
             'is_unavailable' => TRUE,
-            'DATE(start_datetime)' => $date,
+            'DATE(start_datetime) <=' => $date,
+            'DATE(end_datetime) >=' => $date,
             'id_users_provider' => $provider['id']
         ]);
 

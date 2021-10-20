@@ -58,5 +58,11 @@
  * @property Timezones $timezones
  */
 class EA_Model extends CI_Model {
-    //
+    /**
+     * EA_Model constructor.
+     */
+    public function __construct()
+    {
+        //
+    }
 }
