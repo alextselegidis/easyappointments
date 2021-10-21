@@ -40,6 +40,11 @@
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
             <li class="nav-item">
+                <a class="nav-link" href="#client-form" data-toggle="tab"><?= lang('client_form') ?></a>
+            </li>
+        <?php endif ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li class="nav-item">
                 <a class="nav-link" href="#business-logic" data-toggle="tab"><?= lang('business_logic') ?></a>
             </li>
         <?php endif ?>
@@ -172,6 +177,70 @@
                                 </span>
                             </div>
 
+
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <!-- CLIENT FORM TAB -->
+
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
+        <div class="tab-pane <?= $hidden ?>" id="client-form">
+            <form>
+                <fieldset>
+                    <legend class="border-bottom mb-4">
+                        <?= lang('client_form') ?>
+                        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
+                            <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
+                                    data-tippy-content="<?= lang('save') ?>">
+                                <i class="fas fa-check-square mr-2"></i>
+                                <?= lang('save') ?>
+                            </button>
+                        <?php endif ?>
+                    </legend>
+
+                    <div class="wrapper row">
+                        <div class="col-12 col-sm-3">
+                        <div class="form-group">
+                                    <label for="show-phone-number"><?= lang('phone_number') ?></label>
+                                <button id="show-phone-number" data-field="show_phone_number" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-address"><?= lang('address') ?></label>
+                                <button id="show-address" data-field="show_address" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-city"><?= lang('city') ?></label>
+                                <button id="show-city" data-field="show_city" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-zip-code"><?= lang('zip_code') ?></label>
+                                <button id="show-zip-code" data-field="show_zip_code" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-notes"><?= lang('notes') ?></label>
+                                <button id="show-notes" data-field="show_notes" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-sm-9">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="customer-notifications">
@@ -218,6 +287,8 @@
                             </div>
                         </div>
                     </div>
+
+
                 </fieldset>
             </form>
         </div>

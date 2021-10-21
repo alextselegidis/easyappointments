@@ -68,6 +68,29 @@
     };
 
     /**
+     * Get the state of a visible/hidden toggle button
+     *
+     * This method uses the DOM elements of the backend/settings page, so it can't be used in another page.
+     *
+     * @argument the element jquery of a button object that is a visible/hidden toggle.
+     *
+     * @return '0' when the button shows 'invisible' and '1' when the button shows 'visible'. Will always return '0' on an error.
+     */
+    function getToggleButtonState($element) {
+        var visiblePartArray = $element.find(".hide-toggle-visible");
+        var invisiblePartArray = $element.find(".hide-toggle-hidden");
+        if (!(visiblePartArray.length === 0 || invisiblePartArray.length === 0)) {
+            if (visiblePartArray.hasClass("hidden")){//our button is currently invisible
+                return '0';//invisible
+            }else{//our button is currently visible
+                return '1';//visible
+            }
+        }else{
+            return '0';//invisible
+        }
+    }
+
+    /**
      * Prepare the system settings array.
      *
      * This method uses the DOM elements of the backend/settings page, so it can't be used in another page.
@@ -104,6 +127,33 @@
         settings.push({
             name: 'display_any_provider',
             value: $('#display-any-provider').prop('checked') ? '1' : '0'
+        });
+
+        //Client Form Tab
+
+        settings.push({
+            name: 'show_phone_number',
+            value: getToggleButtonState($('#show-phone-number'))
+        });
+
+        settings.push({
+            name: 'show_address',
+            value: getToggleButtonState($('#show-address'))
+        });
+
+        settings.push({
+            name: 'show_city',
+            value: getToggleButtonState($('#show-city'))
+        });
+
+        settings.push({
+            name: 'show_zip_code',
+            value: getToggleButtonState($('#show-zip-code'))
+        });
+
+        settings.push({
+            name: 'show_notes',
+            value: getToggleButtonState($('#show-notes'))
         });
 
 

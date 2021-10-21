@@ -66,6 +66,11 @@ class Appointments extends EA_Controller {
             $time_format = $this->settings_model->get_setting('time_format');
             $first_weekday = $this->settings_model->get_setting('first_weekday');
             $require_phone_number = $this->settings_model->get_setting('require_phone_number');
+            $show_field['phone-number'] = $this->settings_model->get_setting('show_phone_number');
+            $show_field['address'] = $this->settings_model->get_setting('show_address');
+            $show_field['city'] = $this->settings_model->get_setting('show_city');
+            $show_field['zip-code'] = $this->settings_model->get_setting('show_zip_code');
+            $show_field['notes'] = $this->settings_model->get_setting('show_notes');
             $display_cookie_notice = $this->settings_model->get_setting('display_cookie_notice');
             $cookie_notice_content = $this->settings_model->get_setting('cookie_notice_content');
             $display_terms_and_conditions = $this->settings_model->get_setting('display_terms_and_conditions');
@@ -163,6 +168,7 @@ class Appointments extends EA_Controller {
                 'time_format' => $time_format,
                 'first_weekday' => $first_weekday,
                 'require_phone_number' => $require_phone_number,
+                'show_field' => $show_field,
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
                 'customer_data' => $customer,
@@ -441,6 +447,12 @@ class Appointments extends EA_Controller {
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
             $appointment = $post_data['appointment'];
             $customer = $post_data['customer'];
+
+            if (!array_key_exists('address', $customer)){ $customer['address'] = ""; }
+            if (!array_key_exists('city', $customer)){ $customer['city'] = ""; }
+            if (!array_key_exists('zip_code', $customer)){ $customer['zip_code'] = ""; }
+            if (!array_key_exists('notes', $customer)){ $customer['notes'] = ""; }
+            if (!array_key_exists('phone_number', $customer)){ $customer['address'] = ""; }
 
             // Check appointment availability before registering it to the database.
             $appointment['id_users_provider'] = $this->check_datetime_availability();
