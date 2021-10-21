@@ -268,6 +268,7 @@
                                 </label>
                                 <input type="text" id="email" class="required form-control" maxlength="120"/>
                             </div>
+                            <?php if ($show_field['phone-number']) : ?>
                             <div class="form-group">
                                 <label for="phone-number" class="control-label">
                                     <?= lang('phone_number') ?>
@@ -276,33 +277,42 @@
                                 <input type="text" id="phone-number" maxlength="60"
                                        class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
                             </div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="col-12 col-md-6">
+                        <?php if ($show_field['address']) : ?>
                             <div class="form-group">
                                 <label for="address" class="control-label">
                                     <?= lang('address') ?>
                                 </label>
                                 <input type="text" id="address" class="form-control" maxlength="120"/>
                             </div>
+                            <?php endif; ?>
+                            <?php if ($show_field['city']):?>
                             <div class="form-group">
                                 <label for="city" class="control-label">
                                     <?= lang('city') ?>
                                 </label>
                                 <input type="text" id="city" class="form-control" maxlength="120"/>
                             </div>
+                            <?php endif; ?>
+                            <?php if ($show_field['zip-code']) : ?>
                             <div class="form-group">
                                 <label for="zip-code" class="control-label">
                                     <?= lang('zip_code') ?>
                                 </label>
                                 <input type="text" id="zip-code" class="form-control" maxlength="120"/>
                             </div>
+                            <?php endif; ?>
+                            <?php if ($show_field['notes']) : ?>
                             <div class="form-group">
                                 <label for="notes" class="control-label">
                                     <?= lang('notes') ?>
                                 </label>
                                 <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>
                             </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

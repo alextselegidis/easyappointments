@@ -267,7 +267,7 @@ body legend {
     margin-bottom: 20px;
 }
 
-.record-details input:read-only,
+.record-details input:read-only:not(.custom-control-input),
 .record-details select:disabled,
 .record-details textarea:read-only {
     opacity: 0.85;
@@ -278,6 +278,23 @@ body legend {
     width: 100%;
     text-align: center;
     margin: 5px;
+}
+
+.form-sub-button {
+    width: auto;
+}
+
+.form-sub-button img{
+    margin-top: -.25rem;
+}
+
+.hidden{
+    visibility: hidden;
+    height: 0;
+}
+
+.hide-toggle div{
+    display: flex;
 }
 
 @media (min-width: 768px) {
@@ -427,6 +444,7 @@ body legend {
 #calendar .fc-event {
     border: 1px solid #4790CA;
     background-color: #4790CA;
+    min-height: 12px; 
 }
 
 #existing-customers-list {
@@ -708,7 +726,7 @@ body .form-horizontal .controls {
 
 #users-page #providers .working-plan-view .work-start,
 #users-page #providers .working-plan-view .work-end {
-    max-width: 88px;
+    max-width: 100px;
 }
 
 #users-page .btn-toolbar {
@@ -718,6 +736,11 @@ body .form-horizontal .controls {
 
 #users-page #providers .form-message {
     clear: both;
+}
+
+#users-page #providers .breaks.table,
+#settings-page .breaks.table {
+    table-layout: fixed;
 }
 
 #users-page #providers .breaks .btn {
@@ -784,12 +807,12 @@ body .form-horizontal .controls {
 }
 
 #business-logic .working-plan td input[type="text"] {
-    max-width: 88px;
+    max-width: 100px;
 }
 
 #business-logic .working-plan .work-start,
 #business-logic .working-plan .work-end {
-    max-width: 88px;
+    max-width: 100px;
 }
 
 #business-logic .working-plan label.checkbox {
@@ -837,6 +860,10 @@ body .form-horizontal .controls {
 }
 
 #settings-page #general fieldset .wrapper {
+    max-width: 1024px;
+}
+
+#settings-page #client-form fieldset .wrapper {
     max-width: 1024px;
 }
 

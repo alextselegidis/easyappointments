@@ -85,7 +85,7 @@
                         'html': [
                             $('<input/>', {
                                 'id': index + '-start',
-                                'class': 'work-start form-control input-sm'
+                                'class': 'work-start form-control form-control-sm'
                             })
                         ]
                     }),
@@ -93,7 +93,7 @@
                         'html': [
                             $('<input/>', {
                                 'id': index + '-end',
-                                'class': 'work-start form-control input-sm'
+                                'class': 'work-start form-control form-control-sm'
                             })
                         ]
                     })
@@ -103,8 +103,8 @@
 
             if (workingDay) {
                 $('#' + index).prop('checked', true);
-                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(timeFormat).toUpperCase());
-                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(timeFormat).toUpperCase());
+                $('#' + index + '-start').val(Date.parse(workingDay.start).toString(timeFormat).toLowerCase());
+                $('#' + index + '-end').val(Date.parse(workingDay.end).toString(timeFormat).toLowerCase());
 
                 // Sort day's breaks according to the starting hour
                 workingDay.breaks.sort(function (break1, break2) {
@@ -121,11 +121,11 @@
                             }),
                             $('<td/>', {
                                 'class': 'break-start editable',
-                                'text': Date.parse(workingDayBreak.start).toString(timeFormat).toUpperCase()
+                                'text': Date.parse(workingDayBreak.start).toString(timeFormat).toLowerCase()
                             }),
                             $('<td/>', {
                                 'class': 'break-end editable',
-                                'text': Date.parse(workingDayBreak.end).toString(timeFormat).toUpperCase()
+                                'text': Date.parse(workingDayBreak.end).toString(timeFormat).toLowerCase()
                             }),
                             $('<td/>', {
                                 'html': [
@@ -307,11 +307,11 @@
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exception--start',
-                    'text': Date.parse(workingPlanException.start).toString(timeFormat)
+                    'text': Date.parse(workingPlanException.start).toString(timeFormat).toLowerCase()
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exception--end',
-                    'text': Date.parse(workingPlanException.end).toString(timeFormat)
+                    'text': Date.parse(workingPlanException.end).toString(timeFormat).toLowerCase()
                 }),
                 $('<td/>', {
                     'html': [
@@ -379,11 +379,11 @@
                     }),
                     $('<td/>', {
                         'class': 'break-start editable',
-                        'text': Date.parse('12:00:00').toString(timeFormat)
+                        'text': Date.parse('12:00:00').toString(timeFormat).toLowerCase()
                     }),
                     $('<td/>', {
                         'class': 'break-end editable',
-                        'text': Date.parse('14:00:00').toString(timeFormat)
+                        'text': Date.parse('14:00:00').toString(timeFormat).toLowerCase()
                     }),
                     $('<td/>', {
                         'html': [
@@ -437,7 +437,6 @@
             this.editableDayCell($newBreak.find('.break-day'));
             this.editableTimeCell($newBreak.find('.break-start, .break-end'));
             $newBreak.find('.edit-break').trigger('click');
-            $('.add-break').prop('disabled', true);
         }.bind(this));
 
         /**
@@ -458,7 +457,7 @@
             // Make all cells in current row editable.
             $(this).parent().parent().children().trigger('edit');
             $(this).parent().parent().find('.break-start input, .break-end input').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -472,9 +471,7 @@
             var $tr = $(this).closest('tr');
             $tr.find('.edit-break, .delete-break').addClass('d-none');
             $tr.find('.save-break, .cancel-break').removeClass('d-none');
-            $tr.find('select,input:text').addClass('form-control input-sm')
-
-            $('.add-break').prop('disabled', true);
+            $tr.find('select,input:text').addClass('form-control form-control-sm')
         });
 
         /**
@@ -500,9 +497,8 @@
             $modifiedRow.find('.cancel-editable').trigger('click');
             this.enableCancel = false;
 
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
+            $modifiedRow.find('.edit-break, .delete-break').removeClass('d-none');
             $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
-            $('.add-break').prop('disabled', false);
         }.bind(this));
 
         /**
@@ -520,7 +516,7 @@
             var end = Date.parse($modifiedRow.find('.break-end input').val());
 
             if (start > end) {
-                $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
+                $modifiedRow.find('.break-end input').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toLowerCase());
             }
 
             this.enableSubmit = true;
@@ -528,12 +524,7 @@
             this.enableSubmit = false;
 
             $modifiedRow.find('.save-break, .cancel-break').addClass('d-none');
-            $(element).closest('table').find('.edit-break, .delete-break').removeClass('d-none');
-            $('.add-break').prop('disabled', false);
-
-            // Refresh working plan to have the new break sorted in the break list.
-            var workingPlan = this.get();
-            this.setup(workingPlan);
+            $modifiedRow.find('.edit-break, .delete-break').removeClass('d-none');
         }.bind(this));
 
         /**
@@ -667,7 +658,7 @@
         if (disabled === false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
                 currentText: EALang.now,
                 closeText: EALang.close,
                 timeOnlyTitle: EALang.select_time,
@@ -681,7 +672,7 @@
                         end = Date.parse($(this).parent().parent().find('.work-end').val());
 
                     if (start > end) {
-                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
+                        $(this).parent().parent().find('.work-end').val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm').toLowerCase());
                     }
                 }
             });

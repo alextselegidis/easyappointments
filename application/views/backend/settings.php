@@ -40,6 +40,11 @@
         <?php endif ?>
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
             <li class="nav-item">
+                <a class="nav-link" href="#client-form" data-toggle="tab"><?= lang('client_form') ?></a>
+            </li>
+        <?php endif ?>
+        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
+            <li class="nav-item">
                 <a class="nav-link" href="#business-logic" data-toggle="tab"><?= lang('business_logic') ?></a>
             </li>
         <?php endif ?>
@@ -80,7 +85,10 @@
                     <div class="wrapper row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label for="company-name"><?= lang('company_name') ?> *</label>
+                                <label for="company-name">
+                                    <?= lang('company_name') ?>
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input id="company-name" data-field="company_name" class="required form-control">
                                 <span class="form-text text-muted">
                                     <?= lang('company_name_hint') ?>
@@ -88,7 +96,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="company-email"><?= lang('company_email') ?> *</label>
+                                <label for="company-email">
+                                    <?= lang('company_email') ?>
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input id="company-email" data-field="company_email" class="required form-control">
                                 <span class="form-text text-muted">
                                     <?= lang('company_email_hint') ?>
@@ -96,7 +107,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="company-link"><?= lang('company_link') ?> *</label>
+                                <label for="company-link">
+                                    <?= lang('company_link') ?>
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <input id="company-link" data-field="company_link" class="required form-control">
                                 <span class="form-text text-muted">
                                     <?= lang('company_link_hint') ?>
@@ -140,7 +154,7 @@
                                     <option value="friday"><?= lang('friday') ?></option>
                                     <option value="saturday"><?= lang('saturday') ?></option>
                                 </select>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('first_weekday_hint') ?>
                                 </span>
                             </div>
@@ -151,18 +165,82 @@
                                     Google Analytics ID</label>
                                 <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
                                        data-field="google_analytics_code" class="form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('google_analytics_code_hint') ?>
                                 </span>
                             </div>
                             <div class="form-group">
                                 <label for="api-token">API Token</label>
                                 <input id="api-token" data-field="api_token" class="form-control">
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('api_token_hint') ?>
                                 </span>
                             </div>
 
+
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <!-- CLIENT FORM TAB -->
+
+        <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
+        <div class="tab-pane <?= $hidden ?>" id="client-form">
+            <form>
+                <fieldset>
+                    <legend class="border-bottom mb-4">
+                        <?= lang('client_form') ?>
+                        <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
+                            <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
+                                    data-tippy-content="<?= lang('save') ?>">
+                                <i class="fas fa-check-square mr-2"></i>
+                                <?= lang('save') ?>
+                            </button>
+                        <?php endif ?>
+                    </legend>
+
+                    <div class="wrapper row">
+                        <div class="col-12 col-sm-3">
+                        <div class="form-group">
+                                    <label for="show-phone-number"><?= lang('phone_number') ?></label>
+                                <button id="show-phone-number" data-field="show_phone_number" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-address"><?= lang('address') ?></label>
+                                <button id="show-address" data-field="show_address" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-city"><?= lang('city') ?></label>
+                                <button id="show-city" data-field="show_city" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-zip-code"><?= lang('zip_code') ?></label>
+                                <button id="show-zip-code" data-field="show_zip_code" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                    <label for="show-notes"><?= lang('notes') ?></label>
+                                <button id="show-notes" data-field="show_notes" type="button" class="hide-toggle form-control form-sub-button">
+                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
+                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-sm-9">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="customer-notifications">
@@ -192,7 +270,7 @@
                                         <?= lang('phone_number') ?>
                                     </label>
                                 </div>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('require_phone_number_hint') ?>
                                 </span>
                             </div>
@@ -203,12 +281,14 @@
                                         <?= lang('any_provider') ?>
                                     </label>
                                 </div>
-                                <span class="help-block">
+                                <span class="form-text text-muted">
                                     <?= lang('display_any_provider_hint') ?>
                                 </span>
                             </div>
                         </div>
                     </div>
+
+
                 </fieldset>
             </form>
         </div>
@@ -402,77 +482,112 @@
                         <input type="hidden" id="user-id">
 
                         <div class="form-group">
-                            <label for="first-name"><?= lang('first_name') ?> *</label>
+                            <label for="first-name">
+                                <?= lang('first_name') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="first-name" class="form-control required">
                         </div>
 
                         <div class="form-group">
-                            <label for="last-name"><?= lang('last_name') ?> *</label>
+                            <label for="last-name">
+                                <?= lang('last_name') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="last-name" class="form-control required">
                         </div>
 
                         <div class="form-group">
-                            <label for="email"><?= lang('email') ?> *</label>
+                            <label for="email">
+                                <?= lang('email') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="email" class="form-control required">
                         </div>
 
                         <div class="form-group">
-                            <label for="phone-number"><?= lang('phone_number') ?> *</label>
+                            <label for="phone-number">
+                                <?= lang('phone_number') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="phone-number" class="form-control required">
                         </div>
 
                         <div class="form-group">
-                            <label for="mobile-number"><?= lang('mobile_number') ?></label>
+                            <label for="mobile-number">
+                                <?= lang('mobile_number') ?>
+                            </label>
                             <input id="mobile-number" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="address"><?= lang('address') ?></label>
+                            <label for="address">
+                                <?= lang('address') ?>
+                            </label>
                             <input id="address" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="city"><?= lang('city') ?></label>
+                            <label for="city">
+                                <?= lang('city') ?>
+                            </label>
                             <input id="city" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="state"><?= lang('state') ?></label>
+                            <label for="state">
+                                <?= lang('state') ?>
+                            </label>
                             <input id="state" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="zip-code"><?= lang('zip_code') ?></label>
+                            <label for="zip-code">
+                                <?= lang('zip_code') ?>
+                            </label>
                             <input id="zip-code" class="form-control">
                         </div>
 
                         <div class="form-group">
-                            <label for="notes"><?= lang('notes') ?></label>
+                            <label for="notes">
+                                <?= lang('notes') ?>
+                            </label>
                             <textarea id="notes" class="form-control" rows="3"></textarea>
                         </div>
                     </fieldset>
 
                     <fieldset class="col-12 col-sm-6 miscellaneous-wrapper">
-                        <legend class="border-bottom mb-4"><?= lang('system_login') ?></legend>
+                        <legend class="border-bottom mb-4">
+                            <?= lang('system_login') ?>
+                        </legend>
 
                         <div class="form-group">
-                            <label for="username"><?= lang('username') ?> *</label>
+                            <label for="username">
+                                <?= lang('username') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <input id="username" class="form-control required">
                         </div>
 
                         <div class="form-group">
-                            <label for="password"><?= lang('password') ?></label>
+                            <label for="password">
+                                <?= lang('password') ?>
+                            </label>
                             <input type="password" id="password" class="form-control" autocomplete="new-password">
                         </div>
 
                         <div class="form-group">
-                            <label for="retype-password"><?= lang('retype_password') ?></label>
+                            <label for="retype-password">
+                                <?= lang('retype_password') ?>
+                            </label>
                             <input type="password" id="retype-password" class="form-control"
                                    autocomplete="new-password">
                         </div>
 
                         <div class="form-group">
-                            <label for="calendar-view"><?= lang('calendar') ?> *</label>
+                            <label for="calendar-view"><?= lang('calendar') ?>
+                                <span class="text-danger">*</span>
+                            </label>
                             <select id="calendar-view" class="form-control required">
                                 <option value="default">Default</option>
                                 <option value="table">Table</option>
@@ -480,7 +595,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="timezone"><?= lang('timezone') ?></label>
+                            <label for="timezone">
+                                <?= lang('timezone') ?>
+                            </label>
                             <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
                         </div>
 

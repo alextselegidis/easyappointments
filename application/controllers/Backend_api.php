@@ -362,98 +362,9 @@ class Backend_api extends EA_Controller {
             // Delete appointment record from the database.
             $this->appointments_model->delete($this->input->post('appointment_id'));
 
-            // Sync removal with Google Calendar.
-            if ($appointment['id_google_calendar'] != NULL)
-            {
-                try
-                {
-                    $google_sync = $this->providers_model->get_setting('google_sync', $provider['id']);
+            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
 
-                    if ($google_sync == TRUE)
-                    {
-                        $google_token = json_decode($this->providers_model
-                            ->get_setting('google_token', $provider['id']));
-                        $this->google_sync->refresh_token($google_token->refresh_token);
-                        $this->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
-                    }
-                }
-                catch (Exception $exception)
-                {
-                    $warnings[] = [
-                        'message' => $exception->getMessage(),
-                        'trace' => config('debug') ? $exception->getTrace() : []
-                    ];
-                }
-            }
-
-            // Send notification emails to provider and customer.
-            try
-            {
-                $this->config->load('email');
-
-                $email = new EmailClient($this, $this->config->config);
-
-                $send_provider = $this->providers_model
-                    ->get_setting('notifications', $provider['id']);
-
-                if ((bool)$send_provider === TRUE)
-                {
-                    $email->send_delete_appointment($appointment, $provider,
-                        $service, $customer, $settings, new Email($provider['email']),
-                        new Text($this->input->post('delete_reason')));
-                }
-
-                $send_customer = $this->settings_model->get_setting('customer_notifications');
-
-                if ((bool)$send_customer === TRUE)
-                {
-                    $email->send_delete_appointment($appointment, $provider,
-                        $service, $customer, $settings, new Email($customer['email']),
-                        new Text($this->input->post('delete_reason')));
-                }
-
-                // Notify admins
-                $admins = $this->admins_model->get_batch();
-
-                foreach ($admins as $admin)
-                {
-                    if ( ! $admin['settings']['notifications'] === '0')
-                    {
-                        continue;
-                    }
-
-                    $email->send_delete_appointment($appointment, $provider,
-                        $service, $customer, $settings, new Email($admin['email']),
-                        new Text($this->input->post('cancel_reason')));
-                }
-
-                // Notify secretaries
-                $secretaries = $this->secretaries_model->get_batch();
-
-                foreach ($secretaries as $secretary)
-                {
-                    if ( ! $secretary['settings']['notifications'] === '0')
-                    {
-                        continue;
-                    }
-
-                    if (in_array($provider['id'], $secretary['providers']))
-                    {
-                        continue;
-                    }
-
-                    $email->send_delete_appointment($appointment, $provider,
-                        $service, $customer, $settings, new Email($secretary['email']),
-                        new Text($this->input->post('cancel_reason')));
-                }
-            }
-            catch (Exception $exception)
-            {
-                $warnings[] = [
-                    'message' => $exception->getMessage(),
-                    'trace' => config('debug') ? $exception->getTrace() : []
-                ];
-            }
+            $this->synchronization->sync_appointment_deleted($appointment, $provider);
 
             if (empty($warnings))
             {
@@ -1443,6 +1354,24 @@ class Backend_api extends EA_Controller {
                 }
 
                 $settings = json_decode($this->input->post('settings', FALSE), TRUE);
+
+                //check if phone number settings are valid
+                $phone_number_required = false;
+                $phone_number_shown = false;
+                foreach ($settings as $setting)
+                {
+                    if ($setting['name'] == "require_phone_number"){
+                        $phone_number_required = $setting['value'];
+                    }
+
+                    if ($setting['name'] == "show_phone_number"){
+                        $phone_number_shown = $setting['value'];
+                    }
+                }
+
+                if ($phone_number_required && !$phone_number_shown){//we have settings that break the appointments field.
+                    throw new Exception("You cannot hide the phone number in the booking form while it's also required!");
+                }
 
                 $this->settings_model->save_settings($settings);
             }
