@@ -34,7 +34,7 @@ function config($key, $default = NULL)
     /** @var EA_Controller $CI */
     $CI = &get_instance();
 
-    if (is_null($key))
+    if (empty($key))
     {
         throw new InvalidArgumentException('The $key argument cannot be empty.');
     }
