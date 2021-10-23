@@ -20,12 +20,14 @@
  *
  * Example "Set":
  *
- * config([ 'version' => '1.0.0' ]);
+ * config(['version' => '1.0.0']);
  *
  * @param array|string $key Configuration key.
  * @param mixed $default Default value in case the requested config has no value.
  *
  * @return mixed|NULL Returns the configuration value or NULL if setting the configuration key.
+ *
+ * @throws InvalidArgumentException
  */
 function config($key, $default = NULL)
 {
@@ -34,7 +36,7 @@ function config($key, $default = NULL)
 
     if (is_null($key))
     {
-        throw new Exception('The key argument cannot be empty.');
+        throw new InvalidArgumentException('The key argument cannot be empty.');
     }
 
     if (is_array($key))
