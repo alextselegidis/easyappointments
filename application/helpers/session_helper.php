@@ -29,7 +29,7 @@ if ( ! function_exists('session'))
      * @param array|string $key
      * @param mixed $default
      *
-     * @return mixed|NULL Returns the configuration value or NULL if setting the configuration key.
+     * @return mixed|NULL Returns the requested value or NULL if you assign a new session value.
      *
      * @throws InvalidArgumentException
      */
