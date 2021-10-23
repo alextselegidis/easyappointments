@@ -27,7 +27,7 @@
  * @param array|string $key Configuration key.
  * @param mixed $default Default value in case the requested config has no value.
  *
- * @return mixed|NULL Returns the configuration value or NULL if setting the configuration key.
+ * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
  *
  * @throws InvalidArgumentException
  */
