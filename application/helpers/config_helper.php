@@ -36,7 +36,7 @@ function config($key, $default = NULL)
 
     if (is_null($key))
     {
-        throw new InvalidArgumentException('The key argument cannot be empty.');
+        throw new InvalidArgumentException('The $key argument cannot be empty.');
     }
 
     if (is_array($key))
