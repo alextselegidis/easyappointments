@@ -20,8 +20,8 @@ if ( ! function_exists('env'))
      *
      * $debug = env('debug', FALSE);
      *
-     * @param string $key
-     * @param mixed $default
+     * @param string $key Environment key. 
+     * @param mixed $default Default value in case the requested variable has no value.
      *
      * @return mixed
      */

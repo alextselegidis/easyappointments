@@ -26,8 +26,8 @@ if ( ! function_exists('session'))
      *
      * session(['logged_in' => FALSE]);
      *
-     * @param array|string $key
-     * @param mixed $default
+     * @param array|string $key Session item key. 
+     * @param mixed $default Default value in case the requested session item has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new session value.
      *
