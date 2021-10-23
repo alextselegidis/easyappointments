@@ -12,16 +12,40 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Quickly fetch the value of a framework configuration.
+ * Get / set the specified config value.
  *
- * @param string $key Configuration key.
+ * Example "Get":
+ *
+ * config('version', '1.0.0');
+ *
+ * Example "Set":
+ *
+ * config([ 'version' => '1.0.0' ]);
+ *
+ * @param array|string $key Configuration key.
  * @param mixed $default Default value in case the requested config has no value.
  *
- * @return mixed Returns the configuration value.
+ * @return mixed|NULL Returns the configuration value or NULL if setting the configuration key.
  */
 function config($key, $default = NULL)
 {
+    /** @var EA_Controller $CI */
     $CI = &get_instance();
+
+    if (is_null($key))
+    {
+        throw new Exception('The key argument cannot be empty.');
+    }
+
+    if (is_array($key))
+    {
+        foreach ($key as $item => $value)
+        {
+            $CI->config->set_item($item, $value);
+        }
+
+        return NULL;
+    }
 
     $value = $CI->config->item($key);
 
