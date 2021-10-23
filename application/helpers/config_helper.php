@@ -18,7 +18,7 @@
  *
  * Example "Get":
  *
- * config('version', '1.0.0');
+ * $version = config('version', '1.0.0');
  *
  * Example "Set":
  *
