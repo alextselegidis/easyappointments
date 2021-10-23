@@ -13,6 +13,8 @@
 
 /**
  * Get / set the specified config value.
+ * 
+ * If an array is passed as the key, we will assume you want to set an array of values.
  *
  * Example "Get":
  *
