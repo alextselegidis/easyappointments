@@ -15,12 +15,15 @@
  * Quickly fetch the value of a framework configuration.
  *
  * @param string $key Configuration key.
+ * @param mixed $default Default value in case the requested config has no value.
  *
  * @return mixed Returns the configuration value.
  */
-function config($key)
+function config($key, $default = NULL)
 {
     $CI = &get_instance();
 
-    return $CI->config->item($key);
+    $value = $CI->config->item($key);
+
+    return $value ?? $default;
 }
