@@ -16,6 +16,10 @@ if ( ! function_exists('storage_path'))
     /**
      * Get the path to the storage folder.
      *
+     * Example:
+     *
+     * $logs_path = storage_path('logs'); // Returns "/path/to/installation/dir/storage/logs"
+     *
      * @param string $path
      *
      * @return string
@@ -30,6 +34,8 @@ if ( ! function_exists('base_path'))
 {
     /**
      * Get the path to the base of the current installation.
+     *
+     * $controllers_path = base_path('application/controllers'); // Returns "/path/to/installation/dir/application/controllers"
      *
      * @param string $path
      *
