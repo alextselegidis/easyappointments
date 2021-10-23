@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class MY_Controller
+ * Class EA_Controller
  *
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache
