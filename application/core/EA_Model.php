@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class MY_Model
+ * Class EA_Model
  *
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache
