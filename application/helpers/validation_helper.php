@@ -12,17 +12,15 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Check if a string date is valid for insertion or update to the database.
+ * Validate a date time value.
  *
- * @param string $datetime The given date.
+ * @param string $value Validation value.
  *
  * @return bool Returns the validation result.
- *
- * @link http://stackoverflow.com/a/8105844/1718162 [SOURCE]
  */
-function validate_mysql_datetime($datetime)
+function validate_datetime(string $value): bool
 {
-    $dt = DateTime::createFromFormat('Y-m-d H:i:s', $datetime);
+    $date_time = DateTime::createFromFormat('Y-m-d H:i:s', $value);
 
-    return $dt ? TRUE : FALSE;
+    return (bool)$date_time;
 }
