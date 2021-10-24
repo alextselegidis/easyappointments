@@ -36,8 +36,8 @@
  * @property CI_Router $router
  * @property CI_Security $security
  * @property CI_Session $session
- * @property CI_Upload $upload
  * @property CI_URI $uri
+ * @property CI_Upload $upload
  *
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
