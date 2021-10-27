@@ -20,17 +20,6 @@
  */
 class Admins_model extends EA_Model {
     /**
-     * Admins_model constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->helper('password');
-        $this->load->helper('validation');
-    }
-
-    /**
      * Save (insert or update) an admin.
      *
      * @param array $admin Associative array with the admin data.

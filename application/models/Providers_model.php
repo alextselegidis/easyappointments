@@ -20,17 +20,6 @@
  */
 class Providers_model extends EA_Model {
     /**
-     * Providers_model constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->helper('password');
-        $this->load->helper('validation');
-    }
-
-    /**
      * Save (insert or update) a provider.
      *
      * @param array $provider Associative array with the provider data.

@@ -18,17 +18,6 @@
  */
 class Appointments_model extends EA_Model {
     /**
-     * Appointments_model constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->helper('validation');
-        $this->load->helper('string');
-    }
-
-    /**
      * Save (insert or update) an appointment.
      *
      * @param array $appointment Associative array with the appointment data.

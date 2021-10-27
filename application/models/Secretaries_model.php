@@ -20,17 +20,6 @@
  */
 class Secretaries_model extends EA_Model {
     /**
-     * Secretaries_model constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->helper('password');
-        $this->load->helper('validation');
-    }
-
-    /**
      * Save (insert or update) a secretary.
      *
      * @param array $secretary Associative array with the secretary data.
