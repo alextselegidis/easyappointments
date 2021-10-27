@@ -48,16 +48,6 @@
                         <?= lang('add_to_google_calendar') ?>
                     </button>
                 <?php endif ?>
-
-                <?php if (isset($exceptions)): ?>
-                    <div class="m-2">
-                        <h4><?= lang('unexpected_issues') ?></h4>
-
-                        <?php foreach ($exceptions as $exception): ?>
-                            <?= exceptionToHtml($exception) ?>
-                        <?php endforeach ?>
-                    </div>
-                <?php endif ?>
             </div>
 
             <div class="mt-2">

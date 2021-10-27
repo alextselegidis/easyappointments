@@ -82,17 +82,6 @@
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($exceptions)): ?>
-                <div style="margin: 10px">
-                    <h4><?= lang('unexpected_issues') ?></h4>
-
-                    <?php foreach ($exceptions as $exception): ?>
-                        <?= exceptionToHtml($exception) ?>
-                    <?php endforeach ?>
-                </div>
-            <?php endif ?>
-
-
             <!-- SELECT SERVICE AND PROVIDER -->
 
             <div id="wizard-frame-1" class="wizard-frame">
