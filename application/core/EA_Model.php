@@ -46,9 +46,10 @@
  * @property Providers_model $providers_model
  * @property Roles_model $roles_model
  * @property Secretaries_model $secretaries_model
+ * @property Service_categories_model $service_categories_model
  * @property Services_model $services_model
  * @property Settings_model $settings_model
- * @property User_model $user_model
+ * @property Users_model $users_model
  *
  * @property Availability $availability
  * @property Google_Sync $google_sync
@@ -64,5 +65,67 @@ class EA_Model extends CI_Model {
     public function __construct()
     {
         //
+    }
+
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param string $field Name of the value to be returned.
+     * @param int $record_id Record ID.
+     *
+     * @return string Returns the selected record value from the database.
+     *
+     * @throws InvalidArgumentException
+     *
+     * @deprecated Since 1.5
+     */
+    public function get_value(string $field, int $record_id): string
+    {
+        return $this->value($field, $record_id);
+    }
+
+    /**
+     * Get a specific record from the database.
+     *
+     * @param int $record_id The ID of the record to be returned.
+     *
+     * @return array Returns an array with the record data.
+     *
+     * @throws InvalidArgumentException
+     *
+     * @deprecated Since 1.5
+     */
+    public function get_row(int $record_id): array
+    {
+        return $this->find($record_id);
+    }
+
+    /**
+     * Get all records that match the provided criteria.
+     *
+     * @param mixed|null $where
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string|null $order_by
+     *
+     * @return array Returns an array of records.
+     */
+    public function get_batch($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        return $this->get($where, $limit, $offset, $order_by);
+    }
+
+    /**
+     * Save (insert or update) a record.
+     *
+     * @param array $record Associative array with the record data.
+     *
+     * @return int Returns the record ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function add(array $record): int
+    {
+        return $this->save($record);
     }
 }
