@@ -46,9 +46,10 @@
  * @property Providers_model $providers_model
  * @property Roles_model $roles_model
  * @property Secretaries_model $secretaries_model
+ * @property Service_categories_model $service_categories_model
  * @property Services_model $services_model
  * @property Settings_model $settings_model
- * @property User_model $user_model
+ * @property Users_model $users_model
  *
  * @property Availability $availability
  * @property Google_Sync $google_sync
