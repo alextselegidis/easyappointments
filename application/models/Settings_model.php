@@ -12,155 +12,248 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Settings Model
+ * Settings model
+ *
+ * Handles all the database operations of the setting resource.
  *
  * @package Models
  */
 class Settings_model extends EA_Model {
     /**
-     * Get setting value from database.
+     * Save (insert or update) a setting.
      *
-     * This method returns a system setting from the database.
+     * @param array $setting Associative array with the setting data.
      *
-     * @param string $name The database setting name.
+     * @return int Returns the setting ID.
      *
-     * @return string Returns the database value for the selected setting.
-     *
-     * @throws Exception If the $name argument is invalid.
-     * @throws Exception If the requested $name setting does not exist in the database.
+     * @throws InvalidArgumentException
      */
-    public function get_setting($name)
+    public function save(array $setting): int
     {
-        if ( ! is_string($name))
+        $this->validate($setting);
+
+        if (empty($setting['id']))
         {
-            // Check argument type.
-            throw new Exception('$name argument is not a string: ' . $name);
-        }
-
-        if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
-        {
-            // Check if setting exists in db.
-            throw new Exception('$name setting does not exist in database: ' . $name);
-        }
-
-        $query = $this->db->get_where('settings', ['name' => $name]);
-        $setting = $query->num_rows() > 0 ? $query->row() : '';
-        return $setting->value;
-    }
-
-    /**
-     * This method sets the value for a specific setting on the database.
-     *
-     * If the setting doesn't exist, it is going to be created, otherwise updated.
-     *
-     * @param string $name The setting name.
-     * @param string $value The setting value.
-     *
-     * @return int Returns the setting database id.
-     *
-     * @throws Exception If $name argument is invalid.
-     * @throws Exception If the save operation fails.
-     */
-    public function set_setting($name, $value)
-    {
-        if ( ! is_string($name))
-        {
-            throw new Exception('$name argument is not a string: ' . $name);
-        }
-
-        $query = $this->db->get_where('settings', ['name' => $name]);
-
-        if ($query->num_rows() > 0)
-        {
-            // Update setting
-            if ( ! $this->db->update('settings', ['value' => $value], ['name' => $name]))
-            {
-                throw new Exception('Could not update database setting.');
-            }
-            $setting_id = (int)$this->db->get_where('settings', ['name' => $name])->row()->id;
+            return $this->insert($setting);
         }
         else
         {
-            // Insert setting
-            $insert_data = [
-                'name' => $name,
-                'value' => $value
-            ];
-
-            if ( ! $this->db->insert('settings', $insert_data))
-            {
-                throw new Exception('Could not insert database setting');
-            }
-
-            $setting_id = (int)$this->db->insert_id();
+            return $this->update($setting);
         }
-
-        return $setting_id;
     }
 
     /**
-     * Remove a setting from the database.
+     * Validate the setting data.
      *
-     * @param string $name The setting name to be removed.
+     * @param array $setting Associative array with the setting data.
      *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception If the $name argument is invalid.
+     * @throws InvalidArgumentException
      */
-    public function remove_setting($name)
+    public function validate(array $setting): void
     {
-        if ( ! is_string($name))
+        // If a setting ID is provided then check whether the record really exists in the database.
+        if ( ! empty($setting['id']))
         {
-            throw new Exception('$name is not a string: ' . $name);
-        }
+            $count = $this->db->get_where('settings', ['id' => $setting['id']])->num_rows();
 
-        if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
-        {
-            return FALSE; // There is no such setting.
-        }
-
-        return $this->db->delete('settings', ['name' => $name]);
-    }
-
-    /**
-     * Saves all the system settings into the database.
-     *
-     * This method is useful when trying to save all the system settings at once instead of
-     * saving them one by one.
-     *
-     * @param array $settings Contains all the system settings.
-     *
-     * @return bool Returns the save operation result.
-     *
-     * @throws Exception When the update operation won't work for a specific setting.
-     */
-    public function save_settings($settings)
-    {
-        if ( ! is_array($settings))
-        {
-            throw new Exception('$settings argument is invalid: ' . print_r($settings, TRUE));
-        }
-
-        foreach ($settings as $setting)
-        {
-            $this->db->where('name', $setting['name']);
-            if ( ! $this->db->update('settings', ['value' => $setting['value']]))
+            if ( ! $count)
             {
-                throw new Exception('Could not save setting (' . $setting['name']
-                    . ' - ' . $setting['value'] . ')');
+                throw new InvalidArgumentException('The provided setting ID does not exist in the database: ' . $setting['id']);
             }
         }
 
-        return TRUE;
+        // Make sure all required fields are provided.
+        if (
+            empty($setting['name'])
+        )
+        {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($setting, TRUE));
+        }
     }
 
     /**
-     * Returns all the system settings at once.
+     * Insert a new setting into the database.
      *
-     * @return array Array of all the system settings stored in the 'settings' table.
+     * @param array $setting Associative array with the setting data.
+     *
+     * @return int Returns the setting ID.
+     *
+     * @throws RuntimeException
      */
-    public function get_settings()
+    protected function insert(array $setting): int
     {
-        return $this->db->get('settings')->result_array();
+        if ( ! $this->db->insert('settings', $setting))
+        {
+            throw new RuntimeException('Could not insert setting.');
+        }
+
+        return $this->db->insert_id();
+    }
+
+    /**
+     * Update an existing setting.
+     *
+     * @param array $setting Associative array with the setting data.
+     *
+     * @return int Returns the setting ID.
+     *
+     * @throws RuntimeException
+     */
+    protected function update(array $setting): int
+    {
+        if ( ! $this->db->update('settings', $setting, ['id' => $setting['id']]))
+        {
+            throw new RuntimeException('Could not update setting.');
+        }
+
+        return $setting['id'];
+    }
+
+    /**
+     * Remove an existing setting from the database.
+     *
+     * @param int $setting_id Setting ID.
+     *
+     * @throws RuntimeException
+     */
+    public function delete(int $setting_id): void
+    {
+        if ( ! $this->db->delete('settings', ['id' => $setting_id]))
+        {
+            throw new RuntimeException('Could not delete setting.');
+        }
+    }
+
+    /**
+     * Get a specific setting from the database.
+     *
+     * @param int $setting_id The ID of the record to be returned.
+     *
+     * @return array Returns an array with the setting data.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function find(int $setting_id): array
+    {
+        if ( ! $this->db->get_where('settings', ['id' => $setting_id])->num_rows())
+        {
+            throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
+        }
+
+        return $this->db->get_where('settings', ['id' => $setting_id])->row_array();
+    }
+
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param int $setting_id Setting ID.
+     * @param string $field Name of the value to be returned.
+     *
+     * @return string Returns the selected setting value from the database.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function value(int $setting_id, string $field): string
+    {
+        if (empty($field))
+        {
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
+        }
+
+        if (empty($setting_id))
+        {
+            throw new InvalidArgumentException('The setting ID argument cannot be empty.');
+        }
+
+        // Check whether the setting exists.
+        $query = $this->db->get_where('settings', ['id' => $setting_id]);
+
+        if ( ! $query->num_rows())
+        {
+            throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
+        }
+
+        // Check if the required field is part of the setting data.
+        $setting = $query->row_array();
+
+        if ( ! array_key_exists($field, $setting))
+        {
+            throw new InvalidArgumentException('The requested field was not found in the setting data: ' . $field);
+        }
+
+        return $setting[$field];
+    }
+
+    /**
+     * Get all settings that match the provided criteria.
+     *
+     * @param array|string $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of settings.
+     */
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        if ($where !== NULL)
+        {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        return $this->db->get('settings', $limit, $offset)->result_array();
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the settings table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
+    {
+        return $this->db->from('settings');
+    }
+
+    /**
+     * Search settings by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of settings.
+     */
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        return $this
+            ->db
+            ->select()
+            ->from('settings')
+            ->like('name', $keyword)
+            ->or_like('value', $keyword)
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($order_by)
+            ->get()
+            ->result_array();
+    }
+
+    /**
+     * Attach related resources to a setting.
+     *
+     * @param array $setting Associative array with the setting data.
+     * @param array $resources Resource names to be attached.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function attach(array &$setting, array $resources): void
+    {
+        // Users do not currently have any related resources. 
     }
 }
