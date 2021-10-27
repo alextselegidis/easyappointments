@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Appointments Model
+ * Appointments model
  *
  * @package Models
  */
