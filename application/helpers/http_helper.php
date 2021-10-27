@@ -138,6 +138,7 @@ if ( ! function_exists('json_exception'))
     function json_exception(Throwable $exception)
     {
         json_response([
+            'success' => FALSE,
             'message' => $exception->getMessage(),
             'trace' => config('debug') ? $exception->getTrace() : []
         ], 500);
