@@ -120,7 +120,7 @@ if ( ! function_exists('json_response'))
             ->output
             ->set_status_header($status)
             ->set_content_type('application/json')
-            ->set_output($content);
+            ->set_output(json_encode($content));
     }
 }
 
