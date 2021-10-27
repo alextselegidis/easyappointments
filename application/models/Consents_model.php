@@ -12,101 +12,248 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Consents_model
+ * Consents model
+ *
+ * Handles all the database operations of the consent resource.
  *
  * @package Models
  */
 class Consents_model extends EA_Model {
     /**
-     * Add a consent record to the database.
+     * Save (insert or update) a consent.
      *
-     * This method adds a consent to the database.
-     *
-     * @param array $consent Associative array with the consent's data.
+     * @param array $consent Associative array with the consent data.
      *
      * @return int Returns the consent ID.
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function add($consent)
+    public function save(array $consent): int
     {
         $this->validate($consent);
 
-        if ( ! isset($consent['id']))
+        if (empty($consent['id']))
         {
-            $consent['id'] = $this->insert($consent);
+            return $this->insert($consent);
         }
         else
         {
-            $this->update($consent);
+            return $this->update($consent);
         }
-
-        return $consent['id'];
     }
 
 
     /**
-     * Validate consent data before the insert or update operation is executed.
+     * Validate the consent data.
      *
-     * @param array $consent Contains the consent data.
+     * @param array $consent Associative array with the consent data.
      *
-     * @throws Exception If customer validation fails.
+     * @throws InvalidArgumentException
      */
-    public function validate($consent)
+    public function validate(array $consent): void
     {
-        if ( ! isset($consent['first_name'])
-            || ! isset($consent['last_name'])
-            || ! isset($consent['email'])
-            || ! isset($consent['ip'])
-            || ! isset($consent['type']))
+        if (
+            empty($consent['first_name'])
+            || empty($consent['last_name'])
+            || empty($consent['email'])
+            || empty($consent['ip'])
+            || empty($consent['type'])
+        )
         {
-            throw new Exception('Not all required fields are provided: '
-                . print_r($consent, TRUE));
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($consent, TRUE));
         }
     }
 
     /**
-     * Insert a new consent record to the database.
+     * Insert a new consent into the database.
      *
-     * @param array $consent Associative array with the consent's data.
+     * @param array $consent Associative array with the consent data.
      *
-     * @return int Returns the ID of the new record.
+     * @return int Returns the consent ID.
      *
-     * @throws Exception If consent record could not be inserted.
+     * @throws RuntimeException
      */
-    protected function insert($consent)
+    protected function insert(array $consent): int
     {
         $consent['created'] = date('Y-m-d H:i:s');
         $consent['modified'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->insert('consents', $consent))
         {
-            throw new Exception('Could not insert consent to the database.');
+            throw new RuntimeException('Could not insert consent.');
         }
 
-        return (int)$this->db->insert_id();
+        return $this->db->insert_id();
     }
 
     /**
-     * Update an existing consent record in the database.
+     * Update an existing consent.
      *
-     * The consent data argument should already include the record ID in order to process the update operation.
+     * @param array $consent Associative array with the consent data.
      *
-     * @param array $consent Associative array with the consent's data.
+     * @return int Returns the consent ID.
      *
-     * @return int Returns the updated record ID.
-     *
-     * @throws Exception If consent record could not be updated.
+     * @throws RuntimeException
      */
-    protected function update($consent)
+    protected function update(array $consent): int
     {
         $consent['modified'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->update('consents', $consent, ['id' => $consent['id']]))
         {
-            throw new Exception('Could not update consent to the database.');
+            throw new RuntimeException('Could not update consent.');
         }
 
-        return (int)$consent['id'];
+        return $consent['id'];
+    }
+
+    /**
+     * Remove an existing consent from the database.
+     *
+     * @param int $consent_id Consent ID.
+     *
+     * @throws RuntimeException
+     */
+    public function delete(int $consent_id): void
+    {
+        if ( ! $this->db->delete('consents', ['id' => $consent_id]))
+        {
+            throw new RuntimeException('Could not delete consent.');
+        }
+    }
+
+    /**
+     * Get a specific consent from the database.
+     *
+     * @param int $consent_id The ID of the record to be returned.
+     *
+     * @return array Returns an array with the consent data.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function find(int $consent_id): array
+    {
+        if ( ! $this->db->get_where('consents', ['id' => $consent_id])->num_rows())
+        {
+            throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
+        }
+
+        return $this->db->get_where('consents', ['id' => $consent_id])->row_array();
+    }
+
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param int $consent_id Consent ID.
+     * @param string $field Name of the value to be returned.
+     *
+     * @return string Returns the selected consent value from the database.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function value(int $consent_id, string $field): string
+    {
+        if (empty($field))
+        {
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
+        }
+
+        if (empty($consent_id))
+        {
+            throw new InvalidArgumentException('The consent ID argument cannot be empty.');
+        }
+
+        // Check whether the user exists.
+        $query = $this->db->get_where('consents', ['id' => $consent_id]);
+
+        if ( ! $query->num_rows())
+        {
+            throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
+        }
+
+        // Check if the required field is part of the user data.
+        $user = $query->row_array();
+
+        if ( ! array_key_exists($field, $user))
+        {
+            throw new InvalidArgumentException('The requested field was not found in the user data: ' . $field);
+        }
+
+        return $user[$field];
+    }
+
+    /**
+     * Get all consents that match the provided criteria.
+     *
+     * @param array|string $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of consents.
+     */
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        if ($where !== NULL)
+        {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        return $this->db->get('consents', $limit, $offset)->result_array();
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the consents table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
+    {
+        return $this->db->from('consents');
+    }
+
+    /**
+     * Search consents by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of consents.
+     */
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        return $this
+            ->db
+            ->select()
+            ->from('consents')
+            ->like('first_name', $keyword)
+            ->or_like('last_name', $keyword)
+            ->or_like('email', $keyword)
+            ->or_like('ip', $keyword)
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($order_by)
+            ->get()
+            ->result_array();
+    }
+
+    /**
+     * Attach related resources to a consent.
+     *
+     * @param array $consent Associative array with the consent data.
+     * @param array $resources Resource names to be attached.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function attach(array &$consent, array $resources): void
+    {
+        // Consents do not currently have any related resources. 
     }
 }
