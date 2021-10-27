@@ -53,6 +53,3 @@ class Config {
     const GOOGLE_CLIENT_SECRET  = '';
     const GOOGLE_API_KEY        = '';
 }
-
-/* End of file config.php */
-/* Location: ./config.php */
