@@ -12,104 +12,86 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Customers Model
+ * Customers model
+ *
+ * Handles all the database operations of the customer resource.
  *
  * @package Models
  */
 class Customers_model extends EA_Model {
     /**
-     * Customers_Model constructor.
+     * Save (insert or update) a customer.
+     *
+     * @param array $customer Associative array with the customer data.
+     *
+     * @return int Returns the customer ID.
+     *
+     * @throws InvalidArgumentException
      */
-    public function __construct()
+    public function save(array $customer): int
     {
-        parent::__construct();
-        $this->load->helper('data_validation');
-    }
-
-    /**
-     * Add a customer record to the database.
-     *
-     * This method adds a customer to the database. If the customer doesn't exists it is going to be inserted, otherwise
-     * the record is going to be updated.
-     *
-     * @param array $customer Associative array with the customer's data. Each key has the same name with the database
-     * fields.
-     *
-     * @return int Returns the customer id.
-     * @throws Exception
-     */
-    public function add($customer)
-    {
-        // Validate the customer data before doing anything.
         $this->validate($customer);
 
-        // Check if a customer already exists (by email).
-        if ($this->exists($customer) && ! isset($customer['id']))
+        if ($this->exists($customer) && empty($customer['id']))
         {
-            // Find the customer id from the database.
             $customer['id'] = $this->find_record_id($customer);
         }
 
-        // Insert or update the customer record.
-        if ( ! isset($customer['id']))
+        if (empty($customer['id']))
         {
-            $customer['id'] = $this->insert($customer);
+            return $this->insert($customer);
         }
         else
         {
-            $this->update($customer);
+            return $this->update($customer);
         }
-
-        return $customer['id'];
     }
 
     /**
-     * Validate customer data before the insert or update operation is executed.
+     * Validate the customer data.
      *
-     * @param array $customer Contains the customer data.
+     * @param array $customer Associative array with the customer data.
      *
-     * @return bool Returns the validation result.
-     *
-     * @throws Exception If customer validation fails.
+     * @throws InvalidArgumentException
      */
-    public function validate($customer)
+    public function validate(array $customer): void
     {
-        // If a customer id is provided, check whether the record exist in the database.
-        if (isset($customer['id']))
+        // If a customer ID is provided then check whether the record really exists in the database.
+        if ( ! empty($customer['id']))
         {
-            $num_rows = $this->db->get_where('users', ['id' => $customer['id']])->num_rows();
+            $count = $this->db->get_where('users', ['id' => $customer['id']])->num_rows();
 
-            if ($num_rows === 0)
+            if ( ! $count)
             {
-                throw new Exception('Provided customer id does not '
-                    . 'exist in the database.');
+                throw new InvalidArgumentException('The provided customer ID does not exist in the database: ' . $customer['id']);
             }
         }
 
-        $phone_number_required = $this->db->get_where('settings', ['name' => 'require_phone_number'])->row()->value === '1';
+        // Make sure all required fields are provided.
+        $phone_number_required = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
 
-        // Validate required fields
-        if ( ! isset(
-                $customer['first_name'],
-                $customer['last_name'],
-                $customer['email']
-            )
-            || ( ! isset($customer['phone_number']) && $phone_number_required))
+        if (
+            empty($customer['first_name'])
+            || empty($customer['last_name'])
+            || empty($customer['email'])
+            || (empty($customer['phone_number']) && $phone_number_required)
+        )
         {
-            throw new Exception('Not all required fields are provided: ' . print_r($customer, TRUE));
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($customer, TRUE));
         }
 
-        // Validate email address
+        // Validate the email address.
         if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
         {
-            throw new Exception('Invalid email address provided: ' . $customer['email']);
+            throw new InvalidArgumentException('Invalid email address provided: ' . $customer['email']);
         }
 
-        // When inserting a record the email address must be unique.
-        $customer_id = isset($customer['id']) ? $customer['id'] : '';
+        // Make sure the email address is unique.
+        $customer_id = $customer['id'] ?? NULL;
 
-        $num_rows = $this->db
-            ->select('*')
+        $count = $this
+            ->db
+            ->select()
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_CUSTOMER)
@@ -118,247 +100,140 @@ class Customers_model extends EA_Model {
             ->get()
             ->num_rows();
 
-        if ($num_rows > 0)
+        if ($count > 0)
         {
-            throw new Exception('Given email address belongs to another customer record. '
-                . 'Please use a different email.');
+            throw new InvalidArgumentException('The provided email address is already in use, please use a different one.');
         }
-
-        return TRUE;
     }
 
     /**
-     * Check if a particular customer record already exists.
+     * Insert a new customer into the database.
      *
-     * This method checks whether the given customer already exists in the database. It doesn't search with the id, but
-     * with the following fields: "email"
+     * @param array $customer Associative array with the customer data.
      *
-     * @param array $customer Associative array with the customer's data. Each key has the same name with the database
-     * fields.
+     * @return int Returns the customer ID.
      *
-     * @return bool Returns whether the record exists or not.
-     *
-     * @throws Exception If customer email property is missing.
+     * @throws RuntimeException
      */
-    public function exists($customer)
+    protected function insert(array $customer): int
     {
-        if (empty($customer['email']))
-        {
-            throw new Exception('Customer\'s email is not provided.');
-        }
-
-        // This method shouldn't depend on another method of this class.
-        $num_rows = $this->db
-            ->select('*')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $customer['email'])
-            ->where('roles.slug', DB_SLUG_CUSTOMER)
-            ->get()->num_rows();
-
-        return $num_rows > 0;
-    }
-
-    /**
-     * Find the database id of a customer record.
-     *
-     * The customer data should include the following fields in order to get the unique id from the database: "email"
-     *
-     * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
-     *
-     * @param array $customer Array with the customer data. The keys of the array should have the same names as the
-     * database fields.
-     *
-     * @return int Returns the ID.
-     *
-     * @throws Exception If customer record does not exist.
-     */
-    public function find_record_id($customer)
-    {
-        if (empty($customer['email']))
-        {
-            throw new Exception('Customer\'s email was not provided: '
-                . print_r($customer, TRUE));
-        }
-
-        // Get customer's role id
-        $result = $this->db
-            ->select('users.id')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $customer['email'])
-            ->where('roles.slug', DB_SLUG_CUSTOMER)
-            ->get();
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find customer record id.');
-        }
-
-        return $result->row()->id;
-    }
-
-    /**
-     * Insert a new customer record to the database.
-     *
-     * @param array $customer Associative array with the customer's data. Each key has the same name with the database
-     * fields.
-     *
-     * @return int Returns the id of the new record.
-     *
-     * @throws Exception If customer record could not be inserted.
-     */
-    protected function insert($customer)
-    {
-        // Before inserting the customer we need to get the customer's role id
-        // from the database and assign it to the new record as a foreign key.
-        $customer_role_id = $this->db
-            ->select('id')
-            ->from('roles')
-            ->where('slug', DB_SLUG_CUSTOMER)
-            ->get()->row()->id;
-
-        $customer['id_roles'] = $customer_role_id;
+        $customer['id_roles'] = $this->get_customer_role_id();
 
         if ( ! $this->db->insert('users', $customer))
         {
-            throw new Exception('Could not insert customer to the database.');
+            throw new RuntimeException('Could not insert customer.');
         }
 
-        return (int)$this->db->insert_id();
+        return $this->db->insert_id();
     }
 
     /**
-     * Update an existing customer record in the database.
+     * Update an existing customer.
      *
-     * The customer data argument should already include the record ID in order to process the update operation.
+     * @param array $customer Associative array with the customer data.
      *
-     * @param array $customer Associative array with the customer's data. Each key has the same name with the database
-     * fields.
+     * @return int Returns the customer ID.
      *
-     * @return int Returns the updated record ID.
-     *
-     * @throws Exception If customer record could not be updated.
+     * @throws RuntimeException
      */
-    protected function update($customer)
+    protected function update(array $customer): int
     {
-        $this->db->where('id', $customer['id']);
-
-        if ( ! $this->db->update('users', $customer))
+        if ( ! $this->db->update('users', $customer, ['id' => $customer['id']]))
         {
-            throw new Exception('Could not update customer to the database.');
+            throw new RuntimeException('Could not update customer.');
         }
 
-        return (int)$customer['id'];
+        return $customer['id'];
     }
 
     /**
-     * Delete an existing customer record from the database.
+     * Remove an existing customer from the database.
      *
-     * @param int $customer_id The record id to be deleted.
+     * @param int $customer_id Customer ID.
      *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception If $customer_id argument is invalid.
+     * @throws RuntimeException
      */
-    public function delete($customer_id)
+    public function delete(int $customer_id): void
     {
-        if ( ! is_numeric($customer_id))
+        if ( ! $this->db->delete('users', ['id' => $customer_id]))
         {
-            throw new Exception('Invalid argument type $customer_id: ' . $customer_id);
+            throw new RuntimeException('Could not delete customer.');
         }
-
-        $num_rows = $this->db->get_where('users', ['id' => $customer_id])->num_rows();
-        if ($num_rows == 0)
-        {
-            return FALSE;
-        }
-
-        return $this->db->delete('users', ['id' => $customer_id]);
     }
 
     /**
-     * Get a specific row from the appointments table.
+     * Get a specific customer from the database.
      *
-     * @param int $customer_id The record's id to be returned.
+     * @param int $customer_id The ID of the record to be returned.
      *
-     * @return array Returns an associative array with the selected record's data. Each key has the same name as the
-     * database field names.
+     * @return array Returns an array with the customer data.
      *
-     * @throws Exception If $customer_id argumnet is invalid.
+     * @throws InvalidArgumentException
      */
-    public function get_row($customer_id)
+    public function find(int $customer_id): array
     {
-        if ( ! is_numeric($customer_id))
+        if ( ! $this->db->get_where('users', ['id' => $customer_id])->num_rows())
         {
-            throw new Exception('Invalid argument provided as $customer_id : ' . $customer_id);
+            throw new InvalidArgumentException('The provided customer ID was not found in the database: ' . $customer_id);
         }
+
         return $this->db->get_where('users', ['id' => $customer_id])->row_array();
     }
 
     /**
      * Get a specific field value from the database.
      *
-     * @param string $field_name The field name of the value to be returned.
-     * @param int $customer_id The selected record's id.
+     * @param int $customer_id Customer ID.
+     * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the records value from the database.
+     * @return string Returns the selected customer value from the database.
      *
-     * @throws Exception If $customer_id argument is invalid.
-     * @throws Exception If $field_name argument is invalid.
-     * @throws Exception If requested customer record does not exist in the database.
-     * @throws Exception If requested field name does not exist in the database.
+     * @throws InvalidArgumentException
      */
-    public function get_value($field_name, $customer_id)
+    public function value(int $customer_id, string $field): string
     {
-        if ( ! is_numeric($customer_id))
+        if (empty($field))
         {
-            throw new Exception('Invalid argument provided as $customer_id: '
-                . $customer_id);
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if ( ! is_string($field_name))
+        if (empty($customer_id))
         {
-            throw new Exception('$field_name argument is not a string: '
-                . $field_name);
+            throw new InvalidArgumentException('The customer ID argument cannot be empty.');
         }
 
-        if ($this->db->get_where('users', ['id' => $customer_id])->num_rows() == 0)
+        // Check whether the customer exists.
+        $query = $this->db->get_where('users', ['id' => $customer_id]);
+
+        if ( ! $query->num_rows())
         {
-            throw new Exception('The record with the $customer_id argument '
-                . 'does not exist in the database: ' . $customer_id);
+            throw new InvalidArgumentException('The provided customer ID was not found in the database: ' . $customer_id);
         }
 
-        $row_data = $this->db->get_where('users', ['id' => $customer_id])->row_array();
+        // Check if the required field is part of the customer data.
+        $customer = $query->row_array();
 
-        if ( ! array_key_exists($field_name, $row_data))
+        if ( ! array_key_exists($field, $customer))
         {
-            throw new Exception('The given $field_name argument does not exist in the database: '
-                . $field_name);
+            throw new InvalidArgumentException('The requested field was not found in the customer data: ' . $field);
         }
 
-        $customer = $this->db->get_where('users', ['id' => $customer_id])->row_array();
-
-        return $customer[$field_name];
+        return $customer[$field];
     }
 
     /**
-     * Get all, or specific records from appointment's table.
+     * Get all customers that match the provided criteria.
      *
-     * Example:
+     * @param array|string $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
      *
-     * $this->appointments_model->get_batch([$id => $record_id]);
-     *
-     * @param mixed|null $where
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param mixed|null $order_by
-     *
-     * @return array Returns the rows from the database.
+     * @return array Returns an array of customers.
      */
-    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        $role_id = $this->get_customers_role_id();
+        $role_id = $this->get_customer_role_id();
 
         if ($where !== NULL)
         {
@@ -374,12 +249,143 @@ class Customers_model extends EA_Model {
     }
 
     /**
-     * Get the customers role id from the database.
+     * Get the customer role ID.
      *
-     * @return int Returns the role id for the customer records.
+     * @return int Returns the role ID.
      */
-    public function get_customers_role_id()
+    public function get_customer_role_id(): int
     {
-        return $this->db->get_where('roles', ['slug' => DB_SLUG_CUSTOMER])->row()->id;
+        $role = $this->db->get_where('roles', ['slug' => DB_SLUG_ADMIN])->row_array();
+
+        if (empty($role))
+        {
+            throw new RuntimeException('The admin role was not found in the database.');
+        }
+
+        return $role['id'];
+    }
+
+    /**
+     * Check if a particular customer record already exists in the database.
+     *
+     * @param array $customer Associative array with the customer data.
+     *
+     * @return bool Returns whether there is a record matching the provided one or not.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function exists(array $customer): bool
+    {
+        if (empty($customer['email']))
+        {
+            throw new InvalidArgumentException('The customer email was not provided: ' . print_r($customer, TRUE));
+        }
+
+        $count = $this
+            ->db
+            ->select()
+            ->from('users')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
+            ->where('users.email', $customer['email'])
+            ->where('roles.slug', DB_SLUG_CUSTOMER)
+            ->get()
+            ->num_rows();
+
+        return $count > 0;
+    }
+
+    /**
+     * Find the record ID of a customer.
+     *
+     * @param array $customer Associative array with the customer data.
+     *
+     * @return int Returns the ID of the record that matches the provided argument.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function find_record_id(array $customer): int
+    {
+        if (empty($customer['email']))
+        {
+            throw new InvalidArgumentException('The customer email was not provided: ' . print_r($customer, TRUE));
+        }
+
+        $customer = $this
+            ->db
+            ->select('users.id')
+            ->from('users')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
+            ->where('users.email', $customer['email'])
+            ->where('roles.slug', DB_SLUG_CUSTOMER)
+            ->get()
+            ->row_array();
+
+        if (empty($customer))
+        {
+            throw new InvalidArgumentException('Could not find customer record id.');
+        }
+
+        return $customer['id'];
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the users (customer-filtered) table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
+    {
+        $role_id = $this->get_customer_role_id();
+
+        return $this->db->from('users')->where('id_roles', $role_id);
+    }
+
+    /**
+     * Search customers by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of customers.
+     */
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        $role_id = $this->get_customer_role_id();
+        
+        return $this
+            ->db
+            ->select()
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->like('first_name', $keyword)
+            ->or_like('last_name', $keyword)
+            ->or_like('email', $keyword)
+            ->or_like('phone_number', $keyword)
+            ->or_like('mobile_number', $keyword)
+            ->or_like('address', $keyword)
+            ->or_like('city', $keyword)
+            ->or_like('state', $keyword)
+            ->or_like('zip_code', $keyword)
+            ->or_like('notes', $keyword)
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($order_by)
+            ->get()
+            ->result_array();
+    }
+
+    /**
+     * Attach related resources to a customer.
+     *
+     * @param array $customer Associative array with the customer data.
+     * @param array $resources Resource names to be attached.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function attach(array &$customer, array $resources): void
+    {
+        // Customers do not currently have any related resources. 
     }
 }
