@@ -12,158 +12,142 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Providers_Model Class
+ * Providers model
  *
- * Contains the database operations for the service provider users of Easy!Appointments.
+ * Handles all the database operations of the provider resource.
  *
  * @package Models
  */
 class Providers_model extends EA_Model {
     /**
-     * Providers_Model constructor.
+     * Providers_model constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('data_validation');
-        $this->load->helper('general');
+
+        $this->load->helper('password');
+        $this->load->helper('validation');
     }
 
     /**
-     * Add (insert - update) a service provider record.
+     * Save (insert or update) a provider.
      *
-     * If the record already exists (id value provided) then it is going to be updated, otherwise inserted into the
-     * database.
+     * @param array $provider Associative array with the provider data.
      *
-     * @param array $provider Contains the service provider data.
+     * @return int Returns the provider ID.
      *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the record data validation fails.
+     * @throws InvalidArgumentException
      */
-    public function add($provider)
+    public function save(array $provider): int
     {
         $this->validate($provider);
 
-        if ($this->exists($provider) && ! isset($provider['id']))
+        if (empty($provider['id']))
         {
-            $provider['id'] = $this->find_record_id($provider);
-        }
-
-        if ( ! isset($provider['id']))
-        {
-            $provider['id'] = $this->insert($provider);
+            return $this->insert($provider);
         }
         else
         {
-            $provider['id'] = $this->update($provider);
+            return $this->update($provider);
         }
-
-        return (int)$provider['id'];
     }
 
     /**
-     * Validate provider data before the insert or  update operation is executed.
+     * Validate the provider data.
      *
-     * @param array $provider Contains the provider data.
+     * @param array $provider Associative array with the provider data.
      *
-     * @return bool Returns the validation result.
-     *
-     * @throws Exception If provider validation fails.
+     * @throws InvalidArgumentException
      */
-    public function validate($provider)
+    public function validate(array $provider): void
     {
-        // If a provider id is present, check whether the record exist in the database.
-        if (isset($provider['id']))
+        // If a provider ID is provided then check whether the record really exists in the database.
+        if ( ! empty($provider['id']))
         {
-            $num_rows = $this->db->get_where('users',
-                ['id' => $provider['id']])->num_rows();
-            if ($num_rows == 0)
+            $count = $this->db->get_where('users', ['id' => $provider['id']])->num_rows();
+
+            if ( ! $count)
             {
-                throw new Exception('Provided record id does not exist in the database.');
+                throw new InvalidArgumentException('The provided provider ID does not exist in the database: ' . $provider['id']);
             }
         }
 
-        // Validate required fields.
-        if ( ! isset(
-            $provider['last_name'],
-            $provider['email'],
-            $provider['phone_number']
-        ))
+        // Make sure all required fields are provided. 
+        if (
+            empty($provider['first_name'])
+            || empty($provider['last_name'])
+            || empty($provider['email'])
+            || empty($provider['phone_number'])
+        )
         {
-            throw new Exception('Not all required fields are provided: ' . print_r($provider, TRUE));
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($provider, TRUE));
         }
 
-        // Validate provider email address.
+        // Validate the email address.
         if ( ! filter_var($provider['email'], FILTER_VALIDATE_EMAIL))
         {
-            throw new Exception('Invalid email address provided: ' . $provider['email']);
+            throw new InvalidArgumentException('Invalid email address provided: ' . $provider['email']);
         }
 
         // Validate provider services.
-        if ( ! isset($provider['services']) || ! is_array($provider['services']))
+        if (empty($provider['services']) || ! is_array($provider['services']))
         {
-            throw new Exception('Invalid provider services given: ' . print_r($provider, TRUE));
+            throw new InvalidArgumentException('The provided provider services are invalid: ' . print_r($provider, TRUE));
         }
         else
         {
-            // Check if services are valid int values.
+            // Make sure the provided service entries are numeric values.
             foreach ($provider['services'] as $service_id)
             {
                 if ( ! is_numeric($service_id))
                 {
-                    throw new Exception('A provider service with invalid id was found: '
-                        . print_r($provider, TRUE));
+                    throw new InvalidArgumentException('The provided provider services are invalid: ' . print_r($provider, TRUE));
                 }
             }
         }
 
-        // Validate provider settings.
-        if ( ! isset($provider['settings']) || count($provider['settings']) === 0
-            || ! is_array($provider['settings']))
+        // Make sure the username is unique. 
+        if ( ! empty($provider['settings']['username']))
         {
-            throw new Exception('Invalid provider settings given: ' . print_r($provider, TRUE));
-        }
+            $provider_id = $provider['id'] ?? NULL;
 
-        // Check if username exists.
-        if (isset($provider['settings']['username']))
-        {
-            $user_id = (isset($provider['id'])) ? $provider['id'] : '';
-            if ( ! $this->validate_username($provider['settings']['username'], $user_id))
+            if ( ! $this->validate_username($provider['settings']['username'], $provider_id))
             {
-                throw new Exception ('Username already exists. Please select a different '
-                    . 'username for this record.');
+                throw new InvalidArgumentException('The provided username is already in use, please use a different one.');
             }
         }
 
-        // Validate provider password
-        if (isset($provider['settings']['password']))
+        // Validate the password. 
+        if ( ! empty($provider['settings']['password']))
         {
             if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH)
             {
-                throw new Exception('The user password must be at least '
-                    . MIN_PASSWORD_LENGTH . ' characters long.');
+                throw new InvalidArgumentException('The provider password must be at least ' . MIN_PASSWORD_LENGTH . ' characters long.');
             }
         }
 
-        if ( ! isset($provider['id']) && ! isset($provider['settings']['password']))
+        // New users must always have a password value set. 
+        if (empty($provider['id']) && empty($provider['settings']['password']))
         {
-            throw new Exception('The user password cannot be empty for new users.');
+            throw new InvalidArgumentException('The provider password cannot be empty when inserting a new record.');
         }
 
-        // Validate calendar view mode.
-        if (isset($provider['settings']['calendar_view']) && ($provider['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
-                && $provider['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))
+        // Validate calendar view type value.
+        if (
+            ! empty($provider['settings']['calendar_view'])
+            && ! in_array($provider['settings']['calendar_view'], [CALENDAR_VIEW_DEFAULT, CALENDAR_VIEW_TABLE])
+        )
         {
-            throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT
-                . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' . $provider['settings']['calendar_view']);
+            throw new InvalidArgumentException('The provided calendar view is invalid: ' . $provider['settings']['calendar_view']);
         }
 
-        // When inserting a record the email address must be unique.
-        $provider_id = (isset($provider['id'])) ? $provider['id'] : '';
+        // Make sure the email address is unique.
+        $provider_id = $provider['id'] ?? NULL;
 
-        $num_rows = $this->db
-            ->select('*')
+        $count = $this
+            ->db
+            ->select()
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
@@ -172,174 +156,287 @@ class Providers_model extends EA_Model {
             ->get()
             ->num_rows();
 
-        if ($num_rows > 0)
+        if ($count > 0)
         {
-            throw new Exception('Given email address belongs to another provider record. '
-                . 'Please use a different email.');
+            throw new InvalidArgumentException('The provided email address is already in use, please use a different one.');
         }
-
-        return TRUE;
     }
 
     /**
-     * Validate Records Username
+     * Validate the provider username.
      *
-     * @param string $username The provider records username.
-     * @param int $user_id The user record id.
+     * @param string $username Provider username.
+     * @param int|null $provider_id Provider ID.
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username($username, $user_id)
+    public function validate_username(string $username, int $provider_id = NULL): bool
     {
-        if ( ! empty($user_id))
+        if ( ! empty($provider_id))
         {
-            $this->db->where('id_users !=', $user_id);
+            $this->db->where('id_users !=', $provider_id);
         }
 
-        $this->db->where('username', $username);
-
-        return $this->db->get('user_settings')->num_rows() === 0;
+        return $this->db->get_where('user_settings', ['username' => $username])->num_rows() === 0;
     }
 
     /**
-     * Check whether a particular provider record already exists in the database.
+     * Insert a new provider into the database.
      *
-     * @param array $provider Contains the provider data. The 'email' value is required in order to check for a provider.
+     * @param array $provider Associative array with the provider data.
      *
-     * @return bool Returns whether the provider record exists or not.
+     * @return int Returns the provider ID.
      *
-     * @throws Exception When the 'email' value is not provided.
+     * @throws RuntimeException
      */
-    public function exists($provider)
+    protected function insert(array $provider): int
     {
-        if ( ! isset($provider['email']))
-        {
-            throw new Exception('Provider email is not provided:' . print_r($provider, TRUE));
-        }
+        $provider['id_roles'] = $this->get_provider_role_id();
 
-        // This method shouldn't depend on another method of this class.
-        $num_rows = $this->db
-            ->select('*')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $provider['email'])
-            ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->get()->num_rows();
-
-        return $num_rows > 0;
-    }
-
-    /**
-     * Find the database record id of a provider.
-     *
-     * @param array $provider Contains the provider data. The 'email' value is required in order to find the record id.
-     *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the provider's email value is not provided.
-     */
-    public function find_record_id($provider)
-    {
-        if ( ! isset($provider['email']))
-        {
-            throw new Exception('Provider email was not provided:' . print_r($provider, TRUE));
-        }
-
-        $result = $this->db
-            ->select('users.id')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $provider['email'])
-            ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->get();
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find provider record id.');
-        }
-
-        return (int)$result->row()->id;
-    }
-
-    /**
-     * Insert a new provider record into the database.
-     *
-     * @param array $provider Contains the provider data (must be already validated).
-     *
-     * @return int Returns the new record id.
-     *
-     * @throws Exception When the insert operation fails.
-     */
-    protected function insert($provider)
-    {
-
-        // Get provider role id.
-        $provider['id_roles'] = $this->get_providers_role_id();
-
-        // Store provider settings and services (must not be present on the $provider array).
-        $services = $provider['services'];
+        $service_ids = $provider['services'];
         unset($provider['services']);
+
         $settings = $provider['settings'];
         unset($provider['settings']);
 
-        // Insert provider record and save settings.
         if ( ! $this->db->insert('users', $provider))
         {
-            throw new Exception('Could not insert provider into the database');
+            throw new RuntimeException('Could not insert provider.');
         }
 
+        $provider['id'] = $this->db->insert_id();
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        $provider['id'] = $this->db->insert_id();
-        $this->save_settings($settings, $provider['id']);
-        $this->save_services($services, $provider['id']);
+        $this->save_settings($provider['id'], $settings);
+        $this->save_service_ids($provider['id'], $service_ids);
 
-        // Return the new record id.
-        return (int)$provider['id'];
+        return $provider['id'];
     }
 
     /**
-     * Get the providers role id from the database.
+     * Update an existing provider.
      *
-     * @return int Returns the role id for the provider records.
+     * @param array $provider Associative array with the provider data.
+     *
+     * @return int Returns the provider ID.
+     *
+     * @throws RuntimeException
      */
-    public function get_providers_role_id()
+    protected function update(array $provider): int
     {
-        return $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id;
+        $service_ids = $provider['services'];
+        unset($provider['services']);
+
+        $settings = $provider['settings'];
+        unset($provider['settings']);
+
+        if (isset($settings['password']))
+        {
+            $existing_settings = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
+
+            if (empty($existing_settings))
+            {
+                throw new RuntimeException('No settings record found for provider with ID: ' . $provider['id']);
+            }
+
+            $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
+        }
+
+        if ( ! $this->db->update('users', $provider, ['id' => $provider['id']]))
+        {
+            throw new RuntimeException('Could not update provider.');
+        }
+
+        $this->save_settings($provider['id'], $settings);
+        $this->save_service_ids($provider['id'], $service_ids);
+
+        return $provider['id'];
     }
 
     /**
-     * Save the provider settings (used from insert or update operation).
+     * Remove an existing provider from the database.
      *
-     * @param array $settings Contains the setting values.
-     * @param int $provider_id Record id of the provider.
+     * @param int $provider_id Provider ID.
      *
-     * @throws Exception If $provider_id argument is invalid.
-     * @throws Exception If $settings argument is invalid.
+     * @throws RuntimeException
      */
-    protected function save_settings($settings, $provider_id)
+    public function delete(int $provider_id): void
     {
-        if ( ! is_numeric($provider_id))
+        if ( ! $this->db->delete('users', ['id' => $provider_id]))
         {
-            throw new Exception('Invalid $provider_id argument given:' . $provider_id);
+            throw new RuntimeException('Could not delete provider.');
+        }
+    }
+
+    /**
+     * Get a specific provider from the database.
+     *
+     * @param int $provider_id The ID of the record to be returned.
+     *
+     * @return array Returns an array with the provider data.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function find(int $provider_id): array
+    {
+        if ( ! $this->db->get_where('users', ['id' => $provider_id])->num_rows())
+        {
+            throw new InvalidArgumentException('The provided provider ID was not found in the database: ' . $provider_id);
         }
 
-        if (count($settings) == 0 || ! is_array($settings))
+        $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
+
+        $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
+
+        unset($provider['settings']['id_users']);
+
+        $service_provider_connections = $this->db->get_where('services_providers', ['id_users' => $provider_id])->result_array();
+
+        $provider['services'] = [];
+
+        foreach ($service_provider_connections as $service_provider_connection)
         {
-            throw new Exception('Invalid $settings argument given:' . print_r($settings, TRUE));
+            $provider['services'][] = (int)$service_provider_connection['id_services'];
         }
 
-        // Check if the setting record exists in db.
-        if ($this->db->get_where('user_settings', ['id_users' => $provider_id])->num_rows() === 0)
+        return $provider;
+    }
+
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param int $provider_id Provider ID.
+     * @param string $field Name of the value to be returned.
+     *
+     * @return string Returns the selected provider value from the database.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function value(int $provider_id, string $field): string
+    {
+        if (empty($field))
+        {
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
+        }
+
+        if (empty($provider_id))
+        {
+            throw new InvalidArgumentException('The provider ID argument cannot be empty.');
+        }
+
+        // Check whether the provider exists.
+        $query = $this->db->get_where('users', ['id' => $provider_id]);
+
+        if ( ! $query->num_rows())
+        {
+            throw new InvalidArgumentException('The provided provider ID was not found in the database: ' . $provider_id);
+        }
+
+        // Check if the required field is part of the provider data.
+        $provider = $query->row_array();
+
+        if ( ! array_key_exists($field, $provider))
+        {
+            throw new InvalidArgumentException('The requested field was not found in the provider data: ' . $field);
+        }
+
+        return $provider[$field];
+    }
+
+    /**
+     * Get all providers that match the provided criteria.
+     *
+     * @param array|string $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of providers.
+     */
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        $role_id = $this->get_provider_role_id();
+
+        if ($where !== NULL)
+        {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== NULL)
+        {
+            $this->db->order_by($order_by);
+        }
+
+        $providers = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+
+        foreach ($providers as &$provider)
+        {
+            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
+
+            unset(
+                $provider['settings']['id_users'],
+                $provider['settings']['password'],
+                $provider['settings']['salt']
+            );
+
+            $provider['services'] = [];
+
+            $service_provider_connections = $this->db->get_where('services_providers', ['id_users' => $provider['id']])->result_array();
+
+            foreach ($service_provider_connections as $service_provider_connection)
+            {
+                $provider['services'][] = (int)$service_provider_connection['id_services'];
+            }
+        }
+
+        return $providers;
+    }
+
+
+    /**
+     * Get the provider role ID.
+     *
+     * @return int Returns the role ID.
+     */
+    public function get_provider_role_id(): int
+    {
+        $role = $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row_array();
+
+        if (empty($role))
+        {
+            throw new RuntimeException('The provider role was not found in the database.');
+        }
+
+        return $role['id'];
+    }
+
+    /**
+     * Save the provider settings.
+     *
+     * @param int $provider_id Provider ID.
+     * @param array $settings Associative array with the settings data.
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function save_settings(int $provider_id, array $settings): void
+    {
+        if (empty($settings))
+        {
+            throw new InvalidArgumentException('The settings argument cannot be empty.');
+        }
+
+        // Make sure the settings record exists in the database. 
+        $count = $this->db->get_where('user_settings', ['id_users' => $provider_id])->num_rows();
+
+        if ( ! $count)
         {
             $this->db->insert('user_settings', ['id_users' => $provider_id]);
         }
 
         foreach ($settings as $name => $value)
         {
-            // Sort in descending order the working plan exceptions in a reverse order (makes it easier to edit them
-            // later on).
+            // Sort working plans exceptions in descending order that they are easier to modify later on. 
             if ($name === 'working_plan_exceptions')
             {
                 $value = json_decode($value, TRUE);
@@ -354,301 +451,100 @@ class Providers_model extends EA_Model {
                 $value = json_encode($value);
             }
 
-            $this->set_setting($name, $value, $provider_id);
+            $this->set_setting($provider_id, $name, $value);
         }
     }
 
     /**
-     * Set a provider's setting value in the database.
+     * Set the value of a provider setting.
      *
-     * The provider and settings record must already exist.
-     *
-     * @param string $setting_name The setting's name.
-     * @param string $value The setting's value.
-     * @param int $provider_id The selected provider id.
-     *
-     * @return bool
+     * @param int $provider_id Provider ID.
+     * @param string $name Setting name.
+     * @param string $value Setting value.
      */
-    public function set_setting($setting_name, $value, $provider_id)
+    public function set_setting(int $provider_id, string $name, string $value): void
     {
-        $this->db->where(['id_users' => $provider_id]);
-        return $this->db->update('user_settings', [$setting_name => $value]);
+        if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id]))
+        {
+            throw new RuntimeException('Could not set the new provider setting value: ' . $name);
+        }
     }
 
     /**
-     * Save the provider services in the database (use on both insert and update operation).
+     * Get the value of a provider setting.
      *
-     * @param array $services Contains the service ids that the selected provider can provide.
-     * @param int $provider_id The selected provider record id.
+     * @param int $provider_id Provider ID.
+     * @param string $name Setting name.
      *
-     * @throws Exception When the $services argument type is not array.
-     * @throws Exception When the $provider_id argument type is not int.
+     * @return string Returns the value of the requested user setting.
      */
-    protected function save_services($services, $provider_id)
+    public function get_setting(int $provider_id, string $name): string
     {
-        // Validate method arguments.
-        if ( ! is_array($services))
+        $settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
+
+        if (empty($settings[$name]))
         {
-            throw new Exception('Invalid argument type $services: ' . $services);
+            throw new RuntimeException('The requested setting value was not found: ' . $provider_id);
         }
 
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
-        }
+        return $settings[$name];
+    }
 
-        // Save provider services in the database (delete old records and add new).
+    /**
+     * Save the provider service IDs.
+     *
+     * @param int $provider_id Provider ID.
+     * @param array $service_ids Service IDs.
+     */
+    protected function save_service_ids(int $provider_id, array $service_ids): void
+    {
+        // Re-insert the provider-service connections. 
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
 
-        foreach ($services as $service_id)
+        foreach ($service_ids as $service_id)
         {
-            $service_provider = [
+            $service_provider_connection = [
                 'id_users' => $provider_id,
                 'id_services' => $service_id
             ];
-            $this->db->insert('services_providers', $service_provider);
+
+            $this->db->insert('services_providers', $service_provider_connection);
         }
     }
 
     /**
-     * Update an existing provider record in the database.
+     * Save a new or existing working plan exception.
      *
-     * @param array $provider Contains the provider data.
+     * @param int $provider_id Provider ID.
+     * @param string $date Working plan exception date (in YYYY-MM-DD format).
+     * @param array $working_plan_exception Associative array with the working plan exception data.
      *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the update operation fails.
+     * @throws InvalidArgumentException
      */
-    protected function update($provider)
-    {
-        // Store service and settings (must not be present on the $provider array).
-        $services = $provider['services'];
-        unset($provider['services']);
-        $settings = $provider['settings'];
-        unset($provider['settings']);
-
-        if (isset($settings['password']))
-        {
-            $salt = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row()->salt;
-            $settings['password'] = hash_password($salt, $settings['password']);
-        }
-
-        // Update provider record.
-        $this->db->where('id', $provider['id']);
-        if ( ! $this->db->update('users', $provider))
-        {
-            throw new Exception('Could not update provider record.');
-        }
-
-        $this->save_services($services, $provider['id']);
-        $this->save_settings($settings, $provider['id']);
-
-        // Return record id.
-        return (int)$provider['id'];
-    }
-
-    /**
-     * Delete an existing provider record from the database.
-     *
-     * @param $provider_id
-     *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception When the provider id value is not int.
-     */
-    public function delete($provider_id)
-    {
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
-        }
-
-        $num_rows = $this->db->get_where('users', ['id' => $provider_id])->num_rows();
-        if ($num_rows === 0)
-        {
-            return FALSE; // Record does not exist in database.
-        }
-
-        return $this->db->delete('users', ['id' => $provider_id]);
-    }
-
-    /**
-     * Get a specific field value from the database.
-     *
-     * @param string $field_name The field name of the value to be returned.
-     * @param int $provider_id Record id of the value to be returned.
-     *
-     * @return string Returns the selected record value from the database.
-     *
-     * @throws Exception When the $field_name argument is not a valid string.
-     * @throws Exception When the $provider_id is not a valid int.
-     * @throws Exception When the provider record does not exist in the database.
-     * @throws Exception When the selected field value is not present on database.
-     */
-    public function get_value($field_name, $provider_id)
-    {
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid argument provided as $provider_id: ' . $provider_id);
-        }
-
-        if ( ! is_string($field_name))
-        {
-            throw new Exception('$field_name argument is not a string: ' . $field_name);
-        }
-
-        // Check whether the provider record exists in database.
-        $result = $this->db->get_where('users', ['id' => $provider_id]);
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('The record with the $provider_id argument does not exist in the database: '
-                . $provider_id);
-        }
-
-        $row_data = $result->row_array();
-
-        if ( ! isset($row_data[$field_name]))
-        {
-            throw new Exception('The given $field_name argument does not exist in the database: ' . $field_name);
-        }
-
-        return $row_data[$field_name];
-    }
-
-    /**
-     * Get all, or specific records from provider's table.
-     *
-     * Example:
-     *
-     * $this->Model->get_batch('id = ' . $recordId);
-     *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param mixed|null $order_by
-     *
-     * @return array Returns the rows from the database.
-     */
-    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
-    {
-        // CI db class may confuse two where clauses made in the same time, so get the role id first and then apply the
-        // get_batch() where clause.
-        $role_id = $this->get_providers_role_id();
-
-        if ($where !== NULL)
-        {
-            $this->db->where($where);
-        }
-
-        if ($order_by !== NULL)
-        {
-            $this->db->order_by($order_by);
-        }
-
-        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
-
-        // Include each provider services and settings.
-        foreach ($batch as &$provider)
-        {
-            // Services
-            $services = $this->db->get_where('services_providers',
-                ['id_users' => $provider['id']])->result_array();
-            $provider['services'] = [];
-            foreach ($services as $service)
-            {
-                $provider['services'][] = $service['id_services'];
-            }
-
-            // Settings
-            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
-            unset($provider['settings']['id_users']);
-        }
-
-        // Return provider records in an array.
-        return $batch;
-    }
-
-    /**
-     * Get the available system providers.
-     *
-     * This method returns the available providers and the services that can provide.
-     *
-     * @return array Returns an array with the providers data.
-     */
-    public function get_available_providers()
-    {
-        // Get provider records from database.
-        $this->db
-            ->select('users.*')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->order_by('first_name ASC, last_name ASC, email ASC');
-
-        $providers = $this->db->get()->result_array();
-
-        // Include each provider services and settings.
-        foreach ($providers as &$provider)
-        {
-            // Services
-            $services = $this->db->get_where('services_providers', ['id_users' => $provider['id']])->result_array();
-
-            $provider['services'] = [];
-            foreach ($services as $service)
-            {
-                $provider['services'][] = $service['id_services'];
-            }
-
-            // Settings
-            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
-            unset(
-                $provider['settings']['username'],
-                $provider['settings']['password'],
-                $provider['settings']['salt']
-            );
-        }
-
-        // Return provider records.
-        return $providers;
-    }
-
-    /**
-     * Save the provider working plan exception.
-     *
-     * @param string $date The working plan exception date (in YYYY-MM-DD format).
-     * @param array $working_plan_exception Contains the working plan exception information ("start", "end" and "breaks"
-     * properties).
-     * @param int $provider_id The selected provider record id.
-     *
-     * @return bool Return if the new working plan exceptions is correctly saved to DB.
-     *
-     * @throws Exception If start time is after the end time.
-     * @throws Exception If $provider_id argument is invalid.
-     */
-    public function save_working_plan_exception($date, $working_plan_exception, $provider_id)
+    public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception): void
     {
         // Validate the working plan exception data.
         $start = date('H:i', strtotime($working_plan_exception['start']));
+
         $end = date('H:i', strtotime($working_plan_exception['end']));
 
         if ($start > $end)
         {
-            throw new Exception('Working plan exception "start" must be prior to "end".');
+            throw new InvalidArgumentException('Working plan exception start date must be before the end date.');
         }
 
         // Make sure the provider record exists.
-        $conditions = [
+        $where = [
             'id' => $provider_id,
             'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
         ];
 
-        if ($this->db->get_where('users', $conditions)->num_rows() === 0)
+        if ($this->db->get_where('users', $where)->num_rows() === 0)
         {
-            throw new Exception('Provider record was not found in database: ' . $provider_id);
+            throw new InvalidArgumentException('Provider ID was not found in the database: ' . $provider_id);
         }
 
-        // Add record to database.
+        // Store the working plan exception.
         $working_plan_exceptions = json_decode($this->get_setting('working_plan_exceptions', $provider_id), TRUE);
 
         if ( ! isset($working_plan_exception['breaks']))
@@ -658,26 +554,11 @@ class Providers_model extends EA_Model {
 
         $working_plan_exceptions[$date] = $working_plan_exception;
 
-        return $this->set_setting(
+        $this->set_setting(
             'working_plan_exceptions',
             json_encode($working_plan_exceptions),
             $provider_id
         );
-    }
-
-    /**
-     * Get a providers setting from the database.
-     *
-     * @param string $setting_name The setting name that is going to be returned.
-     * @param int $provider_id The selected provider id.
-     *
-     * @return string Returns the value of the selected user setting.
-     */
-    public function get_setting($setting_name, $provider_id)
-    {
-        $provider_settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
-
-        return $provider_settings[$setting_name];
     }
 
     /**
@@ -686,24 +567,22 @@ class Providers_model extends EA_Model {
      * @param string $date The working plan exception date (in YYYY-MM-DD format).
      * @param int $provider_id The selected provider record id.
      *
-     * @return bool Return if the new working plan exceptions is correctly deleted from DB.
-     *
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function delete_working_plan_exception($date, $provider_id)
+    public function delete_working_plan_exception(int $provider_id, string $date): void
     {
-        $provider = $this->get_row($provider_id);
+        $provider = $this->find($provider_id);
 
         $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
         if ( ! isset($working_plan_exceptions[$date]))
         {
-            return TRUE; // The selected date does not exist in provider's settings.
+            return; // The selected date does not exist in provider's settings.
         }
 
         unset($working_plan_exceptions[$date]);
 
-        return $this->set_setting(
+        $this->set_setting(
             'working_plan_exceptions',
             json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
             $provider_id
@@ -711,45 +590,127 @@ class Providers_model extends EA_Model {
     }
 
     /**
-     * Get a specific provider record from the database.
+     * Get all the provider records that are assigned to at least one service.
      *
-     * @param int $provider_id The id of the record to be returned.
-     *
-     * @return array Returns an associative array with the selected record's data. Each key has the same name as the
-     * database field names.
-     *
-     * @throws Exception When the selected record does not exist in database.
+     * @return array Returns an array of providers.
      */
-    public function get_row($provider_id)
+    public function get_available_providers(): array
     {
-        if ( ! is_numeric($provider_id))
+        $providers = $this
+            ->db
+            ->select('users.*')
+            ->from('users')
+            ->join('roles', 'roles.id = users.id_roles', 'inner')
+            ->where('roles.slug', DB_SLUG_PROVIDER)
+            ->order_by('first_name ASC, last_name ASC, email ASC')
+            ->get()
+            ->result_array();
+
+        foreach ($providers as &$provider)
         {
-            throw new Exception('$provider_id argument is not a valid numeric value: ' . $provider_id);
+            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
+
+            unset(
+                $provider['settings']['id_users'],
+                $provider['settings']['username'],
+                $provider['settings']['password'],
+                $provider['settings']['salt']
+            );
+
+            $provider['services'] = [];
+
+            $service_provider_connections = $this->db->get_where('services_providers', ['id_users' => $provider['id']])->result_array();
+
+            foreach ($service_provider_connections as $service_provider_connection)
+            {
+                $provider['services'][] = (int)$service_provider_connection['id_services'];
+            }
         }
 
-        // Check if selected record exists on database.
-        if ($this->db->get_where('users', ['id' => $provider_id])->num_rows() == 0)
+        return $providers;
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the users (provider-filtered) table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
+    {
+        $role_id = $this->get_provider_role_id();
+
+        return $this->db->from('users')->where('id_roles', $role_id);
+    }
+
+    /**
+     * Search providers by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of providers.
+     */
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    {
+        $role_id = $this->get_provider_role_id();
+
+        return $this
+            ->db
+            ->select()
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->like('first_name', $keyword)
+            ->or_like('last_name', $keyword)
+            ->or_like('email', $keyword)
+            ->or_like('phone_number', $keyword)
+            ->or_like('mobile_number', $keyword)
+            ->or_like('address', $keyword)
+            ->or_like('city', $keyword)
+            ->or_like('state', $keyword)
+            ->or_like('zip_code', $keyword)
+            ->or_like('notes', $keyword)
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($order_by)
+            ->get()
+            ->result_array();
+    }
+
+    /**
+     * Attach related resources to a provider.
+     *
+     * @param array $provider Associative array with the provider data.
+     * @param array $resources Resource names to be attached ("services" supported).
+     *
+     * @throws InvalidArgumentException
+     */
+    public function attach(array &$provider, array $resources): void
+    {
+        if (empty($provider) || empty($resources))
         {
-            throw new Exception('Selected record does not exist in the database.');
+            return;
         }
 
-        // Get provider data.
-        $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
-
-        // Include provider services.
-        $services = $this->db->get_where('services_providers',
-            ['id_users' => $provider_id])->result_array();
-        $provider['services'] = [];
-        foreach ($services as $service)
+        foreach ($resources as $resource)
         {
-            $provider['services'][] = $service['id_services'];
+            switch ($resource)
+            {
+                case 'services':
+                    $provider['services'] = $this
+                        ->db
+                        ->select('services.*')
+                        ->from('services')
+                        ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
+                        ->where('id_users', $provider['id'])
+                        ->get()
+                        ->result_array();
+                    break;
+
+                default:
+                    throw new InvalidArgumentException('The requested provider relation is not supported: ' . $resource);
+            }
         }
-
-        // Include provider settings.
-        $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
-        unset($provider['settings']['id_users']);
-
-        // Return provider data array.
-        return $provider;
     }
 }
