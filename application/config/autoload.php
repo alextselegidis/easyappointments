@@ -66,12 +66,23 @@ $autoload['libraries'] = ['database', 'session'];
 */
 
 $autoload['helper'] = [
-    'url', 
-    'file', 
-    'language',
     'asset',
     'config',
-    'render'
+    'debug',
+    'env',
+    'file', 
+    'google_analytics',
+    'http',
+    'installation',
+    'language',
+    'password',
+    'path',
+    'permission',
+    'render',
+    'session',
+    'setting',
+    'url', 
+    'validation',
 ];
 
 
@@ -88,7 +99,10 @@ $autoload['helper'] = [
 |
 */
 
-$autoload['config'] = ['google', 'email'];
+$autoload['config'] = [
+    'google', 
+    'email'
+];
 
 
 /*
