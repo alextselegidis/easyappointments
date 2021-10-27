@@ -49,7 +49,7 @@ class Service_categories_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $service_category): void
+    public function validate(array $service_category)
     {
         // If a service category ID is provided then check whether the record really exists in the database.
         if ( ! empty($service_category['id']))
@@ -116,7 +116,7 @@ class Service_categories_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $service_category_id): void
+    public function delete(int $service_category_id)
     {
         if ( ! $this->db->delete('service_categories', ['id' => $service_category_id]))
         {
@@ -252,7 +252,7 @@ class Service_categories_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$service_category, array $resources): void
+    public function attach(array &$service_category, array $resources)
     {
         // Service categories do not currently have any related resources. 
     }

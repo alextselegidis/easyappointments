@@ -54,7 +54,7 @@ class Customers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $customer): void
+    public function validate(array $customer)
     {
         // If a customer ID is provided then check whether the record really exists in the database.
         if ( ! empty($customer['id']))
@@ -153,7 +153,7 @@ class Customers_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $customer_id): void
+    public function delete(int $customer_id)
     {
         if ( ! $this->db->delete('users', ['id' => $customer_id]))
         {
@@ -384,7 +384,7 @@ class Customers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$customer, array $resources): void
+    public function attach(array &$customer, array $resources)
     {
         // Customers do not currently have any related resources. 
     }

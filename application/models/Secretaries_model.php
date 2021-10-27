@@ -60,7 +60,7 @@ class Secretaries_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $secretary): void
+    public function validate(array $secretary)
     {
         // If a secretary ID is provided then check whether the record really exists in the database.
         if ( ! empty($provider['id']))
@@ -262,7 +262,7 @@ class Secretaries_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $secretary_id): void
+    public function delete(int $secretary_id)
     {
         if ( ! $this->db->delete('users', ['id' => $secretary_id]))
         {
@@ -423,7 +423,7 @@ class Secretaries_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $secretary_id, array $settings): void
+    protected function save_settings(int $secretary_id, array $settings)
     {
         if (empty($settings))
         {
@@ -451,7 +451,7 @@ class Secretaries_model extends EA_Model {
      * @param string $name Setting name.
      * @param string $value Setting value.
      */
-    public function set_setting(int $secretary_id, string $name, string $value): void
+    public function set_setting(int $secretary_id, string $name, string $value)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $secretary_id]))
         {
@@ -485,7 +485,7 @@ class Secretaries_model extends EA_Model {
      * @param int $secretary_id Secretary ID.
      * @param array $provider_ids Provider IDs.
      */
-    protected function save_provider_ids(int $secretary_id, array $provider_ids): void
+    protected function save_provider_ids(int $secretary_id, array $provider_ids)
     {
         // Re-insert the secretary-provider connections. 
         $this->db->delete('secretary_providers', ['id_users_secretary' => $secretary_id]);
@@ -557,7 +557,7 @@ class Secretaries_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$secretary, array $resources): void
+    public function attach(array &$secretary, array $resources)
     {
         if (empty($secretary) || empty($resources))
         {

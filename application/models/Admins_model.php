@@ -60,7 +60,7 @@ class Admins_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $admin): void
+    public function validate(array $admin)
     {
         // If an admin ID is provided then check whether the record really exists in the database.
         if ( ! empty($admin['id']))
@@ -237,7 +237,7 @@ class Admins_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $admin_id): void
+    public function delete(int $admin_id)
     {
         $role_id = $this->get_admin_role_id();
 
@@ -389,7 +389,7 @@ class Admins_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $admin_id, array $settings): void
+    protected function save_settings(int $admin_id, array $settings)
     {
         if (empty($settings))
         {
@@ -417,7 +417,7 @@ class Admins_model extends EA_Model {
      * @param string $name Setting name.
      * @param string $value Setting value.
      */
-    public function set_setting(int $admin_id, string $name, string $value): void
+    public function set_setting(int $admin_id, string $name, string $value)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id]))
         {
@@ -501,7 +501,7 @@ class Admins_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$admin, array $resources): void
+    public function attach(array &$admin, array $resources)
     {
         // Admins do not currently have any related resources (settings are already part of the admins). 
     }

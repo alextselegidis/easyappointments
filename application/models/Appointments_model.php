@@ -58,7 +58,7 @@ class Appointments_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $appointment): void
+    public function validate(array $appointment)
     {
         // If an appointment ID is provided then check whether the record really exists in the database.
         if ( ! empty($appointment['id']))
@@ -195,7 +195,7 @@ class Appointments_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $appointment_id): void
+    public function delete(int $appointment_id)
     {
         if ( ! $this->db->delete('users', ['id' => $appointment_id]))
         {
@@ -355,7 +355,7 @@ class Appointments_model extends EA_Model {
      *
      * @param int $provider_id Matching provider ID.
      */
-    public function clear_google_sync_ids(int $provider_id): void
+    public function clear_google_sync_ids(int $provider_id)
     {
         $this->db->update('appointments', ['id_google_calendar' => NULL], ['id_users_provider' => $provider_id]);
     }
@@ -500,7 +500,7 @@ class Appointments_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$appointment, array $resources): void
+    public function attach(array &$appointment, array $resources)
     {
         if (empty($appointment) || empty($resources))
         {

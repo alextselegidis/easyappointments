@@ -49,7 +49,7 @@ class Users_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $user): void
+    public function validate(array $user)
     {
         // If a user ID is provided then check whether the record really exists in the database.
         if ( ! empty($user['id']))
@@ -145,7 +145,7 @@ class Users_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $user_id): void
+    public function delete(int $user_id)
     {
         if ( ! $this->db->delete('users', ['id' => $user_id]))
         {
@@ -265,7 +265,7 @@ class Users_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $user_id, array $settings): void
+    protected function save_settings(int $user_id, array $settings)
     {
         if (empty($settings))
         {
@@ -293,7 +293,7 @@ class Users_model extends EA_Model {
      * @param string $name Setting name.
      * @param string $value Setting value.
      */
-    public function set_setting(int $user_id, string $name, string $value): void
+    public function set_setting(int $user_id, string $name, string $value)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $user_id]))
         {
@@ -372,7 +372,7 @@ class Users_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$user, array $resources): void
+    public function attach(array &$user, array $resources)
     {
         // Users do not currently have any related resources. 
     }

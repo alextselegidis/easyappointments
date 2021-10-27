@@ -50,7 +50,7 @@ class Consents_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $consent): void
+    public function validate(array $consent)
     {
         if (
             empty($consent['first_name'])
@@ -114,7 +114,7 @@ class Consents_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $consent_id): void
+    public function delete(int $consent_id)
     {
         if ( ! $this->db->delete('consents', ['id' => $consent_id]))
         {
@@ -252,7 +252,7 @@ class Consents_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$consent, array $resources): void
+    public function attach(array &$consent, array $resources)
     {
         // Consents do not currently have any related resources. 
     }

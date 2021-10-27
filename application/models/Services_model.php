@@ -49,7 +49,7 @@ class Services_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $service): void
+    public function validate(array $service)
     {
         // If a service ID is provided then check whether the record really exists in the database.
         if ( ! empty($service['id']))
@@ -159,7 +159,7 @@ class Services_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $service_id): void
+    public function delete(int $service_id)
     {
         if ( ! $this->db->delete('services', ['id' => $service_id]))
         {
@@ -314,7 +314,7 @@ class Services_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$service, array $resources): void
+    public function attach(array &$service, array $resources)
     {
         if (empty($service) || empty($resources))
         {

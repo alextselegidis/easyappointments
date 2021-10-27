@@ -49,7 +49,7 @@ class Settings_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $setting): void
+    public function validate(array $setting)
     {
         // If a setting ID is provided then check whether the record really exists in the database.
         if ( ! empty($setting['id']))
@@ -116,7 +116,7 @@ class Settings_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $setting_id): void
+    public function delete(int $setting_id)
     {
         if ( ! $this->db->delete('settings', ['id' => $setting_id]))
         {
@@ -252,7 +252,7 @@ class Settings_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$setting, array $resources): void
+    public function attach(array &$setting, array $resources)
     {
         // Users do not currently have any related resources. 
     }

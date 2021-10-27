@@ -49,7 +49,7 @@ class Roles_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $role): void
+    public function validate(array $role)
     {
         // If a role ID is provided then check whether the record really exists in the database.
         if ( ! empty($role['id']))
@@ -116,7 +116,7 @@ class Roles_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $role_id): void
+    public function delete(int $role_id)
     {
         if ( ! $this->db->delete('roles', ['id' => $role_id]))
         {
@@ -318,7 +318,7 @@ class Roles_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$role, array $resources): void
+    public function attach(array &$role, array $resources)
     {
         // Roles do not currently have any related resources. 
     }

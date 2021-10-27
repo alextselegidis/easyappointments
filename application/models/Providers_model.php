@@ -60,7 +60,7 @@ class Providers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $provider): void
+    public function validate(array $provider)
     {
         // If a provider ID is provided then check whether the record really exists in the database.
         if ( ! empty($provider['id']))
@@ -261,7 +261,7 @@ class Providers_model extends EA_Model {
      *
      * @throws RuntimeException
      */
-    public function delete(int $provider_id): void
+    public function delete(int $provider_id)
     {
         if ( ! $this->db->delete('users', ['id' => $provider_id]))
         {
@@ -419,7 +419,7 @@ class Providers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $provider_id, array $settings): void
+    protected function save_settings(int $provider_id, array $settings)
     {
         if (empty($settings))
         {
@@ -462,7 +462,7 @@ class Providers_model extends EA_Model {
      * @param string $name Setting name.
      * @param string $value Setting value.
      */
-    public function set_setting(int $provider_id, string $name, string $value): void
+    public function set_setting(int $provider_id, string $name, string $value)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id]))
         {
@@ -496,7 +496,7 @@ class Providers_model extends EA_Model {
      * @param int $provider_id Provider ID.
      * @param array $service_ids Service IDs.
      */
-    protected function save_service_ids(int $provider_id, array $service_ids): void
+    protected function save_service_ids(int $provider_id, array $service_ids)
     {
         // Re-insert the provider-service connections. 
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
@@ -521,7 +521,7 @@ class Providers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception): void
+    public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception)
     {
         // Validate the working plan exception data.
         $start = date('H:i', strtotime($working_plan_exception['start']));
@@ -569,7 +569,7 @@ class Providers_model extends EA_Model {
      *
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function delete_working_plan_exception(int $provider_id, string $date): void
+    public function delete_working_plan_exception(int $provider_id, string $date)
     {
         $provider = $this->find($provider_id);
 
@@ -686,7 +686,7 @@ class Providers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$provider, array $resources): void
+    public function attach(array &$provider, array $resources)
     {
         if (empty($provider) || empty($resources))
         {
