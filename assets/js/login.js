@@ -8,7 +8,7 @@
  * @link        http://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
- 
+
 $(function () {
     'use strict';
 

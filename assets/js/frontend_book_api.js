@@ -69,14 +69,14 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         $.post(url, data)
             .done(function (response) {
-                // The response contains the available hours for the selected provider and
-                // service. Fill the available hours div with response data.
+                // The response contains the available hours for the selected provider and service. Fill the available 
+                // hours div with response data.
                 if (response.length > 0) {
                     var providerId = $('#select-provider').val();
 
                     if (providerId === 'any-provider') {
                         for (var availableProvider of GlobalVariables.availableProviders) {
-                            if (availableProvider.services.indexOf(serviceId) !== -1) {
+                            if (availableProvider.services.indexOf(Number(serviceId)) !== -1) {
                                 providerId = availableProvider.id; // Use first available provider.
                                 break;
                             }
@@ -99,7 +99,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         var availableHourMoment = moment
                             .tz(selectedDate + ' ' + availableHour + ':00', providerTimezone)
                             .tz(selectedTimezone);
-                        
+
                         if (availableHourMoment.format('YYYY-MM-DD') !== selectedDate) {
                             return; // Due to the selected timezone the available hour belongs to another date.  
                         }

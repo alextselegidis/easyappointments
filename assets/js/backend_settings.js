@@ -224,8 +224,8 @@ window.BackendSettings = window.BackendSettings || {};
          * @argument isVisible a boolean which is true if the button should display 'visible' and false when the button should display 'hidden'
          *
          */
-        function setShowToggleValue($element, isVisible){
-            if (getShowToggleValue($element) !== isVisible){
+        function setShowToggleValue($element, isVisible) {
+            if (getShowToggleValue($element) !== isVisible) {
                 $element.find("div").toggleClass("hidden");
             }
         }
@@ -237,7 +237,7 @@ window.BackendSettings = window.BackendSettings || {};
          *
          * @return the state of the button. True for visible, false for hidden.
          */
-        function getShowToggleValue($element){
+        function getShowToggleValue($element) {
             var visiblePartArray = $element.find(".hide-toggle-visible");
             return !visiblePartArray.hasClass("hidden");
         }
@@ -248,7 +248,7 @@ window.BackendSettings = window.BackendSettings || {};
          * make sure that our phone number is visible when it is required.
          */
         $('#show-phone-number').on('click', function () {
-            if (!getShowToggleValue($(this))){//if button is set to hidden
+            if (!getShowToggleValue($(this))) {//if button is set to hidden
                 $('#require-phone-number').prop('checked', false);
             }
         });
@@ -259,7 +259,7 @@ window.BackendSettings = window.BackendSettings || {};
          * make sure that our phone number is visible when it is required.
          */
         $('#require-phone-number').on('click', function () {
-            if ($(this).prop('checked')){
+            if ($(this).prop('checked')) {
                 setShowToggleValue($('#show-phone-number'), true);
             }
         });
@@ -287,7 +287,7 @@ window.BackendSettings = window.BackendSettings || {};
 
             $.post(url, data)
                 .done(function (response) {
-                    if (response === 'false') {
+                    if (response.is_valid === 'false') {
                         $input.closest('.form-group').addClass('has-error');
                         Backend.displayNotification(EALang.username_already_exists);
                         $input.attr('already-exists', 'true');

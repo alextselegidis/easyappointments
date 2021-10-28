@@ -1413,7 +1413,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,
-            slotDuration: '00:15:00', 
+            slotDuration: '00:15:00',
             snapDuration: '00:15:00',
             slotLabelInterval: '01:00',
             timeFormat: timeFormat,

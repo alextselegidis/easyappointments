@@ -235,7 +235,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var key = $(this).val().toLowerCase();
 
-            filterExistingCustomersTimeout = setTimeout(function() {
+            filterExistingCustomersTimeout = setTimeout(function () {
                 var $list = $('#existing-customers-list');
 
                 var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
@@ -291,7 +291,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                             }
                         });
                     })
-                    .always(function() {
+                    .always(function () {
                         $('#loading').css('visibility', '');
                     });
             }, 1000);

@@ -32,7 +32,7 @@
         if (!this.validate()) {
             return; // Validation failed, do not proceed.
         }
-        
+
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
 
         var data = {
@@ -80,12 +80,12 @@
         var visiblePartArray = $element.find(".hide-toggle-visible");
         var invisiblePartArray = $element.find(".hide-toggle-hidden");
         if (!(visiblePartArray.length === 0 || invisiblePartArray.length === 0)) {
-            if (visiblePartArray.hasClass("hidden")){//our button is currently invisible
+            if (visiblePartArray.hasClass("hidden")) {//our button is currently invisible
                 return '0';//invisible
-            }else{//our button is currently visible
+            } else {//our button is currently visible
                 return '1';//visible
             }
-        }else{
+        } else {
             return '0';//invisible
         }
     }
