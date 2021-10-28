@@ -48,15 +48,15 @@ class Authorization {
      * @param NonEmptyText $username Admin Username
      * @param NonEmptyText $password Admin Password
      *
-     * @throws \EA\Engine\Api\V1\Exception Throws 401-Unauthorized exception if the authentication fails.
+     * @throws \RuntimeException 
      */
     public function basic(NonEmptyText $username, NonEmptyText $password)
     {
-        $this->CI->load->model('user_model');
+        $this->CI->load->library('accounts');
 
-        if ( ! $this->CI->user_model->check_login($username->get(), $password->get()))
+        if ( ! $this->CI->accounts->check_login($username->get(), $password->get()))
         {
-            throw new Exception('The provided credentials do not match any admin user!', 401, 'Unauthorized');
+            throw new \RuntimeException('The provided credentials do not match any admin user!', 401, 'Unauthorized');
         }
     }
 }
