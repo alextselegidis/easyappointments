@@ -16,7 +16,9 @@ use EA\Engine\Types\Email;
 use EA\Engine\Types\NonEmptyText;
 
 /**
- * User Controller
+ * User controller
+ *
+ * Handles the user related operations.
  *
  * @package Controllers
  */
@@ -27,38 +29,28 @@ class User extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('settings_model');
-        $this->load->model('user_model');
+
+        $this->load->library('accounts');
     }
 
     /**
-     * Default Method
-     *
-     * The default method will redirect the browser to the user/login URL.
+     * Redirect to the login page.
      */
     public function index()
     {
-        header('Location: ' . site_url('user/login'));
+        redirect('user/login');
     }
 
     /**
      * Display the login page.
-     *
-     * @throws Exception
      */
     public function login()
     {
-        $view['base_url'] = config('base_url');
-        $view['dest_url'] = $this->session->userdata('dest_url');
-
-        if ( ! $view['dest_url'])
-        {
-            $view['dest_url'] = site_url('backend');
-        }
-
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-
-        $this->load->view('user/login', $view);
+        $this->load->view('user/login', [
+            'base_url' => config('base_url'),
+            'company_name' => setting('company_name'),
+            'dest_url' => session('dest_url', site_url('backend'))
+        ]);
     }
 
     /**
@@ -66,62 +58,57 @@ class User extends EA_Controller {
      */
     public function logout()
     {
-        $this->session->unset_userdata('user_id');
-        $this->session->unset_userdata('user_email');
-        $this->session->unset_userdata('role_slug');
-        $this->session->unset_userdata('username');
-        $this->session->unset_userdata('dest_url');
+        $this->session->sess_destroy();
 
-        $view['base_url'] = config('base_url');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $this->load->view('user/logout', $view);
+        $this->load->view('user/logout', [
+            'base_url' => config('base_url'),
+            'company_name' => setting('company_name')
+        ]);
     }
 
     /**
-     * Display the "forgot password" page.
-     * @throws Exception
+     * Display the password recovery page.
      */
     public function forgot_password()
     {
-        $view['base_url'] = config('base_url');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $this->load->view('user/forgot_password', $view);
+        $this->load->view('user/forgot_password', [
+            'base_url' => config('base_url'),
+            'company_name' => setting('company_name')
+        ]);
     }
 
     /**
-     * Display the "not authorized" page.
-     * @throws Exception
+     * Display the no-permissions page.
      */
-    public function no_privileges()
+    public function no_permissions()
     {
-        $view['base_url'] = config('base_url');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $this->load->view('user/no_privileges', $view);
+        $this->load->view('user/no_privileges', [
+            'base_url' => config('base_url'),
+            'company_name' => setting('company_name')
+        ]);
     }
 
     /**
-     * Check whether the user has entered the correct login credentials.
-     *
-     * The session data of a logged in user are the following:
-     *   - 'user_id'
-     *   - 'user_email'
-     *   - 'role_slug'
-     *   - 'dest_url'
+     * Validate the login credentials and if successful, log the user in.
      */
     public function ajax_check_login()
     {
         try
         {
-            if ( ! $this->input->post('username') || ! $this->input->post('password'))
+            if ( ! request('username') || ! request('password'))
             {
                 throw new Exception('Invalid credentials given!');
             }
 
-            $user_data = $this->user_model->check_login($this->input->post('username'), $this->input->post('password'));
+            $username = request('username');
+
+            $password = request('password');
+
+            $user_data = $this->accounts->check_login($username, $password);
 
             if ($user_data)
             {
-                $this->session->set_userdata($user_data); // Save data on user's session.
+                session($user_data); // Save data in the session.
 
                 $response = AJAX_SUCCESS;
             }
@@ -130,13 +117,13 @@ class User extends EA_Controller {
                 $response = AJAX_FAILURE;
             }
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->output->set_status_header(500);
 
             $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
+                'message' => $e->getMessage(),
+                'trace' => config('debug') ? $e->getTrace() : []
             ];
         }
 
@@ -146,59 +133,51 @@ class User extends EA_Controller {
     }
 
     /**
-     * Regenerate a new password for the current user, only if the username and
-     * email address given correspond to an existing user in db.
-     *
-     * Required POST Parameters:
-     *
-     * - string $_POST['username'] Username to be validated.
-     * - string $_POST['email'] Email to be validated.
+     * Recover the user password and notify the user via email.
      */
     public function ajax_forgot_password()
     {
         try
         {
-            if ( ! $this->input->post('username') || ! $this->input->post('email'))
+            $username = request('username');
+
+            if (empty($username))
             {
-                throw new Exception('You must enter a valid username and email address in '
-                    . 'order to get a new password!');
+                throw new InvalidArgumentException('No username value provided.');
             }
 
-            $new_password = $this->user_model->regenerate_password(
-                $this->input->post('username'),
-                $this->input->post('email')
+            $email = request('email');
+
+            if (empty($email))
+            {
+                throw new InvalidArgumentException('No email value provided.');
+            }
+
+            $new_password = $this->accounts->regenerate_password(
+                $username,
+                $email
             );
 
-            if ($new_password != FALSE)
+            if ($new_password)
             {
-                $this->config->load('email');
-
                 $email = new EmailClient($this, $this->config->config);
 
-                $company_settings = [
-                    'company_name' => $this->settings_model->get_setting('company_name'),
-                    'company_link' => $this->settings_model->get_setting('company_link'),
-                    'company_email' => $this->settings_model->get_setting('company_email')
+                $settings = [
+                    'company_name' => setting('company_name'),
+                    'company_link' => setting('company_link'),
+                    'company_email' => setting('company_email')
                 ];
 
-                $email->send_password(new NonEmptyText($new_password), new Email($this->input->post('email')),
-                    $company_settings);
+                $email->send_password(new NonEmptyText($new_password), new Email(request('email')), $settings);
             }
 
-            $response = $new_password != FALSE ? AJAX_SUCCESS : AJAX_FAILURE;
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

@@ -12,15 +12,20 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Errors Controller
+ * Errors controller
+ *
+ * Handles the app error related operations.
  *
  * @package Controllers
  */
 class Errors extends EA_Controller {
+    /**
+     * Errors constructor.
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('google_analytics');
+
         $this->load->model('settings_model');
     }
 
@@ -37,8 +42,8 @@ class Errors extends EA_Controller {
      */
     public function error404()
     {
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-
-        $this->load->view('general/error404', $view);
+        $this->load->view('general/error404', [
+            'company_name' => setting('company_name')
+        ]);
     }
 }

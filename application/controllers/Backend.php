@@ -12,9 +12,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Controller
+ * Backend controller
  *
- * @property CI_Session $session
+ * Handles the backend related operations.
  *
  * @package Controllers
  */
@@ -26,64 +26,65 @@ class Backend extends EA_Controller {
     {
         parent::__construct();
 
-        $this->load->model('appointments_model');
-        $this->load->model('providers_model');
-        $this->load->model('services_model');
-        $this->load->model('customers_model');
-        $this->load->model('settings_model');
-        $this->load->model('roles_model');
-        $this->load->model('user_model');
-        $this->load->model('secretaries_model');
         $this->load->model('admins_model');
-        $this->load->library('timezones');
+        $this->load->model('appointments_model');
+        $this->load->model('customers_model');
+        $this->load->model('providers_model');
+        $this->load->model('roles_model');
+        $this->load->model('secretaries_model');
+        $this->load->model('service_categories_model');
+        $this->load->model('services_model');
+        $this->load->model('settings_model');
+        $this->load->model('users_model');
+
+        $this->load->library('accounts');
         $this->load->library('migration');
+        $this->load->library('timezones');
     }
 
     /**
      * Display the main backend page.
      *
-     * This method displays the main backend page. All users login permission can view this page which displays a
+     * This method displays the main backend page. All login permission can view this page which displays a
      * calendar with the events of the selected provider or service. If a user has more privileges he will see more
      * menus at the top of the page.
      *
      * @param string $appointment_hash Appointment edit dialog will appear when the page loads (default '').
-     *
-     * @throws Exception
      */
-    public function index($appointment_hash = '')
+    public function index(string $appointment_hash = '')
     {
-        $this->session->set_userdata('dest_url', site_url('backend/index' . (! empty($appointment_hash) ? '/' . $appointment_hash : '')));
+        session(['dest_url' => site_url('backend/index' . (! empty($appointment_hash) ? '/' . $appointment_hash : ''))]);
 
-        if ( ! $this->has_privileges(PRIV_APPOINTMENTS))
+        if ( ! $this->has_permissions(PRIV_APPOINTMENTS))
         {
             return;
         }
 
-        $calendar_view_query_param = $this->input->get('view');
+        $calendar_view_query_param = request('view');
 
-        $user_id = $this->session->userdata('user_id');
+        $user_id = session('user_id');
 
-        $user = $this->user_model->get_user($user_id);
+        $user = $this->users_model->find($user_id);
 
         $view['base_url'] = config('base_url');
         $view['page_title'] = lang('calendar');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['user_display_name'] = $this->accounts->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_APPOINTMENTS;
-        $view['date_format'] = $this->settings_model->get_setting('date_format');
-        $view['time_format'] = $this->settings_model->get_setting('time_format');
-        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['require_phone_number'] = $this->settings_model->get_setting('require_phone_number');
+        $view['date_format'] = setting('date_format');
+        $view['time_format'] = setting('time_format');
+        $view['first_weekday'] = setting('first_weekday');
+        $view['company_name'] = setting('company_name');
+        $view['require_phone_number'] = setting('require_phone_number');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
-        $view['customers'] = $this->customers_model->get_batch();
+        $view['customers'] = $this->customers_model->get();
         $view['calendar_view'] = ! empty($calendar_view_query_param) ? $calendar_view_query_param : $user['settings']['calendar_view'];
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
-        if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY)
+        if (session('role_slug') === DB_SLUG_SECRETARY)
         {
-            $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
+            $secretary = $this->secretaries_model->find(session('user_id'));
             $view['secretary_providers'] = $secretary['providers'];
         }
         else
@@ -91,12 +92,12 @@ class Backend extends EA_Controller {
             $view['secretary_providers'] = [];
         }
 
-        $results = $this->appointments_model->get_batch(['hash' => $appointment_hash]);
+        $results = $this->appointments_model->get(['hash' => $appointment_hash]);
 
         if ($appointment_hash !== '' && count($results) > 0)
         {
             $appointment = $results[0];
-            $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+            $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             $view['edit_appointment'] = $appointment; // This will display the appointment edit dialog on page load.
         }
         else
@@ -115,43 +116,40 @@ class Backend extends EA_Controller {
      * The backend page requires different privileges from the users to display pages. Not all pages are available to
      * all users. For example secretaries should not be able to edit the system users.
      *
-     * @param string $page This argument must match the roles field names of each section (eg "appointments", "users"
-     * ...).
-     * @param bool $redirect If the user has not the required privileges (either not logged in or insufficient role
-     * privileges) then the user will be redirected to another page. Set this argument to FALSE when using ajax (default
-     * true).
+     * @param string $page This argument must match the roles field names of each section (e.g. "appointments").
+     * @param bool $redirect If the user has not the required privileges either not logged in or insufficient
+     * permissions then the user will be redirected to another page.
      *
-     * @return bool Returns whether the user has the required privileges to view the page or not. If the user is not
-     * logged in then he will be prompted to log in. If he hasn't the required privileges then an info message will be
-     * displayed.
+     * @return bool Returns whether the user has the required privileges to view the page or not.
      */
-    protected function has_privileges($page, $redirect = TRUE)
+    protected function has_permissions(string $page, bool $redirect = TRUE): bool
     {
         // Check if user is logged in.
-        $user_id = $this->session->userdata('user_id');
+        $user_id = session('user_id');
 
-        if ($user_id == FALSE)
+        if ( ! $user_id)
         {
-            // User not logged in, display the login view.
             if ($redirect)
             {
-                header('Location: ' . site_url('user/login'));
+                redirect('user/login');
             }
+
             return FALSE;
         }
 
         // Check if the user has the required privileges for viewing the selected page.
-        $role_slug = $this->session->userdata('role_slug');
+        $role_slug = session('role_slug');
 
-        $role_privileges = $this->db->get_where('roles', ['slug' => $role_slug])->row_array();
+        $role_permissions = $this->db->get_where('roles', ['slug' => $role_slug])->row_array();
 
-        if ($role_privileges[$page] < PRIV_VIEW)
+        if ($role_permissions[$page] < PRIV_VIEW)
         {
             // User does not have the permission to view the page.
             if ($redirect)
             {
-                header('Location: ' . site_url('user/no_privileges'));
+                redirect('user/no_permissions');
             }
+
             return FALSE;
         }
 
@@ -163,13 +161,13 @@ class Backend extends EA_Controller {
      *
      * @param array $view Contains the view data.
      */
-    protected function set_user_data(&$view)
+    protected function set_user_data(array &$view)
     {
-        $view['user_id'] = $this->session->userdata('user_id');
-        $view['user_email'] = $this->session->userdata('user_email');
-        $view['timezone'] = $this->session->userdata('timezone');
-        $view['role_slug'] = $this->session->userdata('role_slug');
-        $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+        $view['user_id'] = session('user_id');
+        $view['user_email'] = session('user_email');
+        $view['timezone'] = session('timezone');
+        $view['role_slug'] = session('role_slug');
+        $view['privileges'] = $this->roles_model->get_permissions_by_slug(session('role_slug'));
     }
 
     /**
@@ -179,30 +177,30 @@ class Backend extends EA_Controller {
      */
     public function customers()
     {
-        $this->session->set_userdata('dest_url', site_url('backend/customers'));
+        session(['dest_url' => site_url('backend/customers')]);
 
-        if ( ! $this->has_privileges(PRIV_CUSTOMERS))
+        if ( ! $this->has_permissions(PRIV_CUSTOMERS))
         {
             return;
         }
 
         $view['base_url'] = config('base_url');
         $view['page_title'] = lang('customers');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['user_display_name'] = $this->accounts->get_user_display_name(session('user_id'));
         $view['active_menu'] = PRIV_CUSTOMERS;
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['date_format'] = $this->settings_model->get_setting('date_format');
-        $view['time_format'] = $this->settings_model->get_setting('time_format');
-        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
-        $view['require_phone_number'] = $this->settings_model->get_setting('require_phone_number');
-        $view['customers'] = $this->customers_model->get_batch();
+        $view['company_name'] = setting('company_name');
+        $view['date_format'] = setting('date_format');
+        $view['time_format'] = setting('time_format');
+        $view['first_weekday'] = setting('first_weekday');
+        $view['require_phone_number'] = setting('require_phone_number');
+        $view['customers'] = $this->customers_model->get();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['timezones'] = $this->timezones->to_array();
 
-        if ($this->session->userdata('role_slug') === DB_SLUG_SECRETARY)
+        if (session('role_slug') === DB_SLUG_SECRETARY)
         {
-            $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
+            $secretary = $this->secretaries_model->find(session('user_id'));
             $view['secretary_providers'] = $secretary['providers'];
         }
         else
@@ -227,23 +225,23 @@ class Backend extends EA_Controller {
      */
     public function services()
     {
-        $this->session->set_userdata('dest_url', site_url('backend/services'));
+        session(['dest_url' => site_url('backend/services')]);
 
-        if ( ! $this->has_privileges(PRIV_SERVICES))
+        if ( ! $this->has_permissions(PRIV_SERVICES))
         {
             return;
         }
 
         $view['base_url'] = config('base_url');
         $view['page_title'] = lang('services');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['user_display_name'] = $this->accounts->get_user_display_name(session('user_id'));
         $view['active_menu'] = PRIV_SERVICES;
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['date_format'] = $this->settings_model->get_setting('date_format');
-        $view['time_format'] = $this->settings_model->get_setting('time_format');
-        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
-        $view['services'] = $this->services_model->get_batch();
-        $view['categories'] = $this->services_model->get_all_categories();
+        $view['company_name'] = setting('company_name');
+        $view['date_format'] = setting('date_format');
+        $view['time_format'] = setting('time_format');
+        $view['first_weekday'] = setting('first_weekday');
+        $view['services'] = $this->services_model->get();
+        $view['categories'] = $this->service_categories_model->get();
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
@@ -260,26 +258,26 @@ class Backend extends EA_Controller {
      */
     public function users()
     {
-        $this->session->set_userdata('dest_url', site_url('backend/users'));
+        session(['dest_url' => site_url('backend/users')]);
 
-        if ( ! $this->has_privileges(PRIV_USERS))
+        if ( ! $this->has_permissions(PRIV_USERS))
         {
             return;
         }
 
         $view['base_url'] = config('base_url');
         $view['page_title'] = lang('users');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
+        $view['user_display_name'] = $this->accounts->get_user_display_name(session('user_id'));
         $view['active_menu'] = PRIV_USERS;
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['date_format'] = $this->settings_model->get_setting('date_format');
-        $view['time_format'] = $this->settings_model->get_setting('time_format');
-        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
-        $view['admins'] = $this->admins_model->get_batch();
-        $view['providers'] = $this->providers_model->get_batch();
-        $view['secretaries'] = $this->secretaries_model->get_batch();
-        $view['services'] = $this->services_model->get_batch();
-        $view['working_plan'] = $this->settings_model->get_setting('company_working_plan');
+        $view['company_name'] = setting('company_name');
+        $view['date_format'] = setting('date_format');
+        $view['time_format'] = setting('time_format');
+        $view['first_weekday'] = setting('first_weekday');
+        $view['admins'] = $this->admins_model->get();
+        $view['providers'] = $this->providers_model->get();
+        $view['secretaries'] = $this->secretaries_model->get();
+        $view['services'] = $this->services_model->get();
+        $view['working_plan'] = setting('company_working_plan');
         $view['timezones'] = $this->timezones->to_array();
         $view['working_plan_exceptions'] = '{}';
         $this->set_user_data($view);
@@ -294,34 +292,36 @@ class Backend extends EA_Controller {
      *
      * This page will display the user settings (name, password etc). If current user is an administrator, then he will
      * be able to make change to the current Easy!Appointment installation (core settings like company name, book
-     * timeout etc).
+     * timeout).
      */
     public function settings()
     {
-        $this->session->set_userdata('dest_url', site_url('backend/settings'));
-        if ( ! $this->has_privileges(PRIV_SYSTEM_SETTINGS, FALSE)
-            && ! $this->has_privileges(PRIV_USER_SETTINGS))
+        session(['dest_url' => site_url('backend/settings')]);
+
+        if (
+            ! $this->has_permissions(PRIV_SYSTEM_SETTINGS, FALSE)
+            && ! $this->has_permissions(PRIV_USER_SETTINGS))
         {
             return;
         }
 
-        $user_id = $this->session->userdata('user_id');
+        $user_id = session('user_id');
 
         $view['base_url'] = config('base_url');
         $view['page_title'] = lang('settings');
-        $view['user_display_name'] = $this->user_model->get_user_display_name($user_id);
+        $view['user_display_name'] = $this->accounts->get_user_display_name($user_id);
         $view['active_menu'] = PRIV_SYSTEM_SETTINGS;
-        $view['company_name'] = $this->settings_model->get_setting('company_name');
-        $view['date_format'] = $this->settings_model->get_setting('date_format');
-        $view['first_weekday'] = $this->settings_model->get_setting('first_weekday');
-        $view['time_format'] = $this->settings_model->get_setting('time_format');
-        $view['role_slug'] = $this->session->userdata('role_slug');
-        $view['system_settings'] = $this->settings_model->get_settings();
-        $view['user_settings'] = $this->user_model->get_user($user_id);
+        $view['company_name'] = setting('company_name');
+        $view['date_format'] = setting('date_format');
+        $view['first_weekday'] = setting('first_weekday');
+        $view['time_format'] = setting('time_format');
+        $view['role_slug'] = session('role_slug');
+        $view['system_settings'] = $this->settings_model->get();
+        $view['user_settings'] = $this->users_model->find($user_id);
         $view['timezones'] = $this->timezones->to_array();
 
         // book_advance_timeout preview
-        $book_advance_timeout = $this->settings_model->get_setting('book_advance_timeout');
+        $book_advance_timeout = setting('book_advance_timeout');
         $hours = floor($book_advance_timeout / 60);
         $minutes = $book_advance_timeout % 60;
         $view['book_advance_timeout_preview'] = sprintf('%02d:%02d', $hours, $minutes);
@@ -346,7 +346,7 @@ class Backend extends EA_Controller {
     {
         try
         {
-            if ( ! $this->has_privileges(PRIV_SYSTEM_SETTINGS, TRUE))
+            if ( ! $this->has_permissions(PRIV_SYSTEM_SETTINGS))
             {
                 throw new Exception('You do not have the required privileges for this task!');
             }
@@ -358,9 +358,9 @@ class Backend extends EA_Controller {
 
             $view = ['success' => TRUE];
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $view = ['success' => FALSE, 'exception' => $exception->getMessage()];
+            $view = ['success' => FALSE, 'exception' => $e->getMessage()];
         }
 
         $this->load->view('general/update', $view);

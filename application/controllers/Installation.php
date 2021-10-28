@@ -12,9 +12,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Installation Controller
+ * Installation controller
  *
- * This controller will handle the installation procedure of Easy!Appointments.
+ * Handles the installation related operations.
  *
  * @package Controllers
  */
@@ -25,14 +25,14 @@ class Installation extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
+        
         $this->load->model('admins_model');
         $this->load->model('settings_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
         $this->load->model('customers_model');
+        
         $this->load->library('migration');
-        $this->load->helper('installation');
-        $this->load->helper('string');
     }
 
     /**
@@ -42,7 +42,7 @@ class Installation extends EA_Controller {
     {
         if (is_app_installed())
         {
-            redirect('appointments');
+            redirect('');
             return;
         }
 
@@ -63,8 +63,8 @@ class Installation extends EA_Controller {
                 return;
             }
 
-            $admin = $this->input->post('admin');
-            $company = $this->input->post('company');
+            $admin = request('admin');
+            $company = request('company');
 
             if ( ! $this->migration->current())
             {
@@ -78,21 +78,25 @@ class Installation extends EA_Controller {
             $admin['settings']['notifications'] = TRUE;
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
             unset($admin['username'], $admin['password']);
-            $admin['id'] = $this->admins_model->add($admin);
+            $admin['id'] = $this->admins_model->save($admin);
 
-            $this->session->set_userdata('user_id', $admin['id']);
-            $this->session->set_userdata('user_email', $admin['email']);
-            $this->session->set_userdata('role_slug', DB_SLUG_ADMIN);
-            $this->session->set_userdata('timezone', $admin['timezone']);
-            $this->session->set_userdata('username', $admin['settings']['username']);
+            session([
+                'user_id' => $admin['id'],
+                'user_email' => $admin['email'],
+                'role_slug' => DB_SLUG_ADMIN,
+                'timezone' => $admin['timezone'],
+                'username' => $admin['settings']['username']                
+            ]);
 
             // Save company settings
-            $this->settings_model->set_setting('company_name', $company['company_name']);
-            $this->settings_model->set_setting('company_email', $company['company_email']);
-            $this->settings_model->set_setting('company_link', $company['company_link']);
+            setting([
+                'company_name' => $company['company_name'],
+                'company_email' => $company['company_email'],
+                'company_link' => $company['company_link'],
+            ]);
 
             // Service
-            $service_id = $this->services_model->add([
+            $service_id = $this->services_model->save([
                 'name' => 'Service',
                 'duration' => '30',
                 'price' => '0',
@@ -102,7 +106,7 @@ class Installation extends EA_Controller {
             ]);
 
             // Provider
-            $this->providers_model->add([
+            $this->providers_model->save([
                 'first_name' => 'Jane',
                 'last_name' => 'Doe',
                 'email' => 'jane@example.org',
@@ -113,7 +117,7 @@ class Installation extends EA_Controller {
                 'settings' => [
                     'username' => 'janedoe',
                     'password' => 'janedoe',
-                    'working_plan' => $this->settings_model->get_setting('company_working_plan'),
+                    'working_plan' => setting('company_working_plan'),
                     'notifications' => TRUE,
                     'google_sync' => FALSE,
                     'sync_past_days' => 30,
@@ -123,27 +127,20 @@ class Installation extends EA_Controller {
             ]);
 
             // Customer
-            $this->customers_model->add([
+            $this->customers_model->save([
                 'first_name' => 'James',
                 'last_name' => 'Doe',
                 'email' => 'james@example.org',
                 'phone_number' => '+1 (000) 000-0000',
             ]);
 
-            $response = AJAX_SUCCESS;
+            json_response([
+                'success' => true
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

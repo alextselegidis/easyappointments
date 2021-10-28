@@ -11,14 +11,10 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use EA\Engine\Notifications\Email as EmailClient;
-use EA\Engine\Types\Email;
-use EA\Engine\Types\Text;
-
 /**
- * Backend API Controller
+ * Backend API controller
  *
- * Contains all the backend AJAX callbacks.
+ * Handles the backend API related operations.
  *
  * @package Controllers
  */
@@ -26,10 +22,10 @@ class Backend_api extends EA_Controller {
     /**
      * @var array
      */
-    protected $privileges;
+    protected $permissions;
 
     /**
-     * Class Constructor
+     * Backend_api constructor.
      */
     public function __construct()
     {
@@ -42,18 +38,22 @@ class Backend_api extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('roles_model');
         $this->load->model('secretaries_model');
+        $this->load->model('service_categories_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
-        $this->load->model('user_model');
+        $this->load->model('users_model');
+
         $this->load->library('google_sync');
         $this->load->library('ics_file');
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
 
-        if ($this->session->userdata('role_slug'))
+        $role_slug = session('role_slug');
+
+        if ($role_slug)
         {
-            $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
+            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
         }
     }
 
@@ -66,16 +66,17 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $start_date = $this->input->post('startDate') . ' 00:00:00';
-            $end_date = $this->input->post('endDate') . ' 23:59:59';
+            $start_date = request('startDate') . ' 00:00:00';
+
+            $end_date = request('endDate') . ' 23:59:59';
 
             $response = [
-                'appointments' => $this->appointments_model->get_batch([
+                'appointments' => $this->appointments_model->get([
                     'is_unavailable' => FALSE,
                     'start_datetime >=' => $start_date,
                     'end_datetime <=' => $end_date
                 ]),
-                'unavailability_events' => $this->appointments_model->get_batch([
+                'unavailability_events' => $this->appointments_model->get([
                     'is_unavailable' => TRUE,
                     'start_datetime >=' => $start_date,
                     'end_datetime <=' => $end_date
@@ -84,14 +85,16 @@ class Backend_api extends EA_Controller {
 
             foreach ($response['appointments'] as &$appointment)
             {
-                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
-                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
+                $appointment['service'] = $this->services_model->find($appointment['id_services']);
+                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
-            unset ($appointment);
 
-            $user_id = $this->session->userdata('user_id');
-            $role_slug = $this->session->userdata('role_slug');
+            unset($appointment);
+
+            $user_id = session('user_id');
+
+            $role_slug = session('role_slug');
 
             // If the current user is a provider he must only see his own appointments.
             if ($role_slug === DB_SLUG_PROVIDER)
@@ -116,7 +119,8 @@ class Backend_api extends EA_Controller {
             // If the current user is a secretary he must only see the appointments of his providers.
             if ($role_slug === DB_SLUG_SECRETARY)
             {
-                $providers = $this->secretaries_model->get_row($user_id)['providers'];
+                $providers = $this->secretaries_model->find($user_id)['providers'];
+
                 foreach ($response['appointments'] as $index => $appointment)
                 {
                     if ( ! in_array((int)$appointment['id_users_provider'], $providers))
@@ -134,47 +138,42 @@ class Backend_api extends EA_Controller {
                 }
             }
 
-            $this->output->set_output(json_encode($response));
+            json_response($response);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
      * Get the registered appointments for the given date period and record.
      *
-     * This method returns the database appointments and unavailable periods for the
-     * user selected date period and record type (provider or service).
+     * This method returns the database appointments and unavailable periods for the user selected date period and
+     * record type (provider or service).
      */
     public function ajax_get_calendar_appointments()
     {
         try
         {
-            if ($this->privileges[PRIV_APPOINTMENTS]['view'] == FALSE)
+            if ($this->permissions[PRIV_APPOINTMENTS]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            if ( ! $this->input->post('filter_type'))
+            $filter_type = request('filter_type');
+
+            if ( ! $filter_type)
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['appointments' => []]));
+                json_response([
+                    'appointments' => [],
+                    'unavailables' => []
+                ]);
+
                 return;
             }
 
-            if ($this->input->post('filter_type') == FILTER_TYPE_PROVIDER)
+            if ($filter_type == FILTER_TYPE_PROVIDER)
             {
                 $where_id = 'id_users_provider';
             }
@@ -184,9 +183,9 @@ class Backend_api extends EA_Controller {
             }
 
             // Get appointments
-            $record_id = $this->db->escape($this->input->post('record_id'));
-            $start_date = $this->db->escape($this->input->post('start_date'));
-            $end_date = $this->db->escape(date('Y-m-d', strtotime($this->input->post('end_date') . ' +1 day')));
+            $record_id = $this->db->escape(request('record_id'));
+            $start_date = $this->db->escape(request('start_date'));
+            $end_date = $this->db->escape(date('Y-m-d', strtotime(request('end_date') . ' +1 day')));
 
             $where_clause = $where_id . ' = ' . $record_id . '
                 AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
@@ -195,19 +194,19 @@ class Backend_api extends EA_Controller {
                 AND is_unavailable = 0
             ';
 
-            $response['appointments'] = $this->appointments_model->get_batch($where_clause);
+            $response['appointments'] = $this->appointments_model->get($where_clause);
 
             foreach ($response['appointments'] as &$appointment)
             {
-                $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
-                $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
+                $appointment['service'] = $this->services_model->find($appointment['id_services']);
+                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
 
             // Get unavailable periods (only for provider).
             $response['unavailables'] = [];
 
-            if ($this->input->post('filter_type') == FILTER_TYPE_PROVIDER)
+            if ($filter_type == FILTER_TYPE_PROVIDER)
             {
                 $where_clause = $where_id . ' = ' . $record_id . '
                     AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
@@ -216,31 +215,20 @@ class Backend_api extends EA_Controller {
                     AND is_unavailable = 1
                 ';
 
-                $response['unavailables'] = $this->appointments_model->get_batch($where_clause);
+                $response['unavailables'] = $this->appointments_model->get($where_clause);
             }
 
             foreach ($response['unavailables'] as &$unavailable)
             {
-                $unavailable['provider'] = $this->providers_model->get_row($unavailable['id_users_provider']);
+                $unavailable['provider'] = $this->providers_model->find($unavailable['id_users_provider']);
             }
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($response));
+            json_response($response);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -251,77 +239,82 @@ class Backend_api extends EA_Controller {
         try
         {
             // Save customer changes to the database.
-            if ($this->input->post('customer_data'))
-            {
-                $customer = json_decode($this->input->post('customer_data'), TRUE);
+            $customer_data = request('customer_data');
 
-                $required_privileges = ( ! isset($customer['id']))
-                    ? $this->privileges[PRIV_CUSTOMERS]['add']
-                    : $this->privileges[PRIV_CUSTOMERS]['edit'];
-                if ($required_privileges == FALSE)
+            if ($customer_data)
+            {
+                $customer = json_decode($customer_data, TRUE);
+
+                $required_permissions = ( ! isset($customer['id']))
+                    ? $this->permissions[PRIV_CUSTOMERS]['add']
+                    : $this->permissions[PRIV_CUSTOMERS]['edit'];
+
+                if ($required_permissions == FALSE)
                 {
-                    throw new Exception('You do not have the required privileges for this task.');
+                    throw new Exception('You do not have the required permissions for this task.');
                 }
 
-                $customer['id'] = $this->customers_model->add($customer);
+                $customer['id'] = $this->customers_model->save($customer);
             }
 
             // Save appointment changes to the database.
-            if ($this->input->post('appointment_data'))
-            {
-                $appointment = json_decode($this->input->post('appointment_data'), TRUE);
+            $appointment_data = request('appointment_data');
 
-                $required_privileges = ( ! isset($appointment['id']))
-                    ? $this->privileges[PRIV_APPOINTMENTS]['add']
-                    : $this->privileges[PRIV_APPOINTMENTS]['edit'];
-                if ($required_privileges == FALSE)
+            $manage_mode = ! empty($appointment_data['id']);
+
+            if ($appointment_data)
+            {
+                $appointment = json_decode($appointment_data, TRUE);
+
+                $required_permissions = ( ! isset($appointment['id']))
+                    ? $this->permissions[PRIV_APPOINTMENTS]['add']
+                    : $this->permissions[PRIV_APPOINTMENTS]['edit'];
+
+                if ($required_permissions == FALSE)
                 {
-                    throw new Exception('You do not have the required privileges for this task.');
+                    throw new Exception('You do not have the required permissions for this task.');
                 }
 
-                $manage_mode = isset($appointment['id']);
-
-                // If the appointment does not contain the customer record id, then it means that is is going to be
-                // inserted. Get the customer's record ID.
+                // If the appointment does not contain the customer record id, then it means that is going to be
+                // inserted. 
                 if ( ! isset($appointment['id_users_customer']))
                 {
-                    $appointment['id_users_customer'] = $customer['id'];
+                    $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
                 }
 
-                $appointment['id'] = $this->appointments_model->add($appointment);
+                $appointment['id'] = $this->appointments_model->save($appointment);
             }
 
-            $appointment = $this->appointments_model->get_row($appointment['id']);
-            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
-            $service = $this->services_model->get_row($appointment['id_services']);
+            if (empty($appointment['id']))
+            {
+                throw new RuntimeException('The appointment ID is not available.');
+            }
+
+            $appointment = $this->appointments_model->find($appointment['id']);
+            $provider = $this->providers_model->find($appointment['id_users_provider']);
+            $customer = $this->customers_model->find($appointment['id_users_customer']);
+            $service = $this->services_model->find($appointment['id_services']);
 
             $settings = [
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'company_email' => $this->settings_model->get_setting('company_email'),
-                'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'company_name' => setting('company_name'),
+                'company_link' => setting('company_link'),
+                'company_email' => setting('company_email'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format')
             ];
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
+
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
-            $response = AJAX_SUCCESS;
+            json_response([
+                'success' => TRUE,
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -335,118 +328,106 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_APPOINTMENTS]['delete'] == FALSE)
+            if (cannot('delete', 'appointments'))
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            if ( ! $this->input->post('appointment_id'))
+            $appointment_id = request('appointment_id');
+
+            if (empty($appointment_id))
             {
                 throw new Exception('No appointment id provided.');
             }
 
             // Store appointment data for later use in this method.
-            $appointment = $this->appointments_model->get_row($this->input->post('appointment_id'));
-            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
-            $service = $this->services_model->get_row($appointment['id_services']);
+            $appointment = $this->appointments_model->find($appointment_id);
+            $provider = $this->providers_model->find($appointment['id_users_provider']);
+            $customer = $this->customers_model->find($appointment['id_users_customer']);
+            $service = $this->services_model->find($appointment['id_services']);
 
             $settings = [
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'company_name' => setting('company_name'),
+                'company_email' => setting('company_email'),
+                'company_link' => setting('company_link'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format')
             ];
 
             // Delete appointment record from the database.
-            $this->appointments_model->delete($this->input->post('appointment_id'));
+            $this->appointments_model->delete($appointment_id);
 
             $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 
-            if (empty($warnings))
-            {
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = ['warnings' => $warnings];
-            }
+            json_response([
+                'success' => TRUE,
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
      * Disable a providers sync setting.
      *
-     * This method deletes the "google_sync" and "google_token" settings from the database. After that the provider's
-     * appointments will be no longer synced with google calendar.
+     * This method deletes the "google_sync" and "google_token" settings from the database.
+     *
+     * After that the provider's appointments will be no longer synced with Google Calendar.
      */
     public function ajax_disable_provider_sync()
     {
         try
         {
-            if ( ! $this->input->post('provider_id'))
+            $provider_id = request('provider_id');
+
+            if ( ! $provider_id)
             {
                 throw new Exception('Provider id not specified.');
             }
 
-            if ($this->privileges[PRIV_USERS]['edit'] == FALSE
-                && $this->session->userdata('user_id') != $this->input->post('provider_id'))
+            $user_id = session('user_id');
+
+            if (
+                $this->permissions[PRIV_USERS]['edit'] === FALSE
+                && (int)$user_id !== (int)$provider_id)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $this->providers_model->set_setting('google_sync', FALSE, $this->input->post('provider_id'));
-            $this->providers_model->set_setting('google_token', NULL, $this->input->post('provider_id'));
-            $this->appointments_model->clear_google_sync_ids($this->input->post('provider_id'));
+            $this->providers_model->set_setting($provider_id, 'google_sync', FALSE);
 
-            $response = AJAX_SUCCESS;
+            $this->providers_model->set_setting($provider_id, 'google_token', NULL);
+
+            $this->appointments_model->clear_google_sync_ids($provider_id);
+
+            json_response([
+                'success' => TRUE,
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
      * Filter the customer records with the given key string.
-     *
-     * Outputs the search results.
      */
     public function ajax_filter_customers()
     {
         try
         {
-            if ($this->privileges[PRIV_CUSTOMERS]['view'] == FALSE)
+            if ($this->permissions[PRIV_CUSTOMERS]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $key = $this->db->escape_str($this->input->post('key'));
+            $key = $this->db->escape_str(request('key'));
+
             $key = strtoupper($key);
 
             $where =
@@ -461,43 +442,36 @@ class Backend_api extends EA_Controller {
 
             $order_by = 'first_name ASC, last_name ASC';
 
-            $limit = $this->input->post('limit');
+            $limit = request('limit');
 
             if ($limit === NULL)
             {
                 $limit = 1000;
             }
 
-            $customers = $this->customers_model->get_batch($where, $limit, NULL, $order_by);
+            $customers = $this->customers_model->get($where, $limit, NULL, $order_by);
 
             foreach ($customers as &$customer)
             {
-                $appointments = $this->appointments_model->get_batch(['id_users_customer' => $customer['id']]);
+                $appointments = $this->appointments_model->get(['id_users_customer' => $customer['id']]);
 
                 foreach ($appointments as &$appointment)
                 {
-                    $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
-                    $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
+                    $this->appointments_model->attach($appointment, [
+                        'service',
+                        'provider',
+                    ]);
                 }
 
                 $customer['appointments'] = $appointments;
             }
 
-            $response = $customers;
+            json_response($customers);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -508,32 +482,31 @@ class Backend_api extends EA_Controller {
         try
         {
             // Check privileges
-            $unavailable = json_decode($this->input->post('unavailable'), TRUE);
+            $unavailable = json_decode(request('unavailable'), TRUE);
 
-            $required_privileges = ( ! isset($unavailable['id']))
-                ? $this->privileges[PRIV_APPOINTMENTS]['add']
-                : $this->privileges[PRIV_APPOINTMENTS]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($unavailable['id']))
+                ? $this->permissions[PRIV_APPOINTMENTS]['add']
+                : $this->permissions[PRIV_APPOINTMENTS]['edit'];
+
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
+            $provider = $this->providers_model->find($unavailable['id_users_provider']);
 
             // Add appointment
             $unavailable['id'] = $this->appointments_model->add_unavailable($unavailable);
-            $unavailable = $this->appointments_model->get_row($unavailable['id']); // fetch all inserted data
+            $unavailable = $this->appointments_model->find($unavailable['id']); // fetch all inserted data
 
             // Google Sync
             try
             {
-                $google_sync = $this->providers_model->get_setting('google_sync',
-                    $unavailable['id_users_provider']);
+                $google_sync = $this->providers_model->get_setting($unavailable['id_users_provider'], 'google_sync');
 
                 if ($google_sync)
                 {
-                    $google_token = json_decode($this->providers_model->get_setting('google_token',
-                        $unavailable['id_users_provider']));
+                    $google_token = json_decode($this->providers_model->get_setting($unavailable['id_users_provider'], 'google_token'));
 
                     $this->google_sync->refresh_token($google_token->refresh_token);
 
@@ -549,39 +522,20 @@ class Backend_api extends EA_Controller {
                     }
                 }
             }
-            catch (Exception $exception)
+            catch (Throwable $e)
             {
-                $warnings[] = $exception;
+                $warnings[] = $e;
             }
 
-            if (isset($warnings))
-            {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(['warnings' => $warnings]));
-            }
-            else
-            {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode(AJAX_SUCCESS));
-            }
-
-            $response = AJAX_SUCCESS;
+            json_response([
+                'success' => TRUE,
+                'warnings' => $warnings ?? []
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -591,55 +545,47 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_APPOINTMENTS]['delete'] == FALSE)
+            if ($this->permissions[PRIV_APPOINTMENTS]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $unavailable = $this->appointments_model->get_row($this->input->post('unavailable_id'));
-            $provider = $this->providers_model->get_row($unavailable['id_users_provider']);
+            $unavailable_id = request('unavailable_id');
 
-            // Delete unavailable
+            $unavailable = $this->appointments_model->find($unavailable_id);
+
+            $provider = $this->providers_model->find($unavailable['id_users_provider']);
+
             $this->appointments_model->delete_unavailable($unavailable['id']);
 
             // Google Sync
             try
             {
-                $google_sync = $this->providers_model->get_setting('google_sync', $provider['id']);
+                $google_sync = $this->providers_model->get_setting($provider['id'], 'google_sync');
+
                 if ($google_sync == TRUE)
                 {
-                    $google_token = json_decode($this->providers_model->get_setting('google_token', $provider['id']));
+                    $google_token = json_decode($this->providers_model->get_setting($provider['id'], 'google_token'));
+
                     $this->google_sync->refresh_token($google_token->refresh_token);
+
                     $this->google_sync->delete_unavailable($provider, $unavailable['id_google_calendar']);
                 }
             }
-            catch (Exception $exception)
+            catch (Throwable $e)
             {
-                $warnings[] = $exception;
+                $warnings[] = $e;
             }
 
-            if (empty($warnings))
-            {
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = ['warnings' => $warnings];
-            }
+            json_response([
+                'success' => TRUE,
+                'warnings' => $warnings ?? []
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -649,86 +595,59 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            // Check privileges
-            $required_privileges = $this->privileges[PRIV_USERS]['edit'];
+            $required_permissions = $this->permissions[PRIV_USERS]['edit'];
 
-            if ($required_privileges == FALSE)
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $date = $this->input->post('date');
-            $working_plan_exception = $this->input->post('working_plan_exception');
-            $provider_id = $this->input->post('provider_id');
+            $date = request('date');
 
-            $success = $this->providers_model->save_working_plan_exception($date, $working_plan_exception, $provider_id);
+            $working_plan_exception = request('working_plan_exception');
 
-            if ($success)
-            {
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = ['warnings' => 'Error on saving working plan exception.'];
-            }
+            $provider_id = request('provider_id');
+
+            $this->providers_model->save_working_plan_exception($provider_id, $date, $working_plan_exception);
+
+            json_response([
+                'success' => TRUE,
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
-     * Delete an working plan exceptions time period to database.
+     * Delete a working plan exceptions time period to database.
      */
     public function ajax_delete_working_plan_exception()
     {
         try
         {
-            // Check privileges
-            $required_privileges = $this->privileges[PRIV_USERS]['edit'];
+            $required_permissions = $this->permissions[PRIV_USERS]['edit'];
 
-            if ($required_privileges == FALSE)
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $date = $this->input->post('date');
-            $provider_id = $this->input->post('provider_id');
+            $date = request('date');
 
-            $success = $this->providers_model->delete_working_plan_exception($date, $provider_id);
+            $provider_id = request('provider_id');
 
-            if ($success)
-            {
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = ['warnings' => 'Error on deleting working plan exception.'];
-            }
+            $this->providers_model->delete_working_plan_exception($provider_id, $date);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -738,36 +657,28 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $customer = json_decode($this->input->post('customer'), TRUE);
+            $customer = json_decode(request('customer'), TRUE);
 
-            $required_privileges = ( ! isset($customer['id']))
-                ? $this->privileges[PRIV_CUSTOMERS]['add']
-                : $this->privileges[PRIV_CUSTOMERS]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($customer['id']))
+                ? $this->permissions[PRIV_CUSTOMERS]['add']
+                : $this->permissions[PRIV_CUSTOMERS]['edit'];
+
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $customer_id = $this->customers_model->add($customer);
+            $customer_id = $this->customers_model->save($customer);
 
-            $response = [
-                'status' => AJAX_SUCCESS,
+            json_response([
+                'success' => TRUE,
                 'id' => $customer_id
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -777,28 +688,19 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_CUSTOMERS]['delete'] == FALSE)
+            if ($this->permissions[PRIV_CUSTOMERS]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $this->customers_model->delete($this->input->post('customer_id'));
+            $this->customers_model->delete(request('customer_id'));
 
-            $response = AJAX_SUCCESS;
+            response();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -808,35 +710,28 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $service = json_decode($this->input->post('service'), TRUE);
+            $service = json_decode(request('service'), TRUE);
 
-            $required_privileges = ( ! isset($service['id']))
-                ? $this->privileges[PRIV_SERVICES]['add']
-                : $this->privileges[PRIV_SERVICES]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($service['id']))
+                ? $this->permissions[PRIV_SERVICES]['add']
+                : $this->permissions[PRIV_SERVICES]['edit'];
+
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $service_id = $this->services_model->add($service);
-            $response = [
-                'status' => AJAX_SUCCESS,
+            $service_id = $this->services_model->save($service);
+
+            json_response([
+                'success' => TRUE,
                 'id' => $service_id
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -846,28 +741,23 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_SERVICES]['delete'] == FALSE)
+            if ($this->permissions[PRIV_SERVICES]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $result = $this->services_model->delete($this->input->post('service_id'));
+            $service_id = request('service_id');
 
-            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $this->services_model->delete($service_id);
+
+            json_response([
+                'success' => TRUE,
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -877,33 +767,26 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_SERVICES]['view'] == FALSE)
+            if ($this->permissions[PRIV_SERVICES]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $key = $this->db->escape_str($this->input->post('key'));
+            $key = $this->db->escape_str(request('key'));
 
             $where =
                 '(name LIKE "%' . $key . '%" OR duration LIKE "%' . $key . '%" OR ' .
                 'price LIKE "%' . $key . '%" OR currency LIKE "%' . $key . '%" OR ' .
                 'description LIKE "%' . $key . '%")';
 
-            $response = $this->services_model->get_batch($where);
+            $services = $this->services_model->get($where);
+
+            json_response($services);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -913,36 +796,28 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $category = json_decode($this->input->post('category'), TRUE);
+            $category = json_decode(request('category'), TRUE);
 
-            $required_privileges = ( ! isset($category['id']))
-                ? $this->privileges[PRIV_SERVICES]['add']
-                : $this->privileges[PRIV_SERVICES]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($category['id']))
+                ? $this->permissions[PRIV_SERVICES]['add']
+                : $this->permissions[PRIV_SERVICES]['edit'];
+
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $category_id = $this->services_model->add_category($category);
+            $category_id = $this->service_categories_model->save($category);
 
-            $response = [
-                'status' => AJAX_SUCCESS,
+            json_response([
+                'success' => TRUE,
                 'id' => $category_id
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -952,28 +827,23 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_SERVICES]['delete'] == FALSE)
+            if ($this->permissions[PRIV_SERVICES]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $result = $this->services_model->delete_category($this->input->post('category_id'));
+            $service_category_id = request('category_id');
 
-            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $this->service_categories_model->delete($service_category_id);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -983,30 +853,23 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_SERVICES]['view'] == FALSE)
+            if ($this->permissions[PRIV_SERVICES]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $key = $this->db->escape_str($this->input->post('key'));
+            $key = $this->db->escape_str(request('key'));
 
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
 
-            $response = $this->services_model->get_all_categories($where);
+            $service_categories = $this->service_categories_model->get($where);
+
+            json_response($service_categories);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1016,12 +879,12 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['view'] == FALSE)
+            if ($this->permissions[PRIV_USERS]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $key = $this->db->escape_str($this->input->post('key'));
+            $key = $this->db->escape_str(request('key'));
 
             $where =
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' .
@@ -1030,21 +893,14 @@ class Backend_api extends EA_Controller {
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
 
-            $response = $this->admins_model->get_batch($where);
+            $admins = $this->admins_model->get($where);
+
+            json_response($admins);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1054,36 +910,27 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $admin = json_decode($this->input->post('admin'), TRUE);
+            $admin = json_decode(request('admin'), TRUE);
 
-            $required_privileges = ( ! isset($admin['id']))
-                ? $this->privileges[PRIV_USERS]['add']
-                : $this->privileges[PRIV_USERS]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($admin['id']))
+                ? $this->permissions[PRIV_USERS]['add']
+                : $this->permissions[PRIV_USERS]['edit'];
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $admin_id = $this->admins_model->add($admin);
+            $admin_id = $this->admins_model->save($admin);
 
-            $response = [
-                'status' => AJAX_SUCCESS,
+            json_response([
+                'success' => TRUE,
                 'id' => $admin_id
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1093,28 +940,23 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['delete'] == FALSE)
+            if ($this->permissions[PRIV_USERS]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $result = $this->admins_model->delete($this->input->post('admin_id'));
+            $admin_id = request('admin_id');
 
-            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $this->admins_model->delete($admin_id);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1124,12 +966,12 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['view'] == FALSE)
+            if ($this->permissions[PRIV_USERS]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $key = $this->db->escape_str($this->input->post('key'));
+            $key = $this->db->escape_str(request('key'));
 
             $where =
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' .
@@ -1138,21 +980,14 @@ class Backend_api extends EA_Controller {
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
 
-            $response = $this->providers_model->get_batch($where);
+            $providers = $this->providers_model->get($where);
+
+            json_response($providers);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1162,42 +997,33 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $provider = json_decode($this->input->post('provider'), TRUE);
+            $provider = json_decode(request('provider'), TRUE);
 
-            $required_privileges = ( ! isset($provider['id']))
-                ? $this->privileges[PRIV_USERS]['add']
-                : $this->privileges[PRIV_USERS]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($provider['id']))
+                ? $this->permissions[PRIV_USERS]['add']
+                : $this->permissions[PRIV_USERS]['edit'];
+
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            if ( ! isset($provider['settings']['working_plan']))
+            if (empty($provider['settings']['working_plan']))
             {
-                $provider['settings']['working_plan'] = $this->settings_model
-                    ->get_setting('company_working_plan');
+                $provider['settings']['working_plan'] = setting('company_working_plan');
             }
 
-            $provider_id = $this->providers_model->add($provider);
+            $provider_id = $this->providers_model->save($provider);
 
-            $response = [
-                'status' => AJAX_SUCCESS,
+            json_response([
+                'success' => TRUE,
                 'id' => $provider_id
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1207,28 +1033,23 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['delete'] == FALSE)
+            if ($this->permissions[PRIV_USERS]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $result = $this->providers_model->delete($this->input->post('provider_id'));
+            $provider_id = request('provider_id');
 
-            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $this->providers_model->delete($provider_id);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1238,12 +1059,12 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['view'] == FALSE)
+            if ($this->permissions[PRIV_USERS]['view'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $key = $this->db->escape_str($this->input->post('key'));
+            $key = $this->db->escape_str(request('key'));
 
             $where =
                 '(first_name LIKE "%' . $key . '%" OR last_name LIKE "%' . $key . '%" ' .
@@ -1252,21 +1073,14 @@ class Backend_api extends EA_Controller {
                 'OR city LIKE "%' . $key . '%" OR state LIKE "%' . $key . '%" ' .
                 'OR zip_code LIKE "%' . $key . '%" OR notes LIKE "%' . $key . '%")';
 
-            $response = $this->secretaries_model->get_batch($where);
+            $secretaries = $this->secretaries_model->get($where);
+
+            json_response($secretaries);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1276,36 +1090,27 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            $secretary = json_decode($this->input->post('secretary'), TRUE);
+            $secretary = json_decode(request('secretary'), TRUE);
 
-            $required_privileges = ( ! isset($secretary['id']))
-                ? $this->privileges[PRIV_USERS]['add']
-                : $this->privileges[PRIV_USERS]['edit'];
-            if ($required_privileges == FALSE)
+            $required_permissions = ( ! isset($secretary['id']))
+                ? $this->permissions[PRIV_USERS]['add']
+                : $this->permissions[PRIV_USERS]['edit'];
+            if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $secretary_id = $this->secretaries_model->add($secretary);
+            $secretary_id = $this->secretaries_model->save($secretary);
 
-            $response = [
-                'status' => AJAX_SUCCESS,
+            json_response([
+                'success' => TRUE,
                 'id' => $secretary_id
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1315,28 +1120,23 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['delete'] == FALSE)
+            if ($this->permissions[PRIV_USERS]['delete'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $result = $this->secretaries_model->delete($this->input->post('secretary_id'));
+            $secretary_id = request('secretary_id');
 
-            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $this->secretaries_model->delete($secretary_id);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1346,71 +1146,77 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->input->post('type') == SETTINGS_SYSTEM)
+            $type = request('type');
+
+            if ($type == SETTINGS_SYSTEM)
             {
-                if ($this->privileges[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
+                if ($this->permissions[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
                 {
-                    throw new Exception('You do not have the required privileges for this task.');
+                    throw new Exception('You do not have the required permissions for this task.');
                 }
 
-                $settings = json_decode($this->input->post('settings', FALSE), TRUE);
+                $settings = json_decode(request('settings', FALSE), TRUE);
 
-                //check if phone number settings are valid
-                $phone_number_required = false;
-                $phone_number_shown = false;
+                // Check if phone number settings are valid.
+
+                $phone_number_required = FALSE;
+
+                $phone_number_shown = FALSE;
+
                 foreach ($settings as $setting)
                 {
-                    if ($setting['name'] == "require_phone_number"){
+                    if ($setting['name'] === 'require_phone_number')
+                    {
                         $phone_number_required = $setting['value'];
                     }
 
-                    if ($setting['name'] == "show_phone_number"){
+                    if ($setting['name'] === 'show_phone_number')
+                    {
                         $phone_number_shown = $setting['value'];
                     }
                 }
 
-                if ($phone_number_required && !$phone_number_shown){//we have settings that break the appointments field.
-                    throw new Exception("You cannot hide the phone number in the booking form while it's also required!");
+                if ($phone_number_required && ! $phone_number_shown)
+                {
+                    throw new RuntimeException('You cannot hide the phone number in the booking form while it\'s also required!');
                 }
 
-                $this->settings_model->save_settings($settings);
-            }
-            else
-            {
-                if ($this->input->post('type') == SETTINGS_USER)
+                foreach ($settings as $setting)
                 {
-                    if ($this->privileges[PRIV_USER_SETTINGS]['edit'] == FALSE)
+                    $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
+
+                    if ( ! empty($existing_setting))
                     {
-                        throw new Exception('You do not have the required privileges for this task.');
+                        $setting['id'] = $existing_setting['id'];
                     }
 
-                    $settings = json_decode($this->input->post('settings'), TRUE);
-
-                    $this->user_model->save_user($settings);
-
-                    $this->session->set_userdata([
-                        'user_email' => $settings['email'],
-                        'username' => $settings['settings']['username'],
-                        'timezone' => $settings['timezone'],
-                    ]);
+                    $this->settings_model->save($setting);
                 }
             }
+            else if ($type == SETTINGS_USER)
+            {
+                if ($this->permissions[PRIV_USER_SETTINGS]['edit'] == FALSE)
+                {
+                    throw new Exception('You do not have the required permissions for this task.');
+                }
 
-            $response = AJAX_SUCCESS;
+                $settings = json_decode(request('settings'), TRUE);
+
+                $this->users_model->save($settings);
+
+                session([
+                    'user_email' => $settings['email'],
+                    'username' => $settings['settings']['username'],
+                    'timezone' => $settings['timezone'],
+                ]);
+            }
+
+            response();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1422,24 +1228,21 @@ class Backend_api extends EA_Controller {
         {
             // We will only use the function in the admins_model because it is sufficient for the rest user types for
             // now (providers, secretaries).
-            $is_valid = $this->admins_model->validate_username($this->input->post('username'),
-                $this->input->post('user_id'));
 
-            $response = $is_valid;
+            $username = request('username');
+
+            $user_id = request('user_id');
+
+            $is_valid = $this->admins_model->validate_username($username, $user_id);
+
+            json_response([
+                'is_valid' => $is_valid,
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1456,7 +1259,7 @@ class Backend_api extends EA_Controller {
 
             foreach (config('available_languages') as $lang)
             {
-                if ($lang == $this->input->post('language'))
+                if ($lang == request('language'))
                 {
                     $found = TRUE;
                     break;
@@ -1465,31 +1268,27 @@ class Backend_api extends EA_Controller {
 
             if ( ! $found)
             {
-                throw new Exception('Translations for the given language does not exist (' . $this->input->post('language') . ').');
+                throw new Exception('Translations for the given language does not exist (' . request('language') . ').');
             }
 
-            $this->session->set_userdata('language', $this->input->post('language'));
-            $this->config->set_item('language', $this->input->post('language'));
+            $language = request('language');
 
-            $response = AJAX_SUCCESS;
+            session(['language' => $language]);
+
+            config(['language' => $language]);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
-     * This method will return a list of the available google calendars.
+     * This method will return a list of the available Google Calendars.
      *
      * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
      * be already granted for the specific provider.
@@ -1498,42 +1297,37 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ( ! $this->input->post('provider_id'))
+            if ( ! request('provider_id'))
             {
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
             }
 
             // Check if selected provider has sync enabled.
-            $google_sync = $this->providers_model->get_setting('google_sync', $this->input->post('provider_id'));
+            $provider_id = request('provider_id');
 
-            if ($google_sync)
+            $google_sync = $this->providers_model->get_setting($provider_id, 'google_sync');
+
+            if ( ! $google_sync)
             {
-                $google_token = json_decode($this->providers_model->get_setting('google_token',
-                    $this->input->post('provider_id')));
-                $this->google_sync->refresh_token($google_token->refresh_token);
+                json_response([
+                    'success' => FALSE
+                ]);
 
-                $calendars = $this->google_sync->get_google_calendars();
+                return;
+            }
 
-                $response = $calendars;
-            }
-            else
-            {
-                $response = AJAX_FAILURE;
-            }
+            $google_token = json_decode($this->providers_model->get_setting($provider_id, 'google_token'));
+
+            $this->google_sync->refresh_token($google_token->refresh_token);
+
+            $calendars = $this->google_sync->get_google_calendars();
+
+            json_response($calendars);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1545,30 +1339,27 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_USERS]['edit'] == FALSE
-                && $this->session->userdata('user_id') != $this->input->post('provider_id'))
+            $provider_id = request('provider_id');
+
+            $user_id = session('user_id');
+
+            if ($this->permissions[PRIV_USERS]['edit'] == FALSE && (int)$user_id !== (int)$provider_id)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $result = $this->providers_model->set_setting('google_calendar', $this->input->post('calendar_id'),
-                $this->input->post('provider_id'));
+            $calendar_id = request('calendar_id');
 
-            $response = $result ? AJAX_SUCCESS : AJAX_FAILURE;
+            $this->providers_model->set_setting($provider_id, 'google_calendar', $calendar_id);
+
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -1578,34 +1369,25 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ($this->privileges[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
+            if ($this->permissions[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
             {
-                throw new Exception('You do not have the required privileges for this task.');
+                throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $working_plan = $this->input->post('working_plan');
+            $working_plan = request('working_plan');
 
-            $providers = $this->providers_model->get_batch();
+            $providers = $this->providers_model->get();
 
             foreach ($providers as $provider)
             {
-                $this->providers_model->set_setting('working_plan', $working_plan, $provider['id']);
+                $this->providers_model->set_setting($provider['id'], 'working_plan', $working_plan);
             }
 
-            $response = AJAX_SUCCESS;
+            response();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

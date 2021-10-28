@@ -12,7 +12,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Privacy
+ * Privacy controller
+ *
+ * Handles the privacy related operations.
  *
  * @package Controllers
  */
@@ -23,18 +25,20 @@ class Privacy extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->driver('cache', ['adapter' => 'file']);
+
         $this->load->model('customers_model');
     }
 
     /**
-     * Remove all customer data (including appointments from the system).
+     * Remove all customer data (including appointments) from the system.
      */
     public function ajax_delete_personal_information()
     {
         try
         {
-            $customer_token = $this->input->post('customer_token');
+            $customer_token = request('customer_token');
 
             if (empty($customer_token))
             {
@@ -45,28 +49,19 @@ class Privacy extends EA_Controller {
 
             if (empty($customer_id))
             {
-                throw new InvalidArgumentException('Customer ID could not be found, please reload the page '
+                throw new InvalidArgumentException('Customer ID does not exist, please reload the page '
                     . 'and try again.');
             }
 
             $this->customers_model->delete($customer_id);
 
-            $response = [
+            json_response([
                 'success' => TRUE
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

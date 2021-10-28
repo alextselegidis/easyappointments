@@ -11,8 +11,12 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use Gregwar\Captcha\CaptchaBuilder;
+
 /**
- * Captcha Controller
+ * Captcha controller
+ * 
+ * Handles the captcha operations.
  *
  * @package Controllers
  */
@@ -22,10 +26,10 @@ class Captcha extends EA_Controller {
      */
     public function index()
     {
-        header('Content-type: image/jpeg');
-        $builder = new Gregwar\Captcha\CaptchaBuilder;
+        $builder = new CaptchaBuilder;
         $builder->build();
-        $this->session->set_userdata('captcha_phrase', $builder->getPhrase());
+        session(['captcha_phrase' => $builder->getPhrase()]);
+        header('Content-type: image/jpeg');
         $builder->output();
     }
 }

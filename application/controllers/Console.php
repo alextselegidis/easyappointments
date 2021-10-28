@@ -14,9 +14,9 @@
 require_once __DIR__ . '/Google.php';
 
 /**
- * Class Console
+ * Console controller
  *
- * CLI commands of Easy!Appointments, can only be executed from a terminal and not with a direct request.
+ * Handles all the Console related operations.
  */
 class Console extends EA_Controller {
     /**
@@ -32,8 +32,9 @@ class Console extends EA_Controller {
         parent::__construct();
 
         $this->load->dbutil();
-        $this->load->helper('file');
+
         $this->load->library('migration');
+
         $this->load->model('admins_model');
         $this->load->model('customers_model');
         $this->load->model('providers_model');
@@ -53,8 +54,10 @@ class Console extends EA_Controller {
     public function install()
     {
         $this->migrate('fresh');
+
         $this->seed();
-        $this->output->set_output(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
+
+        response(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
     }
 
     /**
@@ -75,9 +78,9 @@ class Console extends EA_Controller {
      *
      * @param string $type
      */
-    public function migrate($type = '')
+    public function migrate(string $type = '')
     {
-        if ($type === 'fresh' && $this->migration->version(0) === FALSE)
+        if ($type === 'fresh' && ! $this->migration->version(0))
         {
             show_error($this->migration->error_string());
         }
@@ -100,12 +103,14 @@ class Console extends EA_Controller {
     public function seed()
     {
         // Settings
-        $this->settings_model->set_setting('company_name', 'Company Name');
-        $this->settings_model->set_setting('company_email', 'info@example.org');
-        $this->settings_model->set_setting('company_link', 'https://example.org');
+        setting([
+            'company_name' => 'Company Name',
+            'company_email' => 'info@example.org',
+            'company_link' => 'https://example.org',
+        ]);
 
         // Admin
-        $this->admins_model->add([
+        $this->admins_model->save([
             'first_name' => 'John',
             'last_name' => 'Doe',
             'email' => 'john@example.org',
@@ -119,7 +124,7 @@ class Console extends EA_Controller {
         ]);
 
         // Service
-        $service_id = $this->services_model->add([
+        $service_id = $this->services_model->save([
             'name' => 'Service',
             'duration' => '30',
             'price' => '0',
@@ -129,7 +134,7 @@ class Console extends EA_Controller {
         ]);
 
         // Provider
-        $this->providers_model->add([
+        $this->providers_model->save([
             'first_name' => 'Jane',
             'last_name' => 'Doe',
             'email' => 'jane@example.org',
@@ -140,7 +145,7 @@ class Console extends EA_Controller {
             'settings' => [
                 'username' => 'janedoe',
                 'password' => 'janedoe',
-                'working_plan' => $this->settings_model->get_setting('company_working_plan'),
+                'working_plan' => setting('company_working_plan'),
                 'notifications' => TRUE,
                 'google_sync' => FALSE,
                 'sync_past_days' => 30,
@@ -150,7 +155,7 @@ class Console extends EA_Controller {
         ]);
 
         // Customer
-        $this->customers_model->add([
+        $this->customers_model->save([
             'first_name' => 'James',
             'last_name' => 'Doe',
             'email' => 'james@example.org',
@@ -161,7 +166,7 @@ class Console extends EA_Controller {
     /**
      * Create a backup file.
      *
-     * Use this method to backup your Easy!Appointments data.
+     * Use this method to back up your Easy!Appointments data.
      *
      * Usage:
      *
@@ -173,11 +178,11 @@ class Console extends EA_Controller {
      */
     public function backup()
     {
-        $path = isset($GLOBALS['argv'][3]) ? $GLOBALS['argv'][3] : APPPATH . '/../storage/backups';
+        $path = $GLOBALS['argv'][3] ?? APPPATH . '/../storage/backups';
 
         if ( ! file_exists($path))
         {
-            throw new Exception('The backup path does not exist™: ' . $path);
+            throw new Exception('The backup path does not exist: ' . $path);
         }
 
         if ( ! is_writable($path))
@@ -207,7 +212,7 @@ class Console extends EA_Controller {
      */
     public function sync()
     {
-        $providers = $this->providers_model->get_batch();
+        $providers = $this->providers_model->get();
 
         foreach ($providers as $provider)
         {
@@ -252,6 +257,6 @@ class Console extends EA_Controller {
             '',
         ];
 
-        $this->output->set_output(implode(PHP_EOL, $help));
+        response(implode(PHP_EOL, $help));
     }
 }
