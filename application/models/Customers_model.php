@@ -255,11 +255,11 @@ class Customers_model extends EA_Model {
      */
     public function get_customer_role_id(): int
     {
-        $role = $this->db->get_where('roles', ['slug' => DB_SLUG_ADMIN])->row_array();
+        $role = $this->db->get_where('roles', ['slug' => DB_SLUG_CUSTOMER])->row_array();
 
         if (empty($role))
         {
-            throw new RuntimeException('The admin role was not found in the database.');
+            throw new RuntimeException('The customer role was not found in the database.');
         }
 
         return $role['id'];
