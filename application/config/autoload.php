@@ -70,7 +70,7 @@ $autoload['helper'] = [
     'config',
     'debug',
     'env',
-    'file', 
+    'file',
     'google_analytics',
     'http',
     'installation',
@@ -81,8 +81,9 @@ $autoload['helper'] = [
     'render',
     'session',
     'setting',
-    'url', 
-    'validation',
+    'string',
+    'url',
+    'validation'
 ];
 
 
@@ -100,7 +101,7 @@ $autoload['helper'] = [
 */
 
 $autoload['config'] = [
-    'google', 
+    'google',
     'email'
 ];
 
