@@ -12,9 +12,11 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Synchronization
+ * Synchronization library
  *
- * Handles the external calendar synchronization.
+ * Handles external calendar synchronization functionality.
+ *
+ * @package Libraries
  */
 class Synchronization {
     /**
@@ -28,8 +30,10 @@ class Synchronization {
     public function __construct()
     {
         $this->CI =& get_instance();
+
         $this->CI->load->model('providers_model');
         $this->CI->load->model('appointments_model');
+
         $this->CI->load->library('google_sync');
     }
 
@@ -43,19 +47,19 @@ class Synchronization {
      * @param array $settings Required settings for the notification content.
      * @param bool|false $manage_mode True if the appointment is being edited.
      */
-    public function sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode = FALSE)
+    public function sync_appointment_saved(array $appointment, array $service, array $provider, array $customer, array $settings, bool $manage_mode = FALSE)
     {
         try
         {
             $google_sync = filter_var(
-                $this->CI->providers_model->get_setting('google_sync', $appointment['id_users_provider']),
+                $this->CI->providers_model->get_setting($appointment['id_users_provider'], 'google_sync'),
                 FILTER_VALIDATE_BOOLEAN
             );
 
             if ($google_sync === TRUE)
             {
                 $google_token = json_decode(
-                    $this->CI->providers_model->get_setting('google_token', $appointment['id_users_provider']));
+                    $this->CI->providers_model->get_setting($appointment['id_users_provider'], 'google_token'));
 
                 $this->CI->load->library('google_sync');
 
@@ -72,8 +76,7 @@ class Synchronization {
                 else
                 {
                     // Update appointment to Google Calendar.
-                    $appointment['id_google_calendar'] = $this->CI->appointments_model
-                        ->get_value('id_google_calendar', $appointment['id']);
+                    $appointment['id_google_calendar'] = $this->CI->appointments_model->value($appointment['id'], 'id_google_calendar');
 
                     $this->CI->google_sync->update_appointment($appointment, $provider,
                         $service, $customer, $settings);
@@ -90,22 +93,23 @@ class Synchronization {
     /**
      * Synchronize removal of an appointment with external calendars.
      *
-     * @param array $appointment Appointment record.
-     * @param array $provider Provider record.
+     * @param array $appointment Appointment data.
+     * @param array $provider Provider data.
      */
-    public function sync_appointment_deleted($appointment, $provider)
+    public function sync_appointment_deleted(array $appointment, array $provider)
     {
-        if ($appointment['id_google_calendar'] != NULL)
+        if ( ! empty($appointment['id_google_calendar']))
         {
             try
             {
                 $google_sync = filter_var(
-                    $this->CI->providers_model->get_setting('google_sync', $appointment['id_users_provider']),
-                    FILTER_VALIDATE_BOOLEAN);
+                    $this->CI->providers_model->get_setting($appointment['id_users_provider'], 'google_sync'),
+                    FILTER_VALIDATE_BOOLEAN
+                );
 
                 if ($google_sync === TRUE)
                 {
-                    $google_token = json_decode($this->CI->providers_model->get_setting('google_token', $provider['id']));
+                    $google_token = json_decode($this->CI->providers_model->get_setting($provider['id'], 'google_token'));
                     $this->CI->load->library('Google_sync');
                     $this->CI->google_sync->refresh_token($google_token->refresh_token);
                     $this->CI->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
