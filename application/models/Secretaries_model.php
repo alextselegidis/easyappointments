@@ -80,7 +80,7 @@ class Secretaries_model extends EA_Model {
         }
 
         // Validate secretary providers.
-        if (empty($provider['providers']) || ! is_array($provider['providers']))
+        if (empty($secretary['providers']) || ! is_array($secretary['providers']))
         {
             throw new InvalidArgumentException('The provided secretary providers are invalid: ' . print_r($secretary, TRUE));
         }
@@ -477,7 +477,7 @@ class Secretaries_model extends EA_Model {
     protected function save_provider_ids(int $secretary_id, array $provider_ids)
     {
         // Re-insert the secretary-provider connections. 
-        $this->db->delete('secretary_providers', ['id_users_secretary' => $secretary_id]);
+        $this->db->delete('secretaries_providers', ['id_users_secretary' => $secretary_id]);
 
         foreach ($provider_ids as $provider_id)
         {
