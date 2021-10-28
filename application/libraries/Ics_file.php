@@ -23,35 +23,38 @@ use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Utility\Formatter;
 
 /**
- * Class Ics_file
+ * Ics file library
  *
- * An ICS file is a calendar file saved in a universal calendar format used by several email and calendar programs,
+ * Handle ICS related functionality.
+ *
+ * An ICS file is a calendar file saved in a universal calendar format used by many email and calendar programs,
  * including Microsoft Outlook, Google Calendar, and Apple Calendar.
- *
- * Depends on the Jsvrcek\ICS composer package.
+ * 
+ * @package Libraries
  */
 class Ics_file {
     /**
      * Get the ICS file contents for the provided arguments.
      *
-     * @param array $appointment Appointment.
-     * @param array $service Service.
-     * @param array $provider Provider.
-     * @param array $customer Customer.
+     * @param array $appointment Appointment data.
+     * @param array $service Service data.
+     * @param array $provider Provider data.
+     * @param array $customer Customer data.
      *
      * @return string Returns the contents of the ICS file.
      *
      * @throws CalendarEventException
      * @throws Exception
      */
-    public function get_stream($appointment, $service, $provider, $customer)
+    public function get_stream(array $appointment, array $service, array $provider, array $customer): string
     {
-        $appointment_timezone =  new DateTimeZone($provider['timezone']);
+        $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
+
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-        // Setup the event.
+        // Set up the event.
         $event = new CalendarEvent();
 
         $event
@@ -61,7 +64,7 @@ class Ics_file {
             ->setSummary($service['name'])
             ->setUid($appointment['id']);
 
-        if (!empty($service['location']))
+        if ( ! empty($service['location']))
         {
             $location = new Location();
             $location->setName((string)$service['location']);
@@ -73,7 +76,7 @@ class Ics_file {
             lang('provider'),
             '',
             lang('name') . ': ' . $provider['first_name'] . ' ' . $provider['last_name'],
-            lang('email') .': ' . $provider['email'],
+            lang('email') . ': ' . $provider['email'],
             lang('phone_number') . ': ' . $provider['phone_number'],
             lang('address') . ': ' . $provider['address'],
             lang('city') . ': ' . $provider['city'],
@@ -82,8 +85,8 @@ class Ics_file {
             lang('customer'),
             '',
             lang('name') . ': ' . $customer['first_name'] . ' ' . $customer['last_name'],
-            lang('email') .': ' . $customer['email'],
-            lang('phone_number') . ': ' . $customer['phone_number'],
+            lang('email') . ': ' . $customer['email'],
+            lang('phone_number') . ': ' . ($customer['phone_number'] ?? '-'),
             lang('address') . ': ' . $customer['address'],
             lang('city') . ': ' . $customer['city'],
             lang('zip_code') . ': ' . $customer['zip_code'],
