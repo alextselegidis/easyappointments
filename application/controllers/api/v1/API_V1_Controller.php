@@ -41,7 +41,7 @@ class API_V1_Controller extends EA_Controller {
 
             $this->load->model('settings_model');
 
-            $api_token = $this->settings_model->get_setting('api_token');
+            $api_token = setting('api_token');
 
             $authorization = new Authorization($this);
 
@@ -60,7 +60,7 @@ class API_V1_Controller extends EA_Controller {
             $password = new NonEmptyText($_SERVER['PHP_AUTH_PW']);
             $authorization->basic($username, $password);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
             exit;
@@ -147,7 +147,7 @@ class API_V1_Controller extends EA_Controller {
     {
         $error = [
             'code' => $exception->getCode() ?: 500,
-            'message' => $exception->getMessage(),
+            'message' => $e->getMessage(),
         ];
 
         $header = $exception instanceof \EA\Engine\Api\V1\Exception

@@ -51,7 +51,7 @@ class Providers extends API_V1_Controller {
         {
             $conditions = $id !== NULL ? ['id' => $id] : NULL;
 
-            $providers = $this->providers_model->get_batch($conditions);
+            $providers = $this->providers_model->get($conditions);
 
             if ($id !== NULL && count($providers) === 0)
             {
@@ -69,7 +69,7 @@ class Providers extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -104,18 +104,18 @@ class Providers extends API_V1_Controller {
 
             if ( ! array_key_exists('working_plan', $provider['settings']))
             {
-                $provider['settings']['working_plan'] = $this->settings_model->get_setting('company_working_plan');
+                $provider['settings']['working_plan'] = setting('company_working_plan');
             }
 
-            $id = $this->providers_model->add($provider);
+            $id = $this->providers_model->save($provider);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->providers_model->get_batch(['id' => $id]);
+            $batch = $this->providers_model->get(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -131,7 +131,7 @@ class Providers extends API_V1_Controller {
         try
         {
             // Update the provider record.
-            $batch = $this->providers_model->get_batch(['id' => $id]);
+            $batch = $this->providers_model->get(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -143,14 +143,14 @@ class Providers extends API_V1_Controller {
             $base_provider = $batch[0];
             $this->parser->decode($updated_provider, $base_provider);
             $updated_provider['id'] = $id;
-            $id = $this->providers_model->add($updated_provider);
+            $id = $this->providers_model->save($updated_provider);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->providers_model->get_batch(['id' => $id]);
+            $batch = $this->providers_model->get(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -174,7 +174,7 @@ class Providers extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

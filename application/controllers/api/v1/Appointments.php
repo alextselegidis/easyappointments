@@ -64,7 +64,7 @@ class Appointments extends API_V1_Controller {
                 $where['id'] = $id;
             }
 
-            $appointments = $this->appointments_model->get_batch($where, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
+            $appointments = $this->appointments_model->get($where, NULL, NULL, NULL, array_key_exists('aggregates', $_GET));
 
             if ($id !== NULL && count($appointments) === 0)
             {
@@ -82,7 +82,7 @@ class Appointments extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -108,7 +108,7 @@ class Appointments extends API_V1_Controller {
             // Generate end_datetime based on service duration if this field is not defined
             if ( ! isset($appointment['end_datetime']))
             {
-                $service = $this->services_model->get_row($appointment['id_services']);
+                $service = $this->services_model->find($appointment['id_services']);
 
                 if (isset($service['duration']))
                 {
@@ -118,30 +118,30 @@ class Appointments extends API_V1_Controller {
                 }
             }
 
-            $id = $this->appointments_model->add($appointment);
+            $id = $this->appointments_model->save($appointment);
 
-            $appointment = $this->appointments_model->get_row($id);
-            $service = $this->services_model->get_row($appointment['id_services']);
-            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $appointment = $this->appointments_model->find($id);
+            $service = $this->services_model->find($appointment['id_services']);
+            $provider = $this->providers_model->find($appointment['id_users_provider']);
+            $customer = $this->customers_model->find($appointment['id_users_customer']);
             $settings = [
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'company_name' => setting('company_name'),
+                'company_email' => setting('company_email'),
+                'company_link' => setting('company_link'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format')
             ];
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, FALSE);
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, FALSE);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->appointments_model->get_batch(['id' => $id]);
+            $batch = $this->appointments_model->get(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -157,7 +157,7 @@ class Appointments extends API_V1_Controller {
         try
         {
             // Update the appointment record.
-            $batch = $this->appointments_model->get_batch(['id' => $id]);
+            $batch = $this->appointments_model->get(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -169,17 +169,17 @@ class Appointments extends API_V1_Controller {
             $base_appointment = $batch[0];
             $this->parser->decode($updated_appointment, $base_appointment);
             $updated_appointment['id'] = $id;
-            $id = $this->appointments_model->add($updated_appointment);
+            $id = $this->appointments_model->save($updated_appointment);
 
-            $service = $this->services_model->get_row($updated_appointment['id_services']);
-            $provider = $this->providers_model->get_row($updated_appointment['id_users_provider']);
-            $customer = $this->customers_model->get_row($updated_appointment['id_users_customer']);
+            $service = $this->services_model->find($updated_appointment['id_services']);
+            $provider = $this->providers_model->find($updated_appointment['id_users_provider']);
+            $customer = $this->customers_model->find($updated_appointment['id_users_customer']);
             $settings = [
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'company_name' => setting('company_name'),
+                'company_email' => setting('company_email'),
+                'company_link' => setting('company_link'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format')
             ];
 
             $this->synchronization->sync_appointment_saved($updated_appointment, $service, $provider, $customer, $settings, TRUE);
@@ -187,11 +187,11 @@ class Appointments extends API_V1_Controller {
 
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->appointments_model->get_batch(['id' => $id]);
+            $batch = $this->appointments_model->get(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -206,16 +206,16 @@ class Appointments extends API_V1_Controller {
     {
         try
         {
-            $appointment = $this->appointments_model->get_row($id);
-            $service = $this->services_model->get_row($appointment['id_services']);
-            $provider = $this->providers_model->get_row($appointment['id_users_provider']);
-            $customer = $this->customers_model->get_row($appointment['id_users_customer']);
+            $appointment = $this->appointments_model->find($id);
+            $service = $this->services_model->find($appointment['id_services']);
+            $provider = $this->providers_model->find($appointment['id_users_provider']);
+            $customer = $this->customers_model->find($appointment['id_users_customer']);
             $settings = [
-                'company_name' => $this->settings_model->get_setting('company_name'),
-                'company_email' => $this->settings_model->get_setting('company_email'),
-                'company_link' => $this->settings_model->get_setting('company_link'),
-                'date_format' => $this->settings_model->get_setting('date_format'),
-                'time_format' => $this->settings_model->get_setting('time_format')
+                'company_name' => setting('company_name'),
+                'company_email' => setting('company_email'),
+                'company_link' => setting('company_link'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format')
             ];
 
             $this->appointments_model->delete($id);
@@ -230,7 +230,7 @@ class Appointments extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

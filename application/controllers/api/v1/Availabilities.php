@@ -43,20 +43,20 @@ class Availabilities extends API_V1_Controller {
     {
         try
         {
-            $provider_id = $this->input->get('providerId');
+            $provider_id = request('providerId');
 
-            $service_id = $this->input->get('serviceId');
+            $service_id = request('serviceId');
 
-            $date = $this->input->get('date');
+            $date = request('date');
 
             if ( ! $date)
             {
                 $date = date('Y-m-d');
             }
 
-            $provider = $this->providers_model->get_row($provider_id);
+            $provider = $this->providers_model->find($provider_id);
 
-            $service = $this->services_model->get_row($service_id);
+            $service = $this->services_model->find($service_id);
 
             $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 
@@ -64,7 +64,7 @@ class Availabilities extends API_V1_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode($available_hours));
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

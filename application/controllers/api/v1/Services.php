@@ -51,7 +51,7 @@ class Services extends API_V1_Controller {
         {
             $conditions = $id !== NULL ? ['id' => $id] : NULL;
 
-            $services = $this->services_model->get_batch($conditions);
+            $services = $this->services_model->get($conditions);
 
             if ($id !== NULL && count($services) === 0)
             {
@@ -69,7 +69,7 @@ class Services extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -92,15 +92,15 @@ class Services extends API_V1_Controller {
                 unset($service['id']);
             }
 
-            $id = $this->services_model->add($service);
+            $id = $this->services_model->save($service);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->services_model->get_batch(['id' => $id]);
+            $batch = $this->services_model->get(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -116,7 +116,7 @@ class Services extends API_V1_Controller {
         try
         {
             // Update the service record.
-            $batch = $this->services_model->get_batch(['id' => $id]);
+            $batch = $this->services_model->get(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -128,14 +128,14 @@ class Services extends API_V1_Controller {
             $base_service = $batch[0];
             $this->parser->decode($updated_service, $base_service);
             $updated_service['id'] = $id;
-            $id = $this->services_model->add($updated_service);
+            $id = $this->services_model->save($updated_service);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->services_model->get_batch(['id' => $id]);
+            $batch = $this->services_model->get(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -159,7 +159,7 @@ class Services extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

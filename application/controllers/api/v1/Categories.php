@@ -69,7 +69,7 @@ class Categories extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -100,7 +100,7 @@ class Categories extends API_V1_Controller {
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -135,7 +135,7 @@ class Categories extends API_V1_Controller {
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -159,7 +159,7 @@ class Categories extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

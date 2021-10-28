@@ -51,7 +51,7 @@ class Admins extends API_V1_Controller {
         {
             $where = $id !== NULL ? ['id' => $id] : NULL;
 
-            $admins = $this->admins_model->get_batch($where);
+            $admins = $this->admins_model->get($where);
 
             if ($id !== NULL && count($admins) === 0)
             {
@@ -69,7 +69,7 @@ class Admins extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -97,15 +97,15 @@ class Admins extends API_V1_Controller {
                 throw new Exception('No settings property provided.');
             }
 
-            $id = $this->admins_model->add($admin);
+            $id = $this->admins_model->save($admin);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->admins_model->get_batch(['id' => $id]);
+            $batch = $this->admins_model->get(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -121,7 +121,7 @@ class Admins extends API_V1_Controller {
         try
         {
             // Update the admin record.
-            $batch = $this->admins_model->get_batch(['id' => $id]);
+            $batch = $this->admins_model->get(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -133,14 +133,14 @@ class Admins extends API_V1_Controller {
             $baseAdmin = $batch[0];
             $this->parser->decode($updatedAdmin, $baseAdmin);
             $updatedAdmin['id'] = $id;
-            $id = $this->admins_model->add($updatedAdmin);
+            $id = $this->admins_model->save($updatedAdmin);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->admins_model->get_batch(['id' => $id]);
+            $batch = $this->admins_model->get(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -164,7 +164,7 @@ class Admins extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

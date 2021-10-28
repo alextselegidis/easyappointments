@@ -51,7 +51,7 @@ class Unavailabilities extends API_V1_Controller {
         {
             $where = $id !== NULL ? ['id' => $id] : ['is_unavailable' => TRUE];
 
-            $unavailabilities = $this->appointments_model->get_batch($where);
+            $unavailabilities = $this->appointments_model->get($where);
 
             if ($id !== NULL && count($unavailabilities) === 0)
             {
@@ -69,7 +69,7 @@ class Unavailabilities extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -95,12 +95,12 @@ class Unavailabilities extends API_V1_Controller {
             $id = $this->appointments_model->add_unavailable($unavailability);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->appointments_model->get_batch(['id' => $id]);
+            $batch = $this->appointments_model->get(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -116,7 +116,7 @@ class Unavailabilities extends API_V1_Controller {
         try
         {
             // Update the appointment record.
-            $batch = $this->appointments_model->get_batch(['id' => $id]);
+            $batch = $this->appointments_model->get(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -131,11 +131,11 @@ class Unavailabilities extends API_V1_Controller {
             $id = $this->appointments_model->add_unavailable($updatedUnavailability);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->appointments_model->get_batch(['id' => $id]);
+            $batch = $this->appointments_model->get(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -159,7 +159,7 @@ class Unavailabilities extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

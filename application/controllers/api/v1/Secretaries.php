@@ -51,7 +51,7 @@ class Secretaries extends API_V1_Controller {
         {
             $conditions = $id !== NULL ? ['id' => $id] : NULL;
 
-            $secretaries = $this->secretaries_model->get_batch($conditions);
+            $secretaries = $this->secretaries_model->get($conditions);
 
             if ($id !== NULL && count($secretaries) === 0)
             {
@@ -69,7 +69,7 @@ class Secretaries extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -102,15 +102,15 @@ class Secretaries extends API_V1_Controller {
                 throw new Exception('No settings property provided.');
             }
 
-            $id = $this->secretaries_model->add($secretary);
+            $id = $this->secretaries_model->save($secretary);
 
             // Fetch the new object from the database and return it to the client.
-            $batch = $this->secretaries_model->get_batch(['id' => $id]);
+            $batch = $this->secretaries_model->get(['id' => $id]);
             $response = new Response($batch);
             $status = new NonEmptyText('201 Created');
             $response->encode($this->parser)->singleEntry(TRUE)->output($status);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -126,7 +126,7 @@ class Secretaries extends API_V1_Controller {
         try
         {
             // Update the secretary record.
-            $batch = $this->secretaries_model->get_batch(['id' => $id]);
+            $batch = $this->secretaries_model->get(['id' => $id]);
 
             if ($id !== NULL && count($batch) === 0)
             {
@@ -138,14 +138,14 @@ class Secretaries extends API_V1_Controller {
             $base_secretary = $batch[0];
             $this->parser->decode($updated_secretary, $base_secretary);
             $updated_secretary['id'] = $id;
-            $id = $this->secretaries_model->add($updated_secretary);
+            $id = $this->secretaries_model->save($updated_secretary);
 
             // Fetch the updated object from the database and return it to the client.
-            $batch = $this->secretaries_model->get_batch(['id' => $id]);
+            $batch = $this->secretaries_model->get(['id' => $id]);
             $response = new Response($batch);
             $response->encode($this->parser)->singleEntry($id)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -169,7 +169,7 @@ class Secretaries extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }

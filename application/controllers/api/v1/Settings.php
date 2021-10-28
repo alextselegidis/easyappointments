@@ -48,7 +48,7 @@ class Settings extends API_V1_Controller {
     {
         try
         {
-            $settings = $this->settings_model->get_settings();
+            $settings = $this->settings_model->get();
 
             if ($name !== NULL)
             {
@@ -86,7 +86,7 @@ class Settings extends API_V1_Controller {
                 ->output();
 
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -114,7 +114,7 @@ class Settings extends API_V1_Controller {
             ]);
             $response->encode($this->parser)->singleEntry($name)->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
@@ -138,7 +138,7 @@ class Settings extends API_V1_Controller {
 
             $response->output();
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
             $this->handle_exception($exception);
         }
