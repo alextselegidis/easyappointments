@@ -149,7 +149,7 @@
                                         $has_category = FALSE;
                                         foreach ($available_services as $service)
                                         {
-                                            if ($service['category_id'] != NULL)
+                                            if ( ! empty($service['category_id']))
                                             {
                                                 $has_category = TRUE;
                                                 break;
@@ -162,7 +162,7 @@
 
                                             foreach ($available_services as $service)
                                             {
-                                                if ($service['category_id'] != NULL)
+                                                if ( ! empty($service['category_id']))
                                                 {
                                                     if ( ! isset($grouped_services[$service['category_name']]))
                                                     {
@@ -186,17 +186,20 @@
 
                                             foreach ($grouped_services as $key => $group)
                                             {
-                                                $group_label = ($key != 'uncategorized')
-                                                    ? $group[0]['category_name'] : 'Uncategorized';
+                                                $group_label = $key !== 'uncategorized'
+                                                    ? $group[0]['category_name']
+                                                    : 'Uncategorized';
 
                                                 if (count($group) > 0)
                                                 {
                                                     echo '<optgroup label="' . $group_label . '">';
+
                                                     foreach ($group as $service)
                                                     {
                                                         echo '<option value="' . $service['id'] . '">'
                                                             . $service['name'] . '</option>';
                                                     }
+
                                                     echo '</optgroup>';
                                                 }
                                             }
