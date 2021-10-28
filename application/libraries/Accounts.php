@@ -13,9 +13,11 @@
 
 
 /**
- * Accounts
+ * Accounts library
  *
- * Handles any account related functionality.
+ * Handles account related functionality.
+ * 
+ * @package Libraries
  */
 class Accounts {
     /**
@@ -24,40 +26,16 @@ class Accounts {
     protected $CI;
 
     /**
-     * Availability constructor.
+     * Accounts constructor.
      */
     public function __construct()
     {
         $this->CI =& get_instance();
 
-        $this->CI->load->model('users');
+        $this->CI->load->model('users_model');
+        $this->CI->load->model('roles_model');
 
         $this->CI->load->library('timezones');
-
-        $this->CI->load->helper('password');
-        $this->CI->load->helper('string');
-    }
-
-    /**
-     * Get the user data from the database.
-     *
-     * @param int $user_id User ID.
-     *
-     * @return array Returns an array with user data.
-     */
-    public function get_user(int $user_id): array
-    {
-        return $this->CI->users_model->find($user_id);
-    }
-
-    /**
-     * Update a user.
-     *
-     * @param array $user Associative array with the user data.
-     */
-    public function save_user(array $user): void
-    {
-        $this->CI->users_model->save($user);
     }
 
     /**
