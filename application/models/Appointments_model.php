@@ -117,7 +117,8 @@ class Appointments_model extends EA_Model {
                 ->join('roles', 'roles.id = users.id_roles', 'inner')
                 ->where('users.id', $appointment['id_users_customer'])
                 ->where('roles.slug', DB_SLUG_CUSTOMER)
-                ->get()->num_rows();
+                ->get()
+                ->num_rows();
 
             if ( ! $count)
             {
