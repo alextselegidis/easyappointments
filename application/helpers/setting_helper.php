@@ -26,10 +26,10 @@ if ( ! function_exists('setting'))
      *
      * setting(['company_name' => 'ACME Inc']);
      *
-     * @param array|string $key Setting key. 
+     * @param array|string $key Setting key.
      * @param mixed $default Default value in case the requested setting has no value.
      *
-     * @return mixed|NULL Returns the requested value or NULL if you assign a new setting value. 
+     * @return mixed|NULL Returns the requested value or NULL if you assign a new setting value.
      *
      * @throws InvalidArgumentException
      */
@@ -38,6 +38,8 @@ if ( ! function_exists('setting'))
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
+        $CI->load->model('settings_model');
+
         if (empty($key))
         {
             throw new InvalidArgumentException('The $key argument cannot be empty.');
@@ -45,16 +47,26 @@ if ( ! function_exists('setting'))
 
         if (is_array($key))
         {
-            foreach ($key as $item => $value)
+            foreach ($key as $name => $value)
             {
-                $CI->session->set_userdata($item, $value);
+                $setting = $CI->settings_model->query()->where('name', $name)->get()->row_array();
+
+                if (empty($setting))
+                {
+                    $setting = [
+                        'name' => $name,
+                        'value' => $value,
+                    ];
+                }
+
+                $CI->settings_model->save($setting);
             }
 
             return NULL;
         }
 
-        $value = $CI->session->userdata($key);
+        $setting = $CI->settings_model->query()->where('name', $key)->get()->row_array();
 
-        return $value ?? $default;
+        return $setting['value'] ?? $default;
     }
 }
