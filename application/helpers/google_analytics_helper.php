@@ -20,41 +20,40 @@
  */
 function google_analytics_script()
 {
-    $CI =& get_instance();
+    $google_analytics_code = setting('google_analytics_code');
 
-    $CI->load->model('settings_model');
+    if ($google_analytics_code !== '')
+    {
 
-    $google_analytics_code = $CI->settings_model->get_setting('google_analytics_code');
-
-    if ($google_analytics_code !== '') {
-
-        // If the google analytics code starts with UA then it is a Universal Analytics Property and the script stays
-        // the legacy one
-        if (substr($google_analytics_code, 0, 2) === "UA") {
+        // If the Google Analytics code starts with UA then it is a Universal Analytics Property and the script stays
+        // the legacy one.
+        if (substr($google_analytics_code, 0, 2) === 'UA')
+        {
             echo '
-            <script>
-                (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-                ga("create", "' . $google_analytics_code . '", "auto");
-                ga("send", "pageview");
-            </script>
-        ';
+                <script>
+                    (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                    })(window,document,"script","//www.google-analytics.com/analytics.js","ga");
+                    ga("create", "' . $google_analytics_code . '", "auto");
+                    ga("send", "pageview");
+                </script>
+            ';
         }
 
-        // If the google analytics code starts with a G then it is a Google Analytics 4-Property and the script 
+        // If the Google Analytics code starts with a G then it is a Google Analytics 4-Property and the script 
         // to inject it looks different.
-        if (substr($google_analytics_code, 0, 2) === "G-") {
+        if (substr($google_analytics_code, 0, 2) === 'G-')
+        {
             echo '
-                    <script async src="https://www.googletagmanager.com/gtag/js?id=' . $google_analytics_code . '"></script>
-                    <script>
+                <script async src="https://www.googletagmanager.com/gtag/js?id=' . $google_analytics_code . '"></script>
+                <script>
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag("js", new Date());
                     gtag("config", "' . $google_analytics_code . '");
-                    </script>
-                ';
+                </script>
+            ';
         }
     }
 }

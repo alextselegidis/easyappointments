@@ -32,7 +32,7 @@ if ( ! function_exists('can'))
         $CI = &get_instance();
 
         $CI->load->model('roles_model');
-        $CI->load->model('user_model');
+        $CI->load->model('users_model');
 
         if (empty($user_id))
         {
@@ -40,8 +40,9 @@ if ( ! function_exists('can'))
         }
         else
         {
-            $user = $CI->user_model->get_user($user_id);
-            $role_slug = $CI->roles_model->value('slug', $user['id_roles']);
+            $user = $CI->users_model->find($user_id);
+
+            $role_slug = $CI->roles_model->value($user['id_roles'], 'slug');
         }
 
         if (empty($role_slug))
@@ -49,7 +50,7 @@ if ( ! function_exists('can'))
             return FALSE;
         }
 
-        $permissions = $CI->roles_model->get_privileges($role_slug);
+        $permissions = $CI->roles_model->get_permissions_by_slug($role_slug);
 
         return $permissions[$resource][$action];
     }
