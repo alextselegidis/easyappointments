@@ -12,7 +12,11 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Timezones
+ * Timezones library
+ *
+ * Handles timezone related functionality.
+ *
+ * @package Libraries
  */
 class Timezones {
     /**
@@ -503,9 +507,9 @@ class Timezones {
      */
     public function __construct()
     {
-        $this->CI = & get_instance();
+        $this->CI = &get_instance();
 
-        $this->CI->load->model('user_model');
+        $this->CI->load->model('users_model');
     }
 
     /**
@@ -523,13 +527,13 @@ class Timezones {
      *
      * @return string
      */
-    public function get_session_timezone()
+    public function get_session_timezone(): string
     {
         $default_timezone = $this->get_default_timezone();
 
-        return $this->CI->session->has_userdata('timezone')
-            ? $this->CI->session->userdata('timezone')
-            : $default_timezone;
+        $timezone = session('timezone');
+
+        return $timezone ?? $default_timezone;
     }
 
     /**
