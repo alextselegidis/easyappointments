@@ -224,7 +224,7 @@ window.BackendUsers = window.BackendUsers || {};
 
             $.post(url, data)
                 .done(function (response) {
-                    if (response === 'false') {
+                    if (response.is_valid === 'false') {
                         $input.closest('.form-group').addClass('has-error');
                         $input.attr('already-exists', 'true');
                         $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
