@@ -20,6 +20,14 @@
  */
 class Users_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'id_roles' => 'integer',
+    ];
+    
+    /**
      * Save (insert or update) a user.
      *
      * @param array $user Associative array with the user data.
@@ -170,6 +178,8 @@ class Users_model extends EA_Model {
         }
 
         $user = $this->db->get_where('users', ['id' => $user_id])->row_array();
+        
+        $this->cast($user);
 
         $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
 
@@ -210,6 +220,8 @@ class Users_model extends EA_Model {
 
         // Check if the required field is part of the user data.
         $user = $query->row_array();
+        
+        $this->cast($user);
 
         if ( ! array_key_exists($field, $user))
         {
@@ -245,6 +257,8 @@ class Users_model extends EA_Model {
 
         foreach ($users as &$user)
         {
+            $this->cast($user);
+            
             $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row_array();
 
             unset(
@@ -343,7 +357,7 @@ class Users_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $users = $this
             ->db
             ->select()
             ->from('users')
@@ -362,6 +376,13 @@ class Users_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($users as &$user)
+        {
+            $this->cast($user);
+        }
+
+        return $users;
     }
 
     /**
