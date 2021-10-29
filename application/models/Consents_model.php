@@ -20,6 +20,13 @@
  */
 class Consents_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
+    
+    /**
      * Save (insert or update) a consent.
      *
      * @param array $consent Associative array with the consent data.
@@ -138,7 +145,11 @@ class Consents_model extends EA_Model {
             throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
         }
 
-        return $this->db->get_where('consents', ['id' => $consent_id])->row_array();
+        $consent = $this->db->get_where('consents', ['id' => $consent_id])->row_array();
+        
+        $this->cast($consent); 
+        
+        return $consent;
     }
 
     /**
@@ -163,7 +174,7 @@ class Consents_model extends EA_Model {
             throw new InvalidArgumentException('The consent ID argument cannot be empty.');
         }
 
-        // Check whether the user exists.
+        // Check whether the consent exists.
         $query = $this->db->get_where('consents', ['id' => $consent_id]);
 
         if ( ! $query->num_rows())
@@ -171,15 +182,17 @@ class Consents_model extends EA_Model {
             throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
         }
 
-        // Check if the required field is part of the user data.
-        $user = $query->row_array();
+        // Check if the required field is part of the consent data.
+        $consent = $query->row_array();
+        
+        $this->cast($consent);
 
-        if ( ! array_key_exists($field, $user))
+        if ( ! array_key_exists($field, $consent))
         {
-            throw new InvalidArgumentException('The requested field was not found in the user data: ' . $field);
+            throw new InvalidArgumentException('The requested field was not found in the consent data: ' . $field);
         }
 
-        return $user[$field];
+        return $consent[$field];
     }
 
     /**
@@ -204,7 +217,14 @@ class Consents_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('consents', $limit, $offset)->result_array();
+        $consents = $this->db->get('consents', $limit, $offset)->result_array();
+        
+        foreach($consents as &$consent)
+        {
+            $this->cast($consent); 
+        }
+        
+        return $consents; 
     }
 
     /**
@@ -229,7 +249,7 @@ class Consents_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $consents = $this
             ->db
             ->select()
             ->from('consents')
@@ -242,6 +262,13 @@ class Consents_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach($consents as &$consent)
+        {
+            $this->cast($consent);
+        }
+
+        return $consents;
     }
 
     /**
