@@ -165,7 +165,7 @@ class Providers extends API_V1_Controller {
     {
         try
         {
-            $result = $this->providers_model->delete($id);
+            $this->providers_model->delete($id);
 
             $response = new Response([
                 'code' => 200,

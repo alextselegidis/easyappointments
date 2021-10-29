@@ -160,7 +160,7 @@ class Secretaries extends API_V1_Controller {
     {
         try
         {
-            $result = $this->secretaries_model->delete($id);
+            $this->secretaries_model->delete($id);
 
             $response = new Response([
                 'code' => 200,

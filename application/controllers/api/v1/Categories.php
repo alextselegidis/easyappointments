@@ -150,7 +150,7 @@ class Categories extends API_V1_Controller {
     {
         try
         {
-            $result = $this->services_model->delete_category($id);
+            $this->services_model->delete_category($id);
 
             $response = new Response([
                 'code' => 200,

@@ -150,7 +150,7 @@ class Unavailabilities extends API_V1_Controller {
     {
         try
         {
-            $result = $this->appointments_model->delete($id);
+            $this->appointments_model->delete($id);
 
             $response = new Response([
                 'code' => 200,

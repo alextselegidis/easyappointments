@@ -207,9 +207,13 @@ class Appointments extends API_V1_Controller {
         try
         {
             $appointment = $this->appointments_model->find($id);
+            
             $service = $this->services_model->find($appointment['id_services']);
+            
             $provider = $this->providers_model->find($appointment['id_users_provider']);
+            
             $customer = $this->customers_model->find($appointment['id_users_customer']);
+            
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_email' => setting('company_email'),
@@ -221,6 +225,7 @@ class Appointments extends API_V1_Controller {
             $this->appointments_model->delete($id);
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
+            
             $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
 
             $response = new Response([

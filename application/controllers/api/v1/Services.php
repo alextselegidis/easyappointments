@@ -150,7 +150,7 @@ class Services extends API_V1_Controller {
     {
         try
         {
-            $result = $this->services_model->delete($id);
+            $this->services_model->delete($id);
 
             $response = new Response([
                 'code' => 200,
