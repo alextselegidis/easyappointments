@@ -20,6 +20,16 @@
  */
 class Services_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'price' => 'float',
+        'attendants_number' => 'integer',
+        'id_service_categories' => 'boolean',
+    ];
+
+    /**
      * Save (insert or update) a service.
      *
      * @param array $service Associative array with the service data.
@@ -183,7 +193,11 @@ class Services_model extends EA_Model {
             throw new InvalidArgumentException('The provided service ID was not found in the database: ' . $service_id);
         }
 
-        return $this->db->get_where('services', ['id' => $service_id])->row_array();
+        $service = $this->db->get_where('services', ['id' => $service_id])->row_array();
+        
+        $this->cast($service); 
+        
+        return $service;
     }
 
     /**
@@ -218,6 +232,8 @@ class Services_model extends EA_Model {
 
         // Check if the required field is part of the service data.
         $service = $query->row_array();
+        
+        $this->cast($service);
 
         if ( ! array_key_exists($field, $service))
         {
@@ -249,7 +265,14 @@ class Services_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('services', $limit, $offset)->result_array();
+        $services = $this->db->get('services', $limit, $offset)->result_array();
+        
+        foreach ($services as $service)
+        {
+            $this->cast($service);
+        }
+        
+        return $services;
     }
 
     /**
@@ -259,7 +282,7 @@ class Services_model extends EA_Model {
      */
     public function get_available_services(): array
     {
-        return $this
+        $services = $this
             ->db
             ->distinct()
             ->select('services.*, service_categories.name AS category_name, service_categories.id AS category_id')
@@ -269,6 +292,13 @@ class Services_model extends EA_Model {
             ->order_by('name ASC')
             ->get()
             ->result_array();
+
+        foreach ($services as $service)
+        {
+            $this->cast($service);
+        }
+
+        return $services;
     }
 
     /**
@@ -293,7 +323,7 @@ class Services_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $services = $this
             ->db
             ->select()
             ->from('services')
@@ -304,6 +334,13 @@ class Services_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+        
+        foreach ($services as $service)
+        {
+            $this->cast($service);
+        }
+
+        return $services;
     }
 
     /**
