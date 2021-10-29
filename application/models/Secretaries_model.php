@@ -20,6 +20,14 @@
  */
 class Secretaries_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'id_roles' => 'integer',
+    ];
+
+    /**
      * Save (insert or update) a secretary.
      *
      * @param array $secretary Associative array with the secretary data.
@@ -516,7 +524,7 @@ class Secretaries_model extends EA_Model {
     {
         $role_id = $this->get_secretary_role_id();
 
-        return $this
+        $secretaries = $this
             ->db
             ->select()
             ->from('users')
@@ -536,6 +544,28 @@ class Secretaries_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($secretaries as &$secretary)
+        {
+            $secretary['settings'] = $this->db->get_where('user_settings', ['id_users' => $secretary['id']])->row_array();
+
+            unset(
+                $secretary['settings']['id_users'],
+                $secretary['settings']['password'],
+                $secretary['settings']['salt']
+            );
+
+            $secretary_provider_connections = $this->db->get_where('secretaries_providers', ['id_users_secretary' => $secretary['id']])->result_array();
+
+            $secretary['providers'] = [];
+
+            foreach ($secretary_provider_connections as $secretary_provider_connection)
+            {
+                $secretary['providers'][] = (int)$secretary_provider_connection['id_users_provider'];
+            }
+        }
+
+        return $secretaries;
     }
 
     /**
