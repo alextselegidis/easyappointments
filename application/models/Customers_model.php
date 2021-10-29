@@ -20,6 +20,14 @@
  */
 class Customers_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'id_roles' => 'integer',
+    ];
+
+    /**
      * Save (insert or update) a customer.
      *
      * @param array $customer Associative array with the customer data.
@@ -177,7 +185,11 @@ class Customers_model extends EA_Model {
             throw new InvalidArgumentException('The provided customer ID was not found in the database: ' . $customer_id);
         }
 
-        return $this->db->get_where('users', ['id' => $customer_id])->row_array();
+        $customer = $this->db->get_where('users', ['id' => $customer_id])->row_array();
+
+        $this->cast($customer);
+
+        return $customer;
     }
 
     /**
@@ -213,6 +225,8 @@ class Customers_model extends EA_Model {
         // Check if the required field is part of the customer data.
         $customer = $query->row_array();
 
+        $this->cast($customer);
+
         if ( ! array_key_exists($field, $customer))
         {
             throw new InvalidArgumentException('The requested field was not found in the customer data: ' . $field);
@@ -245,7 +259,14 @@ class Customers_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+        $customers = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+
+        foreach ($customers as &$customer)
+        {
+            $this->cast($customer);
+        }
+
+        return $customers;
     }
 
     /**
@@ -353,8 +374,8 @@ class Customers_model extends EA_Model {
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_customer_role_id();
-        
-        return $this
+
+        $customers = $this
             ->db
             ->select()
             ->from('users')
@@ -374,6 +395,13 @@ class Customers_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($customers as $customer)
+        {
+            $this->cast($customer);
+        }
+
+        return $customers;
     }
 
     /**
