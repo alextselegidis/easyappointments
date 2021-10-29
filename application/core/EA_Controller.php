@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class EA_Controller
+ * Easy!Appointments controller. 
  *
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache

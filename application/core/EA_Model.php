@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class EA_Model
+ * Easy!Appointments model.
  *
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache
