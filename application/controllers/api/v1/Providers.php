@@ -71,7 +71,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -117,7 +117,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -152,7 +152,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -176,7 +176,7 @@ class Providers extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 }

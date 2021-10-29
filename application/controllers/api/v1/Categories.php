@@ -71,7 +71,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -102,7 +102,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -137,7 +137,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -161,7 +161,7 @@ class Categories extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 }

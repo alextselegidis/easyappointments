@@ -71,7 +71,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -112,7 +112,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -147,7 +147,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -171,7 +171,7 @@ class Secretaries extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 }

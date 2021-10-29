@@ -62,7 +62,7 @@ class API_V1_Controller extends EA_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
             exit;
         }
     }
