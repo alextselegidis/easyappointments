@@ -259,7 +259,7 @@ class Appointments_model extends EA_Model {
 
         // Check if the required field is part of the appointment data.
         $appointment = $query->row_array();
-        
+
         $this->cast($appointment);
 
         if ( ! array_key_exists($field, $appointment))
@@ -426,7 +426,7 @@ class Appointments_model extends EA_Model {
      *
      * @return int Returns the number of appointments that match the provided criteria.
      */
-    public function get_other_service_attendants_number(DateTime $start, DateTime $end, int $service_id, $provider_id, $exclude_appointment_id = NULL): int
+    public function get_other_service_attendants_number(DateTime $start, DateTime $end, int $service_id, int $provider_id, int $exclude_appointment_id = NULL): int
     {
         if ($exclude_appointment_id)
         {
