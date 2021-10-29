@@ -20,6 +20,14 @@
  */
 class Admins_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'id_roles' => 'integer',
+    ];
+
+    /**
      * Save (insert or update) an admin.
      *
      * @param array $admin Associative array with the admin data.
@@ -261,6 +269,8 @@ class Admins_model extends EA_Model {
 
         $admin = $this->db->get_where('users', ['id' => $admin_id])->row_array();
 
+        $this->cast($admin);
+
         $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
 
         unset(
@@ -305,6 +315,8 @@ class Admins_model extends EA_Model {
         // Check if the required field is part of the admin data.
         $admin = $query->row_array();
 
+        $this->cast($admin);
+
         if ( ! array_key_exists($field, $admin))
         {
             throw new InvalidArgumentException('The requested field was not found in the admin data: ' . $field);
@@ -341,6 +353,8 @@ class Admins_model extends EA_Model {
 
         foreach ($admins as &$admin)
         {
+            $this->cast($admin);
+
             $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
 
             unset(
@@ -441,8 +455,8 @@ class Admins_model extends EA_Model {
      */
     public function query(): CI_DB_query_builder
     {
-        $role_id = $this->get_admin_role_id(); 
-        
+        $role_id = $this->get_admin_role_id();
+
         return $this->db->from('users')->where('id_roles', $role_id);
     }
 
@@ -458,9 +472,9 @@ class Admins_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        $role_id = $this->get_admin_role_id(); 
-        
-        return $this
+        $role_id = $this->get_admin_role_id();
+
+        $admins = $this
             ->db
             ->select()
             ->from('users')
@@ -480,6 +494,21 @@ class Admins_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($admins as &$admin)
+        {
+            $this->cast($admin);
+
+            $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
+
+            unset(
+                $admin['settings']['id_users'],
+                $admin['settings']['password'],
+                $admin['settings']['salt']
+            );
+        }
+
+        return $admins;
     }
 
     /**
