@@ -20,6 +20,15 @@
  */
 class Providers_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'id_roles' => 'integer',
+    ];
+
+
+    /**
      * Save (insert or update) a provider.
      *
      * @param array $provider Associative array with the provider data.
@@ -276,6 +285,8 @@ class Providers_model extends EA_Model {
 
         $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
 
+        $this->cast($provider);
+
         $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
 
         unset($provider['settings']['id_users']);
@@ -325,6 +336,8 @@ class Providers_model extends EA_Model {
         // Check if the required field is part of the provider data.
         $provider = $query->row_array();
 
+        $this->cast($provider);
+
         if ( ! array_key_exists($field, $provider))
         {
             throw new InvalidArgumentException('The requested field was not found in the provider data: ' . $field);
@@ -361,6 +374,8 @@ class Providers_model extends EA_Model {
 
         foreach ($providers as &$provider)
         {
+            $this->cast($provider);
+
             $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
 
             unset(
@@ -645,7 +660,7 @@ class Providers_model extends EA_Model {
     {
         $role_id = $this->get_provider_role_id();
 
-        return $this
+        $providers = $this
             ->db
             ->select()
             ->from('users')
@@ -665,6 +680,30 @@ class Providers_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($providers as &$provider)
+        {
+            $this->cast($provider);
+
+            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
+
+            unset(
+                $provider['settings']['id_users'],
+                $provider['settings']['password'],
+                $provider['settings']['salt']
+            );
+
+            $provider['services'] = [];
+
+            $service_provider_connections = $this->db->get_where('services_providers', ['id_users' => $provider['id']])->result_array();
+
+            foreach ($service_provider_connections as $service_provider_connection)
+            {
+                $provider['services'][] = (int)$service_provider_connection['id_services'];
+            }
+        }
+
+        return $providers;
     }
 
     /**
