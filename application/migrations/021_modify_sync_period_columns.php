@@ -11,13 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Modify_sync_period_columns
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Modify_sync_period_columns extends CI_Migration {
+class Migration_Modify_sync_period_columns extends EA_Migration {
     /**
      * Upgrade method.
      */

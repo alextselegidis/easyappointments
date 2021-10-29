@@ -11,13 +11,7 @@
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Add_customer_notifications_setting
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Add_customer_notifications_setting extends CI_Migration {
+class Migration_Add_customer_notifications_setting extends EA_Migration {
     /**
      * Upgrade method.
      *

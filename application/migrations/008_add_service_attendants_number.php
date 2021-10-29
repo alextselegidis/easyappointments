@@ -11,13 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Add_service_attendants_number
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Add_service_attendants_number extends CI_Migration {
+class Migration_Add_service_attendants_number extends EA_Migration {
     /**
      * Upgrade method.
      */

@@ -4,20 +4,14 @@
  * Easy!Appointments - Open Source Web Scheduler
  *
  * @package     EasyAppointments
- * @author      T. Saedt <https://github.com/Tthecreator>
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
  * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyappointments.org
- * @since       v1.4.2
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Add_show_fields_setting
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Add_show_fields_setting extends CI_Migration {
+class Migration_Add_show_fields_setting extends EA_Migration {
     /**
      * Upgrade method.
      */
@@ -47,8 +41,6 @@ class Migration_Add_show_fields_setting extends CI_Migration {
             'name' => 'show_notes',
             'value' => '1'
         ]);
-
-
     }
 
     /**

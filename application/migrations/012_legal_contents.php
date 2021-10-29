@@ -11,13 +11,7 @@
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Create_consents_table
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Legal_contents extends CI_Migration {
+class Migration_Legal_contents extends EA_Migration {
     /**
      * Upgrade method.
      */
