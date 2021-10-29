@@ -12,11 +12,22 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Appointments model
+ * Appointments model.
  *
  * @package Models
  */
 class Appointments_model extends EA_Model {
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'is_unavailable' => 'boolean',
+        'id_users_provider' => 'integer',
+        'id_users_customer' => 'integer',
+        'id_services' => 'integer',
+    ];
+
     /**
      * Save (insert or update) an appointment.
      *
@@ -209,7 +220,11 @@ class Appointments_model extends EA_Model {
             throw new InvalidArgumentException('The provided appointment ID was not found in the database: ' . $appointment_id);
         }
 
-        return $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
+        $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
+
+        $this->cast($appointment);
+
+        return $appointment;
     }
 
     /**
@@ -244,6 +259,8 @@ class Appointments_model extends EA_Model {
 
         // Check if the required field is part of the appointment data.
         $appointment = $query->row_array();
+        
+        $this->cast($appointment);
 
         if ( ! array_key_exists($field, $appointment))
         {
@@ -275,7 +292,14 @@ class Appointments_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('appointments', $limit, $offset)->result_array();
+        $appointments = $this->db->get('appointments', $limit, $offset)->result_array();
+
+        foreach ($appointments as &$appointment)
+        {
+            $this->cast($appointment);
+        }
+
+        return $appointments;
     }
 
     /**
@@ -453,7 +477,7 @@ class Appointments_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $appointments = $this
             ->db
             ->select()
             ->from('appointments')
@@ -480,6 +504,13 @@ class Appointments_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($appointments as &$appointment)
+        {
+            $this->cast($appointment);
+        }
+
+        return $appointments;
     }
 
     /**
@@ -496,7 +527,7 @@ class Appointments_model extends EA_Model {
         {
             return;
         }
-        
+
         foreach ($resources as $resource)
         {
             switch ($resource)
