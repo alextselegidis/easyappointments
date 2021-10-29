@@ -32,7 +32,7 @@ class Installation extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('customers_model');
         
-        $this->load->library('migration');
+        $this->load->library('instance');
     }
 
     /**
@@ -66,10 +66,7 @@ class Installation extends EA_Controller {
             $admin = request('admin');
             $company = request('company');
 
-            if ( ! $this->migration->current())
-            {
-                throw new Exception($this->migration->error_string());
-            }
+            $this->instance->migrate(); 
 
             // Insert admin
             $admin['timezone'] = 'UTC';

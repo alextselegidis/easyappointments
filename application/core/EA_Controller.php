@@ -55,6 +55,7 @@
  * @property Availability $availability
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
+ * @property Instance $instance
  * @property Notifications $notifications
  * @property Synchronization $synchronization
  * @property Timezones $timezones

@@ -1,0 +1,154 @@
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        http://easyappointments.org
+ * @since       v1.4.0
+ * ---------------------------------------------------------------------------- */
+
+
+/**
+ * Instance library.
+ *
+ * Handles all Easy!Appointments instance related functionality.
+ *
+ * @package Libraries
+ */
+class Instance {
+    /**
+     * @var EA_Controller
+     */
+    protected $CI;
+
+    /**
+     * Installation constructor.
+     */
+    public function __construct()
+    {
+        $this->CI =& get_instance();
+
+        $this->CI->load->model('admins_model');
+        $this->CI->load->model('services_model');
+        $this->CI->load->model('providers_model');
+        $this->CI->load->model('customers_model');
+
+        $this->CI->load->library('timezones');
+    }
+
+    /**
+     * Migrate the database to the latest state.
+     *
+     * @param string $type Provide "fresh" to revert previous migrations and start from the beginning.
+     */
+    public function migrate(string $type = '')
+    {
+        if ($type === 'fresh' && ! $this->CI->migration->version(0))
+        {
+            show_error($this->CI->migration->error_string());
+        }
+
+        if ($this->CI->migration->latest() === FALSE)
+        {
+            show_error($this->CI->migration->error_string());
+        }
+    }
+
+    /**
+     * Seed the database with test data.
+     */
+    public function seed()
+    {
+        // Settings
+        setting([
+            'company_name' => 'Company Name',
+            'company_email' => 'info@example.org',
+            'company_link' => 'https://example.org',
+        ]);
+
+        // Admin
+        $this->CI->admins_model->save([
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'john@example.org',
+            'phone_number' => '+10000000000',
+            'settings' => [
+                'username' => 'administrator',
+                'password' => 'administrator',
+                'notifications' => TRUE,
+                'calendar_view' => CALENDAR_VIEW_DEFAULT
+            ],
+        ]);
+
+        // Service
+        $service_id = $this->CI->services_model->save([
+            'name' => 'Service',
+            'duration' => '30',
+            'price' => '0',
+            'currency' => '',
+            'availabilities_type' => 'flexible',
+            'attendants_number' => '1'
+        ]);
+
+        // Provider
+        $this->CI->providers_model->save([
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'email' => 'jane@example.org',
+            'phone_number' => '+10000000000',
+            'services' => [
+                $service_id
+            ],
+            'settings' => [
+                'username' => 'janedoe',
+                'password' => 'janedoe',
+                'working_plan' => setting('company_working_plan'),
+                'notifications' => TRUE,
+                'google_sync' => FALSE,
+                'sync_past_days' => 30,
+                'sync_future_days' => 90,
+                'calendar_view' => CALENDAR_VIEW_DEFAULT
+            ],
+        ]);
+
+        // Customer
+        $this->CI->customers_model->save([
+            'first_name' => 'James',
+            'last_name' => 'Doe',
+            'email' => 'james@example.org',
+            'phone_number' => '+10000000000',
+        ]);
+    }
+
+    /**
+     * Create a database backup file.
+     *
+     * @param string|null $path Override the default backup path (storage/backups/*).
+     *
+     * @throws Exception
+     */
+    public function backup(string $path = NULL)
+    {
+        $path = $path ?? APPPATH . '/../storage/backups';
+
+        if ( ! file_exists($path))
+        {
+            throw new Exception('The backup path does not exist: ' . $path);
+        }
+
+        if ( ! is_writable($path))
+        {
+            throw new Exception('The backup path is not writable: ' . $path);
+        }
+
+        $contents = $this->CI->dbutil->backup();
+
+        $filename = 'easyappointments-backup-' . date('Y-m-d-His') . '.gz';
+
+        write_file(rtrim($path, '/') . '/' . $filename, $contents);
+    }
+}

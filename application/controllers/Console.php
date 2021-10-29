@@ -33,7 +33,7 @@ class Console extends EA_Controller {
 
         $this->load->dbutil();
 
-        $this->load->library('migration');
+        $this->load->library('instance');
 
         $this->load->model('admins_model');
         $this->load->model('customers_model');
@@ -53,9 +53,9 @@ class Console extends EA_Controller {
      */
     public function install()
     {
-        $this->migrate('fresh');
+        $this->instance->migrate('fresh');
 
-        $this->seed();
+        $this->instance->seed();
 
         response(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
     }
@@ -63,12 +63,12 @@ class Console extends EA_Controller {
     /**
      * Migrate the database to the latest state.
      *
-     * Use this method to upgrade an existing installation to the latest database state.
+     * Use this method to upgrade an Easy!Appointments instance to the latest database state.
      *
      * Notice:
      *
      * Do not use this method to install the app as it will not seed the database with the initial entries (admin,
-     * provider, service, settings etc). Use the UI installation page for this.
+     * provider, service, settings etc).
      *
      * Usage:
      *
@@ -80,15 +80,7 @@ class Console extends EA_Controller {
      */
     public function migrate(string $type = '')
     {
-        if ($type === 'fresh' && ! $this->migration->version(0))
-        {
-            show_error($this->migration->error_string());
-        }
-
-        if ($this->migration->current() === FALSE)
-        {
-            show_error($this->migration->error_string());
-        }
+        $this->instance->migrate($type);
     }
 
     /**
@@ -102,69 +94,11 @@ class Console extends EA_Controller {
      */
     public function seed()
     {
-        // Settings
-        setting([
-            'company_name' => 'Company Name',
-            'company_email' => 'info@example.org',
-            'company_link' => 'https://example.org',
-        ]);
-
-        // Admin
-        $this->admins_model->save([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'john@example.org',
-            'phone_number' => '+1 (000) 000-0000',
-            'settings' => [
-                'username' => 'administrator',
-                'password' => 'administrator',
-                'notifications' => TRUE,
-                'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ],
-        ]);
-
-        // Service
-        $service_id = $this->services_model->save([
-            'name' => 'Service',
-            'duration' => '30',
-            'price' => '0',
-            'currency' => '',
-            'availabilities_type' => 'flexible',
-            'attendants_number' => '1'
-        ]);
-
-        // Provider
-        $this->providers_model->save([
-            'first_name' => 'Jane',
-            'last_name' => 'Doe',
-            'email' => 'jane@example.org',
-            'phone_number' => '+1 (000) 000-0000',
-            'services' => [
-                $service_id
-            ],
-            'settings' => [
-                'username' => 'janedoe',
-                'password' => 'janedoe',
-                'working_plan' => setting('company_working_plan'),
-                'notifications' => TRUE,
-                'google_sync' => FALSE,
-                'sync_past_days' => 30,
-                'sync_future_days' => 90,
-                'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ],
-        ]);
-
-        // Customer
-        $this->customers_model->save([
-            'first_name' => 'James',
-            'last_name' => 'Doe',
-            'email' => 'james@example.org',
-            'phone_number' => '+1 (000) 000-0000',
-        ]);
+        $this->instance->seed();
     }
 
     /**
-     * Create a backup file.
+     * Create a database backup file.
      *
      * Use this method to back up your Easy!Appointments data.
      *
@@ -178,23 +112,7 @@ class Console extends EA_Controller {
      */
     public function backup()
     {
-        $path = $GLOBALS['argv'][3] ?? APPPATH . '/../storage/backups';
-
-        if ( ! file_exists($path))
-        {
-            throw new Exception('The backup path does not exist: ' . $path);
-        }
-
-        if ( ! is_writable($path))
-        {
-            throw new Exception('The backup path is not writable: ' . $path);
-        }
-
-        $contents = $this->dbutil->backup();
-
-        $filename = 'easyappointments-backup-' . date('Y-m-d-His') . '.gz';
-
-        write_file(rtrim($path, '/') . '/' . $filename, $contents);
+        $this->instance->backup($GLOBALS['argv'][3]);
     }
 
     /**

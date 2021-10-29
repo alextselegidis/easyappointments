@@ -38,7 +38,7 @@ class Backend extends EA_Controller {
         $this->load->model('users_model');
 
         $this->load->library('accounts');
-        $this->load->library('migration');
+        $this->load->library('instance');
         $this->load->library('timezones');
     }
 
@@ -291,7 +291,7 @@ class Backend extends EA_Controller {
      * Display the user/system settings.
      *
      * This page will display the user settings (name, password etc). If current user is an administrator, then he will
-     * be able to make change to the current Easy!Appointment installation (core settings like company name, book
+     * be able to make change to the current Easy!Appointment instance (core settings like company name, book
      * timeout).
      */
     public function settings()
@@ -334,7 +334,7 @@ class Backend extends EA_Controller {
     }
 
     /**
-     * This method will update the installation to the latest available version in the server.
+     * This method will update the instance to the latest available version in the server.
      *
      * IMPORTANT: The code files must exist in the server, this method will not fetch any new files but will update
      * the database schema.
@@ -348,13 +348,10 @@ class Backend extends EA_Controller {
         {
             if ( ! $this->has_permissions(PRIV_SYSTEM_SETTINGS))
             {
-                throw new Exception('You do not have the required privileges for this task!');
+                throw new RuntimeException('You do not have the required privileges for this task.');
             }
 
-            if ( ! $this->migration->current())
-            {
-                throw new Exception($this->migration->error_string());
-            }
+            $this->instance->migrate();
 
             $view = ['success' => TRUE];
         }
