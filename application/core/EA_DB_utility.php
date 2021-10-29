@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Easy!Appointments migration.
+ * Easy!Appointments DB utility.
  *
  * @property EA_Benchmark $benchmark
  * @property EA_Cache $cache
@@ -39,6 +39,6 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Migration extends CI_Migration {
+class EA_DB_utility extends CI_DB_utility {
     // 
 }

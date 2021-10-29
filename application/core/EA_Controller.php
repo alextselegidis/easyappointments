@@ -14,30 +14,30 @@
 /**
  * Easy!Appointments controller. 
  *
- * @property CI_Benchmark $benchmark
- * @property CI_Cache $cache
- * @property CI_Calendar $calendar
- * @property CI_Config $config
- * @property CI_DB_forge $dbforge
- * @property CI_DB_query_builder $db
- * @property CI_DB_utility $dbutil
- * @property CI_Email $email
- * @property CI_Encrypt $encrypt
- * @property CI_Encryption $encryption
- * @property CI_Exceptions $exceptions
- * @property CI_Hooks $hooks
+ * @property EA_Benchmark $benchmark
+ * @property EA_Cache $cache
+ * @property EA_Calendar $calendar
+ * @property EA_Config $config
+ * @property EA_DB_forge $dbforge
+ * @property EA_DB_query_builder $db
+ * @property EA_DB_utility $dbutil
+ * @property EA_Email $email
+ * @property EA_Encrypt $encrypt
+ * @property EA_Encryption $encryption
+ * @property EA_Exceptions $exceptions
+ * @property EA_Hooks $hooks
  * @property EA_Input $input
- * @property CI_Lang $lang
- * @property CI_Loader $load
- * @property CI_Log $log
- * @property CI_Migration $migration
- * @property CI_Output $output
- * @property CI_Profiler $profiler
- * @property CI_Router $router
- * @property CI_Security $security
- * @property CI_Session $session
- * @property CI_URI $uri
- * @property CI_Upload $upload
+ * @property EA_Lang $lang
+ * @property EA_Loader $load
+ * @property EA_Log $log
+ * @property EA_Migration $migration
+ * @property EA_Output $output
+ * @property EA_Profiler $profiler
+ * @property EA_Router $router
+ * @property EA_Security $security
+ * @property EA_Session $session
+ * @property EA_Upload $upload
+ * @property EA_URI $uri
  *
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
