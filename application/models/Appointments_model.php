@@ -353,18 +353,6 @@ class Appointments_model extends EA_Model {
     }
 
     /**
-     * Remove an existing unavailable from the database.
-     *
-     * @param int $unavailable_id Record id to be deleted.
-     *
-     * @return bool Returns the delete operation result.
-     */
-    public function delete_unavailable(int $unavailable_id): bool
-    {
-        return $this->db->delete('appointments', ['id' => $unavailable_id]);
-    }
-
-    /**
      * Remove all the Google Calendar event IDs from appointment records.
      *
      * @param int $provider_id Matching provider ID.

@@ -137,7 +137,7 @@ class Unavailabilities extends API_V1_Controller {
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($exception);
+            $this->handle_exception($e);
         }
     }
 
@@ -150,7 +150,7 @@ class Unavailabilities extends API_V1_Controller {
     {
         try
         {
-            $result = $this->appointments_model->delete_unavailable($id);
+            $result = $this->appointments_model->delete($id);
 
             $response = new Response([
                 'code' => 200,

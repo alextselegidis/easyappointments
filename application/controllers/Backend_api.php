@@ -556,7 +556,7 @@ class Backend_api extends EA_Controller {
 
             $provider = $this->providers_model->find($unavailable['id_users_provider']);
 
-            $this->appointments_model->delete_unavailable($unavailable['id']);
+            $this->appointments_model->delete($unavailable['id']);
 
             // Google Sync
             try
