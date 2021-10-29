@@ -35,7 +35,9 @@ class Settings extends API_V1_Controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->model('settings_model');
+
         $this->parser = new \EA\Engine\Api\V1\Parsers\Settings;
     }
 
@@ -84,7 +86,6 @@ class Settings extends API_V1_Controller {
                 ->minimize()
                 ->singleEntry($name)
                 ->output();
-
         }
         catch (Throwable $e)
         {
@@ -102,8 +103,17 @@ class Settings extends API_V1_Controller {
         try
         {
             $request = new Request();
+
             $value = $request->get_body()['value'];
-            $this->settings_model->set_setting($name, $value);
+
+            $setting = $this->settings_model->query()->get_where('name', $name)->row_array();
+
+            if ( ! empty($setting))
+            {
+                $setting['value'] = $value;
+
+                $this->settings_model->save($setting);
+            }
 
             // Fetch the updated object from the database and return it to the client.
             $response = new Response([
@@ -112,6 +122,7 @@ class Settings extends API_V1_Controller {
                     'value' => $value
                 ]
             ]);
+
             $response->encode($this->parser)->singleEntry($name)->output();
         }
         catch (Throwable $e)
@@ -129,7 +140,12 @@ class Settings extends API_V1_Controller {
     {
         try
         {
-            $this->settings_model->remove_setting($name);
+            $setting = $this->settings_model->query()->get_where('name', $name)->row_array();
+
+            if ( ! empty($setting))
+            {
+                $this->settings_model->delete($setting['id']);
+            }
 
             $response = new Response([
                 'code' => 200,
