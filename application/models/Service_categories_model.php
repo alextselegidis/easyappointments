@@ -20,6 +20,13 @@
  */
 class Service_categories_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
+    
+    /**
      * Save (insert or update) a service category.
      *
      * @param array $service_category Associative array with the service category data.
@@ -140,7 +147,11 @@ class Service_categories_model extends EA_Model {
             throw new InvalidArgumentException('The provided service category ID was not found in the database: ' . $service_category_id);
         }
 
-        return $this->db->get_where('service_categories', ['id' => $service_category_id])->row_array();
+        $service_category = $this->db->get_where('service_categories', ['id' => $service_category_id])->row_array();
+        
+        $this->cast($service_category); 
+        
+        return $service_category;
     }
 
     /**
@@ -175,6 +186,8 @@ class Service_categories_model extends EA_Model {
 
         // Check if the required field is part of the service category data.
         $service_category = $query->row_array();
+        
+        $this->cast($service_category); 
 
         if ( ! array_key_exists($field, $service_category))
         {
@@ -206,7 +219,14 @@ class Service_categories_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('service_categories', $limit, $offset)->result_array();
+        $service_categories = $this->db->get('service_categories', $limit, $offset)->result_array();
+        
+        foreach($service_categories as $service_category)
+        {
+            $this->cast($service_category); 
+        }
+        
+        return $service_categories;
     }
 
     /**
@@ -231,7 +251,7 @@ class Service_categories_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $service_categories = $this
             ->db
             ->select()
             ->from('service_categories')
@@ -242,6 +262,13 @@ class Service_categories_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+        
+        foreach($service_categories as &$service_category)
+        {
+            $this->cast($service_category); 
+        }
+        
+        return $service_categories;
     }
 
     /**
