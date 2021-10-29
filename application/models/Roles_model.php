@@ -20,6 +20,20 @@
  */
 class Roles_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'is_admin' => 'boolean',
+        'appointments' => 'integer',
+        'customers' => 'integer',
+        'services' => 'integer',
+        'users' => 'integer',
+        'system_settings' => 'integer',
+        'user_settings' => 'integer',
+    ];
+
+    /**
      * Save (insert or update) a role.
      *
      * @param array $role Associative array with the role data.
@@ -140,7 +154,11 @@ class Roles_model extends EA_Model {
             throw new InvalidArgumentException('The provided role ID was not found in the database: ' . $role_id);
         }
 
-        return $this->db->get_where('roles', ['id' => $role_id])->row_array();
+        $role = $this->db->get_where('roles', ['id' => $role_id])->row_array();
+        
+        $this->cast($role); 
+        
+        return $role; 
     }
 
     /**
@@ -175,6 +193,8 @@ class Roles_model extends EA_Model {
 
         // Check if the required field is part of the role data.
         $role = $query->row_array();
+        
+        $this->cast($role);
 
         if ( ! array_key_exists($field, $role))
         {
@@ -206,7 +226,14 @@ class Roles_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('roles', $limit, $offset)->result_array();
+        $roles = $this->db->get('roles', $limit, $offset)->result_array();
+        
+        foreach($roles as &$role)
+        {
+            $this->cast($role); 
+        }
+        
+        return $roles;
     }
 
     /**
@@ -228,6 +255,8 @@ class Roles_model extends EA_Model {
     public function get_permissions_by_slug(string $slug): array
     {
         $role = $this->db->get_where('roles', ['slug' => $slug])->row_array();
+        
+        $this->cast($role);
 
         unset(
             $role['id'],
@@ -297,7 +326,7 @@ class Roles_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $roles = $this
             ->db
             ->select()
             ->from('roles')
@@ -308,6 +337,13 @@ class Roles_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach($roles as &$role)
+        {
+            $this->cast($role);
+        }
+
+        return $roles;
     }
 
     /**
