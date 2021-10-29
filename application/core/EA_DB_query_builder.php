@@ -38,6 +38,8 @@
  * @property EA_Session $session
  * @property EA_Upload $upload
  * @property EA_URI $uri
+ * 
+ * @method int insert_id()
  */
 class EA_DB_query_builder extends CI_DB_query_builder {
     // 
