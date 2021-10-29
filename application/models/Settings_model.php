@@ -20,6 +20,13 @@
  */
 class Settings_model extends EA_Model {
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+    /**
      * Save (insert or update) a setting.
      *
      * @param array $setting Associative array with the setting data.
@@ -140,7 +147,11 @@ class Settings_model extends EA_Model {
             throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
         }
 
-        return $this->db->get_where('settings', ['id' => $setting_id])->row_array();
+        $setting = $this->db->get_where('settings', ['id' => $setting_id])->row_array();
+
+        $this->cast($setting);
+
+        return $setting;
     }
 
     /**
@@ -176,6 +187,8 @@ class Settings_model extends EA_Model {
         // Check if the required field is part of the setting data.
         $setting = $query->row_array();
 
+        $this->cast($setting);
+
         if ( ! array_key_exists($field, $setting))
         {
             throw new InvalidArgumentException('The requested field was not found in the setting data: ' . $field);
@@ -206,7 +219,14 @@ class Settings_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        return $this->db->get('settings', $limit, $offset)->result_array();
+        $settings = $this->db->get('settings', $limit, $offset)->result_array();
+
+        foreach ($settings as &$setting)
+        {
+            $this->cast($setting);
+        }
+
+        return $settings;
     }
 
     /**
@@ -231,7 +251,7 @@ class Settings_model extends EA_Model {
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        return $this
+        $settings = $this
             ->db
             ->select()
             ->from('settings')
@@ -242,6 +262,13 @@ class Settings_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
+
+        foreach ($settings as &$setting)
+        {
+            $this->cast($setting);
+        }
+
+        return $settings;
     }
 
     /**
