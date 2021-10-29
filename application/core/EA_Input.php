@@ -57,7 +57,7 @@ class EA_Input extends CI_Input {
 
         if ($CI->input->get_request_header('Content-Type') !== 'application/json')
         {
-            throw new RuntimeException('Cannot get JSON attribute from non-JSON content.');
+            return NULL;
         }
 
         $input_stream = $CI->input->raw_input_stream;
