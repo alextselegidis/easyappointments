@@ -311,7 +311,7 @@ class Appointments_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function add_unavailable(array $unavailable): int
+    public function save_unavailable(array $unavailable): int
     {
         // Make sure the start date time is before the end date time.
         $start = strtotime($unavailable['start_datetime']);

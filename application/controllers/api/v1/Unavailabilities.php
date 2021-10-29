@@ -92,7 +92,7 @@ class Unavailabilities extends API_V1_Controller {
                 unset($unavailability['id']);
             }
 
-            $id = $this->appointments_model->add_unavailable($unavailability);
+            $id = $this->appointments_model->save_unavailable($unavailability);
 
             // Fetch the new object from the database and return it to the client.
             $batch = $this->appointments_model->get(['id' => $id]);
@@ -128,7 +128,7 @@ class Unavailabilities extends API_V1_Controller {
             $baseUnavailability = $batch[0];
             $this->parser->decode($updatedUnavailability, $baseUnavailability);
             $updatedUnavailability['id'] = $id;
-            $id = $this->appointments_model->add_unavailable($updatedUnavailability);
+            $id = $this->appointments_model->save_unavailable($updatedUnavailability);
 
             // Fetch the updated object from the database and return it to the client.
             $batch = $this->appointments_model->get(['id' => $id]);
