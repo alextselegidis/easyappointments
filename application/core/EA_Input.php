@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Easy!Appointments controller. 
+ * Easy!Appointments input.
  *
  * @property CI_Benchmark $benchmark
  * @property CI_Cache $cache
@@ -26,7 +26,7 @@
  * @property CI_Encryption $encryption
  * @property CI_Exceptions $exceptions
  * @property CI_Hooks $hooks
- * @property EA_Input $input
+ * @property CI_Input $input
  * @property CI_Lang $lang
  * @property CI_Loader $load
  * @property CI_Log $log
@@ -39,50 +39,38 @@
  * @property CI_URI $uri
  * @property CI_Upload $upload
  *
- * @property Admins_model $admins_model
- * @property Appointments_model $appointments_model
- * @property Consents_model $consents_model
- * @property Customers_model $customers_model
- * @property Providers_model $providers_model
- * @property Roles_model $roles_model
- * @property Secretaries_model $secretaries_model
- * @property Service_categories_model $service_categories_model
- * @property Services_model $services_model
- * @property Settings_model $settings_model
- * @property Users_model $users_model
- *
- * @property Accounts $accounts
- * @property Availability $availability
- * @property Google_Sync $google_sync
- * @property Ics_file $ics_file
- * @property Instance $instance
- * @property Notifications $notifications
- * @property Synchronization $synchronization
- * @property Timezones $timezones
+ * @property string $raw_input_stream
  */
-class EA_Controller extends CI_Controller {
+class EA_Input extends CI_Input {
     /**
-     * EA_Controller constructor.
+     * Fetch an item from JSON data.
+     *
+     * @param string $index Index for item to be fetched from the JSON payload.
+     * @param bool|false $xss_clean Whether to apply XSS filtering
+     *
+     * @return mixed
      */
-    public function __construct()
+    public function json(string $index, bool $xss_clean = FALSE)
     {
-        parent::__construct();
+        /** @var EA_Controller $CI */
+        $CI = &get_instance();
 
-        $this->configure_language();
-    }
-
-    /**
-     * Configure the language.
-     */
-    private function configure_language()
-    {
-        $session_language = session('language');
-
-        if ($session_language)
+        if ($CI->input->get_request_header('Content-Type') !== 'application/json')
         {
-            config(['language' => $session_language]);
+            throw new RuntimeException('Cannot get JSON attribute from non-JSON content.');
         }
 
-        $this->lang->load('translations');
+        $input_stream = $CI->input->raw_input_stream;
+
+        if (empty($input_stream))
+        {
+            throw new RuntimeException('Cannot get JSON attribute from an empty input stream.');
+        }
+
+        $payload = json_decode($input_stream, TRUE);
+
+        $value = $payload[$index] ?? NULL;
+
+        return $value && $xss_clean ? $CI->security->xss_clean($value) : $value;
     }
 }

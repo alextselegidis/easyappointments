@@ -37,7 +37,7 @@ if ( ! function_exists('request'))
             throw new InvalidArgumentException('The $key argument cannot be empty.');
         }
 
-        return $CI->input->post_get($key) ?? $default;
+        return $CI->input->post_get($key) ?? $CI->input->json($key) ?? $default;
     }
 }
 
