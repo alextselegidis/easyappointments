@@ -62,6 +62,11 @@
  */
 class EA_Model extends CI_Model {
     /**
+     * @var array
+     */
+    protected $casts = [];
+
+    /**
      * EA_Model constructor.
      */
     public function __construct()
@@ -129,5 +134,38 @@ class EA_Model extends CI_Model {
     public function add(array $record): int
     {
         return $this->save($record);
+    }
+
+    public function cast(array &$record)
+    {
+        foreach ($this->casts as $attribute => $cast)
+        {
+            if ( ! isset($record[$attribute]))
+            {
+                continue;
+            }
+
+            switch ($cast)
+            {
+                case 'integer':
+                    $record[$attribute] = (int)$record[$attribute];
+                    break;
+
+                case 'float':
+                    $record[$attribute] = (float)$record[$attribute];
+                    break;
+
+                case 'boolean':
+                    $record[$attribute] = (bool)$record[$attribute];
+                    break;
+
+                case 'string':
+                    $record[$attribute] = (string)$record[$attribute];
+                    break;
+
+                default:
+                    throw new RuntimeException('Unsupported cast type provided: ' . $cast);
+            }
+        }
     }
 }
