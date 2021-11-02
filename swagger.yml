@@ -2,8 +2,8 @@ swagger: '2.0'
 info:
     version: 1.0.0
     title: 'easyappointments-api'
-host: demo.easyappointments.org
-basePath: /index.php/api/v1/
+host: localhost
+basePath: /dev/easyappointments/index.php/api/v1/
 tags:
     -   name: admins
     -   name: providers
@@ -16,7 +16,7 @@ tags:
     -   name: categories
     -   name: settings
 schemes:
-    - https
+    #- https
     - http
 securityDefinitions:
     ApiKeyAuth:

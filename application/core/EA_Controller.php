@@ -52,6 +52,7 @@
  * @property Users_model $users_model
  *
  * @property Accounts $accounts
+ * @property Api $api
  * @property Availability $availability
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file

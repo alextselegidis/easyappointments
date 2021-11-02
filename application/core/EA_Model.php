@@ -38,11 +38,6 @@
  * @property EA_Session $session
  * @property EA_Upload $upload
  * @property EA_URI $uri
- * 
- * @method int save(array $record)
- * @method array find(int $id)
- * @method array get($where, int $limit, int $offset, string $order_by)
- * @method mixed value(int $id, string $field)
  */
 class EA_Model extends CI_Model {
     /**
@@ -72,7 +67,12 @@ class EA_Model extends CI_Model {
      */
     public function get_value(string $field, int $record_id): string
     {
-        return $this->value($field, $record_id);
+        if (method_exists($this, 'value'))
+        {
+            return $this->value($field, $record_id);
+        }
+
+        throw new RuntimeException('The "get_value" is not defined in model: ', __CLASS__);
     }
 
     /**
@@ -88,7 +88,12 @@ class EA_Model extends CI_Model {
      */
     public function get_row(int $record_id): array
     {
-        return $this->find($record_id);
+        if (method_exists($this, 'find'))
+        {
+            return $this->find($record_id);
+        }
+
+        throw new RuntimeException('The "get_row" is not defined in model: ', __CLASS__);
     }
 
     /**
@@ -159,5 +164,18 @@ class EA_Model extends CI_Model {
                     throw new RuntimeException('Unsupported cast type provided: ' . $cast);
             }
         }
+    }
+
+    /**
+     * Only keep the requested fields of the provided record.
+     *
+     * @param array $record Record data.
+     * @param array $fields Requested field names.
+     */
+    public function only(array &$record, array $fields)
+    {
+        $record = array_filter($record, function ($field) use ($fields) {
+            return in_array($field, $fields);
+        }, ARRAY_FILTER_USE_KEY);
     }
 }
