@@ -38,6 +38,11 @@
  * @property EA_Session $session
  * @property EA_Upload $upload
  * @property EA_URI $uri
+ * 
+ * @method int save(array $record)
+ * @method array find(int $id)
+ * @method array get($where, int $limit, int $offset, string $order_by)
+ * @method mixed value(int $id, string $field)
  */
 class EA_Model extends CI_Model {
     /**
@@ -89,10 +94,10 @@ class EA_Model extends CI_Model {
     /**
      * Get all records that match the provided criteria.
      *
-     * @param mixed|null $where
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param string|null $order_by
+     * param array|string $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
      *
      * @return array Returns an array of records.
      */
@@ -115,6 +120,14 @@ class EA_Model extends CI_Model {
         return $this->save($record);
     }
 
+    /**
+     * Easily cast fields to the correct data type.
+     *
+     * The integrated MySQL library will return all values as strings, something that can easily becoming problematic,
+     * especially when comparing database values.
+     *
+     * @param array $record Record data.
+     */
     public function cast(array &$record)
     {
         foreach ($this->casts as $attribute => $cast)
